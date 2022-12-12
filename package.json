@@ -1,0 +1,33 @@
+{
+  "private": true,
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "build": "pnpm --filter '*' build",
+    "storybook": "pnpm --filter '*' storybook",
+    "storybook:build": "pnpm --filter '*' build-storybook",
+    "lint": "pnpm --filter '*' lint",
+    "lint:fix": "pnpm --filter '*' lint:fix",
+    "test": "pnpm --filter '*' test"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Giuseppe Ciotola",
+    "email": "giuseppe@commercelayer.io"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/commercelayer/monorepo-starter.git"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=7"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "concurrently": "^7.5.0",
+    "lerna": "^6.0.2"
+  }
+}

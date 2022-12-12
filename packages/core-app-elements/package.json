@@ -1,0 +1,61 @@
+{
+  "name": "@commercelayer/core-app-elements",
+  "private": false,
+  "version": "0.0.0",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/main.js"
+    },
+    "./style.css": {
+      "import": "./dist/style.css"
+    }
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=7"
+  },
+  "scripts": {
+    "build": "tsc && vite build",
+    "build:watch": "tsc && vite build --watch",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "polished": "^4.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-select": "^5.7.0"
+  },
+  "devDependencies": {
+    "@commercelayer/eslint-config-ts-react": "^0.1.3",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/lodash-es": "^4.17.6",
+    "@types/node": "^18.11.9",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "@types/testing-library__jest-dom": "^5.14.5",
+    "@vitejs/plugin-react": "^2.2.0",
+    "autoprefixer": "^10.4.13",
+    "classnames": "^2.3.2",
+    "eslint": "^8.26.0",
+    "jsdom": "^20.0.2",
+    "lodash-es": "^4.17.21",
+    "phosphor-react": "^1.4.1",
+    "postcss": "^8.4.18",
+    "tailwindcss": "^3.2.1",
+    "ts-invariant": "^0.10.3",
+    "typescript": "^4.6.4",
+    "vite": "^3.2.0",
+    "vite-plugin-dts": "^1.6.6",
+    "vitest": "^0.24.5"
+  }
+}
