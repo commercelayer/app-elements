@@ -3,9 +3,9 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter '*' build",
-    "storybook": "pnpm --filter '*' storybook",
+    "storybook": "pnpm --stream --filter '*' storybook",
     "storybook:build": "pnpm --filter '*' build-storybook",
-    "lint": "pnpm --filter '*' lint",
+    "lint": "pnpm --stream --filter '*' lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
     "test": "pnpm --filter '*' test"
   },

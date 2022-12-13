@@ -7,7 +7,12 @@ module.exports = {
     return mergeConfig(config, {
       // customize the Vite config here
       resolve: {
-        alias: { "#core-app-elements": resolve(__dirname, "../../core-app-elements/src/ui") },
+        alias: {
+          "#core-app-elements": resolve(
+            __dirname,
+            "../../core-app-elements/src/ui"
+          ),
+        },
       },
     });
   },
@@ -20,7 +25,7 @@ module.exports = {
   framework: "@storybook/react",
   core: {
     builder: "@storybook/builder-vite",
-       disableTelemetry: true,
+    disableTelemetry: true,
   },
   features: {
     storyStoreV7: true,
