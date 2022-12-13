@@ -1,6 +1,6 @@
 import { CaretRight } from 'phosphor-react'
-import { Button } from './Button'
-import { StatusIcon, StatusUI } from './StatusIcon'
+import { Button } from '#ui/atoms/Button'
+import { StatusIcon, StatusUI } from '#ui/atoms/StatusIcon'
 
 export interface ListTaskItemProps {
   status: StatusUI

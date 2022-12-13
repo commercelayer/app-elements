@@ -1,6 +1,6 @@
-import { EmptyState } from './EmptyState'
-import { PageHeading } from './PageHeading'
-import { Container } from './Container'
+import { EmptyState } from '#ui/atoms/EmptyState'
+import { PageHeading } from '#ui/atoms/PageHeading'
+import { Container } from '#ui/atoms/Container'
 
 interface PageErrorProps {
   /**
@@ -18,7 +18,7 @@ interface PageErrorProps {
    */
   errorName: string
   /**
-   * Detailed message that explains the errore better.
+   * Detailed message that explains the error better.
    * Example: 'We could not find the page you are looking for.'
    */
   errorDescription: string

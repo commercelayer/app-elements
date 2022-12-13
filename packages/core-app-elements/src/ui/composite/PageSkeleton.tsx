@@ -1,8 +1,8 @@
-import { Container } from './Container'
-import { DetailsList } from './DetailsList'
-import { ListTask } from './ListTask'
+import { Container } from '#ui/atoms/Container'
+import { DetailsList } from '#ui/atoms/DetailsList'
+import { ListTask } from '#ui/lists/ListTask'
 import { Report } from './Report'
-import { Skeleton, SkeletonItem } from './Skeleton'
+import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 
 interface PageSkeletonProps {
   layout?: 'list' | 'details'

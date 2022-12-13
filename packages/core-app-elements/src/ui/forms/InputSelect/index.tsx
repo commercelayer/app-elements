@@ -1,6 +1,6 @@
 import { FocusEventHandler, lazy, Suspense } from 'react'
 import { MultiValue, SingleValue } from 'react-select'
-import { SkeletonItem } from '../Skeleton'
+import { SkeletonItem } from '#ui/atoms/Skeleton'
 import selectStyles from './styles'
 
 const AsyncSelectComponent = lazy(async () => await import('./Async'))
@@ -17,7 +17,7 @@ export interface SelectValue {
   meta?: Record<string, any>
 }
 
-type PossibileSelectValue = MultiValue<SelectValue> | SingleValue<SelectValue>
+type PossibleSelectValue = MultiValue<SelectValue> | SingleValue<SelectValue>
 
 export interface InputSelectProps {
   initialValues: GroupedSelectValues | SelectValue[]
@@ -29,7 +29,7 @@ export interface InputSelectProps {
   isDisabled?: boolean
   isSearchable?: boolean
   isMulti?: boolean
-  onSelect: (value: PossibileSelectValue) => void
+  onSelect: (value: PossibleSelectValue) => void
   loadOptions?: (
     inputValue: string
   ) => Promise<GroupedSelectValues | SelectValue[]>
@@ -105,7 +105,7 @@ export function InputSelect({
 }
 
 export function isSingleValueSelected(
-  value: PossibileSelectValue
+  value: PossibleSelectValue
 ): value is SelectValue {
   return value != null && !Array.isArray(value)
 }

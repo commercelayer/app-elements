@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
-import { Container } from './Container'
-import { PageHeading, PageHeadingProps } from './PageHeading'
+import { Container } from '#ui/atoms/Container'
+import { PageHeading, PageHeadingProps } from '#ui/atoms/PageHeading'
 
 interface PageLayoutProps extends PageHeadingProps {
   /**

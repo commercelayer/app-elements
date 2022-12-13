@@ -1,7 +1,7 @@
 import isEmpty from 'lodash-es/isEmpty'
 import { ReactNode } from 'react'
-import { Label } from './Label'
-import { Skeleton, SkeletonItem } from './Skeleton'
+import { Label } from '#ui/forms/Label'
+import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 
 interface ReportItem {
   label: string

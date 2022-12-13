@@ -1,9 +1,9 @@
 import { ReactNode } from 'react'
 import cn from 'classnames'
-import { Pagination, PaginationProps } from './Pagination'
+import { Pagination, PaginationProps } from '#ui/atoms/Pagination'
 import { makeCurrentPageOffsets } from '#utils/pagination'
-import { Skeleton, SkeletonItem } from './Skeleton'
-import { Legend } from './Legend'
+import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
+import { Legend } from '#ui/atoms/Legend'
 
 export interface ListTaskProps {
   title?: string
