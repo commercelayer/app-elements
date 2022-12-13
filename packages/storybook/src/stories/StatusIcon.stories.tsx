@@ -1,7 +1,6 @@
-import StatusIcon from '#core-app-elements/StatusIcon'
+import { StatusIcon } from '#core-app-elements/atoms/StatusIcon'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-// 👇 This default export determines where your story goes in the story list
 const setup: ComponentMeta<typeof StatusIcon> = {
   title: 'Atoms/StatusIcon',
   component: StatusIcon,
@@ -14,7 +13,6 @@ const setup: ComponentMeta<typeof StatusIcon> = {
 }
 export default setup
 
-// 👇 We create a “template” of how args map to rendering
 const Template: ComponentStory<typeof StatusIcon> = (args) => (
   <StatusIcon
     {...args}

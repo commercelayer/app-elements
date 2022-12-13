@@ -21,8 +21,19 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
+      // main package
       "#core-app-elements/*": [
         "../core-app-elements/src/ui/*"
+      ],
+      // reference for internal package resolution
+      "#ui/*": [
+        "../core-app-elements/src/ui/*"
+      ],
+      "#styles/*": [
+        "../core-app-elements/src/styles/*"
+      ],
+      "#utils/*": [
+        "../core-app-elements/src/utils/*"
       ],
     }
   },

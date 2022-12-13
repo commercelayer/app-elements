@@ -8,10 +8,15 @@ module.exports = {
       // customize the Vite config here
       resolve: {
         alias: {
+          // the main package
           "#core-app-elements": resolve(
             __dirname,
             "../../core-app-elements/src/ui"
           ),
+          // reference for internal package resolution
+          "#ui": resolve(__dirname, "../../core-app-elements/src/ui"),
+          "#styles": resolve(__dirname, ".../../core-app-elements/src/styles"),
+          "#utils": resolve(__dirname, "../../core-app-elements/src/utils"),
         },
       },
     });
