@@ -23,7 +23,7 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: ['react', 'react-dom'],
+      external: ['react', 'react-dom', '@commercelayer/sdk'],
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
@@ -36,6 +36,7 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      '#providers': resolve(__dirname, './src/providers'),
       '#ui': resolve(__dirname, './src/ui'),
       '#styles': resolve(__dirname, './src/styles'),
       '#utils': resolve(__dirname, './src/utils')

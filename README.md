@@ -27,6 +27,8 @@ React.createRoot(document.getElementById("root") as HTMLElement).render(
 import { Container, Button, Label } from "@commercelayer/core-app-elements";
 ```
 
+4. (optional) install `@commercelayer/sdk` to use `<TokenProvider>` component
+
 ## How to work with this locally with pnpm link
 
 1. Build the library in watch mode `pnpm build --watch`

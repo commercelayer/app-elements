@@ -25,6 +25,9 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
+      "#providers/*": [
+        "src/providers/*"
+      ],
       "#ui/*": [
         "src/ui/*"
       ],
