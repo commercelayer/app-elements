@@ -46,7 +46,11 @@ const TemplateWithPagination: ComponentStory<typeof ListSimple> = (args) => {
         <ListSimpleItem label='Customers' />
         <ListSimpleItem label='Orders' />
         <ListSimpleItem label='Prices' />
-        <ListSimpleItem label='SKU lists' />
+        <ListSimpleItem
+          label='SKU lists'
+          icon={<MyIcon />}
+          description='June 15, 2022 14:57'
+        />
         <ListSimpleItem label='Stock items' />
       </ListSimple>
     </Container>
