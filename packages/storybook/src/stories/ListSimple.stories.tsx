@@ -45,7 +45,11 @@ const TemplateFull: ComponentStory<typeof ListSimple> = (args) => {
         <ListSimpleItem label='Customers' />
         <ListSimpleItem label='Orders' />
         <ListSimpleItem label='Prices' />
-        <ListSimpleItem label='SKUs' />
+        <ListSimpleItem
+          label='SKUs'
+          description='June 15, 2022 14:57'
+          icon={<MyIcon />}
+        />
         <ListSimpleItem label='SKU lists' />
         <ListSimpleItem label='Stock items' />
       </ListSimple>
@@ -54,3 +58,16 @@ const TemplateFull: ComponentStory<typeof ListSimple> = (args) => {
 }
 
 export const Full = TemplateFull.bind({})
+
+function MyIcon(): JSX.Element {
+  return (
+    <div
+      style={{
+        width: 50,
+        height: 50,
+        backgroundColor: '#e6e7e7',
+        borderRadius: '100%'
+      }}
+    />
+  )
+}
