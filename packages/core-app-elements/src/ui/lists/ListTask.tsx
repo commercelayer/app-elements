@@ -1,7 +1,10 @@
 import { ReactNode } from 'react'
 import cn from 'classnames'
 import { Pagination, PaginationProps } from '#ui/atoms/Pagination'
-import { makeCurrentPageOffsets } from '#utils/pagination'
+import {
+  computeTitleWithPagination,
+  makeCurrentPageOffsets
+} from '#utils/pagination'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Legend } from '#ui/atoms/Legend'
 
@@ -94,26 +97,6 @@ export function ListTask({
       ) : null}
     </div>
   )
-}
-
-function computeTitleWithPagination({
-  title,
-  firstOfPage,
-  lastOfPage,
-  recordCount,
-  currentPage
-}: {
-  title: string
-  firstOfPage: number
-  lastOfPage: number
-  recordCount: number
-  currentPage: number
-}): string {
-  if (currentPage === 1) {
-    return `${title} · ${recordCount}`
-  }
-
-  return `${title} · ${firstOfPage}-${lastOfPage} of ${recordCount}`
 }
 
 export default ListTask

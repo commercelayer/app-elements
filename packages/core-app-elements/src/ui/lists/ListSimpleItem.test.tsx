@@ -24,3 +24,12 @@ describe('ListSimpleItem', () => {
     expect(element.tagName).toBe('A')
   })
 })
+
+describe('ListSimpleItem', () => {
+  test('Should be rendered', () => {
+    const { element, getByText } = setup({ label: 'Item #1' })
+    expect(element).toBeInTheDocument()
+    expect(getByText('Item #1')).toBeInTheDocument()
+    expect(element.tagName).toBe('A')
+  })
+})

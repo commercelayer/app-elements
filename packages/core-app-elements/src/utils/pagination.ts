@@ -84,3 +84,23 @@ export function makeSomeAdjacentPages({
 function notNull<T>(value: T | null): value is T {
   return value != null
 }
+
+export function computeTitleWithPagination({
+  title,
+  firstOfPage,
+  lastOfPage,
+  recordCount,
+  currentPage
+}: {
+  title: string
+  firstOfPage: number
+  lastOfPage: number
+  recordCount: number
+  currentPage: number
+}): string {
+  if (currentPage === 1) {
+    return `${title} · ${recordCount}`
+  }
+
+  return `${title} · ${firstOfPage}-${lastOfPage} of ${recordCount}`
+}

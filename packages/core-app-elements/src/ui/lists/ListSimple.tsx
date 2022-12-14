@@ -1,8 +1,13 @@
 import cn from 'classnames'
 import { Pagination, PaginationProps } from '#ui/atoms/Pagination'
-import { makeCurrentPageOffsets } from '#utils/pagination'
+import {
+  makeCurrentPageOffsets,
+  computeTitleWithPagination
+} from '#utils/pagination'
+import { Legend } from '#ui/atoms/Legend'
 
-interface ListSimpleProps {
+export interface ListSimpleProps {
+  title?: string
   children: React.ReactNode
   className?: string
   pagination?: {
@@ -12,6 +17,7 @@ interface ListSimpleProps {
 }
 
 export function ListSimple({
+  title,
   children,
   className,
   pagination,
@@ -26,11 +32,30 @@ export function ListSimple({
         })
       : null
 
+  const computedTitle =
+    title != null && pagination != null && offsets != null
+      ? computeTitleWithPagination({
+          title,
+          currentPage: pagination.currentPage,
+          recordCount: pagination.recordCount,
+          firstOfPage: offsets.firstOfPage,
+          lastOfPage: offsets.lastOfPage
+        })
+      : title
+
   return (
-    <div>
+    <div {...rest}>
+      {computedTitle != null && (
+        <Legend title={computedTitle} data-test-id='list-simple-legend' />
+      )}
       <div
-        {...rest}
-        className={cn('border-t border-gray-100 mb-20', className)}
+        className={cn(
+          'mb-20',
+          {
+            'border-t border-gray-100': computedTitle == null
+          },
+          className
+        )}
       >
         {children}
       </div>
@@ -46,6 +71,7 @@ export function ListSimple({
             // eslint-disable-next-line react/jsx-handler-names
             onChangePageRequest={pagination.onChangePageRequest}
             pageCount={pagination.pageCount}
+            data-test-id='list-simple-pagination'
           />
         </div>
       ) : null}
