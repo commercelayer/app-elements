@@ -7,6 +7,11 @@ export type BadgeVariant =
   | 'warning'
   | 'danger'
   | 'success'
+  | 'primary-solid'
+  | 'secondary-solid'
+  | 'warning-solid'
+  | 'danger-solid'
+  | 'success-solid'
 
 interface Props extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   variant: BadgeVariant
@@ -18,7 +23,12 @@ const variantCss: Record<BadgeVariant, string> = {
   secondary: 'text-gray-500 bg-gray-500/10',
   warning: 'text-orange bg-orange/10',
   danger: 'text-red bg-red/10',
-  success: 'text-green bg-green/10'
+  success: 'text-green bg-green/10',
+  'primary-solid': 'text-white bg-primary',
+  'secondary-solid': 'text-white bg-gray-500',
+  'warning-solid': 'text-white bg-orange',
+  'danger-solid': 'text-white bg-red',
+  'success-solid': 'text-white bg-green'
 }
 
 export function Badge({
@@ -32,7 +42,7 @@ export function Badge({
       {...rest}
       className={cn([
         className,
-        'text-[11px] font-bold leading-none py-1 px-2 rounded-full inline-block',
+        'text-xs font-bold py-0.5 px-2 rounded inline-block',
         variantCss[variant]
       ])}
     >
