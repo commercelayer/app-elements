@@ -33,6 +33,20 @@ describe('PageHeading', () => {
     expect(element.querySelector('div')?.innerHTML).toBe('Lorem ipsum...')
   })
 
+  test('Should also render optional badge', () => {
+    const { getByTestId } = setup({
+      id: 'heading-w-badge',
+      title: 'My Page Heading',
+      badgeVariant: 'success',
+      badgeLabel: 'TEST DATA'
+    })
+    const badgeElement = getByTestId('page-heading-badge')
+    expect(badgeElement).toBeInTheDocument()
+    expect(
+      badgeElement.querySelector('.text-green.bg-green\\/10')
+    ).toBeInTheDocument()
+  })
+
   test('Should also have a button when onGoBack is set', () => {
     const foo: string[] = []
     const { element } = setup({
