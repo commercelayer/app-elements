@@ -20,7 +20,12 @@ interface TokenProviderValue {
   sdkClient?: CommerceLayerClient
 }
 
-export type CurrentApp = 'imports' | 'exports' | 'webhooks'
+export type CurrentApp =
+  | 'imports'
+  | 'exports'
+  | 'webhooks'
+  | 'resources'
+  | 'custom'
 
 interface TokenProviderProps {
   clientKind: 'integration' | 'sales_channel' | 'webapp'
@@ -117,7 +122,7 @@ function TokenProvider({
           organization: decodedTokenData.slug,
           domain,
           onInvalidToken: () =>
-            handleOnInvalidCallback('catched 401 invalid token from sdk')
+            handleOnInvalidCallback('got 401 invalid token from sdk')
         })
       )
       setIsLoading(false)

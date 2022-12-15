@@ -22,6 +22,7 @@ export async function isValidTokenForCurrentApp({
   accessToken,
   clientKind,
   domain,
+  currentApp,
   isProduction
 }: {
   accessToken: string
@@ -39,16 +40,52 @@ export async function isValidTokenForCurrentApp({
   }
 
   try {
-    // TODO: implement async verification against tokeninfo endpoint
-    const tokenInfoResponse = await fetch(
-      `https://${slug}.${domain}/oauth/tokeninfo`,
-      { method: 'GET', headers: { authorization: `Bearer ${accessToken}` } }
-    )
-    const tokenInfo = await tokenInfoResponse.json()
-    console.log('tokenInfo', tokenInfo)
-
-    return isValidKind && isValidSlug
+    const tokenInfo = await fetchTokenInfo({ accessToken, slug, domain })
+    // TODO: implement async verification against tokeninfo endpoint only if `currentApp` is not `custom`
+    console.log({ currentApp })
+    const isValidPermission = Boolean(tokenInfo?.token)
+    return isValidKind && isValidSlug && isValidPermission
   } catch {
     return false
+  }
+}
+
+interface TokenInfo {
+  token: {
+    test: boolean
+    market_ids: string[]
+    stock_location_ids: string[]
+    lifespan: number
+  }
+  role: { id: string; kind: string; name: string }
+  application: {
+    id: string
+    kind: 'integration' | 'sales_channel' | 'webapp'
+    name: string
+    core: boolean
+  }
+  permissions: Record<string, { actions: string[] }>
+}
+
+async function fetchTokenInfo({
+  accessToken,
+  slug,
+  domain
+}: {
+  accessToken: string
+  slug: string
+  domain: string
+}): Promise<TokenInfo | null> {
+  try {
+    const tokenInfoResponse = await fetch(
+      `https://${slug}.${domain}/oauth/tokeninfo`,
+      {
+        method: 'GET',
+        headers: { authorization: `Bearer ${accessToken}` }
+      }
+    )
+    return await tokenInfoResponse.json()
+  } catch {
+    return null
   }
 }
