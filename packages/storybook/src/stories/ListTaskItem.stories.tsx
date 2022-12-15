@@ -1,18 +1,18 @@
-import ListTaskItem from '#core-app-elements/lists/ListTaskItem'
+import ListItemTask from '#core-app-elements/lists/ListItemTask'
 import Legend from '#core-app-elements/atoms/Legend'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-const setup: ComponentMeta<typeof ListTaskItem> = {
-  title: 'Lists/ListTaskItem',
-  component: ListTaskItem,
+const setup: ComponentMeta<typeof ListItemTask> = {
+  title: 'Lists/ListItemTask',
+  component: ListItemTask,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: ComponentStory<typeof ListTaskItem> = (args) => (
-  <ListTaskItem
+const Template: ComponentStory<typeof ListItemTask> = (args) => (
+  <ListItemTask
     {...args}
     progressPercentage={
       args.status === 'progress' && args.progressPercentage == null
@@ -39,21 +39,24 @@ Progress.args = {
   onCancelRequest: () => undefined
 }
 
-const TemplateMultiple: ComponentStory<typeof ListTaskItem> = (args) => (
+const TemplateMultiple: ComponentStory<typeof ListItemTask> = (args) => (
   <div>
     <Legend title='Sample list' />
-    <ListTaskItem
-      title='Orders'
-      status='progress'
-      progressPercentage={23}
-      description='Exporting 23%'
-      onCancelRequest={() => undefined}
-    />
-    <ListTaskItem
-      title='Prices'
-      status='success'
-      description='Exported on May 17, 2022'
-    />
+    {/* always wrap items inside own div or any other tag, in order to properly display border-top on first item */}
+    <div>
+      <ListItemTask
+        title='Orders'
+        status='progress'
+        progressPercentage={23}
+        description='Exporting 23%'
+        onCancelRequest={() => undefined}
+      />
+      <ListItemTask
+        title='Prices'
+        status='success'
+        description='Exported on May 17, 2022'
+      />
+    </div>
   </div>
 )
 

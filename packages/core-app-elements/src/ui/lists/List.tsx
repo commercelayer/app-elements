@@ -8,19 +8,39 @@ import {
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Legend } from '#ui/atoms/Legend'
 
-export interface ListTaskProps {
+export type ListPagination = {
+  recordsPerPage: number
+  recordCount: number
+} & Omit<PaginationProps, 'className' | 'isDisabled'>
+
+export interface ListProps {
+  /*
+   * List name displayed in the heading
+   */
   title?: string
+  /*
+   * Element to be displayed on the right side of the heading
+   */
   actionButton?: ReactNode
+  /*
+   * Set an opacity on the list, usefull when changing page and new page data is not ready yet.
+   */
   isDisabled?: boolean
-  children?: ReactNode
-  pagination?: {
-    recordsPerPage: number
-    recordCount: number
-  } & Omit<PaginationProps, 'className' | 'isDisabled'>
+  /*
+   * Show Skeleton UI
+   */
   isLoading?: boolean
+  /*
+   * It should only accept or ListItem or ListItemTask
+   */
+  children?: ReactNode
+  /*
+   * When a `ListPagination` is passed, a pagination nav is added at the bottom of the list
+   */
+  pagination?: ListPagination
 }
 
-export function ListTask({
+export function List({
   title,
   actionButton,
   isDisabled,
@@ -28,7 +48,7 @@ export function ListTask({
   pagination,
   isLoading,
   ...rest
-}: ListTaskProps): JSX.Element {
+}: ListProps): JSX.Element {
   const offsets =
     pagination != null
       ? makeCurrentPageOffsets({
@@ -67,11 +87,13 @@ export function ListTask({
 
   return (
     <div className='flex flex-col flex-1' {...rest}>
-      <Legend
-        title={computedTitle}
-        actionButton={actionButton}
-        data-test-id='list-task-legend'
-      />
+      {computedTitle != null || actionButton !== null ? (
+        <Legend
+          title={computedTitle}
+          actionButton={actionButton}
+          data-test-id='list-task-legend'
+        />
+      ) : null}
       <div
         className={cn({
           'opacity-40 pointer-events-none touch-none': isDisabled
@@ -99,4 +121,4 @@ export function ListTask({
   )
 }
 
-export default ListTask
+export default List

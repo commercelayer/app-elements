@@ -1,12 +1,12 @@
-import { ListTaskItem, ListTaskItemProps } from './ListTaskItem'
+import { ListItemTask, ListItemTaskProps } from './ListItemTask'
 import { render, RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
-const setup = (props: ListTaskItemProps): SetupResult => {
-  const utils = render(<ListTaskItem data-test-id='my-task-item' {...props} />)
+const setup = (props: ListItemTaskProps): SetupResult => {
+  const utils = render(<ListItemTask data-test-id='my-task-item' {...props} />)
   const element = utils.getByTestId('my-task-item')
   return {
     element,
@@ -14,7 +14,7 @@ const setup = (props: ListTaskItemProps): SetupResult => {
   }
 }
 
-describe('ListTaskItem', () => {
+describe('ListItemTask', () => {
   test('Should be rendered', () => {
     const { element, getByTestId } = setup({
       status: 'success',

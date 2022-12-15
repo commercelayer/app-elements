@@ -2,16 +2,34 @@ import { CaretRight } from 'phosphor-react'
 import { Button } from '#ui/atoms/Button'
 import { StatusIcon, StatusUI } from '#ui/atoms/StatusIcon'
 
-export interface ListTaskItemProps {
+export interface ListItemTaskProps {
+  /*
+   * define the status to show the proper icon
+   */
   status: StatusUI
+  /*
+   * Only accepted if status is `progress'
+   */
   progressPercentage?: number
+  /*
+   * Main text to show
+   */
   title: string
+  /*
+   * Optional text to display below the title
+   */
   description?: React.ReactNode
+  /*
+   * Optional onClick callback, triggered on the entire element
+   */
   onClick?: () => void
+  /*
+   * When set, this will render a `Cancel` button to cancel the current task
+   */
   onCancelRequest?: () => void
 }
 
-export function ListTaskItem({
+export function ListItemTask({
   status,
   progressPercentage,
   onClick,
@@ -19,10 +37,10 @@ export function ListTaskItem({
   onCancelRequest,
   description,
   ...rest
-}: ListTaskItemProps): JSX.Element {
+}: ListItemTaskProps): JSX.Element {
   return (
     <div
-      className='flex gap-4 px-3 sm:px-5 py-4 border-b border-gray-100 last:border-b-0 hover:cursor-pointer hover:bg-gray-50'
+      className='flex gap-4 px-3 sm:px-5 py-4 first:border-t border-b border-gray-100 hover:cursor-pointer hover:bg-gray-50'
       onClick={onClick}
       {...rest}
     >
@@ -74,4 +92,4 @@ export function ListTaskItem({
   )
 }
 
-export default ListTaskItem
+export default ListItemTask

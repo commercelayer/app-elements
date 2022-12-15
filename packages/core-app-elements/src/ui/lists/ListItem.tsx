@@ -1,21 +1,21 @@
 import { CaretRight } from 'phosphor-react'
 
-export interface ListSimpleItemProps {
+export interface ListItemProps {
   label: string
   description?: React.ReactNode
   icon?: React.ReactNode
 }
 
-export function ListSimpleItem({
+export function ListItem({
   label,
   description,
   icon,
   ...rest
-}: ListSimpleItemProps): JSX.Element {
+}: ListItemProps): JSX.Element {
   return (
     <div
       {...rest}
-      className='flex justify-between items-center p-4 border-b border-gray-100  hover:bg-gray-50'
+      className='flex justify-between items-center p-4 first:border-t border-b border-gray-100  hover:bg-gray-50'
     >
       <div className='flex gap-4 items-center'>
         {icon != null && <div data-test-id='list-simple-item-icon'>{icon}</div>}
@@ -36,4 +36,4 @@ export function ListSimpleItem({
   )
 }
 
-export default ListSimpleItem
+export default ListItem

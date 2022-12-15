@@ -1,64 +1,68 @@
-import ListSimpleItem from '#core-app-elements/lists/ListSimpleItem'
-import ListSimple from '#core-app-elements/lists/ListSimple'
+import ListItem from '#core-app-elements/lists/ListItem'
+import List from '#core-app-elements/lists/List'
 import Container from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 import PageHeading from '#core-app-elements/atoms/PageHeading'
 
-const setup: ComponentMeta<typeof ListSimple> = {
-  title: 'Lists/ListSimple',
-  component: ListSimple,
+const setup: ComponentMeta<typeof List> = {
+  title: 'Lists/Simple',
+  component: List,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: ComponentStory<typeof ListSimple> = (args) => (
+const Template: ComponentStory<typeof List> = (args) => (
   <Container>
-    <ListSimple>
-      <ListSimpleItem label='Customers' />
-      <ListSimpleItem label='Orders' />
-      <ListSimpleItem label='Prices' />
-      <ListSimpleItem label='SKUs' />
-      <ListSimpleItem label='SKU lists' />
-      <ListSimpleItem label='Stock items' />
-    </ListSimple>
+    <List {...args} actionButton={undefined} pagination={undefined}>
+      <ListItem label='Customers' />
+      <ListItem label='Orders' />
+      <ListItem label='Prices' />
+      <ListItem label='SKUs' />
+      <ListItem label='SKU lists' />
+      <ListItem label='Stock items' />
+    </List>
   </Container>
 )
 
 export const Default = Template.bind({})
 
-const TemplateWithPagination: ComponentStory<typeof ListSimple> = (args) => {
-  const [page, setPage] = useState(1)
+const TemplateWithPagination: ComponentStory<typeof List> = (args) => {
+  const [currentPage, setCurrentPage] = useState(1)
   return (
     <Container>
-      <ListSimple
-        title='My list'
+      <List
+        {...args}
         pagination={{
           recordsPerPage: 20,
           recordCount: 243,
-          currentPage: page,
-          onChangePageRequest: (newPage) => setPage(newPage),
+          currentPage,
+          onChangePageRequest: (newPage) => setCurrentPage(newPage),
           pageCount: 5
         }}
+        actionButton={undefined}
       >
-        <ListSimpleItem label='Customers' />
-        <ListSimpleItem label='Orders' />
-        <ListSimpleItem label='Prices' />
-        <ListSimpleItem
+        <ListItem label='Customers' />
+        <ListItem label='Orders' />
+        <ListItem label='Prices' />
+        <ListItem
           label='SKU lists'
           icon={<MyIcon />}
           description='June 15, 2022 14:57'
         />
-        <ListSimpleItem label='Stock items' />
-      </ListSimple>
+        <ListItem label='Stock items' />
+      </List>
     </Container>
   )
 }
 export const WithPagination = TemplateWithPagination.bind({})
+WithPagination.args = {
+  title: 'My list'
+}
 
-const TemplateFullPage: ComponentStory<typeof ListSimple> = (args) => {
+const TemplateFullPage: ComponentStory<typeof List> = (args) => {
   const [page, setPage] = useState(1)
   return (
     <Container>
@@ -68,7 +72,7 @@ const TemplateFullPage: ComponentStory<typeof ListSimple> = (args) => {
         description='Some optional description'
         onGoBack={() => undefined}
       />
-      <ListSimple
+      <List
         title='My list'
         pagination={{
           recordsPerPage: 20,
@@ -78,13 +82,13 @@ const TemplateFullPage: ComponentStory<typeof ListSimple> = (args) => {
           pageCount: 5
         }}
       >
-        <ListSimpleItem label='Customers' description='June 15, 2022 14:57' />
-        <ListSimpleItem label='Orders' description='June 15, 2022 14:57' />
-        <ListSimpleItem label='Prices' description='June 15, 2022 14:57' />
-        <ListSimpleItem label='SKUs' description='June 15, 2022 14:57' />
-        <ListSimpleItem label='SKU lists' description='June 15, 2022 14:57' />
-        <ListSimpleItem label='Stock items' description='June 15, 2022 14:57' />
-      </ListSimple>
+        <ListItem label='Customers' description='June 15, 2022 14:57' />
+        <ListItem label='Orders' description='June 15, 2022 14:57' />
+        <ListItem label='Prices' description='June 15, 2022 14:57' />
+        <ListItem label='SKUs' description='June 15, 2022 14:57' />
+        <ListItem label='SKU lists' description='June 15, 2022 14:57' />
+        <ListItem label='Stock items' description='June 15, 2022 14:57' />
+      </List>
     </Container>
   )
 }

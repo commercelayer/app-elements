@@ -1,17 +1,17 @@
-import ListSimpleItem from '#core-app-elements/lists/ListSimpleItem'
+import ListItem from '#core-app-elements/lists/ListItem'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
-const setup: ComponentMeta<typeof ListSimpleItem> = {
-  title: 'Lists/ListSimpleItem',
-  component: ListSimpleItem,
+const setup: ComponentMeta<typeof ListItem> = {
+  title: 'Lists/ListItem',
+  component: ListItem,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: ComponentStory<typeof ListSimpleItem> = (args) => (
-  <ListSimpleItem {...args} />
+const Template: ComponentStory<typeof ListItem> = (args) => (
+  <ListItem {...args} />
 )
 
 export const Default = Template.bind({})

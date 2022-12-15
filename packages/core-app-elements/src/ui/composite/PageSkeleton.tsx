@@ -1,6 +1,6 @@
 import { Container } from '#ui/atoms/Container'
 import { DetailsList } from '#ui/atoms/DetailsList'
-import { ListTask } from '#ui/lists/ListTask'
+import { List } from '#ui/lists/List'
 import { Report } from './Report'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 
@@ -33,7 +33,7 @@ export function PageSkeleton({
         </div>
 
         {layout === 'list' ? (
-          <ListTask data-test-id='loading-list' isLoading />
+          <List data-test-id='loading-list' isLoading />
         ) : layout === 'details' ? (
           <div data-test-id='loading-details'>
             <Report isLoading loadingLines={2} items={[]} />

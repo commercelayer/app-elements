@@ -1,7 +1,7 @@
-import { ListSimpleItem, ListSimpleItemProps } from './ListSimpleItem'
+import { ListItem, ListItemProps } from './ListItem'
 import { render, RenderResult } from '@testing-library/react'
 
-interface SetupProps extends Omit<ListSimpleItemProps, 'children'> {
+interface SetupProps extends Omit<ListItemProps, 'children'> {
   id: string
 }
 
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...props }: SetupProps): SetupResult => {
-  const utils = render(<ListSimpleItem data-test-id={id} {...props} />)
+  const utils = render(<ListItem data-test-id={id} {...props} />)
   const element = utils.getByTestId(id)
   return {
     element,
@@ -18,7 +18,7 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
   }
 }
 
-describe('ListSimpleItem', () => {
+describe('ListItem', () => {
   test('Should be rendered', () => {
     const { element, getByText } = setup({
       id: 'my-list-item',

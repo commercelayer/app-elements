@@ -1,12 +1,12 @@
-import { ListTask, ListTaskProps } from './ListTask'
+import { List, ListProps } from './List'
 import { render, RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
-const setup = (props: ListTaskProps): SetupResult => {
-  const utils = render(<ListTask data-test-id='my-task-list' {...props} />)
+const setup = (props: ListProps): SetupResult => {
+  const utils = render(<List data-test-id='my-task-list' {...props} />)
   const element = utils.getByTestId('my-task-list')
   return {
     element,
@@ -14,14 +14,14 @@ const setup = (props: ListTaskProps): SetupResult => {
   }
 }
 
-describe('ListTask', () => {
+describe('List', () => {
   test('Should be rendered', () => {
     const { element, getByTestId } = setup({})
     expect(element).toBeInTheDocument()
     expect(getByTestId('my-task-list')).toBeInTheDocument()
   })
 
-  test('Should render a title', () => {
+  test('Should render optional title', () => {
     const title = 'This is a title'
     const { element, getByText } = setup({
       title
@@ -32,7 +32,7 @@ describe('ListTask', () => {
   })
 })
 
-describe('ListTask with pagination', () => {
+describe('List with pagination', () => {
   const pagination = {
     pageCount: 3,
     recordCount: 148,
