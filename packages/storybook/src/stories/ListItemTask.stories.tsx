@@ -42,21 +42,19 @@ Progress.args = {
 const TemplateMultiple: ComponentStory<typeof ListItemTask> = (args) => (
   <div>
     <Legend title='Sample list' />
-    {/* always wrap items inside own div or any other tag, in order to properly display border-top on first item */}
-    <div>
-      <ListItemTask
-        title='Orders'
-        status='progress'
-        progressPercentage={23}
-        description='Exporting 23%'
-        onCancelRequest={() => undefined}
-      />
-      <ListItemTask
-        title='Prices'
-        status='success'
-        description='Exported on May 17, 2022'
-      />
-    </div>
+    {/* tip: wrap items in a <List> component to properly set a border top on the first item  */}
+    <ListItemTask
+      title='Orders'
+      status='progress'
+      progressPercentage={23}
+      description='Exporting 23%'
+      onCancelRequest={() => undefined}
+    />
+    <ListItemTask
+      title='Prices'
+      status='success'
+      description='Exported on May 17, 2022'
+    />
   </div>
 )
 

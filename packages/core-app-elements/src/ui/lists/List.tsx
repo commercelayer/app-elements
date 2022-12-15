@@ -95,7 +95,7 @@ export function List({
         />
       ) : null}
       <div
-        className={cn({
+        className={cn('border-t border-gray-100', {
           'opacity-40 pointer-events-none touch-none': isDisabled
         })}
       >

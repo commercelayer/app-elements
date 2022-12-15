@@ -40,7 +40,7 @@ export function ListItemTask({
 }: ListItemTaskProps): JSX.Element {
   return (
     <div
-      className='flex gap-4 px-3 sm:px-5 py-4 first:border-t border-b border-gray-100 hover:cursor-pointer hover:bg-gray-50'
+      className='flex gap-4 px-3 sm:px-5 py-4 border-b border-gray-100 hover:cursor-pointer hover:bg-gray-50'
       onClick={onClick}
       {...rest}
     >
