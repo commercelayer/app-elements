@@ -3,7 +3,7 @@ import cn from 'classnames'
 
 interface Props {
   title: string
-  description?: string
+  description?: ReactNode
   action?: ReactNode
   className?: string
 }
