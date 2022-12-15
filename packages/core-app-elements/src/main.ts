@@ -3,6 +3,7 @@ import '#styles/global.css'
 // Providers
 export { default as TokenProvider } from '#providers/TokenProvider'
 export { useTokenProvider } from '#providers/TokenProvider'
+export { default as ErrorBoundary } from '#providers/ErrorBoundary'
 
 // UI
 export { default as A } from '#ui/atoms/A'
