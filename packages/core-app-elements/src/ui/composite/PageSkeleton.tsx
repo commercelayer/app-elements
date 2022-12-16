@@ -1,5 +1,5 @@
 import { Container } from '#ui/atoms/Container'
-import { DetailsList } from '#ui/atoms/DetailsList'
+import { ListDetails } from '#ui/lists/ListDetails'
 import { List } from '#ui/lists/List'
 import { Report } from './Report'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
@@ -37,7 +37,7 @@ export function PageSkeleton({
         ) : layout === 'details' ? (
           <div data-test-id='loading-details'>
             <Report isLoading loadingLines={2} items={[]} />
-            <DetailsList title='Details' isLoading loadingLines={4} />
+            <ListDetails title='Details' isLoading loadingLines={4} />
           </div>
         ) : null}
       </Skeleton>

@@ -68,7 +68,7 @@ export function CopyToClipboard({
   return (
     <div
       className={cn(
-        'break-normal overflow-hidden text-sm font-bold flex justify-between items-center md:px-4 gap-3 border-b border-gray-500 last:border-b-0',
+        'text-sm break-normal overflow-hidden font-bold flex justify-between items-center gap-3 md:px-4 border-b border-gray-500 last:border-b-0',
         className
       )}
       {...rest}

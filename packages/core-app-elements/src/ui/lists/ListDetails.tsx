@@ -1,15 +1,30 @@
 import { ReactNode } from 'react'
-import { Skeleton, SkeletonItem } from './Skeleton'
+import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 
 export interface DetailsListProps {
+  /**
+   * Optional title to show on top of the list
+   */
   title?: string
+  /**
+   * Use <ListDetailsItem> component as children
+   */
   children?: ReactNode
+  /**
+   * css class name
+   */
   className?: string
+  /**
+   * Show skeleton when this is `true`
+   */
   isLoading?: boolean
+  /**
+   * Number of items to show as skeleton rows. Default is `3`.
+   */
   loadingLines?: number
 }
 
-export function DetailsList({
+export function ListDetails({
   title,
   children,
   isLoading,
@@ -51,4 +66,4 @@ export function DetailsList({
   )
 }
 
-export default DetailsList
+export default ListDetails

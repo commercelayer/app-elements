@@ -1,4 +1,4 @@
-import { DetailsList, DetailsListProps } from './DetailsList'
+import { ListDetails, DetailsListProps } from './ListDetails'
 import { render, RenderResult } from '@testing-library/react'
 
 interface SetupProps extends DetailsListProps {
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<DetailsList data-test-id={id} {...rest} />)
+  const utils = render(<ListDetails data-test-id={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,
@@ -18,7 +18,7 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   }
 }
 
-describe('DetailsList', () => {
+describe('ListDetails', () => {
   test('Should render', () => {
     const { element } = setup({
       id: 'my-details-list'

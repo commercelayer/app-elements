@@ -20,7 +20,7 @@ Default.args = {
 }
 
 const TemplateStacked: ComponentStory<typeof CopyToClipboard> = (args) => (
-  <Container>
+  <Container minHeight={false}>
     <CopyToClipboard {...args} />
     <CopyToClipboard value='Soft double-layered customizable beanie. 95% polyester, 5% spandex. Regular fit. Accurately printed, cut, and hand-sewn.' />
     <CopyToClipboard value='https://data.commercelayer.app/seed/images/skus/BEANIEXXFFFFFF000000XXXX_FLAT.png' />
@@ -33,7 +33,7 @@ Stacked.args = {
 }
 
 const TemplateEmpty: ComponentStory<typeof CopyToClipboard> = (args) => (
-  <Container>
+  <Container minHeight={false}>
     <CopyToClipboard {...args} />
     <CopyToClipboard {...args} />
   </Container>

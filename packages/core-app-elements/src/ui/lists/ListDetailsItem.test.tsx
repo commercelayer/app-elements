@@ -1,6 +1,6 @@
 import { render, RenderResult } from '@testing-library/react'
 import { ReactNode } from 'react'
-import { DetailsRow } from './DetailsRow'
+import { ListDetailsItem } from './ListDetailsItem'
 
 interface SetupProps {
   id: string
@@ -13,7 +13,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<DetailsRow data-test-id={id} {...rest} />)
+  const utils = render(<ListDetailsItem data-test-id={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,
@@ -21,7 +21,7 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   }
 }
 
-describe('RowDetail', () => {
+describe('ListDetailsItem', () => {
   test('Should be rendered', () => {
     const { element, getByText } = setup({
       id: 'my-detail',
