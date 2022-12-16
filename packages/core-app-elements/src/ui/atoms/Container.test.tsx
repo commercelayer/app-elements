@@ -22,7 +22,7 @@ const setup = ({ id }: SetupProps): SetupResult => {
   }
 }
 
-describe('Label', () => {
+describe('Container', () => {
   test('Should be rendered', () => {
     const { element } = setup({ id: 'my-container' })
     expect(element.tagName).toBe('DIV')
