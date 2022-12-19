@@ -39,7 +39,8 @@ export default defineConfig({
       '#providers': resolve(__dirname, './src/providers'),
       '#ui': resolve(__dirname, './src/ui'),
       '#styles': resolve(__dirname, './src/styles'),
-      '#utils': resolve(__dirname, './src/utils')
+      '#utils': resolve(__dirname, './src/utils'),
+      '#helpers': resolve(__dirname, './src/helpers')
     }
   },
   test: {
