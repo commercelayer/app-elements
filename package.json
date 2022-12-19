@@ -1,5 +1,6 @@
 {
   "private": true,
+  "name": "core-app-elements",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --stream --filter '*' build",
