@@ -21,13 +21,25 @@ React.createRoot(document.getElementById("root") as HTMLElement).render(
 )
 ```
 
-3. Import any components your need
+3. load Manrope Google font into your html
+
+```html
+<head>
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+</head>
+```
+
+4. Import any components your need
 
 ```jsx
 import { Container, Button, Label } from "@commercelayer/core-app-elements";
 ```
 
-4. (optional) install `@commercelayer/sdk` to use `<TokenProvider>` component
+5. (optional) install `@commercelayer/sdk` to use `<TokenProvider>` component
 
 ## How to work with this locally with pnpm link
 
