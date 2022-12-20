@@ -16,13 +16,15 @@ const Template: ComponentStory<typeof ListItem> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'SKUs'
+  label: 'SKUs',
+  onClick: () => undefined
 }
 
 export const WithDescription = Template.bind({})
 WithDescription.args = {
   label: 'WGDMSMNOwJ',
-  description: 'June 15, 2022 14:57'
+  description: 'June 15, 2022 14:57',
+  onClick: () => undefined
 }
 
 export const WithIcon = Template.bind({})
