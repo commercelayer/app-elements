@@ -1,9 +1,7 @@
 {
   "private": true,
-  "name": "core-app-elements",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "prepare": "pnpm --stream --filter '*' build",
     "build": "pnpm --stream --filter '*' build",
     "storybook": "pnpm --stream --filter '*' storybook",
     "storybook:build": "pnpm --filter '*' build-storybook",
