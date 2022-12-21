@@ -27,7 +27,7 @@ export function EmptyState({
       {...rest}
     >
       <div className='flex'>
-        <div className='flex-1 py-6 pl-6 md:p-14 md:pr-0'>
+        <div className='flex-1 py-6 pl-6 md:!p-14 md:!pr-0'>
           <h4 className='text-black font-semibold text-2xl mb-4'>{title}</h4>
 
           {description != null ? (

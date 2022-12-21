@@ -40,13 +40,13 @@ export function ListItemTask({
   return (
     <div
       className={cn(
-        'flex gap-4 px-3 sm:px-5 py-4 border-b border-gray-100  hover:bg-gray-50',
+        'flex gap-4 px-3 sm:!px-5 py-4 border-b border-gray-100  hover:bg-gray-50',
         { 'cursor-pointer': rest.onClick != null },
         className
       )}
       {...rest}
     >
-      <div className='scale-75 sm:scale-100'>
+      <div className='scale-75 sm:!scale-100'>
         <StatusIcon
           status={status}
           percentage={status === 'progress' ? progressPercentage : undefined}

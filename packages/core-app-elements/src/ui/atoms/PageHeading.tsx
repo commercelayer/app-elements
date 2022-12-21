@@ -54,7 +54,7 @@ export function PageHeading({
         </button>
       ) : null}
       {badgeLabel != null && (
-        <div className='my-4 md:mt-0' data-test-id='page-heading-badge'>
+        <div className='my-4 md:!mt-0' data-test-id='page-heading-badge'>
           <Badge variant={badgeVariant} label={badgeLabel} />
         </div>
       )}

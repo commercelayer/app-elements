@@ -55,7 +55,7 @@ export function CopyToClipboard({
     return (
       <div
         className={cn(
-          'md:px-4 py-2.5 border-b border-gray-500 last:border-b-0',
+          'md:!px-4 py-2.5 border-b border-gray-500 last:border-b-0',
           className
         )}
         {...rest}
@@ -68,7 +68,7 @@ export function CopyToClipboard({
   return (
     <div
       className={cn(
-        'text-sm break-normal overflow-hidden font-bold flex justify-between items-center gap-3 md:px-4 border-b border-gray-500 last:border-b-0',
+        'text-sm break-normal overflow-hidden font-bold flex justify-between items-center gap-3 md:!px-4 border-b border-gray-500 last:border-b-0',
         className
       )}
       {...rest}

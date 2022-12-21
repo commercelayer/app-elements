@@ -32,13 +32,13 @@ export function ListDetailsItem({
 }: ListDetailsItemProps): JSX.Element {
   return (
     <div
-      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:items-center md:flex-row py-2'
+      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!items-center md:!flex-row py-2'
       {...rest}
     >
       <div className='text-gray-500 text-sm flex-none w-5/12'>{label}</div>
       <div
         className={classNames('w-full overflow-x-auto font-bold text-sm', {
-          'md:px-4 py-2.5': hasGutter
+          'md:!px-4 py-2.5': hasGutter
         })}
       >
         {isLoading === true ? (
