@@ -1,6 +1,6 @@
 {
   "name": "@commercelayer/core-app-elements",
-  "private": false,
+  "private": true,
   "version": "0.0.0",
   "type": "module",
   "files": [
