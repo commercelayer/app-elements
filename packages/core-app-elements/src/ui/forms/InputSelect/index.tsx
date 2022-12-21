@@ -109,3 +109,5 @@ export function isSingleValueSelected(
 ): value is SelectValue {
   return value != null && !Array.isArray(value)
 }
+
+export default InputSelect
