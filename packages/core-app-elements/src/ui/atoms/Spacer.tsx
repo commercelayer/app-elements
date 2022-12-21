@@ -15,16 +15,18 @@ export interface SpacingProps {
 
 /*
  * Possible values are:
+ * 2: 0.5rem, 8px
  * 4: 1rem, 16px
  * 6: 1.5rem, 24px
  * 8: 2rem, 32px
  * 12: 3rem, 48px
  * 14: 3.5rem, 56px
  */
-export type SpacingValues = '4' | '6' | '8' | '12' | '14'
+export type SpacingValues = '2' | '4' | '6' | '8' | '12' | '14'
 
 const marginTopCss: Record<SpacingValues | 'none', string> = {
   none: '',
+  '2': 'mt-2',
   '4': 'mt-4',
   '6': 'mt-6',
   '8': 'mt-8',
@@ -34,6 +36,7 @@ const marginTopCss: Record<SpacingValues | 'none', string> = {
 
 const marginBottomCss: Record<SpacingValues | 'none', string> = {
   none: '',
+  '2': 'mb-2',
   '4': 'mb-4',
   '6': 'mb-6',
   '8': 'mb-8',
