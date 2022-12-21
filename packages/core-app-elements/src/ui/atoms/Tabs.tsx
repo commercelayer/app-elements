@@ -7,6 +7,9 @@ interface Props {
    * Used for accessability
    */
   id?: string
+  /*
+   * css class
+   */
   className?: string
   /**
    * Event the fires every time a tab is activated. Note that this also fires on first render.

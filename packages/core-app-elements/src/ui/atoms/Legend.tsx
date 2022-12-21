@@ -1,7 +1,13 @@
 import { ReactNode } from 'react'
 
 interface LegendProps {
+  /*
+   * Main section title
+   */
   title?: ReactNode
+  /*
+   * This will render a button on the right side of the row
+   */
   actionButton?: ReactNode
 }
 

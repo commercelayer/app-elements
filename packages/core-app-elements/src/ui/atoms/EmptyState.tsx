@@ -7,7 +7,7 @@ interface Props {
   description?: ReactNode
   action?: ReactNode
   className?: string
-  icon?: 'stack'
+  icon?: 'stack' | 'none'
 }
 
 export function EmptyState({
