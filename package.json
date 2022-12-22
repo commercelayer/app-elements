@@ -8,7 +8,8 @@
     "lint": "pnpm --stream --filter '*' lint",
     "lint:fix": "pnpm --filter '*' lint:fix",
     "test": "pnpm --filter '*' test",
-    "test:watch": "pnpm --stream --filter '*' test:watch"
+    "test:watch": "pnpm --stream --filter '*' test:watch",
+    "ver": "pnpm lerna version -m '%s [skip ci]'"
   },
   "keywords": [],
   "author": {
