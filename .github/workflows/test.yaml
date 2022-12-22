@@ -2,10 +2,10 @@ name: Test
 
 on:
   push:
-    branches: [master, beta]
+    branches: [main, beta]
   pull_request:
     types: [review_requested, ready_for_review]
-    branches: [master, beta]
+    branches: [main, beta]
 
 jobs:
   publish:
