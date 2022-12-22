@@ -8,7 +8,7 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      insertTypesEntry: true
+      outputDir: 'dist/types'
     })
   ],
   build: {
