@@ -14,27 +14,27 @@ export type ListPagination = {
 } & Omit<PaginationProps, 'className' | 'isDisabled'>
 
 export interface ListProps {
-  /*
+  /**
    * List name displayed in the heading
    */
   title?: string
-  /*
+  /**
    * Element to be displayed on the right side of the heading
    */
   actionButton?: ReactNode
-  /*
+  /**
    * Set an opacity on the list, usefull when changing page and new page data is not ready yet.
    */
   isDisabled?: boolean
-  /*
+  /**
    * Show Skeleton UI
    */
   isLoading?: boolean
-  /*
+  /**
    * It should only accept or ListItem or ListItemTask
    */
   children?: ReactNode
-  /*
+  /**
    * When a `ListPagination` is passed, a pagination nav is added at the bottom of the list
    */
   pagination?: ListPagination

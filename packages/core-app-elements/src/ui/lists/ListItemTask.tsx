@@ -5,24 +5,23 @@ import cn from 'classnames'
 
 export interface ListItemTaskProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  /*
+  /**
    * define the status to show the proper icon
    */
   status: StatusUI
-  /*
+  /**
    * Only accepted if status is `progress'
    */
   progressPercentage?: number
-  /*
+  /**
    * Main text to show
    */
   title: string
-  /*
+  /**
    * Optional text to display below the title
    */
   description?: React.ReactNode
-
-  /*
+  /**
    * When set, this will render a `Cancel` button to cancel the current task
    */
   onCancelRequest?: () => void

@@ -1,19 +1,19 @@
 import { ReactNode } from 'react'
 import cn from 'classnames'
 
-export interface SpacingProps {
-  /*
+export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {
+  /**
    * Value to be applied as `margin-top`
    */
   top?: SpacingValues
-  /*
+  /**
    * Value to be applied as `margin-bottom`.
    */
   bottom?: SpacingValues
   children?: ReactNode
 }
 
-/*
+/**
  * Possible values are:
  * 2: 0.5rem, 8px
  * 4: 1rem, 16px
