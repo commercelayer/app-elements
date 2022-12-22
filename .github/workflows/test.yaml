@@ -8,7 +8,7 @@ on:
     branches: [main, beta]
 
 jobs:
-  publish:
+  test:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,5 +29,5 @@ jobs:
       - name: Install 📦
         run: pnpm install
 
-      - name: Test 🧪
+      - name: Run Unit Tests 🧪
         run: pnpm test
