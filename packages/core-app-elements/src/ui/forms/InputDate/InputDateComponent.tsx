@@ -31,6 +31,10 @@ export interface InputDateProps {
    * When undefined, will autodetect format from user's browser
    */
   format?: string
+  /**
+   * disable selection of previous dates
+   */
+  minDate?: Date
 }
 
 function InputDateComponent({
@@ -40,6 +44,7 @@ function InputDateComponent({
   inputClassName,
   format,
   placeholder,
+  minDate,
   ...rest
 }: InputDateProps): JSX.Element {
   return (
@@ -49,6 +54,8 @@ function InputDateComponent({
         onChange={onChange}
         dateFormat={format ?? detectDateFormat()}
         placeholderText={placeholder}
+        minDate={minDate}
+        openToDate={value ?? minDate}
         className={cn(
           'block w-full px-4 py-2 h-10 placeholder:text-gray-400 font-medium',
           'border border-gray-200 rounded outline-0',
@@ -56,7 +63,7 @@ function InputDateComponent({
           inputClassName
         )}
       />
-      <div className='absolute top-0 bottom-0 right-6 flex items-center pointer-events-none touch-none'>
+      <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
         <CalendarBlank />
       </div>
     </div>

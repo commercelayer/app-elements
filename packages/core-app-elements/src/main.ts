@@ -33,6 +33,7 @@ export { default as Report } from '#ui/composite/Report'
 // Forms
 export { default as InputSelect } from '#ui/forms/InputSelect'
 export { default as InputDate } from '#ui/forms/InputDate'
+export { default as InputDateRange } from '#ui/forms/InputDateRange'
 export { default as InputFile } from '#ui/forms/InputFile'
 export { default as InputHelperText } from '#ui/forms/InputHelperText'
 export { default as InputJson } from '#ui/forms/InputJson'
