@@ -22,4 +22,17 @@ const Template: ComponentStory<typeof InputDate> = (args) => {
 }
 
 export const Default = Template.bind({})
-Default.args = {}
+Default.args = {
+  label: 'Shipping date'
+}
+
+export const WithMinValue = Template.bind({})
+WithMinValue.args = {
+  placeholder: 'select a future date',
+  minDate: new Date()
+}
+
+export const AutoPlaceholder = Template.bind({})
+AutoPlaceholder.args = {
+  autoPlaceholder: true
+}

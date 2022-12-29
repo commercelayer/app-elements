@@ -4,8 +4,13 @@ import './InputDate.css'
 
 import cn from 'classnames'
 import { CalendarBlank } from 'phosphor-react'
+import Label from '#ui/forms/Label'
 
 export interface InputDateProps {
+  /**
+   * optional input label
+   */
+  label?: string
   /**
    * controlled value
    */
@@ -35,6 +40,10 @@ export interface InputDateProps {
    * disable selection of previous dates
    */
   minDate?: Date
+  /**
+   * set placeholder as detected date format
+   */
+  autoPlaceholder?: boolean
 }
 
 function InputDateComponent({
@@ -45,26 +54,34 @@ function InputDateComponent({
   format,
   placeholder,
   minDate,
+  label,
+  autoPlaceholder,
   ...rest
 }: InputDateProps): JSX.Element {
+  const dateFormat = format ?? detectDateFormat()
   return (
-    <div className={cn('relative', wrapperClassName)} {...rest}>
-      <DatePicker
-        selected={value}
-        onChange={onChange}
-        dateFormat={format ?? detectDateFormat()}
-        placeholderText={placeholder}
-        minDate={minDate}
-        openToDate={value ?? minDate}
-        className={cn(
-          'block w-full px-4 py-2 h-10 placeholder:text-gray-400 font-medium',
-          'border border-gray-200 rounded outline-0',
-          'transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light',
-          inputClassName
-        )}
-      />
-      <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
-        <CalendarBlank />
+    <div {...rest}>
+      {label != null && <Label gap>{label}</Label>}
+      <div className={cn('relative', wrapperClassName)}>
+        <DatePicker
+          selected={value}
+          onChange={onChange}
+          dateFormat={dateFormat}
+          placeholderText={
+            autoPlaceholder === true ? dateFormat.toLowerCase() : placeholder
+          }
+          minDate={minDate}
+          openToDate={value ?? minDate}
+          className={cn(
+            'block w-full px-4 py-2 h-10 placeholder:text-gray-400 font-medium',
+            'border border-gray-200 rounded outline-0',
+            'transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light',
+            inputClassName
+          )}
+        />
+        <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
+          <CalendarBlank />
+        </div>
       </div>
     </div>
   )
