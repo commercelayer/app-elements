@@ -39,6 +39,7 @@ export { default as InputHelperText } from '#ui/forms/InputHelperText'
 export { default as InputJson } from '#ui/forms/InputJson'
 export { default as InputTextArea } from '#ui/forms/InputTextArea'
 export { default as InputToggleBox } from '#ui/forms/InputToggleBox'
+export { default as InputToggleListBox } from '#ui/forms/InputToggleListBox'
 export { isSingleValueSelected } from '#ui/forms/InputSelect'
 export { default as Label } from '#ui/forms/Label'
 
