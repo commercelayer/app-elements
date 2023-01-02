@@ -2,6 +2,8 @@ import { FocusEventHandler, lazy, Suspense } from 'react'
 import { MultiValue, SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
 import selectStyles from './styles'
+import Label from '../Label'
+import InputHelperText from '../InputHelperText'
 
 const AsyncSelectComponent = lazy(async () => await import('./Async'))
 const SelectComponent = lazy(async () => await import('./Select'))
@@ -20,6 +22,8 @@ export interface SelectValue {
 type PossibleSelectValue = MultiValue<SelectValue> | SingleValue<SelectValue>
 
 export interface InputSelectProps {
+  label?: string
+  helperText?: string
   initialValues: GroupedSelectValues | SelectValue[]
   defaultValue?: SelectValue | SelectValue[]
   placeholder?: string
@@ -44,6 +48,8 @@ export interface InputSelectProps {
 }
 
 export function InputSelect({
+  label,
+  helperText,
   menuIsOpen,
   initialValues,
   defaultValue,
@@ -64,6 +70,7 @@ export function InputSelect({
 }: InputSelectProps): JSX.Element {
   return (
     <div className={className} {...rest}>
+      {label != null && <Label gap>{label}</Label>}
       {loadAsyncValues != null ? (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
           <AsyncSelectComponent
@@ -99,6 +106,11 @@ export function InputSelect({
             styles={selectStyles}
           />
         </Suspense>
+      )}
+      {helperText != null && (
+        <InputHelperText variant='light' className='mt-1'>
+          {helperText}
+        </InputHelperText>
       )}
     </div>
   )

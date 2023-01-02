@@ -6,12 +6,14 @@ type HelperIcon = 'bulb'
 
 export interface InputHelperTextProps {
   icon?: HelperIcon
+  variant?: 'regular' | 'light'
   children: ReactNode
   className?: string
 }
 
 export function InputHelperText({
   icon,
+  variant = 'regular',
   className,
   children,
   ...rest
@@ -23,7 +25,13 @@ export function InputHelperText({
   return (
     <div className={cn('flex gap-2 items-center', className)} {...rest}>
       {icon != null && icons[icon]}
-      <div className='text-sm'>{children}</div>
+      <div
+        className={cn('text-sm', {
+          'font-medium text-gray-500': variant === 'light'
+        })}
+      >
+        {children}
+      </div>
     </div>
   )
 }
