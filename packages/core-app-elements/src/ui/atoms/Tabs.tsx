@@ -25,7 +25,7 @@ interface Props {
    * </Tabs>
    * ```
    */
-  children: Array<React.ReactElement<TabProps, typeof Tab>>
+  children: Array<React.ReactElement<TabProps, typeof Tab> | null>
   /**
    * This controls whether the content of inactive panels should be un-mounted or kept mounted but hidden.
    */
@@ -45,6 +45,9 @@ export function Tabs({
   useEffect(
     function validateChildren() {
       Children.map(children, (tab, index) => {
+        if (tab === null) {
+          return
+        }
         invariant(
           tab.type.name,
           `Only "<Tab>" components can be used as children. Invalid at index #${index}`
@@ -69,7 +72,11 @@ export function Tabs({
     }
   }, [activeIndex, onTabSwitch])
 
-  const allNavs = Children.map(children, (tab) => tab.props.name)
+  const allNavs = Children.map(children, (tab) => tab?.props.name)
+
+  if (allNavs == null) {
+    return <div />
+  }
 
   return (
     <div id={id} role='tablist' className={className} {...rest}>
@@ -90,6 +97,9 @@ export function Tabs({
       </nav>
       {/* Tab Panels */}
       {Children.map(children, (tab, index) => {
+        if (tab === null) {
+          return
+        }
         return (
           <TabPanel
             isActive={index === activeIndex}

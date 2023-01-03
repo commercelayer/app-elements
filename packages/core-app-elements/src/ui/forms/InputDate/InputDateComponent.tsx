@@ -3,7 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import './InputDate.css'
 
 import cn from 'classnames'
-import { CalendarBlank } from 'phosphor-react'
+import { CalendarBlank, X } from 'phosphor-react'
 import Label from '#ui/forms/Label'
 
 export interface InputDateProps {
@@ -14,11 +14,11 @@ export interface InputDateProps {
   /**
    * controlled value
    */
-  value?: Date
+  value?: Date | null
   /**
    * callback fired when value is changed
    */
-  onChange: (date: Date) => void
+  onChange: (date: Date | null) => void
   /**
    * optional css class names used for the outer wrapper/container element
    */
@@ -44,6 +44,10 @@ export interface InputDateProps {
    * set placeholder as detected date format
    */
   autoPlaceholder?: boolean
+  /**
+   * enables a button to clear the selected date
+   */
+  isClearable?: boolean
 }
 
 function InputDateComponent({
@@ -56,6 +60,7 @@ function InputDateComponent({
   minDate,
   label,
   autoPlaceholder,
+  isClearable,
   ...rest
 }: InputDateProps): JSX.Element {
   const dateFormat = format ?? detectDateFormat()
@@ -82,6 +87,16 @@ function InputDateComponent({
         <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
           <CalendarBlank />
         </div>
+        {value != null && isClearable === true ? (
+          <button
+            className='absolute top-0 bottom-0 right-11 flex items-center'
+            onClick={() => {
+              onChange(null)
+            }}
+          >
+            <X />
+          </button>
+        ) : null}
       </div>
     </div>
   )

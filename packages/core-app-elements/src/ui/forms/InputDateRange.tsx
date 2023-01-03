@@ -2,20 +2,21 @@ import { ArrowRight } from 'phosphor-react'
 import InputDate from './InputDate'
 import Label from './Label'
 import { useEffect } from 'react'
+import { InputDateProps } from './InputDate/InputDateComponent'
 
-export interface InputDateRangeProps {
-  /**
-   * optional input label
-   */
-  label?: string
+export interface InputDateRangeProps
+  extends Pick<
+    InputDateProps,
+    'label' | 'isClearable' | 'format' | 'autoPlaceholder'
+  > {
   /**
    * value for the `from` date
    */
-  fromDate?: Date
+  fromDate?: Date | null
   /**
    * triggered when `from` date is changed
    */
-  onFromChange: (date: Date) => void
+  onFromChange: (date: Date | null) => void
   /**
    * optional placeholder text for the `from` date
    */
@@ -23,20 +24,15 @@ export interface InputDateRangeProps {
   /**
    * value for the `to` date
    */
-  toDate?: Date
+  toDate?: Date | null
   /**
    * triggered when `to` date is changed
    */
-  onToChange: (date: Date) => void
+  onToChange: (date: Date | null) => void
   /**
    * optional placeholder text for the `to` date
    */
   toPlaceholder?: string
-  /**
-   * string to be parsed as formatter (eg. MM/dd/yyyy, dd-MM-yy, ect...).
-   * When undefined, will autodetect format from user's browser
-   */
-  format?: string
 }
 
 function InputDateRange({
@@ -48,6 +44,8 @@ function InputDateRange({
   toPlaceholder,
   label,
   format,
+  autoPlaceholder,
+  isClearable,
   ...rest
 }: InputDateRangeProps): JSX.Element {
   useEffect(
@@ -73,6 +71,8 @@ function InputDateRange({
           placeholder={fromPlaceholder}
           format={format}
           wrapperClassName='flex-1'
+          isClearable={isClearable}
+          autoPlaceholder={autoPlaceholder}
         />
         <div className='px-2 text-gray-300'>
           <ArrowRight size={24} />
@@ -81,9 +81,11 @@ function InputDateRange({
           value={toDate}
           onChange={onToChange}
           placeholder={toPlaceholder}
-          minDate={fromDate}
+          minDate={fromDate ?? undefined}
           format={format}
           wrapperClassName='flex-1'
+          isClearable={isClearable}
+          autoPlaceholder={autoPlaceholder}
         />
       </div>
     </div>

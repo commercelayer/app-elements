@@ -19,7 +19,9 @@ export interface SelectValue {
   meta?: Record<string, any>
 }
 
-type PossibleSelectValue = MultiValue<SelectValue> | SingleValue<SelectValue>
+export type PossibleSelectValue =
+  | MultiValue<SelectValue>
+  | SingleValue<SelectValue>
 
 export interface InputSelectProps {
   label?: string
@@ -116,10 +118,43 @@ export function InputSelect({
   )
 }
 
+/**
+ * Helper function to understand and refine type of a single selected value
+ * @param selectedValue possible value returned from select component
+ * @returns true if selected value is single, from this point TypeScript will treat this as `SelectValue` type
+ */
 export function isSingleValueSelected(
-  value: PossibleSelectValue
-): value is SelectValue {
-  return value != null && !Array.isArray(value)
+  selectedValue: PossibleSelectValue
+): selectedValue is SelectValue {
+  return selectedValue != null && !Array.isArray(selectedValue)
+}
+
+/**
+ * Helper function to extract only the `value` from the  `SelectValue`
+ * @param selectedValue possible value returned from select component
+ * @returns a string or an array of strings.
+ * Examples:
+ * ```
+ * {value: 'ABCD', label: 'T-Shirt XL'}
+ * // returns 'ABCD'
+ *
+ * [
+ *   {value: 'ABCD', label: 'T-Shirt M'},
+ *   {value: '1234', label: 'T-Shirt XL'},
+ * ]
+ * // returns ['ABCD', '1234']
+ * ```
+ */
+export function flatSelectValues(
+  selectedValue: PossibleSelectValue
+): null | string | Array<string | number> {
+  if (selectedValue == null) {
+    return null
+  }
+
+  return isSingleValueSelected(selectedValue)
+    ? `${selectedValue.value}`
+    : selectedValue.map((o) => o.value)
 }
 
 export default InputSelect
