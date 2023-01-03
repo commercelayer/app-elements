@@ -72,6 +72,7 @@ function InputDateRange({
           onChange={onFromChange}
           placeholder={fromPlaceholder}
           format={format}
+          wrapperClassName='flex-1'
         />
         <div className='px-2 text-gray-300'>
           <ArrowRight size={24} />
@@ -82,6 +83,7 @@ function InputDateRange({
           placeholder={toPlaceholder}
           minDate={fromDate}
           format={format}
+          wrapperClassName='flex-1'
         />
       </div>
     </div>

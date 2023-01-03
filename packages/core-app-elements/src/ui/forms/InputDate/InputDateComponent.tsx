@@ -60,9 +60,9 @@ function InputDateComponent({
 }: InputDateProps): JSX.Element {
   const dateFormat = format ?? detectDateFormat()
   return (
-    <div {...rest}>
+    <div {...rest} className={wrapperClassName}>
       {label != null && <Label gap>{label}</Label>}
-      <div className={cn('relative', wrapperClassName)}>
+      <div className='relative'>
         <DatePicker
           selected={value}
           onChange={onChange}
