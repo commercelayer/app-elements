@@ -53,7 +53,7 @@ describe('InputDateComponent', () => {
       placeholder: 'select a date',
       format: 'dd-MM-yyyy',
       onChange: (date) => {
-        setDate(date.toISOString())
+        setDate(date?.toISOString())
       }
     })
     const input = element.getElementsByTagName('input')[0]

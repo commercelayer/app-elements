@@ -22,8 +22,8 @@ function ComponentWithState({
   toDate,
   ...rest
 }: SetupProps): JSX.Element {
-  const [from, setFrom] = useState<Date | undefined>(fromDate)
-  const [to, setTo] = useState<Date | undefined>(toDate)
+  const [from, setFrom] = useState<Date | null | undefined>(fromDate)
+  const [to, setTo] = useState<Date | null | undefined>(toDate)
 
   return (
     <InputDateRange
