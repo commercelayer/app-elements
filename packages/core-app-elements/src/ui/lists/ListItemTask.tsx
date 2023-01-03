@@ -44,7 +44,7 @@ export function ListItemTask({
   return (
     <div
       className={cn(
-        'flex gap-4 px-3 sm:!px-5 py-4 border-b border-gray-100  ',
+        'flex gap-4 px-3 sm:!px-5 py-4 border-b border-gray-100',
         { 'cursor-pointer hover:bg-gray-50': noHover !== true },
         className
       )}
