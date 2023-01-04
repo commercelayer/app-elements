@@ -31,7 +31,7 @@ describe('InputJson', () => {
     expect(element).toBeInTheDocument()
     expect(textarea).toBeInTheDocument()
     expect(textarea.getAttribute('placeholder')).toBe(
-      'Example: \n{"foo":"bar"}'
+      'Example: \n{\n  "foo": "bar"\n}'
     )
   })
 
