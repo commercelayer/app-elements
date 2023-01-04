@@ -65,7 +65,7 @@ function InputJson<JsonType extends object>({
 export default InputJson
 
 function preparePlaceholder(obj: object): string {
-  const content = JSON.stringify(obj)
+  const content = JSON.stringify(obj, null, 2)
   return `Example: \n${content}`
 }
 
