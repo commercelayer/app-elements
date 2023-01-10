@@ -25,16 +25,46 @@ export type CurrentApp =
   | 'exports'
   | 'webhooks'
   | 'resources'
+  | 'orders'
   | 'custom'
 
 interface TokenProviderProps {
+  /**
+   * Token kind (will be validated)
+   */
   clientKind: 'integration' | 'sales_channel' | 'webapp'
+  /**
+   * Slug of the current app (will be validated). Can be one of imports, exports, webhooks, resources, orders or custom
+   */
   currentApp: CurrentApp
+  /**
+   * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
+   */
   domain: string
+  /**
+   * Callback invoked when token is not valid
+   */
   onInvalidAuth: (info: { dashboardUrl: string; reason: string }) => void
+  /**
+   * Element to be used as loader (eg: skeleton or spinner icon)
+   */
   loadingElement?: ReactNode
+  /**
+   * Element to display in case of invalid token
+   */
   errorElement?: ReactNode
+  /**
+   * skip domain slug validation when is dev mode
+   */
   devMode: boolean
+  /**
+   * Optional. In case you already have an access token, this will skip the retrieval of token from URL or localStorage.
+   * When undefined (default scenario), token is expected to be retrieved from `?accessToken=xxxx` query string or localStorage (in this order).
+   */
+  accessToken?: string
+  /**
+   * Entire app content
+   */
   children: ((props: TokenProviderValue) => ReactNode) | ReactNode
 }
 
@@ -58,7 +88,8 @@ function TokenProvider({
   loadingElement,
   errorElement,
   devMode,
-  children
+  children,
+  accessToken: accessTokenFromProp
 }: TokenProviderProps): JSX.Element {
   const [validAuthToken, setValidAuthToken] = useState<string>()
   const [sdkClient, setSdkClient] = useState<CommerceLayerClient>()
@@ -66,7 +97,9 @@ function TokenProvider({
   const [isTokenError, setIsTokenError] = useState<boolean>(false)
   const dashboardUrl = makeDashboardUrl()
   const accessToken =
-    getAccessTokenFromUrl() ?? getPersistentAccessToken({ currentApp })
+    accessTokenFromProp ??
+    getAccessTokenFromUrl() ??
+    getPersistentAccessToken({ currentApp })
 
   const handleOnInvalidCallback = (reason: string): void => {
     setIsLoading(false)
