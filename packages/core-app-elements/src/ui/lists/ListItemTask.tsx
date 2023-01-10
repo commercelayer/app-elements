@@ -85,13 +85,9 @@ export function ListItemTask({
             Cancel
           </Button>
         ) : (
-          <Button
-            variant='link'
-            size='small'
-            data-test-id='list-task-item-btn-view'
-          >
+          <button data-test-id='list-task-item-btn-view'>
             <CaretRight />
-          </Button>
+          </button>
         )}
       </div>
     </div>
