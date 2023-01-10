@@ -31,15 +31,15 @@ function InputReadonlyComponent({
   return (
     <div {...rest} className={wrapperClassName}>
       {label != null && <Label gap>{label}</Label>}
-      <div className='relative'>
+      <div className='relative select-none'>
         <input
           className={cn(
-            'block w-full bg-gray-50 px-4 py-2 h-10 text-teal placeholder:text-gray-400 font-bold',
+            'block w-full bg-gray-50 p-3 h-10 text-teal font-bold',
             'rounded outline-0',
-            'transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light',
             inputClassName
           )}
           value={value}
+          readOnly
         />
         <div className='absolute top-0 bottom-0 right-4 flex items-center'>
           <CopyToClipboard value={value} showValue={false} hasGutter={false} />
