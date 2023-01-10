@@ -38,7 +38,8 @@ module.exports = {
       },
       green: '#1fda8a',
       orange: '#ffab2e',
-      red: '#ff656b'
+      red: '#ff656b',
+      teal: '#055463'
     },
     fontFamily: {
       sans: ['Manrope', 'ui-sans-serif', 'sans-serif'],
