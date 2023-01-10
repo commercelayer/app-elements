@@ -7,6 +7,7 @@ import {
 } from '#utils/pagination'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Legend } from '#ui/atoms/Legend'
+import { Spacer } from '#ui/atoms/Spacer'
 
 export type ListPagination = {
   recordsPerPage: number
@@ -88,11 +89,13 @@ export function List({
   return (
     <div className='flex flex-col flex-1' {...rest}>
       {computedTitle != null || actionButton !== null ? (
-        <Legend
-          title={computedTitle}
-          actionButton={actionButton}
-          data-test-id='list-task-legend'
-        />
+        <Spacer bottom='4'>
+          <Legend
+            title={computedTitle}
+            actionButton={actionButton}
+            data-test-id='list-task-legend'
+          />
+        </Spacer>
       ) : null}
       <div
         className={cn('border-t border-gray-100', {

@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import cn from 'classnames'
 
 interface LegendProps {
   /**
@@ -9,15 +10,23 @@ interface LegendProps {
    * This will render a button on the right side of the row
    */
   actionButton?: ReactNode
+  /**
+   * CSS classes
+   */
+  className?: string
 }
 
 export function Legend({
   title,
   actionButton,
+  className,
   ...rest
 }: LegendProps): JSX.Element {
   return (
-    <div className='flex justify-between items-center pb-4' {...rest}>
+    <div
+      className={cn('flex justify-between items-center', className)}
+      {...rest}
+    >
       <h2 className='text-gray-500 font-medium'>{title}</h2>
       <div>{actionButton}</div>
     </div>
