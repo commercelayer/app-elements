@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash-es'
+import isEmpty from 'lodash/isEmpty'
 
 export const getAccessTokenFromUrl = (): string | null => {
   if (typeof window !== 'undefined') {

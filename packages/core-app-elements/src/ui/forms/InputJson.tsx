@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash-es'
+import isEmpty from 'lodash/isEmpty'
 import { useState, useEffect } from 'react'
 
 export interface InputJsonProps<JsonType> {

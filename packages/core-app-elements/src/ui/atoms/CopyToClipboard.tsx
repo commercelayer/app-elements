@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { isEmpty } from 'lodash-es'
+import isEmpty from 'lodash/isEmpty'
 import { Check, Copy } from 'phosphor-react'
 import { useCallback, useEffect, useState } from 'react'
 import invariant from 'ts-invariant'
