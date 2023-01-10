@@ -2,14 +2,24 @@ import cn from 'classnames'
 import { ReactNode } from 'react'
 import { DelayShow } from './DelayShow'
 
+interface SkeletonProps {
+  /**
+   * This prevents Skeleton to appear immediately.
+   * It can be used when loading times are too short and you don't want flashing of content
+   */
+  delayMs?: number
+  /**
+   * Manly <SkeletonItem /> components should be used as children.
+   * But you might want to also pass a grid or something else that has <SkeletonItem /> as children
+   */
+  children: ReactNode
+}
+
 export function Skeleton({
   children,
   delayMs = 500,
   ...rest
-}: {
-  children: ReactNode
-  delayMs?: number
-}): JSX.Element {
+}: SkeletonProps): JSX.Element {
   return (
     <div {...rest} className='animate-pulse'>
       <DelayShow delayMs={delayMs}>{children}</DelayShow>
@@ -18,13 +28,33 @@ export function Skeleton({
 }
 
 interface SkeletonItemProps {
+  /**
+   * CSS classes
+   */
   className?: string
+  /**
+   * Can be `box` (default) to render a rectangular shape or `circle`
+   */
   type?: 'box' | 'circle'
+  /**
+   * CSS dimension for width. It can be number if expressed in pixels or string.
+   * Example: `16`, `1rem` or '100%'.
+   * If no className is provided, the default value is `100%`.
+   */
+  width?: string | number
+  /**
+   * CSS dimension for height. It can be number if expressed in pixels or string.
+   * Example: `16`, `1rem` or '100%'.
+   * If no className is provided, the default value is `1em`.
+   */
+  height?: string | number
 }
 
 export function SkeletonItem({
   className,
   type = 'box',
+  width,
+  height,
   ...rest
 }: SkeletonItemProps): JSX.Element {
   return (
@@ -34,6 +64,10 @@ export function SkeletonItem({
         'rounded-full': type === 'circle',
         rounded: type === 'box'
       })}
+      style={{
+        width: className == null ? width ?? '100%' : undefined,
+        height: className == null ? height ?? '1em' : undefined
+      }}
     />
   )
 }
