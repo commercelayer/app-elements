@@ -2,6 +2,7 @@ import { CommerceLayerClient } from '@commercelayer/sdk'
 import {
   createContext,
   ReactNode,
+  useCallback,
   useContext,
   useEffect,
   useState
@@ -14,19 +15,14 @@ import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { makeSdkClient } from './makeSdkClient'
 import { PageError } from '#ui/composite/PageError'
+import { CurrentApp, RolePermissions, RoleActions } from 'TokenProvider'
+import { ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
 
 interface TokenProviderValue {
   dashboardUrl?: string
   sdkClient?: CommerceLayerClient
+  canUser: (action: RoleActions, resource: ResourceTypeLock) => boolean
 }
-
-export type CurrentApp =
-  | 'imports'
-  | 'exports'
-  | 'webhooks'
-  | 'resources'
-  | 'orders'
-  | 'custom'
 
 interface TokenProviderProps {
   /**
@@ -69,15 +65,12 @@ interface TokenProviderProps {
 }
 
 export const AuthContext = createContext<TokenProviderValue>({
-  dashboardUrl: makeDashboardUrl()
+  dashboardUrl: makeDashboardUrl(),
+  canUser: () => false
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
-  const ctx = useContext(AuthContext)
-  return {
-    dashboardUrl: ctx.dashboardUrl,
-    sdkClient: ctx.sdkClient
-  }
+  return useContext(AuthContext)
 }
 
 function TokenProvider({
@@ -93,6 +86,7 @@ function TokenProvider({
 }: TokenProviderProps): JSX.Element {
   const [validAuthToken, setValidAuthToken] = useState<string>()
   const [sdkClient, setSdkClient] = useState<CommerceLayerClient>()
+  const [rolePermissions, setRolePermissions] = useState<RolePermissions>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isTokenError, setIsTokenError] = useState<boolean>(false)
   const dashboardUrl = makeDashboardUrl()
@@ -106,6 +100,13 @@ function TokenProvider({
     setIsTokenError(true)
     onInvalidAuth({ dashboardUrl, reason })
   }
+
+  const canUser = useCallback(
+    function (action: RoleActions, resource: ResourceTypeLock): boolean {
+      return Boolean(rolePermissions?.[resource]?.[action])
+    },
+    [rolePermissions]
+  )
 
   // validate token
   useEffect(() => {
@@ -125,7 +126,7 @@ function TokenProvider({
         return
       }
 
-      const isTokenValid = await isValidTokenForCurrentApp({
+      const { isValidToken, permissions } = await isValidTokenForCurrentApp({
         accessToken,
         clientKind,
         currentApp,
@@ -133,9 +134,10 @@ function TokenProvider({
         isProduction: !devMode
       })
 
-      if (isTokenValid) {
+      if (isValidToken) {
         savePersistentAccessToken({ currentApp, accessToken })
         setValidAuthToken(accessToken)
+        setRolePermissions(permissions ?? {})
       } else {
         handleOnInvalidCallback('accessToken is not valid')
       }
@@ -164,7 +166,8 @@ function TokenProvider({
 
   const value: TokenProviderValue = {
     dashboardUrl: makeDashboardUrl(),
-    sdkClient
+    sdkClient,
+    canUser
   }
 
   if (isTokenError) {

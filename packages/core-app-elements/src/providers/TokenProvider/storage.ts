@@ -1,4 +1,4 @@
-import { CurrentApp } from './index'
+import { CurrentApp } from 'TokenProvider'
 import { getOrgSlugFromCurrentUrl } from './slug'
 
 type PersistentItem = 'accessToken'
