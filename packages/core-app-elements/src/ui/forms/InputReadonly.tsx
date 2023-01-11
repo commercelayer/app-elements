@@ -2,7 +2,7 @@ import cn from 'classnames'
 import Label from '#ui/forms/Label'
 import CopyToClipboard from '#ui/atoms/CopyToClipboard'
 
-export interface InputReadonlyProps {
+interface InputReadonlyProps {
   /**
    * optional input label
    */
@@ -19,13 +19,18 @@ export interface InputReadonlyProps {
    * optional css class names used for the input element
    */
   inputClassName?: string
+  /**
+   * optional prop to define whether to show or not the Copy to clipboard button
+   */
+  showCopyAction?: boolean
 }
 
-function InputReadonlyComponent({
+export function InputReadonly({
+  label,
   value,
   wrapperClassName,
   inputClassName,
-  label,
+  showCopyAction = false,
   ...rest
 }: InputReadonlyProps): JSX.Element {
   return (
@@ -41,12 +46,18 @@ function InputReadonlyComponent({
           value={value}
           readOnly
         />
-        <div className='absolute top-0 bottom-0 right-4 flex items-center'>
-          <CopyToClipboard value={value} showValue={false} hasGutter={false} />
-        </div>
+        {showCopyAction && (
+          <div className='absolute top-0 bottom-0 right-4 flex items-center'>
+            <CopyToClipboard
+              value={value}
+              showValue={false}
+              hasGutter={false}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-export default InputReadonlyComponent
+export default InputReadonly
