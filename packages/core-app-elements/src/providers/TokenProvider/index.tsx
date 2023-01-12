@@ -15,13 +15,17 @@ import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { makeSdkClient } from './makeSdkClient'
 import { PageError } from '#ui/composite/PageError'
-import { CurrentApp, RolePermissions, RoleActions } from 'TokenProvider'
-import { ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
+import {
+  CurrentApp,
+  RolePermissions,
+  RoleActions,
+  ResourceType
+} from 'TokenProvider'
 
 interface TokenProviderValue {
   dashboardUrl?: string
   sdkClient?: CommerceLayerClient
-  canUser: (action: RoleActions, resource: ResourceTypeLock) => boolean
+  canUser: (action: RoleActions, resource: ResourceType) => boolean
 }
 
 interface TokenProviderProps {
@@ -102,7 +106,7 @@ function TokenProvider({
   }
 
   const canUser = useCallback(
-    function (action: RoleActions, resource: ResourceTypeLock): boolean {
+    function (action: RoleActions, resource: ResourceType): boolean {
       return Boolean(rolePermissions?.[resource]?.[action])
     },
     [rolePermissions]

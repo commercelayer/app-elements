@@ -1,7 +1,11 @@
-import { TokenInfo, RolePermissions, PermissionItem } from 'TokenProvider'
+import {
+  TokenInfo,
+  RolePermissions,
+  PermissionItem,
+  ResourceType
+} from 'TokenProvider'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './slug'
-import { ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
 
 export function isTokenExpired({
   accessToken,
@@ -92,7 +96,7 @@ async function fetchTokenInfo({
 function preparePermissions(
   apiPermissions: TokenInfo['permissions']
 ): RolePermissions {
-  const resourceList = Object.keys(apiPermissions) as ResourceTypeLock[]
+  const resourceList = Object.keys(apiPermissions) as ResourceType[]
 
   return resourceList.reduce<RolePermissions>((permissions, resource) => {
     const permissionItem: PermissionItem = {
