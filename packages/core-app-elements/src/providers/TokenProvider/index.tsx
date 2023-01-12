@@ -16,7 +16,7 @@ import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { makeSdkClient } from './makeSdkClient'
 import { PageError } from '#ui/composite/PageError'
 import {
-  CurrentApp,
+  AllowedApp,
   RolePermissions,
   RoleActions,
   ResourceType
@@ -36,7 +36,7 @@ interface TokenProviderProps {
   /**
    * Slug of the current app (will be validated). Can be one of imports, exports, webhooks, resources, orders or custom
    */
-  currentApp: CurrentApp
+  currentApp: AllowedApp
   /**
    * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
    */

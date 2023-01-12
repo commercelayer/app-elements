@@ -107,7 +107,7 @@ declare module 'TokenProvider' {
     | 'webhooks'
     | 'wire_transfers'
 
-  export type CurrentApp =
+  export type AllowedApp =
     | 'imports'
     | 'exports'
     | 'webhooks'
