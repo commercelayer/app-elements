@@ -14,6 +14,7 @@ export function PageLayout({
   description,
   onGoBack,
   children,
+  actionButton,
   ...rest
 }: PageLayoutProps): JSX.Element {
   return (
@@ -22,6 +23,7 @@ export function PageLayout({
         title={title}
         description={description}
         onGoBack={onGoBack}
+        actionButton={actionButton}
       />
       {children}
     </Container>
