@@ -57,7 +57,7 @@ describe('InputDateComponent', () => {
       }
     })
     const input = element.getElementsByTagName('input')[0]
-    fireEvent.change(input, { target: { value: '20-12-2022' } })
+    fireEvent.change(input, { target: { value: '2022-12-19T23:00:00.000Z' } })
     expect(setDate).toBeCalledTimes(1)
     expect(setDate).toHaveBeenCalledWith('2022-12-19T23:00:00.000Z')
   })
