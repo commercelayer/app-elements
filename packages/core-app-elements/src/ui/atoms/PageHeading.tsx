@@ -61,9 +61,7 @@ export function PageHeading({
             <ArrowLeft size={32} />
           </button>
         ) : null}
-        {actionButton != null ? (
-          <div className='self-end'>{actionButton}</div>
-        ) : null}
+        {actionButton != null ? <div>{actionButton}</div> : null}
       </div>
       {badgeLabel != null && (
         <div className='my-4 md:!mt-0' data-test-id='page-heading-badge'>
