@@ -39,6 +39,7 @@ export async function isValidTokenForCurrentApp({
 }): Promise<{
   isValidToken: boolean
   permissions?: RolePermissions
+  isTestMode?: boolean
 }> {
   const { slug, kind } = getInfoFromJwt(accessToken)
   const isValidKind = kind === clientKind
@@ -61,7 +62,8 @@ export async function isValidTokenForCurrentApp({
       permissions:
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
-          : undefined
+          : undefined,
+      isTestMode: Boolean(tokenInfo?.token.test)
     }
   } catch {
     return {

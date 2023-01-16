@@ -25,6 +25,7 @@ import {
 interface TokenProviderValue {
   dashboardUrl?: string
   sdkClient?: CommerceLayerClient
+  mode: 'live' | 'test'
   canUser: (action: RoleActions, resource: ResourceType) => boolean
 }
 
@@ -70,7 +71,8 @@ interface TokenProviderProps {
 
 export const AuthContext = createContext<TokenProviderValue>({
   dashboardUrl: makeDashboardUrl(),
-  canUser: () => false
+  canUser: () => false,
+  mode: 'test'
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -93,6 +95,7 @@ function TokenProvider({
   const [rolePermissions, setRolePermissions] = useState<RolePermissions>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isTokenError, setIsTokenError] = useState<boolean>(false)
+  const [mode, setMode] = useState<'live' | 'test'>('test')
   const dashboardUrl = makeDashboardUrl()
   const accessToken =
     accessTokenFromProp ??
@@ -130,18 +133,20 @@ function TokenProvider({
         return
       }
 
-      const { isValidToken, permissions } = await isValidTokenForCurrentApp({
-        accessToken,
-        clientKind,
-        currentApp,
-        domain,
-        isProduction: !devMode
-      })
+      const { isValidToken, permissions, isTestMode } =
+        await isValidTokenForCurrentApp({
+          accessToken,
+          clientKind,
+          currentApp,
+          domain,
+          isProduction: !devMode
+        })
 
       if (isValidToken) {
         savePersistentAccessToken({ currentApp, accessToken })
         setValidAuthToken(accessToken)
         setRolePermissions(permissions ?? {})
+        setMode(isTestMode === false ? 'live' : 'test')
       } else {
         handleOnInvalidCallback('accessToken is not valid')
       }
@@ -171,6 +176,7 @@ function TokenProvider({
   const value: TokenProviderValue = {
     dashboardUrl: makeDashboardUrl(),
     sdkClient,
+    mode,
     canUser
   }
 
