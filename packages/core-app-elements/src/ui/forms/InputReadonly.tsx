@@ -48,11 +48,7 @@ export function InputReadonly({
         />
         {showCopyAction && (
           <div className='absolute top-0 bottom-0 right-4 flex items-center'>
-            <CopyToClipboard
-              value={value}
-              showValue={false}
-              hasGutter={false}
-            />
+            <CopyToClipboard value={value} showValue={false} />
           </div>
         )}
       </div>
