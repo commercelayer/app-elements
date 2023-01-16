@@ -47,7 +47,7 @@ export function PageHeading({
 }: PageHeadingProps): JSX.Element {
   return (
     <div className={cn(['w-full', { 'pt-10 pb-14': !noGap }])} {...rest}>
-      {onGoBack != null && actionButton != null && (
+      {(onGoBack != null || actionButton != null) && (
         <div
           className={cn(
             {
