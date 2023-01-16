@@ -1,28 +1,27 @@
 import cn from 'classnames'
 
-interface InputProps {
-  /**
-   * controlled value
-   */
-  value?: string
+interface InputProps
+  extends Omit<
+    React.InputHTMLAttributes<HTMLInputElement>,
+    'type' | 'onChange'
+  > {
   /**
    * controlled type
    */
-  type?: string
+  type?: 'text' | 'number' | 'password' | 'tel' | 'url' | 'email'
   /**
    * optional css class names used for the input element
    */
-  inputClassName?: string
+  className?: string
   /**
    * Optional callback that will be called when onChange event is triggered
    */
-  onChange: (value: string) => void
+  onChange?: (value: string) => void
 }
 
 export function Input({
-  value,
   type = 'text',
-  inputClassName,
+  className,
   onChange,
   ...rest
 }: InputProps): JSX.Element {
@@ -32,13 +31,12 @@ export function Input({
       className={cn(
         'block w-full border-gray-200 px-4 h-10 font-medium',
         'rounded outline-0',
-        inputClassName
+        className
       )}
       onChange={(e) => {
-        onChange(e.currentTarget.value)
+        onChange?.(e.currentTarget.value)
       }}
       type={type}
-      value={value}
     />
   )
 }
