@@ -1,4 +1,5 @@
 import Container from '#core-app-elements/atoms/Container'
+import A from '#core-app-elements/atoms/A'
 import PageHeading from '#core-app-elements/atoms/PageHeading'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
@@ -13,7 +14,7 @@ export default setup
 
 const Template: ComponentStory<typeof PageHeading> = (args) => (
   <Container>
-    <PageHeading {...args} />
+    <PageHeading {...args} actionButton={<A>Edit</A>} />
   </Container>
 )
 

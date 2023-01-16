@@ -29,6 +29,10 @@ export interface PageHeadingProps {
    * When set, it will render a badge (default as warning variant) above the title
    */
   badgeVariant?: BadgeVariant
+  /**
+   * When set, it will render a button on the right side of the first row
+   */
+  actionButton?: React.ReactNode
 }
 
 export function PageHeading({
@@ -38,21 +42,29 @@ export function PageHeading({
   title,
   description,
   badgeVariant = 'warning-solid',
+  actionButton,
   ...rest
 }: PageHeadingProps): JSX.Element {
   return (
     <div className={cn(['w-full', { 'pt-10 pb-14': !noGap }])} {...rest}>
-      {onGoBack != null ? (
-        <button
-          onClick={onGoBack}
-          className={cn({
-            'mb-4': badgeLabel == null,
-            'mb-2': badgeLabel != null
-          })}
+      {(onGoBack != null || actionButton != null) && (
+        <div
+          className={cn(
+            {
+              'mb-4': badgeLabel == null,
+              'mb-2': badgeLabel != null
+            },
+            'flex items-center justify-between'
+          )}
         >
-          <ArrowLeft size={32} />
-        </button>
-      ) : null}
+          {onGoBack != null ? (
+            <button onClick={onGoBack}>
+              <ArrowLeft size={32} />
+            </button>
+          ) : null}
+          {actionButton != null ? <div>{actionButton}</div> : null}
+        </div>
+      )}
       {badgeLabel != null && (
         <div className='my-4 md:!mt-0' data-test-id='page-heading-badge'>
           <Badge variant={badgeVariant} label={badgeLabel} />
