@@ -44,7 +44,7 @@ const selectStyles: StylesConfig<SelectValue> = {
   }),
   singleValue: (style) => ({
     ...style,
-    fontWeight: 600,
+    fontWeight: 500,
     fontSize: '1rem'
   }),
   control: (style) => ({
