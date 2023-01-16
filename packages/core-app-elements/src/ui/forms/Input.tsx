@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-interface InputProps
+export interface InputProps
   extends Omit<
     React.InputHTMLAttributes<HTMLInputElement>,
     'type' | 'onChange'

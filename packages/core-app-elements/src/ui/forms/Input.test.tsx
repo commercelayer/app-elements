@@ -1,27 +1,17 @@
-import { useState } from 'react'
+import type { InputProps } from './Input'
 import { Input } from './Input'
 import { fireEvent, render, RenderResult } from '@testing-library/react'
 
-interface SetupProps {
+interface SetupProps extends InputProps {
   id: string
-  value?: string
-  type?: string
 }
 
 type SetupResult = RenderResult & {
   element: HTMLInputElement
 }
 
-const setup = ({ id, value, type }: SetupProps): SetupResult => {
-  const [currentValue, setCurrentValue] = useState(value)
-  const utils = render(
-    <Input
-      data-test-id={id}
-      value={currentValue}
-      type={type}
-      onChange={setCurrentValue}
-    />
-  )
+const setup = ({ id, type }: SetupProps): SetupResult => {
+  const utils = render(<Input data-test-id={id} type={type} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,
