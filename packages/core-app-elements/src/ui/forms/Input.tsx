@@ -30,7 +30,7 @@ export function Input({
     <input
       {...rest}
       className={cn(
-        'block w-full border-gray-200 p-3 h-10 font-medium',
+        'block w-full border-gray-200 px-4 h-10 font-medium',
         'rounded outline-0',
         inputClassName
       )}
