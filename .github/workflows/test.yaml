@@ -2,10 +2,11 @@ name: Test
 
 on:
   push:
-    branches: [main, beta]
+    branches:
+      - '**'
+    tags-ignore:
+      - 'v*'      
   pull_request:
-    types: [review_requested, ready_for_review]
-    branches: [main, beta]
 
 jobs:
   test:
