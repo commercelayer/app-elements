@@ -25,7 +25,7 @@ export type PossibleSelectValue =
 
 export interface InputSelectProps {
   label?: string
-  helperText?: string
+  helperText?: React.ReactNode
   initialValues: GroupedSelectValues | SelectValue[]
   defaultValue?: SelectValue | SelectValue[]
   placeholder?: string
