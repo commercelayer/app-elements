@@ -47,22 +47,24 @@ export function PageHeading({
 }: PageHeadingProps): JSX.Element {
   return (
     <div className={cn(['w-full', { 'pt-10 pb-14': !noGap }])} {...rest}>
-      <div
-        className={cn(
-          {
-            'mb-4': badgeLabel == null,
-            'mb-2': badgeLabel != null
-          },
-          'flex items-center justify-between'
-        )}
-      >
-        {onGoBack != null ? (
-          <button onClick={onGoBack}>
-            <ArrowLeft size={32} />
-          </button>
-        ) : null}
-        {actionButton != null ? <div>{actionButton}</div> : null}
-      </div>
+      {onGoBack != null && actionButton != null && (
+        <div
+          className={cn(
+            {
+              'mb-4': badgeLabel == null,
+              'mb-2': badgeLabel != null
+            },
+            'flex items-center justify-between'
+          )}
+        >
+          {onGoBack != null ? (
+            <button onClick={onGoBack}>
+              <ArrowLeft size={32} />
+            </button>
+          ) : null}
+          {actionButton != null ? <div>{actionButton}</div> : null}
+        </div>
+      )}
       {badgeLabel != null && (
         <div className='my-4 md:!mt-0' data-test-id='page-heading-badge'>
           <Badge variant={badgeVariant} label={badgeLabel} />
