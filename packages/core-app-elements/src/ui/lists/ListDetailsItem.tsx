@@ -1,6 +1,7 @@
-import { ReactNode } from 'react'
+import { Children, ReactNode } from 'react'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import classNames from 'classnames'
+import { isSpecificReactComponent } from '#utils/children'
 
 interface ListDetailsItemProps {
   /**
@@ -17,33 +18,34 @@ interface ListDetailsItemProps {
    * To show the skeleton item while `children` ar not yet. Label is always rendered
    */
   isLoading?: boolean
-  /**
-   * add extra padding to the right column (the value)
-   */
-  hasGutter?: boolean
 }
 
 export function ListDetailsItem({
   label,
   children,
-  hasGutter,
   isLoading,
   ...rest
 }: ListDetailsItemProps): JSX.Element {
+  const childrenHaveInternalPadding = (
+    Children.map(children, (child) =>
+      isSpecificReactComponent(child, 'CopyToClipboard')
+    ) ?? []
+  ).some(Boolean)
+
   return (
     <div
-      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!items-center md:!flex-row py-2'
+      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!items-center md:!flex-row px-4 py-4 md:py-2 md:gap-4'
       {...rest}
     >
-      <div className='text-gray-500 text-sm flex-none w-5/12'>{label}</div>
+      <div className='text-gray-500 font-medium flex-none w-5/12'>{label}</div>
       <div
-        className={classNames('w-full overflow-x-auto font-bold text-sm', {
-          'md:!px-4 py-2.5': hasGutter
+        className={classNames('w-full overflow-x-auto font-semibold', {
+          'py-2': !childrenHaveInternalPadding
         })}
       >
         {isLoading === true ? (
           <Skeleton>
-            <SkeletonItem className='w-28 h-[21px]' />
+            <SkeletonItem className='w-28 h-6' />
           </Skeleton>
         ) : (
           children

@@ -17,10 +17,6 @@ interface CopyToClipboardProps {
    * conditional prop to show a preview string containing the defined value before the copy button
    */
   showValue?: boolean
-  /**
-   * conditional prop to add an horizontal padding to the whole component
-   */
-  hasGutter?: boolean
 }
 
 const transitionMs = 300
@@ -30,7 +26,6 @@ export function CopyToClipboard({
   value,
   className,
   showValue = true,
-  hasGutter = true,
   ...rest
 }: CopyToClipboardProps): JSX.Element {
   const [copied, setCopied] = useState<boolean>(false)
@@ -65,7 +60,7 @@ export function CopyToClipboard({
     return (
       <div
         className={cn(
-          'md:!px-4 py-2.5 border-b border-gray-500 last:border-b-0',
+          'py-2 border-b border-gray-500 last:border-b-0',
           className
         )}
         {...rest}
@@ -78,13 +73,12 @@ export function CopyToClipboard({
   return (
     <div
       className={cn(
-        'text-sm break-normal overflow-hidden font-bold flex justify-between items-center gap-3 border-b border-gray-500 last:border-b-0',
-        hasGutter && 'md:!px-4',
+        'break-normal overflow-hidden font-bold flex justify-between items-center gap-3 border-b border-gray-500 last:border-b-0',
         className
       )}
       {...rest}
     >
-      {showValue && <p className='overflow-x-auto py-2.5'>{value}</p>}
+      {showValue && <p className='overflow-x-auto py-2'>{value}</p>}
       <button
         onClick={() => {
           void handleCopy(value)
