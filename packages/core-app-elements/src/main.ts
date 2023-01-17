@@ -3,6 +3,13 @@ import '#styles/global.css'
 // Providers
 export { default as TokenProvider } from '#providers/TokenProvider'
 export { useTokenProvider } from '#providers/TokenProvider'
+export type {
+  TokenProviderAllowedApp,
+  TokenProviderPermissionItem,
+  TokenProviderResourceType,
+  TokenProviderRoleActions,
+  TokenProviderRolePermissions
+} from '#providers/TokenProvider/types'
 export { default as ErrorBoundary } from '#providers/ErrorBoundary'
 
 // Atoms

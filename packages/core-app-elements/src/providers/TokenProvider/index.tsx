@@ -16,17 +16,20 @@ import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { makeSdkClient } from './makeSdkClient'
 import { PageError } from '#ui/composite/PageError'
 import {
-  AllowedApp,
-  RolePermissions,
-  RoleActions,
-  ResourceType
-} from 'TokenProvider'
+  TokenProviderAllowedApp,
+  TokenProviderRolePermissions,
+  TokenProviderRoleActions,
+  TokenProviderResourceType
+} from './types'
 
 interface TokenProviderValue {
   dashboardUrl?: string
   sdkClient?: CommerceLayerClient
   mode: 'live' | 'test'
-  canUser: (action: RoleActions, resource: ResourceType) => boolean
+  canUser: (
+    action: TokenProviderRoleActions,
+    resource: TokenProviderResourceType
+  ) => boolean
 }
 
 interface TokenProviderProps {
@@ -37,7 +40,7 @@ interface TokenProviderProps {
   /**
    * Slug of the current app (will be validated). Can be one of imports, exports, webhooks, resources, orders or custom
    */
-  currentApp: AllowedApp
+  currentApp: TokenProviderAllowedApp
   /**
    * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
    */
@@ -92,7 +95,8 @@ function TokenProvider({
 }: TokenProviderProps): JSX.Element {
   const [validAuthToken, setValidAuthToken] = useState<string>()
   const [sdkClient, setSdkClient] = useState<CommerceLayerClient>()
-  const [rolePermissions, setRolePermissions] = useState<RolePermissions>({})
+  const [rolePermissions, setRolePermissions] =
+    useState<TokenProviderRolePermissions>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isTokenError, setIsTokenError] = useState<boolean>(false)
   const [mode, setMode] = useState<'live' | 'test'>('test')
@@ -109,7 +113,10 @@ function TokenProvider({
   }
 
   const canUser = useCallback(
-    function (action: RoleActions, resource: ResourceType): boolean {
+    function (
+      action: TokenProviderRoleActions,
+      resource: TokenProviderResourceType
+    ): boolean {
       return Boolean(rolePermissions?.[resource]?.[action])
     },
     [rolePermissions]

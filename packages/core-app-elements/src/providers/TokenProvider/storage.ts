@@ -1,4 +1,4 @@
-import { AllowedApp } from 'TokenProvider'
+import { TokenProviderAllowedApp } from './types'
 import { getOrgSlugFromCurrentUrl } from './slug'
 
 type PersistentItem = 'accessToken'
@@ -7,7 +7,7 @@ export function makeStorageKey({
   currentApp,
   item
 }: {
-  currentApp: AllowedApp
+  currentApp: TokenProviderAllowedApp
   item: PersistentItem
 }): string {
   return `${currentApp}:${getOrgSlugFromCurrentUrl()}:${item}`
@@ -16,7 +16,7 @@ export function makeStorageKey({
 export function getPersistentAccessToken({
   currentApp
 }: {
-  currentApp: AllowedApp
+  currentApp: TokenProviderAllowedApp
 }): string | null {
   const storedAccessToken = window.localStorage.getItem(
     makeStorageKey({ currentApp, item: 'accessToken' })
@@ -28,7 +28,7 @@ export function savePersistentAccessToken({
   currentApp,
   accessToken
 }: {
-  currentApp: AllowedApp
+  currentApp: TokenProviderAllowedApp
   accessToken: string
 }): void {
   window.localStorage.setItem(
