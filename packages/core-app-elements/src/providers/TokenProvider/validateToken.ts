@@ -1,9 +1,9 @@
 import {
-  TokenInfo,
-  RolePermissions,
-  PermissionItem,
-  ResourceType
-} from 'TokenProvider'
+  TokenProviderTokenInfo,
+  TokenProviderRolePermissions,
+  TokenProviderPermissionItem,
+  TokenProviderResourceType
+} from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './slug'
 
@@ -38,7 +38,7 @@ export async function isValidTokenForCurrentApp({
   isProduction: boolean
 }): Promise<{
   isValidToken: boolean
-  permissions?: RolePermissions
+  permissions?: TokenProviderRolePermissions
   isTestMode?: boolean
 }> {
   const { slug, kind } = getInfoFromJwt(accessToken)
@@ -80,7 +80,7 @@ async function fetchTokenInfo({
   accessToken: string
   slug: string
   domain: string
-}): Promise<TokenInfo | null> {
+}): Promise<TokenProviderTokenInfo | null> {
   try {
     const tokenInfoResponse = await fetch(
       `https://${slug}.${domain}/oauth/tokeninfo`,
@@ -96,20 +96,25 @@ async function fetchTokenInfo({
 }
 
 function preparePermissions(
-  apiPermissions: TokenInfo['permissions']
-): RolePermissions {
-  const resourceList = Object.keys(apiPermissions) as ResourceType[]
+  apiPermissions: TokenProviderTokenInfo['permissions']
+): TokenProviderRolePermissions {
+  const resourceList = Object.keys(
+    apiPermissions
+  ) as TokenProviderResourceType[]
 
-  return resourceList.reduce<RolePermissions>((permissions, resource) => {
-    const permissionItem: PermissionItem = {
-      create: apiPermissions[resource].actions.includes('create'),
-      destroy: apiPermissions[resource].actions.includes('destroy'),
-      read: apiPermissions[resource].actions.includes('read'),
-      update: apiPermissions[resource].actions.includes('update')
-    }
-    return {
-      ...permissions,
-      [resource]: permissionItem
-    }
-  }, {})
+  return resourceList.reduce<TokenProviderRolePermissions>(
+    (permissions, resource) => {
+      const permissionItem: TokenProviderPermissionItem = {
+        create: apiPermissions[resource].actions.includes('create'),
+        destroy: apiPermissions[resource].actions.includes('destroy'),
+        read: apiPermissions[resource].actions.includes('read'),
+        update: apiPermissions[resource].actions.includes('update')
+      }
+      return {
+        ...permissions,
+        [resource]: permissionItem
+      }
+    },
+    {}
+  )
 }
