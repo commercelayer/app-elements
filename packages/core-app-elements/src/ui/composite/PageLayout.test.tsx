@@ -5,9 +5,13 @@ type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
-const setup = (): SetupResult => {
+const setup = ({ isTestMode }: { isTestMode?: boolean }): SetupResult => {
   const utils = render(
-    <PageLayout data-test-id='my-page' title='Page title'>
+    <PageLayout
+      data-test-id='my-page'
+      title='Page title'
+      isTestMode={isTestMode}
+    >
       <div>Content...</div>
     </PageLayout>
   )
@@ -20,7 +24,13 @@ const setup = (): SetupResult => {
 
 describe('PageLayout', () => {
   test('Should be rendered', () => {
-    const { element } = setup()
+    const { element } = setup({})
     expect(element).toBeInTheDocument()
+    expect(element).toMatchSnapshot()
+  })
+
+  test('Should render test mode badge', () => {
+    const { getByText } = setup({ isTestMode: true })
+    expect(getByText('TEST DATA')).toBeInTheDocument()
   })
 })
