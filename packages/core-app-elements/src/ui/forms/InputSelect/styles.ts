@@ -44,7 +44,7 @@ const selectStyles: StylesConfig<SelectValue> = {
   }),
   singleValue: (style) => ({
     ...style,
-    fontWeight: 600,
+    fontWeight: 500,
     fontSize: '1rem'
   }),
   control: (style) => ({
@@ -66,6 +66,13 @@ const selectStyles: StylesConfig<SelectValue> = {
     fontSize: '1rem',
     fontWeight: 500,
     color: '#686E6E'
+  }),
+  input: (style) => ({
+    ...style,
+    '& > input:focus': {
+      // reset `@tailwindcss/forms` base global styles
+      boxShadow: 'none!important'
+    }
   }),
   indicatorSeparator: (style) => ({
     ...style,

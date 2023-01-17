@@ -2,6 +2,8 @@ import { FocusEventHandler, lazy, Suspense } from 'react'
 import { MultiValue, SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
 import selectStyles from './styles'
+import Label from '../Label'
+import InputHelperText from '../InputHelperText'
 
 const AsyncSelectComponent = lazy(async () => await import('./Async'))
 const SelectComponent = lazy(async () => await import('./Select'))
@@ -17,9 +19,13 @@ export interface SelectValue {
   meta?: Record<string, any>
 }
 
-type PossibleSelectValue = MultiValue<SelectValue> | SingleValue<SelectValue>
+export type PossibleSelectValue =
+  | MultiValue<SelectValue>
+  | SingleValue<SelectValue>
 
 export interface InputSelectProps {
+  label?: string
+  helperText?: React.ReactNode
   initialValues: GroupedSelectValues | SelectValue[]
   defaultValue?: SelectValue | SelectValue[]
   placeholder?: string
@@ -44,6 +50,8 @@ export interface InputSelectProps {
 }
 
 export function InputSelect({
+  label,
+  helperText,
   menuIsOpen,
   initialValues,
   defaultValue,
@@ -64,6 +72,7 @@ export function InputSelect({
 }: InputSelectProps): JSX.Element {
   return (
     <div className={className} {...rest}>
+      {label != null && <Label gap>{label}</Label>}
       {loadAsyncValues != null ? (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
           <AsyncSelectComponent
@@ -100,14 +109,52 @@ export function InputSelect({
           />
         </Suspense>
       )}
+      {helperText != null && (
+        <InputHelperText variant='light' className='mt-1'>
+          {helperText}
+        </InputHelperText>
+      )}
     </div>
   )
 }
 
+/**
+ * Helper function to understand and refine type of a single selected value
+ * @param selectedValue possible value returned from select component
+ * @returns true if selected value is single, from this point TypeScript will treat this as `SelectValue` type
+ */
 export function isSingleValueSelected(
-  value: PossibleSelectValue
-): value is SelectValue {
-  return value != null && !Array.isArray(value)
+  selectedValue: PossibleSelectValue
+): selectedValue is SelectValue {
+  return selectedValue != null && !Array.isArray(selectedValue)
+}
+
+/**
+ * Helper function to extract only the `value` from the  `SelectValue`
+ * @param selectedValue possible value returned from select component
+ * @returns a string or an array of strings.
+ * Examples:
+ * ```
+ * {value: 'ABCD', label: 'T-Shirt XL'}
+ * // returns 'ABCD'
+ *
+ * [
+ *   {value: 'ABCD', label: 'T-Shirt M'},
+ *   {value: '1234', label: 'T-Shirt XL'},
+ * ]
+ * // returns ['ABCD', '1234']
+ * ```
+ */
+export function flatSelectValues(
+  selectedValue: PossibleSelectValue
+): null | string | Array<string | number> {
+  if (selectedValue == null) {
+    return null
+  }
+
+  return isSingleValueSelected(selectedValue)
+    ? `${selectedValue.value}`
+    : selectedValue.map((o) => o.value)
 }
 
 export default InputSelect

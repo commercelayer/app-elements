@@ -5,6 +5,7 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
   description?: React.ReactNode
   icon?: React.ReactNode
+  noHover?: boolean
 }
 
 export function ListItem({
@@ -12,6 +13,7 @@ export function ListItem({
   description,
   icon,
   className,
+  noHover,
   ...rest
 }: ListItemProps): JSX.Element {
   return (
@@ -19,7 +21,7 @@ export function ListItem({
       {...rest}
       className={cn(
         'flex justify-between items-center p-4 border-b border-gray-100',
-        { 'cursor-pointer hover:bg-gray-50': rest.onClick != null },
+        { 'cursor-pointer hover:bg-gray-50': noHover !== true },
         className
       )}
     >

@@ -1,3 +1,9 @@
+import {
+  TokenProviderTokenInfo,
+  TokenProviderRolePermissions,
+  TokenProviderPermissionItem,
+  TokenProviderResourceType
+} from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './slug'
 
@@ -30,13 +36,19 @@ export async function isValidTokenForCurrentApp({
   currentApp: string
   domain: string
   isProduction: boolean
-}): Promise<boolean> {
+}): Promise<{
+  isValidToken: boolean
+  permissions?: TokenProviderRolePermissions
+  isTestMode?: boolean
+}> {
   const { slug, kind } = getInfoFromJwt(accessToken)
   const isValidKind = kind === clientKind
   const isValidSlug = isProduction ? slug === getOrgSlugFromCurrentUrl() : true
 
   if (slug == null) {
-    return false
+    return {
+      isValidToken: false
+    }
   }
 
   try {
@@ -44,27 +56,20 @@ export async function isValidTokenForCurrentApp({
     // TODO: implement async verification against tokeninfo endpoint only if `currentApp` is not `custom`
     console.log({ currentApp })
     const isValidPermission = Boolean(tokenInfo?.token)
-    return isValidKind && isValidSlug && isValidPermission
-  } catch {
-    return false
-  }
-}
 
-interface TokenInfo {
-  token: {
-    test: boolean
-    market_ids: string[]
-    stock_location_ids: string[]
-    lifespan: number
+    return {
+      isValidToken: isValidKind && isValidSlug && isValidPermission,
+      permissions:
+        tokenInfo?.permissions != null
+          ? preparePermissions(tokenInfo.permissions)
+          : undefined,
+      isTestMode: Boolean(tokenInfo?.token.test)
+    }
+  } catch {
+    return {
+      isValidToken: false
+    }
   }
-  role: { id: string; kind: string; name: string }
-  application: {
-    id: string
-    kind: 'integration' | 'sales_channel' | 'webapp'
-    name: string
-    core: boolean
-  }
-  permissions: Record<string, { actions: string[] }>
 }
 
 async function fetchTokenInfo({
@@ -75,7 +80,7 @@ async function fetchTokenInfo({
   accessToken: string
   slug: string
   domain: string
-}): Promise<TokenInfo | null> {
+}): Promise<TokenProviderTokenInfo | null> {
   try {
     const tokenInfoResponse = await fetch(
       `https://${slug}.${domain}/oauth/tokeninfo`,
@@ -88,4 +93,28 @@ async function fetchTokenInfo({
   } catch {
     return null
   }
+}
+
+function preparePermissions(
+  apiPermissions: TokenProviderTokenInfo['permissions']
+): TokenProviderRolePermissions {
+  const resourceList = Object.keys(
+    apiPermissions
+  ) as TokenProviderResourceType[]
+
+  return resourceList.reduce<TokenProviderRolePermissions>(
+    (permissions, resource) => {
+      const permissionItem: TokenProviderPermissionItem = {
+        create: apiPermissions[resource].actions.includes('create'),
+        destroy: apiPermissions[resource].actions.includes('destroy'),
+        read: apiPermissions[resource].actions.includes('read'),
+        update: apiPermissions[resource].actions.includes('update')
+      }
+      return {
+        ...permissions,
+        [resource]: permissionItem
+      }
+    },
+    {}
+  )
 }

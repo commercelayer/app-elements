@@ -1,0 +1,16 @@
+.react-datepicker-popper .react-datepicker__triangle {
+  display: none;
+}
+
+.react-datepicker__header {
+  background-color: #dbdcdc;
+}
+
+.react-datepicker__day--selected {
+  background-color: #666eff;
+}
+
+.react-datepicker__day--keyboard-selected {
+  background-color: #fff;
+  color: #101111;
+}

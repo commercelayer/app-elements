@@ -21,6 +21,5 @@ export const Default = Template.bind({})
 Default.args = {
   label: 'Name',
   isLoading: false,
-  children: 'Gray Women Crop Top with Black Logo (M)',
-  hasGutter: true
+  children: 'Gray Women Crop Top with Black Logo (M)'
 }

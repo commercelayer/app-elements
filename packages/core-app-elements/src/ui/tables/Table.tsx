@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { isEmpty } from 'lodash-es'
+import isEmpty from 'lodash/isEmpty'
 import { extractHeaders } from '#utils/extractHeaders'
 
 export interface TableProps {

@@ -3,10 +3,25 @@ import cn from 'classnames'
 import { CaretRight, CaretLeft } from 'phosphor-react'
 
 export interface PaginationProps {
+  /**
+   * CSS classes
+   */
   className?: string
+  /**
+   * You might want to set this as `true` on page change when new page is loading
+   */
   isDisabled?: boolean
+  /**
+   * the number of the current/active page
+   */
   currentPage: number
+  /**
+   * Callback invoked when a different page button is clicked
+   */
   onChangePageRequest: (pageNumber: number) => void
+  /**
+   * Total number of pages
+   */
   pageCount: number
 }
 

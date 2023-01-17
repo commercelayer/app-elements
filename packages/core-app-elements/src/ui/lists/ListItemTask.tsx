@@ -25,6 +25,10 @@ export interface ListItemTaskProps
    * When set, this will render a `Cancel` button to cancel the current task
    */
   onCancelRequest?: () => void
+  /**
+   * Disable hover effect
+   */
+  noHover?: boolean
 }
 
 export function ListItemTask({
@@ -34,13 +38,14 @@ export function ListItemTask({
   onCancelRequest,
   description,
   className,
+  noHover,
   ...rest
 }: ListItemTaskProps): JSX.Element {
   return (
     <div
       className={cn(
-        'flex gap-4 px-3 sm:!px-5 py-4 border-b border-gray-100  hover:bg-gray-50',
-        { 'cursor-pointer': rest.onClick != null },
+        'flex gap-4 px-3 sm:!px-5 py-4 border-b border-gray-100',
+        { 'cursor-pointer hover:bg-gray-50': noHover !== true },
         className
       )}
       {...rest}
@@ -80,13 +85,9 @@ export function ListItemTask({
             Cancel
           </Button>
         ) : (
-          <Button
-            variant='link'
-            size='small'
-            data-test-id='list-task-item-btn-view'
-          >
+          <button data-test-id='list-task-item-btn-view'>
             <CaretRight />
-          </Button>
+          </button>
         )}
       </div>
     </div>

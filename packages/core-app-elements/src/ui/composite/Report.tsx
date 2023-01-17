@@ -1,4 +1,4 @@
-import isEmpty from 'lodash-es/isEmpty'
+import isEmpty from 'lodash/isEmpty'
 import { ReactNode } from 'react'
 import { Label } from '#ui/forms/Label'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'

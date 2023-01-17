@@ -1,4 +1,4 @@
-import React, { ReactNode, Children, useEffect, useState } from 'react'
+import React, { ReactNode, Children, useEffect, useState, useMemo } from 'react'
 import invariant from 'ts-invariant'
 import cn from 'classnames'
 
@@ -25,7 +25,7 @@ interface Props {
    * </Tabs>
    * ```
    */
-  children: Array<React.ReactElement<TabProps, typeof Tab>>
+  children: Array<React.ReactElement<TabProps, typeof Tab> | null>
   /**
    * This controls whether the content of inactive panels should be un-mounted or kept mounted but hidden.
    */
@@ -40,11 +40,22 @@ export function Tabs({
   keepAlive,
   ...rest
 }: Props): JSX.Element {
-  const [activeIndex, setActiveIndex] = useState(0)
+  // since we allow `null` child (conditional rendering of <Tab>), we need to understand the first not null child to set as initial active
+  const firstActiveIndex = useMemo(
+    () =>
+      Children.map(children, (tab) => tab != null)?.findIndex(
+        (c) => c === true
+      ),
+    [children]
+  )
+  const [activeIndex, setActiveIndex] = useState(firstActiveIndex ?? 0)
 
   useEffect(
     function validateChildren() {
       Children.map(children, (tab, index) => {
+        if (tab === null) {
+          return
+        }
         invariant(
           tab.type.name,
           `Only "<Tab>" components can be used as children. Invalid at index #${index}`
@@ -69,27 +80,32 @@ export function Tabs({
     }
   }, [activeIndex, onTabSwitch])
 
-  const allNavs = Children.map(children, (tab) => tab.props.name)
-
   return (
     <div id={id} role='tablist' className={className} {...rest}>
       {/* Navs */}
       <nav className='flex gap-8 border-b-gray-100 border-b'>
-        {allNavs.map((navLabel, index) => (
-          <TabNav
-            key={index}
-            isActive={index === activeIndex}
-            label={navLabel}
-            onClick={() => {
-              setActiveIndex(index)
-            }}
-            id={`tab-nav-${id}-${index}`}
-            data-test-id={`tab-nav-${index}`}
-          />
-        ))}
+        {Children.map(
+          children,
+          (tab, index) =>
+            tab != null && (
+              <TabNav
+                key={index}
+                isActive={index === activeIndex}
+                label={tab.props.name}
+                onClick={() => {
+                  setActiveIndex(index)
+                }}
+                id={`tab-nav-${id}-${index}`}
+                data-test-id={`tab-nav-${index}`}
+              />
+            )
+        )}
       </nav>
       {/* Tab Panels */}
       {Children.map(children, (tab, index) => {
+        if (tab === null) {
+          return
+        }
         return (
           <TabPanel
             isActive={index === activeIndex}

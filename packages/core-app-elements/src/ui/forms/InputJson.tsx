@@ -1,4 +1,4 @@
-import { isEmpty } from 'lodash-es'
+import isEmpty from 'lodash/isEmpty'
 import { useState, useEffect } from 'react'
 
 export interface InputJsonProps<JsonType> {
@@ -65,7 +65,7 @@ function InputJson<JsonType extends object>({
 export default InputJson
 
 function preparePlaceholder(obj: object): string {
-  const content = JSON.stringify(obj)
+  const content = JSON.stringify(obj, null, 2)
   return `Example: \n${content}`
 }
 
