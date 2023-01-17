@@ -7,6 +7,10 @@ interface PageLayoutProps extends PageHeadingProps {
    * Page content
    */
   children: ReactNode
+  /**
+   * When `true` it will render a `TEST DATA` Badge to inform user test mode is on.
+   */
+  isTestMode?: boolean
 }
 
 export function PageLayout({
@@ -15,6 +19,7 @@ export function PageLayout({
   onGoBack,
   children,
   actionButton,
+  isTestMode,
   ...rest
 }: PageLayoutProps): JSX.Element {
   return (
@@ -24,6 +29,8 @@ export function PageLayout({
         description={description}
         onGoBack={onGoBack}
         actionButton={actionButton}
+        badgeLabel={isTestMode === true ? 'TEST DATA' : undefined}
+        badgeVariant={isTestMode === true ? 'warning-solid' : undefined}
       />
       {children}
     </Container>
