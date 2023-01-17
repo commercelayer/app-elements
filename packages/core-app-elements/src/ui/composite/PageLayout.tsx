@@ -2,7 +2,8 @@ import { ReactNode } from 'react'
 import { Container } from '#ui/atoms/Container'
 import { PageHeading, PageHeadingProps } from '#ui/atoms/PageHeading'
 
-interface PageLayoutProps extends PageHeadingProps {
+interface PageLayoutProps
+  extends Omit<PageHeadingProps, 'badgeVariant' | 'badgeLabel'> {
   /**
    * Page content
    */
