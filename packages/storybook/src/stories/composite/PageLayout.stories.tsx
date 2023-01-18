@@ -24,7 +24,7 @@ Default.args = {
   title: 'Resources',
   description: 'View all resources',
   onGoBack: () => undefined,
-  isTestMode: true
+  mode: 'test'
 }
 
 export const WithActionButton = Template.bind({})
@@ -32,6 +32,6 @@ WithActionButton.args = {
   title: 'Resources',
   description: 'View all resources',
   onGoBack: () => undefined,
-  isTestMode: false,
+  mode: 'live',
   actionButton: <A>Add new</A>
 }
