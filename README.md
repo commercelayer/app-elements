@@ -63,3 +63,9 @@ pnpm build
 
 pnpm storybook
 ```
+
+## Preact
+
+Support for `preact` is provided out of the box, thanks to the fact we are not including React jsx-runtime modules in bundled files.
+The application where this package is installed to is responsible of this.
+But no extra configuration should be required in your project, in fact all latest versions of vite, react and preact will handle this automatically.
