@@ -5,6 +5,9 @@ import './InputDate.css'
 import cn from 'classnames'
 import { CalendarBlank, X } from 'phosphor-react'
 import Label from '#ui/forms/Label'
+import { forwardRef } from 'react'
+
+export type MaybeDate = Date | null
 
 export interface InputDateProps {
   /**
@@ -14,11 +17,11 @@ export interface InputDateProps {
   /**
    * controlled value
    */
-  value?: Date | null
+  value?: MaybeDate
   /**
    * callback fired when value is changed
    */
-  onChange: (date: Date | null) => void
+  onChange: (date: MaybeDate) => void
   /**
    * optional css class names used for the outer wrapper/container element
    */
@@ -50,25 +53,29 @@ export interface InputDateProps {
   isClearable?: boolean
 }
 
-function InputDateComponent({
-  onChange,
-  value,
-  wrapperClassName,
-  inputClassName,
-  format,
-  placeholder,
-  minDate,
-  label,
-  autoPlaceholder,
-  isClearable,
-  ...rest
-}: InputDateProps): JSX.Element {
+function InputDateComponent(
+  {
+    onChange,
+    value,
+    wrapperClassName,
+    inputClassName,
+    format,
+    placeholder,
+    minDate,
+    label,
+    autoPlaceholder,
+    isClearable,
+    ...rest
+  }: InputDateProps,
+  ref: React.ForwardedRef<DatePicker>
+): JSX.Element {
   const dateFormat = format ?? detectDateFormat()
   return (
     <div {...rest} className={wrapperClassName}>
       {label != null && <Label gap>{label}</Label>}
       <div className='relative'>
         <DatePicker
+          ref={ref}
           selected={value}
           onChange={onChange}
           dateFormat={dateFormat}
@@ -102,7 +109,7 @@ function InputDateComponent({
   )
 }
 
-export default InputDateComponent
+export default forwardRef<DatePicker, InputDateProps>(InputDateComponent)
 
 function detectDateFormat(): string {
   const date = new Date(2023, 11, 15) //  15th of December
