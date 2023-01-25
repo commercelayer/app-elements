@@ -1,10 +1,8 @@
 import cn from 'classnames'
+import { forwardRef } from 'react'
 
 export interface InputProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    'type' | 'onChange'
-  > {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**
    * controlled type
    */
@@ -13,18 +11,12 @@ export interface InputProps
    * optional css class names used for the input element
    */
   className?: string
-  /**
-   * Optional callback that will be called when onChange event is triggered
-   */
-  onChange?: (value: string) => void
 }
 
-export function Input({
-  type = 'text',
-  className,
-  onChange,
-  ...rest
-}: InputProps): JSX.Element {
+function Input(
+  { type = 'text', className, ...rest }: InputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+): JSX.Element {
   return (
     <input
       {...rest}
@@ -33,12 +25,10 @@ export function Input({
         'rounded outline-0',
         className
       )}
-      onChange={(e) => {
-        onChange?.(e.currentTarget.value)
-      }}
       type={type}
+      ref={ref}
     />
   )
 }
 
-export default Input
+export default forwardRef<HTMLInputElement, InputProps>(Input)

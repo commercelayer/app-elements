@@ -13,10 +13,14 @@ const setup: ComponentMeta<typeof InputToggleListBox> = {
 export default setup
 
 const Template: ComponentStory<typeof InputToggleListBox> = (args) => {
-  const [value, setValue] = useState('json')
+  const [value, setValue] = useState(args.value ?? 'json')
   return (
     <Container minHeight={false}>
-      <InputToggleListBox {...args} value={value} onSelect={setValue} />
+      <InputToggleListBox
+        {...args}
+        value={value}
+        onChange={(e) => setValue(e.currentTarget.value)}
+      />
     </Container>
   )
 }
