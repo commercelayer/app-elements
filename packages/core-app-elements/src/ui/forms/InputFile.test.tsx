@@ -1,4 +1,4 @@
-import { InputFile } from './InputFile'
+import InputFile from './InputFile'
 import { render, RenderResult } from '@testing-library/react'
 import { testInvariant } from '#utils/tests'
 
