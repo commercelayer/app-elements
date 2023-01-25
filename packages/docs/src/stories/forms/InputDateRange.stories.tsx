@@ -15,14 +15,16 @@ export default setup
 const Template: ComponentStory<typeof InputDateRange> = (args) => {
   const [fromDate, setFromDate] = useState<Date | null>(null)
   const [toDate, setToDate] = useState<Date | null>(null)
+
   return (
     <Container minHeight={false}>
       <InputDateRange
         {...args}
-        fromDate={fromDate}
-        toDate={toDate}
-        onFromChange={setFromDate}
-        onToChange={setToDate}
+        value={[fromDate, toDate]}
+        onChange={([from, to]) => {
+          setFromDate(from)
+          setToDate(to)
+        }}
       />
     </Container>
   )
