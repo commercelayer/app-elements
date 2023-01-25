@@ -1,4 +1,4 @@
-import { InputTextArea } from './InputTextArea'
+import InputTextArea from './InputTextArea'
 import { fireEvent, render, RenderResult } from '@testing-library/react'
 
 interface SetupProps {

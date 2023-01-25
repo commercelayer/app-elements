@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import Label from '#ui/forms/Label'
+import { ForwardedRef, InputHTMLAttributes, forwardRef } from 'react'
 
 export type RadioOptionValue = string | number | boolean
 
@@ -15,17 +16,22 @@ export interface RadioButtonsProps {
   value?: RadioOptionValue
   onChange: (value: RadioOptionValue) => void
   className?: string
+  onBlur?: InputHTMLAttributes<HTMLInputElement>['onBlur']
 }
 
-export function RadioButtons({
-  id = 'radio-buttons',
-  label,
-  options = [],
-  value,
-  onChange,
-  className,
-  ...rest
-}: RadioButtonsProps): JSX.Element {
+function RadioButtons(
+  {
+    id = 'radio-buttons',
+    label,
+    options = [],
+    value,
+    onChange,
+    onBlur,
+    className,
+    ...rest
+  }: RadioButtonsProps,
+  ref: ForwardedRef<HTMLInputElement>
+): JSX.Element {
   return (
     <div className={className} {...rest}>
       {label != null && <Label gap>{label}</Label>}
@@ -37,7 +43,7 @@ export function RadioButtons({
                 aria-labelledby={`label_${id}_${idx}`}
                 id={`${id}_${idx}`}
                 data-test-id={`${id}_${idx}`}
-                name={`${id}_${idx}`}
+                name={`${id}`}
                 type='radio'
                 value={opt.value.toString()}
                 checked={value === opt.value}
@@ -48,10 +54,11 @@ export function RadioButtons({
                   'focus:ring-0 focus:ring-offset-0'
                   // 'focus:ring-2 focus:ring-offset-2 focus:ring-primary focus:outline-none'
                 ])}
-                onChange={(e) => {
-                  console.log(e.target.value)
+                onChange={() => {
                   onChange(opt.value)
                 }}
+                onBlur={onBlur}
+                ref={ref}
               />
             </div>
             <label
@@ -68,4 +75,4 @@ export function RadioButtons({
   )
 }
 
-export default RadioButtons
+export default forwardRef<HTMLInputElement, RadioButtonsProps>(RadioButtons)
