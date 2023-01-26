@@ -1,12 +1,12 @@
-import { Table, TableProps } from './Table'
+import { TableData, TableDataProps } from './TableData'
 import { render, RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
-const setup = (props: TableProps): SetupResult => {
-  const utils = render(<Table data-test-id='my-table' {...props} />)
+const setup = (props: TableDataProps): SetupResult => {
+  const utils = render(<TableData data-test-id='my-table' {...props} />)
   const element = utils.getByTestId('my-table')
   return {
     element,
@@ -14,7 +14,7 @@ const setup = (props: TableProps): SetupResult => {
   }
 }
 
-describe('Table', () => {
+describe('TableData', () => {
   test('Should be rendered', () => {
     const { element, getAllByTestId } = setup({
       data: [
