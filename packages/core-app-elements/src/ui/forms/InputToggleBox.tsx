@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { ForwardedRef, forwardRef } from 'react'
 
-interface InputToggleBoxProps
+export interface InputToggleBoxProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'value'> {
   id: string
   label: string

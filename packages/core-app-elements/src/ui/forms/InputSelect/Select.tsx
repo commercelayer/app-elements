@@ -3,23 +3,7 @@ import Select, { StylesConfig } from 'react-select'
 import components from './overrides'
 
 interface SelectComponentProps
-  extends Pick<
-    InputSelectProps,
-    | 'menuIsOpen'
-    | 'initialValues'
-    | 'defaultValue'
-    | 'isClearable'
-    | 'isLoading'
-    | 'loadingText'
-    | 'placeholder'
-    | 'isDisabled'
-    | 'onSelect'
-    | 'isMulti'
-    | 'isSearchable'
-    | 'onBlur'
-    | 'name'
-    | 'noOptionsMessage'
-  > {
+  extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'helperText'> {
   styles: StylesConfig<SelectValue>
 }
 

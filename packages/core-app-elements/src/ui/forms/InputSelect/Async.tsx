@@ -3,23 +3,12 @@ import AsyncSelect from 'react-select/async'
 import { StylesConfig } from 'react-select'
 import components from './overrides'
 
+type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+
 interface AsyncSelectComponentProps
-  extends Pick<
-    InputSelectProps,
-    | 'menuIsOpen'
-    | 'initialValues'
-    | 'defaultValue'
-    | 'isClearable'
-    | 'isLoading'
-    | 'loadingText'
-    | 'placeholder'
-    | 'isDisabled'
-    | 'onSelect'
-    | 'isMulti'
-    | 'onBlur'
-    | 'name'
-    | 'loadAsyncValues'
-    | 'noOptionsMessage'
+  extends Omit<
+    WithRequired<InputSelectProps, 'loadAsyncValues'>,
+    'label' | 'helperText'
   > {
   styles: StylesConfig<SelectValue>
 }
