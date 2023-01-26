@@ -98,7 +98,7 @@ function TableDataCell({
         title={isString && value.length > 20 ? value : undefined}
         className='text-sm w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap'
       >
-        {isString ? value : isEmpty(value) ? '-' : value}
+        {isString ? value : isEmpty(value) ? '-' : '{...}'}
       </div>
     </td>
   )
