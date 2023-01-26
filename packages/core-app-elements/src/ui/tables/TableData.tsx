@@ -1,9 +1,10 @@
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { extractHeaders } from '#utils/extractHeaders'
+import React from 'react'
 
-export interface TableProps {
-  data: Array<Record<string, string | Object>>
+export interface TableDataProps {
+  data: Array<Record<string, string | Object | React.ReactElement>>
   className?: string
   limit?: number
   title?: string
@@ -11,7 +12,7 @@ export interface TableProps {
   showOthers?: boolean
 }
 
-export function Table({
+export function TableData({
   data,
   className,
   limit,
@@ -19,7 +20,7 @@ export function Table({
   showTotal,
   showOthers,
   ...rest
-}: TableProps): JSX.Element {
+}: TableDataProps): JSX.Element {
   const headings = extractHeaders(data)
   const rows = data.slice(0, limit)
   const othersCount = limit != null ? data.length - limit : 0
@@ -42,7 +43,7 @@ export function Table({
         <thead>
           <tr data-test-id='table-row-header'>
             {headings.map((heading) => (
-              <TableHeader key={heading} value={heading} />
+              <TableDataHeader key={heading} value={heading} />
             ))}
           </tr>
         </thead>
@@ -54,7 +55,7 @@ export function Table({
               className='border-b'
             >
               {headings.map((cell, cellIndex) => (
-                <TableCell
+                <TableDataCell
                   key={`r${rowIndex}_${cellIndex}`}
                   value={row[cell]}
                 />
@@ -77,7 +78,7 @@ export function Table({
   )
 }
 
-function TableHeader({ value }: { value: string }): JSX.Element {
+function TableDataHeader({ value }: { value: string }): JSX.Element {
   return (
     <th className='text-xs uppercase p-4 bg-gray-50 text-gray-400 text-left'>
       {value}
@@ -85,7 +86,11 @@ function TableHeader({ value }: { value: string }): JSX.Element {
   )
 }
 
-function TableCell({ value }: { value?: string | object }): JSX.Element {
+function TableDataCell({
+  value
+}: {
+  value?: string | object | React.ReactElement
+}): JSX.Element {
   const isString = typeof value === 'string' || typeof value === 'number'
   return (
     <td className='p-4'>
@@ -93,10 +98,10 @@ function TableCell({ value }: { value?: string | object }): JSX.Element {
         title={isString && value.length > 20 ? value : undefined}
         className='text-sm w-28 h-6 overflow-hidden text-ellipsis whitespace-nowrap'
       >
-        {isString ? value : isEmpty(value) ? '-' : '{...}'}
+        {isString ? value : isEmpty(value) ? '-' : value}
       </div>
     </td>
   )
 }
 
-export default Table
+export default TableData

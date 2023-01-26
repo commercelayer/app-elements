@@ -64,7 +64,7 @@ export { default as ListItem } from '#ui/lists/ListItem'
 export { default as ListItemTask } from '#ui/lists/ListItemTask'
 
 // Tables
-export { default as Table } from '#ui/tables/Table'
+export { default as TableData } from '#ui/tables/TableData'
 
 // Helpers
 export { formatDate } from '#helpers/date'
