@@ -66,6 +66,7 @@ export { default as ListItemTask } from '#ui/lists/ListItemTask'
 
 // Tables
 export { default as TableData } from '#ui/tables/TableData'
+export { Table, TableRow, TableCell } from '#ui/tables/Table'
 
 // Helpers
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
