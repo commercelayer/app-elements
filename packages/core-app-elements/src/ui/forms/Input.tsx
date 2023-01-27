@@ -1,8 +1,13 @@
 import cn from 'classnames'
 import { forwardRef } from 'react'
+import Label from '#ui/forms/Label'
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  /**
+   * optional input label
+   */
+  label?: string
   /**
    * controlled type
    */
@@ -14,20 +19,23 @@ export interface InputProps
 }
 
 function Input(
-  { type = 'text', className, ...rest }: InputProps,
+  { type = 'text', className, label, ...rest }: InputProps,
   ref: React.ForwardedRef<HTMLInputElement>
 ): JSX.Element {
   return (
-    <input
-      {...rest}
-      className={cn(
-        'block w-full border-gray-200 px-4 h-10 font-medium',
-        'rounded outline-0',
-        className
-      )}
-      type={type}
-      ref={ref}
-    />
+    <div>
+      {label != null && <Label gap>{label}</Label>}
+      <input
+        {...rest}
+        className={cn(
+          'block w-full border-gray-200 px-4 h-10 font-medium',
+          'rounded outline-0',
+          className
+        )}
+        type={type}
+        ref={ref}
+      />
+    </div>
   )
 }
 
