@@ -13,6 +13,7 @@
     "pnpm": ">=7"
   },
   "dependencies": {
+    "@commercelayer/bo-app-elements-hook-form": "workspace:^0.0.0",
     "@commercelayer/core-app-elements": "workspace:^0.0.1-beta.14",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
@@ -40,6 +41,7 @@
     "@storybook/core-common": "^6.5.14",
     "@storybook/preview-web": "^6.5.14",
     "@storybook/react": "^6.5.14",
+    "react-hook-form": "^7.42.1",
     "@storybook/testing-library": "^0.0.13",
     "@types/node": "^18.11.9",
     "@types/react": "^18.0.22",
