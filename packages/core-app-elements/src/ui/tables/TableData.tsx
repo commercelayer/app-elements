@@ -4,7 +4,7 @@ import { extractHeaders } from '#utils/extractHeaders'
 import React from 'react'
 
 export interface TableDataProps {
-  data: Array<Record<string, string | Object | React.ReactElement>>
+  data: Array<Record<string, string | Object>>
   className?: string
   limit?: number
   title?: string
@@ -86,11 +86,7 @@ function TableDataHeader({ value }: { value: string }): JSX.Element {
   )
 }
 
-function TableDataCell({
-  value
-}: {
-  value?: string | object | React.ReactElement
-}): JSX.Element {
+function TableDataCell({ value }: { value?: string | object }): JSX.Element {
   const isString = typeof value === 'string' || typeof value === 'number'
   return (
     <td className='p-4'>
