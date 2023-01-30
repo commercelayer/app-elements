@@ -23,9 +23,7 @@
     "build": "tsc && vite build",
     "build:watch": "tsc && vite build --watch",
     "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
-    "test": "vitest run",
-    "test:watch": "vitest"
+    "lint:fix": "eslint src --fix"
   },
   "devDependencies": {
     "@commercelayer/core-app-elements": "workspace:^0.0.1-beta.9",
