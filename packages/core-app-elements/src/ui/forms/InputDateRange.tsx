@@ -29,7 +29,7 @@ export interface InputDateRangeProps
 
 function InputDateRange(
   {
-    value,
+    value = [null, null],
     fromPlaceholder,
     toPlaceholder,
     label,
