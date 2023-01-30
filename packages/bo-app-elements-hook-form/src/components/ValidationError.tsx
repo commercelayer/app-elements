@@ -7,16 +7,13 @@ interface Props {
 
 function ValidationError({ name }: Props): JSX.Element | null {
   const {
-    formState: { errors, touchedFields }
+    formState: { errors }
   } = useFormContext()
   const errorMessage = errors[name]?.message
   const hasErrorMessage =
     errorMessage != null && typeof errorMessage === 'string'
-  const isTouched = touchedFields[name] != null
 
-  return hasErrorMessage && isTouched ? (
-    <Text variant='danger'>{errorMessage}</Text>
-  ) : null
+  return hasErrorMessage ? <Text variant='danger'>{errorMessage}</Text> : null
 }
 
 export default ValidationError
