@@ -6,7 +6,7 @@ export interface InputToggleListBoxOption {
   label: string
 }
 
-interface InputToggleListBoxProps
+export interface InputToggleListBoxProps
   extends Omit<
     React.SelectHTMLAttributes<HTMLSelectElement>,
     'value' | 'onSelect'
