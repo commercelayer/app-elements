@@ -1,9 +1,13 @@
-import { FormProvider, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import z from 'zod'
 
 import Container from '#core-app-elements/atoms/Container'
 import Spacer from '#core-app-elements/atoms/Spacer'
+import Button from '#core-app-elements/atoms/Button'
 
 import {
+  Form,
   Input,
   InputToggleBox,
   InputDate,
@@ -11,10 +15,20 @@ import {
   InputSelect
 } from '@commercelayer/bo-app-elements-hook-form'
 
+const schema = z.object({
+  companyName: z.string().min(1),
+  toggle: z.literal(true),
+  select: z.object({
+    value: z.string(),
+    label: z.string()
+  })
+})
+
 export function FullForm(): JSX.Element {
   const methods = useForm({
+    resolver: zodResolver(schema),
     defaultValues: {
-      companyName: 'Commerce Layer',
+      companyName: '',
       toggle: false,
       dateSingle: new Date(),
       dateRange: [],
@@ -28,13 +42,20 @@ export function FullForm(): JSX.Element {
     }
   })
 
-  // console.log(methods.watch())
-
   return (
     <Container minHeight={false}>
-      <FormProvider {...methods}>
+      <Form
+        {...methods}
+        onSubmit={(values) => {
+          console.log(values)
+        }}
+      >
         <Spacer bottom='4'>
-          <Input name='companyName' label='Company name' />
+          <Input
+            name='companyName'
+            label='Company name'
+            placeholder='eg: Commerce Layer'
+          />
         </Spacer>
 
         <Spacer bottom='4'>
@@ -96,17 +117,10 @@ export function FullForm(): JSX.Element {
           <InputToggleBox name='toggle' label='Toggle me' id='toggle' />
         </Spacer>
 
-        <button
-          type='button'
-          onClick={() => {
-            methods.setError('toggle', {
-              message: 'this is a custom error message'
-            })
-          }}
-        >
-          set fake error
-        </button>
-      </FormProvider>
+        <Button type='submit' variant='primary'>
+          Submit
+        </Button>
+      </Form>
     </Container>
   )
 }
