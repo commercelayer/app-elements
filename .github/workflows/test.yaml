@@ -31,5 +31,5 @@ jobs:
       - name: Install 📦
         run: pnpm install
 
-      - name: Run Unit Tests 🧪
-        run: pnpm test
+      - name: Run Unit Tests for Elements 🧪
+        run: pnpm --filter "@commercelayer/core-app-elements"  test
