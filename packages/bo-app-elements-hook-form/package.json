@@ -48,8 +48,6 @@
     "vitest": "^0.26.2"
   },
   "peerDependencies": {
-    "@commercelayer/core-app-elements": "*",
-    "@commercelayer/sdk": "^4.x",
     "react-hook-form": "^7.x"
   }
 }
