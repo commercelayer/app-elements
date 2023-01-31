@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 
 const setup = (): SetupResult => {
   const tHead = (
-    <Tr variant='thead'>
+    <Tr>
       <Th>Name</Th>
       <Th>Surname</Th>
     </Tr>
