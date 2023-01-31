@@ -27,7 +27,7 @@ export const initialTokenProviderState: TokenProviderInternalState = {
 }
 
 type Action =
-  | { type: 'setLoading'; payload: boolean }
+  | { type: 'setIsLoading'; payload: boolean }
   | { type: 'setIsTokenError'; payload: boolean }
   | { type: 'setDashboardUrl'; payload: string }
   | { type: 'setSettings'; payload: TokenProviderAuthSettings }
@@ -38,7 +38,7 @@ export const reducer = (
   action: Action
 ): TokenProviderInternalState => {
   switch (action.type) {
-    case 'setLoading':
+    case 'setIsLoading':
       return {
         ...state,
         isLoading: action.payload

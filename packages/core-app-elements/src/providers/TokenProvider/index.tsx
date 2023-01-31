@@ -27,6 +27,8 @@ interface TokenProviderValue {
     action: TokenProviderRoleActions,
     resource: TokenProviderResourceType
   ) => boolean
+  emitInvalidAuth: (reason: string) => void
+  toggleLoadingUi: (isLoading: boolean) => void
 }
 
 interface TokenProviderProps {
@@ -72,6 +74,8 @@ interface TokenProviderProps {
 export const AuthContext = createContext<TokenProviderValue>({
   dashboardUrl: makeDashboardUrl(),
   canUser: () => false,
+  emitInvalidAuth: () => undefined,
+  toggleLoadingUi: () => undefined,
   settings: initialTokenProviderState.settings
 })
 
@@ -96,10 +100,14 @@ function TokenProvider({
     getAccessTokenFromUrl() ??
     getPersistentAccessToken({ currentApp })
 
-  const handleOnInvalidCallback = (reason: string): void => {
+  const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'setIsTokenError', payload: true })
     onInvalidAuth({ dashboardUrl: _state.dashboardUrl, reason })
-  }
+  }, [])
+
+  const toggleLoadingUi = useCallback(function (isLoading: boolean): void {
+    dispatch({ type: 'setIsLoading', payload: isLoading })
+  }, [])
 
   const canUser = useCallback(
     function (
@@ -115,7 +123,7 @@ function TokenProvider({
     function validateAndSetToken() {
       void (async (): Promise<void> => {
         if (accessToken == null) {
-          handleOnInvalidCallback('accessToken is missing')
+          emitInvalidAuth('accessToken is missing')
           return
         }
 
@@ -125,7 +133,7 @@ function TokenProvider({
             compareTo: new Date()
           })
         ) {
-          handleOnInvalidCallback('accessToken is expired')
+          emitInvalidAuth('accessToken is expired')
           return
         }
 
@@ -138,7 +146,7 @@ function TokenProvider({
         })
 
         if (!tokenInfo.isValidToken) {
-          handleOnInvalidCallback('accessToken is not valid')
+          emitInvalidAuth('accessToken is not valid')
           return
         }
 
@@ -165,7 +173,9 @@ function TokenProvider({
   const value: TokenProviderValue = {
     dashboardUrl: makeDashboardUrl(),
     settings: _state.settings,
-    canUser
+    canUser,
+    emitInvalidAuth,
+    toggleLoadingUi
   }
 
   if (_state.isTokenError) {
