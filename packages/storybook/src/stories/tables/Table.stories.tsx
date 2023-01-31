@@ -1,4 +1,7 @@
-import { Table, TableCell, TableRow } from '#core-app-elements/tables/Table'
+import Table from '#core-app-elements/tables/Table'
+import Tr from '#core-app-elements/atoms/Tr'
+import Th from '#core-app-elements/atoms/Th'
+import Td from '#core-app-elements/atoms/Td'
 import Container from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
@@ -13,26 +16,26 @@ export default setup
 
 const Template: ComponentStory<typeof Table> = () => {
   const tHead = (
-    <TableRow variant='th'>
-      <TableCell variant='th'>Name</TableCell>
-      <TableCell variant='th'>Surname</TableCell>
-    </TableRow>
+    <Tr>
+      <Th>Name</Th>
+      <Th>Surname</Th>
+    </Tr>
   )
 
   const tBody = (
     <>
-      <TableRow>
-        <TableCell>John</TableCell>
-        <TableCell>Mayer</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Eddie</TableCell>
-        <TableCell>Van Halen</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Ben</TableCell>
-        <TableCell>Harper</TableCell>
-      </TableRow>
+      <Tr>
+        <Td>John</Td>
+        <Td>Mayer</Td>
+      </Tr>
+      <Tr>
+        <Td>Eddie</Td>
+        <Td>Van Halen</Td>
+      </Tr>
+      <Tr>
+        <Td>Ben</Td>
+        <Td>Harper</Td>
+      </Tr>
     </>
   )
 
@@ -48,18 +51,18 @@ export const Default = Template.bind({})
 const TemplateWithoutThead: ComponentStory<typeof Table> = () => {
   const tBody = (
     <>
-      <TableRow>
-        <TableCell>John</TableCell>
-        <TableCell>Mayer</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Eddie</TableCell>
-        <TableCell>Van Halen</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Ben</TableCell>
-        <TableCell>Harper</TableCell>
-      </TableRow>
+      <Tr>
+        <Td>John</Td>
+        <Td>Mayer</Td>
+      </Tr>
+      <Tr>
+        <Td>Eddie</Td>
+        <Td>Van Halen</Td>
+      </Tr>
+      <Tr>
+        <Td>Ben</Td>
+        <Td>Harper</Td>
+      </Tr>
     </>
   )
 

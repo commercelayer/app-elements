@@ -1,5 +1,8 @@
 import { render, RenderResult } from '@testing-library/react'
-import { Table, TableCell, TableRow } from './Table'
+import Table from './Table'
+import Tr from '../atoms/Tr'
+import Th from '../atoms/Th'
+import Td from '../atoms/Td'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -7,26 +10,26 @@ type SetupResult = RenderResult & {
 
 const setup = (): SetupResult => {
   const tHead = (
-    <TableRow variant='th'>
-      <TableCell variant='th'>Name</TableCell>
-      <TableCell variant='th'>Surname</TableCell>
-    </TableRow>
+    <Tr variant='thead'>
+      <Th>Name</Th>
+      <Th>Surname</Th>
+    </Tr>
   )
 
   const tBody = (
     <>
-      <TableRow>
-        <TableCell>John</TableCell>
-        <TableCell>Mayer</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Eddie</TableCell>
-        <TableCell>Van Halen</TableCell>
-      </TableRow>
-      <TableRow>
-        <TableCell>Ben</TableCell>
-        <TableCell>Harper</TableCell>
-      </TableRow>
+      <Tr>
+        <Td>John</Td>
+        <Td>Mayer</Td>
+      </Tr>
+      <Tr>
+        <Td>Eddie</Td>
+        <Td>Van Halen</Td>
+      </Tr>
+      <Tr>
+        <Td>Ben</Td>
+        <Td>Harper</Td>
+      </Tr>
     </>
   )
 
