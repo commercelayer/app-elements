@@ -10,9 +10,6 @@
   "exports": {
     ".": {
       "import": "./dist/main.js"
-    },
-    "./style.css": {
-      "import": "./dist/style.css"
     }
   },
   "engines": {
