@@ -1,4 +1,3 @@
-import { CommerceLayerClient } from '@commercelayer/sdk'
 import {
   createContext,
   ReactNode,
@@ -8,23 +7,23 @@ import {
   useState
 } from 'react'
 
-import { getInfoFromJwt } from './getInfoFromJwt'
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 import { makeDashboardUrl } from './slug'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
-import { makeSdkClient } from './makeSdkClient'
 import { PageError } from '#ui/composite/PageError'
 import {
   TokenProviderAllowedApp,
   TokenProviderRolePermissions,
   TokenProviderRoleActions,
-  TokenProviderResourceType
+  TokenProviderResourceType,
+  TokenProviderAuthSettings
 } from './types'
+import { getInfoFromJwt } from './getInfoFromJwt'
 
 interface TokenProviderValue {
   dashboardUrl?: string
-  sdkClient?: CommerceLayerClient
+  settings: TokenProviderAuthSettings
   mode: 'live' | 'test'
   canUser: (
     action: TokenProviderRoleActions,
@@ -75,7 +74,12 @@ interface TokenProviderProps {
 export const AuthContext = createContext<TokenProviderValue>({
   dashboardUrl: makeDashboardUrl(),
   canUser: () => false,
-  mode: 'test'
+  mode: 'test',
+  settings: {
+    accessToken: '',
+    domain: '',
+    organizationSlug: ''
+  }
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -94,7 +98,11 @@ function TokenProvider({
   accessToken: accessTokenFromProp
 }: TokenProviderProps): JSX.Element {
   const [validAuthToken, setValidAuthToken] = useState<string>()
-  const [sdkClient, setSdkClient] = useState<CommerceLayerClient>()
+  const [settings, setSettings] = useState<TokenProviderAuthSettings>({
+    accessToken: '',
+    domain: '',
+    organizationSlug: ''
+  })
   const [rolePermissions, setRolePermissions] =
     useState<TokenProviderRolePermissions>({})
   const [isLoading, setIsLoading] = useState<boolean>(true)
@@ -160,29 +168,25 @@ function TokenProvider({
     })()
   }, [accessToken])
 
-  // once we have a validAuthToken set, we can sign an sdkClient to be used within the app
+  // once we have a validAuthToken set, we can fill settings
   useEffect(() => {
     if (validAuthToken == null) {
       return
     }
     const decodedTokenData = getInfoFromJwt(validAuthToken)
     if (decodedTokenData.slug != null) {
-      setSdkClient(
-        makeSdkClient({
-          accessToken: validAuthToken,
-          organization: decodedTokenData.slug,
-          domain,
-          onInvalidToken: () =>
-            handleOnInvalidCallback('got 401 invalid token from sdk')
-        })
-      )
+      setSettings({
+        accessToken: validAuthToken,
+        organizationSlug: decodedTokenData.slug,
+        domain
+      })
       setIsLoading(false)
     }
   }, [validAuthToken])
 
   const value: TokenProviderValue = {
     dashboardUrl: makeDashboardUrl(),
-    sdkClient,
+    settings,
     mode,
     canUser
   }

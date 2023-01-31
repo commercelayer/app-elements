@@ -141,3 +141,9 @@ export interface TokenProviderTokenInfo {
     { actions: TokenProviderRoleActions[] }
   >
 }
+
+export interface TokenProviderAuthSettings {
+  accessToken: string
+  organizationSlug: string
+  domain: string
+}
