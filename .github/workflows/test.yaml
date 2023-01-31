@@ -32,4 +32,10 @@ jobs:
         run: pnpm install
 
       - name: Run Unit Tests for Elements 🧪
-        run: pnpm --filter "@commercelayer/core-app-elements"  test
+        run: pnpm --filter "@commercelayer/core-app-elements" test
+
+      - name: Build elements to be used as dep in hook-form 🛠
+        run: pnpm --filter "@commercelayer/core-app-elements" build
+
+      - name: Run Unit Tests for elements-hook-form 🧪
+        run: pnpm --filter "@commercelayer/bo-app-elements-hook-form" test
