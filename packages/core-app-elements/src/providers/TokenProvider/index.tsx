@@ -4,7 +4,7 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useState
+  useReducer
 } from 'react'
 
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
@@ -14,17 +14,15 @@ import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { PageError } from '#ui/composite/PageError'
 import {
   TokenProviderAllowedApp,
-  TokenProviderRolePermissions,
   TokenProviderRoleActions,
   TokenProviderResourceType,
   TokenProviderAuthSettings
 } from './types'
-import { getInfoFromJwt } from './getInfoFromJwt'
+import { initialTokenProviderState, reducer } from './reducer'
 
 interface TokenProviderValue {
   dashboardUrl?: string
   settings: TokenProviderAuthSettings
-  mode: 'live' | 'test'
   canUser: (
     action: TokenProviderRoleActions,
     resource: TokenProviderResourceType
@@ -74,12 +72,7 @@ interface TokenProviderProps {
 export const AuthContext = createContext<TokenProviderValue>({
   dashboardUrl: makeDashboardUrl(),
   canUser: () => false,
-  mode: 'test',
-  settings: {
-    accessToken: '',
-    domain: '',
-    organizationSlug: ''
-  }
+  settings: initialTokenProviderState.settings
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -97,27 +90,15 @@ function TokenProvider({
   children,
   accessToken: accessTokenFromProp
 }: TokenProviderProps): JSX.Element {
-  const [validAuthToken, setValidAuthToken] = useState<string>()
-  const [settings, setSettings] = useState<TokenProviderAuthSettings>({
-    accessToken: '',
-    domain: '',
-    organizationSlug: ''
-  })
-  const [rolePermissions, setRolePermissions] =
-    useState<TokenProviderRolePermissions>({})
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isTokenError, setIsTokenError] = useState<boolean>(false)
-  const [mode, setMode] = useState<'live' | 'test'>('test')
-  const dashboardUrl = makeDashboardUrl()
+  const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
     getPersistentAccessToken({ currentApp })
 
   const handleOnInvalidCallback = (reason: string): void => {
-    setIsLoading(false)
-    setIsTokenError(true)
-    onInvalidAuth({ dashboardUrl, reason })
+    dispatch({ type: 'setIsTokenError', payload: true })
+    onInvalidAuth({ dashboardUrl: _state.dashboardUrl, reason })
   }
 
   const canUser = useCallback(
@@ -125,31 +106,30 @@ function TokenProvider({
       action: TokenProviderRoleActions,
       resource: TokenProviderResourceType
     ): boolean {
-      return Boolean(rolePermissions?.[resource]?.[action])
+      return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
-    [rolePermissions]
+    [_state.rolePermissions]
   )
 
-  // validate token
-  useEffect(() => {
-    void (async (): Promise<void> => {
-      if (accessToken == null) {
-        handleOnInvalidCallback('accessToken is missing')
-        return
-      }
+  useEffect(
+    function validateAndSetToken() {
+      void (async (): Promise<void> => {
+        if (accessToken == null) {
+          handleOnInvalidCallback('accessToken is missing')
+          return
+        }
 
-      if (
-        isTokenExpired({
-          accessToken,
-          compareTo: new Date()
-        })
-      ) {
-        handleOnInvalidCallback('accessToken is expired')
-        return
-      }
+        if (
+          isTokenExpired({
+            accessToken,
+            compareTo: new Date()
+          })
+        ) {
+          handleOnInvalidCallback('accessToken is expired')
+          return
+        }
 
-      const { isValidToken, permissions, isTestMode } =
-        await isValidTokenForCurrentApp({
+        const tokenInfo = await isValidTokenForCurrentApp({
           accessToken,
           clientKind,
           currentApp,
@@ -157,41 +137,38 @@ function TokenProvider({
           isProduction: !devMode
         })
 
-      if (isValidToken) {
-        savePersistentAccessToken({ currentApp, accessToken })
-        setValidAuthToken(accessToken)
-        setRolePermissions(permissions ?? {})
-        setMode(isTestMode === false ? 'live' : 'test')
-      } else {
-        handleOnInvalidCallback('accessToken is not valid')
-      }
-    })()
-  }, [accessToken])
+        if (!tokenInfo.isValidToken) {
+          handleOnInvalidCallback('accessToken is not valid')
+          return
+        }
 
-  // once we have a validAuthToken set, we can fill settings
-  useEffect(() => {
-    if (validAuthToken == null) {
-      return
-    }
-    const decodedTokenData = getInfoFromJwt(validAuthToken)
-    if (decodedTokenData.slug != null) {
-      setSettings({
-        accessToken: validAuthToken,
-        organizationSlug: decodedTokenData.slug,
-        domain
-      })
-      setIsLoading(false)
-    }
-  }, [validAuthToken])
+        // all good
+        savePersistentAccessToken({ currentApp, accessToken })
+        dispatch({
+          type: 'setSettings',
+          payload: {
+            accessToken: tokenInfo.accessToken,
+            organizationSlug: tokenInfo.organizationSlug,
+            mode: tokenInfo.mode,
+            domain
+          }
+        })
+        dispatch({
+          type: 'setRolePermissions',
+          payload: tokenInfo.permissions ?? {}
+        })
+      })()
+    },
+    [accessToken]
+  )
 
   const value: TokenProviderValue = {
     dashboardUrl: makeDashboardUrl(),
-    settings,
-    mode,
+    settings: _state.settings,
     canUser
   }
 
-  if (isTokenError) {
+  if (_state.isTokenError) {
     return (
       <>
         {errorElement == null ? (
@@ -207,7 +184,7 @@ function TokenProvider({
     )
   }
 
-  if (isLoading) {
+  if (_state.isLoading) {
     return (
       <>{loadingElement == null ? <div>Loading...</div> : loadingElement}</>
     )

@@ -142,8 +142,11 @@ export interface TokenProviderTokenInfo {
   >
 }
 
+export type Mode = 'live' | 'test'
+
 export interface TokenProviderAuthSettings {
   accessToken: string
   organizationSlug: string
   domain: string
+  mode: Mode
 }
