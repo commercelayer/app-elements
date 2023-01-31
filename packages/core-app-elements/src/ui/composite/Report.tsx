@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
+import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 import { ReactNode } from 'react'
 import { Label } from '#ui/forms/Label'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
@@ -91,27 +91,6 @@ export function Report({
       </div>
     </div>
   )
-}
-
-// create a fake download element on the fly to avoid to pollute the dom with a large data-uri string
-const downloadJsonAsFile = ({
-  json,
-  filename
-}: {
-  json?: object
-  filename: string
-}): void => {
-  if (isEmpty(json)) {
-    json = {}
-  }
-  const dataUri =
-    'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(json))
-  const tag = document.createElement('a')
-  tag.setAttribute('href', dataUri)
-  tag.setAttribute('download', filename)
-  document.body.appendChild(tag)
-  tag.click()
-  tag.remove()
 }
 
 export default Report
