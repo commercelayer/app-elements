@@ -33,6 +33,9 @@ export { default as StatusIcon } from '#ui/atoms/StatusIcon'
 export { default as Tabs } from '#ui/atoms/Tabs'
 export { Tab } from '#ui/atoms/Tabs'
 export { default as Text } from '#ui/atoms/Text'
+export { default as Tr } from '#ui/atoms/Tr'
+export { default as Th } from '#ui/atoms/Th'
+export { default as Td } from '#ui/atoms/Td'
 
 // Composite
 export { default as PageError } from '#ui/composite/PageError'
@@ -66,6 +69,7 @@ export { default as ListItemTask } from '#ui/lists/ListItemTask'
 
 // Tables
 export { default as TableData } from '#ui/tables/TableData'
+export { default as Table } from '#ui/tables/Table'
 
 // Helpers
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
