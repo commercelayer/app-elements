@@ -1,7 +1,7 @@
 {
   "name": "@commercelayer/core-app-elements-documentation",
   "private": true,
-  "version": "0.0.1-beta.9",
+  "version": "0.0.1-beta.10",
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
@@ -13,7 +13,7 @@
     "pnpm": ">=7"
   },
   "dependencies": {
-    "@commercelayer/core-app-elements": "workspace:^0.0.1-beta.9",
+    "@commercelayer/core-app-elements": "workspace:^0.0.1-beta.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
