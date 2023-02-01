@@ -9,27 +9,27 @@ import {
 import { makeSdkClient } from './makeSdkClient'
 import { useTokenProvider } from '../TokenProvider'
 
-interface SdkProviderValue {
+interface CoreSdkProviderValue {
   /**
    * Signed SDK client
    */
   sdkClient?: CommerceLayerClient
 }
 
-interface SdkProviderProps {
+interface CoreSdkProviderProps {
   /**
    * Entire app content
    */
-  children: ((props: SdkProviderValue) => ReactNode) | ReactNode
+  children: ((props: CoreSdkProviderValue) => ReactNode) | ReactNode
 }
 
-const Context = createContext<SdkProviderValue>({})
+const Context = createContext<CoreSdkProviderValue>({})
 
-export const useSdkProvider = (): SdkProviderValue => {
+export const useCoreSdkProvider = (): CoreSdkProviderValue => {
   return useContext(Context)
 }
 
-function SdkProvider({ children }: SdkProviderProps): JSX.Element | null {
+function SdkProvider({ children }: CoreSdkProviderProps): JSX.Element | null {
   const {
     emitInvalidAuth,
     settings: { accessToken, domain, organizationSlug }
@@ -55,7 +55,7 @@ function SdkProvider({ children }: SdkProviderProps): JSX.Element | null {
     [accessToken, organizationSlug]
   )
 
-  const value: SdkProviderValue = {
+  const value: CoreSdkProviderValue = {
     sdkClient
   }
 
