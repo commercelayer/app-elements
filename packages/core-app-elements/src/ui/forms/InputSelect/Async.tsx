@@ -2,12 +2,11 @@ import { InputSelectProps, SelectValue } from './'
 import AsyncSelect from 'react-select/async'
 import { StylesConfig } from 'react-select'
 import components from './overrides'
-
-type WithRequired<T, K extends keyof T> = T & { [P in K]-?: T[P] }
+import { SetRequired } from 'type-fest'
 
 interface AsyncSelectComponentProps
   extends Omit<
-    WithRequired<InputSelectProps, 'loadAsyncValues'>,
+    SetRequired<InputSelectProps, 'loadAsyncValues'>,
     'label' | 'helperText'
   > {
   styles: StylesConfig<SelectValue>
