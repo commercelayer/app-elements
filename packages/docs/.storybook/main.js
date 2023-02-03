@@ -6,6 +6,7 @@ const tsconfigPaths = require('vite-tsconfig-paths')
 
 /** @type import('vite').UserConfig */
 const viteOverrides = {
+  base: '/core-app-elements',
   plugins: [
     tsconfigPaths.default({
       projects: [
