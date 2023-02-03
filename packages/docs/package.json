@@ -1,12 +1,12 @@
 {
-  "name": "@commercelayer/core-app-elements-documentation",
+  "name": "docs",
   "private": true,
   "version": "0.0.1-beta.10",
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "storybook": "NODE_OPTIONS='--openssl-legacy-provider' start-storybook -p 6006",
-    "build-storybook": "NODE_OPTIONS='--openssl-legacy-provider' build-storybook"
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' start-storybook -p 6006",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' build-storybook -o dist"
   },
   "engines": {
     "node": ">=18",

@@ -1,4 +1,5 @@
-import "@commercelayer/core-app-elements/style.css";
+// import "@commercelayer/core-app-elements/style.css";
+import "../../core-app-elements/src/styles/global.css"
 
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
