@@ -1,12 +1,12 @@
 {
-  "name": "@commercelayer/core-app-elements-documentation",
+  "name": "docs",
   "private": true,
   "version": "0.0.1-beta.10",
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
-    "storybook": "NODE_OPTIONS='--openssl-legacy-provider' start-storybook -p 6006",
-    "build-storybook": "NODE_OPTIONS='--openssl-legacy-provider' build-storybook"
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' start-storybook -p 6006",
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' build-storybook -o dist"
   },
   "engines": {
     "node": ">=18",
@@ -47,6 +47,8 @@
     "@vitejs/plugin-react": "^2.2.0",
     "babel-loader": "^8.3.0",
     "eslint": "^8.26.0",
-    "typescript": "^4.6.4"
+    "typescript": "^4.6.4",
+    "vite": "^4.0.3",
+    "vite-tsconfig-paths": "^4.0.5"
   }
 }

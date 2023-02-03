@@ -2,13 +2,13 @@
   "private": true,
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "pnpm --stream --filter '*' build",
-    "storybook": "pnpm --stream --filter '*' storybook",
-    "storybook:build": "pnpm --filter '*' build-storybook",
-    "lint": "pnpm --stream --filter '*' lint",
-    "lint:fix": "pnpm --filter '*' lint:fix",
-    "test": "pnpm --filter '*' test",
-    "test:watch": "pnpm --stream --filter '*' test:watch"
+    "dev": "pnpm --stream -r dev",
+    "build:elements": "pnpm --stream --filter @commercelayer/core-app-elements build",
+    "build:docs": "pnpm --filter docs build",
+    "lint": "pnpm --stream -r lint",
+    "lint:fix": "pnpm -r lint:fix",
+    "test": "pnpm -r test",
+    "test:watch": "pnpm --stream -r test:watch"
   },
   "keywords": [],
   "author": {
@@ -28,7 +28,6 @@
     "packages/*"
   ],
   "devDependencies": {
-    "concurrently": "^7.5.0",
     "lerna": "^6.0.2"
   }
 }
