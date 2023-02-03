@@ -20,6 +20,7 @@
     "pnpm": ">=7"
   },
   "scripts": {
+    "prepare": "pnpm build",
     "build": "tsc && vite build",
     "build:watch": "tsc && vite build --watch",
     "lint": "eslint src",
