@@ -35,6 +35,9 @@
       "#utils/*": [
         "../core-app-elements/src/utils/*"
       ],
+      "#helpers/*": [
+        "../core-app-elements/src/helpers/*"
+      ],
     }
   },
   "include": [
