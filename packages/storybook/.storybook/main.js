@@ -17,6 +17,7 @@ module.exports = {
           "#ui": resolve(__dirname, "../../core-app-elements/src/ui"),
           "#styles": resolve(__dirname, ".../../core-app-elements/src/styles"),
           "#utils": resolve(__dirname, "../../core-app-elements/src/utils"),
+          "#helpers": resolve(__dirname, "../../core-app-elements/src/helpers"),
         },
       },
     });

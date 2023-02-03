@@ -13,8 +13,8 @@ const setup: ComponentMeta<typeof InputDateRange> = {
 export default setup
 
 const Template: ComponentStory<typeof InputDateRange> = (args) => {
-  const [fromDate, setFromDate] = useState<Date | undefined>()
-  const [toDate, setToDate] = useState<Date | undefined>()
+  const [fromDate, setFromDate] = useState<Date | null>(null)
+  const [toDate, setToDate] = useState<Date | null>(null)
   return (
     <Container minHeight={false}>
       <InputDateRange
