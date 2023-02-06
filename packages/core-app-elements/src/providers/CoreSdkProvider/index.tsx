@@ -29,7 +29,9 @@ export const useCoreSdkProvider = (): CoreSdkProviderValue => {
   return useContext(Context)
 }
 
-function SdkProvider({ children }: CoreSdkProviderProps): JSX.Element | null {
+function CoreSdkProvider({
+  children
+}: CoreSdkProviderProps): JSX.Element | null {
   const {
     emitInvalidAuth,
     settings: { accessToken, domain, organizationSlug }
@@ -66,4 +68,4 @@ function SdkProvider({ children }: CoreSdkProviderProps): JSX.Element | null {
   )
 }
 
-export default SdkProvider
+export default CoreSdkProvider
