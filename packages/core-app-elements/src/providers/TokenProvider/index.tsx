@@ -43,7 +43,7 @@ interface TokenProviderProps {
   /**
    * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
    */
-  domain: string
+  domain?: string
   /**
    * Callback invoked when token is not valid
    */
@@ -86,7 +86,7 @@ export const useTokenProvider = (): TokenProviderValue => {
 function TokenProvider({
   currentApp,
   clientKind,
-  domain,
+  domain = 'commercelayer.io',
   onInvalidAuth,
   loadingElement,
   errorElement,
