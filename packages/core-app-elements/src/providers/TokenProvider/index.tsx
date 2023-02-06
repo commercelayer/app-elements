@@ -28,7 +28,6 @@ interface TokenProviderValue {
     resource: TokenProviderResourceType
   ) => boolean
   emitInvalidAuth: (reason: string) => void
-  toggleLoadingUi: (isLoading: boolean) => void
 }
 
 export interface TokenProviderProps {
@@ -75,7 +74,6 @@ export const AuthContext = createContext<TokenProviderValue>({
   dashboardUrl: makeDashboardUrl(),
   canUser: () => false,
   emitInvalidAuth: () => undefined,
-  toggleLoadingUi: () => undefined,
   settings: initialTokenProviderState.settings
 })
 
@@ -103,10 +101,6 @@ function TokenProvider({
   const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'setIsTokenError', payload: true })
     onInvalidAuth({ dashboardUrl: _state.dashboardUrl, reason })
-  }, [])
-
-  const toggleLoadingUi = useCallback(function (isLoading: boolean): void {
-    dispatch({ type: 'setIsLoading', payload: isLoading })
   }, [])
 
   const canUser = useCallback(
@@ -174,8 +168,7 @@ function TokenProvider({
     dashboardUrl: makeDashboardUrl(),
     settings: _state.settings,
     canUser,
-    emitInvalidAuth,
-    toggleLoadingUi
+    emitInvalidAuth
   }
 
   if (_state.isTokenError) {
