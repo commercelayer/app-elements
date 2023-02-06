@@ -31,7 +31,7 @@ interface TokenProviderValue {
   toggleLoadingUi: (isLoading: boolean) => void
 }
 
-interface TokenProviderProps {
+export interface TokenProviderProps {
   /**
    * Token kind (will be validated)
    */

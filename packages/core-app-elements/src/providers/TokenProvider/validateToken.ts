@@ -7,6 +7,7 @@ import {
 } from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './slug'
+import fetch from 'cross-fetch'
 
 export function isTokenExpired({
   accessToken,
