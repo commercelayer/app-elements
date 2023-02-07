@@ -47,6 +47,7 @@ export { default as Th } from '#ui/atoms/Th'
 export { default as Td } from '#ui/atoms/Td'
 
 // Composite
+export { default as ContextMenu } from '#ui/composite/ContextMenu'
 export { default as PageError } from '#ui/composite/PageError'
 export { default as PageLayout } from '#ui/composite/PageLayout'
 export { default as PageSkeleton } from '#ui/composite/PageSkeleton'
