@@ -25,6 +25,11 @@ export { default as Card } from '#ui/atoms/Card'
 export { default as Container } from '#ui/atoms/Container'
 export { default as CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 export { default as DelayShow } from '#ui/atoms/DelayShow'
+export {
+  DropdownMenu,
+  DropdownMenuDivider,
+  DropdownMenuItem
+} from '#ui/atoms/dropdown'
 export { default as EmptyState } from '#ui/atoms/EmptyState'
 export { default as FormFooter } from '#ui/atoms/FormFooter'
 export { default as Legend } from '#ui/atoms/Legend'
