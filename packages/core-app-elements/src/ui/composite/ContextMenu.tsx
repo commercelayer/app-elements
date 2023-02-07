@@ -1,14 +1,15 @@
+import { DotsThreeCircle } from 'phosphor-react'
 import { DropdownMenu } from '#ui/atoms/dropdown'
 import { useClickAway } from '#hooks/useClickAway'
 import { useState } from 'react'
 
 interface Props {
-  menuLabel: React.ReactNode
+  menuLabel?: React.ReactNode
   menuItems: React.ReactNode
 }
 
 export function ContextMenu({
-  menuLabel,
+  menuLabel = <DotsThreeCircle className='w-6 h-6' />,
   menuItems,
   ...rest
 }: Props): JSX.Element {
@@ -35,7 +36,7 @@ export function ContextMenu({
   return (
     <div {...rest} ref={showDropdownMenu ? clickAwayRef : undefined}>
       <button
-        className='cursor-pointer select-none'
+        className='cursor-pointer select-none m-0 p-0 mr-[2px] block'
         onClick={() => {
           toggleDropdownMenu()
         }}

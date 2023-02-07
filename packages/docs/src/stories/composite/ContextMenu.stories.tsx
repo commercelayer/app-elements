@@ -17,6 +17,17 @@ const Template: ComponentStory<typeof ContextMenu> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  menuItems: (
+    <>
+      <DropdownMenuItem>Edit</DropdownMenuItem>
+      <DropdownMenuDivider />
+      <DropdownMenuItem>Delete</DropdownMenuItem>
+    </>
+  )
+}
+
+export const WithMenuLabel = Template.bind({})
+WithMenuLabel.args = {
   menuLabel: 'search engines',
   menuItems: (
     <>
