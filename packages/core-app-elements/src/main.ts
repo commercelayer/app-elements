@@ -3,6 +3,10 @@ import '#styles/global.css'
 // Providers
 export { default as TokenProvider } from '#providers/TokenProvider'
 export { useTokenProvider } from '#providers/TokenProvider'
+export {
+  default as CoreSdkProvider,
+  useCoreSdkProvider
+} from '#providers/CoreSdkProvider'
 export type {
   TokenProviderAllowedApp,
   TokenProviderPermissionItem,

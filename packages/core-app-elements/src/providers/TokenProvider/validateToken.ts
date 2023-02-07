@@ -2,10 +2,12 @@ import {
   TokenProviderTokenInfo,
   TokenProviderRolePermissions,
   TokenProviderPermissionItem,
-  TokenProviderResourceType
+  TokenProviderResourceType,
+  Mode
 } from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './slug'
+import fetch from 'cross-fetch'
 
 export function isTokenExpired({
   accessToken,
@@ -24,6 +26,17 @@ export function isTokenExpired({
   return nowTime > exp
 }
 
+interface ValidToken {
+  isValidToken: true
+  accessToken: string
+  mode: Mode
+  organizationSlug: string
+  permissions?: TokenProviderRolePermissions
+}
+interface InvalidToken {
+  isValidToken: false
+}
+
 export async function isValidTokenForCurrentApp({
   accessToken,
   clientKind,
@@ -36,11 +49,7 @@ export async function isValidTokenForCurrentApp({
   currentApp: string
   domain: string
   isProduction: boolean
-}): Promise<{
-  isValidToken: boolean
-  permissions?: TokenProviderRolePermissions
-  isTestMode?: boolean
-}> {
+}): Promise<ValidToken | InvalidToken> {
   const { slug, kind } = getInfoFromJwt(accessToken)
   const isValidKind = kind === clientKind
   const isValidSlug = isProduction ? slug === getOrgSlugFromCurrentUrl() : true
@@ -57,13 +66,22 @@ export async function isValidTokenForCurrentApp({
     console.log({ currentApp })
     const isValidPermission = Boolean(tokenInfo?.token)
 
+    const isAllValid = isValidKind && isValidSlug && isValidPermission
+    if (!isAllValid) {
+      return {
+        isValidToken: false
+      }
+    }
+
     return {
-      isValidToken: isValidKind && isValidSlug && isValidPermission,
+      isValidToken: true,
+      accessToken,
+      mode: tokenInfo?.token.test !== undefined ? 'test' : 'live',
+      organizationSlug: slug,
       permissions:
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
-          : undefined,
-      isTestMode: Boolean(tokenInfo?.token.test)
+          : undefined
     }
   } catch {
     return {

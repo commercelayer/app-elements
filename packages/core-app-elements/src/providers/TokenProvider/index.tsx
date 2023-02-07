@@ -1,38 +1,36 @@
-import { CommerceLayerClient } from '@commercelayer/sdk'
 import {
   createContext,
   ReactNode,
   useCallback,
   useContext,
   useEffect,
-  useState
+  useReducer
 } from 'react'
 
-import { getInfoFromJwt } from './getInfoFromJwt'
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 import { makeDashboardUrl } from './slug'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
-import { makeSdkClient } from './makeSdkClient'
 import { PageError } from '#ui/composite/PageError'
 import {
   TokenProviderAllowedApp,
-  TokenProviderRolePermissions,
   TokenProviderRoleActions,
-  TokenProviderResourceType
+  TokenProviderResourceType,
+  TokenProviderAuthSettings
 } from './types'
+import { initialTokenProviderState, reducer } from './reducer'
 
 interface TokenProviderValue {
   dashboardUrl?: string
-  sdkClient?: CommerceLayerClient
-  mode: 'live' | 'test'
+  settings: TokenProviderAuthSettings
   canUser: (
     action: TokenProviderRoleActions,
     resource: TokenProviderResourceType
   ) => boolean
+  emitInvalidAuth: (reason: string) => void
 }
 
-interface TokenProviderProps {
+export interface TokenProviderProps {
   /**
    * Token kind (will be validated)
    */
@@ -44,7 +42,7 @@ interface TokenProviderProps {
   /**
    * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
    */
-  domain: string
+  domain?: string
   /**
    * Callback invoked when token is not valid
    */
@@ -75,7 +73,8 @@ interface TokenProviderProps {
 export const AuthContext = createContext<TokenProviderValue>({
   dashboardUrl: makeDashboardUrl(),
   canUser: () => false,
-  mode: 'test'
+  emitInvalidAuth: () => undefined,
+  settings: initialTokenProviderState.settings
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -85,7 +84,7 @@ export const useTokenProvider = (): TokenProviderValue => {
 function TokenProvider({
   currentApp,
   clientKind,
-  domain,
+  domain = 'commercelayer.io',
   onInvalidAuth,
   loadingElement,
   errorElement,
@@ -93,55 +92,46 @@ function TokenProvider({
   children,
   accessToken: accessTokenFromProp
 }: TokenProviderProps): JSX.Element {
-  const [validAuthToken, setValidAuthToken] = useState<string>()
-  const [sdkClient, setSdkClient] = useState<CommerceLayerClient>()
-  const [rolePermissions, setRolePermissions] =
-    useState<TokenProviderRolePermissions>({})
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isTokenError, setIsTokenError] = useState<boolean>(false)
-  const [mode, setMode] = useState<'live' | 'test'>('test')
-  const dashboardUrl = makeDashboardUrl()
+  const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
     getPersistentAccessToken({ currentApp })
 
-  const handleOnInvalidCallback = (reason: string): void => {
-    setIsLoading(false)
-    setIsTokenError(true)
-    onInvalidAuth({ dashboardUrl, reason })
-  }
+  const emitInvalidAuth = useCallback(function (reason: string): void {
+    dispatch({ type: 'invalidAuth' })
+    onInvalidAuth({ dashboardUrl: _state.dashboardUrl, reason })
+  }, [])
 
   const canUser = useCallback(
     function (
       action: TokenProviderRoleActions,
       resource: TokenProviderResourceType
     ): boolean {
-      return Boolean(rolePermissions?.[resource]?.[action])
+      return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
-    [rolePermissions]
+    [_state.rolePermissions]
   )
 
-  // validate token
-  useEffect(() => {
-    void (async (): Promise<void> => {
-      if (accessToken == null) {
-        handleOnInvalidCallback('accessToken is missing')
-        return
-      }
+  useEffect(
+    function validateAndSetToken() {
+      void (async (): Promise<void> => {
+        if (accessToken == null) {
+          emitInvalidAuth('accessToken is missing')
+          return
+        }
 
-      if (
-        isTokenExpired({
-          accessToken,
-          compareTo: new Date()
-        })
-      ) {
-        handleOnInvalidCallback('accessToken is expired')
-        return
-      }
+        if (
+          isTokenExpired({
+            accessToken,
+            compareTo: new Date()
+          })
+        ) {
+          emitInvalidAuth('accessToken is expired')
+          return
+        }
 
-      const { isValidToken, permissions, isTestMode } =
-        await isValidTokenForCurrentApp({
+        const tokenInfo = await isValidTokenForCurrentApp({
           accessToken,
           clientKind,
           currentApp,
@@ -149,45 +139,38 @@ function TokenProvider({
           isProduction: !devMode
         })
 
-      if (isValidToken) {
-        savePersistentAccessToken({ currentApp, accessToken })
-        setValidAuthToken(accessToken)
-        setRolePermissions(permissions ?? {})
-        setMode(isTestMode === false ? 'live' : 'test')
-      } else {
-        handleOnInvalidCallback('accessToken is not valid')
-      }
-    })()
-  }, [accessToken])
+        if (!tokenInfo.isValidToken) {
+          emitInvalidAuth('accessToken is not valid')
+          return
+        }
 
-  // once we have a validAuthToken set, we can sign an sdkClient to be used within the app
-  useEffect(() => {
-    if (validAuthToken == null) {
-      return
-    }
-    const decodedTokenData = getInfoFromJwt(validAuthToken)
-    if (decodedTokenData.slug != null) {
-      setSdkClient(
-        makeSdkClient({
-          accessToken: validAuthToken,
-          organization: decodedTokenData.slug,
-          domain,
-          onInvalidToken: () =>
-            handleOnInvalidCallback('got 401 invalid token from sdk')
+        // all good
+        savePersistentAccessToken({ currentApp, accessToken })
+        dispatch({
+          type: 'validToken',
+          payload: {
+            settings: {
+              accessToken: tokenInfo.accessToken,
+              organizationSlug: tokenInfo.organizationSlug,
+              mode: tokenInfo.mode,
+              domain
+            },
+            permissions: tokenInfo.permissions ?? {}
+          }
         })
-      )
-      setIsLoading(false)
-    }
-  }, [validAuthToken])
+      })()
+    },
+    [accessToken]
+  )
 
   const value: TokenProviderValue = {
     dashboardUrl: makeDashboardUrl(),
-    sdkClient,
-    mode,
-    canUser
+    settings: _state.settings,
+    canUser,
+    emitInvalidAuth
   }
 
-  if (isTokenError) {
+  if (_state.isTokenError) {
     return (
       <>
         {errorElement == null ? (
@@ -203,7 +186,7 @@ function TokenProvider({
     )
   }
 
-  if (isLoading) {
+  if (_state.isLoading) {
     return (
       <>{loadingElement == null ? <div>Loading...</div> : loadingElement}</>
     )

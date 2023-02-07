@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode'
+import { Mode } from './types'
 
 interface JWTProps {
   organization: {
@@ -18,14 +19,16 @@ export const getInfoFromJwt = (
   slug?: string
   kind?: string
   exp?: number
-  appSlug?: string
+  mode?: Mode
 } => {
   try {
-    const { organization, application, exp } = jwtDecode<JWTProps>(accessToken)
+    const { organization, application, exp, test } =
+      jwtDecode<JWTProps>(accessToken)
 
     return {
       slug: organization.slug,
       kind: application.kind,
+      mode: test ? 'test' : 'live',
       exp
     }
   } catch (e) {
