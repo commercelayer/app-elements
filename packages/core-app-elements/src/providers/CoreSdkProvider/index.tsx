@@ -11,7 +11,7 @@ import { useTokenProvider } from '../TokenProvider'
 
 interface CoreSdkProviderValue {
   /**
-   * Signed SDK client
+   * Valid SDK client
    */
   sdkClient?: CommerceLayerClient
 }

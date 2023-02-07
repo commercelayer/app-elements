@@ -99,7 +99,7 @@ function TokenProvider({
     getPersistentAccessToken({ currentApp })
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
-    dispatch({ type: 'setIsTokenError', payload: true })
+    dispatch({ type: 'invalidAuth' })
     onInvalidAuth({ dashboardUrl: _state.dashboardUrl, reason })
   }, [])
 
@@ -147,17 +147,16 @@ function TokenProvider({
         // all good
         savePersistentAccessToken({ currentApp, accessToken })
         dispatch({
-          type: 'setSettings',
+          type: 'validToken',
           payload: {
-            accessToken: tokenInfo.accessToken,
-            organizationSlug: tokenInfo.organizationSlug,
-            mode: tokenInfo.mode,
-            domain
+            settings: {
+              accessToken: tokenInfo.accessToken,
+              organizationSlug: tokenInfo.organizationSlug,
+              mode: tokenInfo.mode,
+              domain
+            },
+            permissions: tokenInfo.permissions ?? {}
           }
-        })
-        dispatch({
-          type: 'setRolePermissions',
-          payload: tokenInfo.permissions ?? {}
         })
       })()
     },

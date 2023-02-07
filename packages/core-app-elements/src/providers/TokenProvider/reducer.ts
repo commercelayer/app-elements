@@ -27,37 +27,31 @@ export const initialTokenProviderState: TokenProviderInternalState = {
 }
 
 type Action =
-  | { type: 'setIsTokenError'; payload: boolean }
-  | { type: 'setDashboardUrl'; payload: string }
-  | { type: 'setSettings'; payload: TokenProviderAuthSettings }
-  | { type: 'setRolePermissions'; payload: TokenProviderRolePermissions }
+  | { type: 'invalidAuth' }
+  | {
+      type: 'validToken'
+      payload: {
+        settings: TokenProviderAuthSettings
+        permissions: TokenProviderRolePermissions
+      }
+    }
 
 export const reducer = (
   state: TokenProviderInternalState,
   action: Action
 ): TokenProviderInternalState => {
   switch (action.type) {
-    case 'setIsTokenError':
+    case 'invalidAuth':
       return {
         ...state,
         isLoading: false,
-        isTokenError: action.payload
+        isTokenError: true
       }
-    case 'setDashboardUrl':
+    case 'validToken':
       return {
         ...state,
-        dashboardUrl: action.payload
-      }
-    case 'setSettings':
-      return {
-        ...state,
-        isLoading: false,
-        settings: action.payload
-      }
-    case 'setRolePermissions':
-      return {
-        ...state,
-        rolePermissions: action.payload
+        ...action.payload,
+        isLoading: false
       }
     default:
       return state
