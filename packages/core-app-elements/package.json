@@ -1,6 +1,6 @@
 {
   "name": "@commercelayer/core-app-elements",
-  "version": "0.0.1-beta.12",
+  "version": "0.0.1-beta.13",
   "type": "module",
   "files": [
     "dist"
