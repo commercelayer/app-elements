@@ -96,6 +96,10 @@ function TokenProvider({
   accessToken: accessTokenFromProp
 }: TokenProviderProps): JSX.Element {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
+  const dashboardUrl = makeDashboardUrl({
+    domain,
+    mode: _state.settings.mode
+  })
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
@@ -103,7 +107,7 @@ function TokenProvider({
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'invalidAuth' })
-    onInvalidAuth({ dashboardUrl: _state.dashboardUrl, reason })
+    onInvalidAuth({ dashboardUrl, reason })
   }, [])
 
   const canUser = useCallback(
@@ -167,10 +171,7 @@ function TokenProvider({
   )
 
   const value: TokenProviderValue = {
-    dashboardUrl: makeDashboardUrl({
-      domain,
-      mode: _state.settings.mode
-    }),
+    dashboardUrl,
     settings: _state.settings,
     canUser,
     emitInvalidAuth
