@@ -176,7 +176,7 @@ function TokenProvider({
     canUser,
     emitInvalidAuth
   }
-  console.log('value', value)
+
   if (_state.isTokenError) {
     return (
       <>
