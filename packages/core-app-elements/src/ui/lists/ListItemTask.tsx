@@ -1,7 +1,7 @@
-import { CaretRight } from 'phosphor-react'
 import { Button } from '#ui/atoms/Button'
 import { StatusIcon, StatusUI } from '#ui/atoms/StatusIcon'
 import cn from 'classnames'
+import { Icon } from '#ui/atoms/Icon'
 
 export interface ListItemTaskProps
   extends React.HTMLAttributes<HTMLDivElement> {
@@ -86,7 +86,7 @@ export function ListItemTask({
           </Button>
         ) : (
           <button data-test-id='list-task-item-btn-view'>
-            <CaretRight />
+            <Icon name='caretRight' />
           </button>
         )}
       </div>

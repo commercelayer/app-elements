@@ -1,5 +1,5 @@
-import { CaretRight } from 'phosphor-react'
 import cn from 'classnames'
+import { Icon } from '#ui/atoms/Icon'
 
 export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   label: string
@@ -39,7 +39,7 @@ export function ListItem({
           )}
         </div>
       </div>
-      <CaretRight />
+      <Icon name='caretRight' />
     </div>
   )
 }

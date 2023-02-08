@@ -1,5 +1,5 @@
 import invariant from 'ts-invariant'
-import Icon from './Icon'
+import { Icon } from './Icon'
 
 export type StatusUI = 'success' | 'danger' | 'pending' | 'progress'
 
@@ -45,8 +45,17 @@ const statusVariant: Record<
   StatusUI,
   ((p?: any) => JSX.Element) | (() => JSX.Element)
 > = {
-  success: () => <Icon name='check' background='green' gap='large' />,
-  danger: () => <Icon name='x' background='red' gap='large' />,
+  success: () => (
+    <Icon
+      name='check'
+      background='green'
+      gap='large'
+      data-test-id='icon-success'
+    />
+  ),
+  danger: () => (
+    <Icon name='x' background='red' gap='large' data-test-id='icon-danger' />
+  ),
   progress: (p) => <ProgressCircle {...p} />,
   pending: () => <PendingCircle />
 }

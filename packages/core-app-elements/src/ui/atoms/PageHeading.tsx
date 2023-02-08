@@ -1,7 +1,7 @@
 import cn from 'classnames'
-import { ArrowLeft } from 'phosphor-react'
 import { ReactNode } from 'react'
 import Badge, { BadgeVariant } from './Badge'
+import { Icon } from './Icon'
 
 export interface PageHeadingProps {
   /**
@@ -59,7 +59,7 @@ export function PageHeading({
         >
           {onGoBack != null ? (
             <button onClick={onGoBack}>
-              <ArrowLeft size={32} />
+              <Icon name='arrowLeft' size={32} />
             </button>
           ) : null}
           {actionButton != null ? <div>{actionButton}</div> : null}
