@@ -19,9 +19,9 @@ export const Default = Template.bind({})
 Default.args = {
   menuItems: (
     <>
-      <DropdownMenuItem>Edit</DropdownMenuItem>
+      <DropdownMenuItem label='Edit' />
       <DropdownMenuDivider />
-      <DropdownMenuItem>Delete</DropdownMenuItem>
+      <DropdownMenuItem label='Delete' />
     </>
   )
 }
@@ -35,25 +35,23 @@ WithMenuLabel.args = {
         onClick={() => {
           alert('Alert')
         }}
-      >
-        Alert
-      </DropdownMenuItem>
+        label='Alert'
+      />
       <DropdownMenuDivider />
       <DropdownMenuItem
         onClick={() => {
           window.open('https://www.google.com')
         }}
-      >
-        Google
-      </DropdownMenuItem>
+        label='Google'
+      />
+
       <DropdownMenuDivider />
       <DropdownMenuItem
         onClick={() => {
           window.open('https://www.bing.com')
         }}
-      >
-        Bing
-      </DropdownMenuItem>
+        label='Bing'
+      />
     </>
   )
 }

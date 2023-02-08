@@ -13,9 +13,9 @@ export default setup
 
 const Template: ComponentStory<typeof DropdownMenu> = (args) => (
   <DropdownMenu {...args}>
-    <DropdownMenuItem>Edit</DropdownMenuItem>
+    <DropdownMenuItem label='Edit' />
     <DropdownMenuDivider />
-    <DropdownMenuItem>Delete</DropdownMenuItem>
+    <DropdownMenuItem label='Delete' />
   </DropdownMenu>
 )
 
