@@ -1,8 +1,6 @@
 import { render, RenderResult } from '@testing-library/react'
 import Table from './Table'
-import Tr from '../atoms/Tr'
-import Th from '../atoms/Th'
-import Td from '../atoms/Td'
+import { Tr, Th, Td } from '#ui/atoms/tables'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
