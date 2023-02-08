@@ -32,7 +32,7 @@ type Action =
       type: 'validToken'
       payload: {
         settings: TokenProviderAuthSettings
-        permissions: TokenProviderRolePermissions
+        rolePermissions: TokenProviderRolePermissions
       }
     }
 
