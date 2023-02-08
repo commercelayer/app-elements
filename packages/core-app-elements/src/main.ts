@@ -40,6 +40,7 @@ export { default as Text } from '#ui/atoms/Text'
 export { default as Tr } from '#ui/atoms/tables/Tr'
 export { default as Th } from '#ui/atoms/tables/Th'
 export { default as Td } from '#ui/atoms/tables/Td'
+export { default as Icon } from '#ui/atoms/Icon'
 
 // Composite
 export { default as PageError } from '#ui/composite/PageError'
