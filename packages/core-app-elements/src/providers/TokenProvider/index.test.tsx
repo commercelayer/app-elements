@@ -99,7 +99,7 @@ describe('TokenProvider', () => {
     })
     await waitFor(() => expect(getByText('Invalid token')).toBeVisible())
     expect(onInvalidAuth).toHaveBeenCalledWith({
-      dashboardUrl: 'https://dashboard.commercelayer.io/',
+      dashboardUrl: 'https://dashboard.commercelayer.io/test/giuseppe',
       reason: 'accessToken is expired'
     })
   })
@@ -121,7 +121,7 @@ describe('TokenProvider', () => {
     expect(getByText('fetching token info')).toBeVisible()
     await waitFor(() => expect(getByText('custom error element')).toBeVisible())
     expect(onInvalidAuth).toHaveBeenCalledWith({
-      dashboardUrl: 'https://dashboard.commercelayer.io/',
+      dashboardUrl: 'https://dashboard.commercelayer.io/test/giuseppe',
       reason: 'accessToken is not valid'
     })
   })
@@ -162,7 +162,7 @@ describe('TokenProvider', () => {
     getByTestId('btn-emit-error').click()
     await waitFor(() => expect(getByText('Invalid token')).toBeVisible())
     expect(onInvalidAuth).toHaveBeenCalledWith({
-      dashboardUrl: 'https://dashboard.commercelayer.io/',
+      dashboardUrl: 'https://dashboard.commercelayer.io/test/giuseppe',
       reason: 'custom error trigger'
     })
   })
