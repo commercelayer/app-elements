@@ -1,7 +1,5 @@
 import Table from '#core-app-elements/tables/Table'
-import Tr from '#core-app-elements/atoms/Tr'
-import Th from '#core-app-elements/atoms/Th'
-import Td from '#core-app-elements/atoms/Td'
+import { Tr, Th, Td } from '#core-app-elements/atoms/tables'
 import Container from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 

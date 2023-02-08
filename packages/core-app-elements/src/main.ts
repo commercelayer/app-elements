@@ -37,9 +37,9 @@ export { default as StatusIcon } from '#ui/atoms/StatusIcon'
 export { default as Tabs } from '#ui/atoms/Tabs'
 export { Tab } from '#ui/atoms/Tabs'
 export { default as Text } from '#ui/atoms/Text'
-export { default as Tr } from '#ui/atoms/Tr'
-export { default as Th } from '#ui/atoms/Th'
-export { default as Td } from '#ui/atoms/Td'
+export { default as Tr } from '#ui/atoms/tables/Tr'
+export { default as Th } from '#ui/atoms/tables/Th'
+export { default as Td } from '#ui/atoms/tables/Td'
 
 // Composite
 export { default as PageError } from '#ui/composite/PageError'
