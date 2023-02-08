@@ -71,7 +71,10 @@ export interface TokenProviderProps {
 }
 
 export const AuthContext = createContext<TokenProviderValue>({
-  dashboardUrl: makeDashboardUrl(),
+  dashboardUrl: makeDashboardUrl({
+    domain: initialTokenProviderState.settings.domain,
+    mode: initialTokenProviderState.settings.mode
+  }),
   canUser: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings
@@ -164,7 +167,10 @@ function TokenProvider({
   )
 
   const value: TokenProviderValue = {
-    dashboardUrl: makeDashboardUrl(),
+    dashboardUrl: makeDashboardUrl({
+      domain,
+      mode: _state.settings.mode
+    }),
     settings: _state.settings,
     canUser,
     emitInvalidAuth

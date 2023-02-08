@@ -25,6 +25,15 @@ describe('Get org slug from URL', () => {
 
   test('Compute proper dashboard url get subdomain as slug', () => {
     window.location.hostname = 'my-org.commercelayer.app'
-    expect(makeDashboardUrl()).toBe('https://dashboard.commercelayer.io/my-org')
+    expect(makeDashboardUrl({})).toBe(
+      'https://dashboard.commercelayer.io/live/my-org'
+    )
+  })
+
+  test('Compute proper dashboard url with custom domain and mode', () => {
+    window.location.hostname = 'my-org.commercelayer.app'
+    expect(makeDashboardUrl({ domain: 'commercelayer.co', mode: 'test' })).toBe(
+      'https://dashboard.commercelayer.co/test/my-org'
+    )
   })
 })
