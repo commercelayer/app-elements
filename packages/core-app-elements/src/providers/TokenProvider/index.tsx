@@ -158,7 +158,7 @@ function TokenProvider({
               mode: tokenInfo.mode,
               domain
             },
-            permissions: tokenInfo.permissions ?? {}
+            rolePermissions: tokenInfo.permissions ?? {}
           }
         })
       })()
