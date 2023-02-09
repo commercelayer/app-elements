@@ -7,7 +7,7 @@ A set of form elements to be used with `react-hook-form`.
 1. Install this package as dependency along with react-hook-form main package
 
 ```sh
-pnpm install react-hook-form @commercelayer/bo-app-elements-hook-form
+pnpm install react-hook-form @commercelayer/app-elements-hook-form
 ```
 
 2. Check `react-hook-form` documentation to initialize an instance of `useForm()`. This will keep all the form logic and be responsible of input validation and form state.
@@ -30,7 +30,7 @@ import {
   InputDate,
   InputDateRange,
   InputSelect,
-} from "@commercelayer/bo-app-elements-hook-form";
+} from "@commercelayer/app-elements-hook-form";
 
 function MyForm() {
   const methods = useForm({

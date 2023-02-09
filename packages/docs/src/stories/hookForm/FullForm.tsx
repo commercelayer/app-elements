@@ -6,14 +6,12 @@ import Container from '#core-app-elements/atoms/Container'
 import Spacer from '#core-app-elements/atoms/Spacer'
 import Button from '#core-app-elements/atoms/Button'
 
-import {
-  Form,
-  Input,
-  InputToggleBox,
-  InputDate,
-  InputDateRange,
-  InputSelect
-} from '@commercelayer/bo-app-elements-hook-form'
+import Form from '#app-elements-hook-form/Form'
+import Input from '#app-elements-hook-form/Input'
+import InputDate from '#app-elements-hook-form/InputDate'
+import InputDateRange from '#app-elements-hook-form/InputDateRange'
+import InputToggleBox from '#app-elements-hook-form/InputToggleBox'
+import InputSelect from '#app-elements-hook-form/InputSelect'
 
 const schema = z.object({
   companyName: z.string().min(1),

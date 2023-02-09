@@ -11,10 +11,18 @@ const viteOverrides = {
     tsconfigPaths.default({
       projects: [
         resolve(__dirname, "../../core-app-elements/tsconfig.json"),
+        resolve(__dirname, "../../app-elements-hook-form/tsconfig.json"),
         resolve(__dirname, "../tsconfig.json")
       ]
     })
-  ]
+  ],
+   resolve: {
+      alias: {
+        // we need this so all imports `@commercelayer/core-app-elements` from `app-elements-hook-form`
+        // will be resolved to their relative source files instead of looking for bundled ones in node_modules
+        '@commercelayer/core-app-elements': resolve(__dirname, '../../core-app-elements/src/main.ts'),
+      }
+   }
 }
 
 /** @type import('@storybook/core-common').StorybookConfig */
