@@ -40,6 +40,9 @@
       "#helpers/*": [
         "src/helpers/*"
       ],
+      "#hooks/*": [
+        "src/hooks/*"
+      ],
     }
   },
   "include": [

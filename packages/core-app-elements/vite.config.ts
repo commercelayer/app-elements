@@ -42,7 +42,8 @@ export default defineConfig({
       '#ui': resolve(__dirname, './src/ui'),
       '#styles': resolve(__dirname, './src/styles'),
       '#utils': resolve(__dirname, './src/utils'),
-      '#helpers': resolve(__dirname, './src/helpers')
+      '#helpers': resolve(__dirname, './src/helpers'),
+      '#hooks': resolve(__dirname, './src/hooks')
     }
   },
   test: {
