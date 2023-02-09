@@ -2,14 +2,11 @@ import cn from 'classnames'
 
 interface Props extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
-  showArrow?: boolean
+  arrow?: 'none'
 }
 
-export function DropdownMenu({
-  children,
-  showArrow = true,
-  ...rest
-}: Props): JSX.Element {
+export function DropdownMenu({ children, arrow, ...rest }: Props): JSX.Element {
+  const showArrow = arrow === undefined
   const showArrowMenuCss = showArrow && 'mt-[5px]'
 
   return (
