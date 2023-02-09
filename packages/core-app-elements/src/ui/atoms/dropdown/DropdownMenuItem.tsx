@@ -8,7 +8,7 @@ export function DropdownMenuItem({ label, icon, ...rest }: Props): JSX.Element {
     <button
       {...rest}
       className='w-full bg-black text-white py-1 px-4 text-sm font-semibold cursor-pointer hover:bg-primary flex items-center'
-      aria-labelledby={label}
+      aria-label={label}
     >
       {icon != null && <div>{icon}</div>}
       {label}
