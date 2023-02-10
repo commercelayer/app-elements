@@ -23,14 +23,7 @@
     "paths": {
       "#core-app-elements/*": [
         "../core-app-elements/src/ui/*"
-      ],
-      "#app-elements-hook-form/*": [
-        "../app-elements-hook-form/src/components/*"
-      ],
-      "@commercelayer/core-app-elements/dist/*": [
-        // required to properly resolve `core-app-elements` types imported in `app-elements-hook-form` components 
-        "node_modules/@commercelayer/core-app-elements/dist/*"
-      ],
+      ]
     }
   },
   "include": [
