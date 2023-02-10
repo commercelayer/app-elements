@@ -4,6 +4,9 @@ import { useFormContext } from 'react-hook-form'
 import ValidationError from './ValidationError'
 
 interface Props extends InputProps {
+  /**
+   * field name to match hook-form state
+   */
   name: string
 }
 

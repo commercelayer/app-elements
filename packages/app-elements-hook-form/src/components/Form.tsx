@@ -1,6 +1,9 @@
 import { FieldValues, FormProvider, FormProviderProps } from 'react-hook-form'
 
 interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
+  /**
+   * Callback invoked on submit when form has been successfully validated
+   */
   onSubmit: (data: T) => void
 }
 

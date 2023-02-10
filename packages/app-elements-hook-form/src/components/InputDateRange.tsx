@@ -5,6 +5,9 @@ import { Controller, useFormContext } from 'react-hook-form'
 import ValidationError from '#components/ValidationError'
 
 interface Props extends Omit<InputDateRangeProps, 'onChange' | 'value'> {
+  /**
+   * field name to match hook-form state
+   */
   name: string
 }
 

@@ -26,8 +26,11 @@ jobs:
       - name: Install 📦
         run: pnpm install
 
-      - name: Build 🛠
+      - name: Build elements 🛠
         run: pnpm build:elements
+
+      - name: Build elements-hook-form 🛠
+        run: pnpm build:elements-hook-form
 
       - name: Publish 🚀 PRERELEASE
         if: 'github.event.release.prerelease'

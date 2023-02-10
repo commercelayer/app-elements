@@ -2,6 +2,9 @@ import { useFormContext } from 'react-hook-form'
 import { Text } from '@commercelayer/core-app-elements'
 
 interface Props {
+  /**
+   * field name to match hook-form state
+   */
   name: string
 }
 

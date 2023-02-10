@@ -4,6 +4,9 @@ import { useFormContext } from 'react-hook-form'
 import ValidationError from '#components/ValidationError'
 
 interface Props extends InputToggleListBoxProps {
+  /**
+   * field name to match hook-form state
+   */
   name: string
 }
 
