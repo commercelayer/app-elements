@@ -1,8 +1,9 @@
 import cn from 'classnames'
 import { UploadSimple } from 'phosphor-react'
+import { ForwardedRef, forwardRef } from 'react'
 import invariant from 'ts-invariant'
 
-interface Props
+interface InputFileProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**
    * If defined, it shows a progress bar at the bottom. It must be between 0 and 100.
@@ -14,12 +15,10 @@ interface Props
   label: string
 }
 
-export function InputFile({
-  className,
-  progress,
-  label,
-  ...rest
-}: Props): JSX.Element {
+function InputFile(
+  { className, progress, label, ...rest }: InputFileProps,
+  ref: ForwardedRef<HTMLInputElement>
+): JSX.Element {
   invariant(
     progress === undefined || (progress >= 0 && progress <= 100),
     'When set, progress must be between 0 and 100 range'
@@ -34,6 +33,7 @@ export function InputFile({
       <input
         type='file'
         {...rest}
+        ref={ref}
         className='inset-0 absolute opacity-0 z-10 cursor-pointer'
       />
       <UploadSimple className='mb-2' size={32} />
@@ -54,4 +54,4 @@ export function InputFile({
   )
 }
 
-export default InputFile
+export default forwardRef<HTMLInputElement, InputFileProps>(InputFile)

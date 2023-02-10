@@ -2,24 +2,12 @@ import { InputSelectProps, SelectValue } from './'
 import AsyncSelect from 'react-select/async'
 import { StylesConfig } from 'react-select'
 import components from './overrides'
+import { SetRequired } from 'type-fest'
 
 interface AsyncSelectComponentProps
-  extends Pick<
-    InputSelectProps,
-    | 'menuIsOpen'
-    | 'initialValues'
-    | 'defaultValue'
-    | 'isClearable'
-    | 'isLoading'
-    | 'loadingText'
-    | 'placeholder'
-    | 'isDisabled'
-    | 'onSelect'
-    | 'isMulti'
-    | 'onBlur'
-    | 'name'
-    | 'loadAsyncValues'
-    | 'noOptionsMessage'
+  extends Omit<
+    SetRequired<InputSelectProps, 'loadAsyncValues'>,
+    'label' | 'helperText'
   > {
   styles: StylesConfig<SelectValue>
 }

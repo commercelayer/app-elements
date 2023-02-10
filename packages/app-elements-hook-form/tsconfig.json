@@ -7,7 +7,11 @@
       "DOM.Iterable",
       "ESNext"
     ],
-    "allowJs": true,
+    "types": [
+      "vitest/globals",
+      "@testing-library/jest-dom"
+    ],
+    "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
@@ -21,8 +25,8 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#core-app-elements/*": [
-        "../core-app-elements/src/ui/*"
+      "#components/*": [
+        "src/components/*"
       ]
     }
   },
@@ -30,6 +34,12 @@
     "src",
     ".eslintrc.cjs",
     "*.config.ts",
-    "*.config.js"
+    "*.config.js",
+    "*.config.cjs",
+  ],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
   ]
 }

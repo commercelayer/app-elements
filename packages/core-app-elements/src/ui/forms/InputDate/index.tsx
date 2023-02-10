@@ -1,17 +1,21 @@
 import { InputDateProps } from './InputDateComponent'
-import { lazy, Suspense } from 'react'
+import { forwardRef, lazy, Suspense } from 'react'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
+import DatePicker from 'react-datepicker'
 
 const InputDateComponent = lazy(
   async () => await import('./InputDateComponent')
 )
 
-export function InputDate(props: InputDateProps): JSX.Element {
+export function InputDate(
+  props: InputDateProps,
+  ref: React.ForwardedRef<DatePicker>
+): JSX.Element {
   return (
     <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
-      <InputDateComponent {...props} />
+      <InputDateComponent {...props} ref={ref} />
     </Suspense>
   )
 }
 
-export default InputDate
+export default forwardRef<DatePicker, InputDateProps>(InputDate)

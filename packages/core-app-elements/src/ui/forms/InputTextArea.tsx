@@ -1,8 +1,13 @@
 import cn from 'classnames'
+import { ForwardedRef, forwardRef } from 'react'
 
-interface Props extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
+interface InputTextAreaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {}
 
-export function InputTextArea({ className, ...rest }: Props): JSX.Element {
+function InputTextArea(
+  { className, ...rest }: InputTextAreaProps,
+  ref: ForwardedRef<HTMLTextAreaElement>
+): JSX.Element {
   return (
     <textarea
       {...rest}
@@ -10,8 +15,11 @@ export function InputTextArea({ className, ...rest }: Props): JSX.Element {
         'h-52 p-3 w-full border border-gray-200 bg-white rounded-md',
         className
       )}
+      ref={ref}
     />
   )
 }
 
-export default InputTextArea
+export default forwardRef<HTMLTextAreaElement, InputTextAreaProps>(
+  InputTextArea
+)

@@ -1,4 +1,4 @@
-import { RadioButtons, RadioButtonsProps } from './RadioButtons'
+import RadioButtons, { RadioButtonsProps } from './RadioButtons'
 import { render, RenderResult } from '@testing-library/react'
 import { RadioOptionValue } from '#ui/forms/RadioButtons'
 import { useState } from 'react'

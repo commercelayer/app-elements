@@ -1,4 +1,4 @@
-import { InputToggleBox } from './InputToggleBox'
+import InputToggleBox from './InputToggleBox'
 import { fireEvent, render, RenderResult } from '@testing-library/react'
 import { useState } from 'react'
 
@@ -25,8 +25,8 @@ function ToggleImplementation({
       id={id}
       data-test-id={id}
       label={label}
-      isChecked={state}
-      onToggle={setState}
+      checked={state}
+      onChange={(e) => setState(e.target.checked)}
     />
   )
 }

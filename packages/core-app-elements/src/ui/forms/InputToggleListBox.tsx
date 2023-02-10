@@ -1,34 +1,36 @@
 import cn from 'classnames'
+import { ForwardedRef, forwardRef } from 'react'
 
 export interface InputToggleListBoxOption {
   value: string
   label: string
 }
 
-interface Props
+export interface InputToggleListBoxProps
   extends Omit<
     React.SelectHTMLAttributes<HTMLSelectElement>,
-    'value' | 'onChange' | 'onSelect'
+    'value' | 'onSelect'
   > {
   id: string
   label: string
   description?: React.ReactNode
-  value: string
+  value?: string
   options: InputToggleListBoxOption[]
   className?: string
-  onSelect: (value: string) => void
 }
 
-export function InputToggleListBox({
-  id,
-  className,
-  label,
-  value,
-  options = [],
-  onSelect,
-  description,
-  ...rest
-}: Props): JSX.Element {
+export function InputToggleListBox(
+  {
+    id,
+    className,
+    label,
+    value,
+    options = [],
+    description,
+    ...rest
+  }: InputToggleListBoxProps,
+  ref: ForwardedRef<HTMLSelectElement>
+): JSX.Element {
   return (
     <div
       className={cn('px-4 first:border-t border-b b-gray-100 py-4', className)}
@@ -46,11 +48,9 @@ export function InputToggleListBox({
           <select
             id={id}
             value={value}
-            onChange={(e) => {
-              onSelect(e.currentTarget.value)
-            }}
             className='appearance-none cursor-pointer border-0 py-0 pr-9 font-medium text-gray-500 focus:outline-none focus:ring-0 focus:shadow-none'
             {...rest}
+            ref={ref}
           >
             {options.map((opt) => (
               <option value={opt.value} key={opt.value}>
@@ -64,4 +64,6 @@ export function InputToggleListBox({
   )
 }
 
-export default InputToggleListBox
+export default forwardRef<HTMLSelectElement, InputToggleListBoxProps>(
+  InputToggleListBox
+)

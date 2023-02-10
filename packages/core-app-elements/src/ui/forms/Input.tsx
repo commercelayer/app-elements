@@ -1,10 +1,13 @@
 import cn from 'classnames'
+import { forwardRef } from 'react'
+import Label from '#ui/forms/Label'
 
 export interface InputProps
-  extends Omit<
-    React.InputHTMLAttributes<HTMLInputElement>,
-    'type' | 'onChange'
-  > {
+  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  /**
+   * optional input label
+   */
+  label?: string
   /**
    * controlled type
    */
@@ -13,32 +16,27 @@ export interface InputProps
    * optional css class names used for the input element
    */
   className?: string
-  /**
-   * Optional callback that will be called when onChange event is triggered
-   */
-  onChange?: (value: string) => void
 }
 
-export function Input({
-  type = 'text',
-  className,
-  onChange,
-  ...rest
-}: InputProps): JSX.Element {
+function Input(
+  { type = 'text', className, label, ...rest }: InputProps,
+  ref: React.ForwardedRef<HTMLInputElement>
+): JSX.Element {
   return (
-    <input
-      {...rest}
-      className={cn(
-        'block w-full border-gray-200 px-4 h-10 font-medium',
-        'rounded outline-0',
-        className
-      )}
-      onChange={(e) => {
-        onChange?.(e.currentTarget.value)
-      }}
-      type={type}
-    />
+    <div>
+      {label != null && <Label gap>{label}</Label>}
+      <input
+        {...rest}
+        className={cn(
+          'block w-full border-gray-200 px-4 h-10 font-medium',
+          'rounded outline-0',
+          className
+        )}
+        type={type}
+        ref={ref}
+      />
+    </div>
   )
 }
 
-export default Input
+export default forwardRef<HTMLInputElement, InputProps>(Input)

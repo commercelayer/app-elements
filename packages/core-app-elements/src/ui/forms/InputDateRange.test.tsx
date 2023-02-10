@@ -6,9 +6,9 @@ import {
   waitFor,
   fireEvent
 } from '@testing-library/react'
+import { MaybeDate } from './InputDate/InputDateComponent'
 
-interface SetupProps
-  extends Omit<InputDateRangeProps, 'onFromChange' | 'onToChange'> {
+interface SetupProps extends Omit<InputDateRangeProps, 'onChange'> {
   id: string
 }
 
@@ -16,23 +16,15 @@ type SetupResult = RenderResult & {
   element: HTMLInputElement
 }
 
-function ComponentWithState({
-  id,
-  fromDate,
-  toDate,
-  ...rest
-}: SetupProps): JSX.Element {
-  const [from, setFrom] = useState<Date | null | undefined>(fromDate)
-  const [to, setTo] = useState<Date | null | undefined>(toDate)
+function ComponentWithState({ id, value, ...rest }: SetupProps): JSX.Element {
+  const [dates, dateDates] = useState<[MaybeDate, MaybeDate]>(value)
 
   return (
     <InputDateRange
       data-test-id={id}
       {...rest}
-      fromDate={from}
-      onFromChange={setFrom}
-      toDate={to}
-      onToChange={setTo}
+      value={dates}
+      onChange={dateDates}
     />
   )
 }
@@ -51,7 +43,8 @@ describe('InputDateRange', () => {
     const { element } = setup({
       id: 'date-picker',
       fromPlaceholder: 'select starting date',
-      toPlaceholder: 'select ending date'
+      toPlaceholder: 'select ending date',
+      value: [null, null]
     })
     expect(element).toBeInTheDocument()
 
@@ -71,7 +64,8 @@ describe('InputDateRange', () => {
   test('Should sync to date when from date is higher', async () => {
     const { element } = setup({
       id: 'date-picker-sync',
-      format: 'dd-MM-yyyy'
+      format: 'dd-MM-yyyy',
+      value: [null, null]
     })
     expect(element).toBeInTheDocument()
 

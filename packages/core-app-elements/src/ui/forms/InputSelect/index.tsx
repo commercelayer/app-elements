@@ -36,9 +36,6 @@ export interface InputSelectProps {
   isSearchable?: boolean
   isMulti?: boolean
   onSelect: (value: PossibleSelectValue) => void
-  loadOptions?: (
-    inputValue: string
-  ) => Promise<GroupedSelectValues | SelectValue[]>
   onBlur?: FocusEventHandler<HTMLInputElement>
   name?: string
   menuIsOpen?: boolean

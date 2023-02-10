@@ -24,3 +24,8 @@ Default.args = {
   value: 'I love Commerce Layer',
   type: 'text'
 }
+
+export const WithLabel = Template.bind({})
+WithLabel.args = {
+  label: 'Your name'
+}
