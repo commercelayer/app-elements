@@ -1,5 +1,5 @@
-import ListItemTask from '#core-app-elements/lists/ListItemTask'
-import Legend from '#core-app-elements/atoms/Legend'
+import { ListItemTask } from '#core-app-elements/lists/ListItemTask'
+import { Legend } from '#core-app-elements/atoms/Legend'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListItemTask> = {

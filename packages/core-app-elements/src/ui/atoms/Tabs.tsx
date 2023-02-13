@@ -32,7 +32,7 @@ interface Props {
   keepAlive?: boolean
 }
 
-export function Tabs({
+function Tabs({
   id = 'tab',
   children,
   onTabSwitch,
@@ -132,7 +132,7 @@ interface TabProps {
   children: ReactNode
 }
 
-export function Tab({ children }: TabProps): React.ReactElement {
+function Tab({ children }: TabProps): React.ReactElement {
   return <>{children}</>
 }
 
@@ -194,4 +194,6 @@ function TabPanel({
   )
 }
 
-export default Tabs
+Tabs.displayName = 'Tabs'
+Tab.displayName = 'Tab'
+export { Tab, Tabs }

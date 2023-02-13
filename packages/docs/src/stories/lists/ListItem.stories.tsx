@@ -1,4 +1,4 @@
-import ListItem from '#core-app-elements/lists/ListItem'
+import { ListItem } from '#core-app-elements/lists/ListItem'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListItem> = {

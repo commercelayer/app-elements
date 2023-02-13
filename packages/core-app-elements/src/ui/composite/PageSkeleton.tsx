@@ -10,7 +10,7 @@ interface PageSkeletonProps {
   delayMs?: number
 }
 
-export function PageSkeleton({
+function PageSkeleton({
   layout,
   hasHeaderDescription,
   delayMs
@@ -45,4 +45,5 @@ export function PageSkeleton({
   )
 }
 
-export default PageSkeleton
+PageSkeleton.displayName = 'PageSkeleton'
+export { PageSkeleton }

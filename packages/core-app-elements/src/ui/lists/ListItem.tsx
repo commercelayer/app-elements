@@ -8,7 +8,7 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
   noHover?: boolean
 }
 
-export function ListItem({
+function ListItem({
   label,
   description,
   icon,
@@ -44,4 +44,5 @@ export function ListItem({
   )
 }
 
-export default ListItem
+ListItem.displayName = 'ListItem'
+export { ListItem }

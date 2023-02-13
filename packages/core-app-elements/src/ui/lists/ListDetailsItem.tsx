@@ -20,7 +20,7 @@ interface ListDetailsItemProps {
   isLoading?: boolean
 }
 
-export function ListDetailsItem({
+function ListDetailsItem({
   label,
   children,
   isLoading,
@@ -34,7 +34,7 @@ export function ListDetailsItem({
 
   return (
     <div
-      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!items-center md:!flex-row px-4 py-4 md:py-2 md:gap-4'
+      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!items-center md:!flex-row px-4 py-4 md:!py-2 md:!gap-4'
       {...rest}
     >
       <div className='text-gray-500 font-medium flex-none w-5/12'>{label}</div>
@@ -55,4 +55,5 @@ export function ListDetailsItem({
   )
 }
 
-export default ListDetailsItem
+ListDetailsItem.displayName = 'ListDetailsItem'
+export { ListDetailsItem }

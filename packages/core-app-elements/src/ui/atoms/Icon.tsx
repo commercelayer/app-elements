@@ -30,7 +30,7 @@ interface IconProps extends React.HTMLAttributes<HTMLDivElement>, IconSvgProps {
   size?: string | number
 }
 
-export function Icon({
+function Icon({
   name,
   background = 'none',
   gap = 'none',
@@ -59,7 +59,8 @@ export function Icon({
   )
 }
 
-export default Icon
+Icon.displayName = 'Icon'
+export { Icon }
 
 interface IconSvgProps extends Pick<IconProps, 'size'> {}
 const IconSvg = {

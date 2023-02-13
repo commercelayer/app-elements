@@ -1,5 +1,5 @@
 import { render, RenderResult } from '@testing-library/react'
-import Table from './Table'
+import { Table } from './Table'
 import { Tr, Th, Td } from '#ui/atoms/tables'
 
 type SetupResult = RenderResult & {

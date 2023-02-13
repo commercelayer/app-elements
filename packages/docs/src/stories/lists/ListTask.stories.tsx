@@ -1,7 +1,7 @@
-import List from '#core-app-elements/lists/List'
-import ListItemTask from '#core-app-elements/lists/ListItemTask'
-import Container from '#core-app-elements/atoms/Container'
-import A from '#core-app-elements/atoms/A'
+import { List } from '#core-app-elements/lists/List'
+import { ListItemTask } from '#core-app-elements/lists/ListItemTask'
+import { Container } from '#core-app-elements/atoms/Container'
+import { A } from '#core-app-elements/atoms/A'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
@@ -28,7 +28,7 @@ const Template: ComponentStory<typeof List> = (args) => {
           recordsPerPage: 20,
           recordCount: 243,
           currentPage,
-          onChangePageRequest: (newPage) => setCurrentPage(newPage),
+          onChangePageRequest: (newPage: number) => setCurrentPage(newPage),
           pageCount: 5
         }}
       >

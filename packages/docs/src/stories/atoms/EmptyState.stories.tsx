@@ -1,8 +1,8 @@
-import EmptyState from '#core-app-elements/atoms/EmptyState'
-import Container from '#core-app-elements/atoms/Container'
+import { EmptyState } from '#core-app-elements/atoms/EmptyState'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import A from '#core-app-elements/atoms/A'
-import Button from '#core-app-elements/atoms/Button'
+import { A } from '#core-app-elements/atoms/A'
+import { Button } from '#core-app-elements/atoms/Button'
 
 const setup: ComponentMeta<typeof EmptyState> = {
   title: 'Atoms/EmptyState',

@@ -6,7 +6,7 @@ interface FormFooterProps
   buttonCancel?: JSX.Element
 }
 
-export function FormFooter({
+function FormFooter({
   buttonSubmit,
   buttonCancel,
   className,
@@ -20,4 +20,5 @@ export function FormFooter({
   )
 }
 
-export default FormFooter
+FormFooter.displayName = 'FormFooter'
+export { FormFooter }

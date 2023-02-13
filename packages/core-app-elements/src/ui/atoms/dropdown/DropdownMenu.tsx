@@ -5,7 +5,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   arrow?: 'none'
 }
 
-export function DropdownMenu({ children, arrow, ...rest }: Props): JSX.Element {
+function DropdownMenu({ children, arrow, ...rest }: Props): JSX.Element {
   const showArrow = arrow === undefined
   const showArrowMenuCss = showArrow && 'mt-[5px]'
 
@@ -27,4 +27,5 @@ export function DropdownMenu({ children, arrow, ...rest }: Props): JSX.Element {
   )
 }
 
-export default DropdownMenu
+DropdownMenu.displayName = 'DropdownMenu'
+export { DropdownMenu }

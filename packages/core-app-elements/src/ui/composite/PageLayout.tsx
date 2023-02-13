@@ -14,7 +14,7 @@ export interface PageLayoutProps
   mode?: 'test' | 'live'
 }
 
-export function PageLayout({
+function PageLayout({
   title,
   description,
   onGoBack,
@@ -38,4 +38,5 @@ export function PageLayout({
   )
 }
 
-export default PageLayout
+PageLayout.displayName = 'PageLayout'
+export { PageLayout }

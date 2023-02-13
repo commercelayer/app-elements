@@ -1,4 +1,4 @@
-import Pagination from '#core-app-elements/atoms/Pagination'
+import { Pagination } from '#core-app-elements/atoms/Pagination'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

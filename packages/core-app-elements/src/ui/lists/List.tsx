@@ -41,7 +41,7 @@ export interface ListProps {
   pagination?: ListPagination
 }
 
-export function List({
+function List({
   title,
   actionButton,
   isDisabled,
@@ -124,4 +124,5 @@ export function List({
   )
 }
 
-export default List
+List.displayName = 'List'
+export { List }

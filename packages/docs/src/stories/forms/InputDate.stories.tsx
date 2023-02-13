@@ -1,5 +1,5 @@
-import InputDate from '#core-app-elements/forms/InputDate'
-import Container from '#core-app-elements/atoms/Container'
+import { InputDate } from '#core-app-elements/forms/InputDate'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

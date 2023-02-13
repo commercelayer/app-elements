@@ -1,5 +1,5 @@
-import InputFile from '#core-app-elements/forms/InputFile'
-import Container from '#core-app-elements/atoms/Container'
+import { InputFile } from '#core-app-elements/forms/InputFile'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

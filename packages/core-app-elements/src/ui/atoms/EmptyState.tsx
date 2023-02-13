@@ -10,7 +10,7 @@ interface Props {
   icon?: 'stack' | 'none'
 }
 
-export function EmptyState({
+function EmptyState({
   title,
   description,
   action,
@@ -50,4 +50,5 @@ export function EmptyState({
   )
 }
 
-export default EmptyState
+EmptyState.displayName = 'EmptyState'
+export { EmptyState }

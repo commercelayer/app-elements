@@ -1,5 +1,5 @@
-import Tabs, { Tab } from '#core-app-elements/atoms/Tabs'
-import Container from '#core-app-elements/atoms/Container'
+import { Tabs, Tab } from '#core-app-elements/atoms/Tabs'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Tabs> = {

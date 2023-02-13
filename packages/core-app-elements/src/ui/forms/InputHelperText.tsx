@@ -11,7 +11,7 @@ export interface InputHelperTextProps {
   className?: string
 }
 
-export function InputHelperText({
+function InputHelperText({
   icon,
   variant = 'regular',
   className,
@@ -36,4 +36,5 @@ export function InputHelperText({
   )
 }
 
-export default InputHelperText
+InputHelperText.displayName = 'InputHelperText'
+export { InputHelperText }

@@ -24,7 +24,7 @@ export interface DetailsListProps {
   loadingLines?: number
 }
 
-export function ListDetails({
+function ListDetails({
   title,
   children,
   isLoading,
@@ -66,4 +66,5 @@ export function ListDetails({
   )
 }
 
-export default ListDetails
+ListDetails.displayName = 'ListDetails'
+export { ListDetails }

@@ -2,7 +2,7 @@ import cn from 'classnames'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {}
 
-export function Card({ className, children, ...rest }: Props): JSX.Element {
+function Card({ className, children, ...rest }: Props): JSX.Element {
   return (
     <div
       className={cn([
@@ -16,4 +16,5 @@ export function Card({ className, children, ...rest }: Props): JSX.Element {
   )
 }
 
-export default Card
+Card.displayName = 'Card'
+export { Card }

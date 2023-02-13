@@ -3,7 +3,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
   icon?: React.ReactNode
 }
 
-export function DropdownMenuItem({ label, icon, ...rest }: Props): JSX.Element {
+function DropdownMenuItem({ label, icon, ...rest }: Props): JSX.Element {
   return (
     <button
       {...rest}
@@ -16,4 +16,5 @@ export function DropdownMenuItem({ label, icon, ...rest }: Props): JSX.Element {
   )
 }
 
-export default DropdownMenuItem
+DropdownMenuItem.displayName = 'DropdownMenuItem'
+export { DropdownMenuItem }
