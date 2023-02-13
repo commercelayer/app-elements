@@ -53,7 +53,7 @@ export interface InputDateProps {
   isClearable?: boolean
 }
 
-const InputDate = forwardRef<DatePicker, InputDateProps>(
+const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
   (
     {
       onChange,
@@ -111,8 +111,8 @@ const InputDate = forwardRef<DatePicker, InputDateProps>(
   }
 )
 
-InputDate.displayName = 'InputDate'
-export { InputDate }
+InputDateComponent.displayName = 'InputDateComponent'
+export { InputDateComponent }
 
 function detectDateFormat(): string {
   const date = new Date(2023, 11, 15) //  15th of December

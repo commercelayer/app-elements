@@ -1,4 +1,5 @@
-import InputToggleListBox, {
+import {
+  InputToggleListBox,
   InputToggleListBoxOption
 } from './InputToggleListBox'
 import { fireEvent, render, RenderResult } from '@testing-library/react'

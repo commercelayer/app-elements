@@ -62,7 +62,8 @@ function InputJson<JsonType extends object>({
   )
 }
 
-export default InputJson
+InputJson.displayName = 'InputJson'
+export { InputJson }
 
 function preparePlaceholder(obj: object): string {
   const content = JSON.stringify(obj, null, 2)

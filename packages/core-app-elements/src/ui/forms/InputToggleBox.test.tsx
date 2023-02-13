@@ -1,4 +1,4 @@
-import InputToggleBox from './InputToggleBox'
+import { InputToggleBox } from './InputToggleBox'
 import { fireEvent, render, RenderResult } from '@testing-library/react'
 import { useState } from 'react'
 

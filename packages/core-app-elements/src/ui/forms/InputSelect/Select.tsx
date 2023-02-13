@@ -24,4 +24,5 @@ function SelectComponent({
   )
 }
 
-export default SelectComponent
+SelectComponent.displayName = 'SelectComponent'
+export { SelectComponent }

@@ -8,7 +8,7 @@ interface Props {
   menuItems: React.ReactNode
 }
 
-export function ContextMenu({
+function ContextMenu({
   menuLabel = <DotsThreeCircle className='w-6 h-6' />,
   menuItems,
   ...rest
@@ -57,4 +57,5 @@ export function ContextMenu({
   )
 }
 
-export default ContextMenu
+ContextMenu.displayName = 'ContextMenu'
+export { ContextMenu }

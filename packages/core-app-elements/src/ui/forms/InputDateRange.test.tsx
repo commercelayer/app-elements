@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import InputDateRange, { InputDateRangeProps } from './InputDateRange'
+import { InputDateRange, InputDateRangeProps } from './InputDateRange'
 import {
   render,
   RenderResult,

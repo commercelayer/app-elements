@@ -28,7 +28,7 @@ interface PageErrorProps {
   actionButton?: JSX.Element
 }
 
-export function PageError({
+function PageError({
   pageTitle = 'Commerce Layer',
   onGoBack,
   errorName,
@@ -48,4 +48,5 @@ export function PageError({
   )
 }
 
-export default PageError
+PageError.displayName = 'PageError'
+export { PageError }

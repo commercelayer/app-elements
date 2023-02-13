@@ -1,5 +1,5 @@
-import Report from '#core-app-elements/composite/Report'
-import Container from '#core-app-elements/atoms/Container'
+import { Report } from '#core-app-elements/composite/Report'
+import { Container } from '#core-app-elements/atoms/Container'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 

@@ -31,4 +31,5 @@ function AsyncSelectComponent({
   )
 }
 
-export default AsyncSelectComponent
+AsyncSelectComponent.displayName = 'AsyncSelectComponent'
+export { AsyncSelectComponent }

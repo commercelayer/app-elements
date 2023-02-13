@@ -1,5 +1,5 @@
 import type { InputProps } from './Input'
-import Input from './Input'
+import { Input } from './Input'
 import { fireEvent, render, RenderResult } from '@testing-library/react'
 
 interface SetupProps extends InputProps {

@@ -1,4 +1,5 @@
-import RadioButtons, {
+import {
+  RadioButtons,
   RadioOptionValue
 } from '#core-app-elements/forms/RadioButtons'
 import { ComponentStory, ComponentMeta } from '@storybook/react'

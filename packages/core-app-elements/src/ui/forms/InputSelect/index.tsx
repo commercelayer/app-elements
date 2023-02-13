@@ -2,11 +2,21 @@ import { FocusEventHandler, lazy, Suspense } from 'react'
 import { MultiValue, SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
 import selectStyles from './styles'
-import Label from '../Label'
-import InputHelperText from '../InputHelperText'
+import { Label } from '../Label'
+import { InputHelperText } from '../InputHelperText'
 
-const AsyncSelectComponent = lazy(async () => await import('./Async'))
-const SelectComponent = lazy(async () => await import('./Select'))
+const LazyAsyncSelect = lazy(
+  async () =>
+    await import('./Async').then((module) => ({
+      default: module.AsyncSelectComponent
+    }))
+)
+const LazySelectComponent = lazy(
+  async () =>
+    await import('./Select').then((module) => ({
+      default: module.SelectComponent
+    }))
+)
 
 export type GroupedSelectValues = Array<{
   label: string
@@ -46,7 +56,7 @@ export interface InputSelectProps {
   ) => Promise<GroupedSelectValues | SelectValue[]>
 }
 
-export function InputSelect({
+function InputSelect({
   label,
   helperText,
   menuIsOpen,
@@ -72,7 +82,7 @@ export function InputSelect({
       {label != null && <Label gap>{label}</Label>}
       {loadAsyncValues != null ? (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
-          <AsyncSelectComponent
+          <LazyAsyncSelect
             menuIsOpen={menuIsOpen}
             initialValues={initialValues}
             defaultValue={defaultValue}
@@ -90,7 +100,7 @@ export function InputSelect({
         </Suspense>
       ) : (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
-          <SelectComponent
+          <LazySelectComponent
             menuIsOpen={menuIsOpen}
             initialValues={initialValues}
             defaultValue={defaultValue}
@@ -154,4 +164,5 @@ export function flatSelectValues(
     : selectedValue.map((o) => o.value)
 }
 
-export default InputSelect
+InputSelect.displayName = 'InputSelect'
+export { InputSelect }

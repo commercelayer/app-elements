@@ -1,5 +1,5 @@
-import Input from '#core-app-elements/forms/Input'
-import Container from '#core-app-elements/atoms/Container'
+import { Input } from '#core-app-elements/forms/Input'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Input> = {

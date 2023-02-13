@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import Label from '#ui/forms/Label'
+import { Label } from '#ui/forms/Label'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 
 interface InputReadonlyProps {
@@ -25,7 +25,7 @@ interface InputReadonlyProps {
   showCopyAction?: boolean
 }
 
-export function InputReadonly({
+function InputReadonly({
   label,
   value,
   wrapperClassName,
@@ -56,4 +56,5 @@ export function InputReadonly({
   )
 }
 
-export default InputReadonly
+InputReadonly.displayName = 'InputReadonly'
+export { InputReadonly }

@@ -1,8 +1,8 @@
-import Label from '#core-app-elements/forms/Label'
-import InputSelect, { SelectValue } from '#core-app-elements/forms/InputSelect'
-import InputHelperText from '#core-app-elements/forms/InputHelperText'
-import Spacer from '#core-app-elements/atoms/Spacer'
-import Container from '#core-app-elements/atoms/Container'
+import { Label } from '#core-app-elements/forms/Label'
+import { InputSelect, SelectValue } from '#core-app-elements/forms/InputSelect'
+import { InputHelperText } from '#core-app-elements/forms/InputHelperText'
+import { Spacer } from '#core-app-elements/atoms/Spacer'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const fullList = [

@@ -2,7 +2,7 @@ import {
   DropdownMenuDivider,
   DropdownMenuItem
 } from '#core-app-elements/atoms/dropdown'
-import ContextMenu from '#core-app-elements/composite/ContextMenu'
+import { ContextMenu } from '#core-app-elements/composite/ContextMenu'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ContextMenu> = {

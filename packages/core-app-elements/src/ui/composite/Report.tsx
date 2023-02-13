@@ -18,7 +18,7 @@ export interface ReportProps {
   loadingLines?: number
 }
 
-export function Report({
+function Report({
   items,
   isLoading,
   loadingLines = 2,
@@ -93,4 +93,5 @@ export function Report({
   )
 }
 
-export default Report
+Report.displayName = 'Report'
+export { Report }

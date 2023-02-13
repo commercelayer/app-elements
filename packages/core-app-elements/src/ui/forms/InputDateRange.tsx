@@ -1,6 +1,6 @@
 import { ArrowRight } from 'phosphor-react'
-import InputDate from './InputDate'
-import Label from './Label'
+import { InputDate } from './InputDate'
+import { Label } from './Label'
 import { forwardRef, useEffect } from 'react'
 import { InputDateProps, MaybeDate } from './InputDate/InputDateComponent'
 
@@ -27,68 +27,71 @@ export interface InputDateRangeProps
   toPlaceholder?: string
 }
 
-function InputDateRange(
-  {
-    value = [null, null],
-    fromPlaceholder,
-    toPlaceholder,
-    label,
-    format,
-    autoPlaceholder,
-    isClearable,
-    onChange,
-    ...rest
-  }: InputDateRangeProps,
-  ref: React.ForwardedRef<HTMLDivElement>
-): JSX.Element {
-  const [fromDate, toDate] = value
-
-  useEffect(
-    function syncToDateWhenFromIsFuture() {
-      if (fromDate == null || toDate == null) {
-        return
-      }
-
-      if (fromDate > toDate) {
-        onChange([fromDate, fromDate])
-      }
+const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
+  (
+    {
+      value = [null, null],
+      fromPlaceholder,
+      toPlaceholder,
+      label,
+      format,
+      autoPlaceholder,
+      isClearable,
+      onChange,
+      ...rest
     },
-    [fromDate]
-  )
+    ref
+  ): JSX.Element => {
+    const [fromDate, toDate] = value
 
-  return (
-    <div {...rest} ref={ref}>
-      {label != null && <Label gap>{label}</Label>}
-      <div className='flex items-center'>
-        <InputDate
-          value={fromDate}
-          onChange={(newDate) => {
-            onChange([newDate, toDate])
-          }}
-          placeholder={fromPlaceholder}
-          format={format}
-          wrapperClassName='flex-1'
-          isClearable={isClearable}
-          autoPlaceholder={autoPlaceholder}
-        />
-        <div className='px-2 text-gray-300'>
-          <ArrowRight size={24} />
+    useEffect(
+      function syncToDateWhenFromIsFuture() {
+        if (fromDate == null || toDate == null) {
+          return
+        }
+
+        if (fromDate > toDate) {
+          onChange([fromDate, fromDate])
+        }
+      },
+      [fromDate]
+    )
+
+    return (
+      <div {...rest} ref={ref}>
+        {label != null && <Label gap>{label}</Label>}
+        <div className='flex items-center'>
+          <InputDate
+            value={fromDate}
+            onChange={(newDate) => {
+              onChange([newDate, toDate])
+            }}
+            placeholder={fromPlaceholder}
+            format={format}
+            wrapperClassName='flex-1'
+            isClearable={isClearable}
+            autoPlaceholder={autoPlaceholder}
+          />
+          <div className='px-2 text-gray-300'>
+            <ArrowRight size={24} />
+          </div>
+          <InputDate
+            value={toDate}
+            onChange={(newDate) => {
+              onChange([fromDate, newDate])
+            }}
+            placeholder={toPlaceholder}
+            minDate={fromDate ?? undefined}
+            format={format}
+            wrapperClassName='flex-1'
+            isClearable={isClearable}
+            autoPlaceholder={autoPlaceholder}
+          />
         </div>
-        <InputDate
-          value={toDate}
-          onChange={(newDate) => {
-            onChange([fromDate, newDate])
-          }}
-          placeholder={toPlaceholder}
-          minDate={fromDate ?? undefined}
-          format={format}
-          wrapperClassName='flex-1'
-          isClearable={isClearable}
-          autoPlaceholder={autoPlaceholder}
-        />
       </div>
-    </div>
-  )
-}
+    )
+  }
+)
 
-export default forwardRef<HTMLDivElement, InputDateRangeProps>(InputDateRange)
+InputDateRange.displayName = 'InputDateRange'
+export { InputDateRange }
