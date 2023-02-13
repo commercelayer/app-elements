@@ -62,8 +62,6 @@ export async function isValidTokenForCurrentApp({
 
   try {
     const tokenInfo = await fetchTokenInfo({ accessToken, slug, domain })
-    // TODO: implement async verification against tokeninfo endpoint only if `currentApp` is not `custom`
-    console.log({ currentApp })
     const isValidPermission = Boolean(tokenInfo?.token)
 
     const isAllValid = isValidKind && isValidSlug && isValidPermission
@@ -76,7 +74,7 @@ export async function isValidTokenForCurrentApp({
     return {
       isValidToken: true,
       accessToken,
-      mode: tokenInfo?.token.test !== undefined ? 'test' : 'live',
+      mode: tokenInfo?.token.test === true ? 'test' : 'live',
       organizationSlug: slug,
       permissions:
         tokenInfo?.permissions != null
