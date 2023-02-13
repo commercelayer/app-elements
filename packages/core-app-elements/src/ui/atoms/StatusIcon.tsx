@@ -1,5 +1,5 @@
-import { Check, X } from 'phosphor-react'
 import invariant from 'ts-invariant'
+import { Icon } from './Icon'
 
 export type StatusUI = 'success' | 'danger' | 'pending' | 'progress'
 
@@ -35,7 +35,7 @@ export function StatusIcon({
   )
 
   return (
-    <div {...rest} className='w-10 h-10'>
+    <div {...rest} className='w-[42px] h-[42px]'>
       <>{statusVariant[status]({ percentage })}</>
     </div>
   )
@@ -45,10 +45,19 @@ const statusVariant: Record<
   StatusUI,
   ((p?: any) => JSX.Element) | (() => JSX.Element)
 > = {
+  success: () => (
+    <Icon
+      name='check'
+      background='green'
+      gap='large'
+      data-test-id='icon-success'
+    />
+  ),
+  danger: () => (
+    <Icon name='x' background='red' gap='large' data-test-id='icon-danger' />
+  ),
   progress: (p) => <ProgressCircle {...p} />,
-  success: () => <SuccessCircle />,
-  pending: () => <PendingCircle />,
-  danger: () => <DangerCircle />
+  pending: () => <PendingCircle />
 }
 
 const ProgressCircle = ({
@@ -93,29 +102,11 @@ const ProgressCircle = ({
   )
 }
 
-const SuccessCircle = (): JSX.Element => (
-  <div
-    data-test-id='icon-success'
-    className='flex justify-center align-middle text-center items-center w-full h-full rounded-full bg-green border-green border text-white'
-  >
-    <Check />
-  </div>
-)
-
 const PendingCircle = (): JSX.Element => (
   <div
     data-test-id='icon-pending'
     className='w-full h-full rounded-full border-gray-500 border border-dashed'
   />
-)
-
-const DangerCircle = (): JSX.Element => (
-  <div
-    data-test-id='icon-danger'
-    className='flex justify-center align-middle text-center items-center w-full h-full rounded-full bg-red border-red border text-white'
-  >
-    <X />
-  </div>
 )
 
 export default StatusIcon

@@ -55,7 +55,7 @@ describe('StatusIcon', () => {
     const { element } = setup({ status: 'progress', percentage: 30 })
     expect(element).toBeInTheDocument()
     expect(element.querySelector('svg')).toBeInTheDocument()
-    // svg should contain two cirlces
+    // svg should contain two circles
     expect(element.querySelector('svg > circle ~ circle')).toBeInTheDocument()
   })
   test('Should be rendered in progress 100%', () => {
