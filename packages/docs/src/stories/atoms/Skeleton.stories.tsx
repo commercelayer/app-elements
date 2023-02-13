@@ -1,6 +1,6 @@
 import { Skeleton, SkeletonItem } from '#core-app-elements/atoms/Skeleton'
 import { Spacer } from '#core-app-elements/atoms/Spacer'
-import Container from '#core-app-elements/atoms/Container'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Skeleton> = {

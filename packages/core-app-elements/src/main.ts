@@ -1,12 +1,8 @@
 import '#styles/global.css'
 
 // Providers
-export { default as TokenProvider } from '#providers/TokenProvider'
-export { useTokenProvider } from '#providers/TokenProvider'
-export {
-  default as CoreSdkProvider,
-  useCoreSdkProvider
-} from '#providers/CoreSdkProvider'
+export { TokenProvider, useTokenProvider } from '#providers/TokenProvider'
+export { CoreSdkProvider, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 export type {
   TokenProviderAllowedApp,
   TokenProviderPermissionItem,
@@ -14,38 +10,36 @@ export type {
   TokenProviderRoleActions,
   TokenProviderRolePermissions
 } from '#providers/TokenProvider/types'
-export { default as ErrorBoundary } from '#providers/ErrorBoundary'
+export { ErrorBoundary } from '#providers/ErrorBoundary'
 
 // Atoms
-export { default as A } from '#ui/atoms/A'
-export { default as Badge } from '#ui/atoms/Badge'
-export { default as Button } from '#ui/atoms/Button'
-export { default as BlockCode } from '#ui/atoms/BlockCode'
-export { default as Card } from '#ui/atoms/Card'
-export { default as Container } from '#ui/atoms/Container'
-export { default as CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-export { default as DelayShow } from '#ui/atoms/DelayShow'
+export { A } from '#ui/atoms/A'
+export { Badge } from '#ui/atoms/Badge'
+export { Button } from '#ui/atoms/Button'
+export { BlockCode } from '#ui/atoms/BlockCode'
+export { Card } from '#ui/atoms/Card'
+export { Container } from '#ui/atoms/Container'
+export { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+export { DelayShow } from '#ui/atoms/DelayShow'
 export {
   DropdownMenu,
   DropdownMenuDivider,
   DropdownMenuItem
 } from '#ui/atoms/dropdown'
-export { default as EmptyState } from '#ui/atoms/EmptyState'
-export { default as FormFooter } from '#ui/atoms/FormFooter'
-export { default as Legend } from '#ui/atoms/Legend'
-export { default as PageHeading } from '#ui/atoms/PageHeading'
-export { default as Pagination } from '#ui/atoms/Pagination'
-export { default as Skeleton } from '#ui/atoms/Skeleton'
-export { default as Spacer } from '#ui/atoms/Spacer'
-export { default as StatusDot } from '#ui/atoms/StatusDot'
+export { EmptyState } from '#ui/atoms/EmptyState'
+export { FormFooter } from '#ui/atoms/FormFooter'
+export { Legend } from '#ui/atoms/Legend'
+export { PageHeading } from '#ui/atoms/PageHeading'
+export { Pagination } from '#ui/atoms/Pagination'
+export { Skeleton } from '#ui/atoms/Skeleton'
+export { Spacer } from '#ui/atoms/Spacer'
+export { StatusDot } from '#ui/atoms/StatusDot'
 export { default as StatusIcon } from '#ui/atoms/StatusIcon'
-export { default as Tabs } from '#ui/atoms/Tabs'
+export { Tabs } from '#ui/atoms/Tabs'
 export { Tab } from '#ui/atoms/Tabs'
-export { default as Text } from '#ui/atoms/Text'
-export { default as Tr } from '#ui/atoms/tables/Tr'
-export { default as Th } from '#ui/atoms/tables/Th'
-export { default as Td } from '#ui/atoms/tables/Td'
-export { default as Icon } from '#ui/atoms/Icon'
+export { Icon } from '#ui/atoms/Icon'
+export { Text } from '#ui/atoms/Text'
+export { Td, Tr, Th } from '#ui/atoms/tables'
 
 // Composite
 export { default as ContextMenu } from '#ui/composite/ContextMenu'
@@ -69,7 +63,7 @@ export { default as InputToggleBox } from '#ui/forms/InputToggleBox'
 export { default as InputToggleListBox } from '#ui/forms/InputToggleListBox'
 export type { SelectValue } from '#ui/forms/InputSelect'
 export { isSingleValueSelected, flatSelectValues } from '#ui/forms/InputSelect'
-export { default as Label } from '#ui/forms/Label'
+export { Label } from '#ui/forms/Label'
 
 // Lists
 export { default as List } from '#ui/lists/List'

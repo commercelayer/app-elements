@@ -5,10 +5,7 @@ interface Props {
   children: ReactNode
 }
 
-export function DelayShow({
-  delayMs = 1000,
-  children
-}: Props): JSX.Element | null {
+function DelayShow({ delayMs = 1000, children }: Props): JSX.Element | null {
   const [show, setShow] = useState(delayMs === 0)
   const timeoutId = useRef<number | null>(null)
 
@@ -36,4 +33,6 @@ export function DelayShow({
   )
 }
 
-export default DelayShow
+DelayShow.displayName = 'DelayShow'
+
+export { DelayShow }

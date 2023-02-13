@@ -31,12 +31,7 @@ const variantCss: Record<BadgeVariant, string> = {
   'success-solid': 'text-white bg-green'
 }
 
-export function Badge({
-  variant,
-  label,
-  className,
-  ...rest
-}: Props): JSX.Element {
+function Badge({ variant, label, className, ...rest }: Props): JSX.Element {
   return (
     <div
       {...rest}
@@ -51,4 +46,5 @@ export function Badge({
   )
 }
 
-export default Badge
+Badge.displayName = 'Badge'
+export { Badge }

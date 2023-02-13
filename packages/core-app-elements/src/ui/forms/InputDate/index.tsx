@@ -4,7 +4,10 @@ import { SkeletonItem } from '#ui/atoms/Skeleton'
 import DatePicker from 'react-datepicker'
 
 const InputDateComponent = lazy(
-  async () => await import('./InputDateComponent')
+  async () =>
+    await import('./InputDateComponent').then((module) => ({
+      default: module.InputDate
+    }))
 )
 
 export function InputDate(

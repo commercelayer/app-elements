@@ -25,7 +25,7 @@ export interface PaginationProps {
   pageCount: number
 }
 
-export function Pagination({
+function Pagination({
   className,
   currentPage,
   isDisabled,
@@ -139,4 +139,5 @@ function PaginationButton({
   )
 }
 
-export default Pagination
+Pagination.displayName = 'Pagination'
+export { Pagination }

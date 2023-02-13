@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import Label from '#ui/forms/Label'
-import CopyToClipboard from '#ui/atoms/CopyToClipboard'
+import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 
 interface InputReadonlyProps {
   /**

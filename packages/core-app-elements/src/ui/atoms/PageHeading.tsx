@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { ReactNode } from 'react'
-import Badge, { BadgeVariant } from './Badge'
 import { Icon } from './Icon'
+import { Badge, BadgeVariant } from './Badge'
 
 export interface PageHeadingProps {
   /**
@@ -35,7 +35,7 @@ export interface PageHeadingProps {
   actionButton?: React.ReactNode
 }
 
-export function PageHeading({
+function PageHeading({
   noGap = false,
   badgeLabel,
   onGoBack,
@@ -78,4 +78,5 @@ export function PageHeading({
   )
 }
 
-export default PageHeading
+PageHeading.displayName = 'PageHeading'
+export { PageHeading }

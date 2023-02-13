@@ -34,7 +34,7 @@ const variantCss: Record<ButtonVariant, string> = {
   link: 'border border-transparent hover:opacity-80'
 }
 
-export function Button({
+function Button({
   children,
   className,
   size = 'regular',
@@ -59,4 +59,5 @@ export function Button({
   )
 }
 
-export default Button
+Button.displayName = 'Button'
+export { Button }

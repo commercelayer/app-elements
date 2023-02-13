@@ -2,7 +2,7 @@ import cn from 'classnames'
 
 interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
-export function A({ className, children, ...rest }: Props): JSX.Element {
+function A({ className, children, ...rest }: Props): JSX.Element {
   return (
     <a
       className={cn([
@@ -16,4 +16,5 @@ export function A({ className, children, ...rest }: Props): JSX.Element {
   )
 }
 
-export default A
+A.displayName = 'A'
+export { A }

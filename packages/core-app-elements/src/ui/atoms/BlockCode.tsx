@@ -5,7 +5,7 @@ interface BlockCodeProps {
   json?: object
 }
 
-export function BlockCode({ json, ...rest }: BlockCodeProps): JSX.Element {
+function BlockCode({ json, ...rest }: BlockCodeProps): JSX.Element {
   return (
     <div className='whitespace-pre font-mono' {...rest}>
       {json != null && Object.keys(json).length > 0 ? (
@@ -17,4 +17,5 @@ export function BlockCode({ json, ...rest }: BlockCodeProps): JSX.Element {
   )
 }
 
-export default BlockCode
+BlockCode.displayName = 'Badge'
+export { BlockCode }

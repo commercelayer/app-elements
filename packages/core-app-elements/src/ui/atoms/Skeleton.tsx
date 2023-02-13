@@ -15,7 +15,7 @@ interface SkeletonProps {
   children: ReactNode
 }
 
-export function Skeleton({
+function Skeleton({
   children,
   delayMs = 500,
   ...rest
@@ -72,4 +72,5 @@ export function SkeletonItem({
   )
 }
 
-export default Skeleton
+Skeleton.displayName = 'Skeleton'
+export { Skeleton }

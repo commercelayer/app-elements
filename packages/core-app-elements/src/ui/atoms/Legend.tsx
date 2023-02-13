@@ -16,7 +16,7 @@ interface LegendProps {
   className?: string
 }
 
-export function Legend({
+function Legend({
   title,
   actionButton,
   className,
@@ -33,4 +33,5 @@ export function Legend({
   )
 }
 
-export default Legend
+Legend.displayName = 'Legend'
+export { Legend }

@@ -68,4 +68,6 @@ function CoreSdkProvider({
   )
 }
 
-export default CoreSdkProvider
+CoreSdkProvider.displayName = 'CoreSdkProvider'
+
+export { CoreSdkProvider }

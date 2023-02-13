@@ -206,4 +206,5 @@ function TokenProvider({
   )
 }
 
-export default TokenProvider
+TokenProvider.displayName = 'TokenProvider'
+export { TokenProvider }

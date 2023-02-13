@@ -1,5 +1,3 @@
-import DropdownMenu from './DropdownMenu'
-import DropdownMenuItem from './DropdownMenuItem'
-import DropdownMenuDivider from './DropdownMenuDivider'
-
-export { DropdownMenu, DropdownMenuItem, DropdownMenuDivider }
+export { DropdownMenu } from './DropdownMenu'
+export { DropdownMenuItem } from './DropdownMenuItem'
+export { DropdownMenuDivider } from './DropdownMenuDivider'

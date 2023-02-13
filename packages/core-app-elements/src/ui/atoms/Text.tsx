@@ -11,7 +11,7 @@ interface TextProps extends React.HTMLAttributes<HTMLElement> {
   tag?: 'div' | 'span'
 }
 
-export function Text({
+function Text({
   children,
   className,
   variant,
@@ -40,4 +40,5 @@ export function Text({
   )
 }
 
-export default Text
+Text.displayName = 'Text'
+export { Text }

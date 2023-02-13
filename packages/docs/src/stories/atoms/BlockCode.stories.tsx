@@ -1,4 +1,4 @@
-import BlockCode from '#core-app-elements/atoms/BlockCode'
+import { BlockCode } from '#core-app-elements/atoms/BlockCode'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof BlockCode> = {

@@ -1,4 +1,4 @@
-import TokenProvider, { TokenProviderProps } from './index'
+import { TokenProvider, TokenProviderProps } from './index'
 import { render, RenderResult, waitFor } from '@testing-library/react'
 
 // token expires at Monday, 6 February 2023 11:53:19

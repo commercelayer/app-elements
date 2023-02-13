@@ -15,7 +15,7 @@ interface Props {
   children: React.ReactNode
 }
 
-export function Container({
+function Container({
   children,
   className,
   minHeight = true,
@@ -35,4 +35,5 @@ export function Container({
   )
 }
 
-export default Container
+Container.displayName = 'Container'
+export { Container }

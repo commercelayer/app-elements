@@ -44,12 +44,7 @@ const marginBottomCss: Record<SpacingValues | 'none', string> = {
   '14': 'mb-14'
 }
 
-export function Spacer({
-  top,
-  bottom,
-  children,
-  ...rest
-}: SpacingProps): JSX.Element {
+function Spacer({ top, bottom, children, ...rest }: SpacingProps): JSX.Element {
   const valueTop = top ?? 'none'
   const valueBottom = bottom ?? 'none'
 
@@ -63,4 +58,5 @@ export function Spacer({
   )
 }
 
-export default Spacer
+Spacer.displayName = 'Spacer'
+export { Spacer }
