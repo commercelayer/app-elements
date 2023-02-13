@@ -35,8 +35,7 @@ export { Skeleton } from '#ui/atoms/Skeleton'
 export { Spacer } from '#ui/atoms/Spacer'
 export { StatusDot } from '#ui/atoms/StatusDot'
 export { StatusIcon } from '#ui/atoms/StatusIcon'
-export { Tabs } from '#ui/atoms/Tabs'
-export { Tab } from '#ui/atoms/Tabs'
+export { Tabs, Tab } from '#ui/atoms/Tabs'
 export { Icon } from '#ui/atoms/Icon'
 export { Text } from '#ui/atoms/Text'
 export { Td, Tr, Th } from '#ui/atoms/tables'
@@ -50,7 +49,11 @@ export { Report } from '#ui/composite/Report'
 
 // Forms
 export { Input } from '#ui/forms/Input'
-export { InputSelect } from '#ui/forms/InputSelect'
+export {
+  InputSelect,
+  isSingleValueSelected,
+  flatSelectValues
+} from '#ui/forms/InputSelect'
 export type { SelectValue } from '#ui/forms/InputSelect'
 export { InputDate } from '#ui/forms/InputDate'
 export { InputDateRange } from '#ui/forms/InputDateRange'
@@ -62,8 +65,6 @@ export { InputReadonly } from '#ui/forms/InputReadonly'
 export { InputTextArea } from '#ui/forms/InputTextArea'
 export { InputToggleBox } from '#ui/forms/InputToggleBox'
 export { InputToggleListBox } from '#ui/forms/InputToggleListBox'
-
-export { isSingleValueSelected, flatSelectValues } from '#ui/forms/InputSelect'
 export { Label } from '#ui/forms/Label'
 
 // Lists
