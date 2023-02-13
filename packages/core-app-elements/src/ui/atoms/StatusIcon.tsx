@@ -14,7 +14,7 @@ export interface StatusIconProps {
   percentage?: number
 }
 
-export function StatusIcon({
+function StatusIcon({
   status,
   percentage,
   ...rest
@@ -109,4 +109,5 @@ const PendingCircle = (): JSX.Element => (
   />
 )
 
-export default StatusIcon
+StatusIcon.displayName = 'StatusIcon'
+export { StatusIcon }
