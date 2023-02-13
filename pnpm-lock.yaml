@@ -9,7 +9,7 @@ importers:
 
   packages/app-elements-hook-form:
     specifiers:
-      "@commercelayer/core-app-elements": workspace:^0.0.1-beta.15
+      "@commercelayer/core-app-elements": workspace:^0.0.1-beta.17
       "@commercelayer/eslint-config-ts-react": ^0.1.3
       "@testing-library/jest-dom": ^5.16.5
       "@testing-library/react": ^13.4.0
@@ -124,7 +124,7 @@ importers:
     specifiers:
       "@babel/core": ^7.19.6
       "@babel/preset-env": ^7.19.4
-      "@commercelayer/core-app-elements": workspace:^0.0.1-beta.15
+      "@commercelayer/core-app-elements": workspace:^0.0.1-beta.17
       "@commercelayer/eslint-config-ts-react": ^0.1.3
       "@mdx-js/react": ^2.1.5
       "@storybook/addon-actions": ^6.5.14
