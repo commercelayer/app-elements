@@ -75,16 +75,16 @@ describe('TokenProvider', () => {
     expect(onInvalidAuth).toBeCalledTimes(0)
   })
 
-  test('Should get LIVE mode', async () => {
+  test('Should return live mode if token comes from live environment', async () => {
     vi.useFakeTimers().setSystemTime(validDateNow)
-    window.location.hostname = 'giuseppe-live.commercelayer.app'
+    window.location.hostname = 'giuseppe.commercelayer.app'
     const onInvalidAuth = vi.fn()
 
     const { getByText } = setup({
       id: 'token-provider',
       clientKind: 'integration',
       currentApp: 'imports',
-      devMode: true,
+      devMode: false,
       accessToken: accessTokenLive,
       onInvalidAuth
     })
