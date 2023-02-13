@@ -5,7 +5,9 @@ import { render, RenderResult, waitFor } from '@testing-library/react'
 // slug is `giuseppe`
 // kind is `integration`
 const accessToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTZ9.fake-signature'
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTZ9.fake-signature-test'
+const accessTokenLive =
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTZ9.fake-signature-live'
 const validDateNow = new Date('2023-02-06T10:00:00.000Z')
 const expiredDateNow = new Date('2023-02-10T10:00:00.000Z')
 
@@ -20,7 +22,14 @@ type SetupResult = RenderResult & {
 const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
     <div data-test-id={id}>
-      <TokenProvider {...props}>content</TokenProvider>
+      <TokenProvider {...props}>
+        {({ settings: { mode } }) => (
+          <div>
+            <p>mode: {mode}</p>
+            <p>content</p>
+          </div>
+        )}
+      </TokenProvider>
     </div>
   )
   const element = utils.getByTestId(id)
@@ -62,7 +71,24 @@ describe('TokenProvider', () => {
     expect(element).toBeVisible()
     expect(getByText('Loading...')).toBeVisible()
     await waitFor(() => expect(getByText('content')).toBeVisible())
+    expect(getByText('mode: test')).toBeVisible()
     expect(onInvalidAuth).toBeCalledTimes(0)
+  })
+
+  test('Should return live mode if token comes from live environment', async () => {
+    vi.useFakeTimers().setSystemTime(validDateNow)
+    window.location.hostname = 'giuseppe.commercelayer.app'
+    const onInvalidAuth = vi.fn()
+
+    const { getByText } = setup({
+      id: 'token-provider',
+      clientKind: 'integration',
+      currentApp: 'imports',
+      devMode: false,
+      accessToken: accessTokenLive,
+      onInvalidAuth
+    })
+    await waitFor(() => expect(getByText('mode: live')).toBeVisible())
   })
 
   test('Should read token from url', async () => {
