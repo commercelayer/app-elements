@@ -31,7 +31,7 @@ export interface ListItemTaskProps
   noHover?: boolean
 }
 
-export function ListItemTask({
+function ListItemTask({
   status,
   progressPercentage,
   title,
@@ -94,4 +94,5 @@ export function ListItemTask({
   )
 }
 
-export default ListItemTask
+ListItemTask.displayName = 'ListItemTask'
+export { ListItemTask }

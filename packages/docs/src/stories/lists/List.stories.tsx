@@ -1,9 +1,9 @@
-import ListItem from '#core-app-elements/lists/ListItem'
-import List from '#core-app-elements/lists/List'
-import Container from '#core-app-elements/atoms/Container'
+import { ListItem } from '#core-app-elements/lists/ListItem'
+import { List } from '#core-app-elements/lists/List'
+import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
-import PageHeading from '#core-app-elements/atoms/PageHeading'
+import { PageHeading } from '#core-app-elements/atoms/PageHeading'
 
 const setup: ComponentMeta<typeof List> = {
   title: 'Lists/Simple',
@@ -39,7 +39,7 @@ const TemplateWithPagination: ComponentStory<typeof List> = (args) => {
           recordsPerPage: 20,
           recordCount: 243,
           currentPage,
-          onChangePageRequest: (newPage) => setCurrentPage(newPage),
+          onChangePageRequest: (newPage: number) => setCurrentPage(newPage),
           pageCount: 5
         }}
         actionButton={undefined}
@@ -78,7 +78,7 @@ const TemplateFullPage: ComponentStory<typeof List> = (args) => {
           recordsPerPage: 20,
           recordCount: 243,
           currentPage: page,
-          onChangePageRequest: (newPage) => setPage(newPage),
+          onChangePageRequest: (newPage: number) => setPage(newPage),
           pageCount: 5
         }}
       >

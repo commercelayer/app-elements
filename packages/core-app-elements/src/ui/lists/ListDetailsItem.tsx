@@ -20,7 +20,7 @@ interface ListDetailsItemProps {
   isLoading?: boolean
 }
 
-export function ListDetailsItem({
+function ListDetailsItem({
   label,
   children,
   isLoading,
@@ -55,4 +55,5 @@ export function ListDetailsItem({
   )
 }
 
-export default ListDetailsItem
+ListDetailsItem.displayName = 'ListDetailsItem'
+export { ListDetailsItem }

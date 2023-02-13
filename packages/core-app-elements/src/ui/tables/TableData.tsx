@@ -1,7 +1,6 @@
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { extractHeaders } from '#utils/extractHeaders'
-import React from 'react'
 
 export interface TableDataProps {
   data: Array<Record<string, string | Object>>
@@ -12,7 +11,7 @@ export interface TableDataProps {
   showOthers?: boolean
 }
 
-export function TableData({
+function TableData({
   data,
   className,
   limit,
@@ -100,4 +99,5 @@ function TableDataCell({ value }: { value?: string | object }): JSX.Element {
   )
 }
 
-export default TableData
+TableData.displayName = 'TableData'
+export { TableData }

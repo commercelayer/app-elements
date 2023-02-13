@@ -15,4 +15,5 @@ function Table({ thead, tbody, className, ...rest }: Props): JSX.Element {
   )
 }
 
-export default Table
+Table.displayName = 'Table'
+export { Table }

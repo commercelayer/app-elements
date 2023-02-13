@@ -51,6 +51,7 @@ export { Report } from '#ui/composite/Report'
 // Forms
 export { Input } from '#ui/forms/Input'
 export { InputSelect } from '#ui/forms/InputSelect'
+export type { SelectValue } from '#ui/forms/InputSelect'
 export { InputDate } from '#ui/forms/InputDate'
 export { InputDateRange } from '#ui/forms/InputDateRange'
 export { InputFile } from '#ui/forms/InputFile'
@@ -61,20 +62,20 @@ export { InputReadonly } from '#ui/forms/InputReadonly'
 export { InputTextArea } from '#ui/forms/InputTextArea'
 export { InputToggleBox } from '#ui/forms/InputToggleBox'
 export { InputToggleListBox } from '#ui/forms/InputToggleListBox'
-export type { SelectValue } from '#ui/forms/InputSelect'
+
 export { isSingleValueSelected, flatSelectValues } from '#ui/forms/InputSelect'
 export { Label } from '#ui/forms/Label'
 
 // Lists
-export { default as List } from '#ui/lists/List'
-export { default as ListDetails } from '#ui/lists/ListDetails'
-export { default as ListDetailsItem } from '#ui/lists/ListDetailsItem'
-export { default as ListItem } from '#ui/lists/ListItem'
-export { default as ListItemTask } from '#ui/lists/ListItemTask'
+export { List } from '#ui/lists/List'
+export { ListDetails } from '#ui/lists/ListDetails'
+export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
+export { ListItem } from '#ui/lists/ListItem'
+export { ListItemTask } from '#ui/lists/ListItemTask'
 
 // Tables
-export { default as TableData } from '#ui/tables/TableData'
-export { default as Table } from '#ui/tables/Table'
+export { TableData } from '#ui/tables/TableData'
+export { Table } from '#ui/tables/Table'
 
 // Helpers
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
