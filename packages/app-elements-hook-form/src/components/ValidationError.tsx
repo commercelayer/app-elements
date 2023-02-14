@@ -19,4 +19,5 @@ function ValidationError({ name }: Props): JSX.Element | null {
   return hasErrorMessage ? <Text variant='danger'>{errorMessage}</Text> : null
 }
 
-export default ValidationError
+ValidationError.displayName = 'ValidationError'
+export { ValidationError }

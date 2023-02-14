@@ -1,7 +1,7 @@
 import { InputToggleBox as InputToggleBoxUI } from '@commercelayer/core-app-elements'
 import { InputToggleBoxProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputToggleBox'
 import { useFormContext } from 'react-hook-form'
-import ValidationError from '#components/ValidationError'
+import { ValidationError } from '#components/ValidationError'
 
 interface Props extends InputToggleBoxProps {
   /**
@@ -21,4 +21,5 @@ function InputToggleBox({ name, ...props }: Props): JSX.Element {
   )
 }
 
-export default InputToggleBox
+InputToggleBox.displayName = 'InputToggleBox'
+export { InputToggleBox }
