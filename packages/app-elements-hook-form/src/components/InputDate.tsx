@@ -2,7 +2,7 @@ import { InputDate as InputDateUi } from '@commercelayer/core-app-elements'
 import { InputDateProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputDate/InputDateComponent'
 
 import { Controller, useFormContext } from 'react-hook-form'
-import ValidationError from '#components/ValidationError'
+import { ValidationError } from '#components/ValidationError'
 
 interface Props extends Omit<InputDateProps, 'onChange'> {
   /**
@@ -28,4 +28,5 @@ function InputDate({ name, ...props }: Props): JSX.Element {
   )
 }
 
-export default InputDate
+InputDate.displayName = 'InputDate'
+export { InputDate }

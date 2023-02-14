@@ -1,11 +1,11 @@
 import { render, RenderResult } from '@testing-library/react'
 import { useForm } from 'react-hook-form'
-import Form from './Form'
-import Input from './Input'
-import InputToggleBox from './InputToggleBox'
-import InputDate from './InputDate'
-import InputDateRange from './InputDateRange'
-import InputSelect from './InputSelect'
+import { Form } from './Form'
+import { Input } from './Input'
+import { InputToggleBox } from './InputToggleBox'
+import { InputDate } from './InputDate'
+import { InputDateRange } from './InputDateRange'
+import { InputSelect } from './InputSelect'
 
 type SetupResult = RenderResult & {
   element: HTMLElement

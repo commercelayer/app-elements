@@ -2,7 +2,7 @@ import { InputSelect as InputSelectUi } from '@commercelayer/core-app-elements'
 import { InputSelectProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputSelect'
 
 import { Controller, useFormContext } from 'react-hook-form'
-import ValidationError from '#components/ValidationError'
+import { ValidationError } from '#components/ValidationError'
 
 interface Props extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
   /**
@@ -35,4 +35,5 @@ function InputSelect({ name, ...props }: Props): JSX.Element {
   )
 }
 
-export default InputSelect
+InputSelect.displayName = 'InputSelect'
+export { InputSelect }

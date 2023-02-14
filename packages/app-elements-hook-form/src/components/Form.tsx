@@ -30,4 +30,5 @@ const Form = <T extends FieldValues>({
   )
 }
 
-export default Form
+Form.displayName = 'Form'
+export { Form }

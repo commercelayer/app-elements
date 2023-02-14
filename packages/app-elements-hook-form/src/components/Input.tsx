@@ -1,7 +1,7 @@
 import { Input as InputUi } from '@commercelayer/core-app-elements'
 import { InputProps } from '@commercelayer/core-app-elements/dist/ui/forms/Input'
 import { useFormContext } from 'react-hook-form'
-import ValidationError from './ValidationError'
+import { ValidationError } from '#components/ValidationError'
 
 interface Props extends InputProps {
   /**
@@ -21,4 +21,5 @@ function Input({ name, ...props }: Props): JSX.Element {
   )
 }
 
-export default Input
+Input.displayName = 'Input'
+export { Input }
