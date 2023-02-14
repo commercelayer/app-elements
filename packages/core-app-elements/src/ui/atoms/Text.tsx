@@ -46,7 +46,7 @@ function Text({
     'text-title': size === 'large'
   })
   return tag === 'span' ? (
-    <span {...rest} className='font-'>
+    <span {...rest} className={computedClassName}>
       {children}
     </span>
   ) : (
