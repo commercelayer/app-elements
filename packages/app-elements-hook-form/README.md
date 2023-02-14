@@ -47,3 +47,20 @@ function MyForm() {
   );
 }
 ```
+
+## Validation error message
+
+All exported input components already contain the displaying of error message in case single input validation fails.
+
+For controlled (custom) components it's still possible to manually import and use `<ValidationError>` component.
+
+Example:
+
+```tsx
+<Controller
+  name="myField"
+  control={control}
+  render={(field) => <CustomInput {...field} />}
+/>
+<ValidationError name='myField' />
+```
