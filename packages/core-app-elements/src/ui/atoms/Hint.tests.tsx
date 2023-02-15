@@ -1,7 +1,7 @@
-import { InputHelperText, InputHelperTextProps } from './InputHelperText'
+import { Hint, HintProps } from './Hint'
 import { render, RenderResult } from '@testing-library/react'
 
-interface SetupProps extends Omit<InputHelperTextProps, 'children'> {
+interface SetupProps extends Omit<HintProps, 'children'> {
   id: string
 }
 
@@ -11,9 +11,9 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const utils = render(
-    <InputHelperText data-test-id={id} {...rest}>
+    <Hint data-test-id={id} {...rest}>
       This is an helper text.
-    </InputHelperText>
+    </Hint>
   )
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
@@ -22,7 +22,7 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   }
 }
 
-describe('InputHelperText', () => {
+describe('Hint', () => {
   test('Should be rendered', () => {
     const { element } = setup({ id: 'my-helper-text' })
     expect(element).toBeInTheDocument()

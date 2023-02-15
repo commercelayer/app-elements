@@ -3,6 +3,7 @@ import { InputDate } from './InputDate'
 import { Label } from './Label'
 import { forwardRef, useEffect } from 'react'
 import { InputDateProps, MaybeDate } from './InputDate/InputDateComponent'
+import { Hint, HintProps } from '#ui/atoms/Hint'
 
 export interface InputDateRangeProps
   extends Pick<
@@ -25,6 +26,13 @@ export interface InputDateRangeProps
    * optional placeholder text for the `to` date
    */
   toPlaceholder?: string
+  /**
+   * optional hint to be rendered below
+   */
+  hint?: {
+    icon?: HintProps['icon']
+    text: HintProps['children']
+  }
 }
 
 const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
@@ -38,6 +46,7 @@ const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       autoPlaceholder,
       isClearable,
       onChange,
+      hint,
       ...rest
     },
     ref
@@ -88,6 +97,11 @@ const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             autoPlaceholder={autoPlaceholder}
           />
         </div>
+        {hint != null && (
+          <Hint className='mt-1' icon={hint.icon}>
+            {hint.text}
+          </Hint>
+        )}
       </div>
     )
   }

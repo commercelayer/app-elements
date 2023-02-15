@@ -36,3 +36,10 @@ Default.args = {
   fromPlaceholder: 'Start date...',
   toPlaceholder: 'End date...'
 }
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'Date range',
+  fromPlaceholder: 'Start date...',
+  hint: { text: 'Please enter a valid date range' }
+}

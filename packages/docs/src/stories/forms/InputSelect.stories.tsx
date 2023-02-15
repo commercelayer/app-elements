@@ -1,6 +1,6 @@
 import { Label } from '#core-app-elements/forms/Label'
 import { InputSelect, SelectValue } from '#core-app-elements/forms/InputSelect'
-import { InputHelperText } from '#core-app-elements/forms/InputHelperText'
+import { Hint } from '#core-app-elements/atoms/Hint'
 import { Spacer } from '#core-app-elements/atoms/Spacer'
 import { Container } from '#core-app-elements/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
@@ -39,10 +39,10 @@ const Template: ComponentStory<typeof InputSelect> = (args) => {
 
       {args.loadAsyncValues !== undefined ? (
         <Spacer top='6'>
-          <InputHelperText icon='bulb'>
+          <Hint icon='bulb'>
             Try to search some of the following values: customer, sku, price,
             tax
-          </InputHelperText>
+          </Hint>
         </Spacer>
       ) : null}
     </Container>

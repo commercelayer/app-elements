@@ -36,3 +36,9 @@ export const AutoPlaceholder = Template.bind({})
 AutoPlaceholder.args = {
   autoPlaceholder: true
 }
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'Shipping date',
+  hint: { text: 'Please enter a valid date ' }
+}

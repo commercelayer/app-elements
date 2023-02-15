@@ -29,3 +29,9 @@ Default.args = {
   value: 'asd6as78d6asds',
   showCopyAction: true
 }
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'Secret',
+  hint: { text: 'Do not share this secret with others' }
+}

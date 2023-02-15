@@ -29,3 +29,11 @@ export const WithLabel = Template.bind({})
 WithLabel.args = {
   label: 'Your name'
 }
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'Your name',
+  hint: {
+    text: 'Please enter a valid name'
+  }
+}

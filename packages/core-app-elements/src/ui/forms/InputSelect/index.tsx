@@ -3,7 +3,7 @@ import { MultiValue, SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
 import selectStyles from './styles'
 import { Label } from '../Label'
-import { InputHelperText } from '../InputHelperText'
+import { Hint, HintProps } from '#ui/atoms/Hint'
 
 const LazyAsyncSelect = lazy(
   async () =>
@@ -35,7 +35,6 @@ export type PossibleSelectValue =
 
 export interface InputSelectProps {
   label?: string
-  helperText?: React.ReactNode
   initialValues: GroupedSelectValues | SelectValue[]
   defaultValue?: SelectValue | SelectValue[]
   placeholder?: string
@@ -54,11 +53,18 @@ export interface InputSelectProps {
   loadAsyncValues?: (
     inputValue: string
   ) => Promise<GroupedSelectValues | SelectValue[]>
+  /**
+   * optional hint to be rendered below
+   */
+  hint?: {
+    icon?: HintProps['icon']
+    text: HintProps['children']
+  }
 }
 
 function InputSelect({
   label,
-  helperText,
+  hint,
   menuIsOpen,
   initialValues,
   defaultValue,
@@ -116,10 +122,10 @@ function InputSelect({
           />
         </Suspense>
       )}
-      {helperText != null && (
-        <InputHelperText variant='light' className='mt-1'>
-          {helperText}
-        </InputHelperText>
+      {hint != null && (
+        <Hint className='mt-1' icon={hint.icon}>
+          {hint.text}
+        </Hint>
       )}
     </div>
   )

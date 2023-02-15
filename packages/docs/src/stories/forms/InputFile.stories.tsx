@@ -40,3 +40,9 @@ WithProgress.args = {
   label: 'File upload',
   progress: 70
 }
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'File upload',
+  hint: { text: 'Please enter a valid name' }
+}

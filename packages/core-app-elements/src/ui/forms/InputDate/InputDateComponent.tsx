@@ -6,6 +6,7 @@ import cn from 'classnames'
 import { CalendarBlank, X } from 'phosphor-react'
 import { Label } from '#ui/forms/Label'
 import { forwardRef } from 'react'
+import { Hint, HintProps } from '#ui/atoms/Hint'
 
 export type MaybeDate = Date | null
 
@@ -51,6 +52,13 @@ export interface InputDateProps {
    * enables a button to clear the selected date
    */
   isClearable?: boolean
+  /**
+   * optional hint to be rendered below
+   */
+  hint?: {
+    icon?: HintProps['icon']
+    text: HintProps['children']
+  }
 }
 
 const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
@@ -63,9 +71,10 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       format,
       placeholder,
       minDate,
-      label = 'Start date',
+      label,
       autoPlaceholder,
       isClearable,
+      hint,
       ...rest
     },
     ref
@@ -106,6 +115,11 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
             </button>
           ) : null}
         </div>
+        {hint != null && (
+          <Hint className='mt-1' icon={hint.icon}>
+            {hint.text}
+          </Hint>
+        )}
       </div>
     )
   }
