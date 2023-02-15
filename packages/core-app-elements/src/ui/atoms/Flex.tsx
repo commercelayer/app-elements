@@ -6,14 +6,18 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 function Flex({ children, className, ...rest }: FlexProps): JSX.Element {
-  const lastChildrenIndex = Children.count(children) - 1
+  const childrenCount = Children.count(children)
   return (
     <div
       className={cn('flex items-start justify-between w-full gap-4', className)}
       {...rest}
     >
       {Children.map(children, (child, index) => (
-        <div className={cn({ 'text-right': index === lastChildrenIndex })}>
+        <div
+          className={cn({
+            'text-right': isLastOfMultipleChildren(index, childrenCount)
+          })}
+        >
           {child}
         </div>
       ))}
@@ -23,3 +27,7 @@ function Flex({ children, className, ...rest }: FlexProps): JSX.Element {
 
 Flex.displayName = 'Flex'
 export { Flex }
+
+function isLastOfMultipleChildren(index: number, count: number): boolean {
+  return count > 1 && index === count - 1
+}
