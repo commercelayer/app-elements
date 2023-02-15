@@ -1,13 +1,8 @@
 import cn from 'classnames'
-import { Label } from '#ui/forms/Label'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import { Hint, HintProps } from '#ui/atoms/Hint'
+import { InputWrapper, InputWrapperBaseProps } from './InputWrapper'
 
-interface InputReadonlyProps {
-  /**
-   * optional input label
-   */
-  label?: string
+interface InputReadonlyProps extends InputWrapperBaseProps {
   /**
    * controlled value
    */
@@ -24,27 +19,26 @@ interface InputReadonlyProps {
    * optional prop to define whether to show or not the Copy to clipboard button
    */
   showCopyAction?: boolean
-  /**
-   * optional hint to be rendered below
-   */
-  hint?: {
-    icon?: HintProps['icon']
-    text: HintProps['children']
-  }
 }
 
 function InputReadonly({
-  label,
   value,
   wrapperClassName,
   inputClassName,
   showCopyAction = false,
+  label,
   hint,
+  feedback,
   ...rest
 }: InputReadonlyProps): JSX.Element {
   return (
-    <div {...rest} className={wrapperClassName}>
-      {label != null && <Label gap>{label}</Label>}
+    <InputWrapper
+      {...rest}
+      className={wrapperClassName}
+      feedback={feedback}
+      label={label}
+      hint={hint}
+    >
       <div className='relative select-none'>
         <input
           className={cn(
@@ -61,12 +55,7 @@ function InputReadonly({
           </div>
         )}
       </div>
-      {hint != null && (
-        <Hint className='mt-1' icon={hint.icon}>
-          {hint.text}
-        </Hint>
-      )}
-    </div>
+    </InputWrapper>
   )
 }
 

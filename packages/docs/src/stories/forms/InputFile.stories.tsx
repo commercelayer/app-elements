@@ -1,5 +1,5 @@
-import { InputFile } from '#core-app-elements/forms/InputFile'
-import { Container } from '#core-app-elements/atoms/Container'
+import { InputFile } from '#ui/forms/InputFile'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
@@ -45,4 +45,14 @@ export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'File upload',
   hint: { text: 'Please enter a valid name' }
+}
+
+export const WithError = Template.bind({})
+WithError.args = {
+  label: 'File upload',
+  hint: { text: 'Please enter a valid name' },
+  feedback: {
+    variant: 'danger',
+    message: 'Required field'
+  }
 }

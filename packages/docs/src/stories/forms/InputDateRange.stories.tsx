@@ -1,5 +1,5 @@
-import { InputDateRange } from '#core-app-elements/forms/InputDateRange'
-import { Container } from '#core-app-elements/atoms/Container'
+import { InputDateRange } from '#ui/forms/InputDateRange'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

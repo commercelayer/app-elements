@@ -1,5 +1,5 @@
-import { InputDate } from '#core-app-elements/forms/InputDate'
-import { Container } from '#core-app-elements/atoms/Container'
+import { InputDate } from '#ui/forms/InputDate'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
@@ -41,4 +41,13 @@ export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'Shipping date',
   hint: { text: 'Please enter a valid date ' }
+}
+
+export const WithError = Template.bind({})
+WithError.args = {
+  label: 'Your name',
+  feedback: {
+    variant: 'danger',
+    message: 'Required field'
+  }
 }

@@ -1,9 +1,9 @@
 import { FocusEventHandler, lazy, Suspense } from 'react'
 import { MultiValue, SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
-import selectStyles from './styles'
-import { Label } from '../Label'
-import { Hint, HintProps } from '#ui/atoms/Hint'
+import { getSelectStyles } from './styles'
+import { InputWrapper } from '../InputWrapper'
+import { InputWrapperBaseProps } from '#ui/forms/InputWrapper'
 
 const LazyAsyncSelect = lazy(
   async () =>
@@ -33,8 +33,7 @@ export type PossibleSelectValue =
   | MultiValue<SelectValue>
   | SingleValue<SelectValue>
 
-export interface InputSelectProps {
-  label?: string
+export interface InputSelectProps extends InputWrapperBaseProps {
   initialValues: GroupedSelectValues | SelectValue[]
   defaultValue?: SelectValue | SelectValue[]
   placeholder?: string
@@ -53,18 +52,12 @@ export interface InputSelectProps {
   loadAsyncValues?: (
     inputValue: string
   ) => Promise<GroupedSelectValues | SelectValue[]>
-  /**
-   * optional hint to be rendered below
-   */
-  hint?: {
-    icon?: HintProps['icon']
-    text: HintProps['children']
-  }
 }
 
 function InputSelect({
   label,
   hint,
+  feedback,
   menuIsOpen,
   initialValues,
   defaultValue,
@@ -84,8 +77,14 @@ function InputSelect({
   ...rest
 }: InputSelectProps): JSX.Element {
   return (
-    <div className={className} {...rest}>
-      {label != null && <Label gap>{label}</Label>}
+    <InputWrapper
+      className={className}
+      label={label}
+      hint={hint}
+      feedback={feedback}
+      name={name}
+      {...rest}
+    >
       {loadAsyncValues != null ? (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
           <LazyAsyncSelect
@@ -101,7 +100,7 @@ function InputSelect({
             name={name}
             noOptionsMessage={noOptionsMessage}
             loadAsyncValues={loadAsyncValues}
-            styles={selectStyles}
+            styles={getSelectStyles(feedback?.variant)}
           />
         </Suspense>
       ) : (
@@ -118,16 +117,11 @@ function InputSelect({
             isMulti={isMulti}
             onBlur={onBlur}
             name={name}
-            styles={selectStyles}
+            styles={getSelectStyles(feedback?.variant)}
           />
         </Suspense>
       )}
-      {hint != null && (
-        <Hint className='mt-1' icon={hint.icon}>
-          {hint.text}
-        </Hint>
-      )}
-    </div>
+    </InputWrapper>
   )
 }
 

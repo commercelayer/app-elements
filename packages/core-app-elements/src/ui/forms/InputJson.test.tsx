@@ -45,7 +45,7 @@ describe('InputJson', () => {
     })
     const textarea = element.getElementsByTagName('textarea')[0]
     fireEvent.change(textarea, { target: { value: '[{ invalidJson: hello}]' } })
-    expect(getByTestId('input-json-error').innerHTML).toBe('Invalid JSON')
+    expect(getByTestId('input-feedback').innerHTML).toContain('Invalid JSON')
   })
 
   test('Should execute `onDataReady` callback when JSON is valid', () => {

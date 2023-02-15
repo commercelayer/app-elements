@@ -5,8 +5,8 @@ export type HintIcon = 'bulb'
 
 export interface HintProps {
   icon?: HintIcon
-  children: ElementChildren
   className?: string
+  children: ElementChildren
 }
 
 function Hint({ icon, className, children, ...rest }: HintProps): JSX.Element {

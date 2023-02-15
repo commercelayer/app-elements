@@ -2,39 +2,34 @@ import cn from 'classnames'
 import { UploadSimple } from 'phosphor-react'
 import { forwardRef } from 'react'
 import invariant from 'ts-invariant'
-import { Hint, HintProps } from '#ui/atoms/Hint'
+import { InputWrapper } from './InputWrapper'
+import { InputWrapperBaseProps, getFeedbackStyle } from '#ui/forms/InputWrapper'
 
 interface InputFileProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+  extends InputWrapperBaseProps,
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**
    * If defined, it shows a progress bar at the bottom. It must be between 0 and 100.
    */
   progress?: number
-  /**
-   * Text to be shown in the file drop area. Example: "Select an image to upload"
-   */
-  label: string
-  /**
-   * optional hint to be rendered below
-   */
-  hint?: {
-    icon?: HintProps['icon']
-    text: HintProps['children']
-  }
 }
 
 const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
-  ({ className, progress, label, hint, ...rest }, ref): JSX.Element => {
+  (
+    { className, progress, label, hint, feedback, ...rest },
+    ref
+  ): JSX.Element => {
     invariant(
       progress === undefined || (progress >= 0 && progress <= 100),
       'When set, progress must be between 0 and 100 range'
     )
     return (
-      <>
+      <InputWrapper hint={hint} feedback={feedback}>
         <div
           className={cn(
-            'h-52 w-full relative border border-gray-200 bg-white rounded-md flex flex-col justify-center items-center hover:bg-gray-50 transition-bg group overflow-hidden',
-            className
+            'h-52 w-full relative border bg-white rounded-md flex flex-col justify-center items-center hover:bg-gray-50 transition-bg group overflow-hidden',
+            className,
+            getFeedbackStyle(feedback)
           )}
         >
           <input
@@ -58,12 +53,7 @@ const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
             />
           ) : null}
         </div>
-        {hint != null && (
-          <Hint className='mt-1' icon={hint.icon}>
-            {hint.text}
-          </Hint>
-        )}
-      </>
+      </InputWrapper>
     )
   }
 )

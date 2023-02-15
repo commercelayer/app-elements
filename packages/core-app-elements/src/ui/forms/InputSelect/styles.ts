@@ -1,7 +1,11 @@
 import { StylesConfig } from 'react-select'
 import { SelectValue } from '.'
+import { getFeedbackCssInJs } from '#ui/forms/InputWrapper'
+import { InputFeedbackProps } from '#ui/forms/InputFeedback'
 
-const selectStyles: StylesConfig<SelectValue> = {
+export const getSelectStyles = (
+  feedbackVariant?: InputFeedbackProps['variant']
+): StylesConfig<SelectValue> => ({
   menu: (style) => ({
     ...style,
     zIndex: 100,
@@ -47,20 +51,25 @@ const selectStyles: StylesConfig<SelectValue> = {
     fontWeight: 500,
     fontSize: '1rem'
   }),
-  control: (style) => ({
-    ...style,
-    minHeight: '2.75rem',
-    borderColor: 'rgb(230 231 231)',
-    boxShadow: 'none',
-    borderRadius: 5,
-    cursor: 'pointer',
-    '&:hover, &:focus-within': {
-      borderColor: '#666EFF',
-      borderWidth: 2,
-      outline: 'none',
-      boxShadow: 'none'
+  control: (style) => {
+    const feedbackStyle = getFeedbackCssInJs(feedbackVariant)
+    return {
+      ...style,
+      ...feedbackStyle,
+      minHeight: '2.75rem',
+      boxShadow: 'none',
+      borderRadius: 5,
+      cursor: 'pointer',
+      '&:hover, &:focus-within': {
+        // we enforce feedback color as hover style, otherwise default brand color will be used as border
+        borderColor:
+          feedbackVariant != null ? feedbackStyle.borderColor : '#666EFF',
+        borderWidth: 2,
+        outline: 'none',
+        boxShadow: 'none'
+      }
     }
-  }),
+  },
   placeholder: (style) => ({
     ...style,
     fontSize: '1rem',
@@ -78,6 +87,4 @@ const selectStyles: StylesConfig<SelectValue> = {
     ...style,
     opacity: 0
   })
-}
-
-export default selectStyles
+})

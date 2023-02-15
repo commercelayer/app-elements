@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { Label } from '#ui/forms/Label'
 import { InputHTMLAttributes, forwardRef } from 'react'
+import { InputWrapper, InputWrapperBaseProps } from '#ui/forms/InputWrapper'
 
 export type RadioOptionValue = string | number | boolean
 
@@ -9,9 +9,8 @@ export interface RadioOption {
   label: string
 }
 
-export interface RadioButtonsProps {
+export interface RadioButtonsProps extends InputWrapperBaseProps {
   id: string
-  label?: string
   options: RadioOption[]
   value?: RadioOptionValue
   onChange: (value: RadioOptionValue) => void
@@ -23,19 +22,26 @@ const RadioButtons = forwardRef<HTMLInputElement, RadioButtonsProps>(
   (
     {
       id = 'radio-buttons',
-      label,
       options = [],
       value,
       onChange,
       onBlur,
       className,
+      label,
+      hint,
+      feedback,
       ...rest
     },
     ref
   ): JSX.Element => {
     return (
-      <div className={className} {...rest}>
-        {label != null && <Label gap>{label}</Label>}
+      <InputWrapper
+        className={className}
+        {...rest}
+        hint={hint}
+        feedback={feedback}
+        label={label}
+      >
         {options.map((opt, idx) => (
           <div key={`${id}_${idx}`} className='mb-3 last:mb-0'>
             <div className='flex items-center'>
@@ -72,7 +78,7 @@ const RadioButtons = forwardRef<HTMLInputElement, RadioButtonsProps>(
             </div>
           </div>
         ))}
-      </div>
+      </InputWrapper>
     )
   }
 )

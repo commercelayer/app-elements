@@ -1,4 +1,4 @@
-import { InputFeedback } from '#core-app-elements/forms/InputFeedback'
+import { InputFeedback } from '#ui/forms/InputFeedback'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputFeedback> = {

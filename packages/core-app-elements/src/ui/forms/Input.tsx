@@ -1,14 +1,14 @@
 import cn from 'classnames'
 import { forwardRef } from 'react'
-import { Label } from '#ui/forms/Label'
-import { Hint, HintProps } from '#ui/atoms/Hint'
+import {
+  InputWrapper,
+  getFeedbackStyle,
+  InputWrapperBaseProps
+} from '#ui/forms/InputWrapper'
 
 export interface InputProps
-  extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
-  /**
-   * optional input label
-   */
-  label?: string
+  extends InputWrapperBaseProps,
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**
    * controlled type
    */
@@ -17,36 +17,33 @@ export interface InputProps
    * optional css class names used for the input element
    */
   className?: string
-  /**
-   * optional hint to be rendered below
-   */
-  hint?: {
-    icon?: HintProps['icon']
-    text: HintProps['children']
-  }
 }
 
 const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ type = 'text', className, label, hint, ...rest }, ref): JSX.Element => {
+  (
+    { type = 'text', className, label, hint, feedback, ...rest },
+    ref
+  ): JSX.Element => {
     return (
-      <div>
-        {label != null && <Label gap>{label}</Label>}
+      <InputWrapper
+        label={label}
+        hint={hint}
+        feedback={feedback}
+        name={rest.id ?? rest.name}
+      >
         <input
           {...rest}
+          id={rest.id ?? rest.name}
           className={cn(
-            'block w-full border-gray-200 px-4 h-10 font-medium',
+            className,
+            'block w-full px-4 h-10 font-medium',
             'rounded outline-0',
-            className
+            getFeedbackStyle(feedback)
           )}
           type={type}
           ref={ref}
         />
-        {hint != null && (
-          <Hint className='mt-1' icon={hint.icon}>
-            {hint.text}
-          </Hint>
-        )}
-      </div>
+      </InputWrapper>
     )
   }
 )

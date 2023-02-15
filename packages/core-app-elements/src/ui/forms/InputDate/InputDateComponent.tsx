@@ -4,17 +4,16 @@ import './InputDate.css'
 
 import cn from 'classnames'
 import { CalendarBlank, X } from 'phosphor-react'
-import { Label } from '#ui/forms/Label'
 import { forwardRef } from 'react'
-import { Hint, HintProps } from '#ui/atoms/Hint'
+import {
+  InputWrapper,
+  InputWrapperBaseProps,
+  getFeedbackStyle
+} from '#ui/forms/InputWrapper'
 
 export type MaybeDate = Date | null
 
-export interface InputDateProps {
-  /**
-   * optional input label
-   */
-  label?: string
+export interface InputDateProps extends InputWrapperBaseProps {
   /**
    * controlled value
    */
@@ -52,13 +51,6 @@ export interface InputDateProps {
    * enables a button to clear the selected date
    */
   isClearable?: boolean
-  /**
-   * optional hint to be rendered below
-   */
-  hint?: {
-    icon?: HintProps['icon']
-    text: HintProps['children']
-  }
 }
 
 const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
@@ -75,14 +67,14 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       autoPlaceholder,
       isClearable,
       hint,
+      feedback,
       ...rest
     },
     ref
   ): JSX.Element => {
     const dateFormat = format ?? detectDateFormat()
     return (
-      <div {...rest} className={wrapperClassName}>
-        {label != null && <Label gap>{label}</Label>}
+      <InputWrapper {...rest} className={wrapperClassName}>
         <div className='relative'>
           <DatePicker
             ref={ref}
@@ -96,8 +88,9 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
             openToDate={value ?? minDate}
             className={cn(
               'block w-full px-4 py-2 h-10 placeholder:text-gray-400 font-medium',
-              'border border-gray-200 rounded outline-0',
+              'rounded outline-0',
               'transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light',
+              getFeedbackStyle(feedback),
               inputClassName
             )}
           />
@@ -115,12 +108,7 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
             </button>
           ) : null}
         </div>
-        {hint != null && (
-          <Hint className='mt-1' icon={hint.icon}>
-            {hint.text}
-          </Hint>
-        )}
-      </div>
+      </InputWrapper>
     )
   }
 )
