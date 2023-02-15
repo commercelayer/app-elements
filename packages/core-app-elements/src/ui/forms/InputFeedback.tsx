@@ -1,7 +1,7 @@
 import { CheckCircle, WarningCircle } from 'phosphor-react'
 import cn from 'classnames'
 
-type FeedbackVariant = 'danger' | 'success' | 'warning'
+export type FeedbackVariant = 'danger' | 'success' | 'warning'
 
 export interface InputFeedbackProps {
   message: string

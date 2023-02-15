@@ -66,6 +66,7 @@ export { InputTextArea } from '#ui/forms/InputTextArea'
 export { InputToggleBox } from '#ui/forms/InputToggleBox'
 export { InputToggleListBox } from '#ui/forms/InputToggleListBox'
 export { Label } from '#ui/forms/Label'
+export { InputFeedback } from '#ui/forms/InputFeedback'
 
 // Lists
 export { List } from '#ui/lists/List'
