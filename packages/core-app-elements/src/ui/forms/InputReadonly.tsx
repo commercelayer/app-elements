@@ -1,12 +1,8 @@
 import cn from 'classnames'
-import { Label } from '#ui/forms/Label'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { InputWrapper, InputWrapperBaseProps } from './InputWrapper'
 
-interface InputReadonlyProps {
-  /**
-   * optional input label
-   */
-  label?: string
+interface InputReadonlyProps extends InputWrapperBaseProps {
   /**
    * controlled value
    */
@@ -26,16 +22,23 @@ interface InputReadonlyProps {
 }
 
 function InputReadonly({
-  label,
   value,
   wrapperClassName,
   inputClassName,
   showCopyAction = false,
+  label,
+  hint,
+  feedback,
   ...rest
 }: InputReadonlyProps): JSX.Element {
   return (
-    <div {...rest} className={wrapperClassName}>
-      {label != null && <Label gap>{label}</Label>}
+    <InputWrapper
+      {...rest}
+      className={wrapperClassName}
+      feedback={feedback}
+      label={label}
+      hint={hint}
+    >
       <div className='relative select-none'>
         <input
           className={cn(
@@ -52,7 +55,7 @@ function InputReadonly({
           </div>
         )}
       </div>
-    </div>
+    </InputWrapper>
   )
 }
 

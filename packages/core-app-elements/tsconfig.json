@@ -11,6 +11,9 @@
       "vitest/globals",
       "@testing-library/jest-dom"
     ],
+    "typeRoots": [
+      "src/@types"
+    ],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,

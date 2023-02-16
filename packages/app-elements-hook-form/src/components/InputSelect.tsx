@@ -2,7 +2,7 @@ import { InputSelect as InputSelectUi } from '@commercelayer/core-app-elements'
 import { InputSelectProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputSelect'
 
 import { Controller, useFormContext } from 'react-hook-form'
-import { ValidationError } from '#components/ValidationError'
+import { useValidationFeedback } from '#components/useValidationFeedback'
 
 interface Props extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
   /**
@@ -13,23 +13,22 @@ interface Props extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
 
 function InputSelect({ name, ...props }: Props): JSX.Element {
   const { control } = useFormContext()
+  const feedback = useValidationFeedback(name)
 
   return (
     <Controller
       name={name}
       control={control}
       render={({ field: { onChange, value, onBlur } }) => (
-        <div>
-          <InputSelectUi
-            {...props}
-            onBlur={onBlur}
-            defaultValue={value}
-            onSelect={(values) => {
-              onChange(values)
-            }}
-          />
-          <ValidationError name={name} />
-        </div>
+        <InputSelectUi
+          {...props}
+          onBlur={onBlur}
+          defaultValue={value}
+          onSelect={(values) => {
+            onChange(values)
+          }}
+          feedback={feedback}
+        />
       )}
     />
   )

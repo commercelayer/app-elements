@@ -1,9 +1,9 @@
 import { FocusEventHandler, lazy, Suspense } from 'react'
 import { MultiValue, SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
-import selectStyles from './styles'
-import { Label } from '../Label'
-import { InputHelperText } from '../InputHelperText'
+import { getSelectStyles } from './styles'
+import { InputWrapper } from '../InputWrapper'
+import { InputWrapperBaseProps } from '#ui/forms/InputWrapper'
 
 const LazyAsyncSelect = lazy(
   async () =>
@@ -33,9 +33,7 @@ export type PossibleSelectValue =
   | MultiValue<SelectValue>
   | SingleValue<SelectValue>
 
-export interface InputSelectProps {
-  label?: string
-  helperText?: React.ReactNode
+export interface InputSelectProps extends InputWrapperBaseProps {
   initialValues: GroupedSelectValues | SelectValue[]
   defaultValue?: SelectValue | SelectValue[]
   placeholder?: string
@@ -58,7 +56,8 @@ export interface InputSelectProps {
 
 function InputSelect({
   label,
-  helperText,
+  hint,
+  feedback,
   menuIsOpen,
   initialValues,
   defaultValue,
@@ -78,8 +77,14 @@ function InputSelect({
   ...rest
 }: InputSelectProps): JSX.Element {
   return (
-    <div className={className} {...rest}>
-      {label != null && <Label gap>{label}</Label>}
+    <InputWrapper
+      className={className}
+      label={label}
+      hint={hint}
+      feedback={feedback}
+      name={name}
+      {...rest}
+    >
       {loadAsyncValues != null ? (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
           <LazyAsyncSelect
@@ -95,7 +100,7 @@ function InputSelect({
             name={name}
             noOptionsMessage={noOptionsMessage}
             loadAsyncValues={loadAsyncValues}
-            styles={selectStyles}
+            styles={getSelectStyles(feedback?.variant)}
           />
         </Suspense>
       ) : (
@@ -112,16 +117,11 @@ function InputSelect({
             isMulti={isMulti}
             onBlur={onBlur}
             name={name}
-            styles={selectStyles}
+            styles={getSelectStyles(feedback?.variant)}
           />
         </Suspense>
       )}
-      {helperText != null && (
-        <InputHelperText variant='light' className='mt-1'>
-          {helperText}
-        </InputHelperText>
-      )}
-    </div>
+    </InputWrapper>
   )
 }
 

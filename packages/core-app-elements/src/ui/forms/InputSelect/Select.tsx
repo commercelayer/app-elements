@@ -3,7 +3,7 @@ import Select, { StylesConfig } from 'react-select'
 import components from './overrides'
 
 interface SelectComponentProps
-  extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'helperText'> {
+  extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'hint'> {
   styles: StylesConfig<SelectValue>
 }
 

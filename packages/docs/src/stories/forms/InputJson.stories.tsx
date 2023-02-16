@@ -1,5 +1,5 @@
-import { InputJson } from '#core-app-elements/forms/InputJson'
-import { Container } from '#core-app-elements/atoms/Container'
+import { InputJson } from '#ui/forms/InputJson'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

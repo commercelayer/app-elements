@@ -1,7 +1,7 @@
 import { Input as InputUi } from '@commercelayer/core-app-elements'
 import { InputProps } from '@commercelayer/core-app-elements/dist/ui/forms/Input'
 import { useFormContext } from 'react-hook-form'
-import { ValidationError } from '#components/ValidationError'
+import { useValidationFeedback } from './useValidationFeedback'
 
 interface Props extends InputProps {
   /**
@@ -12,13 +12,9 @@ interface Props extends InputProps {
 
 function Input({ name, ...props }: Props): JSX.Element {
   const { register } = useFormContext()
+  const feedback = useValidationFeedback(name)
 
-  return (
-    <div>
-      <InputUi {...props} {...register(name)} />
-      <ValidationError name={name} />
-    </div>
-  )
+  return <InputUi {...props} {...register(name)} feedback={feedback} />
 }
 
 Input.displayName = 'Input'

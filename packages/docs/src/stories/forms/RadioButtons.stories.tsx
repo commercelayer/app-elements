@@ -1,7 +1,4 @@
-import {
-  RadioButtons,
-  RadioOptionValue
-} from '#core-app-elements/forms/RadioButtons'
+import { RadioButtons, RadioOptionValue } from '#ui/forms/RadioButtons'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
@@ -42,4 +39,31 @@ Boolean.args = {
     { label: 'Shippable', value: true },
     { label: 'Not Shippable', value: false }
   ]
+}
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'Select Options',
+  id: 'radio-boolean',
+  options: [
+    { label: 'Shippable', value: true },
+    { label: 'Not Shippable', value: false }
+  ],
+  hint: {
+    text: 'Please enter a valid name'
+  }
+}
+
+export const WithError = Template.bind({})
+WithError.args = {
+  label: 'Select Options',
+  id: 'radio-boolean',
+  options: [
+    { label: 'Shippable', value: true },
+    { label: 'Not Shippable', value: false }
+  ],
+  feedback: {
+    variant: 'danger',
+    message: 'Required field'
+  }
 }

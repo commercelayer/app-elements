@@ -1,14 +1,12 @@
 import { ArrowRight } from 'phosphor-react'
 import { InputDate } from './InputDate'
-import { Label } from './Label'
 import { forwardRef, useEffect } from 'react'
 import { InputDateProps, MaybeDate } from './InputDate/InputDateComponent'
+import { InputWrapper, InputWrapperBaseProps } from '#ui/forms/InputWrapper'
 
 export interface InputDateRangeProps
-  extends Pick<
-    InputDateProps,
-    'label' | 'isClearable' | 'format' | 'autoPlaceholder'
-  > {
+  extends Pick<InputDateProps, 'isClearable' | 'format' | 'autoPlaceholder'>,
+    InputWrapperBaseProps {
   /**
    * a tuple that represents the [from, to] dates
    */
@@ -38,6 +36,8 @@ const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       autoPlaceholder,
       isClearable,
       onChange,
+      hint,
+      feedback,
       ...rest
     },
     ref
@@ -58,8 +58,7 @@ const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
     )
 
     return (
-      <div {...rest} ref={ref}>
-        {label != null && <Label gap>{label}</Label>}
+      <InputWrapper label={label} hint={hint} feedback={feedback} {...rest}>
         <div className='flex items-center'>
           <InputDate
             value={fromDate}
@@ -71,6 +70,7 @@ const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
+            feedback={feedback}
           />
           <div className='px-2 text-gray-300'>
             <ArrowRight size={24} />
@@ -86,9 +86,10 @@ const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
+            feedback={feedback}
           />
         </div>
-      </div>
+      </InputWrapper>
     )
   }
 )

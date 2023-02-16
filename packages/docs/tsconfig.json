@@ -23,6 +23,9 @@
     "paths": {
       "#core-app-elements/*": [
         "../core-app-elements/src/ui/*"
+      ],
+      "#ui/*": [
+        "../core-app-elements/src/ui/*"
       ]
     }
   },

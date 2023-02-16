@@ -1,7 +1,8 @@
 import isEmpty from 'lodash/isEmpty'
 import { useState, useEffect } from 'react'
+import { InputWrapper, InputWrapperBaseProps } from './InputWrapper'
 
-export interface InputJsonProps<JsonType> {
+export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
   placeholder: object
   validateFn: (json: any) => JsonType
   onDataReady: (validJson: JsonType) => void
@@ -17,14 +18,18 @@ function InputJson<JsonType extends object>({
   onDataResetRequest,
   errorMessageText = 'Invalid JSON',
   className,
+  label,
+  feedback,
+  hint,
   ...rest
 }: InputJsonProps<JsonType>): JSX.Element {
   const [value, setValue] = useState('')
-  const [errorMessage, setErrorMessage] = useState<string | null>()
+  const [internalFeedback, setInternalFeedback] =
+    useState<InputWrapperBaseProps['feedback']>(feedback)
 
   useEffect(
     function parseValueAsJson() {
-      setErrorMessage(null)
+      setInternalFeedback(undefined)
       if (isEmpty(value)) {
         onDataResetRequest()
         return
@@ -33,16 +38,25 @@ function InputJson<JsonType extends object>({
         const json = JSON.parse(value)
         const validData = validateFn(json)
         onDataReady(validData)
-      } catch (e) {
+      } catch {
         onDataResetRequest()
-        setErrorMessage(errorMessageText)
+        setInternalFeedback({
+          variant: 'danger',
+          message: errorMessageText
+        })
       }
     },
     [value]
   )
 
   return (
-    <div className={className} {...rest}>
+    <InputWrapper
+      className={className}
+      label={label}
+      hint={hint}
+      feedback={internalFeedback}
+      {...rest}
+    >
       <textarea
         data-gramm='false'
         placeholder={preparePlaceholder(placeholder)}
@@ -53,12 +67,7 @@ function InputJson<JsonType extends object>({
         }}
         className='bg-black text-white font-semibold text-xs font-mono h-72 p-3 w-full rounded-md outline-none'
       />
-      {errorMessage !== null ? (
-        <div className='text-sm text-red px-2' data-test-id='input-json-error'>
-          {errorMessage}
-        </div>
-      ) : null}
-    </div>
+    </InputWrapper>
   )
 }
 

@@ -1,5 +1,5 @@
-import { useFormContext } from 'react-hook-form'
-import { Text } from '@commercelayer/core-app-elements'
+import { InputFeedback } from '@commercelayer/core-app-elements'
+import { useValidationFeedback } from '#components/useValidationFeedback'
 
 interface Props {
   /**
@@ -9,14 +9,8 @@ interface Props {
 }
 
 function ValidationError({ name }: Props): JSX.Element | null {
-  const {
-    formState: { errors }
-  } = useFormContext()
-  const errorMessage = errors[name]?.message
-  const hasErrorMessage =
-    errorMessage != null && typeof errorMessage === 'string'
-
-  return hasErrorMessage ? <Text variant='danger'>{errorMessage}</Text> : null
+  const feedback = useValidationFeedback(name)
+  return feedback != null ? <InputFeedback {...feedback} /> : null
 }
 
 ValidationError.displayName = 'ValidationError'

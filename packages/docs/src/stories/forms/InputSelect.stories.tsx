@@ -1,9 +1,14 @@
-import { Label } from '#core-app-elements/forms/Label'
-import { InputSelect, SelectValue } from '#core-app-elements/forms/InputSelect'
-import { InputHelperText } from '#core-app-elements/forms/InputHelperText'
-import { Spacer } from '#core-app-elements/atoms/Spacer'
-import { Container } from '#core-app-elements/atoms/Container'
+import { Label } from '#ui/forms/Label'
+import {
+  InputSelect,
+  InputSelectProps,
+  SelectValue
+} from '#ui/forms/InputSelect'
+import { Hint } from '#ui/atoms/Hint'
+import { Spacer } from '#ui/atoms/Spacer'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { useState } from 'react'
 
 const fullList = [
   { value: 'customers', label: 'Customers' },
@@ -39,10 +44,10 @@ const Template: ComponentStory<typeof InputSelect> = (args) => {
 
       {args.loadAsyncValues !== undefined ? (
         <Spacer top='6'>
-          <InputHelperText icon='bulb'>
+          <Hint icon='bulb'>
             Try to search some of the following values: customer, sku, price,
             tax
-          </InputHelperText>
+          </Hint>
         </Spacer>
       ) : null}
     </Container>
@@ -75,3 +80,27 @@ const fakeSearch = (hint: string): SelectValue[] =>
   fullList.filter((item) =>
     item.label.toLowerCase().includes(hint.toLowerCase())
   )
+
+const TemplateError: ComponentStory<typeof InputSelect> = (args) => {
+  const [feedback, setFeedback] = useState<InputSelectProps['feedback']>()
+  return (
+    <Container minHeight={false}>
+      <InputSelect
+        {...args}
+        label='Select resource'
+        initialValues={fullList}
+        onSelect={() => {
+          setFeedback({
+            variant: 'danger',
+            message: 'Required field'
+          })
+        }}
+        hint={{
+          text: `Select an option to show error feedback`
+        }}
+        feedback={feedback}
+      />
+    </Container>
+  )
+}
+export const WithError = TemplateError.bind({})

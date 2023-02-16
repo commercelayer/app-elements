@@ -7,7 +7,7 @@ import { SetRequired } from 'type-fest'
 interface AsyncSelectComponentProps
   extends Omit<
     SetRequired<InputSelectProps, 'loadAsyncValues'>,
-    'label' | 'helperText'
+    'label' | 'hint'
   > {
   styles: StylesConfig<SelectValue>
 }

@@ -1,6 +1,7 @@
-import { Input } from '#core-app-elements/forms/Input'
-import { Container } from '#core-app-elements/atoms/Container'
+import { Input } from '#ui/forms/Input'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { useState } from 'react'
 
 const setup: ComponentMeta<typeof Input> = {
   title: 'Forms/Input',
@@ -27,5 +28,58 @@ Default.args = {
 
 export const WithLabel = Template.bind({})
 WithLabel.args = {
-  label: 'Your name'
+  label: 'Your name',
+  name: 'fullname'
 }
+
+export const WithHint = Template.bind({})
+WithHint.args = {
+  label: 'Your name',
+  hint: {
+    text: 'Please enter a valid name'
+  }
+}
+
+export const WithError = Template.bind({})
+WithError.args = {
+  label: 'Your name',
+  feedback: {
+    variant: 'danger',
+    message: 'Required field'
+  }
+}
+
+const TemplateValidation: ComponentStory<typeof Input> = () => {
+  const [value, setValue] = useState('')
+
+  return (
+    <Container minHeight={false}>
+      <Input
+        value={value}
+        onChange={(e) => setValue(e.currentTarget.value)}
+        hint={{
+          text: `try to type 'error', 'success' or 'warning'`
+        }}
+        feedback={
+          value === 'error'
+            ? {
+                variant: 'danger',
+                message: 'Required field'
+              }
+            : value === 'success'
+            ? {
+                variant: 'success',
+                message: 'All good'
+              }
+            : value === 'warning'
+            ? {
+                variant: 'warning',
+                message: 'Check something'
+              }
+            : undefined
+        }
+      />
+    </Container>
+  )
+}
+export const ValidationSample = TemplateValidation.bind({})
