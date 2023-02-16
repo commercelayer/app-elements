@@ -8,16 +8,24 @@ interface Props extends InputToggleListBoxProps {
    * field name to match hook-form state
    */
   name: string
+  /**
+   * show validation error message underneath
+   */
+  showValidation: boolean
 }
 
-function InputToggleListBox({ name, ...props }: Props): JSX.Element {
+function InputToggleListBox({
+  name,
+  showValidation,
+  ...props
+}: Props): JSX.Element {
   const { register } = useFormContext()
 
   return (
-    <div>
+    <>
       <InputToggleListBoxUi {...props} {...register(name)} />
-      <ValidationError name={name} />
-    </div>
+      {showValidation && <ValidationError name={name} />}
+    </>
   )
 }
 
