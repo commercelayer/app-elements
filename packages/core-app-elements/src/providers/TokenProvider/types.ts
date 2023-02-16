@@ -140,6 +140,15 @@ export interface TokenProviderTokenInfo {
     TokenProviderResourceType,
     { actions: TokenProviderRoleActions[] }
   >
+  owner?: {
+    id: string
+    type: 'User'
+    first_name?: string
+    last_name?: string
+    email?: string
+    owner?: boolean
+    time_zone?: string
+  }
 }
 
 export type Mode = 'live' | 'test'
@@ -149,4 +158,5 @@ export interface TokenProviderAuthSettings {
   organizationSlug: string
   domain: string
   mode: Mode
+  timezone?: string
 }

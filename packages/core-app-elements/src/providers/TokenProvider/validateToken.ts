@@ -32,6 +32,7 @@ interface ValidToken {
   mode: Mode
   organizationSlug: string
   permissions?: TokenProviderRolePermissions
+  timezone?: string
 }
 interface InvalidToken {
   isValidToken: false
@@ -79,7 +80,8 @@ export async function isValidTokenForCurrentApp({
       permissions:
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
-          : undefined
+          : undefined,
+      timezone: tokenInfo?.owner?.time_zone
     }
   } catch {
     return {
