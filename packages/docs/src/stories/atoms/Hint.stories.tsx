@@ -1,5 +1,5 @@
-import { A } from '#core-app-elements/atoms/A'
-import { Hint } from '#core-app-elements/atoms/Hint'
+import { A } from '#ui/atoms/A'
+import { Hint } from '#ui/atoms/Hint'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Hint> = {

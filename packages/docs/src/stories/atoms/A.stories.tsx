@@ -1,4 +1,4 @@
-import { A } from '#core-app-elements/atoms/A'
+import { A } from '#ui/atoms/A'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof A> = {

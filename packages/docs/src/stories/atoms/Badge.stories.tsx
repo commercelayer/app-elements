@@ -1,4 +1,4 @@
-import { Badge } from '#core-app-elements/atoms/Badge'
+import { Badge } from '#ui/atoms/Badge'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Badge> = {

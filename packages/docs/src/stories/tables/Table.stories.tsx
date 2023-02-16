@@ -1,6 +1,6 @@
-import { Table } from '#core-app-elements/tables/Table'
-import { Tr, Th, Td } from '#core-app-elements/atoms/tables'
-import { Container } from '#core-app-elements/atoms/Container'
+import { Table } from '#ui/tables/Table'
+import { Tr, Th, Td } from '#ui/atoms/tables'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Table> = {

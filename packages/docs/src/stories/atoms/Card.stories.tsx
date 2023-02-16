@@ -1,4 +1,4 @@
-import { Card } from '#core-app-elements/atoms/Card'
+import { Card } from '#ui/atoms/Card'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Card> = {

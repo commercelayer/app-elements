@@ -1,4 +1,4 @@
-import { StatusDot } from '#core-app-elements/atoms/StatusDot'
+import { StatusDot } from '#ui/atoms/StatusDot'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof StatusDot> = {
