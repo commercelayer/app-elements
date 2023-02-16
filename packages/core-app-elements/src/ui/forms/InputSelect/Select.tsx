@@ -13,7 +13,6 @@ function SelectComponent({
   initialValues,
   ...rest
 }: SelectComponentProps): JSX.Element {
-  console.log(rest)
   return (
     <Select
       {...rest}
