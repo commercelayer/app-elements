@@ -1,5 +1,5 @@
 import { InputTextArea } from '#ui/forms/InputTextArea'
-import { Container } from '#core-app-elements/atoms/Container'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputTextArea> = {

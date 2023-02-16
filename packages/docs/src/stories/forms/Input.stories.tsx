@@ -1,5 +1,5 @@
 import { Input } from '#ui/forms/Input'
-import { Container } from '#core-app-elements/atoms/Container'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

@@ -1,5 +1,5 @@
-import { InputReadonly } from '#core-app-elements/forms/InputReadonly'
-import { Container } from '#core-app-elements/atoms/Container'
+import { InputReadonly } from '#ui/forms/InputReadonly'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputReadonly> = {

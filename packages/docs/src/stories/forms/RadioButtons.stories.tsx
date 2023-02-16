@@ -1,7 +1,4 @@
-import {
-  RadioButtons,
-  RadioOptionValue
-} from '#core-app-elements/forms/RadioButtons'
+import { RadioButtons, RadioOptionValue } from '#ui/forms/RadioButtons'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
