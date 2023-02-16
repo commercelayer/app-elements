@@ -1,4 +1,4 @@
-import { StatusIcon } from '#core-app-elements/atoms/StatusIcon'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof StatusIcon> = {

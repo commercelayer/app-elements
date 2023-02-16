@@ -1,6 +1,6 @@
-import { Legend } from '#core-app-elements/atoms/Legend'
-import { A } from '#core-app-elements/atoms/A'
-import { Container } from '#core-app-elements/atoms/Container'
+import { Legend } from '#ui/atoms/Legend'
+import { A } from '#ui/atoms/A'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Legend> = {

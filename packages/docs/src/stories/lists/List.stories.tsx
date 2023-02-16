@@ -1,9 +1,9 @@
-import { ListItem } from '#core-app-elements/lists/ListItem'
-import { List } from '#core-app-elements/lists/List'
-import { Container } from '#core-app-elements/atoms/Container'
+import { ListItem } from '#ui/lists/ListItem'
+import { List } from '#ui/lists/List'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
-import { PageHeading } from '#core-app-elements/atoms/PageHeading'
+import { PageHeading } from '#ui/atoms/PageHeading'
 
 const setup: ComponentMeta<typeof List> = {
   title: 'Lists/Simple',

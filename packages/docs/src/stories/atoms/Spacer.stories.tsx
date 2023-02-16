@@ -1,4 +1,4 @@
-import { Spacer } from '#core-app-elements/atoms/Spacer'
+import { Spacer } from '#ui/atoms/Spacer'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Spacer> = {

@@ -2,7 +2,7 @@ import {
   DropdownMenu,
   DropdownMenuDivider,
   DropdownMenuItem
-} from '#core-app-elements/atoms/dropdown'
+} from '#ui/atoms/dropdown'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof DropdownMenu> = {

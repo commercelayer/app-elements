@@ -1,7 +1,7 @@
-import { List } from '#core-app-elements/lists/List'
-import { ListItemTask } from '#core-app-elements/lists/ListItemTask'
-import { Container } from '#core-app-elements/atoms/Container'
-import { A } from '#core-app-elements/atoms/A'
+import { List } from '#ui/lists/List'
+import { ListItemTask } from '#ui/lists/ListItemTask'
+import { Container } from '#ui/atoms/Container'
+import { A } from '#ui/atoms/A'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 

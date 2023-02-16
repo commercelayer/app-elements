@@ -1,5 +1,5 @@
-import { CopyToClipboard } from '#core-app-elements/atoms/CopyToClipboard'
-import { Container } from '#core-app-elements/atoms/Container'
+import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof CopyToClipboard> = {

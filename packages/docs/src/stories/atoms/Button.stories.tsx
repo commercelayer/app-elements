@@ -1,4 +1,4 @@
-import { Button } from '#core-app-elements/atoms/Button'
+import { Button } from '#ui/atoms/Button'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Button> = {

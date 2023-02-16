@@ -1,6 +1,6 @@
-import { A } from '#core-app-elements/atoms/A'
-import { PageLayout } from '#core-app-elements/composite/PageLayout'
-import { Container } from '#core-app-elements/atoms/Container'
+import { A } from '#ui/atoms/A'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { Container } from '#ui/atoms/Container'
 
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 

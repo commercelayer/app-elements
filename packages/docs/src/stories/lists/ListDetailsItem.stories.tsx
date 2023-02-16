@@ -1,5 +1,5 @@
-import { ListDetailsItem } from '#core-app-elements/lists/ListDetailsItem'
-import { Container } from '#core-app-elements/atoms/Container'
+import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListDetailsItem> = {

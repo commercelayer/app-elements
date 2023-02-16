@@ -1,6 +1,6 @@
-import { Container } from '#core-app-elements/atoms/Container'
-import { A } from '#core-app-elements/atoms/A'
-import { PageHeading } from '#core-app-elements/atoms/PageHeading'
+import { Container } from '#ui/atoms/Container'
+import { A } from '#ui/atoms/A'
+import { PageHeading } from '#ui/atoms/PageHeading'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof PageHeading> = {

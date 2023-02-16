@@ -1,8 +1,8 @@
-import { ListDetailsItem } from '#core-app-elements/lists/ListDetailsItem'
-import { ListDetails } from '#core-app-elements/lists/ListDetails'
-import { Container } from '#core-app-elements/atoms/Container'
+import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
+import { ListDetails } from '#ui/lists/ListDetails'
+import { Container } from '#ui/atoms/Container'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { CopyToClipboard } from '#core-app-elements/atoms/CopyToClipboard'
+import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 
 const setup: ComponentMeta<typeof ListDetails> = {
   title: 'Lists/ListDetails',

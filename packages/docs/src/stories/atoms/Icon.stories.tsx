@@ -1,4 +1,4 @@
-import { Icon } from '#core-app-elements/atoms/Icon'
+import { Icon } from '#ui/atoms/Icon'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Icon> = {
