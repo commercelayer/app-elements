@@ -22,7 +22,7 @@ describe('Get org slug from URL', () => {
     expect(getOrgSlugFromCurrentUrl()).toBe('my-slug')
   })
 
-  test('should aways get the deeper domain lavel', () => {
+  test('should always get the deeper domain level', () => {
     window.location.hostname = 'deep.subdomain.commercelayer.app'
     expect(getOrgSlugFromCurrentUrl()).toBe('deep')
   })
