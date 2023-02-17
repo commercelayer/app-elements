@@ -1,5 +1,5 @@
-import { Flex, FlexProps } from '#ui/atoms/Flex'
 import cn from 'classnames'
+import { FlexRow, FlexRowProps } from '#ui/atoms/FlexRow'
 import { Icon, IconProps } from '#ui/atoms/Icon'
 
 type IconPreset = Pick<IconProps, 'name' | 'background'>
@@ -7,7 +7,7 @@ type IconCustom = React.ReactElement
 
 export interface ListItemFlexProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
-    Pick<FlexProps, 'children'> {
+    Pick<FlexRowProps, 'children'> {
   icon?: IconPreset | IconCustom
 }
 
@@ -37,7 +37,7 @@ function ListItemFlex({
             )}
           </div>
         )}
-        <Flex>{children}</Flex>
+        <FlexRow>{children}</FlexRow>
       </div>
     </div>
   )

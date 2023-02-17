@@ -1,11 +1,11 @@
 import cn from 'classnames'
 import { Children } from 'react'
 
-export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
-  children: React.ReactElement[]
+export interface FlexRowProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: ElementChildren
 }
 
-function Flex({ children, className, ...rest }: FlexProps): JSX.Element {
+function FlexRow({ children, className, ...rest }: FlexRowProps): JSX.Element {
   const childrenCount = Children.count(children)
   return (
     <div
@@ -25,8 +25,8 @@ function Flex({ children, className, ...rest }: FlexProps): JSX.Element {
   )
 }
 
-Flex.displayName = 'Flex'
-export { Flex }
+FlexRow.displayName = 'FlexRow'
+export { FlexRow }
 
 function isLastOfMultipleChildren(index: number, count: number): boolean {
   return count > 1 && index === count - 1
