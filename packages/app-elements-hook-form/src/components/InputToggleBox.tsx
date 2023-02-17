@@ -11,7 +11,7 @@ interface Props extends InputToggleBoxProps {
   /**
    * show validation error message underneath
    */
-  showValidation: boolean
+  showValidation?: boolean
 }
 
 function InputToggleBox({
@@ -24,7 +24,7 @@ function InputToggleBox({
   return (
     <>
       <InputToggleBoxUI {...props} {...register(name)} />
-      {showValidation && <ValidationError name={name} />}
+      {showValidation === true && <ValidationError name={name} />}
     </>
   )
 }
