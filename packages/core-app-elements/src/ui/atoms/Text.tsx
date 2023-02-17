@@ -13,7 +13,7 @@ export type TextWeight = 'regular' | 'medium' | 'semibold' | 'bold' | 'inherit'
 export type TextAlignment = 'center' | 'left' | 'right' | 'inherit'
 export type TextWrap = 'normal' | 'nowrap' | 'inherit'
 
-interface TextProps extends React.HTMLAttributes<HTMLElement> {
+export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   children?: ReactNode
   variant?: TextVariant
   size?: TextSize
