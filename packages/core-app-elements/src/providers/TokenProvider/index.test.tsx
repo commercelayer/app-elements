@@ -23,9 +23,10 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
     <div data-test-id={id}>
       <TokenProvider {...props}>
-        {({ settings: { mode } }) => (
+        {({ settings: { mode, timezone } }) => (
           <div>
             <p>mode: {mode}</p>
+            <p>timezone: {timezone}</p>
             <p>content</p>
           </div>
         )}
@@ -72,6 +73,7 @@ describe('TokenProvider', () => {
     expect(getByText('Loading...')).toBeVisible()
     await waitFor(() => expect(getByText('content')).toBeVisible())
     expect(getByText('mode: test')).toBeVisible()
+    expect(getByText('timezone: Europe/Rome')).toBeVisible()
     expect(onInvalidAuth).toBeCalledTimes(0)
   })
 

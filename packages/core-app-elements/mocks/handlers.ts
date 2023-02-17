@@ -41,6 +41,15 @@ export const handlers = [
           name: 'MyApplicationCredentials',
           core: false
         },
+        owner: {
+          id: 'kdRvPYzXfy',
+          type: 'User',
+          first_name: 'Ringo',
+          last_name: 'Starr',
+          email: 'ringostarr@domain.com',
+          owner: false,
+          time_zone: 'Europe/Rome'
+        },
         permissions: {
           imports: { actions: ['create', 'destroy', 'read', 'update'] }
         }

@@ -160,7 +160,8 @@ function TokenProvider({
               accessToken: tokenInfo.accessToken,
               organizationSlug: tokenInfo.organizationSlug,
               mode: tokenInfo.mode,
-              domain
+              domain,
+              timezone: tokenInfo.timezone
             },
             rolePermissions: tokenInfo.permissions ?? {}
           }
