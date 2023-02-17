@@ -10,9 +10,13 @@ export default setup
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
 
 export const Primary = Template.bind({})
-
 Primary.args = {
   variant: 'primary',
-  // size: 'large',
   children: 'Hello'
+}
+
+export const Danger = Template.bind({})
+Danger.args = {
+  variant: 'danger',
+  children: 'Delete webhook'
 }

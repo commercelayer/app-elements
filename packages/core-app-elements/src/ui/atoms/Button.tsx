@@ -29,8 +29,7 @@ const variantCss: Record<ButtonVariant, string> = {
   primary: 'bg-black text-white hover:opacity-80',
   secondary:
     'bg-white border border-gray-300 text-black hover:opacity-80 hover:bg-gray-50',
-  danger:
-    'bg-white border border-red text-red hover:opacity-80 hover:bg-gray-50',
+  danger: 'bg-white border border-red text-red hover:bg-red/10',
   link: 'border border-transparent hover:opacity-80'
 }
 
