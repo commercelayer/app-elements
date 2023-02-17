@@ -10,7 +10,9 @@ import {
   Eye
 } from 'phosphor-react'
 
-interface IconProps extends React.HTMLAttributes<HTMLDivElement>, IconSvgProps {
+export interface IconProps
+  extends React.HTMLAttributes<HTMLDivElement>,
+    IconSvgProps {
   /**
    * Name of the icon to display
    */
