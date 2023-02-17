@@ -8,7 +8,7 @@ import {
 } from 'react'
 
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
-import { makeDashboardUrl } from './slug'
+import { makeDashboardUrl, makeReAuthenticationUrl } from './url'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { PageError } from '#ui/composite/PageError'
@@ -46,7 +46,11 @@ export interface TokenProviderProps {
   /**
    * Callback invoked when token is not valid
    */
-  onInvalidAuth: (info: { dashboardUrl: string; reason: string }) => void
+  onInvalidAuth?: (info: { dashboardUrl: string; reason: string }) => void
+  /**
+   * Automatically redirect to dashboard to start re-authentication flow and return to app with fresh token
+   */
+  reauthenticateOnInvalidAuth?: boolean
   /**
    * Element to be used as loader (eg: skeleton or spinner icon)
    */
@@ -89,6 +93,7 @@ function TokenProvider({
   clientKind,
   domain = 'commercelayer.io',
   onInvalidAuth,
+  reauthenticateOnInvalidAuth,
   loadingElement,
   errorElement,
   devMode,
@@ -107,7 +112,13 @@ function TokenProvider({
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'invalidAuth' })
-    onInvalidAuth({ dashboardUrl, reason })
+    if (onInvalidAuth != null) {
+      onInvalidAuth({ dashboardUrl, reason })
+    }
+    if (reauthenticateOnInvalidAuth === true) {
+      window.location.href =
+        makeReAuthenticationUrl(dashboardUrl, currentApp) ?? dashboardUrl
+    }
   }, [])
 
   const canUser = useCallback(
@@ -179,7 +190,10 @@ function TokenProvider({
   }
 
   if (_state.isTokenError) {
-    return (
+    return reauthenticateOnInvalidAuth === true ? (
+      // while browser is redirecting back and forth, we don't want to show `<PageError>` component
+      <div />
+    ) : (
       <>
         {errorElement == null ? (
           <PageError

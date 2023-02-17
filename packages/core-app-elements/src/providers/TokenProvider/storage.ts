@@ -1,5 +1,5 @@
 import { TokenProviderAllowedApp } from './types'
-import { getOrgSlugFromCurrentUrl } from './slug'
+import { getOrgSlugFromCurrentUrl } from './url'
 
 type PersistentItem = 'accessToken'
 
