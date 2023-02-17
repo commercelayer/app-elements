@@ -6,7 +6,7 @@ import {
   Mode
 } from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
-import { getOrgSlugFromCurrentUrl } from './slug'
+import { getOrgSlugFromCurrentUrl } from './url'
 import fetch from 'cross-fetch'
 
 export function isTokenExpired({
