@@ -17,13 +17,13 @@ function InputFeedback({
 }: InputFeedbackProps): JSX.Element {
   const icons: Record<FeedbackVariant, JSX.Element> = {
     danger: (
-      <WarningCircle size={15} weight='bold' data-test-id='icon-danger' />
+      <WarningCircle size={20} weight='bold' data-test-id='icon-danger' />
     ),
     success: (
-      <CheckCircle size={15} weight='bold' data-test-id='icon-success' />
+      <CheckCircle size={20} weight='bold' data-test-id='icon-success' />
     ),
     warning: (
-      <WarningCircle size={15} weight='bold' data-test-id='icon-warning' />
+      <WarningCircle size={20} weight='bold' data-test-id='icon-warning' />
     )
   }
 
@@ -31,7 +31,7 @@ function InputFeedback({
     <div
       className={cn([
         className,
-        'flex items-center gap-[6px]',
+        'flex items-center gap-[5px]',
         {
           'text-red': variant === 'danger',
           'text-green': variant === 'success',
