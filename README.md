@@ -1,71 +1,24 @@
-# Core App Elements
+# App Elements
 
-## How to use it in your application
+React UI Elements for Commerce Layer applications.
 
-1. Install the package as dependency
-
-```sh
-pnpm install @commercelayer/app-elements
-```
-
-2. Add global css in your app index.tsx
-
-```jsx
-import "@commercelayer/app-elements/style.css";
-
-
-React.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-)
-```
-
-3. load Manrope Google font into your html
-
-```html
-<head>
-  <link rel="preconnect" href="https://fonts.gstatic.com" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-</head>
-```
-
-4. Import any components your need
-
-```jsx
-import { Container, Button, Label } from "@commercelayer/app-elements";
-```
-
-5. (optional) install `@commercelayer/sdk` to use `<TokenProvider>` component
-
-## How to work with this locally with pnpm link
-
-1. Build the library in watch mode `pnpm build --watch`
-2. Install the library as symbolic link in your project
-
-```sh
-pnpm add link:~/path/to/app-elements/packages/app-elements/
-```
-
-3. Proceed with steps 2 and 3 as described in previous section.
-
-## Storybook
-
-To access documentation and examples you can run storybook locally
+## Local development
 
 ```sh
 pnpm install
 
-pnpm build
+pnpm dev
 
-pnpm storybook
 ```
 
-## Preact
+### Link to other application
 
-Support for `preact` is provided out of the box, thanks to the fact we are not including React jsx-runtime modules in bundled files.
-The application where this package is installed to is responsible of this.
-But no extra configuration should be required in your project, in fact all latest versions of vite, react and preact will handle this automatically.
+```sh
+pnpm build:elements --watch
+
+cd ~/projects/app-elements/packages/app-elements
+pnpm link --global
+
+cd ~/projects/my-app/packages/app
+pnpm link --global @commercelayer/app-elements
+```
