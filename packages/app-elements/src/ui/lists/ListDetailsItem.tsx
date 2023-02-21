@@ -41,8 +41,8 @@ function ListDetailsItem({
         {label}
       </div>
       <div
-        className={classNames('w-full overflow-x-auto font-medium', {
-          'py-0': !childrenHaveInternalPadding
+        className={classNames('w-full overflow-x-auto font-semibold', {
+          'py-2': !childrenHaveInternalPadding
         })}
       >
         {isLoading === true ? (
