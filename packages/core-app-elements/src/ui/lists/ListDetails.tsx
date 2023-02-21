@@ -1,3 +1,4 @@
+import cn from 'classnames'
 import { ReactNode } from 'react'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 
@@ -15,6 +16,10 @@ export interface DetailsListProps {
    */
   className?: string
   /**
+   * font size
+   */
+  fontSize?: 'normal' | 'small'
+  /**
    * Show skeleton when this is `true`
    */
   isLoading?: boolean
@@ -27,6 +32,7 @@ export interface DetailsListProps {
 function ListDetails({
   title,
   children,
+  fontSize = 'normal',
   isLoading,
   loadingLines = 3,
   ...rest
@@ -52,10 +58,16 @@ function ListDetails({
   }
 
   return (
-    <div {...rest}>
+    <div
+      className={cn([
+        // font size
+        { 'text-sm': fontSize === 'small' }
+      ])}
+      {...rest}
+    >
       {title != null ? (
         <h4
-          className='text-[18px] font-semibold mb-4'
+          className='text-lg font-semibold mb-4'
           data-test-id='details-list-title'
         >
           {title}
