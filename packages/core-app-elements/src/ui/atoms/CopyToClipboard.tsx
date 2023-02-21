@@ -60,7 +60,7 @@ function CopyToClipboard({
     return (
       <div
         className={cn(
-          'py-2 border-b border-gray-500 last:border-b-0',
+          'border-b border-gray-500 last:border-b-0 py-2',
           className
         )}
         {...rest}
@@ -73,7 +73,7 @@ function CopyToClipboard({
   return (
     <div
       className={cn(
-        'break-normal overflow-hidden font-semibold flex justify-between items-center gap-3 border-b border-gray-500 last:border-b-0',
+        'break-normal overflow-hidden font-semibold flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0',
         className
       )}
       {...rest}

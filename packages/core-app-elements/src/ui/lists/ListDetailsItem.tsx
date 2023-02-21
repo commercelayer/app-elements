@@ -34,15 +34,15 @@ function ListDetailsItem({
 
   return (
     <div
-      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!items-center md:!flex-row px-4 py-4 md:!py-2 md:!gap-4'
+      className='border-t last-of-type:border-b border-gray-100 overflow-hidden flex flex-col md:!flex-row px-4 py-4 md:!py-2 md:!gap-4'
       {...rest}
     >
-      <div className='text-gray-500 font-semibold flex-none w-4/12'>
+      <div className='text-gray-500 font-medium flex-none w-5/12 md:!py-2'>
         {label}
       </div>
       <div
         className={classNames('w-full overflow-x-auto font-medium', {
-          'py-2': !childrenHaveInternalPadding
+          'py-0': !childrenHaveInternalPadding
         })}
       >
         {isLoading === true ? (
