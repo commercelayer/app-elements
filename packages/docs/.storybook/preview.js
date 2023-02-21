@@ -1,4 +1,4 @@
-// import "@commercelayer/core-app-elements/style.css";
+// import "@commercelayer/app-elements/style.css";
 import "../../core-app-elements/src/styles/global.css"
 
 export const parameters = {

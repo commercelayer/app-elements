@@ -29,7 +29,7 @@ export default defineConfig({
         'react',
         'react-dom',
         'react-hook-form',
-        '@commercelayer/core-app-elements'
+        '@commercelayer/app-elements'
       ],
       output: {
         // Provide global variables to use in the UMD build

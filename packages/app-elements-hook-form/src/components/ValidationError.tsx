@@ -1,4 +1,4 @@
-import { InputFeedback } from '@commercelayer/core-app-elements'
+import { InputFeedback } from '@commercelayer/app-elements'
 import { useValidationFeedback } from '#components/useValidationFeedback'
 
 interface Props {

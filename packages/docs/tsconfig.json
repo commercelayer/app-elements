@@ -21,7 +21,7 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#core-app-elements/*": [
+      "#app-elements/*": [
         "../core-app-elements/src/ui/*"
       ],
       "#ui/*": [

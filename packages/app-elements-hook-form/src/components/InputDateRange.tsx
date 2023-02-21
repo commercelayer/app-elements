@@ -1,5 +1,5 @@
-import { InputDateRange as InputDateRangeUi } from '@commercelayer/core-app-elements'
-import { InputDateRangeProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputDateRange'
+import { InputDateRange as InputDateRangeUi } from '@commercelayer/app-elements'
+import { InputDateRangeProps } from '@commercelayer/app-elements/dist/ui/forms/InputDateRange'
 
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '#components/useValidationFeedback'

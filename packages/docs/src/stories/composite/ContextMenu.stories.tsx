@@ -1,7 +1,4 @@
-import {
-  DropdownMenuDivider,
-  DropdownMenuItem
-} from '#ui/atoms/dropdown'
+import { DropdownMenuDivider, DropdownMenuItem } from '#ui/atoms/dropdown'
 import { ContextMenu } from '#ui/composite/ContextMenu'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
