@@ -10,7 +10,7 @@ const viteOverrides = {
   plugins: [
     tsconfigPaths.default({
       projects: [
-        resolve(__dirname, "../../core-app-elements/tsconfig.json"),
+        resolve(__dirname, "../../app-elements/tsconfig.json"),
         resolve(__dirname, "../tsconfig.json")
       ]
     })
