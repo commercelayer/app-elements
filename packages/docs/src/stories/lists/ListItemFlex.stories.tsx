@@ -1,7 +1,7 @@
-import { Container } from '#core-app-elements/atoms/Container'
-import { Text } from '#core-app-elements/atoms/Text'
-import { List } from '#core-app-elements/lists/List'
-import { ListItemFlex } from '#core-app-elements/lists/ListItemFlex'
+import { Container } from '#app-elements/atoms/Container'
+import { Text } from '#app-elements/atoms/Text'
+import { List } from '#app-elements/lists/List'
+import { ListItemFlex } from '#app-elements/lists/ListItemFlex'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListItemFlex> = {

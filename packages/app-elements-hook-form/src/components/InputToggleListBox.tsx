@@ -1,5 +1,5 @@
-import { InputToggleListBox as InputToggleListBoxUi } from '@commercelayer/core-app-elements'
-import { InputToggleListBoxProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputToggleListBox'
+import { InputToggleListBox as InputToggleListBoxUi } from '@commercelayer/app-elements'
+import { InputToggleListBoxProps } from '@commercelayer/app-elements/dist/ui/forms/InputToggleListBox'
 import { useFormContext } from 'react-hook-form'
 import { ValidationError } from '#components/ValidationError'
 

@@ -21,11 +21,11 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#core-app-elements/*": [
-        "../core-app-elements/src/ui/*"
+      "#app-elements/*": [
+        "../app-elements/src/ui/*"
       ],
       "#ui/*": [
-        "../core-app-elements/src/ui/*"
+        "../app-elements/src/ui/*"
       ]
     }
   },

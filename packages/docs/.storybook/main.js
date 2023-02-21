@@ -6,11 +6,11 @@ const tsconfigPaths = require('vite-tsconfig-paths')
 
 /** @type import('vite').UserConfig */
 const viteOverrides = {
-  base: '/core-app-elements',
+  base: '/app-elements',
   plugins: [
     tsconfigPaths.default({
       projects: [
-        resolve(__dirname, "../../core-app-elements/tsconfig.json"),
+        resolve(__dirname, "../../app-elements/tsconfig.json"),
         resolve(__dirname, "../tsconfig.json")
       ]
     })

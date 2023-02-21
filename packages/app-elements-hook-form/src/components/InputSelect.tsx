@@ -1,5 +1,5 @@
-import { InputSelect as InputSelectUi } from '@commercelayer/core-app-elements'
-import { InputSelectProps } from '@commercelayer/core-app-elements/dist/ui/forms/InputSelect'
+import { InputSelect as InputSelectUi } from '@commercelayer/app-elements'
+import { InputSelectProps } from '@commercelayer/app-elements/dist/ui/forms/InputSelect'
 
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '#components/useValidationFeedback'

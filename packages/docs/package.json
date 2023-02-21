@@ -13,7 +13,7 @@
     "pnpm": ">=7"
   },
   "dependencies": {
-    "@commercelayer/core-app-elements": "workspace:^0.0.1-beta.22",
+    "@commercelayer/app-elements": "workspace:^0.0.1-beta.22",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },

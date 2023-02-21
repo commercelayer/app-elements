@@ -3,7 +3,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm --stream -r dev",
-    "build:elements": "pnpm --stream --filter @commercelayer/core-app-elements build",
+    "build:elements": "pnpm --stream --filter @commercelayer/app-elements build",
     "build:elements-hook-form": "pnpm --filter @commercelayer/app-elements-hook-form build",
     "build:docs": "pnpm --filter docs build",
     "lint": "pnpm --stream -r lint",
