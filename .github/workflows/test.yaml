@@ -31,5 +31,8 @@ jobs:
       - name: Install 📦
         run: pnpm install
 
+      - name: Run Lint 💅
+        run: pnpm lint
+
       - name: Run Unit Tests 🧪
         run: pnpm test
