@@ -3,9 +3,6 @@ import { utcToZonedTime } from 'date-fns-tz'
 
 /**
  * Format the date as nice string
- * @param dateIsoString - to match iso string `created_at` or `updated_at` from the import object (or <any>_at). Example '2022-10-06T11:59:30.371Z'
- * @param includeTime - optional flag to also include time
- * @param timezone - optional string to cast a specific timezone and override user's browser default (Eg: UTC)
  * @returns a nice string representation. Example: 'Jul 21, 2022' or 'Jul 21, 2022 · 1:16 PM' if includeTime
  */
 export function formatDate({
@@ -13,8 +10,17 @@ export function formatDate({
   includeTime = false,
   timezone = 'UTC'
 }: {
+  /**
+   * JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z'
+   */
   isoDate?: string
+  /**
+   * Boolean value to include time in returned string: Example: 'Oct 26, 2022 · 4:16 PM'
+   */
   includeTime?: boolean
+  /**
+   * Set a specific timezone, when not passed default value is 'UTC'
+   */
   timezone?: string
 }): string {
   if (isoDate == null) {
