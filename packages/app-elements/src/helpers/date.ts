@@ -1,3 +1,6 @@
+import format from 'date-fns/format'
+import { utcToZonedTime } from 'date-fns-tz'
+
 /**
  * Format the date as nice string
  * @param dateIsoString - to match iso string `created_at` or `updated_at` from the import object (or <any>_at). Example '2022-10-06T11:59:30.371Z'
@@ -8,30 +11,21 @@
 export function formatDate(
   dateIsoString?: string,
   includeTime?: boolean,
-  timeZone?: string
+  timezone = 'UTC'
 ): string {
   if (dateIsoString == null) {
     return 'N/A'
   }
+
   try {
     const date = new Date(dateIsoString)
-    const options: Intl.DateTimeFormatOptions = {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric',
-      hour: includeTime === true ? 'numeric' : undefined,
-      minute: includeTime === true ? 'numeric' : undefined,
-      timeZone
-    }
+    const zonedDate = utcToZonedTime(date, timezone)
 
-    const niceString = new Intl.DateTimeFormat('en-US', options).format(date)
-    if (includeTime === true) {
-      // we need to separate date from time with a middle dot `·` symbol
-      const parts = niceString.split(', ')
-      return `${parts[0]}, ${parts[1]} · ${parts[2]}`
-    }
+    // Check template patterns here: https://date-fns.org/v2.29.3/docs/format
+    const formatTemplate =
+      includeTime === true ? 'LLL dd, yyyy · h:mm b' : 'LLL dd, yyyy'
 
-    return niceString
+    return format(zonedDate, formatTemplate)
   } catch {
     return 'N/A'
   }
