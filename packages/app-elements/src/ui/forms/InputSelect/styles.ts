@@ -12,23 +12,33 @@ export const getSelectStyles = (
     border: '1px solid rgb(230 231 231)',
     borderRadius: 5,
     boxShadow: 'none',
-    padding: '0 0 1.5rem'
+    padding: '1px'
   }),
   menuList: (style) => ({
-    ...style
+    ...style,
+    padding: '0'
   }),
   option: (style, { isSelected, isFocused }) => ({
     ...style,
     backgroundColor: isSelected
-      ? '#666EFF'
+      ? '#404141'
       : isFocused
-      ? 'rgba(102,110,255,0.1)'
-      : '#fff',
+      ? '#F8F8F8'
+      : 'transparent',
     color: isSelected ? '#fff' : 'rgb(40 41 41)',
-    fontSize: 14,
+    fontSize: 16,
+    fontWeight: 500,
     cursor: 'pointer',
     '&:active': {
       backgroundColor: isSelected ? '#666EFF' : 'rgb(248 248 248)'
+    },
+    '&:first-child': {
+      borderTopLeftRadius: 5,
+      borderTopRightRadius: 5
+    },
+    '&:last-child': {
+      borderBottomLeftRadius: 5,
+      borderBottomRightRadius: 5
     }
   }),
   noOptionsMessage: (style) => ({
@@ -44,7 +54,7 @@ export const getSelectStyles = (
   }),
   valueContainer: (style) => ({
     ...style,
-    padding: '0 1rem'
+    padding: '0 0.5rem'
   }),
   singleValue: (style) => ({
     ...style,
@@ -56,17 +66,17 @@ export const getSelectStyles = (
     return {
       ...style,
       ...feedbackStyle,
+      borderWidth: 0,
       minHeight: '2.75rem',
-      boxShadow: 'none',
+      boxShadow: `0 0 0 1px ${feedbackStyle.borderColor}`,
       borderRadius: 5,
       cursor: 'pointer',
       '&:hover, &:focus-within': {
         // we enforce feedback color as hover style, otherwise default brand color will be used as border
-        borderColor:
-          feedbackVariant != null ? feedbackStyle.borderColor : '#666EFF',
-        borderWidth: 2,
         outline: 'none',
-        boxShadow: 'none'
+        boxShadow: `0 0 0 2px ${
+          feedbackVariant != null ? feedbackStyle.borderColor : '#666EFF'
+        }`
       }
     }
   },

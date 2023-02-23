@@ -31,7 +31,7 @@ function InputFeedback({
     <div
       className={cn([
         className,
-        'flex items-center gap-[5px]',
+        'flex items-center gap-1',
         {
           'text-red': variant === 'danger',
           'text-green': variant === 'success',
