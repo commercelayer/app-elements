@@ -74,7 +74,12 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
   ): JSX.Element => {
     const dateFormat = format ?? detectDateFormat()
     return (
-      <InputWrapper {...rest} className={wrapperClassName}>
+      <InputWrapper
+        {...rest}
+        className={wrapperClassName}
+        hint={hint}
+        label={label}
+      >
         <div className='relative'>
           <DatePicker
             ref={ref}
