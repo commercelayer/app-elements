@@ -5,7 +5,7 @@ import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from './constants'
 
 export const Tool = () => {
   const [globals, updateGlobals] = useGlobals()
-  const active = globals[PARAM_KEY]
+  const active = globals[PARAM_KEY] === true || globals[PARAM_KEY] === 'true'
   const api = useStorybookApi()
 
   const toggleContainer = useCallback(

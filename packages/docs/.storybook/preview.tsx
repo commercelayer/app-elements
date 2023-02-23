@@ -1,6 +1,7 @@
 import { Container } from '#ui/atoms/Container'
 import type { Parameters } from '@storybook/addons'
 import type { DecoratorFn } from '@storybook/react'
+import { PARAM_KEY } from '.storybook/addon-container/constants'
 
 import '../../app-elements/src/styles/global.css'
 
@@ -32,3 +33,7 @@ export const withContainer: DecoratorFn = (Story, context) => {
 export const decorators: DecoratorFn[] = [
   withContainer
 ]
+
+export const globals = {
+  [PARAM_KEY]: true,
+}
