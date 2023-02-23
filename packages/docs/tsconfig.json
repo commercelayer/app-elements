@@ -30,6 +30,7 @@
     }
   },
   "include": [
+    ".storybook/*.tsx",
     "src",
     ".eslintrc.cjs",
     "*.config.ts",
