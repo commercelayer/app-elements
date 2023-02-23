@@ -1,8 +1,9 @@
 import { ListItemFlex } from '#app-elements/lists/ListItemFlex'
-import { Meta } from '@storybook/react'
+import { ComponentStory, Meta } from '@storybook/react'
 import { Container } from '#app-elements/atoms/Container'
 import { Text } from '#app-elements/atoms/Text'
 import { List } from '#app-elements/lists/List'
+import { Icon } from '#app-elements/atoms/Icon'
 
 const setup: Meta = {
   title: 'Examples/OrderHistory',
@@ -12,14 +13,13 @@ const setup: Meta = {
 }
 export default setup
 
-export const FullList = (): JSX.Element => (
+export const Default: ComponentStory<typeof ListItemFlex> = (
+  args
+): JSX.Element => (
   <Container minHeight={false}>
     <List title='Results · 13,765'>
       <ListItemFlex
-        icon={{
-          name: 'arrowDown',
-          background: 'orange'
-        }}
+        icon={<Icon name='arrowDown' background='orange' gap='large' />}
       >
         <div>
           <Text tag='div' weight='semibold'>
@@ -42,12 +42,7 @@ export const FullList = (): JSX.Element => (
         </div>
       </ListItemFlex>
 
-      <ListItemFlex
-        icon={{
-          name: 'x',
-          background: 'gray'
-        }}
-      >
+      <ListItemFlex icon={<Icon name='x' background='gray' gap='large' />}>
         <div>
           <Text tag='div' weight='semibold'>
             US online #19346523

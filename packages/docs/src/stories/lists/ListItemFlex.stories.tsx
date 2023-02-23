@@ -3,6 +3,7 @@ import { ListItemFlex } from '#app-elements/lists/ListItemFlex'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { StatusIcon } from '#app-elements/atoms/StatusIcon'
 import { Icon } from '#app-elements/atoms/Icon'
+import { Avatar } from '#app-elements/atoms/Avatar'
 
 const setup: ComponentMeta<typeof ListItemFlex> = {
   title: 'Lists/ListItemFlex',
@@ -25,7 +26,7 @@ Simple.args = {
   }
 }
 
-export const WithPresetIcon: ComponentStory<typeof ListItemFlex> = (args) => (
+export const WithIcon: ComponentStory<typeof ListItemFlex> = (args) => (
   <ListItemFlex {...args}>
     <div>
       <Text tag='div' weight='semibold'>
@@ -48,12 +49,9 @@ export const WithPresetIcon: ComponentStory<typeof ListItemFlex> = (args) => (
     </div>
   </ListItemFlex>
 )
-WithPresetIcon.args = {
+WithIcon.args = {
   onClick: () => undefined,
-  icon: {
-    name: 'arrowDown',
-    background: 'orange'
-  }
+  icon: <Icon name='arrowDown' background='orange' gap='large' />
 }
 
 export const OrderLine: ComponentStory<typeof ListItemFlex> = (args) => (
@@ -74,19 +72,22 @@ export const OrderLine: ComponentStory<typeof ListItemFlex> = (args) => (
     </Text>
   </ListItemFlex>
 )
-
 OrderLine.args = {
   gutter: 'none',
   borderStyle: 'dashed',
   icon: (
-    <div>
-      <img src='https://via.placeholder.com/58' width={58} />
-    </div>
+    <Avatar
+      src='https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png'
+      alt='Black Hat'
+    />
   )
 }
 
-export const Task = (): JSX.Element => (
-  <ListItemFlex icon={<StatusIcon status='progress' percentage={45} />}>
+export const Task: ComponentStory<typeof ListItemFlex> = (args) => (
+  <ListItemFlex
+    {...args}
+    icon={<StatusIcon status='progress' percentage={45} />}
+  >
     <div>
       <Text tag='div' weight='semibold'>
         Prices
