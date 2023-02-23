@@ -1,6 +1,5 @@
 import { InputReadonly } from '#ui/forms/InputReadonly'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputReadonly> = {
   title: 'Forms/InputReadonly',
@@ -13,13 +12,11 @@ export default setup
 
 const Template: ComponentStory<typeof InputReadonly> = (args) => {
   return (
-    <Container minHeight={false}>
-      <InputReadonly
-        {...args}
-        value={args.value}
-        showCopyAction={args.showCopyAction}
-      />
-    </Container>
+    <InputReadonly
+      {...args}
+      value={args.value}
+      showCopyAction={args.showCopyAction}
+    />
   )
 }
 

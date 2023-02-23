@@ -1,8 +1,7 @@
-import { Container } from '#app-elements/atoms/Container'
 import { Text } from '#app-elements/atoms/Text'
 import { List } from '#app-elements/lists/List'
 import { ListItemFlex } from '#app-elements/lists/ListItemFlex'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListItemFlex> = {
   title: 'Lists/ListItemFlex',
@@ -14,29 +13,27 @@ const setup: ComponentMeta<typeof ListItemFlex> = {
 export default setup
 
 const Template: ComponentStory<typeof ListItemFlex> = (args) => (
-  <Container minHeight={false}>
-    <ListItemFlex {...args}>
-      <div>
-        <Text tag='div' weight='semibold'>
-          NY Store #19346524
-        </Text>
-        <Text tag='div' weight='medium' size='small' variant='info'>
-          Placed · mjordan@nba.com · May 17
-        </Text>
-        <Text tag='div' weight='bold' size='small' variant='orange'>
-          Awaiting approval
-        </Text>
-      </div>
-      <div>
-        <Text tag='div' weight='semibold'>
-          $42.55
-        </Text>
-        <Text tag='div' weight='medium' size='small' variant='info'>
-          Authorized
-        </Text>
-      </div>
-    </ListItemFlex>
-  </Container>
+  <ListItemFlex {...args}>
+    <div>
+      <Text tag='div' weight='semibold'>
+        NY Store #19346524
+      </Text>
+      <Text tag='div' weight='medium' size='small' variant='info'>
+        Placed · mjordan@nba.com · May 17
+      </Text>
+      <Text tag='div' weight='bold' size='small' variant='orange'>
+        Awaiting approval
+      </Text>
+    </div>
+    <div>
+      <Text tag='div' weight='semibold'>
+        $42.55
+      </Text>
+      <Text tag='div' weight='medium' size='small' variant='info'>
+        Authorized
+      </Text>
+    </div>
+  </ListItemFlex>
 )
 
 export const Simple = Template.bind({})
@@ -64,60 +61,58 @@ WithCustomIcon.args = {
 }
 
 const TemplateFullList: ComponentStory<typeof ListItemFlex> = (args) => (
-  <Container minHeight={false}>
-    <List title='Results · 13,765'>
-      <ListItemFlex
-        icon={{
-          name: 'arrowDown',
-          background: 'orange'
-        }}
-      >
-        <div>
-          <Text tag='div' weight='semibold'>
-            NY Store #19346524
-          </Text>
-          <Text tag='div' weight='medium' size='small' variant='info'>
-            Placed · mjordan@nba.com · May 17
-          </Text>
-          <Text tag='div' weight='bold' size='small' variant='orange'>
-            Awaiting approval
-          </Text>
-        </div>
-        <div>
-          <Text tag='div' weight='semibold'>
-            $42.55
-          </Text>
-          <Text tag='div' weight='medium' size='small' variant='info'>
-            Authorized
-          </Text>
-        </div>
-      </ListItemFlex>
+  <List title='Results · 13,765'>
+    <ListItemFlex
+      icon={{
+        name: 'arrowDown',
+        background: 'orange'
+      }}
+    >
+      <div>
+        <Text tag='div' weight='semibold'>
+          NY Store #19346524
+        </Text>
+        <Text tag='div' weight='medium' size='small' variant='info'>
+          Placed · mjordan@nba.com · May 17
+        </Text>
+        <Text tag='div' weight='bold' size='small' variant='orange'>
+          Awaiting approval
+        </Text>
+      </div>
+      <div>
+        <Text tag='div' weight='semibold'>
+          $42.55
+        </Text>
+        <Text tag='div' weight='medium' size='small' variant='info'>
+          Authorized
+        </Text>
+      </div>
+    </ListItemFlex>
 
-      <ListItemFlex
-        icon={{
-          name: 'x',
-          background: 'gray'
-        }}
-      >
-        <div>
-          <Text tag='div' weight='semibold'>
-            US online #19346523
-          </Text>
-          <Text tag='div' weight='medium' size='small' variant='info'>
-            Cancelled · mjordan@nba.com · May 17
-          </Text>
-        </div>
-        <div>
-          <Text tag='div' weight='semibold'>
-            $23.00
-          </Text>
-          <Text tag='div' weight='medium' size='small' variant='info'>
-            Voided
-          </Text>
-        </div>
-      </ListItemFlex>
-    </List>
-  </Container>
+    <ListItemFlex
+      icon={{
+        name: 'x',
+        background: 'gray'
+      }}
+    >
+      <div>
+        <Text tag='div' weight='semibold'>
+          US online #19346523
+        </Text>
+        <Text tag='div' weight='medium' size='small' variant='info'>
+          Cancelled · mjordan@nba.com · May 17
+        </Text>
+      </div>
+      <div>
+        <Text tag='div' weight='semibold'>
+          $23.00
+        </Text>
+        <Text tag='div' weight='medium' size='small' variant='info'>
+          Voided
+        </Text>
+      </div>
+    </ListItemFlex>
+  </List>
 )
 
 export const FullList = TemplateFullList.bind({})

@@ -1,6 +1,5 @@
 import { InputDate } from '#ui/forms/InputDate'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputDate> = {
@@ -14,11 +13,7 @@ export default setup
 
 const Template: ComponentStory<typeof InputDate> = (args) => {
   const [date, setDate] = useState<Date | null>(null)
-  return (
-    <Container minHeight={false}>
-      <InputDate {...args} value={date} onChange={setDate} />
-    </Container>
-  )
+  return <InputDate {...args} value={date} onChange={setDate} />
 }
 
 export const Default = Template.bind({})

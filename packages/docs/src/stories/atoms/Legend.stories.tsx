@@ -1,7 +1,6 @@
-import { Legend } from '#ui/atoms/Legend'
 import { A } from '#ui/atoms/A'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Legend } from '#ui/atoms/Legend'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Legend> = {
   title: 'Atoms/Legend',
@@ -13,9 +12,7 @@ const setup: ComponentMeta<typeof Legend> = {
 export default setup
 
 const Template: ComponentStory<typeof Legend> = (args) => (
-  <Container minHeight={false}>
-    <Legend {...args} actionButton={<A>New export</A>} />
-  </Container>
+  <Legend {...args} actionButton={<A>New export</A>} />
 )
 
 export const Default = Template.bind({})

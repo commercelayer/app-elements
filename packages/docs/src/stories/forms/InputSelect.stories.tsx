@@ -1,13 +1,12 @@
-import { Label } from '#ui/forms/Label'
+import { Hint } from '#ui/atoms/Hint'
+import { Spacer } from '#ui/atoms/Spacer'
 import {
   InputSelect,
   InputSelectProps,
   SelectValue
 } from '#ui/forms/InputSelect'
-import { Hint } from '#ui/atoms/Hint'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { Label } from '#ui/forms/Label'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const fullList = [
@@ -36,7 +35,7 @@ export default setup
 
 const Template: ComponentStory<typeof InputSelect> = (args) => {
   return (
-    <Container minHeight={false}>
+    <>
       <Label gap htmlFor='parent-resource'>
         Search resource
       </Label>
@@ -50,7 +49,7 @@ const Template: ComponentStory<typeof InputSelect> = (args) => {
           </Hint>
         </Spacer>
       ) : null}
-    </Container>
+    </>
   )
 }
 
@@ -84,23 +83,21 @@ const fakeSearch = (hint: string): SelectValue[] =>
 const TemplateError: ComponentStory<typeof InputSelect> = (args) => {
   const [feedback, setFeedback] = useState<InputSelectProps['feedback']>()
   return (
-    <Container minHeight={false}>
-      <InputSelect
-        {...args}
-        label='Select resource'
-        initialValues={fullList}
-        onSelect={() => {
-          setFeedback({
-            variant: 'danger',
-            message: 'Required field'
-          })
-        }}
-        hint={{
-          text: `Select an option to show error feedback`
-        }}
-        feedback={feedback}
-      />
-    </Container>
+    <InputSelect
+      {...args}
+      label='Select resource'
+      initialValues={fullList}
+      onSelect={() => {
+        setFeedback({
+          variant: 'danger',
+          message: 'Required field'
+        })
+      }}
+      hint={{
+        text: `Select an option to show error feedback`
+      }}
+      feedback={feedback}
+    />
   )
 }
 export const WithError = TemplateError.bind({})

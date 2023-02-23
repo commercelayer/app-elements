@@ -1,7 +1,6 @@
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Spacer } from '#ui/atoms/Spacer'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Skeleton> = {
   title: 'Atoms/Skeleton',
@@ -13,22 +12,20 @@ const setup: ComponentMeta<typeof Skeleton> = {
 export default setup
 
 const Template: ComponentStory<typeof Skeleton> = (args) => (
-  <Container minHeight={false}>
-    <Skeleton {...args}>
-      <Spacer bottom='4'>
-        <SkeletonItem type='box' height='2rem' />
-      </Spacer>
-      <Spacer bottom='4'>
-        <SkeletonItem type='box' height='2rem' width='90%' />
-      </Spacer>
-      <Spacer bottom='4'>
-        <SkeletonItem type='box' height='2rem' width='50%' />
-      </Spacer>
-      <Spacer bottom='4'>
-        <SkeletonItem type='circle' height='6rem' width='6rem' />
-      </Spacer>
-    </Skeleton>
-  </Container>
+  <Skeleton {...args}>
+    <Spacer bottom='4'>
+      <SkeletonItem type='box' height='2rem' />
+    </Spacer>
+    <Spacer bottom='4'>
+      <SkeletonItem type='box' height='2rem' width='90%' />
+    </Spacer>
+    <Spacer bottom='4'>
+      <SkeletonItem type='box' height='2rem' width='50%' />
+    </Spacer>
+    <Spacer bottom='4'>
+      <SkeletonItem type='circle' height='6rem' width='6rem' />
+    </Spacer>
+  </Skeleton>
 )
 
 export const Default = Template.bind({})

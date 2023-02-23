@@ -1,6 +1,5 @@
 import { InputTextArea } from '#ui/forms/InputTextArea'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputTextArea> = {
   title: 'Forms/InputTextArea',
@@ -12,11 +11,7 @@ const setup: ComponentMeta<typeof InputTextArea> = {
 export default setup
 
 const Template: ComponentStory<typeof InputTextArea> = (args) => {
-  return (
-    <Container minHeight={false}>
-      <InputTextArea {...args} value={args.value} />
-    </Container>
-  )
+  return <InputTextArea {...args} value={args.value} />
 }
 
 export const Default = Template.bind({})

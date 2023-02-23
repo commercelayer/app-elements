@@ -1,8 +1,7 @@
-import { EmptyState } from '#ui/atoms/EmptyState'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
 import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
+import { EmptyState } from '#ui/atoms/EmptyState'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof EmptyState> = {
   title: 'Atoms/EmptyState',
@@ -14,9 +13,7 @@ const setup: ComponentMeta<typeof EmptyState> = {
 export default setup
 
 const Template: ComponentStory<typeof EmptyState> = (args) => (
-  <Container minHeight={false}>
-    <EmptyState {...args} />
-  </Container>
+  <EmptyState {...args} />
 )
 
 export const Default = Template.bind({})
@@ -27,9 +24,7 @@ Default.args = {
 }
 
 const TemplateWithIcon: ComponentStory<typeof EmptyState> = (args) => (
-  <Container minHeight={false}>
-    <EmptyState {...args} />
-  </Container>
+  <EmptyState {...args} />
 )
 export const WithIcon = TemplateWithIcon.bind({})
 WithIcon.args = {

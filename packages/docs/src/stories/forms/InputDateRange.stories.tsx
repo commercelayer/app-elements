@@ -1,6 +1,5 @@
 import { InputDateRange } from '#ui/forms/InputDateRange'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputDateRange> = {
@@ -17,16 +16,14 @@ const Template: ComponentStory<typeof InputDateRange> = (args) => {
   const [toDate, setToDate] = useState<Date | null>(null)
 
   return (
-    <Container minHeight={false}>
-      <InputDateRange
-        {...args}
-        value={[fromDate, toDate]}
-        onChange={([from, to]) => {
-          setFromDate(from)
-          setToDate(to)
-        }}
-      />
-    </Container>
+    <InputDateRange
+      {...args}
+      value={[fromDate, toDate]}
+      onChange={([from, to]) => {
+        setFromDate(from)
+        setToDate(to)
+      }}
+    />
   )
 }
 

@@ -1,6 +1,5 @@
 import { InputJson } from '#ui/forms/InputJson'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputJson> = {
@@ -15,7 +14,7 @@ export default setup
 const Template: ComponentStory<typeof InputJson> = (args) => {
   const [jsonValue, setJsonValue] = useState<object | null>(null)
   return (
-    <Container minHeight={false}>
+    <>
       <InputJson
         {...args}
         onDataReady={(value) => {
@@ -31,7 +30,7 @@ const Template: ComponentStory<typeof InputJson> = (args) => {
         }}
       />
       <SamplePreviewData jsonValue={jsonValue} />
-    </Container>
+    </>
   )
 }
 
