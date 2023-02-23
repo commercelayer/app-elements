@@ -1,15 +1,33 @@
 import cn from 'classnames'
 import { Children } from 'react'
 
+export type FlexRowAlignItems = 'top' | 'bottom' | 'center'
 export interface FlexRowProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ElementChildren
+  /**
+   * Flex item alignment
+   */
+  alignItems?: FlexRowAlignItems
 }
 
-function FlexRow({ children, className, ...rest }: FlexRowProps): JSX.Element {
+function FlexRow({
+  children,
+  className,
+  alignItems = 'top',
+  ...rest
+}: FlexRowProps): JSX.Element {
   const childrenCount = Children.count(children)
   return (
     <div
-      className={cn('flex items-start justify-between w-full gap-4', className)}
+      className={cn(
+        'flex justify-between w-full gap-4',
+        {
+          'items-center': alignItems === 'center',
+          'items-start': alignItems === 'top',
+          'items-end': alignItems === 'bottom'
+        },
+        className
+      )}
       {...rest}
     >
       {Children.map(children, (child, index) => (

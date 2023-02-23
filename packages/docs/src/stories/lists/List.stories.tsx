@@ -1,11 +1,14 @@
+import { Icon } from '#ui/atoms/Icon'
 import { PageHeading } from '#ui/atoms/PageHeading'
+import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/lists/List'
 import { ListItem } from '#ui/lists/ListItem'
+import { ListItemFlex } from '#ui/lists/ListItemFlex'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof List> = {
-  title: 'Lists/Simple',
+  title: 'Lists/List',
   component: List,
   parameters: {
     layout: 'padded'
@@ -19,6 +22,10 @@ const Template: ComponentStory<typeof List> = (args) => (
     <ListItem label='Orders' />
     <ListItem label='Prices' />
     <ListItem label='SKUs' />
+    <ListItemFlex>
+      <Text weight='semibold'>SKUs</Text>
+      <Icon name='caretRight' />
+    </ListItemFlex>
     <ListItem label='SKU lists' />
     <ListItem label='Stock items' />
   </List>

@@ -3,6 +3,10 @@ import { List } from '#ui/lists/List'
 import { ListItemTask } from '#ui/lists/ListItemTask'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
+import { Text } from '#ui/atoms/Text'
+import { ListItemFlex } from '#ui/lists/ListItemFlex'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
+import { Icon } from '#ui/atoms/Icon'
 
 const setup: ComponentMeta<typeof List> = {
   title: 'Lists/Tasks',
@@ -36,7 +40,24 @@ const Template: ComponentStory<typeof List> = (args) => {
         title='Prices'
         description='Importing 35%'
       />
-      <ListItemTask status='pending' title='Addresses' description='Pending' />
+
+      <ListItemFlex icon={<StatusIcon status='progress' percentage={45} />}>
+        <div>
+          <Text tag='div' weight='semibold'>
+            Prices
+          </Text>
+          <Text tag='div' size='small' variant='info' weight='medium'>
+            Importing 35%
+          </Text>
+        </div>
+        <Icon name='caretRight' />
+      </ListItemFlex>
+
+      <ListItemTask
+        status='pending'
+        title='Addresses'
+        description='Pending'
+      />
       <ListItemTask
         status='success'
         title='Gift cards'

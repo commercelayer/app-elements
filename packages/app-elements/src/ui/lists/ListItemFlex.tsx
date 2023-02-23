@@ -7,8 +7,13 @@ type IconCustom = React.ReactElement
 
 export interface ListItemFlexProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
-    Pick<FlexRowProps, 'children'> {
+    Pick<FlexRowProps, 'alignItems' | 'children'> {
   icon?: IconPreset | IconCustom
+  gutter?: 'none'
+  /**
+   * Border style to render
+   */
+  borderStyle?: 'dashed' | 'solid'
 }
 
 function ListItemFlex({
@@ -16,14 +21,22 @@ function ListItemFlex({
   children,
   className,
   onClick,
+  gutter,
+  alignItems = 'center',
+  borderStyle = 'solid',
   ...rest
 }: ListItemFlexProps): JSX.Element {
   return (
     <div
       {...rest}
+      onClick={onClick}
       className={cn(
-        'flex gap-4 p-5 border-b border-gray-100',
-        { 'cursor-pointer hover:bg-gray-50': onClick != null },
+        'flex gap-4 py-4 border-b border-gray-100',
+        {
+          'px-4': gutter !== 'none',
+          'border-dashed': borderStyle === 'dashed',
+          'cursor-pointer hover:bg-gray-50': onClick != null
+        },
         className
       )}
     >
@@ -37,7 +50,7 @@ function ListItemFlex({
             )}
           </div>
         )}
-        <FlexRow>{children}</FlexRow>
+        <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
     </div>
   )
