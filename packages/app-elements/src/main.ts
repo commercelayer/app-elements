@@ -74,7 +74,6 @@ export { List } from '#ui/lists/List'
 export { ListDetails } from '#ui/lists/ListDetails'
 export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
-export { ListItemTask } from '#ui/lists/ListItemTask'
 
 // Tables
 export { Table } from '#ui/tables/Table'

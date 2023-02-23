@@ -1,17 +1,13 @@
 import { ListItem, ListItemProps } from './ListItem'
 import { render, RenderResult } from '@testing-library/react'
 
-interface SetupProps extends Omit<ListItemProps, 'children'> {
-  id: string
-}
-
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
-const setup = ({ id, ...props }: SetupProps): SetupResult => {
-  const utils = render(<ListItem data-test-id={id} {...props} />)
-  const element = utils.getByTestId(id)
+const setup = (props: ListItemProps): SetupResult => {
+  const utils = render(<ListItem data-test-id='my-item' {...props} />)
+  const element = utils.getByTestId('my-item')
   return {
     element,
     ...utils
@@ -20,35 +16,10 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
 
 describe('ListItem', () => {
   test('Should be rendered', () => {
-    const { element, getByText } = setup({
-      id: 'my-list-item',
-      label: 'Item #1'
+    const { element } = setup({
+      onClick: () => undefined,
+      children: <div>Content</div>
     })
     expect(element).toBeInTheDocument()
-    expect(getByText('Item #1')).toBeInTheDocument()
-    expect(element.tagName).toBe('DIV')
-  })
-
-  test('Should rendered optional description', () => {
-    const { element, getByText, getByTestId } = setup({
-      id: 'my-list-item-with-desc',
-      label: 'Item #2',
-      description: 'Lorem ipsum dolor sit'
-    })
-    expect(getByText('Item #2')).toBeInTheDocument()
-    expect(getByTestId('list-simple-item-description')).toBeInTheDocument()
-    expect(getByText('Lorem ipsum dolor sit')).toBeInTheDocument()
-    expect(element.tagName).toBe('DIV')
-  })
-
-  test('Should rendered optional icon', () => {
-    const { element, getByText, getByTestId } = setup({
-      id: 'my-list-item-with-icon',
-      label: 'Item #3',
-      icon: <div>icon</div>
-    })
-    expect(getByText('Item #3')).toBeInTheDocument()
-    expect(getByTestId('list-simple-item-icon')).toBeInTheDocument()
-    expect(element.tagName).toBe('DIV')
   })
 })

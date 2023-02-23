@@ -1,45 +1,51 @@
 import cn from 'classnames'
-import { Icon } from '#ui/atoms/Icon'
+import { FlexRow, FlexRowProps } from '#ui/atoms/FlexRow'
 
-export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement> {
-  label: string
-  description?: React.ReactNode
-  icon?: React.ReactNode
-  noHover?: boolean
+export interface ListItemProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'>,
+    Pick<FlexRowProps, 'alignItems' | 'children'> {
+  /**
+   * Icon component
+   */
+  icon?: JSX.Element
+  /**
+   * Specify `none` to remove side gutter
+   */
+  gutter?: 'none'
+  /**
+   * Border style to render
+   */
+  borderStyle?: 'dashed' | 'solid'
 }
 
 function ListItem({
-  label,
-  description,
   icon,
+  children,
   className,
-  noHover,
+  onClick,
+  gutter,
+  alignItems = 'center',
+  borderStyle = 'solid',
   ...rest
 }: ListItemProps): JSX.Element {
   return (
     <div
       {...rest}
+      onClick={onClick}
       className={cn(
-        'flex justify-between items-center p-4 border-b border-gray-100',
-        { 'cursor-pointer hover:bg-gray-50': noHover !== true },
+        'flex gap-4 py-4 border-b border-gray-100',
+        {
+          'px-4': gutter !== 'none',
+          'border-dashed': borderStyle === 'dashed',
+          'cursor-pointer hover:bg-gray-50': onClick != null
+        },
         className
       )}
     >
-      <div className='flex gap-4 items-center'>
-        {icon != null && <div data-test-id='list-simple-item-icon'>{icon}</div>}
-        <div>
-          <div className='text-gray-800 font-semibold'>{label}</div>
-          {description != null && (
-            <div
-              className='text-sm text-gray-500 leading-[22px]'
-              data-test-id='list-simple-item-description'
-            >
-              {description}
-            </div>
-          )}
-        </div>
+      <div className='flex gap-4 flex-1'>
+        {icon != null && <div>{icon}</div>}
+        <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
-      <Icon name='caretRight' />
     </div>
   )
 }

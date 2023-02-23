@@ -1,4 +1,4 @@
-import { ListItemFlex } from '#app-elements/lists/ListItemFlex'
+import { ListItem } from '#app-elements/lists/ListItem'
 import { ComponentStory, Meta } from '@storybook/react'
 import { Container } from '#app-elements/atoms/Container'
 import { Text } from '#app-elements/atoms/Text'
@@ -13,12 +13,10 @@ const setup: Meta = {
 }
 export default setup
 
-export const Default: ComponentStory<typeof ListItemFlex> = (
-  args
-): JSX.Element => (
+export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => (
   <Container minHeight={false}>
     <List title='Results · 13,765'>
-      <ListItemFlex
+      <ListItem
         icon={<Icon name='arrowDown' background='orange' gap='large' />}
       >
         <div>
@@ -40,9 +38,9 @@ export const Default: ComponentStory<typeof ListItemFlex> = (
             Authorized
           </Text>
         </div>
-      </ListItemFlex>
+      </ListItem>
 
-      <ListItemFlex icon={<Icon name='x' background='gray' gap='large' />}>
+      <ListItem icon={<Icon name='x' background='gray' gap='large' />}>
         <div>
           <Text tag='div' weight='semibold'>
             US online #19346523
@@ -59,7 +57,7 @@ export const Default: ComponentStory<typeof ListItemFlex> = (
             Voided
           </Text>
         </div>
-      </ListItemFlex>
+      </ListItem>
     </List>
   </Container>
 )
