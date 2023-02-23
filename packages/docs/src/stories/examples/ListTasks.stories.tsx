@@ -1,18 +1,18 @@
-import { ListItem } from '#app-elements/lists/ListItem'
+import { useState } from 'react'
 import { ComponentStory, Meta } from '@storybook/react'
-import { Container } from '#app-elements/atoms/Container'
+import { ListItem } from '#app-elements/lists/ListItem'
 import { Text } from '#app-elements/atoms/Text'
 import { List } from '#app-elements/lists/List'
 import { Icon } from '#app-elements/atoms/Icon'
 import { StatusIcon } from '#app-elements/atoms/StatusIcon'
 import { Button } from '#app-elements/atoms/Button'
+import { PageLayout } from '#app-elements/composite/PageLayout'
 import { A } from '#app-elements/atoms/A'
-import { useState } from 'react'
 
 const setup: Meta = {
-  title: 'Examples/Tasks',
+  title: 'Examples/List Imports',
   parameters: {
-    layout: 'padded'
+    layout: 'fullscreen'
   }
 }
 export default setup
@@ -21,7 +21,13 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1)
 
   return (
-    <Container>
+    <PageLayout
+      title='All imports'
+      mode='test'
+      onGoBack={() => {
+        alert('onGoBack clicked')
+      }}
+    >
       <List
         title='Imports'
         actionButton={<A>New import</A>}
@@ -81,6 +87,6 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
           <Icon name='caretRight' />
         </ListItem>
       </List>
-    </Container>
+    </PageLayout>
   )
 }

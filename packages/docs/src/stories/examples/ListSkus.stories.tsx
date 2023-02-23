@@ -6,7 +6,7 @@ import { Icon } from '#ui/atoms/Icon'
 import { PageLayout } from '#app-elements/composite/PageLayout'
 
 const setup: Meta = {
-  title: 'Examples/List Resources',
+  title: 'Examples/List SKUs',
   parameters: {
     layout: 'fullscreen'
   }
@@ -15,7 +15,7 @@ export default setup
 
 const Template: ComponentStory<typeof List> = (args) => (
   <PageLayout
-    title='Resources'
+    title='SKUs'
     onGoBack={() => {
       alert('onGoBack clicked')
     }}
@@ -23,28 +23,21 @@ const Template: ComponentStory<typeof List> = (args) => (
     <List
       title='All resources'
       pagination={{
-        recordsPerPage: 200,
+        recordsPerPage: 25,
         recordCount: 104,
         currentPage: 1,
         onChangePageRequest: (newPage: number) => {},
-        pageCount: 1
+        pageCount: 5
       }}
     >
-      {[
-        'Customers',
-        'Events',
-        'Exports',
-        'Gift cards',
-        'Orders',
-        'Prices',
-        'Shipments',
-        'SKUs',
-        'SKU lists',
-        'Tax rules',
-        'Wire transfers'
-      ].map((resource) => (
-        <ListItem key={resource} onClick={() => {}}>
-          <Text weight='semibold'>{resource}</Text>
+      {[...Array(10).keys()].map((_, idx) => (
+        <ListItem key={idx} onClick={() => {}}>
+          <div>
+            <Text weight='semibold' tag='div'>
+              WGDMSMNOwJ
+            </Text>
+            <Text size='small'>Feb 20, 2023 · 4:23 AM</Text>
+          </div>
           <Icon name='caretRight' />
         </ListItem>
       ))}

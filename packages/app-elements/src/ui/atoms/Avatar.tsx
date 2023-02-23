@@ -1,9 +1,22 @@
 import cn from 'classnames'
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLImageElement> {
+  /**
+   * Image URL
+   */
   src: string
+  /**
+   * Alt text
+   */
   alt: string
+  /**
+   * Specify `none` to remove border
+   */
   border?: 'none'
+  /**
+   * Image shape
+   * @default "rounded"
+   */
   shape?: 'rounded' | 'circle'
 }
 
