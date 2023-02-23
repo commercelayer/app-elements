@@ -14,6 +14,7 @@ export type {
 
 // Atoms
 export { A } from '#ui/atoms/A'
+export { Avatar } from '#ui/atoms/Avatar'
 export { Badge } from '#ui/atoms/Badge'
 export { BlockCode } from '#ui/atoms/BlockCode'
 export { Button } from '#ui/atoms/Button'
