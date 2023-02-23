@@ -49,12 +49,12 @@ function InputWrapper({
       {feedback != null && (
         <InputFeedback
           data-test-id='input-feedback'
-          className='mt-1'
+          className='mt-2'
           {...feedback}
         />
       )}
       {hint != null && (
-        <Hint className='mt-1' icon={hint.icon}>
+        <Hint className='mt-2' icon={hint.icon}>
           {hint.text}
         </Hint>
       )}
