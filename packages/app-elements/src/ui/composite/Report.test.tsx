@@ -41,32 +41,34 @@ describe('Report', () => {
     expect(element).toBeVisible()
 
     // first item
-    expect(getByTestId('report-item-0')).toBeVisible()
-    expect(getByTestId('report-item-0-count').innerHTML).toBe('423')
-    const firstItemLink = getByTestId('report-item-0-link')
+    expect(getByTestId('report-item-Record imported')).toBeVisible()
+    expect(getByTestId('report-item-Record imported-count').innerHTML).toBe(
+      '423'
+    )
+    const firstItemLink = getByTestId('report-item-Record imported-link')
     expect(firstItemLink).toBeVisible()
     expect(firstItemLink.innerHTML).toBe('Download CSV file')
     expect(firstItemLink.getAttribute('href')).toBe('https://url-to-file.csv')
 
     // second item
-    expect(getByTestId('report-item-1')).toBeVisible()
-    expect(getByTestId('report-item-1-count').innerHTML).toBe('2')
-    const secondItemButton = getByTestId('report-item-1-button')
+    expect(getByTestId('report-item-Errors')).toBeVisible()
+    expect(getByTestId('report-item-Errors-count').innerHTML).toBe('2')
+    const secondItemButton = getByTestId('report-item-Errors-button')
     expect(secondItemButton).toBeVisible()
     expect(secondItemButton.innerHTML).toBe('Download logs')
   })
 
   test('Should display `isLoading` state with the specified number of `loadingLines`', () => {
-    const { element, getByTestId } = setup({
+    const { element, getAllByTestId } = setup({
       id: 'my-report',
       isLoading: true,
       loadingLines: 4,
       items: []
     })
     expect(element).toBeVisible()
-    expect(getByTestId('report-loading-items')?.childNodes?.length).toBe(4)
+    expect(getAllByTestId('skeleton-item').length).toBe(12)
     expect(
-      element.querySelector("[data-test-id='report-item-0']")
+      element.querySelector("[data-test-id='report-item-Record imported']")
     ).not.toBeInTheDocument()
   })
 })
