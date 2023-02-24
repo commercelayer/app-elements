@@ -14,6 +14,11 @@ export const parameters: Parameters = {
       date: /Date$/,
     },
   },
+  options: {
+    storySort: {
+      order: ['Atoms', 'Lists', 'Tables', 'Forms', 'Composite', 'Examples']
+    }
+  }
 }
 
 export const withContainer: DecoratorFn = (Story, context) => {

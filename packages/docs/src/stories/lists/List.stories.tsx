@@ -1,11 +1,9 @@
-import { PageHeading } from '#ui/atoms/PageHeading'
+import { A } from '#app-elements/atoms/A'
 import { List } from '#ui/lists/List'
-import { ListItem } from '#ui/lists/ListItem'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
-import { useState } from 'react'
+import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof List> = {
-  title: 'Lists/Simple',
+  title: 'Lists/List',
   component: List,
   parameters: {
     layout: 'padded'
@@ -14,90 +12,29 @@ const setup: ComponentMeta<typeof List> = {
 export default setup
 
 const Template: ComponentStory<typeof List> = (args) => (
-  <List {...args} actionButton={undefined} pagination={undefined}>
-    <ListItem label='Customers' />
-    <ListItem label='Orders' />
-    <ListItem label='Prices' />
-    <ListItem label='SKUs' />
-    <ListItem label='SKU lists' />
-    <ListItem label='Stock items' />
+  <List {...args}>
+    <div style={{ padding: '2rem' }}>item #1</div>
+    <div style={{ padding: '2rem' }}>item #2</div>
+    <div style={{ padding: '2rem' }}>...</div>
+    <div style={{ padding: '2rem' }}>item #25</div>
   </List>
 )
 
-export const Default = Template.bind({})
-
-const TemplateWithPagination: ComponentStory<typeof List> = (args) => {
-  const [currentPage, setCurrentPage] = useState(1)
-  return (
-    <List
-      {...args}
-      pagination={{
-        recordsPerPage: 20,
-        recordCount: 243,
-        currentPage,
-        onChangePageRequest: (newPage: number) => setCurrentPage(newPage),
-        pageCount: 5
-      }}
-      actionButton={undefined}
-    >
-      <ListItem label='Customers' />
-      <ListItem label='Orders' />
-      <ListItem label='Prices' />
-      <ListItem
-        label='SKU lists'
-        icon={<MyIcon />}
-        description='June 15, 2022 14:57'
-      />
-      <ListItem label='Stock items' />
-    </List>
-  )
+export const WithTitle = Template.bind({})
+WithTitle.args = {
+  title: 'All items',
+  actionButton: <A>New item</A>
 }
-export const WithPagination = TemplateWithPagination.bind({})
+
+export const WithPagination = Template.bind({})
 WithPagination.args = {
-  title: 'My list'
-}
-
-const TemplateFullPage: ComponentStory<typeof List> = (args) => {
-  const [page, setPage] = useState(1)
-  return (
-    <>
-      <PageHeading
-        title='Resources'
-        badgeLabel='TEST-DATA'
-        description='Some optional description'
-        onGoBack={() => undefined}
-      />
-      <List
-        title='My list'
-        pagination={{
-          recordsPerPage: 20,
-          recordCount: 243,
-          currentPage: page,
-          onChangePageRequest: (newPage: number) => setPage(newPage),
-          pageCount: 5
-        }}
-      >
-        <ListItem label='Customers' description='June 15, 2022 14:57' />
-        <ListItem label='Orders' description='June 15, 2022 14:57' />
-        <ListItem label='Prices' description='June 15, 2022 14:57' />
-        <ListItem label='SKUs' description='June 15, 2022 14:57' />
-        <ListItem label='SKU lists' description='June 15, 2022 14:57' />
-        <ListItem label='Stock items' description='June 15, 2022 14:57' />
-      </List>
-    </>
-  )
-}
-export const FullPage = TemplateFullPage.bind({})
-
-function MyIcon(): JSX.Element {
-  return (
-    <div
-      style={{
-        width: 50,
-        height: 50,
-        backgroundColor: '#e6e7e7',
-        borderRadius: '100%'
-      }}
-    />
-  )
+  title: 'All items',
+  isLoading: false,
+  pagination: {
+    recordsPerPage: 25,
+    recordCount: 104,
+    currentPage: 1,
+    onChangePageRequest: (newPage: number) => {},
+    pageCount: 5
+  }
 }

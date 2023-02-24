@@ -14,6 +14,7 @@ export type {
 
 // Atoms
 export { A } from '#ui/atoms/A'
+export { Avatar } from '#ui/atoms/Avatar'
 export { Badge } from '#ui/atoms/Badge'
 export { BlockCode } from '#ui/atoms/BlockCode'
 export { Button } from '#ui/atoms/Button'
@@ -73,7 +74,6 @@ export { List } from '#ui/lists/List'
 export { ListDetails } from '#ui/lists/ListDetails'
 export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
-export { ListItemTask } from '#ui/lists/ListItemTask'
 
 // Tables
 export { Table } from '#ui/tables/Table'

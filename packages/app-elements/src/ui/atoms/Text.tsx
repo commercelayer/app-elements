@@ -5,7 +5,7 @@ export type TextVariant =
   | 'danger'
   | 'success'
   | 'primary'
-  | 'orange'
+  | 'warning'
   | 'info'
   | 'plain'
 export type TextSize = 'small' | 'regular' | 'large' | 'inherit'
@@ -40,7 +40,7 @@ function Text({
     'text-red': variant === 'danger',
     'text-primary': variant === 'primary',
     'text-gray-500': variant === 'info',
-    'text-orange': variant === 'orange',
+    'text-orange': variant === 'warning',
     // weight
     'font-regular': weight === 'regular',
     'font-medium': weight === 'medium',
