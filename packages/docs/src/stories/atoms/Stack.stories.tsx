@@ -1,5 +1,6 @@
 import { A } from '#app-elements/atoms/A'
 import { Badge } from '#app-elements/atoms/Badge'
+import { SkeletonItem } from '#app-elements/atoms/Skeleton'
 import { Spacer } from '#app-elements/atoms/Spacer'
 import { Text } from '#app-elements/atoms/Text'
 import { Stack } from '#ui/atoms/Stack'
@@ -13,6 +14,21 @@ const setup: ComponentMeta<typeof Stack> = {
   }
 }
 export default setup
+
+export const Default: ComponentStory<typeof Stack> = (args) => (
+  <Stack {...args}>
+    <div>Element 1</div>
+    <div>Element 2</div>
+    <div>Element 3</div>
+  </Stack>
+)
+Default.args = {
+  skeletonTemplate: (
+    <>
+      <SkeletonItem className='h-6 w-20' />
+    </>
+  )
+}
 
 export const Steps: ComponentStory<typeof Stack> = (args) => (
   <Stack {...args}>
