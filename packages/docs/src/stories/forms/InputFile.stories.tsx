@@ -1,6 +1,5 @@
 import { InputFile } from '#ui/forms/InputFile'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputFile> = {
@@ -16,7 +15,7 @@ const Template: ComponentStory<typeof InputFile> = (args) => {
   const [file, setFile] = useState<File | null>(null)
 
   return (
-    <Container minHeight={false}>
+    <>
       <InputFile
         {...args}
         onChange={(e) => {
@@ -26,7 +25,7 @@ const Template: ComponentStory<typeof InputFile> = (args) => {
         }}
       />
       <div>{file?.name}</div>
-    </Container>
+    </>
   )
 }
 

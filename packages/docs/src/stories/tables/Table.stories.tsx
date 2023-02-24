@@ -1,7 +1,6 @@
+import { Td, Th, Tr } from '#ui/atoms/tables'
 import { Table } from '#ui/tables/Table'
-import { Tr, Th, Td } from '#ui/atoms/tables'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Table> = {
   title: 'Tables/Table',
@@ -37,11 +36,7 @@ const Template: ComponentStory<typeof Table> = () => {
     </>
   )
 
-  return (
-    <Container>
-      <Table thead={tHead} tbody={tBody} />
-    </Container>
-  )
+  return <Table thead={tHead} tbody={tBody} />
 }
 
 export const Default = Template.bind({})
@@ -64,11 +59,7 @@ const TemplateWithoutThead: ComponentStory<typeof Table> = () => {
     </>
   )
 
-  return (
-    <Container>
-      <Table tbody={tBody} />
-    </Container>
-  )
+  return <Table tbody={tBody} />
 }
 
 export const WithoutThead = TemplateWithoutThead.bind({})

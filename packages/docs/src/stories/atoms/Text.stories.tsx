@@ -1,6 +1,5 @@
 import { Text } from '#ui/atoms/Text'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Text> = {
   title: 'Atoms/Text',
@@ -11,11 +10,7 @@ const setup: ComponentMeta<typeof Text> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Text> = (args) => (
-  <Container minHeight={false}>
-    <Text {...args} />
-  </Container>
-)
+const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

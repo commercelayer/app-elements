@@ -1,7 +1,6 @@
-import { Container } from '#ui/atoms/Container'
 import { A } from '#ui/atoms/A'
 import { PageHeading } from '#ui/atoms/PageHeading'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof PageHeading> = {
   title: 'Atoms/PageHeading',
@@ -13,9 +12,7 @@ const setup: ComponentMeta<typeof PageHeading> = {
 export default setup
 
 const Template: ComponentStory<typeof PageHeading> = (args) => (
-  <Container>
-    <PageHeading {...args} actionButton={<A>Edit</A>} />
-  </Container>
+  <PageHeading {...args} actionButton={<A>Edit</A>} />
 )
 
 export const Default = Template.bind({})

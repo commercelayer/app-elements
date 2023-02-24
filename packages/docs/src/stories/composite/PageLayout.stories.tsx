@@ -1,8 +1,7 @@
 import { A } from '#ui/atoms/A'
 import { PageLayout } from '#ui/composite/PageLayout'
-import { Container } from '#ui/atoms/Container'
 
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof PageLayout> = {
   title: 'Composite/PageLayout',
@@ -14,9 +13,7 @@ const setup: ComponentMeta<typeof PageLayout> = {
 export default setup
 
 const Template: ComponentStory<typeof PageLayout> = (args) => (
-  <Container>
-    <PageLayout {...args}>Page content here...</PageLayout>
-  </Container>
+  <PageLayout {...args}>Page content here...</PageLayout>
 )
 
 export const Default = Template.bind({})

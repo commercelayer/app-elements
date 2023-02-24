@@ -1,6 +1,5 @@
 import { Input } from '#ui/forms/Input'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof Input> = {
@@ -13,11 +12,7 @@ const setup: ComponentMeta<typeof Input> = {
 export default setup
 
 const Template: ComponentStory<typeof Input> = (args) => {
-  return (
-    <Container minHeight={false}>
-      <Input {...args} value={args.value} type={args.type} />
-    </Container>
-  )
+  return <Input {...args} value={args.value} type={args.type} />
 }
 
 export const Default = Template.bind({})
@@ -53,33 +48,31 @@ const TemplateValidation: ComponentStory<typeof Input> = () => {
   const [value, setValue] = useState('')
 
   return (
-    <Container minHeight={false}>
-      <Input
-        value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
-        hint={{
-          text: `try to type 'error', 'success' or 'warning'`
-        }}
-        feedback={
-          value === 'error'
-            ? {
-                variant: 'danger',
-                message: 'Required field'
-              }
-            : value === 'success'
-            ? {
-                variant: 'success',
-                message: 'All good'
-              }
-            : value === 'warning'
-            ? {
-                variant: 'warning',
-                message: 'Check something'
-              }
-            : undefined
-        }
-      />
-    </Container>
+    <Input
+      value={value}
+      onChange={(e) => setValue(e.currentTarget.value)}
+      hint={{
+        text: `try to type 'error', 'success' or 'warning'`
+      }}
+      feedback={
+        value === 'error'
+          ? {
+              variant: 'danger',
+              message: 'Required field'
+            }
+          : value === 'success'
+          ? {
+              variant: 'success',
+              message: 'All good'
+            }
+          : value === 'warning'
+          ? {
+              variant: 'warning',
+              message: 'Check something'
+            }
+          : undefined
+      }
+    />
   )
 }
 export const ValidationSample = TemplateValidation.bind({})

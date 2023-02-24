@@ -1,6 +1,5 @@
 import { InputToggleListBox } from '#ui/forms/InputToggleListBox'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputToggleListBox> = {
@@ -15,13 +14,11 @@ export default setup
 const Template: ComponentStory<typeof InputToggleListBox> = (args) => {
   const [value, setValue] = useState(args.value ?? 'json')
   return (
-    <Container minHeight={false}>
-      <InputToggleListBox
-        {...args}
-        value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
-      />
-    </Container>
+    <InputToggleListBox
+      {...args}
+      value={value}
+      onChange={(e) => setValue(e.currentTarget.value)}
+    />
   )
 }
 

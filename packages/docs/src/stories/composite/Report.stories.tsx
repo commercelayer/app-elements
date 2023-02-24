@@ -1,7 +1,6 @@
 import { Report } from '#ui/composite/Report'
-import { Container } from '#ui/atoms/Container'
 
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Report> = {
   title: 'Composite/Report',
@@ -12,11 +11,7 @@ const setup: ComponentMeta<typeof Report> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Report> = (args) => (
-  <Container>
-    <Report {...args} />
-  </Container>
-)
+const Template: ComponentStory<typeof Report> = (args) => <Report {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

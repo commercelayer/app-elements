@@ -1,6 +1,5 @@
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListDetailsItem> = {
   title: 'Lists/ListDetailsItem',
@@ -12,9 +11,7 @@ const setup: ComponentMeta<typeof ListDetailsItem> = {
 export default setup
 
 const Template: ComponentStory<typeof ListDetailsItem> = (args) => (
-  <Container minHeight={false}>
-    <ListDetailsItem {...args} />
-  </Container>
+  <ListDetailsItem {...args} />
 )
 
 export const Default = Template.bind({})
