@@ -21,7 +21,7 @@ function Skeleton({
   ...rest
 }: SkeletonProps): JSX.Element {
   return (
-    <div {...rest} className='animate-pulse'>
+    <div data-test-id='skeleton' className='animate-pulse' {...rest}>
       <DelayShow delayMs={delayMs}>{children}</DelayShow>
     </div>
   )
@@ -59,7 +59,7 @@ export function SkeletonItem({
 }: SkeletonItemProps): JSX.Element {
   return (
     <div
-      {...rest}
+      data-test-id='skeleton-item'
       className={cn(className, 'bg-gray-50', {
         'rounded-full': type === 'circle',
         rounded: type === 'box'
@@ -68,6 +68,7 @@ export function SkeletonItem({
         width: className == null ? width ?? '100%' : undefined,
         height: className == null ? height ?? '1em' : undefined
       }}
+      {...rest}
     />
   )
 }
