@@ -68,6 +68,9 @@ module.exports = {
       },
       transitionProperty: {
         bg: 'background'
+      },
+      objectPosition: {
+        'out-of-bounds': '-99999px 99999px'
       }
     }
   },

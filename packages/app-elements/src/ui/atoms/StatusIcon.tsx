@@ -1,69 +1,70 @@
-import invariant from 'ts-invariant'
+import cn from 'classnames'
 import { Icon } from './Icon'
 
-export type StatusUI = 'success' | 'danger' | 'pending' | 'progress'
-
-export interface StatusIconProps {
+export type StatusIconProps = {
   /**
-   * A different icon will be displayed depending on the status. When status is `progress` we can also pass a `percentage` prop
+   * CSS classes
    */
-  status: StatusUI
-  /**
-   * Only used when `status` is progress. Accepts number from 0 to 100
-   */
-  percentage?: number
-}
+  className?: string
+} & (
+  | {
+      /**
+       * A different icon will be displayed depending on the status. When status is `progress` we can also pass a `percentage` prop
+       */
+      status: 'success' | 'danger' | 'pending'
+    }
+  | {
+      /**
+       * A different icon will be displayed depending on the status. When status is `progress` we can also pass a `percentage` prop
+       */
+      status: 'progress'
+      /**
+       * Only used when `status` is progress. Accepts number from 0 to 100
+       */
+      percentage: number
+    }
+)
 
-function StatusIcon({
-  status,
-  percentage,
-  ...rest
-}: StatusIconProps): JSX.Element {
-  const isNotProgress = status !== 'progress' && percentage == null
-  const isValidProgress = status === 'progress' && percentage != null
-  const isValidProgressRange =
-    isValidProgress && percentage >= 0 && percentage <= 100
+function StatusIcon({ className, ...props }: StatusIconProps): JSX.Element {
+  switch (props.status) {
+    case 'danger':
+      return (
+        <Icon
+          className={className}
+          name='x'
+          background='red'
+          gap='large'
+          data-test-id='icon-danger'
+        />
+      )
 
-  invariant(
-    isNotProgress || isValidProgress,
-    'Percentage needs to be used, and only used, when status is progress'
-  )
+    case 'success':
+      return (
+        <Icon
+          className={className}
+          name='check'
+          background='green'
+          gap='large'
+          data-test-id='icon-success'
+        />
+      )
 
-  invariant(
-    isNotProgress || isValidProgressRange,
-    `Percentage must be between 0 and 10`
-  )
+    case 'progress':
+      return (
+        <ProgressCircle className={className} percentage={props.percentage} />
+      )
 
-  return (
-    <div {...rest} className='w-[42px] h-[42px]'>
-      <>{statusVariant[status]({ percentage })}</>
-    </div>
-  )
-}
-
-const statusVariant: Record<
-  StatusUI,
-  ((p?: any) => JSX.Element) | (() => JSX.Element)
-> = {
-  success: () => (
-    <Icon
-      name='check'
-      background='green'
-      gap='large'
-      data-test-id='icon-success'
-    />
-  ),
-  danger: () => (
-    <Icon name='x' background='red' gap='large' data-test-id='icon-danger' />
-  ),
-  progress: (p) => <ProgressCircle {...p} />,
-  pending: () => <PendingCircle />
+    case 'pending':
+      return <PendingCircle className={className} />
+  }
 }
 
 const ProgressCircle = ({
-  percentage
+  percentage,
+  className
 }: {
   percentage: number
+  className?: string
 }): JSX.Element => {
   const circleSize = 50
   const strokeWidth = 8
@@ -74,9 +75,13 @@ const ProgressCircle = ({
 
   return (
     <svg
+      data-test-id='icon-progress'
       viewBox={viewBox}
       xmlns='http://www.w3.org/2000/svg'
-      className='transform -rotate-90'
+      className={cn(
+        'w-[42px] h-[42px] transform -rotate-90 rounded-full',
+        className
+      )}
     >
       <circle
         cx={circleSize}
@@ -102,10 +107,13 @@ const ProgressCircle = ({
   )
 }
 
-const PendingCircle = (): JSX.Element => (
+const PendingCircle = ({ className }: { className?: string }): JSX.Element => (
   <div
     data-test-id='icon-pending'
-    className='w-full h-full rounded-full border-gray-500 border border-dashed'
+    className={cn(
+      'w-[42px] h-[42px] rounded-full border-gray-500 border border-dashed',
+      className
+    )}
   />
 )
 

@@ -34,7 +34,6 @@ function Avatar({
       src={src}
       alt={alt}
       className={cn(
-        className,
         'border object-contain object-center w-[58px] h-[58px]',
         {
           // shape
@@ -43,7 +42,8 @@ function Avatar({
           // border
           'border-gray-100': border == null,
           'border-transparent': border === 'none'
-        }
+        },
+        className
       )}
     />
   )

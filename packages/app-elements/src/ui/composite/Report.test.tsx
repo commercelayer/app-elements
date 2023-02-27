@@ -66,9 +66,11 @@ describe('Report', () => {
       items: []
     })
     expect(element).toBeVisible()
-    expect(getAllByTestId('skeleton-item').length).toBe(12)
+    expect(getAllByTestId('skeleton-template').length).toBe(4)
     expect(
-      element.querySelector("[data-test-id='report-item-Record imported']")
-    ).not.toBeInTheDocument()
+      element.querySelector(
+        "[data-test-id='report-item-Record imported-count'] span"
+      )
+    ).toHaveClass('animate-pulse')
   })
 })
