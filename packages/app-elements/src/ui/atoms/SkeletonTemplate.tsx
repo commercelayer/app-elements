@@ -1,4 +1,5 @@
 import { Children, cloneElement, isValidElement } from 'react'
+import { DelayShow } from './DelayShow'
 
 const recursiveMap = (
   children: ElementChildren,
@@ -20,37 +21,47 @@ const recursiveMap = (
   })
 }
 
-interface Props {
+interface SkeletonTemplateProps {
+  /**
+   * This prevents `SkeletonTemplate` to appear immediately.
+   * It can be used when loading times are too short and you don't want flashing of content
+   */
+  delayMs?: number
   children: ElementChildren
 }
 
-const SkeletonTemplate = ({ children }: Props): JSX.Element => {
+const SkeletonTemplate = ({
+  children,
+  delayMs = 500
+}: SkeletonTemplateProps): JSX.Element => {
   const skeletonClass =
     'select-none !border-gray-50 pointer-events-none animate-pulse bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds'
 
   return (
-    <div data-test-id='skeleton-template'>
-      {recursiveMap(children, (child) => {
-        if (
-          child === null ||
-          (typeof child !== 'function' && typeof child !== 'object')
-        ) {
-          return <span className={skeletonClass}>{child}</span>
-        }
+    <DelayShow delayMs={delayMs}>
+      <div data-test-id='skeleton-template'>
+        {recursiveMap(children, (child) => {
+          if (
+            child === null ||
+            (typeof child !== 'function' && typeof child !== 'object')
+          ) {
+            return <span className={skeletonClass}>{child}</span>
+          }
 
-        if (
-          ['Avatar', 'Badge', 'Button', 'Icon', 'StatusIcon'].includes(
-            child.type.displayName
-          )
-        ) {
-          return cloneElement(child, {
-            className: skeletonClass
-          })
-        }
+          if (
+            ['Avatar', 'Badge', 'Button', 'Icon', 'StatusIcon'].includes(
+              child.type.displayName
+            )
+          ) {
+            return cloneElement(child, {
+              className: skeletonClass
+            })
+          }
 
-        return child
-      })}
-    </div>
+          return child
+        })}
+      </div>
+    </DelayShow>
   )
 }
 
