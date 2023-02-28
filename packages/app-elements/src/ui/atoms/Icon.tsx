@@ -30,10 +30,15 @@ export interface IconProps
    * Works only when background is `none`
    */
   size?: string | number
+  /**
+   * CSS classes
+   */
+  className?: string
 }
 
 function Icon({
   name,
+  className,
   background = 'none',
   gap = 'none',
   size,
@@ -42,6 +47,7 @@ function Icon({
   return (
     <div
       className={cn([
+        'w-fit',
         // padding
         { 'p-3': gap === 'large' },
         { 'p-[3px]': gap === 'small' },
@@ -52,7 +58,9 @@ function Icon({
         { 'bg-gray-300 border-gray-300 text-white': background === 'gray' },
         { 'bg-orange border-orange text-white': background === 'orange' },
         { 'bg-teal border-teal text-white': background === 'teal' },
-        { 'bg-white border-gray-200': background === 'white' }
+        { 'bg-white border-gray-200': background === 'white' },
+        // className
+        className
       ])}
       {...rest}
     >

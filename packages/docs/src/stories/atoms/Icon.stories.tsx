@@ -3,7 +3,10 @@ import { ComponentStory, ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Icon> = {
   title: 'Atoms/Icon',
-  component: Icon
+  component: Icon,
+  parameters: {
+    layout: 'padded'
+  }
 }
 export default setup
 

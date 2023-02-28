@@ -1,5 +1,6 @@
+import { act, render, RenderResult } from '@testing-library/react'
+import { afterEach, beforeEach, vi } from 'vitest'
 import { Report, ReportProps } from './Report'
-import { render, RenderResult } from '@testing-library/react'
 
 interface SetupProps extends ReportProps {
   id: string
@@ -19,6 +20,14 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
 }
 
 describe('Report', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useFakeTimers()
+  })
+
   test('Should render', () => {
     const { element, getByTestId } = setup({
       id: 'my-report',
@@ -58,17 +67,23 @@ describe('Report', () => {
     expect(secondItemButton.innerHTML).toBe('Download logs')
   })
 
-  test('Should display `isLoading` state with the specified number of `loadingLines`', () => {
+  test('Should display `isLoading` state with the specified number of `loadingLines`', async () => {
     const { element, getAllByTestId } = setup({
       id: 'my-report',
       isLoading: true,
       loadingLines: 4,
       items: []
     })
+    expect(element).not.toBeVisible()
+    await act(() => {
+      vi.advanceTimersByTime(500)
+    })
     expect(element).toBeVisible()
-    expect(getAllByTestId('skeleton-item').length).toBe(12)
+    expect(getAllByTestId('skeleton-template').length).toBe(1)
     expect(
-      element.querySelector("[data-test-id='report-item-Record imported']")
-    ).not.toBeInTheDocument()
+      element.querySelector(
+        "[data-test-id='report-item-Record imported-count'] span"
+      )
+    ).toHaveClass('animate-pulse')
   })
 })

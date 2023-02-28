@@ -1,8 +1,8 @@
 import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
-import { SkeletonItem } from '#ui/atoms/Skeleton'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
-import { ReactNode } from 'react'
+import { Fragment, ReactNode } from 'react'
+import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 
 interface ReportItem {
   label: string
@@ -64,18 +64,23 @@ function Report({
   loadingLines = 2,
   ...rest
 }: ReportProps): JSX.Element {
-  const skeletonTemplate = (
-    <>
-      <SkeletonItem className='h-6 w-20' />
-      <SkeletonItem className='h-[30px] w-8 mt-1 mb-4' />
-      <SkeletonItem className='h-[21px] w-24' />
-    </>
+  const skeleton = Array(loadingLines).fill(
+    renderItem({
+      count: 500,
+      label: 'Record imported',
+      linkUrl: 'https://example.com',
+      linkLabel: 'View logs'
+    })
   )
 
+  const Wrapper = isLoading ? SkeletonTemplate : Fragment
+
   return (
-    <Stack {...rest} isLoading={isLoading} skeletonTemplate={skeletonTemplate}>
-      {isLoading ? Array(loadingLines) : items.map((item) => renderItem(item))}
-    </Stack>
+    <Wrapper>
+      <Stack {...rest}>
+        {isLoading ? skeleton : items.map((item) => renderItem(item))}
+      </Stack>
+    </Wrapper>
   )
 }
 
