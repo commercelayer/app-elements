@@ -23,7 +23,7 @@ const InputTextArea = forwardRef<HTMLTextAreaElement, InputTextAreaProps>(
           {...rest}
           id={rest.id ?? rest.name}
           className={cn(
-            'h-52 p-3 w-full border  bg-white rounded-md',
+            'h-52 px-4 py-2.5 w-full border bg-white rounded-md',
             getFeedbackStyle(feedback),
             className
           )}

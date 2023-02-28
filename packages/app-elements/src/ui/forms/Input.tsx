@@ -36,7 +36,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={rest.id ?? rest.name}
           className={cn(
             className,
-            'block w-full px-4 h-10 font-medium',
+            'block w-full px-4 py-2.5 font-medium',
             'rounded outline-0',
             getFeedbackStyle(feedback)
           )}

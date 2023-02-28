@@ -11,7 +11,7 @@ export const getSelectStyles = (
     zIndex: 100,
     border: '1px solid rgb(230 231 231)',
     borderRadius: 5,
-    boxShadow: 'none',
+    boxShadow: '2px 2px 0 #f8f8f8;',
     padding: '1px'
   }),
   menuList: (style) => ({
@@ -20,6 +20,7 @@ export const getSelectStyles = (
   }),
   option: (style, { isSelected, isFocused }) => ({
     ...style,
+    padding: '0.625rem 1rem',
     backgroundColor: isSelected
       ? '#404141'
       : isFocused
@@ -54,7 +55,7 @@ export const getSelectStyles = (
   }),
   valueContainer: (style) => ({
     ...style,
-    padding: '0 0.5rem'
+    padding: '0.625rem 1rem'
   }),
   singleValue: (style) => ({
     ...style,
@@ -67,7 +68,7 @@ export const getSelectStyles = (
       ...style,
       ...feedbackStyle,
       borderWidth: 0,
-      minHeight: '2.75rem',
+      minHeight: 'initial',
       boxShadow: `0 0 0 1px ${feedbackStyle.borderColor}`,
       borderRadius: 5,
       cursor: 'pointer',
@@ -82,12 +83,15 @@ export const getSelectStyles = (
   },
   placeholder: (style) => ({
     ...style,
+    margin: 0,
     fontSize: '1rem',
     fontWeight: 500,
     color: '#686E6E'
   }),
   input: (style) => ({
     ...style,
+    margin: 0,
+    padding: 0,
     '& > input:focus': {
       // reset `@tailwindcss/forms` base global styles
       boxShadow: 'none!important'
