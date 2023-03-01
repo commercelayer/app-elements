@@ -105,23 +105,25 @@ function List({
         {children}
       </div>
       {pagination != null && offsets != null && pagination.pageCount > 1 ? (
-        <div
-          className='flex mt-auto items-center justify-between pt-9 pb-24'
-          data-test-id='list-pagination'
-        >
-          <div className='text-gray-500 font-medium text-sm'>
-            {offsets.firstOfPage}-{offsets.lastOfPage} of{' '}
-            {pagination.recordCount}
-          </div>
+        <Spacer top='14'>
+          <div
+            className='flex mt-auto items-center justify-between'
+            data-test-id='list-pagination'
+          >
+            <div className='text-gray-500 font-medium text-sm'>
+              {offsets.firstOfPage}-{offsets.lastOfPage} of{' '}
+              {pagination.recordCount}
+            </div>
 
-          <Pagination
-            isDisabled={isDisabled}
-            currentPage={pagination.currentPage}
-            // eslint-disable-next-line react/jsx-handler-names
-            onChangePageRequest={pagination.onChangePageRequest}
-            pageCount={pagination.pageCount}
-          />
-        </div>
+            <Pagination
+              isDisabled={isDisabled}
+              currentPage={pagination.currentPage}
+              // eslint-disable-next-line react/jsx-handler-names
+              onChangePageRequest={pagination.onChangePageRequest}
+              pageCount={pagination.pageCount}
+            />
+          </div>
+        </Spacer>
       ) : null}
     </div>
   )
