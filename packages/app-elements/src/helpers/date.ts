@@ -19,6 +19,7 @@ type FormatDateOptions =
            * - full `Feb 28, 2023 · 5:30 PM`
            * - noTime `Feb 28, 2023`
            * - noYear `Feb 28`
+           * @default noTime
            */
           format?: Format
         }
@@ -63,7 +64,7 @@ export function formatDate({
   }
 }
 
-function getPresetFormatTemplate(format: Format = 'full'): string {
+function getPresetFormatTemplate(format: Format = 'noTime'): string {
   switch (format) {
     case 'noTime':
       return 'LLL dd, yyyy' // Feb 28, 2023

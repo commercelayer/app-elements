@@ -1,11 +1,20 @@
 import { formatDate } from './date'
 
 describe('formatDate', () => {
+  test('Should return a nice date string', () => {
+    expect(
+      formatDate({
+        isoDate: '2022-10-14T14:32:00.000Z'
+      })
+    ).toBe('Oct 14, 2022')
+  })
+
   test('Should accept a date with time', () => {
     // AM
     expect(
       formatDate({
-        isoDate: '2023-02-22T10:32:47.284Z'
+        isoDate: '2023-02-22T10:32:47.284Z',
+        format: 'full'
       })
     ).toBe('Feb 22, 2023 · 10:32 AM')
 
@@ -16,15 +25,6 @@ describe('formatDate', () => {
         format: 'full'
       })
     ).toBe('Oct 26, 2022 · 4:16 PM')
-  })
-
-  test('Should return a nice date string', () => {
-    expect(
-      formatDate({
-        isoDate: '2022-10-14T14:32:00.000Z',
-        format: 'noTime'
-      })
-    ).toBe('Oct 14, 2022')
   })
 
   test('Should return a date without year', () => {
@@ -50,7 +50,8 @@ describe('formatDate', () => {
     expect(
       formatDate({
         isoDate: '2022-10-26T16:16:31.279Z',
-        timezone: 'Europe/Rome'
+        timezone: 'Europe/Rome',
+        format: 'full'
       })
     ).toBe('Oct 26, 2022 · 6:16 PM')
   })
