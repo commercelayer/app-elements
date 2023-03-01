@@ -1,5 +1,5 @@
+import { RenderResult, render } from '@testing-library/react'
 import { List, ListProps } from './List'
-import { render, RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -53,7 +53,7 @@ describe('List with pagination', () => {
   })
 
   test('Should render paginated count as title in other pages', () => {
-    const { element, getByText } = setup({
+    const { element, getByText, getByTestId } = setup({
       title: 'My paged list',
       pagination: {
         ...pagination,
@@ -62,5 +62,23 @@ describe('List with pagination', () => {
     })
     expect(element).toBeInTheDocument()
     expect(getByText('My paged list · 51-100 of 148')).toBeInTheDocument()
+    expect(getByTestId('list-pagination')).toBeInTheDocument()
+  })
+})
+
+describe('List with pagination but only one page', () => {
+  test('Should not render ', () => {
+    const { element, queryByTestId } = setup({
+      title: 'My paged list',
+      pagination: {
+        pageCount: 1,
+        recordCount: 20,
+        recordsPerPage: 25,
+        currentPage: 1,
+        onChangePageRequest: () => undefined
+      }
+    })
+    expect(element).toBeInTheDocument()
+    expect(queryByTestId('list-pagination')).not.toBeInTheDocument()
   })
 })

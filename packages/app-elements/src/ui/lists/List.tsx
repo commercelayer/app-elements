@@ -1,13 +1,13 @@
-import { ReactNode } from 'react'
-import cn from 'classnames'
+import { Legend } from '#ui/atoms/Legend'
 import { Pagination, PaginationProps } from '#ui/atoms/Pagination'
+import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
+import { Spacer } from '#ui/atoms/Spacer'
 import {
   computeTitleWithPagination,
   makeCurrentPageOffsets
 } from '#utils/pagination'
-import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
-import { Legend } from '#ui/atoms/Legend'
-import { Spacer } from '#ui/atoms/Spacer'
+import cn from 'classnames'
+import { ReactNode } from 'react'
 
 export type ListPagination = {
   recordsPerPage: number
@@ -24,7 +24,7 @@ export interface ListProps {
    */
   actionButton?: ReactNode
   /**
-   * Set an opacity on the list, usefull when changing page and new page data is not ready yet.
+   * Set an opacity on the list, useful when changing page and new page data is not ready yet.
    */
   isDisabled?: boolean
   /**
@@ -104,8 +104,11 @@ function List({
       >
         {children}
       </div>
-      {pagination != null && offsets != null ? (
-        <div className='flex mt-auto items-center justify-between pt-9 pb-24'>
+      {pagination != null && offsets != null && pagination.pageCount > 1 ? (
+        <div
+          className='flex mt-auto items-center justify-between pt-9 pb-24'
+          data-test-id='list-pagination'
+        >
           <div className='text-gray-500 font-medium text-sm'>
             {offsets.firstOfPage}-{offsets.lastOfPage} of{' '}
             {pagination.recordCount}
