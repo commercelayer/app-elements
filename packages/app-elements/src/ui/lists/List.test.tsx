@@ -66,8 +66,8 @@ describe('List with pagination', () => {
   })
 })
 
-describe('List with pagination but only one page', () => {
-  test('Should not render ', () => {
+describe('List with only one page', () => {
+  test('Should not render the pagination details block', () => {
     const { element, queryByTestId } = setup({
       title: 'My paged list',
       pagination: {
