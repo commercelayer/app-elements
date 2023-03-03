@@ -32,7 +32,7 @@ describe('ListDetails', () => {
       title: 'Lorem ipsum'
     })
     expect(getByTestId('details-list-title')).toBeVisible()
-    expect(getByTestId('details-list-title').innerHTML).toBe('Lorem ipsum')
+    expect(getByTestId('details-list-title')).toHaveTextContent('Lorem ipsum')
   })
 
   test('Should display `isLoading` state with the specified number of `loadingLines`', () => {

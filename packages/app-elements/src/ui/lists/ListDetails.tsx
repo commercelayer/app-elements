@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import { ReactNode } from 'react'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
+import { Legend } from '#ui/atoms/Legend'
 
 export interface DetailsListProps {
   /**
@@ -65,14 +66,9 @@ function ListDetails({
       ])}
       {...rest}
     >
-      {title != null ? (
-        <h4
-          className='text-lg font-semibold mb-4'
-          data-test-id='details-list-title'
-        >
-          {title}
-        </h4>
-      ) : null}
+      {title != null && (
+        <Legend data-test-id='details-list-title' title={title} />
+      )}
       <div data-test-id='details-list-rows'>{children}</div>
     </div>
   )

@@ -11,11 +11,16 @@ const setup: ComponentMeta<typeof Legend> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Legend> = (args) => (
-  <Legend {...args} actionButton={<A>New export</A>} />
-)
+const Template: ComponentStory<typeof Legend> = (args) => <Legend {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  title: 'All SKUs'
+  title: 'Addresses'
+}
+
+export const Small = Template.bind({})
+Small.args = {
+  title: 'All SKUs',
+  titleSize: 'small',
+  actionButton: <A> New export</A>
 }

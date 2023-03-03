@@ -89,16 +89,15 @@ function List({
   return (
     <div className='flex flex-col flex-1' {...rest}>
       {computedTitle != null || actionButton !== null ? (
-        <Spacer bottom='4'>
-          <Legend
-            title={computedTitle}
-            actionButton={actionButton}
-            data-test-id='list-task-legend'
-          />
-        </Spacer>
+        <Legend
+          title={computedTitle}
+          titleSize='small'
+          actionButton={actionButton}
+          data-test-id='list-task-legend'
+        />
       ) : null}
       <div
-        className={cn('border-t border-gray-100', {
+        className={cn({
           'opacity-40 pointer-events-none touch-none': isDisabled
         })}
       >
