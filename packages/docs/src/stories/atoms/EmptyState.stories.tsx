@@ -36,3 +36,10 @@ WithIcon.args = {
   ),
   icon: 'stack'
 }
+export const WithAction = TemplateWithIcon.bind({})
+WithAction.args = {
+  title: 'No exports yet!',
+  description: 'Create your first export',
+  icon: 'download',
+  action: <Button variant='primary'>Create new</Button>
+}

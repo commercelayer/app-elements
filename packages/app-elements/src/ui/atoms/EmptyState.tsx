@@ -1,13 +1,13 @@
-import { ReactNode } from 'react'
 import cn from 'classnames'
-import { Stack } from 'phosphor-react'
+import { ReactNode } from 'react'
+import { Icon, IconProps } from './Icon'
 
 interface Props {
   title: string
   description?: ReactNode
   action?: ReactNode
   className?: string
-  icon?: 'stack' | 'none'
+  icon?: IconProps['name']
 }
 
 function EmptyState({
@@ -26,8 +26,8 @@ function EmptyState({
       )}
       {...rest}
     >
-      <div className='flex'>
-        <div className='flex-1 py-6 pl-6 md:!p-14 md:!pr-0'>
+      <div className='flex p-6 md:!p-14 relative'>
+        <div className='flex-1 z-10'>
           <h4 className='text-black font-semibold text-2xl mb-4'>{title}</h4>
 
           {description != null ? (
@@ -36,14 +36,14 @@ function EmptyState({
             </div>
           ) : null}
 
-          {action !== null ? <div className='mt-16'>{action}</div> : null}
-
-          <div className='pt-20' />
+          {action != null ? <div className='mt-14'>{action}</div> : null}
         </div>
-        <div className='relative w-[102px] flex flex-col pb-3'>
-          {icon === 'stack' ? (
-            <Stack className='text-10xl text-gray-100 mt-auto' />
-          ) : null}
+        <div className='absolute -bottom-2.5 -right-2'>
+          {icon != null && (
+            <div className='text-10xl text-gray-100 mt-auto'>
+              <Icon name={icon} />
+            </div>
+          )}
         </div>
       </div>
     </div>
