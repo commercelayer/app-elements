@@ -44,7 +44,7 @@ function ListItem({
       )}
     >
       <div className='flex gap-4 flex-1'>
-        {icon != null && <div>{icon}</div>}
+        {icon != null && <div className='flex-shrink-0'>{icon}</div>}
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
     </div>
