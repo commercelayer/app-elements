@@ -1,13 +1,13 @@
-import { ReactNode } from 'react'
 import cn from 'classnames'
-import { Stack, Upload, Download, CloudArrowUp } from 'phosphor-react'
+import { ReactNode } from 'react'
+import { Icon, IconProps } from './Icon'
 
 interface Props {
   title: string
   description?: ReactNode
   action?: ReactNode
   className?: string
-  icon?: 'stack' | 'download' | 'upload' | 'cloud' | 'none'
+  icon?: IconProps['name']
 }
 
 function EmptyState({
@@ -39,24 +39,11 @@ function EmptyState({
           {action != null ? <div className='mt-14'>{action}</div> : null}
         </div>
         <div className='absolute -bottom-2.5 -right-2'>
-          {icon != null ? (
+          {icon != null && (
             <div className='text-10xl text-gray-100 mt-auto'>
-              {(() => {
-                switch (icon) {
-                  case 'stack':
-                    return <Stack />
-                  case 'upload':
-                    return <Upload />
-                  case 'download':
-                    return <Download />
-                  case 'cloud':
-                    return <CloudArrowUp />
-                  default:
-                    return null
-                }
-              })()}
+              <Icon name={icon} />
             </div>
-          ) : null}
+          )}
         </div>
       </div>
     </div>

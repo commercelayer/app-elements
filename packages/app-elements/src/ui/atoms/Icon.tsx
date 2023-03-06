@@ -1,13 +1,17 @@
 import cn from 'classnames'
 import {
-  X,
+  ArrowClockwise,
+  ArrowDown,
+  ArrowLeft,
   CaretRight,
   Check,
-  ArrowLeft,
-  ArrowDown,
+  CloudArrowUp,
+  Download,
+  Eye,
+  Stack,
+  Upload,
   Warning,
-  ArrowClockwise,
-  Eye
+  X
 } from 'phosphor-react'
 
 export interface IconProps
@@ -81,5 +85,9 @@ const IconSvg = {
   arrowLeft: ({ size }: IconSvgProps) => <ArrowLeft size={size} />,
   warning: ({ size }: IconSvgProps) => <Warning size={size} />,
   arrowClockwise: ({ size }: IconSvgProps) => <ArrowClockwise size={size} />,
-  eye: ({ size }: IconSvgProps) => <Eye size={size} />
+  eye: ({ size }: IconSvgProps) => <Eye size={size} />,
+  stack: ({ size }: IconSvgProps) => <Stack size={size} />,
+  upload: ({ size }: IconSvgProps) => <Upload size={size} />,
+  download: ({ size }: IconSvgProps) => <Download size={size} />,
+  cloud: ({ size }: IconSvgProps) => <CloudArrowUp size={size} />
 }
