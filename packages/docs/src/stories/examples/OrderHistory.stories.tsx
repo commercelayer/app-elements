@@ -6,7 +6,7 @@ import { ListItem } from '#ui/lists/ListItem'
 import { ComponentStory, Meta } from '@storybook/react'
 
 const setup: Meta = {
-  title: 'Examples/OrderHistory',
+  title: 'Examples/Order History',
   parameters: {
     layout: 'padded'
   }

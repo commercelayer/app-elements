@@ -1,3 +1,6 @@
+import { Avatar } from '#app-elements/atoms/Avatar'
+import { Text } from '#app-elements/atoms/Text'
+import { ListItem } from '#app-elements/lists/ListItem'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { ListDetails } from '#ui/lists/ListDetails'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
@@ -35,5 +38,41 @@ const Template: ComponentStory<typeof ListDetails> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
   title: 'Attributes',
+  isLoading: false
+}
+
+export const WithListItem: ComponentStory<typeof ListDetails> = (args) => (
+  <ListDetails {...args}>
+    {Array(3).fill(
+      <ListItem
+        gutter='none'
+        borderStyle='dashed'
+        icon={
+          <Avatar
+            src='https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png'
+            alt='Black Hat'
+          />
+        }
+      >
+        <div>
+          <Text size='small' weight='medium' variant='info' tag='div'>
+            SKU 543289
+          </Text>
+          <Text tag='div' weight='bold'>
+            Black Baby Short Sleeve with pink logo 12 months size XL
+          </Text>
+        </div>
+        <Text weight='medium' variant='info' tag='div' wrap='nowrap'>
+          $69,50 x 2
+        </Text>
+        <Text weight='bold' tag='div'>
+          $139,00
+        </Text>
+      </ListItem>
+    )}
+  </ListDetails>
+)
+WithListItem.args = {
+  title: 'Summary',
   isLoading: false
 }
