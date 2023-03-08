@@ -1,26 +1,12 @@
 import cn from 'classnames'
-import {
-  ArrowClockwise,
-  ArrowDown,
-  ArrowLeft,
-  CaretRight,
-  Check,
-  CloudArrowUp,
-  Download,
-  Eye,
-  Stack,
-  Upload,
-  Warning,
-  X
-} from 'phosphor-react'
+import * as phosphor from 'phosphor-react'
+import { useMemo } from 'react'
 
-export interface IconProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    IconSvgProps {
+export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Name of the icon to display
    */
-  name: keyof typeof IconSvg
+  name: keyof typeof iconMapping
   /**
    * Background color, `none` for no background
    */
@@ -48,6 +34,8 @@ function Icon({
   size,
   ...rest
 }: IconProps): JSX.Element {
+  const IconSvg = useMemo(() => iconMapping[name], [iconMapping, name])
+
   return (
     <div
       className={cn([
@@ -68,7 +56,7 @@ function Icon({
       ])}
       {...rest}
     >
-      {IconSvg[name]({ size: background === 'none' ? size : '1rem' })}
+      <IconSvg size={background === 'none' ? size : '1rem'} />
     </div>
   )
 }
@@ -76,18 +64,18 @@ function Icon({
 Icon.displayName = 'Icon'
 export { Icon }
 
-interface IconSvgProps extends Pick<IconProps, 'size'> {}
-const IconSvg = {
-  x: ({ size }: IconSvgProps) => <X size={size} />,
-  caretRight: ({ size }: IconSvgProps) => <CaretRight size={size} />,
-  check: ({ size }: IconSvgProps) => <Check size={size} />,
-  arrowDown: ({ size }: IconSvgProps) => <ArrowDown size={size} />,
-  arrowLeft: ({ size }: IconSvgProps) => <ArrowLeft size={size} />,
-  warning: ({ size }: IconSvgProps) => <Warning size={size} />,
-  arrowClockwise: ({ size }: IconSvgProps) => <ArrowClockwise size={size} />,
-  eye: ({ size }: IconSvgProps) => <Eye size={size} />,
-  stack: ({ size }: IconSvgProps) => <Stack size={size} />,
-  upload: ({ size }: IconSvgProps) => <Upload size={size} />,
-  download: ({ size }: IconSvgProps) => <Download size={size} />,
-  cloud: ({ size }: IconSvgProps) => <CloudArrowUp size={size} />
+const iconMapping = {
+  arrowClockwise: phosphor.ArrowClockwise,
+  arrowDown: phosphor.ArrowDown,
+  arrowLeft: phosphor.ArrowLeft,
+  caretRight: phosphor.CaretRight,
+  check: phosphor.Check,
+  cloud: phosphor.CloudArrowUp,
+  download: phosphor.Download,
+  eye: phosphor.Eye,
+  minus: phosphor.Minus,
+  stack: phosphor.Stack,
+  upload: phosphor.Upload,
+  warning: phosphor.Warning,
+  x: phosphor.X
 }
