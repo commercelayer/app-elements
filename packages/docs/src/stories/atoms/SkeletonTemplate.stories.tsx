@@ -2,7 +2,7 @@ import { Avatar } from '#app-elements/atoms/Avatar'
 import { Badge } from '#app-elements/atoms/Badge'
 import { Button } from '#app-elements/atoms/Button'
 import { Icon } from '#app-elements/atoms/Icon'
-import { StatusIcon } from '#app-elements/atoms/StatusIcon'
+import { RadialProgress } from '#app-elements/atoms/RadialProgress'
 import { Text } from '#app-elements/atoms/Text'
 import { ListItem } from '#app-elements/lists/ListItem'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -28,7 +28,7 @@ const children = (
         border='none'
       />
       <Icon name='check' background='green' gap='large' />
-      <StatusIcon status='progress' percentage={42} />
+      <RadialProgress percentage={42} />
     </ListItem>
     <ListItem borderStyle='dashed'>
       <div>

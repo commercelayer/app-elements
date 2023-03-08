@@ -5,7 +5,7 @@ import { Badge } from './Badge'
 import { Button } from './Button'
 import { Icon } from './Icon'
 import { SkeletonTemplate } from './SkeletonTemplate'
-import { StatusIcon } from './StatusIcon'
+import { RadialProgress } from './RadialProgress'
 import { Text } from './Text'
 
 describe('SkeletonTemplate', () => {
@@ -80,27 +80,27 @@ describe('SkeletonTemplate', () => {
     expect(getByTestId('element')).toHaveClass('animate-pulse', 'bg-gray-50')
   })
 
-  test('Should render <StatusIcon danger> as "loading item"', () => {
+  test('Should render RadialProgress as "loading item"', () => {
     const { getByTestId } = render(
       <SkeletonTemplate>
-        <StatusIcon status='danger' />
+        <RadialProgress />
       </SkeletonTemplate>
     )
 
-    expect(getByTestId('icon-danger')).toHaveClass(
+    expect(getByTestId('radial-progress')).toHaveClass(
       'animate-pulse',
       'bg-gray-50'
     )
   })
 
-  test('Should render <StatusIcon danger> as "loading item"', () => {
+  test('Should render <RadialProgress percentage> as "loading item"', () => {
     const { getByTestId } = render(
       <SkeletonTemplate>
-        <StatusIcon status='progress' percentage={42} />
+        <RadialProgress percentage={42} />
       </SkeletonTemplate>
     )
 
-    expect(getByTestId('icon-progress')).toHaveClass(
+    expect(getByTestId('radial-progress')).toHaveClass(
       'animate-pulse',
       'bg-gray-50'
     )
