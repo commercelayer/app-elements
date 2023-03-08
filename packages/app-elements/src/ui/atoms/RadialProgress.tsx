@@ -3,62 +3,80 @@ import { SVGAttributes } from 'react'
 
 interface RadialProgressProps extends SVGAttributes<SVGElement> {
   /**
-   * Progress percentage express as number from 0 to 100
+   * Progress percentage express as number from 0 to 100.
+   * When not specified, it will render a dashed circle (eg: pending state)
    */
-  percentage: number
+  percentage?: number
+  /**
+   * Size in pixels, default is 42
+   */
+  size?: number
 }
 
 function RadialProgress({
   percentage,
   className,
+  size = 42,
   ...rest
 }: RadialProgressProps): JSX.Element {
-  const circleSize = 50
-  const strokeWidth = 8
-  const radius = circleSize - strokeWidth // radius needs to be smaller than circe size because the stroke is outer
-  const viewBox = `0 0 ${circleSize * 2} ${circleSize * 2}`
-  const circumference = radius * 2 * Math.PI
-  const circumferenceDelta =
-    circumference - (parsePercentageRange(percentage) / 100) * circumference // this is the gray part (percentage left)
+  const viewBox = `0 0 ${size * 2} ${size * 2}`
+  const circumference = size * 2 * Math.PI
+  const emptyOffset =
+    circumference - (parsePercentageRange(percentage) / 100) * circumference
 
   return (
     <svg
       data-test-id='radial-progress'
       viewBox={viewBox}
       xmlns='http://www.w3.org/2000/svg'
-      className={cn(
-        'w-[42px] h-[42px] transform -rotate-90 rounded-full',
-        className
-      )}
+      className={cn('transform -rotate-90 rounded-full', className)}
+      width={size}
+      height={size}
       {...rest}
     >
-      <circle
-        cx={circleSize}
-        cy={circleSize}
-        r={radius}
-        className='text-gray-100'
-        stroke='currentColor'
-        strokeWidth={strokeWidth}
-        fill='transparent'
-      />
-      <circle
-        data-test-id='radial-progress-fill'
-        cx={circleSize}
-        cy={circleSize}
-        r={radius}
-        className='text-primary transition-all duration-500'
-        stroke='currentColor'
-        strokeWidth={strokeWidth}
-        fill='transparent'
-        strokeDasharray={circumference}
-        strokeDashoffset={circumferenceDelta}
-      />
+      {percentage == null ? (
+        // pending
+        <circle
+          data-test-id='radial-progress-pending'
+          cx={size}
+          cy={size}
+          r={size}
+          className='text-gray-500'
+          stroke='currentColor'
+          strokeWidth='4'
+          strokeDasharray='6'
+          fill='transparent'
+        />
+      ) : (
+        // progress
+        <>
+          <circle
+            data-test-id='radial-progress-base'
+            cx={size}
+            cy={size}
+            r={size}
+            className='text-gray-100'
+            stroke='currentColor'
+            strokeWidth='12'
+            fill='transparent'
+          />
+          <circle
+            data-test-id='radial-progress-percentage'
+            cx={size}
+            cy={size}
+            r={size}
+            className='text-primary transition-all duration-500'
+            stroke='currentColor'
+            strokeWidth='12'
+            fill='transparent'
+            strokeDasharray={circumference}
+            strokeDashoffset={emptyOffset} // this is the gray part, to not be filled (percentage left)
+          />
+        </>
+      )}
     </svg>
   )
 }
-
-RadialProgress.displayName = 'RadialProgress'
-export { RadialProgress }
 
 /**
  * Enforce a range between 0 and 100
@@ -76,3 +94,6 @@ function parsePercentageRange(percentage: any): number {
 
   return percentage
 }
+
+RadialProgress.displayName = 'RadialProgress'
+export { RadialProgress }

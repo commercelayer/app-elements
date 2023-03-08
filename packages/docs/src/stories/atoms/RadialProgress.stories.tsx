@@ -20,3 +20,8 @@ export const Default = Template.bind({})
 Default.args = {
   percentage: 45
 }
+
+export const Pending = Template.bind({})
+Pending.args = {
+  percentage: undefined
+}
