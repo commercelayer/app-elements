@@ -65,7 +65,7 @@
     "date-fns-tz": "^2.0.0",
     "eslint": "^8.30.0",
     "msw": "^1.0.0",
-    "type-fest": "^3.5.4"
+    "type-fest": "^3.6.1"
   },
   "peerDependencies": {
     "@commercelayer/sdk": "^4.x"

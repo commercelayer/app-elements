@@ -20,13 +20,17 @@ export default setup
 
 const children = (
   <div>
-    <ListItem borderStyle='dashed'>
-      <Avatar
-        alt='Commerce Layer'
-        src='https://ui-avatars.com/api/Commerce+Layer/160/101111/FFFFFF/2/0.33/false/true/true'
-        shape='circle'
-        border='none'
-      />
+    <ListItem
+      borderStyle='dashed'
+      icon={
+        <Avatar
+          alt='Commerce Layer'
+          src='https://ui-avatars.com/api/Commerce+Layer/160/101111/FFFFFF/2/0.33/false/true/true'
+          shape='circle'
+          border='none'
+        />
+      }
+    >
       <Icon name='check' background='green' gap='large' />
       <RadialProgress percentage={42} />
     </ListItem>

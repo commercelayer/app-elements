@@ -1,8 +1,8 @@
 import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
+import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
-import { Fragment, ReactNode } from 'react'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { ReactNode } from 'react'
 
 interface ReportItem {
   label: string
@@ -73,14 +73,12 @@ function Report({
     })
   )
 
-  const Wrapper = isLoading ? SkeletonTemplate : Fragment
-
   return (
-    <Wrapper>
+    <SkeletonTemplate isLoading={isLoading}>
       <Stack {...rest}>
         {isLoading ? skeleton : items.map((item) => renderItem(item))}
       </Stack>
-    </Wrapper>
+    </SkeletonTemplate>
   )
 }
 
