@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof Table> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Table> = () => {
+const Template: ComponentStory<typeof Table> = (args) => {
   const tHead = (
     <Tr>
       <Th>Name</Th>
@@ -36,12 +36,12 @@ const Template: ComponentStory<typeof Table> = () => {
     </>
   )
 
-  return <Table thead={tHead} tbody={tBody} />
+  return <Table thead={tHead} tbody={tBody} {...args} />
 }
 
 export const Default = Template.bind({})
 
-const TemplateWithoutThead: ComponentStory<typeof Table> = () => {
+const TemplateWithoutThead: ComponentStory<typeof Table> = (args) => {
   const tBody = (
     <>
       <Tr>
@@ -59,7 +59,7 @@ const TemplateWithoutThead: ComponentStory<typeof Table> = () => {
     </>
   )
 
-  return <Table tbody={tBody} />
+  return <Table tbody={tBody} {...args} />
 }
 
 export const WithoutThead = TemplateWithoutThead.bind({})
