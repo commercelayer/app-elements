@@ -3,7 +3,7 @@
 exports[`Avatar > Should be rendered 1`] = `
 <img
   alt="Commerce Layer logo"
-  class="border object-contain object-center w-[58px] h-[58px] rounded border-gray-100"
+  class="border object-contain object-center min-w-[58px] min-h-[58px] w-[58px] h-[58px] rounded border-gray-100"
   data-test-id="avatar"
   src="https://i2.wp.com/ui-avatars.com/api/Commerce+Layer/160/FF656B/FFFFFF/2/0.33/true/true/true?ssl=1"
 />

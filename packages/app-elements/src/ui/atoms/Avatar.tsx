@@ -34,7 +34,7 @@ function Avatar({
       src={src}
       alt={alt}
       className={cn(
-        'border object-contain object-center w-[58px] h-[58px]',
+        'border object-contain object-center min-w-[58px] min-h-[58px] w-[58px] h-[58px]',
         {
           // shape
           rounded: shape === 'rounded',
