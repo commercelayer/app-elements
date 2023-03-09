@@ -49,7 +49,7 @@ const SkeletonTemplate = ({
           }
 
           if (
-            ['Avatar', 'Badge', 'Button', 'Icon', 'StatusIcon'].includes(
+            ['Avatar', 'Badge', 'Button', 'Icon', 'RadialProgress'].includes(
               child.type.displayName
             )
           ) {

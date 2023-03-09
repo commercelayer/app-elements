@@ -6,7 +6,7 @@ export interface ListItemProps
     Pick<FlexRowProps, 'alignItems' | 'children'> {
   /**
    * Icon component
-   * Example: `<Icon>` or `<StatusIcon>` or `<Avatar>`
+   * Example: `<Icon>` or `<RadialProgress>` or `<Avatar>`
    */
   icon?: JSX.Element
   /**

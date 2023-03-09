@@ -1,7 +1,7 @@
 import { Text } from '#app-elements/atoms/Text'
 import { ListItem } from '#app-elements/lists/ListItem'
 import { ComponentStory, ComponentMeta } from '@storybook/react'
-import { StatusIcon } from '#app-elements/atoms/StatusIcon'
+import { RadialProgress } from '#app-elements/atoms/RadialProgress'
 import { Icon } from '#app-elements/atoms/Icon'
 import { Avatar } from '#app-elements/atoms/Avatar'
 
@@ -84,7 +84,7 @@ OrderLine.args = {
 }
 
 export const Task: ComponentStory<typeof ListItem> = (args) => (
-  <ListItem {...args} icon={<StatusIcon status='progress' percentage={45} />}>
+  <ListItem {...args} icon={<RadialProgress percentage={45} />}>
     <div>
       <Text tag='div' weight='semibold'>
         Prices

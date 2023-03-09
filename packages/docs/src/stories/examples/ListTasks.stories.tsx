@@ -1,13 +1,13 @@
 import { A } from '#ui/atoms/A'
-import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
-import { Spacer } from '#ui/atoms/Spacer'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
-import { PageLayout } from '#ui/composite/PageLayout'
+import { Button } from '#ui/atoms/Button'
+import { ComponentStory, Meta } from '@storybook/react'
+import { Icon } from '#ui/atoms/Icon'
 import { List } from '#ui/lists/List'
 import { ListItem } from '#ui/lists/ListItem'
-import { ComponentStory, Meta } from '@storybook/react'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { RadialProgress } from '#ui/atoms/RadialProgress'
+import { Spacer } from '#ui/atoms/Spacer'
 import { useState } from 'react'
 
 const setup: Meta = {
@@ -41,7 +41,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             pageCount: 5
           }}
         >
-          <ListItem icon={<StatusIcon status='progress' percentage={45} />}>
+          <ListItem icon={<RadialProgress percentage={45} />}>
             <div>
               <Text tag='div' weight='semibold'>
                 Prices
@@ -53,7 +53,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             <Button variant='danger'>Cancel</Button>
           </ListItem>
 
-          <ListItem icon={<StatusIcon status='pending' />}>
+          <ListItem icon={<RadialProgress />}>
             <div>
               <Text tag='div' weight='semibold'>
                 Orders
@@ -65,7 +65,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             <Icon name='caretRight' />
           </ListItem>
 
-          <ListItem icon={<StatusIcon status='success' />}>
+          <ListItem icon={<Icon gap='large' name='check' background='green' />}>
             <div>
               <Text tag='div' weight='semibold'>
                 SKUs
@@ -77,7 +77,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             <Icon name='caretRight' />
           </ListItem>
 
-          <ListItem icon={<StatusIcon status='danger' />}>
+          <ListItem icon={<Icon gap='large' name='x' background='red' />}>
             <div>
               <Text tag='div' weight='semibold'>
                 SKUs
