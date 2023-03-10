@@ -1,12 +1,13 @@
-import { LightbulbFilament } from 'phosphor-react'
 import cn from 'classnames'
+import { LightbulbFilament } from 'phosphor-react'
+import { ReactNode } from 'react'
 
 export type HintIcon = 'bulb'
 
 export interface HintProps {
   icon?: HintIcon
   className?: string
-  children: ElementChildren
+  children: ReactNode
 }
 
 function Hint({ icon, className, children, ...rest }: HintProps): JSX.Element {

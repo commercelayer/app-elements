@@ -1,12 +1,12 @@
 import cn from 'classnames'
-import { Children, cloneElement, FC, isValidElement } from 'react'
+import { Children, cloneElement, FC, isValidElement, ReactElement } from 'react'
 import { Simplify } from 'type-fest'
 import { DelayShow } from './DelayShow'
 
 const recursiveMap = (
-  children: ElementChildren,
-  fn: (child: string | JSX.Element) => ElementChildren
-): ElementChildren[] => {
+  children: ReactElement,
+  fn: (child: JSX.Element) => ReactElement
+): ReactElement[] => {
   return Children.map(children, (child) => {
     if (
       isValidElement(child) &&
@@ -30,7 +30,7 @@ interface SkeletonTemplateProps {
    */
   delayMs?: number
   isLoading?: boolean
-  children: ElementChildren
+  children: ReactElement
 }
 
 export function withinSkeleton<P>(
@@ -50,11 +50,11 @@ export function withinSkeleton<P>(
   }
 }
 
-const SkeletonTemplate = ({
+const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
   children,
   isLoading = true,
   delayMs = 500
-}: SkeletonTemplateProps): JSX.Element => {
+}) => {
   const skeletonClass =
     'select-none !border-gray-50 pointer-events-none animate-pulse bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds'
 

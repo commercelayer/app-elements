@@ -11,9 +11,6 @@
       "vitest/globals",
       "@testing-library/jest-dom"
     ],
-    "typeRoots": [
-      "src/@types"
-    ],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -54,7 +51,7 @@
     ".eslintrc.cjs",
     "*.config.ts",
     "*.config.js",
-    "*.config.cjs",
+    "*.config.cjs"
   ],
   "references": [
     {
