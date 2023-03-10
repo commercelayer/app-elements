@@ -5,8 +5,8 @@ import { DelayShow } from './DelayShow'
 
 const recursiveMap = (
   children: ReactElement,
-  fn: (child: JSX.Element) => ReactElement
-): ReactElement[] => {
+  fn: (child: JSX.Element) => JSX.Element
+): JSX.Element[] => {
   return Children.map(children, (child) => {
     if (
       isValidElement(child) &&

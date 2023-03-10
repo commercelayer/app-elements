@@ -4,7 +4,7 @@ export interface StackProps {
   children: ReactNode
 }
 
-function renderChild(child: ReactNode): ReactNode {
+function renderChild(child: ReactNode): JSX.Element {
   return (
     <div className='flex-1 flex flex-col items-start py-2 px-4 border-l border-gray-100 first:border-l-0'>
       {child}
@@ -12,7 +12,7 @@ function renderChild(child: ReactNode): ReactNode {
   )
 }
 
-function Stack({ children, ...props }: StackProps): ReactNode {
+function Stack({ children, ...props }: StackProps): JSX.Element {
   return (
     <div {...props} className='border-t border-b border-gray-100 py-6'>
       <div className='flex'>
