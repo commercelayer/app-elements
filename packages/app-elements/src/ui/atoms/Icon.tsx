@@ -17,7 +17,6 @@ export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
   gap?: 'none' | 'small' | 'large'
   /**
    * Icon size as css unit (eg: 32px, 4rem) or number as pixels value.
-   * Works only when background is `none`
    */
   size?: string | number
   /**
@@ -41,7 +40,7 @@ function Icon({
       className={cn([
         'w-fit',
         // padding
-        { 'p-3': gap === 'large' },
+        { 'p-[10px]': gap === 'large' },
         { 'p-[3px]': gap === 'small' },
         // variants
         { 'border rounded-full': background !== 'none' },
@@ -56,7 +55,7 @@ function Icon({
       ])}
       {...rest}
     >
-      <IconSvg size={background === 'none' ? size : '1rem'} />
+      <IconSvg size={getIconSize({ size, gap })} />
     </div>
   )
 }
@@ -71,6 +70,7 @@ const iconMapping = {
   caretRight: phosphor.CaretRight,
   check: phosphor.Check,
   cloud: phosphor.CloudArrowUp,
+  creditCard: phosphor.CreditCard,
   download: phosphor.Download,
   eye: phosphor.Eye,
   minus: phosphor.Minus,
@@ -78,4 +78,15 @@ const iconMapping = {
   upload: phosphor.Upload,
   warning: phosphor.Warning,
   x: phosphor.X
+}
+
+function getIconSize({
+  size,
+  gap
+}: Pick<IconProps, 'size' | 'gap'>): string | number {
+  if (size != null) {
+    return size
+  }
+
+  return gap === 'large' ? '1.25rem' : '1rem'
 }
