@@ -1,19 +1,26 @@
+import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
-import { Children, cloneElement, FC, isValidElement } from 'react'
+import {
+  Children,
+  cloneElement,
+  FC,
+  isValidElement,
+  ReactNode,
+  ReactPortal
+} from 'react'
 import { Simplify } from 'type-fest'
 import { DelayShow } from './DelayShow'
 
+type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
+
 const recursiveMap = (
-  children: ElementChildren,
-  fn: (child: string | JSX.Element) => ElementChildren
-): ElementChildren[] => {
+  children: ReactNodeNoPortal,
+  fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
+): ReactNodeNoPortal => {
   return Children.map(children, (child) => {
-    if (
-      isValidElement(child) &&
-      (child as JSX.Element).props.children !== undefined
-    ) {
+    if (isValidElement(child) && child.props.children !== undefined) {
       const props = {
-        children: recursiveMap((child as JSX.Element).props.children, fn),
+        children: recursiveMap(child.props.children, fn),
         isLoading: true
       }
       child = cloneElement(child, props)
@@ -30,7 +37,7 @@ interface SkeletonTemplateProps {
    */
   delayMs?: number
   isLoading?: boolean
-  children: ElementChildren
+  children: ReactNodeNoPortal
 }
 
 export function withinSkeleton<P>(
@@ -50,11 +57,11 @@ export function withinSkeleton<P>(
   }
 }
 
-const SkeletonTemplate = ({
+const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
   children,
   isLoading = true,
   delayMs = 500
-}: SkeletonTemplateProps): JSX.Element => {
+}) => {
   const skeletonClass =
     'select-none !border-gray-50 pointer-events-none animate-pulse bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds'
 
@@ -66,7 +73,11 @@ const SkeletonTemplate = ({
     <DelayShow delayMs={delayMs}>
       <div data-test-id='skeleton-template'>
         {recursiveMap(children, (child) => {
-          if (typeof child !== 'function' && typeof child !== 'object') {
+          if (child == null) {
+            return child
+          }
+
+          if (!isValidElement<any>(child)) {
             return <span className={skeletonClass}>{child}</span>
           }
 
@@ -87,9 +98,13 @@ const SkeletonTemplate = ({
           )
 
           if (
-            ['Avatar', 'Badge', 'Button', 'Icon', 'RadialProgress'].includes(
-              child.type.displayName
-            )
+            isSpecificReactComponent(child, [
+              'Avatar',
+              'Badge',
+              'Button',
+              'Icon',
+              'RadialProgress'
+            ])
           ) {
             return cloneElement(child, {
               ...props,
