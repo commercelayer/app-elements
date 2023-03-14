@@ -1,3 +1,4 @@
+import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 import {
   Children,
@@ -97,11 +98,13 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
           )
 
           if (
-            typeof child.type !== 'string' &&
-            'displayName' in child.type &&
-            ['Avatar', 'Badge', 'Button', 'Icon', 'RadialProgress'].includes(
-              child.type.displayName as string
-            )
+            isSpecificReactComponent(child, [
+              'Avatar',
+              'Badge',
+              'Button',
+              'Icon',
+              'RadialProgress'
+            ])
           ) {
             return cloneElement(child, {
               ...props,

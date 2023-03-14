@@ -28,7 +28,7 @@ function ListDetailsItem({
 }: ListDetailsItemProps): JSX.Element {
   const childrenHaveInternalPadding = (
     Children.map(children, (child) =>
-      isSpecificReactComponent(child, 'CopyToClipboard')
+      isSpecificReactComponent(child, ['CopyToClipboard'])
     ) ?? []
   ).some(Boolean)
 
