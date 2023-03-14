@@ -52,6 +52,7 @@ jobs:
         # if: '!github.event.release.prerelease'
         uses: actions/github-script@v6
         with:
+          github-token: ${{ secrets.COMMERCELAYER_CI_TOKEN }}
           script: |
             await github.rest.actions.createWorkflowDispatch({
               owner: context.repo.owner,
