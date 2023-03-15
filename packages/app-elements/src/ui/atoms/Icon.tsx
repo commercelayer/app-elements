@@ -20,6 +20,11 @@ export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   size?: string | number
   /**
+   * Icon weight.
+   * @default bold
+   */
+  weight?: phosphor.IconWeight
+  /**
    * CSS classes
    */
   className?: string
@@ -31,6 +36,7 @@ function Icon({
   background = 'none',
   gap = 'none',
   size,
+  weight = 'bold',
   ...rest
 }: IconProps): JSX.Element {
   const IconSvg = useMemo(() => iconMapping[name], [iconMapping, name])
@@ -55,7 +61,7 @@ function Icon({
       ])}
       {...rest}
     >
-      <IconSvg size={getIconSize({ size, gap })} />
+      <IconSvg size={getIconSize({ size, gap })} weight={weight} />
     </div>
   )
 }
@@ -83,10 +89,10 @@ const iconMapping = {
 function getIconSize({
   size,
   gap
-}: Pick<IconProps, 'size' | 'gap'>): string | number {
+}: Pick<IconProps, 'size' | 'gap'>): string | number | undefined {
   if (size != null) {
     return size
   }
 
-  return gap === 'large' ? '1.25rem' : '1rem'
+  return gap === 'large' ? '1.25rem' : undefined
 }
