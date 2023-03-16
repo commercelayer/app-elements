@@ -82,6 +82,7 @@ const iconMapping = {
   minus: phosphor.Minus,
   stack: phosphor.Stack,
   upload: phosphor.Upload,
+  user: phosphor.User,
   warning: phosphor.Warning,
   x: phosphor.X
 }
