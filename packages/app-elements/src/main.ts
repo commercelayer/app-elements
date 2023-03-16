@@ -81,6 +81,9 @@ export { ListItem } from '#ui/lists/ListItem'
 export { Table } from '#ui/tables/Table'
 export { TableData } from '#ui/tables/TableData'
 
+// Resources
+export { OrderSummary } from '#ui/resources/OrderSummary'
+
 // Helpers
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { formatDate } from '#helpers/date'
