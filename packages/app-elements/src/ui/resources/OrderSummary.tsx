@@ -52,10 +52,13 @@ const TotalRow: FC<{
 
 const OrderSummary: FC<Props> = ({ order }) => {
   return (
-    <table>
+    <table className='w-full'>
       <tbody>
         {order.line_items?.map((lineItem, index, arr) => {
-          if (lineItem.item_type !== 'skus') {
+          if (
+            lineItem.item_type != null &&
+            !['skus', 'bundles'].includes(lineItem.item_type)
+          ) {
             return null
           }
 
@@ -72,7 +75,9 @@ const OrderSummary: FC<Props> = ({ order }) => {
                 </td>
                 <td className='pt-4 pl-4' colSpan={3}>
                   <Text size='small' weight='medium' variant='info' tag='div'>
-                    {lineItem.sku_code}
+                    {lineItem.item_type === 'skus'
+                      ? lineItem.sku_code
+                      : lineItem.bundle_code}
                   </Text>
                 </td>
               </tr>

@@ -33,6 +33,20 @@ const order: Order = {
       image_url: null,
       name: 'Shipment #2474021/S/001',
       quantity: 1,
+      formatted_unit_amount: '30.00€',
+      formatted_total_amount: '30.00€'
+    },
+    {
+      type: 'line_items',
+      item_type: 'bundles',
+      id: '',
+      created_at: '',
+      updated_at: '',
+      sku_code: null,
+      bundle_code: 'TROPICALTREES',
+      image_url: '',
+      name: 'Tropical Trees',
+      quantity: 1,
       formatted_unit_amount: '0.00€',
       formatted_total_amount: '0.00€'
     }
@@ -91,10 +105,11 @@ describe('OrderSummary', () => {
     )
   })
 
-  it('should only show line_items with an the item_type attribute equal to "skus"', () => {
+  it('should only show line_items with an the item_type attribute equal to "skus" or "bundles"', () => {
     const { queryAllByText } = render(<OrderSummary order={order} />)
 
     expect(queryAllByText('Gray Baby Bib with Black Logo').length).toEqual(2)
+    expect(queryAllByText('Tropical Trees').length).toEqual(1)
     expect(queryAllByText('Shipment #2474021/S/001').length).toEqual(0)
   })
 
