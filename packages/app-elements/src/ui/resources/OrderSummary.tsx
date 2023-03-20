@@ -1,27 +1,24 @@
 import { Avatar } from '#ui/atoms/Avatar'
+import { withinSkeleton } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import type { Order } from '@commercelayer/sdk'
 import cn from 'classnames'
-import { FC, Fragment } from 'react'
+import { Fragment } from 'react'
 
-interface Props {
-  order: Order
-}
-
-const TotalRow: FC<{
+const TotalRow = withinSkeleton<{
   /** Displayed label */
   label: string
   /** Formatted amount */
   formattedAmount?: string
-  /** Whether the row is the last one (usually used to display the "**Total**") */
+  /** Whether the row is the last one (usually used to display the "**Total** ") */
   isLastRow?: boolean
 
   /**
-   * When `true` the row will be always printed.
+   * When `true` the row will be always  printed.
    * @default false
    */
   force?: boolean
-}> = ({ label, formattedAmount = '', force = false, isLastRow = false }) => {
+}>(({ label, formattedAmount = '', force = false, isLastRow = false }) => {
   const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
   const showRow = force || amountCents < 0 || amountCents > 0
 
@@ -48,9 +45,11 @@ const TotalRow: FC<{
       </td>
     </tr>
   ) : null
-}
+})
 
-const OrderSummary: FC<Props> = ({ order }) => {
+const OrderSummary = withinSkeleton<{
+  order: Order
+}>(({ order }) => {
   return (
     <table className='w-full'>
       <tbody>
@@ -148,7 +147,7 @@ const OrderSummary: FC<Props> = ({ order }) => {
       </tbody>
     </table>
   )
-}
+})
 
 OrderSummary.displayName = 'OrderSummary'
 export { OrderSummary }

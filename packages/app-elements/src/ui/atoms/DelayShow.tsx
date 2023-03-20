@@ -1,4 +1,12 @@
-import { ReactNode, useState, useRef, useEffect } from 'react'
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  ReactNode,
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 
 interface Props {
   delayMs: number
@@ -22,14 +30,20 @@ function DelayShow({ delayMs = 1000, children }: Props): JSX.Element | null {
   }, [delayMs])
 
   return (
-    <div
-      data-test-id='delay-show'
-      style={{
-        opacity: show ? 1 : 0
-      }}
-    >
-      {children}
-    </div>
+    <>
+      {Children.map(children, (child) => {
+        if (!isValidElement<any>(child)) {
+          return child
+        }
+
+        return cloneElement(child, {
+          style: {
+            ...(child.props.style ?? {}),
+            opacity: show ? 1 : 0
+          }
+        })
+      })}
+    </>
   )
 }
 

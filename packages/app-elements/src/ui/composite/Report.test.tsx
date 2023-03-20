@@ -25,7 +25,7 @@ describe('Report', () => {
   })
 
   afterEach(() => {
-    vi.useFakeTimers()
+    vi.useRealTimers()
   })
 
   test('Should render', () => {
@@ -68,7 +68,7 @@ describe('Report', () => {
   })
 
   test('Should display `isLoading` state with the specified number of `loadingLines`', async () => {
-    const { element, getAllByTestId } = setup({
+    const { element } = setup({
       id: 'my-report',
       isLoading: true,
       loadingLines: 4,
@@ -79,7 +79,6 @@ describe('Report', () => {
       vi.advanceTimersByTime(500)
     })
     expect(element).toBeVisible()
-    expect(getAllByTestId('skeleton-template').length).toBe(1)
     expect(
       element.querySelector(
         "[data-test-id='report-item-Record imported-count'] span"

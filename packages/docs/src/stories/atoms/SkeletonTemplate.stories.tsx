@@ -64,10 +64,16 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
   children,
   ...args
 }) => (
-  <div className='flex gap-2'>
-    {children}
-    <SkeletonTemplate {...args}>{children}</SkeletonTemplate>
-  </div>
+  <>
+    <div className='flex gap-2'>
+      Hi there!
+      <SkeletonTemplate {...args}>Hi there!</SkeletonTemplate>
+    </div>
+    <div className='flex gap-2'>
+      {children}
+      <SkeletonTemplate {...args}>{children}</SkeletonTemplate>
+    </div>
+  </>
 )
 
 export const Default = Template.bind({})
