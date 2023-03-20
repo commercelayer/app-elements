@@ -63,7 +63,7 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
   delayMs = 500
 }) => {
   const skeletonClass =
-    'select-none !border-gray-50 pointer-events-none animate-pulse bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds'
+    'select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds'
 
   if (!isLoading) {
     return <>{children}</>
@@ -71,54 +71,52 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
 
   return (
     <DelayShow delayMs={delayMs}>
-      <div data-test-id='skeleton-template'>
-        {recursiveMap(children, (child) => {
-          if (child == null) {
-            return child
-          }
+      {recursiveMap(children, (child) => {
+        if (child == null) {
+          return child
+        }
 
-          if (!isValidElement<any>(child)) {
-            return <span className={skeletonClass}>{child}</span>
-          }
+        if (!isValidElement<any>(child)) {
+          return <span className={skeletonClass}>{child}</span>
+        }
 
-          const props = Object.fromEntries(
-            Object.entries(child.props).map(([key, value]) => {
-              if (isValidElement(value)) {
-                const newValue = (
-                  <SkeletonTemplate delayMs={delayMs} isLoading={isLoading}>
-                    {value}
-                  </SkeletonTemplate>
-                )
+        const props = Object.fromEntries(
+          Object.entries(child.props).map(([key, value]) => {
+            if (isValidElement(value)) {
+              const newValue = (
+                <SkeletonTemplate delayMs={delayMs} isLoading={isLoading}>
+                  {value}
+                </SkeletonTemplate>
+              )
 
-                return [key, newValue]
-              }
+              return [key, newValue]
+            }
 
-              return [key, value]
-            })
-          )
+            return [key, value]
+          })
+        )
 
-          if (
-            isSpecificReactComponent(child, [
-              'Avatar',
-              'Badge',
-              'Button',
-              'Icon',
-              'RadialProgress'
-            ])
-          ) {
-            return cloneElement(child, {
-              ...props,
-              className: cn(props.className as string, skeletonClass),
-              isLoading: true
-            })
-          }
-
+        if (
+          isSpecificReactComponent(child, [
+            'Avatar',
+            'Badge',
+            'Button',
+            'Icon',
+            'RadialProgress'
+          ])
+        ) {
           return cloneElement(child, {
             ...props,
+            className: cn(props.className as string, skeletonClass),
             isLoading: true
           })
-        })}
-      </div>
+        }
+
+        return cloneElement(child, {
+          ...props,
+          isLoading: true
+        })
+      })}
     </DelayShow>
   )
 }

@@ -16,6 +16,7 @@ const Template: ComponentStory<typeof OrderSummary> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  isLoading: false,
   order: {
     type: 'orders',
     id: '',

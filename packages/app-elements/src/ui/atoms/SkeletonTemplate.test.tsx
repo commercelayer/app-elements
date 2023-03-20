@@ -31,19 +31,19 @@ describe('SkeletonTemplate', () => {
       </SkeletonTemplate>
     )
 
-    expect(getByText('Element #1')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByText('Element #1')).toHaveClass('animate-pulse', '!bg-gray-50')
     expect(getByText('Element #1').nodeName).toEqual('SPAN')
 
-    expect(getByText('Element #2')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByText('Element #2')).toHaveClass('animate-pulse', '!bg-gray-50')
     expect(getByText('Element #2').nodeName).toEqual('SPAN')
 
-    expect(getByText('Element #3')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByText('Element #3')).toHaveClass('animate-pulse', '!bg-gray-50')
     expect(getByText('Element #3').nodeName).toEqual('SPAN')
 
-    expect(getByText('Element #4')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByText('Element #4')).toHaveClass('animate-pulse', '!bg-gray-50')
     expect(getByText('Element #4').nodeName).toEqual('SPAN')
 
-    expect(getByTestId('button')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByTestId('button')).toHaveClass('animate-pulse', '!bg-gray-50')
   })
 
   test('Should render <Avatar> as "loading item"', () => {
@@ -57,7 +57,7 @@ describe('SkeletonTemplate', () => {
       </SkeletonTemplate>
     )
 
-    expect(getByTestId('element')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByTestId('element')).toHaveClass('animate-pulse', '!bg-gray-50')
   })
 
   test('Should render <Badge> as "loading item"', () => {
@@ -67,7 +67,7 @@ describe('SkeletonTemplate', () => {
       </SkeletonTemplate>
     )
 
-    expect(getByTestId('element')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByTestId('element')).toHaveClass('animate-pulse', '!bg-gray-50')
   })
 
   test('Should render <Icon> as "loading item"', () => {
@@ -77,7 +77,7 @@ describe('SkeletonTemplate', () => {
       </SkeletonTemplate>
     )
 
-    expect(getByTestId('element')).toHaveClass('animate-pulse', 'bg-gray-50')
+    expect(getByTestId('element')).toHaveClass('animate-pulse', '!bg-gray-50')
   })
 
   test('Should render RadialProgress as "loading item"', () => {
@@ -89,7 +89,7 @@ describe('SkeletonTemplate', () => {
 
     expect(getByTestId('radial-progress')).toHaveClass(
       'animate-pulse',
-      'bg-gray-50'
+      '!bg-gray-50'
     )
   })
 
@@ -102,7 +102,7 @@ describe('SkeletonTemplate', () => {
 
     expect(getByTestId('radial-progress')).toHaveClass(
       'animate-pulse',
-      'bg-gray-50'
+      '!bg-gray-50'
     )
   })
 })
