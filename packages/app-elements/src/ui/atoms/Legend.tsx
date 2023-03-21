@@ -1,7 +1,7 @@
 import { ReactNode } from 'react'
 import cn from 'classnames'
 
-interface LegendProps {
+export interface LegendProps {
   /**
    * Main section title
    */

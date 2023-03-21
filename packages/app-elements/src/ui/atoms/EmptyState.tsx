@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { ReactNode } from 'react'
 import { Icon, IconProps } from './Icon'
 
-interface Props {
+export interface EmptyStateProps {
   title: string
   description?: ReactNode
   action?: ReactNode
@@ -17,7 +17,7 @@ function EmptyState({
   icon,
   className,
   ...rest
-}: Props): JSX.Element {
+}: EmptyStateProps): JSX.Element {
   return (
     <div
       className={cn(
