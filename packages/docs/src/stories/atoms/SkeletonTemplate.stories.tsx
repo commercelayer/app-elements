@@ -19,9 +19,10 @@ const setup: ComponentMeta<typeof SkeletonTemplate> = {
 export default setup
 
 const children = (
-  <div>
+  <>
     <ListItem
       borderStyle='dashed'
+      onClick={() => alert('Hello world!')}
       icon={
         <Avatar
           alt='Commerce Layer'
@@ -39,9 +40,12 @@ const children = (
         <Text tag='div'>Ehi there!</Text>
         <Badge label='APPROVED' variant='primary' />
       </div>
-      <Button>OK</Button>
+      <Button onClick={() => alert('Hello world!')}>OK</Button>
     </ListItem>
     <Spacer top='8'>
+      <a href='https://example.com'>It's a link</a>
+      <br />
+      <div onClick={() => alert('Hello world!')}>It's an onClick</div>
       <Text>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce diam
         odio, aliquet eget nulla id, imperdiet dignissim libero. Nunc vulputate
@@ -57,7 +61,7 @@ const children = (
         fermentum consectetur lacus id condimentum.
       </Text>
     </Spacer>
-  </div>
+  </>
 )
 
 const Template: ComponentStory<typeof SkeletonTemplate> = ({
@@ -70,8 +74,10 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
       <SkeletonTemplate {...args}>Hi there!</SkeletonTemplate>
     </div>
     <div className='flex gap-2'>
-      {children}
-      <SkeletonTemplate {...args}>{children}</SkeletonTemplate>
+      <div>{children}</div>
+      <div>
+        <SkeletonTemplate {...args}>{children}</SkeletonTemplate>
+      </div>
     </div>
   </>
 )

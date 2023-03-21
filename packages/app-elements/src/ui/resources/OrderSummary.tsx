@@ -5,7 +5,7 @@ import type { Order } from '@commercelayer/sdk'
 import cn from 'classnames'
 import { Fragment } from 'react'
 
-const TotalRow = withinSkeleton<{
+interface TotalRowProps {
   /** Displayed label */
   label: string
   /** Formatted amount */
@@ -18,7 +18,14 @@ const TotalRow = withinSkeleton<{
    * @default false
    */
   force?: boolean
-}>(({ label, formattedAmount = '', force = false, isLastRow = false }) => {
+}
+
+const renderTotalRow = ({
+  label,
+  formattedAmount = '',
+  force = false,
+  isLastRow = false
+}: TotalRowProps): JSX.Element | null => {
   const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
   const showRow = force || amountCents < 0 || amountCents > 0
 
@@ -45,7 +52,7 @@ const TotalRow = withinSkeleton<{
       </td>
     </tr>
   ) : null
-})
+}
 
 const OrderSummary = withinSkeleton<{
   order: Order
@@ -104,46 +111,45 @@ const OrderSummary = withinSkeleton<{
             </Fragment>
           )
         })}
-        <TotalRow
-          force
-          label='Subtotal'
-          formattedAmount={order.formatted_subtotal_amount}
-        />
-        <TotalRow
-          label='Discount'
-          formattedAmount={order.formatted_discount_amount}
-        />
-        <TotalRow
-          label='Adjustments'
-          formattedAmount={order.formatted_adjustment_amount}
-        />
-        <TotalRow
-          force
-          label='Shipping method'
-          formattedAmount={
+        {renderTotalRow({
+          force: true,
+          label: 'Subtotal',
+          formattedAmount: order.formatted_subtotal_amount
+        })}
+        {renderTotalRow({
+          label: 'Discount',
+          formattedAmount: order.formatted_discount_amount
+        })}
+        {renderTotalRow({
+          label: 'Adjustments',
+          formattedAmount: order.formatted_adjustment_amount
+        })}
+        {renderTotalRow({
+          force: true,
+          label: 'Shipping method',
+          formattedAmount:
             order.shipping_amount_cents !== 0
               ? order.formatted_shipping_amount
               : 'free'
-          }
-        />
-        <TotalRow
-          label='Payment method'
-          formattedAmount={order.formatted_payment_method_amount}
-        />
-        <TotalRow
-          label='Taxes'
-          formattedAmount={order.formatted_total_tax_amount}
-        />
-        <TotalRow
-          label='Gift card'
-          formattedAmount={order.formatted_gift_card_amount}
-        />
-        <TotalRow
-          force
-          label='Total'
-          formattedAmount={order.formatted_total_amount}
-          isLastRow
-        />
+        })}
+        {renderTotalRow({
+          label: 'Payment method',
+          formattedAmount: order.formatted_payment_method_amount
+        })}
+        {renderTotalRow({
+          label: 'Taxes',
+          formattedAmount: order.formatted_total_tax_amount
+        })}
+        {renderTotalRow({
+          label: 'Gift card',
+          formattedAmount: order.formatted_gift_card_amount
+        })}
+        {renderTotalRow({
+          force: true,
+          label: 'Total',
+          formattedAmount: order.formatted_total_amount,
+          isLastRow: true
+        })}
       </tbody>
     </table>
   )

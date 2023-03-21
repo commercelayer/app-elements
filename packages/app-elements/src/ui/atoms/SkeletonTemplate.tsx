@@ -10,7 +10,7 @@ import {
   ReactPortal
 } from 'react'
 import { Simplify } from 'type-fest'
-import { DelayShow } from './DelayShow'
+import { useDelayShow } from '../../hooks/useDelayShow'
 
 type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
 
@@ -88,6 +88,7 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
   isLoading = true,
   delayMs = 500
 }) => {
+  const [show] = useDelayShow(delayMs)
   const skeletonClass =
     'select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds'
 
@@ -96,7 +97,10 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
   }
 
   return (
-    <DelayShow delayMs={delayMs}>
+    <div
+      className='select-none pointer-events-none'
+      style={{ opacity: show ? undefined : 0 }}
+    >
       {recursiveMap(children, (child) => {
         if (child == null) {
           return child
@@ -110,7 +114,7 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
           Object.entries(child.props).map(([key, value]) => {
             if (isValidElement(value)) {
               const newValue = (
-                <SkeletonTemplate delayMs={delayMs} isLoading={isLoading}>
+                <SkeletonTemplate delayMs={0} isLoading={isLoading}>
                   {value}
                 </SkeletonTemplate>
               )
@@ -140,14 +144,10 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
 
         return cloneElement(child, {
           ...props,
-          ...(isSkeletonTemplate(child) ? { isLoading: true } : {}),
-          className: cn(
-            props.className as string,
-            'select-none pointer-events-none'
-          )
+          ...(isSkeletonTemplate(child) ? { isLoading: true } : {})
         })
       })}
-    </DelayShow>
+    </div>
   )
 }
 
