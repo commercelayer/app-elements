@@ -140,7 +140,11 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
 
         return cloneElement(child, {
           ...props,
-          ...(isSkeletonTemplate(child) ? { isLoading: true } : {})
+          ...(isSkeletonTemplate(child) ? { isLoading: true } : {}),
+          className: cn(
+            props.className as string,
+            'select-none pointer-events-none'
+          )
         })
       })}
     </DelayShow>

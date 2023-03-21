@@ -28,7 +28,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
-    "@commercelayer/sdk": "^4.20.0",
+    "@commercelayer/sdk": "4.25.0",
     "@types/lodash": "^4.14.191",
     "@types/react": "^18.0.26",
     "@types/react-datepicker": "^4.8.0",

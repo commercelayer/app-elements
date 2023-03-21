@@ -55,5 +55,40 @@ export const handlers = [
         }
       })
     )
+  }),
+
+  rest.get(`https://*.commercelayer.*/api/orders`, (req, res, ctx) => {
+    return res(
+      ctx.status(200),
+      ctx.json(
+        returnEmptyList(req.url)
+          ? {
+              data: [],
+              meta: { record_count: 0, page_count: 1 }
+            }
+          : {
+              data: Array(10)
+                .fill(null)
+                .map(() => ({
+                  id: Math.random().toString().substring(2, 12),
+                  type: 'orders',
+                  attributes: {
+                    number: Math.floor(Math.random() * 100_000),
+                    status: 'placed',
+                    payment_status: 'authorized',
+                    fulfillment_status: 'unfulfilled',
+                    formatted_total_amount: '€39,00',
+                    updated_at: '2023-03-17T14:07:36.604Z'
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                })),
+              meta: { record_count: 15, page_count: 2 }
+            }
+      )
+    )
   })
 ]
+
+function returnEmptyList(url: URL): boolean {
+  return Boolean(url.searchParams.get('filter[q][emptyList]'))
+}
