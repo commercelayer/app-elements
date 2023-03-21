@@ -1,9 +1,10 @@
-import { isSpecificReactComponent } from '#utils/children'
+import { isFunctionComponent, isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 import {
   Children,
   cloneElement,
   FC,
+  FunctionComponent,
   isValidElement,
   ReactNode,
   ReactPortal
@@ -20,8 +21,7 @@ const recursiveMap = (
   return Children.map(children, (child) => {
     if (isValidElement(child) && child.props.children !== undefined) {
       const props = {
-        children: recursiveMap(child.props.children, fn),
-        isLoading: true
+        children: recursiveMap(child.props.children, fn)
       }
       child = cloneElement(child, props)
     }
@@ -40,21 +40,47 @@ interface SkeletonTemplateProps {
   children: ReactNodeNoPortal
 }
 
+export interface SkeletonTemplateComponent<P = {}>
+  extends FunctionComponent<P> {
+  skeletonTemplate: true
+}
+
 export function withinSkeleton<P>(
   Element: FC<Simplify<P & { isLoading?: boolean }>>
-): FC<Simplify<P & { isLoading?: boolean }>> {
-  return (props: Simplify<P & { isLoading?: boolean }>) => {
+): SkeletonTemplateComponent<Simplify<P & { isLoading?: boolean }>> {
+  const withinSkeleton: SkeletonTemplateComponent<
+    Simplify<P & { isLoading?: boolean }>
+  > = (props) => {
     const isLoading = props.isLoading ?? false
     const element = Element({ ...props, isLoading })
 
     if (element != null) {
       return (
-        <SkeletonTemplate isLoading={isLoading}>{element}</SkeletonTemplate>
+        <SkeletonTemplate data-test-id='we' isLoading={isLoading}>
+          {element}
+        </SkeletonTemplate>
       )
     }
 
     return element
   }
+
+  withinSkeleton.displayName = 'withinSkeleton'
+  withinSkeleton.skeletonTemplate = true
+
+  return withinSkeleton
+}
+
+export function isSkeletonTemplate(child: ReactNode): boolean {
+  if (child == null) {
+    return false
+  }
+
+  return (
+    isFunctionComponent(child) &&
+    'skeletonTemplate' in child.type &&
+    (child.type as SkeletonTemplateComponent).skeletonTemplate
+  )
 }
 
 const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
@@ -108,13 +134,13 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
           return cloneElement(child, {
             ...props,
             className: cn(props.className as string, skeletonClass),
-            isLoading: true
+            ...(isSkeletonTemplate(child) ? { isLoading: true } : {})
           })
         }
 
         return cloneElement(child, {
           ...props,
-          isLoading: true
+          ...(isSkeletonTemplate(child) ? { isLoading: true } : {})
         })
       })}
     </DelayShow>
