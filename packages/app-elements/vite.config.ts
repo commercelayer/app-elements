@@ -49,7 +49,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: ['./react-testing-library.config.js', './mocks/setup.ts'],
+    setupFiles: [
+      './react-testing-library.config.js',
+      './mocks/setup.ts',
+      './mocks/stubs.ts'
+    ],
     silent: true
   }
 })

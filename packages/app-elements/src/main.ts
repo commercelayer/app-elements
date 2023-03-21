@@ -83,6 +83,7 @@ export { TableData } from '#ui/tables/TableData'
 
 // Resources
 export { OrderSummary } from '#ui/resources/OrderSummary'
+export { ResourceList } from '#ui/resources/ResourceList'
 
 // Helpers
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
