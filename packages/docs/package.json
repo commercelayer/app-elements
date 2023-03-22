@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "private": true,
-  "version": "0.0.12",
+  "version": "0.0.13",
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
@@ -13,7 +13,7 @@
     "pnpm": ">=7"
   },
   "dependencies": {
-    "@commercelayer/app-elements": "workspace:^0.0.12",
+    "@commercelayer/app-elements": "workspace:^0.0.13",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
