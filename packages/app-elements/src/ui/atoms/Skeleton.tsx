@@ -1,6 +1,6 @@
+import { useDelayShow } from '#hooks/useDelayShow'
 import cn from 'classnames'
 import { ReactNode } from 'react'
-import { DelayShow } from './DelayShow'
 
 interface SkeletonProps {
   /**
@@ -20,9 +20,10 @@ function Skeleton({
   delayMs = 500,
   ...rest
 }: SkeletonProps): JSX.Element {
+  const [show] = useDelayShow(delayMs)
   return (
     <div data-test-id='skeleton' className='animate-pulse' {...rest}>
-      <DelayShow delayMs={delayMs}>{children}</DelayShow>
+      <div style={{ opacity: show ? 1 : 0 }}>{children}</div>
     </div>
   )
 }
