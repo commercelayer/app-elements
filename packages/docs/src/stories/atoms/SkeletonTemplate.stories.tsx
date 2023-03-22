@@ -8,6 +8,13 @@ import { ListItem } from '#app-elements/lists/ListItem'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
+import {
+  cloneElement,
+  createElement,
+  forwardRef,
+  isValidElement,
+  ReactNode
+} from 'react'
 
 const setup: ComponentMeta<typeof SkeletonTemplate> = {
   title: 'Atoms/SkeletonTemplate',
@@ -18,8 +25,23 @@ const setup: ComponentMeta<typeof SkeletonTemplate> = {
 }
 export default setup
 
+const ForwardRefComponent = forwardRef<unknown, { children: ReactNode }>(
+  (props, ref) => {
+    const { children } = props
+
+    console.log(children, isValidElement(children))
+
+    const jsx = isValidElement(children) ? children : createElement('a', props)
+
+    return cloneElement(jsx, {})
+  }
+)
+
 const children = (
   <>
+    <ForwardRefComponent>
+      <a>Simil Wouter</a>
+    </ForwardRefComponent>
     <ListItem
       borderStyle='dashed'
       onClick={() => alert('Hello world!')}
