@@ -14,20 +14,29 @@ import { useDelayShow } from '../../hooks/useDelayShow'
 
 type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
 
-const recursiveMap = (
+function childrenRecursiveMap(
   children: ReactNodeNoPortal,
   fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
-): ReactNodeNoPortal => {
-  return Children.map(children, (child) => {
-    if (isValidElement(child) && child.props.children !== undefined) {
-      const props = {
-        children: recursiveMap(child.props.children, fn)
-      }
-      child = cloneElement(child, props)
-    }
+): ReactNodeNoPortal {
+  if (isValidElement<any>(children)) {
+    return childRecursiveMap(children, fn)
+  }
 
-    return fn(child)
-  })
+  return Children.map(children, (child) => childRecursiveMap(child, fn))
+}
+
+function childRecursiveMap(
+  child: ReactNodeNoPortal,
+  fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
+): ReactNodeNoPortal {
+  if (isValidElement<any>(child) && child.props.children !== undefined) {
+    const props = {
+      children: childrenRecursiveMap(child.props.children, fn)
+    }
+    child = cloneElement(child, props)
+  }
+
+  return fn(child)
 }
 
 interface SkeletonTemplateProps {
@@ -101,7 +110,7 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
       className='select-none pointer-events-none'
       style={{ opacity: show ? undefined : 0 }}
     >
-      {recursiveMap(children, (child) => {
+      {childrenRecursiveMap(children, (child) => {
         if (child == null) {
           return child
         }
