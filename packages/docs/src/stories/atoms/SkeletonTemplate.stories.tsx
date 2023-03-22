@@ -5,7 +5,7 @@ import { Icon } from '#app-elements/atoms/Icon'
 import { RadialProgress } from '#app-elements/atoms/RadialProgress'
 import { Text } from '#app-elements/atoms/Text'
 import { ListItem } from '#app-elements/lists/ListItem'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { SkeletonTemplate, withinSkeleton } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import {
@@ -29,12 +29,20 @@ const ForwardRefComponent = forwardRef<unknown, { children: ReactNode }>(
   (props, ref) => {
     const { children } = props
 
-    console.log(children, isValidElement(children))
-
     const jsx = isValidElement(children) ? children : createElement('a', props)
 
     return cloneElement(jsx, {})
   }
+)
+
+const WithSkeletonComponentB = withinSkeleton<{ children: ReactNode }>(
+  ({ children }) => (
+    <WithSkeletonComponentA>B {children}</WithSkeletonComponentA>
+  )
+)
+
+const WithSkeletonComponentA = withinSkeleton<{ children: ReactNode }>(
+  ({ children }) => <div>A {children}</div>
 )
 
 const children = (
@@ -42,6 +50,7 @@ const children = (
     <ForwardRefComponent>
       <a>Simil Wouter</a>
     </ForwardRefComponent>
+    <WithSkeletonComponentB>C</WithSkeletonComponentB>
     <ListItem
       borderStyle='dashed'
       onClick={() => alert('Hello world!')}
@@ -91,7 +100,7 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
   ...args
 }) => (
   <>
-    <div className='flex gap-2'>
+    <div className='flex gap-2 mb-8'>
       Hi there!
       <SkeletonTemplate {...args}>Hi there!</SkeletonTemplate>
     </div>
