@@ -45,7 +45,7 @@ const Template: ComponentStory<typeof List> = (args) => (
           'Tax rules',
           'Wire transfers'
         ].map((resource) => (
-          <ListItem key={resource} onClick={() => {}}>
+          <ListItem tag='a' key={resource} href='#' target='_blank'>
             <Text weight='semibold'>{resource}</Text>
             <Icon name='caretRight' />
           </ListItem>

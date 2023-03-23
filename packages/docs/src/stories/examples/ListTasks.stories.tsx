@@ -41,7 +41,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             pageCount: 5
           }}
         >
-          <ListItem icon={<RadialProgress percentage={45} />}>
+          <ListItem tag='div' icon={<RadialProgress percentage={45} />}>
             <div>
               <Text tag='div' weight='semibold'>
                 Prices
@@ -53,7 +53,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             <Button variant='danger'>Cancel</Button>
           </ListItem>
 
-          <ListItem icon={<RadialProgress />}>
+          <ListItem tag='div' icon={<RadialProgress />}>
             <div>
               <Text tag='div' weight='semibold'>
                 Orders
@@ -65,7 +65,10 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             <Icon name='caretRight' />
           </ListItem>
 
-          <ListItem icon={<Icon gap='large' name='check' background='green' />}>
+          <ListItem
+            tag='div'
+            icon={<Icon gap='large' name='check' background='green' />}
+          >
             <div>
               <Text tag='div' weight='semibold'>
                 SKUs
@@ -77,7 +80,10 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             <Icon name='caretRight' />
           </ListItem>
 
-          <ListItem icon={<Icon gap='large' name='x' background='red' />}>
+          <ListItem
+            tag='div'
+            icon={<Icon gap='large' name='x' background='red' />}
+          >
             <div>
               <Text tag='div' weight='semibold'>
                 SKUs
