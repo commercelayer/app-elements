@@ -1,6 +1,7 @@
 import cn from 'classnames'
 import { FlexRow, FlexRowProps } from '#ui/atoms/FlexRow'
 import { FC, useMemo } from 'react'
+import isEmpty from 'lodash/isEmpty'
 
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   /**
@@ -17,6 +18,9 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
    */
   borderStyle?: 'dashed' | 'solid'
 }
+
+const allowedTags = ['a', 'div'] as const
+type AllowedTag = typeof allowedTags[number]
 
 export type ListItemProps = Props &
   (
@@ -41,15 +45,11 @@ const ListItem: FC<ListItemProps> = ({
   gutter,
   alignItems = 'center',
   borderStyle = 'solid',
-  tag = 'div',
   ...rest
 }) => {
-  const JsxTag = useMemo(
-    // enforce allowed tags only
-    () => enforceAllowedTags(tag),
-    [tag]
-  )
-  const hasHover = rest.onClick != null || tag === 'a'
+  const JsxTag = useMemo(() => enforceAllowedTags(rest.tag), [rest.tag])
+  const hasHover =
+    rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href))
 
   return (
     <JsxTag
@@ -62,7 +62,9 @@ const ListItem: FC<ListItemProps> = ({
         },
         className
       )}
-      {...(rest as any)}
+      // we don't want `tag` prop to be present as attribute on html tag
+      // still we need to be part of `rest` to discriminate the union type
+      {...(removeTagProp(rest) as any)}
     >
       <div className='flex gap-4 flex-1'>
         {icon != null && <div className='flex-shrink-0'>{icon}</div>}
@@ -72,13 +74,18 @@ const ListItem: FC<ListItemProps> = ({
   )
 }
 
-ListItem.displayName = 'ListItem'
-export { ListItem }
-
-const allowedTags = ['a', 'div'] as const
-type AllowedTag = typeof allowedTags[number]
 function enforceAllowedTags(
   tag: AllowedTag
 ): Extract<keyof JSX.IntrinsicElements, AllowedTag> {
   return allowedTags.includes(tag) ? tag : 'div'
 }
+
+function removeTagProp<T extends object>(props: T): Omit<T, 'tag'> {
+  return {
+    ...props,
+    tag: undefined
+  }
+}
+
+ListItem.displayName = 'ListItem'
+export { ListItem }

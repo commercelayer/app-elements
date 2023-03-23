@@ -40,5 +40,26 @@ describe('ListItem', () => {
     expect(element).toBeInTheDocument()
     expect(element.tagName).toBe('A')
     expect(element.getAttribute('href')).toBe('https://www.commercelayer.io')
+    expect(element).toHaveClass('cursor-pointer', 'hover:bg-gray-50')
+  })
+
+  test('Should not have hover effect when href is not set', () => {
+    const { element } = setup({
+      tag: 'a',
+      children: <div>Content</div>
+    })
+    expect(element).toBeInTheDocument()
+    expect(element.tagName).toBe('A')
+    expect(element).not.toHaveClass('cursor-pointer', 'hover:bg-gray-50')
+  })
+
+  test('Should not be rendered with `tag` as attribute', () => {
+    // this should never happen <div tag="div" /> | <a tag="a" />
+    const { element } = setup({
+      tag: 'div',
+      children: <div>Content</div>
+    })
+    expect(element).toBeInTheDocument()
+    expect(element.getAttribute('tag')).toBe(null)
   })
 })
