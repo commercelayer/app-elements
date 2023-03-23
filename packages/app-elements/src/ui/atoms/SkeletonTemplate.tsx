@@ -18,7 +18,7 @@ function childrenRecursiveMap(
   children: ReactNodeNoPortal,
   fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
 ): ReactNodeNoPortal {
-  if (isValidElement<any>(children)) {
+  if (Children.count(children) === 1) {
     return childRecursiveMap(children, fn)
   }
 
@@ -29,11 +29,12 @@ function childRecursiveMap(
   child: ReactNodeNoPortal,
   fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
 ): ReactNodeNoPortal {
-  if (isValidElement<any>(child) && child.props.children !== undefined) {
-    const props = {
-      children: childrenRecursiveMap(child.props.children, fn)
-    }
-    child = cloneElement(child, props)
+  if (isValidElement<any>(child) && child.props.children != null) {
+    return fn(
+      cloneElement(child, {
+        children: childrenRecursiveMap(child.props.children, fn)
+      })
+    )
   }
 
   return fn(child)
@@ -65,9 +66,7 @@ export function withinSkeleton<P>(
 
     if (element != null) {
       return (
-        <SkeletonTemplate data-test-id='we' isLoading={isLoading}>
-          {element}
-        </SkeletonTemplate>
+        <SkeletonTemplate isLoading={isLoading}>{element}</SkeletonTemplate>
       )
     }
 
@@ -121,9 +120,9 @@ const SkeletonTemplate: FC<SkeletonTemplateProps> = ({
 
         const props = Object.fromEntries(
           Object.entries(child.props).map(([key, value]) => {
-            if (isValidElement(value)) {
+            if (key !== 'children' && isValidElement(value)) {
               const newValue = (
-                <SkeletonTemplate delayMs={0} isLoading={isLoading}>
+                <SkeletonTemplate delayMs={0} isLoading>
                   {value}
                 </SkeletonTemplate>
               )
