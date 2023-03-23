@@ -52,6 +52,7 @@ const children = (
     </ForwardRefComponent>
     <WithSkeletonComponentB>C</WithSkeletonComponentB>
     <ListItem
+      tag='div'
       borderStyle='dashed'
       onClick={() => alert('Hello world!')}
       icon={
@@ -66,7 +67,7 @@ const children = (
       <Icon name='check' background='green' gap='large' />
       <RadialProgress percentage={42} />
     </ListItem>
-    <ListItem borderStyle='dashed'>
+    <ListItem tag='div' borderStyle='dashed'>
       <div>
         <Text tag='div'>Ehi there!</Text>
         <Badge label='APPROVED' variant='primary' />

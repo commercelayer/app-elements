@@ -26,7 +26,7 @@ Simple.args = {
   }
 }
 
-export const WithIcon: ComponentStory<typeof ListItem> = (args) => (
+const WithIconTemplate: ComponentStory<typeof ListItem> = (args) => (
   <ListItem {...args}>
     <div>
       <Text tag='div' weight='semibold'>
@@ -49,8 +49,18 @@ export const WithIcon: ComponentStory<typeof ListItem> = (args) => (
     </div>
   </ListItem>
 )
+
+export const WithIcon = WithIconTemplate.bind({})
 WithIcon.args = {
-  onClick: () => undefined,
+  tag: 'div',
+  icon: <Icon name='arrowDown' background='orange' gap='large' />
+}
+
+export const AsAnchor = WithIconTemplate.bind({})
+AsAnchor.args = {
+  tag: 'a',
+  href: 'https://www.commercelayer.io',
+  target: '_blank',
   icon: <Icon name='arrowDown' background='orange' gap='large' />
 }
 

@@ -17,6 +17,7 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => (
   <Spacer bottom='14'>
     <List title='Results · 13,765'>
       <ListItem
+        tag='div'
         icon={<Icon name='arrowDown' background='orange' gap='large' />}
       >
         <div>
@@ -40,7 +41,10 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => (
         </div>
       </ListItem>
 
-      <ListItem icon={<Icon name='x' background='gray' gap='large' />}>
+      <ListItem
+        tag='div'
+        icon={<Icon name='x' background='gray' gap='large' />}
+      >
         <div>
           <Text tag='div' weight='semibold'>
             US online #19346523

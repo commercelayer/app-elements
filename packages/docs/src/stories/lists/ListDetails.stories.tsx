@@ -45,6 +45,7 @@ export const WithListItem: ComponentStory<typeof ListDetails> = (args) => (
   <ListDetails {...args}>
     {Array(3).fill(
       <ListItem
+        tag='div'
         gutter='none'
         borderStyle='dashed'
         icon={
