@@ -22,3 +22,10 @@ OnlyBottom.args = {
   bottom: '8',
   children: 'Some content with margin bottom only (inspect me)'
 }
+
+export const OnlyLeft = Template.bind({})
+OnlyLeft.args = {
+  top: undefined,
+  left: '8',
+  children: 'Some content with margin left only (inspect me)'
+}

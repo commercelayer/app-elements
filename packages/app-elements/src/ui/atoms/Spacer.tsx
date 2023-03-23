@@ -10,6 +10,14 @@ export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {
    * Value to be applied as `margin-bottom`.
    */
   bottom?: SpacingValues
+  /**
+   * Value to be applied as `margin-left`.
+   */
+  left?: SpacingValues
+  /**
+   * Value to be applied as `margin-right`.
+   */
+  right?: SpacingValues
   children?: ReactNode
 }
 
@@ -44,13 +52,47 @@ const marginBottomCss: Record<SpacingValues | 'none', string> = {
   '14': 'mb-14'
 }
 
-function Spacer({ top, bottom, children, ...rest }: SpacingProps): JSX.Element {
+const marginLeftCss: Record<SpacingValues | 'none', string> = {
+  none: '',
+  '2': 'ml-2',
+  '4': 'ml-4',
+  '6': 'ml-6',
+  '8': 'ml-8',
+  '12': 'ml-12',
+  '14': 'ml-14'
+}
+
+const marginRightCss: Record<SpacingValues | 'none', string> = {
+  none: '',
+  '2': 'mr-2',
+  '4': 'mr-4',
+  '6': 'mr-6',
+  '8': 'mr-8',
+  '12': 'mr-12',
+  '14': 'mr-14'
+}
+
+function Spacer({
+  top,
+  bottom,
+  left,
+  right,
+  children,
+  ...rest
+}: SpacingProps): JSX.Element {
   const valueTop = top ?? 'none'
   const valueBottom = bottom ?? 'none'
+  const valueLeft = left ?? 'none'
+  const valueRight = right ?? 'none'
 
   return (
     <div
-      className={cn([marginTopCss[valueTop], marginBottomCss[valueBottom]])}
+      className={cn([
+        marginTopCss[valueTop],
+        marginBottomCss[valueBottom],
+        marginLeftCss[valueLeft],
+        marginRightCss[valueRight]
+      ])}
       {...rest}
     >
       {children}
