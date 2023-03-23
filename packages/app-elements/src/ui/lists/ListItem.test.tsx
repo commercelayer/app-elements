@@ -52,4 +52,14 @@ describe('ListItem', () => {
     expect(element.tagName).toBe('A')
     expect(element).not.toHaveClass('cursor-pointer', 'hover:bg-gray-50')
   })
+
+  test('Should not be rendered with `tag` as attribute', () => {
+    // this should never happen <div tag="div" /> | <a tag="a" />
+    const { element } = setup({
+      tag: 'div',
+      children: <div>Content</div>
+    })
+    expect(element).toBeInTheDocument()
+    expect(element.getAttribute('tag')).toBe(null)
+  })
 })
