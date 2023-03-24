@@ -1,5 +1,5 @@
 import { Avatar } from '#ui/atoms/Avatar'
-import { withinSkeleton } from '#ui/atoms/SkeletonTemplate'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import type { Order } from '@commercelayer/sdk'
 import cn from 'classnames'
@@ -54,7 +54,7 @@ const renderTotalRow = ({
   ) : null
 }
 
-const OrderSummary = withinSkeleton<{
+const OrderSummary = withSkeletonTemplate<{
   order: Order
 }>(({ order }) => {
   return (

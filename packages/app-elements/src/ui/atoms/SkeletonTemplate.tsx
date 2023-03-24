@@ -73,12 +73,12 @@ export interface SkeletonTemplateComponent<P = {}>
   isSkeletonTemplate: true
 }
 
-export function withinSkeleton<P>(
+export function withSkeletonTemplate<P>(
   Element: FC<SkeletonTemplateProps<P>>
 ): SkeletonTemplateComponent<SkeletonTemplateProps<P>> {
-  const withinSkeleton: SkeletonTemplateComponent<SkeletonTemplateProps<P>> = (
-    props
-  ) => {
+  const withSkeletonTemplate: SkeletonTemplateComponent<
+    SkeletonTemplateProps<P>
+  > = (props) => {
     const { isLoading, delayMs } = props
     const element = Element({ ...props, isLoading, delayMs })
 
@@ -93,10 +93,10 @@ export function withinSkeleton<P>(
     return element
   }
 
-  withinSkeleton.displayName = 'withinSkeleton'
-  withinSkeleton.isSkeletonTemplate = true
+  withSkeletonTemplate.displayName = 'withSkeletonTemplate'
+  withSkeletonTemplate.isSkeletonTemplate = true
 
-  return withinSkeleton
+  return withSkeletonTemplate
 }
 
 export function isSkeletonTemplate(child: ReactNode): boolean {
