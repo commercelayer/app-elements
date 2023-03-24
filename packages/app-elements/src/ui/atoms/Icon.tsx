@@ -16,15 +16,6 @@ export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
    */
   gap?: 'none' | 'small' | 'large'
   /**
-   * Icon size as css unit (eg: 32px, 4rem) or number as pixels value.
-   */
-  size?: string | number
-  /**
-   * Icon weight.
-   * @default bold
-   */
-  weight?: phosphor.IconWeight
-  /**
    * CSS classes
    */
   className?: string
@@ -35,8 +26,6 @@ function Icon({
   className,
   background = 'none',
   gap = 'none',
-  size,
-  weight = 'bold',
   ...rest
 }: IconProps): JSX.Element {
   const IconSvg = useMemo(() => iconMapping[name], [iconMapping, name])
@@ -61,7 +50,10 @@ function Icon({
       ])}
       {...rest}
     >
-      <IconSvg size={getIconSize({ size, gap })} weight={weight} />
+      <IconSvg
+        size={gap === 'large' ? '1.25rem' : undefined}
+        weight={background !== 'none' ? 'bold' : undefined}
+      />
     </div>
   )
 }
@@ -70,10 +62,10 @@ Icon.displayName = 'Icon'
 export { Icon }
 
 const iconMapping = {
+  arrowCircleDown: phosphor.ArrowCircleDown,
   arrowClockwise: phosphor.ArrowClockwise,
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
-  arrowCircleDown: phosphor.ArrowCircleDown,
   caretRight: phosphor.CaretRight,
   check: phosphor.Check,
   cloud: phosphor.CloudArrowUp,
@@ -86,15 +78,4 @@ const iconMapping = {
   user: phosphor.User,
   warning: phosphor.Warning,
   x: phosphor.X
-}
-
-function getIconSize({
-  size,
-  gap
-}: Pick<IconProps, 'size' | 'gap'>): string | number | undefined {
-  if (size != null) {
-    return size
-  }
-
-  return gap === 'large' ? '1.25rem' : undefined
 }
