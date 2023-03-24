@@ -27,7 +27,6 @@ export {
   DropdownMenuItem
 } from '#ui/atoms/dropdown'
 export { EmptyState } from '#ui/atoms/EmptyState'
-export { FormFooter } from '#ui/atoms/FormFooter'
 export { Hint } from '#ui/atoms/Hint'
 export { Icon } from '#ui/atoms/Icon'
 export { Legend } from '#ui/atoms/Legend'
