@@ -11,7 +11,7 @@ import { Text } from './Text'
 describe('SkeletonTemplate', () => {
   test('Should render', () => {
     const { container } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <div>Element #1</div>
         <div>Element #2</div>
         <div>Element #3</div>
@@ -23,7 +23,7 @@ describe('SkeletonTemplate', () => {
 
   test('Should render text elements as "loading items"', () => {
     const { getByText, getByTestId } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <div>Element #1</div>
         <A>Element #2</A>
         <Text>Element #3</Text>
@@ -48,7 +48,7 @@ describe('SkeletonTemplate', () => {
 
   test('Should render <Avatar> as "loading item"', () => {
     const { getByTestId } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <Avatar
           data-test-id='element'
           src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
@@ -62,7 +62,7 @@ describe('SkeletonTemplate', () => {
 
   test('Should render <Badge> as "loading item"', () => {
     const { getByTestId } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <Badge data-test-id='element' label='APPROVED' variant='danger' />
       </SkeletonTemplate>
     )
@@ -72,7 +72,7 @@ describe('SkeletonTemplate', () => {
 
   test('Should render <Icon> as "loading item"', () => {
     const { getByTestId } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <Icon data-test-id='element' name='arrowLeft' />
       </SkeletonTemplate>
     )
@@ -82,7 +82,7 @@ describe('SkeletonTemplate', () => {
 
   test('Should render RadialProgress as "loading item"', () => {
     const { getByTestId } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <RadialProgress />
       </SkeletonTemplate>
     )
@@ -95,7 +95,7 @@ describe('SkeletonTemplate', () => {
 
   test('Should render <RadialProgress percentage> as "loading item"', () => {
     const { getByTestId } = render(
-      <SkeletonTemplate>
+      <SkeletonTemplate isLoading>
         <RadialProgress percentage={42} />
       </SkeletonTemplate>
     )

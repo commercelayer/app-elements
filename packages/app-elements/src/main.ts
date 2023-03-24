@@ -34,7 +34,10 @@ export { PageHeading } from '#ui/atoms/PageHeading'
 export { Pagination } from '#ui/atoms/Pagination'
 export { RadialProgress } from '#ui/atoms/RadialProgress'
 export { Skeleton } from '#ui/atoms/Skeleton'
-export { SkeletonTemplate, withinSkeleton } from '#ui/atoms/SkeletonTemplate'
+export {
+  SkeletonTemplate,
+  withSkeletonTemplate
+} from '#ui/atoms/SkeletonTemplate'
 export { Spacer } from '#ui/atoms/Spacer'
 export { Stack } from '#ui/atoms/Stack'
 export { StatusDot } from '#ui/atoms/StatusDot'

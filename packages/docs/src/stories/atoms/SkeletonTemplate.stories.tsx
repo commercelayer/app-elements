@@ -5,7 +5,10 @@ import { Icon } from '#app-elements/atoms/Icon'
 import { RadialProgress } from '#app-elements/atoms/RadialProgress'
 import { Text } from '#app-elements/atoms/Text'
 import { ListItem } from '#app-elements/lists/ListItem'
-import { SkeletonTemplate, withinSkeleton } from '#ui/atoms/SkeletonTemplate'
+import {
+  SkeletonTemplate,
+  withSkeletonTemplate
+} from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { ComponentMeta, ComponentStory } from '@storybook/react'
 import {
@@ -35,13 +38,13 @@ const ForwardRefComponent = forwardRef<unknown, { children: ReactNode }>(
   }
 )
 
-const WithSkeletonComponentB = withinSkeleton<{ children: ReactNode }>(
+const WithSkeletonComponentB = withSkeletonTemplate<{ children: ReactNode }>(
   ({ children }) => (
     <WithSkeletonComponentA>B {children}</WithSkeletonComponentA>
   )
 )
 
-const WithSkeletonComponentA = withinSkeleton<{ children: ReactNode }>(
+const WithSkeletonComponentA = withSkeletonTemplate<{ children: ReactNode }>(
   ({ children }) => <div>A {children}</div>
 )
 
@@ -102,9 +105,16 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
 }) => (
   <>
     <div className='flex gap-2 mb-8'>
-      Hi there!
-      <SkeletonTemplate {...args}>Hi there!</SkeletonTemplate>
+      <SkeletonTemplate {...args}>
+        This content is loading,{' '}
+        <SkeletonTemplate isLoading={false}>
+          but this content is not!
+        </SkeletonTemplate>
+      </SkeletonTemplate>
     </div>
+    <Spacer bottom='8'>
+      <hr />
+    </Spacer>
     <div className='flex gap-2'>
       <div>{children}</div>
       <div>
@@ -116,11 +126,14 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
 
 export const Default = Template.bind({})
 Default.args = {
-  children
+  children,
+  delayMs: 0,
+  isLoading: true
 }
 
 export const WithRenderDelay = Template.bind({})
 WithRenderDelay.args = {
   children,
+  isLoading: true,
   delayMs: 3000
 }
