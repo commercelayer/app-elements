@@ -102,9 +102,16 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
 }) => (
   <>
     <div className='flex gap-2 mb-8'>
-      Hi there!
-      <SkeletonTemplate {...args}>Hi there!</SkeletonTemplate>
+      <SkeletonTemplate {...args}>
+        This content is loading,{' '}
+        <SkeletonTemplate isLoading={false}>
+          but this content is not!
+        </SkeletonTemplate>
+      </SkeletonTemplate>
     </div>
+    <Spacer bottom='8'>
+      <hr />
+    </Spacer>
     <div className='flex gap-2'>
       <div>{children}</div>
       <div>
@@ -116,11 +123,14 @@ const Template: ComponentStory<typeof SkeletonTemplate> = ({
 
 export const Default = Template.bind({})
 Default.args = {
-  children
+  children,
+  delayMs: 0,
+  isLoading: true
 }
 
 export const WithRenderDelay = Template.bind({})
 WithRenderDelay.args = {
   children,
+  isLoading: true,
   delayMs: 3000
 }

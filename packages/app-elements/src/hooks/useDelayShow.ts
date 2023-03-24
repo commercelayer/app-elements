@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export const useDelayShow = (delayMs = 1000): readonly [boolean] => {
+export const useDelayShow = (delayMs = 500): readonly [boolean] => {
   const [show, setShow] = useState(delayMs === 0)
   const timeoutId = useRef<number | null>(null)
 
