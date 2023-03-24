@@ -9,7 +9,7 @@ interface Props {
 }
 
 function ContextMenu({
-  menuLabel = <DotsThreeCircle className='w-6 h-6' />,
+  menuLabel = <DotsThreeCircle className='text-2.5xl' />,
   menuItems,
   ...rest
 }: Props): JSX.Element {
