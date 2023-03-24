@@ -40,7 +40,7 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
 
 describe('InputDateRange', () => {
   test('Should be rendered', async () => {
-    const { element } = setup({
+    const { element, findByPlaceholderText } = setup({
       id: 'date-picker',
       fromPlaceholder: 'select starting date',
       toPlaceholder: 'select ending date',
@@ -48,13 +48,8 @@ describe('InputDateRange', () => {
     })
     expect(element).toBeInTheDocument()
 
-    // waiting for lazy load component
-    await waitFor(() =>
-      expect(element.getElementsByTagName('input')[0]).toBeInTheDocument()
-    )
-
-    const inputFrom = element.getElementsByTagName('input')[0]
-    const inputTo = element.getElementsByTagName('input')[1]
+    const inputFrom = await findByPlaceholderText('select starting date')
+    const inputTo = await findByPlaceholderText('select ending date')
     expect(inputFrom).toBeInTheDocument()
     expect(inputTo).toBeInTheDocument()
     expect(inputFrom.getAttribute('placeholder')).toBe('select starting date')
