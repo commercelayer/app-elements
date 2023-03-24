@@ -73,6 +73,7 @@ const iconMapping = {
   arrowClockwise: phosphor.ArrowClockwise,
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
+  arrowCircleDown: phosphor.ArrowCircleDown,
   caretRight: phosphor.CaretRight,
   check: phosphor.Check,
   cloud: phosphor.CloudArrowUp,
