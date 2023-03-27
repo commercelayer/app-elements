@@ -9,7 +9,7 @@ interface Props {
 }
 
 function ContextMenu({
-  menuLabel = <DotsThreeCircle className='text-2.5xl' />,
+  menuLabel = <DotsThreeCircle size={32} />,
   menuItems,
   ...rest
 }: Props): JSX.Element {
@@ -36,7 +36,7 @@ function ContextMenu({
   return (
     <div {...rest} ref={showDropdownMenu ? clickAwayRef : undefined}>
       <button
-        className='cursor-pointer select-none m-0 p-0 mr-[2px] block'
+        className='cursor-pointer select-none m-0 p-0 block'
         onClick={() => {
           toggleDropdownMenu()
         }}
