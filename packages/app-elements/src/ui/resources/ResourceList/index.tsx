@@ -1,6 +1,7 @@
 import { Button } from '#ui/atoms/Button'
 import { EmptyState, EmptyStateProps } from '#ui/atoms/EmptyState'
 import { Legend, LegendProps } from '#ui/atoms/Legend'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import {
@@ -13,6 +14,8 @@ import { VisibilityTrigger } from './VisibilityTrigger'
 import { ListableResource, Resource, infiniteFetcher } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
 
+const LegendWithSkeleton = withSkeletonTemplate(Legend)
+
 export interface ResourceListProps<TResource extends ListableResource>
   extends Pick<LegendProps, 'title' | 'actionButton'> {
   type: TResource
@@ -20,6 +23,7 @@ export interface ResourceListProps<TResource extends ListableResource>
   Item: FC<{
     resource?: Resource<TResource>
     isLoading?: boolean
+    delayMs?: number
   }>
   emptyState: EmptyStateProps
   sdkClient?: CommerceLayerClient
@@ -83,18 +87,19 @@ function ResourceList<TResource extends ListableResource>({
     return <EmptyState {...emptyState} />
   }
 
+  const isFirstLoading = isLoading && data == null
+  const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
   const hasMorePages =
     data == null || data.meta.pageCount > data.meta.currentPage
 
-  const computedTitle =
-    title != null && typeof title === 'string' && data?.meta.recordCount != null
-      ? `${title} · ${data?.meta.recordCount}`
-      : title
-
   return (
     <div data-test-id='resource-list'>
-      <Legend
-        title={computedTitle}
+      <LegendWithSkeleton
+        isLoading={isFirstLoading}
+        title={computeTitleWithTotalCount({
+          title,
+          recordCount
+        })}
         actionButton={actionButton}
         titleSize='small'
       />
@@ -111,9 +116,15 @@ function ResourceList<TResource extends ListableResource>({
           }}
         />
       ) : isLoading ? (
-        Array(data == null ? 8 : 2) // we want more elements as skeleton on first mount
+        Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
           .fill(null)
-          .map((_, idx) => <Item isLoading key={idx} />)
+          .map((_, idx) => (
+            <Item
+              isLoading
+              delayMs={!isFirstLoading ? 0 : undefined}
+              key={idx}
+            />
+          ))
       ) : (
         <VisibilityTrigger
           enabled={hasMorePages}
@@ -155,3 +166,19 @@ function parseApiErrorMessage(error: unknown): string {
 
 ResourceList.displayName = 'ResourceList'
 export { ResourceList }
+
+export function computeTitleWithTotalCount({
+  title,
+  recordCount,
+  locale
+}: {
+  title?: LegendProps['title']
+  recordCount?: number
+  locale?: string
+}): LegendProps['title'] {
+  if (typeof title !== 'string' || recordCount == null || recordCount === 0) {
+    return title
+  }
+
+  return `${title} · ${Intl.NumberFormat(locale).format(recordCount)}`
+}
