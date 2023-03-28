@@ -3,7 +3,10 @@ import { Container } from '#ui/atoms/Container'
 import { PageHeading, PageHeadingProps } from '#ui/atoms/PageHeading'
 
 export interface PageLayoutProps
-  extends Omit<PageHeadingProps, 'badgeVariant' | 'badgeLabel'> {
+  extends Pick<
+    PageHeadingProps,
+    'title' | 'description' | 'onGoBack' | 'actionButton' | 'gap'
+  > {
   /**
    * Page content
    */
@@ -21,6 +24,7 @@ function PageLayout({
   children,
   actionButton,
   mode,
+  gap,
   ...rest
 }: PageLayoutProps): JSX.Element {
   return (
@@ -32,6 +36,7 @@ function PageLayout({
         actionButton={actionButton}
         badgeLabel={mode === 'test' ? 'TEST DATA' : undefined}
         badgeVariant={mode === 'test' ? 'warning-solid' : undefined}
+        gap={gap}
       />
       {children}
     </Container>
