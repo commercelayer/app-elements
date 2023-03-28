@@ -2,7 +2,7 @@ import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
-import { ReactNode } from 'react'
+import { ReactNode, Key } from 'react'
 
 interface ReportItem {
   label: string
@@ -19,9 +19,9 @@ export interface ReportProps {
   loadingLines?: number
 }
 
-function renderItem(item: ReportItem): JSX.Element {
+function renderItem(item: ReportItem, key: Key): JSX.Element {
   return (
-    <div key={item.label} data-test-id={`report-item-${item.label}`}>
+    <div key={key} data-test-id={`report-item-${item.label}`}>
       <Label className='text-sm text-gray-500'>{item.label}</Label>
       <div
         className='font-semibold text-xl font-xl pt-1 pb-4'
@@ -33,7 +33,7 @@ function renderItem(item: ReportItem): JSX.Element {
         <a
           title={item.linkLabel}
           target='_blank'
-          rel='noopener noreferral noreferrer'
+          rel='noopener noreferrer'
           href={item.linkUrl}
           className='text-sm font-bold text-primary hover:underline'
           data-test-id={`report-item-${item.label}-link`}
@@ -64,20 +64,18 @@ function Report({
   loadingLines = 2,
   ...rest
 }: ReportProps): JSX.Element {
-  const skeleton = Array(loadingLines).fill(
-    renderItem({
+  const skeleton = Array(loadingLines)
+    .fill({
       count: 500,
       label: 'Record imported',
       linkUrl: 'https://example.com',
       linkLabel: 'View logs'
     })
-  )
+    .map(renderItem)
 
   return (
     <SkeletonTemplate isLoading={isLoading}>
-      <Stack {...rest}>
-        {isLoading ? skeleton : items.map((item) => renderItem(item))}
-      </Stack>
+      <Stack {...rest}>{isLoading ? skeleton : items.map(renderItem)}</Stack>
     </SkeletonTemplate>
   )
 }
