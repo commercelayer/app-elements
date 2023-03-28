@@ -20,7 +20,7 @@ export interface PageHeadingProps {
   /**
    * If `true` removes element vertical paddings
    */
-  noGap?: boolean
+  gap?: 'none' | 'only-top' | 'only-bottom' | 'both'
   /**
    * When set, it will render a badge (warning variant)
    */
@@ -36,7 +36,7 @@ export interface PageHeadingProps {
 }
 
 function PageHeading({
-  noGap = false,
+  gap = 'both',
   badgeLabel,
   onGoBack,
   title,
@@ -46,7 +46,17 @@ function PageHeading({
   ...rest
 }: PageHeadingProps): JSX.Element {
   return (
-    <div className={cn(['w-full', { 'pt-10 pb-14': !noGap }])} {...rest}>
+    <div
+      className={cn([
+        'w-full',
+        {
+          'pt-10 pb-14': gap === 'both',
+          'pt-10': gap === 'only-top',
+          'pb-14': gap === 'only-bottom'
+        }
+      ])}
+      {...rest}
+    >
       {(onGoBack != null || actionButton != null) && (
         <div
           className={cn(

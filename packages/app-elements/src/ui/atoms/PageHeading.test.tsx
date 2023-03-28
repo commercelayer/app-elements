@@ -62,3 +62,32 @@ describe('PageHeading', () => {
     expect(foo.includes('bar')).toBe(true)
   })
 })
+
+describe('PageHeading gap', () => {
+  test('Should have gap top and bottom', () => {
+    const { element } = setup({
+      id: 'heading',
+      title: 'My Page Heading'
+    })
+    expect(element).toHaveClass('pt-10 pb-14')
+  })
+
+  test('Should have gap only on top', () => {
+    const { element } = setup({
+      id: 'heading',
+      title: 'My Page Heading',
+      gap: 'only-top'
+    })
+    expect(element).toHaveClass('pt-10')
+    expect(element).not.toHaveClass('pb-14')
+  })
+
+  test('Should have no vertical gap', () => {
+    const { element } = setup({
+      id: 'heading',
+      title: 'My Page Heading',
+      gap: 'none'
+    })
+    expect(element.classList.toString()).toBe('w-full')
+  })
+})
