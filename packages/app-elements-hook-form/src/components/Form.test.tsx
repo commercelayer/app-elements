@@ -5,6 +5,7 @@ import { Input } from './Input'
 import { InputToggleBox } from './InputToggleBox'
 import { InputDate } from './InputDate'
 import { InputDateRange } from './InputDateRange'
+import { InputCheckbox } from './InputCheckbox'
 import { InputSelect } from './InputSelect'
 
 type SetupResult = RenderResult & {
@@ -21,6 +22,9 @@ function FullFormScreen({ id }: { id: string }): JSX.Element {
         <InputDateRange name='dateRange' label='Date range' />
         <InputSelect name='select' label='Choose one city' initialValues={[]} />
         <InputToggleBox name='toggle' label='Toggle me' id='toggle' />
+        <InputCheckbox name='checkbox' icon={<div />}>
+          check me
+        </InputCheckbox>
       </Form>
     </div>
   )
