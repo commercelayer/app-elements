@@ -19,6 +19,13 @@ Default.args = {
   isLoading: false,
   footerActions: [
     {
+      label: 'Archive',
+      disabled: true,
+      onClick: () => {
+        alert('Approved!')
+      }
+    },
+    {
       label: 'Approve',
       onClick: () => {
         alert('Approved!')

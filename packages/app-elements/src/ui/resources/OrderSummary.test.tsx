@@ -222,6 +222,13 @@ describe('OrderSummary', () => {
         order={order}
         footerActions={[
           {
+            label: 'Archive',
+            disabled: true,
+            onClick: () => {
+              console.log('archived!')
+            }
+          },
+          {
             label: 'Approve',
             onClick: () => {
               console.log('approved!')
@@ -231,12 +238,17 @@ describe('OrderSummary', () => {
       />
     )
 
-    const button = getByText('Approve')
+    const archiveButton = getByText('Archive')
+    const approveButton = getByText('Approve')
 
-    expect(button).toBeInTheDocument()
-    expect(button.tagName).toEqual('BUTTON')
+    expect(archiveButton).toBeInTheDocument()
+    expect(archiveButton.tagName).toEqual('BUTTON')
+    await act(() => fireEvent.click(archiveButton))
+    expect(mockedConsoleLog).not.toHaveBeenCalled()
 
-    await act(() => fireEvent.click(button))
+    expect(approveButton).toBeInTheDocument()
+    expect(approveButton.tagName).toEqual('BUTTON')
+    await act(() => fireEvent.click(approveButton))
     expect(mockedConsoleLog).toHaveBeenCalledWith('approved!')
   })
 })

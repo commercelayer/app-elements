@@ -71,6 +71,7 @@ const OrderSummary = withSkeletonTemplate<{
     label: string
     onClick: MouseEventHandler<HTMLButtonElement>
     variant?: ButtonVariant
+    disabled?: boolean
   }>
 }>(({ order, footerActions = [] }) => {
   return (
