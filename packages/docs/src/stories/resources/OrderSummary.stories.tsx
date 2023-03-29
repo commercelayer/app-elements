@@ -17,6 +17,20 @@ const Template: ComponentStory<typeof OrderSummary> = (args) => {
 export const Default = Template.bind({})
 Default.args = {
   isLoading: false,
+  footerActions: [
+    {
+      label: 'Approve',
+      onClick: () => {
+        alert('Approved!')
+      }
+    },
+    {
+      label: 'Cancel',
+      onClick: () => {
+        alert('Cancelled!')
+      }
+    }
+  ],
   order: {
     type: 'orders',
     id: '',

@@ -1,6 +1,8 @@
-import { OrderSummary } from './OrderSummary'
-import { render } from '@testing-library/react'
 import { Order } from '@commercelayer/sdk'
+import { fireEvent, render } from '@testing-library/react'
+import { act } from 'react-dom/test-utils'
+import { vi } from 'vitest'
+import { OrderSummary } from './OrderSummary'
 
 const order: Order = {
   type: 'orders',
@@ -211,5 +213,30 @@ describe('OrderSummary', () => {
     expect(queryByTestId('OrderSummary-Total-amount')).toHaveTextContent(
       '$5.00'
     )
+  })
+
+  it('should render the action buttons when defined', async () => {
+    const mockedConsoleLog = vi.spyOn(console, 'log')
+    const { getByText } = render(
+      <OrderSummary
+        order={order}
+        footerActions={[
+          {
+            label: 'Approve',
+            onClick: () => {
+              console.log('approved!')
+            }
+          }
+        ]}
+      />
+    )
+
+    const button = getByText('Approve')
+
+    expect(button).toBeInTheDocument()
+    expect(button.tagName).toEqual('BUTTON')
+
+    await act(() => fireEvent.click(button))
+    expect(mockedConsoleLog).toHaveBeenCalledWith('approved!')
   })
 })
