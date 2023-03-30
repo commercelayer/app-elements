@@ -215,9 +215,17 @@ describe('OrderSummary', () => {
     )
   })
 
+  it('should not render the action buttons when not defined', async () => {
+    const { queryByTestId } = render(<OrderSummary order={order} />)
+
+    expect(
+      queryByTestId('order-summary-footer-actions')
+    ).not.toBeInTheDocument()
+  })
+
   it('should render the action buttons when defined', async () => {
     const mockedConsoleLog = vi.spyOn(console, 'log')
-    const { getByText } = render(
+    const { getByText, getByTestId } = render(
       <OrderSummary
         order={order}
         footerActions={[
@@ -237,6 +245,8 @@ describe('OrderSummary', () => {
         ]}
       />
     )
+
+    expect(getByTestId('order-summary-footer-actions')).toBeInTheDocument()
 
     const archiveButton = getByText('Archive')
     const approveButton = getByText('Approve')
