@@ -176,13 +176,18 @@ const OrderSummary = withSkeletonTemplate<{
           })}
         </tbody>
       </table>
-      <div className='flex gap-6 justify-end border-b border-gray-100 py-6'>
-        {footerActions.map(({ label, ...props }) => (
-          <Button key={label} {...props}>
-            {label}
-          </Button>
-        ))}
-      </div>
+      {footerActions.length > 0 && (
+        <div
+          data-test-id='order-summary-footer-actions'
+          className='flex gap-6 justify-end border-b border-gray-100 py-6'
+        >
+          {footerActions.map(({ label, ...props }) => (
+            <Button key={label} {...props}>
+              {label}
+            </Button>
+          ))}
+        </div>
+      )}
     </div>
   )
 })

@@ -107,3 +107,9 @@ Default.args = {
     ]
   }
 }
+
+export const NoActions = Template.bind({})
+NoActions.args = {
+  isLoading: false,
+  order: Default.args.order
+}
