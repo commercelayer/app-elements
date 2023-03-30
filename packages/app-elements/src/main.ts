@@ -54,6 +54,7 @@ export { Report } from '#ui/composite/Report'
 
 // Forms
 export { Input } from '#ui/forms/Input'
+export { InputCheckbox } from '#ui/forms/InputCheckbox'
 export { InputDate } from '#ui/forms/InputDate'
 export { InputDateRange } from '#ui/forms/InputDateRange'
 export { InputFeedback } from '#ui/forms/InputFeedback'
