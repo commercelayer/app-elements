@@ -7,6 +7,7 @@ import { InputDate } from './InputDate'
 import { InputDateRange } from './InputDateRange'
 import { InputCheckbox } from './InputCheckbox'
 import { InputSelect } from './InputSelect'
+import { ToggleButtons } from '#components/ToggleButtons'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -25,6 +26,20 @@ function FullFormScreen({ id }: { id: string }): JSX.Element {
         <InputCheckbox name='checkbox' icon={<div />}>
           check me
         </InputCheckbox>
+        <ToggleButtons
+          name='toggleButtons'
+          options={[
+            {
+              value: 'authorized',
+              label: 'Authorized'
+            },
+            {
+              value: 'paid',
+              label: 'Paid'
+            }
+          ]}
+          mode='multi'
+        />
       </Form>
     </div>
   )
@@ -40,7 +55,7 @@ const setup = (): SetupResult => {
 }
 
 describe('Form with all inputs', () => {
-  test('Should be rendered', () => {
+  test('Should be rendered', async () => {
     const { element } = setup()
     expect(element).toBeVisible()
   })

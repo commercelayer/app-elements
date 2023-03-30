@@ -1,0 +1,196 @@
+import { fireEvent, render, RenderResult } from '@testing-library/react'
+import {
+  ToggleButtons,
+  type ToggleButtonOption,
+  type ToggleButtonsProps
+} from './ToggleButtons'
+import { useState } from 'react'
+import { act } from 'react-dom/test-utils'
+
+const options: ToggleButtonOption[] = [
+  {
+    value: 'draft',
+    label: 'Draft',
+    isDisabled: true
+  },
+  {
+    value: 'placed',
+    label: 'Placed'
+  },
+  {
+    value: 'approved',
+    label: 'Approved'
+  },
+  {
+    value: 'cancelled',
+    label: 'Cancelled'
+  }
+]
+
+function Component(props: Omit<ToggleButtonsProps, 'onChange'>): JSX.Element {
+  const initialValue = props.mode === 'multi' ? props.value ?? [] : props.value
+  const [value, setValue] = useState<any>(initialValue)
+  return (
+    <ToggleButtons
+      {...props}
+      value={value}
+      onChange={setValue}
+      data-test-id='toggle-buttons'
+    />
+  )
+}
+
+type SetupResult = RenderResult & {
+  element: HTMLElement
+}
+const setup = (props: Omit<ToggleButtonsProps, 'onChange'>): SetupResult => {
+  const utils = render(<Component {...props} />)
+  const element = utils.getByTestId('toggle-buttons')
+  return {
+    element,
+    ...utils
+  }
+}
+
+function expectChecked(el: HTMLElement): void {
+  expect(el).toHaveClass('bg-primary text-white')
+  expect(el.getElementsByTagName('input')[0]).toBeChecked()
+}
+function expectNotChecked(el: HTMLElement): void {
+  expect(el).toHaveClass('bg-gray-100 text-gray-500')
+  expect(el.getElementsByTagName('input')[0]).not.toBeChecked()
+}
+function expectDisabled(el: HTMLElement): void {
+  expect(el).toHaveClass('pointer-events-none touch-none')
+  expect(el.getElementsByTagName('input')[0]).toBeDisabled()
+}
+
+describe('ToggleButtons single value mode', () => {
+  test('should render', () => {
+    const { element } = setup({
+      mode: 'single',
+      options
+    })
+    expect(element).toBeVisible()
+  })
+
+  test('should accept a default selected value', () => {
+    const { getByText } = setup({
+      mode: 'single',
+      value: 'placed',
+      options
+    })
+    expectChecked(getByText('Placed'))
+    expectNotChecked(getByText('Approved'))
+  })
+
+  test('should change value', async () => {
+    const { getByText } = setup({
+      mode: 'single',
+      options
+    })
+    expectNotChecked(getByText('Placed'))
+    expectNotChecked(getByText('Cancelled'))
+    await act(() => {
+      fireEvent.click(getByText('Placed'))
+    })
+    expectChecked(getByText('Placed'))
+    expectNotChecked(getByText('Cancelled'))
+    await act(() => {
+      fireEvent.click(getByText('Cancelled'))
+    })
+    expectNotChecked(getByText('Placed'))
+    expectChecked(getByText('Cancelled'))
+  })
+
+  test('should not be able to unselect in single mode', async () => {
+    const { getByText } = setup({
+      mode: 'single',
+      options
+    })
+    expectNotChecked(getByText('Placed'))
+    await act(() => {
+      fireEvent.click(getByText('Placed'))
+    })
+    expectChecked(getByText('Placed'))
+    await act(() => {
+      // click again on current selected
+      fireEvent.click(getByText('Placed'))
+    })
+    expectChecked(getByText('Placed'))
+  })
+
+  test('should not be able to select disabled options', async () => {
+    const { getByText } = setup({
+      mode: 'single',
+      options
+    })
+
+    expectDisabled(getByText('Draft'))
+    expectNotChecked(getByText('Draft'))
+    await act(() => {
+      fireEvent.click(getByText('Draft'))
+    })
+    expectNotChecked(getByText('Draft'))
+  })
+})
+
+describe('ToggleButtons multi values mode', () => {
+  test('should render', () => {
+    const { element } = setup({
+      mode: 'multi',
+      options
+    })
+    expect(element).toBeVisible()
+  })
+
+  test('should accept a default selected value', () => {
+    const { getByText } = setup({
+      mode: 'multi',
+      value: ['placed', 'approved'],
+      options
+    })
+    expectChecked(getByText('Placed'))
+    expectChecked(getByText('Approved'))
+  })
+
+  test('should change values', async () => {
+    const { getByText } = setup({
+      mode: 'multi',
+      options
+    })
+    expectNotChecked(getByText('Placed'))
+    expectNotChecked(getByText('Approved'))
+
+    await act(() => {
+      fireEvent.click(getByText('Placed'))
+    })
+    expectChecked(getByText('Placed'))
+    expectNotChecked(getByText('Approved'))
+
+    await act(() => {
+      fireEvent.click(getByText('Approved'))
+    })
+    expectChecked(getByText('Placed'))
+    expectChecked(getByText('Approved'))
+  })
+
+  test('should be able to unselect in multi mode', async () => {
+    const { getByText } = setup({
+      mode: 'multi',
+      options
+    })
+    expectNotChecked(getByText('Placed'))
+
+    await act(() => {
+      fireEvent.click(getByText('Placed'))
+    })
+    expectChecked(getByText('Placed'))
+
+    await act(() => {
+      // click again on current selected
+      fireEvent.click(getByText('Placed'))
+    })
+    expectNotChecked(getByText('Placed'))
+  })
+})

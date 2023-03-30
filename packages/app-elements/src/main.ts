@@ -71,6 +71,7 @@ export { InputToggleBox } from '#ui/forms/InputToggleBox'
 export { InputToggleListBox } from '#ui/forms/InputToggleListBox'
 export { Label } from '#ui/forms/Label'
 export { RadioButtons } from '#ui/forms/RadioButtons'
+export { ToggleButtons } from '#ui/forms/ToggleButtons'
 export type { SelectValue } from '#ui/forms/InputSelect'
 
 // Lists
