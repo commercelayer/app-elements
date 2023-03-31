@@ -4,6 +4,7 @@ import { SkeletonItem } from '#ui/atoms/Skeleton'
 import { getSelectStyles } from './styles'
 import { InputWrapper } from '../InputWrapper'
 import { InputWrapperBaseProps } from '#ui/forms/InputWrapper'
+import get from 'lodash/get'
 
 const LazyAsyncSelect = lazy(
   async () =>
@@ -137,31 +138,33 @@ export function isSingleValueSelected(
 }
 
 /**
- * Helper function to extract only the `value` from the  `SelectValue`
+ * Helper function to extract only a specific property from the `SelectValue`
  * @param selectedValue possible value returned from select component
+ * @param path path.to.property. Default is `value`
  * @returns a string or an array of strings.
  * Examples:
  * ```
- * {value: 'ABCD', label: 'T-Shirt XL'}
+ * flatSelectValues({value: 'ABCD', label: 'T-Shirt XL'})
  * // returns 'ABCD'
  *
- * [
+ * flatSelectValues([
  *   {value: 'ABCD', label: 'T-Shirt M'},
  *   {value: '1234', label: 'T-Shirt XL'},
- * ]
- * // returns ['ABCD', '1234']
+ * ], 'label')
+ * // returns ['T-Shirt M', 'T-Shirt XL']
  * ```
  */
 export function flatSelectValues(
-  selectedValue: PossibleSelectValue
+  selectedValue: PossibleSelectValue,
+  pathToValue = 'value'
 ): null | string | Array<string | number> {
   if (selectedValue == null) {
-    return null
+    return selectedValue
   }
 
   return isSingleValueSelected(selectedValue)
-    ? `${selectedValue.value}`
-    : selectedValue.map((o) => o.value)
+    ? get(selectedValue, pathToValue)
+    : selectedValue.map((item) => get(item, pathToValue))
 }
 
 InputSelect.displayName = 'InputSelect'
