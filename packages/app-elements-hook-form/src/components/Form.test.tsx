@@ -7,7 +7,7 @@ import { InputDate } from './InputDate'
 import { InputDateRange } from './InputDateRange'
 import { InputCheckbox } from './InputCheckbox'
 import { InputSelect } from './InputSelect'
-import { ToggleButtons } from '#components/ToggleButtons'
+import { ToggleButtons } from './ToggleButtons'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -21,7 +21,12 @@ function FullFormScreen({ id }: { id: string }): JSX.Element {
         <Input name='companyName' label='Company name' />
         <InputDate name='dateSingle' label='Date' />
         <InputDateRange name='dateRange' label='Date range' />
-        <InputSelect name='select' label='Choose one city' initialValues={[]} />
+        <InputSelect
+          name='select'
+          label='Choose one city'
+          initialValues={[{ value: 'foo', label: 'foobar' }]}
+          pathToValue='label'
+        />
         <InputToggleBox name='toggle' label='Toggle me' id='toggle' />
         <InputCheckbox name='checkbox' icon={<div />}>
           check me
