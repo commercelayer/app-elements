@@ -74,3 +74,14 @@ function getPresetFormatTemplate(format: Format = 'noTime'): string {
       return 'LLL dd, yyyy · h:mm b' // Feb 28, 2023 · 5:30 PM
   }
 }
+
+export function isCurrentYear(isoDate: string): boolean {
+  return new Date(isoDate).getFullYear() === new Date().getFullYear()
+}
+
+export function isToday(isoDate: string): boolean {
+  return (
+    formatDate({ isoDate, format: 'noTime' }) ===
+    formatDate({ isoDate: new Date().toJSON(), format: 'noTime' })
+  )
+}
