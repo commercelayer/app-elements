@@ -19,6 +19,7 @@ const Template: ComponentStory<typeof Timeline> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
+  isLoading: false,
   onKeyDown: (e) => {
     if (e.code === 'Enter') {
       alert(e.currentTarget.value)
@@ -102,4 +103,27 @@ Default.args = {
 export const Empty = Template.bind({})
 Empty.args = {
   events: []
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  isLoading: true,
+  events: [
+    {
+      date: sub(
+        set(new Date(), {
+          month: 11,
+          date: 29,
+          minutes: 23,
+          seconds: 12
+        }),
+        { years: 1 }
+      ).toJSON(),
+      message: (
+        <span>
+          <Text weight='bold'>M. Jordan</Text> placed this order · 23:12
+        </span>
+      )
+    }
+  ]
 }
