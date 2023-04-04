@@ -68,6 +68,6 @@
     "vitest": "^0.29.8"
   },
   "peerDependencies": {
-    "@commercelayer/sdk": "^4.x"
+    "@commercelayer/sdk": "^5.x"
   }
 }
