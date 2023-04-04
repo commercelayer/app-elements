@@ -10,7 +10,15 @@ export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Background color, `none` for no background
    */
-  background?: 'green' | 'orange' | 'red' | 'gray' | 'teal' | 'white' | 'none'
+  background?:
+    | 'green'
+    | 'orange'
+    | 'red'
+    | 'gray'
+    | 'teal'
+    | 'white'
+    | 'black'
+    | 'none'
   /**
    * padding around the icon can bne: 'none' | 'small' | 'large'
    */
@@ -45,6 +53,7 @@ function Icon({
         { 'bg-orange border-orange text-white': background === 'orange' },
         { 'bg-teal border-teal text-white': background === 'teal' },
         { 'bg-white border-gray-200': background === 'white' },
+        { 'bg-gray-800 border-gray-800 text-white': background === 'black' },
         // className
         className
       ])}
@@ -67,11 +76,13 @@ const iconMapping = {
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
   caretRight: phosphor.CaretRight,
+  chatCircle: phosphor.ChatCircle,
   check: phosphor.Check,
   cloud: phosphor.CloudArrowUp,
   creditCard: phosphor.CreditCard,
   download: phosphor.Download,
   eye: phosphor.Eye,
+  flag: phosphor.Flag,
   minus: phosphor.Minus,
   stack: phosphor.Stack,
   upload: phosphor.Upload,

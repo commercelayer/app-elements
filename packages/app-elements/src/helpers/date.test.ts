@@ -1,4 +1,4 @@
-import { formatDate } from './date'
+import { formatDate, isCurrentYear, isToday } from './date'
 
 describe('formatDate', () => {
   test('Should return a nice date string', () => {
@@ -77,5 +77,40 @@ describe('formatDate', () => {
         customTemplate: `do 'of' LLLL`
       })
     ).toBe('27th of February')
+  })
+})
+
+describe('isCurrentYear', () => {
+  beforeEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('should return TRUE when provided isoDate is current year', () => {
+    vi.useFakeTimers().setSystemTime('2023-12-31')
+    expect(isCurrentYear('2023-01-03T08:35:00.200Z')).toBe(true)
+  })
+
+  test('should return FALSE when provided isoDate is NOT the current year', () => {
+    vi.useFakeTimers().setSystemTime('2023-12-31')
+    expect(isCurrentYear('2022-01-03T08:35:00.200Z')).toBe(false)
+    expect(isCurrentYear('2024-01-03T08:35:00.200Z')).toBe(false)
+  })
+})
+
+describe('isToday', () => {
+  beforeEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('should return TRUE when provided isoDate is today', () => {
+    vi.useFakeTimers().setSystemTime('2023-12-31')
+    expect(isToday('2023-12-31T08:35:00.200Z')).toBe(true)
+  })
+
+  test('should return FALSE when provided isoDate is NOT today', () => {
+    vi.useFakeTimers().setSystemTime('2023-12-31')
+    expect(isToday('2022-01-03T08:35:00.200Z')).toBe(false)
+    expect(isToday('2023-12-30T23:59:00.000Z')).toBe(false)
+    expect(isToday('2024-01-03T08:35:00.200Z')).toBe(false)
   })
 })
