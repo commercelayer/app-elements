@@ -10,6 +10,10 @@ const order: Order = {
   created_at: '',
   updated_at: '',
 
+  fulfillment_status: 'fulfilled',
+  payment_status: 'authorized',
+  status: 'approved',
+
   line_items: [
     ...Array(2).fill({
       type: 'line_items',

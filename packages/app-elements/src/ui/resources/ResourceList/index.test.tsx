@@ -11,7 +11,11 @@ const mockedOrder: Order = {
   id: 'mock',
   created_at: '2023-03-15T13:57:06.856Z',
   updated_at: '2023-03-15T13:57:06.856Z',
-  type: 'orders'
+  type: 'orders',
+
+  fulfillment_status: 'fulfilled',
+  payment_status: 'authorized',
+  status: 'approved'
 }
 
 const Item: FC<{ resource?: Order }> = ({ resource }) => {

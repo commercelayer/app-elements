@@ -10,7 +10,7 @@ interface TotalRowProps {
   /** Displayed label */
   label: string
   /** Formatted amount */
-  formattedAmount?: string
+  formattedAmount: string | undefined | null
   /** Whether the row is the first one (usually used to display the "**Subtotal** ") or the last one (usually used to display the "**Total** ") */
   position?: 'first' | 'last'
 
@@ -23,10 +23,14 @@ interface TotalRowProps {
 
 const renderTotalRow = ({
   label,
-  formattedAmount = '',
+  formattedAmount,
   force = false,
   position
 }: TotalRowProps): JSX.Element | null => {
+  if (formattedAmount == null) {
+    formattedAmount = ''
+  }
+
   const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
   const showRow = force || amountCents < 0 || amountCents > 0
 
