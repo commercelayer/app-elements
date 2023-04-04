@@ -103,7 +103,7 @@ describe('ToggleButtons single value mode', () => {
     expectChecked(getByText('Cancelled'))
   })
 
-  test('should not be able to unselect in single mode', async () => {
+  test('should be able to unselect in single mode', async () => {
     const { getByText } = setup({
       mode: 'single',
       options
@@ -117,7 +117,7 @@ describe('ToggleButtons single value mode', () => {
       // click again on current selected
       fireEvent.click(getByText('Placed'))
     })
-    expectChecked(getByText('Placed'))
+    expectNotChecked(getByText('Placed'))
   })
 
   test('should not be able to select disabled options', async () => {
