@@ -1,6 +1,7 @@
 import {
   InputSelect as InputSelectUi,
-  flatSelectValues
+  flatSelectValues,
+  getDefaultValueFromFlatten
 } from '@commercelayer/app-elements'
 import { InputSelectProps } from '@commercelayer/app-elements/dist/ui/forms/InputSelect'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -45,7 +46,11 @@ function InputSelect({
         <InputSelectUi
           {...props}
           onBlur={onBlur}
-          defaultValue={value}
+          defaultValue={getDefaultValueFromFlatten({
+            initialValues: props.initialValues,
+            currentValue: value,
+            pathToValue
+          })}
           onSelect={(values) => {
             onChange(flatSelectValues(values, pathToValue))
           }}

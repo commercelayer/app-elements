@@ -138,9 +138,21 @@ export function isSingleValueSelected(
 }
 
 /**
+ * Type-guard to check if prop `initialValues` is a GroupedSelectValues or SelectValue
+ */
+export function isGroupedSelectValues(
+  initialValues?: GroupedSelectValues | SelectValue[]
+): initialValues is GroupedSelectValues {
+  if (initialValues == null || initialValues.length === 0) {
+    return false
+  }
+  return (initialValues as []).every((v) => 'options' in v)
+}
+
+/**
  * Helper function to extract only a specific property from the `SelectValue`
  * @param selectedValue possible value returned from select component
- * @param path path.to.property. Default is `value`
+ * @param pathToValue optional path.to.property. Default is `value`
  * @returns a string or an array of strings.
  * Examples:
  * ```
@@ -165,6 +177,43 @@ export function flatSelectValues(
   return isSingleValueSelected(selectedValue)
     ? get(selectedValue, pathToValue)
     : selectedValue.map((item) => get(item, pathToValue))
+}
+
+/**
+ * To be used when storing the flatten value and there is the need
+ * to retrieve the `defaultValue` to pass as <InputSelect> prop
+ * @param currentValue the current value that is being stored in app state
+ * @param initialValues the array of SelectValue objects that should contain the `currentValue`
+ * @param pathToValue optional path.to.property. Default is `value`
+ * @returns the matched value or values, otherwise undefined.
+ */
+export function getDefaultValueFromFlatten({
+  currentValue,
+  initialValues = [],
+  pathToValue = 'value'
+}: {
+  currentValue?: string | Array<string | number> | null
+  initialValues?: GroupedSelectValues | SelectValue[]
+  pathToValue?: string
+}): SelectValue | SelectValue[] | undefined {
+  if (currentValue == null) {
+    return undefined
+  }
+
+  const options = isGroupedSelectValues(initialValues)
+    ? initialValues.flatMap((v) => v.options)
+    : initialValues
+
+  if (Array.isArray(currentValue)) {
+    return options.filter((v) => {
+      const valueToCompare = get(v, pathToValue)
+      return currentValue.includes(valueToCompare)
+    })
+  }
+
+  return options.find((v) => {
+    return currentValue === get(v, pathToValue)
+  })
 }
 
 InputSelect.displayName = 'InputSelect'
