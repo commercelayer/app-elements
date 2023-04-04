@@ -122,7 +122,7 @@ importers:
   packages/app-elements-hook-form:
     devDependencies:
       "@commercelayer/app-elements":
-        specifier: workspace:^0.0.18
+        specifier: workspace:^0.0.19
         version: link:../app-elements
       "@commercelayer/eslint-config-ts-react":
         specifier: ^0.1.3
@@ -179,7 +179,7 @@ importers:
   packages/docs:
     dependencies:
       "@commercelayer/app-elements":
-        specifier: workspace:^0.0.18
+        specifier: workspace:^0.0.19
         version: link:../app-elements
       react:
         specifier: ^18.2.0
