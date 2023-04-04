@@ -126,7 +126,7 @@ importers:
   packages/app-elements-hook-form:
     devDependencies:
       '@commercelayer/app-elements':
-        specifier: workspace:^0.0.19
+        specifier: workspace:^0.0.20
         version: link:../app-elements
       '@commercelayer/eslint-config-ts-react':
         specifier: ^1.0.0
@@ -183,7 +183,7 @@ importers:
   packages/docs:
     dependencies:
       '@commercelayer/app-elements':
-        specifier: workspace:^0.0.19
+        specifier: workspace:^0.0.20
         version: link:../app-elements
       react:
         specifier: ^18.2.0
@@ -4075,13 +4075,13 @@ packages:
     resolution: {integrity: sha512-9K4zoImiZc3HlIp6AVUDE4CWYx22a+lhSZMYNpbjW04+YF0KWj4pJXnEMjdnFTiQibFFmElcsasJXDbdI/EPhA==}
     dependencies:
       '@types/eslint': 8.37.0
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
     dev: true
 
   /@types/eslint@8.37.0:
     resolution: {integrity: sha512-Piet7dG2JBuDIfohBngQ3rCt7MgO9xCO4xIMKxBThCq5PNRB91IjlJ10eJVwfoNtvTErmxLzwBZ7rHZtbOMmFQ==}
     dependencies:
-      '@types/estree': 0.0.51
+      '@types/estree': 1.0.0
       '@types/json-schema': 7.0.11
     dev: true
 
