@@ -33,7 +33,7 @@ export const getSelectStyles = (
     '&:active': {
       backgroundColor: isSelected ? '#666EFF' : 'rgb(248 248 248)'
     },
-    '&:first-child': {
+    '&:first-of-type': {
       borderTopLeftRadius: 5,
       borderTopRightRadius: 5
     },
