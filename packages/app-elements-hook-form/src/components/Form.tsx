@@ -1,4 +1,8 @@
-import { FieldValues, FormProvider, FormProviderProps } from 'react-hook-form'
+import {
+  type FieldValues,
+  FormProvider,
+  type FormProviderProps
+} from 'react-hook-form'
 
 interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
   /**

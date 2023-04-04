@@ -3,7 +3,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/lists/List'
 import { ListItem } from '#ui/lists/ListItem'
-import { ComponentStory, Meta } from '@storybook/react'
+import { type ComponentStory, type Meta } from '@storybook/react'
 
 const setup: Meta = {
   title: 'Examples/Order History',

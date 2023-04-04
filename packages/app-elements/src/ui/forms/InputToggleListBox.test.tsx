@@ -1,8 +1,8 @@
 import {
   InputToggleListBox,
-  InputToggleListBoxOption
+  type InputToggleListBoxOption
 } from './InputToggleListBox'
-import { fireEvent, render, RenderResult } from '@testing-library/react'
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { useState } from 'react'
 
 interface SetupProps {
@@ -30,7 +30,9 @@ function ToggleImplementation({
       data-test-id={id}
       label={label}
       value={selected}
-      onChange={({ currentTarget: { value } }) => setSelected(value)}
+      onChange={({ currentTarget: { value } }) => {
+        setSelected(value)
+      }}
       options={options}
     />
   )

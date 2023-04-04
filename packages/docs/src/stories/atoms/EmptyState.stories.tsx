@@ -1,7 +1,7 @@
 import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof EmptyState> = {
   title: 'Atoms/EmptyState',

@@ -1,7 +1,7 @@
-import { CommerceLayerClient } from '@commercelayer/sdk'
+import { type CommerceLayerClient } from '@commercelayer/sdk'
 import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useState
@@ -49,8 +49,9 @@ function CoreSdkProvider({
           accessToken,
           organization: organizationSlug,
           domain,
-          onInvalidToken: () =>
+          onInvalidToken: () => {
             emitInvalidAuth('got 401 invalid token from sdk')
+          }
         })
       )
     },

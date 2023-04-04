@@ -1,5 +1,5 @@
-import { TableData, TableDataProps } from './TableData'
-import { render, RenderResult } from '@testing-library/react'
+import { TableData, type TableDataProps } from './TableData'
+import { render, type RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement

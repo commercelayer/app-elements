@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { forwardRef } from 'react'
 import {
   InputWrapper,
-  InputWrapperBaseProps,
+  type InputWrapperBaseProps,
   getFeedbackStyle
 } from '#ui/forms/InputWrapper'
 

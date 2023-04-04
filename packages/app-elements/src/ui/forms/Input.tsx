@@ -3,7 +3,7 @@ import { forwardRef } from 'react'
 import {
   InputWrapper,
   getFeedbackStyle,
-  InputWrapperBaseProps
+  type InputWrapperBaseProps
 } from '#ui/forms/InputWrapper'
 
 export interface InputProps

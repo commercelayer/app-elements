@@ -1,5 +1,5 @@
-import { render, RenderResult } from '@testing-library/react'
-import { Avatar, AvatarProps } from './Avatar'
+import { render, type RenderResult } from '@testing-library/react'
+import { Avatar, type AvatarProps } from './Avatar'
 
 interface SetupProps extends AvatarProps {
   id: string

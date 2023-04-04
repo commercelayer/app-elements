@@ -1,5 +1,5 @@
-import { TokenProvider, TokenProviderProps } from './index'
-import { render, RenderResult, waitFor } from '@testing-library/react'
+import { TokenProvider, type TokenProviderProps } from './index'
+import { render, type RenderResult, waitFor } from '@testing-library/react'
 
 // token expires at Monday, 6 February 2023 11:53:19
 // slug is `giuseppe`
@@ -71,7 +71,9 @@ describe('TokenProvider', () => {
     })
     expect(element).toBeVisible()
     expect(getByText('Loading...')).toBeVisible()
-    await waitFor(() => expect(getByText('content')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('content')).toBeVisible()
+    })
     expect(getByText('mode: test')).toBeVisible()
     expect(getByText('timezone: Europe/Rome')).toBeVisible()
     expect(onInvalidAuth).toBeCalledTimes(0)
@@ -90,7 +92,9 @@ describe('TokenProvider', () => {
       accessToken: accessTokenLive,
       onInvalidAuth
     })
-    await waitFor(() => expect(getByText('mode: live')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('mode: live')).toBeVisible()
+    })
   })
 
   test('Should read token from url', async () => {
@@ -108,7 +112,9 @@ describe('TokenProvider', () => {
     })
     expect(element).toBeVisible()
     expect(getByText('Loading...')).toBeVisible()
-    await waitFor(() => expect(getByText('content')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('content')).toBeVisible()
+    })
     expect(onInvalidAuth).toBeCalledTimes(0)
   })
 
@@ -125,7 +131,9 @@ describe('TokenProvider', () => {
       accessToken,
       onInvalidAuth
     })
-    await waitFor(() => expect(getByText('Invalid token')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('Invalid token')).toBeVisible()
+    })
     expect(onInvalidAuth).toHaveBeenCalledWith({
       dashboardUrl: 'https://dashboard.commercelayer.io/test/giuseppe',
       reason: 'accessToken is expired'
@@ -147,7 +155,9 @@ describe('TokenProvider', () => {
       onInvalidAuth
     })
     expect(getByText('fetching token info')).toBeVisible()
-    await waitFor(() => expect(getByText('custom error element')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('custom error element')).toBeVisible()
+    })
     expect(onInvalidAuth).toHaveBeenCalledWith({
       dashboardUrl: 'https://dashboard.commercelayer.io/test/giuseppe',
       reason: 'accessToken is not valid'
@@ -173,7 +183,9 @@ describe('TokenProvider', () => {
                 <div>This is my app</div>
                 <button
                   data-test-id='btn-emit-error'
-                  onClick={() => emitInvalidAuth('custom error trigger')}
+                  onClick={() => {
+                    emitInvalidAuth('custom error trigger')
+                  }}
                 >
                   show error ui
                 </button>
@@ -186,9 +198,13 @@ describe('TokenProvider', () => {
 
     expect(getByTestId('token-provider')).toBeVisible()
     expect(getByText('Loading...')).toBeVisible()
-    await waitFor(() => expect(getByTestId('btn-emit-error')).toBeVisible())
+    await waitFor(() => {
+      expect(getByTestId('btn-emit-error')).toBeVisible()
+    })
     getByTestId('btn-emit-error').click()
-    await waitFor(() => expect(getByText('Invalid token')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('Invalid token')).toBeVisible()
+    })
     expect(onInvalidAuth).toHaveBeenCalledWith({
       dashboardUrl: 'https://dashboard.commercelayer.io/test/giuseppe',
       reason: 'custom error trigger'
@@ -207,7 +223,9 @@ describe('TokenProvider and localStorage', () => {
       accessToken,
       onInvalidAuth: () => {}
     })
-    await waitFor(() => expect(getByText('content')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('content')).toBeVisible()
+    })
   })
 
   test('Should read persistent token', async () => {
@@ -219,6 +237,8 @@ describe('TokenProvider and localStorage', () => {
       devMode: true,
       onInvalidAuth: () => {}
     })
-    await waitFor(() => expect(getByText('content')).toBeVisible())
+    await waitFor(() => {
+      expect(getByText('content')).toBeVisible()
+    })
   })
 })

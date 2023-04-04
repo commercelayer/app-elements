@@ -1,4 +1,4 @@
-import { fireEvent, render, RenderResult } from '@testing-library/react'
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import {
   ToggleButtons,
   type ToggleButtonOption,
@@ -91,12 +91,12 @@ describe('ToggleButtons single value mode', () => {
     })
     expectNotChecked(getByText('Placed'))
     expectNotChecked(getByText('Cancelled'))
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Placed'))
     })
     expectChecked(getByText('Placed'))
     expectNotChecked(getByText('Cancelled'))
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Cancelled'))
     })
     expectNotChecked(getByText('Placed'))
@@ -109,11 +109,11 @@ describe('ToggleButtons single value mode', () => {
       options
     })
     expectNotChecked(getByText('Placed'))
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Placed'))
     })
     expectChecked(getByText('Placed'))
-    await act(() => {
+    act(() => {
       // click again on current selected
       fireEvent.click(getByText('Placed'))
     })
@@ -128,7 +128,7 @@ describe('ToggleButtons single value mode', () => {
 
     expectDisabled(getByText('Draft'))
     expectNotChecked(getByText('Draft'))
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Draft'))
     })
     expectNotChecked(getByText('Draft'))
@@ -162,13 +162,13 @@ describe('ToggleButtons multi values mode', () => {
     expectNotChecked(getByText('Placed'))
     expectNotChecked(getByText('Approved'))
 
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Placed'))
     })
     expectChecked(getByText('Placed'))
     expectNotChecked(getByText('Approved'))
 
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Approved'))
     })
     expectChecked(getByText('Placed'))
@@ -182,12 +182,12 @@ describe('ToggleButtons multi values mode', () => {
     })
     expectNotChecked(getByText('Placed'))
 
-    await act(() => {
+    act(() => {
       fireEvent.click(getByText('Placed'))
     })
     expectChecked(getByText('Placed'))
 
-    await act(() => {
+    act(() => {
       // click again on current selected
       fireEvent.click(getByText('Placed'))
     })

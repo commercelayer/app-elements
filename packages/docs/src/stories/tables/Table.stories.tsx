@@ -1,6 +1,6 @@
 import { Td, Th, Tr } from '#ui/atoms/tables'
 import { Table } from '#ui/tables/Table'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Table> = {
   title: 'Tables/Table',

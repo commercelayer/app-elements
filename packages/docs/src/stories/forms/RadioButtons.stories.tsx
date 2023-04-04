@@ -1,5 +1,5 @@
-import { RadioButtons, RadioOptionValue } from '#ui/forms/RadioButtons'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { RadioButtons, type RadioOptionValue } from '#ui/forms/RadioButtons'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof RadioButtons> = {

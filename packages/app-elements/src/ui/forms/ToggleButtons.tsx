@@ -1,7 +1,10 @@
 import { Spacer } from '#ui/atoms/Spacer'
-import { InputWrapper, InputWrapperBaseProps } from '#ui/forms/InputWrapper'
+import {
+  InputWrapper,
+  type InputWrapperBaseProps
+} from '#ui/forms/InputWrapper'
 import cn from 'classnames'
-import { Simplify } from 'type-fest'
+import { type Simplify } from 'type-fest'
 
 interface ToggleItemProps {
   label: string

@@ -1,6 +1,6 @@
-import { RadioButtons, RadioButtonsProps } from './RadioButtons'
-import { render, RenderResult } from '@testing-library/react'
-import { RadioOptionValue } from '#ui/forms/RadioButtons'
+import { RadioButtons, type RadioButtonsProps } from './RadioButtons'
+import { render, type RenderResult } from '@testing-library/react'
+import { type RadioOptionValue } from '#ui/forms/RadioButtons'
 import { useState } from 'react'
 
 interface SetupProps extends Omit<RadioButtonsProps, 'onChange'> {

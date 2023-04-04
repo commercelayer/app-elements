@@ -1,7 +1,7 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputCheckbox> = {
   title: 'Forms/InputCheckbox',

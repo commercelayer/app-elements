@@ -1,6 +1,6 @@
 import { act } from 'react-dom/test-utils'
-import { ListItem, ListItemProps } from './ListItem'
-import { render, RenderResult } from '@testing-library/react'
+import { ListItem, type ListItemProps } from './ListItem'
+import { render, type RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -25,7 +25,7 @@ describe('ListItem', () => {
     })
     expect(element).toBeInTheDocument()
     expect(element.tagName).toBe('DIV')
-    await act(() => {
+    act(() => {
       element.click()
     })
     expect(onClick).toBeCalledTimes(1)

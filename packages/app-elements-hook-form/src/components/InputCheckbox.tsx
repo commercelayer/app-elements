@@ -1,5 +1,5 @@
 import { InputCheckbox as InputCheckboxUI } from '@commercelayer/app-elements'
-import { InputCheckboxProps } from '@commercelayer/app-elements/dist/ui/forms/InputCheckbox'
+import { type InputCheckboxProps } from '@commercelayer/app-elements/dist/ui/forms/InputCheckbox'
 import { useFormContext } from 'react-hook-form'
 
 interface Props extends InputCheckboxProps {

@@ -1,8 +1,8 @@
-import { InputSelectProps, SelectValue } from './'
+import { type InputSelectProps, type SelectValue } from './'
 import AsyncSelect from 'react-select/async'
-import { StylesConfig } from 'react-select'
+import { type StylesConfig } from 'react-select'
 import components from './overrides'
-import { SetRequired } from 'type-fest'
+import { type SetRequired } from 'type-fest'
 
 interface AsyncSelectComponentProps
   extends Omit<

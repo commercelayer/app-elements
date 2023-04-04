@@ -1,5 +1,5 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof CopyToClipboard> = {
   title: 'Atoms/CopyToClipboard',

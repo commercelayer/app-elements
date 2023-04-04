@@ -1,5 +1,5 @@
-import { ListDetails, DetailsListProps } from './ListDetails'
-import { render, RenderResult } from '@testing-library/react'
+import { ListDetails, type DetailsListProps } from './ListDetails'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps extends DetailsListProps {
   id: string

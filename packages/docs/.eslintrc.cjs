@@ -1,8 +1,8 @@
-const path = require('path')
+const path = require('path');
 
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  extends: ['@commercelayer/eslint-config-ts-react'],
+  extends: ['@commercelayer/eslint-config-ts-react', 'plugin:storybook/recommended'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     project: path.resolve(__dirname, 'tsconfig.json'),
@@ -12,4 +12,4 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module'
   }
-}
+};

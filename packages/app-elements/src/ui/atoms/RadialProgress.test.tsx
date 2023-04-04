@@ -61,7 +61,7 @@ describe('RadialProgress', () => {
   })
 
   test('Should ignore string values', () => {
-    // @ts-expect-error
+    // @ts-expect-error I want to test with a wrong value.
     const { getByTestId } = render(<RadialProgress percentage='asd' />)
     const circle = getByTestId('radial-progress-percentage')
     expect(getFilledPercentage(circle)).toBe(0)

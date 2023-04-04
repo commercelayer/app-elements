@@ -1,9 +1,9 @@
-import CommerceLayer, { Order } from '@commercelayer/sdk'
-import { render, RenderResult, waitFor } from '@testing-library/react'
-import { FC } from 'react'
+import CommerceLayer, { type Order } from '@commercelayer/sdk'
+import { render, type RenderResult, waitFor } from '@testing-library/react'
+import { type FC } from 'react'
 import {
   ResourceList,
-  ResourceListProps,
+  type ResourceListProps,
   computeTitleWithTotalCount
 } from './index'
 
@@ -11,7 +11,11 @@ const mockedOrder: Order = {
   id: 'mock',
   created_at: '2023-03-15T13:57:06.856Z',
   updated_at: '2023-03-15T13:57:06.856Z',
-  type: 'orders'
+  type: 'orders',
+
+  fulfillment_status: 'fulfilled',
+  payment_status: 'authorized',
+  status: 'approved'
 }
 
 const Item: FC<{ resource?: Order }> = ({ resource }) => {

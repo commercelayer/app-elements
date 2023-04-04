@@ -1,7 +1,7 @@
 import { A } from '#ui/atoms/A'
 import { PageLayout } from '#ui/composite/PageLayout'
 
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof PageLayout> = {
   title: 'Composite/PageLayout',

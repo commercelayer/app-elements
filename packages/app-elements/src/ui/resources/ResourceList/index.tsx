@@ -1,17 +1,21 @@
 import { Button } from '#ui/atoms/Button'
-import { EmptyState, EmptyStateProps } from '#ui/atoms/EmptyState'
-import { Legend, LegendProps } from '#ui/atoms/Legend'
+import { EmptyState, type EmptyStateProps } from '#ui/atoms/EmptyState'
+import { Legend, type LegendProps } from '#ui/atoms/Legend'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import {
-  CommerceLayerClient,
+  type CommerceLayerClient,
   CommerceLayerStatic,
-  QueryParamsList
+  type QueryParamsList
 } from '@commercelayer/sdk'
-import { FC, useCallback, useEffect, useReducer } from 'react'
+import { type FC, useCallback, useEffect, useReducer } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
-import { ListableResource, Resource, infiniteFetcher } from './infiniteFetcher'
+import {
+  type ListableResource,
+  type Resource,
+  infiniteFetcher
+} from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
 
 const LegendWithSkeleton = withSkeletonTemplate(Legend)
@@ -63,7 +67,9 @@ function ResourceList<TResource extends ListableResource>({
 
   useEffect(
     function initialFetch() {
-      sdkClient !== null && fetchMore()
+      if (sdkClient != null) {
+        void fetchMore()
+      }
     },
     [sdkClient]
   )

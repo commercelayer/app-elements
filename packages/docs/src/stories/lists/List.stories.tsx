@@ -1,6 +1,6 @@
 import { A } from '#app-elements/atoms/A'
 import { List } from '#ui/lists/List'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof List> = {
   title: 'Lists/List',

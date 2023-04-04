@@ -1,5 +1,5 @@
 import { InputToggleListBox } from '#ui/forms/InputToggleListBox'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputToggleListBox> = {
@@ -17,7 +17,9 @@ const Template: ComponentStory<typeof InputToggleListBox> = (args) => {
     <InputToggleListBox
       {...args}
       value={value}
-      onChange={(e) => setValue(e.currentTarget.value)}
+      onChange={(e) => {
+        setValue(e.currentTarget.value)
+      }}
     />
   )
 }

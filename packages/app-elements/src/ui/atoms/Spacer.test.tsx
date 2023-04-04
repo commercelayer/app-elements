@@ -1,5 +1,5 @@
-import { Spacer, SpacingProps } from './Spacer'
-import { render, RenderResult } from '@testing-library/react'
+import { Spacer, type SpacingProps } from './Spacer'
+import { render, type RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -55,7 +55,7 @@ describe('Spacer', () => {
   })
 
   test('Should ignore invalid values', () => {
-    // @ts-expect-error
+    // @ts-expect-error I want to test with a wrong value.
     const { element } = setup({ top: 400, bottom: 'abc' })
     expect(element.className).toBe('')
   })

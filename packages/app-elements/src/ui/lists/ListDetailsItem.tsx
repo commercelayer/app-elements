@@ -1,4 +1,4 @@
-import { Children, ReactNode } from 'react'
+import { Children, type ReactNode } from 'react'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import classNames from 'classnames'
 import { isSpecificReactComponent } from '#utils/children'

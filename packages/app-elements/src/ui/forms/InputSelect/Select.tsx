@@ -1,5 +1,5 @@
-import { InputSelectProps, SelectValue } from './'
-import Select, { StylesConfig } from 'react-select'
+import { type InputSelectProps, type SelectValue } from './'
+import Select, { type StylesConfig } from 'react-select'
 import components from './overrides'
 
 interface SelectComponentProps

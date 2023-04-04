@@ -1,5 +1,5 @@
 import { Spacer } from '#ui/atoms/Spacer'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Spacer> = {
   title: 'Atoms/Spacer',

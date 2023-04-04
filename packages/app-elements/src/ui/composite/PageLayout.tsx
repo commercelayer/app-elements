@@ -1,6 +1,6 @@
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { Container } from '#ui/atoms/Container'
-import { PageHeading, PageHeadingProps } from '#ui/atoms/PageHeading'
+import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
 
 export interface PageLayoutProps
   extends Pick<

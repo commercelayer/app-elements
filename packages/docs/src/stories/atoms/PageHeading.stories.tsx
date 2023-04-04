@@ -1,6 +1,6 @@
 import { A } from '#ui/atoms/A'
 import { PageHeading } from '#ui/atoms/PageHeading'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof PageHeading> = {
   title: 'Atoms/PageHeading',
@@ -25,14 +25,18 @@ export const WithGoBack = Template.bind({})
 WithGoBack.args = {
   title: 'SKUs',
   description: 'Lorem ipsum dolor sit',
-  onGoBack: () => historyGoBack()
+  onGoBack: () => {
+    historyGoBack()
+  }
 }
 
 export const WithBadge = Template.bind({})
 WithBadge.args = {
   title: 'SKUs',
   badgeLabel: 'TEST DATA',
-  onGoBack: () => historyGoBack()
+  onGoBack: () => {
+    historyGoBack()
+  }
 }
 
 function historyGoBack(): undefined {

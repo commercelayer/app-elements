@@ -1,9 +1,9 @@
-import { FocusEventHandler, lazy, Suspense } from 'react'
-import { MultiValue, SingleValue } from 'react-select'
+import { type FocusEventHandler, lazy, Suspense } from 'react'
+import { type MultiValue, type SingleValue } from 'react-select'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
 import { getSelectStyles } from './styles'
 import { InputWrapper } from '../InputWrapper'
-import { InputWrapperBaseProps } from '#ui/forms/InputWrapper'
+import { type InputWrapperBaseProps } from '#ui/forms/InputWrapper'
 import get from 'lodash/get'
 
 const LazyAsyncSelect = lazy(

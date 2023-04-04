@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 import { extractHeaders } from '#utils/extractHeaders'
 
 export interface TableDataProps {
-  data: Array<Record<string, string | Object>>
+  data: Array<Record<string, string | Record<string, unknown>>>
   className?: string
   limit?: number
   title?: string

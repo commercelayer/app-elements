@@ -1,5 +1,5 @@
 import { ToggleButtons, type ToggleButtonOption } from '#ui/forms/ToggleButtons'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
 const options: ToggleButtonOption[] = [

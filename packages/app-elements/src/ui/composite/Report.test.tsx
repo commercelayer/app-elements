@@ -1,6 +1,6 @@
-import { act, render, RenderResult } from '@testing-library/react'
+import { act, render, type RenderResult } from '@testing-library/react'
 import { afterEach, beforeEach, vi } from 'vitest'
-import { Report, ReportProps } from './Report'
+import { Report, type ReportProps } from './Report'
 
 interface SetupProps extends ReportProps {
   id: string
@@ -75,7 +75,7 @@ describe('Report', () => {
       items: []
     })
     expect(element).not.toBeVisible()
-    await act(() => {
+    act(() => {
       vi.advanceTimersByTime(500)
     })
     expect(element).toBeVisible()

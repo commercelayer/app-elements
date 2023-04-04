@@ -1,6 +1,6 @@
 import { Text } from '#app-elements/atoms/Text'
 import { ListItem } from '#app-elements/lists/ListItem'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 import { RadialProgress } from '#app-elements/atoms/RadialProgress'
 import { Icon } from '#app-elements/atoms/Icon'
 import { Avatar } from '#app-elements/atoms/Avatar'

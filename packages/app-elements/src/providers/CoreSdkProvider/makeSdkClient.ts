@@ -1,6 +1,6 @@
 import CommerceLayer, {
-  CommerceLayerClient,
-  ErrorObj
+  type CommerceLayerClient,
+  type ErrorObj
 } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 

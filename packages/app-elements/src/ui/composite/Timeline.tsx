@@ -6,7 +6,7 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Input } from '#ui/forms/Input'
 import groupBy from 'lodash/groupBy'
 import orderBy from 'lodash/orderBy'
-import { Fragment, ReactNode, useMemo } from 'react'
+import { Fragment, type ReactNode, useMemo } from 'react'
 
 interface Event {
   date: string
@@ -114,7 +114,7 @@ function getIcon(event: Event, index: number, events: Event[]): JSX.Element {
     <Icon
       name='check'
       background='gray'
-      className='text-transparent rounded-full w-[16px] h-[16px] mx-1'
+      className='!text-transparent rounded-full !w-[16px] !h-[16px] mx-1'
     />
   )
 }

@@ -1,5 +1,5 @@
 import { Pagination } from '#ui/atoms/Pagination'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof Pagination> = {

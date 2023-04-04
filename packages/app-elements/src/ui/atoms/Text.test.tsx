@@ -1,5 +1,5 @@
-import { Text, TextVariant } from './Text'
-import { render, RenderResult } from '@testing-library/react'
+import { Text, type TextVariant } from './Text'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps {
   variant?: TextVariant

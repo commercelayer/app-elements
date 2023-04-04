@@ -1,4 +1,4 @@
-import { Mode } from './types'
+import { type Mode } from './types'
 
 export function getOrgSlugFromCurrentUrl(): string {
   return window.location.hostname.split('.')[0]

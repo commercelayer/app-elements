@@ -1,6 +1,6 @@
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 import { setVerbosity } from 'ts-invariant'
-import { StatusDot, StatusDotProps } from './StatusDot'
+import { StatusDot, type StatusDotProps } from './StatusDot'
 
 type SetupResult = RenderResult & {
   element: HTMLElement

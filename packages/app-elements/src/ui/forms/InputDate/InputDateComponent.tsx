@@ -7,7 +7,7 @@ import { CalendarBlank, X } from 'phosphor-react'
 import { forwardRef } from 'react'
 import {
   InputWrapper,
-  InputWrapperBaseProps,
+  type InputWrapperBaseProps,
   getFeedbackStyle
 } from '#ui/forms/InputWrapper'
 

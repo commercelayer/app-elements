@@ -1,7 +1,7 @@
 import { Text } from '#app-elements/atoms/Text'
 import { Timeline } from '#ui/composite/Timeline'
 
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { set, sub } from 'date-fns'
 
 const setup: ComponentMeta<typeof Timeline> = {

@@ -1,5 +1,5 @@
 import { InputFile } from './InputFile'
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 import { testInvariant } from '#utils/tests'
 
 interface SetupProps {
@@ -44,7 +44,7 @@ describe('InputFile', () => {
     }, 'When set, progress must be between 0 and 100 range')
 
     testInvariant(() => {
-      // @ts-expect-error
+      // @ts-expect-error I want to test with a wrong value.
       render(<InputFile label='This will break' progress='50%' />)
     }, 'When set, progress must be between 0 and 100 range')
   })

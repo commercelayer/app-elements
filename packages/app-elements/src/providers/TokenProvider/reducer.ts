@@ -1,6 +1,6 @@
 import {
-  TokenProviderAuthSettings,
-  TokenProviderRolePermissions
+  type TokenProviderAuthSettings,
+  type TokenProviderRolePermissions
 } from './types'
 
 interface TokenProviderInternalState {

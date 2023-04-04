@@ -1,5 +1,5 @@
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListDetailsItem> = {
   title: 'Lists/ListDetailsItem',

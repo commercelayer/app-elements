@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { Children, ReactNode } from 'react'
+import { Children, type ReactNode } from 'react'
 
 export type FlexRowAlignItems = 'top' | 'bottom' | 'center'
 export interface FlexRowProps extends React.HTMLAttributes<HTMLDivElement> {

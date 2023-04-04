@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { FlexRow, FlexRowProps } from '#ui/atoms/FlexRow'
-import { FC, useMemo } from 'react'
+import { FlexRow, type FlexRowProps } from '#ui/atoms/FlexRow'
+import { type FC, useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
 
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
@@ -20,7 +20,7 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
 }
 
 const allowedTags = ['a', 'div'] as const
-type AllowedTag = typeof allowedTags[number]
+type AllowedTag = (typeof allowedTags)[number]
 
 export type ListItemProps = Props &
   (

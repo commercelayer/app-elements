@@ -1,5 +1,5 @@
 import { Label } from './Label'
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps {
   id: string

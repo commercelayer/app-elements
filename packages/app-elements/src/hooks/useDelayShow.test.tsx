@@ -1,5 +1,5 @@
 import { act, render } from '@testing-library/react'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { useDelayShow } from './useDelayShow'
 
 interface Props {

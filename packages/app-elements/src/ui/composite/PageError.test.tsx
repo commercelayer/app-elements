@@ -1,5 +1,5 @@
 import { PageError } from './PageError'
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement

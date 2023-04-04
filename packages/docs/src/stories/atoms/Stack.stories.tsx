@@ -3,7 +3,7 @@ import { Badge } from '#app-elements/atoms/Badge'
 import { Spacer } from '#app-elements/atoms/Spacer'
 import { Text } from '#app-elements/atoms/Text'
 import { Stack } from '#ui/atoms/Stack'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Stack> = {
   title: 'Atoms/Stack',

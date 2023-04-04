@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '#ui/atoms/Tabs'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Tabs> = {
   title: 'Atoms/Tabs',

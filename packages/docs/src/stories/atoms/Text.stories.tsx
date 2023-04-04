@@ -1,5 +1,5 @@
 import { Text } from '#ui/atoms/Text'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Text> = {
   title: 'Atoms/Text',

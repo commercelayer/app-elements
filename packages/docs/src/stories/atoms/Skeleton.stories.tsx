@@ -1,6 +1,6 @@
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Spacer } from '#ui/atoms/Spacer'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Skeleton> = {
   title: 'Atoms/Skeleton',

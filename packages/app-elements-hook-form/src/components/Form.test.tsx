@@ -1,4 +1,4 @@
-import { render, RenderResult } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 import { useForm } from 'react-hook-form'
 import { Form } from './Form'
 import { Input } from './Input'

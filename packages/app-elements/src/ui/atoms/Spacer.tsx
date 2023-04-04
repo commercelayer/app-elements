@@ -1,4 +1,4 @@
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import cn from 'classnames'
 
 export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {

@@ -1,5 +1,5 @@
 import { Input } from '#ui/forms/Input'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof Input> = {
@@ -50,7 +50,9 @@ const TemplateValidation: ComponentStory<typeof Input> = () => {
   return (
     <Input
       value={value}
-      onChange={(e) => setValue(e.currentTarget.value)}
+      onChange={(e) => {
+        setValue(e.currentTarget.value)
+      }}
       hint={{
         text: `try to type 'error', 'success' or 'warning'`
       }}

@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { LightbulbFilament } from 'phosphor-react'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 export type HintIcon = 'bulb'
 
