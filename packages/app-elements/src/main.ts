@@ -64,7 +64,8 @@ export { InputReadonly } from '#ui/forms/InputReadonly'
 export {
   InputSelect,
   isSingleValueSelected,
-  flatSelectValues
+  flatSelectValues,
+  getDefaultValueFromFlatten
 } from '#ui/forms/InputSelect'
 export { InputTextArea } from '#ui/forms/InputTextArea'
 export { InputToggleBox } from '#ui/forms/InputToggleBox'
