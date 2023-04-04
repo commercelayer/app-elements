@@ -20,7 +20,7 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
 }
 
 const allowedTags = ['a', 'div'] as const
-type AllowedTag = typeof allowedTags[number]
+type AllowedTag = (typeof allowedTags)[number]
 
 export type ListItemProps = Props &
   (

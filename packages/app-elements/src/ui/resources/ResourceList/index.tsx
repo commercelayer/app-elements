@@ -63,7 +63,9 @@ function ResourceList<TResource extends ListableResource>({
 
   useEffect(
     function initialFetch() {
-      sdkClient !== null && fetchMore()
+      if (sdkClient != null) {
+        void fetchMore()
+      }
     },
     [sdkClient]
   )
