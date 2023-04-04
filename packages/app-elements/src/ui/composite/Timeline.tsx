@@ -114,7 +114,7 @@ function getIcon(event: Event, index: number, events: Event[]): JSX.Element {
     <Icon
       name='check'
       background='gray'
-      className='text-transparent rounded-full w-[16px] h-[16px] mx-1'
+      className='!text-transparent rounded-full !w-[16px] !h-[16px] mx-1'
     />
   )
 }
