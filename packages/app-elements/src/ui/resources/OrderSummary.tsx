@@ -43,7 +43,7 @@ const renderTotalRow = ({
           { 'pb-6': position === 'last' }
         )}
       >
-        <Text weight={position === 'last' ? 'bold' : 'regular'}>{label}</Text>
+        <Text weight={position === 'last' ? 'bold' : 'medium'}>{label}</Text>
       </td>
       <td
         className={cn(
@@ -56,7 +56,7 @@ const renderTotalRow = ({
       >
         <Text
           data-test-id={`OrderSummary-${label}-amount`}
-          weight={position === 'last' ? 'bold' : 'regular'}
+          weight={position === 'last' ? 'bold' : 'medium'}
         >
           {formattedAmount}
         </Text>
@@ -91,14 +91,19 @@ const OrderSummary = withSkeletonTemplate<{
             return (
               <Fragment key={lineItem.sku_code}>
                 <tr className='h-0'>
-                  <td className='py-6' valign='top' rowSpan={2}>
+                  <td className='py-6' valign='top' align='center' rowSpan={2}>
                     <Avatar
                       src={lineItem.image_url ?? ''}
                       alt={lineItem.name ?? ''}
                     />
                   </td>
                   <td className='pt-6 pl-4' colSpan={3}>
-                    <Text size='small' weight='medium' variant='info' tag='div'>
+                    <Text
+                      size='small'
+                      weight='semibold'
+                      variant='info'
+                      tag='div'
+                    >
                       {lineItem.item_type === 'skus'
                         ? lineItem.sku_code
                         : lineItem.bundle_code}
@@ -110,12 +115,12 @@ const OrderSummary = withSkeletonTemplate<{
                     'border-dashed': !isLastRow
                   })}
                 >
-                  <td className='px-6 pb-6' valign='top'>
+                  <td className='px-4 pb-6' valign='top'>
                     <Text tag='div' weight='bold'>
                       {lineItem.name}
                     </Text>
                   </td>
-                  <td className='px-6' valign='top' align='right'>
+                  <td className='pr-2' valign='top' align='right'>
                     <Text
                       weight='medium'
                       variant='info'
