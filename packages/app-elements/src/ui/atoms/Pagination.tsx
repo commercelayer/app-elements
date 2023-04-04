@@ -69,7 +69,9 @@ function Pagination({
       {currentPage > 1 ? (
         <PaginationButton
           data-test-id='pagination-btn-back'
-          onClick={() => onChangePageRequest(currentPage - 1)}
+          onClick={() => {
+            onChangePageRequest(currentPage - 1)
+          }}
         >
           <CaretLeft />
         </PaginationButton>
@@ -79,7 +81,9 @@ function Pagination({
         <PaginationButton
           key={p}
           data-test-id='pagination-btn'
-          onClick={() => onChangePageRequest(p)}
+          onClick={() => {
+            onChangePageRequest(p)
+          }}
         >
           {p}
         </PaginationButton>
@@ -96,7 +100,13 @@ function Pagination({
             key={p}
             data-test-id='pagination-btn'
             isActive={isCurrentPage}
-            onClick={isCurrentPage ? undefined : () => onChangePageRequest(p)}
+            onClick={
+              isCurrentPage
+                ? undefined
+                : () => {
+                    onChangePageRequest(p)
+                  }
+            }
           >
             {p}
           </PaginationButton>
@@ -105,7 +115,9 @@ function Pagination({
       {currentPage < pageCount ? (
         <PaginationButton
           data-test-id='pagination-btn-next'
-          onClick={() => onChangePageRequest(currentPage + 1)}
+          onClick={() => {
+            onChangePageRequest(currentPage + 1)
+          }}
         >
           <CaretRight />
         </PaginationButton>

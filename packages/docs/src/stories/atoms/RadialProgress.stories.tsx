@@ -1,5 +1,5 @@
 import { RadialProgress } from '#ui/atoms/RadialProgress'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof RadialProgress> = {
   title: 'Atoms/RadialProgress',

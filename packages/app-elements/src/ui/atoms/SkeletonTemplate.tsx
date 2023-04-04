@@ -3,18 +3,18 @@ import cn from 'classnames'
 import {
   Children,
   cloneElement,
-  FC,
-  FunctionComponent,
+  type FC,
+  type FunctionComponent,
   isValidElement,
-  ReactNode,
-  ReactPortal
+  type ReactNode,
+  type ReactPortal
 } from 'react'
-import { Simplify } from 'type-fest'
+import { type Simplify } from 'type-fest'
 import { useDelayShow } from '../../hooks/useDelayShow'
 
 type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
 
-type SkeletonTemplateProps<P = {}> = Simplify<
+type SkeletonTemplateProps<P = Record<string, unknown>> = Simplify<
   P & {
     /**
      * This prevents `SkeletonTemplate` to appear immediately.
@@ -68,7 +68,7 @@ function childRecursiveMap(
   return fn(child)
 }
 
-export interface SkeletonTemplateComponent<P = {}>
+export interface SkeletonTemplateComponent<P = Record<string, unknown>>
   extends FunctionComponent<P> {
   isSkeletonTemplate: true
 }

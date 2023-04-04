@@ -6,7 +6,7 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Input } from '#ui/forms/Input'
 import groupBy from 'lodash/groupBy'
 import orderBy from 'lodash/orderBy'
-import { Fragment, ReactNode, useMemo } from 'react'
+import { Fragment, type ReactNode, useMemo } from 'react'
 
 interface Event {
   date: string

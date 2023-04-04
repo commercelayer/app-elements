@@ -1,6 +1,9 @@
 import cn from 'classnames'
-import { InputHTMLAttributes, forwardRef } from 'react'
-import { InputWrapper, InputWrapperBaseProps } from '#ui/forms/InputWrapper'
+import { type InputHTMLAttributes, forwardRef } from 'react'
+import {
+  InputWrapper,
+  type InputWrapperBaseProps
+} from '#ui/forms/InputWrapper'
 
 export type RadioOptionValue = string | number | boolean
 

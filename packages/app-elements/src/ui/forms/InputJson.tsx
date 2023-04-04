@@ -1,6 +1,6 @@
 import isEmpty from 'lodash/isEmpty'
 import { useState, useEffect } from 'react'
-import { InputWrapper, InputWrapperBaseProps } from './InputWrapper'
+import { InputWrapper, type InputWrapperBaseProps } from './InputWrapper'
 
 export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
   placeholder: object
@@ -61,7 +61,9 @@ function InputJson<JsonType extends object>({
         data-gramm='false'
         placeholder={preparePlaceholder(placeholder)}
         value={value}
-        onChange={(e) => setValue(e.currentTarget.value)}
+        onChange={(e) => {
+          setValue(e.currentTarget.value)
+        }}
         onBlur={() => {
           setValue(prettifyJson)
         }}

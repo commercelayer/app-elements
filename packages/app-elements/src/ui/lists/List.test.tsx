@@ -1,5 +1,5 @@
-import { RenderResult, render } from '@testing-library/react'
-import { List, ListProps } from './List'
+import { type RenderResult, render } from '@testing-library/react'
+import { List, type ListProps } from './List'
 
 type SetupResult = RenderResult & {
   element: HTMLElement

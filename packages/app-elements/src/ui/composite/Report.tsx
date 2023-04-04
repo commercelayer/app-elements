@@ -2,7 +2,7 @@ import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
-import { ReactNode, Key } from 'react'
+import { type ReactNode, type Key } from 'react'
 
 interface ReportItem {
   label: string

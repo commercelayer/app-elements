@@ -1,5 +1,5 @@
-import { Badge, BadgeVariant } from './Badge'
-import { render, RenderResult } from '@testing-library/react'
+import { Badge, type BadgeVariant } from './Badge'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps {
   id: string

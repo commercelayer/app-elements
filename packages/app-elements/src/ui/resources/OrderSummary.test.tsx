@@ -1,4 +1,4 @@
-import { Order } from '@commercelayer/sdk'
+import { type Order } from '@commercelayer/sdk'
 import { fireEvent, render } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'

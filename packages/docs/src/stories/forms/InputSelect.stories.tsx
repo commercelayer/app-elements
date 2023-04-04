@@ -2,11 +2,11 @@ import { Hint } from '#ui/atoms/Hint'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
   InputSelect,
-  InputSelectProps,
-  SelectValue
+  type InputSelectProps,
+  type SelectValue
 } from '#ui/forms/InputSelect'
 import { Label } from '#ui/forms/Label'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const fullList = [

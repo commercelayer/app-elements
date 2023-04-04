@@ -1,5 +1,5 @@
-import { InputFeedback, InputFeedbackProps } from './InputFeedback'
-import { render, RenderResult } from '@testing-library/react'
+import { InputFeedback, type InputFeedbackProps } from './InputFeedback'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps extends Omit<InputFeedbackProps, 'children'> {
   id: string

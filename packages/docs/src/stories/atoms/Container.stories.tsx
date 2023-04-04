@@ -1,5 +1,5 @@
 import { Container } from '#ui/atoms/Container'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Container> = {
   title: 'Atoms/Container',

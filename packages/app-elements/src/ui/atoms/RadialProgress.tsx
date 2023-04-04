@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { SVGAttributes } from 'react'
+import { type SVGAttributes } from 'react'
 
 interface RadialProgressProps extends SVGAttributes<SVGElement> {
   /**

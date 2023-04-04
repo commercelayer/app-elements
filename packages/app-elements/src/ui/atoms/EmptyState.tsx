@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { ReactNode } from 'react'
-import { Icon, IconProps } from './Icon'
+import { type ReactNode } from 'react'
+import { Icon, type IconProps } from './Icon'
 
 export interface EmptyStateProps {
   title: string

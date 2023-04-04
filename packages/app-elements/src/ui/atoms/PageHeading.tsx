@@ -1,7 +1,7 @@
 import cn from 'classnames'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { ArrowLeft } from 'phosphor-react'
-import { Badge, BadgeVariant } from './Badge'
+import { Badge, type BadgeVariant } from './Badge'
 
 export interface PageHeadingProps {
   /**

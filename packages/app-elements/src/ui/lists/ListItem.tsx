@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { FlexRow, FlexRowProps } from '#ui/atoms/FlexRow'
-import { FC, useMemo } from 'react'
+import { FlexRow, type FlexRowProps } from '#ui/atoms/FlexRow'
+import { type FC, useMemo } from 'react'
 import isEmpty from 'lodash/isEmpty'
 
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {

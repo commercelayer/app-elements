@@ -4,7 +4,7 @@ import { ListItem } from '#app-elements/lists/ListItem'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { ListDetails } from '#ui/lists/ListDetails'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ListDetails> = {
   title: 'Lists/ListDetails',

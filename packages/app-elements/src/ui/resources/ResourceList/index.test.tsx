@@ -1,9 +1,9 @@
-import CommerceLayer, { Order } from '@commercelayer/sdk'
-import { render, RenderResult, waitFor } from '@testing-library/react'
-import { FC } from 'react'
+import CommerceLayer, { type Order } from '@commercelayer/sdk'
+import { render, type RenderResult, waitFor } from '@testing-library/react'
+import { type FC } from 'react'
 import {
   ResourceList,
-  ResourceListProps,
+  type ResourceListProps,
   computeTitleWithTotalCount
 } from './index'
 

@@ -1,10 +1,10 @@
 import { X } from 'phosphor-react'
 import {
-  DropdownIndicatorProps,
-  ClearIndicatorProps,
+  type DropdownIndicatorProps,
+  type ClearIndicatorProps,
   components
 } from 'react-select'
-import { SelectValue } from '.'
+import { type SelectValue } from '.'
 
 function DropdownIndicator(
   props: DropdownIndicatorProps<SelectValue>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, RefObject } from 'react'
+import { useCallback, useEffect, useRef, type RefObject } from 'react'
 
 export const useClickAway = (
   onClickAway?: () => void

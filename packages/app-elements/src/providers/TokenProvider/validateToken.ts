@@ -1,9 +1,9 @@
 import {
-  TokenProviderTokenInfo,
-  TokenProviderRolePermissions,
-  TokenProviderPermissionItem,
-  TokenProviderResourceType,
-  Mode
+  type TokenProviderTokenInfo,
+  type TokenProviderRolePermissions,
+  type TokenProviderPermissionItem,
+  type TokenProviderResourceType,
+  type Mode
 } from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './url'

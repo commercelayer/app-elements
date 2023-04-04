@@ -1,5 +1,5 @@
-import { InputJson, InputJsonProps } from './InputJson'
-import { render, RenderResult, fireEvent } from '@testing-library/react'
+import { InputJson, type InputJsonProps } from './InputJson'
+import { render, type RenderResult, fireEvent } from '@testing-library/react'
 
 interface SetupProps extends InputJsonProps<any> {
   id: string

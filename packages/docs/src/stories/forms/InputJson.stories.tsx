@@ -1,5 +1,5 @@
 import { InputJson } from '#ui/forms/InputJson'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputJson> = {
@@ -20,7 +20,9 @@ const Template: ComponentStory<typeof InputJson> = (args) => {
         onDataReady={(value) => {
           setJsonValue(value)
         }}
-        onDataResetRequest={() => setJsonValue(null)}
+        onDataResetRequest={() => {
+          setJsonValue(null)
+        }}
         validateFn={(maybeJson) => {
           if (maybeJson.data !== undefined) {
             return maybeJson.data

@@ -1,5 +1,5 @@
 import { Legend } from '#ui/atoms/Legend'
-import { Pagination, PaginationProps } from '#ui/atoms/Pagination'
+import { Pagination, type PaginationProps } from '#ui/atoms/Pagination'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
@@ -7,7 +7,7 @@ import {
   makeCurrentPageOffsets
 } from '#utils/pagination'
 import cn from 'classnames'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 
 export type ListPagination = {
   recordsPerPage: number

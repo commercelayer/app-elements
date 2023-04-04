@@ -1,6 +1,6 @@
 import { A } from '#ui/atoms/A'
 import { Hint } from '#ui/atoms/Hint'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Hint> = {
   title: 'Atoms/Hint',

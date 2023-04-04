@@ -1,5 +1,5 @@
-import { HintProps, Hint } from '#ui/atoms/Hint'
-import { InputFeedbackProps, InputFeedback } from '#ui/forms/InputFeedback'
+import { type HintProps, Hint } from '#ui/atoms/Hint'
+import { type InputFeedbackProps, InputFeedback } from '#ui/forms/InputFeedback'
 import { Label } from '#ui/forms/Label'
 
 export interface InputWrapperBaseProps {

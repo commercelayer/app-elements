@@ -1,5 +1,5 @@
 import { InputFile } from '#ui/forms/InputFile'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputFile> = {

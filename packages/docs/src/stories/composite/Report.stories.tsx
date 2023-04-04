@@ -1,6 +1,6 @@
 import { Report } from '#ui/composite/Report'
 
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Report> = {
   title: 'Composite/Report',

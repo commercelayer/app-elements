@@ -1,7 +1,7 @@
-import { InputDateProps } from './InputDateComponent'
+import { type InputDateProps } from './InputDateComponent'
 import { forwardRef, lazy, Suspense } from 'react'
 import { SkeletonItem } from '#ui/atoms/Skeleton'
-import DatePicker from 'react-datepicker'
+import type DatePicker from 'react-datepicker'
 
 const LazyInputDate = lazy(
   async () =>

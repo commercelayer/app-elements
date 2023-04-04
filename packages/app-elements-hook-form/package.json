@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "@commercelayer/app-elements": "workspace:^0.0.19",
-    "@commercelayer/eslint-config-ts-react": "^0.1.4",
+    "@commercelayer/eslint-config-ts-react": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/node": "^18.15.11",
@@ -35,13 +35,13 @@
     "@types/testing-library__jest-dom": "^5.14.5",
     "@vitejs/plugin-react": "^3.1.0",
     "eslint": "^8.37.0",
-    "jsdom": "^20.0.3",
+    "jsdom": "^21.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.43.9",
-    "typescript": "^4.9.5",
+    "typescript": "^5.0.3",
     "vite": "^4.2.1",
-    "vite-plugin-dts": "^1.7.3",
+    "vite-plugin-dts": "^2.2.0",
     "vitest": "^0.29.8"
   },
   "peerDependencies": {

@@ -4,7 +4,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { ComponentStory, Meta } from '@storybook/react'
+import { type ComponentStory, type Meta } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta = {

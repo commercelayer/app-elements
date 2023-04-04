@@ -1,5 +1,5 @@
 import { OrderSummary } from '#ui/resources/OrderSummary'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof OrderSummary> = {
   title: 'Resources/Order Summary',

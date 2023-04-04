@@ -1,4 +1,8 @@
-import { FetcherResponse, Resource, ListableResource } from './infiniteFetcher'
+import {
+  type FetcherResponse,
+  type Resource,
+  type ListableResource
+} from './infiniteFetcher'
 
 interface ResourceListInternalState<TResource extends ListableResource> {
   isLoading: boolean

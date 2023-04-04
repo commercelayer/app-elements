@@ -1,5 +1,5 @@
 import { useFormContext } from 'react-hook-form'
-import { InputFeedbackProps } from '@commercelayer/app-elements/dist/ui/forms/InputFeedback'
+import { type InputFeedbackProps } from '@commercelayer/app-elements/dist/ui/forms/InputFeedback'
 
 type MaybeFeedback = Omit<InputFeedbackProps, 'className'> | undefined
 

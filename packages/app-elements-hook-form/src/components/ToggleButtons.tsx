@@ -1,6 +1,6 @@
 import { useValidationFeedback } from '#components/useValidationFeedback'
 import { ToggleButtons as ToggleButtonsUi } from '@commercelayer/app-elements'
-import { ToggleButtonsProps } from '@commercelayer/app-elements/dist/ui/forms/ToggleButtons'
+import { type ToggleButtonsProps } from '@commercelayer/app-elements/dist/ui/forms/ToggleButtons'
 import { Controller, useFormContext } from 'react-hook-form'
 
 type Props = Omit<ToggleButtonsProps, 'value' | 'onChange'> & {

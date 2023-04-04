@@ -3,8 +3,8 @@ import { Legend } from '#app-elements/atoms/Legend'
 import { Stack } from '#app-elements/atoms/Stack'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/lists/ListItem'
-import { ComponentStory, Meta } from '@storybook/react'
+import { type ListItem } from '#ui/lists/ListItem'
+import { type ComponentStory, type Meta } from '@storybook/react'
 
 const setup: Meta = {
   title: 'Examples/Order Addresses',

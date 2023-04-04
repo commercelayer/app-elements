@@ -1,5 +1,5 @@
 import { InputTextArea } from '#ui/forms/InputTextArea'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof InputTextArea> = {
   title: 'Forms/InputTextArea',

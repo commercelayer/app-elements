@@ -1,6 +1,6 @@
 import { A } from '#ui/atoms/A'
 import { Legend } from '#ui/atoms/Legend'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Legend> = {
   title: 'Atoms/Legend',

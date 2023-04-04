@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Legend } from '#ui/atoms/Legend'
 

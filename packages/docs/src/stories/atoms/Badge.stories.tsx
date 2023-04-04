@@ -1,5 +1,5 @@
 import { Badge } from '#ui/atoms/Badge'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Badge> = {
   title: 'Atoms/Badge',

@@ -1,5 +1,5 @@
-import { PageLayout, PageLayoutProps } from './PageLayout'
-import { render, RenderResult } from '@testing-library/react'
+import { PageLayout, type PageLayoutProps } from './PageLayout'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps extends Omit<PageLayoutProps, 'children'> {
   id: string

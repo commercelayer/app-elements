@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode'
-import { Mode } from './types'
+import { type Mode } from './types'
 
 interface JWTProps {
   organization: {

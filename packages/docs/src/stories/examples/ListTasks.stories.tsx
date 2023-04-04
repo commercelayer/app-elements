@@ -1,7 +1,7 @@
 import { A } from '#ui/atoms/A'
 import { Text } from '#ui/atoms/Text'
 import { Button } from '#ui/atoms/Button'
-import { ComponentStory, Meta } from '@storybook/react'
+import { type ComponentStory, type Meta } from '@storybook/react'
 import { Icon } from '#ui/atoms/Icon'
 import { List } from '#ui/lists/List'
 import { ListItem } from '#ui/lists/ListItem'
@@ -37,7 +37,9 @@ export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
             recordsPerPage: 20,
             recordCount: 243,
             currentPage,
-            onChangePageRequest: (newPage: number) => setCurrentPage(newPage),
+            onChangePageRequest: (newPage: number) => {
+              setCurrentPage(newPage)
+            },
             pageCount: 5
           }}
         >

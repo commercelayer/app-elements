@@ -1,6 +1,6 @@
 import { DropdownMenuDivider, DropdownMenuItem } from '#ui/atoms/dropdown'
 import { ContextMenu } from '#ui/composite/ContextMenu'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof ContextMenu> = {
   title: 'Composite/ContextMenu',

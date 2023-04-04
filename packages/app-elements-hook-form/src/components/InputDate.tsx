@@ -1,5 +1,5 @@
 import { InputDate as InputDateUi } from '@commercelayer/app-elements'
-import { InputDateProps } from '@commercelayer/app-elements/dist/ui/forms/InputDate/InputDateComponent'
+import { type InputDateProps } from '@commercelayer/app-elements/dist/ui/forms/InputDate/InputDateComponent'
 
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '#components/useValidationFeedback'

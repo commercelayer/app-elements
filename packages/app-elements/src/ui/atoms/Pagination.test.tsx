@@ -1,5 +1,5 @@
-import { Pagination, PaginationProps } from './Pagination'
-import { render, RenderResult } from '@testing-library/react'
+import { Pagination, type PaginationProps } from './Pagination'
+import { render, type RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement

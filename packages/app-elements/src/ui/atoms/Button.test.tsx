@@ -1,5 +1,5 @@
-import { render, RenderResult } from '@testing-library/react'
-import { Button, ButtonSize, ButtonVariant } from './Button'
+import { render, type RenderResult } from '@testing-library/react'
+import { Button, type ButtonSize, type ButtonVariant } from './Button'
 
 interface SetupProps {
   id: string

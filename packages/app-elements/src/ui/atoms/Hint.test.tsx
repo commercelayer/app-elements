@@ -1,5 +1,5 @@
-import { Hint, HintProps } from './Hint'
-import { render, RenderResult } from '@testing-library/react'
+import { Hint, type HintProps } from './Hint'
+import { render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps extends Omit<HintProps, 'children'> {
   id: string

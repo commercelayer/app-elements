@@ -1,5 +1,5 @@
 import { InputDateRange } from '#ui/forms/InputDateRange'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: ComponentMeta<typeof InputDateRange> = {

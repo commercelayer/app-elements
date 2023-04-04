@@ -1,5 +1,5 @@
 import { InputCheckbox } from './InputCheckbox'
-import { render, RenderResult, fireEvent } from '@testing-library/react'
+import { render, type RenderResult, fireEvent } from '@testing-library/react'
 import { useState } from 'react'
 
 interface SetupProps {
@@ -15,7 +15,12 @@ type SetupResult = RenderResult & {
 const Component = ({ checked }: SetupProps): JSX.Element => {
   const [state, setState] = useState(checked)
   return (
-    <InputCheckbox checked={state} onChange={(e) => setState(e.target.checked)}>
+    <InputCheckbox
+      checked={state}
+      onChange={(e) => {
+        setState(e.target.checked)
+      }}
+    >
       Check me
     </InputCheckbox>
   )

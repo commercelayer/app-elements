@@ -1,5 +1,5 @@
 import { Tab, Tabs } from './Tabs'
-import { fireEvent, render, RenderResult } from '@testing-library/react'
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { testInvariant } from '#utils/tests'
 
 interface SetupProps {
@@ -78,7 +78,7 @@ describe('Tabs', () => {
     testInvariant(() => {
       render(
         <Tabs data-test-id='mytabs' onTabSwitch={() => undefined}>
-          {/* @ts-expect-error */}
+          {/* @ts-expect-error I want to test with a wrong value. */}
           <Tab>Another tab</Tab>
           <Tab name='Hello'>Some tab</Tab>
         </Tabs>

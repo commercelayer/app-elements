@@ -3,7 +3,7 @@ import {
   flatSelectValues,
   getDefaultValueFromFlatten
 } from '@commercelayer/app-elements'
-import { InputSelectProps } from '@commercelayer/app-elements/dist/ui/forms/InputSelect'
+import { type InputSelectProps } from '@commercelayer/app-elements/dist/ui/forms/InputSelect'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '#components/useValidationFeedback'
 

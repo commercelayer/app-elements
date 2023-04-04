@@ -1,5 +1,5 @@
-import { InputDateComponent, InputDateProps } from './InputDateComponent'
-import { render, RenderResult, fireEvent } from '@testing-library/react'
+import { InputDateComponent, type InputDateProps } from './InputDateComponent'
+import { render, type RenderResult, fireEvent } from '@testing-library/react'
 
 interface SetupProps extends InputDateProps {
   id: string

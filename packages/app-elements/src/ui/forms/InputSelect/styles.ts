@@ -1,7 +1,7 @@
-import { StylesConfig } from 'react-select'
-import { SelectValue } from '.'
+import { type StylesConfig } from 'react-select'
+import { type SelectValue } from '.'
 import { getFeedbackCssInJs } from '#ui/forms/InputWrapper'
-import { InputFeedbackProps } from '#ui/forms/InputFeedback'
+import { type InputFeedbackProps } from '#ui/forms/InputFeedback'
 
 export const getSelectStyles = (
   feedbackVariant?: InputFeedbackProps['variant']

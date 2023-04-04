@@ -1,12 +1,12 @@
 import { useState } from 'react'
-import { InputDateRange, InputDateRangeProps } from './InputDateRange'
+import { InputDateRange, type InputDateRangeProps } from './InputDateRange'
 import {
   render,
-  RenderResult,
+  type RenderResult,
   waitFor,
   fireEvent
 } from '@testing-library/react'
-import { MaybeDate } from './InputDate/InputDateComponent'
+import { type MaybeDate } from './InputDate/InputDateComponent'
 
 interface SetupProps extends Omit<InputDateRangeProps, 'onChange'> {
   id: string
@@ -65,22 +65,30 @@ describe('InputDateRange', () => {
     expect(element).toBeInTheDocument()
 
     // waiting for lazy load component
-    await waitFor(() =>
+    await waitFor(() => {
       expect(element.getElementsByTagName('input')[0]).toBeInTheDocument()
-    )
+    })
 
     const inputFrom = element.getElementsByTagName('input')[0]
     const inputTo = element.getElementsByTagName('input')[1]
 
     fireEvent.change(inputFrom, { target: { value: '20-12-2022' } })
-    await waitFor(() => expect(inputFrom.value).toBe('20-12-2022'))
+    await waitFor(() => {
+      expect(inputFrom.value).toBe('20-12-2022')
+    })
 
     fireEvent.change(inputTo, { target: { value: '13-01-2023' } })
-    await waitFor(() => expect(inputTo.value).toBe('13-01-2023'))
+    await waitFor(() => {
+      expect(inputTo.value).toBe('13-01-2023')
+    })
 
     // change `from` to be higher then actual `to` value
     fireEvent.change(inputFrom, { target: { value: '20-02-2023' } })
-    await waitFor(() => expect(inputFrom.value).toBe('20-02-2023'))
-    await waitFor(() => expect(inputTo.value).toBe(inputFrom.value))
+    await waitFor(() => {
+      expect(inputFrom.value).toBe('20-02-2023')
+    })
+    await waitFor(() => {
+      expect(inputTo.value).toBe(inputFrom.value)
+    })
   })
 })

@@ -1,5 +1,5 @@
 import { Card } from '#ui/atoms/Card'
-import { ComponentStory, ComponentMeta } from '@storybook/react'
+import { type ComponentStory, type ComponentMeta } from '@storybook/react'
 
 const setup: ComponentMeta<typeof Card> = {
   title: 'Atoms/Card',

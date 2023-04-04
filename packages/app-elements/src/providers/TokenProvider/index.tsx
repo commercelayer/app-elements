@@ -1,6 +1,6 @@
 import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
@@ -13,10 +13,10 @@ import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { PageError } from '#ui/composite/PageError'
 import {
-  TokenProviderAllowedApp,
-  TokenProviderRoleActions,
-  TokenProviderResourceType,
-  TokenProviderAuthSettings
+  type TokenProviderAllowedApp,
+  type TokenProviderRoleActions,
+  type TokenProviderResourceType,
+  type TokenProviderAuthSettings
 } from './types'
 import { initialTokenProviderState, reducer } from './reducer'
 

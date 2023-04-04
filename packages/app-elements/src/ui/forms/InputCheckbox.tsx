@@ -1,6 +1,9 @@
-import { InputWrapperBaseProps, getFeedbackStyle } from '#ui/forms/InputWrapper'
+import {
+  type InputWrapperBaseProps,
+  getFeedbackStyle
+} from '#ui/forms/InputWrapper'
 import cn from 'classnames'
-import { ReactNode, forwardRef } from 'react'
+import { type ReactNode, forwardRef } from 'react'
 import { InputWrapper } from './InputWrapper'
 
 export interface InputCheckboxProps

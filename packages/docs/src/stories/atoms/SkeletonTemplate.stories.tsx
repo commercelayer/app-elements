@@ -10,13 +10,13 @@ import {
   withSkeletonTemplate
 } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
-import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { type ComponentMeta, type ComponentStory } from '@storybook/react'
 import {
   cloneElement,
   createElement,
   forwardRef,
   isValidElement,
-  ReactNode
+  type ReactNode
 } from 'react'
 
 const setup: ComponentMeta<typeof SkeletonTemplate> = {
@@ -57,7 +57,9 @@ const children = (
     <ListItem
       tag='div'
       borderStyle='dashed'
-      onClick={() => alert('Hello world!')}
+      onClick={() => {
+        alert('Hello world!')
+      }}
       icon={
         <Avatar
           alt='Commerce Layer'
@@ -75,12 +77,24 @@ const children = (
         <Text tag='div'>Ehi there!</Text>
         <Badge label='APPROVED' variant='primary' />
       </div>
-      <Button onClick={() => alert('Hello world!')}>OK</Button>
+      <Button
+        onClick={() => {
+          alert('Hello world!')
+        }}
+      >
+        OK
+      </Button>
     </ListItem>
     <Spacer top='8'>
       <a href='https://example.com'>It's a link</a>
       <br />
-      <div onClick={() => alert('Hello world!')}>It's an onClick</div>
+      <div
+        onClick={() => {
+          alert('Hello world!')
+        }}
+      >
+        It's an onClick
+      </div>
       <Text>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce diam
         odio, aliquet eget nulla id, imperdiet dignissim libero. Nunc vulputate
