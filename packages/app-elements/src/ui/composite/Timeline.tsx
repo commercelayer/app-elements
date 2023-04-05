@@ -1,4 +1,4 @@
-import { formatDate, isCurrentYear, isToday } from '#helpers/date'
+import { formatDate } from '#helpers/date'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { Icon } from '#ui/atoms/Icon'
@@ -8,18 +8,18 @@ import groupBy from 'lodash/groupBy'
 import orderBy from 'lodash/orderBy'
 import { Fragment, type ReactNode, useMemo } from 'react'
 
-interface Event {
+export interface TimelineEvent {
   date: string
   message: ReactNode
   note?: string
 }
 
-type EventWithIcon = Event & {
+type EventWithIcon = TimelineEvent & {
   icon: JSX.Element
 }
 
 interface Props {
-  events: Event[]
+  events: TimelineEvent[]
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
@@ -32,7 +32,9 @@ export const Timeline = withSkeletonTemplate<Props>(
           return { ...event, icon: getIcon(event, index, arr) }
         }
       )
-      return groupBy(ordered, (val) => getDate(val.date))
+      return groupBy(ordered, (val) =>
+        formatDate({ isoDate: val.date, format: 'date' }).toUpperCase()
+      )
     }, [events])
     return (
       <div data-test-id='timeline'>
@@ -53,7 +55,7 @@ export const Timeline = withSkeletonTemplate<Props>(
                 <Badge
                   data-test-id='timeline-date-group'
                   className='rounded-full bg-gray-100 py-1 px-3 font-bold'
-                  label={date.toUpperCase()}
+                  label={date}
                   variant='secondary'
                 />
               </div>
@@ -92,16 +94,11 @@ export const Timeline = withSkeletonTemplate<Props>(
   }
 )
 
-function getDate(isoDate: string): string {
-  return isToday(isoDate)
-    ? 'TODAY'
-    : formatDate({
-        isoDate,
-        format: isCurrentYear(isoDate) ? 'noYear' : 'noTime'
-      })
-}
-
-function getIcon(event: Event, index: number, events: Event[]): JSX.Element {
+function getIcon(
+  event: TimelineEvent,
+  index: number,
+  events: TimelineEvent[]
+): JSX.Element {
   const isFirst = index === events.length - 1
 
   if (event.note != null) {
