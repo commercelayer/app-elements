@@ -1,8 +1,12 @@
-import { utcToZonedTime } from 'date-fns-tz'
+import utcToZonedTime from 'date-fns-tz/utcToZonedTime'
+import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc'
+import endOfDay from 'date-fns/endOfDay'
 import format from 'date-fns/format'
-import isToday from 'date-fns/isToday'
-import isThisYear from 'date-fns/isThisYear'
 import formatDistance from 'date-fns/formatDistance'
+import isThisYear from 'date-fns/isThisYear'
+import isToday from 'date-fns/isToday'
+import startOfDay from 'date-fns/startOfDay'
+import sub from 'date-fns/sub'
 
 type Format =
   | 'date'
@@ -106,4 +110,85 @@ function getPresetFormatTemplate(
         utcToZonedTime(new Date(), timezone)
       )} ago'`
   }
+}
+
+type DateISOString = string
+/**
+ * Calculate the time-zoned start or end of the day from an ISO date string.
+ * Useful when getting date from a date range picker.
+ * @param isoString a JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z'
+ * @param edge 'startOfTheDay' or 'endOfTheDay'
+ * @param timezone Set a specific timezone, when not passed default value is 'UTC'
+ * @returns a JavaScript ISO date string that reflect the start or end of the day
+ * based on the user timezone. Example '2022-10-06T22:00:00.000Z' when timezone is 'Europe/Rome'
+ */
+export function getIsoDateAtDayEdge({
+  isoString,
+  edge,
+  timezone = 'UTC'
+}: {
+  isoString: DateISOString
+  edge: 'startOfTheDay' | 'endOfTheDay'
+  timezone?: string
+}): string | undefined {
+  try {
+    const date = new Date(isoString)
+    if (date == null || isoString == null) {
+      return undefined
+    }
+
+    const zonedDate = utcToZonedTime(date, timezone)
+
+    if (edge === 'startOfTheDay') {
+      return zonedTimeToUtc(startOfDay(zonedDate), timezone).toISOString()
+    }
+
+    if (edge === 'endOfTheDay') {
+      return zonedTimeToUtc(endOfDay(zonedDate), timezone).toISOString()
+    }
+
+    return undefined
+  } catch {
+    return undefined
+  }
+}
+
+/**
+ * Subtract n days from an ISO date string
+ * to always return the correspondent time-zoned start of the day
+ *
+ * Example: if date-now is the 8th of March at 16:00 Italian time
+ * and I want to get the date at -7, the result will be
+ * '2022-03-01T23:00:00.000Z' as UTC string since my timezone is 'Europe/Rome'
+ * and on the 8th of March I was at +1 from UTC
+ *
+ * @param isoString JavaScript ISO date (eg: '2022-03-01T23:00:00.000Z')
+ * @param days positive number of days to subtract
+ * @param timezone (optional) in case of working with a specific timezone different from UTC
+ * @returns a new iso string
+ */
+export function getIsoDateAtDaysBefore({
+  isoString,
+  days,
+  timezone = 'UTC'
+}: {
+  isoString: DateISOString
+  days: number
+  timezone?: string
+}): string | undefined {
+  if (days < 0) {
+    return undefined
+  }
+
+  const startOfDay = getIsoDateAtDayEdge({
+    isoString,
+    edge: 'startOfTheDay',
+    timezone
+  })
+
+  if (startOfDay == null) {
+    return undefined
+  }
+
+  return sub(new Date(startOfDay), { days }).toISOString()
 }
