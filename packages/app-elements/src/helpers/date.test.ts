@@ -203,6 +203,16 @@ describe('getIsoDateAtDayEdge', () => {
     ).toBe('2023-02-16T23:00:00.000Z')
   })
 
+  test('should set start of the day in Rome', () => {
+    expect(
+      getIsoDateAtDayEdge({
+        isoString: '2023-04-17T10:31:28.454Z',
+        edge: 'startOfTheDay',
+        timezone: 'Europe/Rome'
+      })
+    ).toBe('2023-04-16T22:00:00.000Z')
+  })
+
   test('should set end of the day in Rome', () => {
     expect(
       getIsoDateAtDayEdge({
