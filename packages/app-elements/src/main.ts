@@ -51,7 +51,7 @@ export { PageError } from '#ui/composite/PageError'
 export { PageLayout } from '#ui/composite/PageLayout'
 export { PageSkeleton } from '#ui/composite/PageSkeleton'
 export { Report } from '#ui/composite/Report'
-export { Timeline } from '#ui/composite/Timeline'
+export { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 
 // Forms
 export { Input } from '#ui/forms/Input'

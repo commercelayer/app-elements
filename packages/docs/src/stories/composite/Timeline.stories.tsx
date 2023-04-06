@@ -1,10 +1,10 @@
 import { Text } from '#app-elements/atoms/Text'
 import { Timeline } from '#ui/composite/Timeline'
 
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { set, sub } from 'date-fns'
 
-const setup: ComponentMeta<typeof Timeline> = {
+const setup: Meta<typeof Timeline> = {
   title: 'Composite/Timeline',
   component: Timeline,
   parameters: {
@@ -13,9 +13,7 @@ const setup: ComponentMeta<typeof Timeline> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Timeline> = (args) => (
-  <Timeline {...args} />
-)
+const Template: StoryFn<typeof Timeline> = (args) => <Timeline {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
@@ -50,7 +48,7 @@ Default.args = {
         minutes: 6,
         seconds: 27
       }).toJSON(),
-      message: '$250,5 authorized on stripe · 6:27'
+      message: '$250,5 authorized on stripe · 06:27'
     },
     {
       date: set(new Date(), {
@@ -59,7 +57,7 @@ Default.args = {
         minutes: 6,
         seconds: 28
       }).toJSON(),
-      message: 'Approved · 6:28 AM'
+      message: 'Approved · 06:28'
     },
     {
       date: set(new Date(), {
@@ -68,7 +66,7 @@ Default.args = {
         minutes: 6,
         seconds: 29
       }).toJSON(),
-      message: '$250,50 captured on stripe · 6:29'
+      message: '$250,50 captured on stripe · 06:29'
     },
     {
       date: set(new Date(), {
@@ -77,7 +75,7 @@ Default.args = {
         minutes: 6,
         seconds: 20
       }).toJSON(),
-      message: 'Fulfillment in progress · 6:20'
+      message: 'Fulfillment in progress · 06:20'
     },
     {
       date: set(new Date(), {
@@ -88,7 +86,7 @@ Default.args = {
       }).toJSON(),
       message: (
         <span>
-          <Text weight='bold'>S. Jennigs</Text> left a note · 8:35
+          <Text weight='bold'>S. Jennigs</Text> left a note · 08:35
         </span>
       ),
       note: 'Customer would like to receive parcel sooner, please request the customer phone number.'
