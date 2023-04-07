@@ -60,7 +60,7 @@ interface BaseProps
 interface SingleValueProps {
   mode: 'single'
   value?: ToggleButtonValue
-  onChange: (value?: ToggleButtonValue) => void
+  onChange: (value: ToggleButtonValue | null) => void
 }
 interface MultiValuesProps {
   mode: 'multi'
@@ -113,7 +113,7 @@ function ToggleButtons({
                 onChange(newValues)
               } else {
                 // when is single value mode, we need also to handle the un-check action
-                onChange(isChecked ? undefined : opt.value)
+                onChange(isChecked ? null : opt.value)
               }
             }
             return (
