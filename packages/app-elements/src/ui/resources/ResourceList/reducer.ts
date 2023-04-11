@@ -21,6 +21,9 @@ type Action<TResource extends ListableResource> =
       type: 'prepare'
     }
   | {
+      type: 'reset'
+    }
+  | {
       type: 'loaded'
       payload: FetcherResponse<Resource<TResource>>
     }
@@ -55,7 +58,12 @@ export const reducer = <TResource extends ListableResource>(
           message: action.payload
         }
       }
-    default:
-      return state
+    case 'reset':
+      return {
+        ...state,
+        error: undefined,
+        isLoading: true,
+        data: undefined
+      }
   }
 }

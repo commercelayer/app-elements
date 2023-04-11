@@ -1,3 +1,4 @@
+import { useIsChanged } from '#hooks/useIsChanged'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState, type EmptyStateProps } from '#ui/atoms/EmptyState'
 import { Legend, type LegendProps } from '#ui/atoms/Legend'
@@ -5,16 +6,16 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import {
-  type CommerceLayerClient,
   CommerceLayerStatic,
+  type CommerceLayerClient,
   type QueryParamsList
 } from '@commercelayer/sdk'
-import { type FC, useCallback, useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import {
+  infiniteFetcher,
   type ListableResource,
-  type Resource,
-  infiniteFetcher
+  type Resource
 } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
 
@@ -47,28 +48,40 @@ function ResourceList<TResource extends ListableResource>({
     initialState
   )
 
-  const fetchMore = useCallback(async (): Promise<void> => {
-    if (sdkClient == null) {
-      return
+  const isQueryChanged = useIsChanged({
+    value: query,
+    onChange: () => {
+      dispatch({ type: 'reset' })
+      void fetchMore({ query })
     }
-    dispatch({ type: 'prepare' })
-    try {
-      const listResponse = await infiniteFetcher({
-        sdkClient,
-        currentData: data,
-        resourceType: type,
-        query
-      })
-      dispatch({ type: 'loaded', payload: listResponse })
-    } catch (err) {
-      dispatch({ type: 'error', payload: parseApiErrorMessage(err) })
-    }
-  }, [sdkClient, data])
+  })
+
+  const fetchMore = useCallback(
+    async ({ query }: { query?: QueryParamsList }): Promise<void> => {
+      if (sdkClient == null) {
+        return
+      }
+      dispatch({ type: 'prepare' })
+      try {
+        const listResponse = await infiniteFetcher({
+          sdkClient,
+          // when is new query, we don't want to pass existing data
+          currentData: isQueryChanged ? undefined : data,
+          resourceType: type,
+          query
+        })
+        dispatch({ type: 'loaded', payload: listResponse })
+      } catch (err) {
+        dispatch({ type: 'error', payload: parseApiErrorMessage(err) })
+      }
+    },
+    [sdkClient, data, isQueryChanged]
+  )
 
   useEffect(
     function initialFetch() {
       if (sdkClient != null) {
-        void fetchMore()
+        void fetchMore({ query })
       }
     },
     [sdkClient]
@@ -118,7 +131,7 @@ function ResourceList<TResource extends ListableResource>({
         <ErrorLine
           message={error.message}
           onRetry={() => {
-            void fetchMore()
+            void fetchMore({ query })
           }}
         />
       ) : isLoading ? (
@@ -136,7 +149,7 @@ function ResourceList<TResource extends ListableResource>({
           enabled={hasMorePages}
           callback={(entry) => {
             if (entry.isIntersecting) {
-              void fetchMore()
+              void fetchMore({ query })
             }
           }}
         />
