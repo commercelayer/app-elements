@@ -1,19 +1,20 @@
 import { type CommerceLayerClient } from '@commercelayer/sdk'
 import {
   createContext,
-  type ReactNode,
   useContext,
   useEffect,
-  useState
+  useState,
+  type ReactNode
 } from 'react'
-import { makeSdkClient } from './makeSdkClient'
+import { type SetOptional } from 'type-fest'
 import { useTokenProvider } from '../TokenProvider'
+import { makeSdkClient } from './makeSdkClient'
 
 interface CoreSdkProviderValue {
   /**
    * Valid SDK client
    */
-  sdkClient?: CommerceLayerClient
+  sdkClient: CommerceLayerClient
 }
 
 interface CoreSdkProviderProps {
@@ -23,10 +24,13 @@ interface CoreSdkProviderProps {
   children: ((props: CoreSdkProviderValue) => ReactNode) | ReactNode
 }
 
-const Context = createContext<CoreSdkProviderValue>({})
+const Context = createContext<SetOptional<CoreSdkProviderValue, 'sdkClient'>>(
+  {}
+)
 
 export const useCoreSdkProvider = (): CoreSdkProviderValue => {
-  return useContext(Context)
+  // type cast is assumed safe because the provider returns children only when `sdkClient` is defined
+  return useContext(Context as React.Context<CoreSdkProviderValue>)
 }
 
 function CoreSdkProvider({
@@ -37,7 +41,9 @@ function CoreSdkProvider({
     settings: { accessToken, domain, organizationSlug }
   } = useTokenProvider()
 
-  const [sdkClient, setSdkClient] = useState<CommerceLayerClient>()
+  const [sdkClient, setSdkClient] = useState<CommerceLayerClient | undefined>(
+    undefined
+  )
 
   useEffect(
     function signSdk() {
@@ -57,6 +63,10 @@ function CoreSdkProvider({
     },
     [accessToken, organizationSlug]
   )
+
+  if (sdkClient == null) {
+    return <></>
+  }
 
   const value: CoreSdkProviderValue = {
     sdkClient
