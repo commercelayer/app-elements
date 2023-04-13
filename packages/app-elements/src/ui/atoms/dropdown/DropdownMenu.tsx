@@ -30,7 +30,7 @@ function DropdownMenu({ children, arrow, ...rest }: Props): JSX.Element {
       <div
         {...rest}
         className={cn([
-          'bg-black text-white rounded py-[5px] min-w-[150px] overflow-hidden',
+          'bg-black text-white rounded min-w-[150px] overflow-hidden',
           showArrowMenuCss
         ])}
       >

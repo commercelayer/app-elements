@@ -4,7 +4,7 @@ interface Props extends React.HTMLAttributes<HTMLElement> {
 
 function DropdownMenuDivider({ children, ...rest }: Props): JSX.Element {
   return (
-    <div {...rest} className='py-1'>
+    <div {...rest} className='h-px'>
       <hr className='border-gray-600' />
     </div>
   )

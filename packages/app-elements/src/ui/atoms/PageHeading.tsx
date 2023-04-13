@@ -60,11 +60,7 @@ function PageHeading({
       {(onGoBack != null || actionButton != null) && (
         <div
           className={cn(
-            {
-              'mb-4': badgeLabel == null,
-              'mb-2': badgeLabel != null
-            },
-            'flex items-center justify-between'
+            'mb-4 flex items-center justify-between'
           )}
         >
           {onGoBack != null ? (
@@ -76,13 +72,13 @@ function PageHeading({
         </div>
       )}
       {badgeLabel != null && (
-        <div className='my-4 md:!mt-0' data-test-id='page-heading-badge'>
+        <div className='flex mb-4 md:!mt-0' data-test-id='page-heading-badge'>
           <Badge variant={badgeVariant} label={badgeLabel} />
         </div>
       )}
       <h1 className='font-semibold text-title leading-title'>{title}</h1>
       {description !== null && (
-        <div className='text-gray-500 leading-6 pt-2'>{description}</div>
+        <div className='text-gray-500 leading-6'>{description}</div>
       )}
     </div>
   )
