@@ -51,6 +51,12 @@ export interface InputDateProps extends InputWrapperBaseProps {
    * enables a button to clear the selected date
    */
   isClearable?: boolean
+  /**
+   * prevent the date picker calendar from opening on focus,
+   * this is useful when showing validation error message and
+   * to avoid the calendar to open on top of the error message
+   */
+  preventOpenOnFocus?: boolean
 }
 
 const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
@@ -68,6 +74,7 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       isClearable,
       hint,
       feedback,
+      preventOpenOnFocus,
       ...rest
     },
     ref
@@ -78,6 +85,7 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
         {...rest}
         className={wrapperClassName}
         hint={hint}
+        feedback={feedback}
         label={label}
       >
         <div className='relative'>
@@ -98,6 +106,7 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
               getFeedbackStyle(feedback),
               inputClassName
             )}
+            preventOpenOnFocus={preventOpenOnFocus}
           />
           <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
             <CalendarBlank />

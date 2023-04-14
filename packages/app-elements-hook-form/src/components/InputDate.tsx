@@ -1,6 +1,5 @@
 import { InputDate as InputDateUi } from '@commercelayer/app-elements'
 import { type InputDateProps } from '@commercelayer/app-elements/dist/ui/forms/InputDate/InputDateComponent'
-
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '#components/useValidationFeedback'
 
@@ -20,7 +19,16 @@ function InputDate({ name, ...props }: Props): JSX.Element {
       name={name}
       control={control}
       render={({ field }) => (
-        <InputDateUi {...props} {...field} feedback={feedback} />
+        <InputDateUi
+          {...props}
+          {...field}
+          feedback={feedback}
+          ref={(ref) => {
+            field.ref({
+              focus: ref?.setFocus
+            })
+          }}
+        />
       )}
     />
   )
