@@ -14,7 +14,7 @@ exports[`PageLayout > Should be rendered 1`] = `
       Page title
     </h1>
     <div
-      class="text-gray-500 leading-6 pt-2"
+      class="text-gray-500 leading-6"
     />
   </div>
   <div>

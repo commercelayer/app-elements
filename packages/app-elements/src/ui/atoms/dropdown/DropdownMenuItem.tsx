@@ -7,7 +7,7 @@ function DropdownMenuItem({ label, icon, ...rest }: Props): JSX.Element {
   return (
     <button
       {...rest}
-      className='w-full bg-black text-white py-1 px-4 text-sm font-semibold cursor-pointer hover:bg-primary flex items-center'
+      className='w-full bg-black text-white py-2 pl-4 pr-8  text-sm font-semibold cursor-pointer hover:bg-primary flex items-center'
       aria-label={label}
     >
       {icon != null && <div>{icon}</div>}
