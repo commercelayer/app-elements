@@ -58,11 +58,7 @@ function PageHeading({
       {...rest}
     >
       {(onGoBack != null || actionButton != null) && (
-        <div
-          className={cn(
-            'mb-4 flex items-center justify-between'
-          )}
-        >
+        <div className={cn('mb-4 flex items-center justify-between')}>
           {onGoBack != null ? (
             <button onClick={onGoBack}>
               <ArrowLeft className='text-2.5xl' />

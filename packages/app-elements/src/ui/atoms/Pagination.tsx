@@ -132,7 +132,7 @@ interface PaginationButtonProps
 }
 
 function PaginationButton({
-  isActive,
+  isActive = false,
   children,
   ...props
 }: PaginationButtonProps): JSX.Element {
