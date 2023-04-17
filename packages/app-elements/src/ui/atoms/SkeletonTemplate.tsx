@@ -164,7 +164,8 @@ const SkeletonTemplate: SkeletonTemplateComponent<
               'Badge',
               'Button',
               'Icon',
-              'RadialProgress'
+              'RadialProgress',
+              'ButtonFilter'
             ])
           ) {
             return cloneElement(child, {
