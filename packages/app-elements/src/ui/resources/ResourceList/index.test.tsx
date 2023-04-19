@@ -41,9 +41,7 @@ const setup = ({
       title='All orders'
       Item={Item}
       query={query}
-      emptyState={{
-        title: 'No orders found'
-      }}
+      emptyState={<div>No orders found</div>}
       sdkClient={CommerceLayer({
         accessToken: 'abc123',
         organization: 'demo-store'
