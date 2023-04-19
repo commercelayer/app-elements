@@ -84,6 +84,7 @@ const iconMapping = {
   eye: phosphor.Eye,
   flag: phosphor.Flag,
   funnel: phosphor.FunnelSimple,
+  magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
   stack: phosphor.Stack,
   upload: phosphor.Upload,
