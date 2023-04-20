@@ -1,10 +1,7 @@
-import {
-  type FetcherResponse,
-  type Resource,
-  type ListableResource
-} from './infiniteFetcher'
+import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type FetcherResponse, type Resource } from './infiniteFetcher'
 
-interface ResourceListInternalState<TResource extends ListableResource> {
+interface ResourceListInternalState<TResource extends ListableResourceType> {
   isLoading: boolean
   error?: {
     message: string
@@ -16,7 +13,7 @@ export const initialState: ResourceListInternalState<any> = {
   isLoading: true
 }
 
-type Action<TResource extends ListableResource> =
+type Action<TResource extends ListableResourceType> =
   | {
       type: 'prepare'
     }
@@ -32,7 +29,7 @@ type Action<TResource extends ListableResource> =
       payload: string
     }
 
-export const reducer = <TResource extends ListableResource>(
+export const reducer = <TResource extends ListableResourceType>(
   state: ResourceListInternalState<TResource>,
   action: Action<TResource>
 ): ResourceListInternalState<TResource> => {

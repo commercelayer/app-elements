@@ -1,28 +1,12 @@
 import type { CommerceLayerClient, QueryParamsList } from '@commercelayer/sdk'
+import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import uniqBy from 'lodash/uniqBy'
 
-export type ListableResource = Exclude<
-  keyof CommerceLayerClient,
-  | 'addRawResponseReader'
-  | 'addRawResponseReader'
-  | 'addRequestInterceptor'
-  | 'addResponseInterceptor'
-  | 'application'
-  | 'config'
-  | 'currentOrganization'
-  | 'isApiError'
-  | 'openApiSchemaVersion'
-  | 'organization'
-  | 'removeInterceptor'
-  | 'removeRawResponseReader'
-  | 'resources'
->
-
-type ListResource<TResource extends ListableResource> = Awaited<
+type ListResource<TResource extends ListableResourceType> = Awaited<
   ReturnType<CommerceLayerClient[TResource]['list']>
 >
 
-export type Resource<TResource extends ListableResource> =
+export type Resource<TResource extends ListableResourceType> =
   ListResource<TResource>[number]
 
 export interface FetcherResponse<TResource> {
@@ -35,7 +19,7 @@ export interface FetcherResponse<TResource> {
   }
 }
 
-export async function infiniteFetcher<TResource extends ListableResource>({
+export async function infiniteFetcher<TResource extends ListableResourceType>({
   sdkClient,
   query,
   currentData,

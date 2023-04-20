@@ -1,6 +1,6 @@
 import { useIsChanged } from '#hooks/useIsChanged'
 import { Button } from '#ui/atoms/Button'
-import { EmptyState, type EmptyStateProps } from '#ui/atoms/EmptyState'
+import { EmptyState } from '#ui/atoms/EmptyState'
 import { Legend, type LegendProps } from '#ui/atoms/Legend'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -10,18 +10,15 @@ import {
   type CommerceLayerClient,
   type QueryParamsList
 } from '@commercelayer/sdk'
+import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
-import {
-  infiniteFetcher,
-  type ListableResource,
-  type Resource
-} from './infiniteFetcher'
+import { infiniteFetcher, type Resource } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
 
 const LegendWithSkeleton = withSkeletonTemplate(Legend)
 
-export interface ResourceListProps<TResource extends ListableResource>
+export interface ResourceListProps<TResource extends ListableResourceType>
   extends Pick<LegendProps, 'title' | 'actionButton'> {
   type: TResource
   query?: Omit<QueryParamsList, 'pageNumber'>
@@ -30,11 +27,11 @@ export interface ResourceListProps<TResource extends ListableResource>
     isLoading?: boolean
     delayMs?: number
   }>
-  emptyState: EmptyStateProps
+  emptyState: JSX.Element
   sdkClient?: CommerceLayerClient
 }
 
-function ResourceList<TResource extends ListableResource>({
+function ResourceList<TResource extends ListableResourceType>({
   type,
   query,
   title,
@@ -103,7 +100,7 @@ function ResourceList<TResource extends ListableResource>({
 
   const isEmptyList = data != null && data.list.length === 0
   if (isEmptyList) {
-    return <EmptyState {...emptyState} />
+    return <>{emptyState}</>
   }
 
   const isFirstLoading = isLoading && data == null
