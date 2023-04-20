@@ -1,6 +1,6 @@
 {
   "name": "@commercelayer/app-elements-hook-form",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "type": "module",
   "files": [
     "dist"
@@ -25,7 +25,7 @@
     "test:watch": "vitest"
   },
   "devDependencies": {
-    "@commercelayer/app-elements": "workspace:^0.0.23",
+    "@commercelayer/app-elements": "workspace:^0.0.24",
     "@commercelayer/eslint-config-ts-react": "^1.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
