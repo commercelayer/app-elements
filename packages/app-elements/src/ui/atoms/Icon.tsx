@@ -71,10 +71,12 @@ Icon.displayName = 'Icon'
 export { Icon }
 
 const iconMapping = {
+  arrowBendDownRight: phosphor.ArrowBendDownRight,
   arrowCircleDown: phosphor.ArrowCircleDown,
   arrowClockwise: phosphor.ArrowClockwise,
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
+  asterisk: phosphor.AsteriskSimple,
   caretRight: phosphor.CaretRight,
   chatCircle: phosphor.ChatCircle,
   check: phosphor.Check,
@@ -86,6 +88,7 @@ const iconMapping = {
   funnel: phosphor.FunnelSimple,
   magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
+  package: phosphor.Package,
   stack: phosphor.Stack,
   upload: phosphor.Upload,
   user: phosphor.User,
