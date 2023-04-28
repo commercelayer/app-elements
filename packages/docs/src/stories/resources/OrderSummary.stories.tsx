@@ -133,6 +133,7 @@ LineItemsOptions.args = {
     status: 'approved',
     payment_status: 'paid',
     fulfillment_status: 'fulfilled',
+
     subtotal_amount_cents: 14160,
     formatted_subtotal_amount: '$141.60',
     discount_amount_cents: 0,
@@ -248,4 +249,152 @@ LineItemsOptions.args = {
       }
     ]
   }
+}
+
+export const WithBundle = Template.bind({})
+WithBundle.args = {
+  isLoading: false,
+  order: {
+    type: 'orders',
+    id: '',
+    created_at: '',
+    updated_at: '',
+    status: 'approved',
+    payment_status: 'paid',
+    fulfillment_status: 'fulfilled',
+
+    subtotal_amount_cents: 14160,
+    formatted_subtotal_amount: '$141.60',
+    discount_amount_cents: 0,
+    formatted_discount_amount: '$0.00',
+    adjustment_amount_cents: 0,
+    formatted_adjustment_amount: '$0.00',
+    shipping_amount_cents: 1200,
+    formatted_shipping_amount: '$12.00',
+    payment_method_amount_cents: 1000,
+    formatted_payment_method_amount: '$10.00',
+    total_tax_amount_cents: 3115,
+    formatted_total_tax_amount: '$31.15',
+    gift_card_amount_cents: 0,
+    formatted_gift_card_amount: '$0.00',
+    total_amount_cents: 16360,
+    formatted_total_amount: '$163.60',
+    line_items: [
+      {
+        id: 'PljQzimxgB',
+        type: 'line_items',
+        item_type: 'bundles',
+        sku_code: null,
+        bundle_code: 'WELCOME_KIT_001',
+        quantity: 1,
+        currency_code: 'USD',
+        unit_amount_cents: 1000,
+        unit_amount_float: 10,
+        formatted_unit_amount: '$10.00',
+        formatted_options_amount: '$0.00',
+        formatted_discount: '$0.00',
+        total_amount_cents: 1000,
+        total_amount_float: 10,
+        formatted_total_amount: '$10.00',
+        tax_amount_cents: 0,
+        tax_amount_float: 0,
+        name: 'Welcome KIT',
+        image_url:
+          'https://data.commercelayer.app/assets/images/t-shirts/color/png/t-shirt-flat_GREEN-ALIEN.png',
+        created_at: '2023-04-28T09:46:16.219Z',
+        updated_at: '2023-04-28T09:46:16.219Z'
+      }
+    ]
+  },
+  bundles: [
+    {
+      id: 'PljQzimxgB',
+      type: 'bundles',
+      code: 'WELCOME_KIT_001',
+      name: 'Welcome KIT',
+      currency_code: 'USD',
+      description: '',
+      image_url:
+        'https://data.commercelayer.app/assets/images/t-shirts/color/png/t-shirt-flat_GREEN-ALIEN.png',
+      do_not_ship: false,
+      do_not_track: false,
+      price_amount_cents: 1000,
+      price_amount_float: 10,
+      formatted_price_amount: '$10.00',
+      compare_at_amount_cents: 7002,
+      compare_at_amount_float: 70.02,
+      formatted_compare_at_amount: '$70.02',
+      skus_count: 3,
+      created_at: '2022-05-19T12:54:45.855Z',
+      updated_at: '2022-05-19T12:56:23.780Z',
+
+      sku_list: {
+        id: 'wbWxZIPOzy',
+        type: 'sku_lists',
+        name: '',
+        slug: '',
+        created_at: '2022-05-19T12:53:58.738Z',
+        updated_at: '2022-05-19T12:54:17.095Z',
+        sku_list_items: [
+          {
+            id: 'rzDpOINGZz',
+            type: 'sku_list_items',
+            position: 1,
+            sku_code: 'TSHIRTMS000000FFFFFFLXXX',
+            quantity: 1,
+            created_at: '2022-05-19T12:54:11.189Z',
+            updated_at: '2022-05-19T12:54:11.189Z',
+            sku: {
+              id: 'ZDklSXyJDg',
+              type: 'skus',
+              code: 'TSHIRTMS000000FFFFFFLXXX',
+              name: 'Black Men T-Shirt with White Logo (L)',
+              image_url:
+                'https://data.commercelayer.app/seed/images/skus/TSHIRTMS000000FFFFFFLXXX_FLAT.png',
+              created_at: '2022-05-02T16:14:39.047Z',
+              updated_at: '2022-05-02T16:14:39.047Z'
+            }
+          },
+          {
+            id: 'MgMRPIKVqW',
+            type: 'sku_list_items',
+            position: 2,
+            sku_code: 'MESHBACK323230FFFFFFXXXX',
+            quantity: 2,
+            created_at: '2022-05-19T12:54:14.029Z',
+            updated_at: '2022-05-19T12:54:14.029Z',
+            sku: {
+              id: 'ZDklSXywXX',
+              type: 'skus',
+              code: 'MESHBACK323230FFFFFFXXXX',
+              name: 'Gray Mesh Back Snapback with White Logo',
+              image_url:
+                'https://data.commercelayer.app/seed/images/skus/MESHBACK323230FFFFFFXXXX_FLAT.png',
+              created_at: '2022-05-04T14:18:50.102Z',
+              updated_at: '2022-05-13T14:01:55.161Z'
+            }
+          },
+          {
+            id: 'yWEpMImZRg',
+            type: 'sku_list_items',
+            position: 3,
+            sku_code: 'BACKPACK000000FFFFFFXXXX',
+            quantity: 1,
+            created_at: '2022-05-19T12:54:17.092Z',
+            updated_at: '2022-05-19T12:54:17.092Z',
+            sku: {
+              id: 'BmDzSXQmKz',
+              type: 'skus',
+              code: 'BACKPACK000000FFFFFFXXXX',
+              name: 'Black Backpack with White Logo',
+              image_url:
+                'https://data.commercelayer.app/seed/images/skus/BACKPACK000000FFFFFFXXXX_FLAT.png',
+              created_at: '2022-05-13T13:49:32.757Z',
+              updated_at: '2022-05-13T14:01:26.135Z'
+            }
+          }
+        ]
+      }
+    }
+  ]
 }

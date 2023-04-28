@@ -1,13 +1,13 @@
 import { Avatar } from '#ui/atoms/Avatar'
+import { Badge } from '#ui/atoms/Badge'
 import { Button, type ButtonVariant } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import type { LineItem, Order } from '@commercelayer/sdk'
+import type { Bundle, LineItem, Order } from '@commercelayer/sdk'
 import cn from 'classnames'
 import { Fragment, type MouseEventHandler } from 'react'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Badge } from '#ui/atoms/Badge'
-import { Icon } from '#ui/atoms/Icon'
 
 interface TotalRowProps {
   /** Displayed label */
@@ -109,16 +109,40 @@ const renderLineItemOptions = (
     </>
   )
 }
+function renderBundleDetails({
+  bundle
+}: {
+  bundle?: Bundle
+}): JSX.Element | null {
+  if (bundle == null) {
+    return null
+  }
+  return (
+    <div>
+      {bundle.sku_list?.sku_list_items?.map((item) => (
+        <div key={item.id} className='flex'>
+          <Avatar
+            src={item.sku?.image_url as `https://${string}`}
+            alt={item.sku?.name ?? ''}
+          />
+          <div>x {item.quantity}</div>
+          <div>{item.sku?.name}</div>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 const OrderSummary = withSkeletonTemplate<{
   order: Order
+  bundles?: Bundle[]
   footerActions?: Array<{
     label: string
     onClick: MouseEventHandler<HTMLButtonElement>
     variant?: ButtonVariant
     disabled?: boolean
   }>
-}>(({ order, footerActions = [] }) => {
+}>(({ order, bundles, footerActions = [] }) => {
   return (
     <div>
       <table className='w-full'>
@@ -175,6 +199,12 @@ const OrderSummary = withSkeletonTemplate<{
                       />
                     </Spacer>
                     {renderLineItemOptions(lineItem.line_item_options)}
+                    {lineItem.item_type === 'bundles' &&
+                      renderBundleDetails({
+                        bundle: bundles?.find(
+                          (bundle) => bundle.id === lineItem.id
+                        )
+                      })}
                   </td>
                   <td className='pr-2' valign='top' align='right'>
                     <Text
