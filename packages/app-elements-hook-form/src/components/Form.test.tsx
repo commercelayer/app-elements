@@ -8,6 +8,7 @@ import { InputDateRange } from './InputDateRange'
 import { InputCheckbox } from './InputCheckbox'
 import { InputSelect } from './InputSelect'
 import { ToggleButtons } from './ToggleButtons'
+import { ValidationApiError } from './ValidationApiError'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -45,6 +46,7 @@ function FullFormScreen({ id }: { id: string }): JSX.Element {
           ]}
           mode='multi'
         />
+        <ValidationApiError apiError={{}} />
       </Form>
     </div>
   )
