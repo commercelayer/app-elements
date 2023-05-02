@@ -118,18 +118,34 @@ function renderBundleDetails({
     return null
   }
   return (
-    <div>
+    <ul className='mt-2.5'>
       {bundle.sku_list?.sku_list_items?.map((item) => (
-        <div key={item.id} className='flex'>
+        <li
+          key={item.id}
+          className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'
+        >
           <Avatar
             src={item.sku?.image_url as `https://${string}`}
+            size='x-small'
             alt={item.sku?.name ?? ''}
+            className='ml-2'
           />
-          <div>x {item.quantity}</div>
-          <div>{item.sku?.name}</div>
-        </div>
+          <div className='flex flex-row gap-2 items-center ml-2'>
+            <Text
+              variant='info'
+              size='small'
+              weight='medium'
+              className='whitespace-nowrap'
+            >
+              x {item.quantity}
+            </Text>{' '}
+            <Text size='small' weight='semibold' className='leading-4'>
+              {item.sku?.name}
+            </Text>
+          </div>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 }
 

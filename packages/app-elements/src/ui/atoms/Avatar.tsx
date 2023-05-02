@@ -23,7 +23,7 @@ export interface AvatarProps {
    * (small: 48px, normal: 58px)
    * @default "normal"
    */
-  size?: 'small' | 'normal'
+  size?: 'small' | 'normal' | 'x-small'
   /**
    * Image class
    */
@@ -56,6 +56,7 @@ function Avatar({
           // size
           'min-w-[58px] min-h-[58px] w-[58px] h-[58px]': size === 'normal',
           'min-w-[42px] min-h-[42px] w-[42px] h-[42px]': size === 'small',
+          'min-w-8 min-h-8 w-8 h-8': size === 'x-small',
           // shape
           rounded: shape === 'rounded',
           'rounded-full': shape === 'circle',
