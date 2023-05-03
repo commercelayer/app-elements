@@ -73,7 +73,7 @@ function SearchBar({
       />
 
       <input
-        className='px-12 py-2 bg-gray-100 rounded font-medium w-full placeholder:text-gray-400'
+        className='px-12 py-2 bg-gray-100 rounded font-medium w-full transition placeholder:text-gray-400 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none'
         data-test-id='SearchBar-input'
         placeholder={placeholder}
         value={searchValue}
