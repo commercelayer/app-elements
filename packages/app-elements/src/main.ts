@@ -28,6 +28,7 @@ export {
   DropdownMenuItem
 } from '#ui/atoms/dropdown'
 export { EmptyState } from '#ui/atoms/EmptyState'
+export { Grid } from '#ui/atoms/Grid'
 export { Hint } from '#ui/atoms/Hint'
 export { Icon } from '#ui/atoms/Icon'
 export { Legend } from '#ui/atoms/Legend'
