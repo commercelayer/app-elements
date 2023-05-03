@@ -2,9 +2,12 @@ import { Avatar } from '#ui/atoms/Avatar'
 import { Button, type ButtonVariant } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
-import type { Order } from '@commercelayer/sdk'
+import type { LineItem, Order } from '@commercelayer/sdk'
 import cn from 'classnames'
 import { Fragment, type MouseEventHandler } from 'react'
+import { Spacer } from '#ui/atoms/Spacer'
+import { Badge } from '#ui/atoms/Badge'
+import { Icon } from '#ui/atoms/Icon'
 
 interface TotalRowProps {
   /** Displayed label */
@@ -69,6 +72,44 @@ const renderTotalRow = ({
   ) : null
 }
 
+function normalizeLineItemOptionValue(value: any): string {
+  try {
+    return typeof value === 'string' ? value : JSON.stringify(value)
+  } catch {
+    return 'Could not render option value'
+  }
+}
+
+const renderLineItemOptions = (
+  lineItemOptions: LineItem['line_item_options']
+): JSX.Element | null => {
+  if (lineItemOptions == null || lineItemOptions.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      {lineItemOptions?.map((item) => (
+        <Spacer key={item.id} top='4' className='pb-2 last:pb-0'>
+          <Text tag='div' weight='bold' size='small' className='mb-1'>
+            {item.name}
+          </Text>
+          {Object.entries(item.options).map(([optionName, optionValue]) => {
+            return (
+              <div key={optionName} className='flex items-center gap-1 mb-1'>
+                <Icon name='arrowBendDownRight' className='text-gray-500' />
+                <Text variant='info' tag='div' size='small' weight='medium'>
+                  {optionName}: {normalizeLineItemOptionValue(optionValue)}
+                </Text>
+              </div>
+            )
+          })}
+        </Spacer>
+      ))}
+    </>
+  )
+}
+
 const OrderSummary = withSkeletonTemplate<{
   order: Order
   footerActions?: Array<{
@@ -123,6 +164,15 @@ const OrderSummary = withSkeletonTemplate<{
                     <Text tag='div' weight='bold'>
                       {lineItem.name}
                     </Text>
+                    <Spacer top='2' bottom='2'>
+                      <Badge
+                        label={`Unit price ${
+                          lineItem.formatted_unit_amount ?? ''
+                        }`}
+                        variant='secondary'
+                      />
+                    </Spacer>
+                    {renderLineItemOptions(lineItem.line_item_options)}
                   </td>
                   <td className='pr-2' valign='top' align='right'>
                     <Text
@@ -131,7 +181,7 @@ const OrderSummary = withSkeletonTemplate<{
                       tag='div'
                       wrap='nowrap'
                     >
-                      {lineItem.formatted_unit_amount} x {lineItem.quantity}
+                      x {lineItem.quantity}
                     </Text>
                   </td>
                   <td valign='top' align='right'>
