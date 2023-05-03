@@ -158,5 +158,14 @@ export interface TokenProviderAuthSettings {
   organizationSlug: string
   domain: string
   mode: Mode
+}
+
+export interface TokenProviderAuthUser {
+  id?: string
+  email?: string
+  firstName?: string
+  lastName?: string
+  displayName?: string
+  fullName?: string
   timezone?: string
 }
