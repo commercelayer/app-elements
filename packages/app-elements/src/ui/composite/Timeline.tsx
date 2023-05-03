@@ -14,7 +14,10 @@ export interface TimelineEvent {
   note?: string
 }
 
+type Position = 'first' | 'other'
+
 type EventWithIcon = TimelineEvent & {
+  position: Position
   icon: JSX.Element
 }
 
@@ -29,7 +32,13 @@ export const Timeline = withSkeletonTemplate<Props>(
     const groupedEvents = useMemo(() => {
       const ordered: EventWithIcon[] = orderBy(events, 'date', 'desc').map(
         (event, index, arr) => {
-          return { ...event, icon: getIcon(event, index, arr) }
+          const position: Position =
+            index === events.length - 1 ? 'first' : 'other'
+          return {
+            ...event,
+            position,
+            icon: getIcon(event, position)
+          }
         }
       )
       return groupBy(ordered, (val) =>
@@ -62,7 +71,13 @@ export const Timeline = withSkeletonTemplate<Props>(
               {eventsByDate.map((event) => (
                 <Fragment key={event.date}>
                   <div className='flex gap-2 mt-6 items-center'>
-                    <div className='relative -left-[13px] self-start'>
+                    <div
+                      className={`relative -left-[13px] ${
+                        event.position === 'first'
+                          ? 'self-stretch bg-white'
+                          : 'self-start'
+                      }`}
+                    >
                       <div
                         data-test-id='timeline-event-icon'
                         className='bg-white py-1'
@@ -97,18 +112,12 @@ export const Timeline = withSkeletonTemplate<Props>(
   }
 )
 
-function getIcon(
-  event: TimelineEvent,
-  index: number,
-  events: TimelineEvent[]
-): JSX.Element {
-  const isFirst = index === events.length - 1
-
+function getIcon(event: TimelineEvent, position: Position): JSX.Element {
   if (event.note != null) {
     return <Icon name='chatCircle' background='black' gap='small' />
   }
 
-  return isFirst ? (
+  return position === 'first' ? (
     <Icon name='flag' background='black' gap='small' />
   ) : (
     <Icon

@@ -31,15 +31,45 @@ Default.args = {
           month: 11,
           date: 29,
           minutes: 23,
-          seconds: 12
+          seconds: 10
         }),
         { years: 1 }
       ).toJSON(),
       message: (
         <span>
-          <Text weight='bold'>M. Jordan</Text> placed this order · 23:12
+          Text in two lines.
+          <br />I should not see the border on my left · 23:10
         </span>
       )
+    },
+    {
+      date: sub(
+        set(new Date(), {
+          month: 11,
+          date: 29,
+          minutes: 23,
+          seconds: 11
+        }),
+        { years: 1 }
+      ).toJSON(),
+      message: (
+        <span>
+          Text in two lines.
+          <br />I should see the border on my left · 23:11
+        </span>
+      )
+    },
+    {
+      date: sub(
+        set(new Date(), {
+          month: 11,
+          date: 29,
+          minutes: 23,
+          seconds: 12
+        }),
+        { years: 1 }
+      ).toJSON(),
+      message: `Placed · 23:12`
     },
     {
       date: set(new Date(), {
@@ -96,7 +126,7 @@ Default.args = {
         month: 0,
         date: 3,
         minutes: 8,
-        seconds: 35
+        seconds: 36
       }).toJSON(),
       message: (
         <span>
