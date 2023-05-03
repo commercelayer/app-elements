@@ -92,6 +92,20 @@ Default.args = {
       note: 'Customer would like to receive parcel sooner, please request the customer phone number.'
     },
     {
+      date: set(new Date(), {
+        month: 0,
+        date: 3,
+        minutes: 8,
+        seconds: 35
+      }).toJSON(),
+      message: (
+        <span>
+          <Text weight='bold'>S. Jennigs</Text> left a note · 08:35
+        </span>
+      ),
+      note: 'Short text.'
+    },
+    {
       date: new Date().toJSON(),
       message: 'Fullfilled · 15:23'
     }

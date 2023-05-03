@@ -79,7 +79,10 @@ export const Timeline = withSkeletonTemplate<Props>(
                       <div>
                         <div className='w-6' />
                       </div>
-                      <Card data-test-id='timeline-event-note'>
+                      <Card
+                        data-test-id='timeline-event-note'
+                        className='w-full'
+                      >
                         {event.note}
                       </Card>
                     </div>
