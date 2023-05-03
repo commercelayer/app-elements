@@ -23,10 +23,18 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
     <div data-test-id={id}>
       <TokenProvider {...props}>
-        {({ settings: { mode, timezone } }) => (
+        {({
+          settings: { mode },
+          user: { timezone, email, firstName, lastName, displayName, fullName }
+        }) => (
           <div>
             <p>mode: {mode}</p>
             <p>timezone: {timezone}</p>
+            <p>email: {email}</p>
+            <p>firstName: {firstName}</p>
+            <p>lastName: {lastName}</p>
+            <p>displayName: {displayName}</p>
+            <p>fullName: {fullName}</p>
             <p>content</p>
           </div>
         )}
@@ -76,6 +84,11 @@ describe('TokenProvider', () => {
     })
     expect(getByText('mode: test')).toBeVisible()
     expect(getByText('timezone: Europe/Rome')).toBeVisible()
+    expect(getByText('email: user@commercelayer.io')).toBeVisible()
+    expect(getByText('firstName: Ringo')).toBeVisible()
+    expect(getByText('lastName: Starr')).toBeVisible()
+    expect(getByText('displayName: R. Starr')).toBeVisible()
+    expect(getByText('fullName: Ringo Starr')).toBeVisible()
     expect(onInvalidAuth).toBeCalledTimes(0)
   })
 

@@ -16,13 +16,15 @@ import {
   type TokenProviderAllowedApp,
   type TokenProviderRoleActions,
   type TokenProviderResourceType,
-  type TokenProviderAuthSettings
+  type TokenProviderAuthSettings,
+  type TokenProviderAuthUser
 } from './types'
 import { initialTokenProviderState, reducer } from './reducer'
 
 interface TokenProviderValue {
   dashboardUrl?: string
   settings: TokenProviderAuthSettings
+  user: TokenProviderAuthUser
   canUser: (
     action: TokenProviderRoleActions,
     resource: TokenProviderResourceType
@@ -81,7 +83,8 @@ export const AuthContext = createContext<TokenProviderValue>({
   }),
   canUser: () => false,
   emitInvalidAuth: () => undefined,
-  settings: initialTokenProviderState.settings
+  settings: initialTokenProviderState.settings,
+  user: {}
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -171,9 +174,9 @@ function TokenProvider({
               accessToken: tokenInfo.accessToken,
               organizationSlug: tokenInfo.organizationSlug,
               mode: tokenInfo.mode,
-              domain,
-              timezone: tokenInfo.timezone
+              domain
             },
+            user: tokenInfo.user,
             rolePermissions: tokenInfo.permissions ?? {}
           }
         })
@@ -185,6 +188,7 @@ function TokenProvider({
   const value: TokenProviderValue = {
     dashboardUrl,
     settings: _state.settings,
+    user: _state.user,
     canUser,
     emitInvalidAuth
   }

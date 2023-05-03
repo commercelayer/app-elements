@@ -100,6 +100,7 @@ export {
   getIsoDateAtDaysBefore,
   timeSeparator
 } from '#helpers/date'
+export { formatDisplayName } from '#helpers/name'
 
 // Hooks
 export { useDelayShow } from '#hooks/useDelayShow'

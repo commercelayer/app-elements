@@ -3,7 +3,8 @@ import {
   type TokenProviderRolePermissions,
   type TokenProviderPermissionItem,
   type TokenProviderResourceType,
-  type Mode
+  type Mode,
+  type TokenProviderAuthUser
 } from './types'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './url'
@@ -32,7 +33,7 @@ interface ValidToken {
   mode: Mode
   organizationSlug: string
   permissions?: TokenProviderRolePermissions
-  timezone?: string
+  user: TokenProviderAuthUser
 }
 interface InvalidToken {
   isValidToken: false
@@ -81,7 +82,13 @@ export async function isValidTokenForCurrentApp({
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
           : undefined,
-      timezone: tokenInfo?.owner?.time_zone
+      user: {
+        id: tokenInfo?.owner?.id,
+        email: tokenInfo?.owner?.email,
+        firstName: tokenInfo?.owner?.first_name,
+        lastName: tokenInfo?.owner?.last_name,
+        timezone: tokenInfo?.owner?.time_zone
+      }
     }
   } catch {
     return {
