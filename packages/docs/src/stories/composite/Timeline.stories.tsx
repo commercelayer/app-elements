@@ -24,12 +24,14 @@ Default.args = {
       e.currentTarget.value = ''
     }
   },
+  timezone: 'Europe/Rome',
   events: [
     {
       date: sub(
         set(new Date(), {
           month: 11,
           date: 29,
+          hours: 20,
           minutes: 23,
           seconds: 10
         }),
@@ -38,7 +40,7 @@ Default.args = {
       message: (
         <span>
           Text in two lines.
-          <br />I should not see the border on my left · 23:10
+          <br />I should not see the border on my left
         </span>
       )
     },
@@ -47,6 +49,7 @@ Default.args = {
         set(new Date(), {
           month: 11,
           date: 29,
+          hours: 20,
           minutes: 23,
           seconds: 11
         }),
@@ -55,7 +58,7 @@ Default.args = {
       message: (
         <span>
           Text in two lines.
-          <br />I should see the border on my left · 23:11
+          <br />I should see the border on my left
         </span>
       )
     },
@@ -64,59 +67,65 @@ Default.args = {
         set(new Date(), {
           month: 11,
           date: 29,
-          minutes: 23,
+          hours: 20,
+          minutes: 24,
           seconds: 12
         }),
         { years: 1 }
       ).toJSON(),
-      message: `Placed · 23:12`
+      message: `Placed`
     },
     {
       date: set(new Date(), {
         month: 0,
         date: 1,
+        hours: 12,
         minutes: 6,
         seconds: 27
       }).toJSON(),
-      message: '$250,5 authorized on stripe · 06:27'
+      message: '$250,5 authorized on stripe'
     },
     {
       date: set(new Date(), {
         month: 0,
         date: 1,
-        minutes: 6,
+        hours: 12,
+        minutes: 23,
         seconds: 28
       }).toJSON(),
-      message: 'Approved · 06:28'
+      message: 'Approved'
     },
     {
       date: set(new Date(), {
         month: 0,
         date: 1,
-        minutes: 6,
+        hours: 12,
+        minutes: 24,
         seconds: 29
       }).toJSON(),
-      message: '$250,50 captured on stripe · 06:29'
+      message: '$250,50 captured on stripe'
     },
     {
       date: set(new Date(), {
         month: 0,
         date: 3,
+        hours: 6,
         minutes: 6,
         seconds: 20
       }).toJSON(),
-      message: 'Fulfillment in progress · 06:20'
+      message: 'Fulfillment in progress'
     },
     {
       date: set(new Date(), {
         month: 0,
         date: 3,
+        hours: 8,
         minutes: 8,
         seconds: 35
       }).toJSON(),
       message: (
         <span>
-          <Text weight='bold'>S. Jennigs</Text> left a note · 08:35
+          <Text weight='bold'>S. Jennigs</Text> left a note
         </span>
       ),
       note: 'Customer would like to receive parcel sooner, please request the customer phone number.'
@@ -125,19 +134,20 @@ Default.args = {
       date: set(new Date(), {
         month: 0,
         date: 3,
+        hours: 7,
         minutes: 8,
         seconds: 36
       }).toJSON(),
       message: (
         <span>
-          <Text weight='bold'>S. Jennigs</Text> left a note · 08:35
+          <Text weight='bold'>S. Jennigs</Text> left a note
         </span>
       ),
       note: 'Short text.'
     },
     {
       date: new Date().toJSON(),
-      message: 'Fullfilled · 15:23'
+      message: 'Fullfilled'
     }
   ]
 }
@@ -156,6 +166,7 @@ Loading.args = {
         set(new Date(), {
           month: 11,
           date: 29,
+          hours: 20,
           minutes: 23,
           seconds: 12
         }),

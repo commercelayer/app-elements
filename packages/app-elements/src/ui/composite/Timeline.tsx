@@ -1,4 +1,4 @@
-import { formatDate } from '#helpers/date'
+import { formatDate, timeSeparator } from '#helpers/date'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { Icon } from '#ui/atoms/Icon'
@@ -23,12 +23,13 @@ type EventWithIcon = TimelineEvent & {
 
 interface Props {
   events: TimelineEvent[]
+  timezone?: string
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 
 export const Timeline = withSkeletonTemplate<Props>(
-  ({ events, onChange, onKeyDown }) => {
+  ({ events, timezone, onChange, onKeyDown }) => {
     const groupedEvents = useMemo(() => {
       const ordered: EventWithIcon[] = orderBy(events, 'date', 'desc').map(
         (event, index, arr) => {
@@ -42,7 +43,11 @@ export const Timeline = withSkeletonTemplate<Props>(
         }
       )
       return groupBy(ordered, (val) =>
-        formatDate({ isoDate: val.date, format: 'date' }).toUpperCase()
+        formatDate({
+          isoDate: val.date,
+          format: 'date',
+          timezone
+        }).toUpperCase()
       )
     }, [events])
     return (
@@ -86,7 +91,12 @@ export const Timeline = withSkeletonTemplate<Props>(
                       </div>
                     </div>
                     <div data-test-id='timeline-event-message'>
-                      {event.message}
+                      {event.message} {timeSeparator}{' '}
+                      {formatDate({
+                        format: 'time',
+                        isoDate: event.date,
+                        timezone
+                      })}
                     </div>
                   </div>
                   {event.note != null && (
