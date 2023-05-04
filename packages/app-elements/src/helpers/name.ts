@@ -7,7 +7,11 @@ import isEmpty from 'lodash/isEmpty'
 export function formatDisplayName(
   firstName?: string,
   lastName?: string
-): string {
+): string | undefined {
+  if (firstName == null && lastName == null) {
+    return firstName
+  }
+
   if (isEmpty(firstName) && isEmpty(lastName)) {
     return ''
   }
@@ -30,6 +34,13 @@ export function formatDisplayName(
 /**
  *
  */
-export function computeFullname(firstName?: string, lastName?: string): string {
+export function computeFullname(
+  firstName?: string,
+  lastName?: string
+): string | undefined {
+  if (firstName == null && lastName == null) {
+    return firstName
+  }
+
   return `${firstName ?? ''} ${lastName ?? ''}`.trim()
 }
