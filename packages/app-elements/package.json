@@ -1,6 +1,6 @@
 {
   "name": "@commercelayer/app-elements",
-  "version": "0.0.26",
+  "version": "0.0.27",
   "type": "module",
   "files": [
     "dist"
@@ -45,6 +45,7 @@
   },
   "devDependencies": {
     "@commercelayer/eslint-config-ts-react": "^1.0.0",
+    "@phosphor-icons/react": "v2.0.9",
     "@tailwindcss/forms": "^0.5.3",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -58,7 +59,6 @@
     "eslint": "^8.37.0",
     "jsdom": "^21.1.1",
     "msw": "^1.2.1",
-    "@phosphor-icons/react": "v2.0.9",
     "polished": "^4.2.2",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.3.1",
