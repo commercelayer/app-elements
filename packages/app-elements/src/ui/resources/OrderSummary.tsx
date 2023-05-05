@@ -137,10 +137,12 @@ const OrderSummary = withSkeletonTemplate<{
               <Fragment key={lineItem.sku_code}>
                 <tr className='h-0'>
                   <td className='py-6' valign='top' align='center' rowSpan={2}>
-                    <Avatar
-                      src={lineItem.image_url ?? ''}
-                      alt={lineItem.name ?? ''}
-                    />
+                    {lineItem.image_url != null && (
+                      <Avatar
+                        src={lineItem.image_url as `https://${string}`}
+                        alt={lineItem.name ?? ''}
+                      />
+                    )}
                   </td>
                   <td className='pt-6 pl-4' colSpan={3}>
                     <Text
