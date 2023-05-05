@@ -3,7 +3,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import './InputDate.css'
 
 import cn from 'classnames'
-import { CalendarBlank, X } from 'phosphor-react'
+import { CalendarBlank, X } from '@phosphor-icons/react'
 import { forwardRef } from 'react'
 import {
   InputWrapper,

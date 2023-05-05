@@ -1,4 +1,4 @@
-import { DotsThreeCircle } from 'phosphor-react'
+import { DotsThreeCircle } from '@phosphor-icons/react'
 import { DropdownMenu } from '#ui/atoms/dropdown'
 import { useClickAway } from '#hooks/useClickAway'
 import { useState } from 'react'

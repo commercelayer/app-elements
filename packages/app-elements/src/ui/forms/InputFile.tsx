@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { UploadSimple } from 'phosphor-react'
+import { UploadSimple } from '@phosphor-icons/react'
 import { forwardRef } from 'react'
 import invariant from 'ts-invariant'
 import { InputWrapper } from './InputWrapper'

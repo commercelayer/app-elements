@@ -1,4 +1,4 @@
-import { ArrowRight } from 'phosphor-react'
+import { ArrowRight } from '@phosphor-icons/react'
 import { InputDate } from './InputDate'
 import { forwardRef, useEffect } from 'react'
 import {

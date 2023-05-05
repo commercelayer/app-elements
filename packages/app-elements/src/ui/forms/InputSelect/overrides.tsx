@@ -1,4 +1,4 @@
-import { X } from 'phosphor-react'
+import { X } from '@phosphor-icons/react'
 import {
   type DropdownIndicatorProps,
   type ClearIndicatorProps,
