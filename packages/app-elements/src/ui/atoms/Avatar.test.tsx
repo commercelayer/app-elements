@@ -19,7 +19,7 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
 }
 
 describe('Avatar', () => {
-  test('Should be rendered', () => {
+  test('Should be rendered with src pointing to an https url', () => {
     const { element } = setup({
       id: 'avatar',
       src: 'https://i2.wp.com/ui-avatars.com/api/Commerce+Layer/160/FF656B/FFFFFF/2/0.33/true/true/true?ssl=1',
@@ -27,6 +27,21 @@ describe('Avatar', () => {
     })
     expect(element).toBeVisible()
     expect(element).toMatchSnapshot()
+    expect(element.getAttribute('src')).toBe(
+      'https://i2.wp.com/ui-avatars.com/api/Commerce+Layer/160/FF656B/FFFFFF/2/0.33/true/true/true?ssl=1'
+    )
     expect(element.getAttribute('alt')).toBe('Commerce Layer logo')
+  })
+
+  test('Should be rendered with src pointing to a preset', () => {
+    const { element } = setup({
+      id: 'avatar',
+      src: 'payments:stripe',
+      alt: 'Stripe'
+    })
+    expect(element).toBeVisible()
+    expect(element).toMatchSnapshot()
+    expect(element.getAttribute('src')).toContain('data:image/')
+    expect(element.getAttribute('alt')).toBe('Stripe')
   })
 })

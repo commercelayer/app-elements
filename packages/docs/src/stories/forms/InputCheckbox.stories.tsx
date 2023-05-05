@@ -1,9 +1,9 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof InputCheckbox> = {
+const setup: Meta<typeof InputCheckbox> = {
   title: 'Forms/InputCheckbox',
   component: InputCheckbox,
   parameters: {
@@ -12,7 +12,7 @@ const setup: ComponentMeta<typeof InputCheckbox> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputCheckbox> = (args) => {
+const Template: StoryFn<typeof InputCheckbox> = (args) => {
   return <InputCheckbox {...args} />
 }
 

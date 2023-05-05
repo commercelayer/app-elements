@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import * as phosphor from 'phosphor-react'
+import * as phosphor from '@phosphor-icons/react'
 import { useMemo } from 'react'
 
 export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {

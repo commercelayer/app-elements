@@ -1,13 +1,13 @@
 import { Avatar } from '#ui/atoms/Avatar'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Avatar> = {
+const setup: Meta<typeof Avatar> = {
   title: 'Atoms/Avatar',
   component: Avatar
 }
 export default setup
 
-const Template: ComponentStory<typeof Avatar> = (args) => <Avatar {...args} />
+const Template: StoryFn<typeof Avatar> = (args) => <Avatar {...args} />
 
 export const ProfilePicture = Template.bind({})
 ProfilePicture.args = {
@@ -16,6 +16,19 @@ ProfilePicture.args = {
   border: 'none',
   shape: 'circle'
 }
+
+export const Payments = (): JSX.Element => (
+  <div className='flex gap-1 flex-wrap'>
+    <Avatar shape='circle' src='payments:adyen' alt='Adyen' />
+    <Avatar shape='circle' src='payments:axerve' alt='Axerve' />
+    <Avatar shape='circle' src='payments:braintree' alt='Braintree' />
+    <Avatar shape='circle' src='payments:checkout' alt='Checkout' />
+    <Avatar shape='circle' src='payments:klarna' alt='Klarna' />
+    <Avatar shape='circle' src='payments:paypal' alt='Paypal' />
+    <Avatar shape='circle' src='payments:satispay' alt='Satispay' />
+    <Avatar shape='circle' src='payments:stripe' alt='Stripe' />
+  </div>
+)
 
 export const Product = Template.bind({})
 Product.args = {

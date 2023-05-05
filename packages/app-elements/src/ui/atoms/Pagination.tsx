@@ -1,6 +1,6 @@
 import { makeSomeAdjacentPages } from '#utils/pagination'
 import cn from 'classnames'
-import { CaretRight, CaretLeft } from 'phosphor-react'
+import { CaretRight, CaretLeft } from '@phosphor-icons/react'
 
 export interface PaginationProps {
   /**

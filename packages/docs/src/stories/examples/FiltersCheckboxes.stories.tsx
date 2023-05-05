@@ -4,7 +4,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { type ComponentStory, type Meta } from '@storybook/react'
+import { type StoryFn, type Meta } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta = {
@@ -38,7 +38,7 @@ const options = [
   }
 ]
 
-const Template: ComponentStory<typeof InputCheckbox> = (args) => {
+const Template: StoryFn<typeof InputCheckbox> = (args) => {
   const [selectedIds, setSelectedId] = useState<string[]>([])
 
   return (
@@ -90,7 +90,7 @@ const Template: ComponentStory<typeof InputCheckbox> = (args) => {
 
 export const Default = Template.bind({})
 
-function makeGravatarUrl(name: string, index: number): string {
+function makeGravatarUrl(name: string, index: number): `https://${string}` {
   const colors = ['FF656B', '055463', 'FFAB2E', '282929', '001993']
   const bgColor = colors[Math.min(index, colors.length - 1)] ?? 'FF656B'
   const letters = name.substring(0, 2)
