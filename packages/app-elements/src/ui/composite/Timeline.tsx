@@ -49,7 +49,7 @@ export const Timeline = withSkeletonTemplate<Props>(
           timezone
         }).toUpperCase()
       )
-    }, [events])
+    }, [events, timezone])
     return (
       <div data-test-id='timeline'>
         <Input
