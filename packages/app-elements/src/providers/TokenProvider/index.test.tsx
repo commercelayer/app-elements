@@ -23,18 +23,15 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
     <div data-test-id={id}>
       <TokenProvider {...props}>
-        {({
-          settings: { mode },
-          user: { timezone, email, firstName, lastName, displayName, fullName }
-        }) => (
+        {({ settings: { mode }, user }) => (
           <div>
             <p>mode: {mode}</p>
-            <p>timezone: {timezone}</p>
-            <p>email: {email}</p>
-            <p>firstName: {firstName}</p>
-            <p>lastName: {lastName}</p>
-            <p>displayName: {displayName}</p>
-            <p>fullName: {fullName}</p>
+            <p>timezone: {user?.timezone}</p>
+            <p>email: {user?.email}</p>
+            <p>firstName: {user?.firstName}</p>
+            <p>lastName: {user?.lastName}</p>
+            <p>displayName: {user?.displayName}</p>
+            <p>fullName: {user?.fullName}</p>
             <p>content</p>
           </div>
         )}

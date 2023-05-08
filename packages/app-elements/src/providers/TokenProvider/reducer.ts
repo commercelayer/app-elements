@@ -1,4 +1,3 @@
-import { computeFullname, formatDisplayName } from '#helpers/name'
 import {
   type TokenProviderAuthUser,
   type TokenProviderAuthSettings,
@@ -12,7 +11,7 @@ interface TokenProviderInternalState {
   isTokenError: boolean
   rolePermissions: TokenProviderRolePermissions
   settings: TokenProviderAuthSettings
-  user: TokenProviderAuthUser
+  user: TokenProviderAuthUser | null
 }
 
 export const initialTokenProviderState: TokenProviderInternalState = {
@@ -27,7 +26,7 @@ export const initialTokenProviderState: TokenProviderInternalState = {
     domain: 'commercelayer.io',
     organizationSlug: ''
   },
-  user: {}
+  user: null
 }
 
 type Action =
@@ -36,7 +35,7 @@ type Action =
       type: 'validToken'
       payload: {
         settings: TokenProviderAuthSettings
-        user: TokenProviderAuthUser
+        user: TokenProviderAuthUser | null
         rolePermissions: TokenProviderRolePermissions
       }
     }
@@ -56,17 +55,6 @@ export const reducer = (
       return {
         ...state,
         ...action.payload,
-        user: {
-          ...action.payload.user,
-          displayName: formatDisplayName(
-            action.payload.user.firstName,
-            action.payload.user.lastName
-          ),
-          fullName: computeFullname(
-            action.payload.user.firstName,
-            action.payload.user.lastName
-          )
-        },
         isLoading: false
       }
     default:

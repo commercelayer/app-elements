@@ -1,10 +1,6 @@
 import { computeFullname, formatDisplayName } from './name'
 
 describe('formatDisplayName', () => {
-  test('should return undefined if both first and last name are undefined', () => {
-    expect(formatDisplayName(undefined, undefined)).toBe(undefined)
-  })
-
   test('should return empty string if both first and last name are empty', () => {
     expect(formatDisplayName('', '')).toBe('')
   })
@@ -37,8 +33,6 @@ describe('computeFullname', () => {
   })
 
   test('should allow undefined values', () => {
-    expect(computeFullname(undefined, 'Reed')).toBe('Reed')
     expect(computeFullname('John')).toBe('John')
-    expect(computeFullname()).toBe(undefined)
   })
 })
