@@ -24,7 +24,7 @@ import { initialTokenProviderState, reducer } from './reducer'
 interface TokenProviderValue {
   dashboardUrl?: string
   settings: TokenProviderAuthSettings
-  user: TokenProviderAuthUser
+  user: TokenProviderAuthUser | null
   canUser: (
     action: TokenProviderRoleActions,
     resource: TokenProviderResourceType
@@ -84,7 +84,7 @@ export const AuthContext = createContext<TokenProviderValue>({
   canUser: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
-  user: {}
+  user: null
 })
 
 export const useTokenProvider = (): TokenProviderValue => {

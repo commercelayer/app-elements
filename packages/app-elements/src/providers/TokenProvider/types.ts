@@ -122,6 +122,22 @@ export type TokenProviderRolePermissions = Partial<
   Record<TokenProviderResourceType, TokenProviderPermissionItem>
 >
 
+interface CoreApiOwnerUser {
+  type: 'User'
+  id: string
+  first_name: string
+  last_name: string
+  email: string
+  owner: boolean
+  time_zone: string
+}
+
+interface CoreApiOwnerCustomer {
+  type: 'Customer'
+  id: string
+  email: string
+}
+
 export interface TokenProviderTokenInfo {
   token: {
     test: boolean
@@ -140,15 +156,7 @@ export interface TokenProviderTokenInfo {
     TokenProviderResourceType,
     { actions: TokenProviderRoleActions[] }
   >
-  owner?: {
-    id: string
-    type: 'User'
-    first_name?: string
-    last_name?: string
-    email?: string
-    owner?: boolean
-    time_zone?: string
-  }
+  owner?: CoreApiOwnerUser | CoreApiOwnerCustomer
 }
 
 export type Mode = 'live' | 'test'
@@ -161,11 +169,11 @@ export interface TokenProviderAuthSettings {
 }
 
 export interface TokenProviderAuthUser {
-  id?: string
-  email?: string
-  firstName?: string
-  lastName?: string
-  displayName?: string
-  fullName?: string
-  timezone?: string
+  id: string
+  email: string
+  firstName: string
+  lastName: string
+  displayName: string
+  fullName: string
+  timezone: string
 }

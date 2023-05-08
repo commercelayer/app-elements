@@ -9,6 +9,7 @@ import {
 import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrgSlugFromCurrentUrl } from './url'
 import fetch from 'cross-fetch'
+import { computeFullname, formatDisplayName } from '#helpers/name'
 
 export function isTokenExpired({
   accessToken,
@@ -33,7 +34,7 @@ interface ValidToken {
   mode: Mode
   organizationSlug: string
   permissions?: TokenProviderRolePermissions
-  user: TokenProviderAuthUser
+  user: TokenProviderAuthUser | null
 }
 interface InvalidToken {
   isValidToken: false
@@ -82,13 +83,24 @@ export async function isValidTokenForCurrentApp({
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
           : undefined,
-      user: {
-        id: tokenInfo?.owner?.id,
-        email: tokenInfo?.owner?.email,
-        firstName: tokenInfo?.owner?.first_name,
-        lastName: tokenInfo?.owner?.last_name,
-        timezone: tokenInfo?.owner?.time_zone
-      }
+      user:
+        tokenInfo?.owner != null && tokenInfo.owner.type === 'User'
+          ? {
+              id: tokenInfo.owner.id,
+              email: tokenInfo.owner.email,
+              firstName: tokenInfo.owner.first_name,
+              lastName: tokenInfo.owner.last_name,
+              timezone: tokenInfo.owner.time_zone,
+              displayName: formatDisplayName(
+                tokenInfo.owner.first_name,
+                tokenInfo.owner.last_name
+              ),
+              fullName: computeFullname(
+                tokenInfo.owner.first_name,
+                tokenInfo.owner.last_name
+              )
+            }
+          : null
     }
   } catch {
     return {

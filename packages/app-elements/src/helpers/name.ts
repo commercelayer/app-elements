@@ -5,13 +5,9 @@ import isEmpty from 'lodash/isEmpty'
  * "J. Doe" or "Doe" if first name is empty
  */
 export function formatDisplayName(
-  firstName?: string,
+  firstName: string,
   lastName?: string
-): string | undefined {
-  if (firstName == null && lastName == null) {
-    return firstName
-  }
-
+): string {
   if (isEmpty(firstName) && isEmpty(lastName)) {
     return ''
   }
@@ -32,15 +28,8 @@ export function formatDisplayName(
 }
 
 /**
- *
+ * Make a full name from first and last name in the format
  */
-export function computeFullname(
-  firstName?: string,
-  lastName?: string
-): string | undefined {
-  if (firstName == null && lastName == null) {
-    return firstName
-  }
-
+export function computeFullname(firstName: string, lastName?: string): string {
   return `${firstName ?? ''} ${lastName ?? ''}`.trim()
 }
