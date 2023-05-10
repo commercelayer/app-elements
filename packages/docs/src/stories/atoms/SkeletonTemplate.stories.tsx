@@ -1,16 +1,16 @@
-import { Avatar } from '#app-elements/atoms/Avatar'
-import { Badge } from '#app-elements/atoms/Badge'
-import { Button } from '#app-elements/atoms/Button'
-import { Icon } from '#app-elements/atoms/Icon'
-import { RadialProgress } from '#app-elements/atoms/RadialProgress'
-import { Text } from '#app-elements/atoms/Text'
-import { ListItem } from '#app-elements/lists/ListItem'
+import { Avatar } from '#ui/atoms/Avatar'
+import { Badge } from '#ui/atoms/Badge'
+import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
+import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
   SkeletonTemplate,
   withSkeletonTemplate
 } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { Text } from '#ui/atoms/Text'
+import { ListItem } from '#ui/lists/ListItem'
+import { type Meta, type StoryFn } from '@storybook/react'
 import {
   cloneElement,
   createElement,
@@ -19,7 +19,7 @@ import {
   type ReactNode
 } from 'react'
 
-const setup: ComponentMeta<typeof SkeletonTemplate> = {
+const setup: Meta<typeof SkeletonTemplate> = {
   title: 'Atoms/SkeletonTemplate',
   component: SkeletonTemplate,
   parameters: {
@@ -113,10 +113,7 @@ const children = (
   </>
 )
 
-const Template: ComponentStory<typeof SkeletonTemplate> = ({
-  children,
-  ...args
-}) => (
+const Template: StoryFn<typeof SkeletonTemplate> = ({ children, ...args }) => (
   <>
     <div className='flex gap-2 mb-8'>
       <SkeletonTemplate {...args}>

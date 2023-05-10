@@ -1,7 +1,7 @@
 import { Text } from '#ui/atoms/Text'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Text> = {
+const setup: Meta<typeof Text> = {
   title: 'Atoms/Text',
   component: Text,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof Text> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Text> = (args) => <Text {...args} />
+const Template: StoryFn<typeof Text> = (args) => <Text {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

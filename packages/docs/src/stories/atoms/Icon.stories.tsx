@@ -1,7 +1,7 @@
 import { Icon } from '#ui/atoms/Icon'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Icon> = {
+const setup: Meta<typeof Icon> = {
   title: 'Atoms/Icon',
   component: Icon,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof Icon> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Icon> = (args) => <Icon {...args} />
+const Template: StoryFn<typeof Icon> = (args) => <Icon {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
@@ -30,11 +30,4 @@ FilterView.args = {
   name: 'eye',
   background: 'teal',
   gap: 'small'
-}
-
-export const CustomSize = Template.bind({})
-CustomSize.args = {
-  name: 'arrowClockwise',
-  background: 'none',
-  size: '5rem'
 }

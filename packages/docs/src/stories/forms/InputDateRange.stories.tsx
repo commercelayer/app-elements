@@ -1,8 +1,8 @@
 import { InputDateRange } from '#ui/forms/InputDateRange'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof InputDateRange> = {
+const setup: Meta<typeof InputDateRange> = {
   title: 'Forms/InputDateRange',
   component: InputDateRange,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof InputDateRange> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputDateRange> = (args) => {
+const Template: StoryFn<typeof InputDateRange> = (args) => {
   const [fromDate, setFromDate] = useState<Date | null>(null)
   const [toDate, setToDate] = useState<Date | null>(null)
 

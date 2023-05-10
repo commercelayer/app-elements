@@ -1,13 +1,13 @@
 import { Spacer } from '#ui/atoms/Spacer'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Spacer> = {
+const setup: Meta<typeof Spacer> = {
   title: 'Atoms/Spacer',
   component: Spacer
 }
 export default setup
 
-const Template: ComponentStory<typeof Spacer> = (args) => <Spacer {...args} />
+const Template: StoryFn<typeof Spacer> = (args) => <Spacer {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

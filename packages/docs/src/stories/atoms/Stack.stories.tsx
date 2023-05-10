@@ -1,11 +1,11 @@
-import { A } from '#app-elements/atoms/A'
-import { Badge } from '#app-elements/atoms/Badge'
-import { Spacer } from '#app-elements/atoms/Spacer'
-import { Text } from '#app-elements/atoms/Text'
+import { A } from '#ui/atoms/A'
+import { Badge } from '#ui/atoms/Badge'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { Text } from '#ui/atoms/Text'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Stack> = {
+const setup: Meta<typeof Stack> = {
   title: 'Atoms/Stack',
   component: Stack,
   parameters: {
@@ -14,7 +14,7 @@ const setup: ComponentMeta<typeof Stack> = {
 }
 export default setup
 
-export const Default: ComponentStory<typeof Stack> = (args) => (
+export const Default: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
     <div>Element 1</div>
     <div>Element 2</div>
@@ -23,7 +23,7 @@ export const Default: ComponentStory<typeof Stack> = (args) => (
 )
 Default.args = {}
 
-export const Steps: ComponentStory<typeof Stack> = (args) => (
+export const Steps: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
     <div>
       <Spacer bottom='2'>
@@ -53,7 +53,7 @@ export const Steps: ComponentStory<typeof Stack> = (args) => (
 )
 Steps.args = {}
 
-export const Addresses: ComponentStory<typeof Stack> = (args) => (
+export const Addresses: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
     <div>
       <Spacer bottom='2'>

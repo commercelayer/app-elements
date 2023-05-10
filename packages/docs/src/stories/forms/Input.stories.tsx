@@ -1,8 +1,8 @@
 import { Input } from '#ui/forms/Input'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof Input> = {
+const setup: Meta<typeof Input> = {
   title: 'Forms/Input',
   component: Input,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof Input> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Input> = (args) => {
+const Template: StoryFn<typeof Input> = (args) => {
   return <Input {...args} value={args.value} type={args.type} />
 }
 
@@ -44,7 +44,7 @@ WithError.args = {
   }
 }
 
-const TemplateValidation: ComponentStory<typeof Input> = () => {
+const TemplateValidation: StoryFn<typeof Input> = () => {
   const [value, setValue] = useState('')
 
   return (

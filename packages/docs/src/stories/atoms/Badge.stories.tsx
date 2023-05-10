@@ -1,13 +1,13 @@
 import { Badge } from '#ui/atoms/Badge'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Badge> = {
+const setup: Meta<typeof Badge> = {
   title: 'Atoms/Badge',
   component: Badge
 }
 export default setup
 
-const Template: ComponentStory<typeof Badge> = (args) => <Badge {...args} />
+const Template: StoryFn<typeof Badge> = (args) => <Badge {...args} />
 
 export const Primary = Template.bind({})
 Primary.args = {

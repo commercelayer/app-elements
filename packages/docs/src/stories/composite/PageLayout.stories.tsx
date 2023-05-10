@@ -1,9 +1,9 @@
 import { A } from '#ui/atoms/A'
 import { PageLayout } from '#ui/composite/PageLayout'
 
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof PageLayout> = {
+const setup: Meta<typeof PageLayout> = {
   title: 'Composite/PageLayout',
   component: PageLayout,
   parameters: {
@@ -12,7 +12,7 @@ const setup: ComponentMeta<typeof PageLayout> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof PageLayout> = (args) => (
+const Template: StoryFn<typeof PageLayout> = (args) => (
   <PageLayout {...args}>Page content here...</PageLayout>
 )
 

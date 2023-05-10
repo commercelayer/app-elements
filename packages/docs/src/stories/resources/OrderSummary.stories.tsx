@@ -1,7 +1,7 @@
 import { OrderSummary } from '#ui/resources/OrderSummary'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof OrderSummary> = {
+const setup: Meta<typeof OrderSummary> = {
   title: 'Resources/Order Summary',
   component: OrderSummary,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof OrderSummary> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof OrderSummary> = (args) => {
+const Template: StoryFn<typeof OrderSummary> = (args) => {
   return <OrderSummary {...args} />
 }
 

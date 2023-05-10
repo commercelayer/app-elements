@@ -1,5 +1,5 @@
 import { ToggleButtons, type ToggleButtonOption } from '#ui/forms/ToggleButtons'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const options: ToggleButtonOption[] = [
@@ -33,13 +33,13 @@ const optionsWithDisabled: ToggleButtonOption[] = options.map((opt, idx) =>
     : opt
 )
 
-const setup: ComponentMeta<typeof ToggleButtons> = {
+const setup: Meta<typeof ToggleButtons> = {
   title: 'Forms/ToggleButtons',
   component: ToggleButtons
 }
 export default setup
 
-const Template: ComponentStory<typeof ToggleButtons> = (args) => {
+const Template: StoryFn<typeof ToggleButtons> = (args) => {
   const [value, setValue] = useState<any>(args.value)
   return <ToggleButtons {...args} value={value} onChange={setValue} />
 }

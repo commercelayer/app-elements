@@ -1,16 +1,14 @@
 import { Pagination } from '#ui/atoms/Pagination'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof Pagination> = {
+const setup: Meta<typeof Pagination> = {
   title: 'Atoms/Pagination',
   component: Pagination
 }
 export default setup
 
-const Template: ComponentStory<typeof Pagination> = (args) => (
-  <Pagination {...args} />
-)
+const Template: StoryFn<typeof Pagination> = (args) => <Pagination {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
@@ -20,9 +18,7 @@ Default.args = {
   pageCount: 10
 }
 
-const TemplateWithFullPageChange: ComponentStory<typeof Pagination> = (
-  args
-) => {
+const TemplateWithFullPageChange: StoryFn<typeof Pagination> = (args) => {
   const [currentPage, setPage] = useState(1)
   return (
     <Pagination

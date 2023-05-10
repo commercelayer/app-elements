@@ -1,8 +1,8 @@
 import { InputFile } from '#ui/forms/InputFile'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof InputFile> = {
+const setup: Meta<typeof InputFile> = {
   title: 'Forms/InputFile',
   component: InputFile,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof InputFile> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputFile> = (args) => {
+const Template: StoryFn<typeof InputFile> = (args) => {
   const [file, setFile] = useState<File | null>(null)
 
   return (

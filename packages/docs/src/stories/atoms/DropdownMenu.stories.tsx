@@ -3,15 +3,15 @@ import {
   DropdownMenuDivider,
   DropdownMenuItem
 } from '#ui/atoms/dropdown'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof DropdownMenu> = {
+const setup: Meta<typeof DropdownMenu> = {
   title: 'Atoms/DropdownMenu',
   component: DropdownMenu
 }
 export default setup
 
-const Template: ComponentStory<typeof DropdownMenu> = (args) => (
+const Template: StoryFn<typeof DropdownMenu> = (args) => (
   <DropdownMenu {...args}>
     <DropdownMenuItem label='Edit' />
     <DropdownMenuDivider />

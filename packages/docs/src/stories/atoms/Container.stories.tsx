@@ -1,7 +1,7 @@
 import { Container } from '#ui/atoms/Container'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Container> = {
+const setup: Meta<typeof Container> = {
   title: 'Atoms/Container',
   component: Container,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof Container> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Container> = (args) => (
+const Template: StoryFn<typeof Container> = (args) => (
   <Container {...args}>I'm a container</Container>
 )
 

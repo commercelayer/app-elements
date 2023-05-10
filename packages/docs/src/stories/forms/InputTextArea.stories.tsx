@@ -1,7 +1,7 @@
 import { InputTextArea } from '#ui/forms/InputTextArea'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof InputTextArea> = {
+const setup: Meta<typeof InputTextArea> = {
   title: 'Forms/InputTextArea',
   component: InputTextArea,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof InputTextArea> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputTextArea> = (args) => {
+const Template: StoryFn<typeof InputTextArea> = (args) => {
   return <InputTextArea {...args} value={args.value} />
 }
 

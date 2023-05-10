@@ -1,9 +1,9 @@
-import { Text } from '#app-elements/atoms/Text'
-import { ListItem } from '#app-elements/lists/ListItem'
-import { type StoryFn, type Meta } from '@storybook/react'
-import { RadialProgress } from '#app-elements/atoms/RadialProgress'
-import { Icon } from '#app-elements/atoms/Icon'
-import { Avatar } from '#app-elements/atoms/Avatar'
+import { Avatar } from '#ui/atoms/Avatar'
+import { Icon } from '#ui/atoms/Icon'
+import { RadialProgress } from '#ui/atoms/RadialProgress'
+import { Text } from '#ui/atoms/Text'
+import { ListItem } from '#ui/lists/ListItem'
+import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListItem> = {
   title: 'Lists/ListItem',

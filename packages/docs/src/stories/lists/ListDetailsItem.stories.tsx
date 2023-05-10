@@ -1,7 +1,7 @@
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof ListDetailsItem> = {
+const setup: Meta<typeof ListDetailsItem> = {
   title: 'Lists/ListDetailsItem',
   component: ListDetailsItem,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof ListDetailsItem> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof ListDetailsItem> = (args) => (
+const Template: StoryFn<typeof ListDetailsItem> = (args) => (
   <ListDetailsItem {...args} />
 )
 

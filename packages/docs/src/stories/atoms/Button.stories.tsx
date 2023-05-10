@@ -1,13 +1,13 @@
 import { Button } from '#ui/atoms/Button'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Button> = {
+const setup: Meta<typeof Button> = {
   title: 'Atoms/Button',
   component: Button
 }
 export default setup
 
-const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />
+const Template: StoryFn<typeof Button> = (args) => <Button {...args} />
 
 export const Primary = Template.bind({})
 Primary.args = {

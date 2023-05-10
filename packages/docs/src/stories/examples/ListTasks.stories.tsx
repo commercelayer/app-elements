@@ -1,13 +1,13 @@
 import { A } from '#ui/atoms/A'
-import { Text } from '#ui/atoms/Text'
 import { Button } from '#ui/atoms/Button'
-import { type ComponentStory, type Meta } from '@storybook/react'
 import { Icon } from '#ui/atoms/Icon'
-import { List } from '#ui/lists/List'
-import { ListItem } from '#ui/lists/ListItem'
-import { PageLayout } from '#ui/composite/PageLayout'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { Spacer } from '#ui/atoms/Spacer'
+import { Text } from '#ui/atoms/Text'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { List } from '#ui/lists/List'
+import { ListItem } from '#ui/lists/ListItem'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta = {
@@ -18,7 +18,7 @@ const setup: Meta = {
 }
 export default setup
 
-export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => {
+export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
   const [currentPage, setCurrentPage] = useState(1)
 
   return (

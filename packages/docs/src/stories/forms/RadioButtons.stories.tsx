@@ -1,14 +1,14 @@
 import { RadioButtons, type RadioOptionValue } from '#ui/forms/RadioButtons'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof RadioButtons> = {
+const setup: Meta<typeof RadioButtons> = {
   title: 'Forms/RadioButtons',
   component: RadioButtons
 }
 export default setup
 
-const Template: ComponentStory<typeof RadioButtons> = (args) => {
+const Template: StoryFn<typeof RadioButtons> = (args) => {
   const [value, setValue] = useState<RadioOptionValue>()
 
   return (
