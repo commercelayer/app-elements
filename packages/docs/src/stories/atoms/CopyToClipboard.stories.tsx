@@ -1,7 +1,7 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof CopyToClipboard> = {
+const setup: Meta<typeof CopyToClipboard> = {
   title: 'Atoms/CopyToClipboard',
   component: CopyToClipboard,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof CopyToClipboard> = {
 }
 export default setup
 
-const TemplateDefault: ComponentStory<typeof CopyToClipboard> = (args) => (
+const TemplateDefault: StoryFn<typeof CopyToClipboard> = (args) => (
   <CopyToClipboard {...args} />
 )
 export const Default = TemplateDefault.bind({})
@@ -18,7 +18,7 @@ Default.args = {
   value: 'BEANIEXXFFFFFF000000XXXX'
 }
 
-const TemplateStacked: ComponentStory<typeof CopyToClipboard> = (args) => (
+const TemplateStacked: StoryFn<typeof CopyToClipboard> = (args) => (
   <>
     <CopyToClipboard {...args} />
     <CopyToClipboard value='Soft double-layered customizable beanie. 95% polyester, 5% spandex. Regular fit. Accurately printed, cut, and hand-sewn.' />
@@ -31,7 +31,7 @@ Stacked.args = {
   value: 'BEANIEXXFFFFFF000000XXXX'
 }
 
-const TemplateEmpty: ComponentStory<typeof CopyToClipboard> = (args) => (
+const TemplateEmpty: StoryFn<typeof CopyToClipboard> = (args) => (
   <>
     <CopyToClipboard {...args} />
     <CopyToClipboard {...args} />

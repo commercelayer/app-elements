@@ -1,7 +1,7 @@
 import { Tab, Tabs } from '#ui/atoms/Tabs'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Tabs> = {
+const setup: Meta<typeof Tabs> = {
   title: 'Atoms/Tabs',
   component: Tabs,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof Tabs> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Tabs> = (args) => (
+const Template: StoryFn<typeof Tabs> = (args) => (
   <Tabs {...args}>
     <Tab name='Filters'>
       <div>Content for first tab</div>

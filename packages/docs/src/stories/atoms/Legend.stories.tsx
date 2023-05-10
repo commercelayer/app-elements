@@ -1,8 +1,8 @@
 import { A } from '#ui/atoms/A'
 import { Legend } from '#ui/atoms/Legend'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Legend> = {
+const setup: Meta<typeof Legend> = {
   title: 'Atoms/Legend',
   component: Legend,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof Legend> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Legend> = (args) => <Legend {...args} />
+const Template: StoryFn<typeof Legend> = (args) => <Legend {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

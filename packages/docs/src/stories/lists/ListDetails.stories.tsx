@@ -1,12 +1,12 @@
-import { Avatar } from '#app-elements/atoms/Avatar'
-import { Text } from '#app-elements/atoms/Text'
-import { ListItem } from '#app-elements/lists/ListItem'
+import { Avatar } from '#ui/atoms/Avatar'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { Text } from '#ui/atoms/Text'
 import { ListDetails } from '#ui/lists/ListDetails'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { ListItem } from '#ui/lists/ListItem'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof ListDetails> = {
+const setup: Meta<typeof ListDetails> = {
   title: 'Lists/ListDetails',
   component: ListDetails,
   parameters: {
@@ -15,7 +15,7 @@ const setup: ComponentMeta<typeof ListDetails> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof ListDetails> = (args) => (
+const Template: StoryFn<typeof ListDetails> = (args) => (
   <ListDetails {...args}>
     <ListDetailsItem label='ID:'>
       <CopyToClipboard value='WGDMSMNOwJ' />
@@ -41,7 +41,7 @@ Default.args = {
   isLoading: false
 }
 
-export const WithListItem: ComponentStory<typeof ListDetails> = (args) => (
+export const WithListItem: StoryFn<typeof ListDetails> = (args) => (
   <ListDetails {...args}>
     {Array(3).fill(
       <ListItem

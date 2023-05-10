@@ -1,8 +1,8 @@
 import { Report } from '#ui/composite/Report'
 
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Report> = {
+const setup: Meta<typeof Report> = {
   title: 'Composite/Report',
   component: Report,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof Report> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Report> = (args) => <Report {...args} />
+const Template: StoryFn<typeof Report> = (args) => <Report {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

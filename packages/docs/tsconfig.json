@@ -21,12 +21,25 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#app-elements/*": [
-        "../app-elements/src/ui/*"
+      // TODO: we need to keep them in sync with the `app-elements` package.
+      "#providers/*": [
+        "../app-elements/src/providers/*"
       ],
       "#ui/*": [
         "../app-elements/src/ui/*"
-      ]
+      ],
+      "#styles/*": [
+        "../app-elements/src/styles/*"
+      ],
+      "#utils/*": [
+        "../app-elements/src/utils/*"
+      ],
+      "#helpers/*": [
+        "../app-elements/src/helpers/*"
+      ],
+      "#hooks/*": [
+        "../app-elements/src/hooks/*"
+      ],
     }
   },
   "include": [

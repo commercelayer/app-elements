@@ -1,7 +1,7 @@
 import { RadialProgress } from '#ui/atoms/RadialProgress'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof RadialProgress> = {
+const setup: Meta<typeof RadialProgress> = {
   title: 'Atoms/RadialProgress',
   component: RadialProgress,
   argTypes: {
@@ -12,7 +12,7 @@ const setup: ComponentMeta<typeof RadialProgress> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof RadialProgress> = (args) => (
+const Template: StoryFn<typeof RadialProgress> = (args) => (
   <RadialProgress {...args} />
 )
 

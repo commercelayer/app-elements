@@ -1,10 +1,10 @@
-import { A } from '#app-elements/atoms/A'
-import { Legend } from '#app-elements/atoms/Legend'
-import { Stack } from '#app-elements/atoms/Stack'
+import { A } from '#ui/atoms/A'
+import { Legend } from '#ui/atoms/Legend'
 import { Spacer } from '#ui/atoms/Spacer'
+import { Stack } from '#ui/atoms/Stack'
 import { Text } from '#ui/atoms/Text'
 import { type ListItem } from '#ui/lists/ListItem'
-import { type ComponentStory, type Meta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {
   title: 'Examples/Order Addresses',
@@ -14,7 +14,7 @@ const setup: Meta = {
 }
 export default setup
 
-export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => (
+export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
   <>
     <Legend title='Addresses' border='none' />
     <Stack>

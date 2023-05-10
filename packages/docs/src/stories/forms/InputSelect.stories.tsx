@@ -6,7 +6,7 @@ import {
   type SelectValue
 } from '#ui/forms/InputSelect'
 import { Label } from '#ui/forms/Label'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const fullList = [
@@ -24,7 +24,7 @@ const fullList = [
   { value: 'sku_options', label: 'Sku Options' }
 ].sort((a, b) => a.label.localeCompare(b.label))
 
-const setup: ComponentMeta<typeof InputSelect> = {
+const setup: Meta<typeof InputSelect> = {
   title: 'Forms/InputSelect',
   component: InputSelect,
   parameters: {
@@ -33,7 +33,7 @@ const setup: ComponentMeta<typeof InputSelect> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputSelect> = (args) => {
+const Template: StoryFn<typeof InputSelect> = (args) => {
   return (
     <>
       <Label gap htmlFor='parent-resource'>
@@ -80,7 +80,7 @@ const fakeSearch = (hint: string): SelectValue[] =>
     item.label.toLowerCase().includes(hint.toLowerCase())
   )
 
-const TemplateError: ComponentStory<typeof InputSelect> = (args) => {
+const TemplateError: StoryFn<typeof InputSelect> = (args) => {
   const [feedback, setFeedback] = useState<InputSelectProps['feedback']>()
   return (
     <InputSelect

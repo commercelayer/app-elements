@@ -1,8 +1,8 @@
-import { A } from '#app-elements/atoms/A'
+import { A } from '#ui/atoms/A'
 import { List } from '#ui/lists/List'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof List> = {
+const setup: Meta<typeof List> = {
   title: 'Lists/List',
   component: List,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof List> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof List> = (args) => (
+const Template: StoryFn<typeof List> = (args) => (
   <List {...args}>
     <div style={{ padding: '2rem' }}>item #1</div>
     <div style={{ padding: '2rem' }}>item #2</div>

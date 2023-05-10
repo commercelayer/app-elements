@@ -1,15 +1,13 @@
 import { A } from '#ui/atoms/A'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof A> = {
+const setup: Meta<typeof A> = {
   title: 'Atoms/A',
   component: A
 }
 export default setup
 
-const Template: ComponentStory<typeof A> = (args) => (
-  <A {...args}>I am a link</A>
-)
+const Template: StoryFn<typeof A> = (args) => <A {...args}>I am a link</A>
 
 export const Default = Template.bind({})
 Default.args = {

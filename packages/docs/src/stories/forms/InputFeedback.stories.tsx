@@ -1,13 +1,13 @@
 import { InputFeedback } from '#ui/forms/InputFeedback'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof InputFeedback> = {
+const setup: Meta<typeof InputFeedback> = {
   title: 'Forms/InputFeedback',
   component: InputFeedback
 }
 export default setup
 
-const Template: ComponentStory<typeof InputFeedback> = (args) => (
+const Template: StoryFn<typeof InputFeedback> = (args) => (
   <InputFeedback {...args} />
 )
 

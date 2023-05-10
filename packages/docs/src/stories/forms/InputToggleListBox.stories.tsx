@@ -1,8 +1,8 @@
 import { InputToggleListBox } from '#ui/forms/InputToggleListBox'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof InputToggleListBox> = {
+const setup: Meta<typeof InputToggleListBox> = {
   title: 'Forms/InputToggleListBox',
   component: InputToggleListBox,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof InputToggleListBox> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputToggleListBox> = (args) => {
+const Template: StoryFn<typeof InputToggleListBox> = (args) => {
   const [value, setValue] = useState(args.value ?? 'json')
   return (
     <InputToggleListBox

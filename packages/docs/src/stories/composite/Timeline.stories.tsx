@@ -1,4 +1,4 @@
-import { Text } from '#app-elements/atoms/Text'
+import { Text } from '#ui/atoms/Text'
 import { Timeline } from '#ui/composite/Timeline'
 
 import { type Meta, type StoryFn } from '@storybook/react'

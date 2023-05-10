@@ -1,13 +1,13 @@
 import { Card } from '#ui/atoms/Card'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Card> = {
+const setup: Meta<typeof Card> = {
   title: 'Atoms/Card',
   component: Card
 }
 export default setup
 
-const Template: ComponentStory<typeof Card> = (args) => (
+const Template: StoryFn<typeof Card> = (args) => (
   <Card {...args}>
     <p>
       <strong>I am a card</strong>

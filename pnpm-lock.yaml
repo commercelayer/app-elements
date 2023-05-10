@@ -188,9 +188,6 @@ importers:
 
   packages/docs:
     dependencies:
-      '@commercelayer/app-elements':
-        specifier: workspace:^0.0.28
-        version: link:../app-elements
       react:
         specifier: ^18.2.0
         version: 18.2.0

@@ -1,14 +1,14 @@
 import { A } from '#ui/atoms/A'
 import { Hint } from '#ui/atoms/Hint'
-import { type ComponentStory, type ComponentMeta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Hint> = {
+const setup: Meta<typeof Hint> = {
   title: 'Atoms/Hint',
   component: Hint
 }
 export default setup
 
-const Template: ComponentStory<typeof Hint> = (args) => <Hint {...args} />
+const Template: StoryFn<typeof Hint> = (args) => <Hint {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

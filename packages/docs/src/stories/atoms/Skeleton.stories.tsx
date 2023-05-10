@@ -1,8 +1,8 @@
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Spacer } from '#ui/atoms/Spacer'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof Skeleton> = {
+const setup: Meta<typeof Skeleton> = {
   title: 'Atoms/Skeleton',
   component: Skeleton,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof Skeleton> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof Skeleton> = (args) => (
+const Template: StoryFn<typeof Skeleton> = (args) => (
   <Skeleton {...args}>
     <Spacer bottom='4'>
       <SkeletonItem type='box' height='2rem' />

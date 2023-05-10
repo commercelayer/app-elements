@@ -1,8 +1,8 @@
 import { A } from '#ui/atoms/A'
 import { PageHeading } from '#ui/atoms/PageHeading'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof PageHeading> = {
+const setup: Meta<typeof PageHeading> = {
   title: 'Atoms/PageHeading',
   component: PageHeading,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof PageHeading> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof PageHeading> = (args) => (
+const Template: StoryFn<typeof PageHeading> = (args) => (
   <PageHeading {...args} actionButton={<A>Edit</A>} />
 )
 

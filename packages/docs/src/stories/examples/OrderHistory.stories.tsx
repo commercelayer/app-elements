@@ -3,7 +3,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/lists/List'
 import { ListItem } from '#ui/lists/ListItem'
-import { type ComponentStory, type Meta } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {
   title: 'Examples/Order History',
@@ -13,7 +13,7 @@ const setup: Meta = {
 }
 export default setup
 
-export const Default: ComponentStory<typeof ListItem> = (args): JSX.Element => (
+export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
   <Spacer bottom='14'>
     <List title='Results · 13,765'>
       <ListItem

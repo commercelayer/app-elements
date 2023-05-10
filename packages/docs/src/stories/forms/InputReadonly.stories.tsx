@@ -1,7 +1,7 @@
 import { InputReadonly } from '#ui/forms/InputReadonly'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: ComponentMeta<typeof InputReadonly> = {
+const setup: Meta<typeof InputReadonly> = {
   title: 'Forms/InputReadonly',
   component: InputReadonly,
   parameters: {
@@ -10,7 +10,7 @@ const setup: ComponentMeta<typeof InputReadonly> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputReadonly> = (args) => {
+const Template: StoryFn<typeof InputReadonly> = (args) => {
   return (
     <InputReadonly
       {...args}

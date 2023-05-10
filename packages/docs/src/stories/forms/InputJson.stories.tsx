@@ -1,8 +1,8 @@
 import { InputJson } from '#ui/forms/InputJson'
-import { type ComponentMeta, type ComponentStory } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: ComponentMeta<typeof InputJson> = {
+const setup: Meta<typeof InputJson> = {
   title: 'Forms/InputJson',
   component: InputJson,
   parameters: {
@@ -11,7 +11,7 @@ const setup: ComponentMeta<typeof InputJson> = {
 }
 export default setup
 
-const Template: ComponentStory<typeof InputJson> = (args) => {
+const Template: StoryFn<typeof InputJson> = (args) => {
   const [jsonValue, setJsonValue] = useState<object | null>(null)
   return (
     <>
