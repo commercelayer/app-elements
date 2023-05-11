@@ -53,6 +53,9 @@ if (typeof global.process === 'undefined') {
   // Repetitive calls to the `.start()` method do not register a new worker,
   // but check whether there's an existing once, reusing it, if so.
   worker.start({
+    serviceWorker: {
+      url: isLocalhost ? '/mockServiceWorker.js' : '/app-elements/mockServiceWorker.js'
+    },
     quiet: !isLocalhost,
     onUnhandledRequest: isLocalhost ? (req, reqPrint) => {
       if (req.url.hostname === 'mock.localhost') {
