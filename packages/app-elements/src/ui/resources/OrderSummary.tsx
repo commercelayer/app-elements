@@ -1,3 +1,4 @@
+import { useCoreApi } from '#providers/CoreSdkProvider/useCoreApi'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button, type ButtonVariant } from '#ui/atoms/Button'
@@ -5,7 +6,7 @@ import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import type { Bundle, LineItem, Order } from '@commercelayer/sdk'
+import type { LineItem, Order } from '@commercelayer/sdk'
 import cn from 'classnames'
 import { Fragment, type MouseEventHandler } from 'react'
 
@@ -24,141 +25,15 @@ interface TotalRowProps {
   force?: boolean
 }
 
-const renderTotalRow = ({
-  label,
-  formattedAmount,
-  force = false,
-  position
-}: TotalRowProps): JSX.Element | null => {
-  if (formattedAmount == null) {
-    formattedAmount = ''
-  }
-
-  const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
-  const showRow = force || amountCents < 0 || amountCents > 0
-
-  return showRow ? (
-    <tr
-      data-test-id={`OrderSummary-${label}`}
-      className={cn({ 'border-b border-gray-100': position === 'last' })}
-    >
-      <td className='pt-4 pl-4' />
-      <td
-        className={cn(
-          'pt-4 pl-4',
-          { 'pt-6': position === 'first' },
-          { 'pb-6': position === 'last' }
-        )}
-      >
-        <Text weight={position === 'last' ? 'bold' : 'medium'}>{label}</Text>
-      </td>
-      <td
-        className={cn(
-          'pt-4 pl-4',
-          { 'pt-6': position === 'first' },
-          { 'pb-6': position === 'last' }
-        )}
-        colSpan={2}
-        align='right'
-      >
-        <Text
-          data-test-id={`OrderSummary-${label}-amount`}
-          weight={position === 'last' ? 'bold' : 'medium'}
-        >
-          {formattedAmount}
-        </Text>
-      </td>
-    </tr>
-  ) : null
-}
-
-function normalizeLineItemOptionValue(value: any): string {
-  try {
-    return typeof value === 'string' ? value : JSON.stringify(value)
-  } catch {
-    return 'Could not render option value'
-  }
-}
-
-const renderLineItemOptions = (
-  lineItemOptions: LineItem['line_item_options']
-): JSX.Element | null => {
-  if (lineItemOptions == null || lineItemOptions.length === 0) {
-    return null
-  }
-
-  return (
-    <>
-      {lineItemOptions?.map((item) => (
-        <Spacer key={item.id} top='4' className='pb-2 last:pb-0'>
-          <Text tag='div' weight='bold' size='small' className='mb-1'>
-            {item.name}
-          </Text>
-          {Object.entries(item.options).map(([optionName, optionValue]) => {
-            return (
-              <div key={optionName} className='flex items-center gap-1 mb-1'>
-                <Icon name='arrowBendDownRight' className='text-gray-500' />
-                <Text variant='info' tag='div' size='small' weight='medium'>
-                  {optionName}: {normalizeLineItemOptionValue(optionValue)}
-                </Text>
-              </div>
-            )
-          })}
-        </Spacer>
-      ))}
-    </>
-  )
-}
-function renderBundleDetails({
-  bundle
-}: {
-  bundle?: Bundle
-}): JSX.Element | null {
-  if (bundle == null) {
-    return null
-  }
-  return (
-    <ul className='mt-2.5'>
-      {bundle.sku_list?.sku_list_items?.map((item) => (
-        <li
-          key={item.id}
-          className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'
-        >
-          <Avatar
-            src={item.sku?.image_url as `https://${string}`}
-            size='x-small'
-            alt={item.sku?.name ?? ''}
-            className='ml-2'
-          />
-          <div className='flex flex-row gap-2 items-center ml-2'>
-            <Text
-              variant='info'
-              size='small'
-              weight='medium'
-              className='whitespace-nowrap'
-            >
-              x {item.quantity}
-            </Text>{' '}
-            <Text size='small' weight='semibold' className='leading-4'>
-              {item.sku?.name}
-            </Text>
-          </div>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 const OrderSummary = withSkeletonTemplate<{
   order: Order
-  bundles?: Bundle[]
   footerActions?: Array<{
     label: string
     onClick: MouseEventHandler<HTMLButtonElement>
     variant?: ButtonVariant
     disabled?: boolean
   }>
-}>(({ order, bundles, footerActions = [] }) => {
+}>(({ order, footerActions = [] }) => {
   return (
     <div>
       <table className='w-full'>
@@ -214,13 +89,12 @@ const OrderSummary = withSkeletonTemplate<{
                         variant='secondary'
                       />
                     </Spacer>
-                    {renderLineItemOptions(lineItem.line_item_options)}
-                    {lineItem.item_type === 'bundles' &&
-                      renderBundleDetails({
-                        bundle: bundles?.find(
-                          (bundle) => bundle.id === lineItem.id
-                        )
-                      })}
+                    <LineItemOptions
+                      lineItemOptions={lineItem.line_item_options}
+                    />
+                    {lineItem.item_type === 'bundles' && (
+                      <Bundle id={lineItem.id} />
+                    )}
                   </td>
                   <td className='pr-2' valign='top' align='right'>
                     <Text
@@ -241,46 +115,47 @@ const OrderSummary = withSkeletonTemplate<{
               </Fragment>
             )
           })}
-          {renderTotalRow({
-            force: true,
-            label: 'Subtotal',
-            formattedAmount: order.formatted_subtotal_amount,
-            position: 'first'
-          })}
-          {renderTotalRow({
-            label: 'Discount',
-            formattedAmount: order.formatted_discount_amount
-          })}
-          {renderTotalRow({
-            label: 'Adjustments',
-            formattedAmount: order.formatted_adjustment_amount
-          })}
-          {renderTotalRow({
-            force: true,
-            label: 'Shipping method',
-            formattedAmount:
+          <TotalRow
+            force
+            label='Subtotal'
+            formattedAmount={order.formatted_subtotal_amount}
+            position='first'
+          />
+          <TotalRow
+            label='Discount'
+            formattedAmount={order.formatted_discount_amount}
+          />
+          <TotalRow
+            label='Adjustments'
+            formattedAmount={order.formatted_adjustment_amount}
+          />
+          <TotalRow
+            force
+            label='Shipping method'
+            formattedAmount={
               order.shipping_amount_cents !== 0
                 ? order.formatted_shipping_amount
                 : 'free'
-          })}
-          {renderTotalRow({
-            label: 'Payment method',
-            formattedAmount: order.formatted_payment_method_amount
-          })}
-          {renderTotalRow({
-            label: 'Taxes',
-            formattedAmount: order.formatted_total_tax_amount
-          })}
-          {renderTotalRow({
-            label: 'Gift card',
-            formattedAmount: order.formatted_gift_card_amount
-          })}
-          {renderTotalRow({
-            force: true,
-            label: 'Total',
-            formattedAmount: order.formatted_total_amount,
-            position: 'last'
-          })}
+            }
+          />
+          <TotalRow
+            label='Payment method'
+            formattedAmount={order.formatted_payment_method_amount}
+          />
+          <TotalRow
+            label='Taxes'
+            formattedAmount={order.formatted_total_tax_amount}
+          />
+          <TotalRow
+            label='Gift card'
+            formattedAmount={order.formatted_gift_card_amount}
+          />
+          <TotalRow
+            force
+            label='Total'
+            formattedAmount={order.formatted_total_amount}
+            position='last'
+          />
         </tbody>
       </table>
       {footerActions.length > 0 && (
@@ -298,6 +173,136 @@ const OrderSummary = withSkeletonTemplate<{
     </div>
   )
 })
+
+function LineItemOptions({
+  lineItemOptions
+}: {
+  lineItemOptions: LineItem['line_item_options']
+}): JSX.Element | null {
+  if (lineItemOptions == null || lineItemOptions.length === 0) {
+    return null
+  }
+
+  return (
+    <>
+      {lineItemOptions.map((item) => (
+        <Spacer key={item.id} top='4' className='pb-2 last:pb-0'>
+          <Text tag='div' weight='bold' size='small' className='mb-1'>
+            {item.name}
+          </Text>
+          {Object.entries(item.options).map(([optionName, optionValue]) => {
+            return (
+              <div key={optionName} className='flex items-center gap-1 mb-1'>
+                <Icon name='arrowBendDownRight' className='text-gray-500' />
+                <Text variant='info' tag='div' size='small' weight='medium'>
+                  {optionName}: {normalizeLineItemOptionValue(optionValue)}
+                </Text>
+              </div>
+            )
+          })}
+        </Spacer>
+      ))}
+    </>
+  )
+}
+
+function Bundle({ id }: { id: string }): JSX.Element | null {
+  const { data: bundle, isLoading } = useCoreApi('bundles', 'retrieve', [
+    id,
+    { include: ['sku_list.sku_list_items.sku'] }
+  ])
+
+  if (isLoading || bundle == null) {
+    return null
+  }
+
+  return (
+    <ul className='mt-2.5'>
+      {bundle.sku_list?.sku_list_items?.map((item) => (
+        <li
+          key={item.id}
+          className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'
+        >
+          <Avatar
+            src={item.sku?.image_url as `https://${string}`}
+            size='x-small'
+            alt={item.sku?.name ?? ''}
+            className='ml-2'
+          />
+          <div className='flex flex-row gap-2 items-center ml-2'>
+            <Text
+              variant='info'
+              size='small'
+              weight='medium'
+              className='whitespace-nowrap'
+            >
+              x {item.quantity}
+            </Text>{' '}
+            <Text size='small' weight='semibold' className='leading-4'>
+              {item.sku?.name}
+            </Text>
+          </div>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+function TotalRow({
+  label,
+  formattedAmount,
+  force = false,
+  position
+}: TotalRowProps): JSX.Element | null {
+  if (formattedAmount == null) {
+    formattedAmount = ''
+  }
+
+  const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
+  const showRow = force || amountCents < 0 || amountCents > 0
+
+  return showRow ? (
+    <tr
+      data-test-id={`OrderSummary-${label}`}
+      className={cn({ 'border-b border-gray-100': position === 'last' })}
+    >
+      <td className='pt-4 pl-4' />
+      <td
+        className={cn(
+          'pt-4 pl-4',
+          { 'pt-6': position === 'first' },
+          { 'pb-6': position === 'last' }
+        )}
+      >
+        <Text weight={position === 'last' ? 'bold' : 'medium'}>{label}</Text>
+      </td>
+      <td
+        className={cn(
+          'pt-4 pl-4',
+          { 'pt-6': position === 'first' },
+          { 'pb-6': position === 'last' }
+        )}
+        colSpan={2}
+        align='right'
+      >
+        <Text
+          data-test-id={`OrderSummary-${label}-amount`}
+          weight={position === 'last' ? 'bold' : 'medium'}
+        >
+          {formattedAmount}
+        </Text>
+      </td>
+    </tr>
+  ) : null
+}
+
+function normalizeLineItemOptionValue(value: any): string {
+  try {
+    return typeof value === 'string' ? value : JSON.stringify(value)
+  } catch {
+    return 'Could not render option value'
+  }
+}
 
 OrderSummary.displayName = 'OrderSummary'
 export { OrderSummary }

@@ -1,3 +1,5 @@
+import { CoreSdkProvider } from '#providers/CoreSdkProvider'
+import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider'
 import { OrderSummary } from '#ui/resources/OrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -11,7 +13,13 @@ const setup: Meta<typeof OrderSummary> = {
 export default setup
 
 const Template: StoryFn<typeof OrderSummary> = (args) => {
-  return <OrderSummary {...args} />
+  return (
+    <TokenProvider clientKind='integration' currentApp='orders' devMode>
+      <CoreSdkProvider>
+        <OrderSummary {...args} />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
 }
 
 export const Default = Template.bind({})
@@ -305,96 +313,5 @@ WithBundle.args = {
         updated_at: '2023-04-28T09:46:16.219Z'
       }
     ]
-  },
-  bundles: [
-    {
-      id: 'PljQzimxgB',
-      type: 'bundles',
-      code: 'WELCOME_KIT_001',
-      name: 'Welcome KIT',
-      currency_code: 'USD',
-      description: '',
-      image_url:
-        'https://data.commercelayer.app/assets/images/t-shirts/color/png/t-shirt-flat_GREEN-ALIEN.png',
-      do_not_ship: false,
-      do_not_track: false,
-      price_amount_cents: 1000,
-      price_amount_float: 10,
-      formatted_price_amount: '$10.00',
-      compare_at_amount_cents: 7002,
-      compare_at_amount_float: 70.02,
-      formatted_compare_at_amount: '$70.02',
-      skus_count: 3,
-      created_at: '2022-05-19T12:54:45.855Z',
-      updated_at: '2022-05-19T12:56:23.780Z',
-
-      sku_list: {
-        id: 'wbWxZIPOzy',
-        type: 'sku_lists',
-        name: '',
-        slug: '',
-        created_at: '2022-05-19T12:53:58.738Z',
-        updated_at: '2022-05-19T12:54:17.095Z',
-        sku_list_items: [
-          {
-            id: 'rzDpOINGZz',
-            type: 'sku_list_items',
-            position: 1,
-            sku_code: 'TSHIRTMS000000FFFFFFLXXX',
-            quantity: 1,
-            created_at: '2022-05-19T12:54:11.189Z',
-            updated_at: '2022-05-19T12:54:11.189Z',
-            sku: {
-              id: 'ZDklSXyJDg',
-              type: 'skus',
-              code: 'TSHIRTMS000000FFFFFFLXXX',
-              name: 'Black Men T-Shirt with White Logo (L)',
-              image_url:
-                'https://data.commercelayer.app/seed/images/skus/TSHIRTMS000000FFFFFFLXXX_FLAT.png',
-              created_at: '2022-05-02T16:14:39.047Z',
-              updated_at: '2022-05-02T16:14:39.047Z'
-            }
-          },
-          {
-            id: 'MgMRPIKVqW',
-            type: 'sku_list_items',
-            position: 2,
-            sku_code: 'MESHBACK323230FFFFFFXXXX',
-            quantity: 2,
-            created_at: '2022-05-19T12:54:14.029Z',
-            updated_at: '2022-05-19T12:54:14.029Z',
-            sku: {
-              id: 'ZDklSXywXX',
-              type: 'skus',
-              code: 'MESHBACK323230FFFFFFXXXX',
-              name: 'Gray Mesh Back Snapback with White Logo',
-              image_url:
-                'https://data.commercelayer.app/seed/images/skus/MESHBACK323230FFFFFFXXXX_FLAT.png',
-              created_at: '2022-05-04T14:18:50.102Z',
-              updated_at: '2022-05-13T14:01:55.161Z'
-            }
-          },
-          {
-            id: 'yWEpMImZRg',
-            type: 'sku_list_items',
-            position: 3,
-            sku_code: 'BACKPACK000000FFFFFFXXXX',
-            quantity: 1,
-            created_at: '2022-05-19T12:54:17.092Z',
-            updated_at: '2022-05-19T12:54:17.092Z',
-            sku: {
-              id: 'BmDzSXQmKz',
-              type: 'skus',
-              code: 'BACKPACK000000FFFFFFXXXX',
-              name: 'Black Backpack with White Logo',
-              image_url:
-                'https://data.commercelayer.app/seed/images/skus/BACKPACK000000FFFFFFXXXX_FLAT.png',
-              created_at: '2022-05-13T13:49:32.757Z',
-              updated_at: '2022-05-13T14:01:26.135Z'
-            }
-          }
-        ]
-      }
-    }
-  ]
+  }
 }

@@ -1,25 +1,25 @@
 import {
   createContext,
-  type ReactNode,
   useCallback,
   useContext,
   useEffect,
-  useReducer
+  useReducer,
+  type ReactNode
 } from 'react'
 
-import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
-import { makeDashboardUrl, makeReAuthenticationUrl } from './url'
-import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
-import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { PageError } from '#ui/composite/PageError'
+import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
+import { initialTokenProviderState, reducer } from './reducer'
+import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import {
   type TokenProviderAllowedApp,
-  type TokenProviderRoleActions,
-  type TokenProviderResourceType,
   type TokenProviderAuthSettings,
-  type TokenProviderAuthUser
+  type TokenProviderAuthUser,
+  type TokenProviderResourceType,
+  type TokenProviderRoleActions
 } from './types'
-import { initialTokenProviderState, reducer } from './reducer'
+import { makeDashboardUrl, makeReAuthenticationUrl } from './url'
+import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 
 interface TokenProviderValue {
   dashboardUrl?: string
@@ -89,6 +89,35 @@ export const AuthContext = createContext<TokenProviderValue>({
 
 export const useTokenProvider = (): TokenProviderValue => {
   return useContext(AuthContext)
+}
+
+function MockTokenProvider({ children }: TokenProviderProps): JSX.Element {
+  const value: TokenProviderValue = {
+    dashboardUrl: '',
+    settings: {
+      accessToken: '1234',
+      domain: 'localhost',
+      mode: 'test',
+      organizationSlug: 'mock'
+    },
+    user: {
+      displayName: 'J. Doe',
+      email: 'john.doe@commercelayer.io',
+      firstName: 'John',
+      fullName: 'John Doe',
+      id: '1234',
+      lastName: 'Doe',
+      timezone: 'Europe/Rome'
+    },
+    canUser: () => true,
+    emitInvalidAuth: () => {}
+  }
+
+  return (
+    <AuthContext.Provider value={value}>
+      {typeof children === 'function' ? children(value) : children}
+    </AuthContext.Provider>
+  )
 }
 
 function TokenProvider({
@@ -226,4 +255,5 @@ function TokenProvider({
 }
 
 TokenProvider.displayName = 'TokenProvider'
-export { TokenProvider }
+MockTokenProvider.displayName = 'TokenProvider'
+export { TokenProvider, MockTokenProvider }
