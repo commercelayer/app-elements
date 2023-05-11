@@ -1,3 +1,5 @@
+import { CoreSdkProvider } from '#providers/CoreSdkProvider'
+import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider'
 import { OrderSummary } from '#ui/resources/OrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -11,7 +13,13 @@ const setup: Meta<typeof OrderSummary> = {
 export default setup
 
 const Template: StoryFn<typeof OrderSummary> = (args) => {
-  return <OrderSummary {...args} />
+  return (
+    <TokenProvider clientKind='integration' currentApp='orders' devMode>
+      <CoreSdkProvider>
+        <OrderSummary {...args} />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
 }
 
 export const Default = Template.bind({})
@@ -133,6 +141,7 @@ LineItemsOptions.args = {
     status: 'approved',
     payment_status: 'paid',
     fulfillment_status: 'fulfilled',
+
     subtotal_amount_cents: 14160,
     formatted_subtotal_amount: '$141.60',
     discount_amount_cents: 0,
@@ -245,6 +254,63 @@ LineItemsOptions.args = {
             metadata: {}
           }
         ]
+      }
+    ]
+  }
+}
+
+export const WithBundle = Template.bind({})
+WithBundle.args = {
+  isLoading: false,
+  order: {
+    type: 'orders',
+    id: '',
+    created_at: '',
+    updated_at: '',
+    status: 'approved',
+    payment_status: 'paid',
+    fulfillment_status: 'fulfilled',
+
+    subtotal_amount_cents: 14160,
+    formatted_subtotal_amount: '$141.60',
+    discount_amount_cents: 0,
+    formatted_discount_amount: '$0.00',
+    adjustment_amount_cents: 0,
+    formatted_adjustment_amount: '$0.00',
+    shipping_amount_cents: 1200,
+    formatted_shipping_amount: '$12.00',
+    payment_method_amount_cents: 1000,
+    formatted_payment_method_amount: '$10.00',
+    total_tax_amount_cents: 3115,
+    formatted_total_tax_amount: '$31.15',
+    gift_card_amount_cents: 0,
+    formatted_gift_card_amount: '$0.00',
+    total_amount_cents: 16360,
+    formatted_total_amount: '$163.60',
+    line_items: [
+      {
+        id: 'PljQzimxgB',
+        type: 'line_items',
+        item_type: 'bundles',
+        sku_code: null,
+        bundle_code: 'WELCOME_KIT_001',
+        quantity: 1,
+        currency_code: 'USD',
+        unit_amount_cents: 1000,
+        unit_amount_float: 10,
+        formatted_unit_amount: '$10.00',
+        formatted_options_amount: '$0.00',
+        formatted_discount: '$0.00',
+        total_amount_cents: 1000,
+        total_amount_float: 10,
+        formatted_total_amount: '$10.00',
+        tax_amount_cents: 0,
+        tax_amount_float: 0,
+        name: 'Welcome KIT',
+        image_url:
+          'https://data.commercelayer.app/assets/images/t-shirts/color/png/t-shirt-flat_GREEN-ALIEN.png',
+        created_at: '2023-04-28T09:46:16.219Z',
+        updated_at: '2023-04-28T09:46:16.219Z'
       }
     ]
   }
