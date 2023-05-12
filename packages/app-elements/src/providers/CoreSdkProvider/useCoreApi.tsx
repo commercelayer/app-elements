@@ -1,6 +1,10 @@
 import type { CommerceLayerClient } from '@commercelayer/sdk'
 import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import useSWR, { type BareFetcher, type SWRConfiguration } from 'swr'
+import useSWR, {
+  type BareFetcher,
+  type KeyedMutator,
+  type SWRConfiguration
+} from 'swr'
 import { useCoreSdkProvider } from '.'
 
 export const useCoreApi = <
@@ -20,6 +24,8 @@ export const useCoreApi = <
   data: Awaited<ReturnType<O>> | undefined
   error: any
   isLoading: boolean
+  isValidating: boolean
+  mutate: KeyedMutator<Awaited<ReturnType<O>> | undefined>
 } => {
   const { sdkClient } = useCoreSdkProvider()
 
@@ -32,18 +38,19 @@ export const useCoreApi = <
     }
   }
 
-  const { data, isLoading, error } = useSWR(
-    args.length > 0 ? args : [{}],
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      ...config
-    }
-  )
+  const { data, error, isLoading, isValidating, mutate } = useSWR<
+    Awaited<ReturnType<O>> | undefined,
+    any
+  >(args.length > 0 ? args : [{}], fetcher, {
+    revalidateOnFocus: false,
+    ...config
+  })
 
   return {
     data,
+    error,
     isLoading,
-    error
+    isValidating,
+    mutate
   }
 }
