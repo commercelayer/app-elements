@@ -1,5 +1,5 @@
-import cn from 'classnames'
 import * as phosphor from '@phosphor-icons/react'
+import cn from 'classnames'
 import { useMemo } from 'react'
 
 export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -76,6 +76,8 @@ const iconMapping = {
   arrowClockwise: phosphor.ArrowClockwise,
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
+  arrowsLeftRight: phosphor.ArrowsLeftRight,
+  arrowUpRight: phosphor.ArrowUpRight,
   asterisk: phosphor.AsteriskSimple,
   caretRight: phosphor.CaretRight,
   chatCircle: phosphor.ChatCircle,
@@ -86,6 +88,7 @@ const iconMapping = {
   eye: phosphor.Eye,
   flag: phosphor.Flag,
   funnel: phosphor.FunnelSimple,
+  hourglass: phosphor.Hourglass,
   magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
   package: phosphor.Package,
@@ -93,5 +96,6 @@ const iconMapping = {
   upload: phosphor.Upload,
   user: phosphor.User,
   warning: phosphor.Warning,
+  warningCircle: phosphor.WarningCircle,
   x: phosphor.X
 }
