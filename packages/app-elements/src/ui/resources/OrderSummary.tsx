@@ -115,47 +115,46 @@ const OrderSummary = withSkeletonTemplate<{
               </Fragment>
             )
           })}
-          <TotalRow
-            force
-            label='Subtotal'
-            formattedAmount={order.formatted_subtotal_amount}
-            position='first'
-          />
-          <TotalRow
-            label='Discount'
-            formattedAmount={order.formatted_discount_amount}
-          />
-          <TotalRow
-            label='Adjustments'
-            formattedAmount={order.formatted_adjustment_amount}
-          />
-          <TotalRow
-            force
-            label='Shipping method'
-            formattedAmount={
+          {renderTotalRow({
+            force: true,
+            label: 'Subtotal',
+            formattedAmount: order.formatted_subtotal_amount,
+            position: 'first'
+          })}
+          {renderTotalRow({
+            label: 'Discount',
+            formattedAmount: order.formatted_discount_amount
+          })}
+          {renderTotalRow({
+            label: 'Adjustments',
+            formattedAmount: order.formatted_adjustment_amount
+          })}
+          {renderTotalRow({
+            force: true,
+            label: 'Shipping method',
+            formattedAmount:
               order.shipping_amount_cents !== 0
                 ? order.formatted_shipping_amount
                 : 'free'
-            }
-          />
-          <TotalRow
-            label='Payment method'
-            formattedAmount={order.formatted_payment_method_amount}
-          />
-          <TotalRow
-            label='Taxes'
-            formattedAmount={order.formatted_total_tax_amount}
-          />
-          <TotalRow
-            label='Gift card'
-            formattedAmount={order.formatted_gift_card_amount}
-          />
-          <TotalRow
-            force
-            label='Total'
-            formattedAmount={order.formatted_total_amount}
-            position='last'
-          />
+          })}
+          {renderTotalRow({
+            label: 'Payment method',
+            formattedAmount: order.formatted_payment_method_amount
+          })}
+          {renderTotalRow({
+            label: 'Taxes',
+            formattedAmount: order.formatted_total_tax_amount
+          })}
+          {renderTotalRow({
+            label: 'Gift card',
+            formattedAmount: order.formatted_gift_card_amount
+          })}
+          {renderTotalRow({
+            force: true,
+            label: 'Total',
+            formattedAmount: order.formatted_total_amount,
+            position: 'last'
+          })}
         </tbody>
       </table>
       {footerActions.length > 0 && (
@@ -206,49 +205,51 @@ function LineItemOptions({
   )
 }
 
-function Bundle({ id }: { id: string }): JSX.Element | null {
-  const { data: bundle, isLoading } = useCoreApi('bundles', 'retrieve', [
-    id,
-    { include: ['sku_list.sku_list_items.sku'] }
-  ])
+const Bundle = withSkeletonTemplate<{ id: string }>(
+  ({ id }): JSX.Element | null => {
+    const { data: bundle, isLoading } = useCoreApi('bundles', 'retrieve', [
+      id,
+      { include: ['sku_list.sku_list_items.sku'] }
+    ])
 
-  if (isLoading || bundle == null) {
-    return null
+    if (isLoading || bundle == null) {
+      return null
+    }
+
+    return (
+      <ul className='mt-2.5'>
+        {bundle.sku_list?.sku_list_items?.map((item) => (
+          <li
+            key={item.id}
+            className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'
+          >
+            <Avatar
+              src={item.sku?.image_url as `https://${string}`}
+              size='x-small'
+              alt={item.sku?.name ?? ''}
+              className='ml-2'
+            />
+            <div className='flex flex-row gap-2 items-center ml-2'>
+              <Text
+                variant='info'
+                size='small'
+                weight='medium'
+                className='whitespace-nowrap'
+              >
+                x {item.quantity}
+              </Text>{' '}
+              <Text size='small' weight='semibold' className='leading-4'>
+                {item.sku?.name}
+              </Text>
+            </div>
+          </li>
+        ))}
+      </ul>
+    )
   }
+)
 
-  return (
-    <ul className='mt-2.5'>
-      {bundle.sku_list?.sku_list_items?.map((item) => (
-        <li
-          key={item.id}
-          className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'
-        >
-          <Avatar
-            src={item.sku?.image_url as `https://${string}`}
-            size='x-small'
-            alt={item.sku?.name ?? ''}
-            className='ml-2'
-          />
-          <div className='flex flex-row gap-2 items-center ml-2'>
-            <Text
-              variant='info'
-              size='small'
-              weight='medium'
-              className='whitespace-nowrap'
-            >
-              x {item.quantity}
-            </Text>{' '}
-            <Text size='small' weight='semibold' className='leading-4'>
-              {item.sku?.name}
-            </Text>
-          </div>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
-function TotalRow({
+function renderTotalRow({
   label,
   formattedAmount,
   force = false,
