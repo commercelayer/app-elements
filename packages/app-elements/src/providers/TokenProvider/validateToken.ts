@@ -1,15 +1,16 @@
-import {
-  type TokenProviderTokenInfo,
-  type TokenProviderRolePermissions,
-  type TokenProviderPermissionItem,
-  type TokenProviderResourceType,
-  type Mode,
-  type TokenProviderAuthUser
-} from './types'
-import { getInfoFromJwt } from './getInfoFromJwt'
-import { getOrgSlugFromCurrentUrl } from './url'
-import fetch from 'cross-fetch'
 import { computeFullname, formatDisplayName } from '#helpers/name'
+import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider/types'
+import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import fetch from 'cross-fetch'
+import { getInfoFromJwt } from './getInfoFromJwt'
+import {
+  type Mode,
+  type TokenProviderAuthUser,
+  type TokenProviderPermissionItem,
+  type TokenProviderRolePermissions,
+  type TokenProviderTokenInfo
+} from './types'
+import { getOrgSlugFromCurrentUrl } from './url'
 
 export function isTokenExpired({
   accessToken,
@@ -42,33 +43,43 @@ interface InvalidToken {
 
 export async function isValidTokenForCurrentApp({
   accessToken,
-  clientKind,
+  kind,
   domain,
-  currentApp,
   isProduction
 }: {
   accessToken: string
-  clientKind: string
-  currentApp: string
+  kind: TokenProviderTokenApplicationKind
   domain: string
   isProduction: boolean
 }): Promise<ValidToken | InvalidToken> {
-  const { slug, kind } = getInfoFromJwt(accessToken)
-  const isValidKind = kind === clientKind
-  const isValidSlug = isProduction ? slug === getOrgSlugFromCurrentUrl() : true
+  const jwtInfo = getInfoFromJwt(accessToken)
 
-  if (slug == null) {
+  if (jwtInfo.slug == null) {
     return {
       isValidToken: false
     }
   }
 
   try {
-    const tokenInfo = await fetchTokenInfo({ accessToken, slug, domain })
+    const tokenInfo = await fetchTokenInfo({
+      accessToken,
+      slug: jwtInfo.slug,
+      domain
+    })
     const isValidPermission = Boolean(tokenInfo?.token)
+    const isValidKind = jwtInfo.kind === kind
+    const isValidSlug = jwtInfo.slug === getOrgSlugFromCurrentUrl()
 
     const isAllValid = isValidKind && isValidSlug && isValidPermission
-    if (!isAllValid) {
+
+    // running validation only in production
+    if (isProduction && !isAllValid) {
+      console.error('Invalid token', {
+        tokenInfo,
+        isValidKind,
+        isValidSlug,
+        isValidPermission
+      })
       return {
         isValidToken: false
       }
@@ -78,7 +89,7 @@ export async function isValidTokenForCurrentApp({
       isValidToken: true,
       accessToken,
       mode: tokenInfo?.token.test === true ? 'test' : 'live',
-      organizationSlug: slug,
+      organizationSlug: jwtInfo.slug,
       permissions:
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
@@ -135,9 +146,7 @@ async function fetchTokenInfo({
 function preparePermissions(
   apiPermissions: TokenProviderTokenInfo['permissions']
 ): TokenProviderRolePermissions {
-  const resourceList = Object.keys(
-    apiPermissions
-  ) as TokenProviderResourceType[]
+  const resourceList = Object.keys(apiPermissions) as ListableResourceType[]
 
   return resourceList.reduce<TokenProviderRolePermissions>(
     (permissions, resource) => {

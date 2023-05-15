@@ -1,5 +1,5 @@
+import { render, waitFor, type RenderResult } from '@testing-library/react'
 import { TokenProvider, type TokenProviderProps } from './index'
-import { render, type RenderResult, waitFor } from '@testing-library/react'
 
 // token expires at Monday, 6 February 2023 11:53:19
 // slug is `giuseppe`
@@ -68,8 +68,8 @@ describe('TokenProvider', () => {
 
     const { element, getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       accessToken,
       onInvalidAuth
@@ -96,8 +96,8 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       accessToken: accessTokenLive,
       onInvalidAuth
@@ -115,8 +115,8 @@ describe('TokenProvider', () => {
 
     const { element, getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       onInvalidAuth
     })
@@ -135,8 +135,8 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       accessToken,
       onInvalidAuth
@@ -156,8 +156,8 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'sales_channel',
-      currentApp: 'imports',
+      kind: 'sales_channel',
+      appSlug: 'imports',
       devMode: false,
       loadingElement: <div>fetching token info</div>,
       errorElement: <div>custom error element</div>,
@@ -181,8 +181,8 @@ describe('TokenProvider', () => {
     const { getByTestId, getByText } = render(
       <div data-test-id='token-provider'>
         <TokenProvider
-          clientKind='integration'
-          currentApp='imports'
+          kind='integration'
+          appSlug='imports'
           devMode
           accessToken={accessToken}
           onInvalidAuth={onInvalidAuth}
@@ -227,8 +227,8 @@ describe('TokenProvider and localStorage', () => {
     vi.useFakeTimers().setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: true,
       accessToken,
       onInvalidAuth: () => {}
@@ -242,8 +242,8 @@ describe('TokenProvider and localStorage', () => {
     vi.useFakeTimers().setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: true,
       onInvalidAuth: () => {}
     })

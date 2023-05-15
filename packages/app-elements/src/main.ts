@@ -19,9 +19,9 @@ export { TokenProvider, useTokenProvider } from '#providers/TokenProvider'
 export type {
   TokenProviderAllowedApp,
   TokenProviderPermissionItem,
-  TokenProviderResourceType,
   TokenProviderRoleActions,
-  TokenProviderRolePermissions
+  TokenProviderRolePermissions,
+  TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider/types'
 // Atoms
 export { A } from '#ui/atoms/A'
