@@ -54,7 +54,19 @@ export const handlers = [
           },
           permissions: {
             imports: { actions: ['create', 'destroy', 'read', 'update'] }
-          }
+          },
+          accessible_apps: [
+            {
+              name: 'Orders',
+              kind: 'orders',
+              core: true
+            },
+            {
+              name: 'Imports',
+              kind: 'imports',
+              core: true
+            }
+          ]
         })
       )
     }

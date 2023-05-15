@@ -30,6 +30,7 @@ interface TokenProviderValue {
     action: TokenProviderRoleActions,
     resource: ListableResourceType
   ) => boolean
+  canAccess: (appSlug: TokenProviderAllowedApp) => boolean
   emitInvalidAuth: (reason: string) => void
 }
 
@@ -85,6 +86,7 @@ export const AuthContext = createContext<TokenProviderValue>({
     mode: initialTokenProviderState.settings.mode
   }),
   canUser: () => false,
+  canAccess: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
   user: null
@@ -113,6 +115,7 @@ function MockTokenProvider({ children }: TokenProviderProps): JSX.Element {
       timezone: 'Europe/Rome'
     },
     canUser: () => true,
+    canAccess: () => true,
     emitInvalidAuth: () => {}
   }
 
@@ -166,6 +169,13 @@ function TokenProvider({
     [_state.rolePermissions]
   )
 
+  const canAccess = useCallback(
+    function (appSlug: TokenProviderAllowedApp): boolean {
+      return _state.accessibleApps.includes(appSlug)
+    },
+    [_state.accessibleApps]
+  )
+
   useEffect(
     function validateAndSetToken() {
       void (async (): Promise<void> => {
@@ -208,7 +218,8 @@ function TokenProvider({
               domain
             },
             user: tokenInfo.user,
-            rolePermissions: tokenInfo.permissions ?? {}
+            rolePermissions: tokenInfo.permissions ?? {},
+            accessibleApps: tokenInfo.accessibleApps ?? []
           }
         })
       })()
@@ -221,6 +232,7 @@ function TokenProvider({
     settings: _state.settings,
     user: _state.user,
     canUser,
+    canAccess,
     emitInvalidAuth
   }
 

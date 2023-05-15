@@ -23,7 +23,7 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
     <div data-test-id={id}>
       <TokenProvider {...props}>
-        {({ settings: { mode }, user }) => (
+        {({ settings: { mode }, user, canAccess }) => (
           <div>
             <p>mode: {mode}</p>
             <p>timezone: {user?.timezone}</p>
@@ -32,6 +32,8 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
             <p>lastName: {user?.lastName}</p>
             <p>displayName: {user?.displayName}</p>
             <p>fullName: {user?.fullName}</p>
+            <p>can access orders: {canAccess('orders') ? 'yes' : 'no'}</p>
+            <p>can access exports: {canAccess('exports') ? 'yes' : 'no'}</p>
             <p>content</p>
           </div>
         )}
@@ -86,6 +88,10 @@ describe('TokenProvider', () => {
     expect(getByText('lastName: Starr')).toBeVisible()
     expect(getByText('displayName: R. Starr')).toBeVisible()
     expect(getByText('fullName: Ringo Starr')).toBeVisible()
+
+    expect(getByText('can access orders: yes')).toBeVisible()
+    expect(getByText('can access exports: no')).toBeVisible()
+
     expect(onInvalidAuth).toBeCalledTimes(0)
   })
 

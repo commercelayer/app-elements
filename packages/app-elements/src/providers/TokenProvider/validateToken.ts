@@ -1,5 +1,8 @@
 import { computeFullname, formatDisplayName } from '#helpers/name'
-import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider/types'
+import {
+  type TokenProviderAllowedApp,
+  type TokenProviderTokenApplicationKind
+} from '#providers/TokenProvider/types'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import fetch from 'cross-fetch'
 import { getInfoFromJwt } from './getInfoFromJwt'
@@ -35,6 +38,7 @@ interface ValidToken {
   mode: Mode
   organizationSlug: string
   permissions?: TokenProviderRolePermissions
+  accessibleApps?: TokenProviderAllowedApp[]
   user: TokenProviderAuthUser | null
 }
 interface InvalidToken {
@@ -93,6 +97,10 @@ export async function isValidTokenForCurrentApp({
       permissions:
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
+          : undefined,
+      accessibleApps:
+        tokenInfo?.accessible_apps != null
+          ? tokenInfo?.accessible_apps.map((app) => app.kind)
           : undefined,
       user:
         tokenInfo?.owner != null && tokenInfo.owner.type === 'User'
