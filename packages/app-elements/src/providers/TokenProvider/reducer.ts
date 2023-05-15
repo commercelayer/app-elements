@@ -1,6 +1,7 @@
+import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
 import {
-  type TokenProviderAuthUser,
   type TokenProviderAuthSettings,
+  type TokenProviderAuthUser,
   type TokenProviderRolePermissions
 } from './types'
 
@@ -10,6 +11,7 @@ interface TokenProviderInternalState {
   isLoading: boolean
   isTokenError: boolean
   rolePermissions: TokenProviderRolePermissions
+  accessibleApps: TokenProviderAllowedApp[]
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
 }
@@ -20,6 +22,7 @@ export const initialTokenProviderState: TokenProviderInternalState = {
   isLoading: true,
   isTokenError: false,
   rolePermissions: {},
+  accessibleApps: [],
   settings: {
     mode: 'test',
     accessToken: '',
@@ -37,6 +40,7 @@ type Action =
         settings: TokenProviderAuthSettings
         user: TokenProviderAuthUser | null
         rolePermissions: TokenProviderRolePermissions
+        accessibleApps: TokenProviderAllowedApp[]
       }
     }
 

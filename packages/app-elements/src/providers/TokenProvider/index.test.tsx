@@ -1,5 +1,5 @@
+import { render, waitFor, type RenderResult } from '@testing-library/react'
 import { TokenProvider, type TokenProviderProps } from './index'
-import { render, type RenderResult, waitFor } from '@testing-library/react'
 
 // token expires at Monday, 6 February 2023 11:53:19
 // slug is `giuseppe`
@@ -23,7 +23,7 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
     <div data-test-id={id}>
       <TokenProvider {...props}>
-        {({ settings: { mode }, user }) => (
+        {({ settings: { mode }, user, canAccess }) => (
           <div>
             <p>mode: {mode}</p>
             <p>timezone: {user?.timezone}</p>
@@ -32,6 +32,8 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
             <p>lastName: {user?.lastName}</p>
             <p>displayName: {user?.displayName}</p>
             <p>fullName: {user?.fullName}</p>
+            <p>can access orders: {canAccess('orders') ? 'yes' : 'no'}</p>
+            <p>can access exports: {canAccess('exports') ? 'yes' : 'no'}</p>
             <p>content</p>
           </div>
         )}
@@ -68,8 +70,8 @@ describe('TokenProvider', () => {
 
     const { element, getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       accessToken,
       onInvalidAuth
@@ -86,6 +88,10 @@ describe('TokenProvider', () => {
     expect(getByText('lastName: Starr')).toBeVisible()
     expect(getByText('displayName: R. Starr')).toBeVisible()
     expect(getByText('fullName: Ringo Starr')).toBeVisible()
+
+    expect(getByText('can access orders: yes')).toBeVisible()
+    expect(getByText('can access exports: no')).toBeVisible()
+
     expect(onInvalidAuth).toBeCalledTimes(0)
   })
 
@@ -96,8 +102,8 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       accessToken: accessTokenLive,
       onInvalidAuth
@@ -115,8 +121,8 @@ describe('TokenProvider', () => {
 
     const { element, getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       onInvalidAuth
     })
@@ -135,8 +141,8 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: false,
       accessToken,
       onInvalidAuth
@@ -156,8 +162,8 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'sales_channel',
-      currentApp: 'imports',
+      kind: 'sales_channel',
+      appSlug: 'imports',
       devMode: false,
       loadingElement: <div>fetching token info</div>,
       errorElement: <div>custom error element</div>,
@@ -181,8 +187,8 @@ describe('TokenProvider', () => {
     const { getByTestId, getByText } = render(
       <div data-test-id='token-provider'>
         <TokenProvider
-          clientKind='integration'
-          currentApp='imports'
+          kind='integration'
+          appSlug='imports'
           devMode
           accessToken={accessToken}
           onInvalidAuth={onInvalidAuth}
@@ -227,8 +233,8 @@ describe('TokenProvider and localStorage', () => {
     vi.useFakeTimers().setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: true,
       accessToken,
       onInvalidAuth: () => {}
@@ -242,8 +248,8 @@ describe('TokenProvider and localStorage', () => {
     vi.useFakeTimers().setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
+      appSlug: 'imports',
       devMode: true,
       onInvalidAuth: () => {}
     })

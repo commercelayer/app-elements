@@ -7,7 +7,9 @@ import {
   type ReactNode
 } from 'react'
 
+import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider/types'
 import { PageError } from '#ui/composite/PageError'
+import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
@@ -15,7 +17,6 @@ import {
   type TokenProviderAllowedApp,
   type TokenProviderAuthSettings,
   type TokenProviderAuthUser,
-  type TokenProviderResourceType,
   type TokenProviderRoleActions
 } from './types'
 import { makeDashboardUrl, makeReAuthenticationUrl } from './url'
@@ -27,20 +28,23 @@ interface TokenProviderValue {
   user: TokenProviderAuthUser | null
   canUser: (
     action: TokenProviderRoleActions,
-    resource: TokenProviderResourceType
+    resource: ListableResourceType
   ) => boolean
+  canAccess: (appSlug: TokenProviderAllowedApp) => boolean
   emitInvalidAuth: (reason: string) => void
 }
 
 export interface TokenProviderProps {
   /**
    * Token kind (will be validated)
+   * Eg. `integration` or `webapp` but also `imports` or `orders` in case of dashboard-generated token
    */
-  clientKind: 'integration' | 'sales_channel' | 'webapp'
+  kind: TokenProviderTokenApplicationKind
   /**
-   * Slug of the current app (will be validated). Can be one of imports, exports, webhooks, resources, orders or custom
+   * Slug of the current app. Can be one of imports, exports, webhooks, resources, orders or custom.
+   * Will be used to persist token for current app only.
    */
-  currentApp: TokenProviderAllowedApp
+  appSlug: TokenProviderAllowedApp
   /**
    * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
    */
@@ -82,6 +86,7 @@ export const AuthContext = createContext<TokenProviderValue>({
     mode: initialTokenProviderState.settings.mode
   }),
   canUser: () => false,
+  canAccess: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
   user: null
@@ -110,6 +115,7 @@ function MockTokenProvider({ children }: TokenProviderProps): JSX.Element {
       timezone: 'Europe/Rome'
     },
     canUser: () => true,
+    canAccess: () => true,
     emitInvalidAuth: () => {}
   }
 
@@ -121,8 +127,8 @@ function MockTokenProvider({ children }: TokenProviderProps): JSX.Element {
 }
 
 function TokenProvider({
-  currentApp,
-  clientKind,
+  appSlug,
+  kind,
   domain = 'commercelayer.io',
   onInvalidAuth,
   reauthenticateOnInvalidAuth,
@@ -140,7 +146,7 @@ function TokenProvider({
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
-    getPersistentAccessToken({ currentApp })
+    getPersistentAccessToken({ appSlug })
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'invalidAuth' })
@@ -149,18 +155,25 @@ function TokenProvider({
     }
     if (reauthenticateOnInvalidAuth === true) {
       window.location.href =
-        makeReAuthenticationUrl(dashboardUrl, currentApp) ?? dashboardUrl
+        makeReAuthenticationUrl(dashboardUrl, appSlug) ?? dashboardUrl
     }
   }, [])
 
   const canUser = useCallback(
     function (
       action: TokenProviderRoleActions,
-      resource: TokenProviderResourceType
+      resource: ListableResourceType
     ): boolean {
       return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
     [_state.rolePermissions]
+  )
+
+  const canAccess = useCallback(
+    function (appSlug: TokenProviderAllowedApp): boolean {
+      return _state.accessibleApps.includes(appSlug)
+    },
+    [_state.accessibleApps]
   )
 
   useEffect(
@@ -183,8 +196,7 @@ function TokenProvider({
 
         const tokenInfo = await isValidTokenForCurrentApp({
           accessToken,
-          clientKind,
-          currentApp,
+          kind,
           domain,
           isProduction: !devMode
         })
@@ -195,7 +207,7 @@ function TokenProvider({
         }
 
         // all good
-        savePersistentAccessToken({ currentApp, accessToken })
+        savePersistentAccessToken({ appSlug, accessToken })
         dispatch({
           type: 'validToken',
           payload: {
@@ -206,7 +218,8 @@ function TokenProvider({
               domain
             },
             user: tokenInfo.user,
-            rolePermissions: tokenInfo.permissions ?? {}
+            rolePermissions: tokenInfo.permissions ?? {},
+            accessibleApps: tokenInfo.accessibleApps ?? []
           }
         })
       })()
@@ -219,6 +232,7 @@ function TokenProvider({
     settings: _state.settings,
     user: _state.user,
     canUser,
+    canAccess,
     emitInvalidAuth
   }
 
@@ -256,4 +270,4 @@ function TokenProvider({
 
 TokenProvider.displayName = 'TokenProvider'
 MockTokenProvider.displayName = 'TokenProvider'
-export { TokenProvider, MockTokenProvider }
+export { MockTokenProvider, TokenProvider }

@@ -14,7 +14,7 @@ export default setup
 
 const Template: StoryFn<typeof OrderSummary> = (args) => {
   return (
-    <TokenProvider clientKind='integration' currentApp='orders' devMode>
+    <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
         <OrderSummary {...args} />
       </CoreSdkProvider>

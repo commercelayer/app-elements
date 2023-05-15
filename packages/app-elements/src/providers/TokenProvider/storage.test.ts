@@ -16,7 +16,7 @@ describe('makeStorageKey', () => {
   test('should return the storage key for clientId', () => {
     window.location.hostname = 'myorg.commercelayer.app'
     const key = makeStorageKey({
-      currentApp: 'imports',
+      appSlug: 'imports',
       item: 'accessToken'
     })
 

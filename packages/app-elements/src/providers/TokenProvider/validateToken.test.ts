@@ -27,11 +27,10 @@ describe('isTokenExpired', () => {
 })
 
 describe('isValidTokenForCurrentApp', () => {
-  test('should extract proper data from `tokeninfo` endpoint', async () => {
+  test('should extract proper data from `tokeninfo` endpoint for `integration` kind', async () => {
     const tokenInfo = await isValidTokenForCurrentApp({
       accessToken: token,
-      clientKind: 'integration',
-      currentApp: 'imports',
+      kind: 'integration',
       domain: 'commercelayer.io',
       isProduction: false
     })
