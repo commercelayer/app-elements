@@ -92,9 +92,10 @@ const OrderSummary = withSkeletonTemplate<{
                     <LineItemOptions
                       lineItemOptions={lineItem.line_item_options}
                     />
-                    {lineItem.item_type === 'bundles' && (
-                      <Bundle id={lineItem.id} />
-                    )}
+                    {lineItem.item_type === 'bundles' &&
+                      lineItem.bundle_code != null && (
+                        <Bundle code={lineItem.bundle_code} />
+                      )}
                   </td>
                   <td className='pr-2' valign='top' align='right'>
                     <Text
@@ -205,20 +206,24 @@ function LineItemOptions({
   )
 }
 
-const Bundle = withSkeletonTemplate<{ id: string }>(
-  ({ id }): JSX.Element | null => {
-    const { data: bundle, isLoading } = useCoreApi('bundles', 'retrieve', [
-      id,
-      { include: ['sku_list.sku_list_items.sku'] }
+const Bundle = withSkeletonTemplate<{ code: string }>(
+  ({ code }): JSX.Element | null => {
+    const { data: bundles, isLoading } = useCoreApi('bundles', 'list', [
+      {
+        filters: {
+          code_in: code
+        },
+        include: ['sku_list.sku_list_items.sku']
+      }
     ])
 
-    if (isLoading || bundle == null) {
+    if (isLoading || bundles == null || bundles.length === 0) {
       return null
     }
 
     return (
       <ul className='mt-2.5'>
-        {bundle.sku_list?.sku_list_items?.map((item) => (
+        {bundles[0].sku_list?.sku_list_items?.map((item) => (
           <li
             key={item.id}
             className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'
