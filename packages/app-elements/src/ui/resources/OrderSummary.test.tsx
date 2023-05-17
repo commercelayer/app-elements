@@ -245,22 +245,74 @@ describe('OrderSummary', () => {
             onClick: () => {
               console.log('approved!')
             }
+          },
+          {
+            label: 'Cancel',
+            variant: 'secondary',
+            onClick: () => {
+              console.log('cancelled!')
+            }
           }
         ]}
       />
     )
 
-    expect(getByTestId('order-summary-footer-actions')).toBeInTheDocument()
+    const actionContainer = getByTestId('order-summary-footer-actions')
+    expect(actionContainer).toBeInTheDocument()
+
+    expect(actionContainer.children[0]).toHaveClass('basis-1/2 flex gap-3')
+    expect(actionContainer.children[1]).toHaveClass(
+      'basis-1/2 flex gap-3 justify-end'
+    )
 
     const archiveButton = getByText('Archive')
     const approveButton = getByText('Approve')
+    const cancelButton = getByText('Cancel')
 
     expect(archiveButton).toBeInTheDocument()
+    expect(approveButton).not.toHaveClass('w-full')
     expect(archiveButton.tagName).toEqual('BUTTON')
     await act(() => fireEvent.click(archiveButton))
     expect(mockedConsoleLog).not.toHaveBeenCalled()
 
     expect(approveButton).toBeInTheDocument()
+    expect(approveButton).not.toHaveClass('w-full')
+    expect(approveButton.tagName).toEqual('BUTTON')
+    await act(() => fireEvent.click(approveButton))
+    expect(mockedConsoleLog).toHaveBeenCalledWith('approved!')
+
+    expect(cancelButton).toBeInTheDocument()
+    expect(approveButton).not.toHaveClass('w-full')
+    expect(cancelButton.tagName).toEqual('BUTTON')
+    await act(() => fireEvent.click(cancelButton))
+    expect(mockedConsoleLog).toHaveBeenCalledWith('cancelled!')
+  })
+
+  it('should render a full-width button when there is only one primary action', async () => {
+    const mockedConsoleLog = vi.spyOn(console, 'log')
+    const { getByText, getByTestId } = render(
+      <OrderSummary
+        order={order}
+        footerActions={[
+          {
+            label: 'Approve',
+            onClick: () => {
+              console.log('approved!')
+            }
+          }
+        ]}
+      />
+    )
+
+    const actionContainer = getByTestId('order-summary-footer-actions')
+    expect(actionContainer).toBeInTheDocument()
+
+    expect(actionContainer.children[0]).not.toHaveClass('basis-1/2 flex gap-3')
+
+    const approveButton = getByText('Approve')
+
+    expect(approveButton).toBeInTheDocument()
+    expect(approveButton).toHaveClass('w-full')
     expect(approveButton.tagName).toEqual('BUTTON')
     await act(() => fireEvent.click(approveButton))
     expect(mockedConsoleLog).toHaveBeenCalledWith('approved!')
