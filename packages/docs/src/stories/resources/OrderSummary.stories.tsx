@@ -27,13 +27,6 @@ Default.args = {
   isLoading: false,
   footerActions: [
     {
-      label: 'Archive',
-      disabled: true,
-      onClick: () => {
-        alert('Approved!')
-      }
-    },
-    {
       label: 'Approve',
       onClick: () => {
         alert('Approved!')
@@ -41,6 +34,7 @@ Default.args = {
     },
     {
       label: 'Cancel',
+      variant: 'secondary',
       onClick: () => {
         alert('Cancelled!')
       }
@@ -122,6 +116,20 @@ Default.args = {
       }
     ]
   }
+}
+
+export const OneAction = Template.bind({})
+OneAction.args = {
+  isLoading: false,
+  footerActions: [
+    {
+      label: 'Approve',
+      onClick: () => {
+        alert('Approved!')
+      }
+    }
+  ],
+  order: Default.args.order
 }
 
 export const NoActions = Template.bind({})
