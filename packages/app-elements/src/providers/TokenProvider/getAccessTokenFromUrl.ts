@@ -9,3 +9,11 @@ export const getAccessTokenFromUrl = (): string | null => {
 
   return null
 }
+
+export const removeAccessTokenFromUrl = (): void => {
+  if (typeof window !== 'undefined') {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('accessToken')
+    window.history.replaceState({}, '', url.toString())
+  }
+}
