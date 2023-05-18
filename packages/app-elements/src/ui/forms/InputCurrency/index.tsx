@@ -132,7 +132,6 @@ const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
 )
 
 InputCurrency.displayName = 'InputCurrency'
-export { InputCurrency }
 
 /**
  * Format cents to currency.
@@ -142,7 +141,7 @@ export { InputCurrency }
  * Example: formatCentsToCurrency(100000, 'USD') -> $1,000.00
  * Example: formatCentsToCurrency(100, 'JPY') -> ¥100
  **/
-export function formatCentsToCurrency(
+function formatCentsToCurrency(
   cents: number,
   currencyCode: Uppercase<CurrencyCode>
 ): string {
@@ -166,3 +165,5 @@ export function formatCentsToCurrency(
 
   return addCurrencySymbol({ formattedValue, currency })
 }
+
+export { InputCurrency, formatCentsToCurrency }
