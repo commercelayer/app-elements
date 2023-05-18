@@ -7,6 +7,7 @@ import {
   type ReactNode
 } from 'react'
 
+import { removeAccessTokenFromUrl } from '#providers/TokenProvider/getAccessTokenFromUrl'
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider/types'
 import { PageError } from '#ui/composite/PageError'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
@@ -208,6 +209,7 @@ function TokenProvider({
 
         // all good
         savePersistentAccessToken({ appSlug, accessToken })
+        removeAccessTokenFromUrl()
         dispatch({
           type: 'validToken',
           payload: {
