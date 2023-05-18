@@ -4,6 +4,7 @@ export { ValidationError } from '#components/ValidationError'
 
 export { Input } from '#components/Input'
 export { InputCheckbox } from '#components/InputCheckbox'
+export { InputCurrency } from '#components/InputCurrency'
 export { InputDate } from '#components/InputDate'
 export { InputDateRange } from '#components/InputDateRange'
 export { InputSelect } from '#components/InputSelect'

@@ -2,11 +2,12 @@ import { render, type RenderResult } from '@testing-library/react'
 import { useForm } from 'react-hook-form'
 import { Form } from './Form'
 import { Input } from './Input'
-import { InputToggleBox } from './InputToggleBox'
+import { InputCheckbox } from './InputCheckbox'
+import { InputCurrency } from './InputCurrency'
 import { InputDate } from './InputDate'
 import { InputDateRange } from './InputDateRange'
-import { InputCheckbox } from './InputCheckbox'
 import { InputSelect } from './InputSelect'
+import { InputToggleBox } from './InputToggleBox'
 import { ToggleButtons } from './ToggleButtons'
 import { ValidationApiError } from './ValidationApiError'
 
@@ -46,6 +47,7 @@ function FullFormScreen({ id }: { id: string }): JSX.Element {
           ]}
           mode='multi'
         />
+        <InputCurrency name='price' currencyCode='USD' />
         <ValidationApiError apiError={{}} />
       </Form>
     </div>
