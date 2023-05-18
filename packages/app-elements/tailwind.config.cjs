@@ -19,13 +19,23 @@ module.exports = {
     colors: {
       primary: {
         light: transparentize(0.2, colorBrand),
-        DEFAULT: colorBrand
+        DEFAULT: colorBrand,
+        50: '#ecf2ff',
+        100: '#dde6ff',
+        200: '#c2d1ff',
+        300: '#9cb1ff',
+        400: '#7586ff',
+        500: '#666EFF',
+        600: '#3b36f5',
+        700: '#322ad8',
+        800: '#2925ae',
+        900: '#181650'
       },
       transparent: 'transparent',
       black: '#101111',
       white: '#fff',
       gray: {
-        50: '#f8f8f8',
+        50: '#F8F8F8',
         100: '#EDEEEE',
         200: '#E6E7E7',
         300: '#DBDCDC',
@@ -36,10 +46,84 @@ module.exports = {
         800: '#282929',
         900: '#1D1E1E'
       },
-      green: '#1fda8a',
-      orange: '#ffab2e',
-      red: '#ff656b',
-      teal: '#055463'
+      green: {
+        DEFAULT: '#1FDA8A',
+        50: '#F0FDF7',
+        100: '#DBFDEE',
+        200: '#B9F9DC',
+        300: '#83F2C2',
+        400: '#45E39F',
+        500: '#1FDA8A',
+        600: '#11A868',
+        700: '#11784C',
+        800: '#0A472D',
+        900: '#03160E'
+      },
+      orange: {
+        DEFAULT: '#FFAB2E',
+        50: '#FFF5E6',
+        100: '#FFEDD1',
+        200: '#FFDCA8',
+        300: '#FFCC80',
+        400: '#FFBB57',
+        500: '#FFAB2E',
+        600: '#f98107',
+        700: '#dd5c02',
+        800: '#942e0c',
+        900: '#461202'
+      },
+      red: {
+        DEFAULT: '#FF656B',
+        50: '#FFF4F4',
+        100: '#FFDFE1',
+        200: '#FFB7B9',
+        300: '#FF8E92',
+        400: '#FF656B',
+        500: '#FF2D35',
+        600: '#F40009',
+        700: '#BC0007',
+        800: '#840005',
+        900: '#4B0003'
+      },
+      teal: {
+        DEFAULT: '#055463',
+        50: '#EDFBFE',
+        100: '#C7F4FC',
+        200: '#A0ECFA',
+        300: '#79E4F8',
+        400: '#52DCF6',
+        500: '#18D0F3',
+        600: '#0BB7D8',
+        700: '#0996B1',
+        800: '#07758A',
+        900: '#055463'
+      },
+      yellow: {
+        DEFAULT: '#FFEA2E',
+        50: '#FFFCE6',
+        100: '#FFFAD1',
+        200: '#FFF6A8',
+        300: '#FFF280',
+        400: '#FFEE57',
+        500: '#FFEA2E',
+        600: '#F5DC00',
+        700: '#BDAA00',
+        800: '#857700',
+        900: '#4D4500'
+      },
+      pink: {
+        DEFAULT: '#FE84BA',
+        50: '#FFE9F3',
+        100: '#FFD5E7',
+        200: '#FEACD1',
+        300: '#FE84BA',
+        400: '#FE4C9B',
+        500: '#FD157C',
+        600: '#D80261',
+        700: '#A00148',
+        800: '#69012F',
+        900: '#310016'
+      }
     },
     fontFamily: {
       sans: ['Manrope', 'ui-sans-serif', 'sans-serif'],

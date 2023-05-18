@@ -37,10 +37,10 @@ function Text({
   const computedClassName = cn(className, {
     // variant
     'text-green': variant === 'success',
-    'text-red': variant === 'danger',
+    'text-red-500': variant === 'danger',
     'text-primary': variant === 'primary',
     'text-gray-500': variant === 'info',
-    'text-orange': variant === 'warning',
+    'text-orange-600': variant === 'warning',
     // weight
     'font-regular': weight === 'regular',
     'font-medium': weight === 'medium',
