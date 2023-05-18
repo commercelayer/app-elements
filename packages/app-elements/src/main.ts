@@ -68,6 +68,7 @@ export { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 // Forms
 export { Input } from '#ui/forms/Input'
 export { InputCheckbox } from '#ui/forms/InputCheckbox'
+export { InputCurrency, formatCentsToCurrency } from '#ui/forms/InputCurrency'
 export { InputDate } from '#ui/forms/InputDate'
 export { InputDateRange } from '#ui/forms/InputDateRange'
 export { InputFeedback } from '#ui/forms/InputFeedback'
