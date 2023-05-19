@@ -83,7 +83,8 @@ export const API_ERROR_FIELD_NAME = 'root.apiError'
 export function setApiFormErrors({
   apiError,
   setError,
-  fieldMap
+  fieldMap,
+  formFields
 }: {
   /**
    * Error response from API
@@ -93,6 +94,10 @@ export function setApiFormErrors({
    * setError function from react-hook-form, it comes from same useForm() context
    */
   setError: UseFormSetError<any>
+  /**
+   * list of from fields
+   */
+  formFields: string[]
   /**
    * Map of field names from API to field names in the form
    */
@@ -108,7 +113,14 @@ export function setApiFormErrors({
           ? fieldMap?.[guessedField] ?? guessedField
           : undefined
 
-      if (item.code === 'VALIDATION_ERROR' && field != null) {
+      // Once we have a field name we check if it's part of the form fields, otherwise we cannot
+      // set the error on it because it won't be visible to the user.
+      // This because API can still return `VALIDATION_ERROR` for a field that is no part of the form.
+      // If we don't perform this check here, the form will not be submitted and the user will not see any errors.
+      // Example: `VALIDATION_ERROR` is returned for field `quantity` but we don't have a field with that name in the form.
+      const isFieldInForm = Boolean(field != null && formFields.includes(field))
+
+      if (item.code === 'VALIDATION_ERROR' && field != null && isFieldInForm) {
         return {
           ...allErrors,
           validation: [
