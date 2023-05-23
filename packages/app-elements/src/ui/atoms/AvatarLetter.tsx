@@ -27,7 +27,7 @@ function AvatarLetter({
         className,
         'w-[42px] h-[42px] rounded-full',
         'flex items-center justify-center',
-        'font-bold text-sm'
+        'font-bold text-sm text-white'
       )}
       style={{
         backgroundColor
@@ -70,5 +70,21 @@ const BG_COLORS: string[] = [
   '#942e0c',
   '#0A472D',
   '#181650',
-  '#A00148'
+  '#A00148',
+  '#3b36f5',
+  '#0BB7D8',
+  '#F40009',
+  '#f98107',
+  '#F5DC00',
+  '#11A868',
+  '#D80261',
+  '#181650',
+  '#055463',
+  '#4B0003',
+  '#461202',
+  '#4D4500',
+  '#03160E',
+  '#310016',
+  '#942e0c',
+  '#840005'
 ]
