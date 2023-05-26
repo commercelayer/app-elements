@@ -3,9 +3,9 @@ import cn from 'classnames'
 import {
   Children,
   cloneElement,
+  isValidElement,
   type FC,
   type FunctionComponent,
-  isValidElement,
   type ReactNode,
   type ReactPortal
 } from 'react'
@@ -161,6 +161,7 @@ const SkeletonTemplate: SkeletonTemplateComponent<
           if (
             isSpecificReactComponent(child, [
               'Avatar',
+              'AvatarLetter',
               'Badge',
               'Button',
               'Icon',
