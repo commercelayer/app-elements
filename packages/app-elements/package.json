@@ -67,9 +67,11 @@
     "typescript": "^5.0.3",
     "vite": "^4.2.1",
     "vite-plugin-dts": "^2.2.0",
-    "vitest": "^0.29.8"
+    "vitest": "^0.29.8",
+    "wouter": "^2.11.0"
   },
   "peerDependencies": {
-    "@commercelayer/sdk": "^5.x"
+    "@commercelayer/sdk": "^5.x",
+    "wouter": "^2.x"
   }
 }
