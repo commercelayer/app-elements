@@ -110,15 +110,17 @@ function ResourceList<TResource extends ListableResourceType>({
 
   return (
     <div data-test-id='resource-list'>
-      <LegendWithSkeleton
-        isLoading={isFirstLoading}
-        title={computeTitleWithTotalCount({
-          title,
-          recordCount
-        })}
-        actionButton={actionButton}
-        titleSize='small'
-      />
+      {title != null || actionButton != null ? (
+        <LegendWithSkeleton
+          isLoading={isFirstLoading}
+          title={computeTitleWithTotalCount({
+            title,
+            recordCount
+          })}
+          actionButton={actionButton}
+          titleSize='small'
+        />
+      ) : null}
 
       {data?.list.map((resource) => {
         return <Item resource={resource} key={resource.id} />
