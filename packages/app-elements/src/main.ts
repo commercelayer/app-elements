@@ -98,6 +98,7 @@ export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
 // Resources
 export { OrderSummary } from '#ui/resources/OrderSummary'
+export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
 // Tables
 export { Table } from '#ui/tables/Table'
