@@ -3,13 +3,15 @@ import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Text } from '#ui/atoms/Text'
 import { Input } from '#ui/forms/Input'
 import groupBy from 'lodash/groupBy'
 import orderBy from 'lodash/orderBy'
-import { Fragment, type ReactNode, useMemo } from 'react'
+import { Fragment, useMemo, type ReactNode } from 'react'
 
 export interface TimelineEvent {
   date: string
+  author?: string
   message: ReactNode
   note?: string
 }
@@ -91,12 +93,21 @@ export const Timeline = withSkeletonTemplate<Props>(
                       </div>
                     </div>
                     <div data-test-id='timeline-event-message'>
-                      {event.message} {timeSeparator}{' '}
-                      {formatDate({
-                        format: 'time',
-                        isoDate: event.date,
-                        timezone
-                      })}
+                      <>
+                        {event.author != null && (
+                          <Text weight='bold' className='text-black'>
+                            {event.author}{' '}
+                          </Text>
+                        )}
+                        <Text variant='info'>
+                          {event.message} {timeSeparator}{' '}
+                          {formatDate({
+                            format: 'time',
+                            isoDate: event.date,
+                            timezone
+                          })}
+                        </Text>
+                      </>
                     </div>
                   </div>
                   {event.note != null && (
@@ -106,7 +117,7 @@ export const Timeline = withSkeletonTemplate<Props>(
                       </div>
                       <Card
                         data-test-id='timeline-event-note'
-                        className='w-full'
+                        className='w-full mt-1'
                       >
                         {event.note}
                       </Card>

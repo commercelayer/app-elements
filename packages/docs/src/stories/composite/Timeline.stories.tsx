@@ -123,11 +123,8 @@ Default.args = {
         minutes: 8,
         seconds: 35
       }).toJSON(),
-      message: (
-        <span>
-          <Text weight='bold'>S. Jennigs</Text> left a note
-        </span>
-      ),
+      author: 'S. Jennigs',
+      message: 'left a note',
       note: 'Customer would like to receive parcel sooner, please request the customer phone number.'
     },
     {
@@ -138,11 +135,8 @@ Default.args = {
         minutes: 8,
         seconds: 36
       }).toJSON(),
-      message: (
-        <span>
-          <Text weight='bold'>S. Jennigs</Text> left a note
-        </span>
-      ),
+      author: 'S. Jennigs',
+      message: 'left a note',
       note: 'Short text.'
     },
     {
