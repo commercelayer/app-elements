@@ -64,8 +64,10 @@ function RelationshipSelector({
     [values]
   )
 
-  if (!isLoading && list.length === 0) {
-    return <div />
+  const isEmptyList = !isLoading && list.length === 0
+  const isOnlyOneItem = totalCount === 1 && defaultValues.length === 0
+  if (isEmptyList || isOnlyOneItem) {
+    return <></>
   }
 
   return (
