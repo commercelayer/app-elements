@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react'
 import cn from 'classnames'
+import { type ReactNode } from 'react'
 
 interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
@@ -14,6 +14,10 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
    * Set button size
    */
   size?: ButtonSize
+  /**
+   * Set button width to 100%
+   */
+  fullWidth?: boolean
 }
 
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link'
@@ -39,6 +43,7 @@ function Button({
   size = 'regular',
   variant = 'primary',
   disabled,
+  fullWidth,
   ...rest
 }: Props): JSX.Element {
   return (
@@ -46,7 +51,10 @@ function Button({
       className={cn([
         className,
         'text-sm rounded text-center font-bold transition-opacity duration-500 focus:outline-none',
-        { 'opacity-50 pointer-events-none touch-none': disabled },
+        {
+          'opacity-50 pointer-events-none touch-none': disabled,
+          'w-full': fullWidth === true
+        },
         sizeCss[size],
         variantCss[variant]
       ])}
