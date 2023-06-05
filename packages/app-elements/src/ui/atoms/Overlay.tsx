@@ -41,9 +41,11 @@ const Overlay: React.FC<OverlayProps> = ({
   }, [])
 
   useEffect(
-    function focusOverlay() {
+    function focusFirstInput() {
       if (element.current != null) {
-        element.current.focus()
+        const firstInputElement =
+          element.current.getElementsByTagName('input')[0]
+        firstInputElement?.focus()
       }
     },
     [element]
