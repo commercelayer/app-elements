@@ -18,6 +18,7 @@ export { CoreSdkProvider, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 export { useCoreApi } from '#providers/CoreSdkProvider/useCoreApi'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
 export { TokenProvider, useTokenProvider } from '#providers/TokenProvider'
+export { MetaTags } from '#providers/TokenProvider/MetaTags'
 export type {
   TokenProviderAllowedApp,
   TokenProviderPermissionItem,
