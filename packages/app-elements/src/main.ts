@@ -9,6 +9,7 @@ export {
 } from '#helpers/date'
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { formatDisplayName } from '#helpers/name'
+export { formatResourceName } from '#helpers/resources'
 // Hooks
 export { useDelayShow } from '#hooks/useDelayShow'
 export { useOverlayNavigation } from '#hooks/useOverlayNavigation'
