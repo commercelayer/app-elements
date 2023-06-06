@@ -15,7 +15,7 @@ export type TokenProviderPermissionItem = Record<
   boolean
 >
 export type TokenProviderRolePermissions = Partial<
-  Record<ListableResourceType, TokenProviderPermissionItem>
+  Record<ListableResourceType | 'organizations', TokenProviderPermissionItem>
 >
 
 interface CoreApiOwnerUser {
@@ -90,6 +90,7 @@ export type Mode = 'live' | 'test'
 export interface TokenProviderAuthSettings {
   accessToken: string
   organizationSlug: string
+  appSlug: string
   domain: string
   mode: Mode
 }
