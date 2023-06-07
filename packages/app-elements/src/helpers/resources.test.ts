@@ -6,6 +6,22 @@ describe('formatResourceName', () => {
     expect(formatResourceName({ resource: 'skus' })).toBe('SKU')
   })
 
+  test('should keep proper companies/providers names title case also for lowercase format', () => {
+    expect(
+      formatResourceName({ resource: 'paypal_gateways', format: 'lower' })
+    ).toBe('PayPal gateway')
+    expect(
+      formatResourceName({ resource: 'google_geocoders', format: 'lower' })
+    ).toBe('Google geocoder')
+    expect(
+      formatResourceName({
+        resource: 'google_geocoders',
+        count: 10,
+        format: 'lower'
+      })
+    ).toBe('Google geocoders')
+  })
+
   test('should return singular for count 1 or `singular`', () => {
     expect(formatResourceName({ resource: 'addresses', count: 1 })).toBe(
       'address'
@@ -22,7 +38,7 @@ describe('formatResourceName', () => {
     )
     expect(
       formatResourceName({ resource: 'satispay_gateways', count: 'plural' })
-    ).toBe('satispay gateways')
+    ).toBe('Satispay gateways')
   })
 
   test('should return plural when count is zero', () => {
