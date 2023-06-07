@@ -10,8 +10,10 @@ import {
 import { removeAccessTokenFromUrl } from '#providers/TokenProvider/getAccessTokenFromUrl'
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider/types'
 import { PageError } from '#ui/composite/PageError'
+import { type Organization } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
+import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
 import {
@@ -27,6 +29,7 @@ interface TokenProviderValue {
   dashboardUrl?: string
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
+  organization: Organization | null
   canUser: (
     action: TokenProviderRoleActions,
     resource: ListableResourceType
@@ -90,7 +93,8 @@ export const AuthContext = createContext<TokenProviderValue>({
   canAccess: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
-  user: null
+  user: null,
+  organization: null
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -104,7 +108,8 @@ function MockTokenProvider({ children }: TokenProviderProps): JSX.Element {
       accessToken: '1234',
       domain: 'localhost',
       mode: 'test',
-      organizationSlug: 'mock'
+      organizationSlug: 'mock',
+      appSlug: 'elements'
     },
     user: {
       displayName: 'J. Doe',
@@ -114,6 +119,14 @@ function MockTokenProvider({ children }: TokenProviderProps): JSX.Element {
       id: '1234',
       lastName: 'Doe',
       timezone: 'Europe/Rome'
+    },
+    organization: {
+      id: '1234',
+      name: 'Commerce Layer',
+      slug: 'mock',
+      type: 'organization',
+      created_at: '2021-01-01T00:00:00.000Z',
+      updated_at: '2021-01-01T00:00:00.000Z'
     },
     canUser: () => true,
     canAccess: () => true,
@@ -163,7 +176,7 @@ function TokenProvider({
   const canUser = useCallback(
     function (
       action: TokenProviderRoleActions,
-      resource: ListableResourceType
+      resource: ListableResourceType | 'organizations'
     ): boolean {
       return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
@@ -207,6 +220,16 @@ function TokenProvider({
           return
         }
 
+        // fetching organization details if user has read permission
+        const organization =
+          tokenInfo.permissions?.organizations?.read === true
+            ? await getOrganization({
+                accessToken,
+                domain,
+                organizationSlug: tokenInfo.organizationSlug
+              })
+            : null
+
         // all good
         savePersistentAccessToken({ appSlug, accessToken })
         removeAccessTokenFromUrl()
@@ -216,10 +239,12 @@ function TokenProvider({
             settings: {
               accessToken: tokenInfo.accessToken,
               organizationSlug: tokenInfo.organizationSlug,
+              appSlug,
               mode: tokenInfo.mode,
               domain
             },
             user: tokenInfo.user,
+            organization,
             rolePermissions: tokenInfo.permissions ?? {},
             accessibleApps: tokenInfo.accessibleApps ?? []
           }
@@ -233,6 +258,7 @@ function TokenProvider({
     dashboardUrl,
     settings: _state.settings,
     user: _state.user,
+    organization: _state.organization,
     canUser,
     canAccess,
     emitInvalidAuth

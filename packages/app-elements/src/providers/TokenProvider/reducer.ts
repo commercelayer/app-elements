@@ -1,4 +1,5 @@
 import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
+import { type Organization } from '@commercelayer/sdk'
 import {
   type TokenProviderAuthSettings,
   type TokenProviderAuthUser,
@@ -14,6 +15,7 @@ interface TokenProviderInternalState {
   accessibleApps: TokenProviderAllowedApp[]
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
+  organization: Organization | null
 }
 
 export const initialTokenProviderState: TokenProviderInternalState = {
@@ -27,9 +29,11 @@ export const initialTokenProviderState: TokenProviderInternalState = {
     mode: 'test',
     accessToken: '',
     domain: 'commercelayer.io',
-    organizationSlug: ''
+    organizationSlug: '',
+    appSlug: ''
   },
-  user: null
+  user: null,
+  organization: null
 }
 
 type Action =
@@ -39,6 +43,7 @@ type Action =
       payload: {
         settings: TokenProviderAuthSettings
         user: TokenProviderAuthUser | null
+        organization: Organization | null
         rolePermissions: TokenProviderRolePermissions
         accessibleApps: TokenProviderAllowedApp[]
       }
