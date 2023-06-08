@@ -24,7 +24,7 @@ export function useCoreApi<
 >(
   resource: Resource,
   action: Action,
-  args: Args,
+  args: Args | null,
   config?: SWROptions
 ): SWRResponse<Output, any, SWROptions> {
   const { sdkClient } = useCoreSdkProvider()
@@ -34,5 +34,9 @@ export function useCoreApi<
     return sdkClient[resource][action](...args)
   }
 
-  return useSWR(args.length > 0 ? args : [{}], fetcher, config)
+  return useSWR(
+    args != null ? (args.length > 0 ? args : [{}]) : null,
+    fetcher,
+    config
+  )
 }
