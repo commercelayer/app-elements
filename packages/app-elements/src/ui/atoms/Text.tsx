@@ -11,7 +11,7 @@ export type TextVariant =
 export type TextSize = 'small' | 'regular' | 'large' | 'inherit'
 export type TextWeight = 'regular' | 'medium' | 'semibold' | 'bold' | 'inherit'
 export type TextAlignment = 'center' | 'left' | 'right' | 'inherit'
-export type TextWrap = 'normal' | 'nowrap' | 'inherit'
+export type TextWrap = 'normal' | 'nowrap' | 'break' | 'inherit'
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   children?: ReactNode
@@ -56,6 +56,7 @@ function Text({
     'text-center': align === 'center',
     // wrap
     'whitespace-nowrap': wrap === 'nowrap',
+    'break-all': wrap === 'break',
     'whitespace-normal': wrap === 'normal'
   })
   return tag === 'span' ? (

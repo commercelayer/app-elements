@@ -80,7 +80,7 @@ const OrderSummary = withSkeletonTemplate<{
                   })}
                 >
                   <td className='px-4 pb-6' valign='top'>
-                    <Text tag='div' weight='bold'>
+                    <Text tag='div' weight='bold' wrap='break'>
                       {lineItem.name}
                     </Text>
                     <Spacer top='2' bottom='2'>
