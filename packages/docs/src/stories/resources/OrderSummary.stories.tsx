@@ -107,7 +107,7 @@ Default.args = {
         sku_code: 'HOODIEUL000000FFFFFFLXXX',
         image_url:
           'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/HOODIEUL000000FFFFFFLXXX_FLAT.png',
-        name: 'Black Unisex Lightweight Hoodie with White Logo',
+        name: 'BlackUnisexLightweightHoodieWithWhiteLogo_Cotton_Fabric_long_name',
         quantity: 10,
         formatted_total_amount: '1090.00€',
         formatted_unit_amount: '109.00€',
