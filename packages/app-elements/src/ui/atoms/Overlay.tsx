@@ -90,7 +90,7 @@ const Overlay: React.FC<OverlayProps> = ({
               data-test-id='overlay-buttonContainer'
             >
               {/* eslint-disable-next-line react/jsx-handler-names */}
-              <Button onClick={button.onClick} className='w-full'>
+              <Button type='button' onClick={button.onClick} className='w-full'>
                 {button.label}
               </Button>
             </Container>

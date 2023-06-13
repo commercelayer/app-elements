@@ -1,6 +1,6 @@
+import { ArrowLeft } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
-import { ArrowLeft } from '@phosphor-icons/react'
 import { Badge, type BadgeVariant } from './Badge'
 
 export interface PageHeadingProps {
@@ -60,7 +60,7 @@ function PageHeading({
       {(onGoBack != null || actionButton != null) && (
         <div className={cn('mb-4 flex items-center justify-between')}>
           {onGoBack != null ? (
-            <button onClick={onGoBack}>
+            <button type='button' onClick={onGoBack}>
               <ArrowLeft className='text-2.5xl' />
             </button>
           ) : null}
