@@ -80,7 +80,7 @@ const OrderSummary = withSkeletonTemplate<{
                   })}
                 >
                   <td className='px-4 pb-6' valign='top'>
-                    <Text tag='div' weight='bold' wrap='break'>
+                    <Text tag='div' weight='bold'>
                       {lineItem.name}
                     </Text>
                     <Spacer top='2' bottom='2'>
@@ -110,7 +110,7 @@ const OrderSummary = withSkeletonTemplate<{
                     </Text>
                   </td>
                   <td valign='top' align='right'>
-                    <Text weight='bold' tag='div'>
+                    <Text weight='bold' tag='div' wrap='nowrap'>
                       {lineItem.formatted_total_amount}
                     </Text>
                   </td>
