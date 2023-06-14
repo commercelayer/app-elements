@@ -40,7 +40,7 @@ export const Timeline = withSkeletonTemplate<Props>(
           return {
             ...event,
             position,
-            icon: getIcon(event, position)
+            icon: getIcon(event)
           }
         }
       )
@@ -133,14 +133,12 @@ export const Timeline = withSkeletonTemplate<Props>(
   }
 )
 
-function getIcon(event: TimelineEvent, position: Position): JSX.Element {
+function getIcon(event: TimelineEvent): JSX.Element {
   if (event.note != null) {
     return <Icon name='chatCircle' background='black' gap='small' />
   }
 
-  return position === 'first' ? (
-    <Icon name='flag' background='black' gap='small' />
-  ) : (
+  return (
     <Icon
       name='check'
       background='gray'
