@@ -1,6 +1,6 @@
+import { Check, Copy } from '@phosphor-icons/react'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
-import { Check, Copy } from '@phosphor-icons/react'
 import { useCallback, useEffect, useState } from 'react'
 import invariant from 'ts-invariant'
 
@@ -81,6 +81,7 @@ function CopyToClipboard({
       {showValue && <p className='overflow-x-auto py-2'>{value}</p>}
       <div className='pt-2'>
         <button
+          type='button'
           onClick={() => {
             void handleCopy(value)
           }}

@@ -26,6 +26,7 @@ function ButtonFilter({
       {...rest}
     >
       <button
+        type='button'
         data-test-id='ButtonFilter-main'
         onClick={onClick}
         className={cn('font-bold', 'flex items-center', 'pl-4 py-[10px]', {
@@ -46,6 +47,7 @@ function ButtonFilter({
       </button>
       {onRemoveRequest != null ? (
         <button
+          type='button'
           data-test-id='ButtonFilter-remove'
           className='pl-1 pr-4'
           onClick={onRemoveRequest}
