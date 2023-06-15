@@ -29,7 +29,8 @@ const storybookConfig: StorybookConfig = {
     storyStoreV7: true
   },
   docs: {
-    autodocs: true
+    autodocs: true,
+    docsMode: true
   }
 }
 
