@@ -3,5 +3,26 @@
 @tailwind utilities;
 
 body {
-  @apply text-gray-800 antialiased font-medium;
+    @apply text-gray-800 antialiased font-medium;
+}
+
+progress.progress {
+    @apply w-full h-2;
+}
+
+progress.progress,
+progress.progress::-webkit-progress-bar {
+    @apply rounded bg-gray-100 overflow-hidden;
+}
+
+progress.progress::-moz-progress-bar {
+    @apply rounded bg-gray-100 overflow-hidden;
+}
+
+progress.progress::-webkit-progress-value {
+    @apply rounded bg-primary;
+}
+
+progress.progress[value]::-moz-progress-bar {
+    @apply rounded bg-primary;
 }
