@@ -5,7 +5,7 @@ changelog:
     labels:
       - ignore-for-release
     authors:
-      - octocat
+      - dependabot
   categories:
     - title: 💥 Breaking Change
       labels:
@@ -13,6 +13,7 @@ changelog:
     - title: 🚀 Enhancement
       labels:
         - enhancement
+        - feature
     - title: 🐛 Bug Fix
       labels:
         - bug

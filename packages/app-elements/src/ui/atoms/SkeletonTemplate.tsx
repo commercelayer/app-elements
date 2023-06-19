@@ -138,6 +138,10 @@ const SkeletonTemplate: SkeletonTemplateComponent<
             return child
           }
 
+          if (typeof child === 'string' && child.trim() === '') {
+            return child
+          }
+
           if (!isValidElement<any>(child)) {
             return <span className={skeletonClass}>{child}</span>
           }

@@ -33,6 +33,7 @@ function FlexRow({
       {Children.map(children, (child, index) => (
         <div
           className={cn({
+            'flex-grow': !isLastOfMultipleChildren(index, childrenCount),
             'text-right': isLastOfMultipleChildren(index, childrenCount)
           })}
         >
