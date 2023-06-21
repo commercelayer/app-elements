@@ -4,6 +4,8 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/lists/ListItem'
 import { X } from '@phosphor-icons/react'
+import cn from 'classnames'
+import { Children } from 'react'
 
 interface Props {
   /**
@@ -41,37 +43,47 @@ const CloseButton: React.FC<{
 )
 
 export const CardDialog = withSkeletonTemplate<Props>(
-  ({ icon, title, subtitle, onClose, rightContent, children }) => (
-    <Spacer top='2'>
-      <Card>
-        <ListItem
-          tag='div'
-          alignItems='top'
-          gutter='none'
-          borderStyle='none'
-          icon={icon}
-        >
-          <div>
-            <ListItem tag='div' gutter='none' className='pt-0' alignItems='top'>
-              <div>
-                <Text size='regular' weight='bold'>
-                  {title}
-                </Text>
-                {subtitle != null && (
-                  <Text size='small' tag='div' variant='info' weight='medium'>
-                    {subtitle}
+  ({ icon, title, subtitle, onClose, rightContent, children }) => {
+    const hasChildren = Children.toArray(children).length > 0
+    return (
+      <Spacer top='2'>
+        <Card>
+          <ListItem
+            tag='div'
+            alignItems='top'
+            gutter='none'
+            borderStyle='none'
+            className='!py-0'
+            icon={icon}
+          >
+            <div>
+              <ListItem
+                borderStyle={hasChildren ? undefined : 'none'}
+                tag='div'
+                gutter='none'
+                className={cn('pt-0', { 'pb-0': !hasChildren })}
+                alignItems='top'
+              >
+                <div>
+                  <Text size='regular' weight='bold'>
+                    {title}
                   </Text>
-                )}
-              </div>
-              {rightContent != null && rightContent}
-            </ListItem>
-            {children}
-          </div>
-          {onClose != null && <CloseButton onClick={onClose} />}
-        </ListItem>
-      </Card>
-    </Spacer>
-  )
+                  {subtitle != null && (
+                    <Text size='small' tag='div' variant='info' weight='medium'>
+                      {subtitle}
+                    </Text>
+                  )}
+                </div>
+                {rightContent != null && rightContent}
+              </ListItem>
+              {children}
+            </div>
+            {onClose != null && <CloseButton onClick={onClose} />}
+          </ListItem>
+        </Card>
+      </Spacer>
+    )
+  }
 )
 
 CardDialog.displayName = 'CardDialog'

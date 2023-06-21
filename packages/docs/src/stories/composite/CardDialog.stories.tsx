@@ -162,3 +162,18 @@ Carrier.args = {
     </Spacer>
   )
 }
+
+export const NoChildren: StoryFn<typeof CardDialog> = (args): JSX.Element => (
+  <CardDialog {...args} />
+)
+NoChildren.args = {
+  title: 'Express Easy',
+  subtitle: 'DHL express',
+  rightContent: (
+    <Text size='regular' weight='bold'>
+      $29
+    </Text>
+  ),
+  icon: <Icon name='cloud' gap='large' background='gray' />,
+  onClose: undefined
+}

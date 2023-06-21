@@ -100,11 +100,10 @@ export { ListDetails } from '#ui/lists/ListDetails'
 export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
 // Resources
-export { Carrier } from '#ui/resources/Carrier'
 export { OrderSummary } from '#ui/resources/OrderSummary'
-export { Parcel } from '#ui/resources/Parcel'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
+export { ShipmentParcels as Parcel } from '#ui/resources/ShipmentParcels'
 // Tables
 export { Table } from '#ui/tables/Table'
 export { TableData } from '#ui/tables/TableData'
