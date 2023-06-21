@@ -1,4 +1,10 @@
+import { Avatar } from '#ui/atoms/Avatar'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
+import { Text } from '#ui/atoms/Text'
+import { CardDialog } from '#ui/composite/CardDialog'
+import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
+import { ListItem } from '#ui/lists/ListItem'
 import {
   getParcelTrackingDetail,
   hasSingleTracking,
@@ -9,14 +15,6 @@ import {
   type Shipment
 } from '@commercelayer/sdk'
 import { Package } from '@phosphor-icons/react'
-import {
-  Avatar,
-  CardDialog,
-  ListDetailsItem,
-  ListItem,
-  Spacer,
-  Text
-} from 'src/main'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 
 type SetNonNullableRequired<
