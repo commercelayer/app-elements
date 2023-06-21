@@ -1,7 +1,7 @@
-import { defineConfig } from 'vitest/config'
-import { resolve } from 'path'
 import react from '@vitejs/plugin-react'
+import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
+import { defineConfig } from 'vitest/config'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,7 +29,9 @@ export default defineConfig({
         'react',
         'react-dom',
         'react-hook-form',
-        '@commercelayer/app-elements'
+        '@commercelayer/app-elements',
+        'query-string',
+        '@commercelayer/sdk'
       ],
       output: {
         // Provide global variables to use in the UMD build
@@ -44,6 +46,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '#components': resolve(__dirname, './src/components'),
+      '#filters': resolve(__dirname, './src/filters'),
       '#helpers': resolve(__dirname, './src/helpers')
     }
   },
