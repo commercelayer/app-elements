@@ -1,10 +1,10 @@
-import cn from 'classnames'
-import { forwardRef } from 'react'
 import {
   InputWrapper,
   getFeedbackStyle,
   type InputWrapperBaseProps
 } from '#ui/forms/InputWrapper'
+import cn from 'classnames'
+import { forwardRef } from 'react'
 
 export interface InputProps
   extends InputWrapperBaseProps,
@@ -36,7 +36,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
           id={rest.id ?? rest.name}
           className={cn(
             className,
-            'block w-full px-4 py-2.5 font-medium',
+            'block w-full px-4 py-2.5 font-medium !bg-white !shadow-[0_0_0_1000px_white_inset]',
             'rounded outline-0',
             getFeedbackStyle(feedback)
           )}
