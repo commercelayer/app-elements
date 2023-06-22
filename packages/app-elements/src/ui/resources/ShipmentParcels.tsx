@@ -35,8 +35,8 @@ function hasPackage(
 
 export const ShipmentParcels = withSkeletonTemplate<{
   shipment: ShipmentResource
-  onRemove?: (parcelId: string) => void
-}>(({ shipment, onRemove }) => {
+  onRemoveParcel?: (parcelId: string) => void
+}>(({ shipment, onRemoveParcel }) => {
   const singleTracking = hasSingleTracking(shipment)
   const rate = getShipmentRate(shipment)
   return (
@@ -73,7 +73,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
               hasTracking(shipment)
                 ? undefined
                 : () => {
-                    onRemove?.(parcel.id)
+                    onRemoveParcel?.(parcel.id)
                   }
             }
           />

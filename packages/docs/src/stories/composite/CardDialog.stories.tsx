@@ -28,7 +28,8 @@ Default.args = {
   onClose: () => {
     alert('close clicked')
   },
-  children: <Spacer top='4'>Content goes here!</Spacer>
+  children: <Spacer top='4'>Content goes here!</Spacer>,
+  footer: 'Footer goes here!'
 }
 
 export const Parcel: StoryFn<typeof CardDialog> = (args): JSX.Element => (
