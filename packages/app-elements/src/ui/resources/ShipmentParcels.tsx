@@ -1,10 +1,10 @@
-import { Avatar } from '#ui/atoms/Avatar'
+import { Avatar, type AvatarProps } from '#ui/atoms/Avatar'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem, type ListItemProps } from '#ui/lists/ListItem'
 import {
   getParcelTrackingDetail,
   getShipmentRate,
@@ -12,8 +12,9 @@ import {
   hasTracking
 } from '#utils/tracking'
 import {
+  type ParcelLineItem as ParcelLineItemResource,
   type Parcel as ParcelResource,
-  type Shipment
+  type Shipment as ShipmentResource
 } from '@commercelayer/sdk'
 import { Package } from '@phosphor-icons/react'
 import cn from 'classnames'
@@ -31,7 +32,7 @@ function hasPackage(
 }
 
 export const ShipmentParcels = withSkeletonTemplate<{
-  shipment: Shipment
+  shipment: ShipmentResource
   onRemove?: (parcelId: string) => void
 }>(({ shipment, onRemove }) => {
   const singleTracking = hasSingleTracking(shipment)
@@ -76,11 +77,52 @@ export const ShipmentParcels = withSkeletonTemplate<{
   )
 })
 
+const ParcelLineItem = withSkeletonTemplate<{
+  parcelLineItem: ParcelLineItemResource
+  borderStyle: ListItemProps['borderStyle']
+}>(({ parcelLineItem, borderStyle }) => {
+  return (
+    <ListItem
+      tag='div'
+      alignItems='top'
+      borderStyle={borderStyle}
+      gutter='none'
+      icon={
+        <Avatar
+          size='small'
+          alt={parcelLineItem.name}
+          src={parcelLineItem.image_url as `https://${string}`}
+        />
+      }
+    >
+      <div>
+        <Text size='small' tag='div' variant='info' weight='medium'>
+          {parcelLineItem.sku_code}
+        </Text>
+        <Text tag='div' weight='bold'>
+          {parcelLineItem.name}
+        </Text>
+      </div>
+      <div>
+        <Text size='small' tag='div' variant='info' weight='medium'>
+          &nbsp;
+        </Text>
+        <Text tag='div' variant='info' wrap='nowrap'>
+          x {parcelLineItem.quantity}
+        </Text>
+      </div>
+    </ListItem>
+  )
+})
+
 const Parcel = withSkeletonTemplate<{
   parcel: SetNonNullableRequired<ParcelResource, 'package'>
   estimatedDelivery?: string
   onRemove?: () => void
 }>(({ parcel, estimatedDelivery, onRemove }) => {
+  const itemsLength =
+    parcel.parcel_line_items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
+
   return (
     <CardDialog
       onClose={onRemove}
@@ -88,43 +130,16 @@ const Parcel = withSkeletonTemplate<{
       icon={<Package size={42} className='text-gray-300' weight='thin' />}
     >
       {parcel.parcel_line_items?.map((parcelLineItem, index) => (
-        <div key={parcelLineItem.id}>
-          <ListItem
-            tag='div'
-            alignItems='top'
-            borderStyle={
-              parcel.parcel_line_items != null &&
-              parcel.parcel_line_items.length - 1 === index
-                ? 'solid'
-                : 'dashed'
-            }
-            gutter='none'
-            icon={
-              <Avatar
-                size='small'
-                alt={parcelLineItem.name}
-                src={parcelLineItem.image_url as `https://${string}`}
-              />
-            }
-          >
-            <div>
-              <Text size='small' tag='div' variant='info' weight='medium'>
-                {parcelLineItem.sku_code}
-              </Text>
-              <Text tag='div' weight='bold'>
-                {parcelLineItem.name}
-              </Text>
-            </div>
-            <div>
-              <Text size='small' tag='div' variant='info' weight='medium'>
-                &nbsp;
-              </Text>
-              <Text tag='div' variant='info' wrap='nowrap'>
-                x {parcelLineItem.quantity}
-              </Text>
-            </div>
-          </ListItem>
-        </div>
+        <ParcelLineItem
+          key={parcelLineItem.id}
+          parcelLineItem={parcelLineItem}
+          borderStyle={
+            parcel.parcel_line_items != null &&
+            parcel.parcel_line_items.length - 1 === index
+              ? 'solid'
+              : 'dashed'
+          }
+        />
       ))}
       <Spacer top='4'>
         <ListDetailsItem
@@ -133,11 +148,7 @@ const Parcel = withSkeletonTemplate<{
           border='none'
           gutter='none'
         >
-          {parcel.parcel_line_items?.reduce(
-            (sum, item) => sum + item.quantity,
-            0
-          )}{' '}
-          items
+          {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
         </ListDetailsItem>
         <ListDetailsItem
           label='Weight'
@@ -153,8 +164,26 @@ const Parcel = withSkeletonTemplate<{
   )
 })
 
+function getAvatarSrc(carrier: string | null | undefined): AvatarProps['src'] {
+  switch (carrier) {
+    case 'DHLEcommerceAsia':
+    case 'DhlEcs':
+    case 'DHLExpress':
+    case 'DHLPaket':
+    case 'DHLSmartmail':
+      return 'carriers:dhl'
+    case 'FedEx':
+    case 'FedExCrossBorder':
+    case 'FedExMailview':
+    case 'FedexSmartPost':
+      return 'carriers:fedex'
+    default:
+      return 'carriers:generic'
+  }
+}
+
 const Carrier = withSkeletonTemplate<{
-  shipment: Shipment
+  shipment: ShipmentResource
 }>(({ shipment }) => {
   const parcel = shipment.parcels?.[0]
   const rate = getShipmentRate(shipment)
@@ -169,12 +198,11 @@ const Carrier = withSkeletonTemplate<{
       title={rate.service}
       subtitle={rate.carrier}
       icon={
-        // TODO: add carrier icons
         <Avatar
           className={cn({
             'mt-0.5': !singleTracking
           })}
-          src='payments:adyen'
+          src={getAvatarSrc(rate.carrier)}
           alt='Adyen'
           shape='circle'
           size='small'
@@ -232,7 +260,6 @@ const Tracking = withSkeletonTemplate<{
           border='none'
           gutter='none'
         >
-          {/* TODO: how to get the estimated delivery? */}
           {estimatedDelivery}
         </ListDetailsItem>
       )}

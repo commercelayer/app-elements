@@ -30,6 +30,14 @@ export const Payments = (): JSX.Element => (
   </div>
 )
 
+export const Carriers = (): JSX.Element => (
+  <div className='flex gap-1 flex-wrap'>
+    <Avatar shape='circle' src='carriers:generic' alt='Generic' />
+    <Avatar shape='circle' src='carriers:dhl' alt='DHL' />
+    <Avatar shape='circle' src='carriers:fedex' alt='FedEx' />
+  </div>
+)
+
 export const Product = Template.bind({})
 Product.args = {
   src: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
