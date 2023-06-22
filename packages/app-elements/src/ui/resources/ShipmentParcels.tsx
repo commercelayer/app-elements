@@ -104,18 +104,18 @@ const ParcelLineItem = withSkeletonTemplate<{
       }
     >
       <div>
-        <Text size='small' tag='div' variant='info' weight='medium'>
+        <Text className='text-xs' tag='div' variant='info' weight='medium'>
           {parcelLineItem.sku_code}
         </Text>
-        <Text tag='div' weight='bold'>
+        <Text size='small' tag='div' weight='bold'>
           {parcelLineItem.name}
         </Text>
       </div>
       <div>
-        <Text size='small' tag='div' variant='info' weight='medium'>
+        <Text className='text-xs' tag='div' variant='info' weight='medium'>
           &nbsp;
         </Text>
-        <Text tag='div' variant='info' wrap='nowrap'>
+        <Text size='small' tag='div' variant='info' wrap='nowrap'>
           x {parcelLineItem.quantity}
         </Text>
       </div>
@@ -155,23 +155,25 @@ const Parcel = withSkeletonTemplate<{
         />
       ))}
       <Spacer top='4'>
-        <ListDetailsItem
-          label='Total'
-          childrenAlign='right'
-          border='none'
-          gutter='none'
-        >
-          {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
-        </ListDetailsItem>
-        <ListDetailsItem
-          label='Weight'
-          childrenAlign='right'
-          border='none'
-          gutter='none'
-        >
-          {parcel.weight} {parcel.unit_of_weight}
-        </ListDetailsItem>
-        <Tracking parcel={parcel} estimatedDelivery={estimatedDelivery} />
+        <Text size='small'>
+          <ListDetailsItem
+            label='Total'
+            childrenAlign='right'
+            border='none'
+            gutter='none'
+          >
+            {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
+          </ListDetailsItem>
+          <ListDetailsItem
+            label='Weight'
+            childrenAlign='right'
+            border='none'
+            gutter='none'
+          >
+            {parcel.weight} {parcel.unit_of_weight}
+          </ListDetailsItem>
+          <Tracking parcel={parcel} estimatedDelivery={estimatedDelivery} />
+        </Text>
       </Spacer>
     </CardDialog>
   )
@@ -234,10 +236,12 @@ const Carrier = withSkeletonTemplate<{
     >
       {singleTracking && (
         <Spacer top='4'>
-          <Tracking
-            parcel={parcel}
-            estimatedDelivery={rate.formatted_delivery_date}
-          />
+          <Text size='small'>
+            <Tracking
+              parcel={parcel}
+              estimatedDelivery={rate.formatted_delivery_date}
+            />
+          </Text>
         </Spacer>
       )}
     </CardDialog>
