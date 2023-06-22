@@ -28,7 +28,14 @@ interface Props {
    * When defined, this will show a close button on the right
    */
   onClose?: () => void
-  children: React.ReactNode
+  /**
+   * The content of the card dialog.
+   **/
+  children?: React.ReactNode
+  /**
+   *
+   */
+  footer?: React.ReactNode
 }
 
 const CloseButton: React.FC<{
@@ -43,7 +50,7 @@ const CloseButton: React.FC<{
 )
 
 export const CardDialog = withSkeletonTemplate<Props>(
-  ({ icon, title, subtitle, onClose, rightContent, children }) => {
+  ({ icon, title, subtitle, onClose, rightContent, children, footer }) => {
     const hasChildren = Children.toArray(children).length > 0
     return (
       <Spacer top='2'>
@@ -80,6 +87,9 @@ export const CardDialog = withSkeletonTemplate<Props>(
             </div>
             {onClose != null && <CloseButton onClick={onClose} />}
           </ListItem>
+          {footer != null && (
+            <div className='-m-6 mt-6 p-4 border-t'>{footer}</div>
+          )}
         </Card>
       </Spacer>
     )

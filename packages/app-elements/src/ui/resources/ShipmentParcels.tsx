@@ -1,4 +1,6 @@
+import { A } from '#ui/atoms/A'
 import { Avatar, type AvatarProps } from '#ui/atoms/Avatar'
+import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -59,7 +61,11 @@ export const ShipmentParcels = withSkeletonTemplate<{
                     tracking_number: undefined,
                     tracking_status: undefined,
                     tracking_status_detail: undefined,
-                    tracking_status_updated_at: undefined
+                    tracking_status_updated_at: undefined,
+                    shipping_label_file_type: undefined,
+                    shipping_label_resolution: undefined,
+                    shipping_label_size: undefined,
+                    shipping_label_url: undefined
                   }
                 : parcel
             }
@@ -76,6 +82,8 @@ export const ShipmentParcels = withSkeletonTemplate<{
     </>
   )
 })
+
+ShipmentParcels.displayName = 'ShipmentParcels'
 
 const ParcelLineItem = withSkeletonTemplate<{
   parcelLineItem: ParcelLineItemResource
@@ -128,6 +136,11 @@ const Parcel = withSkeletonTemplate<{
       onClose={onRemove}
       title={parcel.package.name}
       icon={<Package size={42} className='text-gray-300' weight='thin' />}
+      footer={
+        parcel.shipping_label_url == null ? undefined : (
+          <PrintLabel href={parcel.shipping_label_url} />
+        )
+      }
     >
       {parcel.parcel_line_items?.map((parcelLineItem, index) => (
         <ParcelLineItem
@@ -213,6 +226,11 @@ const Carrier = withSkeletonTemplate<{
           {rate.formatted_rate}
         </Text>
       }
+      footer={
+        singleTracking && parcel.shipping_label_url != null ? (
+          <PrintLabel href={parcel.shipping_label_url} />
+        ) : undefined
+      }
     >
       {singleTracking && (
         <Spacer top='4'>
@@ -267,4 +285,13 @@ const Tracking = withSkeletonTemplate<{
   )
 })
 
-ShipmentParcels.displayName = 'Parcel'
+const PrintLabel = withSkeletonTemplate<{ href: string }>(({ href }) => {
+  return (
+    <div className='text-center'>
+      <A href={href}>
+        <Icon gap='small' className='text-2xl mr-1' name='printer' />{' '}
+        <Text size='small'>Print label</Text>
+      </A>
+    </div>
+  )
+})

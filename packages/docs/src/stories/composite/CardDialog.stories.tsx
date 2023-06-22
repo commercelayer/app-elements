@@ -177,3 +177,51 @@ NoChildren.args = {
   icon: <Icon name='cloud' gap='large' background='gray' />,
   onClose: undefined
 }
+
+export const WithFooter: StoryFn<typeof CardDialog> = (args): JSX.Element => (
+  <CardDialog {...args} />
+)
+WithFooter.args = {
+  title: 'Express Easy',
+  subtitle: 'DHL express',
+  rightContent: (
+    <Text size='regular' weight='bold'>
+      $29
+    </Text>
+  ),
+  icon: <Icon name='cloud' gap='large' background='gray' />,
+  onClose: undefined,
+  footer: (
+    <div className='text-center'>
+      <A>Hello World!</A>
+    </div>
+  ),
+  children: (
+    <Spacer top='4'>
+      <ListDetailsItem
+        label='Status'
+        childrenAlign='right'
+        border='none'
+        gutter='none'
+      >
+        <A>In transit</A>
+      </ListDetailsItem>
+      <ListDetailsItem
+        label='Tracking'
+        childrenAlign='right'
+        border='none'
+        gutter='none'
+      >
+        42314321ASD4545
+      </ListDetailsItem>
+      <ListDetailsItem
+        label='Estimated delivery'
+        childrenAlign='right'
+        border='none'
+        gutter='none'
+      >
+        May 17, 2023 12:00 AM
+      </ListDetailsItem>
+    </Spacer>
+  )
+}
