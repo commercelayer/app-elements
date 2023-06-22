@@ -7,6 +7,7 @@ import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 import { ListItem } from '#ui/lists/ListItem'
 import {
   getParcelTrackingDetail,
+  getShipmentRate,
   hasSingleTracking,
   hasTracking
 } from '#utils/tracking'
@@ -15,6 +16,7 @@ import {
   type Shipment
 } from '@commercelayer/sdk'
 import { Package } from '@phosphor-icons/react'
+import cn from 'classnames'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 
 type SetNonNullableRequired<
@@ -33,6 +35,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
   onRemove?: (parcelId: string) => void
 }>(({ shipment, onRemove }) => {
   const singleTracking = hasSingleTracking(shipment)
+  const rate = getShipmentRate(shipment)
   return (
     <>
       <Carrier shipment={shipment} />
@@ -44,6 +47,9 @@ export const ShipmentParcels = withSkeletonTemplate<{
         return (
           <Parcel
             key={parcel.id}
+            estimatedDelivery={
+              singleTracking ? undefined : rate?.formatted_delivery_date
+            }
             parcel={
               singleTracking
                 ? {
@@ -72,8 +78,9 @@ export const ShipmentParcels = withSkeletonTemplate<{
 
 const Parcel = withSkeletonTemplate<{
   parcel: SetNonNullableRequired<ParcelResource, 'package'>
+  estimatedDelivery?: string
   onRemove?: () => void
-}>(({ parcel, onRemove }) => {
+}>(({ parcel, estimatedDelivery, onRemove }) => {
   return (
     <CardDialog
       onClose={onRemove}
@@ -140,7 +147,7 @@ const Parcel = withSkeletonTemplate<{
         >
           {parcel.weight} {parcel.unit_of_weight}
         </ListDetailsItem>
-        <Tracking parcel={parcel} />
+        <Tracking parcel={parcel} estimatedDelivery={estimatedDelivery} />
       </Spacer>
     </CardDialog>
   )
@@ -150,31 +157,41 @@ const Carrier = withSkeletonTemplate<{
   shipment: Shipment
 }>(({ shipment }) => {
   const parcel = shipment.parcels?.[0]
-  const trackingDetails = getParcelTrackingDetail(parcel)
+  const rate = getShipmentRate(shipment)
   const singleTracking = hasSingleTracking(shipment)
 
-  if (parcel == null || trackingDetails == null) {
+  if (parcel == null || rate == null) {
     return null
   }
 
   return (
     <CardDialog
-      /* TODO: how to get the title, subtitle and icon? */
-      title='Express Easy'
-      subtitle='DHL express'
+      title={rate.service}
+      subtitle={rate.carrier}
       icon={
-        <Avatar src='payments:adyen' alt='Adyen' shape='circle' size='small' />
+        // TODO: add carrier icons
+        <Avatar
+          className={cn({
+            'mt-0.5': !singleTracking
+          })}
+          src='payments:adyen'
+          alt='Adyen'
+          shape='circle'
+          size='small'
+        />
       }
       rightContent={
         <Text size='regular' weight='bold'>
-          {/* TODO: how to get the price? */}
-          $29
+          {rate.formatted_rate}
         </Text>
       }
     >
       {singleTracking && (
         <Spacer top='4'>
-          <Tracking parcel={parcel} />
+          <Tracking
+            parcel={parcel}
+            estimatedDelivery={rate.formatted_delivery_date}
+          />
         </Spacer>
       )}
     </CardDialog>
@@ -183,7 +200,8 @@ const Carrier = withSkeletonTemplate<{
 
 const Tracking = withSkeletonTemplate<{
   parcel: ParcelResource
-}>(({ parcel }) => {
+  estimatedDelivery?: string
+}>(({ parcel, estimatedDelivery }) => {
   const trackingDetails = getParcelTrackingDetail(parcel)
   return (
     <>
@@ -207,7 +225,7 @@ const Tracking = withSkeletonTemplate<{
           {parcel.tracking_number}
         </ListDetailsItem>
       )}
-      {parcel.tracking_number != null && (
+      {estimatedDelivery != null && (
         <ListDetailsItem
           label='Estimated delivery'
           childrenAlign='right'
@@ -215,7 +233,7 @@ const Tracking = withSkeletonTemplate<{
           gutter='none'
         >
           {/* TODO: how to get the estimated delivery? */}
-          May 17, 2023 · 12:00 AM
+          {estimatedDelivery}
         </ListDetailsItem>
       )}
     </>

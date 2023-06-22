@@ -75,11 +75,13 @@ function createParcel({
 function createShipment({
   id,
   status,
-  parcels
+  parcels,
+  rates
 }: {
   id: string
   status: Shipment['status']
   parcels: Parcel[]
+  rates?: Array<Record<string, any>>
 }): Shipment {
   return {
     type: 'shipments',
@@ -88,8 +90,8 @@ function createShipment({
     updated_at: '',
     status,
     parcels,
-    rates: [],
-    selected_rate_id: ''
+    rates,
+    selected_rate_id: 'rate_62be838fbcd8446298ebe139f59b839f'
   }
 }
 
@@ -235,6 +237,99 @@ export const parcelWithTracking2 = createParcel({
   trackingNumber: '65345234RWQ1111'
 })
 
+const rates = [
+  {
+    id: 'rate_f48a8d19b26b4893a0cdd0d441d5d37a',
+    carrier: 'DHLExpress',
+    service: 'ExpressWorldwideECX',
+    carrier_account_id: 'ca_6ac8fb85aa314abb87c3154ae4c87244',
+    currency: 'EUR',
+    rate: 30.51,
+    formatted_rate: '€30,51',
+    delivery_date: '2023-06-23T00:00:00Z',
+    formatted_delivery_date: 'Jun 23, 2023 12:00 AM',
+    delivery_days: 1,
+    est_delivery_days: 1,
+    shipment_id: 'shp_ffe1e130e0694ad9a41935fc56c4b6b4',
+    mode: 'test'
+  },
+  {
+    id: 'rate_436a50eec6df4e7b9a28efe1097df83c',
+    carrier: 'DHLExpress',
+    service: 'Express1200',
+    carrier_account_id: 'ca_6ac8fb85aa314abb87c3154ae4c87244',
+    currency: 'EUR',
+    rate: 47.38,
+    formatted_rate: '€47,38',
+    delivery_date: '2023-06-23T00:00:00Z',
+    formatted_delivery_date: 'Jun 23, 2023 12:00 AM',
+    delivery_days: 1,
+    est_delivery_days: 1,
+    shipment_id: 'shp_ffe1e130e0694ad9a41935fc56c4b6b4',
+    mode: 'test'
+  },
+  {
+    id: 'rate_62be838fbcd8446298ebe139f59b839f',
+    carrier: 'DHLExpress',
+    service: 'ExpressEasy',
+    carrier_account_id: 'ca_6ac8fb85aa314abb87c3154ae4c87244',
+    currency: 'EUR',
+    rate: 89.01,
+    formatted_rate: '€89,01',
+    delivery_date: '2023-06-23T00:00:00Z',
+    formatted_delivery_date: 'Jun 23, 2023 12:00 AM',
+    delivery_days: 1,
+    est_delivery_days: 1,
+    shipment_id: 'shp_ffe1e130e0694ad9a41935fc56c4b6b4',
+    mode: 'test'
+  },
+  {
+    id: 'rate_4eebeace124242e3b1e66f282ae5885f',
+    carrier: 'DHLExpress',
+    service: 'EuroPack',
+    carrier_account_id: 'ca_6ac8fb85aa314abb87c3154ae4c87244',
+    currency: 'EUR',
+    rate: 92.6,
+    formatted_rate: '€92,60',
+    delivery_date: '2023-06-26T00:00:00Z',
+    formatted_delivery_date: 'Jun 26, 2023 12:00 AM',
+    delivery_days: 2,
+    est_delivery_days: 2,
+    shipment_id: 'shp_ffe1e130e0694ad9a41935fc56c4b6b4',
+    mode: 'test'
+  },
+  {
+    id: 'rate_305f3a13069e419893e796609e7c3cdb',
+    carrier: 'DHLExpress',
+    service: 'EconomySelect',
+    carrier_account_id: 'ca_6ac8fb85aa314abb87c3154ae4c87244',
+    currency: 'EUR',
+    rate: 92.6,
+    formatted_rate: '€92,60',
+    delivery_date: '2023-06-27T00:00:00Z',
+    formatted_delivery_date: 'Jun 27, 2023 12:00 AM',
+    delivery_days: 5,
+    est_delivery_days: 5,
+    shipment_id: 'shp_ffe1e130e0694ad9a41935fc56c4b6b4',
+    mode: 'test'
+  },
+  {
+    id: 'rate_bd3cf11dbb614981a923cbf166cd727b',
+    carrier: 'DHLExpress',
+    service: 'MedicalExpress',
+    carrier_account_id: 'ca_6ac8fb85aa314abb87c3154ae4c87244',
+    currency: 'EUR',
+    rate: 239.9,
+    formatted_rate: '€239,90',
+    delivery_date: '2023-06-23T00:00:00Z',
+    formatted_delivery_date: 'Jun 23, 2023 12:00 AM',
+    delivery_days: 1,
+    est_delivery_days: 1,
+    shipment_id: 'shp_ffe1e130e0694ad9a41935fc56c4b6b4',
+    mode: 'test'
+  }
+]
+
 export const shipmentWithoutTracking = createShipment({
   id: 'shipment-without-tracking',
   status: 'packing',
@@ -244,12 +339,14 @@ export const shipmentWithoutTracking = createShipment({
 export const shipmentWithSingleTracking = createShipment({
   id: 'shipment-with-single-tracking',
   status: 'packing',
+  rates,
   parcels: [parcelWithTracking1, parcelWithoutTracking1]
 })
 
 export const shipmentWithMultipleTracking = createShipment({
   id: 'shipment-with-multiple-tracking',
   status: 'packing',
+  rates,
   parcels: [parcelWithTracking1, parcelWithTracking2]
 })
 

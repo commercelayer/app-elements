@@ -30,6 +30,12 @@ export function getShipmentRates(shipment: Shipment): Rate[] {
   return rates.data
 }
 
+export function getShipmentRate(shipment: Shipment): Rate | undefined {
+  const rate = getShipmentRates(shipment)
+
+  return rate.find((rate) => rate.id === shipment.selected_rate_id)
+}
+
 /**
  * Check whether the `shipment` has just one tracking number.
  * @param shipment Shipment
