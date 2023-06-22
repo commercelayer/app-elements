@@ -33,7 +33,7 @@ interface Props {
    **/
   children?: React.ReactNode
   /**
-   *
+   * Card footer
    */
   footer?: React.ReactNode
 }

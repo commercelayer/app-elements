@@ -103,7 +103,7 @@ export { ListItem } from '#ui/lists/ListItem'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
-export { ShipmentParcels as Parcel } from '#ui/resources/ShipmentParcels'
+export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 // Tables
 export { Table } from '#ui/tables/Table'
 export { TableData } from '#ui/tables/TableData'
