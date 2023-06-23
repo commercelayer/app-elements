@@ -102,6 +102,7 @@ export { ListDetails } from '#ui/lists/ListDetails'
 export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
 // Resources
+export { ListItemOrder } from '#ui/resources/ListItemOrder'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
@@ -109,4 +110,12 @@ export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 // Tables
 export { Table } from '#ui/tables/Table'
 export { TableData } from '#ui/tables/TableData'
-//
+// Dictionaries
+export {
+  getOrderDisplayStatus,
+  getOrderFulfillmentStatusName,
+  getOrderPaymentStatusName,
+  getOrderStatusName,
+  getOrderTransactionPastTense,
+  getOrderTriggerAttributeName
+} from '#dictionaries/orders'
