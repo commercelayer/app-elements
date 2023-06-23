@@ -1,14 +1,14 @@
 import { useCoreApi } from '#providers/CoreSdkProvider/useCoreApi'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
-import { Button, type ButtonVariant } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
+import { ActionButtons } from '#ui/composite/ActionButtons'
 import type { LineItem, Order } from '@commercelayer/sdk'
 import cn from 'classnames'
-import { Fragment, useMemo, type MouseEventHandler } from 'react'
+import { Fragment } from 'react'
 
 interface TotalRowProps {
   /** Displayed label */
@@ -25,16 +25,9 @@ interface TotalRowProps {
   force?: boolean
 }
 
-interface FooterAction {
-  label: string
-  onClick: MouseEventHandler<HTMLButtonElement>
-  variant?: ButtonVariant
-  disabled?: boolean
-}
-
 const OrderSummary = withSkeletonTemplate<{
   order: Order
-  footerActions?: FooterAction[]
+  footerActions?: Parameters<typeof ActionButtons>[0]['actions']
 }>(({ order, footerActions = [] }) => {
   return (
     <div>
@@ -160,62 +153,7 @@ const OrderSummary = withSkeletonTemplate<{
           })}
         </tbody>
       </table>
-      <FooterActions actions={footerActions} />
-    </div>
-  )
-})
-
-const FooterActions = withSkeletonTemplate<{
-  actions: FooterAction[]
-}>(({ actions }): JSX.Element | null => {
-  const isPrimary = (action: FooterAction): boolean =>
-    action.variant == null || action.variant === 'primary'
-
-  const primaryActions = useMemo(
-    () => actions.filter((action) => isPrimary(action)),
-    [actions]
-  )
-
-  const secondaryActions = useMemo(
-    () => actions.filter((action) => !isPrimary(action)),
-    [actions]
-  )
-
-  if (actions.length === 0) {
-    return null
-  }
-
-  return (
-    <div
-      data-test-id='order-summary-footer-actions'
-      className='flex justify-end border-b border-gray-100 py-6'
-    >
-      {primaryActions.length === 1 && secondaryActions.length === 0 ? (
-        <>
-          {primaryActions.map(({ label, ...props }) => (
-            <Button className='w-full' key={label} {...props}>
-              {label}
-            </Button>
-          ))}
-        </>
-      ) : (
-        <>
-          <div className='basis-1/2 flex gap-3'>
-            {secondaryActions.map(({ label, ...props }) => (
-              <Button key={label} {...props}>
-                {label}
-              </Button>
-            ))}
-          </div>
-          <div className='basis-1/2 flex gap-3 justify-end'>
-            {primaryActions.map(({ label, ...props }) => (
-              <Button key={label} {...props}>
-                {label}
-              </Button>
-            ))}
-          </div>
-        </>
-      )}
+      <ActionButtons actions={footerActions} />
     </div>
   )
 })

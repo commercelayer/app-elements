@@ -118,26 +118,6 @@ Default.args = {
   }
 }
 
-export const OneAction = Template.bind({})
-OneAction.args = {
-  isLoading: false,
-  footerActions: [
-    {
-      label: 'Approve',
-      onClick: () => {
-        alert('Approved!')
-      }
-    }
-  ],
-  order: Default.args.order
-}
-
-export const NoActions = Template.bind({})
-NoActions.args = {
-  isLoading: false,
-  order: Default.args.order
-}
-
 export const LineItemsOptions = Template.bind({})
 LineItemsOptions.args = {
   isLoading: false,
