@@ -45,6 +45,7 @@ export { Legend } from '#ui/atoms/Legend'
 export { Overlay } from '#ui/atoms/Overlay'
 export { PageHeading } from '#ui/atoms/PageHeading'
 export { Pagination } from '#ui/atoms/Pagination'
+export { Progress } from '#ui/atoms/Progress'
 export { RadialProgress } from '#ui/atoms/RadialProgress'
 export { Skeleton } from '#ui/atoms/Skeleton'
 export {
