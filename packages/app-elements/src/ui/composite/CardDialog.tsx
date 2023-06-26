@@ -1,6 +1,5 @@
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/lists/ListItem'
 import { X } from '@phosphor-icons/react'
@@ -50,48 +49,55 @@ const CloseButton: React.FC<{
 )
 
 export const CardDialog = withSkeletonTemplate<Props>(
-  ({ icon, title, subtitle, onClose, rightContent, children, footer }) => {
+  ({
+    icon,
+    title,
+    subtitle,
+    onClose,
+    rightContent,
+    children,
+    footer,
+    ...rest
+  }) => {
     const hasChildren = Children.toArray(children).length > 0
     return (
-      <Spacer top='2'>
-        <Card>
-          <ListItem
-            tag='div'
-            alignItems='top'
-            gutter='none'
-            borderStyle='none'
-            className='!py-0'
-            icon={icon}
-          >
-            <div>
-              <ListItem
-                borderStyle={hasChildren ? undefined : 'none'}
-                tag='div'
-                gutter='none'
-                className={cn('pt-0', { 'pb-0': !hasChildren })}
-                alignItems='top'
-              >
-                <div>
-                  <Text size='regular' weight='bold'>
-                    {title}
+      <Card {...rest}>
+        <ListItem
+          tag='div'
+          alignItems='top'
+          gutter='none'
+          borderStyle='none'
+          className='!py-0'
+          icon={icon}
+        >
+          <div>
+            <ListItem
+              borderStyle={hasChildren ? undefined : 'none'}
+              tag='div'
+              gutter='none'
+              className={cn('pt-0', { 'pb-0': !hasChildren })}
+              alignItems='top'
+            >
+              <div>
+                <Text size='regular' weight='bold'>
+                  {title}
+                </Text>
+                {subtitle != null && (
+                  <Text size='small' tag='div' variant='info' weight='medium'>
+                    {subtitle}
                   </Text>
-                  {subtitle != null && (
-                    <Text size='small' tag='div' variant='info' weight='medium'>
-                      {subtitle}
-                    </Text>
-                  )}
-                </div>
-                {rightContent != null && rightContent}
-              </ListItem>
-              {children}
-            </div>
-            {onClose != null && <CloseButton onClick={onClose} />}
-          </ListItem>
-          {footer != null && (
-            <div className='-m-6 mt-6 p-4 border-t'>{footer}</div>
-          )}
-        </Card>
-      </Spacer>
+                )}
+              </div>
+              {rightContent != null && rightContent}
+            </ListItem>
+            {children}
+          </div>
+          {onClose != null && <CloseButton onClick={onClose} />}
+        </ListItem>
+        {footer != null && (
+          <div className='-m-6 mt-6 p-4 border-t'>{footer}</div>
+        )}
+      </Card>
     )
   }
 )

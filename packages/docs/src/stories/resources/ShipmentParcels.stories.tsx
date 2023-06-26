@@ -1,11 +1,11 @@
 import { ShipmentParcels } from '#ui/resources/ShipmentParcels'
-import { type Meta, type StoryFn } from '@storybook/react'
 import {
   shipmentWithMultipleTracking,
   shipmentWithSingleTracking,
   shipmentWithoutParcels,
   shipmentWithoutTracking
-} from './ShipmentParcels.mocks'
+} from '#ui/resources/ShipmentParcels.mocks'
+import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {
   title: 'Resources/Shipment Parcels',

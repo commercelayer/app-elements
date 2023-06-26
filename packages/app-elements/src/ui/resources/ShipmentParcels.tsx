@@ -40,7 +40,10 @@ export const ShipmentParcels = withSkeletonTemplate<{
   const singleTracking = hasSingleTracking(shipment)
   const rate = getShipmentRate(shipment)
   return (
-    <>
+    <div
+      data-test-id={`shipment-parcels-${shipment.id}`}
+      className='flex flex-col gap-2'
+    >
       <Carrier shipment={shipment} />
       {shipment.parcels?.map((parcel) => {
         if (!hasPackage(parcel)) {
@@ -79,7 +82,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
           />
         )
       })}
-    </>
+    </div>
   )
 })
 
@@ -133,6 +136,7 @@ const Parcel = withSkeletonTemplate<{
 
   return (
     <CardDialog
+      data-test-id={`parcel-box-${parcel.id}`}
       onClose={onRemove}
       title={parcel.package.name}
       icon={<Package size={42} className='text-gray-300' weight='thin' />}
@@ -210,6 +214,7 @@ const Carrier = withSkeletonTemplate<{
 
   return (
     <CardDialog
+      data-test-id={`carrier-box-${shipment.id}`}
       title={rate.service}
       subtitle={rate.carrier}
       icon={
