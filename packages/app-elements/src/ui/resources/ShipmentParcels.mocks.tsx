@@ -293,16 +293,24 @@ export const shipmentWithoutTracking = createShipment({
   parcels: [parcelWithoutTracking1, parcelWithoutTracking2]
 })
 
-export const shipmentWithSingleTracking = createShipment({
-  id: 'shipment-with-single-tracking',
+export const shipmentWithSingleParcelSingleTracking = createShipment({
+  id: 'shipment-with-single-parcel-single-tracking',
+  status: 'packing',
+  rates,
+  selectedRateId: 'rate_dhl_1111',
+  parcels: [parcelWithTracking1]
+})
+
+export const shipmentWithMultipleParcelsSingleTracking = createShipment({
+  id: 'shipment-with-multiple-parcels-single-tracking',
   status: 'packing',
   rates,
   selectedRateId: 'rate_dhl_1111',
   parcels: [parcelWithTracking1, parcelWithoutTracking1]
 })
 
-export const shipmentWithMultipleTracking = createShipment({
-  id: 'shipment-with-multiple-tracking',
+export const shipmentWithMultipleParcelsMultipleTrackings = createShipment({
+  id: 'shipment-with-multiple-parcels-multiple-trackings',
   status: 'packing',
   rates,
   selectedRateId: 'rate_fedex_1111',

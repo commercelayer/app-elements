@@ -1,7 +1,8 @@
 import { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 import {
-  shipmentWithMultipleTracking,
-  shipmentWithSingleTracking,
+  shipmentWithMultipleParcelsMultipleTrackings,
+  shipmentWithMultipleParcelsSingleTracking,
+  shipmentWithSingleParcelSingleTracking,
   shipmentWithoutParcels,
   shipmentWithoutTracking
 } from '#ui/resources/ShipmentParcels.mocks'
@@ -26,24 +27,34 @@ NoTracking.args = {
   shipment: shipmentWithoutTracking
 }
 
-export const SingleTracking: StoryFn<typeof ShipmentParcels> = (
+export const SingleParcelSingleTracking: StoryFn<typeof ShipmentParcels> = (
   args
 ): JSX.Element => <ShipmentParcels {...args} />
-SingleTracking.args = {
+SingleParcelSingleTracking.args = {
   onRemoveParcel: function (parcelId) {
     alert(`removed parcel "${parcelId}"`)
   },
-  shipment: shipmentWithSingleTracking
+  shipment: shipmentWithSingleParcelSingleTracking
 }
 
-export const MultipleTrackings: StoryFn<typeof ShipmentParcels> = (
+export const MultipleParcelSingleTracking: StoryFn<typeof ShipmentParcels> = (
   args
 ): JSX.Element => <ShipmentParcels {...args} />
-MultipleTrackings.args = {
+MultipleParcelSingleTracking.args = {
   onRemoveParcel: function (parcelId) {
     alert(`removed parcel "${parcelId}"`)
   },
-  shipment: shipmentWithMultipleTracking
+  shipment: shipmentWithMultipleParcelsSingleTracking
+}
+
+export const MultipleParcelsMultipleTrackings: StoryFn<
+  typeof ShipmentParcels
+> = (args): JSX.Element => <ShipmentParcels {...args} />
+MultipleParcelsMultipleTrackings.args = {
+  onRemoveParcel: function (parcelId) {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  shipment: shipmentWithMultipleParcelsMultipleTrackings
 }
 
 export const NoParcels: StoryFn<typeof ShipmentParcels> = (

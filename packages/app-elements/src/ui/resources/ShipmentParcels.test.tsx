@@ -1,8 +1,9 @@
 import { render, within } from '@testing-library/react'
 import { ShipmentParcels } from './ShipmentParcels'
 import {
-  shipmentWithMultipleTracking,
-  shipmentWithSingleTracking,
+  shipmentWithMultipleParcelsMultipleTrackings,
+  shipmentWithMultipleParcelsSingleTracking,
+  shipmentWithSingleParcelSingleTracking,
   shipmentWithoutParcels,
   shipmentWithoutTracking
 } from './ShipmentParcels.mocks'
@@ -38,19 +39,67 @@ describe('ShipmentParcels', () => {
     expect(getByTestId('parcel-box-parcel-without-tracking-2')).toBeVisible()
   })
 
-  it('Should be rendered with single tracking information', () => {
+  it('Should be rendered with a single parcel and a single tracking information', () => {
     const { getByTestId } = render(
-      <ShipmentParcels shipment={shipmentWithSingleTracking} />
+      <ShipmentParcels shipment={shipmentWithSingleParcelSingleTracking} />
     )
 
     const shipmentParcels = getByTestId(
-      'shipment-parcels-shipment-with-single-tracking'
+      'shipment-parcels-shipment-with-single-parcel-single-tracking'
+    )
+
+    expect(shipmentParcels).toBeVisible()
+    expect(shipmentParcels.children.length).toEqual(2)
+
+    const carrierBox = getByTestId(
+      'carrier-box-shipment-with-single-parcel-single-tracking'
+    )
+    const parcelBox1 = getByTestId('parcel-box-parcel-with-tracking-1')
+
+    expect(carrierBox).toBeVisible()
+    expect(parcelBox1).toBeVisible()
+
+    expect(carrierBox).toHaveTextContent('€89,01')
+    expect(
+      within(carrierBox).getByTestId('list-details-item-Status-value')
+    ).toHaveTextContent('delivered')
+    expect(
+      within(carrierBox).getByTestId('list-details-item-Tracking-value')
+    ).toHaveTextContent('42314321ASD4545')
+    expect(
+      within(carrierBox).getByTestId(
+        'list-details-item-Estimated delivery-value'
+      )
+    ).toHaveTextContent('Jun 23, 2023 12:00 AM')
+
+    expect(() =>
+      within(parcelBox1).getByTestId('list-details-item-Status-value')
+    ).toThrow()
+    expect(() =>
+      within(parcelBox1).getByTestId('list-details-item-Tracking-value')
+    ).toThrow()
+    expect(() =>
+      within(parcelBox1).getByTestId(
+        'list-details-item-Estimated delivery-value'
+      )
+    ).toThrow()
+  })
+
+  it('Should be rendered with multiple parcels and a single tracking information', () => {
+    const { getByTestId } = render(
+      <ShipmentParcels shipment={shipmentWithMultipleParcelsSingleTracking} />
+    )
+
+    const shipmentParcels = getByTestId(
+      'shipment-parcels-shipment-with-multiple-parcels-single-tracking'
     )
 
     expect(shipmentParcels).toBeVisible()
     expect(shipmentParcels.children.length).toEqual(3)
 
-    const carrierBox = getByTestId('carrier-box-shipment-with-single-tracking')
+    const carrierBox = getByTestId(
+      'carrier-box-shipment-with-multiple-parcels-single-tracking'
+    )
     const parcelBox1 = getByTestId('parcel-box-parcel-with-tracking-1')
     const parcelBox2 = getByTestId('parcel-box-parcel-without-tracking-1')
 
@@ -95,20 +144,22 @@ describe('ShipmentParcels', () => {
     ).toThrow()
   })
 
-  it('Should be rendered with multiple tracking information', () => {
+  it('Should be rendered with multiple parcels and multiple tracking information', () => {
     const { getByTestId } = render(
-      <ShipmentParcels shipment={shipmentWithMultipleTracking} />
+      <ShipmentParcels
+        shipment={shipmentWithMultipleParcelsMultipleTrackings}
+      />
     )
 
     const shipmentParcels = getByTestId(
-      'shipment-parcels-shipment-with-multiple-tracking'
+      'shipment-parcels-shipment-with-multiple-parcels-multiple-trackings'
     )
 
     expect(shipmentParcels).toBeVisible()
     expect(shipmentParcels.children.length).toEqual(3)
 
     const carrierBox = getByTestId(
-      'carrier-box-shipment-with-multiple-tracking'
+      'carrier-box-shipment-with-multiple-parcels-multiple-trackings'
     )
     const parcelBox1 = getByTestId('parcel-box-parcel-with-tracking-1')
     const parcelBox2 = getByTestId('parcel-box-parcel-with-tracking-2')
