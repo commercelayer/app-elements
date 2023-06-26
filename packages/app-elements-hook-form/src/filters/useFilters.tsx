@@ -100,7 +100,8 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
     () =>
       getActiveFilterCountFromUrl({
         includeTextSearch: true,
-        instructions: validInstructions
+        instructions: validInstructions,
+        queryString
       }) > 0,
     [validInstructions, queryString]
   )

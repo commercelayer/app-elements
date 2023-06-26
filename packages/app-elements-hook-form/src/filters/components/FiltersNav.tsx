@@ -20,7 +20,7 @@ import {
 } from '@commercelayer/app-elements'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { castArray, isDate, isEmpty } from 'lodash'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 export interface FiltersNavProps {
   /**
@@ -60,6 +60,7 @@ export function FiltersNav({
   } = makeFilterAdapters({
     instructions
   })
+
   const filters = useMemo(
     () =>
       adaptUrlQueryToFormValues({
@@ -68,27 +69,38 @@ export function FiltersNav({
     [queryString]
   )
 
-  const activeGroupCount = getActiveFilterCountFromUrl({
-    includeTextSearch: false,
-    instructions
-  })
+  const activeGroupCount = useMemo(
+    () =>
+      getActiveFilterCountFromUrl({
+        includeTextSearch: false,
+        instructions,
+        queryString
+      }),
+    [instructions, queryString]
+  )
 
-  const updateQueryString = (queryString: string): void => {
-    onUpdate(queryString)
-  }
+  const updateQueryString = useCallback(
+    (queryString: string): void => {
+      onUpdate(queryString)
+    },
+    [onUpdate]
+  )
 
-  const removeSingleFilterGroup = (filterPredicate: string): void => {
-    updateQueryString(
-      adaptFormValuesToUrlQuery({
-        formValues: {
-          ...filters,
-          [filterPredicate]: []
-        }
-      })
-    )
-  }
+  const removeSingleFilterGroup = useCallback(
+    (filterPredicate: string): void => {
+      updateQueryString(
+        adaptFormValuesToUrlQuery({
+          formValues: {
+            ...filters,
+            [filterPredicate]: []
+          }
+        })
+      )
+    },
+    [filters]
+  )
 
-  const removeTimeRangeFilter = (): void => {
+  const removeTimeRangeFilter = useCallback((): void => {
     updateQueryString(
       adaptFormValuesToUrlQuery({
         formValues: {
@@ -99,9 +111,9 @@ export function FiltersNav({
         }
       })
     )
-  }
+  }, [filters])
 
-  const removeAllFilters = (): void => {
+  const removeAllFilters = useCallback((): void => {
     // keep the text filter when removing all filters
     const currentFilters = adaptUrlQueryToFormValues({
       queryString
@@ -122,27 +134,36 @@ export function FiltersNav({
         }
       })
     )
-  }
+  }, [queryString, instructions])
 
-  const onLabelClickHandler = (filterPredicate?: string): void => {
-    onBtnLabelClick(
-      adaptUrlQueryToUrlQuery({
-        queryString: location.search
-      }),
-      filterPredicate
-    )
-  }
-
-  const activeFilters: Array<[UiFilterName, UiFilterValue]> = Object.entries(
-    filters
+  const onLabelClickHandler = useCallback(
+    (filterPredicate?: string): void => {
+      onBtnLabelClick(
+        adaptUrlQueryToUrlQuery({
+          queryString
+        }),
+        filterPredicate
+      )
+    },
+    [queryString]
   )
-    .filter(([, value]) => isDate(value) || !isEmpty(value))
-    .filter(([filterName]) => filterName !== 'viewTitle')
+
+  const activeFilters: Array<[UiFilterName, UiFilterValue]> = useMemo(
+    () =>
+      Object.entries(filters)
+        .filter(([, value]) => isDate(value) || !isEmpty(value))
+        .filter(([filterName]) => filterName !== 'viewTitle'),
+    [filters]
+  )
 
   // remove time range filters
-  const userDefinedFilters = activeFilters.filter(
-    ([filterPredicate]) => !isTimeRangeFilterUiName(filterPredicate)
-  ) as Array<[string, string | string[]]>
+  const userDefinedFilters = useMemo(
+    () =>
+      activeFilters.filter(
+        ([filterPredicate]) => !isTimeRangeFilterUiName(filterPredicate)
+      ) as Array<[string, string | string[]]>,
+    [activeFilters]
+  )
 
   // getting time range filters separately from main filters object
   const selectedTimePreset = filters?.timePreset

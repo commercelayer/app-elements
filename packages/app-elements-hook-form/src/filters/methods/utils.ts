@@ -40,15 +40,17 @@ export function computeFilterLabel({
  */
 export function getActiveFilterCountFromUrl({
   includeTextSearch = false,
-  instructions
+  instructions,
+  queryString
 }: {
   includeTextSearch?: boolean
   instructions: FiltersInstructions
+  queryString: string
 }): number {
   const formValues = adaptUrlQueryToFormValues<
     Record<UiFilterName, UiFilterValue>
   >({
-    queryString: window.location.search,
+    queryString,
     instructions
   })
 
