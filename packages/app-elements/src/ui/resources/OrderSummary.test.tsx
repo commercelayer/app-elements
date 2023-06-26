@@ -222,9 +222,7 @@ describe('OrderSummary', () => {
   it('should not render the action buttons when not defined', async () => {
     const { queryByTestId } = render(<OrderSummary order={order} />)
 
-    expect(
-      queryByTestId('order-summary-footer-actions')
-    ).not.toBeInTheDocument()
+    expect(queryByTestId('action-buttons')).not.toBeInTheDocument()
   })
 
   it('should render the action buttons when defined', async () => {
@@ -257,7 +255,7 @@ describe('OrderSummary', () => {
       />
     )
 
-    const actionContainer = getByTestId('order-summary-footer-actions')
+    const actionContainer = getByTestId('action-buttons')
     expect(actionContainer).toBeInTheDocument()
 
     expect(actionContainer.children[0]).toHaveClass('basis-1/2 flex gap-3')
@@ -304,7 +302,7 @@ describe('OrderSummary', () => {
       />
     )
 
-    const actionContainer = getByTestId('order-summary-footer-actions')
+    const actionContainer = getByTestId('action-buttons')
     expect(actionContainer).toBeInTheDocument()
 
     expect(actionContainer.children[0]).not.toHaveClass('basis-1/2 flex gap-3')
