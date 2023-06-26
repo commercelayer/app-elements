@@ -147,6 +147,10 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
       hideSearchBar,
       hideFiltersNav
     }): JSX.Element => {
+      if (hideSearchBar === true && hideFiltersNav === true) {
+        return <></>
+      }
+
       return (
         <Spacer top='4' bottom='14'>
           {hideSearchBar === true ? null : (
