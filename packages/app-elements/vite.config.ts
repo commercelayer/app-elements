@@ -43,7 +43,8 @@ export default defineConfig({
       '#styles': resolve(__dirname, './src/styles'),
       '#utils': resolve(__dirname, './src/utils'),
       '#helpers': resolve(__dirname, './src/helpers'),
-      '#hooks': resolve(__dirname, './src/hooks')
+      '#hooks': resolve(__dirname, './src/hooks'),
+      '#dictionaries': resolve(__dirname, './src/dictionaries')
     }
   },
   test: {

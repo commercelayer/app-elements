@@ -43,6 +43,9 @@
       "#hooks/*": [
         "src/hooks/*"
       ],
+      "#dictionaries/*": [
+        "src/dictionaries/*"
+      ]
     }
   },
   "include": [
