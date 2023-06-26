@@ -42,6 +42,7 @@ export function getShipmentRate(shipment: Shipment): Rate | undefined {
  */
 export function hasSingleTracking(shipment: Shipment): boolean {
   return (
+    shipment.parcels?.length === 1 ||
     shipment.parcels?.find((parcel) => parcel.tracking_number == null) != null
   )
 }

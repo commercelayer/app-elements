@@ -63,6 +63,7 @@ export {
 } from '#ui/atoms/dropdown'
 export { Td, Th, Tr } from '#ui/atoms/tables'
 // Composite
+export { ActionButtons } from '#ui/composite/ActionButtons'
 export { CardDialog } from '#ui/composite/CardDialog'
 export { ContextMenu } from '#ui/composite/ContextMenu'
 export { PageError } from '#ui/composite/PageError'

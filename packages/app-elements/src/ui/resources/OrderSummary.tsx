@@ -5,7 +5,10 @@ import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { ActionButtons } from '#ui/composite/ActionButtons'
+import {
+  ActionButtons,
+  type ActionButtonsProps
+} from '#ui/composite/ActionButtons'
 import type { LineItem, Order } from '@commercelayer/sdk'
 import cn from 'classnames'
 import { Fragment } from 'react'
@@ -27,7 +30,7 @@ interface TotalRowProps {
 
 const OrderSummary = withSkeletonTemplate<{
   order: Order
-  footerActions?: Parameters<typeof ActionButtons>[0]['actions']
+  footerActions?: ActionButtonsProps['actions']
 }>(({ order, footerActions = [] }) => {
   return (
     <div>
