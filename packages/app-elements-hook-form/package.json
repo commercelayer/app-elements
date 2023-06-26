@@ -52,6 +52,10 @@
   },
   "peerDependencies": {
     "@commercelayer/app-elements": "workspace:*",
+    "@commercelayer/sdk": "^5.x",
+    "query-string": "^8.1.x",
+    "react": "^18.2.x",
+    "react-dom": "^18.2.x",
     "react-hook-form": "^7.43.x"
   }
 }

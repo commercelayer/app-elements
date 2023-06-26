@@ -2,6 +2,7 @@ import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 import { defineConfig } from 'vitest/config'
+import pkg from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -25,14 +26,7 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: [
-        'react',
-        'react-dom',
-        'react-hook-form',
-        '@commercelayer/app-elements',
-        'query-string',
-        '@commercelayer/sdk'
-      ],
+      external: Object.keys(pkg.peerDependencies),
       output: {
         // Provide global variables to use in the UMD build
         // for externalized deps
