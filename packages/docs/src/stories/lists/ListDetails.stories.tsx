@@ -66,7 +66,7 @@ export const WithListItem: StoryFn<typeof ListDetails> = (args) => (
         <Text weight='medium' variant='info' tag='div' wrap='nowrap'>
           $69,50 x 2
         </Text>
-        <Text weight='bold' tag='div'>
+        <Text weight='bold' tag='div' wrap='nowrap'>
           $139,00
         </Text>
       </ListItem>

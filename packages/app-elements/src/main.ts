@@ -63,6 +63,7 @@ export {
 } from '#ui/atoms/dropdown'
 export { Td, Th, Tr } from '#ui/atoms/tables'
 // Composite
+export { CardDialog } from '#ui/composite/CardDialog'
 export { ContextMenu } from '#ui/composite/ContextMenu'
 export { PageError } from '#ui/composite/PageError'
 export { PageLayout } from '#ui/composite/PageLayout'
@@ -102,6 +103,8 @@ export { ListItem } from '#ui/lists/ListItem'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
+export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 // Tables
 export { Table } from '#ui/tables/Table'
 export { TableData } from '#ui/tables/TableData'
+//

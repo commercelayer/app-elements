@@ -61,6 +61,9 @@ importers:
       type-fest:
         specifier: ^3.7.2
         version: 3.7.2
+      zod:
+        specifier: ^3.21.4
+        version: 3.21.4
     devDependencies:
       '@commercelayer/eslint-config-ts-react':
         specifier: ^1.0.0
@@ -13774,3 +13777,7 @@ packages:
     optionalDependencies:
       commander: 9.5.0
     dev: true
+
+  /zod@3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+    dev: false

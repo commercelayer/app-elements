@@ -41,6 +41,8 @@ function Icon({
   return (
     <div
       className={cn([
+        'inline-block',
+        'align-middle',
         'w-fit',
         // padding
         { 'p-[10px]': gap === 'large' },
@@ -92,6 +94,7 @@ const iconMapping = {
   magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
   package: phosphor.Package,
+  printer: phosphor.Printer,
   stack: phosphor.Stack,
   upload: phosphor.Upload,
   user: phosphor.User,

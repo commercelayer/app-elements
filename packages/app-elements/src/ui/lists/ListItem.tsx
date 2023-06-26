@@ -1,7 +1,7 @@
-import cn from 'classnames'
 import { FlexRow, type FlexRowProps } from '#ui/atoms/FlexRow'
-import { type FC, useMemo } from 'react'
+import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
+import { useMemo, type FC } from 'react'
 
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   /**
@@ -16,7 +16,7 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   /**
    * Border style to render
    */
-  borderStyle?: 'dashed' | 'solid'
+  borderStyle?: 'dashed' | 'solid' | 'none'
 }
 
 const allowedTags = ['a', 'div'] as const
@@ -54,10 +54,11 @@ const ListItem: FC<ListItemProps> = ({
   return (
     <JsxTag
       className={cn(
-        'flex gap-4 py-4 border-b border-gray-100',
+        'flex gap-4 py-4 border-gray-100',
         {
           'px-4': gutter !== 'none',
           'border-dashed': borderStyle === 'dashed',
+          'border-b': borderStyle !== 'none',
           'cursor-pointer hover:bg-gray-50': hasHover
         },
         className

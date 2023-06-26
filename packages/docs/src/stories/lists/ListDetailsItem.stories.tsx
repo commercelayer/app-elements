@@ -1,3 +1,4 @@
+import { A } from '#ui/atoms/A'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -20,3 +21,39 @@ Default.args = {
   isLoading: false,
   children: 'Gray Women Crop Top with Black Logo (M)'
 }
+
+export const WithLink = Template.bind({})
+WithLink.args = {
+  label: 'Name',
+  isLoading: false,
+  children: <A>Gray Women Crop Top with Black Logo (M)</A>
+}
+
+export const List: StoryFn<typeof ListDetailsItem> = (_args) => (
+  <>
+    <ListDetailsItem
+      label='Status'
+      childrenAlign='right'
+      border='none'
+      gutter='none'
+    >
+      <A>In transit</A>
+    </ListDetailsItem>
+    <ListDetailsItem
+      label='Tracking'
+      childrenAlign='right'
+      border='none'
+      gutter='none'
+    >
+      42314321ASD4545
+    </ListDetailsItem>
+    <ListDetailsItem
+      label='Estimated delivery'
+      childrenAlign='right'
+      border='none'
+      gutter='none'
+    >
+      May 17, 2023 12:00 AM
+    </ListDetailsItem>
+  </>
+)
