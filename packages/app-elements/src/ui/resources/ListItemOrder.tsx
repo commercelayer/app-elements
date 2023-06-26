@@ -4,6 +4,7 @@ import {
 } from '#dictionaries/orders'
 import { formatDate } from '#helpers/date'
 import { formatDisplayName } from '#helpers/name'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
@@ -14,11 +15,11 @@ import isEmpty from 'lodash/isEmpty'
 interface Props {
   order: Order
   tag?: 'a' | 'div'
-  timezone?: string
 }
 
 export const ListItemOrder = withSkeletonTemplate<Props>(
-  ({ order, tag = 'div', timezone, isLoading, delayMs, ...rest }) => {
+  ({ order, tag = 'div', isLoading, delayMs, ...rest }) => {
+    const { user } = useTokenProvider()
     const displayStatus = getOrderDisplayStatus(order)
     const billingAddress = order.billing_address
 
@@ -49,7 +50,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
             {formatDate({
               format: 'date',
               isoDate: order.updated_at,
-              timezone
+              timezone: user?.timezone
             })}
             {' · '}
             {!isEmpty(billingAddress?.company)
