@@ -2,7 +2,7 @@ import { computeFullname, formatDisplayName } from '#helpers/name'
 import {
   type TokenProviderAllowedApp,
   type TokenProviderTokenApplicationKind
-} from '#providers/TokenProvider/types'
+} from '#providers/TokenProvider'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import fetch from 'cross-fetch'
 import { getInfoFromJwt } from './getInfoFromJwt'

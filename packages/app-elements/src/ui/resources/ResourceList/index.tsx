@@ -15,6 +15,7 @@ import { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
+import { computeTitleWithTotalCount } from './utils'
 
 const LegendWithSkeleton = withSkeletonTemplate(Legend)
 
@@ -184,19 +185,3 @@ function parseApiErrorMessage(error: unknown): string {
 
 ResourceList.displayName = 'ResourceList'
 export { ResourceList }
-
-export function computeTitleWithTotalCount({
-  title,
-  recordCount,
-  locale
-}: {
-  title?: LegendProps['title']
-  recordCount?: number
-  locale?: string
-}): LegendProps['title'] {
-  if (typeof title !== 'string' || recordCount == null || recordCount === 0) {
-    return title
-  }
-
-  return `${title} · ${Intl.NumberFormat(locale).format(recordCount)}`
-}

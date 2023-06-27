@@ -1,5 +1,5 @@
-import { InputWrapper } from './InputWrapper'
 import { render, type RenderResult } from '@testing-library/react'
+import { InputWrapper } from '../internals/InputWrapper'
 
 interface SetupProps {
   id: string

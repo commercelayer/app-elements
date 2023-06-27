@@ -1,10 +1,10 @@
-import cn from 'classnames'
-import { forwardRef } from 'react'
 import {
   InputWrapper,
-  type InputWrapperBaseProps,
-  getFeedbackStyle
-} from '#ui/forms/InputWrapper'
+  getFeedbackStyle,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
+import cn from 'classnames'
+import { forwardRef } from 'react'
 
 interface InputTextAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,

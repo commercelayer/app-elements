@@ -1,3 +1,4 @@
+import { getDeterministicValue, getInitials } from '#utils/text'
 import classNames from 'classnames'
 import { useMemo } from 'react'
 
@@ -18,7 +19,7 @@ function AvatarLetter({
   ...rest
 }: AvatarLetterProps): JSX.Element {
   const backgroundColor = useMemo(
-    () => getDeterministicColor(text, BG_COLORS),
+    () => getDeterministicValue(text, BG_COLORS),
     [text]
   )
   return (
@@ -41,24 +42,6 @@ function AvatarLetter({
 
 AvatarLetter.displayName = 'AvatarLetter'
 export { AvatarLetter }
-
-export function getInitials(text: string): string {
-  const textParts = text.toUpperCase().split(' ')
-
-  if (textParts.length > 1 && textParts[1].length > 0) {
-    const [firstName, lastName] = textParts
-    return `${firstName[0]}${lastName[0]}`
-  }
-
-  return textParts[0].slice(0, 2)
-}
-
-export function getDeterministicColor(text: string, colors: string[]): string {
-  const utf8Encode = new TextEncoder()
-  const hashCode = utf8Encode.encode(text).reduce((sum, v) => sum + v, 0)
-  const colorIndex = hashCode % colors.length
-  return colors[colorIndex]
-}
 
 const BG_COLORS: string[] = [
   '#101111',

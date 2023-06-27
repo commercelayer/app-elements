@@ -1,5 +1,5 @@
 import { render, waitFor, type RenderResult } from '@testing-library/react'
-import { TokenProvider, type TokenProviderProps } from './index'
+import { TokenProvider, type TokenProviderProps } from './TokenProvider'
 
 // token expires at Monday, 6 February 2023 11:53:19
 // slug is `giuseppe`

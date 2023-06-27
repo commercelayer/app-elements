@@ -2,7 +2,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import {
   InputWrapper,
   type InputWrapperBaseProps
-} from '#ui/forms/InputWrapper'
+} from '#ui/internals/InputWrapper'
 import cn from 'classnames'
 import { type Simplify } from 'type-fest'
 
