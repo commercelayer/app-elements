@@ -57,10 +57,10 @@ interface UseFiltersHook {
   /**
    * Filtered ResourceList component based on current active filters
    */
-  FilteredList: (
+  FilteredList: <TResource extends ListableResourceType>(
     props: Pick<
-      ResourceListProps<ListableResourceType>,
-      'Item' | 'query' | 'type' | 'emptyState'
+      ResourceListProps<TResource>,
+      'Item' | 'type' | 'query' | 'emptyState'
     >
   ) => JSX.Element
   /**
