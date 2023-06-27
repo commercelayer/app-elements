@@ -18,9 +18,22 @@ interface ProgressProps {
 
 function Progress({ max = 1, value, children }: ProgressProps): JSX.Element {
   return (
-    <progress className='progress' max={max} value={value}>
-      {children}
-    </progress>
+    <div className='flex items-center gap-3'>
+      <progress className='progress' max={max} value={value}>
+        {children}
+      </progress>
+
+      {value != null && (
+        <span className='flex-nowrap text-gray-400 text-xs font-extrabold relative'>
+          <span className='absolute right-0'>
+            {value}/{max}
+          </span>
+          <span className='invisible' aria-hidden='true'>
+            {max}/{max}
+          </span>
+        </span>
+      )}
+    </div>
   )
 }
 
