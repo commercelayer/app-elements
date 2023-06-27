@@ -28,6 +28,9 @@
       "#components/*": [
         "src/components/*"
       ],
+      "#filters/*": [
+        "src/filters/*"
+      ],
       "#helpers/*": [
         "src/helpers/*"
       ]
