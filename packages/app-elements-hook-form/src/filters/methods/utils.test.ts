@@ -34,6 +34,16 @@ describe('getActiveFilterCountFromUrl', () => {
     ).toBe(2)
   })
 
+  test('should not count hidden filters', () => {
+    expect(
+      getActiveFilterCountFromUrl({
+        instructions,
+        queryString:
+          '?market_id_in=abc123&status_in=approved&status_in=cancelled&archived_at_null=show'
+      })
+    ).toBe(2)
+  })
+
   test('should return 0 when no filters are in query string', () => {
     expect(getActiveFilterCountFromUrl({ instructions, queryString: '' })).toBe(
       0
