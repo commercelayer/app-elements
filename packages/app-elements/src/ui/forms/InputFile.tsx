@@ -1,12 +1,12 @@
 import {
   getFeedbackStyle,
+  InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import { UploadSimple } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { forwardRef } from 'react'
 import invariant from 'ts-invariant'
-import { InputWrapper } from '../internals/InputWrapper'
 
 interface InputFileProps
   extends InputWrapperBaseProps,

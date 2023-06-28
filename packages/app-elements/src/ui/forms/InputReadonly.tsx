@@ -1,9 +1,9 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import cn from 'classnames'
 import {
   InputWrapper,
   type InputWrapperBaseProps
-} from '../internals/InputWrapper'
+} from '#ui/internals/InputWrapper'
+import cn from 'classnames'
 
 interface InputReadonlyProps extends InputWrapperBaseProps {
   /**
