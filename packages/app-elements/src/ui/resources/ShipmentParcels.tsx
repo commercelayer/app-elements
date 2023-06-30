@@ -73,7 +73,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
                 : parcel
             }
             onRemove={
-              hasTracking(shipment)
+              hasTracking(shipment) || shipment.status !== 'packing'
                 ? undefined
                 : () => {
                     onRemoveParcel?.(parcel.id)
