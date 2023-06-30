@@ -7,6 +7,7 @@ import { InputCurrency } from './InputCurrency'
 import { InputDate } from './InputDate'
 import { InputDateRange } from './InputDateRange'
 import { InputSelect } from './InputSelect'
+import { InputSpinner } from './InputSpinner'
 import { InputToggleBox } from './InputToggleBox'
 import { ToggleButtons } from './ToggleButtons'
 import { ValidationApiError } from './ValidationApiError'
@@ -48,6 +49,7 @@ function FullFormScreen({ id }: { id: string }): JSX.Element {
           mode='multi'
         />
         <InputCurrency name='price' currencyCode='USD' />
+        <InputSpinner name='spinnerQuantity' />
         <ValidationApiError apiError={{}} />
       </Form>
     </div>
