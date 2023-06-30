@@ -1,14 +1,14 @@
+import {
+  InputWrapper,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
 import { ArrowRight } from '@phosphor-icons/react'
-import { InputDate } from './InputDate'
 import { forwardRef, useEffect } from 'react'
+import { InputDate } from './InputDate'
 import {
   type InputDateProps,
   type MaybeDate
 } from './InputDate/InputDateComponent'
-import {
-  InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/forms/InputWrapper'
 
 export interface InputDateRangeProps
   extends Pick<InputDateProps, 'isClearable' | 'format' | 'autoPlaceholder'>,

@@ -1,4 +1,4 @@
-import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
+import { type TokenProviderAllowedApp } from '#providers/TokenProvider'
 import { type Organization } from '@commercelayer/sdk'
 import {
   type TokenProviderAuthSettings,

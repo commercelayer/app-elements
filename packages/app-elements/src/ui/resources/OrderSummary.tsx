@@ -1,4 +1,4 @@
-import { useCoreApi } from '#providers/CoreSdkProvider/useCoreApi'
+import { useCoreApi } from '#providers/CoreSdkProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Icon } from '#ui/atoms/Icon'

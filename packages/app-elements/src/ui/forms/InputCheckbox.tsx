@@ -1,10 +1,10 @@
 import {
-  type InputWrapperBaseProps,
-  getFeedbackStyle
-} from '#ui/forms/InputWrapper'
+  getFeedbackStyle,
+  InputWrapper,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { type ReactNode, forwardRef } from 'react'
-import { InputWrapper } from './InputWrapper'
+import { forwardRef, type ReactNode } from 'react'
 
 export interface InputCheckboxProps
   extends Omit<InputWrapperBaseProps, 'label'>,

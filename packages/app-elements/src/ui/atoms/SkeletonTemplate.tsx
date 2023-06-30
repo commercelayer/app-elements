@@ -99,7 +99,7 @@ export function withSkeletonTemplate<P>(
   return withSkeletonTemplate
 }
 
-export function isSkeletonTemplate(child: ReactNode): boolean {
+function isSkeletonTemplate(child: ReactNode): boolean {
   if (child == null) {
     return false
   }

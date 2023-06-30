@@ -1,5 +1,5 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider'
+import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { OrderSummary } from '#ui/resources/OrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 

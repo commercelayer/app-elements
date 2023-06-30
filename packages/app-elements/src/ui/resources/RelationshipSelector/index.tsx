@@ -1,5 +1,5 @@
 import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
-import { useCoreApi } from '#providers/CoreSdkProvider/useCoreApi'
+import { useCoreApi } from '#providers/CoreSdkProvider'
 import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'

@@ -10,6 +10,7 @@
     "lint:fix": "pnpm -r lint:fix",
     "test": "pnpm -r test",
     "test:watch": "pnpm --stream -r test:watch",
+    "ts:check": "pnpm --stream -r ts:check",
     "dep:upgrade:major": "pnpm -r exec npm-check-updates -u",
     "dep:upgrade:minor": "pnpm dep:upgrade:major -t minor",
     "dep:self-upgrade:major": "pnpm exec npm-check-updates -u",
@@ -33,7 +34,9 @@
     "packages/*"
   ],
   "devDependencies": {
+    "husky": "^8.0.3",
     "lerna": "^6.6.1",
+    "lint-staged": "^13.2.3",
     "npm-check-updates": "^16.10.1"
   }
 }

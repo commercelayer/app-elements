@@ -25,17 +25,8 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#providers/*": [
-        "src/providers/*"
-      ],
-      "#ui/*": [
-        "src/ui/*"
-      ],
-      "#styles/*": [
-        "src/styles/*"
-      ],
-      "#utils/*": [
-        "src/utils/*"
+      "#dictionaries/*": [
+        "src/dictionaries/*"
       ],
       "#helpers/*": [
         "src/helpers/*"
@@ -43,8 +34,17 @@
       "#hooks/*": [
         "src/hooks/*"
       ],
-      "#dictionaries/*": [
-        "src/dictionaries/*"
+      "#providers/*": [
+        "src/providers/*"
+      ],
+      "#styles/*": [
+        "src/styles/*"
+      ],
+      "#ui/*": [
+        "src/ui/*"
+      ],
+      "#utils/*": [
+        "src/utils/*"
       ]
     }
   },

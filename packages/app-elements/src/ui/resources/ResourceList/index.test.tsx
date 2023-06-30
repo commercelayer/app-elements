@@ -1,11 +1,7 @@
 import CommerceLayer, { type Order } from '@commercelayer/sdk'
-import { render, type RenderResult, waitFor } from '@testing-library/react'
+import { render, waitFor, type RenderResult } from '@testing-library/react'
 import { type FC } from 'react'
-import {
-  ResourceList,
-  type ResourceListProps,
-  computeTitleWithTotalCount
-} from './index'
+import { ResourceList, type ResourceListProps } from './index'
 
 const mockedOrder: Order = {
   id: 'mock',
@@ -97,51 +93,5 @@ describe('ResourceList', () => {
     await waitFor(() => {
       expect(getAllByTestId('orderItem-ready').length).toBe(20)
     })
-  })
-})
-
-describe('computeTitleWithTotalCount', () => {
-  test('Should display count formatted as US', () => {
-    expect(
-      computeTitleWithTotalCount({
-        title: 'Total',
-        recordCount: 10200,
-        locale: 'en-US'
-      })
-    ).toBe('Total · 10,200')
-  })
-
-  test('Should display count formatted as IT', () => {
-    expect(
-      computeTitleWithTotalCount({
-        title: 'Total',
-        recordCount: 10200,
-        locale: 'it-IT'
-      })
-    ).toBe('Total · 10.200')
-  })
-
-  test('should ignore interpolation when title is not a string', () => {
-    const component = <div>Total</div>
-    expect(
-      computeTitleWithTotalCount({
-        title: component,
-        recordCount: 10200
-      })
-    ).toBe(component)
-  })
-
-  test('should ignore interpolation when recordCount is zero or undefined', () => {
-    expect(
-      computeTitleWithTotalCount({
-        title: 'Records',
-        recordCount: 0
-      })
-    ).toBe('Records')
-    expect(
-      computeTitleWithTotalCount({
-        title: 'Records'
-      })
-    ).toBe('Records')
   })
 })

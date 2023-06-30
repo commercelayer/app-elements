@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { presets } from './Avatar.presets'
+import { presets } from './Avatar.utils'
 
 export interface AvatarProps {
   /**

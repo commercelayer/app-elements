@@ -1,4 +1,4 @@
-import { FlexRow, type FlexRowProps } from '#ui/atoms/FlexRow'
+import { FlexRow, type FlexRowProps } from '#ui/internals/FlexRow'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useMemo, type FC } from 'react'

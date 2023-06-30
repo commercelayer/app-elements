@@ -1,5 +1,4 @@
 import { Overlay, type OverlayProps } from '#ui/atoms/Overlay'
-import type React from 'react'
 import { useCallback, useEffect, useState } from 'react'
 import { useSearch } from 'wouter/use-location'
 

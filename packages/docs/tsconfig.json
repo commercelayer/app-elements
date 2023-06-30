@@ -22,17 +22,8 @@
     "baseUrl": "./",
     "paths": {
       // TODO: we need to keep them in sync with the `app-elements` package.
-      "#providers/*": [
-        "../app-elements/src/providers/*"
-      ],
-      "#ui/*": [
-        "../app-elements/src/ui/*"
-      ],
-      "#styles/*": [
-        "../app-elements/src/styles/*"
-      ],
-      "#utils/*": [
-        "../app-elements/src/utils/*"
+      "#dictionaries/*": [
+        "../app-elements/src/dictionaries/*"
       ],
       "#helpers/*": [
         "../app-elements/src/helpers/*"
@@ -40,6 +31,18 @@
       "#hooks/*": [
         "../app-elements/src/hooks/*"
       ],
+      "#providers/*": [
+        "../app-elements/src/providers/*"
+      ],
+      "#styles/*": [
+        "../app-elements/src/styles/*"
+      ],
+      "#ui/*": [
+        "../app-elements/src/ui/*"
+      ],
+      "#utils/*": [
+        "../app-elements/src/utils/*"
+      ]
     }
   },
   "include": [

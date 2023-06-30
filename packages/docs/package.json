@@ -6,7 +6,8 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "dev": "NODE_OPTIONS='--openssl-legacy-provider' storybook dev -s public -p 6006",
-    "build": "NODE_OPTIONS='--openssl-legacy-provider' storybook build -s public -o dist"
+    "build": "NODE_OPTIONS='--openssl-legacy-provider' storybook build -s public -o dist",
+    "ts:check": "tsc --noEmit"
   },
   "engines": {
     "node": ">=18",
