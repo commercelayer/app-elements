@@ -293,6 +293,12 @@ export const shipmentWithoutTracking = createShipment({
   parcels: [parcelWithoutTracking1, parcelWithoutTracking2]
 })
 
+export const shipmentWithStatusDifferentFromPacking = createShipment({
+  id: 'shipment-with-status-not-packing',
+  status: 'ready_to_ship',
+  parcels: [parcelWithoutTracking1, parcelWithoutTracking2]
+})
+
 export const shipmentWithSingleParcelSingleTracking = createShipment({
   id: 'shipment-with-single-parcel-single-tracking',
   status: 'packing',
