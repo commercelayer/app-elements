@@ -6,8 +6,10 @@ import {
 } from '#filters/methods/timeUtils'
 import {
   isItemOptions,
+  isTextSearch,
   type FiltersInstructionItem,
   type FiltersInstructions,
+  type FormFullValues,
   type UiFilterName,
   type UiFilterValue
 } from '#filters/methods/types'
@@ -113,28 +115,50 @@ export function FiltersNav({
     )
   }, [filters])
 
+  const hiddenFilters = useMemo(
+    () =>
+      instructions
+        .filter((item) => item.hidden === true)
+        .map((item) => item.sdk.predicate),
+    [instructions]
+  )
+
   const removeAllFilters = useCallback((): void => {
-    // keep the text filter when removing all filters
+    const emptyFilters = adaptUrlQueryToFormValues({ queryString: '' })
+
     const currentFilters = adaptUrlQueryToFormValues({
       queryString
     })
-    const emptyFilters = adaptUrlQueryToFormValues({ queryString: '' })
+    // we need to keep all filters hidden in UI, the viewTitle and the text filter
+    const filtersToKeep = Object.entries(currentFilters).reduce<FormFullValues>(
+      (toKeep, [filterName, value]) => {
+        const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
 
-    const textPredicate = instructions.find(
-      (item) => item.type === 'textSearch'
-    )?.sdk.predicate
+        const isToKeep =
+          hiddenFilters.includes(filterName) ||
+          filterName === 'viewTitle' ||
+          filterName === textPredicate
+
+        if (isToKeep) {
+          return {
+            ...toKeep,
+            [filterName]: value
+          }
+        }
+        return toKeep
+      },
+      {}
+    )
 
     updateQueryString(
       adaptFormValuesToUrlQuery({
         formValues: {
           ...emptyFilters,
-          ...(textPredicate != null
-            ? { [textPredicate]: currentFilters[textPredicate] }
-            : {})
+          ...filtersToKeep
         }
       })
     )
-  }, [queryString, instructions])
+  }, [queryString, instructions, hiddenFilters])
 
   const onLabelClickHandler = useCallback(
     (filterPredicate?: string): void => {
@@ -152,6 +176,7 @@ export function FiltersNav({
     () =>
       Object.entries(filters)
         .filter(([, value]) => isDate(value) || !isEmpty(value))
+        .filter(([filterName]) => !hiddenFilters.includes(filterName))
         .filter(([filterName]) => filterName !== 'viewTitle'),
     [filters]
   )
