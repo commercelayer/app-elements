@@ -56,6 +56,11 @@ export function getActiveFilterCountFromUrl({
 
   return instructions.reduce((total, instructionItem) => {
     const { predicate } = instructionItem.sdk
+
+    if (instructionItem.hidden === true) {
+      return total
+    }
+
     // count textSearch only if explicitly asked
     if (
       instructionItem.type === 'textSearch' &&

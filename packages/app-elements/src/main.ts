@@ -99,6 +99,7 @@ export {
   isSingleValueSelected
 } from '#ui/forms/InputSelect'
 export type { SelectValue } from '#ui/forms/InputSelect'
+export { InputSpinner } from '#ui/forms/InputSpinner'
 export { InputTextArea } from '#ui/forms/InputTextArea'
 export { InputToggleBox } from '#ui/forms/InputToggleBox'
 export { InputToggleListBox } from '#ui/forms/InputToggleListBox'
