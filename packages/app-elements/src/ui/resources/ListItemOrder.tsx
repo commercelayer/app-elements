@@ -61,7 +61,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
                 )}
             {' · '}
             {displayStatus.task != null ? (
-              <Text weight='bold' size='small' variant='warning'>
+              <Text weight='semibold' size='small' variant='warning'>
                 {displayStatus.task}
               </Text>
             ) : (
