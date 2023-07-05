@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "private": true,
-  "version": "0.0.46",
+  "version": "0.0.47",
   "scripts": {
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
