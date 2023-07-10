@@ -12,7 +12,11 @@ export const makeFilterAdapters: MakeFiltersAdapters = ({ instructions }) => {
     : []
 
   return {
-    adaptFormValuesToUrlQuery: (params) => adaptFormValuesToUrlQueryFn(params),
+    adaptFormValuesToUrlQuery: (params) =>
+      adaptFormValuesToUrlQueryFn({
+        ...params,
+        instructions: validInstructions
+      }),
 
     adaptFormValuesToSdk: (params) =>
       adaptFormValuesToSdkFn({

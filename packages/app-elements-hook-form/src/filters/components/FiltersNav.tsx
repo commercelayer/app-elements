@@ -7,6 +7,7 @@ import {
 import {
   isItemOptions,
   isTextSearch,
+  type CurrencyRangeFieldValue,
   type FiltersInstructionItem,
   type FiltersInstructions,
   type FormFullValues,
@@ -17,11 +18,15 @@ import { getActiveFilterCountFromUrl } from '#filters/methods/utils'
 import {
   ButtonFilter,
   SkeletonTemplate,
+  formatCentsToCurrency,
   useCoreApi,
   useTokenProvider
 } from '@commercelayer/app-elements'
+import { type InputCurrencyProps } from '@commercelayer/app-elements/dist/ui/forms/InputCurrency'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import { castArray, isDate, isEmpty } from 'lodash'
+import castArray from 'lodash/castArray'
+import isDate from 'lodash/isDate'
+import isEmpty from 'lodash/isEmpty'
 import { useCallback, useMemo } from 'react'
 
 export interface FiltersNavProps {
@@ -181,16 +186,28 @@ export function FiltersNav({
     [filters]
   )
 
-  // remove time range filters
+  // remove special filters that have custom UI logics
+  // such as time range and currency range
   const userDefinedFilters = useMemo(
     () =>
       activeFilters.filter(
-        ([filterPredicate]) => !isTimeRangeFilterUiName(filterPredicate)
+        ([filterPredicate]) =>
+          !isTimeRangeFilterUiName(filterPredicate) &&
+          !predicateBelongsToCurrencyRange({
+            filterPredicate,
+            instructions
+          })
       ) as Array<[string, string | string[]]>,
     [activeFilters]
   )
 
-  // getting time range filters separately from main filters object
+  // getting currency range filters separately
+  const currencyRangeFilters = useMemo(
+    () => extractCurrencyRangeFilterValues({ activeFilters, instructions }),
+    [activeFilters]
+  )
+
+  // getting time range filters separately
   const selectedTimePreset = filters?.timePreset
   const selectedTimeFrom = filters?.timeFrom
   const selectedTimeTo = filters?.timeTo
@@ -264,6 +281,22 @@ export function FiltersNav({
             onRemoveRequest={() => {
               removeSingleFilterGroup(filterPredicate)
             }}
+          />
+        )
+      })}
+
+      {/* Currency Range */}
+      {currencyRangeFilters.map(([filterPredicate, currencyRangeValue]) => {
+        return (
+          <ButtonFilter
+            key={filterPredicate}
+            onClick={() => {
+              onLabelClickHandler('timePreset')
+            }}
+            onRemoveRequest={() => {
+              removeSingleFilterGroup(filterPredicate)
+            }}
+            label={makeCurrencyRangeFilterButtonLabel(currencyRangeValue)}
           />
         )
       })}
@@ -379,4 +412,63 @@ function getButtonFilterLabel({
   }
 
   return `${instructionItem.label} · ${values.length}`
+}
+
+function extractCurrencyRangeFilterValues({
+  activeFilters,
+  instructions
+}: {
+  activeFilters: Array<[string, UiFilterValue]>
+  instructions: FiltersInstructions
+}): Array<[string, CurrencyRangeFieldValue]> {
+  const rangeFilters = activeFilters.filter(([filterPredicate]) => {
+    return predicateBelongsToCurrencyRange({
+      filterPredicate,
+      instructions
+    })
+  }) as Array<[string, CurrencyRangeFieldValue]>
+
+  return rangeFilters.filter(
+    ([, value]) => value.from != null || value.to != null
+  )
+}
+
+/**
+ * Checks if a filter predicate belongs to a currency range filter
+ * by checking the instructions
+ */
+function predicateBelongsToCurrencyRange({
+  filterPredicate,
+  instructions
+}: {
+  filterPredicate: string
+  instructions: FiltersInstructions
+}): boolean {
+  const instructionItem = instructions.find(
+    (item) => item.sdk.predicate === filterPredicate
+  )
+
+  return instructionItem?.type === 'currencyRange'
+}
+
+function makeCurrencyRangeFilterButtonLabel(
+  value: CurrencyRangeFieldValue
+): string {
+  const currencyCode = value.currencyCode as InputCurrencyProps['currencyCode']
+  if (value.from == null && value.to == null) {
+    return ''
+  }
+
+  const formattedFrom = formatCentsToCurrency(
+    value.from ?? 0,
+    currencyCode,
+    true
+  )
+
+  const formattedTo =
+    value.to != null
+      ? formatCentsToCurrency(value.to, currencyCode, true)
+      : 'Max'
+
+  return `${formattedFrom} - ${formattedTo}`
 }

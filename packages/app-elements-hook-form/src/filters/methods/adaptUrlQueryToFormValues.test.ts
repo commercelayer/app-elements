@@ -19,7 +19,12 @@ describe('adaptUrlQueryToFormValues', () => {
       timeFrom: undefined,
       timeTo: undefined,
       number_or_email_cont: 'foobar',
-      viewTitle: 'Awaiting Approval'
+      viewTitle: 'Awaiting Approval',
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined
+      }
     })
   })
 
@@ -39,7 +44,12 @@ describe('adaptUrlQueryToFormValues', () => {
       timeFrom: undefined,
       timeTo: undefined,
       number_or_email_cont: undefined,
-      viewTitle: undefined
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined
+      }
     })
   })
 
@@ -59,7 +69,12 @@ describe('adaptUrlQueryToFormValues', () => {
       timeFrom: undefined,
       timeTo: undefined,
       number_or_email_cont: undefined,
-      viewTitle: undefined
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined
+      }
     })
   })
 
@@ -80,7 +95,64 @@ describe('adaptUrlQueryToFormValues', () => {
       timeFrom: undefined,
       timeTo: undefined,
       number_or_email_cont: undefined,
-      viewTitle: undefined
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined
+      }
+    })
+  })
+
+  test('should handle currency range values', () => {
+    expect(
+      adaptUrlQueryToFormValues({
+        queryString:
+          'status_in=placed&currency_code_eq=USD&total_amount_cents_gteq=1500&total_amount_cents_lteq=20000',
+        instructions
+      })
+    ).toStrictEqual({
+      market_id_in: [],
+      status_in: ['placed'],
+      payment_status_in: [],
+      fulfillment_status_in: [],
+      archived_at_null: undefined,
+      timePreset: undefined,
+      timeFrom: undefined,
+      timeTo: undefined,
+      number_or_email_cont: undefined,
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: 1500,
+        to: 20000,
+        currencyCode: 'USD'
+      }
+    })
+  })
+
+  test('should handle partial currency range values', () => {
+    expect(
+      adaptUrlQueryToFormValues({
+        queryString:
+          'status_in=placed&currency_code_eq=USD&total_amount_cents_lteq=1500',
+        instructions
+      })
+    ).toStrictEqual({
+      market_id_in: [],
+      status_in: ['placed'],
+      payment_status_in: [],
+      fulfillment_status_in: [],
+      archived_at_null: undefined,
+      timePreset: undefined,
+      timeFrom: undefined,
+      timeTo: undefined,
+      number_or_email_cont: undefined,
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: 1500,
+        currencyCode: 'USD'
+      }
     })
   })
 })

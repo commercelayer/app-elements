@@ -135,6 +135,66 @@ describe('adaptFormValuesToSdk', () => {
       updated_at_lteq: '2023-02-28T22:59:59.999Z'
     })
   })
+
+  test('should handle currency range', () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          status_in: ['approved'],
+          total_amount_cents: {
+            from: 10000,
+            to: 20000,
+            currencyCode: 'USD'
+          }
+        },
+        instructions
+      })
+    ).toStrictEqual({
+      status_in: 'approved',
+      archived_at_null: true,
+      total_amount_cents_gteq: 10000,
+      total_amount_cents_lteq: 20000,
+      currency_code_eq: 'USD'
+    })
+  })
+
+  test('should  generate `currency_code_eq` predicate if one between from/to is set', () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          status_in: ['approved'],
+          total_amount_cents: {
+            from: undefined,
+            to: 20000,
+            currencyCode: 'USD'
+          }
+        },
+        instructions
+      })
+    ).toStrictEqual({
+      status_in: 'approved',
+      archived_at_null: true,
+      total_amount_cents_lteq: 20000,
+      currency_code_eq: 'USD'
+    })
+  })
+
+  test('should not generate `currency_code_eq` predicate if both from/to are not set', () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          status_in: ['approved'],
+          total_amount_cents: {
+            currencyCode: 'USD'
+          }
+        },
+        instructions
+      })
+    ).toStrictEqual({
+      status_in: 'approved',
+      archived_at_null: true
+    })
+  })
 })
 
 describe('extractEnforcedValues', () => {

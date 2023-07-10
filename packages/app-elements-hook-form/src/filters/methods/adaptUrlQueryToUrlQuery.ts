@@ -20,5 +20,5 @@ export function adaptUrlQueryToUrlQuery({
     queryString,
     instructions
   })
-  return adaptFormValuesToUrlQuery({ formValues })
+  return adaptFormValuesToUrlQuery({ formValues, instructions })
 }

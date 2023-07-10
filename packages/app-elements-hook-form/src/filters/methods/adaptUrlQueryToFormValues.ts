@@ -1,4 +1,4 @@
-import { type FormFullValues } from '#filters/methods/types'
+import { isCurrencyRange, type FormFullValues } from '#filters/methods/types'
 import castArray from 'lodash/castArray'
 import compact from 'lodash/compact'
 import qs, { type ParsedQuery } from 'query-string'
@@ -28,7 +28,12 @@ export function adaptUrlQueryToFormValues<
 }: AdaptUrlQueryToFormValuesParams): FilterFormValues & FormFullValues {
   const parsedQuery = qs.parse(queryString)
 
-  const allowedQueryParams = instructions.map((item) => item.sdk.predicate)
+  const allowedQueryParams = [
+    ...instructions
+      .filter((item) => !isCurrencyRange(item))
+      .map((item) => item.sdk.predicate)
+    // ...currencyRangeFieldKeys
+  ]
 
   // parse a single filter key value to return
   // an array of valid values or an empty array
@@ -57,6 +62,37 @@ export function adaptUrlQueryToFormValues<
       return undefined
     }
   }
+
+  const parseQueryStringValueAsInteger = (
+    value: unknown
+  ): number | undefined => {
+    if (typeof value !== 'string') {
+      return undefined
+    }
+    try {
+      return parseInt(value, 10)
+    } catch {
+      return undefined
+    }
+  }
+
+  const currencyRangePredicates = instructions
+    .filter(isCurrencyRange)
+    .map((item) => item.sdk.predicate)
+
+  const currencyRangeFormValues = currencyRangePredicates.reduce(
+    (acc, curr) => {
+      return {
+        ...acc,
+        [curr]: {
+          from: parseQueryStringValueAsInteger(parsedQuery[`${curr}_gteq`]),
+          to: parseQueryStringValueAsInteger(parsedQuery[`${curr}_lteq`]),
+          currencyCode: parsedQuery.currency_code_eq
+        }
+      }
+    },
+    {}
+  )
 
   const formValues = allowedQueryParams.reduce(
     (formValues, key) => {
@@ -125,6 +161,7 @@ export function adaptUrlQueryToFormValues<
       )[0],
       timeFrom: parseQueryStringValueAsDate(parsedQuery.timeFrom),
       timeTo: parseQueryStringValueAsDate(parsedQuery.timeTo),
+      ...currencyRangeFormValues,
       viewTitle: parseQueryStringValueAsArray(parsedQuery.viewTitle)[0]
     }
   ) as FilterFormValues & FormFullValues

@@ -1,7 +1,13 @@
+import {
+  isCurrencyRange,
+  type CurrencyRangeFieldValue,
+  type FilterItemCurrencyRange
+} from '#filters/methods/types'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import castArray from 'lodash/castArray'
 import isBoolean from 'lodash/isBoolean'
 import isEmpty from 'lodash/isEmpty'
+import isNumber from 'lodash/isNumber'
 import omitBy from 'lodash/omitBy'
 import { makeSdkFilterTime } from './timeUtils'
 import {
@@ -27,7 +33,10 @@ export interface AdaptFormValuesToSdkParams<FilterFormValues> {
  * @returns an object of type QueryFilter to be used in the SDK stripping out empty or undefined values
  */
 export function adaptFormValuesToSdk<
-  FilterFormValues extends Record<UiFilterName, UiFilterValue>
+  FilterFormValues extends Record<
+    UiFilterName,
+    UiFilterValue | CurrencyRangeFieldValue
+  >
 >({
   formValues,
   instructions,
@@ -35,8 +44,13 @@ export function adaptFormValuesToSdk<
 }: AdaptFormValuesToSdkParams<FilterFormValues>): QueryFilter {
   const formFieldNames = instructions
     .filter(
-      (item): item is FilterItemOptions | FilterItemTextSearch =>
-        isItemOptions(item) || isTextSearch(item)
+      (
+        item
+      ): item is
+        | FilterItemOptions
+        | FilterItemTextSearch
+        | FilterItemCurrencyRange =>
+        isItemOptions(item) || isTextSearch(item) || isCurrencyRange(item)
     )
     .map((item) => item.sdk.predicate)
 
@@ -71,6 +85,22 @@ export function adaptFormValuesToSdk<
         }
       }
 
+      if (instructionItem.type === 'currencyRange') {
+        const currencyRangeField = formValues[key] as CurrencyRangeFieldValue
+        const currencyFrom = currencyRangeField?.from ?? undefined
+        const currencyTo = currencyRangeField?.to ?? undefined
+        const currencyCode =
+          currencyFrom != null || currencyTo != null
+            ? currencyRangeField?.currencyCode ?? undefined
+            : undefined
+        return {
+          ...acc,
+          [`${key}_gteq`]: currencyFrom,
+          [`${key}_lteq`]: currencyTo,
+          currency_code_eq: currencyCode
+        }
+      }
+
       return acc
     },
     {
@@ -88,7 +118,7 @@ export function adaptFormValuesToSdk<
   // stripping out empty or undefined values
   const noEmpty = omitBy(
     sdkFilters,
-    (v) => isEmpty(v) && !isBoolean(v)
+    (v) => isEmpty(v) && !isBoolean(v) && !isNumber(v)
   ) as QueryFilter
 
   // enforce default values when not set, to prevent empty values to return unwanted data

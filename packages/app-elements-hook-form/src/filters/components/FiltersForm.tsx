@@ -6,6 +6,7 @@ import { isItemOptions } from '#filters/methods/types'
 import { Button, Spacer } from '@commercelayer/app-elements'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
+import { FieldCurrencyRange } from './FieldCurrencyRange'
 import { FieldItem } from './FieldItem'
 import { FieldTimeRange } from './FieldTimeRange'
 
@@ -64,6 +65,14 @@ function FiltersForm({
           return (
             <Spacer bottom='14' key={item.label}>
               <FieldTimeRange item={item} />
+            </Spacer>
+          )
+        }
+
+        if (item.type === 'currencyRange') {
+          return (
+            <Spacer bottom='14' key={item.label}>
+              <FieldCurrencyRange item={item} />
             </Spacer>
           )
         }
