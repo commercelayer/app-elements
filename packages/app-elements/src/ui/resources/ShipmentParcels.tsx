@@ -10,8 +10,8 @@ import { ListItem, type ListItemProps } from '#ui/lists/ListItem'
 import {
   getParcelTrackingDetail,
   getShipmentRate,
-  hasSingleTracking,
-  hasTracking
+  hasBeenPurchased,
+  hasSingleTracking
 } from '#utils/tracking'
 import {
   type ParcelLineItem as ParcelLineItemResource,
@@ -73,7 +73,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
                 : parcel
             }
             onRemove={
-              hasTracking(shipment) || shipment.status !== 'packing'
+              hasBeenPurchased(shipment) || shipment.status !== 'packing'
                 ? undefined
                 : () => {
                     onRemoveParcel?.(parcel.id)

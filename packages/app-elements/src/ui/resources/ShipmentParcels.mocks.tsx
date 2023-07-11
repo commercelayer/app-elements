@@ -75,12 +75,14 @@ function createParcel({
 function createShipment({
   id,
   status,
+  purchaseStartedAt,
   parcels,
   rates,
   selectedRateId
 }: {
   id: string
   status: Shipment['status']
+  purchaseStartedAt?: string | undefined | null
   parcels: Parcel[]
   rates?: Array<Record<string, any>>
   selectedRateId?: 'rate_dhl_1111' | 'rate_fedex_1111'
@@ -91,6 +93,7 @@ function createShipment({
     created_at: '',
     updated_at: '',
     status,
+    purchase_started_at: purchaseStartedAt,
     parcels,
     rates,
     selected_rate_id: selectedRateId
@@ -299,9 +302,17 @@ export const shipmentWithStatusDifferentFromPacking = createShipment({
   parcels: [parcelWithoutTracking1, parcelWithoutTracking2]
 })
 
+export const shipmentHasBeenPurchased = createShipment({
+  id: 'shipment-with-status-not-packing',
+  status: 'packing',
+  purchaseStartedAt: '2023-07-11',
+  parcels: [parcelWithoutTracking1, parcelWithoutTracking2]
+})
+
 export const shipmentWithSingleParcelSingleTracking = createShipment({
   id: 'shipment-with-single-parcel-single-tracking',
   status: 'packing',
+  purchaseStartedAt: '2023-07-11',
   rates,
   selectedRateId: 'rate_dhl_1111',
   parcels: [parcelWithTracking1]
@@ -310,6 +321,7 @@ export const shipmentWithSingleParcelSingleTracking = createShipment({
 export const shipmentWithMultipleParcelsSingleTracking = createShipment({
   id: 'shipment-with-multiple-parcels-single-tracking',
   status: 'packing',
+  purchaseStartedAt: '2023-07-11',
   rates,
   selectedRateId: 'rate_dhl_1111',
   parcels: [parcelWithTracking1, parcelWithoutTracking1]
@@ -318,6 +330,7 @@ export const shipmentWithMultipleParcelsSingleTracking = createShipment({
 export const shipmentWithMultipleParcelsMultipleTrackings = createShipment({
   id: 'shipment-with-multiple-parcels-multiple-trackings',
   status: 'packing',
+  purchaseStartedAt: '2023-07-11',
   rates,
   selectedRateId: 'rate_fedex_1111',
   parcels: [parcelWithTracking1, parcelWithTracking2]
@@ -326,5 +339,6 @@ export const shipmentWithMultipleParcelsMultipleTrackings = createShipment({
 export const shipmentWithoutParcels = createShipment({
   id: 'shipment-without-parcels',
   status: 'picking',
+  purchaseStartedAt: '2023-07-11',
   parcels: []
 })
