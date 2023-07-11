@@ -17,6 +17,15 @@ export interface InputSpinnerProps
   max?: number
   defaultValue?: number
   onChange: (value: number) => void
+  /**
+   * When true the input will not be editable by keyboard, but quantity can be changed only via buttons.
+   * Plus keyboard will not be displayed on mobile devices and the input will not be tabbable/focusable, but only the buttons will be.
+   */
+  disableKeyboard?: boolean
+  /**
+   * Makes the entire component disabled, quantity cannot be changed in any way
+   */
+  disabled?: boolean
 }
 
 const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
@@ -30,6 +39,8 @@ const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
       max,
       defaultValue = 0,
       onChange,
+      disableKeyboard,
+      disabled,
       ...rest
     },
     ref
@@ -73,7 +84,7 @@ const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             onClick={() => {
               handleUpdateValue(value - 1)
             }}
-            disabled={minReached}
+            disabled={minReached || disabled === true}
             data-test-id='InputSpinner-decrement'
           />
           <input
@@ -87,9 +98,15 @@ const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             )}
             value={value}
             onChange={({ currentTarget }) => {
+              if (disableKeyboard === true) {
+                return
+              }
               const newValue = parseInt(currentTarget.value, 10)
               handleUpdateValue(newValue)
             }}
+            readOnly={disableKeyboard === true}
+            disabled={disabled}
+            tabIndex={disableKeyboard === true ? -1 : undefined}
             {...rest}
           />
           <ButtonSpin
@@ -97,7 +114,7 @@ const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             onClick={() => {
               handleUpdateValue(value + 1)
             }}
-            disabled={maxReached}
+            disabled={maxReached || disabled === true}
             data-test-id='InputSpinner-increment'
           />
         </div>
@@ -122,7 +139,7 @@ function ButtonSpin({
   return (
     <button
       type='button'
-      className={cn('py-3 text-xl relative', {
+      className={cn('py-3 text-xl relative bg-white', {
         'text-gray-300': disabled,
         'active:top-[1px]': !disabled,
         'pl-3 pr-1': action === 'decrement',
@@ -130,6 +147,7 @@ function ButtonSpin({
       })}
       onClick={onClick}
       disabled={disabled}
+      tabIndex={disabled ? -1 : undefined}
       {...rest}
     >
       {action === 'decrement' ? <Minus /> : <Plus />}

@@ -14,7 +14,7 @@ export interface InputCheckboxProps
    * Example: `<Avatar>`
    */
   icon?: JSX.Element
-  children: ReactNode
+  children?: ReactNode
 }
 
 const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
@@ -47,10 +47,12 @@ const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
               ref={ref}
             />
 
-            <div className='flex items-center gap-4 flex-1'>
-              {icon != null ? icon : null}
-              {children}
-            </div>
+            {children != null || icon != null ? (
+              <div className='flex items-center gap-4 flex-1'>
+                {icon != null ? icon : null}
+                {children}
+              </div>
+            ) : null}
           </label>
         </div>
       </InputWrapper>
