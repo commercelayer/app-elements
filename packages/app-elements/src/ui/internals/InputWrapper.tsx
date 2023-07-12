@@ -26,7 +26,7 @@ export interface InputWrapperProps extends InputWrapperBaseProps {
    */
   className?: string
   name?: string
-  children: JSX.Element | JSX.Element[]
+  children: React.ReactNode
 }
 
 function InputWrapper({
