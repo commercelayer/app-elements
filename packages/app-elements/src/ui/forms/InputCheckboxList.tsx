@@ -54,7 +54,7 @@ export interface SelectedItem {
   quantity: number
 }
 
-export interface CheckboxListProps {
+export interface InputCheckboxListProps {
   /**
    * Text to be displayed on top of the list
    */
@@ -73,13 +73,13 @@ export interface CheckboxListProps {
   onChange: (selected: SelectedItem[]) => void
 }
 
-function CheckboxList({
+function InputCheckboxList({
   options,
   defaultValues = [],
   onChange,
   title,
   ...rest
-}: CheckboxListProps): JSX.Element {
+}: InputCheckboxListProps): JSX.Element {
   const [_state, dispatch] = useReducer(
     reducer,
     makeInitialState({ options, defaultValues })
@@ -142,10 +142,16 @@ function CheckboxList({
               }}
               role='checkbox'
               aria-checked={isSelected}
-              aria-aria-label={optionItem.image?.alt}
+              aria-label={optionItem.image?.alt}
               data-test-id='CheckboxList-item'
             >
-              <InputCheckbox name={inputName} checked={isSelected} />
+              <InputCheckbox
+                name={inputName}
+                checked={isSelected}
+                onChange={() => {
+                  // controlled by the parent div, since clicks in on the entire row
+                }}
+              />
 
               <div
                 className={cn(
@@ -258,5 +264,5 @@ function makeInitialState({
   }, [])
 }
 
-CheckboxList.displayName = 'CheckboxList'
-export { CheckboxList }
+InputCheckboxList.displayName = 'InputCheckboxList'
+export { InputCheckboxList }
