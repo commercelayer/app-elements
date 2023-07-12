@@ -1,5 +1,6 @@
 import { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 import {
+  shipmentHasBeenPurchased,
   shipmentWithMultipleParcelsMultipleTrackings,
   shipmentWithMultipleParcelsSingleTracking,
   shipmentWithSingleParcelSingleTracking,
@@ -19,7 +20,7 @@ const setup: Meta = {
 export default setup
 
 /**
- * User can remove and re-create parcels only when there's **not** tracking information and `shipment.status` is equal to `packing`.
+ * User can remove and re-create parcels only when the shipment is not yet purchased (`shipment.purchase_started_at == null`) and `shipment.status` is equal to `packing`.
  */
 export const NoTracking: StoryFn<typeof ShipmentParcels> = (
   args
@@ -32,7 +33,7 @@ NoTracking.args = {
 }
 
 /**
- * Even without tracking information, when the `shipment.status` is different from `packing`, the parcel cannot be removed anymore.
+ * When the `shipment.status` is different from `packing`, the parcel cannot be removed anymore.
  */
 export const StatusDifferentFromPacking: StoryFn<typeof ShipmentParcels> = (
   args
@@ -45,8 +46,19 @@ StatusDifferentFromPacking.args = {
 }
 
 /**
- * As soon as there's tracking information, parcels cannot be removed anymore.
- *
+ * When the `shipment.purchase_started_at` is defined, the parcel cannot be removed anymore.
+ */
+export const ShipmentHasBeenPurchased: StoryFn<typeof ShipmentParcels> = (
+  args
+): JSX.Element => <ShipmentParcels {...args} />
+ShipmentHasBeenPurchased.args = {
+  onRemoveParcel: function (parcelId) {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  shipment: shipmentHasBeenPurchased
+}
+
+/**
  * When there's only one parcel, the tracking information are shown on the carrier section.
  */
 export const SingleParcelSingleTracking: StoryFn<typeof ShipmentParcels> = (

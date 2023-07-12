@@ -48,13 +48,11 @@ export function hasSingleTracking(shipment: Shipment): boolean {
 }
 
 /**
- * Check whether the `shipment` has tracking information or not.
+ * Check whether the `shipment` has been purchased.
  * @param shipment Shipment
  */
-export function hasTracking(shipment: Shipment): boolean {
-  return (
-    shipment.parcels?.find((parcel) => parcel.tracking_number != null) != null
-  )
+export function hasBeenPurchased(shipment: Shipment): boolean {
+  return shipment.purchase_started_at != null
 }
 
 /**
