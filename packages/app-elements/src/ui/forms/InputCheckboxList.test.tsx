@@ -1,8 +1,11 @@
 import { Text } from '#ui/atoms/Text'
 import { fireEvent, render } from '@testing-library/react'
-import { CheckboxList, type CheckboxListProps } from './CheckboxList'
+import {
+  InputCheckboxList,
+  type InputCheckboxListProps
+} from './InputCheckboxList'
 
-const options: CheckboxListProps['options'] = [
+const options: InputCheckboxListProps['options'] = [
   {
     value: 'BABYBIBXA19D9D000000XXXX',
     content: (
@@ -68,17 +71,25 @@ const options: CheckboxListProps['options'] = [
   }
 ]
 
-describe('CheckboxList', () => {
+describe('InputCheckboxList', () => {
   test('Should be rendered', () => {
     const { container } = render(
-      <CheckboxList options={options} onChange={() => {}} defaultValues={[]} />
+      <InputCheckboxList
+        options={options}
+        onChange={() => {}}
+        defaultValues={[]}
+      />
     )
     expect(container).toBeInTheDocument()
   })
 
   test('Should render the options with default quantity', () => {
     const { getAllByTestId } = render(
-      <CheckboxList options={options} onChange={() => {}} defaultValues={[]} />
+      <InputCheckboxList
+        options={options}
+        onChange={() => {}}
+        defaultValues={[]}
+      />
     )
 
     const allLabels = getAllByTestId('CheckboxList-label').map(
@@ -98,7 +109,7 @@ describe('CheckboxList', () => {
 
   test('Should start with all items disabled when no defaultValues is specified', () => {
     const { queryAllByTestId } = render(
-      <CheckboxList options={options} onChange={() => {}} />
+      <InputCheckboxList options={options} onChange={() => {}} />
     )
     queryAllByTestId('CheckboxList-item').forEach((node) => {
       const checkbox = node.getElementsByTagName('input')[0]
@@ -108,7 +119,7 @@ describe('CheckboxList', () => {
 
   test('Should start with some checked items base on defaultValues', () => {
     const { queryAllByTestId } = render(
-      <CheckboxList
+      <InputCheckboxList
         options={options}
         onChange={() => {}}
         defaultValues={[{ value: 'BABYBIBXA19D9D000000XXXX', quantity: 2 }]}
@@ -131,7 +142,7 @@ describe('CheckboxList', () => {
   test('Should received new values onChange ', () => {
     const mockedOnChange = vi.fn()
     const { getAllByTestId } = render(
-      <CheckboxList options={options} onChange={mockedOnChange} />
+      <InputCheckboxList options={options} onChange={mockedOnChange} />
     )
 
     const firstItem = getAllByTestId('CheckboxList-item')[0]

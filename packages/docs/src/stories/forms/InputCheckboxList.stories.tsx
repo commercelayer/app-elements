@@ -1,20 +1,22 @@
 import { Text } from '#ui/atoms/Text'
-import { CheckboxList } from '#ui/composite/CheckboxList'
+import { InputCheckboxList } from '#ui/forms/InputCheckboxList'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: Meta<typeof CheckboxList> = {
-  title: 'Composite/CheckboxList',
-  component: CheckboxList,
+const setup: Meta<typeof InputCheckboxList> = {
+  title: 'Forms/InputCheckboxList',
+  component: InputCheckboxList,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof CheckboxList> = (args) => {
+const Template: StoryFn<typeof InputCheckboxList> = (args) => {
   const [values, setValues] = useState(args.defaultValues)
-  return <CheckboxList {...args} defaultValues={values} onChange={setValues} />
+  return (
+    <InputCheckboxList {...args} defaultValues={values} onChange={setValues} />
+  )
 }
 
 export const Default = Template.bind({})
