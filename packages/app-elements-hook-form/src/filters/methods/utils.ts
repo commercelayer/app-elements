@@ -73,6 +73,7 @@ export function getActiveFilterCountFromUrl({
     // count user custom defied
     if (
       instructionItem.type !== 'timeRange' &&
+      instructionItem.type !== 'currencyRange' &&
       predicate in formValues &&
       !isEmpty(formValues[predicate])
     ) {

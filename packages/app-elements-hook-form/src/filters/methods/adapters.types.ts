@@ -1,3 +1,4 @@
+import { type FormFullValues } from '#filters/methods/types'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import { type AdaptFormValuesToSdkParams } from './adaptFormValuesToSdk'
 import { type AdaptFormValuesToUrlQueryParams } from './adaptFormValuesToUrlQuery'
@@ -16,11 +17,9 @@ interface MakeFilterAdaptersParams {
   instructions: FiltersInstructions
 }
 
-interface MakeFilterAdaptersReturn<
-  FilterFormValues extends Record<UiFilterName, UiFilterValue>
-> {
+interface MakeFilterAdaptersReturn<FilterFormValues extends FormFullValues> {
   adaptFormValuesToUrlQuery: (
-    params: AdaptFormValuesToUrlQueryParams<FilterFormValues>
+    params: Pick<AdaptFormValuesToUrlQueryParams<FormFullValues>, 'formValues'>
   ) => string
 
   adaptFormValuesToSdk: (

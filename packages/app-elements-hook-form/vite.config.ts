@@ -48,6 +48,6 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: ['./react-testing-library.config.js'],
-    silent: true
+    silent: false
   }
 })

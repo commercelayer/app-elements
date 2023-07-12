@@ -1,10 +1,19 @@
+import {
+  isCurrencyRange,
+  type CurrencyRangeFieldValue,
+  type FiltersInstructions
+} from '#filters/methods/types'
+import { isNumber } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
 import omitBy from 'lodash/omitBy'
 import queryString from 'query-string'
 import type { FormFullValues } from './types'
 
-export interface AdaptFormValuesToUrlQueryParams<FilterFormValues> {
+export interface AdaptFormValuesToUrlQueryParams<
+  FilterFormValues extends FormFullValues
+> {
   formValues: FilterFormValues
+  instructions: FiltersInstructions
 }
 
 /**
@@ -14,15 +23,53 @@ export interface AdaptFormValuesToUrlQueryParams<FilterFormValues> {
  */
 export function adaptFormValuesToUrlQuery<
   FilterFormValues extends FormFullValues
->({ formValues }: AdaptFormValuesToUrlQueryParams<FilterFormValues>): string {
+>({
+  formValues,
+  instructions
+}: AdaptFormValuesToUrlQueryParams<FilterFormValues>): string {
+  // flat currency range object values
+  const currencyRangePredicates = instructions
+    .filter(isCurrencyRange)
+    .map((item) => item.sdk.predicate)
+
+  const currencyRangeFormValues = omitBy(
+    formValues,
+    (_, key) => !currencyRangePredicates.includes(key)
+  )
+
+  const currencyRangeValues = Object.entries(currencyRangeFormValues).reduce(
+    (acc, [key, value]) => {
+      const currencyRangeField = value as CurrencyRangeFieldValue
+      const currencyFrom = currencyRangeField?.from ?? undefined
+      const currencyTo = currencyRangeField?.to ?? undefined
+      const currencyCode =
+        currencyFrom != null || currencyTo != null
+          ? currencyRangeField?.currencyCode ?? undefined
+          : undefined
+
+      return {
+        ...acc,
+        [`${key}_gteq`]: currencyFrom,
+        [`${key}_lteq`]: currencyTo,
+        currency_code_eq: currencyCode
+      }
+    },
+    {}
+  )
+
+  const restFormValues = omitBy(formValues, (_, key) =>
+    currencyRangePredicates.includes(key)
+  )
+
   return queryString.stringify(
     omitBy(
       {
-        ...formValues,
+        ...restFormValues,
+        ...currencyRangeValues,
         timeFrom: formValues.timeFrom?.toISOString(),
         timeTo: formValues.timeTo?.toISOString()
       },
-      isEmpty
+      (v) => isEmpty(v) && !isNumber(v)
     )
   )
 }

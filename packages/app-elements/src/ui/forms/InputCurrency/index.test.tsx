@@ -102,4 +102,11 @@ describe('formatCentsToCurrency', () => {
     expect(formatCentsToCurrency(30000, 'HUF')).toBe('30 000Ft')
     expect(formatCentsToCurrency(100200, 'HUF')).toBe('100 200Ft')
   })
+
+  it('Should strip decimals when requested and cents are 0', () => {
+    expect(formatCentsToCurrency(3400, 'USD', false)).toBe('$34.00')
+    expect(formatCentsToCurrency(3400, 'USD', true)).toBe('$34')
+    expect(formatCentsToCurrency(1033, 'EUR', true)).toBe('€10,33')
+    expect(formatCentsToCurrency(30000, 'EUR', true)).toBe('€300')
+  })
 })
