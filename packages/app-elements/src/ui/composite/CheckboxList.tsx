@@ -15,6 +15,11 @@ import {
 
 export interface OptionItem {
   /**
+   * Input name, will be used to set the html name for checkbox and the quantity inputs
+   * If not provided, the value will be used instead
+   */
+  name?: string
+  /**
    * Item identifier, must be unique and will be used for the onChange callback
    */
   value: string
@@ -118,6 +123,7 @@ function CheckboxList({
       )}
       <Card gap='1'>
         {options.map((optionItem) => {
+          const inputName = optionItem.name ?? optionItem.value
           const isSelected = Boolean(
             _state.find(({ value }) => value === optionItem.value)?.isSelected
           )
@@ -139,7 +145,7 @@ function CheckboxList({
               aria-aria-label={optionItem.image?.alt}
               data-test-id='CheckboxList-item'
             >
-              <InputCheckbox checked={isSelected} />
+              <InputCheckbox name={inputName} checked={isSelected} />
 
               <div
                 className={cn(
@@ -165,6 +171,7 @@ function CheckboxList({
                   }}
                 >
                   <InputSpinner
+                    name={`${inputName}_quantity`}
                     defaultValue={
                       _state.find(({ value }) => value === optionItem.value)
                         ?.quantity
