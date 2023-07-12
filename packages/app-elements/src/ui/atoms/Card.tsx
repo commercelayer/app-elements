@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { withSkeletonTemplate } from './SkeletonTemplate'
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -12,24 +13,25 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
   gap?: '1' | '4' | '6'
 }
 
-function Card({ className, children, gap = '6', ...rest }: Props): JSX.Element {
-  return (
-    <div
-      className={cn([
-        className,
-        'border border-solid border-gray-200 rounded-md  overflow-hidden',
-        {
-          'p-1': gap === '1',
-          'p-4': gap === '4',
-          'p-6': gap === '6'
-        }
-      ])}
-      {...rest}
-    >
-      {children}
-    </div>
-  )
-}
+export const Card = withSkeletonTemplate<Props>(
+  ({ className, children, gap = '6', isLoading, delayMs, ...rest }) => {
+    return (
+      <div
+        className={cn([
+          className,
+          'border border-solid border-gray-200 rounded-md  overflow-hidden',
+          {
+            'p-1': gap === '1',
+            'p-4': gap === '4',
+            'p-6': gap === '6'
+          }
+        ])}
+        {...rest}
+      >
+        {children}
+      </div>
+    )
+  }
+)
 
 Card.displayName = 'Card'
-export { Card }
