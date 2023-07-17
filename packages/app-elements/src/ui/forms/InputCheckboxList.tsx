@@ -1,4 +1,3 @@
-import { Avatar } from '#ui/atoms/Avatar'
 import { Card } from '#ui/atoms/Card'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
@@ -27,13 +26,6 @@ export interface OptionItem {
    * Item content to be displayed in the central section of the row
    */
   content: ReactNode
-  /**
-   * If present, will be displayed the image thumbnail next to the checkbox
-   */
-  image?: {
-    url: `https://${string}`
-    alt: string
-  }
   /**
    * Quantity range to be used in the InputSpinner
    */
@@ -142,7 +134,6 @@ function InputCheckboxList({
               }}
               role='checkbox'
               aria-checked={isSelected}
-              aria-label={optionItem.image?.alt}
               data-test-id='CheckboxList-item'
             >
               <InputCheckbox
@@ -161,14 +152,6 @@ function InputCheckboxList({
                   }
                 )}
               >
-                {optionItem.image != null && (
-                  <Avatar
-                    size='small'
-                    alt={optionItem.image.alt}
-                    src={optionItem.image.url}
-                  />
-                )}
-
                 <div className='flex-1'>{optionItem.content}</div>
 
                 <div
