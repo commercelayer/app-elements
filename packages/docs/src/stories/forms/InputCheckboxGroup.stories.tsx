@@ -1,23 +1,23 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
-import { InputCheckboxList } from '#ui/forms/InputCheckboxList'
+import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
 import { ListItem } from '#ui/lists/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: Meta<typeof InputCheckboxList> = {
-  title: 'Forms/InputCheckboxList',
-  component: InputCheckboxList,
+const setup: Meta<typeof InputCheckboxGroup> = {
+  title: 'Forms/InputCheckboxGroup',
+  component: InputCheckboxGroup,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof InputCheckboxList> = (args) => {
+const Template: StoryFn<typeof InputCheckboxGroup> = (args) => {
   const [values, setValues] = useState(args.defaultValues)
   return (
-    <InputCheckboxList {...args} defaultValues={values} onChange={setValues} />
+    <InputCheckboxGroup {...args} defaultValues={values} onChange={setValues} />
   )
 }
 

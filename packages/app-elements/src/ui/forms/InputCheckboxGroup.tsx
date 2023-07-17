@@ -46,7 +46,7 @@ export interface SelectedItem {
   quantity: number
 }
 
-export interface InputCheckboxListProps {
+export interface InputCheckboxGroupProps {
   /**
    * Text to be displayed on top of the list
    */
@@ -65,13 +65,13 @@ export interface InputCheckboxListProps {
   onChange: (selected: SelectedItem[]) => void
 }
 
-function InputCheckboxList({
+function InputCheckboxGroup({
   options,
   defaultValues = [],
   onChange,
   title,
   ...rest
-}: InputCheckboxListProps): JSX.Element {
+}: InputCheckboxGroupProps): JSX.Element {
   const [_state, dispatch] = useReducer(
     reducer,
     makeInitialState({ options, defaultValues })
@@ -247,5 +247,5 @@ function makeInitialState({
   }, [])
 }
 
-InputCheckboxList.displayName = 'InputCheckboxList'
-export { InputCheckboxList }
+InputCheckboxGroup.displayName = 'InputCheckboxGroup'
+export { InputCheckboxGroup }
