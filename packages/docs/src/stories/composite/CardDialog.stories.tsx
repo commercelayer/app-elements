@@ -45,7 +45,7 @@ Parcel.args = {
     <div>
       <ListItem
         tag='div'
-        gutter='none'
+        padding='y'
         icon={
           <Avatar
             size='small'
@@ -73,7 +73,7 @@ Parcel.args = {
       </ListItem>
       <ListItem
         tag='div'
-        gutter='none'
+        padding='y'
         icon={
           <Avatar
             size='small'

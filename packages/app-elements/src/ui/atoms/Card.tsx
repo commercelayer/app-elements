@@ -19,7 +19,7 @@ export const Card = withSkeletonTemplate<Props>(
       <div
         className={cn([
           className,
-          'border border-solid border-gray-200 rounded-md  overflow-hidden',
+          'border border-solid border-gray-200 rounded-md overflow-hidden',
           {
             'p-1': gap === '1',
             'p-4': gap === '4',

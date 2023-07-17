@@ -17,7 +17,7 @@ export interface InputCheckboxProps
   children?: ReactNode
 }
 
-const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
+export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
   (
     { className, hint, feedback, icon, children, ...rest },
     ref
@@ -31,9 +31,13 @@ const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
         <div className={cn('flex items-center w-full', className)}>
           <label
             data-test-id='checkbox-label'
-            className={cn('flex items-center gap-4 select-none', className, {
-              'cursor-pointer': rest.disabled !== true
-            })}
+            className={cn(
+              'flex items-center gap-4 select-none flex-1',
+              className,
+              {
+                'cursor-pointer': rest.disabled !== true
+              }
+            )}
           >
             <input
               type='checkbox'
@@ -50,7 +54,7 @@ const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
             {children != null || icon != null ? (
               <div className='flex items-center gap-4 flex-1'>
                 {icon != null ? icon : null}
-                {children}
+                <div className='flex-1'>{children}</div>
               </div>
             ) : null}
           </label>
@@ -61,4 +65,3 @@ const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
 )
 
 InputCheckbox.displayName = 'InputCheckbox'
-export { InputCheckbox }

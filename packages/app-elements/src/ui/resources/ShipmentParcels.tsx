@@ -97,7 +97,7 @@ const ParcelLineItem = withSkeletonTemplate<{
       tag='div'
       alignItems='top'
       borderStyle={borderStyle}
-      gutter='none'
+      padding='y'
       icon={
         <Avatar
           size='small'
