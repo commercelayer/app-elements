@@ -92,6 +92,7 @@ export { InputDateRange } from '#ui/forms/InputDateRange'
 export { InputFeedback } from '#ui/forms/InputFeedback'
 export { InputFile } from '#ui/forms/InputFile'
 export { InputJson } from '#ui/forms/InputJson'
+export { InputRadioGroup } from '#ui/forms/InputRadioGroup'
 export { InputReadonly } from '#ui/forms/InputReadonly'
 export {
   InputSelect,
