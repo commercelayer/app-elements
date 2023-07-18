@@ -1,8 +1,34 @@
+import { type AvatarProps } from '#ui/atoms/Avatar'
 import { type Parcel, type Shipment } from '@commercelayer/sdk'
 import orderBy from 'lodash/orderBy'
 import { z } from 'zod'
 
-function getParcelTrackingDetails(parcel?: Parcel): TrackingDetail[] {
+export function getAvatarSrcFromRate(rate: Rate): AvatarProps['src'] {
+  switch (rate.carrier) {
+    case 'DHLEcommerceAsia':
+    case 'DhlEcs':
+    case 'DHLExpress':
+    case 'DHLPaket':
+    case 'DHLSmartmail':
+      return 'carriers:dhl'
+    case 'FedEx':
+    case 'FedExCrossBorder':
+    case 'FedExMailview':
+    case 'FedexSmartPost':
+      return 'carriers:fedex'
+    case 'UPS':
+    case 'UPSIparcel':
+    case 'UPSMailInnovations':
+      return 'carriers:ups'
+    default:
+      return 'carriers:generic'
+  }
+}
+
+/**
+ * Get tracking details descending sorted from a parcel.
+ */
+export function getParcelTrackingDetails(parcel?: Parcel): TrackingDetail[] {
   const details = parcelTrackingDetailsSchema.safeParse(
     parcel?.tracking_details
   )
@@ -14,12 +40,18 @@ function getParcelTrackingDetails(parcel?: Parcel): TrackingDetail[] {
   return orderBy(details.data, ['datetime'], ['desc'])
 }
 
+/**
+ * Get latest tracking details from a parcel.
+ */
 export function getParcelTrackingDetail(
   parcel?: Parcel
 ): TrackingDetail | undefined {
   return getParcelTrackingDetails(parcel)[0]
 }
 
+/**
+ * Get all available rates.
+ */
 export function getShipmentRates(shipment: Shipment): Rate[] {
   const rates = shipmentRatesSchema.safeParse(shipment.rates)
 
@@ -30,6 +62,9 @@ export function getShipmentRates(shipment: Shipment): Rate[] {
   return rates.data
 }
 
+/**
+ * Get selected shipment rate if any.
+ */
 export function getShipmentRate(shipment: Shipment): Rate | undefined {
   const rate = getShipmentRates(shipment)
 

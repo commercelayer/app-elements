@@ -1,5 +1,12 @@
+import {
+  getAvatarSrcFromRate,
+  getParcelTrackingDetail,
+  getShipmentRate,
+  hasBeenPurchased,
+  hasSingleTracking
+} from '#helpers/tracking'
 import { A } from '#ui/atoms/A'
-import { Avatar, type AvatarProps } from '#ui/atoms/Avatar'
+import { Avatar } from '#ui/atoms/Avatar'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -7,12 +14,6 @@ import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 import { ListItem, type ListItemProps } from '#ui/lists/ListItem'
-import {
-  getParcelTrackingDetail,
-  getShipmentRate,
-  hasBeenPurchased,
-  hasSingleTracking
-} from '#utils/tracking'
 import {
   type ParcelLineItem as ParcelLineItemResource,
   type Parcel as ParcelResource,
@@ -183,28 +184,6 @@ const Parcel = withSkeletonTemplate<{
   )
 })
 
-function getAvatarSrc(carrier: string | null | undefined): AvatarProps['src'] {
-  switch (carrier) {
-    case 'DHLEcommerceAsia':
-    case 'DhlEcs':
-    case 'DHLExpress':
-    case 'DHLPaket':
-    case 'DHLSmartmail':
-      return 'carriers:dhl'
-    case 'FedEx':
-    case 'FedExCrossBorder':
-    case 'FedExMailview':
-    case 'FedexSmartPost':
-      return 'carriers:fedex'
-    case 'UPS':
-    case 'UPSIparcel':
-    case 'UPSMailInnovations':
-      return 'carriers:ups'
-    default:
-      return 'carriers:generic'
-  }
-}
-
 const Carrier = withSkeletonTemplate<{
   shipment: ShipmentResource
 }>(({ shipment }) => {
@@ -226,7 +205,7 @@ const Carrier = withSkeletonTemplate<{
           className={cn({
             'mt-0.5': !singleTracking
           })}
-          src={getAvatarSrc(rate.carrier)}
+          src={getAvatarSrcFromRate(rate)}
           alt='Adyen'
           border='none'
           shape='circle'
