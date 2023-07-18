@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "prepare": "husky install",
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm --stream -r dev",
     "build:elements": "pnpm --stream --filter @commercelayer/app-elements build",
@@ -34,7 +35,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "husky": "^8.0.3",
+    "husky": "^8.0.0",
     "lerna": "^6.6.1",
     "lint-staged": "^13.2.3",
     "npm-check-updates": "^16.10.1"
