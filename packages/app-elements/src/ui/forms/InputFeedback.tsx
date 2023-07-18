@@ -41,7 +41,7 @@ function InputFeedback({
       {...rest}
     >
       {icons[variant]}
-      <div className='text-sm font-bold capitalize'>{message}</div>
+      <div className='text-sm font-bold'>{message}</div>
     </div>
   )
 }
