@@ -18,15 +18,15 @@ function InputMetadata({ name }: Props): JSX.Element {
 
   return (
     <>
-      {Object.keys(metadata).map((key) => {
-        if (typeof metadata[key] !== 'string') return <></>
+      {Object.entries(metadata).map(([metadataKey, metadataValue], idx) => {
+        if (typeof metadataValue !== 'string') return <></>
 
         return (
-          <ListItem tag='div' key={key}>
+          <ListItem tag='div' key={idx}>
             <Text variant='info' className='capitalize'>
-              {key}
+              {metadataKey}
             </Text>
-            <Input name={`${name}.${key}`} />
+            <Input name={`${name}.${metadataKey}`} />
           </ListItem>
         )
       })}
