@@ -134,7 +134,7 @@ function InputCheckboxGroup({
               }}
               role='checkbox'
               aria-checked={isSelected}
-              data-test-id='CheckboxList-item'
+              data-test-id='InputCheckboxGroup-item'
             >
               <InputCheckbox
                 name={inputName}

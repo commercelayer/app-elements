@@ -89,7 +89,7 @@ describe('InputCheckboxGroup', () => {
       'Black Unisex Lightweight Hoodie'
     ])
 
-    const allQuantityInputs = getAllByTestId('CheckboxList-item').map(
+    const allQuantityInputs = getAllByTestId('InputCheckboxGroup-item').map(
       (node) => node.getElementsByTagName('input')[1].value
     )
     expect(allQuantityInputs).toEqual(['5', '7', '8'])
@@ -99,7 +99,7 @@ describe('InputCheckboxGroup', () => {
     const { queryAllByTestId } = render(
       <InputCheckboxGroup options={options} onChange={() => {}} />
     )
-    queryAllByTestId('CheckboxList-item').forEach((node) => {
+    queryAllByTestId('InputCheckboxGroup-item').forEach((node) => {
       const checkbox = node.getElementsByTagName('input')[0]
       expect(checkbox).not.toBeChecked()
     })
@@ -114,7 +114,7 @@ describe('InputCheckboxGroup', () => {
       />
     )
 
-    queryAllByTestId('CheckboxList-item').forEach((node, idx) => {
+    queryAllByTestId('InputCheckboxGroup-item').forEach((node, idx) => {
       const inputs = node.getElementsByTagName('input')
       const checkbox = inputs[0]
       const quantity = inputs[1]
@@ -133,7 +133,7 @@ describe('InputCheckboxGroup', () => {
       <InputCheckboxGroup options={options} onChange={mockedOnChange} />
     )
 
-    const firstItem = getAllByTestId('CheckboxList-item')[0]
+    const firstItem = getAllByTestId('InputCheckboxGroup-item')[0]
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
 
     // select  item
