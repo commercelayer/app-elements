@@ -32,9 +32,10 @@ export const Payments = (): JSX.Element => (
 
 export const Carriers = (): JSX.Element => (
   <div className='flex gap-1 flex-wrap'>
-    <Avatar shape='circle' src='carriers:generic' alt='Generic' />
-    <Avatar shape='circle' src='carriers:dhl' alt='DHL' />
-    <Avatar shape='circle' src='carriers:fedex' alt='FedEx' />
+    <Avatar shape='circle' border='none' src='carriers:generic' alt='Generic' />
+    <Avatar shape='circle' border='none' src='carriers:dhl' alt='DHL' />
+    <Avatar shape='circle' border='none' src='carriers:fedex' alt='FedEx' />
+    <Avatar shape='circle' border='none' src='carriers:ups' alt='UPS' />
   </div>
 )
 

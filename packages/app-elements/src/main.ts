@@ -10,6 +10,17 @@ export {
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { computeFullname, formatDisplayName } from '#helpers/name'
 export { formatResourceName } from '#helpers/resources'
+export {
+  getAvatarSrcFromRate,
+  getParcelTrackingDetail,
+  getParcelTrackingDetails,
+  getShipmentRate,
+  getShipmentRates,
+  hasBeenPurchased,
+  hasSingleTracking,
+  type Rate,
+  type TrackingDetail
+} from '#helpers/tracking'
 // Hooks
 export { useClickAway } from '#hooks/useClickAway'
 export { useDelayShow } from '#hooks/useDelayShow'
