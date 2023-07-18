@@ -10,11 +10,19 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
    */
   icon?: JSX.Element
   /**
-   * Specify `none` to remove side gutter
+   * Icon alignment
+   * @default 'top'
    */
-  gutter?: 'none'
+  alignIcon?: 'top' | 'center' | 'bottom'
+  /**
+   * Control the horizontal padding (`x`) or vertical padding (`y`).
+   * You can specify `none` to remove the padding.
+   * @default 'xy'
+   */
+  padding?: 'xy' | 'x' | 'y' | 'none'
   /**
    * Border style to render
+   * @default 'solid'
    */
   borderStyle?: 'dashed' | 'solid' | 'none'
 }
@@ -42,8 +50,9 @@ const ListItem: FC<ListItemProps> = ({
   icon,
   children,
   className,
-  gutter,
+  padding = 'xy',
   alignItems = 'center',
+  alignIcon = 'top',
   borderStyle = 'solid',
   ...rest
 }) => {
@@ -54,9 +63,10 @@ const ListItem: FC<ListItemProps> = ({
   return (
     <JsxTag
       className={cn(
-        'flex gap-4 py-4 border-gray-100',
+        'flex gap-4 border-gray-100',
         {
-          'px-4': gutter !== 'none',
+          'py-4': padding !== 'none' && padding !== 'x',
+          'px-4': padding !== 'none' && padding !== 'y',
           'border-dashed': borderStyle === 'dashed',
           'border-b': borderStyle !== 'none',
           'cursor-pointer hover:bg-gray-50': hasHover
@@ -67,7 +77,13 @@ const ListItem: FC<ListItemProps> = ({
       // still we need to be part of `rest` to discriminate the union type
       {...(removeTagProp(rest) as any)}
     >
-      <div className='flex gap-4 flex-1'>
+      <div
+        className={cn('flex gap-4 flex-1', {
+          'items-center': alignIcon === 'center',
+          'items-start': alignIcon === 'top',
+          'items-end': alignIcon === 'bottom'
+        })}
+      >
         {icon != null && <div className='flex-shrink-0'>{icon}</div>}
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>

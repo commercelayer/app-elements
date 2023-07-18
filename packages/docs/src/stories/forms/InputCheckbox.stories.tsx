@@ -1,6 +1,7 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
+import { ListItem } from '#ui/lists/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputCheckbox> = {
@@ -37,6 +38,34 @@ WithAvatar.args = {
     <Text key='text' weight='semibold'>
       NY Store
     </Text>
+  )
+}
+
+export const WithListItem = Template.bind({})
+WithListItem.args = {
+  icon: (
+    <Avatar
+      size='small'
+      shape='circle'
+      border='none'
+      src='carriers:dhl'
+      alt='DHL'
+    />
+  ),
+  children: (
+    <ListItem tag='div' alignItems='top' borderStyle='none' padding='none'>
+      <div>
+        <Text size='regular' weight='bold'>
+          Express Easy
+        </Text>
+        <Text size='small' tag='div' variant='info' weight='medium'>
+          DHL Express
+        </Text>
+      </div>
+      <Text size='regular' weight='bold'>
+        €37,61
+      </Text>
+    </ListItem>
   )
 }
 

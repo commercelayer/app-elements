@@ -56,6 +56,13 @@ WithIcon.args = {
   icon: <Icon name='arrowDown' background='orange' gap='large' />
 }
 
+export const WithCenteredIcon = WithIconTemplate.bind({})
+WithCenteredIcon.args = {
+  tag: 'div',
+  icon: <Icon name='arrowDown' background='orange' gap='large' />,
+  alignIcon: 'center'
+}
+
 export const AsAnchor = WithIconTemplate.bind({})
 AsAnchor.args = {
   tag: 'a',
@@ -77,13 +84,13 @@ export const OrderLine: StoryFn<typeof ListItem> = (args) => (
     <Text weight='medium' variant='info' tag='div' wrap='nowrap'>
       $69,50 x 2
     </Text>
-    <Text weight='bold' tag='div'>
+    <Text weight='bold' tag='div' wrap='nowrap'>
       $139,00
     </Text>
   </ListItem>
 )
 OrderLine.args = {
-  gutter: 'none',
+  padding: 'y',
   borderStyle: 'dashed',
   icon: (
     <Avatar

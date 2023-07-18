@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta<typeof RadioButtons> = {
-  title: 'Forms/RadioButtons',
+  title: 'Forms/RadioButtons (DEPRECATED)',
   component: RadioButtons
 }
 export default setup

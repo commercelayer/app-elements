@@ -1,4 +1,3 @@
-import { Avatar } from '#ui/atoms/Avatar'
 import { Card } from '#ui/atoms/Card'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
@@ -28,13 +27,6 @@ export interface OptionItem {
    */
   content: ReactNode
   /**
-   * If present, will be displayed the image thumbnail next to the checkbox
-   */
-  image?: {
-    url: `https://${string}`
-    alt: string
-  }
-  /**
    * Quantity range to be used in the InputSpinner
    */
   quantity: {
@@ -54,7 +46,7 @@ export interface SelectedItem {
   quantity: number
 }
 
-export interface InputCheckboxListProps {
+export interface InputCheckboxGroupProps {
   /**
    * Text to be displayed on top of the list
    */
@@ -73,13 +65,13 @@ export interface InputCheckboxListProps {
   onChange: (selected: SelectedItem[]) => void
 }
 
-function InputCheckboxList({
+function InputCheckboxGroup({
   options,
   defaultValues = [],
   onChange,
   title,
   ...rest
-}: InputCheckboxListProps): JSX.Element {
+}: InputCheckboxGroupProps): JSX.Element {
   const [_state, dispatch] = useReducer(
     reducer,
     makeInitialState({ options, defaultValues })
@@ -142,8 +134,7 @@ function InputCheckboxList({
               }}
               role='checkbox'
               aria-checked={isSelected}
-              aria-label={optionItem.image?.alt}
-              data-test-id='CheckboxList-item'
+              data-test-id='InputCheckboxGroup-item'
             >
               <InputCheckbox
                 name={inputName}
@@ -161,14 +152,6 @@ function InputCheckboxList({
                   }
                 )}
               >
-                {optionItem.image != null && (
-                  <Avatar
-                    size='small'
-                    alt={optionItem.image.alt}
-                    src={optionItem.image.url}
-                  />
-                )}
-
                 <div className='flex-1'>{optionItem.content}</div>
 
                 <div
@@ -264,5 +247,5 @@ function makeInitialState({
   }, [])
 }
 
-InputCheckboxList.displayName = 'InputCheckboxList'
-export { InputCheckboxList }
+InputCheckboxGroup.displayName = 'InputCheckboxGroup'
+export { InputCheckboxGroup }

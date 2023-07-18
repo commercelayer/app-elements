@@ -21,7 +21,10 @@ export interface RadioButtonsProps extends InputWrapperBaseProps {
   onBlur?: InputHTMLAttributes<HTMLInputElement>['onBlur']
 }
 
-const RadioButtons = forwardRef<HTMLInputElement, RadioButtonsProps>(
+/**
+ * @deprecated
+ */
+export const RadioButtons = forwardRef<HTMLInputElement, RadioButtonsProps>(
   (
     {
       id = 'radio-buttons',
@@ -87,4 +90,3 @@ const RadioButtons = forwardRef<HTMLInputElement, RadioButtonsProps>(
 )
 
 RadioButtons.displayName = 'RadioButtons'
-export { RadioButtons }

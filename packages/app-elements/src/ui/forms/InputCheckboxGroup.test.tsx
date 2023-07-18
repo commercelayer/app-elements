@@ -1,11 +1,11 @@
 import { Text } from '#ui/atoms/Text'
 import { fireEvent, render } from '@testing-library/react'
 import {
-  InputCheckboxList,
-  type InputCheckboxListProps
-} from './InputCheckboxList'
+  InputCheckboxGroup,
+  type InputCheckboxGroupProps
+} from './InputCheckboxGroup'
 
-const options: InputCheckboxListProps['options'] = [
+const options: InputCheckboxGroupProps['options'] = [
   {
     value: 'BABYBIBXA19D9D000000XXXX',
     content: (
@@ -18,10 +18,6 @@ const options: InputCheckboxListProps['options'] = [
         Gray Baby Bib with Black Logo
       </Text>
     ),
-    image: {
-      url: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BABYBIBXA19D9D000000XXXX_FLAT.png',
-      alt: 'Gray Baby Bib with Black Logo'
-    },
     quantity: {
       min: 1,
       max: 5
@@ -39,10 +35,6 @@ const options: InputCheckboxListProps['options'] = [
         Black Baseball Hat with White Logo
       </Text>
     ),
-    image: {
-      url: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
-      alt: 'Black Baseball Hat with White Logo'
-    },
     quantity: {
       min: 1,
       max: 7
@@ -60,10 +52,6 @@ const options: InputCheckboxListProps['options'] = [
         Black Unisex Lightweight Hoodie
       </Text>
     ),
-    image: {
-      url: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/HOODIEUL000000FFFFFFLXXX_FLAT.png',
-      alt: 'Black Unisex Lightweight Hoodie'
-    },
     quantity: {
       min: 1,
       max: 8
@@ -71,10 +59,10 @@ const options: InputCheckboxListProps['options'] = [
   }
 ]
 
-describe('InputCheckboxList', () => {
+describe('InputCheckboxGroup', () => {
   test('Should be rendered', () => {
     const { container } = render(
-      <InputCheckboxList
+      <InputCheckboxGroup
         options={options}
         onChange={() => {}}
         defaultValues={[]}
@@ -85,7 +73,7 @@ describe('InputCheckboxList', () => {
 
   test('Should render the options with default quantity', () => {
     const { getAllByTestId } = render(
-      <InputCheckboxList
+      <InputCheckboxGroup
         options={options}
         onChange={() => {}}
         defaultValues={[]}
@@ -101,7 +89,7 @@ describe('InputCheckboxList', () => {
       'Black Unisex Lightweight Hoodie'
     ])
 
-    const allQuantityInputs = getAllByTestId('CheckboxList-item').map(
+    const allQuantityInputs = getAllByTestId('InputCheckboxGroup-item').map(
       (node) => node.getElementsByTagName('input')[1].value
     )
     expect(allQuantityInputs).toEqual(['5', '7', '8'])
@@ -109,9 +97,9 @@ describe('InputCheckboxList', () => {
 
   test('Should start with all items disabled when no defaultValues is specified', () => {
     const { queryAllByTestId } = render(
-      <InputCheckboxList options={options} onChange={() => {}} />
+      <InputCheckboxGroup options={options} onChange={() => {}} />
     )
-    queryAllByTestId('CheckboxList-item').forEach((node) => {
+    queryAllByTestId('InputCheckboxGroup-item').forEach((node) => {
       const checkbox = node.getElementsByTagName('input')[0]
       expect(checkbox).not.toBeChecked()
     })
@@ -119,14 +107,14 @@ describe('InputCheckboxList', () => {
 
   test('Should start with some checked items base on defaultValues', () => {
     const { queryAllByTestId } = render(
-      <InputCheckboxList
+      <InputCheckboxGroup
         options={options}
         onChange={() => {}}
         defaultValues={[{ value: 'BABYBIBXA19D9D000000XXXX', quantity: 2 }]}
       />
     )
 
-    queryAllByTestId('CheckboxList-item').forEach((node, idx) => {
+    queryAllByTestId('InputCheckboxGroup-item').forEach((node, idx) => {
       const inputs = node.getElementsByTagName('input')
       const checkbox = inputs[0]
       const quantity = inputs[1]
@@ -142,10 +130,10 @@ describe('InputCheckboxList', () => {
   test('Should received new values onChange ', () => {
     const mockedOnChange = vi.fn()
     const { getAllByTestId } = render(
-      <InputCheckboxList options={options} onChange={mockedOnChange} />
+      <InputCheckboxGroup options={options} onChange={mockedOnChange} />
     )
 
-    const firstItem = getAllByTestId('CheckboxList-item')[0]
+    const firstItem = getAllByTestId('InputCheckboxGroup-item')[0]
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
 
     // select  item
