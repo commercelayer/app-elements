@@ -41,7 +41,6 @@ const Template: StoryFn<typeof InputRadioGroup> = (args) => {
 export const Default = Template.bind({})
 Default.args = {
   name: 'carrier',
-  defaultValue: 'Fedex',
   onChange: (v) => {
     console.log(v)
   },
@@ -156,6 +155,46 @@ DirectionRow.args = {
   onChange: (v) => {
     console.log(v)
   },
+  options: [
+    {
+      value: 'medium',
+      content: (
+        <>
+          <Spacer bottom='2'>
+            <Text size='regular' weight='bold'>
+              Medium box
+            </Text>
+          </Spacer>
+          <Text size='small' tag='div' variant='info' weight='medium'>
+            20 × 30 × 40 cm
+          </Text>
+        </>
+      )
+    },
+    {
+      value: 'large',
+      content: (
+        <>
+          <Spacer bottom='2'>
+            <Text size='regular' weight='bold'>
+              Large box
+            </Text>
+          </Spacer>
+          <Text size='small' tag='div' variant='info' weight='medium'>
+            40 × 60 × 80 cm
+          </Text>
+        </>
+      )
+    }
+  ]
+}
+
+export const DefaultValue = Template.bind({})
+DefaultValue.args = {
+  name: 'package',
+  direction: 'row',
+  showInput: false,
+  defaultValue: 'large',
   options: [
     {
       value: 'medium',
