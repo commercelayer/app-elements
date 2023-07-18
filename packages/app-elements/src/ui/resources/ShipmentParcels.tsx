@@ -196,6 +196,10 @@ function getAvatarSrc(carrier: string | null | undefined): AvatarProps['src'] {
     case 'FedExMailview':
     case 'FedexSmartPost':
       return 'carriers:fedex'
+    case 'UPS':
+    case 'UPSIparcel':
+    case 'UPSMailInnovations':
+      return 'carriers:ups'
     default:
       return 'carriers:generic'
   }
@@ -224,6 +228,7 @@ const Carrier = withSkeletonTemplate<{
           })}
           src={getAvatarSrc(rate.carrier)}
           alt='Adyen'
+          border='none'
           shape='circle'
           size='small'
         />
