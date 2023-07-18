@@ -14,11 +14,20 @@ const ListItemsMetadata = withSkeletonTemplate<{
         if (typeof metadataValue !== 'string') return <></>
 
         return (
-          <ListItem tag='div' key={idx}>
+          <ListItem
+            tag='div'
+            key={idx}
+            data-test-id={`ListItemsMetadata-item-${metadataKey}`}
+          >
             <Text variant='info' className='capitalize'>
               {metadataKey}
             </Text>
-            <Text weight='semibold'>{metadataValue}</Text>
+            <Text
+              weight='semibold'
+              data-test-id={`ListItemsMetadata-value-${metadataKey}`}
+            >
+              {metadataValue}
+            </Text>
           </ListItem>
         )
       })}
