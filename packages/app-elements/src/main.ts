@@ -127,6 +127,7 @@ export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
 // Resources
 export { ListItemOrder } from '#ui/resources/ListItemOrder'
+export { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
