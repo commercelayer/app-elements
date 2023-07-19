@@ -1,16 +1,12 @@
+import { getOrderTransactionPastTense } from '#dictionaries/orders'
 import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
+import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { useTokenProvider } from '#providers/TokenProvider'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 import type { Attachment, Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import { useEffect, useReducer, type Reducer } from 'react'
-import {
-  Timeline,
-  getOrderTransactionPastTense,
-  useCoreApi,
-  useCoreSdkProvider,
-  useTokenProvider,
-  withSkeletonTemplate,
-  type TimelineEvent
-} from '../../main'
 
 export const OrderTimeline = withSkeletonTemplate<{
   orderId: string
