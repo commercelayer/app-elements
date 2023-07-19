@@ -1,6 +1,7 @@
 import '#styles/global.css'
 
 // Helpers
+export { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 export {
   formatDate,
   getIsoDateAtDayEdge,
@@ -128,6 +129,7 @@ export { ListItem } from '#ui/lists/ListItem'
 // Resources
 export { ListItemOrder } from '#ui/resources/ListItemOrder'
 export { OrderSummary } from '#ui/resources/OrderSummary'
+export { OrderTimeline } from '#ui/resources/OrderTimeline'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
 export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
