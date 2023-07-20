@@ -64,7 +64,7 @@ describe('TokenProvider', () => {
   })
 
   test('Should read token from props', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     window.location.hostname = 'giuseppe.commercelayer.app'
     const onInvalidAuth = vi.fn()
 
@@ -96,7 +96,7 @@ describe('TokenProvider', () => {
   })
 
   test('Should return live mode if token comes from live environment', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     window.location.hostname = 'giuseppe.commercelayer.app'
     const onInvalidAuth = vi.fn()
 
@@ -114,7 +114,7 @@ describe('TokenProvider', () => {
   })
 
   test('Should read token from url', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     window.location.hostname = 'giuseppe.commercelayer.app'
     window.location.search = `?accessToken=${accessToken}`
     const onInvalidAuth = vi.fn()
@@ -136,7 +136,7 @@ describe('TokenProvider', () => {
 
   test('Should trigger expired token', async () => {
     // faking expired date
-    vi.useFakeTimers().setSystemTime(expiredDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(expiredDateNow)
     const onInvalidAuth = vi.fn()
 
     const { getByText } = setup({
@@ -157,7 +157,7 @@ describe('TokenProvider', () => {
   })
 
   test('Should trigger invalid when `kind` is not matched', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const onInvalidAuth = vi.fn()
 
     const { getByText } = setup({
@@ -181,7 +181,7 @@ describe('TokenProvider', () => {
   })
 
   test('Should be able to receive an emitInvalidAuth event', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const onInvalidAuth = vi.fn()
 
     const { getByTestId, getByText } = render(
@@ -230,7 +230,7 @@ describe('TokenProvider', () => {
 
 describe('TokenProvider and localStorage', () => {
   test('Should save persistent token', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
       kind: 'integration',
@@ -245,7 +245,7 @@ describe('TokenProvider and localStorage', () => {
   })
 
   test('Should read persistent token', async () => {
-    vi.useFakeTimers().setSystemTime(validDateNow)
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
       kind: 'integration',
