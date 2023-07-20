@@ -6,10 +6,10 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 import type { Attachment, Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
-import { useEffect, useReducer, type Reducer } from 'react'
+import { useEffect, useReducer, useState, type Reducer } from 'react'
 
 export const OrderTimeline = withSkeletonTemplate<{
-  orderId: string
+  orderId?: string
   attachmentOption?: {
     onMessage?: (attachment: Attachment) => void
     referenceOrigin:
@@ -17,33 +17,40 @@ export const OrderTimeline = withSkeletonTemplate<{
       | typeof referenceOrigins.appShipmentsNote
   }
 }>(({ orderId, attachmentOption, isLoading: isExternalLoading }) => {
-  const { data: order, isLoading } = useCoreApi(
+  const fakeOrderId = 'fake-NMWYhbGorj'
+  const {
+    data: order,
+    isLoading,
+    mutate: mutateOrder
+  } = useCoreApi(
     'orders',
     'retrieve',
-    [
-      orderId,
-      {
-        include: [
-          'shipments',
-          'transactions',
-          'payment_method',
-          'payment_source',
-          'attachments'
-        ]
-      }
-    ],
+    orderId == null || isEmpty(orderId)
+      ? null
+      : [
+          orderId,
+          {
+            include: [
+              'shipments',
+              'transactions',
+              'payment_method',
+              'payment_source',
+              'attachments'
+            ]
+          }
+        ],
     {
       fallbackData: {
         type: 'orders',
-        id: 'fake-NMWYhbGorj',
+        id: fakeOrderId,
         status: 'approved',
         payment_status: 'paid',
         fulfillment_status: 'in_progress',
-        created_at: '2023-05-16T11:06:02.074Z',
-        updated_at: '2023-05-16T14:18:35.572Z',
-        placed_at: '2023-05-16T11:06:22.012Z',
-        approved_at: '2023-05-16T14:18:16.775Z',
-        fulfillment_updated_at: '2023-05-16T14:18:35.411Z'
+        created_at: '2020-05-16T11:06:02.074Z',
+        updated_at: '2020-05-16T14:18:35.572Z',
+        placed_at: '2020-05-16T11:06:22.012Z',
+        approved_at: '2020-05-16T14:18:16.775Z',
+        fulfillment_updated_at: '2020-05-16T14:18:35.411Z'
       } satisfies Order
     }
   )
@@ -54,7 +61,9 @@ export const OrderTimeline = withSkeletonTemplate<{
 
   return (
     <Timeline
-      isLoading={isExternalLoading === true || isLoading}
+      isLoading={
+        isExternalLoading === true || isLoading || order.id === fakeOrderId
+      }
       events={events}
       timezone={user?.timezone}
       onKeyDown={(event) => {
@@ -87,6 +96,7 @@ export const OrderTimeline = withSkeletonTemplate<{
               attachable: { type: 'orders', id: order.id }
             })
             .then((attachment) => {
+              void mutateOrder()
               attachmentOption?.onMessage?.(attachment)
             })
 
@@ -99,16 +109,23 @@ export const OrderTimeline = withSkeletonTemplate<{
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useTimelineReducer = (order: Order) => {
+  const [orderId, setOrderId] = useState<string>(order.id)
+
   const [events, dispatch] = useReducer<
     Reducer<
       TimelineEvent[],
-      {
-        type: 'add'
-        payload: TimelineEvent
-      }
+      | {
+          type: 'add'
+          payload: TimelineEvent
+        }
+      | {
+          type: 'clear'
+        }
     >
   >((state, action) => {
     switch (action.type) {
+      case 'clear':
+        return []
       case 'add':
         if (state.find((s) => s.date === action.payload.date) != null) {
           return state
@@ -119,6 +136,16 @@ const useTimelineReducer = (order: Order) => {
         return state
     }
   }, [])
+
+  useEffect(
+    function clearState() {
+      if (order.id !== orderId) {
+        dispatch({ type: 'clear' })
+        setOrderId(order.id)
+      }
+    },
+    [order.id]
+  )
 
   useEffect(
     function addPlaced() {
