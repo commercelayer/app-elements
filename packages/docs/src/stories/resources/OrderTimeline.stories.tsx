@@ -30,3 +30,11 @@ Default.args = {
     referenceOrigin: 'app-shipments--note'
   }
 }
+
+export const NoOrderId = Template.bind({})
+NoOrderId.args = {
+  isLoading: false,
+  attachmentOption: {
+    referenceOrigin: 'app-shipments--note'
+  }
+}
