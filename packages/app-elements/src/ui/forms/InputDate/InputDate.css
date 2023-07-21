@@ -1,3 +1,7 @@
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
 .react-datepicker {
   font-family: inherit;
   border-color: #e6e7e7;
