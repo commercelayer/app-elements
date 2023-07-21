@@ -3,6 +3,7 @@ import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Text } from '#ui/atoms/Text'
 import { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 import type { Attachment, Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
@@ -311,6 +312,111 @@ const useTimelineReducer = (order: Order) => {
     function addShipments() {
       order.shipments?.forEach((shipment) => {
         dispatchAttachments(shipment.attachments)
+
+        if (
+          'on_hold_at' in shipment &&
+          typeof shipment.on_hold_at === 'string'
+        ) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: shipment.on_hold_at,
+              message: (
+                <>
+                  Shipment{' '}
+                  <Text variant='info' size='small' weight='semibold'>
+                    #{shipment.number}
+                  </Text>{' '}
+                  is on hold
+                </>
+              )
+            }
+          })
+        }
+
+        if (
+          'picking_at' in shipment &&
+          typeof shipment.picking_at === 'string'
+        ) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: shipment.picking_at,
+              message: (
+                <>
+                  Shipment{' '}
+                  <Text variant='info' size='small' weight='semibold'>
+                    #{shipment.number}
+                  </Text>{' '}
+                  start picking
+                </>
+              )
+            }
+          })
+        }
+
+        if (
+          'packing_at' in shipment &&
+          typeof shipment.packing_at === 'string'
+        ) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: shipment.packing_at,
+              message: (
+                <>
+                  Shipment{' '}
+                  <Text variant='info' size='small' weight='semibold'>
+                    #{shipment.number}
+                  </Text>{' '}
+                  start packing
+                </>
+              )
+            }
+          })
+        }
+
+        if (
+          'ready_to_ship_at' in shipment &&
+          typeof shipment.ready_to_ship_at === 'string'
+        ) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: shipment.ready_to_ship_at,
+              message: (
+                <>
+                  Shipment{' '}
+                  <Text variant='info' size='small' weight='semibold'>
+                    #{shipment.number}
+                  </Text>{' '}
+                  is ready to be shipped
+                </>
+              )
+            }
+          })
+        }
+
+        if (
+          'shipped_at' in shipment &&
+          typeof shipment.shipped_at === 'string'
+        ) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: shipment.shipped_at,
+              message: (
+                <>
+                  Shipment{' '}
+                  <Text variant='info' size='small' weight='semibold'>
+                    #{shipment.number}
+                  </Text>{' '}
+                  has been shipped
+                </>
+              )
+            }
+          })
+        }
       })
     },
     [order.shipments]
