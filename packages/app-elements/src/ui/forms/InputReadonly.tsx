@@ -45,7 +45,7 @@ function InputReadonly({
       <div className='relative select-none'>
         <input
           className={cn(
-            'block w-full bg-gray-50 px-4 h-10 text-teal font-bold',
+            'block w-full bg-gray-50 px-4 h-10 text-teal font-bold border-none',
             'rounded outline-0',
             inputClassName
           )}
