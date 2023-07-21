@@ -6,7 +6,13 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 import type { Attachment, Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
-import { useEffect, useReducer, useState, type Reducer } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useReducer,
+  useState,
+  type Reducer
+} from 'react'
 
 export const OrderTimeline = withSkeletonTemplate<{
   orderId?: string
@@ -32,6 +38,7 @@ export const OrderTimeline = withSkeletonTemplate<{
           {
             include: [
               'shipments',
+              'shipments.attachments',
               'transactions',
               'payment_method',
               'payment_source',
@@ -154,7 +161,7 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.placed_at,
-            message: 'Placed'
+            message: 'Order placed'
           }
         })
       }
@@ -169,7 +176,7 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.cancelled_at,
-            message: 'Cancelled'
+            message: 'Order cancelled'
           }
         })
       }
@@ -184,12 +191,27 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.archived_at,
-            message: 'Archived'
+            message: 'Order archived'
           }
         })
       }
     },
     [order.archived_at]
+  )
+
+  useEffect(
+    function addApproved() {
+      if (order.approved_at != null) {
+        dispatch({
+          type: 'add',
+          payload: {
+            date: order.approved_at,
+            message: 'Order approved'
+          }
+        })
+      }
+    },
+    [order.approved_at]
   )
 
   useEffect(
@@ -244,10 +266,10 @@ const useTimelineReducer = (order: Order) => {
     [order.transactions]
   )
 
-  useEffect(
-    function addAttachments() {
-      if (order.attachments != null) {
-        order.attachments.forEach((attachment) => {
+  const dispatchAttachments = useCallback(
+    (attachments?: Attachment[] | null | undefined) => {
+      if (attachments != null) {
+        attachments.forEach((attachment) => {
           if (
             isAttachmentValidNote(attachment, [
               referenceOrigins.appOrdersNote,
@@ -275,22 +297,23 @@ const useTimelineReducer = (order: Order) => {
         })
       }
     },
+    []
+  )
+
+  useEffect(
+    function addAttachments() {
+      dispatchAttachments(order.attachments)
+    },
     [order.attachments]
   )
 
   useEffect(
-    function addApproved() {
-      if (order.approved_at != null) {
-        dispatch({
-          type: 'add',
-          payload: {
-            date: order.approved_at,
-            message: 'Approved'
-          }
-        })
-      }
+    function addShipments() {
+      order.shipments?.forEach((shipment) => {
+        dispatchAttachments(shipment.attachments)
+      })
     },
-    [order.approved_at]
+    [order.shipments]
   )
 
   return [events, dispatch] as const
