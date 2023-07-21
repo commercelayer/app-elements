@@ -6,9 +6,7 @@ import { defineConfig } from 'vitest/config'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react({
-      jsxRuntime: 'classic'
-    }),
+    react(),
     dts({
       insertTypesEntry: true
     })
@@ -52,8 +50,8 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: [
       './react-testing-library.config.js',
-      './mocks/setup.ts',
-      './mocks/stubs.ts'
+      './src/mocks/setup.ts',
+      './src/mocks/stubs.ts'
     ],
     silent: true
   }

@@ -66,7 +66,7 @@ function createParcel({
     weight,
     parcel_line_items: lineItems.map(createParcelLineItems),
     package: createParcelPackage(pkg),
-    tracking_details: trackingDetails as unknown as string,
+    tracking_details: trackingDetails,
     tracking_number: trackingNumber,
     shipping_label_url: shippingLabelUrl
   }

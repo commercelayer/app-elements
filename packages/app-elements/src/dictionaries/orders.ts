@@ -253,6 +253,7 @@ export function getOrderStatusName(status: Order['status']): string {
     approved: 'Approved',
     cancelled: 'Cancelled',
     draft: 'Draft',
+    editing: 'Editing',
     pending: 'Pending',
     placed: 'Placed'
   }
