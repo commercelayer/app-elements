@@ -23,8 +23,11 @@ export function Checkbox({
   const isLoading = item.value === '' // is mock
   return (
     <SkeletonTemplate isLoading={isLoading} delayMs={0}>
-      <InputCheckbox onChange={onChange} checked={checked}>
-        <AvatarLetter text={item.label} />
+      <InputCheckbox
+        onChange={onChange}
+        checked={checked}
+        icon={<AvatarLetter text={item.label} />}
+      >
         <Text weight='semibold'>{item.label}</Text>
       </InputCheckbox>
     </SkeletonTemplate>
