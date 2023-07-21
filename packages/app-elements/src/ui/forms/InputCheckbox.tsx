@@ -4,7 +4,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { forwardRef, type ReactNode } from 'react'
+import { forwardRef } from 'react'
 
 export interface InputCheckboxProps
   extends Omit<InputWrapperBaseProps, 'label'>,
@@ -14,7 +14,7 @@ export interface InputCheckboxProps
    * Example: `<Avatar>`
    */
   icon?: JSX.Element
-  children?: ReactNode
+  children?: JSX.Element | string
 }
 
 export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
