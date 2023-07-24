@@ -17,13 +17,14 @@ import {
 
 export const OrderTimeline = withSkeletonTemplate<{
   orderId?: string
+  refresh?: boolean
   attachmentOption?: {
     onMessage?: (attachment: Attachment) => void
     referenceOrigin:
       | typeof referenceOrigins.appOrdersNote
       | typeof referenceOrigins.appShipmentsNote
   }
-}>(({ orderId, attachmentOption, isLoading: isExternalLoading }) => {
+}>(({ orderId, attachmentOption, refresh, isLoading: isExternalLoading }) => {
   const fakeOrderId = 'fake-NMWYhbGorj'
   const {
     data: order,
@@ -66,6 +67,15 @@ export const OrderTimeline = withSkeletonTemplate<{
   const [events] = useTimelineReducer(order)
   const { sdkClient } = useCoreSdkProvider()
   const { user } = useTokenProvider()
+
+  useEffect(
+    function refreshOrder() {
+      if (refresh === true) {
+        void mutateOrder()
+      }
+    },
+    [refresh]
+  )
 
   return (
     <Timeline
@@ -162,7 +172,11 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.placed_at,
-            message: 'Order placed'
+            message: (
+              <>
+                Order was <Text weight='bold'>placed</Text>
+              </>
+            )
           }
         })
       }
@@ -177,7 +191,11 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.cancelled_at,
-            message: 'Order cancelled'
+            message: (
+              <>
+                Order was <Text weight='bold'>cancelled</Text>
+              </>
+            )
           }
         })
       }
@@ -192,7 +210,11 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.archived_at,
-            message: 'Order archived'
+            message: (
+              <>
+                Order was <Text weight='bold'>archived</Text>
+              </>
+            )
           }
         })
       }
@@ -207,7 +229,11 @@ const useTimelineReducer = (order: Order) => {
           type: 'add',
           payload: {
             date: order.approved_at,
-            message: 'Order approved'
+            message: (
+              <>
+                Order was <Text weight='bold'>approved</Text>
+              </>
+            )
           }
         })
       }
@@ -221,11 +247,27 @@ const useTimelineReducer = (order: Order) => {
         order.fulfillment_updated_at != null &&
         order.fulfillment_status !== 'unfulfilled'
       ) {
-        const messages: Record<Order['fulfillment_status'], string> = {
-          fulfilled: 'Fulfilled',
-          in_progress: 'Fulfillment in progress',
-          not_required: 'Fulfillment not required',
-          unfulfilled: 'Unfulfilled'
+        const messages: Record<Order['fulfillment_status'], React.ReactNode> = {
+          fulfilled: (
+            <>
+              Order was <Text weight='bold'>fulfilled</Text>
+            </>
+          ),
+          in_progress: (
+            <>
+              Order fulfillment is <Text weight='bold'>in progress</Text>
+            </>
+          ),
+          not_required: (
+            <>
+              Order fulfillment is <Text weight='bold'>not required</Text>
+            </>
+          ),
+          unfulfilled: (
+            <>
+              Order is <Text weight='bold'>unfulfilled</Text>
+            </>
+          )
         }
 
         dispatch({
@@ -252,9 +294,17 @@ const useTimelineReducer = (order: Order) => {
             type: 'add',
             payload: {
               date: transaction.created_at,
-              message: isFailedCapture
-                ? `Failed capture`
-                : `Payment of ${transaction.formatted_amount} ${name}`,
+              message: isFailedCapture ? (
+                <>
+                  Payment capture of {transaction.formatted_amount}{' '}
+                  <Text weight='bold'>failed</Text>
+                </>
+              ) : (
+                <>
+                  Payment of {transaction.formatted_amount} was{' '}
+                  <Text weight='bold'>{name}</Text>
+                </>
+              ),
               note:
                 isFailedCapture && transaction.message != null
                   ? transaction.message
@@ -282,9 +332,9 @@ const useTimelineReducer = (order: Order) => {
               type: 'add',
               payload: {
                 date: attachment.updated_at,
+                author: attachment.name,
                 message: (
                   <span>
-                    <b>{attachment.name}</b>{' '}
                     {attachment.reference_origin ===
                     referenceOrigins.appOrdersRefundNote
                       ? 'left a refund note'
@@ -323,11 +373,8 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.on_hold_at,
               message: (
                 <>
-                  Shipment{' '}
-                  <Text variant='info' size='small' weight='semibold'>
-                    #{shipment.number}
-                  </Text>{' '}
-                  is on hold
+                  Shipment #{shipment.number} is on{' '}
+                  <Text weight='bold'>hold</Text>
                 </>
               )
             }
@@ -344,11 +391,8 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.picking_at,
               message: (
                 <>
-                  Shipment{' '}
-                  <Text variant='info' size='small' weight='semibold'>
-                    #{shipment.number}
-                  </Text>{' '}
-                  start picking
+                  Shipment #{shipment.number} was{' '}
+                  <Text weight='bold'>picked</Text>
                 </>
               )
             }
@@ -365,11 +409,8 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.packing_at,
               message: (
                 <>
-                  Shipment{' '}
-                  <Text variant='info' size='small' weight='semibold'>
-                    #{shipment.number}
-                  </Text>{' '}
-                  start packing
+                  Shipment #{shipment.number} is being{' '}
+                  <Text weight='bold'>packed</Text>
                 </>
               )
             }
@@ -386,11 +427,8 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.ready_to_ship_at,
               message: (
                 <>
-                  Shipment{' '}
-                  <Text variant='info' size='small' weight='semibold'>
-                    #{shipment.number}
-                  </Text>{' '}
-                  is ready to be shipped
+                  Shipment #{shipment.number} is{' '}
+                  <Text weight='bold'>ready for shipping</Text>
                 </>
               )
             }
@@ -407,11 +445,8 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.shipped_at,
               message: (
                 <>
-                  Shipment{' '}
-                  <Text variant='info' size='small' weight='semibold'>
-                    #{shipment.number}
-                  </Text>{' '}
-                  has been shipped
+                  Shipment #{shipment.number} was{' '}
+                  <Text weight='bold'>shipped</Text>
                 </>
               )
             }
