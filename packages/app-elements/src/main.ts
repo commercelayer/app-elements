@@ -11,6 +11,7 @@ export {
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { computeFullname, formatDisplayName } from '#helpers/name'
 export { formatResourceName } from '#helpers/resources'
+export { humanizeString } from '#helpers/string'
 export {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,

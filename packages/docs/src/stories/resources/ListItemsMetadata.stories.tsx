@@ -17,8 +17,8 @@ const Template: StoryFn<typeof ListItemsMetadata> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
   metadata: {
-    name: 'Michael',
-    surname: 'Jordan',
+    first_name: 'Michael',
+    last_name: 'Jordan',
     country: 'U.S.A.',
     age: 60,
     specs: { teams: ['Chicago Bulls', 'Washington Wizards'] }
