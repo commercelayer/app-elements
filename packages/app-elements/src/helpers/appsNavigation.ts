@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty'
 
 const currentVersion = 0.2
 
-interface BackToItem {
+export interface BackToItem {
   /**
    * URL to be stored in sessionStorage, it will be the current URL so it can be used to navigate back.
    */
