@@ -15,10 +15,13 @@ import isEmpty from 'lodash/isEmpty'
 interface Props {
   order: Order
   tag?: 'a' | 'div'
+  onClick?: (
+    e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+  ) => void
 }
 
 export const ListItemOrder = withSkeletonTemplate<Props>(
-  ({ order, tag = 'div', isLoading, delayMs, ...rest }) => {
+  ({ order, tag = 'div', isLoading, delayMs, onClick, ...rest }) => {
     const { user } = useTokenProvider()
     const displayStatus = getOrderDisplayStatus(order)
     const billingAddress = order.billing_address
@@ -34,6 +37,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
           />
         }
         data-test-id='ListItemOrder'
+        onClick={onClick}
         {...rest}
       >
         <div>

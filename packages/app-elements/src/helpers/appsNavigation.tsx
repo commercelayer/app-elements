@@ -142,13 +142,17 @@ export function navigateToDetail({
   }
 }): {
   href: string
-  onClick: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void
+  onClick: (
+    e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+  ) => void
 } {
   const destinationFullUrl = `${window.location.origin}/${destination.app}/list/${destination.resourceId}`
 
   return {
     href: destinationFullUrl,
-    onClick: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+    onClick: (
+      e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+    ) => {
       e.preventDefault()
       setPersistentItem({ destination: destinationFullUrl })
       if (urlIsForSameApp(destinationFullUrl) && setLocation != null) {
