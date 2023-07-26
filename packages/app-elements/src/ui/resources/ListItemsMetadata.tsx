@@ -1,6 +1,7 @@
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/lists/ListItem'
+import { humanizeString } from '#utils/text'
 import type { Metadata } from '@commercelayer/sdk/lib/cjs/resource'
 
 const ListItemsMetadata = withSkeletonTemplate<{
@@ -19,9 +20,7 @@ const ListItemsMetadata = withSkeletonTemplate<{
             key={idx}
             data-test-id={`ListItemsMetadata-item-${metadataKey}`}
           >
-            <Text variant='info' className='capitalize'>
-              {metadataKey}
-            </Text>
+            <Text variant='info'>{humanizeString(metadataKey)}</Text>
             <Text
               weight='semibold'
               data-test-id={`ListItemsMetadata-value-${metadataKey}`}

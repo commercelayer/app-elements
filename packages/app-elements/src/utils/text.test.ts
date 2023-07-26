@@ -1,4 +1,4 @@
-import { getDeterministicValue, getInitials } from './text'
+import { getDeterministicValue, getInitials, humanizeString } from './text'
 
 describe('getDeterministicValue', () => {
   it('should return the same value for the same text', () => {
@@ -27,5 +27,11 @@ describe('getInitials', () => {
 
   it('should ignore extra parts', () => {
     expect(getInitials('The Beatles Tribute Band')).toBe('TB')
+  })
+})
+
+describe('humanizeString', () => {
+  it('should return humanized string', () => {
+    expect(humanizeString('--First_Name')).toBe('First name')
   })
 })
