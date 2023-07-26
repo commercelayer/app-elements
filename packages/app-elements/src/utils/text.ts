@@ -1,3 +1,6 @@
+import capitalize from 'lodash/capitalize'
+import startCase from 'lodash/startCase'
+
 /**
  * Given a `text` and a list of `values` it returns always the same value given the same `text`.
  * For example this is used when you need to map a fullname with a color.
@@ -22,4 +25,12 @@ export function getInitials(text: string): string {
   }
 
   return textParts[0].slice(0, 2)
+}
+
+/**
+ * Humanize a given string by transforming first letter to be uppercase and by removing spaces and underscores.
+ * @example humanizeString('--First_Name') -> 'First name'
+ */
+export function humanizeString(str: string): string {
+  return capitalize(startCase(str))
 }
