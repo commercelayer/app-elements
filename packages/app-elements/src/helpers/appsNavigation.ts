@@ -153,6 +153,10 @@ export function navigateToDetail({
     onClick: (
       e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
     ) => {
+      if (e.ctrlKey || e.metaKey) {
+        // allow to open link in a new tab with ctrl+click or cmd+click
+        return
+      }
       e.preventDefault()
       setPersistentItem({ destination: destinationFullUrl })
       if (urlIsForSameApp(destinationFullUrl) && setLocation != null) {
