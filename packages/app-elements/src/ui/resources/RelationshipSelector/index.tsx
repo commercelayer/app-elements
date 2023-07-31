@@ -6,6 +6,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { type QueryParamsList } from '@commercelayer/sdk'
 import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import uniqBy from 'lodash/uniqBy'
 import { useEffect, useState } from 'react'
 import {
@@ -23,6 +24,14 @@ export interface RelationshipSelectorProps
    * @default 5
    */
   previewLimit?: number
+  /**
+   * SDK filter query to be applied when fetching the list of resources
+   */
+  filters?: QueryFilter
+  /**
+   * Hide the component when there is only one item.
+   */
+  hideWhenSingleItem?: boolean
 }
 
 function RelationshipSelector({
@@ -34,6 +43,8 @@ function RelationshipSelector({
   resource,
   searchBy,
   sortBy,
+  filters = {},
+  hideWhenSingleItem,
   title
 }: RelationshipSelectorProps): JSX.Element {
   const { Overlay, close, open } = useOverlayNavigation({
@@ -54,7 +65,8 @@ function RelationshipSelector({
     fieldForValue,
     fieldForLabel,
     sortBy,
-    selectedValues: selectedValuesForPreviews.slice(0, previewLimit)
+    selectedValues: selectedValuesForPreviews.slice(0, previewLimit),
+    filters
   })
 
   useEffect(
@@ -65,8 +77,11 @@ function RelationshipSelector({
   )
 
   const isEmptyList = !isLoading && list.length === 0
-  const isOnlyOneItem = totalCount === 1 && defaultValues.length === 0
-  if (isEmptyList || isOnlyOneItem) {
+  const isHidden =
+    hideWhenSingleItem === true &&
+    totalCount === 1 &&
+    defaultValues.length === 0
+  if (isEmptyList || isHidden) {
     return <></>
   }
 
@@ -153,7 +168,8 @@ function useList({
   fieldForValue,
   fieldForLabel,
   sortBy,
-  selectedValues
+  selectedValues,
+  filters
 }: {
   resource: ListableResourceType
   limit: number
@@ -161,6 +177,7 @@ function useList({
   fieldForLabel: string
   sortBy: SortBy
   selectedValues: string[]
+  filters: QueryFilter
 }): {
   list: CheckboxItem[]
   totalCount?: number
@@ -171,14 +188,18 @@ function useList({
     pageSize: limit,
     sort: {
       [sortBy.attribute]: sortBy.direction
-    }
+    },
+    filters
   }
 
   const filtersSelected: QueryParamsList =
     selectedValues.length === 0
-      ? {}
+      ? {
+          filters
+        }
       : {
           filters: {
+            ...filters,
             [`${fieldForValue}_in`]: selectedValues.join(',')
           }
         }
