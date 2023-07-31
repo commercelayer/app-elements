@@ -1,8 +1,9 @@
 import { X } from '@phosphor-icons/react'
 import {
-  type DropdownIndicatorProps,
+  components,
   type ClearIndicatorProps,
-  components
+  type DropdownIndicatorProps,
+  type MultiValueRemoveProps
 } from 'react-select'
 import { type SelectValue } from '.'
 
@@ -44,10 +45,23 @@ function ClearIndicator(props: ClearIndicatorProps<SelectValue>): JSX.Element {
   )
 }
 
+function MultiValueRemove(
+  props: MultiValueRemoveProps<SelectValue>
+): JSX.Element {
+  return (
+    <components.MultiValueRemove {...props}>
+      <button type='button' className='cursor-pointer'>
+        <X weight='bold' />
+      </button>
+    </components.MultiValueRemove>
+  )
+}
+
 const selectComponentOverrides = {
   DropdownIndicator,
   IndicatorSeparator: () => null,
-  ClearIndicator
+  ClearIndicator,
+  MultiValueRemove
 }
 
 export default selectComponentOverrides
