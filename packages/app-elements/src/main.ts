@@ -77,6 +77,7 @@ export { Spacer } from '#ui/atoms/Spacer'
 export { Stack } from '#ui/atoms/Stack'
 export { StatusDot } from '#ui/atoms/StatusDot'
 export { Tab, Tabs } from '#ui/atoms/Tabs'
+export { Tag } from '#ui/atoms/Tag'
 export { Text } from '#ui/atoms/Text'
 export {
   DropdownMenu,
