@@ -44,6 +44,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
   isDisabled?: boolean
   isSearchable?: boolean
   isMulti?: boolean
+  isOptionDisabled?: () => boolean
   onSelect: (value: PossibleSelectValue) => void
   onBlur?: FocusEventHandler<HTMLInputElement>
   name?: string
@@ -75,6 +76,7 @@ function InputSelect({
   loadingText = 'Loading...',
   placeholder,
   isDisabled,
+  isOptionDisabled,
   isSearchable,
   onSelect,
   isMulti,
@@ -112,6 +114,7 @@ function InputSelect({
             loadAsyncValues={loadAsyncValues}
             styles={getSelectStyles(feedback?.variant)}
             debounceMs={debounceMs}
+            isOptionDisabled={isOptionDisabled}
           />
         </Suspense>
       ) : (
@@ -126,6 +129,7 @@ function InputSelect({
             isSearchable={isSearchable}
             onSelect={onSelect}
             isMulti={isMulti}
+            isOptionDisabled={isOptionDisabled}
             onBlur={onBlur}
             name={name}
             styles={getSelectStyles(feedback?.variant)}
