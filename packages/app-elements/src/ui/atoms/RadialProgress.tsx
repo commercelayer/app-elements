@@ -8,19 +8,22 @@ interface RadialProgressProps extends SVGAttributes<SVGElement> {
    */
   percentage?: number
   /**
-   * Size in pixels, default is 42
+   * Size variant to match `Icon` dimension.
+   * When missing, default size is 42px, small is 24px
+   * @default 'large'
    */
-  size?: number
+  size?: 'small' | 'large'
 }
 
 function RadialProgress({
   percentage,
   className,
-  size = 42,
+  size = 'large',
   ...rest
 }: RadialProgressProps): JSX.Element {
-  const viewBox = `0 0 ${size * 2} ${size * 2}`
-  const circumference = size * 2 * Math.PI
+  const sizePixels = size === 'small' ? 24 : 42
+  const viewBox = `0 0 ${sizePixels * 2} ${sizePixels * 2}`
+  const circumference = sizePixels * 2 * Math.PI
   const emptyOffset =
     circumference - (parsePercentageRange(percentage) / 100) * circumference
 
@@ -30,17 +33,17 @@ function RadialProgress({
       viewBox={viewBox}
       xmlns='http://www.w3.org/2000/svg'
       className={cn('transform -rotate-90 rounded-full', className)}
-      width={size}
-      height={size}
+      width={sizePixels}
+      height={sizePixels}
       {...rest}
     >
       {percentage == null ? (
         // pending
         <circle
           data-test-id='radial-progress-pending'
-          cx={size}
-          cy={size}
-          r={size}
+          cx={sizePixels}
+          cy={sizePixels}
+          r={sizePixels}
           className='text-gray-500'
           stroke='currentColor'
           strokeWidth='4'
@@ -52,9 +55,9 @@ function RadialProgress({
         <>
           <circle
             data-test-id='radial-progress-base'
-            cx={size}
-            cy={size}
-            r={size}
+            cx={sizePixels}
+            cy={sizePixels}
+            r={sizePixels}
             className='text-gray-100'
             stroke='currentColor'
             strokeWidth='12'
@@ -62,9 +65,9 @@ function RadialProgress({
           />
           <circle
             data-test-id='radial-progress-percentage'
-            cx={size}
-            cy={size}
-            r={size}
+            cx={sizePixels}
+            cy={sizePixels}
+            r={sizePixels}
             className='text-primary transition-all duration-500'
             stroke='currentColor'
             strokeWidth='12'
