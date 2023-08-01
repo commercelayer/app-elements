@@ -95,6 +95,7 @@ const iconMapping = {
   minus: phosphor.Minus,
   package: phosphor.Package,
   printer: phosphor.Printer,
+  shoppingBag: phosphor.ShoppingBag,
   stack: phosphor.Stack,
   upload: phosphor.Upload,
   user: phosphor.User,
