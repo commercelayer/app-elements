@@ -86,7 +86,7 @@ const Overlay: React.FC<OverlayProps> = ({
               ref={overlayButton}
               className={cn([
                 'w-full pt-14',
-                { 'sticky bottom-0 left-0': stickyButton }
+                { 'sticky bottom-0': stickyButton }
               ])}
             >
               <Container
