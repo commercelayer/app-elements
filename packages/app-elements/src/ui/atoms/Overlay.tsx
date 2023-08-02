@@ -30,8 +30,10 @@ const Overlay: React.FC<OverlayProps> = ({
   ...rest
 }) => {
   const hasButton = button !== 'none'
+  const [stickyButton, setStickyButton] = useState(false)
   const element = useRef<HTMLDivElement | null>(null)
-  const [scrollbarWidth, setScrollbarWidth] = useState(0)
+  const overlayContent = useRef<HTMLDivElement | null>(null)
+  const overlayButton = useRef<HTMLDivElement | null>(null)
 
   useEffect(function preventBodyScrollbar() {
     document.body.classList.add('overflow-hidden')
@@ -51,11 +53,17 @@ const Overlay: React.FC<OverlayProps> = ({
     [element]
   )
 
-  const applyInnerScrollbarDiff = useCallback(() => {
+  const updateButtonPosition = useCallback(() => {
     if (hasButton) {
-      const current = element?.current
-      if (current != null) {
-        setScrollbarWidth(window.innerWidth - current.clientWidth)
+      const content = overlayContent?.current
+      const button = overlayButton?.current
+      if (content != null && button != null) {
+        if (
+          Number(content?.clientHeight) + Number(button?.clientHeight) >
+          Number(window.visualViewport?.height)
+        ) {
+          setStickyButton(true)
+        }
       }
     }
   }, [element])
@@ -69,40 +77,42 @@ const Overlay: React.FC<OverlayProps> = ({
       data-test-id='overlay'
       {...rest}
     >
-      <Container
-        className={cn('pt-5', {
-          'pb-20': hasButton
-        })}
-      >
-        <div>{children}</div>
-      </Container>
-      {hasButton && (
-        <>
-          <div
-            className='fixed bottom-0 left-0'
-            style={{
-              right: scrollbarWidth
-            }}
-          >
-            <Container
-              minHeight={false}
-              className='bg-white pb-4'
-              data-test-id='overlay-buttonContainer'
+      <Container className={cn('pt-5')}>
+        <div ref={overlayContent}>{children}</div>
+
+        {hasButton && (
+          <>
+            <div
+              ref={overlayButton}
+              className={cn([
+                'w-full pt-14',
+                { 'sticky bottom-0 left-0': stickyButton }
+              ])}
             >
-              {/* eslint-disable-next-line react/jsx-handler-names */}
-              <Button type='button' onClick={button.onClick} className='w-full'>
-                {button.label}
-              </Button>
-            </Container>
-          </div>
-          <VisibilityTrigger
-            enabled
-            callback={() => {
-              applyInnerScrollbarDiff()
-            }}
-          />
-        </>
-      )}
+              <Container
+                minHeight={false}
+                className='bg-white pb-4'
+                data-test-id='overlay-buttonContainer'
+              >
+                {/* eslint-disable react/jsx-handler-names */}
+                <Button
+                  type='button'
+                  onClick={button.onClick}
+                  className='w-full'
+                >
+                  {button.label}
+                </Button>
+              </Container>
+            </div>
+            <VisibilityTrigger
+              enabled
+              callback={() => {
+                updateButtonPosition()
+              }}
+            />
+          </>
+        )}
+      </Container>
     </div>,
     document.body
   )
