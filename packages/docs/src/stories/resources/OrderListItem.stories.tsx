@@ -10,6 +10,15 @@ const setup: Meta<typeof ListItemOrder> = {
 }
 export default setup
 
+const market = {
+  type: 'markets',
+  id: '',
+  name: 'Europe',
+  created_at: '',
+  updated_at: '',
+  shared_secret: ''
+} as const
+
 const Template: StoryFn<typeof ListItemOrder> = (args) => (
   <ListItemOrder {...args} />
 )
@@ -27,6 +36,7 @@ AwaitingApproval.args = {
     number: 123456,
     payment_status: 'authorized',
     status: 'placed',
+    market,
     billing_address: {
       first_name: 'Bruce',
       last_name: 'Wayne',
@@ -56,6 +66,7 @@ Fulfilled.args = {
     payment_status: 'paid',
     fulfillment_status: 'fulfilled',
     formatted_total_amount: '$272.00',
+    market,
     billing_address: {
       first_name: 'Ringo',
       last_name: 'Starr',
@@ -70,5 +81,22 @@ Fulfilled.args = {
       city: '',
       country_code: ''
     }
+  }
+}
+
+export const Pending = Template.bind({})
+Pending.args = {
+  isLoading: false,
+  order: {
+    type: 'orders',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: 30817130,
+    status: 'pending',
+    payment_status: 'unpaid',
+    fulfillment_status: 'unfulfilled',
+    formatted_total_amount: '$272.00',
+    market
   }
 }

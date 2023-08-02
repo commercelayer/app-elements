@@ -11,6 +11,7 @@ import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/lists/ListItem'
 import type { Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
+import { useMemo } from 'react'
 
 interface Props {
   order: Order
@@ -25,6 +26,17 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
     const { user } = useTokenProvider()
     const displayStatus = getOrderDisplayStatus(order)
     const billingAddress = order.billing_address
+
+    const name = useMemo<string>(
+      () =>
+        !isEmpty(billingAddress?.company)
+          ? billingAddress?.company ?? ''
+          : formatDisplayName(
+              billingAddress?.first_name ?? '',
+              billingAddress?.last_name ?? ''
+            ),
+      [billingAddress]
+    )
 
     return (
       <ListItem
@@ -56,13 +68,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
               isoDate: order.updated_at,
               timezone: user?.timezone
             })}
-            {' · '}
-            {!isEmpty(billingAddress?.company)
-              ? billingAddress?.company
-              : formatDisplayName(
-                  billingAddress?.first_name ?? '',
-                  billingAddress?.last_name ?? ''
-                )}
+            {!isEmpty(name) ? ` · ${name}` : ''}
             {' · '}
             {displayStatus.task != null ? (
               <Text weight='semibold' size='small' variant='warning'>

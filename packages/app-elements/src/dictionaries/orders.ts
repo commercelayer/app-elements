@@ -224,6 +224,33 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         triggerAttributes: ['_cancel']
       }
 
+    case 'pending:unpaid:unfulfilled':
+      return {
+        status: 'error',
+        label: 'Pending',
+        icon: 'shoppingBag',
+        color: 'white',
+        triggerAttributes: []
+      }
+
+    case 'pending:authorized:unfulfilled':
+      return {
+        status: 'error',
+        label: 'Pending',
+        icon: 'shoppingBag',
+        color: 'white',
+        triggerAttributes: []
+      }
+
+    case 'pending:free:unfulfilled':
+      return {
+        status: 'error',
+        label: 'Pending',
+        icon: 'shoppingBag',
+        color: 'white',
+        triggerAttributes: []
+      }
+
     default:
       return {
         status: 'not_handled',
