@@ -204,14 +204,12 @@ describe('extractEnforcedValues', () => {
     })
   })
   test('should return empty object if no enforced values', () => {
-    const instructionsWithoutRestrictToOptions = instructions.filter(
+    const instructionsWithoutDefaultOptions = instructions.filter(
       (item) =>
-        !(
-          'restrictToOptions' in item.sdk && item.sdk.restrictToOptions === true
-        )
+        !('defaultOptions' in item.sdk && item.sdk.defaultOptions != null)
     )
     expect(
-      extractEnforcedValues(instructionsWithoutRestrictToOptions)
+      extractEnforcedValues(instructionsWithoutDefaultOptions)
     ).toStrictEqual({})
   })
 })

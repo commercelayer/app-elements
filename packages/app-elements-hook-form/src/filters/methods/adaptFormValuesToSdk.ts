@@ -131,23 +131,25 @@ export function adaptFormValuesToSdk<
 export function extractEnforcedValues(
   instructions: FiltersInstructions
 ): QueryFilter {
-  return instructions
+  const instructionsWithDefaultOptions = instructions
     .filter(isItemOptions)
-    .filter((item) => item.sdk.restrictToOptions === true)
-    .reduce<QueryFilter>((acc, item) => {
-      if (
-        !('options' in item.render.props) ||
-        ('options' in item.render.props && item.render.props.options == null)
-      ) {
-        return acc
-      }
-      return {
-        ...acc,
-        [item.sdk.predicate]: item.render.props.options
-          .map((option) => option.value)
-          .join(',')
-      }
-    }, {})
+    .filter(
+      (item) =>
+        item.sdk.defaultOptions != null && item.sdk.defaultOptions.length > 0
+    )
+  return instructionsWithDefaultOptions.reduce<QueryFilter>((acc, item) => {
+    if (
+      item.sdk.defaultOptions == null ||
+      item.sdk.defaultOptions.length === 0
+    ) {
+      return acc
+    }
+
+    return {
+      ...acc,
+      [item.sdk.predicate]: item.sdk.defaultOptions.join(',')
+    }
+  }, {})
 }
 
 /**

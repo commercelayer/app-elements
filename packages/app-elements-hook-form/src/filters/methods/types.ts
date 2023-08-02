@@ -59,11 +59,11 @@ export interface BaseFilterItem {
      */
     predicate: string
     /**
-     * Restrict the sdk query to the options provides when this filter is not selected.
-     * Example, you have no `status_in` selected in UI, but if this option is `true`, the query will always contain
-     * a `status_in` predicate with all the possible filtrable statuses
+     * Set the default options to use in the query when this filter is not selected.
+     * Example, you have no `status_in` selected in UI, but if this option is `['placed', 'approved']`, the query will always contain
+     * a `status_in` predicate with `placed` and `approved` statuses. This helps to avoid getting status we never want to see (eg: 'draft')
      */
-    restrictToOptions?: boolean
+    defaultOptions?: string[]
     /**
      * Custom function to transform the form value to the SDK value
      */
@@ -84,7 +84,11 @@ export type FilterItemOptions = BaseFilterItem & {
          */
         props: {
           mode: 'multi' | 'single'
-          options: Array<{ label: string; value: string }>
+          /**
+           * an option can be hidden from the UI but still be used in the query
+           * Example: we wont show the button to filter `pending` status in the UI, but we still want to accept it for a predefined list)
+           */
+          options: Array<{ label: string; value: string; isHidden?: boolean }>
         }
       }
     | {

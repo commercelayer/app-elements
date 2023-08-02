@@ -36,7 +36,9 @@ export function FieldItem({ item }: FieldProps): JSX.Element | null {
           }
           name={item.sdk.predicate}
           mode={item.render.props.mode}
-          options={item.render.props.options}
+          options={item.render.props.options.filter(
+            (opt) => opt.isHidden !== true
+          )}
         />
       )
 
