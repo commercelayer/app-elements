@@ -25,3 +25,9 @@ export const Pending = Template.bind({})
 Pending.args = {
   percentage: undefined
 }
+
+export const PendingSmall = Template.bind({})
+PendingSmall.args = {
+  percentage: undefined,
+  size: 'small'
+}
