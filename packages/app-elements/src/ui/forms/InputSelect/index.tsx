@@ -50,9 +50,17 @@ export interface InputSelectProps extends InputWrapperBaseProps {
   menuIsOpen?: boolean
   noOptionsMessage?: string
   className?: string
+  /**
+   * Function to load async values on search
+   */
   loadAsyncValues?: (
     inputValue: string
   ) => Promise<GroupedSelectValues | SelectValue[]>
+  /**
+   * Debounce time in milliseconds for async search
+   * Only works when `loadAsyncValues` is provided
+   */
+  debounceMs?: number
 }
 
 function InputSelect({
@@ -74,6 +82,7 @@ function InputSelect({
   name,
   className,
   loadAsyncValues,
+  debounceMs,
   noOptionsMessage = 'No results found',
   ...rest
 }: InputSelectProps): JSX.Element {
@@ -102,6 +111,7 @@ function InputSelect({
             noOptionsMessage={noOptionsMessage}
             loadAsyncValues={loadAsyncValues}
             styles={getSelectStyles(feedback?.variant)}
+            debounceMs={debounceMs}
           />
         </Suspense>
       ) : (

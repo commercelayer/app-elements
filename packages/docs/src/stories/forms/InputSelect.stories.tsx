@@ -66,6 +66,7 @@ Async.args = {
   placeholder: 'Type to search async...',
   isSearchable: true,
   isClearable: false,
+  debounceMs: 200,
   loadAsyncValues: async (hint) => {
     return await new Promise<SelectValue[]>((resolve) => {
       setTimeout(() => {
