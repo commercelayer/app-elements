@@ -84,7 +84,7 @@ const ListItem: FC<ListItemProps> = ({
           'items-end': alignIcon === 'bottom'
         })}
       >
-        {icon != null && <div className='flex-shrink-0'>{icon}</div>}
+        {icon != null && <div className='flex-shrink-0 mt-[2px]'>{icon}</div>}
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
     </JsxTag>
