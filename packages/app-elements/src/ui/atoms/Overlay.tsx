@@ -57,10 +57,10 @@ const Overlay: React.FC<OverlayProps> = ({
     if (hasButton) {
       const content = overlayContent?.current
       const button = overlayButton?.current
-      if (content != null && button != null) {
+      if (content != null && button != null && window.visualViewport != null) {
         if (
-          Number(content?.clientHeight) + Number(button?.clientHeight) >
-          Number(window.visualViewport?.height)
+          Number(content.clientHeight) + Number(button.clientHeight) >
+          Number(window.visualViewport.height)
         ) {
           setStickyButton(true)
         }
