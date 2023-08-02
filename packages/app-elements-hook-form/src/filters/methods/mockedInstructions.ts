@@ -24,13 +24,14 @@ export const instructions: FiltersInstructions = [
     type: 'options',
     sdk: {
       predicate: 'status_in',
-      restrictToOptions: true
+      defaultOptions: ['placed', 'approved', 'cancelled']
     },
     render: {
       component: 'toggleButtons',
       props: {
         mode: 'multi',
         options: [
+          { value: 'pending', label: 'Pending' },
           { value: 'placed', label: 'Places' },
           { value: 'approved', label: 'Approved' },
           { value: 'cancelled', label: 'Cancelled' }
