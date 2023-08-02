@@ -66,7 +66,7 @@ const Overlay: React.FC<OverlayProps> = ({
         }
       }
     }
-  }, [element])
+  }, [hasButton, overlayContent, overlayButton])
 
   return createPortal(
     <div
