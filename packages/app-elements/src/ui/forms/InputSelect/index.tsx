@@ -152,6 +152,17 @@ export function isSingleValueSelected(
 }
 
 /**
+ * Helper function to understand and refine type of a set of selected values
+ * @param selectedValue possible value returned from select component
+ * @returns true if selected value is an array of selected values, from this point TypeScript will treat this as `SelectValue[]` type
+ */
+export function isMultiValueSelected(
+  selectedValue: PossibleSelectValue
+): selectedValue is SelectValue[] {
+  return selectedValue != null && Array.isArray(selectedValue)
+}
+
+/**
  * Type-guard to check if prop `initialValues` is a GroupedSelectValues or SelectValue
  */
 export function isGroupedSelectValues(

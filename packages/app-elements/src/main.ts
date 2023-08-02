@@ -113,6 +113,7 @@ export {
   flatSelectValues,
   getDefaultValueFromFlatten,
   isGroupedSelectValues,
+  isMultiValueSelected,
   isSingleValueSelected
 } from '#ui/forms/InputSelect'
 export type { SelectValue } from '#ui/forms/InputSelect'
@@ -135,6 +136,7 @@ export { OrderSummary } from '#ui/resources/OrderSummary'
 export { OrderTimeline } from '#ui/resources/OrderTimeline'
 export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
+export { ResourceTags } from '#ui/resources/ResourceTags'
 export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 // Tables
 export { Table } from '#ui/tables/Table'
