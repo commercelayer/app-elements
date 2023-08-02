@@ -16,7 +16,7 @@ function Stack({ children, ...props }: StackProps): JSX.Element {
   return (
     <div {...props} className='border-t border-b border-gray-100 py-6'>
       <div className='flex'>
-        {Children.map(children, (child) => renderChild(child))}
+        {Children.map(children, (child) => child != null && renderChild(child))}
       </div>
     </div>
   )
