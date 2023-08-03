@@ -49,16 +49,25 @@ export async function isValidTokenForCurrentApp({
   accessToken,
   kind,
   domain,
-  isProduction
+  isProduction,
+  currentMode
 }: {
   accessToken: string
   kind: TokenProviderTokenApplicationKind
   domain: string
   isProduction: boolean
+  currentMode: Mode
 }): Promise<ValidToken | InvalidToken> {
   const jwtInfo = getInfoFromJwt(accessToken)
 
   if (jwtInfo.slug == null) {
+    return {
+      isValidToken: false
+    }
+  }
+
+  // this means we are trying to use a token for a different mode (live|test) the app is running on
+  if (jwtInfo.mode !== currentMode) {
     return {
       isValidToken: false
     }

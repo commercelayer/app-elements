@@ -177,7 +177,8 @@ export function TokenProvider({
           accessToken,
           kind,
           domain,
-          isProduction: !devMode
+          isProduction: !devMode,
+          currentMode: getCurrentMode({ accessToken })
         })
 
         if (!tokenInfo.isValidToken) {
