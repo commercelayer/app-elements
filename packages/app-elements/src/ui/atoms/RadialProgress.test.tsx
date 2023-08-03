@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react'
-import { RadialProgress } from './RadialProgress'
 import { expect } from 'vitest'
+import { RadialProgress } from './RadialProgress'
 
 function getFilledPercentage(circle: HTMLElement): number {
   const circumference = circle.getAttribute('stroke-dasharray')
@@ -13,6 +13,13 @@ describe('RadialProgress', () => {
     const { queryByTestId } = render(<RadialProgress percentage={undefined} />)
     expect(queryByTestId('radial-progress-pending')).toBeInTheDocument()
     expect(queryByTestId('radial-progress-percentage')).not.toBeInTheDocument()
+  })
+
+  test('Should render an icon', () => {
+    const { queryByTestId } = render(
+      <RadialProgress percentage={undefined} icon='shoppingBag' />
+    )
+    expect(queryByTestId('radial-progress-icon')).toBeInTheDocument()
   })
 
   test('Should be rendered in progress 0%', () => {

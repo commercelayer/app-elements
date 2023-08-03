@@ -10,20 +10,7 @@ type UITriggerAttributes =
   | '_archive'
   | '_unarchive'
 
-type UIStatus =
-  | 'placed'
-  | 'approved'
-  | 'in_progress'
-  | 'paid'
-  | 'fulfilled'
-  | 'error'
-  | 'cancelled'
-  | 'refunded'
-  | 'part_refunded'
-  | 'not_handled'
-
 interface OrderDisplayStatus {
-  status: UIStatus
   label: string
   icon: IconProps['name']
   color: IconProps['background']
@@ -43,7 +30,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
   switch (combinedStatus) {
     case 'placed:authorized:unfulfilled':
       return {
-        status: 'placed',
         label: 'Placed',
         icon: 'arrowDown',
         color: 'orange',
@@ -53,7 +39,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'placed:authorized:not_required':
       return {
-        status: 'placed',
         label: 'Placed',
         icon: 'arrowDown',
         color: 'orange',
@@ -63,7 +48,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'placed:paid:unfulfilled':
       return {
-        status: 'placed',
         label: 'Placed',
         icon: 'arrowDown',
         color: 'orange',
@@ -73,7 +57,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'placed:free:unfulfilled':
       return {
-        status: 'placed',
         label: 'Placed',
         icon: 'arrowDown',
         color: 'orange',
@@ -83,7 +66,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'placed:free:not_required':
       return {
-        status: 'placed',
         label: 'Placed',
         icon: 'arrowDown',
         color: 'orange',
@@ -93,7 +75,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:authorized:unfulfilled':
       return {
-        status: 'approved',
         label: 'Approved',
         icon: 'creditCard',
         color: 'orange',
@@ -103,7 +84,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:authorized:not_required':
       return {
-        status: 'approved',
         label: 'Approved',
         icon: 'creditCard',
         color: 'orange',
@@ -113,7 +93,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:paid:in_progress':
       return {
-        status: 'paid',
         label: 'In progress',
         icon: 'arrowClockwise',
         color: 'orange',
@@ -123,7 +102,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:partially_refunded:in_progress':
       return {
-        status: 'part_refunded',
         label: 'In progress',
         icon: 'arrowClockwise',
         color: 'orange',
@@ -133,7 +111,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:authorized:in_progress':
       return {
-        status: 'in_progress',
         label: 'In progress (Manual)',
         icon: 'arrowClockwise',
         color: 'orange',
@@ -143,7 +120,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:paid:fulfilled':
       return {
-        status: 'fulfilled',
         label: 'Fulfilled',
         icon: 'check',
         color: 'green',
@@ -153,7 +129,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     // TODO: This could be a gift-card and what If i do return?
     case 'approved:free:fulfilled':
       return {
-        status: 'approved',
         label: 'Fulfilled',
         icon: 'check',
         color: 'green',
@@ -162,7 +137,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:paid:not_required':
       return {
-        status: 'approved',
         label: 'Approved',
         icon: 'check',
         color: 'green',
@@ -171,7 +145,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:free:not_required':
       return {
-        status: 'approved',
         label: 'Approved',
         icon: 'check',
         color: 'green',
@@ -180,7 +153,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:partially_refunded:fulfilled':
       return {
-        status: 'part_refunded',
         label: 'Part. refunded',
         icon: 'check',
         color: 'green',
@@ -189,7 +161,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'cancelled:voided:unfulfilled':
       return {
-        status: 'cancelled',
         label: 'Cancelled',
         icon: 'x',
         color: 'gray',
@@ -198,7 +169,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'cancelled:refunded:unfulfilled':
       return {
-        status: 'refunded',
         label: 'Cancelled',
         icon: 'x',
         color: 'gray',
@@ -207,7 +177,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'cancelled:refunded:fulfilled':
       return {
-        status: 'refunded',
         label: 'Cancelled',
         icon: 'x',
         color: 'gray',
@@ -216,7 +185,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'placed:unpaid:unfulfilled':
       return {
-        status: 'error',
         label: 'Placed',
         icon: 'x',
         color: 'red',
@@ -226,7 +194,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'pending:unpaid:unfulfilled':
       return {
-        status: 'error',
         label: 'Pending',
         icon: 'shoppingBag',
         color: 'white',
@@ -235,7 +202,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'pending:authorized:unfulfilled':
       return {
-        status: 'error',
         label: 'Pending',
         icon: 'shoppingBag',
         color: 'white',
@@ -244,7 +210,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'pending:free:unfulfilled':
       return {
-        status: 'error',
         label: 'Pending',
         icon: 'shoppingBag',
         color: 'white',
@@ -253,7 +218,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     default:
       return {
-        status: 'not_handled',
         label: `Not handled: (${combinedStatus})`,
         icon: 'warning',
         color: 'white',
