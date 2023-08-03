@@ -64,7 +64,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
   debounceMs?: number
 }
 
-function InputSelect({
+export function InputSelect({
   label,
   hint,
   feedback,
@@ -242,4 +242,3 @@ export function getDefaultValueFromFlatten({
 }
 
 InputSelect.displayName = 'InputSelect'
-export { InputSelect }

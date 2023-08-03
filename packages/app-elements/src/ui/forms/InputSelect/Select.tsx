@@ -7,7 +7,7 @@ interface SelectComponentProps
   styles: StylesConfig<SelectValue>
 }
 
-function SelectComponent({
+export function SelectComponent({
   onSelect,
   noOptionsMessage,
   isOptionDisabled,
@@ -27,4 +27,3 @@ function SelectComponent({
 }
 
 SelectComponent.displayName = 'SelectComponent'
-export { SelectComponent }
