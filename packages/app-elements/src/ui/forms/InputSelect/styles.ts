@@ -55,12 +55,46 @@ export const getSelectStyles = (
   }),
   valueContainer: (style) => ({
     ...style,
-    padding: '0.625rem 1rem'
+    padding: '0.48rem 1rem',
+    gap: '0.5rem'
   }),
   singleValue: (style) => ({
     ...style,
     fontWeight: 500,
     fontSize: '1rem'
+  }),
+  multiValue: (style) => ({
+    ...style,
+    backgroundColor: 'white',
+    border: '1px solid #E6E7E7',
+    borderRadius: '5px',
+    margin: 0,
+    userSelect: 'none',
+    cursor: 'initial'
+  }),
+  multiValueLabel: (style) => ({
+    ...style,
+    paddingTop: '4px',
+    paddingBottom: '4.5px',
+    paddingLeft: '1rem',
+    fontWeight: '600'
+  }),
+  multiValueRemove: (style) => ({
+    ...style,
+    color: '#878888',
+    paddingRight: '0.5rem',
+    '&:hover': {
+      color: 'black',
+      backgroundColor: 'transparent'
+    },
+    '> button': {
+      borderRadius: '5px'
+    },
+    '> button:focus-within': {
+      color: 'black',
+      outline: 'none',
+      boxShadow: '0 0 0 2px #666EFF'
+    }
   }),
   control: (style) => {
     const feedbackStyle = getFeedbackCssInJs(feedbackVariant)
@@ -68,14 +102,15 @@ export const getSelectStyles = (
       ...style,
       ...feedbackStyle,
       borderWidth: 0,
-      minHeight: 'initial',
-      boxShadow: `0 0 0 1px ${feedbackStyle.borderColor}`,
+      boxShadow: 'inset 0 0 0 1px #E6E7E7',
+      minHeight: '46px',
+      // boxShadow: `inset 0 0 0 1px ${feedbackStyle.borderColor}`,
       borderRadius: 5,
       cursor: 'pointer',
-      '&:hover, &:focus-within': {
+      '&:focus-within': {
         // we enforce feedback color as hover style, otherwise default brand color will be used as border
         outline: 'none',
-        boxShadow: `0 0 0 2px ${
+        boxShadow: `inset 0 0 0 2px ${
           feedbackVariant != null ? feedbackStyle.borderColor : '#666EFF'
         }`
       }
@@ -100,5 +135,17 @@ export const getSelectStyles = (
   indicatorSeparator: (style) => ({
     ...style,
     opacity: 0
+  }),
+  dropdownIndicator: (style) => ({
+    ...style,
+    padding: '0 1rem',
+    '> button': {
+      borderRadius: '5px',
+      padding: '2px 0'
+    },
+    '> button:focus-within': {
+      outline: 'none',
+      boxShadow: '0 0 0 2px #666EFF'
+    }
   })
 })

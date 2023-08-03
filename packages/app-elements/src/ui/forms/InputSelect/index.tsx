@@ -44,6 +44,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
   isDisabled?: boolean
   isSearchable?: boolean
   isMulti?: boolean
+  isOptionDisabled?: () => boolean
   onSelect: (value: PossibleSelectValue) => void
   onBlur?: FocusEventHandler<HTMLInputElement>
   name?: string
@@ -63,7 +64,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
   debounceMs?: number
 }
 
-function InputSelect({
+export function InputSelect({
   label,
   hint,
   feedback,
@@ -75,6 +76,7 @@ function InputSelect({
   loadingText = 'Loading...',
   placeholder,
   isDisabled,
+  isOptionDisabled,
   isSearchable,
   onSelect,
   isMulti,
@@ -112,6 +114,7 @@ function InputSelect({
             loadAsyncValues={loadAsyncValues}
             styles={getSelectStyles(feedback?.variant)}
             debounceMs={debounceMs}
+            isOptionDisabled={isOptionDisabled}
           />
         </Suspense>
       ) : (
@@ -126,6 +129,7 @@ function InputSelect({
             isSearchable={isSearchable}
             onSelect={onSelect}
             isMulti={isMulti}
+            isOptionDisabled={isOptionDisabled}
             onBlur={onBlur}
             name={name}
             styles={getSelectStyles(feedback?.variant)}
@@ -145,6 +149,17 @@ export function isSingleValueSelected(
   selectedValue: PossibleSelectValue
 ): selectedValue is SelectValue {
   return selectedValue != null && !Array.isArray(selectedValue)
+}
+
+/**
+ * Helper function to understand and refine type of a set of selected values
+ * @param selectedValue possible value returned from select component
+ * @returns true if selected value is an array of selected values, from this point TypeScript will treat this as `SelectValue[]` type
+ */
+export function isMultiValueSelected(
+  selectedValue: PossibleSelectValue
+): selectedValue is SelectValue[] {
+  return selectedValue != null && Array.isArray(selectedValue)
 }
 
 /**
@@ -227,4 +242,3 @@ export function getDefaultValueFromFlatten({
 }
 
 InputSelect.displayName = 'InputSelect'
-export { InputSelect }

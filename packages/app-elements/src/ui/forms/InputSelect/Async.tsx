@@ -21,10 +21,11 @@ type ReactSelectLoadOptions = Exclude<
   undefined
 >
 
-function AsyncSelectComponent({
+export function AsyncSelectComponent({
   onSelect,
   noOptionsMessage,
   initialValues,
+  isOptionDisabled,
   loadAsyncValues,
   debounceMs = 500,
   ...rest
@@ -52,9 +53,9 @@ function AsyncSelectComponent({
       noOptionsMessage={() => noOptionsMessage}
       loadOptions={loadOptions}
       components={components}
+      isOptionDisabled={isOptionDisabled}
     />
   )
 }
 
 AsyncSelectComponent.displayName = 'AsyncSelectComponent'
-export { AsyncSelectComponent }

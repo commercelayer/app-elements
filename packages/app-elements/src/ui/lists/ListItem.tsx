@@ -1,4 +1,5 @@
 import { FlexRow, type FlexRowProps } from '#ui/internals/FlexRow'
+import { enforceAllowedTags, removeTagProp } from '#utils/htmltags'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useMemo, type FC } from 'react'
@@ -27,9 +28,6 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   borderStyle?: 'dashed' | 'solid' | 'none'
 }
 
-const allowedTags = ['a', 'div'] as const
-type AllowedTag = (typeof allowedTags)[number]
-
 export type ListItemProps = Props &
   (
     | ({
@@ -56,7 +54,15 @@ const ListItem: FC<ListItemProps> = ({
   borderStyle = 'solid',
   ...rest
 }) => {
-  const JsxTag = useMemo(() => enforceAllowedTags(rest.tag), [rest.tag])
+  const JsxTag = useMemo(
+    () =>
+      enforceAllowedTags({
+        tag: rest.tag,
+        allowedTags: ['a', 'div'],
+        defaultTag: 'div'
+      }),
+    [rest.tag]
+  )
   const hasHover =
     rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href))
 
@@ -89,19 +95,6 @@ const ListItem: FC<ListItemProps> = ({
       </div>
     </JsxTag>
   )
-}
-
-function enforceAllowedTags(
-  tag: AllowedTag
-): Extract<keyof JSX.IntrinsicElements, AllowedTag> {
-  return allowedTags.includes(tag) ? tag : 'div'
-}
-
-function removeTagProp<T extends object>(props: T): Omit<T, 'tag'> {
-  return {
-    ...props,
-    tag: undefined
-  }
 }
 
 ListItem.displayName = 'ListItem'

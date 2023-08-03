@@ -76,6 +76,15 @@ Async.args = {
   }
 }
 
+export const Multi = Template.bind({})
+Multi.args = {
+  initialValues: fullList,
+  placeholder: 'Type to filter list...',
+  isMulti: true,
+  isSearchable: true,
+  isClearable: false
+}
+
 const fakeSearch = (hint: string): SelectValue[] =>
   fullList.filter((item) =>
     item.label.toLowerCase().includes(hint.toLowerCase())
