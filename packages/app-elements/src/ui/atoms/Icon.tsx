@@ -41,8 +41,8 @@ function Icon({
   return (
     <div
       className={cn([
-        'inline-block',
-        'align-middle',
+        'flex',
+        'items-center',
         'w-fit',
         // padding
         { 'p-[10px]': gap === 'large' },
