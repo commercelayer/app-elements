@@ -26,6 +26,12 @@ Pending.args = {
   percentage: undefined
 }
 
+export const WithIcon = Template.bind({})
+WithIcon.args = {
+  percentage: undefined,
+  icon: 'shoppingBag'
+}
+
 export const PendingSmall = Template.bind({})
 PendingSmall.args = {
   percentage: undefined,

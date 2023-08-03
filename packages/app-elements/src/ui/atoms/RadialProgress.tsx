@@ -1,5 +1,6 @@
 import cn from 'classnames'
 import { type SVGAttributes } from 'react'
+import { Icon, type IconProps } from './Icon'
 
 interface RadialProgressProps extends SVGAttributes<SVGElement> {
   /**
@@ -13,12 +14,17 @@ interface RadialProgressProps extends SVGAttributes<SVGElement> {
    * @default 'large'
    */
   size?: 'small' | 'large'
+  /**
+   * Optional icon to be rendered in the center of the circle
+   */
+  icon?: IconProps['name']
 }
 
 function RadialProgress({
   percentage,
   className,
   size = 'large',
+  icon,
   ...rest
 }: RadialProgressProps): JSX.Element {
   const sizePixels = size === 'small' ? 24 : 42
@@ -28,56 +34,66 @@ function RadialProgress({
     circumference - (parsePercentageRange(percentage) / 100) * circumference
 
   return (
-    <svg
-      data-test-id='radial-progress'
-      viewBox={viewBox}
-      xmlns='http://www.w3.org/2000/svg'
-      className={cn('transform -rotate-90 rounded-full', className)}
-      width={sizePixels}
-      height={sizePixels}
-      {...rest}
-    >
-      {percentage == null ? (
-        // pending
-        <circle
-          data-test-id='radial-progress-pending'
-          cx={sizePixels}
-          cy={sizePixels}
-          r={sizePixels}
-          className='text-gray-500'
-          stroke='currentColor'
-          strokeWidth='4'
-          strokeDasharray='6'
-          fill='transparent'
+    <div className='relative'>
+      <svg
+        data-test-id='radial-progress'
+        viewBox={viewBox}
+        xmlns='http://www.w3.org/2000/svg'
+        className={cn('transform -rotate-90 rounded-full', className)}
+        width={sizePixels}
+        height={sizePixels}
+        {...rest}
+      >
+        {percentage == null ? (
+          // pending
+          <circle
+            data-test-id='radial-progress-pending'
+            cx={sizePixels}
+            cy={sizePixels}
+            r={sizePixels}
+            className='text-gray-500'
+            stroke='currentColor'
+            strokeWidth='4'
+            strokeDasharray='6'
+            fill='white'
+          />
+        ) : (
+          // progress
+          <>
+            <circle
+              data-test-id='radial-progress-base'
+              cx={sizePixels}
+              cy={sizePixels}
+              r={sizePixels}
+              className='text-gray-100'
+              stroke='currentColor'
+              strokeWidth='12'
+              fill='white'
+            />
+            <circle
+              data-test-id='radial-progress-percentage'
+              cx={sizePixels}
+              cy={sizePixels}
+              r={sizePixels}
+              className='text-primary transition-all duration-500'
+              stroke='currentColor'
+              strokeWidth='12'
+              fill='white'
+              strokeDasharray={circumference}
+              strokeDashoffset={emptyOffset} // this is the gray part, to not be filled (percentage left)
+            />
+          </>
+        )}
+      </svg>
+      {icon != null && (
+        <Icon
+          name={icon}
+          background='white'
+          className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+          data-test-id='radial-progress-icon'
         />
-      ) : (
-        // progress
-        <>
-          <circle
-            data-test-id='radial-progress-base'
-            cx={sizePixels}
-            cy={sizePixels}
-            r={sizePixels}
-            className='text-gray-100'
-            stroke='currentColor'
-            strokeWidth='12'
-            fill='transparent'
-          />
-          <circle
-            data-test-id='radial-progress-percentage'
-            cx={sizePixels}
-            cy={sizePixels}
-            r={sizePixels}
-            className='text-primary transition-all duration-500'
-            stroke='currentColor'
-            strokeWidth='12'
-            fill='transparent'
-            strokeDasharray={circumference}
-            strokeDashoffset={emptyOffset} // this is the gray part, to not be filled (percentage left)
-          />
-        </>
       )}
-    </svg>
+    </div>
   )
 }
 
