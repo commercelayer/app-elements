@@ -3,7 +3,7 @@ import { Overlay } from '#ui/atoms/Overlay'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Tag as TagUi } from '#ui/atoms/Tag'
 import { Text } from '#ui/atoms/Text'
-import { PageLayout } from '#ui/composite/PageLayout'
+import { OverlayLayout } from '#ui/composite/OverlayLayout'
 import {
   InputSelect,
   isMultiValueSelected,
@@ -140,7 +140,7 @@ export const ResourceTags = withSkeletonTemplate<{
             }
           }}
         >
-          <PageLayout
+          <OverlayLayout
             title={overlay.title}
             description={overlay.description}
             onGoBack={() => {
@@ -186,7 +186,7 @@ export const ResourceTags = withSkeletonTemplate<{
                 setSelectedTags([])
               }}
             />
-          </PageLayout>
+          </OverlayLayout>
         </Overlay>
       )}
     </div>
