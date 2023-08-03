@@ -139,6 +139,10 @@ export function navigateToDetail({
      * resource id to open
      */
     resourceId: string
+    /**
+     * required when linking to another app, it indicates if the destination app should be opened in test or live mode
+     */
+    mode: 'test' | 'live'
   }
 }): {
   href: string
@@ -147,9 +151,12 @@ export function navigateToDetail({
   ) => void
 } {
   const destinationFullUrl = `${window.location.origin}/${destination.app}/list/${destination.resourceId}`
+  const isSameApp = urlIsForSameApp(destinationFullUrl)
 
   return {
-    href: destinationFullUrl,
+    href: isSameApp
+      ? destinationFullUrl
+      : `${destinationFullUrl}?mode=${destination.mode}`,
     onClick: (
       e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
     ) => {
@@ -159,11 +166,11 @@ export function navigateToDetail({
       }
       e.preventDefault()
       setPersistentItem({ destination: destinationFullUrl })
-      if (urlIsForSameApp(destinationFullUrl) && setLocation != null) {
+      if (isSameApp && setLocation != null) {
         setLocation(getRelativePath(destinationFullUrl))
         return
       }
-      window.location.assign(destinationFullUrl)
+      window.location.assign(`${destinationFullUrl}?mode=${destination.mode}`)
     }
   }
 }
