@@ -43,7 +43,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
       <ListItem
         tag={tag}
         icon={
-          displayStatus.status === 'pending' ? (
+          order.status === 'pending' ? (
             <RadialProgress icon={displayStatus.icon} />
           ) : (
             <Icon
