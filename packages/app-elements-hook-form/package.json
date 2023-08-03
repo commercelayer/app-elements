@@ -28,7 +28,7 @@
   "devDependencies": {
     "@commercelayer/app-elements": "workspace:^0.0.58",
     "@commercelayer/eslint-config-ts-react": "^1.0.1",
-    "@commercelayer/sdk": "5.9.1",
+    "@commercelayer/sdk": "5.10.0",
     "@hookform/resolvers": "^3.1.1",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^14.0.0",

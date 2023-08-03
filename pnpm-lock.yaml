@@ -20,8 +20,8 @@ importers:
   packages/app-elements:
     dependencies:
       '@commercelayer/sdk':
-        specifier: 5.9.1
-        version: 5.9.1
+        specifier: 5.10.0
+        version: 5.10.0
       '@types/lodash':
         specifier: ^4.14.195
         version: 4.14.195
@@ -150,8 +150,8 @@ importers:
         specifier: ^1.0.1
         version: 1.0.1(eslint@8.45.0)(react@18.2.0)(typescript@5.1.6)
       '@commercelayer/sdk':
-        specifier: 5.9.1
-        version: 5.9.1
+        specifier: 5.10.0
+        version: 5.10.0
       '@hookform/resolvers':
         specifier: ^3.1.1
         version: 3.1.1(react-hook-form@7.45.2)
@@ -1754,8 +1754,8 @@ packages:
       - supports-color
     dev: true
 
-  /@commercelayer/sdk@5.9.1:
-    resolution: {integrity: sha512-gjj0AtQ7MtKE/1FHaqbYXefiAyGjGhw4gb9jBhEv4DH7CK/gp1A+f4LD3ZVoZhJTWdPxadl3TRc/KD9nGBiJ8A==}
+  /@commercelayer/sdk@5.10.0:
+    resolution: {integrity: sha512-XUUyzDqbXsWYGfqoDrRDN01CMMJVvsDusrRltQF4RGvR/lyGIYB7oFbuJrrftpW3IGOhSvmzfrqtKf3//E0T4g==}
     engines: {node: '>=16 || ^14.17'}
     dependencies:
       axios: 1.4.0

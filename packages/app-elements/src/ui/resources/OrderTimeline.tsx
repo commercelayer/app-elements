@@ -363,10 +363,7 @@ const useTimelineReducer = (order: Order) => {
       order.shipments?.forEach((shipment) => {
         dispatchAttachments(shipment.attachments)
 
-        if (
-          'on_hold_at' in shipment &&
-          typeof shipment.on_hold_at === 'string'
-        ) {
+        if (shipment.on_hold_at != null) {
           dispatch({
             type: 'add',
             payload: {
@@ -381,10 +378,7 @@ const useTimelineReducer = (order: Order) => {
           })
         }
 
-        if (
-          'picking_at' in shipment &&
-          typeof shipment.picking_at === 'string'
-        ) {
+        if (shipment.picking_at != null) {
           dispatch({
             type: 'add',
             payload: {
@@ -399,10 +393,7 @@ const useTimelineReducer = (order: Order) => {
           })
         }
 
-        if (
-          'packing_at' in shipment &&
-          typeof shipment.packing_at === 'string'
-        ) {
+        if (shipment.packing_at != null) {
           dispatch({
             type: 'add',
             payload: {
@@ -417,10 +408,7 @@ const useTimelineReducer = (order: Order) => {
           })
         }
 
-        if (
-          'ready_to_ship_at' in shipment &&
-          typeof shipment.ready_to_ship_at === 'string'
-        ) {
+        if (shipment.ready_to_ship_at != null) {
           dispatch({
             type: 'add',
             payload: {
@@ -435,10 +423,7 @@ const useTimelineReducer = (order: Order) => {
           })
         }
 
-        if (
-          'shipped_at' in shipment &&
-          typeof shipment.shipped_at === 'string'
-        ) {
+        if (shipment.shipped_at != null) {
           dispatch({
             type: 'add',
             payload: {
