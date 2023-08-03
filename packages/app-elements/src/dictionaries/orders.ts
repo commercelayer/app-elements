@@ -11,6 +11,7 @@ type UITriggerAttributes =
   | '_unarchive'
 
 type UIStatus =
+  | 'pending'
   | 'placed'
   | 'approved'
   | 'in_progress'
@@ -226,7 +227,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'pending:unpaid:unfulfilled':
       return {
-        status: 'error',
+        status: 'pending',
         label: 'Pending',
         icon: 'shoppingBag',
         color: 'white',
@@ -235,7 +236,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'pending:authorized:unfulfilled':
       return {
-        status: 'error',
+        status: 'pending',
         label: 'Pending',
         icon: 'shoppingBag',
         color: 'white',
@@ -244,7 +245,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'pending:free:unfulfilled':
       return {
-        status: 'error',
+        status: 'pending',
         label: 'Pending',
         icon: 'shoppingBag',
         color: 'white',

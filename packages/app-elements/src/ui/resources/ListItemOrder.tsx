@@ -6,6 +6,7 @@ import { formatDate } from '#helpers/date'
 import { formatDisplayName } from '#helpers/name'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Icon } from '#ui/atoms/Icon'
+import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/lists/ListItem'
@@ -42,11 +43,15 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
       <ListItem
         tag={tag}
         icon={
-          <Icon
-            name={displayStatus.icon}
-            background={displayStatus.color}
-            gap='large'
-          />
+          displayStatus.status === 'pending' ? (
+            <RadialProgress icon={displayStatus.icon} />
+          ) : (
+            <Icon
+              name={displayStatus.icon}
+              background={displayStatus.color}
+              gap='large'
+            />
+          )
         }
         data-test-id='ListItemOrder'
         onClick={onClick}
