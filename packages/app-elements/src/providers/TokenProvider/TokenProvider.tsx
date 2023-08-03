@@ -1,3 +1,7 @@
+import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
+import { PageError } from '#ui/composite/PageError'
+import { type Organization } from '@commercelayer/sdk'
+import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import {
   createContext,
   useCallback,
@@ -6,13 +10,11 @@ import {
   useReducer,
   type ReactNode
 } from 'react'
-
-import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
-import { removeAccessTokenFromUrl } from '#providers/TokenProvider/getAccessTokenFromUrl'
-import { PageError } from '#ui/composite/PageError'
-import { type Organization } from '@commercelayer/sdk'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
+import {
+  getAccessTokenFromUrl,
+  getCurrentMode,
+  removeAuthParamsFromUrl
+} from './getAccessTokenFromUrl'
 import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
@@ -114,14 +116,16 @@ export function TokenProvider({
   accessToken: accessTokenFromProp
 }: TokenProviderProps): JSX.Element {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
-  const dashboardUrl = makeDashboardUrl({
-    domain,
-    mode: _state.settings.mode
-  })
+
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
     getPersistentAccessToken({ appSlug })
+
+  const dashboardUrl = makeDashboardUrl({
+    domain,
+    mode: getCurrentMode({ accessToken })
+  })
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'invalidAuth' })
@@ -193,7 +197,8 @@ export function TokenProvider({
 
         // all good
         savePersistentAccessToken({ appSlug, accessToken })
-        removeAccessTokenFromUrl()
+        removeAuthParamsFromUrl()
+
         dispatch({
           type: 'validToken',
           payload: {

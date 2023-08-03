@@ -115,18 +115,11 @@ export function goBack({
   window.location.assign(item.url)
 }
 
-/**
- * Navigate to an internal or external URL or pathname and store the current url in sessionStorage
- * to be able to navigate back to it with the `goBack` function.
- */
-export function navigateToDetail({
-  setLocation,
-  destination
-}: {
+interface NavigateToInternalDetailsParams {
   /**
    * React router's history.push method, this is used when linking internal app pages.
    */
-  setLocation?: (url: string) => void
+  setLocation: (url: string) => void
   /**
    * destination instructions to navigate to a detail page
    */
@@ -140,16 +133,46 @@ export function navigateToDetail({
      */
     resourceId: string
   }
-}): {
+}
+
+interface NavigateToExternalDetailsParams {
+  /**
+   * destination instructions to navigate to a detail page
+   */
+  destination: {
+    /**
+     * app name to navigate to, it could be the current app (internal linking) or another app (cross linking)
+     */
+    app: ResourceTypeLock
+    /**
+     * resource id to open
+     */
+    resourceId: string
+    /**
+     * required when linking to another app, it indicates if the destination app should be opened in test or live mode
+     */
+    mode: 'test' | 'live'
+  }
+}
+
+/**
+ * Navigate to an internal or external URL or pathname and store the current url in sessionStorage
+ * to be able to navigate back to it with the `goBack` function.
+ */
+export function navigateToDetail(
+  params: NavigateToInternalDetailsParams | NavigateToExternalDetailsParams
+): {
   href: string
   onClick: (
     e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
   ) => void
 } {
-  const destinationFullUrl = `${window.location.origin}/${destination.app}/list/${destination.resourceId}`
+  const destinationFullUrl = `${window.location.origin}/${params.destination.app}/list/${params.destination.resourceId}`
 
   return {
-    href: destinationFullUrl,
+    href: isNavigateToInternalParams(params)
+      ? destinationFullUrl
+      : `${destinationFullUrl}?mode=${params.destination.mode}`,
     onClick: (
       e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
     ) => {
@@ -159,11 +182,19 @@ export function navigateToDetail({
       }
       e.preventDefault()
       setPersistentItem({ destination: destinationFullUrl })
-      if (urlIsForSameApp(destinationFullUrl) && setLocation != null) {
-        setLocation(getRelativePath(destinationFullUrl))
+      if (isNavigateToInternalParams(params)) {
+        params.setLocation(getRelativePath(destinationFullUrl))
         return
       }
-      window.location.assign(destinationFullUrl)
+      window.location.assign(
+        `${destinationFullUrl}?mode=${params.destination.mode}`
+      )
     }
   }
+}
+
+function isNavigateToInternalParams(
+  params: NavigateToInternalDetailsParams | NavigateToExternalDetailsParams
+): params is NavigateToInternalDetailsParams {
+  return 'setLocation' in params
 }

@@ -32,15 +32,15 @@ describe('navigateToDetail', () => {
 
   test('should return an href string', () => {
     const navigate = navigateToDetail({
-      setLocation: () => undefined,
       destination: {
         app: 'customers',
-        resourceId: 'xBszDaQsAZ'
+        resourceId: 'xBszDaQsAZ',
+        mode: 'live'
       }
     })
 
     expect(navigate.href).toBe(
-      'https://demo-store.commercelayer.app/customers/list/xBszDaQsAZ'
+      'https://demo-store.commercelayer.app/customers/list/xBszDaQsAZ?mode=live'
     )
   })
 
@@ -52,17 +52,17 @@ describe('navigateToDetail', () => {
 
     // we want to x-link to a customer details in app-customers
     const navigate = navigateToDetail({
-      setLocation: () => {},
       destination: {
         app: 'customers',
-        resourceId: '<customerId>'
+        resourceId: '<customerId>',
+        mode: 'test'
       }
     })
 
     navigate.onClick(fakeEvent)
 
     expect(window.location.assign).toBeCalledWith(
-      'https://demo-store.commercelayer.app/customers/list/<customerId>'
+      'https://demo-store.commercelayer.app/customers/list/<customerId>?mode=test'
     )
     expect(
       getSessionStorageItem(
