@@ -32,7 +32,6 @@ describe('navigateToDetail', () => {
 
   test('should return an href string', () => {
     const navigate = navigateToDetail({
-      setLocation: () => undefined,
       destination: {
         app: 'customers',
         resourceId: 'xBszDaQsAZ',
@@ -53,7 +52,6 @@ describe('navigateToDetail', () => {
 
     // we want to x-link to a customer details in app-customers
     const navigate = navigateToDetail({
-      setLocation: () => {},
       destination: {
         app: 'customers',
         resourceId: '<customerId>',
@@ -87,8 +85,7 @@ describe('navigateToDetail', () => {
       setLocation: mockedSetLocation,
       destination: {
         app: 'orders',
-        resourceId: 'xbSzDaQsAZ',
-        mode: 'test'
+        resourceId: 'xbSzDaQsAZ'
       }
     })
 
