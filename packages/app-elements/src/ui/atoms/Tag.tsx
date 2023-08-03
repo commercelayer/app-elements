@@ -1,4 +1,5 @@
 import { type FlexRowProps } from '#ui/internals/FlexRow'
+import { enforceAllowedTags, removeTagProp } from '#utils/htmltags'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useMemo, type FC } from 'react'
@@ -10,9 +11,6 @@ type Props = Pick<FlexRowProps, 'children'> & {
    */
   icon?: JSX.Element
 }
-
-const allowedTags = ['a', 'div'] as const
-type AllowedTag = (typeof allowedTags)[number]
 
 export type TagProps = Props &
   (
@@ -31,7 +29,15 @@ export type TagProps = Props &
   )
 
 const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
-  const JsxTag = useMemo(() => enforceAllowedTags(rest.tag), [rest.tag])
+  const JsxTag = useMemo(
+    () =>
+      enforceAllowedTags({
+        tag: rest.tag,
+        allowedTags: ['a', 'div'],
+        defaultTag: 'div'
+      }),
+    [rest.tag]
+  )
   const hasHover =
     rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href))
 
@@ -56,19 +62,6 @@ const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
       {children}
     </JsxTag>
   )
-}
-
-function enforceAllowedTags(
-  tag: AllowedTag
-): Extract<keyof JSX.IntrinsicElements, AllowedTag> {
-  return allowedTags.includes(tag) ? tag : 'div'
-}
-
-function removeTagProp<T extends object>(props: T): Omit<T, 'tag'> {
-  return {
-    ...props,
-    tag: undefined
-  }
 }
 
 Tag.displayName = 'Tag'
