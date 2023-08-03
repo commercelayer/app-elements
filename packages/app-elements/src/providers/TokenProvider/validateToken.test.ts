@@ -32,7 +32,8 @@ describe('isValidTokenForCurrentApp', () => {
       accessToken: token,
       kind: 'integration',
       domain: 'commercelayer.io',
-      isProduction: false
+      isProduction: false,
+      currentMode: 'test'
     })
 
     expect(tokenInfo.isValidToken).toBe(true)
