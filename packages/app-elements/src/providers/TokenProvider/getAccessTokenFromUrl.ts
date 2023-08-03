@@ -22,16 +22,18 @@ export const getCurrentMode = ({
   accessToken?: string | null
 }): Mode => {
   const defaultMode = 'live'
+  const modeParam = new URLSearchParams(window.location.search).get('mode')
 
-  if (accessToken == null) {
-    const modeParam = new URLSearchParams(window.location.search).get('mode')
-    return modeParam === 'test' || modeParam === 'live'
-      ? modeParam
-      : defaultMode
+  if (modeParam === 'test' || modeParam === 'live') {
+    return modeParam
   }
 
-  const { mode } = getInfoFromJwt(accessToken)
-  return mode ?? defaultMode
+  if (accessToken != null) {
+    const { mode } = getInfoFromJwt(accessToken)
+    return mode ?? defaultMode
+  }
+
+  return defaultMode
 }
 
 export const removeAuthParamsFromUrl = (): void => {
