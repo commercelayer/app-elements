@@ -1,4 +1,4 @@
-import { getAccessTokenFromUrl } from './getAccessTokenFromUrl'
+import { getAccessTokenFromUrl, getCurrentMode } from './getAccessTokenFromUrl'
 
 describe('Read JWT from URL', () => {
   const { location } = window
@@ -33,5 +33,37 @@ describe('Read JWT from URL', () => {
   test('Query string is empty', () => {
     window.location.search = ''
     expect(getAccessTokenFromUrl()).toBe(null)
+  })
+})
+
+describe('getCurrentMode', () => {
+  const originalLocationObj = window.location
+  beforeEach(() => {
+    window.location = {
+      ...originalLocationObj
+    }
+  })
+
+  afterEach(() => {
+    window.location = originalLocationObj
+  })
+
+  test('should return the mode from the access token', () => {
+    expect(
+      getCurrentMode({
+        accessToken:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJhYmMxMjM0Iiwic2x1ZyI6ImFjbWUifSwiYXBwbGljYXRpb24iOnsiaWQiOiJiY2Q0NDIxIiwia2luZCI6InNhbGVzX2NoYW5uZWwiLCJwdWJsaWMiOnRydWV9LCJ0ZXN0Ijp0cnVlLCJleHAiOjE2NTI3OTUxMDIsInJhbmQiOjAuMzE0NTUwMDUwMTg4ODYzOH0.mX4A08-f_vdab6_dDpA1eDdGri91kR0erP8X7obZr1M'
+      })
+    ).toBe('test')
+  })
+
+  test('should return test mode from the URL params', () => {
+    window.location.search = '?mode=test'
+    expect(getCurrentMode({ accessToken: null })).toBe('test')
+  })
+
+  test('should return live mode from the URL params', () => {
+    window.location.search = '?mode=live'
+    expect(getCurrentMode({ accessToken: null })).toBe('live')
   })
 })
