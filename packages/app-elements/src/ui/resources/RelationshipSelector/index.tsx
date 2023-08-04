@@ -1,3 +1,4 @@
+import { formatResourceName } from '#helpers/resources'
 import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { Card } from '#ui/atoms/Card'
@@ -128,7 +129,11 @@ function RelationshipSelector({
             }}
           >
             <Text variant='primary' weight='bold'>
-              See all {resource}
+              See all{' '}
+              {formatResourceName({
+                resource,
+                count: 'plural'
+              })}
             </Text>
           </button>
         </Spacer>
