@@ -10,6 +10,9 @@ import { type SelectValue } from '.'
 function DropdownIndicator(
   props: DropdownIndicatorProps<SelectValue>
 ): JSX.Element {
+  if (props.isMulti) {
+    return <></>
+  }
   return (
     <components.DropdownIndicator {...props} className='p-0'>
       <button type='button' className='px-2 cursor-pointer'>
