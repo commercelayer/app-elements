@@ -29,6 +29,13 @@ WithLink.args = {
   children: <A>Gray Women Crop Top with Black Logo (M)</A>
 }
 
+export const Empty = Template.bind({})
+Empty.args = {
+  label: 'Name',
+  isLoading: false,
+  childrenAlign: 'right'
+}
+
 export const List: StoryFn<typeof ListDetailsItem> = (_args) => (
   <>
     <ListDetailsItem
