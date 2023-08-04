@@ -1,4 +1,5 @@
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
+import { Text } from '#ui/atoms/Text'
 import { isSpecificReactComponent } from '#utils/children'
 import classNames from 'classnames'
 import { Children, type ReactNode } from 'react'
@@ -13,7 +14,7 @@ interface ListDetailsItemProps {
    * It represent the value.
    * Most of the type it should be a `<CopyToClipboard>` component
    */
-  children: ReactNode
+  children?: ReactNode
   /**
    * To show the skeleton item while `children` ar not yet. Label is always rendered
    */
@@ -32,7 +33,7 @@ interface ListDetailsItemProps {
   gutter?: 'none'
 }
 
-function ListDetailsItem({
+export function ListDetailsItem({
   label,
   children,
   isLoading,
@@ -74,7 +75,7 @@ function ListDetailsItem({
             <SkeletonItem className='w-28 h-6' />
           </Skeleton>
         ) : (
-          children
+          children ?? <Text variant='disabled'>&#8212;</Text>
         )}
       </div>
     </div>
@@ -82,4 +83,3 @@ function ListDetailsItem({
 }
 
 ListDetailsItem.displayName = 'ListDetailsItem'
-export { ListDetailsItem }
