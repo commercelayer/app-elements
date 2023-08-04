@@ -1,12 +1,14 @@
-import { type ReactNode } from 'react'
+import type { ContainerProps } from '#ui/atoms/Container'
 import { Container } from '#ui/atoms/Container'
 import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
+import { type ReactNode } from 'react'
 
 export interface PageLayoutProps
   extends Pick<
-    PageHeadingProps,
-    'title' | 'description' | 'onGoBack' | 'actionButton' | 'gap'
-  > {
+      PageHeadingProps,
+      'title' | 'description' | 'onGoBack' | 'actionButton' | 'gap'
+    >,
+    Pick<ContainerProps, 'minHeight'> {
   /**
    * Page content
    */
@@ -25,10 +27,11 @@ function PageLayout({
   actionButton,
   mode,
   gap,
+  minHeight,
   ...rest
 }: PageLayoutProps): JSX.Element {
   return (
-    <Container {...rest}>
+    <Container minHeight={minHeight} {...rest}>
       <PageHeading
         title={title}
         description={description}

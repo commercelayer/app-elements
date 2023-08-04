@@ -143,6 +143,7 @@ export const ResourceTags = withSkeletonTemplate<{
           <PageLayout
             title={overlay.title}
             description={overlay.description}
+            minHeight={false}
             onGoBack={() => {
               setShowOverlay(false)
             }}

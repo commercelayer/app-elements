@@ -1,14 +1,17 @@
 import cn from 'classnames'
 
-interface Props {
-  /**
-   * css class name
-   */
-  className?: string
+export interface ContainerProps {
   /**
    * set min height as screen size. Default is `true`.
    */
   minHeight?: boolean
+}
+
+interface Props extends ContainerProps {
+  /**
+   * css class name
+   */
+  className?: string
   /**
    * content to be rendered inside the container
    */
