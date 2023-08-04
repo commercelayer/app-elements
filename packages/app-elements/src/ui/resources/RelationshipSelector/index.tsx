@@ -142,17 +142,19 @@ function RelationshipSelector({
           }
         }}
       >
-        <FullList
-          defaultValues={values}
-          fieldForLabel={fieldForLabel}
-          fieldForValue={fieldForValue}
-          onChange={setValues}
-          resource={resource}
-          searchBy={searchBy}
-          sortBy={sortBy}
-          title={title}
-          totalCount={totalCount}
-        />
+        <div className='pt-5'>
+          <FullList
+            defaultValues={values}
+            fieldForLabel={fieldForLabel}
+            fieldForValue={fieldForValue}
+            onChange={setValues}
+            resource={resource}
+            searchBy={searchBy}
+            sortBy={sortBy}
+            title={title}
+            totalCount={totalCount}
+          />
+        </div>
       </Overlay>
     </div>
   )
