@@ -8,6 +8,7 @@ export type TextVariant =
   | 'warning'
   | 'info'
   | 'plain'
+  | 'disabled'
 export type TextSize = 'small' | 'regular' | 'large' | 'inherit'
 export type TextWeight = 'regular' | 'medium' | 'semibold' | 'bold' | 'inherit'
 export type TextAlignment = 'center' | 'left' | 'right' | 'inherit'
@@ -41,6 +42,7 @@ function Text({
     'text-primary': variant === 'primary',
     'text-gray-500': variant === 'info',
     'text-orange-600': variant === 'warning',
+    'text-gray-300': variant === 'disabled',
     // weight
     'font-regular': weight === 'regular',
     'font-medium': weight === 'medium',
