@@ -40,7 +40,8 @@ export const ResourceTags = withSkeletonTemplate<{
   resourceType: TaggableResource
   resourceId: string
   overlay: TagsOverlay
-}>(({ resourceType, resourceId, overlay }) => {
+  onTagClick?: (tagId: string) => void
+}>(({ resourceType, resourceId, overlay, onTagClick }) => {
   const [showOverlay, setShowOverlay] = useState(false)
   const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
     useState(false)
@@ -97,15 +98,31 @@ export const ResourceTags = withSkeletonTemplate<{
   return (
     <div>
       <div className='flex flex-wrap gap-2'>
-        {resourceTags.map((tag, idx) => (
-          <TagUi tag='div' key={idx}>
-            {tag.name}
-          </TagUi>
-        ))}
+        {resourceTags.map((tag, idx) => {
+          if (onTagClick != null) {
+            return (
+              <TagUi
+                tag='button'
+                buttonStyle='button'
+                key={idx}
+                onClick={() => {
+                  onTagClick(tag.id)
+                }}
+              >
+                {tag.name}
+              </TagUi>
+            )
+          }
+          return (
+            <TagUi tag='div' key={idx}>
+              {tag.name}
+            </TagUi>
+          )
+        })}
         <TagUi
-          tag='a'
+          tag='button'
+          buttonStyle='anchor'
           icon={<TagIcon weight='bold' />}
-          href='#'
           onClick={(e) => {
             e.preventDefault()
             setShowOverlay(true)

@@ -28,5 +28,8 @@ Default.args = {
   resourceId: 'NMWYhbGorj',
   overlay: {
     title: 'hello@commercelayer.io'
+  },
+  onTagClick: (tagId) => {
+    console.log('onTagClick - tadId: ', tagId)
   }
 }
