@@ -77,7 +77,7 @@ const Overlay: React.FC<OverlayProps> = ({
       data-test-id='overlay'
       {...rest}
     >
-      <Container className={cn('pt-5')} minHeight={false}>
+      <Container minHeight={false}>
         <div ref={overlayContent}>{children}</div>
 
         {hasButton && (
