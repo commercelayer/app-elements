@@ -1,5 +1,6 @@
 import type { CommerceLayerClient } from '@commercelayer/sdk'
 import { type ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
+import { useCallback } from 'react'
 import useSWR, {
   type Fetcher,
   type SWRConfiguration,
@@ -29,13 +30,20 @@ export function useCoreApi<
 ): SWRResponse<Output, any, SWROptions> {
   const { sdkClient } = useCoreSdkProvider()
 
-  const fetcher = async (args: Args): Promise<Output> => {
-    // @ts-expect-error I don't know how to fix it :(
-    return sdkClient[resource][action](...args)
-  }
+  const fetcher = useCallback(
+    async ([resource, action, args]: [
+      resource: Resource,
+      action: Action,
+      args: Args
+    ]): Promise<Output> => {
+      // @ts-expect-error I don't know how to fix it :(
+      return sdkClient[resource][action](...args)
+    },
+    [sdkClient]
+  )
 
   return useSWR(
-    args != null ? (args.length > 0 ? args : [{}]) : null,
+    args !== null ? [resource, action, args] : null,
     fetcher,
     config
   )
