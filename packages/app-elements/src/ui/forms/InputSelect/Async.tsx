@@ -52,7 +52,10 @@ export function AsyncSelectComponent({
       onChange={onSelect}
       noOptionsMessage={() => noOptionsMessage}
       loadOptions={loadOptions}
-      components={components}
+      components={{
+        ...components,
+        DropdownIndicator: null
+      }}
       isOptionDisabled={isOptionDisabled}
     />
   )
