@@ -34,7 +34,10 @@ function FlexRow({
         <div
           className={cn({
             'flex-grow': !isLastOfMultipleChildren(index, childrenCount),
-            'text-right': isLastOfMultipleChildren(index, childrenCount)
+            'text-right flex items-center': isLastOfMultipleChildren(
+              index,
+              childrenCount
+            )
           })}
         >
           {child}

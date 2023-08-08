@@ -86,7 +86,7 @@ function SearchBar({
       {onClear != null && !isEmpty(searchValue) ? (
         <button
           data-test-id='SearchBar-clear'
-          className='h-full px-2 absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400'
+          className='flex items-center h-full px-2 absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400'
           aria-label='Clear text'
           onClick={() => {
             setSearchValue('')
