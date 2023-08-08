@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -148,7 +144,7 @@ importers:
   packages/app-elements-hook-form:
     devDependencies:
       '@commercelayer/app-elements':
-        specifier: workspace:^0.0.65
+        specifier: workspace:^0.0.66
         version: link:../app-elements
       '@commercelayer/eslint-config-ts-react':
         specifier: ^1.0.1
@@ -13735,3 +13731,7 @@ packages:
 
   /zod@3.21.4:
     resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
