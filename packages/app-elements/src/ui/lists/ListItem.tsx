@@ -87,6 +87,9 @@ const ListItem: FC<ListItemProps> = ({
         {icon != null && (
           <div
             className={cn('flex-shrink-0', {
+              // If icon is aligned to top we add a margin to simulate centered alignment
+              // of icon with right content of most common case with one or two rows of text
+              // like in case of ListItem Order
               'my-0.5': alignIcon === 'top',
               'self-center': alignIcon === 'center',
               'self-start': alignIcon === 'top',
