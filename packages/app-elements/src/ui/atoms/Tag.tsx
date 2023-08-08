@@ -44,15 +44,14 @@ const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
     <JsxTag
       className={cn([
         className,
-        'flex gap-1 items-center select-none',
+        'flex gap-2 items-center select-none',
         'text-black text-sm',
         'px-4 py-1',
         'rounded border border-solid border-gray-200',
         {
           'cursor-pointer hover:bg-gray-50  outline-primary-light': hasHover,
-          'font-semibold': !hasHover,
-          'text-primary font-bold':
-            rest.tag === 'button' && rest.buttonStyle === 'anchor'
+          'font-semibold': hasHover && rest.buttonStyle === 'button',
+          'text-primary font-bold': hasHover && rest.buttonStyle === 'anchor'
         }
       ])}
       type={rest.tag === 'button' && 'button'}

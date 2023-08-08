@@ -128,7 +128,7 @@ export const ResourceTags = withSkeletonTemplate<{
             setShowOverlay(true)
           }}
         >
-          Tags
+          Edit tags
         </TagUi>
       </div>
       {showOverlay && (
@@ -193,7 +193,7 @@ export const ResourceTags = withSkeletonTemplate<{
                   .list(makeTagQuery(hint))
                   .then(tagsToSelectOptions)
               }}
-              initialValues={tagsToSelectOptions(organizationTags)}
+              initialValues={[]}
               defaultValue={tagsToSelectOptions(resourceTags)}
               onSelect={(selectedTags) => {
                 if (isMultiValueSelected(selectedTags)) {
