@@ -16,6 +16,10 @@ module.exports = {
       md: '0.625rem',
       full: '9999px'
     },
+    boxShadow: {
+      focus: '0 0 0 2px #666EFF',
+      inputfocus: 'inset 0 0 0 2px #666EFF'
+    },
     colors: {
       primary: {
         light: transparentize(0.2, colorBrand),
