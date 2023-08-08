@@ -83,16 +83,15 @@ const ListItem: FC<ListItemProps> = ({
       // still we need to be part of `rest` to discriminate the union type
       {...(removeTagProp(rest) as any)}
     >
-      <div
-        className={cn('flex gap-4 flex-1', {
-          'items-center': alignIcon === 'center',
-          'items-start': alignIcon === 'top',
-          'items-end': alignIcon === 'bottom'
-        })}
-      >
+      <div className={cn('flex gap-4 flex-1 items-center')}>
         {icon != null && (
           <div
-            className={cn('flex-shrink-0', { 'mt-[2px]': alignIcon === 'top' })}
+            className={cn('flex-shrink-0', {
+              'my-0.5': alignIcon === 'top',
+              'self-center': alignIcon === 'center',
+              'self-start': alignIcon === 'top',
+              'self-end': alignIcon === 'bottom'
+            })}
           >
             {icon}
           </div>
