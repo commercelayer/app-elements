@@ -1,14 +1,18 @@
+import { type TriggerAttribute } from '#helpers/resources'
 import { type IconProps } from '#ui/atoms/Icon'
-import type { Order } from '@commercelayer/sdk'
+import type { Order, OrderUpdate } from '@commercelayer/sdk'
 
 type UITriggerAttributes =
-  | '_approve'
-  | '_cancel'
-  | '_capture'
-  | '_refund'
+  | Extract<
+      TriggerAttribute<OrderUpdate>,
+      | '_approve'
+      | '_cancel'
+      | '_capture'
+      | '_refund'
+      | '_archive'
+      | '_unarchive'
+    >
   | '_return'
-  | '_archive'
-  | '_unarchive'
 
 interface OrderDisplayStatus {
   label: string

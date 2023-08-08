@@ -1,4 +1,5 @@
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type ResourceUpdate } from '@commercelayer/sdk/lib/cjs/resource'
 
 const singularLowercase: Record<ListableResourceType, string> = {
   addresses: 'address',
@@ -265,3 +266,8 @@ export function formatResourceName({
 function capitalizeFirstLetter(string: string): string {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
+
+export type TriggerAttribute<Resource extends ResourceUpdate> = Extract<
+  keyof Resource,
+  `_${string}`
+>
