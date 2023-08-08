@@ -49,7 +49,7 @@ function ButtonFilter({
         <button
           type='button'
           data-test-id='ButtonFilter-remove'
-          className='pl-1 pr-4'
+          className='pl-1 pr-4 flex items-center'
           onClick={onRemoveRequest}
           aria-label={`Remove ${label}`}
         >
