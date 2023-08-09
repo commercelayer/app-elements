@@ -23,7 +23,7 @@ interface CopyToClipboardProps {
 const transitionMs = 300
 const feedbackDurationMs = 3000
 
-function CopyToClipboard({
+export function CopyToClipboard({
   value,
   className,
   showValue = true,
@@ -139,5 +139,3 @@ function CopyToClipboard({
 }
 
 CopyToClipboard.displayName = 'CopyToClipboard'
-
-export { CopyToClipboard }
