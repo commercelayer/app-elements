@@ -13,10 +13,12 @@ export interface CheckboxItem {
 interface CheckboxProps
   extends Pick<InputCheckboxProps, 'checked' | 'onChange'> {
   item: CheckboxItem
+  showIcon?: boolean
 }
 
 export function Checkbox({
   item,
+  showIcon,
   checked,
   onChange
 }: CheckboxProps): JSX.Element {
@@ -26,7 +28,11 @@ export function Checkbox({
       <InputCheckbox
         onChange={onChange}
         checked={checked}
-        icon={<AvatarLetter text={item.label} />}
+        icon={
+          showIcon != null && showIcon ? (
+            <AvatarLetter text={item.label} />
+          ) : undefined
+        }
       >
         <Text weight='semibold'>{item.label}</Text>
       </InputCheckbox>
