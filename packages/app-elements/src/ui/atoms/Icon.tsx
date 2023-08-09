@@ -97,9 +97,14 @@ const iconMapping = {
   printer: phosphor.Printer,
   shoppingBag: phosphor.ShoppingBag,
   stack: phosphor.Stack,
+  truck: phosphor.Truck,
   upload: phosphor.Upload,
   user: phosphor.User,
   warning: phosphor.Warning,
   warningCircle: phosphor.WarningCircle,
   x: phosphor.X
-}
+} as const
+
+export const iconNames = Object.keys(iconMapping) as Array<
+  keyof typeof iconMapping
+>

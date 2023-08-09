@@ -16,14 +16,12 @@ const Template: StoryFn<typeof RadialProgress> = (args) => (
   <RadialProgress {...args} />
 )
 
-export const Default = Template.bind({})
-Default.args = {
-  percentage: 45
-}
-
 export const Pending = Template.bind({})
-Pending.args = {
-  percentage: undefined
+Pending.args = {}
+
+export const Percentage = Template.bind({})
+Percentage.args = {
+  percentage: 42
 }
 
 export const WithIcon = Template.bind({})
