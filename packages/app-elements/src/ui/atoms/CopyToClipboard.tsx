@@ -1,3 +1,4 @@
+import { Text } from '#ui/atoms/Text'
 import { Check, Copy } from '@phosphor-icons/react'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
@@ -22,7 +23,7 @@ interface CopyToClipboardProps {
 const transitionMs = 300
 const feedbackDurationMs = 3000
 
-function CopyToClipboard({
+export function CopyToClipboard({
   value,
   className,
   showValue = true,
@@ -65,7 +66,9 @@ function CopyToClipboard({
         )}
         {...rest}
       >
-        -
+        <Text data-test-id='empty-string' variant='disabled'>
+          &#8212;
+        </Text>
       </div>
     )
   }
@@ -136,5 +139,3 @@ function CopyToClipboard({
 }
 
 CopyToClipboard.displayName = 'CopyToClipboard'
-
-export { CopyToClipboard }
