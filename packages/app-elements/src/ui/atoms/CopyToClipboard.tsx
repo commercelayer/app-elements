@@ -1,3 +1,4 @@
+import { Text } from '#ui/atoms/Text'
 import { Check, Copy } from '@phosphor-icons/react'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
@@ -65,7 +66,9 @@ function CopyToClipboard({
         )}
         {...rest}
       >
-        -
+        <Text data-test-id='empty-string' variant='disabled'>
+          &#8212;
+        </Text>
       </div>
     )
   }

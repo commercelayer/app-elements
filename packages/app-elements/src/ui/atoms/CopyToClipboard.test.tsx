@@ -1,5 +1,5 @@
-import { CopyToClipboard } from './CopyToClipboard'
 import { render, type RenderResult } from '@testing-library/react'
+import { CopyToClipboard } from './CopyToClipboard'
 
 interface SetupProps {
   id: string
@@ -31,12 +31,12 @@ describe('CopyToClipboard', () => {
   })
 
   test('Should display a dash and no button when value is empty or undefined', () => {
-    const { element, getByText } = setup({
+    const { element, getByTestId } = setup({
       id: 'my-value',
       value: ''
     })
     expect(element).toBeInTheDocument()
-    expect(getByText('-')).toBeInTheDocument()
+    expect(getByTestId('empty-string')).toBeInTheDocument()
     expect(element.querySelector('[data-test-id="copy-value-button"]')).toBe(
       null
     )
