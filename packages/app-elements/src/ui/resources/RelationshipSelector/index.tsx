@@ -33,9 +33,13 @@ export interface RelationshipSelectorProps
    * Hide the component when there is only one item.
    */
   hideWhenSingleItem?: boolean
+  /**
+   * Show icon in checkbox selectors
+   */
+  showCheckboxIcon?: boolean
 }
 
-function RelationshipSelector({
+export function RelationshipSelector({
   defaultValues,
   fieldForLabel,
   fieldForValue,
@@ -46,6 +50,7 @@ function RelationshipSelector({
   sortBy,
   filters = {},
   hideWhenSingleItem,
+  showCheckboxIcon = true,
   title
 }: RelationshipSelectorProps): JSX.Element {
   const { Overlay, close, open } = useOverlayNavigation({
@@ -114,6 +119,7 @@ function RelationshipSelector({
                 onChange={() => {
                   toggleValue(item.value)
                 }}
+                showIcon={showCheckboxIcon}
               />
             </Spacer>
           )
@@ -271,4 +277,3 @@ function useList({
 }
 
 RelationshipSelector.displayName = 'RelationshipSelector'
-export { RelationshipSelector }
