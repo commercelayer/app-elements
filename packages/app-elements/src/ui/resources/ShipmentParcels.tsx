@@ -12,16 +12,15 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
-import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { ListItem, type ListItemProps } from '#ui/lists/ListItem'
+import { FlexRow } from '#ui/internals/FlexRow'
 import {
-  type ParcelLineItem as ParcelLineItemResource,
   type Parcel as ParcelResource,
   type Shipment as ShipmentResource
 } from '@commercelayer/sdk'
 import { Package } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
+import { LineItems } from './LineItems'
 
 type SetNonNullableRequired<
   BaseType,
@@ -89,44 +88,6 @@ export const ShipmentParcels = withSkeletonTemplate<{
 
 ShipmentParcels.displayName = 'ShipmentParcels'
 
-const ParcelLineItem = withSkeletonTemplate<{
-  parcelLineItem: ParcelLineItemResource
-  borderStyle: ListItemProps['borderStyle']
-}>(({ parcelLineItem, borderStyle }) => {
-  return (
-    <ListItem
-      tag='div'
-      alignItems='top'
-      borderStyle={borderStyle}
-      padding='y'
-      icon={
-        <Avatar
-          size='small'
-          alt={parcelLineItem.name}
-          src={parcelLineItem.image_url as `https://${string}`}
-        />
-      }
-    >
-      <div>
-        <Text className='text-xs' tag='div' variant='info' weight='medium'>
-          {parcelLineItem.sku_code}
-        </Text>
-        <Text size='small' tag='div' weight='bold'>
-          {parcelLineItem.name}
-        </Text>
-      </div>
-      <div>
-        <Text className='text-xs' tag='div' variant='info' weight='medium'>
-          &nbsp;
-        </Text>
-        <Text size='small' tag='div' variant='info' wrap='nowrap'>
-          x {parcelLineItem.quantity}
-        </Text>
-      </div>
-    </ListItem>
-  )
-})
-
 const Parcel = withSkeletonTemplate<{
   parcel: SetNonNullableRequired<ParcelResource, 'package'>
   estimatedDelivery?: string
@@ -147,36 +108,25 @@ const Parcel = withSkeletonTemplate<{
         )
       }
     >
-      {parcel.parcel_line_items?.map((parcelLineItem, index) => (
-        <ParcelLineItem
-          key={parcelLineItem.id}
-          parcelLineItem={parcelLineItem}
-          borderStyle={
-            parcel.parcel_line_items != null &&
-            parcel.parcel_line_items.length - 1 === index
-              ? 'solid'
-              : 'dashed'
-          }
-        />
-      ))}
-      <Spacer top='4'>
+      {parcel.parcel_line_items != null && (
+        <LineItems items={parcel.parcel_line_items} size='small' />
+      )}
+      <Spacer top='6'>
         <Text size='small'>
-          <ListDetailsItem
-            label='Total'
-            childrenAlign='right'
-            border='none'
-            gutter='none'
-          >
-            {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
-          </ListDetailsItem>
-          <ListDetailsItem
-            label='Weight'
-            childrenAlign='right'
-            border='none'
-            gutter='none'
-          >
-            {parcel.weight} {parcel.unit_of_weight}
-          </ListDetailsItem>
+          <FlexRow>
+            <Text variant='info'>Total</Text>
+            <Text weight='semibold'>
+              {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
+            </Text>
+          </FlexRow>
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info'>Weight</Text>
+              <Text weight='semibold'>
+                {parcel.weight} {parcel.unit_of_weight}
+              </Text>
+            </FlexRow>
+          </Spacer>
           <Tracking parcel={parcel} estimatedDelivery={estimatedDelivery} />
         </Text>
       </Spacer>
@@ -224,7 +174,7 @@ const Carrier = withSkeletonTemplate<{
       }
     >
       {singleTracking && (
-        <Spacer top='4'>
+        <Spacer top='6'>
           <Text size='small'>
             <Tracking
               parcel={parcel}
@@ -245,34 +195,22 @@ const Tracking = withSkeletonTemplate<{
   return (
     <>
       {trackingDetails?.status != null && (
-        <ListDetailsItem
-          label='Status'
-          childrenAlign='right'
-          border='none'
-          gutter='none'
-        >
-          {trackingDetails.status}
-        </ListDetailsItem>
+        <FlexRow className='mt-4'>
+          <Text variant='info'>Status</Text>
+          <Text weight='semibold'>{trackingDetails.status}</Text>
+        </FlexRow>
       )}
       {parcel.tracking_number != null && (
-        <ListDetailsItem
-          label='Tracking'
-          childrenAlign='right'
-          border='none'
-          gutter='none'
-        >
-          {parcel.tracking_number}
-        </ListDetailsItem>
+        <FlexRow className='mt-4'>
+          <Text variant='info'>Tracking</Text>
+          <Text weight='semibold'>{parcel.tracking_number}</Text>
+        </FlexRow>
       )}
       {estimatedDelivery != null && (
-        <ListDetailsItem
-          label='Estimated delivery'
-          childrenAlign='right'
-          border='none'
-          gutter='none'
-        >
-          {estimatedDelivery}
-        </ListDetailsItem>
+        <FlexRow className='mt-4'>
+          <Text variant='info'>Estimated delivery</Text>
+          <Text weight='semibold'>{estimatedDelivery}</Text>
+        </FlexRow>
       )}
     </>
   )

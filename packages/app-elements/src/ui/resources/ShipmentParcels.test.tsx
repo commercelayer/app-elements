@@ -8,6 +8,13 @@ import {
   shipmentWithoutTracking
 } from './ShipmentParcels.mocks'
 
+function getValueByDetailName(
+  withinNode: HTMLElement,
+  text: string
+): ChildNode | null | undefined {
+  return within(withinNode).getByText(text).parentNode?.nextSibling
+}
+
 describe('ShipmentParcels', () => {
   it('Should not be rendered when no parcels', () => {
     const { getByTestId } = render(
@@ -60,28 +67,20 @@ describe('ShipmentParcels', () => {
     expect(parcelBox1).toBeVisible()
 
     expect(carrierBox).toHaveTextContent('€89,01')
+    expect(getValueByDetailName(carrierBox, 'Status')).toHaveTextContent(
+      'delivered'
+    )
+    expect(getValueByDetailName(carrierBox, 'Tracking')).toHaveTextContent(
+      '42314321ASD4545'
+    )
     expect(
-      within(carrierBox).getByTestId('list-details-item-Status-value')
-    ).toHaveTextContent('delivered')
-    expect(
-      within(carrierBox).getByTestId('list-details-item-Tracking-value')
-    ).toHaveTextContent('42314321ASD4545')
-    expect(
-      within(carrierBox).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(carrierBox, 'Estimated delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
 
+    expect(() => getValueByDetailName(parcelBox1, 'Status')).toThrow()
+    expect(() => getValueByDetailName(parcelBox1, 'Tracking')).toThrow()
     expect(() =>
-      within(parcelBox1).getByTestId('list-details-item-Status-value')
-    ).toThrow()
-    expect(() =>
-      within(parcelBox1).getByTestId('list-details-item-Tracking-value')
-    ).toThrow()
-    expect(() =>
-      within(parcelBox1).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(parcelBox1, 'Estimated delivery')
     ).toThrow()
   })
 
@@ -108,39 +107,25 @@ describe('ShipmentParcels', () => {
     expect(parcelBox2).toBeVisible()
 
     expect(carrierBox).toHaveTextContent('€89,01')
+    expect(getValueByDetailName(carrierBox, 'Status')).toHaveTextContent(
+      'delivered'
+    )
+    expect(getValueByDetailName(carrierBox, 'Tracking')).toHaveTextContent(
+      '42314321ASD4545'
+    )
     expect(
-      within(carrierBox).getByTestId('list-details-item-Status-value')
-    ).toHaveTextContent('delivered')
-    expect(
-      within(carrierBox).getByTestId('list-details-item-Tracking-value')
-    ).toHaveTextContent('42314321ASD4545')
-    expect(
-      within(carrierBox).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(carrierBox, 'Estimated delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
 
+    expect(() => getValueByDetailName(parcelBox1, 'Status')).toThrow()
+    expect(() => getValueByDetailName(parcelBox2, 'Status')).toThrow()
+    expect(() => getValueByDetailName(parcelBox1, 'Tracking')).toThrow()
+    expect(() => getValueByDetailName(parcelBox2, 'Tracking')).toThrow()
     expect(() =>
-      within(parcelBox1).getByTestId('list-details-item-Status-value')
+      getValueByDetailName(parcelBox1, 'Estimated delivery')
     ).toThrow()
     expect(() =>
-      within(parcelBox2).getByTestId('list-details-item-Status-value')
-    ).toThrow()
-    expect(() =>
-      within(parcelBox1).getByTestId('list-details-item-Tracking-value')
-    ).toThrow()
-    expect(() =>
-      within(parcelBox2).getByTestId('list-details-item-Tracking-value')
-    ).toThrow()
-    expect(() =>
-      within(parcelBox1).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
-    ).toThrow()
-    expect(() =>
-      within(parcelBox2).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(parcelBox2, 'Estimated delivery')
     ).toThrow()
   })
 
@@ -170,39 +155,29 @@ describe('ShipmentParcels', () => {
 
     expect(carrierBox).toHaveTextContent('€12,00')
 
+    expect(() => getValueByDetailName(carrierBox, 'Status')).toThrow()
+    expect(() => getValueByDetailName(carrierBox, 'Tracking')).toThrow()
     expect(() =>
-      within(carrierBox).getByTestId('list-details-item-Status-value')
-    ).toThrow()
-    expect(() =>
-      within(carrierBox).getByTestId('list-details-item-Tracking-value')
-    ).toThrow()
-    expect(() =>
-      within(carrierBox).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(carrierBox, 'Estimated delivery')
     ).toThrow()
 
+    expect(getValueByDetailName(parcelBox1, 'Status')).toHaveTextContent(
+      'delivered'
+    )
+    expect(getValueByDetailName(parcelBox2, 'Status')).toHaveTextContent(
+      'in_transit'
+    )
+    expect(getValueByDetailName(parcelBox1, 'Tracking')).toHaveTextContent(
+      '42314321ASD4545'
+    )
+    expect(getValueByDetailName(parcelBox2, 'Tracking')).toHaveTextContent(
+      '65345234RWQ1111'
+    )
     expect(
-      within(parcelBox1).getByTestId('list-details-item-Status-value')
-    ).toHaveTextContent('delivered')
-    expect(
-      within(parcelBox2).getByTestId('list-details-item-Status-value')
-    ).toHaveTextContent('in_transit')
-    expect(
-      within(parcelBox1).getByTestId('list-details-item-Tracking-value')
-    ).toHaveTextContent('42314321ASD4545')
-    expect(
-      within(parcelBox2).getByTestId('list-details-item-Tracking-value')
-    ).toHaveTextContent('65345234RWQ1111')
-    expect(
-      within(parcelBox1).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(parcelBox1, 'Estimated delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
     expect(
-      within(parcelBox2).getByTestId(
-        'list-details-item-Estimated delivery-value'
-      )
+      getValueByDetailName(parcelBox2, 'Estimated delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
   })
 })

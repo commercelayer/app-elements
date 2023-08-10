@@ -151,28 +151,32 @@ const orderDetail = rest.get(
                       self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/market',
                       related:
                         'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/market'
-                    }
+                    },
+                    data: { type: 'markets', id: 'dlQbPhNNop' }
                   },
                   customer: {
                     links: {
                       self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/customer',
                       related:
                         'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/customer'
-                    }
+                    },
+                    data: { type: 'customers', id: 'JkAdBhNGjQ' }
                   },
                   shipping_address: {
                     links: {
                       self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/shipping_address',
                       related:
                         'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/shipping_address'
-                    }
+                    },
+                    data: { type: 'addresses', id: 'dPoNukZmnB' }
                   },
                   billing_address: {
                     links: {
                       self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/billing_address',
                       related:
                         'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/billing_address'
-                    }
+                    },
+                    data: { type: 'addresses', id: 'dQxruwZDnB' }
                   },
                   available_payment_methods: {
                     links: {
@@ -223,7 +227,15 @@ const orderDetail = rest.get(
                       self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/line_items',
                       related:
                         'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/line_items'
-                    }
+                    },
+                    data: [
+                      { type: 'line_items', id: 'vaoMtAZlXy' },
+                      { type: 'line_items', id: 'kmnptjPlBv' },
+                      { type: 'line_items', id: 'vWEZtMGVKy' },
+                      { type: 'line_items', id: 'NqYatGaKnN' },
+                      { type: 'line_items', id: 'NoEntBwEdk' },
+                      { type: 'line_items', id: 'NlQmtMAnGy' }
+                    ]
                   },
                   shipments: {
                     links: {
@@ -331,11 +343,338 @@ const orderDetail = rest.get(
                       related:
                         'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/tags'
                     }
+                  },
+                  versions: {
+                    links: {
+                      self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/versions',
+                      related:
+                        'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/versions'
+                    }
                   }
                 },
                 meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
               },
               included: [
+                {
+                  id: 'dlQbPhNNop',
+                  type: 'markets',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop'
+                  },
+                  attributes: {
+                    number: 350,
+                    name: 'Europe',
+                    facebook_pixel_id: null,
+                    checkout_url: '',
+                    external_prices_url:
+                      'https://pippo.malessani.commercelayer.dev/api/verify',
+                    external_order_validation_url: '',
+                    private: false,
+                    disabled_at: null,
+                    created_at: '2022-03-11T09:40:49.000Z',
+                    updated_at: '2023-03-13T13:30:32.184Z',
+                    reference: 'market_1',
+                    reference_origin: 'CLI',
+                    metadata: {}
+                  },
+                  relationships: {
+                    merchant: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/merchant',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/merchant'
+                      }
+                    },
+                    price_list: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/price_list',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/price_list'
+                      }
+                    },
+                    inventory_model: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/inventory_model',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/inventory_model'
+                      }
+                    },
+                    subscription_model: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/subscription_model',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/subscription_model'
+                      }
+                    },
+                    tax_calculator: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/tax_calculator',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/tax_calculator'
+                      }
+                    },
+                    customer_group: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/customer_group',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/customer_group'
+                      }
+                    },
+                    attachments: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/attachments',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/attachments'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/versions'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'JkAdBhNGjQ',
+                  type: 'customers',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ'
+                  },
+                  attributes: {
+                    email: 'customer@tk.com',
+                    status: 'repeat',
+                    has_password: false,
+                    total_orders_count: 2753,
+                    created_at: '2022-03-14T09:13:06.633Z',
+                    updated_at: '2023-07-31T09:13:06.049Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    customer_group: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_group',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_group'
+                      }
+                    },
+                    customer_addresses: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_addresses'
+                      }
+                    },
+                    customer_payment_sources: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_payment_sources'
+                      }
+                    },
+                    customer_subscriptions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_subscriptions'
+                      }
+                    },
+                    orders: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/orders',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/orders'
+                      }
+                    },
+                    order_subscriptions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/order_subscriptions'
+                      }
+                    },
+                    returns: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/returns',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/returns'
+                      }
+                    },
+                    sku_lists: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/sku_lists',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/sku_lists'
+                      }
+                    },
+                    attachments: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/attachments',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/attachments'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/tags'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'dPoNukZmnB',
+                  type: 'addresses',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB'
+                  },
+                  attributes: {
+                    business: false,
+                    first_name: 'Darth',
+                    last_name: 'Vader',
+                    company: null,
+                    full_name: 'Darth Vader',
+                    line_1: 'Via Morte Nera, 13',
+                    line_2: 'Ragnatela, 99',
+                    city: 'Cogorno',
+                    zip_code: '16030',
+                    state_code: 'GE',
+                    country_code: 'IT',
+                    phone: '+39 055 1234567890',
+                    full_address:
+                      'Via Morte Nera, 13 Ragnatela, 99, 16030 Cogorno GE (IT) +39 055 1234567890',
+                    name: 'Darth Vader, Via Morte Nera, 13 Ragnatela, 99, 16030 Cogorno GE (IT) +39 055 1234567890',
+                    email: null,
+                    notes: null,
+                    lat: null,
+                    lng: null,
+                    is_localized: false,
+                    is_geocoded: false,
+                    provider_name: null,
+                    map_url: null,
+                    static_map_url: null,
+                    billing_info: 'ABCDEFGHIJKLMNOPQRSTUVWYXZ',
+                    created_at: '2023-05-16T11:06:07.638Z',
+                    updated_at: '2023-05-16T11:06:07.638Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    geocoder: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/geocoder',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/geocoder'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/tags'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/versions'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'dQxruwZDnB',
+                  type: 'addresses',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB'
+                  },
+                  attributes: {
+                    business: false,
+                    first_name: 'Darth',
+                    last_name: 'Vader',
+                    company: null,
+                    full_name: 'Darth Vader',
+                    line_1: 'Via Morte Nera, 13',
+                    line_2: 'Ragnatela, 99',
+                    city: 'Cogorno',
+                    zip_code: '16030',
+                    state_code: 'GE',
+                    country_code: 'IT',
+                    phone: '+39 055 1234567890',
+                    full_address:
+                      'Via Morte Nera, 13 Ragnatela, 99, 16030 Cogorno GE (IT) +39 055 1234567890',
+                    name: 'Darth Vader, Via Morte Nera, 13 Ragnatela, 99, 16030 Cogorno GE (IT) +39 055 1234567890',
+                    email: null,
+                    notes: null,
+                    lat: null,
+                    lng: null,
+                    is_localized: false,
+                    is_geocoded: false,
+                    provider_name: null,
+                    map_url: null,
+                    static_map_url: null,
+                    billing_info: 'ABCDEFGHIJKLMNOPQRSTUVWYXZ',
+                    created_at: '2023-05-16T11:06:07.493Z',
+                    updated_at: '2023-05-16T11:06:07.493Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    geocoder: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/geocoder',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/geocoder'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/tags'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/versions'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
                 {
                   id: 'wmBvQsARml',
                   type: 'payment_methods',
@@ -382,6 +721,13 @@ const orderDetail = rest.get(
                         self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/attachments',
                         related:
                           'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/attachments'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/versions'
                       }
                     }
                   },
@@ -482,6 +828,7 @@ const orderDetail = rest.get(
                     intent_amount_cents: 15400,
                     intent_amount_float: 154.0,
                     formatted_intent_amount: '€154,00',
+                    return_url: null,
                     payment_instrument: {
                       issuer_type: 'card',
                       card_type: 'visa',
@@ -508,6 +855,655 @@ const orderDetail = rest.get(
                         self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
                         related:
                           'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/payment_gateway'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/versions'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'vaoMtAZlXy',
+                  type: 'line_items',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy'
+                  },
+                  attributes: {
+                    sku_code: null,
+                    bundle_code: null,
+                    quantity: 1,
+                    currency_code: 'EUR',
+                    unit_amount_cents: -10000,
+                    unit_amount_float: -100.0,
+                    formatted_unit_amount: '-€100,00',
+                    options_amount_cents: 0,
+                    options_amount_float: 0.0,
+                    formatted_options_amount: '€0,00',
+                    discount_cents: 0,
+                    discount_float: 0.0,
+                    formatted_discount: '€0,00',
+                    total_amount_cents: -10000,
+                    total_amount_float: -100.0,
+                    formatted_total_amount: '-€100,00',
+                    tax_amount_cents: 0,
+                    tax_amount_float: 0.0,
+                    formatted_tax_amount: '€0,00',
+                    name: 'Gift card: €100,00',
+                    image_url: null,
+                    discount_breakdown: {},
+                    tax_rate: 0.0,
+                    tax_breakdown: {},
+                    item_type: 'gift_cards',
+                    frequency: null,
+                    created_at: '2023-05-16T11:06:14.674Z',
+                    updated_at: '2023-05-16T11:06:14.674Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    order: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/order',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/order'
+                      }
+                    },
+                    item: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/item',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/item'
+                      }
+                    },
+                    line_item_options: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/line_item_options',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/line_item_options'
+                      }
+                    },
+                    shipment_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/shipment_line_items'
+                      }
+                    },
+                    stock_reservations: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_reservations'
+                      }
+                    },
+                    stock_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_line_items'
+                      }
+                    },
+                    stock_transfers: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_transfers'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/tags'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'kmnptjPlBv',
+                  type: 'line_items',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv'
+                  },
+                  attributes: {
+                    sku_code: null,
+                    bundle_code: null,
+                    quantity: 1,
+                    currency_code: 'EUR',
+                    unit_amount_cents: 1000,
+                    unit_amount_float: 10.0,
+                    formatted_unit_amount: '€10,00',
+                    options_amount_cents: 0,
+                    options_amount_float: 0.0,
+                    formatted_options_amount: '€0,00',
+                    discount_cents: 0,
+                    discount_float: 0.0,
+                    formatted_discount: '€0,00',
+                    total_amount_cents: 1000,
+                    total_amount_float: 10.0,
+                    formatted_total_amount: '€10,00',
+                    tax_amount_cents: 0,
+                    tax_amount_float: 0.0,
+                    formatted_tax_amount: '€0,00',
+                    name: 'Stripe Payment',
+                    image_url: null,
+                    discount_breakdown: {},
+                    tax_rate: 0.0,
+                    tax_breakdown: {},
+                    item_type: 'payment_methods',
+                    frequency: null,
+                    created_at: '2023-05-16T11:06:14.629Z',
+                    updated_at: '2023-05-16T11:06:14.629Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    order: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/order',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/order'
+                      }
+                    },
+                    item: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/item',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/item'
+                      }
+                    },
+                    line_item_options: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/line_item_options',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/line_item_options'
+                      }
+                    },
+                    shipment_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/shipment_line_items'
+                      }
+                    },
+                    stock_reservations: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_reservations',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_reservations'
+                      }
+                    },
+                    stock_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_line_items'
+                      }
+                    },
+                    stock_transfers: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_transfers',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_transfers'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/tags'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'vWEZtMGVKy',
+                  type: 'line_items',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy'
+                  },
+                  attributes: {
+                    sku_code: null,
+                    bundle_code: null,
+                    quantity: 1,
+                    currency_code: 'EUR',
+                    unit_amount_cents: 0,
+                    unit_amount_float: 0.0,
+                    formatted_unit_amount: '€0,00',
+                    options_amount_cents: 0,
+                    options_amount_float: 0.0,
+                    formatted_options_amount: '€0,00',
+                    discount_cents: 0,
+                    discount_float: 0.0,
+                    formatted_discount: '€0,00',
+                    total_amount_cents: 0,
+                    total_amount_float: 0.0,
+                    formatted_total_amount: '€0,00',
+                    tax_amount_cents: 0,
+                    tax_amount_float: 0.0,
+                    formatted_tax_amount: '€0,00',
+                    name: 'Shipment #2485862/S/001',
+                    image_url: null,
+                    discount_breakdown: {},
+                    tax_rate: 0.0,
+                    tax_breakdown: {},
+                    item_type: 'shipments',
+                    frequency: null,
+                    created_at: '2023-05-16T11:06:09.728Z',
+                    updated_at: '2023-05-16T11:06:09.728Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    order: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/order',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/order'
+                      }
+                    },
+                    item: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/item',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/item'
+                      }
+                    },
+                    line_item_options: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/line_item_options',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/line_item_options'
+                      }
+                    },
+                    shipment_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/shipment_line_items'
+                      }
+                    },
+                    stock_reservations: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_reservations'
+                      }
+                    },
+                    stock_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_line_items'
+                      }
+                    },
+                    stock_transfers: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_transfers'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/tags'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'NqYatGaKnN',
+                  type: 'line_items',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN'
+                  },
+                  attributes: {
+                    sku_code: null,
+                    bundle_code: null,
+                    quantity: 1,
+                    currency_code: 'EUR',
+                    unit_amount_cents: 0,
+                    unit_amount_float: 0.0,
+                    formatted_unit_amount: '€0,00',
+                    options_amount_cents: 0,
+                    options_amount_float: 0.0,
+                    formatted_options_amount: '€0,00',
+                    discount_cents: 0,
+                    discount_float: 0.0,
+                    formatted_discount: '€0,00',
+                    total_amount_cents: 0,
+                    total_amount_float: 0.0,
+                    formatted_total_amount: '€0,00',
+                    tax_amount_cents: 0,
+                    tax_amount_float: 0.0,
+                    formatted_tax_amount: '€0,00',
+                    name: 'Shipment #2485862/S/002',
+                    image_url: null,
+                    discount_breakdown: {},
+                    tax_rate: 0.0,
+                    tax_breakdown: {},
+                    item_type: 'shipments',
+                    frequency: null,
+                    created_at: '2023-05-16T11:06:09.602Z',
+                    updated_at: '2023-05-16T11:06:09.602Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    order: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/order',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/order'
+                      }
+                    },
+                    item: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/item',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/item'
+                      }
+                    },
+                    line_item_options: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/line_item_options',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/line_item_options'
+                      }
+                    },
+                    shipment_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/shipment_line_items'
+                      }
+                    },
+                    stock_reservations: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_reservations',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_reservations'
+                      }
+                    },
+                    stock_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_line_items'
+                      }
+                    },
+                    stock_transfers: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_transfers',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_transfers'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/tags'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'NoEntBwEdk',
+                  type: 'line_items',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk'
+                  },
+                  attributes: {
+                    sku_code: 'TSHIRTMMFFFFFF000000XLXX',
+                    bundle_code: null,
+                    quantity: 5,
+                    currency_code: 'EUR',
+                    unit_amount_cents: 2900,
+                    unit_amount_float: 29.0,
+                    formatted_unit_amount: '€29,00',
+                    options_amount_cents: 0,
+                    options_amount_float: 0.0,
+                    formatted_options_amount: '€0,00',
+                    discount_cents: -5943,
+                    discount_float: -59.43,
+                    formatted_discount: '-€59,43',
+                    total_amount_cents: 14500,
+                    total_amount_float: 145.0,
+                    formatted_total_amount: '€145,00',
+                    tax_amount_cents: 0,
+                    tax_amount_float: 0.0,
+                    formatted_tax_amount: '€0,00',
+                    name: 'White Men T-Shirt with Black Logo (XL)',
+                    image_url:
+                      'https://data.commercelayer.app/seed/images/skus/TSHIRTMSFFFFFF000000XLXX_FLAT.png',
+                    discount_breakdown: {
+                      vaoMtAZlXy: { cents: -5943, weight: 0.5942622950819673 }
+                    },
+                    tax_rate: 0.0,
+                    tax_breakdown: {},
+                    item_type: 'skus',
+                    frequency: null,
+                    created_at: '2023-05-16T11:06:02.458Z',
+                    updated_at: '2023-05-16T11:06:02.458Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    order: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/order',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/order'
+                      }
+                    },
+                    item: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/item',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/item'
+                      }
+                    },
+                    line_item_options: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/line_item_options',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/line_item_options'
+                      }
+                    },
+                    shipment_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/shipment_line_items'
+                      }
+                    },
+                    stock_reservations: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_reservations',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_reservations'
+                      }
+                    },
+                    stock_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_line_items'
+                      }
+                    },
+                    stock_transfers: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_transfers',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_transfers'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/tags'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'NlQmtMAnGy',
+                  type: 'line_items',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy'
+                  },
+                  attributes: {
+                    sku_code: 'CANVASAU000000FFFFFF1824',
+                    bundle_code: null,
+                    quantity: 1,
+                    currency_code: 'EUR',
+                    unit_amount_cents: 9900,
+                    unit_amount_float: 99.0,
+                    formatted_unit_amount: '€99,00',
+                    options_amount_cents: 0,
+                    options_amount_float: 0.0,
+                    formatted_options_amount: '€0,00',
+                    discount_cents: -4057,
+                    discount_float: -40.57,
+                    formatted_discount: '-€40,57',
+                    total_amount_cents: 9900,
+                    total_amount_float: 99.0,
+                    formatted_total_amount: '€99,00',
+                    tax_amount_cents: 0,
+                    tax_amount_float: 0.0,
+                    formatted_tax_amount: '€0,00',
+                    name: 'Black Canvas with White Logo (18x24)',
+                    image_url:
+                      'https://img.commercelayer.io/skus/CANVASAU000000FFFFFF.png?fm=jpg&q=90',
+                    discount_breakdown: {
+                      vaoMtAZlXy: { cents: -4057, weight: 0.4057377049180328 }
+                    },
+                    tax_rate: 0.0,
+                    tax_breakdown: {},
+                    item_type: 'skus',
+                    frequency: null,
+                    created_at: '2023-05-16T11:06:02.444Z',
+                    updated_at: '2023-05-16T11:06:02.444Z',
+                    reference: null,
+                    reference_origin: null,
+                    metadata: {}
+                  },
+                  relationships: {
+                    order: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/order',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/order'
+                      }
+                    },
+                    item: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/item',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/item'
+                      }
+                    },
+                    line_item_options: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/line_item_options',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/line_item_options'
+                      }
+                    },
+                    shipment_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/shipment_line_items'
+                      }
+                    },
+                    stock_reservations: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_reservations'
+                      }
+                    },
+                    stock_line_items: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_line_items'
+                      }
+                    },
+                    stock_transfers: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_transfers'
+                      }
+                    },
+                    events: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/events',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/events'
+                      }
+                    },
+                    tags: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/tags',
+                        related:
+                          'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/tags'
                       }
                     }
                   },
@@ -537,13 +1533,13 @@ const orderDetail = rest.get(
                     purchase_started_at: null,
                     purchase_completed_at: null,
                     purchase_failed_at: null,
-                    on_hold_at: '2023-05-16T14:18:35.513Z',
-                    picking_at: null,
-                    packing_at: null,
+                    on_hold_at: '2023-07-21T14:12:13.287Z',
+                    picking_at: '2023-07-21T14:12:08.574Z',
+                    packing_at: '2023-07-21T14:10:54.107Z',
                     ready_to_ship_at: null,
                     shipped_at: null,
                     created_at: '2023-05-16T11:06:07.685Z',
-                    updated_at: '2023-05-16T14:18:35.509Z',
+                    updated_at: '2023-07-21T14:12:13.286Z',
                     reference: null,
                     reference_origin: null,
                     metadata: {}
@@ -645,14 +1641,20 @@ const orderDetail = rest.get(
                         self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/attachments',
                         related:
                           'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/attachments'
-                      },
-                      data: []
+                      }
                     },
                     events: {
                       links: {
                         self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/events',
                         related:
                           'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/events'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/versions'
                       }
                     }
                   },
@@ -790,8 +1792,7 @@ const orderDetail = rest.get(
                         self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/attachments',
                         related:
                           'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/attachments'
-                      },
-                      data: [{ type: 'attachments', id: 'ZNypWswaOY' }]
+                      }
                     },
                     events: {
                       links: {
@@ -799,59 +1800,12 @@ const orderDetail = rest.get(
                         related:
                           'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/events'
                       }
-                    }
-                  },
-                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
-                },
-                {
-                  id: 'ZNypWswaOY',
-                  type: 'attachments',
-                  links: {
-                    self: 'https://alessani.commercelayer.co/api/attachments/ZNypWswaOY'
-                  },
-                  attributes: {
-                    name: 'M. Montalbano',
-                    description: "It's me on Shipment APP",
-                    url: null,
-                    created_at: '2023-07-20T13:59:29.078Z',
-                    updated_at: '2023-07-20T13:59:29.078Z',
-                    reference: null,
-                    reference_origin: 'app-shipments--note',
-                    metadata: {}
-                  },
-                  relationships: {
-                    attachable: {
+                    },
+                    versions: {
                       links: {
-                        self: 'https://alessani.commercelayer.co/api/attachments/ZNypWswaOY/relationships/attachable',
+                        self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/versions',
                         related:
-                          'https://alessani.commercelayer.co/api/attachments/ZNypWswaOY/attachable'
-                      }
-                    }
-                  },
-                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
-                },
-                {
-                  id: 'EqGrksxWNW',
-                  type: 'attachments',
-                  links: {
-                    self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW'
-                  },
-                  attributes: {
-                    name: 'M. Montalbano',
-                    description: 'Ehi there!',
-                    url: null,
-                    created_at: '2023-07-14T13:58:52.184Z',
-                    updated_at: '2023-07-14T13:58:52.184Z',
-                    reference: null,
-                    reference_origin: 'app-orders--note',
-                    metadata: {}
-                  },
-                  relationships: {
-                    attachable: {
-                      links: {
-                        self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/relationships/attachable',
-                        related:
-                          'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/attachable'
+                          'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/versions'
                       }
                     }
                   },
@@ -908,6 +1862,13 @@ const orderDetail = rest.get(
                         self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/attachments',
                         related:
                           'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/attachments'
+                      }
+                    },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/versions'
                       }
                     },
                     captures: {
@@ -979,6 +1940,13 @@ const orderDetail = rest.get(
                           'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/attachments'
                       }
                     },
+                    versions: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/versions',
+                        related:
+                          'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/versions'
+                      }
+                    },
                     reference_authorization: {
                       links: {
                         self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/reference_authorization',
@@ -998,6 +1966,33 @@ const orderDetail = rest.get(
                         self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/events',
                         related:
                           'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/events'
+                      }
+                    }
+                  },
+                  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+                },
+                {
+                  id: 'EqGrksxWNW',
+                  type: 'attachments',
+                  links: {
+                    self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW'
+                  },
+                  attributes: {
+                    name: 'M. Montalbano',
+                    description: 'Ehi there!',
+                    url: null,
+                    created_at: '2023-07-20T13:58:52.184Z',
+                    updated_at: '2023-07-20T13:58:52.184Z',
+                    reference: null,
+                    reference_origin: 'app-orders--note',
+                    metadata: {}
+                  },
+                  relationships: {
+                    attachable: {
+                      links: {
+                        self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/relationships/attachable',
+                        related:
+                          'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/attachable'
                       }
                     }
                   },
