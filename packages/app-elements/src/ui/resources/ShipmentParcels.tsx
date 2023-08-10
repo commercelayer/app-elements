@@ -1,10 +1,12 @@
 import {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,
+  getParcelTrackingDetails,
   getShipmentRate,
   hasBeenPurchased,
   hasSingleTracking
 } from '#helpers/tracking'
+import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Icon } from '#ui/atoms/Icon'
@@ -12,6 +14,8 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { Timeline } from '#ui/composite/Timeline'
 import { FlexRow } from '#ui/internals/FlexRow'
 import {
   type Parcel as ParcelResource,
@@ -192,8 +196,24 @@ const Tracking = withSkeletonTemplate<{
   estimatedDelivery?: string
 }>(({ parcel, estimatedDelivery }) => {
   const trackingDetails = getParcelTrackingDetail(parcel)
+  const { Overlay, open, close } = useOverlayNavigation({
+    queryParam: `tracking-${parcel.tracking_number ?? ''}`
+  })
+
   return (
     <>
+      {parcel.tracking_number != null && (
+        <Overlay>
+          <PageLayout
+            title={`Tracking ${parcel.tracking_number}`}
+            onGoBack={() => {
+              close()
+            }}
+          >
+            <TrackingInformation parcel={parcel} />
+          </PageLayout>
+        </Overlay>
+      )}
       {trackingDetails?.status != null && (
         <FlexRow className='mt-4'>
           <Text variant='info'>Status</Text>
@@ -203,7 +223,15 @@ const Tracking = withSkeletonTemplate<{
       {parcel.tracking_number != null && (
         <FlexRow className='mt-4'>
           <Text variant='info'>Tracking</Text>
-          <Text weight='semibold'>{parcel.tracking_number}</Text>
+          <Text weight='semibold'>
+            <A
+              onClick={() => {
+                open()
+              }}
+            >
+              {parcel.tracking_number}
+            </A>
+          </Text>
         </FlexRow>
       )}
       {estimatedDelivery != null && (
@@ -213,6 +241,26 @@ const Tracking = withSkeletonTemplate<{
         </FlexRow>
       )}
     </>
+  )
+})
+
+const TrackingInformation = withSkeletonTemplate<{
+  parcel: ParcelResource
+}>(({ parcel }) => {
+  return (
+    <Timeline
+      events={getParcelTrackingDetails(parcel)
+        .filter(
+          (
+            tracking
+          ): tracking is SetNonNullableRequired<typeof tracking, 'datetime'> =>
+            tracking.datetime != null
+        )
+        .map((tracking) => ({
+          date: tracking.datetime,
+          message: tracking.message
+        }))}
+    />
   )
 })
 
