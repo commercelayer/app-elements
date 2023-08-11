@@ -238,10 +238,13 @@ export const LineItems = withSkeletonTemplate<{
                   >
                     {hasLineItemOptions && (
                       <LineItemOptions
+                        delayMs={0}
                         lineItemOptions={lineItem.line_item_options}
                       />
                     )}
-                    {hasBundle && <Bundle code={lineItem.bundle_code} />}
+                    {hasBundle && (
+                      <Bundle delayMs={0} code={lineItem.bundle_code} />
+                    )}
                     {isEditable && <Edit item={lineItem} onChange={onChange} />}
                   </td>
                 </tr>
@@ -285,11 +288,9 @@ export const LineItems = withSkeletonTemplate<{
 
 LineItems.displayName = 'LineItems'
 
-const LineItemOptions = ({
-  lineItemOptions
-}: {
+const LineItemOptions = withSkeletonTemplate<{
   lineItemOptions: LineItem['line_item_options']
-}): JSX.Element | null => {
+}>(({ lineItemOptions }) => {
   if (lineItemOptions == null || lineItemOptions.length === 0) {
     return null
   }
@@ -315,7 +316,7 @@ const LineItemOptions = ({
       ))}
     </Spacer>
   )
-}
+})
 
 const Bundle = withSkeletonTemplate<{ code: LineItem['bundle_code'] }>(
   ({ code }): JSX.Element | null => {
