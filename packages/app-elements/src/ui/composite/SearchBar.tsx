@@ -69,11 +69,11 @@ function SearchBar({
     >
       <Icon
         name='magnifyingGlass'
-        className='absolute top-1/2 left-3 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px]'
+        className='absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px]'
       />
 
       <input
-        className='px-12 py-2 bg-gray-100 rounded font-medium w-full transition placeholder:text-gray-400 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none border-none'
+        className='px-11 py-2 bg-gray-100 rounded font-medium w-full transition placeholder:text-gray-400 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none border-none'
         data-test-id='SearchBar-input'
         placeholder={placeholder}
         value={searchValue}
@@ -86,7 +86,7 @@ function SearchBar({
       {onClear != null && !isEmpty(searchValue) ? (
         <button
           data-test-id='SearchBar-clear'
-          className='flex items-center h-full px-2 absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400'
+          className='flex items-center h-full absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400'
           aria-label='Clear text'
           onClick={() => {
             setSearchValue('')

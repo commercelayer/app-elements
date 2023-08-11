@@ -29,21 +29,24 @@ function ButtonFilter({
         type='button'
         data-test-id='ButtonFilter-main'
         onClick={onClick}
-        className={cn('font-bold', 'flex items-center', 'pl-4 py-[10px]', {
-          'pr-4': onRemoveRequest == null,
-          'pr-1': onRemoveRequest != null
-        })}
+        className={cn(
+          'font-bold',
+          'flex items-center gap-2',
+          'pl-4 py-[10px]',
+          {
+            'pr-4': onRemoveRequest == null,
+            'pr-1': onRemoveRequest != null
+          }
+        )}
       >
         {icon != null ? (
           <Icon
             name={icon}
-            className='mr-2 text-base'
+            className='px-0.5 text-base'
             data-test-id='ButtonFilter-icon'
           />
         ) : null}
-        <span className='before:block before:-mt-0.5 inline-block'>
-          {label}
-        </span>
+        <span className='inline-block'>{label}</span>
       </button>
       {onRemoveRequest != null ? (
         <button
