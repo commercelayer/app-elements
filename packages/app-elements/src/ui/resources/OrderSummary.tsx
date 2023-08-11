@@ -22,12 +22,16 @@ interface TotalRowProps {
 }
 
 export const OrderSummary = withSkeletonTemplate<{
-  order: Order
+  editable?: boolean
+  onChange?: () => void
   footerActions?: ActionButtonsProps['actions']
-}>(({ order, footerActions = [] }) => {
+  order: Order
+}>(({ order, onChange, footerActions = [], editable = false }) => {
   return (
     <div>
       <LineItems
+        editable={editable}
+        onChange={onChange}
         items={order.line_items ?? []}
         footer={
           <>

@@ -1,15 +1,20 @@
-import { useCoreApi } from '#providers/CoreSdkProvider'
+import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { useTokenProvider } from '#providers/TokenProvider'
+import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
+import { InputSpinner } from '#ui/forms/InputSpinner'
+import { FlexRow } from '#ui/internals/FlexRow'
 import type {
   LineItem,
   ParcelLineItem,
   StockLineItem
 } from '@commercelayer/sdk'
+import Trash from '@phosphor-icons/react/dist/icons/Trash'
 import cn from 'classnames'
 import { Fragment, useMemo } from 'react'
 
@@ -17,11 +22,68 @@ interface LineItemSettings {
   showPrice: boolean
 }
 
+type Item = LineItem | ParcelLineItem | StockLineItem
+
+const Edit = withSkeletonTemplate<{
+  item: Item
+  onChange?: () => void
+}>(({ item, onChange }) => {
+  const { canUser } = useTokenProvider()
+  const { sdkClient } = useCoreSdkProvider()
+
+  const canUpdate =
+    item.type === 'line_items' && canUser('update', 'line_items')
+  const canRemove =
+    item.type === 'line_items' && canUser('destroy', 'line_items')
+
+  console.log(item.id)
+
+  return (
+    <FlexRow className='pt-8' alignItems='center'>
+      <div>
+        {canUpdate && (
+          <InputSpinner
+            defaultValue={item.quantity}
+            min={1}
+            onChange={(value) => {
+              void sdkClient.line_items
+                .update({
+                  id: item.id,
+                  quantity: value
+                })
+                .then(() => {
+                  onChange?.()
+                })
+            }}
+          />
+        )}
+      </div>
+      <div>
+        {canRemove && (
+          <A
+            onClick={() => {
+              void sdkClient.line_items.delete(item.id).then(() => {
+                onChange?.()
+              })
+            }}
+          >
+            <Text weight='bold'>
+              <Trash size={18} weight='bold' />
+            </Text>
+          </A>
+        )}
+      </div>
+    </FlexRow>
+  )
+})
+
 export const LineItems = withSkeletonTemplate<{
-  items: Array<LineItem | ParcelLineItem | StockLineItem>
+  items: Item[]
   size?: 'small' | 'normal'
   footer?: React.ReactNode
-}>(({ items, size = 'normal', footer }) => {
+  editable?: boolean
+  onChange?: () => void
+}>(({ items, size = 'normal', footer, editable = false, onChange }) => {
   const settings = useMemo<LineItemSettings>(() => {
     const a = items.reduce<LineItemSettings>(
       (acc, lineItem): LineItemSettings => {
@@ -67,17 +129,28 @@ export const LineItems = withSkeletonTemplate<{
                 ? lineItem.sku?.image_url
                 : lineItem.image_url
 
+            const hasLineItemOptions =
+              lineItem.type === 'line_items' &&
+              lineItem.line_item_options != null
+
+            const hasBundle =
+              lineItem.type === 'line_items' &&
+              lineItem.item_type === 'bundles' &&
+              lineItem.bundle_code != null
+
+            const isEditable = editable && lineItem.type === 'line_items'
+
             return (
               <Fragment key={`${lineItem.type}-${code}`}>
                 <tr className='h-0'>
                   <td
                     className={cn('w-0', {
-                      'py-6': size === 'normal',
-                      'py-4': size === 'small'
+                      'pt-6': size === 'normal',
+                      'pt-4': size === 'small'
                     })}
                     valign='top'
                     align='center'
-                    rowSpan={2}
+                    rowSpan={3}
                   >
                     {imageUrl != null && (
                       <Avatar
@@ -88,7 +161,7 @@ export const LineItems = withSkeletonTemplate<{
                     )}
                   </td>
                   <td
-                    className={cn('pl-4', {
+                    className={cn('pl-4 h-full', {
                       'pt-6': size === 'normal',
                       'pt-4': size === 'small'
                     })}
@@ -106,18 +179,8 @@ export const LineItems = withSkeletonTemplate<{
                     </Text>
                   </td>
                 </tr>
-                <tr
-                  className={cn('border-b border-gray-100', {
-                    'border-dashed': !isLastRow
-                  })}
-                >
-                  <td
-                    className={cn('px-4 w-full', {
-                      'pb-6': size === 'normal',
-                      'pb-4': size === 'small'
-                    })}
-                    valign='top'
-                  >
+                <tr>
+                  <td className='px-4 w-full' valign='top'>
                     <Text
                       tag='div'
                       className={cn({
@@ -136,16 +199,6 @@ export const LineItems = withSkeletonTemplate<{
                           />
                         </Spacer>
                       )}
-                    {lineItem.type === 'line_items' && (
-                      <LineItemOptions
-                        lineItemOptions={lineItem.line_item_options}
-                      />
-                    )}
-                    {lineItem.type === 'line_items' &&
-                      lineItem.item_type === 'bundles' &&
-                      lineItem.bundle_code != null && (
-                        <Bundle code={lineItem.bundle_code} />
-                      )}
                   </td>
                   <td valign='top' align='right'>
                     <Text
@@ -154,7 +207,8 @@ export const LineItems = withSkeletonTemplate<{
                       wrap='nowrap'
                       className={cn({
                         'font-medium': size === 'normal',
-                        'text-sm': size === 'small'
+                        'text-sm': size === 'small',
+                        hidden: isEditable
                       })}
                     >
                       x {lineItem.quantity}
@@ -178,7 +232,31 @@ export const LineItems = withSkeletonTemplate<{
                   )}
                 </tr>
                 <tr>
-                  <td />
+                  <td
+                    className='p-0 pl-4 w-full'
+                    colSpan={settings.showPrice ? 3 : 2}
+                  >
+                    {hasLineItemOptions && (
+                      <LineItemOptions
+                        lineItemOptions={lineItem.line_item_options}
+                      />
+                    )}
+                    {hasBundle && <Bundle code={lineItem.bundle_code} />}
+                    {isEditable && <Edit item={lineItem} onChange={onChange} />}
+                  </td>
+                </tr>
+                <tr
+                  className={cn('border-b border-gray-100', {
+                    'border-dashed': !isLastRow
+                  })}
+                >
+                  <td
+                    className={cn('w-full p-0', {
+                      'pb-6': size === 'normal',
+                      'pb-4': size === 'small'
+                    })}
+                    colSpan={settings.showPrice ? 4 : 3}
+                  />
                 </tr>
               </Fragment>
             )
@@ -217,7 +295,7 @@ const LineItemOptions = ({
   }
 
   return (
-    <Spacer top='2'>
+    <Spacer top='4'>
       {lineItemOptions.map((item) => (
         <Spacer key={item.id} top='4' className='pb-2 last:pb-0'>
           <Text tag='div' weight='bold' size='small' className='mb-1'>
@@ -239,23 +317,29 @@ const LineItemOptions = ({
   )
 }
 
-const Bundle = withSkeletonTemplate<{ code: string }>(
+const Bundle = withSkeletonTemplate<{ code: LineItem['bundle_code'] }>(
   ({ code }): JSX.Element | null => {
-    const { data: bundles, isLoading } = useCoreApi('bundles', 'list', [
-      {
-        filters: {
-          code_in: code
-        },
-        include: ['sku_list.sku_list_items.sku']
-      }
-    ])
+    const { data: bundles, isLoading } = useCoreApi(
+      'bundles',
+      'list',
+      code == null
+        ? null
+        : [
+            {
+              filters: {
+                code_in: code
+              },
+              include: ['sku_list.sku_list_items.sku']
+            }
+          ]
+    )
 
     if (isLoading || bundles == null || bundles.length === 0) {
       return null
     }
 
     return (
-      <ul className='mt-2.5'>
+      <ul className='ml-1 mt-2.5'>
         {bundles[0].sku_list?.sku_list_items?.map((item) => (
           <li
             key={item.id}

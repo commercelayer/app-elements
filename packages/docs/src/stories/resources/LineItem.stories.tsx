@@ -51,35 +51,77 @@ const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
   )
 }
 
+const footer = (
+  <>
+    <FlexRow>
+      <Text>Subtotal</Text>
+      <Text>$141.60</Text>
+    </FlexRow>
+    <FlexRow className='my-4'>
+      <Text>Shipping method</Text>
+      <Text>$12.00</Text>
+    </FlexRow>
+    <FlexRow>
+      <Text weight='bold'>Total</Text>
+      <Text weight='bold'>$163.60</Text>
+    </FlexRow>
+  </>
+)
+
 export const Default = Template.bind({})
 Default.args = {
   preset: ['custom'],
   isLoading: false,
   items: [presetLineItems.oneLine],
-  footer: (
-    <>
-      <FlexRow>
-        <Text>Subtotal</Text>
-        <Text>$141.60</Text>
-      </FlexRow>
-      <FlexRow className='my-4'>
-        <Text>Shipping method</Text>
-        <Text>$12.00</Text>
-      </FlexRow>
-      <FlexRow>
-        <Text weight='bold'>Total</Text>
-        <Text weight='bold'>$163.60</Text>
-      </FlexRow>
-    </>
-  )
+  footer,
+  onChange() {
+    alert('Something has changed!')
+  }
 }
 
-export const Multi: StoryFn<Props> = () => {
+export const Simple = Template.bind({})
+Simple.args = {
+  preset: ['oneLine']
+}
+
+export const WithLineItemOptions = Template.bind({})
+WithLineItemOptions.args = {
+  preset: ['withOptions']
+}
+
+export const WithBundle = Template.bind({})
+WithBundle.args = {
+  preset: ['withBundle']
+}
+
+export const ParcelLineItem = Template.bind({})
+ParcelLineItem.args = {
+  preset: ['parcelLineItem']
+}
+
+export const StockLineItem = Template.bind({})
+StockLineItem.args = {
+  preset: ['stockLineItem']
+}
+
+export const List: StoryFn<Props> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <LineItems items={Object.values(presetLineItems)} />
+        <LineItems
+          {...args}
+          items={Object.values(presetLineItems)}
+          footer={footer}
+        />
       </CoreSdkProvider>
     </TokenProvider>
   )
+}
+
+export const EditableList = List.bind({})
+EditableList.args = {
+  editable: true,
+  onChange() {
+    alert('Something has changed!')
+  }
 }

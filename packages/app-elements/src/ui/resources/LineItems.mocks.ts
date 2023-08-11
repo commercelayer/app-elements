@@ -8,7 +8,7 @@ export const presetLineItems = {
   oneLine: {
     type: 'line_items',
     item_type: 'skus',
-    id: '',
+    id: 'Rew3423fwr',
     created_at: '',
     updated_at: '',
     sku_code: 'BABYBIBXA19D9D000000XXXX',
@@ -24,7 +24,7 @@ export const presetLineItems = {
   oneLine_2: {
     type: 'line_items',
     item_type: 'skus',
-    id: '',
+    id: 'Tq45rwfokm',
     created_at: '',
     updated_at: '',
     sku_code: 'BASEBHAT000000FFFFFFXXXX',
@@ -40,7 +40,7 @@ export const presetLineItems = {
   twoLines: {
     type: 'line_items',
     item_type: 'skus',
-    id: '',
+    id: 'cEw4rwergv',
     created_at: '',
     updated_at: '',
     sku_code: 'HOODIEUL000000FFFFFFLXXX',
@@ -56,7 +56,7 @@ export const presetLineItems = {
   withOptions: {
     type: 'line_items',
     item_type: 'skus',
-    id: '',
+    id: 'qsx4tet345',
     created_at: '',
     updated_at: '',
     sku_code: 'TOTEBAGLE7DDC7000000XXXX',
