@@ -1,9 +1,8 @@
 import { Container } from '#ui/atoms/Container'
-import { VisibilityTrigger } from '#ui/resources/ResourceList/VisibilityTrigger'
-import cn from 'classnames'
-import React, { useCallback, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { createPortal } from 'react-dom'
 import { Button } from './Button'
+import { Spacer } from './Spacer'
 
 export interface OverlayProps {
   /**
@@ -30,10 +29,7 @@ const Overlay: React.FC<OverlayProps> = ({
   ...rest
 }) => {
   const hasButton = button !== 'none'
-  const [stickyButton, setStickyButton] = useState(false)
   const element = useRef<HTMLDivElement | null>(null)
-  const overlayContent = useRef<HTMLDivElement | null>(null)
-  const overlayButton = useRef<HTMLDivElement | null>(null)
 
   useEffect(function preventBodyScrollbar() {
     document.body.classList.add('overflow-hidden')
@@ -53,21 +49,6 @@ const Overlay: React.FC<OverlayProps> = ({
     [element]
   )
 
-  const updateButtonPosition = useCallback(() => {
-    if (hasButton) {
-      const content = overlayContent?.current
-      const button = overlayButton?.current
-      if (content != null && button != null && window.visualViewport != null) {
-        if (
-          Number(content.clientHeight) + Number(button.clientHeight) >
-          Number(window.visualViewport.height)
-        ) {
-          setStickyButton(true)
-        }
-      }
-    }
-  }, [hasButton, overlayContent, overlayButton])
-
   return createPortal(
     <div
       ref={element}
@@ -78,39 +59,18 @@ const Overlay: React.FC<OverlayProps> = ({
       {...rest}
     >
       <Container minHeight={false}>
-        <div ref={overlayContent}>{children}</div>
-
+        <Spacer bottom='14'>{children}</Spacer>
         {hasButton && (
-          <>
-            <div
-              ref={overlayButton}
-              className={cn([
-                'w-full pt-14',
-                { 'sticky bottom-0': stickyButton }
-              ])}
-            >
-              <Container
-                minHeight={false}
-                className='bg-white pb-4'
-                data-test-id='overlay-buttonContainer'
-              >
-                {/* eslint-disable react/jsx-handler-names */}
-                <Button
-                  type='button'
-                  onClick={button.onClick}
-                  className='w-full'
-                >
-                  {button.label}
-                </Button>
-              </Container>
-            </div>
-            <VisibilityTrigger
-              enabled
-              callback={() => {
-                updateButtonPosition()
-              }}
-            />
-          </>
+          <Container
+            minHeight={false}
+            className='w-full sticky bottom-0 bg-white pb-4'
+            data-test-id='overlay-buttonContainer'
+          >
+            {/* eslint-disable react/jsx-handler-names */}
+            <Button type='button' onClick={button.onClick} className='w-full'>
+              {button.label}
+            </Button>
+          </Container>
         )}
       </Container>
     </div>,
