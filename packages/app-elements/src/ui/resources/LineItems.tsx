@@ -151,7 +151,7 @@ export const LineItems = withSkeletonTemplate<{
             const isEditable = editable && lineItem.type === 'line_items'
 
             return (
-              <Fragment key={`${lineItem.type}-${code}`}>
+              <Fragment key={lineItem.id}>
                 <tr className='h-0'>
                   <td
                     className={cn('w-0', {
