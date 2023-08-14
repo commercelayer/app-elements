@@ -130,6 +130,7 @@ export { ListDetails } from '#ui/lists/ListDetails'
 export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 export { ListItem } from '#ui/lists/ListItem'
 // Resources
+export { LineItems } from '#ui/resources/LineItems'
 export { ListItemOrder } from '#ui/resources/ListItemOrder'
 export { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
 export { OrderSummary } from '#ui/resources/OrderSummary'

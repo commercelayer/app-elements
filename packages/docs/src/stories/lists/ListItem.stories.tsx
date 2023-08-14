@@ -113,3 +113,17 @@ export const Task: StoryFn<typeof ListItem> = (args) => (
     <Icon name='caretRight' />
   </ListItem>
 )
+
+export const Pending: StoryFn<typeof ListItem> = (args) => (
+  <ListItem {...args} icon={<RadialProgress icon='cloud' />}>
+    <div>
+      <Text tag='div' weight='semibold'>
+        Prices
+      </Text>
+      <Text tag='div' size='small' variant='info' weight='medium'>
+        Importing 35%
+      </Text>
+    </div>
+    <Icon name='caretRight' />
+  </ListItem>
+)
