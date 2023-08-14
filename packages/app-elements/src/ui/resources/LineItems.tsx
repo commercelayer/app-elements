@@ -1,8 +1,8 @@
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
-import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
+import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -16,7 +16,7 @@ import type {
 } from '@commercelayer/sdk'
 import Trash from '@phosphor-icons/react/dist/icons/Trash'
 import cn from 'classnames'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 
 interface LineItemSettings {
   showPrice: boolean
@@ -30,22 +30,23 @@ const Edit = withSkeletonTemplate<{
 }>(({ item, onChange }) => {
   const { canUser } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
+  const [disabled, setDisabled] = useState<boolean>(false)
 
   const canUpdate =
     item.type === 'line_items' && canUser('update', 'line_items')
   const canRemove =
     item.type === 'line_items' && canUser('destroy', 'line_items')
 
-  console.log(item.id)
-
   return (
     <FlexRow className='pt-8' alignItems='center'>
       <div>
         {canUpdate && (
           <InputSpinner
+            disabled={disabled}
             defaultValue={item.quantity}
             min={1}
             onChange={(value) => {
+              setDisabled(true)
               void sdkClient.line_items
                 .update({
                   id: item.id,
@@ -53,6 +54,7 @@ const Edit = withSkeletonTemplate<{
                 })
                 .then(() => {
                   onChange?.()
+                  setDisabled(false)
                 })
             }}
           />
@@ -60,17 +62,25 @@ const Edit = withSkeletonTemplate<{
       </div>
       <div>
         {canRemove && (
-          <A
+          <Button
+            aria-label='Delete'
+            disabled={disabled}
+            className='!p-0'
+            variant='link'
             onClick={() => {
-              void sdkClient.line_items.delete(item.id).then(() => {
-                onChange?.()
-              })
+              if (!disabled) {
+                setDisabled(true)
+                void sdkClient.line_items.delete(item.id).then(() => {
+                  onChange?.()
+                  setDisabled(false)
+                })
+              }
             }}
           >
-            <Text weight='bold'>
+            <Text variant={disabled ? 'disabled' : 'primary'} weight='bold'>
               <Trash size={18} weight='bold' />
             </Text>
-          </A>
+          </Button>
         )}
       </div>
     </FlexRow>
