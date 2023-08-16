@@ -5,6 +5,7 @@ import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
+import { RelationshipCheckboxWrapper } from '#ui/internals/RelationshipCheckboxWrapper'
 import { type QueryParamsList } from '@commercelayer/sdk'
 import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
@@ -38,18 +39,6 @@ export interface RelationshipSelectorProps
    */
   showCheckboxIcon?: boolean
 }
-
-export function RelationshipCheckboxWrapper({
-  children,
-  ...rest
-}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
-  return (
-    <div {...rest} className='p-3 hover:bg-gray-50 mb-[1px] last:mb-0'>
-      {children}
-    </div>
-  )
-}
-
 export function RelationshipSelector({
   defaultValues,
   fieldForLabel,
