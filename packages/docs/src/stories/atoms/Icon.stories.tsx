@@ -1,5 +1,5 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import { Icon, iconNames } from '#ui/atoms/Icon'
+import { Icon, iconNames, type IconProps } from '#ui/atoms/Icon'
 import { Text } from '#ui/atoms/Text'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -19,7 +19,8 @@ Default.args = {
   name: 'check'
 }
 
-export const AvailableIcons: StoryFn = () => (
+/** These are all the possible values for the `name` prop. */
+export const AvailableNames: StoryFn = () => (
   <div
     style={{
       display: 'grid',
@@ -39,7 +40,59 @@ export const AvailableIcons: StoryFn = () => (
     ))}
   </div>
 )
-AvailableIcons.parameters = {
+AvailableNames.parameters = {
+  docs: {
+    source: {
+      code: null
+    }
+  }
+}
+
+/** These are all the possible values for the `background` prop. */
+export const AvailableBackgrounds: StoryFn = () => {
+  const backgrounds = [
+    undefined,
+    ...(
+      Object.keys({
+        black: null,
+        gray: null,
+        green: null,
+        none: null,
+        orange: null,
+        red: null,
+        teal: null,
+        white: null
+      } satisfies Record<NonNullable<IconProps['background']>, null>) as Array<
+        NonNullable<IconProps['background']>
+      >
+    ).sort()
+  ]
+
+  return (
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+        gridAutoFlow: 'row',
+        gap: '1rem'
+      }}
+    >
+      {backgrounds.map((name) => (
+        <div
+          key={name}
+          className='flex flex-row gap-2 items-center align-middle'
+        >
+          <Icon key={name} name='check' background={name} gap='small' />
+          <Text size='small' variant='info'>
+            {name}
+          </Text>
+          <CopyToClipboard showValue={false} value={name} />
+        </div>
+      ))}
+    </div>
+  )
+}
+AvailableBackgrounds.parameters = {
   docs: {
     source: {
       code: null

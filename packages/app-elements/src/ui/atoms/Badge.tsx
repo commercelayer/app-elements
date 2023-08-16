@@ -2,16 +2,18 @@ import cn from 'classnames'
 import React from 'react'
 
 export type BadgeVariant =
-  | 'primary'
-  | 'secondary'
-  | 'warning'
-  | 'danger'
-  | 'success'
-  | 'primary-solid'
-  | 'secondary-solid'
-  | 'warning-solid'
   | 'danger-solid'
+  | 'danger'
+  | 'primary-solid'
+  | 'primary'
+  | 'secondary-solid'
+  | 'secondary'
   | 'success-solid'
+  | 'success'
+  | 'teal-solid'
+  | 'teal'
+  | 'warning-solid'
+  | 'warning'
 
 interface Props extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   variant: BadgeVariant
@@ -19,17 +21,23 @@ interface Props extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
 }
 
 const variantCss: Record<BadgeVariant, string> = {
-  primary: 'text-primary bg-primary/10',
-  secondary: 'text-gray-500 bg-gray-500/10',
-  warning: 'text-orange bg-orange/10',
-  danger: 'text-red bg-red/10',
-  success: 'text-green bg-green/10',
+  'danger-solid': 'text-white bg-red',
   'primary-solid': 'text-white bg-primary',
   'secondary-solid': 'text-white bg-gray-500',
+  'success-solid': 'text-white bg-green',
+  'teal-solid': 'text-white bg-teal',
   'warning-solid': 'text-white bg-orange',
-  'danger-solid': 'text-white bg-red',
-  'success-solid': 'text-white bg-green'
+  danger: 'text-red bg-red/10',
+  primary: 'text-primary bg-primary/10',
+  secondary: 'text-gray-500 bg-gray-500/10',
+  success: 'text-green bg-green/10',
+  teal: 'text-teal-800 bg-teal-800/10',
+  warning: 'text-orange bg-orange/10'
 }
+
+export const badgeVariants = Object.keys(variantCss) as Array<
+  keyof typeof variantCss
+>
 
 function Badge({ variant, label, className, ...rest }: Props): JSX.Element {
   return (
