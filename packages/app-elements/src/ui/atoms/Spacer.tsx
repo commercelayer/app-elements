@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react'
 import cn from 'classnames'
+import { type ReactNode } from 'react'
 
 export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -30,7 +30,7 @@ export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {
  * 12: 3rem, 48px
  * 14: 3.5rem, 56px
  */
-export type SpacingValues = '2' | '4' | '6' | '8' | '12' | '14'
+export type SpacingValues = '2' | '4' | '6' | '8' | '10' | '12' | '14'
 
 const marginTopCss: Record<SpacingValues | 'none', string> = {
   none: '',
@@ -38,6 +38,7 @@ const marginTopCss: Record<SpacingValues | 'none', string> = {
   '4': 'mt-4',
   '6': 'mt-6',
   '8': 'mt-8',
+  '10': 'mt-10',
   '12': 'mt-12',
   '14': 'mt-14'
 }
@@ -48,6 +49,7 @@ const marginBottomCss: Record<SpacingValues | 'none', string> = {
   '4': 'mb-4',
   '6': 'mb-6',
   '8': 'mb-8',
+  '10': 'mb-10',
   '12': 'mb-12',
   '14': 'mb-14'
 }
@@ -58,6 +60,7 @@ const marginLeftCss: Record<SpacingValues | 'none', string> = {
   '4': 'ml-4',
   '6': 'ml-6',
   '8': 'ml-8',
+  '10': 'ml-10',
   '12': 'ml-12',
   '14': 'ml-14'
 }
@@ -68,6 +71,7 @@ const marginRightCss: Record<SpacingValues | 'none', string> = {
   '4': 'mr-4',
   '6': 'mr-6',
   '8': 'mr-8',
+  '10': 'mr-10',
   '12': 'mr-12',
   '14': 'mr-14'
 }

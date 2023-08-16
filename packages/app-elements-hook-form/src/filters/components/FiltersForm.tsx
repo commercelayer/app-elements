@@ -55,7 +55,7 @@ function FiltersForm({
       {instructions.map((item) => {
         if (isItemOptions(item) && item.hidden !== true) {
           return (
-            <Spacer bottom='14' key={item.label}>
+            <Spacer bottom='10' key={item.label}>
               <FieldItem item={item} />
             </Spacer>
           )
@@ -63,7 +63,7 @@ function FiltersForm({
 
         if (item.type === 'timeRange') {
           return (
-            <Spacer bottom='14' key={item.label}>
+            <Spacer bottom='10' key={item.label}>
               <FieldTimeRange item={item} />
             </Spacer>
           )
@@ -71,7 +71,7 @@ function FiltersForm({
 
         if (item.type === 'currencyRange') {
           return (
-            <Spacer bottom='14' key={item.label}>
+            <Spacer bottom='10' key={item.label}>
               <FieldCurrencyRange item={item} />
             </Spacer>
           )
