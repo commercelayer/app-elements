@@ -72,7 +72,7 @@ export const Default = Template.bind({})
 Default.args = {
   preset: ['custom'],
   isLoading: false,
-  items: [presetLineItems.oneLine],
+  items: [{ ...presetLineItems.oneLine, id: 'nIp9785zse' }],
   footer,
   onChange() {
     alert('Something has changed!')
