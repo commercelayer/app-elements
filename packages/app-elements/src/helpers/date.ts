@@ -7,6 +7,9 @@ import isThisYear from 'date-fns/isThisYear'
 import isToday from 'date-fns/isToday'
 import startOfDay from 'date-fns/startOfDay'
 import sub from 'date-fns/sub'
+import groupBy from 'lodash/groupBy'
+import orderBy from 'lodash/orderBy'
+import { type Simplify } from 'type-fest'
 
 type Format =
   | 'date'
@@ -191,4 +194,53 @@ export function getIsoDateAtDaysBefore({
   }
 
   return sub(new Date(startOfDay), { days }).toISOString()
+}
+
+export interface Event {
+  date: string
+}
+
+type Position = 'first' | 'other'
+
+/**
+ *
+ * @param events
+ * @param options
+ * @returns
+ */
+export function sortAndGroupByDate<T extends Event>(
+  events: T[],
+  {
+    timezone,
+    orders = 'desc'
+  }: { timezone?: string; orders?: 'asc' | 'desc' } = {}
+): Record<
+  string,
+  Array<
+    Simplify<
+      T & {
+        position: Position
+      }
+    >
+  >
+> {
+  const ordered: Array<T & { position: Position }> = orderBy(
+    events,
+    'date',
+    orders
+  ).map((event, index) => {
+    const position: Position = index === events.length - 1 ? 'first' : 'other'
+    return {
+      ...event,
+      position
+    }
+  })
+
+  return groupBy(ordered, (val) =>
+    formatDate({
+      isoDate: val.date,
+      format: 'date',
+      timezone
+    }).toUpperCase()
+  )
 }

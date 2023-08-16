@@ -1,12 +1,10 @@
-import { formatDate, timeSeparator } from '#helpers/date'
+import { formatDate, sortAndGroupByDate, timeSeparator } from '#helpers/date'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { Input } from '#ui/forms/Input'
-import groupBy from 'lodash/groupBy'
-import orderBy from 'lodash/orderBy'
 import { Fragment, useMemo, type ReactNode } from 'react'
 
 export interface TimelineEvent {
@@ -16,10 +14,7 @@ export interface TimelineEvent {
   note?: string
 }
 
-type Position = 'first' | 'other'
-
 type EventWithIcon = TimelineEvent & {
-  position: Position
   icon: JSX.Element
 }
 
@@ -33,24 +28,12 @@ interface Props {
 export const Timeline = withSkeletonTemplate<Props>(
   ({ events, timezone, onChange, onKeyDown }) => {
     const groupedEvents = useMemo(() => {
-      const ordered: EventWithIcon[] = orderBy(events, 'date', 'desc').map(
-        (event, index, arr) => {
-          const position: Position =
-            index === events.length - 1 ? 'first' : 'other'
-          return {
-            ...event,
-            position,
-            icon: getIcon(event)
-          }
-        }
-      )
-      return groupBy(ordered, (val) =>
-        formatDate({
-          isoDate: val.date,
-          format: 'date',
-          timezone
-        }).toUpperCase()
-      )
+      const eventsWithIcon: EventWithIcon[] = events.map((event) => ({
+        ...event,
+        icon: getIcon(event)
+      }))
+
+      return sortAndGroupByDate(eventsWithIcon, { timezone })
     }, [events, timezone])
     return (
       <div data-test-id='timeline'>

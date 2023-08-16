@@ -7,6 +7,7 @@ export {
   formatDate,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
+  sortAndGroupByDate,
   timeSeparator
 } from '#helpers/date'
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'

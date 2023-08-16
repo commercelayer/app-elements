@@ -1,10 +1,12 @@
+import { formatDate, sortAndGroupByDate } from '#helpers/date'
 import {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,
   getParcelTrackingDetails,
   getShipmentRate,
   hasBeenPurchased,
-  hasSingleTracking
+  hasSingleTracking,
+  type TrackingDetail
 } from '#helpers/tracking'
 import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
 import { A } from '#ui/atoms/A'
@@ -14,8 +16,6 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
-import { PageLayout } from '#ui/composite/PageLayout'
-import { Timeline } from '#ui/composite/Timeline'
 import { FlexRow } from '#ui/internals/FlexRow'
 import {
   type Parcel as ParcelResource,
@@ -23,6 +23,8 @@ import {
 } from '@commercelayer/sdk'
 import { Package } from '@phosphor-icons/react'
 import cn from 'classnames'
+import { useCallback, useMemo } from 'react'
+import { Badge, PageLayout, useTokenProvider } from 'src/main'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 import { LineItems } from './LineItems'
 
@@ -196,24 +198,12 @@ const Tracking = withSkeletonTemplate<{
   estimatedDelivery?: string
 }>(({ parcel, estimatedDelivery }) => {
   const trackingDetails = getParcelTrackingDetail(parcel)
-  const { Overlay, open, close } = useOverlayNavigation({
-    queryParam: `tracking-${parcel.tracking_number ?? ''}`
-  })
+  const { TrackingDetailsOverlay, openTrackingDetails } =
+    useTrackingDetails(parcel)
 
   return (
     <>
-      {parcel.tracking_number != null && (
-        <Overlay>
-          <PageLayout
-            title={`Tracking ${parcel.tracking_number}`}
-            onGoBack={() => {
-              close()
-            }}
-          >
-            <TrackingInformation parcel={parcel} />
-          </PageLayout>
-        </Overlay>
-      )}
+      <TrackingDetailsOverlay />
       {trackingDetails?.status != null && (
         <FlexRow className='mt-4'>
           <Text variant='info'>Status</Text>
@@ -226,7 +216,7 @@ const Tracking = withSkeletonTemplate<{
           <Text weight='semibold'>
             <A
               onClick={() => {
-                open()
+                openTrackingDetails()
               }}
             >
               {parcel.tracking_number}
@@ -244,23 +234,114 @@ const Tracking = withSkeletonTemplate<{
   )
 })
 
-const TrackingInformation = withSkeletonTemplate<{
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const useTrackingDetails = (parcel: ParcelResource) => {
+  const {
+    Overlay,
+    open: openTrackingDetails,
+    close
+  } = useOverlayNavigation({
+    queryParam: `tracking-${parcel.tracking_number ?? ''}`
+  })
+
+  const TrackingDetailsOverlay = useCallback(() => {
+    return (
+      parcel.tracking_number != null && (
+        <Overlay>
+          <PageLayout
+            title={`Tracking #${parcel.tracking_number}`}
+            onGoBack={() => {
+              close()
+            }}
+          >
+            <TrackingDetails parcel={parcel} />
+          </PageLayout>
+        </Overlay>
+      )
+    )
+  }, [Overlay, close, parcel])
+
+  return { TrackingDetailsOverlay, openTrackingDetails }
+}
+
+const TrackingDetails = withSkeletonTemplate<{
   parcel: ParcelResource
 }>(({ parcel }) => {
+  const { user } = useTokenProvider()
+
+  interface Event {
+    date: string
+    tracking: TrackingDetail
+  }
+
+  const groupedEvents = useMemo(() => {
+    const events: Event[] = getParcelTrackingDetails(parcel)
+      .filter(
+        (
+          tracking
+        ): tracking is SetNonNullableRequired<
+          typeof tracking,
+          'datetime' | 'message'
+        > => tracking.datetime != null && tracking.message != null
+      )
+      .map((tracking) => ({
+        date: tracking.datetime,
+        tracking
+      }))
+
+    return sortAndGroupByDate(events)
+  }, [parcel])
+
   return (
-    <Timeline
-      events={getParcelTrackingDetails(parcel)
-        .filter(
-          (
-            tracking
-          ): tracking is SetNonNullableRequired<typeof tracking, 'datetime'> =>
-            tracking.datetime != null
-        )
-        .map((tracking) => ({
-          date: tracking.datetime,
-          message: tracking.message
-        }))}
-    />
+    <div className='rounded-md bg-gray-50 p-6 pb-2'>
+      {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
+        <div key={date}>
+          <Badge
+            data-test-id='timeline-date-group'
+            className='rounded-full bg-gray-200 py-1 px-3 font-bold'
+            label={date}
+            variant='secondary'
+          />
+          <table className='mt-4 mb-6 ml-1 w-full h-full'>
+            {eventsByDate.map((event) => (
+              <tr key={event.date}>
+                <td valign='top' align='right' className='pt-4'>
+                  <div className='text-gray-400 text-xs font-bold'>
+                    {formatDate({
+                      format: 'time',
+                      isoDate: event.date,
+                      timezone: user?.timezone
+                    })}
+                  </div>
+                </td>
+                <td valign='top' className='pt-4 px-4'>
+                  <div className='flex flex-col items-center gap-1.5 pt-[3px] h-full'>
+                    <div className='rounded-full bg-gray-300 w-3 h-3' />
+                    {event.position !== 'first' && (
+                      <div className='bg-[#E6E7E7] w-[1px] grow' />
+                    )}
+                  </div>
+                </td>
+                <td valign='top' className='pt-4 w-full pb-6'>
+                  <div className='text-black font-semibold -mt-[3px]'>
+                    {event.tracking.message}
+                  </div>
+                  <div className='text-gray-500 text-sm font-semibold'>
+                    {event.tracking.tracking_location != null
+                      ? `${event.tracking.tracking_location.city}${
+                          event.tracking.tracking_location.country != null
+                            ? `, ${event.tracking.tracking_location.country}`
+                            : ''
+                        }`
+                      : ''}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      ))}
+    </div>
   )
 })
 
