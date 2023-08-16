@@ -50,7 +50,7 @@ export {
 export { A } from '#ui/atoms/A'
 export { Avatar } from '#ui/atoms/Avatar'
 export { AvatarLetter } from '#ui/atoms/AvatarLetter'
-export { Badge } from '#ui/atoms/Badge'
+export { Badge, badgeVariants } from '#ui/atoms/Badge'
 export { BlockCode } from '#ui/atoms/BlockCode'
 export { Button } from '#ui/atoms/Button'
 export { ButtonFilter } from '#ui/atoms/ButtonFilter'
