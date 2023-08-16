@@ -53,6 +53,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
             />
           )
         }
+        alignItems='top'
         data-test-id='ListItemOrder'
         onClick={onClick}
         {...rest}
@@ -85,7 +86,13 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
           </Text>
         </div>
         <div>
-          <Text tag='div' weight='semibold' data-test-id='ListItemOrder-total'>
+          <Text
+            tag='div'
+            weight='semibold'
+            data-test-id='ListItemOrder-total'
+            className='break-keep'
+            wrap='nowrap'
+          >
             {order.formatted_total_amount}
           </Text>
           <Text
@@ -94,6 +101,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
             size='small'
             variant='info'
             data-test-id='ListItemOrder-payment'
+            wrap='nowrap'
           >
             {getOrderPaymentStatusName(order.payment_status)}
           </Text>
