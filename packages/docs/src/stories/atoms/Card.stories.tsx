@@ -1,4 +1,5 @@
 import { Card } from '#ui/atoms/Card'
+import { ListItem } from '#ui/lists/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Card> = {
@@ -20,3 +21,15 @@ const Template: StoryFn<typeof Card> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {}
+
+export const WithListItem: StoryFn<typeof Card> = (args) => (
+  <Card {...args}>
+    <ListItem tag='a' onClick={() => {}} borderStyle='none'>
+      I'm a clickable listItem
+    </ListItem>
+  </Card>
+)
+
+WithListItem.args = {
+  gap: '1'
+}
