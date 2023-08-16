@@ -38,7 +38,6 @@ export interface RelationshipSelectorProps
    */
   showCheckboxIcon?: boolean
 }
-
 export function RelationshipSelector({
   defaultValues,
   fieldForLabel,
@@ -105,23 +104,18 @@ export function RelationshipSelector({
         </SkeletonTemplate>
       </Spacer>
 
-      <Card>
+      <Card gap='1'>
         {list.map((item, idx) => {
-          const hasBottomGap = idx + 1 < list.length
           return (
-            <Spacer
+            <Checkbox
               key={`${item.value}-${idx}`}
-              bottom={hasBottomGap ? '4' : undefined}
-            >
-              <Checkbox
-                item={item}
-                checked={values.includes(item.value)}
-                onChange={() => {
-                  toggleValue(item.value)
-                }}
-                showIcon={showCheckboxIcon}
-              />
-            </Spacer>
+              item={item}
+              checked={values.includes(item.value)}
+              onChange={() => {
+                toggleValue(item.value)
+              }}
+              showIcon={showCheckboxIcon}
+            />
           )
         })}
       </Card>
@@ -164,6 +158,7 @@ export function RelationshipSelector({
             sortBy={sortBy}
             title={title}
             totalCount={totalCount}
+            showCheckboxIcon={showCheckboxIcon}
           />
         </div>
       </Overlay>

@@ -67,6 +67,10 @@ export interface FullListProps {
    * Total count of pre-fetched items.
    */
   totalCount?: number
+  /**
+   * Show icon in checkbox selectors
+   */
+  showCheckboxIcon?: boolean
 }
 
 export function FullList({
@@ -78,7 +82,8 @@ export function FullList({
   searchBy,
   sortBy,
   title,
-  totalCount
+  totalCount,
+  showCheckboxIcon = true
 }: FullListProps): JSX.Element {
   const { sdkClient } = useCoreSdkProvider()
   const { values, toggleValue } = useToggleCheckboxValues(defaultValues)
@@ -131,7 +136,7 @@ export function FullList({
         </SkeletonTemplate>
       </Spacer>
 
-      <Card>
+      <Card gap='1'>
         <ResourceList
           type={resource}
           sdkClient={sdkClient}
@@ -151,15 +156,14 @@ export function FullList({
               fieldForValue
             })
             return (
-              <Spacer bottom='4'>
-                <Checkbox
-                  item={item}
-                  checked={values.includes(item.value)}
-                  onChange={() => {
-                    toggleValue(item.value)
-                  }}
-                />
-              </Spacer>
+              <Checkbox
+                item={item}
+                checked={values.includes(item.value)}
+                onChange={() => {
+                  toggleValue(item.value)
+                }}
+                showIcon={showCheckboxIcon}
+              />
             )
           }}
         />

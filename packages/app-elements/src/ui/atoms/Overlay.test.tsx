@@ -39,6 +39,6 @@ describe('Overlay', () => {
       </Overlay>
     )
 
-    expect(getByTestId('overlay-buttonContainer')).toHaveClass('pb-4 bg-white')
+    expect(getByTestId('overlay-buttonContainer')).toHaveClass('pb-8 bg-white')
   })
 })

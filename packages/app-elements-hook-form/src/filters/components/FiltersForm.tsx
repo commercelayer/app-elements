@@ -3,7 +3,7 @@ import { makeFilterAdapters } from '#filters/methods/adapters'
 import { timeRangeValidationSchema } from '#filters/methods/timeUtils'
 import type { FiltersInstructions } from '#filters/methods/types'
 import { isItemOptions } from '#filters/methods/types'
-import { Button, Container, Spacer } from '@commercelayer/app-elements'
+import { Button, Spacer } from '@commercelayer/app-elements'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FieldCurrencyRange } from './FieldCurrencyRange'
@@ -79,14 +79,11 @@ function FiltersForm({
 
         return null
       })}
-      <Container
-        minHeight={false}
-        className='w-full sticky bottom-0 bg-white pb-4'
-      >
+      <div className='w-full sticky bottom-0 bg-white pb-8'>
         <Button type='submit' fullWidth>
           Apply filters
         </Button>
-      </Container>
+      </div>
     </Form>
   )
 }
