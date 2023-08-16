@@ -19,6 +19,7 @@ import { Legend } from '#ui/atoms/Legend'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
+import { Steps } from '#ui/atoms/Steps'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
 import { PageLayout } from '#ui/composite/PageLayout'
@@ -302,8 +303,30 @@ const TrackingDetails = withSkeletonTemplate<{
     return sortAndGroupByDate(events)
   }, [parcel])
 
+  const lastEvent = Object.values(groupedEvents)[0][0]
+
   return (
     <>
+      <Steps
+        steps={[
+          {
+            label: 'Pre-Transit',
+            active: lastEvent.tracking.status === 'pre_transit'
+          },
+          {
+            label: 'In Transit',
+            active: lastEvent.tracking.status === 'in_transit'
+          },
+          {
+            label: 'Out for delivery',
+            active: lastEvent.tracking.status === 'out_for_delivery'
+          },
+          {
+            label: 'Delivered',
+            active: lastEvent.tracking.status === 'delivered'
+          }
+        ]}
+      />
       <Spacer top='12' bottom='14'>
         <Stack>
           <div>
@@ -351,7 +374,7 @@ const TrackingDetails = withSkeletonTemplate<{
             Last update:{' '}
             <Text weight='bold'>
               {formatDate({
-                isoDate: Object.values(groupedEvents)[0][0].date,
+                isoDate: lastEvent.date,
                 format: 'full',
                 timezone: user?.timezone
               })}
