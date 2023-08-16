@@ -164,6 +164,7 @@ export function RelationshipSelector({
             sortBy={sortBy}
             title={title}
             totalCount={totalCount}
+            showCheckboxIcon={showCheckboxIcon}
           />
         </div>
       </Overlay>
