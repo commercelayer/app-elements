@@ -39,6 +39,17 @@ export interface RelationshipSelectorProps
   showCheckboxIcon?: boolean
 }
 
+export function RelationshipCheckboxWrapper({
+  children,
+  ...rest
+}: React.HTMLAttributes<HTMLDivElement>): JSX.Element {
+  return (
+    <div {...rest} className='p-3 hover:bg-gray-50 mb-[1px] last:mb-0'>
+      {children}
+    </div>
+  )
+}
+
 export function RelationshipSelector({
   defaultValues,
   fieldForLabel,
@@ -105,14 +116,10 @@ export function RelationshipSelector({
         </SkeletonTemplate>
       </Spacer>
 
-      <Card>
+      <Card gap='1'>
         {list.map((item, idx) => {
-          const hasBottomGap = idx + 1 < list.length
           return (
-            <Spacer
-              key={`${item.value}-${idx}`}
-              bottom={hasBottomGap ? '4' : undefined}
-            >
+            <RelationshipCheckboxWrapper key={`${item.value}-${idx}`}>
               <Checkbox
                 item={item}
                 checked={values.includes(item.value)}
@@ -121,7 +128,7 @@ export function RelationshipSelector({
                 }}
                 showIcon={showCheckboxIcon}
               />
-            </Spacer>
+            </RelationshipCheckboxWrapper>
           )
         })}
       </Card>

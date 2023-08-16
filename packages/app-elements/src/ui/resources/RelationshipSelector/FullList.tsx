@@ -9,6 +9,7 @@ import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import { isEmpty } from 'lodash'
 import { useEffect, useState } from 'react'
+import { RelationshipCheckboxWrapper } from '.'
 import { Checkbox, prepareCheckboxItemOrMock } from './Checkbox'
 import { computeLabelWithSelected, useToggleCheckboxValues } from './utils'
 
@@ -136,7 +137,7 @@ export function FullList({
         </SkeletonTemplate>
       </Spacer>
 
-      <Card>
+      <Card gap='1'>
         <ResourceList
           type={resource}
           sdkClient={sdkClient}
@@ -156,7 +157,7 @@ export function FullList({
               fieldForValue
             })
             return (
-              <Spacer bottom='4'>
+              <RelationshipCheckboxWrapper>
                 <Checkbox
                   item={item}
                   checked={values.includes(item.value)}
@@ -165,7 +166,7 @@ export function FullList({
                   }}
                   showIcon={showCheckboxIcon}
                 />
-              </Spacer>
+              </RelationshipCheckboxWrapper>
             )
           }}
         />

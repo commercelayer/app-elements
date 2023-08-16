@@ -134,7 +134,10 @@ export { ListItemOrder } from '#ui/resources/ListItemOrder'
 export { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { OrderTimeline } from '#ui/resources/OrderTimeline'
-export { RelationshipSelector } from '#ui/resources/RelationshipSelector'
+export {
+  RelationshipCheckboxWrapper,
+  RelationshipSelector
+} from '#ui/resources/RelationshipSelector'
 export { ResourceList } from '#ui/resources/ResourceList'
 export { ResourceTags } from '#ui/resources/ResourceTags'
 export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
