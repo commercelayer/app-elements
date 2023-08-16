@@ -4,7 +4,6 @@ import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { SearchBar } from '#ui/composite/SearchBar'
-import { RelationshipCheckboxWrapper } from '#ui/internals/RelationshipCheckboxWrapper'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
@@ -157,16 +156,14 @@ export function FullList({
               fieldForValue
             })
             return (
-              <RelationshipCheckboxWrapper>
-                <Checkbox
-                  item={item}
-                  checked={values.includes(item.value)}
-                  onChange={() => {
-                    toggleValue(item.value)
-                  }}
-                  showIcon={showCheckboxIcon}
-                />
-              </RelationshipCheckboxWrapper>
+              <Checkbox
+                item={item}
+                checked={values.includes(item.value)}
+                onChange={() => {
+                  toggleValue(item.value)
+                }}
+                showIcon={showCheckboxIcon}
+              />
             )
           }}
         />

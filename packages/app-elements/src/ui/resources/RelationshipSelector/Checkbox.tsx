@@ -25,17 +25,19 @@ export function Checkbox({
   const isLoading = item.value === '' // is mock
   return (
     <SkeletonTemplate isLoading={isLoading} delayMs={0}>
-      <InputCheckbox
-        onChange={onChange}
-        checked={checked}
-        icon={
-          showIcon != null && showIcon ? (
-            <AvatarLetter text={item.label} />
-          ) : undefined
-        }
-      >
-        <Text weight='semibold'>{item.label}</Text>
-      </InputCheckbox>
+      <div className='p-3 hover:bg-gray-50 mb-[1px] last:mb-0'>
+        <InputCheckbox
+          onChange={onChange}
+          checked={checked}
+          icon={
+            showIcon != null && showIcon ? (
+              <AvatarLetter text={item.label} />
+            ) : undefined
+          }
+        >
+          <Text weight='semibold'>{item.label}</Text>
+        </InputCheckbox>
+      </div>
     </SkeletonTemplate>
   )
 }

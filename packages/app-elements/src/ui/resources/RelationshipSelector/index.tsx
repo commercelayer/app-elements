@@ -5,7 +5,6 @@ import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { RelationshipCheckboxWrapper } from '#ui/internals/RelationshipCheckboxWrapper'
 import { type QueryParamsList } from '@commercelayer/sdk'
 import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
@@ -108,16 +107,15 @@ export function RelationshipSelector({
       <Card gap='1'>
         {list.map((item, idx) => {
           return (
-            <RelationshipCheckboxWrapper key={`${item.value}-${idx}`}>
-              <Checkbox
-                item={item}
-                checked={values.includes(item.value)}
-                onChange={() => {
-                  toggleValue(item.value)
-                }}
-                showIcon={showCheckboxIcon}
-              />
-            </RelationshipCheckboxWrapper>
+            <Checkbox
+              key={`${item.value}-${idx}`}
+              item={item}
+              checked={values.includes(item.value)}
+              onChange={() => {
+                toggleValue(item.value)
+              }}
+              showIcon={showCheckboxIcon}
+            />
           )
         })}
       </Card>
