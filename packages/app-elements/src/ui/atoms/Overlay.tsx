@@ -63,7 +63,7 @@ const Overlay: React.FC<OverlayProps> = ({
         {hasButton && (
           <Container
             minHeight={false}
-            className='w-full sticky bottom-0 bg-white pb-4'
+            className='w-full sticky bottom-0 bg-white pb-8'
             data-test-id='overlay-buttonContainer'
           >
             {/* eslint-disable react/jsx-handler-names */}

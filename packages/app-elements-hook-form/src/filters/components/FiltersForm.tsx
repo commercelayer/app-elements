@@ -81,7 +81,7 @@ function FiltersForm({
       })}
       <Container
         minHeight={false}
-        className='w-full sticky bottom-0 bg-white pb-4'
+        className='w-full sticky bottom-0 bg-white pb-8'
       >
         <Button type='submit' fullWidth>
           Apply filters
