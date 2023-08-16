@@ -61,8 +61,7 @@ const Overlay: React.FC<OverlayProps> = ({
       <Container minHeight={false}>
         <Spacer bottom='14'>{children}</Spacer>
         {hasButton && (
-          <Container
-            minHeight={false}
+          <div
             className='w-full sticky bottom-0 bg-white pb-8'
             data-test-id='overlay-buttonContainer'
           >
@@ -70,7 +69,7 @@ const Overlay: React.FC<OverlayProps> = ({
             <Button type='button' onClick={button.onClick} className='w-full'>
               {button.label}
             </Button>
-          </Container>
+          </div>
         )}
       </Container>
     </div>,
