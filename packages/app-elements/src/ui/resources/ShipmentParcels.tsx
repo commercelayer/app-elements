@@ -6,16 +6,22 @@ import {
   getShipmentRate,
   hasBeenPurchased,
   hasSingleTracking,
+  type Rate,
   type TrackingDetail
 } from '#helpers/tracking'
 import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
+import { Badge } from '#ui/atoms/Badge'
 import { Icon } from '#ui/atoms/Icon'
+import { Legend } from '#ui/atoms/Legend'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
+import { Stack } from '#ui/atoms/Stack'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
+import { PageLayout } from '#ui/composite/PageLayout'
 import { FlexRow } from '#ui/internals/FlexRow'
 import {
   type Parcel as ParcelResource,
@@ -24,7 +30,6 @@ import {
 import { Package } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { useCallback, useMemo } from 'react'
-import { Badge, PageLayout, useTokenProvider } from 'src/main'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 import { LineItems } from './LineItems'
 
@@ -59,9 +64,8 @@ export const ShipmentParcels = withSkeletonTemplate<{
         return (
           <Parcel
             key={parcel.id}
-            estimatedDelivery={
-              singleTracking ? undefined : rate?.formatted_delivery_date
-            }
+            rate={rate}
+            showEstimatedDelivery={!singleTracking}
             parcel={
               singleTracking
                 ? {
@@ -96,9 +100,10 @@ ShipmentParcels.displayName = 'ShipmentParcels'
 
 const Parcel = withSkeletonTemplate<{
   parcel: SetNonNullableRequired<ParcelResource, 'package'>
-  estimatedDelivery?: string
+  rate?: Rate
+  showEstimatedDelivery?: boolean
   onRemove?: () => void
-}>(({ parcel, estimatedDelivery, onRemove }) => {
+}>(({ parcel, rate, showEstimatedDelivery = false, onRemove }) => {
   const itemsLength =
     parcel.parcel_line_items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
 
@@ -133,7 +138,11 @@ const Parcel = withSkeletonTemplate<{
               </Text>
             </FlexRow>
           </Spacer>
-          <Tracking parcel={parcel} estimatedDelivery={estimatedDelivery} />
+          <Tracking
+            parcel={parcel}
+            rate={rate}
+            showEstimatedDelivery={showEstimatedDelivery}
+          />
         </Text>
       </Spacer>
     </CardDialog>
@@ -182,10 +191,7 @@ const Carrier = withSkeletonTemplate<{
       {singleTracking && (
         <Spacer top='6'>
           <Text size='small'>
-            <Tracking
-              parcel={parcel}
-              estimatedDelivery={rate.formatted_delivery_date}
-            />
+            <Tracking parcel={parcel} rate={rate} showEstimatedDelivery />
           </Text>
         </Spacer>
       )}
@@ -195,11 +201,14 @@ const Carrier = withSkeletonTemplate<{
 
 const Tracking = withSkeletonTemplate<{
   parcel: ParcelResource
-  estimatedDelivery?: string
-}>(({ parcel, estimatedDelivery }) => {
+  rate?: Rate
+  showEstimatedDelivery: boolean
+}>(({ parcel, rate, showEstimatedDelivery = false }) => {
   const trackingDetails = getParcelTrackingDetail(parcel)
-  const { TrackingDetailsOverlay, openTrackingDetails } =
-    useTrackingDetails(parcel)
+  const { TrackingDetailsOverlay, openTrackingDetails } = useTrackingDetails(
+    parcel,
+    rate
+  )
 
   return (
     <>
@@ -224,10 +233,10 @@ const Tracking = withSkeletonTemplate<{
           </Text>
         </FlexRow>
       )}
-      {estimatedDelivery != null && (
+      {showEstimatedDelivery && rate != null && (
         <FlexRow className='mt-4'>
           <Text variant='info'>Estimated delivery</Text>
-          <Text weight='semibold'>{estimatedDelivery}</Text>
+          <Text weight='semibold'>{rate.formatted_delivery_date}</Text>
         </FlexRow>
       )}
     </>
@@ -235,7 +244,7 @@ const Tracking = withSkeletonTemplate<{
 })
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const useTrackingDetails = (parcel: ParcelResource) => {
+const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
   const {
     Overlay,
     open: openTrackingDetails,
@@ -254,7 +263,7 @@ const useTrackingDetails = (parcel: ParcelResource) => {
               close()
             }}
           >
-            <TrackingDetails parcel={parcel} />
+            <TrackingDetails parcel={parcel} rate={rate} />
           </PageLayout>
         </Overlay>
       )
@@ -266,7 +275,8 @@ const useTrackingDetails = (parcel: ParcelResource) => {
 
 const TrackingDetails = withSkeletonTemplate<{
   parcel: ParcelResource
-}>(({ parcel }) => {
+  rate?: Rate
+}>(({ parcel, rate }) => {
   const { user } = useTokenProvider()
 
   interface Event {
@@ -293,55 +303,112 @@ const TrackingDetails = withSkeletonTemplate<{
   }, [parcel])
 
   return (
-    <div className='rounded-md bg-gray-50 p-6 pb-2'>
-      {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
-        <div key={date}>
-          <Badge
-            data-test-id='timeline-date-group'
-            className='rounded-full bg-gray-200 py-1 px-3 font-bold'
-            label={date}
-            variant='secondary'
-          />
-          <table className='mt-4 mb-6 ml-1 w-full h-full'>
-            {eventsByDate.map((event) => (
-              <tr key={event.date}>
-                <td valign='top' align='right' className='pt-4'>
-                  <div className='text-gray-400 text-xs font-bold'>
-                    {formatDate({
-                      format: 'time',
-                      isoDate: event.date,
-                      timezone: user?.timezone
-                    })}
-                  </div>
-                </td>
-                <td valign='top' className='pt-4 px-4'>
-                  <div className='flex flex-col items-center gap-1.5 pt-[3px] h-full'>
-                    <div className='rounded-full bg-gray-300 w-3 h-3' />
-                    {event.position !== 'first' && (
-                      <div className='bg-[#E6E7E7] w-[1px] grow' />
-                    )}
-                  </div>
-                </td>
-                <td valign='top' className='pt-4 w-full pb-6'>
-                  <div className='text-black font-semibold -mt-[3px]'>
-                    {event.tracking.message}
-                  </div>
-                  <div className='text-gray-500 text-sm font-semibold'>
-                    {event.tracking.tracking_location != null
-                      ? `${event.tracking.tracking_location.city}${
-                          event.tracking.tracking_location.country != null
-                            ? `, ${event.tracking.tracking_location.country}`
-                            : ''
-                        }`
-                      : ''}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </table>
-        </div>
-      ))}
-    </div>
+    <>
+      <Spacer top='12' bottom='14'>
+        <Stack>
+          <div>
+            <Spacer bottom='2'>
+              <Text size='small' tag='div' variant='info' weight='semibold'>
+                Courier
+              </Text>
+            </Spacer>
+            {rate != null && (
+              <Avatar
+                src={getAvatarSrcFromRate(rate)}
+                alt='Adyen'
+                border='none'
+                shape='circle'
+                size='x-small'
+                className='inline-block align-middle'
+              />
+            )}{' '}
+            <span className='text-lg font-semibold text-black pl-1.5'>
+              {rate?.carrier}
+            </span>
+          </div>
+          <div>
+            <Spacer bottom='2'>
+              <Text size='small' tag='div' variant='info' weight='semibold'>
+                Estimated Delivery Date
+              </Text>
+            </Spacer>
+            <div className='text-lg font-semibold text-black'>
+              {formatDate({
+                isoDate: rate?.delivery_date,
+                format: 'date',
+                timezone: user?.timezone
+              })}
+            </div>
+          </div>
+        </Stack>
+      </Spacer>
+
+      <Legend
+        title='Detailed view'
+        border='none'
+        actionButton={
+          <Text size='small' variant='info'>
+            Last update:{' '}
+            <Text weight='bold'>
+              {formatDate({
+                isoDate: Object.values(groupedEvents)[0][0].date,
+                format: 'full',
+                timezone: user?.timezone
+              })}
+            </Text>
+          </Text>
+        }
+      />
+      <div className='rounded-md bg-gray-50 p-6 pb-2'>
+        {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
+          <div key={date}>
+            <Badge
+              data-test-id='timeline-date-group'
+              className='rounded-full bg-gray-200 py-1 px-3 font-bold'
+              label={date}
+              variant='secondary'
+            />
+            <table className='mt-4 mb-6 ml-1 w-full h-full'>
+              {eventsByDate.map((event) => (
+                <tr key={event.date}>
+                  <td valign='top' align='right' className='pt-4'>
+                    <div className='text-gray-400 text-xs font-bold'>
+                      {formatDate({
+                        format: 'time',
+                        isoDate: event.date,
+                        timezone: user?.timezone
+                      })}
+                    </div>
+                  </td>
+                  <td valign='top' className='pt-4 px-4'>
+                    <div className='flex flex-col items-center gap-1.5 pt-[3px] h-full'>
+                      <div className='rounded-full bg-gray-300 w-3 h-3' />
+                      {event.position !== 'first' && (
+                        <div className='bg-[#E6E7E7] w-[1px] grow' />
+                      )}
+                    </div>
+                  </td>
+                  <td valign='top' className='pt-4 w-full pb-6'>
+                    <div className='text-black font-semibold -mt-[3px]'>
+                      {event.tracking.message}
+                    </div>
+                    <div className='text-gray-500 text-sm font-semibold'>
+                      {event.tracking.tracking_location != null
+                        ? `${event.tracking.tracking_location.city}${
+                            event.tracking.tracking_location.country != null
+                              ? `, ${event.tracking.tracking_location.country}`
+                              : ''
+                          }`
+                        : ''}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </table>
+          </div>
+        ))}
+      </div>
+    </>
   )
 })
 

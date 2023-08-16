@@ -189,6 +189,59 @@ export const parcelWithTracking1 = createParcel({
 })
 
 export const parcelWithTracking2 = createParcel({
+  id: 'parcel-with-tracking-1',
+  weight: 80,
+  package: {
+    name: 'Standard Box #1'
+  },
+  lineItems: [
+    {
+      code: 'BASEBHAT000000FFFFFFXXXX',
+      name: 'Black Baseball Hat with White Logo',
+      quantity: 1
+    }
+  ],
+  shippingLabelUrl: 'https://example.com',
+  trackingDetails: [
+    {
+      object: 'TrackingDetail',
+      source: 'UPS',
+      status: 'delivered',
+      message: 'Delivered: Mailbox',
+      datetime: '2022-06-28T13:17:18Z',
+      description: 'Delivered',
+      carrier_code: 'D',
+      status_detail: 'arrived_at_destination',
+      tracking_location: {
+        zip: '89520',
+        city: 'Heidenheim',
+        state: null,
+        object: 'TrackingLocation',
+        country: 'DE'
+      }
+    },
+    {
+      object: 'TrackingDetail',
+      source: 'UPS',
+      status: 'out_for_delivery',
+      message: 'Out For Delivery',
+      datetime: '2022-06-28T03:45:00Z',
+      description: 'Out For Delivery',
+      carrier_code: 'I',
+      status_detail: 'out_for_delivery',
+      tracking_location: {
+        zip: null,
+        city: 'Ulm',
+        state: null,
+        object: 'TrackingLocation',
+        country: 'DE'
+      }
+    }
+  ],
+  trackingNumber: '43769811RQC9900'
+})
+
+export const parcelWithTracking3 = createParcel({
   id: 'parcel-with-tracking-2',
   weight: 400,
   package: {
@@ -333,7 +386,7 @@ export const shipmentWithMultipleParcelsMultipleTrackings = createShipment({
   purchaseStartedAt: '2023-07-11',
   rates,
   selectedRateId: 'rate_fedex_1111',
-  parcels: [parcelWithTracking1, parcelWithTracking2]
+  parcels: [parcelWithTracking2, parcelWithTracking3]
 })
 
 export const shipmentWithoutParcels = createShipment({
