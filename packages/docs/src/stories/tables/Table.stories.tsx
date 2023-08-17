@@ -3,7 +3,7 @@ import { Table } from '#ui/tables/Table'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Table> = {
-  title: 'Tables/Table',
+  title: 'Tables/Table (DEPRECATED)',
   component: Table,
   parameters: {
     layout: 'padded'
