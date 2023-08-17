@@ -31,6 +31,16 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
   const combinedStatus =
     `${order.status}:${order.payment_status}:${order.fulfillment_status}` as const
 
+  if (order.status === 'editing') {
+    return {
+      label: 'Editing',
+      icon: 'pencilSimple',
+      color: 'orange',
+      task: 'Editing',
+      triggerAttributes: []
+    }
+  }
+
   switch (combinedStatus) {
     case 'placed:authorized:unfulfilled':
       return {
