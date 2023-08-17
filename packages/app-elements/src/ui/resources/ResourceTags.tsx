@@ -59,13 +59,6 @@ export const ResourceTags = withSkeletonTemplate<{
         ]
   )
 
-  const { data: organizationTags } = useCoreApi('tags', 'list', [
-    {
-      fields: ['id', 'name'],
-      sort: ['updated_at'],
-      pageSize: 10
-    }
-  ])
   const { sdkClient } = useCoreSdkProvider()
 
   const tagsToSelectOptions = useCallback(
@@ -93,7 +86,7 @@ export const ResourceTags = withSkeletonTemplate<{
     tagsToSelectOptions(resourceTags ?? [])
   )
 
-  if (resourceTags == null || organizationTags == null) return <></>
+  if (resourceTags == null) return <></>
 
   return (
     <div>
@@ -189,9 +182,12 @@ export const ResourceTags = withSkeletonTemplate<{
               isClearable={false}
               isOptionDisabled={() => selectedTags.length >= 10}
               loadAsyncValues={async (hint) => {
-                return await sdkClient.tags
-                  .list(makeTagQuery(hint))
-                  .then(tagsToSelectOptions)
+                if (hint.length > 0) {
+                  return await sdkClient.tags
+                    .list(makeTagQuery(hint))
+                    .then(tagsToSelectOptions)
+                }
+                return []
               }}
               initialValues={[]}
               defaultValue={tagsToSelectOptions(resourceTags)}
