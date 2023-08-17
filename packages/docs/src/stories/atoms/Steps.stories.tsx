@@ -22,6 +22,25 @@ Default.args = {
       label: 'In Transit'
     },
     {
+      label: 'Out for delivery',
+      active: true
+    },
+    {
+      label: 'Delivered'
+    }
+  ]
+}
+
+export const NoActive = Template.bind({})
+NoActive.args = {
+  steps: [
+    {
+      label: 'Pre-Transit'
+    },
+    {
+      label: 'In Transit'
+    },
+    {
       label: 'Out for delivery'
     },
     {
@@ -30,8 +49,8 @@ Default.args = {
   ]
 }
 
-export const WithFirstActive = Template.bind({})
-WithFirstActive.args = {
+export const FirstActive = Template.bind({})
+FirstActive.args = {
   steps: [
     {
       label: 'Pre-Transit',
@@ -49,27 +68,8 @@ WithFirstActive.args = {
   ]
 }
 
-export const WithActive = Template.bind({})
-WithActive.args = {
-  steps: [
-    {
-      label: 'Pre-Transit'
-    },
-    {
-      label: 'In Transit'
-    },
-    {
-      label: 'Out for delivery',
-      active: true
-    },
-    {
-      label: 'Delivered'
-    }
-  ]
-}
-
-export const WithLastActive = Template.bind({})
-WithLastActive.args = {
+export const LastActive = Template.bind({})
+LastActive.args = {
   steps: [
     {
       label: 'Pre-Transit'
@@ -101,8 +101,8 @@ With2Steps.args = {
   ]
 }
 
-export const With5Steps = Template.bind({})
-With5Steps.args = {
+export const With7Steps = Template.bind({})
+With7Steps.args = {
   steps: [
     {
       label: 'Step 1'
@@ -119,6 +119,12 @@ With5Steps.args = {
     {
       label: 'Step 5',
       active: true
+    },
+    {
+      label: 'Step 6'
+    },
+    {
+      label: 'Step 7'
     }
   ]
 }

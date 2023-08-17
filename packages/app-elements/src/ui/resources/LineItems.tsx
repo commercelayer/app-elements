@@ -209,6 +209,13 @@ export const LineItems = withSkeletonTemplate<{
                           />
                         </Spacer>
                       )}
+                    {lineItem.type !== 'line_items' &&
+                      lineItem.bundle_code != null && (
+                        <Badge
+                          label={`BUNDLE ${lineItem.bundle_code}`}
+                          variant='secondary'
+                        />
+                      )}
                   </td>
                   <td valign='top' align='right'>
                     <Text
