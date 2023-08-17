@@ -116,7 +116,7 @@ export function FullList({
               onClick={() => {
                 history.back()
               }}
-              className='text-primary font-medium'
+              className='text-primary font-bold'
             >
               Cancel
             </button>
