@@ -14,6 +14,7 @@ interface CheckboxProps
   extends Pick<InputCheckboxProps, 'checked' | 'onChange'> {
   item: CheckboxItem
   showIcon?: boolean
+  hasBottomMargin?: boolean
 }
 
 export function Checkbox({
@@ -25,7 +26,7 @@ export function Checkbox({
   const isLoading = item.value === '' // is mock
   return (
     <SkeletonTemplate isLoading={isLoading} delayMs={0}>
-      <div className='p-3 hover:bg-gray-50 mb-[1px] last:mb-0'>
+      <div className='rounded p-3 hover:bg-gray-50 mb-[1px] last:mb-0'>
         <InputCheckbox
           onChange={onChange}
           checked={checked}
