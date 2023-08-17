@@ -94,6 +94,7 @@ const iconMapping = {
   magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
   package: phosphor.Package,
+  pencilSimple: phosphor.PencilSimple,
   printer: phosphor.Printer,
   shoppingBag: phosphor.ShoppingBag,
   stack: phosphor.Stack,
