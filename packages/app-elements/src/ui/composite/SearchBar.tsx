@@ -64,11 +64,7 @@ function SearchBar({
   return (
     <div
       data-test-id='SearchBar'
-      className={cn(
-        'rounded relative w-full bg-gray-100',
-        // 'focus-within:shadow-inputfocus focus-within:bg-white',
-        className
-      )}
+      className={cn('rounded relative w-full bg-gray-100', className)}
       {...rest}
     >
       <Icon
