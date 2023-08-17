@@ -303,7 +303,7 @@ const TrackingDetails = withSkeletonTemplate<{
     return sortAndGroupByDate(events)
   }, [parcel])
 
-  const lastEvent = Object.values(groupedEvents)[0][0]
+  const lastEvent = Object.values(groupedEvents)[0]?.[0] as Event | undefined
 
   return (
     <>
@@ -311,19 +311,19 @@ const TrackingDetails = withSkeletonTemplate<{
         steps={[
           {
             label: 'Pre-Transit',
-            active: lastEvent.tracking.status === 'pre_transit'
+            active: lastEvent?.tracking.status === 'pre_transit'
           },
           {
             label: 'In Transit',
-            active: lastEvent.tracking.status === 'in_transit'
+            active: lastEvent?.tracking.status === 'in_transit'
           },
           {
             label: 'Out for delivery',
-            active: lastEvent.tracking.status === 'out_for_delivery'
+            active: lastEvent?.tracking.status === 'out_for_delivery'
           },
           {
             label: 'Delivered',
-            active: lastEvent.tracking.status === 'delivered'
+            active: lastEvent?.tracking.status === 'delivered'
           }
         ]}
       />
@@ -366,71 +366,78 @@ const TrackingDetails = withSkeletonTemplate<{
         </Stack>
       </Spacer>
 
-      <Legend
-        title='Detailed view'
-        border='none'
-        actionButton={
-          <Text size='small' variant='info'>
-            Last update:{' '}
-            <Text weight='bold'>
-              {formatDate({
-                isoDate: lastEvent.date,
-                format: 'full',
-                timezone: user?.timezone
-              })}
-            </Text>
-          </Text>
-        }
-      />
-      <div className='rounded-md bg-gray-50 p-6 pb-2'>
-        {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
-          <div key={date}>
-            <Badge
-              data-test-id='timeline-date-group'
-              className='rounded-full bg-gray-200 py-1 px-3 font-bold'
-              label={date}
-              variant='secondary'
-            />
-            <table className='mt-4 mb-6 ml-1 w-full h-full'>
-              {eventsByDate.map((event) => (
-                <tr key={event.date}>
-                  <td valign='top' align='right' className='pt-4'>
-                    <div className='text-gray-400 text-xs font-bold'>
-                      {formatDate({
-                        format: 'time',
-                        isoDate: event.date,
-                        timezone: user?.timezone
-                      })}
-                    </div>
-                  </td>
-                  <td valign='top' className='pt-4 px-4'>
-                    <div className='flex flex-col items-center gap-1.5 pt-[3px] h-full'>
-                      <div className='rounded-full bg-gray-300 w-3 h-3' />
-                      {event.position !== 'first' && (
-                        <div className='bg-[#E6E7E7] w-[1px] grow' />
-                      )}
-                    </div>
-                  </td>
-                  <td valign='top' className='pt-4 w-full pb-6'>
-                    <div className='text-black font-semibold -mt-[3px]'>
-                      {event.tracking.message}
-                    </div>
-                    <div className='text-gray-500 text-sm font-semibold'>
-                      {event.tracking.tracking_location != null
-                        ? `${event.tracking.tracking_location.city}${
-                            event.tracking.tracking_location.country != null
-                              ? `, ${event.tracking.tracking_location.country}`
-                              : ''
-                          }`
-                        : ''}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </table>
+      {lastEvent != null && (
+        <>
+          <Legend
+            title='Detailed view'
+            border='none'
+            actionButton={
+              <Text size='small' variant='info'>
+                Last update:{' '}
+                <Text weight='bold'>
+                  {formatDate({
+                    isoDate: lastEvent.date,
+                    format: 'full',
+                    timezone: user?.timezone
+                  })}
+                </Text>
+              </Text>
+            }
+          />
+          <div className='rounded-md bg-gray-50 p-6 pb-2'>
+            {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
+              <div key={date}>
+                <Badge
+                  data-test-id='timeline-date-group'
+                  className='rounded-full bg-gray-200 py-1 px-3 font-bold'
+                  label={date}
+                  variant='secondary'
+                />
+                <table className='mt-4 mb-6 ml-1 w-full h-full'>
+                  <tbody>
+                    {eventsByDate.map((event) => (
+                      <tr key={event.date}>
+                        <td valign='top' align='right' className='pt-4'>
+                          <div className='text-gray-400 text-xs font-bold'>
+                            {formatDate({
+                              format: 'time',
+                              isoDate: event.date,
+                              timezone: user?.timezone
+                            })}
+                          </div>
+                        </td>
+                        <td valign='top' className='pt-4 px-4'>
+                          <div className='flex flex-col items-center gap-1.5 pt-[3px] h-full'>
+                            <div className='rounded-full bg-gray-300 w-3 h-3' />
+                            {event.position !== 'first' && (
+                              <div className='bg-[#E6E7E7] w-[1px] grow' />
+                            )}
+                          </div>
+                        </td>
+                        <td valign='top' className='pt-4 w-full pb-6'>
+                          <div className='text-black font-semibold -mt-[3px]'>
+                            {event.tracking.message}
+                          </div>
+                          <div className='text-gray-500 text-sm font-semibold'>
+                            {event.tracking.tracking_location != null
+                              ? `${event.tracking.tracking_location.city}${
+                                  event.tracking.tracking_location.country !=
+                                  null
+                                    ? `, ${event.tracking.tracking_location.country}`
+                                    : ''
+                                }`
+                              : ''}
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </>
+      )}
     </>
   )
 })

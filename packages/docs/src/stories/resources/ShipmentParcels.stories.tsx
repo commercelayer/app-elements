@@ -6,7 +6,8 @@ import {
   shipmentWithSingleParcelSingleTracking,
   shipmentWithStatusDifferentFromPacking,
   shipmentWithoutParcels,
-  shipmentWithoutTracking
+  shipmentWithoutTracking,
+  shipmentWithoutTrackingDetails
 } from '#ui/resources/ShipmentParcels.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -95,6 +96,19 @@ MultipleParcelsMultipleTrackings.args = {
     alert(`removed parcel "${parcelId}"`)
   },
   shipment: shipmentWithMultipleParcelsMultipleTrackings
+}
+
+/**
+ * A just-created tracking usually has a tracking number and the label, but the **tracking details array is empty**.
+ */
+export const NoTrackingDetails: StoryFn<typeof ShipmentParcels> = (
+  args
+): JSX.Element => <ShipmentParcels {...args} />
+NoTrackingDetails.args = {
+  onRemoveParcel: function (parcelId) {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  shipment: shipmentWithoutTrackingDetails
 }
 
 /**

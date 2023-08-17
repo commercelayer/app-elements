@@ -171,7 +171,7 @@ export const LineItems = withSkeletonTemplate<{
                     )}
                   </td>
                   <td
-                    className={cn('pl-4 h-full', {
+                    className={cn('pl-4', {
                       'pt-6': size === 'normal',
                       'pt-4': size === 'small'
                     })}

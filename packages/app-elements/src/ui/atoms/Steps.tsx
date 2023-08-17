@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { useCallback, useMemo } from 'react'
 
 interface Step {
   label: string
@@ -10,18 +11,24 @@ interface Props {
 }
 
 export const Steps: React.FC<Props> = ({ steps }) => {
-  const lastActiveIndex = steps.findLastIndex((step) => step.active === true)
+  const lastActiveIndex = useMemo(
+    () => steps.findLastIndex((step) => step.active === true),
+    [steps]
+  )
 
-  const fixActive = (step: Step, index: number): Step => {
-    if (index < lastActiveIndex) {
-      return {
-        ...step,
-        active: true
+  const fixActive = useCallback(
+    (step: Step, index: number): Step => {
+      if (index < lastActiveIndex) {
+        return {
+          ...step,
+          active: true
+        }
       }
-    }
 
-    return step
-  }
+      return step
+    },
+    [lastActiveIndex]
+  )
 
   return (
     <ul
@@ -37,14 +44,15 @@ export const Steps: React.FC<Props> = ({ steps }) => {
       )}
     >
       {steps.map(fixActive).map((step, index) => {
+        const position =
+          index === 0 ? 'first' : index === steps.length - 1 ? 'last' : 'other'
+
         const activePosition =
           index < lastActiveIndex
             ? 'before'
             : index === lastActiveIndex
             ? 'active'
             : 'after'
-        const position =
-          index === 0 ? 'first' : index === steps.length - 1 ? 'last' : 'other'
 
         return (
           <li

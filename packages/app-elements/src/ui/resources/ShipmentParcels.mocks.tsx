@@ -295,6 +295,24 @@ export const parcelWithTracking3 = createParcel({
   trackingNumber: '65345234RWQ1111'
 })
 
+export const parcelWithoutTrackingDetails1 = createParcel({
+  id: 'parcel-without-tracking-details-1',
+  weight: 80,
+  package: {
+    name: 'Standard Box #1'
+  },
+  lineItems: [
+    {
+      code: 'BASEBHAT000000FFFFFFXXXX',
+      name: 'Black Baseball Hat with White Logo',
+      quantity: 1
+    }
+  ],
+  shippingLabelUrl: 'https://example.com',
+  trackingDetails: [],
+  trackingNumber: '12314321ASD1111'
+})
+
 const rates = [
   {
     id: 'rate_dhl_1111',
@@ -387,6 +405,15 @@ export const shipmentWithMultipleParcelsMultipleTrackings = createShipment({
   rates,
   selectedRateId: 'rate_fedex_1111',
   parcels: [parcelWithTracking2, parcelWithTracking3]
+})
+
+export const shipmentWithoutTrackingDetails = createShipment({
+  id: 'shipment-without-tracking-details',
+  status: 'packing',
+  purchaseStartedAt: '2023-07-11',
+  rates,
+  selectedRateId: 'rate_fedex_1111',
+  parcels: [parcelWithoutTrackingDetails1]
 })
 
 export const shipmentWithoutParcels = createShipment({
