@@ -38,6 +38,9 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
                 'cursor-pointer': rest.disabled !== true
               }
             )}
+            onClick={(e) => {
+              e.stopPropagation()
+            }}
           >
             <input
               type='checkbox'
