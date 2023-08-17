@@ -168,7 +168,7 @@ describe('ShipmentParcels', () => {
       'in_transit'
     )
     expect(getValueByDetailName(parcelBox1, 'Tracking')).toHaveTextContent(
-      '42314321ASD4545'
+      '43769811RQC9900'
     )
     expect(getValueByDetailName(parcelBox2, 'Tracking')).toHaveTextContent(
       '65345234RWQ1111'

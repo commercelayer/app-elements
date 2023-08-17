@@ -7,6 +7,7 @@ export {
   formatDate,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
+  sortAndGroupByDate,
   timeSeparator
 } from '#helpers/date'
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
@@ -76,6 +77,7 @@ export {
 export { Spacer } from '#ui/atoms/Spacer'
 export { Stack } from '#ui/atoms/Stack'
 export { StatusDot } from '#ui/atoms/StatusDot'
+export { Steps } from '#ui/atoms/Steps'
 export { Tab, Tabs } from '#ui/atoms/Tabs'
 export { Tag } from '#ui/atoms/Tag'
 export { Text } from '#ui/atoms/Text'

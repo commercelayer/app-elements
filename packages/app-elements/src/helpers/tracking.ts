@@ -1,6 +1,7 @@
 import { type AvatarProps } from '#ui/atoms/Avatar'
 import { type Parcel, type Shipment } from '@commercelayer/sdk'
 import orderBy from 'lodash/orderBy'
+import { type SetNonNullable } from 'type-fest'
 import { z } from 'zod'
 
 export function getAvatarSrcFromRate(rate: Rate): AvatarProps['src'] {
@@ -107,18 +108,22 @@ const trackingDetailSchema = z.object({
   /** The original source of the information for this scan event, usually the carrier */
   source: z.string().nullable(),
   /** The location associated with the scan event */
-  tracking_location: z.object({
-    /** "TrackingLocation" */
-    object: z.literal('TrackingLocation'),
-    /** The city where the scan event occurred (if available) */
-    city: z.string().nullable(),
-    /** The state where the scan event occurred (if available) */
-    state: z.string().nullable(),
-    /** The country where the scan event occurred (if available) */
-    country: z.string().nullable(),
-    /** The postal code where the scan event occurred (if available) */
-    zip: z.string().nullable()
-  }),
+  tracking_location: z
+    .object({
+      /** "TrackingLocation" */
+      object: z.literal('TrackingLocation'),
+      /** The city where the scan event occurred (if available) */
+      city: z.string().nullable(),
+      /** The state where the scan event occurred (if available) */
+      state: z.string().nullable(),
+      /** The country where the scan event occurred (if available) */
+      country: z.string().nullable(),
+      /** The postal code where the scan event occurred (if available) */
+      zip: z.string().nullable()
+    })
+    .transform((loc) =>
+      loc.city != null ? (loc as SetNonNullable<typeof loc, 'city'>) : null
+    ),
   description: z.string().nullable(),
   carrier_code: z.string().nullable()
 })

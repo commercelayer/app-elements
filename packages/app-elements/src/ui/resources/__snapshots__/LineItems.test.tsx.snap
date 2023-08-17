@@ -22,7 +22,7 @@ exports[`LineItems > should render 1`] = `
           />
         </td>
         <td
-          class="pl-4 h-full pt-6"
+          class="pl-4 pt-6"
           colspan="3"
         >
           <div
@@ -116,7 +116,7 @@ exports[`LineItems > should render the Footer prop when defined 1`] = `
           />
         </td>
         <td
-          class="pl-4 h-full pt-6"
+          class="pl-4 pt-6"
           colspan="3"
         >
           <div
@@ -227,7 +227,7 @@ exports[`LineItems > should render the InputSpinner and the trash icon when edit
           />
         </td>
         <td
-          class="pl-4 h-full pt-6"
+          class="pl-4 pt-6"
           colspan="3"
         >
           <div
@@ -404,7 +404,7 @@ exports[`LineItems > should render the bundle 1`] = `
           />
         </td>
         <td
-          class="pl-4 h-full pt-6"
+          class="pl-4 pt-6"
           colspan="3"
         >
           <div
@@ -553,7 +553,7 @@ exports[`LineItems > should render the list item options 1`] = `
           />
         </td>
         <td
-          class="pl-4 h-full pt-6"
+          class="pl-4 pt-6"
           colspan="3"
         >
           <div

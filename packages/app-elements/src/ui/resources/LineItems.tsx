@@ -171,7 +171,7 @@ export const LineItems = withSkeletonTemplate<{
                     )}
                   </td>
                   <td
-                    className={cn('pl-4 h-full', {
+                    className={cn('pl-4', {
                       'pt-6': size === 'normal',
                       'pt-4': size === 'small'
                     })}
@@ -208,6 +208,13 @@ export const LineItems = withSkeletonTemplate<{
                             variant='secondary'
                           />
                         </Spacer>
+                      )}
+                    {lineItem.type !== 'line_items' &&
+                      lineItem.bundle_code != null && (
+                        <Badge
+                          label={`BUNDLE ${lineItem.bundle_code}`}
+                          variant='secondary'
+                        />
                       )}
                   </td>
                   <td valign='top' align='right'>

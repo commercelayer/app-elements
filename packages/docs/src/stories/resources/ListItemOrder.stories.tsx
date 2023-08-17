@@ -2,7 +2,7 @@ import { ListItemOrder } from '#ui/resources/ListItemOrder'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListItemOrder> = {
-  title: 'Resources/ListItem Order',
+  title: 'Resources/ListItemOrder',
   component: ListItemOrder,
   parameters: {
     layout: 'padded'
@@ -98,5 +98,35 @@ Pending.args = {
     fulfillment_status: 'unfulfilled',
     formatted_total_amount: '$272.00',
     market
+  }
+}
+
+export const Editing = Template.bind({})
+Editing.args = {
+  isLoading: false,
+  order: {
+    type: 'orders',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: 30817130,
+    status: 'editing',
+    payment_status: 'authorized',
+    fulfillment_status: 'unfulfilled',
+    formatted_total_amount: '$272.00',
+    market,
+    billing_address: {
+      first_name: 'Michele',
+      last_name: 'Jordan',
+      type: 'addresses',
+      id: '',
+      updated_at: '',
+      created_at: '',
+      line_1: '',
+      state_code: '',
+      phone: '',
+      city: '',
+      country_code: ''
+    }
   }
 }
