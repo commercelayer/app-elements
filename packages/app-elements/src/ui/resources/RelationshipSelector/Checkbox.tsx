@@ -4,6 +4,7 @@ import { Text } from '#ui/atoms/Text'
 import { InputCheckbox, type InputCheckboxProps } from '#ui/forms/InputCheckbox'
 import { type CommerceLayerClient } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { useRef } from 'react'
 
 export interface CheckboxItem {
   value: string
@@ -24,9 +25,19 @@ export function Checkbox({
   onChange
 }: CheckboxProps): JSX.Element {
   const isLoading = item.value === '' // is mock
+  const checkbox = useRef<HTMLInputElement>(null)
+
   return (
     <SkeletonTemplate isLoading={isLoading} delayMs={0}>
-      <div className='rounded p-3 hover:bg-gray-50 mb-[1px] last:mb-0'>
+      <div
+        className='rounded p-3 hover:bg-gray-50 mb-[1px] last:mb-0 cursor-pointer'
+        onClick={(e) => {
+          if (checkbox.current != null) {
+            checkbox.current.click()
+            checkbox.current.focus()
+          }
+        }}
+      >
         <InputCheckbox
           onChange={onChange}
           checked={checked}
@@ -35,6 +46,7 @@ export function Checkbox({
               <AvatarLetter text={item.label} />
             ) : undefined
           }
+          ref={checkbox}
         >
           <Text weight='semibold'>{item.label}</Text>
         </InputCheckbox>
