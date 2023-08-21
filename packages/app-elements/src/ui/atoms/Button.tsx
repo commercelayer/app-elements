@@ -30,11 +30,11 @@ const sizeCss: Record<ButtonSize, string> = {
 }
 
 const variantCss: Record<ButtonVariant, string> = {
-  primary: 'bg-black text-white hover:opacity-80',
+  primary: 'bg-black border border-black text-white hover:opacity-80',
   secondary:
     'bg-white border border-gray-300 text-black hover:opacity-80 hover:bg-gray-50',
   danger: 'bg-white border border-red text-red hover:bg-red/10',
-  link: 'border border-transparent hover:opacity-80'
+  link: 'text-primary hover:opacity-80'
 }
 
 function Button({
@@ -50,12 +50,13 @@ function Button({
     <button
       className={cn([
         className,
-        'text-sm rounded text-center font-bold transition-opacity duration-500 focus:outline-none',
+        'rounded text-center font-bold focus:outline-none',
         {
           'opacity-50 pointer-events-none touch-none': disabled,
-          'w-full': fullWidth === true
+          'w-full': fullWidth === true,
+          [`text-sm transition-opacity duration-500 ${sizeCss[size]}`]:
+            variant !== 'link'
         },
-        sizeCss[size],
         variantCss[variant]
       ])}
       disabled={disabled}
