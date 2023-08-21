@@ -64,17 +64,16 @@ function SearchBar({
   return (
     <div
       data-test-id='SearchBar'
-      className={cn('rounded relative w-full bg-gray-100', className)}
+      className={cn('relative w-full', className)}
       {...rest}
     >
       <Icon
         name='magnifyingGlass'
         className='absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px]'
       />
-
       <input
         className={cn(
-          'px-12 py-2 bg-transparent  font-medium w-full transition placeholder:text-gray-400',
+          'rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400',
           'shadow-none !outline-0 !border-0 !ring-0',
           '!focus:shadow-none !active:shadow-none focus:caret-primary'
         )}
@@ -91,7 +90,7 @@ function SearchBar({
         <button
           data-test-id='SearchBar-clear'
           className={cn(
-            'flex items-center absolute top-1/2 right-3 transform -translate-y-1/2 text-gray-400',
+            'flex items-center absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400',
             'rounded outline-none ring-0 border-0',
             'focus-within:shadow-focus focus:text-black'
           )}
