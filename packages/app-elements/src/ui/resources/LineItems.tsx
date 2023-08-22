@@ -65,7 +65,7 @@ const Edit = withSkeletonTemplate<{
           <Button
             aria-label='Delete'
             disabled={disabled}
-            className='!p-0'
+            className='block'
             variant='link'
             onClick={() => {
               if (!disabled) {
@@ -77,9 +77,7 @@ const Edit = withSkeletonTemplate<{
               }
             }}
           >
-            <Text variant={disabled ? 'disabled' : 'primary'} weight='bold'>
-              <Trash size={18} weight='bold' />
-            </Text>
+            <Trash size={18} weight='bold' />
           </Button>
         )}
       </div>
