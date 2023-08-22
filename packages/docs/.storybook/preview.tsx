@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import { Container } from '#ui/atoms/Container'
 import { PARAM_KEY } from '.storybook/addon-container/constants'
 import type { Decorator, Parameters } from '@storybook/react'
@@ -49,12 +51,15 @@ export const globals = {
 if (typeof global.process === 'undefined') {
   const isLocalhost = window.location.hostname === 'localhost'
 
+  // https://vitejs.dev/guide/env-and-mode.html#env-variables
+  const base = isLocalhost ? '/' : import.meta.env.BASE_URL
+
   // Start the mocking when each story is loaded.
   // Repetitive calls to the `.start()` method do not register a new worker,
   // but check whether there's an existing once, reusing it, if so.
   worker.start({
     serviceWorker: {
-      url: isLocalhost ? '/mockServiceWorker.js' : '/app-elements/mockServiceWorker.js'
+      url: `${base}mockServiceWorker.js`
     },
     quiet: !isLocalhost,
     onUnhandledRequest: isLocalhost ? (req, reqPrint) => {
