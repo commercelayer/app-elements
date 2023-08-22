@@ -6,6 +6,7 @@ import {
 } from '#ui/composite/ActionButtons'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type { Order } from '@commercelayer/sdk'
+import { Fragment } from 'react'
 import { LineItems } from './LineItems'
 
 interface TotalRowProps {
@@ -41,14 +42,6 @@ export const OrderSummary = withSkeletonTemplate<{
               formattedAmount: order.formatted_subtotal_amount
             })}
             {renderTotalRow({
-              label: 'Discount',
-              formattedAmount: order.formatted_discount_amount
-            })}
-            {renderTotalRow({
-              label: 'Adjustments',
-              formattedAmount: order.formatted_adjustment_amount
-            })}
-            {renderTotalRow({
               force: true,
               label: 'Shipping method',
               formattedAmount:
@@ -65,13 +58,22 @@ export const OrderSummary = withSkeletonTemplate<{
               formattedAmount: order.formatted_total_tax_amount
             })}
             {renderTotalRow({
+              label: 'Discount',
+              formattedAmount: order.formatted_discount_amount
+            })}
+            {/* {renderDiscounts(order)} */}
+            {renderTotalRow({
+              label: 'Adjustments',
+              formattedAmount: order.formatted_adjustment_amount
+            })}
+            {renderTotalRow({
               label: 'Gift card',
               formattedAmount: order.formatted_gift_card_amount
             })}
             {renderTotalRow({
               force: true,
               label: 'Total',
-              formattedAmount: order.formatted_total_amount
+              formattedAmount: order.formatted_total_amount_with_taxes
             })}
           </>
         }
@@ -99,11 +101,47 @@ function renderTotalRow({
       className='my-4 first:mt-0 last:mb-0 font-medium last:font-bold'
     >
       <Text>{label}</Text>
-      <Text data-test-id={`OrderSummary-${label}-amount`}>
+      <Text data-test-id={`OrderSummary-${label}-amount`} wrap='nowrap'>
         {formattedAmount}
       </Text>
     </FlexRow>
   ) : null
+}
+
+// TODO: we wanna show all promotion line items. Before doing that we need to add the coupon_code and gift_card_code to the line_item
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function renderDiscounts(order: Order): JSX.Element | null {
+  const validDiscounts: Array<
+    NonNullable<Order['line_items']>[number]['item_type']
+  > = [
+    'external_promotions',
+    'free_gift_promotions',
+    'fixed_amount_promotions',
+    'fixed_price_promotions',
+    'free_shipping_promotions',
+    'percentage_discount_promotions'
+  ]
+
+  const promotionLineItems =
+    order.line_items?.filter((lineItem) =>
+      validDiscounts.includes(lineItem.item_type)
+    ) ?? []
+
+  return (
+    <>
+      {promotionLineItems.map((promotionLineItem) => (
+        <Fragment key={promotionLineItem.id}>
+          {renderTotalRow({
+            label:
+              promotionLineItem.name ??
+              promotionLineItem.item_type ??
+              'Discount',
+            formattedAmount: promotionLineItem.formatted_total_amount
+          })}
+        </Fragment>
+      ))}
+    </>
+  )
 }
 
 OrderSummary.displayName = 'OrderSummary'

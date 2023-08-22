@@ -80,7 +80,9 @@ describe('OrderSummary', () => {
           gift_card_amount_cents: 0,
           formatted_gift_card_amount: '$0.00',
           total_amount_cents: 16360,
-          formatted_total_amount: '$163.60'
+          formatted_total_amount: '$163.60',
+          total_amount_with_taxes_cents: 13245,
+          formatted_total_amount_with_taxes: '$132.45'
         }}
       />
     )
@@ -107,7 +109,7 @@ describe('OrderSummary', () => {
     expect(queryByTestId('OrderSummary-Gift card')).not.toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Total-amount')).toHaveTextContent(
-      '$163.60'
+      '$132.45'
     )
   })
 
@@ -172,8 +174,8 @@ describe('OrderSummary', () => {
           formatted_total_tax_amount: '$5.00',
           gift_card_amount_cents: 5,
           formatted_gift_card_amount: '$5.00',
-          total_amount_cents: 5,
-          formatted_total_amount: '$5.00'
+          total_amount_with_taxes_cents: 5,
+          formatted_total_amount_with_taxes: '$5.00'
         }}
       />
     )
