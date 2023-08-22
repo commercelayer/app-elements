@@ -4,7 +4,7 @@ import { mergeConfig, type UserConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 const viteOverrides: UserConfig = {
-  base: process.env.VITE_BASE ?? '/app-elements/',
+  base: process.env.VITE_BASE_URL,
   plugins: [tsconfigPaths({
     projects: [resolve(__dirname, '../../app-elements/tsconfig.json'), resolve(__dirname, '../tsconfig.json')]
   })]

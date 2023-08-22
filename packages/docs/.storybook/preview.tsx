@@ -49,20 +49,15 @@ export const globals = {
 // and a story's runtime (browser). However, we cannot call `setupWorker`
 // in Node environment, so need to check if we're in a browser.
 if (typeof global.process === 'undefined') {
-  const isLocalhost = window.location.hostname === 'localhost'
-
-  // https://vitejs.dev/guide/env-and-mode.html#env-variables
-  const base = isLocalhost ? '/' : import.meta.env.BASE_URL
-
   // Start the mocking when each story is loaded.
   // Repetitive calls to the `.start()` method do not register a new worker,
   // but check whether there's an existing once, reusing it, if so.
   worker.start({
     serviceWorker: {
-      url: `${base}mockServiceWorker.js`
+      url: `${import.meta.env.BASE_URL}mockServiceWorker.js`
     },
-    quiet: !isLocalhost,
-    onUnhandledRequest: isLocalhost ? (req, reqPrint) => {
+    quiet: import.meta.env.PROD,
+    onUnhandledRequest: !import.meta.env.PROD ? (req, reqPrint) => {
       if (req.url.hostname === 'mock.localhost') {
         reqPrint.warning()
       }

@@ -36,6 +36,8 @@ jobs:
 
       - name: Build 🛠
         run: pnpm build:docs
+        env:
+          VITE_BASE_URL: /app-elements/
 
       - name: Setup Pages 🧰
         uses: actions/configure-pages@v2
