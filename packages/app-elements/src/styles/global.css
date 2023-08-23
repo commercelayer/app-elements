@@ -26,3 +26,31 @@ progress.progress::-webkit-progress-value {
 progress.progress[value]::-moz-progress-bar {
     @apply rounded bg-primary;
 }
+
+blockquote {
+    padding: 16px !important;
+    font-size: 14px !important;
+    color: #2e3438 !important;
+}
+blockquote::before {
+    content: attr(title);
+    display: block;
+    font-weight: bold;
+}
+
+blockquote[type='info'] {
+    border-color: #3b82f6;
+    background-color: #dbebfe;
+}
+blockquote[type='warning'] {
+    border-color: #f97317;
+    background-color: #ffedd5;
+}
+blockquote[type='success'] {
+    border-color: #22c55f;
+    background-color: #ddfce7;
+}
+blockquote[type='danger'] {
+    border-color: #ef4544;
+    background-color: #fee2e3;
+}

@@ -111,6 +111,7 @@ export const OrderSummary = withSkeletonTemplate<{
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
+  const [disabled, setDisabled] = useState<boolean>(false)
   const currencyCode = order.currency_code as Uppercase<CurrencyCode>
   const { sdkClient } = useCoreSdkProvider()
   const [cents, setCents] = useState<number | null>(null)
@@ -125,8 +126,10 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
       <Overlay
         button={{
           label: 'Apply',
+          disabled,
           onClick: () => {
             if (cents != null) {
+              setDisabled(true)
               void sdkClient.adjustments
                 .create({
                   currency_code: currencyCode,
@@ -141,8 +144,12 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
                   })
                 })
                 .then(() => {
+                  setCents(null)
                   onChange?.()
                   close()
+                })
+                .finally(() => {
+                  setDisabled(false)
                 })
             }
           }
@@ -157,6 +164,7 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
           <InputCurrency
             isClearable
             allowNegativeValue
+            disabled={disabled}
             currencyCode={currencyCode}
             label='Amount'
             name='adjust-total'

@@ -191,6 +191,9 @@ describe('OrderSummary', () => {
     )
 
     expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+    ).not.toBeInstanceOf(HTMLButtonElement)
     expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
       '$5.00'
     )
@@ -215,6 +218,39 @@ describe('OrderSummary', () => {
 
     expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Total-value')).toHaveTextContent('$5.00')
+  })
+
+  it('should show "Adjust total" beside Adjustment as Button when `editable` prop is set to true', () => {
+    const { queryByTestId } = render(<OrderSummary editable order={order} />)
+
+    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+    ).toBeInstanceOf(HTMLButtonElement)
+    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
+      'Adjust total'
+    )
+  })
+
+  it('should render the adjustment value as Button when `editable` prop is set to true', () => {
+    const { queryByTestId } = render(
+      <OrderSummary
+        editable
+        order={{
+          ...order,
+          adjustment_amount_cents: 5,
+          formatted_adjustment_amount: '$5.00'
+        }}
+      />
+    )
+
+    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+    ).toBeInstanceOf(HTMLButtonElement)
+    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
+      '$5.00'
+    )
   })
 
   it('should not render the action buttons when not defined', async () => {
