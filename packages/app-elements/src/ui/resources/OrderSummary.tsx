@@ -70,7 +70,7 @@ export const OrderSummary = withSkeletonTemplate<{
               label: 'Discount',
               formattedAmount: order.formatted_discount_amount
             })}
-            {renderDiscounts(order)}
+            {/* {renderDiscounts(order)} */}
             {editable
               ? renderTotalRow({
                   label: 'Adjustment',
@@ -203,7 +203,7 @@ function renderTotalRowAmount({
   }
 
   const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
-  const showRow = force || amountCents !== 0
+  const showRow = force || (!isNaN(amountCents) && amountCents !== 0)
 
   return showRow ? renderTotalRow({ label, value: formattedAmount }) : null
 }
