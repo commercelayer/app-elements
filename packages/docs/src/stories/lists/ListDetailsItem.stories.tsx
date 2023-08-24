@@ -1,4 +1,5 @@
 import { A } from '#ui/atoms/A'
+import { Button } from '#ui/atoms/Button'
 import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -26,7 +27,11 @@ export const WithLink = Template.bind({})
 WithLink.args = {
   label: 'Name',
   isLoading: false,
-  children: <A>Gray Women Crop Top with Black Logo (M)</A>
+  children: (
+    <A target='_blank' href='https://commercelayer.io'>
+      Gray Women Crop Top with Black Logo (M)
+    </A>
+  )
 }
 
 export const Empty = Template.bind({})
@@ -44,7 +49,7 @@ export const List: StoryFn<typeof ListDetailsItem> = (_args) => (
       border='none'
       gutter='none'
     >
-      <A>In transit</A>
+      <Button variant='link'>In transit</Button>
     </ListDetailsItem>
     <ListDetailsItem
       label='Tracking'

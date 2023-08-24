@@ -1,20 +1,20 @@
-import cn from 'classnames'
+import { type SetRequired } from 'type-fest'
 
-interface Props extends React.AnchorHTMLAttributes<HTMLAnchorElement> {}
+export type Props = SetRequired<
+  React.AnchorHTMLAttributes<HTMLAnchorElement>,
+  'href'
+>
 
-function A({ className, children, ...rest }: Props): JSX.Element {
+/**
+ * This component wraps an [`<a>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) HTML element.
+ * <blockquote type='info'>All the props are directly sent to the anchor element.</blockquote>
+ */
+export const A: React.FC<Props> = ({ children, href, ...rest }) => {
   return (
-    <a
-      className={cn([
-        className,
-        'text-primary font-bold outline-0 outline-offset-4 outline-primary-light hover:text-primary-light border-primary-light cursor-pointer'
-      ])}
-      {...rest}
-    >
+    <a href={href} {...rest}>
       {children}
     </a>
   )
 }
 
 A.displayName = 'A'
-export { A }

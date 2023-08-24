@@ -6,6 +6,10 @@ body {
     @apply text-gray-800 antialiased font-medium;
 }
 
+a {
+    @apply text-primary font-bold outline-0 outline-offset-4 outline-primary-light hover:text-primary-light border-primary-light cursor-pointer;
+}
+
 progress.progress {
     @apply w-full h-2;
 }

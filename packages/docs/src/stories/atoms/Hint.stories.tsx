@@ -19,7 +19,7 @@ export const WithIcon = Template.bind({})
 WithIcon.args = {
   children: (
     <div>
-      Check our <A>documentation</A>.
+      Check our <A href='https://docs.commercelayer.io/core'>documentation</A>.
     </div>
   ),
   icon: 'bulb'

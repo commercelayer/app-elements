@@ -4,8 +4,8 @@ import { Avatar } from './Avatar'
 import { Badge } from './Badge'
 import { Button } from './Button'
 import { Icon } from './Icon'
-import { SkeletonTemplate } from './SkeletonTemplate'
 import { RadialProgress } from './RadialProgress'
+import { SkeletonTemplate } from './SkeletonTemplate'
 import { Text } from './Text'
 
 describe('SkeletonTemplate', () => {
@@ -25,9 +25,10 @@ describe('SkeletonTemplate', () => {
     const { getByText, getByTestId } = render(
       <SkeletonTemplate isLoading>
         <div>Element #1</div>
-        <A>Element #2</A>
-        <Text>Element #3</Text>
-        <Button data-test-id='button'>Element #4</Button>
+        <A href='https://commercelayer.io'>Element #2</A>
+        <a href='https://commercelayer.io'>Element #3</a>
+        <Text>Element #4</Text>
+        <Button data-test-id='button'>Element #5</Button>
       </SkeletonTemplate>
     )
 
@@ -42,6 +43,9 @@ describe('SkeletonTemplate', () => {
 
     expect(getByText('Element #4')).toHaveClass('animate-pulse', '!bg-gray-50')
     expect(getByText('Element #4').nodeName).toEqual('SPAN')
+
+    expect(getByText('Element #5')).toHaveClass('animate-pulse', '!bg-gray-50')
+    expect(getByText('Element #5').nodeName).toEqual('SPAN')
 
     expect(getByTestId('button')).toHaveClass('animate-pulse', '!bg-gray-50')
   })

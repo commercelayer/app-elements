@@ -1,4 +1,4 @@
-import { A } from '#ui/atoms/A'
+import { Button } from '#ui/atoms/Button'
 import { PageLayout } from '#ui/composite/PageLayout'
 
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -30,5 +30,5 @@ WithActionButton.args = {
   description: 'View all resources',
   onGoBack: () => undefined,
   mode: 'live',
-  actionButton: <A>Add new</A>
+  actionButton: <Button variant='link'>Add new</Button>
 }

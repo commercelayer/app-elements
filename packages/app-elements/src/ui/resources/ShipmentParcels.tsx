@@ -14,6 +14,7 @@ import { useTokenProvider } from '#providers/TokenProvider'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
+import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Legend } from '#ui/atoms/Legend'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -224,13 +225,14 @@ const Tracking = withSkeletonTemplate<{
         <FlexRow className='mt-4'>
           <Text variant='info'>Tracking</Text>
           <Text weight='semibold'>
-            <A
+            <Button
+              variant='link'
               onClick={() => {
                 openTrackingDetails()
               }}
             >
               {parcel.tracking_number}
-            </A>
+            </Button>
           </Text>
         </FlexRow>
       )}

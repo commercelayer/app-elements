@@ -1,5 +1,5 @@
-import { A } from '#ui/atoms/A'
 import { Badge } from '#ui/atoms/Badge'
+import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
 import { Text } from '#ui/atoms/Text'
@@ -69,7 +69,7 @@ export const Addresses: StoryFn<typeof Stack> = (args) => (
         Wilmington DE 19801 (US)
       </Text>
       <Spacer top='4'>
-        <A>Edit</A>
+        <Button variant='link'>Edit</Button>
       </Spacer>
     </div>
     <div>
@@ -86,7 +86,7 @@ export const Addresses: StoryFn<typeof Stack> = (args) => (
         Wilmington DE 19801 (US)
       </Text>
       <Spacer top='4'>
-        <A>Edit</A>
+        <Button variant='link'>Edit</Button>
       </Spacer>
     </div>
   </Stack>

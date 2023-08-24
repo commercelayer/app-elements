@@ -1,4 +1,3 @@
-import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
@@ -32,7 +31,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
       <Spacer bottom='14'>
         <List
           title='Imports'
-          actionButton={<A>New import</A>}
+          actionButton={<Button variant='link'>New import</Button>}
           pagination={{
             recordsPerPage: 20,
             recordCount: 243,
