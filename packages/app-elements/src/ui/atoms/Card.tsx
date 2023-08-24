@@ -28,7 +28,7 @@ export const Card = withSkeletonTemplate<Props>(
         ])}
         {...rest}
       >
-        <div className='rounded overflow-hidden'>{children}</div>
+        {children}
       </div>
     )
   }
