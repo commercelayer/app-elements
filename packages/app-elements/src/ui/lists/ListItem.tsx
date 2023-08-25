@@ -70,6 +70,7 @@ const ListItem: FC<ListItemProps> = ({
     <JsxTag
       className={cn(
         'flex gap-4 border-gray-100',
+        'text-gray-800 hover:text-gray-800 font-normal', // keep default text color also when used as `<a>` tag
         {
           'py-4': padding !== 'none' && padding !== 'x',
           'px-4': padding !== 'none' && padding !== 'y',
