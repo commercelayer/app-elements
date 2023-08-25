@@ -94,6 +94,11 @@ WithBundle.args = {
   preset: ['withBundle']
 }
 
+export const WithGiftCard = Template.bind({})
+WithGiftCard.args = {
+  preset: ['giftCardBought', 'giftCardUsed']
+}
+
 export const ParcelLineItem = Template.bind({})
 ParcelLineItem.args = {
   preset: ['parcelLineItem']
