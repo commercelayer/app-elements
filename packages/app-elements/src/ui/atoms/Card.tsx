@@ -11,10 +11,11 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
    * @default '6'
    */
   gap?: '1' | '4' | '6'
+  footer?: React.ReactNode
 }
 
 export const Card = withSkeletonTemplate<Props>(
-  ({ className, children, gap = '6', isLoading, delayMs, ...rest }) => {
+  ({ className, children, gap = '6', isLoading, delayMs, footer, ...rest }) => {
     return (
       <div
         className={cn([
@@ -28,7 +29,20 @@ export const Card = withSkeletonTemplate<Props>(
         ])}
         {...rest}
       >
-        {children}
+        <div className='rounded overflow-hidden'>{children}</div>
+        {footer != null && (
+          <div
+            className={cn([
+              'mt-8 py-4 border-t',
+              {
+                '-m-4 px-4': gap === '4',
+                '-m-6 px-6': gap === '6'
+              }
+            ])}
+          >
+            {footer}
+          </div>
+        )}
       </div>
     )
   }
