@@ -61,7 +61,7 @@ export const CardDialog = withSkeletonTemplate<Props>(
   }) => {
     const hasChildren = Children.toArray(children).length > 0
     return (
-      <Card {...rest}>
+      <Card {...rest} footer={footer}>
         <ListItem
           tag='div'
           alignItems='top'
@@ -94,9 +94,6 @@ export const CardDialog = withSkeletonTemplate<Props>(
           </div>
           {onClose != null && <CloseButton onClick={onClose} />}
         </ListItem>
-        {footer != null && (
-          <div className='-m-6 mt-6 p-4 border-t'>{footer}</div>
-        )}
       </Card>
     )
   }
