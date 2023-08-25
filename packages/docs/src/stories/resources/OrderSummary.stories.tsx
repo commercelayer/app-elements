@@ -78,7 +78,7 @@ const order: Order = {
 
   line_items: [
     presetLineItems.oneLine,
-    presetLineItems.giftCard,
+    presetLineItems.giftCardUsed,
     presetLineItems.percentageDiscountPromotionCoupon,
     presetLineItems.percentageDiscountPromotionOver100,
     presetLineItems.percentageDiscountPromotionSkuList,

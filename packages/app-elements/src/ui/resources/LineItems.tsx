@@ -93,7 +93,7 @@ export const LineItems = withSkeletonTemplate<{
   onChange?: () => void
 }>(({ items, size = 'normal', footer, editable = false, onChange }) => {
   const settings = useMemo<LineItemSettings>(() => {
-    const a = items.reduce<LineItemSettings>(
+    return items.reduce<LineItemSettings>(
       (acc, lineItem): LineItemSettings => {
         return {
           showPrice:
@@ -104,8 +104,18 @@ export const LineItems = withSkeletonTemplate<{
       },
       { showPrice: false } satisfies LineItemSettings
     )
-    return a
   }, [items])
+
+  function isGiftCard(
+    item: Item
+  ): item is Extract<Item, LineItem> & { item_type: 'gift_cards' } {
+    return (
+      item.type === 'line_items' &&
+      item.item_type === 'gift_cards' &&
+      item.unit_amount_cents != null &&
+      item.unit_amount_cents > 0
+    )
+  }
 
   return (
     <table className='w-full'>
@@ -115,17 +125,18 @@ export const LineItems = withSkeletonTemplate<{
             return lineItem.type !== 'line_items'
               ? true
               : lineItem.item_type === 'skus' ||
-                  lineItem.item_type === 'bundles'
+                  lineItem.item_type === 'bundles' ||
+                  isGiftCard(lineItem)
           })
           .map((lineItem, index, arr) => {
             const isLastRow = index === arr.length - 1
 
             const code =
-              (lineItem.type === 'line_items'
+              lineItem.type === 'line_items'
                 ? lineItem.item_type === 'skus'
                   ? lineItem.sku_code
                   : lineItem.bundle_code
-                : lineItem.sku_code) ?? ' '
+                : lineItem.sku_code
 
             const name =
               lineItem.type === 'stock_line_items'
@@ -135,6 +146,8 @@ export const LineItems = withSkeletonTemplate<{
             const imageUrl =
               lineItem.type === 'stock_line_items'
                 ? lineItem.sku?.image_url
+                : isGiftCard(lineItem)
+                ? 'gift_card'
                 : lineItem.image_url
 
             const hasLineItemOptions =
