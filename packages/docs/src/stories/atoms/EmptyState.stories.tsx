@@ -29,7 +29,10 @@ WithIcon.args = {
   title: 'No adjustment yet!',
   description: (
     <>
-      Add a adjustment with the API, or use the CLI. <A>View API reference.</A>
+      Add a adjustment with the API, or use the CLI.{' '}
+      <A href='https://docs.commercelayer.io/core/v/api-reference/adjustments/object'>
+        View API reference.
+      </A>
     </>
   ),
   icon: 'stack'

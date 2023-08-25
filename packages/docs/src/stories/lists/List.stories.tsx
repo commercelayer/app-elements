@@ -1,4 +1,4 @@
-import { A } from '#ui/atoms/A'
+import { Button } from '#ui/atoms/Button'
 import { List } from '#ui/lists/List'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -23,7 +23,7 @@ const Template: StoryFn<typeof List> = (args) => (
 export const WithTitle = Template.bind({})
 WithTitle.args = {
   title: 'All items',
-  actionButton: <A>New item</A>
+  actionButton: <Button variant='link'>New item</Button>
 }
 
 export const WithPagination = Template.bind({})

@@ -34,6 +34,6 @@ export const Link: StoryFn = (args) => (
   <div>
     <Button variant='link'>I am a button</Button>
     <br />
-    <A onClick={() => {}}>I am a link</A>
+    <A href='https://commercelayer.io'>I am a link</A>
   </div>
 )

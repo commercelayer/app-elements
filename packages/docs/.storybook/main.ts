@@ -31,6 +31,22 @@ const storybookConfig: StorybookConfig = {
   docs: {
     autodocs: true,
     docsMode: true
+  },
+  typescript: {
+    // https://storybook.js.org/addons/storybook-addon-react-docgen
+    check: true,
+    reactDocgen: 'react-docgen-typescript',
+    reactDocgenTypescriptOptions: {
+      // propFilter: (prop) => {
+      //   if (prop.parent) {
+      //     return (
+      //       !/@types\/react/.test(prop.parent.fileName)
+      //     )
+      //   }
+
+      //   return true
+      // },
+    }
   }
 }
 

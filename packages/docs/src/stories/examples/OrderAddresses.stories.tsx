@@ -1,4 +1,4 @@
-import { A } from '#ui/atoms/A'
+import { Button } from '#ui/atoms/Button'
 import { Legend } from '#ui/atoms/Legend'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
@@ -32,7 +32,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
           Wilmington DE 19801 (US)
         </Text>
         <Spacer top='4'>
-          <A>Edit</A>
+          <Button variant='link'>Edit</Button>
         </Spacer>
       </div>
       <div>
@@ -49,7 +49,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
           Wilmington DE 19801 (US)
         </Text>
         <Spacer top='4'>
-          <A>Edit</A>
+          <Button variant='link'>Edit</Button>
         </Spacer>
       </div>
     </Stack>

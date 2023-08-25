@@ -1,4 +1,4 @@
-import { A } from '#ui/atoms/A'
+import { Button } from '#ui/atoms/Button'
 import { Legend } from '#ui/atoms/Legend'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -22,5 +22,5 @@ export const Small = Template.bind({})
 Small.args = {
   title: 'All SKUs',
   titleSize: 'small',
-  actionButton: <A> New export</A>
+  actionButton: <Button variant='link'> New export</Button>
 }

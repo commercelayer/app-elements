@@ -1,5 +1,5 @@
-import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
+import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -142,7 +142,7 @@ Carrier.args = {
         border='none'
         gutter='none'
       >
-        <A>In transit</A>
+        <Button variant='link'>In transit</Button>
       </ListDetailsItem>
       <ListDetailsItem
         label='Tracking'
@@ -194,7 +194,7 @@ WithFooter.args = {
   onClose: undefined,
   footer: (
     <div className='text-center'>
-      <A>Hello World!</A>
+      <Button variant='link'>Hello World!</Button>
     </div>
   ),
   children: (
@@ -205,7 +205,7 @@ WithFooter.args = {
         border='none'
         gutter='none'
       >
-        <A>In transit</A>
+        <Button variant='link'>In transit</Button>
       </ListDetailsItem>
       <ListDetailsItem
         label='Tracking'
