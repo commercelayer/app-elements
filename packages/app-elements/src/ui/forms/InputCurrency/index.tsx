@@ -55,6 +55,11 @@ export interface InputCurrencyProps
    */
   hideCurrencySymbol?: boolean
   /**
+   * Allow user to enter negative value
+   * @default false
+   */
+  allowNegativeValue?: boolean
+  /**
    * show (X) button to clear the input
    */
   isClearable?: boolean
@@ -72,6 +77,7 @@ const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       currencyCode,
       placeholder,
       hideCurrencySymbol,
+      allowNegativeValue = false,
       isClearable,
       ...rest
     },
@@ -131,7 +137,7 @@ const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
               getFeedbackStyle(feedback)
             )}
             disableAbbreviations
-            allowNegativeValue={false}
+            allowNegativeValue={allowNegativeValue}
             allowDecimals={decimalLength > 0}
             decimalsLimit={decimalLength}
             decimalSeparator={currency.decimal_mark}

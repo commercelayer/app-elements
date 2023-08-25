@@ -20,6 +20,7 @@ export interface OverlayProps {
     | {
         onClick: () => void
         label: string
+        disabled?: boolean
       }
 }
 
@@ -66,7 +67,12 @@ const Overlay: React.FC<OverlayProps> = ({
             data-test-id='overlay-buttonContainer'
           >
             {/* eslint-disable react/jsx-handler-names */}
-            <Button type='button' onClick={button.onClick} className='w-full'>
+            <Button
+              disabled={button.disabled}
+              type='button'
+              onClick={button.onClick}
+              className='w-full'
+            >
               {button.label}
             </Button>
           </div>

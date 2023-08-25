@@ -88,7 +88,7 @@ describe('OrderSummary', () => {
     )
 
     expect(queryByTestId('OrderSummary-Subtotal')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Subtotal-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Subtotal-value')).toHaveTextContent(
       '$141.60'
     )
 
@@ -96,19 +96,19 @@ describe('OrderSummary', () => {
     expect(queryByTestId('OrderSummary-Adjustments')).not.toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Shipping method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Shipping method-amount')
+      queryByTestId('OrderSummary-Shipping method-value')
     ).toHaveTextContent('$12.00')
     expect(queryByTestId('OrderSummary-Payment method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Payment method-amount')
+      queryByTestId('OrderSummary-Payment method-value')
     ).toHaveTextContent('$10.00')
     expect(queryByTestId('OrderSummary-Taxes')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Taxes-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Taxes-value')).toHaveTextContent(
       '$31.15'
     )
     expect(queryByTestId('OrderSummary-Gift card')).not.toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Total-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Total-value')).toHaveTextContent(
       '$132.45'
     )
   })
@@ -147,7 +147,7 @@ describe('OrderSummary', () => {
     expect(queryByTestId('OrderSummary-Adjustments')).not.toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Shipping method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Shipping method-amount')
+      queryByTestId('OrderSummary-Shipping method-value')
     ).toHaveTextContent('free')
     expect(queryByTestId('OrderSummary-Payment method')).not.toBeInTheDocument()
     expect(queryByTestId('OrderSummary-Taxes')).not.toBeInTheDocument()
@@ -181,42 +181,74 @@ describe('OrderSummary', () => {
     )
 
     expect(queryByTestId('OrderSummary-Subtotal')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Subtotal-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Subtotal-value')).toHaveTextContent(
       '$5.00'
     )
 
     expect(queryByTestId('OrderSummary-Discount')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Discount-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Discount-value')).toHaveTextContent(
       '$5.00'
     )
 
-    expect(queryByTestId('OrderSummary-Adjustments')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Adjustments-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+    ).not.toBeInstanceOf(HTMLButtonElement)
+    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
       '$5.00'
     )
 
     expect(queryByTestId('OrderSummary-Shipping method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Shipping method-amount')
+      queryByTestId('OrderSummary-Shipping method-value')
     ).toHaveTextContent('$5.00')
 
     expect(queryByTestId('OrderSummary-Payment method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Payment method-amount')
+      queryByTestId('OrderSummary-Payment method-value')
     ).toHaveTextContent('$5.00')
 
     expect(queryByTestId('OrderSummary-Taxes')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Taxes-amount')).toHaveTextContent(
-      '$5.00'
-    )
+    expect(queryByTestId('OrderSummary-Taxes-value')).toHaveTextContent('$5.00')
 
     expect(queryByTestId('OrderSummary-Gift card')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Gift card-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Gift card-value')).toHaveTextContent(
       '$5.00'
     )
 
     expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Total-amount')).toHaveTextContent(
+    expect(queryByTestId('OrderSummary-Total-value')).toHaveTextContent('$5.00')
+  })
+
+  it('should show "Adjust total" beside Adjustment as Button when `editable` prop is set to true', () => {
+    const { queryByTestId } = render(<OrderSummary editable order={order} />)
+
+    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+    ).toBeInstanceOf(HTMLButtonElement)
+    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
+      'Adjust total'
+    )
+  })
+
+  it('should render the adjustment value as Button when `editable` prop is set to true', () => {
+    const { queryByTestId } = render(
+      <OrderSummary
+        editable
+        order={{
+          ...order,
+          adjustment_amount_cents: 5,
+          formatted_adjustment_amount: '$5.00'
+        }}
+      />
+    )
+
+    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+    ).toBeInstanceOf(HTMLButtonElement)
+    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
       '$5.00'
     )
   })

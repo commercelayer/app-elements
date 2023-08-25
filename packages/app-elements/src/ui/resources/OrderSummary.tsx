@@ -1,12 +1,18 @@
+import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import {
   ActionButtons,
   type ActionButtonsProps
 } from '#ui/composite/ActionButtons'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { InputCurrency } from '#ui/forms/InputCurrency'
+import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type { Order } from '@commercelayer/sdk'
-import { Fragment } from 'react'
+import { Fragment, useState } from 'react'
 import { LineItems } from './LineItems'
 
 interface TotalRowProps {
@@ -28,20 +34,23 @@ export const OrderSummary = withSkeletonTemplate<{
   footerActions?: ActionButtonsProps['actions']
   order: Order
 }>(({ order, onChange, footerActions = [], editable = false }) => {
+  const { Overlay, open } = useAdjustTotalOverlay(order, onChange)
+
   return (
     <div>
+      {editable && <Overlay />}
       <LineItems
         editable={editable}
         onChange={onChange}
         items={order.line_items ?? []}
         footer={
           <>
-            {renderTotalRow({
+            {renderTotalRowAmount({
               force: true,
               label: 'Subtotal',
               formattedAmount: order.formatted_subtotal_amount
             })}
-            {renderTotalRow({
+            {renderTotalRowAmount({
               force: true,
               label: 'Shipping method',
               formattedAmount:
@@ -49,28 +58,45 @@ export const OrderSummary = withSkeletonTemplate<{
                   ? order.formatted_shipping_amount
                   : 'free'
             })}
-            {renderTotalRow({
+            {renderTotalRowAmount({
               label: 'Payment method',
               formattedAmount: order.formatted_payment_method_amount
             })}
-            {renderTotalRow({
+            {renderTotalRowAmount({
               label: 'Taxes',
               formattedAmount: order.formatted_total_tax_amount
             })}
-            {renderTotalRow({
+            {renderTotalRowAmount({
               label: 'Discount',
               formattedAmount: order.formatted_discount_amount
             })}
             {/* {renderDiscounts(order)} */}
-            {renderTotalRow({
-              label: 'Adjustments',
-              formattedAmount: order.formatted_adjustment_amount
-            })}
-            {renderTotalRow({
+            {editable
+              ? renderTotalRow({
+                  label: 'Adjustment',
+                  value: (
+                    <Button
+                      variant='link'
+                      onClick={() => {
+                        open()
+                      }}
+                    >
+                      {order.adjustment_amount_cents != null &&
+                      order.adjustment_amount_cents !== 0
+                        ? order.formatted_adjustment_amount
+                        : 'Adjust total'}
+                    </Button>
+                  )
+                })
+              : renderTotalRowAmount({
+                  label: 'Adjustment',
+                  formattedAmount: order.formatted_adjustment_amount
+                })}
+            {renderTotalRowAmount({
               label: 'Gift card',
               formattedAmount: order.formatted_gift_card_amount
             })}
-            {renderTotalRow({
+            {renderTotalRowAmount({
               force: true,
               label: 'Total',
               formattedAmount: order.formatted_total_amount_with_taxes
@@ -83,7 +109,99 @@ export const OrderSummary = withSkeletonTemplate<{
   )
 })
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
+  const [disabled, setDisabled] = useState<boolean>(false)
+  const currencyCode = order.currency_code as Uppercase<CurrencyCode>
+  const { sdkClient } = useCoreSdkProvider()
+  const [cents, setCents] = useState<number | null>(null)
+  const { Overlay, open, close } = useOverlayNavigation({
+    queryParam: 'adjust-total'
+  })
+
+  return {
+    close,
+    open,
+    Overlay: () => (
+      <Overlay
+        button={{
+          label: 'Apply',
+          disabled,
+          onClick: () => {
+            if (cents != null) {
+              setDisabled(true)
+              void sdkClient.adjustments
+                .create({
+                  currency_code: currencyCode,
+                  amount_cents: cents,
+                  name: 'Manual adjustment'
+                })
+                .then(async (adjustment) => {
+                  return await sdkClient.line_items.create({
+                    order: sdkClient.orders.relationship(order.id),
+                    quantity: 1,
+                    item: adjustment
+                  })
+                })
+                .then(() => {
+                  setCents(null)
+                  onChange?.()
+                  close()
+                })
+                .finally(() => {
+                  setDisabled(false)
+                })
+            }
+          }
+        }}
+      >
+        <PageLayout
+          title='Adjust total'
+          onGoBack={() => {
+            close()
+          }}
+        >
+          <InputCurrency
+            isClearable
+            allowNegativeValue
+            disabled={disabled}
+            currencyCode={currencyCode}
+            label='Amount'
+            name='adjust-total'
+            cents={cents}
+            onChange={(cents) => {
+              if (cents != null) {
+                setCents(cents)
+              }
+            }}
+          />
+        </PageLayout>
+      </Overlay>
+    )
+  }
+}
+
 function renderTotalRow({
+  label,
+  value
+}: {
+  label: string
+  value: React.ReactNode
+}): JSX.Element {
+  return (
+    <FlexRow
+      data-test-id={`OrderSummary-${label}`}
+      className='my-4 first:mt-0 last:mb-0 font-medium last:font-bold'
+    >
+      <Text>{label}</Text>
+      <Text data-test-id={`OrderSummary-${label}-value`} wrap='nowrap'>
+        {value}
+      </Text>
+    </FlexRow>
+  )
+}
+
+function renderTotalRowAmount({
   label,
   formattedAmount,
   force = false
@@ -93,19 +211,9 @@ function renderTotalRow({
   }
 
   const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
-  const showRow = force || amountCents < 0 || amountCents > 0
+  const showRow = force || (!isNaN(amountCents) && amountCents !== 0)
 
-  return showRow ? (
-    <FlexRow
-      data-test-id={`OrderSummary-${label}`}
-      className='my-4 first:mt-0 last:mb-0 font-medium last:font-bold'
-    >
-      <Text>{label}</Text>
-      <Text data-test-id={`OrderSummary-${label}-amount`} wrap='nowrap'>
-        {formattedAmount}
-      </Text>
-    </FlexRow>
-  ) : null
+  return showRow ? renderTotalRow({ label, value: formattedAmount }) : null
 }
 
 // TODO: we wanna show all promotion line items. Before doing that we need to add the coupon_code and gift_card_code to the line_item
@@ -131,7 +239,7 @@ function renderDiscounts(order: Order): JSX.Element | null {
     <>
       {promotionLineItems.map((promotionLineItem) => (
         <Fragment key={promotionLineItem.id}>
-          {renderTotalRow({
+          {renderTotalRowAmount({
             label:
               promotionLineItem.name ??
               promotionLineItem.item_type ??
