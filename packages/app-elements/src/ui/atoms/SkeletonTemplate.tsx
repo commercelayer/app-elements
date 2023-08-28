@@ -14,7 +14,7 @@ import { useDelayShow } from '../../hooks/useDelayShow'
 
 type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
 
-type SkeletonTemplateProps<P = Record<string, unknown>> = Simplify<
+export type SkeletonTemplateProps<P = Record<string, unknown>> = Simplify<
   P & {
     /**
      * This prevents `SkeletonTemplate` to appear immediately.

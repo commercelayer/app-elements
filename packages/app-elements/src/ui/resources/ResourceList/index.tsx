@@ -2,7 +2,10 @@ import { useIsChanged } from '#hooks/useIsChanged'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { Legend, type LegendProps } from '#ui/atoms/Legend'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import {
+  withSkeletonTemplate,
+  type SkeletonTemplateProps
+} from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import {
@@ -19,19 +22,40 @@ import { computeTitleWithTotalCount } from './utils'
 
 const LegendWithSkeleton = withSkeletonTemplate(Legend)
 
-export interface ResourceListItemProps<TResource extends ListableResourceType> {
-  resource?: Resource<TResource>
-  isLoading?: boolean
-  delayMs?: number
-  remove?: () => void
-}
+export interface ResourceListItemProps<TResource extends ListableResourceType>
+  extends SkeletonTemplateProps<{
+    /**
+     * The fetched resource
+     */
+    resource?: Resource<TResource>
+    /**
+     * callback to be used to remove the item from the list as UI element.
+     * This needs to be used after a successful API call to delete the resource, since it just affects the current UI rendering and not the server data.
+     */
+    remove?: () => void
+  }> {}
 
 export interface ResourceListProps<TResource extends ListableResourceType>
   extends Pick<LegendProps, 'title' | 'actionButton'> {
+  /**
+   * The resource type to be fetched in the list
+   */
   type: TResource
+  /**
+   * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
+   */
   query?: Omit<QueryParamsList, 'pageNumber'>
+  /**
+   * A react component to be used to render each item in the list.
+   */
   Item: FC<ResourceListItemProps<TResource>>
+  /**
+   * An element to be rendered when the list is empty.
+   */
   emptyState: JSX.Element
+  /**
+   * A valid CommerceLayer SDK client instance.
+   */
   sdkClient?: CommerceLayerClient
 }
 
