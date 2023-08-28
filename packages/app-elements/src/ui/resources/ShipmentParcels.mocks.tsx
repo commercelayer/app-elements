@@ -389,6 +389,20 @@ export const shipmentWithSingleParcelSingleTracking = createShipment({
   parcels: [parcelWithTracking1]
 })
 
+export const shipmentWithSingleParcelSingleTrackingNoCarrier = createShipment({
+  id: 'shipment-with-single-parcel-single-tracking',
+  status: 'packing',
+  purchaseStartedAt: '2023-07-11',
+  selectedRateId: 'rate_dhl_1111',
+  parcels: [
+    {
+      ...parcelWithTracking1,
+      tracking_details: [],
+      tracking_status: 'delivered'
+    }
+  ]
+})
+
 export const shipmentWithMultipleParcelsSingleTracking = createShipment({
   id: 'shipment-with-multiple-parcels-single-tracking',
   status: 'packing',

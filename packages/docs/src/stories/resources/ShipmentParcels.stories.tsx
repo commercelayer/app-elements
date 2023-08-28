@@ -4,6 +4,7 @@ import {
   shipmentWithMultipleParcelsMultipleTrackings,
   shipmentWithMultipleParcelsSingleTracking,
   shipmentWithSingleParcelSingleTracking,
+  shipmentWithSingleParcelSingleTrackingNoCarrier,
   shipmentWithStatusDifferentFromPacking,
   shipmentWithoutParcels,
   shipmentWithoutTracking,
@@ -70,6 +71,19 @@ SingleParcelSingleTracking.args = {
     alert(`removed parcel "${parcelId}"`)
   },
   shipment: shipmentWithSingleParcelSingleTracking
+}
+
+/**
+ * When there's only one parcel, but carrier information is missing. We show tracking information in the parcel box.
+ */
+export const SingleParcelSingleTrackingWithoutCarrier: StoryFn<
+  typeof ShipmentParcels
+> = (args): JSX.Element => <ShipmentParcels {...args} />
+SingleParcelSingleTrackingWithoutCarrier.args = {
+  onRemoveParcel: function (parcelId) {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  shipment: shipmentWithSingleParcelSingleTrackingNoCarrier
 }
 
 /**

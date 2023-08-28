@@ -52,12 +52,14 @@ export const ShipmentParcels = withSkeletonTemplate<{
 }>(({ shipment, onRemoveParcel }) => {
   const singleTracking = hasSingleTracking(shipment)
   const rate = getShipmentRate(shipment)
+  const hasCarrier = rate != null
+
   return (
     <div
       data-test-id={`shipment-parcels-${shipment.id}`}
       className='flex flex-col gap-2'
     >
-      <Carrier shipment={shipment} />
+      {hasCarrier && <Carrier shipment={shipment} />}
       {shipment.parcels?.map((parcel) => {
         if (!hasPackage(parcel)) {
           return null
@@ -69,7 +71,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
             rate={rate}
             showEstimatedDelivery={!singleTracking}
             parcel={
-              singleTracking
+              singleTracking && hasCarrier
                 ? {
                     ...parcel,
                     tracking_details: undefined,
@@ -215,24 +217,33 @@ const Tracking = withSkeletonTemplate<{
   return (
     <>
       <TrackingDetailsOverlay />
-      {trackingDetails?.status != null && (
+      {trackingDetails?.status != null ? (
         <FlexRow className='mt-4'>
           <Text variant='info'>Status</Text>
           <Text weight='semibold'>{trackingDetails.status}</Text>
         </FlexRow>
-      )}
+      ) : parcel.tracking_status != null ? (
+        <FlexRow className='mt-4'>
+          <Text variant='info'>Status</Text>
+          <Text weight='semibold'>{parcel.tracking_status}</Text>
+        </FlexRow>
+      ) : null}
       {parcel.tracking_number != null && (
         <FlexRow className='mt-4'>
           <Text variant='info'>Tracking</Text>
           <Text weight='semibold'>
-            <Button
-              variant='link'
-              onClick={() => {
-                openTrackingDetails()
-              }}
-            >
-              {parcel.tracking_number}
-            </Button>
+            {trackingDetails != null ? (
+              <Button
+                variant='link'
+                onClick={() => {
+                  openTrackingDetails()
+                }}
+              >
+                {parcel.tracking_number}
+              </Button>
+            ) : (
+              parcel.tracking_number
+            )}
           </Text>
         </FlexRow>
       )}
