@@ -28,6 +28,12 @@ type Action<TResource extends ListableResourceType> =
       type: 'error'
       payload: string
     }
+  | {
+      type: 'removeItem'
+      payload: {
+        resourceId: string
+      }
+    }
 
 export const reducer = <TResource extends ListableResourceType>(
   state: ResourceListInternalState<TResource>,
@@ -61,6 +67,24 @@ export const reducer = <TResource extends ListableResourceType>(
         error: undefined,
         isLoading: true,
         data: undefined
+      }
+    case 'removeItem':
+      return {
+        ...state,
+        data:
+          state.data?.list.find(
+            (item) => item.id === action.payload.resourceId
+          ) != null
+            ? {
+                list: state.data.list.filter(
+                  (item) => item.id !== action.payload.resourceId
+                ),
+                meta: {
+                  ...state.data.meta,
+                  recordCount: state.data.meta.recordCount - 1
+                }
+              }
+            : state.data
       }
   }
 }

@@ -19,15 +19,18 @@ import { computeTitleWithTotalCount } from './utils'
 
 const LegendWithSkeleton = withSkeletonTemplate(Legend)
 
+export interface ResourceListItemProps<TResource extends ListableResourceType> {
+  resource?: Resource<TResource>
+  isLoading?: boolean
+  delayMs?: number
+  remove?: () => void
+}
+
 export interface ResourceListProps<TResource extends ListableResourceType>
   extends Pick<LegendProps, 'title' | 'actionButton'> {
   type: TResource
   query?: Omit<QueryParamsList, 'pageNumber'>
-  Item: FC<{
-    resource?: Resource<TResource>
-    isLoading?: boolean
-    delayMs?: number
-  }>
+  Item: FC<ResourceListItemProps<TResource>>
   emptyState: JSX.Element
   sdkClient?: CommerceLayerClient
 }
@@ -124,7 +127,20 @@ function ResourceList<TResource extends ListableResourceType>({
       ) : null}
 
       {data?.list.map((resource) => {
-        return <Item resource={resource} key={resource.id} />
+        return (
+          <Item
+            resource={resource}
+            key={resource.id}
+            remove={() => {
+              dispatch({
+                type: 'removeItem',
+                payload: {
+                  resourceId: resource.id
+                }
+              })
+            }}
+          />
+        )
       })}
 
       {error != null ? (
