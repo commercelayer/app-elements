@@ -1,5 +1,6 @@
-import { type ReactNode } from 'react'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import cn from 'classnames'
+import { type ReactNode } from 'react'
 
 export interface LegendProps {
   /**
@@ -24,42 +25,43 @@ export interface LegendProps {
   className?: string
 }
 
-// TODO: Do we want to manage headings? (h2, h3, hx)
-
-function Legend({
-  title,
-  titleSize = 'normal',
-  actionButton,
-  className,
-  border,
-  ...rest
-}: LegendProps): JSX.Element {
-  return (
-    <div
-      className={cn(
-        'border-b pb-4 flex justify-between items-center',
-        {
-          // border
-          'border-gray-100': border == null,
-          'border-transparent': border === 'none'
-        },
-        className
-      )}
-      {...rest}
-    >
-      <h2
-        className={cn({
-          // titleSize
-          'text-gray-500 font-medium': titleSize === 'small',
-          'text-lg font-semibold': titleSize === 'normal'
-        })}
+export const Legend = withSkeletonTemplate<LegendProps>(
+  ({
+    title,
+    titleSize = 'normal',
+    actionButton,
+    className,
+    border,
+    isLoading,
+    delayMs,
+    ...rest
+  }) => {
+    return (
+      <div
+        className={cn(
+          'border-b pb-4 flex justify-between items-center',
+          {
+            // border
+            'border-gray-100': border == null,
+            'border-transparent': border === 'none'
+          },
+          className
+        )}
+        {...rest}
       >
-        {title}
-      </h2>
-      <div>{actionButton}</div>
-    </div>
-  )
-}
+        <h2
+          className={cn({
+            // titleSize
+            'text-gray-500 font-medium': titleSize === 'small',
+            'text-lg font-semibold': titleSize === 'normal'
+          })}
+        >
+          {title}
+        </h2>
+        <div>{actionButton}</div>
+      </div>
+    )
+  }
+)
 
 Legend.displayName = 'Legend'
-export { Legend }
