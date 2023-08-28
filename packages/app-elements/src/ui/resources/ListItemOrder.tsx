@@ -71,7 +71,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
           >
             {formatDate({
               format: 'date',
-              isoDate: order.updated_at,
+              isoDate: order.placed_at ?? order.updated_at,
               timezone: user?.timezone
             })}
             {!isEmpty(name) ? ` · ${name}` : ''}
