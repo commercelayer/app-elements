@@ -2,10 +2,7 @@ import { useIsChanged } from '#hooks/useIsChanged'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { Legend, type LegendProps } from '#ui/atoms/Legend'
-import {
-  withSkeletonTemplate,
-  type SkeletonTemplateProps
-} from '#ui/atoms/SkeletonTemplate'
+import { type SkeletonTemplateProps } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import {
@@ -19,8 +16,6 @@ import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
 import { computeTitleWithTotalCount } from './utils'
-
-const LegendWithSkeleton = withSkeletonTemplate(Legend)
 
 export interface ResourceListItemProps<TResource extends ListableResourceType>
   extends SkeletonTemplateProps<{
@@ -139,7 +134,7 @@ function ResourceList<TResource extends ListableResourceType>({
   return (
     <div data-test-id='resource-list'>
       {title != null || actionButton != null ? (
-        <LegendWithSkeleton
+        <Legend
           isLoading={isFirstLoading}
           title={computeTitleWithTotalCount({
             title,
