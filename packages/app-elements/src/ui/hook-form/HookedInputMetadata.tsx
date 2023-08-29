@@ -10,12 +10,19 @@ interface Props {
   name: string
 }
 
+/**
+ * `InputMetadata` component ready to be used with the `react-hook-form` context.
+ * Metadata is stored in form state as object of strings (example: `{foo: 'bar'}` )
+ * and should match the core api metadata structure. Non-string values are ignored and will not appear
+ * in the form state.
+ * @see InputMetadata
+ */
 function HookedInputMetadata({ name }: Props): JSX.Element {
   const { getValues } = useFormContext()
 
-  const metadata = getValues(name)
+  const metadata = getValues(name) ?? {}
 
-  if (Object.keys(metadata).length === 0) return <></>
+  if (Object.keys(metadata).length === 0) return <div>Missing Metadata</div>
 
   return (
     <>

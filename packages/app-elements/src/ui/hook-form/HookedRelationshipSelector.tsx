@@ -12,6 +12,11 @@ interface Props
   name: string
 }
 
+/**
+ * `RelationshipSelector` component ready to be used with the `react-hook-form` context.
+ * Since it will perform api requests to fetch list of options, it also needs to access `CoreSdkProvider` context.
+ * @see RelationshipSelector
+ */
 function HookedRelationshipSelector({ name, ...props }: Props): JSX.Element {
   const { control } = useFormContext()
 

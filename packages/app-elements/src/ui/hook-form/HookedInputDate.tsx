@@ -10,6 +10,11 @@ interface Props extends Omit<InputDateProps, 'onChange'> {
   name: string
 }
 
+/**
+ * `InputDate` component ready to be used with the `react-hook-form` context.
+ * Value is stored in form state as iso date string (example: `"2023-08-01T22:00:00.000Z"` ).
+ * @see InputDate
+ */
 function HookedInputDate({ name, ...props }: Props): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)

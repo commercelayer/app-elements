@@ -8,6 +8,10 @@ interface Props extends InputCheckboxProps {
   name: string
 }
 
+/**
+ * `InputCheckbox` component ready to be used with the `react-hook-form` context.
+ * @see InputCheckbox
+ */
 function HookedInputCheckbox({ name, ...props }: Props): JSX.Element {
   const { register } = useFormContext()
 

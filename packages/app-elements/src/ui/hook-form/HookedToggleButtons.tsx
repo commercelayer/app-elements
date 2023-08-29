@@ -9,6 +9,11 @@ type Props = Omit<ToggleButtonsProps, 'value' | 'onChange'> & {
   name: string
 }
 
+/**
+ * `ToggleButtons` component ready to be used with the `react-hook-form` context.
+ * Stored value will be a string when used as `mode="single"` or an array of strings when `mode="multiple"`.
+ * @see ToggleButtons
+ */
 function HookedToggleButtons({ name, ...props }: Props): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)

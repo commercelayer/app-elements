@@ -1,8 +1,6 @@
-import { Button } from '#ui/atoms/Button'
-import { HookedForm } from '#ui/hook-form/HookedForm'
 import { HookedInputSelect } from '#ui/hook-form/HookedInputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { useForm } from 'react-hook-form'
+import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputSelect> = {
   title: 'HookForm/HookedInputSelect',
@@ -13,32 +11,12 @@ const setup: Meta<typeof HookedInputSelect> = {
 }
 export default setup
 
-const BaseForm: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const methods = useForm({
-    defaultValues: {
-      city: ''
-    }
-  })
-
-  return (
-    <HookedForm
-      {...methods}
-      onSubmit={(values) => {
-        alert(`selected: ${values.city}`)
-      }}
-    >
-      {children}
-      <Button type='submit'>Submit</Button>
-    </HookedForm>
-  )
-}
-
 const Template: StoryFn<typeof HookedInputSelect> = (args) => {
   return (
-    <BaseForm>
+    <HookedForm>
       <HookedInputSelect
         {...args}
-        name='city'
+        name='myFormField'
         initialValues={[
           {
             value: 'paris',
@@ -54,7 +32,7 @@ const Template: StoryFn<typeof HookedInputSelect> = (args) => {
           }
         ]}
       />
-    </BaseForm>
+    </HookedForm>
   )
 }
 

@@ -9,6 +9,10 @@ interface Props extends Omit<InputSpinnerProps, 'onChange' | 'defaultValues'> {
   name: string
 }
 
+/**
+ * `InputSpinner` component ready to be used with the `react-hook-form` context.
+ * @see InputSpinner
+ */
 function HookedInputSpinner({ name, ...props }: Props): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)

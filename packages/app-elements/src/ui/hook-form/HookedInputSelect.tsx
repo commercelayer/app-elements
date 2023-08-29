@@ -30,6 +30,11 @@ interface Props extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
   pathToValue?: string
 }
 
+/**
+ * `InputSelect` component ready to be used with the `react-hook-form` context.
+ * Value to be stored in the field can be controlled from the `pathToValue` prop.
+ * @see InputSelect
+ */
 function HookedInputSelect({
   name,
   pathToValue = 'value',

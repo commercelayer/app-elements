@@ -10,6 +10,11 @@ interface Props
   name: string
 }
 
+/**
+ * `InputCurrency` component ready to be used with the `react-hook-form` context.
+ * Value is stored in form state as cents.
+ * @see InputCurrency
+ */
 function HookedInputCurrency({ name, ...props }: Props): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)

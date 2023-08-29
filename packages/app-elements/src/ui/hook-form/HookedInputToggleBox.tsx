@@ -16,6 +16,10 @@ interface Props extends InputToggleBoxProps {
   showValidation?: boolean
 }
 
+/**
+ * `InputToggleBox` component ready to be used with the `react-hook-form` context.
+ * @see InputToggleBox
+ */
 function HookedInputToggleBox({
   name,
   showValidation,

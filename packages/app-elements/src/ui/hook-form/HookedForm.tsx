@@ -11,6 +11,28 @@ interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
   onSubmit: (data: T) => void
 }
 
+/**
+ * Form component to be used as main provider for the `react-hook-form` context.
+ *
+ * Example:
+ * ```
+ * import { useForm } from "react-hook-form"
+ * import { zodResolver } from "@hookform/resolvers/zod"
+ * import { HookedForm, HookedInput, HookedInputDate} from "@commercelayer/app-elements"
+ * function MyForm() {
+ *   const methods = useForm({
+ *     resolver: zodResolver(schema),
+ *   });
+ *   return (
+ *     <HookedForm {...methods} onSubmit={(values) => myPostToServer(values)}>
+ *       <HookedInput name="companyName" label="Company name" />
+ *       <HookedInputDate name="dateSingle" label="Date" />
+ *       <Button type='submit'>Submit</Button>
+ *     </HookedForm>
+ *    );
+ * }
+ *```
+ */
 export const HookedForm = <T extends FieldValues>({
   onSubmit,
   children,

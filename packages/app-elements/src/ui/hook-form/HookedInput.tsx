@@ -9,6 +9,10 @@ interface Props extends InputProps {
   name: string
 }
 
+/**
+ * `Input` component ready to be used with the `react-hook-form` context.
+ * @see InputSelect
+ */
 function HookedInput({ name, ...props }: Props): JSX.Element {
   const { register } = useFormContext()
   const feedback = useValidationFeedback(name)
