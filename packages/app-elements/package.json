@@ -1,6 +1,6 @@
 {
   "name": "@commercelayer/app-elements",
-  "version": "0.0.78",
+  "version": "0.0.79",
   "type": "module",
   "files": [
     "dist"
