@@ -62,7 +62,7 @@ const Overlay: React.FC<OverlayProps> = ({ footer, children, ...rest }) => {
 }
 Overlay.displayName = 'Overlay'
 
-interface OverlayNavigationOptions {
+interface OverlayOptions {
   /**
    * Optional query param to be used to control the overlay visibility.
    * When set, the overlay will be opened when the query param is set to `true` (e.g. `?myOverlay=true`)
@@ -72,7 +72,7 @@ interface OverlayNavigationOptions {
   queryParam: string
 }
 
-interface OverlayNavigation {
+interface OverlayHook {
   /**
    * The overlay component.
    **/
@@ -87,9 +87,7 @@ interface OverlayNavigation {
   close: () => void
 }
 
-export function useOverlay(
-  options?: OverlayNavigationOptions
-): OverlayNavigation {
+export function useOverlay(options?: OverlayOptions): OverlayHook {
   const [show, setShow] = useState(false)
   const search = useSearch()
   const isInQueryParamMode = window != null && options?.queryParam != null
