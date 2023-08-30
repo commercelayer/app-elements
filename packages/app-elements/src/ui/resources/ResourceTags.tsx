@@ -1,5 +1,6 @@
+import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { Overlay } from '#ui/atoms/Overlay'
+import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Tag as TagUi } from '#ui/atoms/Tag'
 import { Text } from '#ui/atoms/Text'
@@ -42,7 +43,7 @@ export const ResourceTags = withSkeletonTemplate<{
   overlay: TagsOverlay
   onTagClick?: (tagId: string) => void
 }>(({ resourceType, resourceId, overlay, onTagClick }) => {
-  const [showOverlay, setShowOverlay] = useState(false)
+  const { Overlay, open, close } = useOverlay()
   const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
     useState(false)
 
@@ -118,17 +119,18 @@ export const ResourceTags = withSkeletonTemplate<{
           icon={<TagIcon weight='bold' />}
           onClick={(e) => {
             e.preventDefault()
-            setShowOverlay(true)
+            open()
           }}
         >
           Edit tags
         </TagUi>
       </div>
-      {showOverlay && (
-        <Overlay
-          button={{
-            label: 'Update',
-            onClick: () => {
+      <Overlay
+        footer={
+          <Button
+            type='button'
+            fullWidth
+            onClick={() => {
               void sdkClient[resourceType]
                 .update(
                   {
@@ -144,65 +146,67 @@ export const ResourceTags = withSkeletonTemplate<{
                   void mutateResourceTags(newTags as ListResponse<Tag>, {
                     revalidate: false
                   }).then(() => {
-                    setShowOverlay(false)
+                    close()
                   })
                 })
-            }
-          }}
-        >
-          <PageLayout
-            title={overlay.title}
-            description={overlay.description}
-            minHeight={false}
-            onGoBack={() => {
-              setShowOverlay(false)
             }}
           >
-            <InputSelect
-              label='Tags'
-              placeholder='Search...'
-              hint={{
-                text: (
-                  <>
-                    You can add up to 10 tags.
-                    {selectedTagsLimitReached && (
-                      <>
-                        {' '}
-                        <Text weight='bold' variant='warning'>
-                          Limit reached
-                        </Text>
-                        .
-                      </>
-                    )}
-                  </>
-                )
-              }}
-              isMulti
-              isSearchable
-              isClearable={false}
-              isOptionDisabled={() => selectedTags.length >= 10}
-              loadAsyncValues={async (hint) => {
-                if (hint.length > 0) {
-                  return await sdkClient.tags
-                    .list(makeTagQuery(hint))
-                    .then(tagsToSelectOptions)
-                }
-                return []
-              }}
-              initialValues={[]}
-              defaultValue={tagsToSelectOptions(resourceTags)}
-              onSelect={(selectedTags) => {
-                if (isMultiValueSelected(selectedTags)) {
-                  setSelectedTagsLimitReached(selectedTags.length >= 10)
-                  setSelectedTags(selectedTags)
-                  return
-                }
-                setSelectedTags([])
-              }}
-            />
-          </PageLayout>
-        </Overlay>
-      )}
+            Update
+          </Button>
+        }
+      >
+        <PageLayout
+          title={overlay.title}
+          description={overlay.description}
+          minHeight={false}
+          onGoBack={() => {
+            close()
+          }}
+        >
+          <InputSelect
+            label='Tags'
+            placeholder='Search...'
+            hint={{
+              text: (
+                <>
+                  You can add up to 10 tags.
+                  {selectedTagsLimitReached && (
+                    <>
+                      {' '}
+                      <Text weight='bold' variant='warning'>
+                        Limit reached
+                      </Text>
+                      .
+                    </>
+                  )}
+                </>
+              )
+            }}
+            isMulti
+            isSearchable
+            isClearable={false}
+            isOptionDisabled={() => selectedTags.length >= 10}
+            loadAsyncValues={async (hint) => {
+              if (hint.length > 0) {
+                return await sdkClient.tags
+                  .list(makeTagQuery(hint))
+                  .then(tagsToSelectOptions)
+              }
+              return []
+            }}
+            initialValues={[]}
+            defaultValue={tagsToSelectOptions(resourceTags)}
+            onSelect={(selectedTags) => {
+              if (isMultiValueSelected(selectedTags)) {
+                setSelectedTagsLimitReached(selectedTags.length >= 10)
+                setSelectedTags(selectedTags)
+                return
+              }
+              setSelectedTags([])
+            }}
+          />
+        </PageLayout>
+      </Overlay>
     </div>
   )
 })

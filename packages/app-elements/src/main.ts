@@ -28,7 +28,7 @@ export {
 export { useClickAway } from '#hooks/useClickAway'
 export { useDelayShow } from '#hooks/useDelayShow'
 export { useIsChanged } from '#hooks/useIsChanged'
-export { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+export { useOverlay } from '#hooks/useOverlay'
 // Providers
 export {
   CoreSdkProvider,
@@ -64,7 +64,6 @@ export { Hint } from '#ui/atoms/Hint'
 export { Hr } from '#ui/atoms/Hr'
 export { Icon, iconNames } from '#ui/atoms/Icon'
 export { Legend } from '#ui/atoms/Legend'
-export { Overlay } from '#ui/atoms/Overlay'
 export { PageHeading } from '#ui/atoms/PageHeading'
 export { Pagination } from '#ui/atoms/Pagination'
 export { Progress } from '#ui/atoms/Progress'

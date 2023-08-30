@@ -9,7 +9,7 @@ import {
   type Rate,
   type TrackingDetail
 } from '#helpers/tracking'
-import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+import { useOverlay } from '#hooks/useOverlay'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
@@ -263,7 +263,7 @@ const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
     Overlay,
     open: openTrackingDetails,
     close
-  } = useOverlayNavigation({
+  } = useOverlay({
     queryParam: `tracking-${parcel.tracking_number ?? ''}`
   })
 

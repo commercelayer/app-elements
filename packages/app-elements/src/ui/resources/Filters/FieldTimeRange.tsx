@@ -1,5 +1,6 @@
-import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+import { useOverlay } from '#hooks/useOverlay'
 import { useTokenProvider } from '#providers/TokenProvider'
+import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { HookedInputDate } from '#ui/hook-form/HookedInputDate'
@@ -19,7 +20,7 @@ interface FieldTimeRangeProps {
 
 export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
   const { user } = useTokenProvider()
-  const { Overlay, close, open } = useOverlayNavigation({
+  const { Overlay, close, open } = useOverlay({
     queryParam: `timeRangePickerView`
   })
 
@@ -80,16 +81,20 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
         })}
       />
       <Overlay
-        button={{
-          label: 'Apply',
-          onClick: () => {
-            void trigger().then((isValid) => {
-              if (isValid) {
-                close()
-              }
-            })
-          }
-        }}
+        footer={
+          <Button
+            fullWidth
+            onClick={() => {
+              void trigger().then((isValid) => {
+                if (isValid) {
+                  close()
+                }
+              })
+            }}
+          >
+            Apply
+          </Button>
+        }
       >
         <PageLayout
           title='Custom Time Range'
