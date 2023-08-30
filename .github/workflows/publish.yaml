@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18.x
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Install 📦
         run: pnpm install
@@ -29,11 +29,8 @@ jobs:
       - name: Build elements 🛠
         run: pnpm build:elements
 
-      - name: Build elements-hook-form 🛠
-        run: pnpm build:elements-hook-form
-
       - name: Publish 🚀 PRERELEASE
-        if: 'github.event.release.prerelease'
+        if: "github.event.release.prerelease"
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
           pnpm -r publish --tag next --no-git-checks --access restricted
@@ -41,7 +38,7 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Publish 🚀 PRODUCTION
-        if: '!github.event.release.prerelease'
+        if: "!github.event.release.prerelease"
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
           pnpm -r publish --no-git-checks --access restricted
