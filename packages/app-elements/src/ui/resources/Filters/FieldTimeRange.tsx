@@ -84,6 +84,7 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
         footer={
           <Button
             fullWidth
+            type='button'
             onClick={() => {
               void trigger().then((isValid) => {
                 if (isValid) {
