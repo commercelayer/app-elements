@@ -1,4 +1,4 @@
-import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+import { useOverlay } from '#hooks/useOverlay'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -115,45 +115,48 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
   const currencyCode = order.currency_code as Uppercase<CurrencyCode>
   const { sdkClient } = useCoreSdkProvider()
   const [cents, setCents] = useState<number | null>(null)
-  const { Overlay, open, close } = useOverlayNavigation({
-    queryParam: 'adjust-total'
-  })
+  const { Overlay, open, close } = useOverlay()
 
   return {
     close,
     open,
     Overlay: () => (
       <Overlay
-        button={{
-          label: 'Apply',
-          disabled,
-          onClick: () => {
-            if (cents != null) {
-              setDisabled(true)
-              void sdkClient.adjustments
-                .create({
-                  currency_code: currencyCode,
-                  amount_cents: cents,
-                  name: 'Manual adjustment'
-                })
-                .then(async (adjustment) => {
-                  return await sdkClient.line_items.create({
-                    order: sdkClient.orders.relationship(order.id),
-                    quantity: 1,
-                    item: adjustment
+        footer={
+          <Button
+            disabled={disabled}
+            fullWidth
+            type='button'
+            onClick={() => {
+              if (cents != null) {
+                setDisabled(true)
+                void sdkClient.adjustments
+                  .create({
+                    currency_code: currencyCode,
+                    amount_cents: cents,
+                    name: 'Manual adjustment'
                   })
-                })
-                .then(() => {
-                  setCents(null)
-                  onChange?.()
-                  close()
-                })
-                .finally(() => {
-                  setDisabled(false)
-                })
-            }
-          }
-        }}
+                  .then(async (adjustment) => {
+                    return await sdkClient.line_items.create({
+                      order: sdkClient.orders.relationship(order.id),
+                      quantity: 1,
+                      item: adjustment
+                    })
+                  })
+                  .then(() => {
+                    setCents(null)
+                    onChange?.()
+                    close()
+                  })
+                  .finally(() => {
+                    setDisabled(false)
+                  })
+              }
+            }}
+          >
+            Apply
+          </Button>
+        }
       >
         <PageLayout
           title='Adjust total'

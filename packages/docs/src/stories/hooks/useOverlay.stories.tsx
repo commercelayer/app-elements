@@ -1,73 +1,83 @@
+import { useOverlay } from '#hooks/useOverlay'
 import { Button } from '#ui/atoms/Button'
-import { Overlay } from '#ui/atoms/Overlay'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { useState } from 'react'
 
-const setup: Meta<typeof Overlay> = {
-  title: 'Atoms/Overlay',
-  component: Overlay,
+const Component: React.FC<{ children: React.ReactNode }> = ({
+  children
+}): JSX.Element => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open overlay</Button>
+      <Overlay
+        footer={
+          <Button onClick={close} fullWidth>
+            close
+          </Button>
+        }
+      >
+        {children}
+      </Overlay>
+    </div>
+  )
+}
+
+/**
+ * Simple hook that return an `Overlay` component along with `open` and `close` methods to control its visibility.
+ * Can be initialized with an optional `queryParam`  to be used to open/close the Overlay as new history entry.
+ *
+ * Example: `useOverlay({queryParam: 'myOverlay'})`
+ **/
+const setup: Meta = {
+  title: 'Hooks/useOverlay',
+  component: Component,
+  args: {},
+  argTypes: {
+    children: {
+      table: {
+        disable: true
+      }
+    }
+  },
   parameters: {
-    // previewTabs: { canvas: { hidden: true } }
     docs: {
       source: {
         code: `
-<Overlay
-  button={{
-    label: 'Apply',
-    onClick: () => {}
-  }}
->
-  <div>Overlay content</div>
-</Overlay>`
+const { Overlay, open, close } = useOverlay()
+return (
+  <div>
+    <Button onClick={open}>Open overlay</Button>
+    <Overlay footer={<Button onClick={close} fullWidth>close</Button>}>
+      Overlay content
+    </Overlay>
+  </div>
+)`
       }
     }
   }
 }
 export default setup
 
-const Template: StoryFn<typeof Overlay> = (args) => {
-  const [show, setShow] = useState(false)
-  return (
-    <div>
-      <Button
-        onClick={() => {
-          setShow(true)
-        }}
-      >
-        click to open
-      </Button>
-
-      {show && (
-        <Overlay {...args}>
-          <Button
-            onClick={() => {
-              setShow(false)
-            }}
-          >
-            click to close
-          </Button>
-          <div>{args.children}</div>
-        </Overlay>
-      )}
-    </div>
-  )
+const Template: StoryFn<typeof Component> = (args) => {
+  return <Component {...args} />
 }
 
+/**
+ * Overlay is open with a short content and footer button is rendered just underneath it.
+ **/
 export const Default = Template.bind({})
 Default.args = {
   children: (
     <>
       <p>Overlay content</p>
     </>
-  ),
-  button: {
-    label: 'Apply',
-    onClick: () => {
-      alert('apply clicked')
-    }
-  }
+  )
 }
 
+/**
+ * Overlay is open with long content and footer sticks at the bottom of the viewport.
+ **/
 export const LongContent = Template.bind({})
 LongContent.args = {
   children: (
@@ -141,11 +151,5 @@ LongContent.args = {
         posuere cubilia curae; Donec id libero vitae diam cursus pretium.
       </p>
     </>
-  ),
-  button: {
-    label: 'Apply',
-    onClick: () => {
-      alert('apply clicked')
-    }
-  }
+  )
 }

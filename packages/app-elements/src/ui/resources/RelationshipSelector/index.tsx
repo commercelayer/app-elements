@@ -1,6 +1,7 @@
 import { formatResourceName } from '#helpers/resources'
-import { useOverlayNavigation } from '#hooks/useOverlayNavigation'
+import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
+import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -52,7 +53,7 @@ export function RelationshipSelector({
   showCheckboxIcon = true,
   title
 }: RelationshipSelectorProps): JSX.Element {
-  const { Overlay, close, open } = useOverlayNavigation({
+  const { Overlay, close, open } = useOverlay({
     queryParam: `${resource}ViewAll`
   })
 
@@ -139,13 +140,18 @@ export function RelationshipSelector({
         </Spacer>
       ) : null}
       <Overlay
-        button={{
-          label: 'Apply',
-          onClick: () => {
-            close()
-            setSelectedValuesForPreview(values)
-          }
-        }}
+        footer={
+          <Button
+            fullWidth
+            type='button'
+            onClick={() => {
+              close()
+              setSelectedValuesForPreview(values)
+            }}
+          >
+            Apply
+          </Button>
+        }
       >
         <div className='pt-5'>
           <FullList
