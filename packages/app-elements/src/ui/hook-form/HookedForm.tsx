@@ -8,7 +8,7 @@ interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
   /**
    * Callback invoked on submit when form has been successfully validated
    */
-  onSubmit: (data: T) => void
+  onSubmit: (data: T) => Promise<void> | void
 }
 
 /**
@@ -39,8 +39,8 @@ export const HookedForm = <T extends FieldValues>({
   handleSubmit,
   ...rest
 }: FormProps<T>): JSX.Element => {
-  const doSubmit = handleSubmit((data) => {
-    onSubmit(data)
+  const doSubmit = handleSubmit(async (data) => {
+    await onSubmit(data)
   })
 
   return (
