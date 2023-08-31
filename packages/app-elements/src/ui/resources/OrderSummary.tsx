@@ -15,7 +15,7 @@ import { HookedInputCurrency } from '#ui/hook-form/HookedInputCurrency'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type { Order } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { LineItems } from './LineItems'
@@ -116,7 +116,6 @@ export const OrderSummary = withSkeletonTemplate<{
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
-  const [disabled, setDisabled] = useState<boolean>(false)
   const currencyCode = order.currency_code as Uppercase<CurrencyCode>
   const { sdkClient } = useCoreSdkProvider()
   const { Overlay, open, close } = useOverlay()
@@ -146,6 +145,9 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
     },
     resolver: zodResolver(validationSchema)
   })
+  const {
+    formState: { isSubmitting }
+  } = formMethods
 
   return {
     close,
@@ -154,9 +156,8 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
       <Overlay>
         <HookedForm
           {...formMethods}
-          onSubmit={(values) => {
-            setDisabled(true)
-            sdkClient.adjustments
+          onSubmit={async (values) => {
+            await sdkClient.adjustments
               .create({
                 currency_code: currencyCode,
                 amount_cents: values.adjustTotal,
@@ -174,9 +175,6 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
                 formMethods.reset()
                 close()
               })
-              .finally(() => {
-                setDisabled(false)
-              })
           }}
         >
           <PageLayout
@@ -189,13 +187,13 @@ function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
               <HookedInputCurrency
                 isClearable
                 allowNegativeValue
-                disabled={disabled}
+                disabled={isSubmitting}
                 currencyCode={currencyCode}
                 label='Amount'
                 name='adjustTotal'
               />
             </Spacer>
-            <Button type='submit' fullWidth disabled={disabled}>
+            <Button type='submit' fullWidth disabled={isSubmitting}>
               Apply
             </Button>
           </PageLayout>
