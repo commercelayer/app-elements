@@ -1,4 +1,4 @@
-import { HookedRelationshipSelector } from '#ui/hook-form/HookedRelationshipSelector'
+import { HookedInputResourceGroup } from '#ui/hook-form/HookedInputResourceGroup'
 import { HookedToggleButtons } from '#ui/hook-form/HookedToggleButtons'
 import { useFormContext } from 'react-hook-form'
 import { type FilterItemOptions, type FilterItemTextSearch } from './types'
@@ -39,9 +39,9 @@ export function FieldItem({ item }: FieldProps): JSX.Element | null {
         />
       )
 
-    case 'relationshipSelector':
+    case 'inputResourceGroup':
       return (
-        <HookedRelationshipSelector
+        <HookedInputResourceGroup
           name={item.sdk.predicate}
           title={item.label}
           {...item.render.props}

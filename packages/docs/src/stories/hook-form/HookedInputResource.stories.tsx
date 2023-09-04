@@ -1,24 +1,24 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { HookedRelationshipSelector } from '#ui/hook-form/HookedRelationshipSelector'
+import { HookedInputResourceGroup } from '#ui/hook-form/HookedInputResourceGroup'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
-const setup: Meta<typeof HookedRelationshipSelector> = {
-  title: 'HookForm/HookedRelationshipSelector',
-  component: HookedRelationshipSelector,
+const setup: Meta<typeof HookedInputResourceGroup> = {
+  title: 'HookForm/HookedInputResourceGroup',
+  component: HookedInputResourceGroup,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof HookedRelationshipSelector> = (args) => {
+const Template: StoryFn<typeof HookedInputResourceGroup> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
         <HookedForm>
-          <HookedRelationshipSelector {...args} name='markets' />
+          <HookedInputResourceGroup {...args} name='markets' />
         </HookedForm>
       </CoreSdkProvider>
     </TokenProvider>

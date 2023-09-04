@@ -1,5 +1,5 @@
 import { type InputCurrencyRangeProps } from '#ui/forms/InputCurrencyRange'
-import { type RelationshipSelectorProps } from '#ui/resources/RelationshipSelector'
+import { type InputResourceGroupProps } from '#ui/forms/InputResourceGroup'
 
 export const filtrableTimeRangePreset = [
   'today',
@@ -95,12 +95,12 @@ export type FilterItemOptions = BaseFilterItem & {
         /**
          * UI component to render
          */
-        component: 'relationshipSelector'
+        component: 'inputResourceGroup'
         /**
          * props required for the UI component
          */
         props: Omit<
-          RelationshipSelectorProps,
+          InputResourceGroupProps,
           'onChange' | 'defaultValues' | 'title'
         >
       }

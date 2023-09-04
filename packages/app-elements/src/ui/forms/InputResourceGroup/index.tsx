@@ -19,7 +19,7 @@ import {
 import { FullList, type FullListProps, type SortBy } from './FullList'
 import { computeLabelWithSelected, useToggleCheckboxValues } from './utils'
 
-export interface RelationshipSelectorProps
+export interface InputResourceGroupProps
   extends Omit<FullListProps, 'totalCount'> {
   /**
    * Number of item to be shown in the preview list
@@ -39,7 +39,13 @@ export interface RelationshipSelectorProps
    */
   showCheckboxIcon?: boolean
 }
-export function RelationshipSelector({
+
+/**
+ * Input component that allows to select multiple resources. The list of options is automatically fetched from the API using the configuration provided as props.
+ * When number of fetched options is greater than `previewLimit` provided, a button will be shown to open an overlay with the full list of resources (infinite scrolling) and a search box on top.
+ * <blockquote type='info'>It's possible to mount the component with some `defaultValues` that will be always shown checked on top of the preview list, to ensure that user will always see the already checked options.</blockquote>
+ */
+export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   defaultValues,
   fieldForLabel,
   fieldForValue,
@@ -52,7 +58,7 @@ export function RelationshipSelector({
   hideWhenSingleItem,
   showCheckboxIcon = true,
   title
-}: RelationshipSelectorProps): JSX.Element {
+}) => {
   const { Overlay, close, open } = useOverlay({
     queryParam: `${resource}ViewAll`
   })
@@ -171,6 +177,7 @@ export function RelationshipSelector({
     </div>
   )
 }
+InputResourceGroup.displayName = 'InputResourceGroup'
 
 /**
  * Fetches the list of resources and merges it with the list of selected resources
@@ -276,5 +283,3 @@ function useList({
     isLoading
   }
 }
-
-RelationshipSelector.displayName = 'RelationshipSelector'
