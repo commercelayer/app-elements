@@ -249,7 +249,7 @@ export function FiltersNav({
         }
 
         if (
-          instructionItem.render.component === 'relationshipSelector' &&
+          instructionItem.render.component === 'inputResourceGroup' &&
           castArray(value).length === 1
         ) {
           return (
@@ -346,7 +346,7 @@ function getInstructionItemByFilterPredicate({
 }
 
 /**
- * Render the button for relationshipSelector when there's one value.
+ * Render the button for InputResourceGroup when there's one value.
  * It fetches the resource to get the label.
  */
 function ButtonFilterFetchResource({

@@ -1,6 +1,6 @@
 import { rest } from 'msw'
 
-// used in RelationshipSelector
+// used in HookedInputResourceGroup
 const someMarkets = rest.get(
   'https://mock.localhost/api/markets?fields[markets]=id,name&sort=name&page[size]=3',
   (req, res, ctx) => {
@@ -48,7 +48,7 @@ const someMarkets = rest.get(
   }
 )
 
-// used in RelationshipSelector
+// used in HookedInputResourceGroup
 const allMarkets = rest.get(
   'https://mock.localhost/api/markets?sort=name&page[number]=1&page[size]=25',
   (req, res, ctx) => {

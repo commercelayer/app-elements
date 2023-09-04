@@ -8,7 +8,7 @@ export const instructions: FiltersInstructions = [
       predicate: 'market_id_in'
     },
     render: {
-      component: 'relationshipSelector',
+      component: 'inputResourceGroup',
       props: {
         fieldForLabel: 'name',
         fieldForValue: 'id',

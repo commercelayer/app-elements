@@ -1,24 +1,24 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { RelationshipSelector } from '#ui/resources/RelationshipSelector'
+import { InputResourceGroup } from '#ui/forms/InputResourceGroup'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: Meta<typeof RelationshipSelector> = {
-  title: 'Resources/Relationship Selector',
-  component: RelationshipSelector,
+const setup: Meta<typeof InputResourceGroup> = {
+  title: 'Forms/InputResourceGroup',
+  component: InputResourceGroup,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof RelationshipSelector> = (args) => {
+const Template: StoryFn<typeof InputResourceGroup> = (args) => {
   const [values, setValues] = useState<string[]>([])
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <RelationshipSelector
+        <InputResourceGroup
           {...args}
           defaultValues={values}
           onChange={setValues}

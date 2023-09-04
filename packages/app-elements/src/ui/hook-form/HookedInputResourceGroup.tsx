@@ -1,11 +1,11 @@
 import {
-  RelationshipSelector,
-  type RelationshipSelectorProps
-} from '#ui/resources/RelationshipSelector'
+  InputResourceGroup,
+  type InputResourceGroupProps
+} from '#ui/forms/InputResourceGroup'
 import { Controller, useFormContext } from 'react-hook-form'
 
 interface Props
-  extends Omit<RelationshipSelectorProps, 'onChange' | 'defaultValues'> {
+  extends Omit<InputResourceGroupProps, 'onChange' | 'defaultValues'> {
   /**
    * field name to match hook-form state
    */
@@ -13,11 +13,14 @@ interface Props
 }
 
 /**
- * `RelationshipSelector` component ready to be used with the `react-hook-form` context.
+ * `InputResourceGroup` component ready to be used with the `react-hook-form` context.
  * Since it will perform api requests to fetch list of options, it also needs to access `CoreSdkProvider` context.
- * @see RelationshipSelector
+ * @see InputResourceGroup
  */
-function HookedRelationshipSelector({ name, ...props }: Props): JSX.Element {
+export const HookedInputResourceGroup: React.FC<Props> = ({
+  name,
+  ...props
+}) => {
   const { control } = useFormContext()
 
   return (
@@ -25,7 +28,7 @@ function HookedRelationshipSelector({ name, ...props }: Props): JSX.Element {
       name={name}
       control={control}
       render={({ field }) => (
-        <RelationshipSelector
+        <InputResourceGroup
           {...props}
           defaultValues={field.value ?? []}
           onChange={(values) => {
@@ -37,5 +40,4 @@ function HookedRelationshipSelector({ name, ...props }: Props): JSX.Element {
   )
 }
 
-HookedRelationshipSelector.displayName = 'HookedRelationshipSelector'
-export { HookedRelationshipSelector }
+HookedInputResourceGroup.displayName = 'HookedInputResourceGroup'
