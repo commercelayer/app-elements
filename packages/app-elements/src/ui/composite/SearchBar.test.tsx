@@ -1,4 +1,4 @@
-import { fireEvent, render, act } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import { SearchBar } from './SearchBar'
 
 describe('SearchBar', () => {
@@ -43,7 +43,9 @@ describe('SearchBar', () => {
   })
 
   it('should trigger debounced onSearch callback', () => {
-    const mockedConsoleLog = vi.spyOn(console, 'log')
+    const mockedConsoleLog = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => {})
     const { getByTestId } = render(
       <SearchBar
         onSearch={(hint) => {

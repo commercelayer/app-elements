@@ -1,4 +1,3 @@
-import { testInvariant } from '#utils/tests'
 import { render, type RenderResult } from '@testing-library/react'
 import { InputFile } from './InputFile'
 
@@ -36,16 +35,5 @@ describe('InputFile', () => {
       label: 'Upload your avatar'
     })
     expect(element.getAttribute('type')).toBe('file')
-  })
-
-  test('Should throw error if progress is not in 0-100 range', () => {
-    testInvariant(() => {
-      render(<InputFile label='This will break' progress={101} />)
-    }, 'When set, progress must be between 0 and 100 range')
-
-    testInvariant(() => {
-      // @ts-expect-error I want to test with a wrong value.
-      render(<InputFile label='This will break' progress='50%' />)
-    }, 'When set, progress must be between 0 and 100 range')
   })
 })

@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import { ButtonFilter } from './ButtonFilter'
 
 describe('ButtonFilter', () => {
-  const mockedConsoleLog = vi.spyOn(console, 'log')
+  const mockedConsoleLog = vi.spyOn(console, 'log').mockImplementation(() => {})
 
   afterEach(() => {
     vi.clearAllMocks()

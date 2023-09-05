@@ -1,6 +1,6 @@
-import { InputCheckbox } from './InputCheckbox'
-import { render, type RenderResult, fireEvent } from '@testing-library/react'
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { useState } from 'react'
+import { InputCheckbox } from './InputCheckbox'
 
 interface SetupProps {
   checked?: boolean
@@ -47,7 +47,9 @@ describe('InputCheckbox', () => {
   })
 
   test('Should update checked value', () => {
-    const { input } = setup({})
+    const { input } = setup({
+      checked: false
+    })
     expect(input.checked).toBe(false)
     fireEvent.click(input)
     expect(input.checked).toBe(true)
@@ -61,7 +63,9 @@ describe('InputCheckbox', () => {
   })
 
   test('Should be controlled on label', () => {
-    const { label, input } = setup({})
+    const { label, input } = setup({
+      checked: false
+    })
     fireEvent.click(label)
     expect(input.checked).toBe(true)
     fireEvent.click(label)
