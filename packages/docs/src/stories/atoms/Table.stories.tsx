@@ -1,9 +1,8 @@
-import { Td, Th, Tr } from '#ui/atoms/tables'
-import { Table } from '#ui/tables/Table'
+import { Table, Td, Th, Tr } from '#ui/atoms/Table'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Table> = {
-  title: 'Tables/Table (DEPRECATED)',
+  title: 'Atoms/Table',
   component: Table,
   parameters: {
     layout: 'padded'
@@ -12,14 +11,18 @@ const setup: Meta<typeof Table> = {
 export default setup
 
 const Template: StoryFn<typeof Table> = (args) => {
-  const tHead = (
+  return <Table {...args} />
+}
+
+export const Default = Template.bind({})
+Default.args = {
+  thead: (
     <Tr>
       <Th>Name</Th>
       <Th>Surname</Th>
     </Tr>
-  )
-
-  const tBody = (
+  ),
+  tbody: (
     <>
       <Tr>
         <Td>John</Td>
@@ -35,14 +38,11 @@ const Template: StoryFn<typeof Table> = (args) => {
       </Tr>
     </>
   )
-
-  return <Table thead={tHead} tbody={tBody} {...args} />
 }
 
-export const Default = Template.bind({})
-
-const TemplateWithoutThead: StoryFn<typeof Table> = (args) => {
-  const tBody = (
+export const WithoutThead = Default.bind({})
+WithoutThead.args = {
+  tbody: (
     <>
       <Tr>
         <Td>John</Td>
@@ -58,8 +58,4 @@ const TemplateWithoutThead: StoryFn<typeof Table> = (args) => {
       </Tr>
     </>
   )
-
-  return <Table tbody={tBody} {...args} />
 }
-
-export const WithoutThead = TemplateWithoutThead.bind({})

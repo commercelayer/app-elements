@@ -1,5 +1,6 @@
 import capitalize from 'lodash/capitalize'
 import startCase from 'lodash/startCase'
+import type { JsonPrimitive } from 'type-fest'
 
 /**
  * Given a `text` and a list of `values` it returns always the same value given the same `text`.
@@ -33,4 +34,18 @@ export function getInitials(text: string): string {
  */
 export function humanizeString(str: string): string {
   return capitalize(startCase(str))
+}
+
+/**
+ * Check whether a given value is a valid JSON primitive (`string | number | boolean | null`)
+ * @param value anything
+ * @returns value is a JSON primitive
+ */
+export function isJsonPrimitive(value: any): value is JsonPrimitive {
+  return (
+    typeof value === 'string' ||
+    typeof value === 'number' ||
+    typeof value === 'boolean' ||
+    value === null
+  )
 }

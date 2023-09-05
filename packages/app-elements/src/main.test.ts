@@ -14,8 +14,7 @@ describe('main.ts', () => {
       resolve(__dirname, 'ui', 'forms'),
       resolve(__dirname, 'ui', 'hook-form'),
       resolve(__dirname, 'ui', 'lists'),
-      resolve(__dirname, 'ui', 'resources'),
-      resolve(__dirname, 'ui', 'tables')
+      resolve(__dirname, 'ui', 'resources')
     ])
 
     expect(Object.keys(main).sort()).toEqual(exports.sort())
