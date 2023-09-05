@@ -1,4 +1,9 @@
-import { getDeterministicValue, getInitials, humanizeString } from './text'
+import {
+  getDeterministicValue,
+  getInitials,
+  humanizeString,
+  isJsonPrimitive
+} from './text'
 
 describe('getDeterministicValue', () => {
   it('should return the same value for the same text', () => {
@@ -33,5 +38,18 @@ describe('getInitials', () => {
 describe('humanizeString', () => {
   it('should return humanized string', () => {
     expect(humanizeString('--First_Name')).toBe('First name')
+  })
+})
+
+describe('isJsonPrimitive', () => {
+  it('should return true when value is a valid JSON primitive', () => {
+    expect(isJsonPrimitive(null)).toBe(true)
+    expect(isJsonPrimitive('string')).toBe(true)
+    expect(isJsonPrimitive(42)).toBe(true)
+    expect(isJsonPrimitive(false)).toBe(true)
+    expect(isJsonPrimitive(true)).toBe(true)
+    expect(isJsonPrimitive({ firstName: 'John' })).toBe(false)
+    expect(isJsonPrimitive(['ehi'])).toBe(false)
+    expect(isJsonPrimitive(Symbol('desc'))).toBe(false)
   })
 })

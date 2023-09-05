@@ -77,6 +77,7 @@ export { Spacer } from '#ui/atoms/Spacer'
 export { Stack } from '#ui/atoms/Stack'
 export { StatusDot } from '#ui/atoms/StatusDot'
 export { Steps } from '#ui/atoms/Steps'
+export { Table, Td, Th, Tr } from '#ui/atoms/Table'
 export { Tab, Tabs } from '#ui/atoms/Tabs'
 export { Tag } from '#ui/atoms/Tag'
 export { Text } from '#ui/atoms/Text'
@@ -85,7 +86,6 @@ export {
   DropdownMenuDivider,
   DropdownMenuItem
 } from '#ui/atoms/dropdown'
-export { Td, Th, Tr } from '#ui/atoms/tables'
 // Composite
 export { ActionButtons } from '#ui/composite/ActionButtons'
 export { CardDialog } from '#ui/composite/CardDialog'
@@ -95,6 +95,7 @@ export { PageLayout } from '#ui/composite/PageLayout'
 export { PageSkeleton } from '#ui/composite/PageSkeleton'
 export { Report } from '#ui/composite/Report'
 export { SearchBar } from '#ui/composite/SearchBar'
+export { TableData } from '#ui/composite/TableData'
 export { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 // Forms
 export { Input } from '#ui/forms/Input'
@@ -124,7 +125,6 @@ export { InputTextArea } from '#ui/forms/InputTextArea'
 export { InputToggleBox } from '#ui/forms/InputToggleBox'
 export { InputToggleListBox } from '#ui/forms/InputToggleListBox'
 export { Label } from '#ui/forms/Label'
-export { RadioButtons } from '#ui/forms/RadioButtons'
 export { ToggleButtons } from '#ui/forms/ToggleButtons'
 // hook-forms
 export { HookedForm } from '#ui/hook-form/HookedForm'
@@ -165,9 +165,6 @@ export { OrderTimeline } from '#ui/resources/OrderTimeline'
 export { ResourceList } from '#ui/resources/ResourceList'
 export { ResourceTags } from '#ui/resources/ResourceTags'
 export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
-// Tables
-export { Table } from '#ui/tables/Table'
-export { TableData } from '#ui/tables/TableData'
 // Dictionaries
 export {
   getOrderDisplayStatus,

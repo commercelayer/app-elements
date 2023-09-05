@@ -1,0 +1,93 @@
+import { Table, Td, Th, Tr } from '#ui/atoms/Table'
+import { extractHeaders } from '#utils/extractHeaders'
+import { isJsonPrimitive } from '#utils/text'
+import cn from 'classnames'
+import isEmpty from 'lodash/isEmpty'
+import type { JsonObject } from 'type-fest'
+
+export interface TableDataProps {
+  /** Data to render in the table */
+  data: JsonObject[]
+  /** CSS classes */
+  className?: string
+  /** Number of items to display in the table */
+  limit?: number
+  /** Table title */
+  title?: string
+  /** Show the total number of items beside the title */
+  showTotal?: boolean
+  /** Show the remaining item count when setting a `limit` */
+  showOthers?: boolean
+}
+
+/**
+ * This component can render an array of JSON objects inside a table.
+ */
+export function TableData({
+  data,
+  className,
+  limit,
+  title,
+  showTotal,
+  showOthers,
+  ...rest
+}: TableDataProps): JSX.Element {
+  const headings = extractHeaders(data)
+  const rows = data.slice(0, limit)
+  const othersCount = limit != null ? data.length - limit : 0
+
+  return (
+    <div className={cn('', className)} {...rest}>
+      <div className='flex justify-between items-center mb-2'>
+        {title != null ? <h2 className='font-semibold'>{title}</h2> : <div />}
+        {showTotal === true ? (
+          <div className='text-sm' data-test-id='table-total-string'>
+            {data.length} records
+          </div>
+        ) : null}
+      </div>
+      <div className='overflow-x-auto pb-3'>
+        <Table
+          thead={
+            <Tr data-test-id='table-row-header'>
+              {headings.map((heading) => (
+                <Th key={heading}>{heading}</Th>
+              ))}
+            </Tr>
+          }
+          tbody={rows.map((row, rowIndex) => (
+            <Tr key={`r${rowIndex}`} data-test-id='table-row-content'>
+              {headings.map((cell, cellIndex) => {
+                const value = row[cell]
+
+                return (
+                  <Td key={`r${rowIndex}_${cellIndex}`} textEllipsis={20}>
+                    {isEmpty(value?.toString())
+                      ? '-'
+                      : isJsonPrimitive(value)
+                      ? value?.toString()
+                      : Array.isArray(value)
+                      ? '[ ... ]'
+                      : '{ ... }'}
+                  </Td>
+                )
+              })}
+            </Tr>
+          ))}
+        />
+      </div>
+      {othersCount > 0 && showOthers === true ? (
+        <div
+          className='py-1 text-sm text-right'
+          data-test-id='table-others-string'
+        >
+          {othersCount === 1
+            ? 'and another record'
+            : `and others ${othersCount} records`}
+        </div>
+      ) : null}
+    </div>
+  )
+}
+
+TableData.displayName = 'TableData'
