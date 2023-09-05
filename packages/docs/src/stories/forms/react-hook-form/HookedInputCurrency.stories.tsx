@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputCurrency> = {
-  title: 'HookForm/HookedInputCurrency',
+  title: 'Forms/react-hook-form/HookedInputCurrency',
   component: HookedInputCurrency,
   parameters: {
     layout: 'padded'

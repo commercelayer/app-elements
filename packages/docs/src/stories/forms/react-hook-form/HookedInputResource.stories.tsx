@@ -5,7 +5,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputResourceGroup> = {
-  title: 'HookForm/HookedInputResourceGroup',
+  title: 'Forms/react-hook-form/HookedInputResourceGroup',
   component: HookedInputResourceGroup,
   parameters: {
     layout: 'padded'

@@ -18,7 +18,15 @@ export const parameters: Parameters = {
   },
   options: {
     storySort: {
-      order: ['Atoms', 'Lists', 'Tables', 'Forms', 'HookForm', 'Composite', 'Resources', 'Examples']
+      order: [
+        'Atoms',
+        'Forms', ['react-hook-form'],
+        'Hooks',
+        'Lists',
+        'Composite',
+        'Resources',
+        'Examples'
+      ]
     }
   }
 }

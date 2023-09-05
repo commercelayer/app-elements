@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputToggleListBox> = {
-  title: 'HookForm/HookedInputToggleListBox',
+  title: 'Forms/react-hook-form/HookedInputToggleListBox',
   component: HookedInputToggleListBox,
   parameters: {
     layout: 'padded'

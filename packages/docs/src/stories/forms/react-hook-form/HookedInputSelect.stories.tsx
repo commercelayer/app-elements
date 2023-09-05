@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputSelect> = {
-  title: 'HookForm/HookedInputSelect',
+  title: 'Forms/react-hook-form/HookedInputSelect',
   component: HookedInputSelect,
   parameters: {
     layout: 'padded'

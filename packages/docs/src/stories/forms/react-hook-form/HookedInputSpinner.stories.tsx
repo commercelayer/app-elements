@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputSpinner> = {
-  title: 'HookForm/HookedInputSpinner',
+  title: 'Forms/react-hook-form/HookedInputSpinner',
   component: HookedInputSpinner,
   parameters: {
     layout: 'padded'

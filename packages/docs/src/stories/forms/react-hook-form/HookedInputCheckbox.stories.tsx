@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
 const setup: Meta<typeof HookedInputCheckbox> = {
-  title: 'HookForm/HookedInputCheckbox',
+  title: 'Forms/react-hook-form/HookedInputCheckbox',
   component: HookedInputCheckbox,
   parameters: {
     layout: 'padded'
