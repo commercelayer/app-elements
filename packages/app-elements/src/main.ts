@@ -167,6 +167,7 @@ export {
 } from '#ui/resources/Filters'
 export { LineItems } from '#ui/resources/LineItems'
 export { ListItemOrder } from '#ui/resources/ListItemOrder'
+export { ListItemResource } from '#ui/resources/ListItemResource'
 export { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { OrderTimeline } from '#ui/resources/OrderTimeline'
@@ -182,3 +183,8 @@ export {
   getOrderTransactionPastTense,
   getOrderTriggerAttributeName
 } from '#dictionaries/orders'
+export {
+  getReturnDisplayStatus,
+  getReturnStatusName,
+  getReturnTriggerAttributeName
+} from '#dictionaries/returns'

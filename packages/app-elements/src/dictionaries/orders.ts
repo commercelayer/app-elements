@@ -14,7 +14,7 @@ type UITriggerAttributes =
     >
   | '_return'
 
-interface OrderDisplayStatus {
+export interface OrderDisplayStatus {
   label: string
   icon: IconProps['name']
   color: IconProps['background']
