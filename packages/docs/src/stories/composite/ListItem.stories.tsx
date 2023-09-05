@@ -2,11 +2,11 @@ import { Avatar } from '#ui/atoms/Avatar'
 import { Icon } from '#ui/atoms/Icon'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListItem> = {
-  title: 'Lists/ListItem',
+  title: 'Composite/ListItem',
   component: ListItem,
   parameters: {
     layout: 'padded'

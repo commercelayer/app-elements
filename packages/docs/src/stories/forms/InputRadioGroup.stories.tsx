@@ -2,7 +2,7 @@ import { Avatar } from '#ui/atoms/Avatar'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { InputRadioGroup } from '#ui/forms/InputRadioGroup'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import {
   ArgsTable,
   Description,

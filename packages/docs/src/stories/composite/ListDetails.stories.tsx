@@ -1,13 +1,13 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { Text } from '#ui/atoms/Text'
-import { ListDetails } from '#ui/lists/ListDetails'
-import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListDetails } from '#ui/composite/ListDetails'
+import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListDetails> = {
-  title: 'Lists/ListDetails',
+  title: 'Composite/ListDetails',
   component: ListDetails,
   parameters: {
     layout: 'padded'

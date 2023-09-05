@@ -1,7 +1,7 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

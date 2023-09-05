@@ -13,7 +13,6 @@ describe('main.ts', () => {
       resolve(__dirname, 'ui', 'composite'),
       resolve(__dirname, 'ui', 'forms'),
       resolve(__dirname, 'ui', 'hook-form'),
-      resolve(__dirname, 'ui', 'lists'),
       resolve(__dirname, 'ui', 'resources')
     ])
 

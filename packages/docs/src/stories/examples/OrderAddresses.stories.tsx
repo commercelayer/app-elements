@@ -3,7 +3,7 @@ import { Legend } from '#ui/atoms/Legend'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
 import { Text } from '#ui/atoms/Text'
-import { type ListItem } from '#ui/lists/ListItem'
+import { type ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {

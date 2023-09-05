@@ -90,6 +90,10 @@ export {
 export { ActionButtons } from '#ui/composite/ActionButtons'
 export { CardDialog } from '#ui/composite/CardDialog'
 export { ContextMenu } from '#ui/composite/ContextMenu'
+export { List } from '#ui/composite/List'
+export { ListDetails } from '#ui/composite/ListDetails'
+export { ListDetailsItem } from '#ui/composite/ListDetailsItem'
+export { ListItem } from '#ui/composite/ListItem'
 export { PageError } from '#ui/composite/PageError'
 export { PageLayout } from '#ui/composite/PageLayout'
 export { PageSkeleton } from '#ui/composite/PageSkeleton'
@@ -144,11 +148,6 @@ export { HookedValidationApiError } from '#ui/hook-form/HookedValidationApiError
 export { HookedValidationError } from '#ui/hook-form/HookedValidationError'
 export { setApiFormErrors } from '#ui/hook-form/setApiFormErrors'
 export { useValidationFeedback } from '#ui/hook-form/useValidationFeedback'
-// Lists
-export { List } from '#ui/lists/List'
-export { ListDetails } from '#ui/lists/ListDetails'
-export { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-export { ListItem } from '#ui/lists/ListItem'
 // Resources
 export {
   FiltersForm,

@@ -1,9 +1,9 @@
 import { Button } from '#ui/atoms/Button'
-import { List } from '#ui/lists/List'
+import { List } from '#ui/composite/List'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof List> = {
-  title: 'Lists/List',
+  title: 'Composite/List',
   component: List,
   parameters: {
     layout: 'padded'

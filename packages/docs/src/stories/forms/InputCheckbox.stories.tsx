@@ -1,7 +1,7 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputCheckbox> = {

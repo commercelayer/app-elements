@@ -4,8 +4,8 @@ import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
-import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {

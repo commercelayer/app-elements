@@ -1,10 +1,10 @@
 import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
-import { ListDetailsItem } from '#ui/lists/ListDetailsItem'
+import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListDetailsItem> = {
-  title: 'Lists/ListDetailsItem',
+  title: 'Composite/ListDetailsItem',
   component: ListDetailsItem,
   parameters: {
     layout: 'padded'

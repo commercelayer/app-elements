@@ -1,5 +1,5 @@
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { useFormContext } from 'react-hook-form'
 import { HookedInput } from './HookedInput'
 
