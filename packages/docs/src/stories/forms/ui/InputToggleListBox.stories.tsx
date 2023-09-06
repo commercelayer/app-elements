@@ -41,7 +41,7 @@ export const WidthDescription = Template.bind({})
 WidthDescription.args = {
   label: 'Export format',
   description: 'Select a format',
-  value: 'json',
+  value: 'csv',
   options: [
     { label: 'JSON', value: 'json' },
     {
