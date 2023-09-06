@@ -3,8 +3,6 @@
 import { Container } from '#ui/atoms/Container'
 import { PARAM_KEY } from '.storybook/addon-container/constants'
 import type { Decorator, Parameters } from '@storybook/react'
-import * as prettier from 'prettier'
-import * as prettierBabel from 'prettier/plugins/babel'
 import { worker } from '../src/mocks/browser'
 
 import '../../app-elements/src/styles/global.css'
@@ -32,11 +30,13 @@ export const parameters: Parameters = {
     }
   },
   docs: {
-    transformSource: (input: string) =>
-      prettier.format(input, {
-        parser: 'babel',
-        plugins: [prettierBabel]
-      }),
+    // source: {
+    //   transform: (input: string) =>
+    //     prettier.format(input, {
+    //       parser: 'babel',
+    //       plugins: [prettierBabel]
+    //     }),
+    // },
   },
 }
 
