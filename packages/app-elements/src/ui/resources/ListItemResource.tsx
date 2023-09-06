@@ -73,7 +73,7 @@ const getListItemDescription = ({
   )
 }
 
-const getLisrItemIcon = (displayStatus: DisplayStatus): JSX.Element => (
+const getListItemIcon = (displayStatus: DisplayStatus): JSX.Element => (
   <Icon
     name={displayStatus.icon}
     background={displayStatus.color}
@@ -169,7 +169,7 @@ function orderToProps(resource: Order): ListItemResourceComponentProps {
       resource.status === 'pending' ? (
         <RadialProgress icon={displayStatus.icon} />
       ) : (
-        getLisrItemIcon(displayStatus)
+        getListItemIcon(displayStatus)
       ),
     rightContent: (
       <>
@@ -201,8 +201,10 @@ function returnToProps(resource: Return): ListItemResourceComponentProps {
   const displayStatus = getDisplayStatus(resource)
   return {
     name: `${resource.order?.market?.name ?? ''} #${resource.number ?? ''}`,
-    description: '',
-    icon: getLisrItemIcon(displayStatus)
+    description: getListItemDescription({
+      resource
+    }),
+    icon: getListItemIcon(displayStatus)
   }
 }
 
