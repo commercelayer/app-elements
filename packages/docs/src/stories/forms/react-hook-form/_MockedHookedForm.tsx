@@ -7,14 +7,14 @@ export const MockedHookedForm: React.FC<{ children: React.ReactNode }> = ({
   children
 }) => {
   const methods = useForm({
-    defaultValues: (window as any).hookedFormDefaultValues ?? {}
+    defaultValues: {}
   })
 
   return (
     <HookedForm
       {...methods}
       onSubmit={(values) => {
-        alert(`form submitted with values: ${JSON.stringify(values)}`)
+        alert(`form submitted with values:\n${JSON.stringify(values)}`)
       }}
     >
       {children}
