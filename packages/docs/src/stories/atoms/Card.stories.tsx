@@ -1,5 +1,5 @@
 import { Card } from '#ui/atoms/Card'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Card> = {

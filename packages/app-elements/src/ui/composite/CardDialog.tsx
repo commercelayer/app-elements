@@ -1,7 +1,7 @@
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/lists/ListItem'
+import { ListItem } from '#ui/composite/ListItem'
 import { X } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Children } from 'react'

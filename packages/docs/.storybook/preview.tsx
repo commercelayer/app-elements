@@ -18,9 +18,26 @@ export const parameters: Parameters = {
   },
   options: {
     storySort: {
-      order: ['Atoms', 'Lists', 'Tables', 'Forms', 'HookForm', 'Composite', 'Resources', 'Examples']
+      order: [
+        'Atoms',
+        'Forms', ['react-hook-form'],
+        'Hooks',
+        'Lists',
+        'Composite',
+        'Resources',
+        'Examples'
+      ]
     }
-  }
+  },
+  docs: {
+    // source: {
+    //   transform: (input: string) =>
+    //     prettier.format(input, {
+    //       parser: 'babel',
+    //       plugins: [prettierBabel]
+    //     }),
+    // },
+  },
 }
 
 export const withContainer: Decorator = (Story, context) => {

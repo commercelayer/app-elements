@@ -24,7 +24,7 @@ interface InputReadonlyProps extends InputWrapperBaseProps {
   showCopyAction?: boolean
 }
 
-function InputReadonly({
+export function InputReadonly({
   value,
   wrapperClassName,
   inputClassName,
@@ -63,4 +63,3 @@ function InputReadonly({
 }
 
 InputReadonly.displayName = 'InputReadonly'
-export { InputReadonly }

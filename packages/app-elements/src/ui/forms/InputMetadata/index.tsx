@@ -1,0 +1,1 @@
+export { HookedInputMetadata } from './HookedInputMetadata'

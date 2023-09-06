@@ -1,5 +1,5 @@
-import { HookedInputResourceGroup } from '#ui/hook-form/HookedInputResourceGroup'
-import { HookedToggleButtons } from '#ui/hook-form/HookedToggleButtons'
+import { HookedInputResourceGroup } from '#ui/forms/InputResourceGroup'
+import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
 import { useFormContext } from 'react-hook-form'
 import { type FilterItemOptions, type FilterItemTextSearch } from './types'
 import { computeFilterLabel } from './utils'
@@ -19,9 +19,9 @@ export function FieldItem({ item }: FieldProps): JSX.Element | null {
     case 'searchBar':
       return null
 
-    case 'toggleButtons':
+    case 'inputToggleButton':
       return (
-        <HookedToggleButtons
+        <HookedInputToggleButton
           label={
             item.render.props.mode === 'multi'
               ? computeFilterLabel({

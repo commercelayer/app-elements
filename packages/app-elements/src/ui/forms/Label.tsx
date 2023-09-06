@@ -4,7 +4,12 @@ interface Props extends React.LabelHTMLAttributes<HTMLLabelElement> {
   gap?: boolean
 }
 
-function Label({ gap, children, className, ...rest }: Props): JSX.Element {
+export function Label({
+  gap,
+  children,
+  className,
+  ...rest
+}: Props): JSX.Element {
   return (
     <label
       {...rest}
@@ -18,4 +23,3 @@ function Label({ gap, children, className, ...rest }: Props): JSX.Element {
 }
 
 Label.displayName = 'Label'
-export { Label }

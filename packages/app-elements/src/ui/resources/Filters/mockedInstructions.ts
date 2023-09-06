@@ -27,7 +27,7 @@ export const instructions: FiltersInstructions = [
       defaultOptions: ['placed', 'approved', 'cancelled']
     },
     render: {
-      component: 'toggleButtons',
+      component: 'inputToggleButton',
       props: {
         mode: 'multi',
         options: [
@@ -46,7 +46,7 @@ export const instructions: FiltersInstructions = [
       predicate: 'payment_status_in'
     },
     render: {
-      component: 'toggleButtons',
+      component: 'inputToggleButton',
       props: {
         mode: 'multi',
         options: [
@@ -67,7 +67,7 @@ export const instructions: FiltersInstructions = [
       predicate: 'fulfillment_status_in'
     },
     render: {
-      component: 'toggleButtons',
+      component: 'inputToggleButton',
       props: {
         mode: 'multi',
         options: [
@@ -89,7 +89,7 @@ export const instructions: FiltersInstructions = [
     },
     hidden: true,
     render: {
-      component: 'toggleButtons',
+      component: 'inputToggleButton',
       props: {
         mode: 'single',
         options: [

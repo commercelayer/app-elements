@@ -1,8 +1,8 @@
 import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { List } from '#ui/lists/List'
-import { ListItem } from '#ui/lists/ListItem'
+import { List } from '#ui/composite/List'
+import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {

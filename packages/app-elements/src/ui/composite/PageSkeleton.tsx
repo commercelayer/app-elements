@@ -1,6 +1,6 @@
 import { Container } from '#ui/atoms/Container'
-import { ListDetails } from '#ui/lists/ListDetails'
-import { List } from '#ui/lists/List'
+import { ListDetails } from '#ui/composite/ListDetails'
+import { List } from '#ui/composite/List'
 import { Report } from './Report'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 

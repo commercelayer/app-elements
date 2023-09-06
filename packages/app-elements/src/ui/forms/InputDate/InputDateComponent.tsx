@@ -1,6 +1,6 @@
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
-import './InputDate.css'
+import './InputDateComponent.css'
 
 import {
   InputWrapper,
@@ -59,7 +59,7 @@ export interface InputDateProps extends InputWrapperBaseProps {
   preventOpenOnFocus?: boolean
 }
 
-const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
+export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
   (
     {
       onChange,
@@ -128,7 +128,6 @@ const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
 )
 
 InputDateComponent.displayName = 'InputDateComponent'
-export { InputDateComponent }
 
 function detectDateFormat(): string {
   const date = new Date(2023, 11, 15) //  15th of December
