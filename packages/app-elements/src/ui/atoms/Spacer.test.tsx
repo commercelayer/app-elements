@@ -1,5 +1,5 @@
-import { Spacer, type SpacingProps } from './Spacer'
 import { render, type RenderResult } from '@testing-library/react'
+import { Spacer, type SpacingProps } from './Spacer'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -10,7 +10,7 @@ const setup = ({
   bottom
 }: Omit<SpacingProps, 'children'>): SetupResult => {
   const utils = render(
-    <Spacer data-test-id='my-spacer' top={top} bottom={bottom}>
+    <Spacer data-testid='my-spacer' top={top} bottom={bottom}>
       <div>inner content</div>
     </Spacer>
   )

@@ -3,7 +3,7 @@
 exports[`BlockCode > Should be a dash when no json is passed 1`] = `
 <div
   class="whitespace-pre font-mono"
-  data-test-id="my-code"
+  data-testid="my-code"
 >
   -
 </div>

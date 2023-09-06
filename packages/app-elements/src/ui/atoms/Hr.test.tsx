@@ -3,7 +3,7 @@ import { Hr } from './Hr'
 
 describe('Hr', () => {
   test('Should be rendered', () => {
-    const { getByTestId } = render(<Hr data-test-id='hr' />)
+    const { getByTestId } = render(<Hr data-testid='hr' />)
     const element = getByTestId('hr')
     expect(element).toBeVisible()
     expect(element.tagName).toBe('HR')

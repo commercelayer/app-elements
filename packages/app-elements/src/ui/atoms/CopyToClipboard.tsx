@@ -66,7 +66,7 @@ export function CopyToClipboard({
         )}
         {...rest}
       >
-        <Text data-test-id='empty-string' variant='disabled'>
+        <Text data-testid='empty-string' variant='disabled'>
           &#8212;
         </Text>
       </div>
@@ -89,7 +89,7 @@ export function CopyToClipboard({
             void handleCopy(value)
           }}
           className='text-xl cursor-pointer text-gray-300 hover:text-gray-500 relative'
-          data-test-id='copy-value-button'
+          data-testid='copy-value-button'
         >
           {!copied ? (
             <Copy />

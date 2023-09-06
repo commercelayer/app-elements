@@ -2,7 +2,7 @@ import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
-import { type ReactNode, type Key } from 'react'
+import { type Key, type ReactNode } from 'react'
 
 interface ReportItem {
   label: string
@@ -21,11 +21,11 @@ export interface ReportProps {
 
 function renderItem(item: ReportItem, key: Key): JSX.Element {
   return (
-    <div key={key} data-test-id={`report-item-${item.label}`}>
+    <div key={key} data-testid={`report-item-${item.label}`}>
       <Label className='text-sm text-gray-500'>{item.label}</Label>
       <div
         className='font-semibold text-xl font-xl pt-1 pb-4'
-        data-test-id={`report-item-${item.label}-count`}
+        data-testid={`report-item-${item.label}-count`}
       >
         {item.count}
       </div>
@@ -36,7 +36,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
           rel='noopener noreferrer'
           href={item.linkUrl}
           className='text-sm font-bold text-primary hover:underline'
-          data-test-id={`report-item-${item.label}-link`}
+          data-testid={`report-item-${item.label}-link`}
         >
           {item.linkLabel ?? 'Download file'}
         </a>
@@ -49,7 +49,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
               filename: `${item.downloadJsonFilename ?? 'log'}.json`
             })
           }}
-          data-test-id={`report-item-${item.label}-button`}
+          data-testid={`report-item-${item.label}-button`}
         >
           {item.linkLabel ?? 'Download JSON'}
         </button>

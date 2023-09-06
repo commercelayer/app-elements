@@ -77,7 +77,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 
     return (
       <div
-        data-test-id='SearchBar'
+        data-testid='SearchBar'
         className={cn('relative w-full', className)}
         {...rest}
       >
@@ -91,7 +91,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
             'shadow-none !outline-0 !border-0 !ring-0',
             '!focus:shadow-none !active:shadow-none focus:caret-primary'
           )}
-          data-test-id='SearchBar-input'
+          data-testid='SearchBar-input'
           placeholder={placeholder}
           value={searchValue}
           onChange={({ currentTarget: { value } }) => {
@@ -104,7 +104,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 
         {onClear != null && !isEmpty(searchValue) ? (
           <button
-            data-test-id='SearchBar-clear'
+            data-testid='SearchBar-clear'
             className={cn(
               'flex items-center absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400',
               'rounded outline-none ring-0 border-0',

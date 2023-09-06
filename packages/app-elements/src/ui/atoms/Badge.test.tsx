@@ -1,5 +1,5 @@
-import { Badge, type BadgeVariant } from './Badge'
 import { render, type RenderResult } from '@testing-library/react'
+import { Badge, type BadgeVariant } from './Badge'
 
 interface SetupProps {
   id: string
@@ -12,7 +12,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<Badge data-test-id={id} {...rest} />)
+  const utils = render(<Badge data-testid={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,

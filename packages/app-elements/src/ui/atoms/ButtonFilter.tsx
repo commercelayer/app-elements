@@ -27,7 +27,7 @@ function ButtonFilter({
     >
       <button
         type='button'
-        data-test-id='ButtonFilter-main'
+        data-testid='ButtonFilter-main'
         onClick={onClick}
         className={cn(
           'font-bold',
@@ -43,7 +43,7 @@ function ButtonFilter({
           <Icon
             name={icon}
             className='px-0.5 text-base'
-            data-test-id='ButtonFilter-icon'
+            data-testid='ButtonFilter-icon'
           />
         ) : null}
         <span className='inline-block'>{label}</span>
@@ -51,7 +51,7 @@ function ButtonFilter({
       {onRemoveRequest != null ? (
         <button
           type='button'
-          data-test-id='ButtonFilter-remove'
+          data-testid='ButtonFilter-remove'
           className='pl-1 pr-4 flex items-center'
           onClick={onRemoveRequest}
           aria-label={`Remove ${label}`}

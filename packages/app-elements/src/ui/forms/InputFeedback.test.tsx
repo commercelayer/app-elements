@@ -1,5 +1,5 @@
-import { InputFeedback, type InputFeedbackProps } from './InputFeedback'
 import { render, type RenderResult } from '@testing-library/react'
+import { InputFeedback, type InputFeedbackProps } from './InputFeedback'
 
 interface SetupProps extends Omit<InputFeedbackProps, 'children'> {
   id: string
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<InputFeedback data-test-id={id} {...rest} />)
+  const utils = render(<InputFeedback data-testid={id} {...rest} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,

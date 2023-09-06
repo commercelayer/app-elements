@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id }: SetupProps): SetupResult => {
   const utils = render(
-    <InputWrapper data-test-id={id}>
+    <InputWrapper data-testid={id}>
       <input />
     </InputWrapper>
   )

@@ -1,6 +1,6 @@
-import { InputFile } from './InputFile'
-import { render, type RenderResult } from '@testing-library/react'
 import { testInvariant } from '#utils/tests'
+import { render, type RenderResult } from '@testing-library/react'
+import { InputFile } from './InputFile'
 
 interface SetupProps {
   id: string
@@ -12,7 +12,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, label }: SetupProps): SetupResult => {
-  const utils = render(<InputFile data-test-id={id} label={label} />)
+  const utils = render(<InputFile data-testid={id} label={label} />)
   const element = utils.getByTestId(id)
   return {
     element,

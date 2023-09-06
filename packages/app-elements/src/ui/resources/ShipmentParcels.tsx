@@ -56,7 +56,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
 
   return (
     <div
-      data-test-id={`shipment-parcels-${shipment.id}`}
+      data-testid={`shipment-parcels-${shipment.id}`}
       className='flex flex-col gap-2'
     >
       {hasCarrier && <Carrier shipment={shipment} />}
@@ -113,7 +113,7 @@ const Parcel = withSkeletonTemplate<{
 
   return (
     <CardDialog
-      data-test-id={`parcel-box-${parcel.id}`}
+      data-testid={`parcel-box-${parcel.id}`}
       onClose={onRemove}
       title={parcel.package.name}
       icon={<Package size={42} className='text-gray-300' weight='thin' />}
@@ -166,7 +166,7 @@ const Carrier = withSkeletonTemplate<{
 
   return (
     <CardDialog
-      data-test-id={`carrier-box-${shipment.id}`}
+      data-testid={`carrier-box-${shipment.id}`}
       title={rate.service}
       subtitle={rate.carrier}
       icon={
@@ -401,7 +401,7 @@ const TrackingDetails = withSkeletonTemplate<{
             {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
               <div key={date}>
                 <Badge
-                  data-test-id='timeline-date-group'
+                  data-testid='timeline-date-group'
                   className='rounded-full bg-gray-200 py-1 px-3 font-bold'
                   label={date}
                   variant='secondary'

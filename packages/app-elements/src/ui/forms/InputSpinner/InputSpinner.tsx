@@ -85,12 +85,12 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
               handleUpdateValue(value - 1)
             }}
             disabled={minReached || disabled === true}
-            data-test-id='InputSpinner-decrement'
+            data-testid='InputSpinner-decrement'
           />
           <input
             type='number'
             ref={ref}
-            data-test-id='InputSpinner-input'
+            data-testid='InputSpinner-input'
             className={cn(
               'py-2.5 px-0 font-bold border-none min-w-0 text-center focus:ring-0',
               // reset browser default styles for number input
@@ -115,7 +115,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
               handleUpdateValue(value + 1)
             }}
             disabled={maxReached || disabled === true}
-            data-test-id='InputSpinner-increment'
+            data-testid='InputSpinner-increment'
           />
         </div>
       </InputWrapper>

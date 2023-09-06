@@ -212,11 +212,11 @@ function renderTotalRow({
 }): JSX.Element {
   return (
     <FlexRow
-      data-test-id={`OrderSummary-${label}`}
+      data-testid={`OrderSummary-${label}`}
       className='my-4 first:mt-0 last:mb-0 font-medium last:font-bold'
     >
       <Text>{label}</Text>
-      <Text data-test-id={`OrderSummary-${label}-value`} wrap='nowrap'>
+      <Text data-testid={`OrderSummary-${label}-value`} wrap='nowrap'>
         {value}
       </Text>
     </FlexRow>

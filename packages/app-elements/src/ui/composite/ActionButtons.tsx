@@ -33,7 +33,7 @@ export const ActionButtons = withSkeletonTemplate<ActionButtonsProps>(
 
     return (
       <div
-        data-test-id='action-buttons'
+        data-testid='action-buttons'
         className='flex justify-end border-b border-gray-100 py-6'
       >
         {primaryActions.length === 1 && secondaryActions.length === 0 ? (

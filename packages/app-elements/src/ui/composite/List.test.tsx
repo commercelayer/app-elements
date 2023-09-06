@@ -1,4 +1,4 @@
-import { type RenderResult, render } from '@testing-library/react'
+import { render, type RenderResult } from '@testing-library/react'
 import { List, type ListProps } from './List'
 
 type SetupResult = RenderResult & {
@@ -6,7 +6,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = (props: ListProps): SetupResult => {
-  const utils = render(<List data-test-id='my-task-list' {...props} />)
+  const utils = render(<List data-testid='my-task-list' {...props} />)
   const element = utils.getByTestId('my-task-list')
   return {
     element,

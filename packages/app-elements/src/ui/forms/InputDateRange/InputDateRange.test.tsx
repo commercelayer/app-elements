@@ -21,7 +21,7 @@ function ComponentWithState({ id, value, ...rest }: SetupProps): JSX.Element {
 
   return (
     <InputDateRange
-      data-test-id={id}
+      data-testid={id}
       {...rest}
       value={dates}
       onChange={dateDates}

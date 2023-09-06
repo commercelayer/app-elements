@@ -12,7 +12,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, text }: SetupProps): SetupResult => {
   const utils = render(
-    <Tag tag='div' data-test-id={id}>
+    <Tag tag='div' data-testid={id}>
       {text}
     </Tag>
   )

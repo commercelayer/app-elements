@@ -36,7 +36,7 @@ function RadialProgress({
   return (
     <div className='relative'>
       <svg
-        data-test-id='radial-progress'
+        data-testid='radial-progress'
         viewBox={viewBox}
         xmlns='http://www.w3.org/2000/svg'
         className={cn('transform -rotate-90 rounded-full', className)}
@@ -47,7 +47,7 @@ function RadialProgress({
         {percentage == null ? (
           // pending
           <circle
-            data-test-id='radial-progress-pending'
+            data-testid='radial-progress-pending'
             cx={sizePixels}
             cy={sizePixels}
             r={sizePixels}
@@ -61,7 +61,7 @@ function RadialProgress({
           // progress
           <>
             <circle
-              data-test-id='radial-progress-base'
+              data-testid='radial-progress-base'
               cx={sizePixels}
               cy={sizePixels}
               r={sizePixels}
@@ -71,7 +71,7 @@ function RadialProgress({
               fill='white'
             />
             <circle
-              data-test-id='radial-progress-percentage'
+              data-testid='radial-progress-percentage'
               cx={sizePixels}
               cy={sizePixels}
               r={sizePixels}
@@ -89,7 +89,7 @@ function RadialProgress({
         <Icon
           name={icon}
           className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
-          data-test-id='radial-progress-icon'
+          data-testid='radial-progress-icon'
         />
       )}
     </div>

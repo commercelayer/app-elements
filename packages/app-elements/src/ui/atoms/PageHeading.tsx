@@ -68,7 +68,7 @@ function PageHeading({
         </div>
       )}
       {badgeLabel != null && (
-        <div className='flex mb-4 md:!mt-0' data-test-id='page-heading-badge'>
+        <div className='flex mb-4 md:!mt-0' data-testid='page-heading-badge'>
           <Badge variant={badgeVariant} label={badgeLabel} />
         </div>
       )}

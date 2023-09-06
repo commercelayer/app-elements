@@ -143,7 +143,7 @@ export function InputCurrencyRange({
               }
             }}
             className='min-w-max'
-            data-test-id='currency-select'
+            data-testid='currency-select'
             aria-label='currency'
           />
         </div>

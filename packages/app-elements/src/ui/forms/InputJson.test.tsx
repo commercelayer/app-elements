@@ -1,5 +1,5 @@
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { InputJson, type InputJsonProps } from './InputJson'
-import { render, type RenderResult, fireEvent } from '@testing-library/react'
 
 interface SetupProps extends InputJsonProps<any> {
   id: string
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<InputJson data-test-id={id} {...rest} />)
+  const utils = render(<InputJson data-testid={id} {...rest} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,

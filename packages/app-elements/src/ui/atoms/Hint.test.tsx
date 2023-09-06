@@ -1,5 +1,5 @@
-import { Hint, type HintProps } from './Hint'
 import { render, type RenderResult } from '@testing-library/react'
+import { Hint, type HintProps } from './Hint'
 
 interface SetupProps extends Omit<HintProps, 'children'> {
   id: string
@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const utils = render(
-    <Hint data-test-id={id} {...rest}>
+    <Hint data-testid={id} {...rest}>
       This is an helper text.
     </Hint>
   )

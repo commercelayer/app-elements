@@ -22,7 +22,7 @@ function Skeleton({
 }: SkeletonProps): JSX.Element {
   const [show] = useDelayShow(delayMs)
   return (
-    <div data-test-id='skeleton' className='animate-pulse' {...rest}>
+    <div data-testid='skeleton' className='animate-pulse' {...rest}>
       <div style={{ opacity: show ? 1 : 0 }}>{children}</div>
     </div>
   )
@@ -60,7 +60,7 @@ export function SkeletonItem({
 }: SkeletonItemProps): JSX.Element {
   return (
     <div
-      data-test-id='skeleton-item'
+      data-testid='skeleton-item'
       className={cn(className, 'bg-gray-50', {
         'rounded-full': type === 'circle',
         rounded: type === 'box'

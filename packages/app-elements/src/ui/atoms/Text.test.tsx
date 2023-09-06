@@ -1,5 +1,5 @@
-import { Text, type TextVariant } from './Text'
 import { render, type RenderResult } from '@testing-library/react'
+import { Text, type TextVariant } from './Text'
 
 interface SetupProps {
   variant?: TextVariant
@@ -14,7 +14,7 @@ type SetupResult = RenderResult & {
 const setup = ({ variant, tag, className }: SetupProps): SetupResult => {
   const utils = render(
     <Text
-      data-test-id='my-text'
+      data-testid='my-text'
       tag={tag}
       variant={variant}
       className={className}

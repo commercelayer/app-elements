@@ -1,9 +1,9 @@
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
+import { useState } from 'react'
 import {
   InputToggleListBox,
   type InputToggleListBoxOption
 } from './InputToggleListBox'
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
-import { useState } from 'react'
 
 interface SetupProps {
   id: string
@@ -27,7 +27,7 @@ function ToggleImplementation({
   return (
     <InputToggleListBox
       id={id}
-      data-test-id={id}
+      data-testid={id}
       label={label}
       value={selected}
       onChange={({ currentTarget: { value } }) => {

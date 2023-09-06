@@ -41,7 +41,7 @@ export function TableData({
       <div className='flex justify-between items-center mb-2'>
         {title != null ? <h2 className='font-semibold'>{title}</h2> : <div />}
         {showTotal === true ? (
-          <div className='text-sm' data-test-id='table-total-string'>
+          <div className='text-sm' data-testid='table-total-string'>
             {data.length} records
           </div>
         ) : null}
@@ -49,14 +49,14 @@ export function TableData({
       <div className='overflow-x-auto pb-3'>
         <Table
           thead={
-            <Tr data-test-id='table-row-header'>
+            <Tr data-testid='table-row-header'>
               {headings.map((heading) => (
                 <Th key={heading}>{heading}</Th>
               ))}
             </Tr>
           }
           tbody={rows.map((row, rowIndex) => (
-            <Tr key={`r${rowIndex}`} data-test-id='table-row-content'>
+            <Tr key={`r${rowIndex}`} data-testid='table-row-content'>
               {headings.map((cell, cellIndex) => {
                 const value = row[cell]
 
@@ -79,7 +79,7 @@ export function TableData({
       {othersCount > 0 && showOthers === true ? (
         <div
           className='py-1 text-sm text-right'
-          data-test-id='table-others-string'
+          data-testid='table-others-string'
         >
           {othersCount === 1
             ? 'and another record'

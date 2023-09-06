@@ -8,7 +8,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ variant }: StatusDotProps): SetupResult => {
   setVerbosity('silent')
-  const utils = render(<StatusDot data-test-id='element' variant={variant} />)
+  const utils = render(<StatusDot data-testid='element' variant={variant} />)
   const element = utils.getByTestId('element')
   return {
     element,

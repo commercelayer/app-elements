@@ -1,5 +1,5 @@
-import { Skeleton, SkeletonItem } from './Skeleton'
 import { render, type RenderResult } from '@testing-library/react'
+import { Skeleton, SkeletonItem } from './Skeleton'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -7,9 +7,9 @@ type SetupResult = RenderResult & {
 
 const setup = (): SetupResult => {
   const utils = render(
-    <Skeleton data-test-id='my-loading-skeleton'>
-      <SkeletonItem data-test-id='skeleton-item-box' type='box' />
-      <SkeletonItem data-test-id='skeleton-item-circle' type='circle' />
+    <Skeleton data-testid='my-loading-skeleton'>
+      <SkeletonItem data-testid='skeleton-item-box' type='box' />
+      <SkeletonItem data-testid='skeleton-item-circle' type='circle' />
     </Skeleton>
   )
   const element = utils.getByTestId('my-loading-skeleton')
@@ -32,14 +32,14 @@ describe('Skeleton with SkeletonItems', () => {
 describe('SkeletonItems', () => {
   test('Should be rendered', () => {
     const { getByTestId } = render(
-      <SkeletonItem data-test-id='skeleton-item' type='box' />
+      <SkeletonItem data-testid='skeleton-item' type='box' />
     )
     expect(getByTestId('skeleton-item')).toBeInTheDocument()
   })
 
   test('Should rendered with default width and height', () => {
     const { getByTestId } = render(
-      <SkeletonItem data-test-id='skeleton-item' type='circle' />
+      <SkeletonItem data-testid='skeleton-item' type='circle' />
     )
     const element = getByTestId('skeleton-item')
     const computedStyle = getComputedStyle(element)
@@ -49,7 +49,7 @@ describe('SkeletonItems', () => {
 
   test('Should rendered with custom width and height', () => {
     const { getByTestId } = render(
-      <SkeletonItem data-test-id='skeleton-item' width='50px' height='4vh' />
+      <SkeletonItem data-testid='skeleton-item' width='50px' height='4vh' />
     )
     const element = getByTestId('skeleton-item')
     const computedStyle = getComputedStyle(element)
@@ -59,7 +59,7 @@ describe('SkeletonItems', () => {
 
   test('Should ignore default width and height when className is passed', () => {
     const { getByTestId } = render(
-      <SkeletonItem data-test-id='skeleton-item' className='custom-css' />
+      <SkeletonItem data-testid='skeleton-item' className='custom-css' />
     )
     const element = getByTestId('skeleton-item')
     const computedStyle = getComputedStyle(element)

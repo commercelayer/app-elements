@@ -1,5 +1,5 @@
-import { EmptyState } from './EmptyState'
 import { render, type RenderResult } from '@testing-library/react'
+import { EmptyState } from './EmptyState'
 
 interface SetupProps {
   id: string
@@ -12,7 +12,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<EmptyState data-test-id={id} {...rest} />)
+  const utils = render(<EmptyState data-testid={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,
