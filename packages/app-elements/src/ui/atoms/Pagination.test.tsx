@@ -1,12 +1,12 @@
-import { Pagination, type PaginationProps } from './Pagination'
 import { render, type RenderResult } from '@testing-library/react'
+import { Pagination, type PaginationProps } from './Pagination'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
 const setup = (props: PaginationProps): SetupResult => {
-  const utils = render(<Pagination data-test-id='my-pagination' {...props} />)
+  const utils = render(<Pagination data-testid='my-pagination' {...props} />)
   const element = utils.getByTestId('my-pagination')
   return {
     element,

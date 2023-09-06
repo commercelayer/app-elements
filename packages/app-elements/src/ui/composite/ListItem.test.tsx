@@ -1,13 +1,13 @@
+import { render, type RenderResult } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import { ListItem, type ListItemProps } from './ListItem'
-import { render, type RenderResult } from '@testing-library/react'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
 const setup = (props: ListItemProps): SetupResult => {
-  const utils = render(<ListItem data-test-id='my-item' {...props} />)
+  const utils = render(<ListItem data-testid='my-item' {...props} />)
   const element = utils.getByTestId('my-item')
   return {
     element,

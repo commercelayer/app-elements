@@ -28,7 +28,7 @@ describe('SkeletonTemplate', () => {
         <A href='https://commercelayer.io'>Element #2</A>
         <a href='https://commercelayer.io'>Element #3</a>
         <Text>Element #4</Text>
-        <Button data-test-id='button'>Element #5</Button>
+        <Button data-testid='button'>Element #5</Button>
       </SkeletonTemplate>
     )
 
@@ -54,7 +54,7 @@ describe('SkeletonTemplate', () => {
     const { getByTestId } = render(
       <SkeletonTemplate isLoading>
         <Avatar
-          data-test-id='element'
+          data-testid='element'
           src='data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw=='
           alt='transparent 1px image'
         />
@@ -67,7 +67,7 @@ describe('SkeletonTemplate', () => {
   test('Should render <Badge> as "loading item"', () => {
     const { getByTestId } = render(
       <SkeletonTemplate isLoading>
-        <Badge data-test-id='element' label='APPROVED' variant='danger' />
+        <Badge data-testid='element' label='APPROVED' variant='danger' />
       </SkeletonTemplate>
     )
 
@@ -77,7 +77,7 @@ describe('SkeletonTemplate', () => {
   test('Should render <Icon> as "loading item"', () => {
     const { getByTestId } = render(
       <SkeletonTemplate isLoading>
-        <Icon data-test-id='element' name='arrowLeft' />
+        <Icon data-testid='element' name='arrowLeft' />
       </SkeletonTemplate>
     )
 

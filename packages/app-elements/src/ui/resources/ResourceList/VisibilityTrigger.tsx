@@ -36,7 +36,7 @@ export function VisibilityTrigger({
 
   return (
     <div
-      data-test-id='visibility-trigger'
+      data-testid='visibility-trigger'
       ref={enabled ? triggerEl : undefined}
       {...rest}
     />

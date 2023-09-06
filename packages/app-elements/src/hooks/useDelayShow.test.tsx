@@ -11,7 +11,7 @@ function DelayShow({ delayMs = 1000, children }: Props): JSX.Element | null {
   const [show] = useDelayShow(delayMs)
 
   return (
-    <div data-test-id='delay-show' style={{ opacity: show ? 1 : 0 }}>
+    <div data-testid='delay-show' style={{ opacity: show ? 1 : 0 }}>
       {children}
     </div>
   )

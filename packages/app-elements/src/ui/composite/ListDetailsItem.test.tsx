@@ -13,7 +13,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<ListDetailsItem data-test-id={id} {...rest} />)
+  const utils = render(<ListDetailsItem data-testid={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,

@@ -93,7 +93,7 @@ function List({
           title={computedTitle}
           titleSize='small'
           actionButton={actionButton}
-          data-test-id='list-task-legend'
+          data-testid='list-task-legend'
         />
       ) : null}
       <div
@@ -107,7 +107,7 @@ function List({
         <Spacer top='14'>
           <div
             className='flex mt-auto items-center justify-between'
-            data-test-id='list-pagination'
+            data-testid='list-pagination'
           >
             <div className='text-gray-500 font-medium text-sm'>
               {offsets.firstOfPage}-{offsets.lastOfPage} of{' '}

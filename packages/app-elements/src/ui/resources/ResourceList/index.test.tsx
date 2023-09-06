@@ -18,7 +18,7 @@ const Item: FC<{ resource?: Order }> = ({ resource }) => {
   resource = resource != null ? resource : mockedOrder
   return (
     <div
-      data-test-id={
+      data-testid={
         resource.id === 'mock' ? 'orderItem-loading' : 'orderItem-ready'
       }
     >

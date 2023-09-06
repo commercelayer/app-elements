@@ -48,7 +48,7 @@ function InputWrapper({
       {children}
       {feedback != null && (
         <InputFeedback
-          data-test-id='input-feedback'
+          data-testid='input-feedback'
           className='mt-2'
           {...feedback}
         />

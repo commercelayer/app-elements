@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...props }: SetupProps): SetupResult => {
-  const utils = render(<Avatar data-test-id={id} {...props} />)
+  const utils = render(<Avatar data-testid={id} {...props} />)
   const element = utils.getByTestId(id)
   return {
     element,

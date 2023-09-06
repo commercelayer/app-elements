@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, content }: SetupProps): SetupResult => {
-  const utils = render(<Card data-test-id={id}>{content}</Card>)
+  const utils = render(<Card data-testid={id}>{content}</Card>)
   const element = utils.getByTestId(id)
   return {
     element,

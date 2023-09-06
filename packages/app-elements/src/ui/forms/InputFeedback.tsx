@@ -16,14 +16,10 @@ export function InputFeedback({
   ...rest
 }: InputFeedbackProps): JSX.Element {
   const icons: Record<FeedbackVariant, JSX.Element> = {
-    danger: (
-      <WarningCircle size={20} weight='bold' data-test-id='icon-danger' />
-    ),
-    success: (
-      <CheckCircle size={20} weight='bold' data-test-id='icon-success' />
-    ),
+    danger: <WarningCircle size={20} weight='bold' data-testid='icon-danger' />,
+    success: <CheckCircle size={20} weight='bold' data-testid='icon-success' />,
     warning: (
-      <WarningCircle size={20} weight='bold' data-test-id='icon-warning' />
+      <WarningCircle size={20} weight='bold' data-testid='icon-warning' />
     )
   }
 

@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, value }: SetupProps): SetupResult => {
-  const utils = render(<CopyToClipboard data-test-id={id} value={value} />)
+  const utils = render(<CopyToClipboard data-testid={id} value={value} />)
   const element = utils.getByTestId(id)
   return {
     element,
@@ -37,7 +37,7 @@ describe('CopyToClipboard', () => {
     })
     expect(element).toBeInTheDocument()
     expect(getByTestId('empty-string')).toBeInTheDocument()
-    expect(element.querySelector('[data-test-id="copy-value-button"]')).toBe(
+    expect(element.querySelector('[data-testid="copy-value-button"]')).toBe(
       null
     )
   })

@@ -18,12 +18,12 @@ const ListItemsMetadata = withSkeletonTemplate<{
           <ListItem
             tag='div'
             key={idx}
-            data-test-id={`ListItemsMetadata-item-${metadataKey}`}
+            data-testid={`ListItemsMetadata-item-${metadataKey}`}
           >
             <Text variant='info'>{humanizeString(metadataKey)}</Text>
             <Text
               weight='semibold'
-              data-test-id={`ListItemsMetadata-value-${metadataKey}`}
+              data-testid={`ListItemsMetadata-value-${metadataKey}`}
             >
               {metadataValue}
             </Text>

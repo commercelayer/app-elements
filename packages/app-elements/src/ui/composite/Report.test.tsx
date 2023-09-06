@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<Report data-test-id={id} {...rest} />)
+  const utils = render(<Report data-testid={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,
@@ -81,7 +81,7 @@ describe('Report', () => {
     expect(element).toBeVisible()
     expect(
       element.querySelector(
-        "[data-test-id='report-item-Record imported-count'] span"
+        "[data-testid='report-item-Record imported-count'] span"
       )
     ).toHaveClass('animate-pulse')
   })

@@ -13,7 +13,7 @@ const options: InputCheckboxGroupProps['options'] = [
         size='small'
         tag='div'
         weight='bold'
-        data-test-id='CheckboxList-label'
+        data-testid='CheckboxList-label'
       >
         Gray Baby Bib with Black Logo
       </Text>
@@ -30,7 +30,7 @@ const options: InputCheckboxGroupProps['options'] = [
         size='small'
         tag='div'
         weight='bold'
-        data-test-id='CheckboxList-label'
+        data-testid='CheckboxList-label'
       >
         Black Baseball Hat with White Logo
       </Text>
@@ -47,7 +47,7 @@ const options: InputCheckboxGroupProps['options'] = [
         size='small'
         tag='div'
         weight='bold'
-        data-test-id='CheckboxList-label'
+        data-testid='CheckboxList-label'
       >
         Black Unisex Lightweight Hoodie
       </Text>

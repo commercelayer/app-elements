@@ -1,6 +1,6 @@
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import type { InputProps } from './Input'
 import { Input } from './Input'
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
 
 interface SetupProps extends InputProps {
   id: string
@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, type }: SetupProps): SetupResult => {
-  const utils = render(<Input data-test-id={id} type={type} />)
+  const utils = render(<Input data-testid={id} type={type} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,

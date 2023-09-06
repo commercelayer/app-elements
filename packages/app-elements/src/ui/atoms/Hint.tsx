@@ -1,5 +1,5 @@
-import cn from 'classnames'
 import { LightbulbFilament } from '@phosphor-icons/react'
+import cn from 'classnames'
 import { type ReactNode } from 'react'
 
 export type HintIcon = 'bulb'
@@ -12,7 +12,7 @@ export interface HintProps {
 
 function Hint({ icon, className, children, ...rest }: HintProps): JSX.Element {
   const icons: Record<HintIcon, JSX.Element> = {
-    bulb: <LightbulbFilament size={24} data-test-id='icon-bulb' />
+    bulb: <LightbulbFilament size={24} data-testid='icon-bulb' />
   }
 
   return (

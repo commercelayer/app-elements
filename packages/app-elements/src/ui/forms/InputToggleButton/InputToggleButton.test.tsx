@@ -37,7 +37,7 @@ function Component(
       {...props}
       value={value}
       onChange={setValue}
-      data-test-id='toggle-buttons'
+      data-testid='toggle-buttons'
     />
   )
 }

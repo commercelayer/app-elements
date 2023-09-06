@@ -54,12 +54,12 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
           )
         }
         alignItems='top'
-        data-test-id='ListItemOrder'
+        data-testid='ListItemOrder'
         onClick={onClick}
         {...rest}
       >
         <div>
-          <Text tag='div' weight='semibold' data-test-id='ListItemOrder-number'>
+          <Text tag='div' weight='semibold' data-testid='ListItemOrder-number'>
             {order.market?.name} #{order.number}
           </Text>
           <Text
@@ -67,7 +67,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
             weight='medium'
             size='small'
             variant='info'
-            data-test-id='ListItemOrder-content'
+            data-testid='ListItemOrder-content'
           >
             {formatDate({
               format: 'date',
@@ -89,7 +89,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
           <Text
             tag='div'
             weight='semibold'
-            data-test-id='ListItemOrder-total'
+            data-testid='ListItemOrder-total'
             className='break-keep'
             wrap='nowrap'
           >
@@ -100,7 +100,7 @@ export const ListItemOrder = withSkeletonTemplate<Props>(
             weight='medium'
             size='small'
             variant='info'
-            data-test-id='ListItemOrder-payment'
+            data-testid='ListItemOrder-payment'
             wrap='nowrap'
           >
             {getOrderPaymentStatusName(order.payment_status)}

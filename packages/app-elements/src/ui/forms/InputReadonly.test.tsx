@@ -1,5 +1,5 @@
-import { InputReadonly } from './InputReadonly'
 import { render, type RenderResult } from '@testing-library/react'
+import { InputReadonly } from './InputReadonly'
 
 interface SetupProps {
   id: string
@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, value }: SetupProps): SetupResult => {
-  const utils = render(<InputReadonly data-test-id={id} value={value} />)
+  const utils = render(<InputReadonly data-testid={id} value={value} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,

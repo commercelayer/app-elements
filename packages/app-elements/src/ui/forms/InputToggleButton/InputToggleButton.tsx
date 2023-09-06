@@ -87,7 +87,7 @@ export function InputToggleButton({
     <InputWrapper
       hint={hint}
       feedback={feedback}
-      data-test-id='toggle-buttons'
+      data-testid='toggle-buttons'
       {...rest}
     >
       <fieldset>

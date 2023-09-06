@@ -21,7 +21,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, ...props }: SetupProps): SetupResult => {
   const utils = render(
-    <div data-test-id={id}>
+    <div data-testid={id}>
       <TokenProvider {...props}>
         {({ settings: { mode }, user, canAccess }) => (
           <div>
@@ -185,7 +185,7 @@ describe('TokenProvider', () => {
     const onInvalidAuth = vi.fn()
 
     const { getByTestId, getByText } = render(
-      <div data-test-id='token-provider'>
+      <div data-testid='token-provider'>
         <TokenProvider
           kind='integration'
           appSlug='imports'
@@ -198,7 +198,7 @@ describe('TokenProvider', () => {
               <div>
                 <div>This is my app</div>
                 <button
-                  data-test-id='btn-emit-error'
+                  data-testid='btn-emit-error'
                   onClick={() => {
                     emitInvalidAuth('custom error trigger')
                   }}

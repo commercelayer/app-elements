@@ -1,5 +1,5 @@
-import { InputTextArea } from './InputTextArea'
 import { fireEvent, render, type RenderResult } from '@testing-library/react'
+import { InputTextArea } from './InputTextArea'
 
 interface SetupProps {
   id: string
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id }: SetupProps): SetupResult => {
-  const utils = render(<InputTextArea data-test-id={id} />)
+  const utils = render(<InputTextArea data-testid={id} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,

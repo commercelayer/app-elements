@@ -1,7 +1,7 @@
+import { Legend } from '#ui/atoms/Legend'
+import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
-import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
-import { Legend } from '#ui/atoms/Legend'
 
 export interface DetailsListProps {
   /**
@@ -45,7 +45,7 @@ function ListDetails({
           <h4 className='text-[18px] font-semibold mb-4'>
             <SkeletonItem className='h-7 w-32' />
           </h4>
-          <div data-test-id='details-list-loading-rows'>
+          <div data-testid='details-list-loading-rows'>
             {[...Array(loadingLines).keys()].map((_, idx) => (
               <SkeletonItem
                 key={`details-loading-${idx}`}
@@ -67,9 +67,9 @@ function ListDetails({
       {...rest}
     >
       {title != null && (
-        <Legend data-test-id='details-list-title' title={title} />
+        <Legend data-testid='details-list-title' title={title} />
       )}
-      <div data-test-id='details-list-rows'>{children}</div>
+      <div data-testid='details-list-rows'>{children}</div>
     </div>
   )
 }

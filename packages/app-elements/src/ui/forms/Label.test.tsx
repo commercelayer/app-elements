@@ -1,5 +1,5 @@
-import { Label } from './Label'
 import { render, type RenderResult } from '@testing-library/react'
+import { Label } from './Label'
 
 interface SetupProps {
   id: string
@@ -12,7 +12,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, text }: SetupProps): SetupResult => {
   const utils = render(
-    <Label data-test-id={id} gap>
+    <Label data-testid={id} gap>
       {text}
     </Label>
   )

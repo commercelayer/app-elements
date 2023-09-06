@@ -1,12 +1,12 @@
+import cn from 'classnames'
 import React, {
-  type ReactNode,
   Children,
   useEffect,
+  useMemo,
   useState,
-  useMemo
+  type ReactNode
 } from 'react'
 import invariant from 'ts-invariant'
-import cn from 'classnames'
 
 interface Props {
   /**
@@ -102,7 +102,7 @@ function Tabs({
                   setActiveIndex(index)
                 }}
                 id={`tab-nav-${id}-${index}`}
-                data-test-id={`tab-nav-${index}`}
+                data-testid={`tab-nav-${index}`}
               />
             )
         )}
@@ -115,7 +115,7 @@ function Tabs({
         return (
           <TabPanel
             isActive={index === activeIndex}
-            data-test-id={`tab-panel-${index}`}
+            data-testid={`tab-panel-${index}`}
             aria-labelledby={`tab-nav-${id}-${index}`}
             keepAlive={Boolean(keepAlive)}
           >

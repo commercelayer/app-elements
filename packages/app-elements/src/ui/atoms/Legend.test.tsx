@@ -1,5 +1,5 @@
-import { Legend } from './Legend'
 import { render, type RenderResult } from '@testing-library/react'
+import { Legend } from './Legend'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -8,7 +8,7 @@ type SetupResult = RenderResult & {
 const setup = (): SetupResult => {
   const utils = render(
     <Legend
-      data-test-id='my-legend'
+      data-testid='my-legend'
       title='Hello world'
       actionButton={<button>Click me</button>}
     />

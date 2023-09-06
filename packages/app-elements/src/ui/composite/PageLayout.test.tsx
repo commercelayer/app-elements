@@ -1,5 +1,5 @@
-import { PageLayout, type PageLayoutProps } from './PageLayout'
 import { render, type RenderResult } from '@testing-library/react'
+import { PageLayout, type PageLayoutProps } from './PageLayout'
 
 interface SetupProps extends Omit<PageLayoutProps, 'children'> {
   id: string
@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const utils = render(
-    <PageLayout data-test-id={id} {...rest}>
+    <PageLayout data-testid={id} {...rest}>
       <div>Content...</div>
     </PageLayout>
   )

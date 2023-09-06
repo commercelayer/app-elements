@@ -1,5 +1,5 @@
-import { PageError } from './PageError'
 import { render, type RenderResult } from '@testing-library/react'
+import { PageError } from './PageError'
 
 type SetupResult = RenderResult & {
   element: HTMLElement
@@ -8,7 +8,7 @@ type SetupResult = RenderResult & {
 const setup = (): SetupResult => {
   const utils = render(
     <PageError
-      data-test-id='my-error-page'
+      data-testid='my-error-page'
       pageTitle='Commerce Layer App'
       errorName='Not found'
       errorDescription='We could not find the resource you are looking for.'

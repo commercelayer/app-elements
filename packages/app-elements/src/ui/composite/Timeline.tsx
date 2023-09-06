@@ -36,7 +36,7 @@ export const Timeline = withSkeletonTemplate<Props>(
       return sortAndGroupByDate(eventsWithIcon, { timezone })
     }, [events, timezone])
     return (
-      <div data-test-id='timeline'>
+      <div data-testid='timeline'>
         <Input
           onKeyDown={onKeyDown}
           onChange={onChange}
@@ -52,7 +52,7 @@ export const Timeline = withSkeletonTemplate<Props>(
               <div className='flex items-center my-6'>
                 <div className='bg-gray-100 h-[1px] grow' />
                 <Badge
-                  data-test-id='timeline-date-group'
+                  data-testid='timeline-date-group'
                   className='rounded-full bg-gray-100 py-1 px-3 font-bold'
                   label={date}
                   variant='secondary'
@@ -69,13 +69,13 @@ export const Timeline = withSkeletonTemplate<Props>(
                       }`}
                     >
                       <div
-                        data-test-id='timeline-event-icon'
+                        data-testid='timeline-event-icon'
                         className='bg-white py-1'
                       >
                         {event.icon}
                       </div>
                     </div>
-                    <div data-test-id='timeline-event-message'>
+                    <div data-testid='timeline-event-message'>
                       <>
                         {event.author != null && (
                           <Text weight='bold' className='text-black'>
@@ -99,7 +99,7 @@ export const Timeline = withSkeletonTemplate<Props>(
                         <div className='w-6' />
                       </div>
                       <Card
-                        data-test-id='timeline-event-note'
+                        data-testid='timeline-event-note'
                         className='w-full mt-1'
                       >
                         {event.note}

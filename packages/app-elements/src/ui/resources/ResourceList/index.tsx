@@ -132,7 +132,7 @@ function ResourceList<TResource extends ListableResourceType>({
     data == null || data.meta.pageCount > data.meta.currentPage
 
   return (
-    <div data-test-id='resource-list'>
+    <div data-testid='resource-list'>
       {title != null || actionButton != null ? (
         <Legend
           isLoading={isFirstLoading}

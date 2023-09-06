@@ -1,5 +1,5 @@
-import { ListDetails, type DetailsListProps } from './ListDetails'
 import { render, type RenderResult } from '@testing-library/react'
+import { ListDetails, type DetailsListProps } from './ListDetails'
 
 interface SetupProps extends DetailsListProps {
   id: string
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<ListDetails data-test-id={id} {...rest} />)
+  const utils = render(<ListDetails data-testid={id} {...rest} />)
   const element = utils.getByTestId(id)
   return {
     element,
@@ -47,7 +47,7 @@ describe('ListDetails', () => {
       10
     )
     expect(
-      element.querySelector("[data-test-id='details-list-rows']")
+      element.querySelector("[data-testid='details-list-rows']")
     ).not.toBeInTheDocument()
   })
 })

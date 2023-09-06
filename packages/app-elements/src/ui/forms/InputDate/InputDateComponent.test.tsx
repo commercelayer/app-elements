@@ -1,5 +1,5 @@
+import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { InputDateComponent, type InputDateProps } from './InputDateComponent'
-import { render, type RenderResult, fireEvent } from '@testing-library/react'
 
 interface SetupProps extends InputDateProps {
   id: string
@@ -10,7 +10,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, ...rest }: SetupProps): SetupResult => {
-  const utils = render(<InputDateComponent data-test-id={id} {...rest} />)
+  const utils = render(<InputDateComponent data-testid={id} {...rest} />)
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,

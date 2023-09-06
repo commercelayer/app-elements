@@ -96,7 +96,7 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
                 className={cn(
                   'rounded-md cursor-pointer hover:bg-gray-50 flex items-center gap-4 p-4 h-full'
                 )}
-                data-test-id='InputRadioGroup-item'
+                data-testid='InputRadioGroup-item'
               >
                 <input
                   type='radio'

@@ -1,5 +1,5 @@
-import { Container } from './Container'
 import { render, type RenderResult } from '@testing-library/react'
+import { Container } from './Container'
 
 interface SetupProps {
   id: string
@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id }: SetupProps): SetupResult => {
   const utils = render(
-    <Container data-test-id={id}>
+    <Container data-testid={id}>
       <div>my app</div>
     </Container>
   )

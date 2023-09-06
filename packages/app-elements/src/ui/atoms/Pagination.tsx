@@ -1,6 +1,6 @@
 import { makeSomeAdjacentPages } from '#utils/pagination'
+import { CaretLeft, CaretRight } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { CaretRight, CaretLeft } from '@phosphor-icons/react'
 
 export interface PaginationProps {
   /**
@@ -68,7 +68,7 @@ function Pagination({
     >
       {currentPage > 1 ? (
         <PaginationButton
-          data-test-id='pagination-btn-back'
+          data-testid='pagination-btn-back'
           onClick={() => {
             onChangePageRequest(currentPage - 1)
           }}
@@ -80,7 +80,7 @@ function Pagination({
       {prevPages.map((p) => (
         <PaginationButton
           key={p}
-          data-test-id='pagination-btn'
+          data-testid='pagination-btn'
           onClick={() => {
             onChangePageRequest(p)
           }}
@@ -89,7 +89,7 @@ function Pagination({
         </PaginationButton>
       ))}
 
-      <PaginationButton data-test-id='pagination-btn' isActive>
+      <PaginationButton data-testid='pagination-btn' isActive>
         {currentPage}
       </PaginationButton>
 
@@ -98,7 +98,7 @@ function Pagination({
         return (
           <PaginationButton
             key={p}
-            data-test-id='pagination-btn'
+            data-testid='pagination-btn'
             isActive={isCurrentPage}
             onClick={
               isCurrentPage
@@ -114,7 +114,7 @@ function Pagination({
       })}
       {currentPage < pageCount ? (
         <PaginationButton
-          data-test-id='pagination-btn-next'
+          data-testid='pagination-btn-next'
           onClick={() => {
             onChangePageRequest(currentPage + 1)
           }}

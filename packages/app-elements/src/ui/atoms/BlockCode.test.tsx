@@ -1,5 +1,5 @@
-import { BlockCode } from './BlockCode'
 import { render, type RenderResult } from '@testing-library/react'
+import { BlockCode } from './BlockCode'
 
 interface SetupProps {
   id: string
@@ -11,7 +11,7 @@ type SetupResult = RenderResult & {
 }
 
 const setup = ({ id, json }: SetupProps): SetupResult => {
-  const utils = render(<BlockCode data-test-id={id} json={json} />)
+  const utils = render(<BlockCode data-testid={id} json={json} />)
   const element = utils.getByTestId(id)
   return {
     element,

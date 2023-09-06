@@ -42,7 +42,7 @@ const Overlay: React.FC<OverlayProps> = ({ footer, children, ...rest }) => {
       role='dialog'
       tabIndex={0}
       className='fixed inset-0 z-50 w-full h-full bg-white overflow-y-auto outline-none'
-      data-test-id='overlay'
+      data-testid='overlay'
       {...rest}
     >
       <Container minHeight={false}>
@@ -50,7 +50,7 @@ const Overlay: React.FC<OverlayProps> = ({ footer, children, ...rest }) => {
         {footer != null && (
           <div
             className='w-full sticky bottom-0 bg-white pb-8'
-            data-test-id='overlay-buttonContainer'
+            data-testid='overlay-buttonContainer'
           >
             {footer}
           </div>

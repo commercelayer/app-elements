@@ -14,7 +14,7 @@ type SetupResult = RenderResult & {
 
 const setup = ({ id, variant, size, text }: SetupProps): SetupResult => {
   const utils = render(
-    <Button data-test-id={id} variant={variant} size={size}>
+    <Button data-testid={id} variant={variant} size={size}>
       {text}
     </Button>
   )
