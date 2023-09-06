@@ -53,7 +53,6 @@ export default defineConfig({
       './react-testing-library.config.js',
       './src/mocks/setup.ts',
       './src/mocks/stubs.ts'
-    ],
-    silent: true
+    ]
   }
 })

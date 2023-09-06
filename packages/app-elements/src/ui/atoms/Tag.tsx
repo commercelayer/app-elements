@@ -54,7 +54,7 @@ const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
           'text-primary font-bold': hasHover && rest.buttonStyle === 'anchor'
         }
       ])}
-      type={rest.tag === 'button' && 'button'}
+      type={rest.tag === 'button' ? 'button' : undefined}
       // we don't want `tag` prop to be present as attribute on html tag
       // still we need to be part of `rest` to discriminate the union type
       {...(removeTagProp(rest) as any)}

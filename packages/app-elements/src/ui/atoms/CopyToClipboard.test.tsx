@@ -1,4 +1,9 @@
-import { render, type RenderResult } from '@testing-library/react'
+import {
+  fireEvent,
+  render,
+  waitFor,
+  type RenderResult
+} from '@testing-library/react'
 import { CopyToClipboard } from './CopyToClipboard'
 
 interface SetupProps {
@@ -63,19 +68,21 @@ describe('CopyToClipboard click', () => {
     ;(global.navigator as any) = initialClipboard
   })
 
-  test('Should copy text into clipboard', () => {
+  test('Should copy text into clipboard', async () => {
     const value = 'BEANIEXXFFFFFF000000XXXX'
-    const { element, getByTestId } = setup({
-      id: 'my-value',
-      value
-    })
-    expect(element).toBeInTheDocument()
-    const copyBtn = getByTestId('copy-value-button')
+
+    const { container, getByTestId } = render(
+      <CopyToClipboard data-testid='my-value' value={value} />
+    )
+
+    expect(container).toBeInTheDocument()
     expect(navigator.clipboard.readText()).toBe('')
 
-    copyBtn.click()
-    expect(navigator.clipboard.writeText).toBeCalledTimes(1)
-    expect(navigator.clipboard.writeText).toHaveBeenCalledWith(value)
-    expect(navigator.clipboard.readText()).toBe(value)
+    fireEvent.click(getByTestId('copy-value-button'))
+    await waitFor(() => {
+      expect(navigator.clipboard.writeText).toBeCalledTimes(1)
+      expect(navigator.clipboard.writeText).toHaveBeenCalledWith(value)
+      expect(navigator.clipboard.readText()).toBe(value)
+    })
   })
 })

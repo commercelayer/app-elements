@@ -159,6 +159,7 @@ describe('TokenProvider', () => {
   test('Should trigger invalid when `kind` is not matched', async () => {
     vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const onInvalidAuth = vi.fn()
+    vi.spyOn(console, 'error').mockImplementation(() => {})
 
     const { getByText } = setup({
       id: 'token-provider',

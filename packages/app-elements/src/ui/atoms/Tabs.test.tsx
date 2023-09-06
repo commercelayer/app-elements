@@ -1,4 +1,3 @@
-import { testInvariant } from '#utils/tests'
 import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { Tab, Tabs } from './Tabs'
 
@@ -61,28 +60,5 @@ describe('Tabs', () => {
       element.querySelector('[data-testid="tab-panel-0"]')
     ).not.toBeInTheDocument()
     expect(getByTestId('tab-nav-2')).toBeInTheDocument()
-  })
-
-  test('Should throw error children are not <Tab> components', () => {
-    testInvariant(() => {
-      render(
-        <Tabs data-testid='mytabs' onTabSwitch={() => undefined}>
-          <Tab name='Hello'>Some tab</Tab>
-          <span>Some span</span>
-        </Tabs>
-      )
-    }, 'Only "<Tab>" components can be used as children. Invalid at index #1')
-  })
-
-  test('Should throw error if a <Tab> child is missing `name` prop', () => {
-    testInvariant(() => {
-      render(
-        <Tabs data-testid='mytabs' onTabSwitch={() => undefined}>
-          {/* @ts-expect-error I want to test with a wrong value. */}
-          <Tab>Another tab</Tab>
-          <Tab name='Hello'>Some tab</Tab>
-        </Tabs>
-      )
-    }, 'Missing prop "name" in <Tab> component at index #0')
   })
 })

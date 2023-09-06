@@ -12,7 +12,7 @@ const ListItemsMetadata = withSkeletonTemplate<{
   return (
     <>
       {Object.entries(metadata).map(([metadataKey, metadataValue], idx) => {
-        if (typeof metadataValue !== 'string') return <></>
+        if (typeof metadataValue !== 'string') return null
 
         return (
           <ListItem

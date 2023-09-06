@@ -1,4 +1,4 @@
-import { renderHook, act } from '@testing-library/react'
+import { act, renderHook } from '@testing-library/react'
 import { useIsChanged } from './useIsChanged'
 
 describe('useIsChanged', () => {
@@ -26,7 +26,9 @@ describe('useIsChanged', () => {
   })
 
   test('Should trigger onChange callback every time value is changed', () => {
-    const mockedConsoleLog = vi.spyOn(console, 'log')
+    const mockedConsoleLog = vi
+      .spyOn(console, 'log')
+      .mockImplementation(() => {})
     let value: Record<string, string> = { foo: 'bar' }
 
     const { result, rerender } = renderHook(() =>

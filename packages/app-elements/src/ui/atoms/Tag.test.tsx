@@ -23,7 +23,7 @@ const setup = ({ id, text }: SetupProps): SetupResult => {
   }
 }
 
-describe('Anchor', () => {
+describe('Tag', () => {
   test('Should be rendered', () => {
     const { element } = setup({ id: 'some-tag', text: 'My tag' })
     expect(element).toBeVisible()
