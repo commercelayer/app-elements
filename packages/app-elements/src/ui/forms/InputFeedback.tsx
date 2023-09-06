@@ -9,7 +9,7 @@ export interface InputFeedbackProps {
   className?: string
 }
 
-function InputFeedback({
+export function InputFeedback({
   className,
   message,
   variant = 'danger',
@@ -47,4 +47,3 @@ function InputFeedback({
 }
 
 InputFeedback.displayName = 'InputFeedback'
-export { InputFeedback }

@@ -1,4 +1,4 @@
-import { HookedInputSpinner } from '#ui/hook-form/HookedInputSpinner'
+import { HookedInputSpinner } from '#ui/forms/InputSpinner'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

@@ -1,10 +1,10 @@
 import { Spacer } from '#ui/atoms/Spacer'
-import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import {
   InputCurrency,
   formatCentsToCurrency,
   type InputCurrencyProps
-} from '#ui/forms/InputCurrency/index'
+} from '#ui/forms/InputCurrency/InputCurrency'
+import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import { isSingleValueSelected } from '#ui/forms/InputSelect/index'
 import {
   InputWrapper,
@@ -29,7 +29,7 @@ export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
   className?: string
 }
 
-function InputCurrencyRange({
+export function InputCurrencyRange({
   fromCents,
   toCents,
   placeholders = ['Minimum', 'Maximum'],
@@ -153,4 +153,3 @@ function InputCurrencyRange({
 }
 
 InputCurrencyRange.displayName = 'InputCurrencyRange'
-export { InputCurrencyRange }

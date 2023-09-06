@@ -1,4 +1,4 @@
-import { HookedInputCurrency } from '#ui/hook-form/HookedInputCurrency'
+import { HookedInputCurrency } from '#ui/forms/InputCurrency'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

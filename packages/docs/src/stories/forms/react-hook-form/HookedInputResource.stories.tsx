@@ -1,6 +1,6 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { HookedInputResourceGroup } from '#ui/hook-form/HookedInputResourceGroup'
+import { HookedInputResourceGroup } from '#ui/forms/InputResourceGroup'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

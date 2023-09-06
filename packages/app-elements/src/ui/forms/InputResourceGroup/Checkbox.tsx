@@ -1,7 +1,10 @@
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
-import { InputCheckbox, type InputCheckboxProps } from '#ui/forms/InputCheckbox'
+import {
+  InputCheckbox,
+  type InputCheckboxProps
+} from '#ui/forms/InputCheckbox/InputCheckbox'
 import { type CommerceLayerClient } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { useRef } from 'react'

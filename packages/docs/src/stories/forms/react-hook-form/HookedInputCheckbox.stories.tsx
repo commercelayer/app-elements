@@ -1,4 +1,4 @@
-import { HookedInputCheckbox } from '#ui/hook-form/HookedInputCheckbox'
+import { HookedInputCheckbox } from '#ui/forms/InputCheckbox'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

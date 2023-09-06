@@ -14,7 +14,7 @@ export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
   className?: string
 }
 
-function InputJson<JsonType extends object>({
+export function InputJson<JsonType extends object>({
   placeholder,
   validateFn,
   onDataReady,
@@ -77,7 +77,6 @@ function InputJson<JsonType extends object>({
 }
 
 InputJson.displayName = 'InputJson'
-export { InputJson }
 
 function preparePlaceholder(obj: object): string {
   const content = JSON.stringify(obj, null, 2)

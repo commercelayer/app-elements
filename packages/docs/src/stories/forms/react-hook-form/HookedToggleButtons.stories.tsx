@@ -1,4 +1,4 @@
-import { HookedToggleButtons } from '#ui/hook-form/HookedToggleButtons'
+import { HookedToggleButtons } from '#ui/forms/ToggleButtons'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

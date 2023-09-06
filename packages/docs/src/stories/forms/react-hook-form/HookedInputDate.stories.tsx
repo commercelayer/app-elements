@@ -1,4 +1,4 @@
-import { HookedInputDate } from '#ui/hook-form/HookedInputDate'
+import { HookedInputDate } from '#ui/forms/InputDate'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

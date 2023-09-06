@@ -1,4 +1,4 @@
-import { HookedInput } from '#ui/hook-form/HookedInput'
+import { HookedInput } from '#ui/forms/Input'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 

@@ -1,6 +1,6 @@
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/hook-form/HookedForm'
+import { HookedForm } from '#ui/forms/Form'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 

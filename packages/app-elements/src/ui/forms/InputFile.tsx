@@ -17,7 +17,7 @@ interface InputFileProps
   progress?: number
 }
 
-const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
+export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
   (
     { className, progress, label, hint, feedback, ...rest },
     ref
@@ -62,4 +62,3 @@ const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
 )
 
 InputFile.displayName = 'InputFile'
-export { InputFile }

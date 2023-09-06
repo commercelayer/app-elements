@@ -1,5 +1,5 @@
-import { HookedInputResourceGroup } from '#ui/hook-form/HookedInputResourceGroup'
-import { HookedToggleButtons } from '#ui/hook-form/HookedToggleButtons'
+import { HookedInputResourceGroup } from '#ui/forms/InputResourceGroup'
+import { HookedToggleButtons } from '#ui/forms/ToggleButtons'
 import { useFormContext } from 'react-hook-form'
 import { type FilterItemOptions, type FilterItemTextSearch } from './types'
 import { computeFilterLabel } from './utils'

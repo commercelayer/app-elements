@@ -1,6 +1,6 @@
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/hook-form/HookedForm'
+import { HookedForm } from '#ui/forms/Form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FieldCurrencyRange } from './FieldCurrencyRange'

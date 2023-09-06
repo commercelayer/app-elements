@@ -65,7 +65,7 @@ export interface InputCheckboxGroupProps {
   onChange: (selected: SelectedItem[]) => void
 }
 
-function InputCheckboxGroup({
+export function InputCheckboxGroup({
   options,
   defaultValues = [],
   onChange,
@@ -248,4 +248,3 @@ function makeInitialState({
 }
 
 InputCheckboxGroup.displayName = 'InputCheckboxGroup'
-export { InputCheckboxGroup }

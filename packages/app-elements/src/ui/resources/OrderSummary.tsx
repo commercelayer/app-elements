@@ -9,9 +9,9 @@ import {
   type ActionButtonsProps
 } from '#ui/composite/ActionButtons'
 import { PageLayout } from '#ui/composite/PageLayout'
+import { HookedForm } from '#ui/forms/Form'
+import { HookedInputCurrency } from '#ui/forms/InputCurrency'
 import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
-import { HookedForm } from '#ui/hook-form/HookedForm'
-import { HookedInputCurrency } from '#ui/hook-form/HookedInputCurrency'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type { Order } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
