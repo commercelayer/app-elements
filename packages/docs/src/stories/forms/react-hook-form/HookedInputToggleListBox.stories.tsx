@@ -1,26 +1,49 @@
+import { Button } from '#ui/atoms/Button'
+import { Spacer } from '#ui/atoms/Spacer'
+import { HookedForm } from '#ui/forms/Form'
 import { HookedInputToggleListBox } from '#ui/forms/InputToggleListBox'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
+import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputToggleListBox> = {
   title: 'Forms/react-hook-form/HookedInputToggleListBox',
   component: HookedInputToggleListBox,
   parameters: {
-    layout: 'padded'
+    layout: 'padded',
+    docs: {
+      source: {
+        type: 'code'
+      }
+    }
   }
 }
 export default setup
 
 const Template: StoryFn<typeof HookedInputToggleListBox> = (args) => {
+  const methods = useForm({
+    defaultValues: {
+      [args.name]: 'json'
+    }
+  })
+
   return (
-    <HookedForm>
-      <HookedInputToggleListBox {...args} name='myField' />
+    <HookedForm
+      {...methods}
+      onSubmit={(values) => {
+        alert(JSON.stringify(values))
+      }}
+    >
+      <HookedInputToggleListBox {...args} />
+      <Spacer top='4'>
+        <Button type='submit'>Submit</Button>
+      </Spacer>
     </HookedForm>
   )
 }
 
 export const Default = Template.bind({})
 Default.args = {
+  name: 'myField',
   label: 'Select a format',
   options: [
     {
@@ -32,9 +55,4 @@ Default.args = {
       label: 'JSON'
     }
   ]
-}
-
-// populate default values for the form used in `MockedHookedForm`
-;(window as any).hookedFormDefaultValues = {
-  myField: 'json'
 }

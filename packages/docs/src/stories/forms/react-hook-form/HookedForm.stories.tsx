@@ -8,7 +8,12 @@ const setup: Meta<typeof HookedForm> = {
   title: 'Forms/react-hook-form/HookedForm',
   component: HookedForm,
   parameters: {
-    layout: 'padded'
+    layout: 'padded',
+    docs: {
+      source: {
+        type: 'code'
+      }
+    }
   }
 }
 export default setup
@@ -25,7 +30,7 @@ const Template: StoryFn<typeof HookedForm> = (args) => {
         alert(`form submitted with values: ${JSON.stringify(values)}`)
       }}
     >
-      <div>hooked form fields here...</div>
+      <div>hooked form fields here ...</div>
       <Spacer top='4'>
         <Button type='submit'>Submit</Button>
       </Spacer>
