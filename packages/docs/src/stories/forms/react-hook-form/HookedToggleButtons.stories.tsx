@@ -1,20 +1,20 @@
-import { HookedToggleButtons } from '#ui/forms/ToggleButtons'
+import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { MockedHookedForm as HookedForm } from './_MockedHookedForm'
 
-const setup: Meta<typeof HookedToggleButtons> = {
-  title: 'Forms/react-hook-form/HookedToggleButtons',
-  component: HookedToggleButtons,
+const setup: Meta<typeof HookedInputToggleButton> = {
+  title: 'Forms/react-hook-form/HookedInputToggleButton',
+  component: HookedInputToggleButton,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof HookedToggleButtons> = (args) => {
+const Template: StoryFn<typeof HookedInputToggleButton> = (args) => {
   return (
     <HookedForm>
-      <HookedToggleButtons {...args} name='myOptions' />
+      <HookedInputToggleButton {...args} name='myOptions' />
     </HookedForm>
   )
 }

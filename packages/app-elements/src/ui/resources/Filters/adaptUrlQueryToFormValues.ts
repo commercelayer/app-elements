@@ -108,7 +108,7 @@ export function adaptUrlQueryToFormValues<
       // single option, return first value only
       if (
         instructionItem.type === 'options' &&
-        instructionItem.render.component === 'toggleButtons' &&
+        instructionItem.render.component === 'inputToggleButton' &&
         instructionItem.render.props.mode === 'single'
       ) {
         return parsedQuery[key] != null

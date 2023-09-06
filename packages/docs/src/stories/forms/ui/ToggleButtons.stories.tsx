@@ -1,4 +1,7 @@
-import { ToggleButtons, type ToggleButtonOption } from '#ui/forms/ToggleButtons'
+import {
+  InputToggleButton,
+  type ToggleButtonOption
+} from '#ui/forms/InputToggleButton'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
@@ -33,15 +36,15 @@ const optionsWithDisabled: ToggleButtonOption[] = options.map((opt, idx) =>
     : opt
 )
 
-const setup: Meta<typeof ToggleButtons> = {
-  title: 'Forms/ui/ToggleButtons',
-  component: ToggleButtons
+const setup: Meta<typeof InputToggleButton> = {
+  title: 'Forms/ui/InputToggleButton',
+  component: InputToggleButton
 }
 export default setup
 
-const Template: StoryFn<typeof ToggleButtons> = (args) => {
+const Template: StoryFn<typeof InputToggleButton> = (args) => {
   const [value, setValue] = useState<any>(args.value)
-  return <ToggleButtons {...args} value={value} onChange={setValue} />
+  return <InputToggleButton {...args} value={value} onChange={setValue} />
 }
 
 export const SingleMode = Template.bind({})

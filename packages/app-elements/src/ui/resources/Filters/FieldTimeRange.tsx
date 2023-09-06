@@ -4,7 +4,7 @@ import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { HookedInputDate } from '#ui/forms/InputDate'
-import { HookedToggleButtons } from '#ui/forms/ToggleButtons'
+import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { getTimeRangeCustomLabel, getTimeRangePresetName } from './timeUtils'
@@ -65,7 +65,7 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
 
   return (
     <>
-      <HookedToggleButtons
+      <HookedInputToggleButton
         label={item.label}
         name='timePreset'
         mode='single'

@@ -140,6 +140,12 @@ export { HookedInputSpinner, InputSpinner } from '#ui/forms/InputSpinner'
 export { InputTextArea } from '#ui/forms/InputTextArea'
 export { HookedInputToggleBox, InputToggleBox } from '#ui/forms/InputToggleBox'
 export {
+  HookedInputToggleButton,
+  InputToggleButton,
+  type InputToggleButtonProps,
+  type ToggleButtonOption
+} from '#ui/forms/InputToggleButton'
+export {
   HookedInputToggleListBox,
   InputToggleListBox
 } from '#ui/forms/InputToggleListBox'
@@ -150,12 +156,6 @@ export {
   setApiFormErrors,
   useValidationFeedback
 } from '#ui/forms/ReactHookForm'
-export {
-  HookedToggleButtons,
-  ToggleButtons,
-  type ToggleButtonOption,
-  type ToggleButtonsProps
-} from '#ui/forms/ToggleButtons'
 // Resources
 export {
   FiltersForm,

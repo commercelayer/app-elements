@@ -1,8 +1,11 @@
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
-import { ToggleButtons, type ToggleButtonsProps } from './ToggleButtons'
+import {
+  InputToggleButton,
+  type InputToggleButtonProps
+} from './InputToggleButton'
 
-type Props = Omit<ToggleButtonsProps, 'value' | 'onChange'> & {
+type Props = Omit<InputToggleButtonProps, 'value' | 'onChange'> & {
   /**
    * field name to match hook-form state
    */
@@ -10,11 +13,14 @@ type Props = Omit<ToggleButtonsProps, 'value' | 'onChange'> & {
 }
 
 /**
- * `ToggleButtons` component ready to be used with the `react-hook-form` context.
+ * `InputToggleButton` component ready to be used with the `react-hook-form` context.
  * Stored value will be a string when used as `mode="single"` or an array of strings when `mode="multiple"`.
- * @see ToggleButtons
+ * @see InputToggleButton
  */
-export function HookedToggleButtons({ name, ...props }: Props): JSX.Element {
+export function HookedInputToggleButton({
+  name,
+  ...props
+}: Props): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)
 
@@ -23,7 +29,7 @@ export function HookedToggleButtons({ name, ...props }: Props): JSX.Element {
       name={name}
       control={control}
       render={({ field: { onChange, value } }) => (
-        <ToggleButtons
+        <InputToggleButton
           {...props}
           value={value}
           onChange={onChange}
@@ -34,4 +40,4 @@ export function HookedToggleButtons({ name, ...props }: Props): JSX.Element {
   )
 }
 
-HookedToggleButtons.displayName = 'HookedToggleButtons'
+HookedInputToggleButton.displayName = 'HookedInputToggleButton'

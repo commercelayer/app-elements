@@ -78,7 +78,7 @@ export type FilterItemOptions = BaseFilterItem & {
         /**
          * UI component to render
          */
-        component: 'toggleButtons'
+        component: 'inputToggleButton'
         /**
          * props required for the UI component
          */

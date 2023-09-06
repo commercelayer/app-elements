@@ -1,11 +1,11 @@
 import { fireEvent, render, type RenderResult } from '@testing-library/react'
-import {
-  ToggleButtons,
-  type ToggleButtonOption,
-  type ToggleButtonsProps
-} from './ToggleButtons'
 import { useState } from 'react'
 import { act } from 'react-dom/test-utils'
+import {
+  InputToggleButton,
+  type InputToggleButtonProps,
+  type ToggleButtonOption
+} from './InputToggleButton'
 
 const options: ToggleButtonOption[] = [
   {
@@ -27,11 +27,13 @@ const options: ToggleButtonOption[] = [
   }
 ]
 
-function Component(props: Omit<ToggleButtonsProps, 'onChange'>): JSX.Element {
+function Component(
+  props: Omit<InputToggleButtonProps, 'onChange'>
+): JSX.Element {
   const initialValue = props.mode === 'multi' ? props.value ?? [] : props.value
   const [value, setValue] = useState<any>(initialValue)
   return (
-    <ToggleButtons
+    <InputToggleButton
       {...props}
       value={value}
       onChange={setValue}
@@ -43,7 +45,9 @@ function Component(props: Omit<ToggleButtonsProps, 'onChange'>): JSX.Element {
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
-const setup = (props: Omit<ToggleButtonsProps, 'onChange'>): SetupResult => {
+const setup = (
+  props: Omit<InputToggleButtonProps, 'onChange'>
+): SetupResult => {
   const utils = render(<Component {...props} />)
   const element = utils.getByTestId('toggle-buttons')
   return {
@@ -65,7 +69,7 @@ function expectDisabled(el: HTMLElement): void {
   expect(el.getElementsByTagName('input')[0]).toBeDisabled()
 }
 
-describe('ToggleButtons single value mode', () => {
+describe('InputToggleButton single value mode', () => {
   test('should render', () => {
     const { element } = setup({
       mode: 'single',
@@ -135,7 +139,7 @@ describe('ToggleButtons single value mode', () => {
   })
 })
 
-describe('ToggleButtons multi values mode', () => {
+describe('InputToggleButton multi values mode', () => {
   test('should render', () => {
     const { element } = setup({
       mode: 'multi',

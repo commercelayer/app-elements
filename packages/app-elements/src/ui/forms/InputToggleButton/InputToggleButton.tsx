@@ -68,11 +68,12 @@ interface MultiValuesProps {
   onChange: (values: ToggleButtonValue[]) => void
 }
 
-export type ToggleButtonsProps = Simplify<
+export type InputToggleButtonProps = Simplify<
   BaseProps & (SingleValueProps | MultiValuesProps)
 >
 
-export function ToggleButtons({
+/** A Toggle Button can be used to group related options. */
+export function InputToggleButton({
   options,
   value,
   mode,
@@ -81,7 +82,7 @@ export function ToggleButtons({
   hint,
   feedback,
   ...rest
-}: ToggleButtonsProps): JSX.Element {
+}: InputToggleButtonProps): JSX.Element {
   return (
     <InputWrapper
       hint={hint}
@@ -132,4 +133,4 @@ export function ToggleButtons({
   )
 }
 
-ToggleButtons.displayName = 'ToggleButtons'
+InputToggleButton.displayName = 'InputToggleButton'
