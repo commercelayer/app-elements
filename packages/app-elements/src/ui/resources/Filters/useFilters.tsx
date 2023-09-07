@@ -1,5 +1,4 @@
 import { formatResourceName } from '#helpers/resources'
-import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
@@ -79,7 +78,6 @@ interface UseFiltersHook {
 
 export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
   const { user } = useTokenProvider()
-  const { sdkClient } = useCoreSdkProvider()
   const [sdkFilters, setSdkFilters] = useState<QueryFilter>()
   const queryString = window.location.search
 
@@ -115,7 +113,6 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
       }
       return (
         <ResourceList
-          sdkClient={sdkClient}
           {...listProps}
           title={
             hasActiveFilter

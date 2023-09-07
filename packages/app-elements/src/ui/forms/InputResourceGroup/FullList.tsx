@@ -1,4 +1,3 @@
-import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -85,7 +84,6 @@ export function FullList({
   totalCount,
   showCheckboxIcon = true
 }: FullListProps): JSX.Element {
-  const { sdkClient } = useCoreSdkProvider()
   const { values, toggleValue } = useToggleCheckboxValues(defaultValues)
   const [filters, setFilters] = useState<QueryFilter>({})
   const [search, setSearch] = useState<string>('')
@@ -139,7 +137,6 @@ export function FullList({
       <Card gap='1'>
         <ResourceList
           type={resource}
-          sdkClient={sdkClient}
           emptyState={<div>No items found</div>}
           query={{
             pageSize: 25,

@@ -1,15 +1,13 @@
 import { useIsChanged } from '#hooks/useIsChanged'
+import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { Legend, type LegendProps } from '#ui/atoms/Legend'
 import { type SkeletonTemplateProps } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
-import {
-  CommerceLayerStatic,
-  type CommerceLayerClient,
-  type QueryParamsList
-} from '@commercelayer/sdk'
+import { type FetcherResponse } from '#ui/resources/ResourceList/infiniteFetcher'
+import { CommerceLayerStatic, type QueryParamsList } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
@@ -30,8 +28,10 @@ export interface ResourceListItemProps<TResource extends ListableResourceType>
     remove?: () => void
   }> {}
 
-export interface ResourceListProps<TResource extends ListableResourceType>
-  extends Pick<LegendProps, 'title' | 'actionButton'> {
+export type ResourceListProps<TResource extends ListableResourceType> = Pick<
+  LegendProps,
+  'title' | 'actionButton'
+> & {
   /**
    * The resource type to be fetched in the list
    */
@@ -40,29 +40,48 @@ export interface ResourceListProps<TResource extends ListableResourceType>
    * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
    */
   query?: Omit<QueryParamsList, 'pageNumber'>
-  /**
-   * A react component to be used to render each item in the list.
-   */
-  Item: FC<ResourceListItemProps<TResource>>
+
   /**
    * An element to be rendered when the list is empty.
    */
   emptyState: JSX.Element
+
   /**
-   * A valid CommerceLayer SDK client instance.
+   * A react component to be used to render each item in the list.
+   * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
+   * In this way the loading state will be handled automatically.
    */
-  sdkClient?: CommerceLayerClient
+  Item: FC<ResourceListItemProps<TResource>>
+
+  /**
+   * Children as a function to render a custom element.
+   * @example
+   * ```
+   * <ResourceList type='customers' sdkClient={sdkClient}>
+   *  {({ isLoading, data }) => <ol>{data?.list.map(customer => <li>{customer.email}</li>)}</ol>
+   * </ResourceList>
+   * ```
+   */
+  children?: (childrenProps: {
+    isLoading: boolean
+    data?: FetcherResponse<Resource<TResource>>
+  }) => React.ReactNode
 }
 
-function ResourceList<TResource extends ListableResourceType>({
+/**
+ * Renders a list of resources of a given type with infinite scrolling.
+ * It's possible to specify a query to filter the list and either
+ * a React component to be used as `Item` template for the list or a function as `children` to render a custom element.
+ */
+export function ResourceList<TResource extends ListableResourceType>({
   type,
   query,
   title,
-  Item,
   actionButton,
-  sdkClient,
-  emptyState
+  emptyState,
+  ...props
 }: ResourceListProps<TResource>): JSX.Element {
+  const { sdkClient } = useCoreSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
     reducer,
     initialState
@@ -131,6 +150,8 @@ function ResourceList<TResource extends ListableResourceType>({
   const hasMorePages =
     data == null || data.meta.pageCount > data.meta.currentPage
 
+  const hasItemProp = 'Item' in props && props.Item != null
+
   return (
     <div data-testid='resource-list'>
       {title != null || actionButton != null ? (
@@ -145,22 +166,27 @@ function ResourceList<TResource extends ListableResourceType>({
         />
       ) : null}
 
-      {data?.list.map((resource) => {
-        return (
-          <Item
-            resource={resource}
-            key={resource.id}
-            remove={() => {
-              dispatch({
-                type: 'removeItem',
-                payload: {
-                  resourceId: resource.id
-                }
-              })
-            }}
-          />
-        )
-      })}
+      {hasItemProp &&
+        data?.list.map((resource) => {
+          return (
+            <props.Item
+              resource={resource}
+              key={resource.id}
+              remove={() => {
+                dispatch({
+                  type: 'removeItem',
+                  payload: {
+                    resourceId: resource.id
+                  }
+                })
+              }}
+            />
+          )
+        })}
+
+      {'children' in props &&
+        props.children != null &&
+        props.children({ isLoading, data })}
 
       {error != null ? (
         <ErrorLine
@@ -169,11 +195,11 @@ function ResourceList<TResource extends ListableResourceType>({
             void fetchMore({ query })
           }}
         />
-      ) : isLoading ? (
+      ) : isLoading && hasItemProp ? (
         Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
           .fill(null)
           .map((_, idx) => (
-            <Item
+            <props.Item
               isLoading
               delayMs={!isFirstLoading ? 0 : undefined}
               key={idx}
@@ -192,6 +218,7 @@ function ResourceList<TResource extends ListableResourceType>({
     </div>
   )
 }
+ResourceList.displayName = 'ResourceList'
 
 function ErrorLine({
   message,
@@ -217,6 +244,3 @@ function parseApiErrorMessage(error: unknown): string {
     ? (error.errors ?? []).map(({ detail }) => detail).join(', ')
     : 'Could not retrieve data'
 }
-
-ResourceList.displayName = 'ResourceList'
-export { ResourceList }
