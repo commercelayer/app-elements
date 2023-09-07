@@ -72,7 +72,7 @@ export const handlers = [
     }
   ),
 
-  rest.get(`https://*.commercelayer.*/api/orders`, async (req, res, ctx) => {
+  rest.get(`https://*/api/orders`, async (req, res, ctx) => {
     return await res(
       ctx.status(200),
       ctx.json(

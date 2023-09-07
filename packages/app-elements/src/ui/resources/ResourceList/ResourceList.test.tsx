@@ -1,7 +1,9 @@
-import CommerceLayer, { type Order } from '@commercelayer/sdk'
+import { CoreSdkProvider } from '#providers/CoreSdkProvider'
+import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
+import { type Order } from '@commercelayer/sdk'
 import { render, waitFor, type RenderResult } from '@testing-library/react'
 import { type FC } from 'react'
-import { ResourceList, type ResourceListProps } from './index'
+import { ResourceList, type ResourceListProps } from './ResourceList'
 
 const mockedOrder: Order = {
   id: 'mock',
@@ -32,17 +34,17 @@ const setup = ({
   query
 }: Pick<ResourceListProps<any>, 'query'>): RenderResult => {
   return render(
-    <ResourceList
-      type='orders'
-      title='All orders'
-      Item={Item}
-      query={query}
-      emptyState={<div>No orders found</div>}
-      sdkClient={CommerceLayer({
-        accessToken: 'abc123',
-        organization: 'demo-store'
-      })}
-    />
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ResourceList
+          type='orders'
+          title='All orders'
+          Item={Item}
+          query={query}
+          emptyState={<div>No orders found</div>}
+        />
+      </CoreSdkProvider>
+    </TokenProvider>
   )
 }
 

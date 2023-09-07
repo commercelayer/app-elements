@@ -1,11 +1,11 @@
 import { formatResourceName } from '#helpers/resources'
-import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
   ResourceList,
   type ResourceListProps
 } from '#ui/resources/ResourceList'
+import { type ResourceListItem } from '#ui/resources/ResourceList/ResourceList'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -59,8 +59,9 @@ interface UseFiltersHook {
   FilteredList: <TResource extends ListableResourceType>(
     props: Pick<
       ResourceListProps<TResource>,
-      'Item' | 'type' | 'query' | 'emptyState' | 'actionButton'
-    >
+      'type' | 'query' | 'emptyState' | 'actionButton'
+    > &
+      ResourceListItem<TResource>
   ) => JSX.Element
   /**
    * SDK filters object to be used in the sdk query
@@ -79,7 +80,6 @@ interface UseFiltersHook {
 
 export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
   const { user } = useTokenProvider()
-  const { sdkClient } = useCoreSdkProvider()
   const [sdkFilters, setSdkFilters] = useState<QueryFilter>()
   const queryString = window.location.search
 
@@ -115,7 +115,6 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
       }
       return (
         <ResourceList
-          sdkClient={sdkClient}
           {...listProps}
           title={
             hasActiveFilter
