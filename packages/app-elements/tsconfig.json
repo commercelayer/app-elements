@@ -21,6 +21,7 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "noUncheckedIndexedAccess": true,
     "noEmit": true,
     "jsx": "react-jsx",
     "baseUrl": "./",

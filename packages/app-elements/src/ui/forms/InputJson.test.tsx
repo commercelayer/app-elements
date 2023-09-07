@@ -28,6 +28,7 @@ describe('InputJson', () => {
       validateFn: (v) => v
     })
     const textarea = element.getElementsByTagName('textarea')[0]
+    assertToBeDefined(textarea)
     expect(element).toBeInTheDocument()
     expect(textarea).toBeInTheDocument()
     expect(textarea.getAttribute('placeholder')).toBe(
@@ -44,6 +45,7 @@ describe('InputJson', () => {
       validateFn: (v) => v
     })
     const textarea = element.getElementsByTagName('textarea')[0]
+    assertToBeDefined(textarea)
     fireEvent.change(textarea, { target: { value: '[{ invalidJson: hello}]' } })
     expect(getByTestId('input-feedback').innerHTML).toContain('Invalid JSON')
   })
@@ -60,6 +62,7 @@ describe('InputJson', () => {
     })
 
     const textarea = element.getElementsByTagName('textarea')[0]
+    assertToBeDefined(textarea)
     fireEvent.change(textarea, { target: { value: '{"foo": "bar"}' } })
     expect(onDataReadyMock).toBeCalledTimes(1)
     expect(onDataReadyMock).toHaveBeenCalledWith({ foo: 'bar' })

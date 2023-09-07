@@ -1,7 +1,13 @@
 import { type Mode } from './types'
 
 export function getOrgSlugFromCurrentUrl(): string {
-  return window.location.hostname.split('.')[0]
+  const [orgSlug] = window.location.hostname.split('.')
+
+  if (orgSlug === undefined) {
+    throw new Error('Cannot access to the organization slug.')
+  }
+
+  return orgSlug
 }
 
 export function makeDashboardUrl({

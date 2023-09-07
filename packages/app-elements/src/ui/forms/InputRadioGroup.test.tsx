@@ -82,6 +82,7 @@ describe('InputRadioGroup', () => {
 
     queryAllByTestId('InputRadioGroup-item').forEach((node) => {
       const radio = node.getElementsByTagName('input')[0]
+      assertToBeDefined(radio)
       if (radio.value === 'BABYBIBXA19D9D000000XXXX') {
         expect(radio).toBeChecked()
       } else {
@@ -100,19 +101,34 @@ describe('InputRadioGroup', () => {
       />
     )
 
-    const [firstItem, secondItem] = getAllByTestId('InputRadioGroup-item')
+    const [firstItem, secondItem, thirdItem] = getAllByTestId(
+      'InputRadioGroup-item'
+    )
+
+    assertToBeDefined(firstItem)
+    assertToBeDefined(secondItem)
+    assertToBeDefined(thirdItem)
+
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
     expect(secondItem.getElementsByTagName('input')[0]).not.toBeChecked()
+    expect(thirdItem.getElementsByTagName('input')[0]).not.toBeChecked()
 
     fireEvent.click(firstItem)
     expect(firstItem.getElementsByTagName('input')[0]).toBeChecked()
     expect(secondItem.getElementsByTagName('input')[0]).not.toBeChecked()
-    expect(mockedOnChange).toHaveBeenCalledWith('BABYBIBXA19D9D000000XXXX')
+    expect(thirdItem.getElementsByTagName('input')[0]).not.toBeChecked()
+    expect(mockedOnChange).lastCalledWith('BABYBIBXA19D9D000000XXXX')
 
-    // deselect item
     fireEvent.click(secondItem)
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
     expect(secondItem.getElementsByTagName('input')[0]).toBeChecked()
-    expect(mockedOnChange).toHaveBeenCalledWith('BASEBHAT000000FFFFFFXXXX')
+    expect(thirdItem.getElementsByTagName('input')[0]).not.toBeChecked()
+    expect(mockedOnChange).lastCalledWith('BASEBHAT000000FFFFFFXXXX')
+
+    fireEvent.click(thirdItem)
+    expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
+    expect(secondItem.getElementsByTagName('input')[0]).not.toBeChecked()
+    expect(thirdItem.getElementsByTagName('input')[0]).toBeChecked()
+    expect(mockedOnChange).lastCalledWith('HOODIEUL000000FFFFFFLXXX')
   })
 })

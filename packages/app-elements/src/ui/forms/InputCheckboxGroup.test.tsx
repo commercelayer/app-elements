@@ -90,7 +90,7 @@ describe('InputCheckboxGroup', () => {
     ])
 
     const allQuantityInputs = getAllByTestId('InputCheckboxGroup-item').map(
-      (node) => node.getElementsByTagName('input')[1].value
+      (node) => node.getElementsByTagName('input')[1]?.value
     )
     expect(allQuantityInputs).toEqual(['5', '7', '8'])
   })
@@ -120,7 +120,7 @@ describe('InputCheckboxGroup', () => {
       const quantity = inputs[1]
       if (idx === 0) {
         expect(checkbox).toBeChecked()
-        expect(quantity.value).toBe('2')
+        expect(quantity?.value).toBe('2')
       } else {
         expect(checkbox).not.toBeChecked()
       }
@@ -133,7 +133,9 @@ describe('InputCheckboxGroup', () => {
       <InputCheckboxGroup options={options} onChange={mockedOnChange} />
     )
 
-    const firstItem = getAllByTestId('InputCheckboxGroup-item')[0]
+    const [firstItem] = getAllByTestId('InputCheckboxGroup-item')
+    assertToBeDefined(firstItem)
+
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
 
     // select  item
@@ -144,14 +146,18 @@ describe('InputCheckboxGroup', () => {
     ])
 
     // decrement quantity
-    const firstDecrementBtn = getAllByTestId('InputSpinner-decrement')[0]
+    const [firstDecrementBtn] = getAllByTestId('InputSpinner-decrement')
+    assertToBeDefined(firstDecrementBtn)
+
     fireEvent.click(firstDecrementBtn)
     expect(mockedOnChange).toHaveBeenCalledWith([
       { value: 'BABYBIBXA19D9D000000XXXX', quantity: 4 }
     ])
 
     // increment quantity
-    const firstIncrementBtn = getAllByTestId('InputSpinner-increment')[0]
+    const [firstIncrementBtn] = getAllByTestId('InputSpinner-increment')
+    assertToBeDefined(firstIncrementBtn)
+
     fireEvent.click(firstIncrementBtn)
     expect(mockedOnChange).toHaveBeenCalledWith([
       { value: 'BABYBIBXA19D9D000000XXXX', quantity: 5 }

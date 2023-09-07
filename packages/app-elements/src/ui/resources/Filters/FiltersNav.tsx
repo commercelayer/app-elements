@@ -248,14 +248,16 @@ export function FiltersNav({
           return null
         }
 
+        const arrValue = castArray(value)
+
         if (
           instructionItem.render.component === 'inputResourceGroup' &&
-          castArray(value).length === 1
+          arrValue[0] !== undefined
         ) {
           return (
             <ButtonFilterFetchResource
               key={filterPredicate}
-              id={castArray(value)[0]}
+              id={arrValue[0]}
               resource={instructionItem.render.props.resource}
               fieldForLabel={instructionItem.render.props.fieldForLabel}
               onClick={() => {

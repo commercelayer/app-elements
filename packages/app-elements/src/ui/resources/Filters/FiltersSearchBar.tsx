@@ -74,7 +74,7 @@ function FiltersSearchBar({
       initialValue={safeInitialValue}
       onClear={updateTextFilter}
       onSearch={updateTextFilter}
-      autoFocus={safeInitialValue?.length > 0}
+      autoFocus={safeInitialValue !== undefined && safeInitialValue.length > 0}
     />
   )
 }

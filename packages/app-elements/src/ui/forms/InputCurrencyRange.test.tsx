@@ -1,13 +1,15 @@
-import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import { fireEvent, render, waitFor } from '@testing-library/react'
-import { InputCurrencyRange } from './InputCurrencyRange'
+import {
+  InputCurrencyRange,
+  type InputCurrencyRangeProps
+} from './InputCurrencyRange'
 
-const currencyList: Array<Uppercase<CurrencyCode>> = [
+const currencyList = [
   'EUR',
   'USD',
   'HUF',
   'JPY'
-]
+] as const satisfies InputCurrencyRangeProps['currencyList']
 
 describe('InputCurrencyRange', () => {
   test('Should be rendered', () => {

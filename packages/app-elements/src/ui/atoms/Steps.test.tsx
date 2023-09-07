@@ -19,9 +19,9 @@ describe('Steps', () => {
     )
 
     expect(getByRole('list').children.length).toEqual(3)
-    expect(getByRole('list').children[0].textContent).toEqual('Step 1')
-    expect(getByRole('list').children[1].textContent).toEqual('Step 2')
-    expect(getByRole('list').children[2].textContent).toEqual('Step 3')
+    expect(getByRole('list').children[0]?.textContent).toEqual('Step 1')
+    expect(getByRole('list').children[1]?.textContent).toEqual('Step 2')
+    expect(getByRole('list').children[2]?.textContent).toEqual('Step 3')
   })
 
   it('Should highlight all non "active" steps', () => {

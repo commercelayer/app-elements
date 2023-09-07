@@ -28,7 +28,7 @@ describe('InputDateComponent', () => {
     const input = element.getElementsByTagName('input')[0]
     expect(element).toBeInTheDocument()
     expect(input).toBeInTheDocument()
-    expect(input.getAttribute('placeholder')).toBe('select a date')
+    expect(input?.getAttribute('placeholder')).toBe('select a date')
   })
 
   test('Should show initial value', () => {
@@ -42,7 +42,7 @@ describe('InputDateComponent', () => {
     const input = element.getElementsByTagName('input')[0]
     expect(element).toBeInTheDocument()
     expect(input).toBeInTheDocument()
-    expect(input.value).toBe('19-12-2022')
+    expect(input?.value).toBe('19-12-2022')
   })
 
   test('Should update value', () => {
@@ -56,7 +56,9 @@ describe('InputDateComponent', () => {
         setDate(date?.toISOString())
       }
     })
-    const input = element.getElementsByTagName('input')[0]
+    const [input] = element.getElementsByTagName('input')
+    assertToBeDefined(input)
+
     fireEvent.change(input, { target: { value: '2022-12-19T23:00:00.000Z' } })
     expect(setDate).toBeCalledTimes(1)
     expect(setDate).toHaveBeenCalledWith('2022-12-19T23:00:00.000Z')

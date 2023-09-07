@@ -16,7 +16,9 @@ export function VisibilityTrigger({
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        callback(entry)
+        if (entry !== undefined) {
+          callback(entry)
+        }
       },
       {
         rootMargin

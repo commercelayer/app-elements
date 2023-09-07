@@ -43,7 +43,7 @@ function AvatarLetter({
 AvatarLetter.displayName = 'AvatarLetter'
 export { AvatarLetter }
 
-const BG_COLORS: string[] = [
+const BG_COLORS = [
   '#101111',
   '#666EFF',
   '#055463',
@@ -70,4 +70,4 @@ const BG_COLORS: string[] = [
   '#310016',
   '#942e0c',
   '#840005'
-]
+] as const
