@@ -369,7 +369,7 @@ const Bundle = withSkeletonTemplate<{ code: LineItem['bundle_code'] }>(
 
     return (
       <ul className='ml-1 mt-2.5'>
-        {bundles[0].sku_list?.sku_list_items?.map((item) => (
+        {bundles[0]?.sku_list?.sku_list_items?.map((item) => (
           <li
             key={item.id}
             className='flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]'

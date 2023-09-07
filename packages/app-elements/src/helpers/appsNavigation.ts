@@ -54,7 +54,13 @@ function setPersistentItem({ destination }: { destination: string }): void {
 function urlIsForSameApp(url: string): boolean {
   function getAppBaseUrl(url: string): string {
     const urlObj = new URL(url)
-    return `${urlObj.hostname}/${urlObj.pathname.split('/')[1]}`
+    const [, appSlug] = urlObj.pathname.split('/')
+
+    if (appSlug === undefined) {
+      throw new Error('Cannot access to the application slug.')
+    }
+
+    return `${urlObj.hostname}/${appSlug}`
   }
 
   return getAppBaseUrl(window.location.href) === getAppBaseUrl(url)

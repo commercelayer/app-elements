@@ -7,23 +7,32 @@ import {
 
 describe('getDeterministicValue', () => {
   it('should return the same value for the same text', () => {
-    const colors: string[] = [
+    const colors = [
       '#101111',
       '#666EFF',
       '#055463',
       '#F40009',
       '#FF656B',
       '#FFAB2E'
-    ]
+    ] as const
 
     expect(getDeterministicValue('Ringo Starr', colors)).toEqual('#FFAB2E')
     expect(getDeterministicValue('CommerceLayer', colors)).toEqual('#101111')
+  })
+
+  it('should return #FFFFFF when color array is empty', () => {
+    // @ts-expect-error I want to test this scenario
+    expect(getDeterministicValue('Ringo Starr', [])).toEqual('#FFFFFF')
   })
 })
 
 describe('getInitials', () => {
   it('should return initials', () => {
     expect(getInitials('Ringo Starr')).toBe('RS')
+  })
+
+  it('should return initials', () => {
+    expect(getInitials('')).toBe('')
   })
 
   it('should return initials with one name', () => {

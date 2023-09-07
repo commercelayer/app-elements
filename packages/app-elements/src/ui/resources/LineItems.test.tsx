@@ -75,6 +75,10 @@ describe('LineItems', () => {
     expect(rows.length).toEqual(4)
 
     const [firstRow, secondRow, thirdRow, fourthRow] = rows
+    assertToBeDefined(firstRow)
+    assertToBeDefined(secondRow)
+    assertToBeDefined(thirdRow)
+    assertToBeDefined(fourthRow)
 
     expect(
       within(firstRow).getByText('BABYBIBXA19D9D000000XXXX')
@@ -107,6 +111,7 @@ describe('LineItems', () => {
     expect(rows.length).toEqual(5)
 
     const [, , , , fifthRow] = rows
+    assertToBeDefined(fifthRow)
 
     expect(within(fifthRow).getByText('Ehi there!')).toBeInTheDocument()
   })
@@ -147,6 +152,7 @@ describe('LineItems', () => {
     expect(rows.length).toEqual(4)
 
     const [, , thirdRow] = rows
+    assertToBeDefined(thirdRow)
 
     expect(within(thirdRow).getByRole('cell').children.length).toEqual(1)
     expect(within(thirdRow).getByText('Front Text')).toBeInTheDocument()
@@ -187,6 +193,10 @@ describe('LineItems', () => {
     expect(rows.length).toEqual(4)
 
     const [firstRow, secondRow, thirdRow, fourthRow] = rows
+    assertToBeDefined(firstRow)
+    assertToBeDefined(secondRow)
+    assertToBeDefined(thirdRow)
+    assertToBeDefined(fourthRow)
 
     expect(within(firstRow).getByText('WELCOME_KIT_001')).toBeInTheDocument()
     expect(within(secondRow).getByText('Welcome KIT')).toBeInTheDocument()
@@ -237,6 +247,8 @@ describe('LineItems', () => {
     expect(rows.length).toEqual(4)
 
     const [, secondRow, thirdRow] = rows
+    assertToBeDefined(secondRow)
+    assertToBeDefined(thirdRow)
 
     const inputSpinner: HTMLInputElement =
       within(thirdRow).getByTestId('InputSpinner-input')

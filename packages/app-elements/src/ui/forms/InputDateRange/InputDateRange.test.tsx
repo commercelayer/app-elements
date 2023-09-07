@@ -69,8 +69,9 @@ describe('InputDateRange', () => {
       expect(element.getElementsByTagName('input')[0]).toBeInTheDocument()
     })
 
-    const inputFrom = element.getElementsByTagName('input')[0]
-    const inputTo = element.getElementsByTagName('input')[1]
+    const [inputFrom, inputTo] = element.getElementsByTagName('input')
+    assertToBeDefined(inputFrom)
+    assertToBeDefined(inputTo)
 
     fireEvent.change(inputFrom, { target: { value: '20-12-2022' } })
     await waitFor(() => {

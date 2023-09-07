@@ -24,7 +24,10 @@ export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
     currency: Uppercase<CurrencyCode>
   ) => void
   placeholders?: [string, string]
-  currencyList: Array<Uppercase<CurrencyCode>>
+  currencyList: readonly [
+    Uppercase<CurrencyCode>,
+    ...Array<Uppercase<CurrencyCode>>
+  ]
   defaultCurrency?: Uppercase<CurrencyCode>
   className?: string
 }
@@ -37,7 +40,8 @@ export function InputCurrencyRange({
   label,
   hint,
   currencyList,
-  defaultCurrency = currencyList[0],
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  defaultCurrency = currencyList[0]!,
   className,
   feedback
 }: InputCurrencyRangeProps): JSX.Element {

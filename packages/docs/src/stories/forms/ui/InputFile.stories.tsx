@@ -19,7 +19,7 @@ const Template: StoryFn<typeof InputFile> = (args) => {
       <InputFile
         {...args}
         onChange={(e) => {
-          if (e.target.files != null) {
+          if (e.target.files?.[0] !== undefined) {
             setFile(e.target.files[0])
           }
         }}

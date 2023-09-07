@@ -112,5 +112,5 @@ async function fetchAllCurrencies({
     allCurrencies.currencies.filter((c) => !isEmpty(c))
   ).sort()
 
-  return currencies as InputCurrencyRangeProps['currencyList']
+  return currencies as unknown as InputCurrencyRangeProps['currencyList']
 }

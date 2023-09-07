@@ -23,6 +23,7 @@ describe('ActionButtons', () => {
     const actionButtons = getByTestId('action-buttons')
     const buttons = actionButtons.querySelectorAll('button')
     const [saveButton] = buttons
+    assertToBeDefined(saveButton)
 
     expect(buttons.length).toEqual(1)
 
@@ -49,6 +50,8 @@ describe('ActionButtons', () => {
     const actionButtons = getByTestId('action-buttons')
     const buttons = actionButtons.querySelectorAll('button')
     const [cancelButton, saveButton] = buttons
+    assertToBeDefined(cancelButton)
+    assertToBeDefined(saveButton)
 
     expect(buttons.length).toEqual(2)
 

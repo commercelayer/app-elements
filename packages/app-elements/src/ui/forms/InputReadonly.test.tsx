@@ -32,7 +32,7 @@ describe('InputReadonly', () => {
       id: 'my-input-readonly',
       value: 'NAx1zYM55_B3Eq2wiFg'
     })
-    expect(element.getElementsByTagName('input')[0].value).toBe(
+    expect(element.getElementsByTagName('input')[0]?.value).toBe(
       'NAx1zYM55_B3Eq2wiFg'
     )
   })
