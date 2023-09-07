@@ -1,6 +1,6 @@
-import { type TriggerAttribute } from '#helpers/resources'
-import { type IconProps } from '#ui/atoms/Icon'
+import type { TriggerAttribute } from '#helpers/resources'
 import type { Return, ReturnUpdate } from '@commercelayer/sdk'
+import type { DisplayStatus } from './types'
 
 type UITriggerAttributes = Extract<
   TriggerAttribute<ReturnUpdate>,
@@ -14,11 +14,7 @@ type UITriggerAttributes = Extract<
   | '_unarchive'
 >
 
-export interface ReturnDisplayStatus {
-  label: string
-  icon: IconProps['name']
-  color: IconProps['background']
-  task?: string
+export interface ReturnDisplayStatus extends DisplayStatus {
   triggerAttributes: UITriggerAttributes[]
 }
 
