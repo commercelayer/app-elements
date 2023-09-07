@@ -57,7 +57,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    * Children as a function to render a custom element.
    * @example
    * ```
-   * <ResourceList type='customers' sdkClient={sdkClient}>
+   * <ResourceList type='customers'>
    *  {({ isLoading, data }) => <ol>{data?.list.map(customer => <li>{customer.email}</li>)}</ol>
    * </ResourceList>
    * ```
