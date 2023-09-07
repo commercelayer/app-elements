@@ -33,7 +33,7 @@ export const WithItem: StoryFn<typeof ResourceList> = () => {
           emptyState={<div>Empty</div>}
           type='orders'
           actionButton={<Button variant='link'>Add new</Button>}
-          Item={({ resource = { id: '' }, isLoading }) => {
+          ItemTemplate={({ resource = { id: '' }, isLoading }) => {
             return (
               <SkeletonTemplate isLoading={isLoading}>
                 <ListItemOrder order={resource as any} />
@@ -124,7 +124,7 @@ export const WithInfiniteScrolling: StoryFn<typeof ResourceList> = () => {
           title='Orders'
           type='orders'
           emptyState={<div>Empty</div>}
-          Item={({ resource = { id: '' }, isLoading }) => {
+          ItemTemplate={({ resource = { id: '' }, isLoading }) => {
             return (
               <SkeletonTemplate isLoading={isLoading}>
                 <ListItemOrder order={resource as any} />

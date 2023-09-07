@@ -145,7 +145,7 @@ export function FullList({
               [sortBy.attribute]: sortBy.direction
             }
           }}
-          Item={({ isLoading, resource }) => {
+          ItemTemplate={({ isLoading, resource }) => {
             const item = prepareCheckboxItemOrMock({
               resource,
               isLoading,

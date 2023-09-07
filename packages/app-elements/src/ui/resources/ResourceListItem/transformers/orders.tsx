@@ -8,34 +8,27 @@ import { Text } from '#ui/atoms/Text'
 import {
   getListItemDescription,
   getListItemIcon
-} from '#ui/resources/ListItemResource/common'
+} from '#ui/resources/ResourceListItem/common'
 import type { Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
-import { useMemo } from 'react'
-import type { ListItemResourceComponentProps } from '../ListItemResource'
+import { type ResourceToProps } from '../types'
 
-export const orderToProps = (
-  resource: Order
-): ListItemResourceComponentProps => {
+export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
   const displayStatus = getOrderDisplayStatus(resource)
 
   const billingAddress = resource.billing_address
-  const descriptionAdditionalInfos = useMemo<string>(
-    () =>
-      !isEmpty(billingAddress?.company)
-        ? billingAddress?.company ?? ''
-        : formatDisplayName(
-            billingAddress?.first_name ?? '',
-            billingAddress?.last_name ?? ''
-          ),
-    [billingAddress]
-  )
+  const descriptionAdditionalInfos = !isEmpty(billingAddress?.company)
+    ? billingAddress?.company ?? ''
+    : formatDisplayName(
+        billingAddress?.first_name ?? '',
+        billingAddress?.last_name ?? ''
+      )
 
   return {
     name: `${resource.market?.name ?? ''} #${resource.number ?? ''}`,
     description: getListItemDescription({
-      resource,
       displayStatus,
+      user,
       date: resource.placed_at ?? resource.updated_at,
       additionalInfos: descriptionAdditionalInfos
     }),

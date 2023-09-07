@@ -1,23 +1,22 @@
 import type { DisplayStatus } from '#dictionaries/types'
 import { formatDate } from '#helpers/date'
-import { useTokenProvider } from '#providers/TokenProvider'
+import type { TokenProviderAuthUser } from '#providers/TokenProvider/types'
 import { Icon } from '#ui/atoms/Icon'
 import { Text } from '#ui/atoms/Text'
 
 interface ListItemDescriptionConfig {
-  resource: any // TODO: vincolare a tutte le risorse di Commerce Layer
   displayStatus: DisplayStatus
-  date?: string
+  date: string
+  user: TokenProviderAuthUser | null
   additionalInfos?: string
 }
 
 export const getListItemDescription = ({
-  resource,
   displayStatus,
-  date = resource.updated_at,
+  date,
+  user,
   additionalInfos
 }: ListItemDescriptionConfig): JSX.Element => {
-  const { user } = useTokenProvider()
   return (
     <>
       {formatDate({
@@ -25,7 +24,7 @@ export const getListItemDescription = ({
         isoDate: date,
         timezone: user?.timezone
       })}
-      {additionalInfos}
+      {additionalInfos != null ? ` · ${additionalInfos}` : undefined}
       {' · '}
       {displayStatus.task != null ? (
         <Text weight='semibold' size='small' variant='warning'>

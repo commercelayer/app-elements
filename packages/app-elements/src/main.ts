@@ -167,11 +167,11 @@ export {
 } from '#ui/resources/Filters'
 export { LineItems } from '#ui/resources/LineItems'
 export { ListItemOrder } from '#ui/resources/ListItemOrder'
-export { ListItemResource } from '#ui/resources/ListItemResource'
 export { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
 export { OrderSummary } from '#ui/resources/OrderSummary'
 export { OrderTimeline } from '#ui/resources/OrderTimeline'
 export { ResourceList } from '#ui/resources/ResourceList'
+export { ResourceListItem } from '#ui/resources/ResourceListItem'
 export { ResourceTags } from '#ui/resources/ResourceTags'
 export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 // Dictionaries

@@ -1,1 +1,0 @@
-export { ListItemResource } from './ListItemResource'

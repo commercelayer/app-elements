@@ -15,8 +15,9 @@ import { infiniteFetcher, type Resource } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
 import { computeTitleWithTotalCount } from './utils'
 
-export interface ResourceListItemProps<TResource extends ListableResourceType>
-  extends SkeletonTemplateProps<{
+export interface ResourceListItemTemplateProps<
+  TResource extends ListableResourceType
+> extends SkeletonTemplateProps<{
     /**
      * The fetched resource
      */
@@ -28,13 +29,15 @@ export interface ResourceListItemProps<TResource extends ListableResourceType>
     remove?: () => void
   }> {}
 
-export interface ResourceListItem<TResource extends ListableResourceType> {
+export interface ResourceListItemTemplate<
+  TResource extends ListableResourceType
+> {
   /**
    * A react component to be used to render each item in the list.
    * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
    * In this way the loading state will be handled automatically.
    */
-  Item: FC<ResourceListItemProps<TResource>>
+  ItemTemplate: FC<ResourceListItemTemplateProps<TResource>>
 }
 
 export type ResourceListProps<TResource extends ListableResourceType> = Pick<
@@ -55,7 +58,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    */
   emptyState: JSX.Element
 } & (
-    | ResourceListItem<TResource>
+    | ResourceListItemTemplate<TResource>
     | {
         /**
          * Children as a function to render a custom element.
@@ -76,7 +79,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
 /**
  * Renders a list of resources of a given type with infinite scrolling.
  * It's possible to specify a query to filter the list and either
- * a React component to be used as `Item` template for the list or a function as `children` to render a custom element.
+ * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
  */
 export function ResourceList<TResource extends ListableResourceType>({
   type,
@@ -166,10 +169,10 @@ export function ResourceList<TResource extends ListableResourceType>({
       titleSize='small'
       data-testid='resource-list'
     >
-      {'Item' in props &&
+      {'ItemTemplate' in props &&
         data?.list.map((resource) => {
           return (
-            <props.Item
+            <props.ItemTemplate
               resource={resource}
               key={resource.id}
               remove={() => {
@@ -193,11 +196,11 @@ export function ResourceList<TResource extends ListableResourceType>({
             void fetchMore({ query })
           }}
         />
-      ) : isLoading && 'Item' in props ? (
+      ) : isLoading && 'ItemTemplate' in props ? (
         Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
           .fill(null)
           .map((_, idx) => (
-            <props.Item
+            <props.ItemTemplate
               isLoading
               delayMs={!isFirstLoading ? 0 : undefined}
               key={idx}

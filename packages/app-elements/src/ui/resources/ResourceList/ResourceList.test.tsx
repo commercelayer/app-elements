@@ -16,7 +16,8 @@ const mockedOrder: Order = {
   status: 'approved'
 }
 
-const Item: FC<{ resource?: Order }> = ({ resource = mockedOrder }) => {
+const ItemTemplate: FC<{ resource?: Order }> = ({ resource }) => {
+  resource = resource != null ? resource : mockedOrder
   return (
     <div
       data-testid={
@@ -38,7 +39,7 @@ const setup = ({
         <ResourceList
           type='orders'
           title='All orders'
-          Item={Item}
+          ItemTemplate={ItemTemplate}
           query={query}
           emptyState={<div>No orders found</div>}
         />
