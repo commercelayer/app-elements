@@ -28,6 +28,15 @@ export interface ResourceListItemProps<TResource extends ListableResourceType>
     remove?: () => void
   }> {}
 
+export interface ResourceListItem<TResource extends ListableResourceType> {
+  /**
+   * A react component to be used to render each item in the list.
+   * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
+   * In this way the loading state will be handled automatically.
+   */
+  Item: FC<ResourceListItemProps<TResource>>
+}
+
 export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   LegendProps,
   'title' | 'actionButton'
@@ -45,28 +54,24 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    * An element to be rendered when the list is empty.
    */
   emptyState: JSX.Element
-
-  /**
-   * A react component to be used to render each item in the list.
-   * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
-   * In this way the loading state will be handled automatically.
-   */
-  Item: FC<ResourceListItemProps<TResource>>
-
-  /**
-   * Children as a function to render a custom element.
-   * @example
-   * ```
-   * <ResourceList type='customers'>
-   *  {({ isLoading, data }) => <ol>{data?.list.map(customer => <li>{customer.email}</li>)}</ol>
-   * </ResourceList>
-   * ```
-   */
-  children?: (childrenProps: {
-    isLoading: boolean
-    data?: FetcherResponse<Resource<TResource>>
-  }) => React.ReactNode
-}
+} & (
+    | ResourceListItem<TResource>
+    | {
+        /**
+         * Children as a function to render a custom element.
+         * @example
+         * ```
+         * <ResourceList type='customers'>
+         *  {({ isLoading, data }) => <ol>{data?.list.map(customer => <li>{customer.email}</li>)}</ol>
+         * </ResourceList>
+         * ```
+         */
+        children: (childrenProps: {
+          isLoading: boolean
+          data?: FetcherResponse<Resource<TResource>>
+        }) => React.ReactNode
+      }
+  )
 
 /**
  * Renders a list of resources of a given type with infinite scrolling.
@@ -150,8 +155,6 @@ export function ResourceList<TResource extends ListableResourceType>({
   const hasMorePages =
     data == null || data.meta.pageCount > data.meta.currentPage
 
-  const hasItemProp = 'Item' in props && props.Item != null
-
   return (
     <div data-testid='resource-list'>
       {title != null || actionButton != null ? (
@@ -166,7 +169,7 @@ export function ResourceList<TResource extends ListableResourceType>({
         />
       ) : null}
 
-      {hasItemProp &&
+      {'Item' in props &&
         data?.list.map((resource) => {
           return (
             <props.Item
@@ -184,9 +187,7 @@ export function ResourceList<TResource extends ListableResourceType>({
           )
         })}
 
-      {'children' in props &&
-        props.children != null &&
-        props.children({ isLoading, data })}
+      {'children' in props && props.children({ isLoading, data })}
 
       {error != null ? (
         <ErrorLine
@@ -195,7 +196,7 @@ export function ResourceList<TResource extends ListableResourceType>({
             void fetchMore({ query })
           }}
         />
-      ) : isLoading && hasItemProp ? (
+      ) : isLoading && 'Item' in props ? (
         Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
           .fill(null)
           .map((_, idx) => (
