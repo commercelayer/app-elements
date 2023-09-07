@@ -63,11 +63,11 @@ export { Grid } from '#ui/atoms/Grid'
 export { Hint } from '#ui/atoms/Hint'
 export { Hr } from '#ui/atoms/Hr'
 export { Icon, iconNames } from '#ui/atoms/Icon'
-export { Legend } from '#ui/atoms/Legend'
 export { PageHeading } from '#ui/atoms/PageHeading'
 export { Pagination } from '#ui/atoms/Pagination'
 export { Progress } from '#ui/atoms/Progress'
 export { RadialProgress } from '#ui/atoms/RadialProgress'
+export { Section } from '#ui/atoms/Section'
 export { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 export {
   SkeletonTemplate,

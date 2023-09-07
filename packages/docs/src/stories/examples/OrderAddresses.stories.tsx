@@ -1,5 +1,5 @@
 import { Button } from '#ui/atoms/Button'
-import { Legend } from '#ui/atoms/Legend'
+import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
 import { Text } from '#ui/atoms/Text'
@@ -15,8 +15,7 @@ const setup: Meta = {
 export default setup
 
 export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
-  <>
-    <Legend title='Addresses' border='none' />
+  <Section title='Addresses' border='none'>
     <Stack>
       <div>
         <Spacer bottom='2'>
@@ -53,5 +52,5 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
         </Spacer>
       </div>
     </Stack>
-  </>
+  </Section>
 )

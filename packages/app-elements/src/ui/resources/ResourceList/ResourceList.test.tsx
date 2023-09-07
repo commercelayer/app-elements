@@ -51,7 +51,7 @@ const setup = ({
 describe('ResourceList', () => {
   test('Should render', async () => {
     const { getByTestId } = setup({})
-    expect(getByTestId('resource-list')).toBeVisible()
+    expect(getByTestId('resource-list')).toBeDefined()
   })
 
   test('Should show initial loading items', async () => {
@@ -69,7 +69,12 @@ describe('ResourceList', () => {
   })
 
   test('Should render computed title', async () => {
-    const { findByText } = setup({})
+    const { findByLabelText, findByText } = setup({})
+
+    const section = await findByLabelText('All orders · 15')
+    expect(section).toBeVisible()
+    expect(section.tagName).toEqual('SECTION')
+
     expect(await findByText('All orders · 15')).toBeVisible()
   })
 

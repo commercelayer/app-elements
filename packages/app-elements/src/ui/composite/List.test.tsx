@@ -1,32 +1,22 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { List, type ListProps } from './List'
-
-type SetupResult = RenderResult & {
-  element: HTMLElement
-}
-
-const setup = (props: ListProps): SetupResult => {
-  const utils = render(<List data-testid='my-task-list' {...props} />)
-  const element = utils.getByTestId('my-task-list')
-  return {
-    element,
-    ...utils
-  }
-}
+import { render } from '@testing-library/react'
+import { List } from './List'
 
 describe('List', () => {
-  test('Should be rendered', () => {
-    const { element, getByTestId } = setup({})
-    expect(element).toBeInTheDocument()
-    expect(getByTestId('my-task-list')).toBeInTheDocument()
+  it('Should be rendered', () => {
+    const { container } = render(<List />)
+    expect(container.children.length).toEqual(1)
+    expect(container.children[0]?.tagName).toEqual('DIV')
+    expect(container.children[0]).toBeVisible()
   })
 
-  test('Should render optional title', () => {
+  it('Should render optional title', () => {
     const title = 'This is a title'
-    const { element, getByText } = setup({
-      title
-    })
-    expect(element).toBeInTheDocument()
+    const { container, getByText } = render(<List title={title} />)
+
+    expect(container.children.length).toEqual(1)
+    expect(container.children[0]?.tagName).toEqual('SECTION')
+    expect(container.children[0]).toBeVisible()
+
     expect(getByText(title)).toBeInTheDocument()
     expect(getByText(title).tagName).toBe('H2')
   })
@@ -40,45 +30,46 @@ describe('List with pagination', () => {
     onChangePageRequest: () => undefined
   }
 
-  test('Should render total records as title in first page', () => {
-    const { element, getByText } = setup({
-      title: 'My paged list',
-      pagination: {
-        ...pagination,
-        currentPage: 1
-      }
-    })
-    expect(element).toBeInTheDocument()
+  it('Should render total records as title in first page', () => {
+    const { getByText } = render(
+      <List
+        title='My paged list'
+        pagination={{ ...pagination, currentPage: 1 }}
+      />
+    )
+
     expect(getByText('My paged list · 148')).toBeInTheDocument()
   })
 
-  test('Should render paginated count as title in other pages', () => {
-    const { element, getByText, getByTestId } = setup({
-      title: 'My paged list',
-      pagination: {
-        ...pagination,
-        currentPage: 2
-      }
-    })
-    expect(element).toBeInTheDocument()
+  it('Should render paginated count as title in other pages', () => {
+    const { getByText, getByTestId } = render(
+      <List
+        title='My paged list'
+        pagination={{ ...pagination, currentPage: 2 }}
+      />
+    )
+
     expect(getByText('My paged list · 51-100 of 148')).toBeInTheDocument()
     expect(getByTestId('list-pagination')).toBeInTheDocument()
   })
 })
 
 describe('List with only one page', () => {
-  test('Should not render the pagination details block', () => {
-    const { element, queryByTestId } = setup({
-      title: 'My paged list',
-      pagination: {
-        pageCount: 1,
-        recordCount: 20,
-        recordsPerPage: 25,
-        currentPage: 1,
-        onChangePageRequest: () => undefined
-      }
-    })
-    expect(element).toBeInTheDocument()
+  it('Should not render the pagination details block', () => {
+    const { getByText, queryByTestId } = render(
+      <List
+        title='My paged list'
+        pagination={{
+          pageCount: 1,
+          recordCount: 20,
+          recordsPerPage: 25,
+          currentPage: 1,
+          onChangePageRequest: () => undefined
+        }}
+      />
+    )
+
+    expect(getByText('My paged list · 20')).toBeInTheDocument()
     expect(queryByTestId('list-pagination')).not.toBeInTheDocument()
   })
 })

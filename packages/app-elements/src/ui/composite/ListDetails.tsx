@@ -1,4 +1,4 @@
-import { Legend } from '#ui/atoms/Legend'
+import { Section } from '#ui/atoms/Section'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
@@ -36,11 +36,11 @@ function ListDetails({
   fontSize = 'normal',
   isLoading,
   loadingLines = 3,
-  ...rest
+  className
 }: DetailsListProps): JSX.Element {
   if (isLoading === true) {
     return (
-      <div {...rest}>
+      <section aria-label='Loading ...' className={className}>
         <Skeleton>
           <h4 className='text-[18px] font-semibold mb-4'>
             <SkeletonItem className='h-7 w-32' />
@@ -54,23 +54,18 @@ function ListDetails({
             ))}
           </div>
         </Skeleton>
-      </div>
+      </section>
     )
   }
 
   return (
-    <div
-      className={cn([
-        // font size
-        { 'text-sm': fontSize === 'small' }
-      ])}
-      {...rest}
+    <Section
+      data-testid='details-list-title'
+      title={title}
+      className={cn([{ 'text-sm': fontSize === 'small' }, className])}
     >
-      {title != null && (
-        <Legend data-testid='details-list-title' title={title} />
-      )}
       <div data-testid='details-list-rows'>{children}</div>
-    </div>
+    </Section>
   )
 }
 
