@@ -3,7 +3,7 @@ import {
   InputCurrency,
   formatCentsToCurrency,
   type InputCurrencyProps
-} from '#ui/forms/InputCurrency/InputCurrency'
+} from '#ui/forms/InputCurrency'
 import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import { isSingleValueSelected } from '#ui/forms/InputSelect/index'
 import {

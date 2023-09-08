@@ -1,11 +1,8 @@
-import { Hint } from '#ui/atoms/Hint'
-import { Spacer } from '#ui/atoms/Spacer'
 import {
   InputSelect,
   type InputSelectProps,
   type SelectValue
 } from '#ui/forms/InputSelect'
-import { Label } from '#ui/forms/Label'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
@@ -34,27 +31,12 @@ const setup: Meta<typeof InputSelect> = {
 export default setup
 
 const Template: StoryFn<typeof InputSelect> = (args) => {
-  return (
-    <>
-      <Label gap htmlFor='parent-resource'>
-        Search resource
-      </Label>
-      <InputSelect {...args} />
-
-      {args.loadAsyncValues !== undefined ? (
-        <Spacer top='6'>
-          <Hint icon='bulb'>
-            Try to search some of the following values: customer, sku, price,
-            tax
-          </Hint>
-        </Spacer>
-      ) : null}
-    </>
-  )
+  return <InputSelect {...args} />
 }
 
 export const Simple = Template.bind({})
 Simple.args = {
+  label: 'Search resource',
   initialValues: fullList,
   placeholder: 'Type to filter list...',
   isSearchable: true,
@@ -63,10 +45,15 @@ Simple.args = {
 
 export const Async = Template.bind({})
 Async.args = {
+  label: 'Search resource',
   placeholder: 'Type to search async...',
   isSearchable: true,
   isClearable: false,
   debounceMs: 200,
+  hint: {
+    icon: 'bulb',
+    text: 'Try to search some of the following values: customer, sku, price, tax'
+  },
   loadAsyncValues: async (hint) => {
     return await new Promise<SelectValue[]>((resolve) => {
       setTimeout(() => {
@@ -78,6 +65,7 @@ Async.args = {
 
 export const Multi = Template.bind({})
 Multi.args = {
+  label: 'Search resource',
   initialValues: fullList,
   placeholder: 'Type to filter list...',
   isMulti: true,

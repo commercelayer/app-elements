@@ -9,7 +9,7 @@ import { forwardRef } from 'react'
 import invariant from 'ts-invariant'
 
 interface InputFileProps
-  extends InputWrapperBaseProps,
+  extends Omit<InputWrapperBaseProps, 'direction'>,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**
    * If defined, it shows a progress bar at the bottom. It must be between 0 and 100.

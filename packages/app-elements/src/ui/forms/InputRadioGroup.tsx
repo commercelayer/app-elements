@@ -37,7 +37,7 @@ export interface InputRadioGroupProps {
   showInput?: boolean
   /**
    * Define the `flex-direction`
-   * @default 'column'
+   * @default column
    */
   direction?: 'column' | 'row'
 }

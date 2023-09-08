@@ -49,6 +49,7 @@ const Template: StoryFn<typeof InputToggleButton> = (args) => {
 
 export const SingleMode = Template.bind({})
 SingleMode.args = {
+  label: 'Status',
   options,
   mode: 'single'
 }

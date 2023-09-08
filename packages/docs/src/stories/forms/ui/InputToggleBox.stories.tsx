@@ -2,7 +2,7 @@ import { InputToggleBox } from '#ui/forms/InputToggleBox'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputToggleBox> = {
-  title: 'Forms/ui/InputToggleBox',
+  title: 'Forms/ui/InputToggleBox (DEPRECATED)',
   component: InputToggleBox,
   parameters: {
     layout: 'padded'

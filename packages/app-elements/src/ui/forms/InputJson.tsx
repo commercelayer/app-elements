@@ -5,7 +5,8 @@ import {
 import isEmpty from 'lodash/isEmpty'
 import { useEffect, useState } from 'react'
 
-export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
+export interface InputJsonProps<JsonType>
+  extends Omit<InputWrapperBaseProps, 'direction'> {
   placeholder: object
   validateFn: (json: any) => JsonType
   onDataReady: (validJson: JsonType) => void

@@ -6,7 +6,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputToggleListBox> = {
-  title: 'Forms/react-hook-form/HookedInputToggleListBox',
+  title: 'Forms/react-hook-form/HookedInputToggleListBox (DEPRECATED)',
   component: HookedInputToggleListBox,
   parameters: {
     layout: 'padded',

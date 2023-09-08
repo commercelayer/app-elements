@@ -1,6 +1,7 @@
 import { Hint, type HintProps } from '#ui/atoms/Hint'
 import { InputFeedback, type InputFeedbackProps } from '#ui/forms/InputFeedback'
 import { Label } from '#ui/forms/Label'
+import cn from 'classnames'
 
 export interface InputWrapperBaseProps {
   /**
@@ -18,6 +19,11 @@ export interface InputWrapperBaseProps {
    * optional hint to be rendered below
    */
   feedback?: Omit<InputFeedbackProps, 'className'>
+  /**
+   * optional direction
+   * @default column
+   */
+  direction?: 'column' | 'row'
 }
 
 export interface InputWrapperProps extends InputWrapperBaseProps {
@@ -36,28 +42,46 @@ function InputWrapper({
   hint,
   feedback,
   name,
+  direction = 'column',
   ...rest
 }: InputWrapperProps): JSX.Element {
   return (
-    <div className={className} {...rest}>
+    <div
+      className={cn(
+        {
+          'grid grid-cols-2 justify-between items-center': direction === 'row'
+        },
+        className
+      )}
+      {...rest}
+    >
       {label != null && (
-        <Label gap htmlFor={name}>
+        <Label gap={direction === 'column'} htmlFor={name}>
           {label}
         </Label>
       )}
-      {children}
-      {feedback != null && (
-        <InputFeedback
-          data-testid='input-feedback'
-          className='mt-2'
-          {...feedback}
-        />
-      )}
-      {hint != null && (
-        <Hint className='mt-2' icon={hint.icon}>
-          {hint.text}
-        </Hint>
-      )}
+      <div className='justify-self-end'>{children}</div>
+      <div className='col-span-2'>
+        {feedback != null && (
+          <InputFeedback
+            data-testid='input-feedback'
+            className={cn({
+              'mt-2': true
+            })}
+            {...feedback}
+          />
+        )}
+        {hint != null && (
+          <Hint
+            className={cn({
+              'mt-2': direction === 'column' || feedback != null
+            })}
+            icon={hint.icon}
+          >
+            {hint.text}
+          </Hint>
+        )}
+      </div>
     </div>
   )
 }

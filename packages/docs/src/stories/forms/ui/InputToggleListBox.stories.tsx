@@ -3,7 +3,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta<typeof InputToggleListBox> = {
-  title: 'Forms/ui/InputToggleListBox',
+  title: 'Forms/ui/InputToggleListBox (DEPRECATED)',
   component: InputToggleListBox,
   parameters: {
     layout: 'padded'

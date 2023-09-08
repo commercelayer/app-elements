@@ -1,7 +1,7 @@
 import { Card } from '#ui/atoms/Card'
-import { Spacer } from '#ui/atoms/Spacer'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
 import { InputSpinner } from '#ui/forms/InputSpinner'
+import { Legend } from '#ui/forms/Legend'
 import cn from 'classnames'
 import {
   useCallback,
@@ -107,11 +107,9 @@ export function InputCheckboxGroup({
   return (
     <fieldset {...rest}>
       {title != null && (
-        <Spacer bottom='2'>
-          <legend className='font-semibold'>
-            {title} · {totalSelected}
-          </legend>
-        </Spacer>
+        <Legend gap>
+          {title} · {totalSelected}
+        </Legend>
       )}
       <Card gap='1'>
         {options.map((optionItem) => {

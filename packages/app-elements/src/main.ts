@@ -136,7 +136,12 @@ export {
   type InputSelectProps,
   type SelectValue
 } from '#ui/forms/InputSelect'
+export {
+  HookedInputSimpleSelect,
+  InputSimpleSelect
+} from '#ui/forms/InputSimpleSelect'
 export { HookedInputSpinner, InputSpinner } from '#ui/forms/InputSpinner'
+export { HookedInputSwitch, InputSwitch } from '#ui/forms/InputSwitch'
 export { InputTextArea } from '#ui/forms/InputTextArea'
 export { HookedInputToggleBox, InputToggleBox } from '#ui/forms/InputToggleBox'
 export {
@@ -150,6 +155,7 @@ export {
   InputToggleListBox
 } from '#ui/forms/InputToggleListBox'
 export { Label } from '#ui/forms/Label'
+export { Legend } from '#ui/forms/Legend'
 export {
   HookedValidationApiError,
   HookedValidationError,

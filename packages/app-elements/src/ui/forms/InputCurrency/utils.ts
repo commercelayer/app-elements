@@ -1,3 +1,4 @@
+import { formatValue } from 'react-currency-input-field'
 import { currencies, type Currency, type CurrencyCode } from './currencies'
 
 /**
@@ -53,4 +54,40 @@ export function makePlaceholder(currency: Currency): string {
   }
   const decimals = ''.padEnd(decimalLength, '0')
   return `0${currency.decimal_mark}${decimals}`
+}
+
+/**
+ * Format cents to currency.
+ * Useful to display the returned value from `<InputCurrency>` component.
+ *
+ * @example
+ * formatCentsToCurrency(100, 'EUR') //= €1,00
+ * formatCentsToCurrency(100000, 'USD') //= $1,000.00
+ * formatCentsToCurrency(100, 'JPY') //= ¥100
+ **/
+export function formatCentsToCurrency(
+  cents: number,
+  currencyCode: Uppercase<CurrencyCode>,
+  stripZeroDecimals = false
+): string {
+  const currency = getCurrency(currencyCode)
+  if (currency == null) {
+    return `${cents}`
+  }
+
+  const decimalLength = getDecimalLength(currency)
+  const unit = cents / currency.subunit_to_unit
+  const fixedDecimals =
+    stripZeroDecimals && unit % 1 === 0
+      ? unit.toFixed(0)
+      : unit.toFixed(decimalLength)
+  const value = `${fixedDecimals}`.replace('.', currency.decimal_mark)
+
+  const formattedValue = formatValue({
+    value,
+    decimalSeparator: currency.decimal_mark,
+    groupSeparator: currency.thousands_separator
+  })
+
+  return addCurrencySymbol({ formattedValue, currency })
 }

@@ -6,13 +6,12 @@ import {
 import { X } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { forwardRef, useEffect, useMemo, useState } from 'react'
-import CurrencyInput, {
-  formatValue as formatValueFn,
-  type CurrencyInputProps
+import ReactCurrencyInputField, {
+  type CurrencyInputProps as ReactCurrencyInputFieldProps
 } from 'react-currency-input-field'
 import { type Currency, type CurrencyCode } from './currencies'
 import {
-  addCurrencySymbol,
+  formatCentsToCurrency,
   getCurrency,
   getDecimalLength,
   makePlaceholder
@@ -20,7 +19,7 @@ import {
 
 export interface InputCurrencyProps
   extends InputWrapperBaseProps,
-    Pick<CurrencyInputProps, 'onBlur' | 'onClick' | 'disabled'> {
+    Pick<ReactCurrencyInputFieldProps, 'onBlur' | 'onClick' | 'disabled'> {
   /**
    * HTML input id
    */
@@ -78,6 +77,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       hideCurrencySymbol,
       allowNegativeValue = false,
       isClearable,
+      direction,
       ...rest
     },
     ref
@@ -110,6 +110,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
         label={label}
         hint={hint}
         feedback={feedback}
+        direction={direction}
         name={rest.id ?? rest.name}
       >
         <div className='relative'>
@@ -121,7 +122,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
               {currency.symbol}
             </div>
           )}
-          <CurrencyInput
+          <ReactCurrencyInputField
             ref={ref}
             data-testid='inputCurrency-input'
             id={rest.id ?? rest.name}
@@ -176,41 +177,6 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
 )
 
 InputCurrency.displayName = 'InputCurrency'
-
-/**
- * Format cents to currency.
- * Useful to display the returned value from `<InputCurrency>` component.
- *
- * Example: formatCentsToCurrency(100, 'EUR') -> €1,00
- * Example: formatCentsToCurrency(100000, 'USD') -> $1,000.00
- * Example: formatCentsToCurrency(100, 'JPY') -> ¥100
- **/
-export function formatCentsToCurrency(
-  cents: number,
-  currencyCode: Uppercase<CurrencyCode>,
-  stripZeroDecimals = false
-): string {
-  const currency = getCurrency(currencyCode)
-  if (currency == null) {
-    return `${cents}`
-  }
-
-  const decimalLength = getDecimalLength(currency)
-  const unit = cents / currency.subunit_to_unit
-  const fixedDecimals =
-    stripZeroDecimals && unit % 1 === 0
-      ? unit.toFixed(0)
-      : unit.toFixed(decimalLength)
-  const value = `${fixedDecimals}`.replace('.', currency.decimal_mark)
-
-  const formattedValue = formatValueFn({
-    value,
-    decimalSeparator: currency.decimal_mark,
-    groupSeparator: currency.thousands_separator
-  })
-
-  return addCurrencySymbol({ formattedValue, currency })
-}
 
 /**
  * Prepare the initial value for the component internal state.
