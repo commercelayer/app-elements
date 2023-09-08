@@ -113,6 +113,7 @@ const singularLowercase: Record<ListableResourceType, string> = {
   tax_rules: 'tax rule',
   taxjar_accounts: 'taxjar account',
   transactions: 'transaction',
+  versions: 'version',
   voids: 'void',
   webhooks: 'webhook',
   wire_transfers: 'wire transfer'
@@ -230,6 +231,7 @@ const pluralLowercase: Record<ListableResourceType, string> = {
   tax_rules: 'tax rules',
   taxjar_accounts: 'taxjar accounts',
   transactions: 'transactions',
+  versions: 'versions',
   voids: 'voids',
   webhooks: 'webhooks',
   wire_transfers: 'wire transfers'
