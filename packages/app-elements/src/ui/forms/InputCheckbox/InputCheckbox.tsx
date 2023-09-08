@@ -56,7 +56,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
 
             {children != null || icon != null ? (
               <div className='flex items-center gap-4 flex-1'>
-                {icon != null ? icon : null}
+                {icon ?? null}
                 <div className='flex-1'>{children}</div>
               </div>
             ) : null}
