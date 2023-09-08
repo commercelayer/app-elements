@@ -237,23 +237,19 @@ export function TokenProvider({
       <div />
     ) : (
       <>
-        {errorElement == null ? (
+        {errorElement ?? (
           <PageError
             pageTitle='Commerce Layer'
             errorName='Invalid token'
             errorDescription='The provided authorization token is not valid'
           />
-        ) : (
-          errorElement
         )}
       </>
     )
   }
 
   if (_state.isLoading) {
-    return (
-      <>{loadingElement == null ? <div>Loading...</div> : loadingElement}</>
-    )
+    return <>{loadingElement ?? <div>Loading...</div>}</>
   }
 
   return (

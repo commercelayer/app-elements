@@ -16,8 +16,7 @@ const mockedOrder: Order = {
   status: 'approved'
 }
 
-const Item: FC<{ resource?: Order }> = ({ resource }) => {
-  resource = resource != null ? resource : mockedOrder
+const Item: FC<{ resource?: Order }> = ({ resource = mockedOrder }) => {
   return (
     <div
       data-testid={

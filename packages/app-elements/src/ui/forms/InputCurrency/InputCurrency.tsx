@@ -145,7 +145,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             value={_value ?? ''}
             onValueChange={(val, __, values) => {
               setValue(val)
-              if (values == null || values.float == null) {
+              if (values?.float == null) {
                 onChange(null, '')
                 return
               }
