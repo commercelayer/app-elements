@@ -2,7 +2,7 @@ import { useIsChanged } from '#hooks/useIsChanged'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
-import { Legend, type LegendProps } from '#ui/atoms/Legend'
+import { Section, type SectionProps } from '#ui/atoms/Section'
 import { type SkeletonTemplateProps } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
@@ -38,7 +38,7 @@ export interface ResourceListItem<TResource extends ListableResourceType> {
 }
 
 export type ResourceListProps<TResource extends ListableResourceType> = Pick<
-  LegendProps,
+  SectionProps,
   'title' | 'actionButton'
 > & {
   /**
@@ -156,19 +156,16 @@ export function ResourceList<TResource extends ListableResourceType>({
     data == null || data.meta.pageCount > data.meta.currentPage
 
   return (
-    <div data-testid='resource-list'>
-      {title != null || actionButton != null ? (
-        <Legend
-          isLoading={isFirstLoading}
-          title={computeTitleWithTotalCount({
-            title,
-            recordCount
-          })}
-          actionButton={actionButton}
-          titleSize='small'
-        />
-      ) : null}
-
+    <Section
+      isLoading={isFirstLoading}
+      title={computeTitleWithTotalCount({
+        title,
+        recordCount
+      })}
+      actionButton={actionButton}
+      titleSize='small'
+      data-testid='resource-list'
+    >
       {'Item' in props &&
         data?.list.map((resource) => {
           return (
@@ -216,7 +213,7 @@ export function ResourceList<TResource extends ListableResourceType>({
           }}
         />
       )}
-    </div>
+    </Section>
   )
 }
 ResourceList.displayName = 'ResourceList'

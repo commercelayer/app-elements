@@ -1,5 +1,5 @@
-import { Legend } from '#ui/atoms/Legend'
 import { Pagination, type PaginationProps } from '#ui/atoms/Pagination'
+import { Section } from '#ui/atoms/Section'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
@@ -87,15 +87,11 @@ function List({
       : title
 
   return (
-    <div className='flex flex-col flex-1' {...rest}>
-      {computedTitle != null || actionButton !== null ? (
-        <Legend
-          title={computedTitle}
-          titleSize='small'
-          actionButton={actionButton}
-          data-testid='list-task-legend'
-        />
-      ) : null}
+    <Section
+      title={computedTitle}
+      titleSize='small'
+      actionButton={actionButton}
+    >
       <div
         className={cn({
           'opacity-40 pointer-events-none touch-none': isDisabled
@@ -124,7 +120,7 @@ function List({
           </div>
         </Spacer>
       ) : null}
-    </div>
+    </Section>
   )
 }
 

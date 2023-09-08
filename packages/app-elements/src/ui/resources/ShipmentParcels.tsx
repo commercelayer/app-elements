@@ -16,7 +16,7 @@ import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
-import { Legend } from '#ui/atoms/Legend'
+import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
@@ -380,23 +380,22 @@ const TrackingDetails = withSkeletonTemplate<{
       </Spacer>
 
       {lastEvent != null && (
-        <>
-          <Legend
-            title='Detailed view'
-            border='none'
-            actionButton={
-              <Text size='small' variant='info'>
-                Last update:{' '}
-                <Text weight='bold'>
-                  {formatDate({
-                    isoDate: lastEvent.date,
-                    format: 'full',
-                    timezone: user?.timezone
-                  })}
-                </Text>
+        <Section
+          title='Detailed view'
+          border='none'
+          actionButton={
+            <Text size='small' variant='info'>
+              Last update:{' '}
+              <Text weight='bold'>
+                {formatDate({
+                  isoDate: lastEvent.date,
+                  format: 'full',
+                  timezone: user?.timezone
+                })}
               </Text>
-            }
-          />
+            </Text>
+          }
+        >
           <div className='rounded-md bg-gray-50 p-6 pb-2'>
             {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
               <div key={date}>
@@ -449,7 +448,7 @@ const TrackingDetails = withSkeletonTemplate<{
               </div>
             ))}
           </div>
-        </>
+        </Section>
       )}
     </>
   )
