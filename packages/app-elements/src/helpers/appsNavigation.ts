@@ -172,8 +172,16 @@ export function navigateToDetail(
   onClick: (
     e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
   ) => void
-} {
+} | null {
   const destinationFullUrl = `${window.location.origin}/${params.destination.app}/list/${params.destination.resourceId}`
+
+  // cross linking is allowed only for Commerce Layer hosted apps. It's disabled for forked (self-hosted) apps.
+  const isClHostedApp =
+    window.location.origin.includes('commercelayer.app') ||
+    window.location.origin.includes('//localhost:')
+  if (!isNavigateToInternalParams(params) && !isClHostedApp) {
+    return null
+  }
 
   return {
     href: isNavigateToInternalParams(params)

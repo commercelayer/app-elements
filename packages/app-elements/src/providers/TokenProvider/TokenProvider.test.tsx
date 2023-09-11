@@ -74,7 +74,8 @@ describe('TokenProvider', () => {
       appSlug: 'imports',
       devMode: false,
       accessToken,
-      onInvalidAuth
+      onInvalidAuth,
+      loadingElement: <div>Loading...</div>
     })
     expect(element).toBeVisible()
     expect(getByText('Loading...')).toBeVisible()
@@ -124,7 +125,8 @@ describe('TokenProvider', () => {
       kind: 'integration',
       appSlug: 'imports',
       devMode: false,
-      onInvalidAuth
+      onInvalidAuth,
+      loadingElement: <div>Loading...</div>
     })
     expect(element).toBeVisible()
     expect(getByText('Loading...')).toBeVisible()
@@ -193,6 +195,7 @@ describe('TokenProvider', () => {
           devMode
           accessToken={accessToken}
           onInvalidAuth={onInvalidAuth}
+          loadingElement={<div>Loading...</div>}
         >
           {({ emitInvalidAuth }) => {
             return (
