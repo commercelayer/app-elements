@@ -2,7 +2,7 @@ import { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListItemsMetadata> = {
-  title: 'Resources/ListItems Metadata',
+  title: 'Resources/ListItemsMetadata (DEPRECATED)',
   component: ListItemsMetadata,
   parameters: {
     layout: 'padded'

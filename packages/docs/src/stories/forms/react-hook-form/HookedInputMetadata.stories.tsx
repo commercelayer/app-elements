@@ -6,7 +6,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputMetadata> = {
-  title: 'Forms/react-hook-form/HookedInputMetadata',
+  title: 'Forms/react-hook-form/HookedInputMetadata (DEPRECATED)',
   component: HookedInputMetadata,
   parameters: {
     layout: 'padded',

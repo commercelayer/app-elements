@@ -13,7 +13,7 @@ import {
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {
-  title: 'Resources/Shipment Parcels',
+  title: 'Resources/ShipmentParcels',
   component: ShipmentParcels,
   parameters: {
     layout: 'padded'

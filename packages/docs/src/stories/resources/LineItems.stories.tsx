@@ -11,7 +11,7 @@ type Props = Parameters<typeof LineItems>[0] & {
 }
 
 const setup: Meta<Props> = {
-  title: 'Resources/Order LineItems',
+  title: 'Resources/LineItems',
   component: LineItems,
   argTypes: {
     preset: {

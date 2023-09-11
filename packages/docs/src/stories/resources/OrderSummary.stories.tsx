@@ -10,7 +10,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
  * </blockquote>
  */
 const setup: Meta<typeof OrderSummary> = {
-  title: 'Resources/Order Summary',
+  title: 'Resources/OrderSummary',
   component: OrderSummary,
   parameters: {
     layout: 'padded'
