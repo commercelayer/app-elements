@@ -1,5 +1,6 @@
 import { ResourceListItem } from '#ui/resources/ResourceListItem'
 import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
+import { type ResourceListItemType } from '#ui/resources/ResourceListItem/types'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 type Props = Parameters<typeof ResourceListItem>[0] & {
@@ -59,9 +60,8 @@ Default.args = {
   }
 }
 
-type ListType = 'orders' | 'returns'
 type ListProps = Props & {
-  type: ListType
+  type: ResourceListItemType['type']
 }
 
 const ItemsByTypeTemplate: StoryFn<ListProps> = (args) => {
@@ -84,4 +84,9 @@ Orders.args = {
 export const Returns = ItemsByTypeTemplate.bind({})
 Returns.args = {
   type: 'returns'
+}
+
+export const Customers = ItemsByTypeTemplate.bind({})
+Customers.args = {
+  type: 'customers'
 }

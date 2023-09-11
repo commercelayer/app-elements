@@ -7,16 +7,19 @@ import { ListItem } from '#ui/composite/ListItem'
 import { useMemo } from 'react'
 
 import {
+  customerToProps,
   orderToProps,
   returnToProps
 } from '#ui/resources/ResourceListItem/transformers'
 
 import { useTokenProvider } from '#providers/TokenProvider'
-import type { Order, Return } from '@commercelayer/sdk'
-import { type ResourceListItemComponentProps } from './types'
 
-type ResourceListItemType = Order | Return
-interface ResourceListItemProps {
+import {
+  type ResourceListItemComponentProps,
+  type ResourceListItemType
+} from './types'
+
+export interface ResourceListItemProps {
   /**
    * Resource object used to generate list item content depending on its own type
    */
@@ -88,6 +91,8 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     const { user } = useTokenProvider()
     const listItemProps = useMemo(() => {
       switch (resource.type) {
+        case 'customers':
+          return customerToProps({ resource, user })
         case 'orders':
           return orderToProps({ resource, user })
         case 'returns':

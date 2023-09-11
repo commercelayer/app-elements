@@ -1,4 +1,4 @@
-import type { Market, Order, Return } from '@commercelayer/sdk'
+import type { Customer, Market, Order, Return } from '@commercelayer/sdk'
 
 const market = {
   type: 'markets',
@@ -155,5 +155,29 @@ export const presetResourceListItem = {
     created_at: '',
     status: 'rejected',
     order
+  },
+  customerProspect: {
+    type: 'customers',
+    id: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    status: 'prospect',
+    email: 'john.doe@commercelayer.io'
+  },
+  customerAcquired: {
+    type: 'customers',
+    id: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    status: 'acquired',
+    email: 'john.doe@commercelayer.io'
+  },
+  customerRepeat: {
+    type: 'customers',
+    id: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    status: 'repeat',
+    email: 'john.doe@commercelayer.io'
   }
-} satisfies Record<string, Order | Return>
+} satisfies Record<string, Order | Return | Customer>

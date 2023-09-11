@@ -176,6 +176,10 @@ export { ResourceTags } from '#ui/resources/ResourceTags'
 export { ShipmentParcels } from '#ui/resources/ShipmentParcels'
 // Dictionaries
 export {
+  getCustomerDisplayStatus,
+  getCustomerStatusName
+} from '#dictionaries/customers'
+export {
   getOrderDisplayStatus,
   getOrderFulfillmentStatusName,
   getOrderPaymentStatusName,
