@@ -39,7 +39,7 @@ describe('navigateToDetail', () => {
       }
     })
 
-    expect(navigate.href).toBe(
+    expect(navigate?.href).toBe(
       'https://demo-store.commercelayer.app/customers/list/xBszDaQsAZ?mode=live'
     )
   })
@@ -59,7 +59,7 @@ describe('navigateToDetail', () => {
       }
     })
 
-    navigate.onClick(fakeEvent)
+    navigate?.onClick(fakeEvent)
 
     expect(window.location.assign).toBeCalledWith(
       'https://demo-store.commercelayer.app/customers/list/<customerId>?mode=test'
@@ -89,7 +89,7 @@ describe('navigateToDetail', () => {
       }
     })
 
-    navigate.onClick(fakeEvent)
+    navigate?.onClick(fakeEvent)
 
     // internal react router should be called
     expect(mockedSetLocation).toBeCalledWith('/list/xbSzDaQsAZ')
@@ -103,6 +103,46 @@ describe('navigateToDetail', () => {
       url: 'https://demo-store.commercelayer.app/orders/list?archived_at_null=show&fulfillment_status_in=in_progress&status_in=approved&viewTitle=Fulfillment+in+progress',
       version: 0.2
     })
+  })
+
+  test('should return a valid onClick handlers for internal app linking when is self-hosted app', () => {
+    // simulating we are on orders list in a forked app
+    window.location.href =
+      'https://my-custom-domain.com/list?archived_at_null=show'
+    const mockedSetLocation = vi.fn()
+
+    // we want to x-link to customers app
+    const navigate = navigateToDetail({
+      setLocation: mockedSetLocation,
+      destination: {
+        app: 'orders',
+        resourceId: 'xbSzDaQsAZ'
+      }
+    })
+
+    navigate?.onClick(fakeEvent)
+
+    // internal react router should be called
+    expect(mockedSetLocation).toBeCalledWith('/list/xbSzDaQsAZ')
+  })
+
+  test('should return null for external app linking when app is forked (self-hosted(', () => {
+    // simulating we are on orders list in a forked app
+    window.location.href =
+      'https://my-custom-domain.com/list?archived_at_null=show'
+    // @ts-expect-error we want to mock window location.origin
+    window.location.origin = 'https://my-custom-domain.com'
+
+    // we want to x-link to customers app
+    const navigate = navigateToDetail({
+      destination: {
+        app: 'customers',
+        resourceId: 'xbSzDaQsAZ',
+        mode: 'test'
+      }
+    })
+
+    expect(navigate).toBe(null)
   })
 })
 
