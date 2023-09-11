@@ -65,17 +65,13 @@ export const WithinAListItem: StoryFn = () => {
     >
       <Section title='More options' titleSize='small'>
         <ListItem tag='div'>
-          <HookedInputSwitch
-            name='export-all'
-            label='Export all'
-            direction='row'
-          />
+          <HookedInputSwitch name='export-all' label='Export all' inline />
         </ListItem>
         <ListItem tag='div'>
           <HookedInputSwitch
             name='exclude-last'
             label='Exclude last'
-            direction='row'
+            inline
             hint={{ text: 'Exclude the last item from the export' }}
           />
         </ListItem>

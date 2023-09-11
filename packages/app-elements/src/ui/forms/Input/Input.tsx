@@ -21,7 +21,15 @@ export interface InputProps
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
-    { type = 'text', className, label, hint, feedback, ...rest },
+    {
+      type = 'text',
+      className,
+      label,
+      hint,
+      feedback,
+      inline: direction,
+      ...rest
+    },
     ref
   ): JSX.Element => {
     return (
@@ -30,6 +38,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         hint={hint}
         feedback={feedback}
         name={rest.id ?? rest.name}
+        inline={direction}
       >
         <input
           {...rest}

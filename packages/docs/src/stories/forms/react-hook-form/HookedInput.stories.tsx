@@ -39,5 +39,6 @@ const Template: StoryFn<typeof HookedInput> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  label: 'First name',
   name: 'firstname'
 }

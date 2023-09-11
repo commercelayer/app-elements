@@ -78,7 +78,7 @@ export const WithinAListItem: StoryFn = () => {
             ]}
             name='format'
             label='Export format'
-            direction='row'
+            inline
             hint={{ text: 'Select a format' }}
           />
         </ListItem>
@@ -93,7 +93,7 @@ export const WithinAListItem: StoryFn = () => {
             ]}
             name='color'
             label='Color'
-            direction='row'
+            inline
           />
         </ListItem>
       </Section>

@@ -39,7 +39,8 @@ const Template: StoryFn<typeof HookedInputSelect> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'myFormField',
+  label: 'City',
+  name: 'city',
   initialValues: [
     {
       value: 'paris',

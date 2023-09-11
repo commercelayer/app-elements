@@ -15,7 +15,7 @@ export const InputTextArea = forwardRef<
   InputTextAreaProps
 >(
   (
-    { className, hint, label, feedback, direction, ...rest },
+    { className, hint, label, feedback, inline: direction, ...rest },
     ref
   ): JSX.Element => {
     return (
@@ -24,7 +24,7 @@ export const InputTextArea = forwardRef<
         feedback={feedback}
         label={label}
         name={rest.id ?? rest.name}
-        direction={direction}
+        inline={direction}
       >
         <textarea
           {...rest}

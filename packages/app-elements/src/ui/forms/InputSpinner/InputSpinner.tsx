@@ -41,7 +41,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
       onChange,
       disableKeyboard,
       disabled,
-      direction,
+      inline: direction,
       ...rest
     },
     ref
@@ -71,7 +71,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
         hint={hint}
         feedback={feedback}
         name={rest.id ?? rest.name}
-        direction={direction}
+        inline={direction}
       >
         <div
           className={cn(

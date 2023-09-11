@@ -4,6 +4,11 @@ interface Props extends React.HTMLAttributes<HTMLLegendElement> {
   gap?: boolean
 }
 
+/**
+ * The Legend component represents a caption for the content of its parent <fieldset>.
+ *
+ * It is styled exactly like the `<Label>` component.
+ */
 export function Legend({
   gap,
   children,

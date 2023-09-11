@@ -70,7 +70,7 @@ Row.args = {
   name: 'export-format-row',
   label: 'Export format',
   options: Default.args.options,
-  direction: 'row',
+  inline: true,
   hint: {
     text: 'Select a format'
   }
@@ -98,7 +98,7 @@ export const WithinAListItem: StoryFn = () => {
           options={Default.args?.options ?? []}
           name='export-format'
           label='Export format'
-          direction='row'
+          inline
           hint={{ text: 'Select a format' }}
         />
       </ListItem>
@@ -113,7 +113,7 @@ export const WithinAListItem: StoryFn = () => {
           ]}
           name='color'
           label='Color'
-          direction='row'
+          inline
         />
       </ListItem>
     </Section>

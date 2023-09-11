@@ -12,7 +12,7 @@ export interface InputSwitchProps
 
 export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
   (
-    { className, label, hint, feedback, direction, ...rest },
+    { className, label, hint, feedback, inline: direction, ...rest },
     ref
   ): JSX.Element => {
     return (
@@ -21,7 +21,7 @@ export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
         hint={hint}
         feedback={feedback}
         name={rest.id ?? rest.name}
-        direction={direction}
+        inline={direction}
       >
         <div className={cn('relative')}>
           <input

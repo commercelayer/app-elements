@@ -29,7 +29,7 @@ export const InputSimpleSelect = forwardRef<
       label,
       hint,
       feedback,
-      direction,
+      inline: direction,
       ...rest
     }: InputSimpleSelectProps,
     ref: ForwardedRef<HTMLSelectElement>
@@ -40,7 +40,7 @@ export const InputSimpleSelect = forwardRef<
         hint={hint}
         feedback={feedback}
         name={rest.id ?? rest.name}
-        direction={direction}
+        inline={direction}
       >
         <select
           id={rest.id ?? rest.name}

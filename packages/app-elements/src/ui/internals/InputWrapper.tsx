@@ -20,10 +20,10 @@ export interface InputWrapperBaseProps {
    */
   feedback?: Omit<InputFeedbackProps, 'className'>
   /**
-   * optional direction
-   * @default column
+   * show label and input on the same line
+   * @default false
    */
-  direction?: 'column' | 'row'
+  inline?: boolean
 }
 
 export interface InputWrapperProps extends InputWrapperBaseProps {
@@ -42,21 +42,21 @@ function InputWrapper({
   hint,
   feedback,
   name,
-  direction = 'column',
+  inline = false,
   ...rest
 }: InputWrapperProps): JSX.Element {
   return (
     <div
       className={cn(
         {
-          'grid grid-cols-2 justify-between items-center': direction === 'row'
+          'grid grid-cols-2 justify-between items-center': inline
         },
         className
       )}
       {...rest}
     >
       {label != null && (
-        <Label gap={direction === 'column'} htmlFor={name}>
+        <Label gap={!inline} htmlFor={name}>
           {label}
         </Label>
       )}
@@ -74,7 +74,7 @@ function InputWrapper({
         {hint != null && (
           <Hint
             className={cn({
-              'mt-2': direction === 'column' || feedback != null
+              'mt-2': !inline || feedback != null
             })}
             icon={hint.icon}
           >

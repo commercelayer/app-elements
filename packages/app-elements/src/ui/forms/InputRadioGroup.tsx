@@ -36,10 +36,10 @@ export interface InputRadioGroupProps {
    */
   showInput?: boolean
   /**
-   * Define the `flex-direction`
-   * @default column
+   * Define how the item options are rendered
+   * @default list
    */
-  direction?: 'column' | 'row'
+  viewMode?: 'list' | 'inline'
 }
 
 export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
@@ -49,7 +49,7 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     defaultValue,
     onChange = () => {},
     showInput = true,
-    direction = 'column'
+    viewMode = 'list'
   }: InputRadioGroupProps) => {
     const [selectedValue, setSelectedValue] = useState(defaultValue)
 
@@ -63,9 +63,9 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     return (
       <fieldset
         className={cn('flex gap-2 wrap', {
-          'flex-col': direction === 'column',
+          'flex-col': viewMode === 'list',
           'flex-row [&>*]:flex-shrink [&>*]:flex-grow [&>*]:basis-0':
-            direction === 'row'
+            viewMode === 'inline'
         })}
       >
         {options.map((optionItem, index) => {

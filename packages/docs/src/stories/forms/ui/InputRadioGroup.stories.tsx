@@ -150,7 +150,7 @@ Default.args = {
 export const DirectionRow = Template.bind({})
 DirectionRow.args = {
   name: 'package',
-  direction: 'row',
+  viewMode: 'inline',
   showInput: false,
   onChange: (v) => {
     console.log(v)
@@ -192,7 +192,7 @@ DirectionRow.args = {
 export const DefaultValue = Template.bind({})
 DefaultValue.args = {
   name: 'package',
-  direction: 'row',
+  viewMode: 'inline',
   showInput: false,
   defaultValue: 'large',
   options: [

@@ -48,7 +48,7 @@ export const Row = Template.bind({})
 Row.args = {
   name: 'sound-on-row',
   label: 'Sound on',
-  direction: 'row',
+  inline: true,
   hint: {
     text: 'Turn sound on'
   }
@@ -70,13 +70,13 @@ export const WithinAListItem: StoryFn = () => {
   return (
     <Section title='More options' titleSize='small'>
       <ListItem tag='div'>
-        <InputSwitch name='export-all' label='Export all' direction='row' />
+        <InputSwitch name='export-all' label='Export all' inline />
       </ListItem>
       <ListItem tag='div'>
         <InputSwitch
           name='exclude-last'
           label='Exclude last'
-          direction='row'
+          inline
           hint={{ text: 'Exclude the last item from the export' }}
         />
       </ListItem>

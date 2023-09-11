@@ -39,5 +39,6 @@ const Template: StoryFn<typeof HookedInputDate> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  label: 'Shipping date',
   name: 'myFormField'
 }

@@ -7,7 +7,7 @@ import cn from 'classnames'
 import { forwardRef } from 'react'
 
 export interface InputCheckboxProps
-  extends Omit<InputWrapperBaseProps, 'label' | 'direction'>,
+  extends Omit<InputWrapperBaseProps, 'label' | 'inline'>,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'value'> {
   /**
    * Icon component
