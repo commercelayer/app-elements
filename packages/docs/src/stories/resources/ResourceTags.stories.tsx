@@ -4,7 +4,7 @@ import { ResourceTags } from '#ui/resources/ResourceTags'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ResourceTags> = {
-  title: 'Resources/Resource Tags',
+  title: 'Resources/ResourceTags',
   component: ResourceTags,
   parameters: {
     layout: 'padded'

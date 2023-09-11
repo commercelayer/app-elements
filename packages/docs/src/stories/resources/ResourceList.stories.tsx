@@ -11,7 +11,7 @@ import { ResourceList } from '#ui/resources/ResourceList'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ResourceList> = {
-  title: 'Resources/Resource List',
+  title: 'Resources/ResourceList',
   component: ResourceList,
   parameters: {
     layout: 'padded',

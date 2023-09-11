@@ -4,7 +4,7 @@ import { OrderTimeline } from '#ui/resources/OrderTimeline'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof OrderTimeline> = {
-  title: 'Resources/Order Timeline',
+  title: 'Resources/OrderTimeline',
   component: OrderTimeline,
   parameters: {
     layout: 'padded'
