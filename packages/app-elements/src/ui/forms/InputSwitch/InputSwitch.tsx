@@ -11,17 +11,14 @@ export interface InputSwitchProps
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'value'> {}
 
 export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
-  (
-    { className, label, hint, feedback, inline: direction, ...rest },
-    ref
-  ): JSX.Element => {
+  ({ className, label, hint, feedback, inline, ...rest }, ref): JSX.Element => {
     return (
       <InputWrapper
         label={label}
         hint={hint}
         feedback={feedback}
         name={rest.id ?? rest.name}
-        inline={direction}
+        inline={inline}
       >
         <div className={cn('relative')}>
           <input

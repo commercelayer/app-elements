@@ -77,7 +77,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       hideCurrencySymbol,
       allowNegativeValue = false,
       isClearable,
-      inline: direction,
+      inline,
       ...rest
     },
     ref
@@ -110,7 +110,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
         label={label}
         hint={hint}
         feedback={feedback}
-        inline={direction}
+        inline={inline}
         name={rest.id ?? rest.name}
       >
         <div className='relative'>
