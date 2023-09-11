@@ -1,5 +1,5 @@
+import { Label } from '#ui/forms/Label'
 import { render, type RenderResult } from '@testing-library/react'
-import { Label } from './Label'
 
 interface SetupProps {
   id: string

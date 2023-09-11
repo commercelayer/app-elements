@@ -1,5 +1,6 @@
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Legend } from '#ui/forms/Legend'
 import cn from 'classnames'
 import { useEffect, useState, type ReactNode } from 'react'
 
@@ -15,6 +16,10 @@ export interface OptionItem {
 }
 
 export interface InputRadioGroupProps {
+  /**
+   * Text to be displayed on top of the list
+   */
+  title?: string
   /**
    * Input name, will be used to set the html name for all radios
    */
@@ -47,6 +52,7 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     name,
     options,
     defaultValue,
+    title,
     onChange = () => {},
     showInput = true,
     viewMode = 'list'
@@ -68,6 +74,7 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
             viewMode === 'inline'
         })}
       >
+        {title != null && <Legend gap>{title}</Legend>}
         {options.map((optionItem, index) => {
           const isSelected = optionItem.value === selectedValue
 
