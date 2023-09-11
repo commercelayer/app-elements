@@ -113,7 +113,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
         inline={inline}
         name={rest.id ?? rest.name}
       >
-        <div className='relative'>
+        <div className='relative w-full'>
           {hideCurrencySymbol === true ? null : (
             <div
               data-testid='inputCurrency-symbol'

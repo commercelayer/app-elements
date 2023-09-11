@@ -42,7 +42,7 @@ export function InputReadonly({
       label={label}
       hint={hint}
     >
-      <div className='relative select-none'>
+      <div className='relative w-full select-none'>
         <input
           className={cn(
             'block w-full bg-gray-50 px-4 h-10 text-teal font-bold border-none',

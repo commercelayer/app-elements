@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+select {
+    text-align: inherit;
+}
+
 body {
     @apply text-gray-800 antialiased font-medium;
 }

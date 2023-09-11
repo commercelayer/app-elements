@@ -49,7 +49,7 @@ function InputWrapper({
     <div
       className={cn(
         {
-          'grid grid-cols-2 justify-between items-center': inline
+          'grid grid-cols-[1fr_2fr] gap-2 justify-between items-center': inline
         },
         className
       )}
@@ -60,7 +60,13 @@ function InputWrapper({
           {label}
         </Label>
       )}
-      <div className='justify-self-end'>{children}</div>
+      <div
+        className={cn('justify-self-end', {
+          'w-full flex justify-end text-right': inline
+        })}
+      >
+        {children}
+      </div>
       <div className='col-span-2'>
         {feedback != null && (
           <InputFeedback
