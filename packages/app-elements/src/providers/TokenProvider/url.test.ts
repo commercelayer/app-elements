@@ -77,19 +77,11 @@ describe('makeReAuthenticationUrl', () => {
     )
   })
 
-  test('should return undefined when dashboard url is invalid', () => {
+  test('should return original dashboardUrl when app name is invalid', () => {
     // @ts-expect-error Since this is a test, I want to assign a value to the read-only property 'origin'.
     window.location.origin = 'https://demo-store.commercelayer.app'
     window.location.pathname = '/exports/new'
 
-    expect(makeReAuthenticationUrl('broken-url', 'exports')).toBe(undefined)
-  })
-
-  test('should return undefined when app name is invalid', () => {
-    // @ts-expect-error Since this is a test, I want to assign a value to the read-only property 'origin'.
-    window.location.origin = 'https://demo-store.commercelayer.app'
-    window.location.pathname = '/exports/new'
-
-    expect(makeReAuthenticationUrl(dashboardUrl, '')).toBe(undefined)
+    expect(makeReAuthenticationUrl(dashboardUrl, '')).toBe(dashboardUrl)
   })
 })

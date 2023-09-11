@@ -12,27 +12,31 @@ export function getOrgSlugFromCurrentUrl(): string {
 
 export function makeDashboardUrl({
   domain = 'commercelayer.io',
-  mode = 'live'
+  mode = 'live',
+  organizationSlug
 }: {
   domain?: string
   mode?: Mode
+  organizationSlug?: string // only if self-hosted
 }): string {
-  return `https://dashboard.${domain}/${mode}/${getOrgSlugFromCurrentUrl()}`
+  return `https://dashboard.${domain}/${mode}/${
+    organizationSlug ?? getOrgSlugFromCurrentUrl()
+  }`
 }
 
 export function makeReAuthenticationUrl(
   dashboardUrl: string,
-  appName: string
-): string | undefined {
-  if (appName == null || appName === '') {
-    return undefined
+  appIdOrSlug?: string
+): string {
+  if (appIdOrSlug == null || appIdOrSlug === '') {
+    return dashboardUrl
   }
   try {
     const baseUrl = new URL(dashboardUrl).toString() // will parse and remove trailing slash
     const currentAppUrl = `${window.location.origin}${window.location.pathname}`
-    const authUrl = `${baseUrl}/hub/${appName}/authenticate?redirect_to=${currentAppUrl}`
+    const authUrl = `${baseUrl}/hub/${appIdOrSlug}/authenticate?redirect_to=${currentAppUrl}`
     return new URL(authUrl).toString()
   } catch {
-    return undefined
+    return dashboardUrl
   }
 }

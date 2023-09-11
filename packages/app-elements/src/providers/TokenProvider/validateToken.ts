@@ -50,17 +50,23 @@ export async function isValidTokenForCurrentApp({
   kind,
   domain,
   isProduction,
-  currentMode
+  currentMode,
+  organizationSlug
 }: {
   accessToken: string
   kind: TokenProviderTokenApplicationKind
   domain: string
   isProduction: boolean
   currentMode: Mode
+  /**
+   * only required when app is self-hosted, to check if the token is valid for the current organization.
+   * When app is hosted by Commerce Layer, the organization slug is retrieved from the url subdomain.
+   */
+  organizationSlug?: string
 }): Promise<ValidToken | InvalidToken> {
   const jwtInfo = getInfoFromJwt(accessToken)
 
-  if (jwtInfo.slug == null) {
+  if (jwtInfo.orgSlug == null) {
     return {
       isValidToken: false
     }
@@ -76,23 +82,27 @@ export async function isValidTokenForCurrentApp({
   try {
     const tokenInfo = await fetchTokenInfo({
       accessToken,
-      slug: jwtInfo.slug,
+      orgSlug: jwtInfo.orgSlug,
       domain
     })
-    const isValidPermission = Boolean(tokenInfo?.token)
-    const isValidKind = jwtInfo.kind === kind
-    const isValidSlug = jwtInfo.slug === getOrgSlugFromCurrentUrl()
+    const isValidOnCore = Boolean(tokenInfo?.token)
+    const isValidKind = jwtInfo.appKind === kind
+    const isValidOrganizationSlug =
+      jwtInfo.orgSlug === (organizationSlug ?? getOrgSlugFromCurrentUrl())
 
-    const isAllValid = isValidKind && isValidSlug && isValidPermission
+    const isAllValid = isValidKind && isValidOrganizationSlug && isValidOnCore
 
     // running validation only in production
     if (isProduction && !isAllValid) {
-      console.error('Invalid token', {
-        tokenInfo,
-        isValidKind,
-        isValidSlug,
-        isValidPermission
-      })
+      console.error(
+        'Invalid token. Please check if token is valid and if you have properly set your organization slug.',
+        {
+          tokenInfo,
+          isValidKind,
+          isValidOrganizationSlug,
+          isValidOnCore
+        }
+      )
       return {
         isValidToken: false
       }
@@ -102,7 +112,7 @@ export async function isValidTokenForCurrentApp({
       isValidToken: true,
       accessToken,
       mode: tokenInfo?.token.test === true ? 'test' : 'live',
-      organizationSlug: jwtInfo.slug,
+      organizationSlug: jwtInfo.orgSlug,
       permissions:
         tokenInfo?.permissions != null
           ? preparePermissions(tokenInfo.permissions)
@@ -139,16 +149,16 @@ export async function isValidTokenForCurrentApp({
 
 async function fetchTokenInfo({
   accessToken,
-  slug,
+  orgSlug,
   domain
 }: {
   accessToken: string
-  slug: string
+  orgSlug: string
   domain: string
 }): Promise<TokenProviderTokenInfo | null> {
   try {
     const tokenInfoResponse = await fetch(
-      `https://${slug}.${domain}/oauth/tokeninfo`,
+      `https://${orgSlug}.${domain}/oauth/tokeninfo`,
       {
         method: 'GET',
         headers: { authorization: `Bearer ${accessToken}` }

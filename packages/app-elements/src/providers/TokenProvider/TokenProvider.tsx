@@ -15,6 +15,7 @@ import {
   getCurrentMode,
   removeAuthParamsFromUrl
 } from './getAccessTokenFromUrl'
+import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
@@ -47,24 +48,31 @@ export interface TokenProviderProps {
    */
   kind: TokenProviderTokenApplicationKind
   /**
-   * Slug of the current app. Can be one of imports, exports, webhooks, resources, orders or custom.
+   * Slug of the current app. It needs to match one of the allowed app slugs enabled in the dashboard.
+   * Example: `orders`, `imports`, `exports`, `shipments`, `webhooks`, `returns`
    * Will be used to persist token for current app only.
    */
   appSlug: TokenProviderAllowedApp
+  /**
+   * Required when application is forked or running as self-hosted.
+   * It's used to perform a security check to test the validity of token against current organization.
+   */
+  organizationSlug?: string
   /**
    * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
    */
   domain?: string
   /**
-   * Callback invoked when token is not valid
-   */
-  onInvalidAuth?: (info: { dashboardUrl: string; reason: string }) => void
-  /**
    * Automatically redirect to dashboard to start re-authentication flow and return to app with fresh token
    */
   reauthenticateOnInvalidAuth?: boolean
   /**
-   * Element to be used as loader (eg: skeleton or spinner icon)
+   * Callback invoked when token is not valid.
+   * Can be used to manually handle re-authentication flow when `reauthenticateOnInvalidAuth` is false.
+   */
+  onInvalidAuth?: (info: { dashboardUrl: string; reason: string }) => void
+  /**
+   * UI element to be used as loader (eg: skeleton or spinner icon)
    */
   loadingElement?: ReactNode
   /**
@@ -103,8 +111,9 @@ export const useTokenProvider = (): TokenProviderValue => {
   return useContext(AuthContext)
 }
 
-export function TokenProvider({
+export const TokenProvider: React.FC<TokenProviderProps> = ({
   appSlug,
+  organizationSlug,
   kind,
   domain = 'commercelayer.io',
   onInvalidAuth,
@@ -114,8 +123,9 @@ export function TokenProvider({
   devMode,
   children,
   accessToken: accessTokenFromProp
-}: TokenProviderProps): JSX.Element {
+}) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
+  const isSelfHosted = organizationSlug != null
 
   const accessToken =
     accessTokenFromProp ??
@@ -133,8 +143,15 @@ export function TokenProvider({
       onInvalidAuth({ dashboardUrl, reason })
     }
     if (reauthenticateOnInvalidAuth === true) {
-      window.location.href =
-        makeReAuthenticationUrl(dashboardUrl, appSlug) ?? dashboardUrl
+      // trying to build the re-authentication URL with app ID when is self-hosted/forked
+      // this only works when we already have a token to read the app ID from otherwise `makeReAuthenticationUrl` will return the original dashboard URL.
+      // For non-forked apps we can use the appSlug
+      const { appId } = getInfoFromJwt(accessToken ?? '')
+      const appIdentifier = isSelfHosted ? appId : appSlug
+      window.location.href = makeReAuthenticationUrl(
+        dashboardUrl,
+        appIdentifier
+      )
     }
   }, [])
 
@@ -178,7 +195,8 @@ export function TokenProvider({
           kind,
           domain,
           isProduction: !devMode,
-          currentMode: getCurrentMode({ accessToken })
+          currentMode: getCurrentMode({ accessToken }),
+          organizationSlug
         })
 
         if (!tokenInfo.isValidToken) {
@@ -249,7 +267,7 @@ export function TokenProvider({
   }
 
   if (_state.isLoading) {
-    return <>{loadingElement ?? <div>Loading...</div>}</>
+    return <>{loadingElement}</>
   }
 
   return (
