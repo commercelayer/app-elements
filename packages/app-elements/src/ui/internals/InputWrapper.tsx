@@ -49,7 +49,8 @@ function InputWrapper({
     <div
       className={cn(
         {
-          'grid grid-cols-[1fr_2fr] gap-2 justify-between items-center': inline
+          'grid grid-cols-[1fr_2fr] gap-2 justify-between items-baseline':
+            inline
         },
         className
       )}

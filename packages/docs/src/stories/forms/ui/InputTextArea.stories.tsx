@@ -18,7 +18,7 @@ export const Default = Template.bind({})
 Default.args = {
   label: 'Your name',
   name: 'fullname',
-  value: 'I love Commerce Layer'
+  defaultValue: 'I love Commerce Layer'
 }
 
 export const WithHint = Template.bind({})

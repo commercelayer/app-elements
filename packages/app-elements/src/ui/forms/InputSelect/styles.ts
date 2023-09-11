@@ -51,7 +51,9 @@ export const getSelectStyles = (
     fontSize: 14
   }),
   container: (style) => ({
-    ...style
+    ...style,
+    width: '100%',
+    textAlign: 'left'
   }),
   valueContainer: (style) => ({
     ...style,

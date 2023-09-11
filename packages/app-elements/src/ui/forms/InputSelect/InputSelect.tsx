@@ -102,7 +102,6 @@ export function InputSelect({
       {loadAsyncValues != null ? (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
           <LazyAsyncSelect
-            className='w-full text-left'
             menuIsOpen={menuIsOpen}
             initialValues={initialValues}
             defaultValue={defaultValue}
@@ -123,7 +122,6 @@ export function InputSelect({
       ) : (
         <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
           <LazySelectComponent
-            className='w-full text-left'
             menuIsOpen={menuIsOpen}
             initialValues={initialValues}
             defaultValue={defaultValue}
