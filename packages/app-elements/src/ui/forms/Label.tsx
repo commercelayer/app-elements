@@ -4,6 +4,9 @@ interface Props extends React.LabelHTMLAttributes<HTMLLabelElement> {
   gap?: boolean
 }
 
+/**
+ * The Label component represents a caption for an item in a user interface.
+ */
 export function Label({
   gap,
   children,

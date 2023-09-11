@@ -43,6 +43,7 @@ const Template: StoryFn<typeof HookedInputSpinner> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  label: 'Quantity',
   name: 'quantity',
   max: 10,
   min: 0

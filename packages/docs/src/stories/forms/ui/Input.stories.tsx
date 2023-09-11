@@ -17,7 +17,9 @@ const Template: StoryFn<typeof Input> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  value: 'I love Commerce Layer',
+  label: 'Message',
+  name: 'message',
+  defaultValue: 'I love Commerce Layer',
   type: 'text'
 }
 

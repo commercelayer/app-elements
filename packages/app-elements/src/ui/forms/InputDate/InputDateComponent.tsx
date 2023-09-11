@@ -88,7 +88,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
         feedback={feedback}
         label={label}
       >
-        <div className='relative'>
+        <div className='relative w-full'>
           <DatePicker
             ref={ref}
             selected={value}

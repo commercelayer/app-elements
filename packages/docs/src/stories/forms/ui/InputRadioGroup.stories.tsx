@@ -40,6 +40,7 @@ const Template: StoryFn<typeof InputRadioGroup> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  title: 'Select a Rate',
   name: 'carrier',
   onChange: (v) => {
     console.log(v)
@@ -147,10 +148,11 @@ Default.args = {
   ]
 }
 
-export const DirectionRow = Template.bind({})
-DirectionRow.args = {
+export const ViewModeInline = Template.bind({})
+ViewModeInline.args = {
+  title: 'Choose a box',
   name: 'package',
-  direction: 'row',
+  viewMode: 'inline',
   showInput: false,
   onChange: (v) => {
     console.log(v)
@@ -192,7 +194,7 @@ DirectionRow.args = {
 export const DefaultValue = Template.bind({})
 DefaultValue.args = {
   name: 'package',
-  direction: 'row',
+  viewMode: 'inline',
   showInput: false,
   defaultValue: 'large',
   options: [

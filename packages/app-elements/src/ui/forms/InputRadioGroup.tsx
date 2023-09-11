@@ -1,5 +1,6 @@
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Legend } from '#ui/forms/Legend'
 import cn from 'classnames'
 import { useEffect, useState, type ReactNode } from 'react'
 
@@ -15,6 +16,10 @@ export interface OptionItem {
 }
 
 export interface InputRadioGroupProps {
+  /**
+   * Text to be displayed on top of the list
+   */
+  title?: string
   /**
    * Input name, will be used to set the html name for all radios
    */
@@ -36,10 +41,10 @@ export interface InputRadioGroupProps {
    */
   showInput?: boolean
   /**
-   * Define the `flex-direction`
-   * @default 'column'
+   * Define how the item options are rendered
+   * @default list
    */
-  direction?: 'column' | 'row'
+  viewMode?: 'list' | 'inline'
 }
 
 export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
@@ -47,9 +52,10 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     name,
     options,
     defaultValue,
+    title,
     onChange = () => {},
     showInput = true,
-    direction = 'column'
+    viewMode = 'list'
   }: InputRadioGroupProps) => {
     const [selectedValue, setSelectedValue] = useState(defaultValue)
 
@@ -63,11 +69,12 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     return (
       <fieldset
         className={cn('flex gap-2 wrap', {
-          'flex-col': direction === 'column',
+          'flex-col': viewMode === 'list',
           'flex-row [&>*]:flex-shrink [&>*]:flex-grow [&>*]:basis-0':
-            direction === 'row'
+            viewMode === 'inline'
         })}
       >
+        {title != null && <Legend gap>{title}</Legend>}
         {options.map((optionItem, index) => {
           const isSelected = optionItem.value === selectedValue
 

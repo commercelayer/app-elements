@@ -38,6 +38,7 @@ const Template: StoryFn<typeof InputJson> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  label: 'Configuration',
   onDataReady: () => undefined,
   onDataResetRequest: () => undefined,
   placeholder: { foo: 'bar' },

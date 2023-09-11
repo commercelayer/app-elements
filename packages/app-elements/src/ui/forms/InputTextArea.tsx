@@ -13,13 +13,14 @@ interface InputTextAreaProps
 export const InputTextArea = forwardRef<
   HTMLTextAreaElement,
   InputTextAreaProps
->(({ className, hint, label, feedback, ...rest }, ref): JSX.Element => {
+>(({ className, hint, label, feedback, inline, ...rest }, ref): JSX.Element => {
   return (
     <InputWrapper
       hint={hint}
       feedback={feedback}
       label={label}
       name={rest.id ?? rest.name}
+      inline={inline}
     >
       <textarea
         {...rest}

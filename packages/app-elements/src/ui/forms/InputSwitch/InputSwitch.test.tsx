@@ -1,6 +1,6 @@
 import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { useState } from 'react'
-import { InputToggleBox } from './InputToggleBox'
+import { InputSwitch } from './InputSwitch'
 
 interface SetupProps {
   id: string
@@ -21,7 +21,7 @@ function ToggleImplementation({
 }: SetupProps): JSX.Element {
   const [state, setState] = useState(isChecked)
   return (
-    <InputToggleBox
+    <InputSwitch
       id={id}
       data-testid={id}
       label={label}
@@ -42,7 +42,7 @@ const setup = (props: SetupProps): SetupResult => {
   }
 }
 
-describe('InputTextArea', () => {
+describe('InputSwitch', () => {
   test('Should be rendered', () => {
     const { element, getByLabelText } = setup({
       id: 'my-toggle',

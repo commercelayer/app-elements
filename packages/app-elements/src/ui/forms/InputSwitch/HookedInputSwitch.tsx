@@ -1,11 +1,8 @@
 import { useFormContext } from 'react-hook-form'
 import { HookedValidationError } from '../ReactHookForm'
-import {
-  InputToggleListBox,
-  type InputToggleListBoxProps
-} from './InputToggleListBox'
+import { InputSwitch, type InputSwitchProps } from './InputSwitch'
 
-interface Props extends InputToggleListBoxProps {
+interface Props extends InputSwitchProps {
   /**
    * field name to match hook-form state
    */
@@ -17,10 +14,10 @@ interface Props extends InputToggleListBoxProps {
 }
 
 /**
- * `InputToggleListBox` component ready to be used with the `react-hook-form` context.
- * @see InputToggleListBox
+ * `InputToggleBox` component ready to be used with the `react-hook-form` context.
+ * @see InputSwitch
  */
-export function HookedInputToggleListBox({
+export function HookedInputSwitch({
   name,
   showValidation,
   ...props
@@ -29,10 +26,10 @@ export function HookedInputToggleListBox({
 
   return (
     <>
-      <InputToggleListBox {...props} {...register(name)} />
+      <InputSwitch {...props} {...register(name)} />
       {showValidation === true && <HookedValidationError name={name} />}
     </>
   )
 }
 
-HookedInputToggleListBox.displayName = 'HookedInputToggleListBox'
+HookedInputSwitch.displayName = 'HookedInputSwitch'

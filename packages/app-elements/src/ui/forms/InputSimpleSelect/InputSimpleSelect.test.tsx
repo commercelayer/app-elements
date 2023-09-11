@@ -1,16 +1,16 @@
 import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { useState } from 'react'
 import {
-  InputToggleListBox,
-  type InputToggleListBoxOption
-} from './InputToggleListBox'
+  InputSimpleSelect,
+  type InputSimpleSelectOption
+} from './InputSimpleSelect'
 
 interface SetupProps {
   id: string
   label: string
   description?: React.ReactNode
   value: string
-  options: InputToggleListBoxOption[]
+  options: InputSimpleSelectOption[]
 }
 
 type SetupResult = RenderResult & {
@@ -25,7 +25,7 @@ function ToggleImplementation({
 }: SetupProps): JSX.Element {
   const [selected, setSelected] = useState(value)
   return (
-    <InputToggleListBox
+    <InputSimpleSelect
       id={id}
       data-testid={id}
       label={label}
@@ -47,7 +47,7 @@ const setup = (props: SetupProps): SetupResult => {
   }
 }
 
-describe('ToggleImplementation', () => {
+describe('InputSimpleSelect', () => {
   const options = [
     { label: 'Item 1', value: 'item-1' },
     { label: 'Item 2', value: 'item-2' },

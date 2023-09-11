@@ -292,51 +292,60 @@ exports[`LineItems > should render the InputSpinner and the trash icon when edit
               class="flex-grow"
             >
               <div>
-                <div>
+                <div
+                  class=""
+                >
                   <div
-                    class="flex items-center justify-between rounded w-[122px] focus-within:ring-2 focus-within:ring-primary-500 border border-gray-200"
+                    class="justify-self-end"
                   >
-                    <button
-                      class="py-3 text-xl relative bg-white active:top-[1px] pl-3 pr-1"
-                      data-testid="InputSpinner-decrement"
-                      type="button"
+                    <div
+                      class="flex items-center justify-between rounded w-[122px] focus-within:ring-2 focus-within:ring-primary-500 border border-gray-200"
                     >
-                      <svg
-                        fill="currentColor"
-                        height="1em"
-                        viewBox="0 0 256 256"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
+                      <button
+                        class="py-3 text-xl relative bg-white active:top-[1px] pl-3 pr-1"
+                        data-testid="InputSpinner-decrement"
+                        type="button"
                       >
-                        <path
-                          d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"
-                        />
-                      </svg>
-                    </button>
-                    <input
-                      class="py-2.5 px-0 font-bold border-none min-w-0 text-center focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                      data-testid="InputSpinner-input"
-                      type="number"
-                      value="2"
-                    />
-                    <button
-                      class="py-3 text-xl relative bg-white active:top-[1px] pr-3 pl-1"
-                      data-testid="InputSpinner-increment"
-                      type="button"
-                    >
-                      <svg
-                        fill="currentColor"
-                        height="1em"
-                        viewBox="0 0 256 256"
-                        width="1em"
-                        xmlns="http://www.w3.org/2000/svg"
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                      <input
+                        class="py-2.5 px-0 font-bold border-none min-w-0 text-center focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        data-testid="InputSpinner-input"
+                        type="number"
+                        value="2"
+                      />
+                      <button
+                        class="py-3 text-xl relative bg-white active:top-[1px] pr-3 pl-1"
+                        data-testid="InputSpinner-increment"
+                        type="button"
                       >
-                        <path
-                          d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
-                        />
-                      </svg>
-                    </button>
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
+                  <div
+                    class="col-span-2"
+                  />
                 </div>
               </div>
             </div>

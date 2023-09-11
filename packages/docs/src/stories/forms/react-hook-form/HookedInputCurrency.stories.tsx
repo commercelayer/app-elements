@@ -39,6 +39,7 @@ const Template: StoryFn<typeof HookedInputCurrency> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  label: 'Enter an amount',
   name: 'amount',
   currencyCode: 'USD'
 }

@@ -12,7 +12,7 @@ export interface ActionButtonsProps {
 }
 
 export const ActionButtons = withSkeletonTemplate<ActionButtonsProps>(
-  ({ actions }): JSX.Element | null => {
+  ({ actions }) => {
     const isPrimary = (
       action: ActionButtonsProps['actions'][number]
     ): boolean => action.variant == null || action.variant === 'primary'

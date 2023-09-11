@@ -1,6 +1,7 @@
 import { Hint, type HintProps } from '#ui/atoms/Hint'
 import { InputFeedback, type InputFeedbackProps } from '#ui/forms/InputFeedback'
 import { Label } from '#ui/forms/Label'
+import cn from 'classnames'
 
 export interface InputWrapperBaseProps {
   /**
@@ -18,6 +19,11 @@ export interface InputWrapperBaseProps {
    * optional hint to be rendered below
    */
   feedback?: Omit<InputFeedbackProps, 'className'>
+  /**
+   * show label and input on the same line
+   * @default false
+   */
+  inline?: boolean
 }
 
 export interface InputWrapperProps extends InputWrapperBaseProps {
@@ -36,28 +42,53 @@ function InputWrapper({
   hint,
   feedback,
   name,
+  inline = false,
   ...rest
 }: InputWrapperProps): JSX.Element {
   return (
-    <div className={className} {...rest}>
+    <div
+      className={cn(
+        {
+          'grid grid-cols-[1fr_2fr] gap-2 justify-between items-baseline':
+            inline
+        },
+        className
+      )}
+      {...rest}
+    >
       {label != null && (
-        <Label gap htmlFor={name}>
+        <Label gap={!inline} htmlFor={name}>
           {label}
         </Label>
       )}
-      {children}
-      {feedback != null && (
-        <InputFeedback
-          data-testid='input-feedback'
-          className='mt-2'
-          {...feedback}
-        />
-      )}
-      {hint != null && (
-        <Hint className='mt-2' icon={hint.icon}>
-          {hint.text}
-        </Hint>
-      )}
+      <div
+        className={cn('justify-self-end', {
+          'w-full flex justify-end text-right': inline
+        })}
+      >
+        {children}
+      </div>
+      <div className='col-span-2'>
+        {feedback != null && (
+          <InputFeedback
+            data-testid='input-feedback'
+            className={cn({
+              'mt-2': true
+            })}
+            {...feedback}
+          />
+        )}
+        {hint != null && (
+          <Hint
+            className={cn({
+              'mt-2': !inline || feedback != null
+            })}
+            icon={hint.icon}
+          >
+            {hint.text}
+          </Hint>
+        )}
+      </div>
     </div>
   )
 }
