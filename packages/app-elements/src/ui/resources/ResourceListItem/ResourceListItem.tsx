@@ -98,7 +98,7 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
         case 'returns':
           return returnToProps({ resource, user })
       }
-    }, [resource, orderToProps, returnToProps])
+    }, [resource])
     return (
       <ResourceListItemComponent
         {...listItemProps}
