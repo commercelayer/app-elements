@@ -8,7 +8,7 @@ type Props = Parameters<typeof ResourceListItem>[0] & {
 }
 
 const setup: Meta<Props> = {
-  title: 'Resources/Resource ListItem',
+  title: 'Resources/ResourceListItem',
   component: ResourceListItem,
   argTypes: {
     preset: {
