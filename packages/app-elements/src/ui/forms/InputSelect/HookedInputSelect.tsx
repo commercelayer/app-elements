@@ -1,11 +1,7 @@
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
-import {
-  InputSelect,
-  flatSelectValues,
-  getDefaultValueFromFlatten,
-  type InputSelectProps
-} from './InputSelect'
+import { InputSelect, type InputSelectProps } from './InputSelect'
+import { flatSelectValues, getDefaultValueFromFlatten } from './utils'
 
 interface Props extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
   /**
@@ -35,11 +31,11 @@ interface Props extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
  * Value to be stored in the field can be controlled from the `pathToValue` prop.
  * @see InputSelect
  */
-export function HookedInputSelect({
+export const HookedInputSelect: React.FC<Props> = ({
   name,
   pathToValue = 'value',
   ...props
-}: Props): JSX.Element {
+}: Props) => {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)
 

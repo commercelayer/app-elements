@@ -21,7 +21,7 @@ type ReactSelectLoadOptions = Exclude<
   undefined
 >
 
-export function AsyncSelectComponent({
+export const AsyncSelectComponent: React.FC<AsyncSelectComponentProps> = ({
   onSelect,
   noOptionsMessage,
   initialValues,
@@ -29,7 +29,7 @@ export function AsyncSelectComponent({
   loadAsyncValues,
   debounceMs = 500,
   ...rest
-}: AsyncSelectComponentProps): JSX.Element {
+}) => {
   const loadOptions = useCallback(
     debounce<ReactSelectLoadOptions>((inputText, callback) => {
       void loadAsyncValues(inputText).then((options) => {

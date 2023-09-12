@@ -1,9 +1,9 @@
+import { type SelectValue } from './InputSelect'
 import {
   flatSelectValues,
-  type SelectValue,
-  isGroupedSelectValues,
-  getDefaultValueFromFlatten
-} from './index'
+  getDefaultValueFromFlatten,
+  isGroupedSelectValues
+} from './utils'
 
 const singleValue: SelectValue = {
   value: 'sku001',

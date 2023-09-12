@@ -104,9 +104,9 @@ export const getSelectStyles = (
       ...style,
       ...feedbackStyle,
       borderWidth: 0,
-      boxShadow: 'inset 0 0 0 1px #E6E7E7',
       minHeight: '46px',
-      // boxShadow: `inset 0 0 0 1px ${feedbackStyle.borderColor}`,
+      // boxShadow: 'inset 0 0 0 1px #E6E7E7',
+      boxShadow: `inset 0 0 0 2px ${feedbackStyle.borderColor}`,
       borderRadius: 5,
       cursor: 'pointer',
       '&:focus-within': {

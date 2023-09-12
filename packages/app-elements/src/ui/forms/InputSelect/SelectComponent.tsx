@@ -7,13 +7,13 @@ interface SelectComponentProps
   styles: StylesConfig<SelectValue>
 }
 
-export function SelectComponent({
+export const SelectComponent: React.FC<SelectComponentProps> = ({
   onSelect,
   noOptionsMessage,
   isOptionDisabled,
   initialValues,
   ...rest
-}: SelectComponentProps): JSX.Element {
+}) => {
   return (
     <Select
       {...rest}
