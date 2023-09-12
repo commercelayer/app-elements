@@ -1,22 +1,21 @@
 import type { DisplayStatus } from '#dictionaries/types'
 import { formatDate } from '#helpers/date'
-import type { TokenProviderAuthUser } from '#providers/TokenProvider/types'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Icon } from '#ui/atoms/Icon'
 import { Text } from '#ui/atoms/Text'
 
 interface ListItemDescriptionConfig {
   displayStatus: DisplayStatus
   date: string
-  user: TokenProviderAuthUser | null
   additionalInfos?: string
 }
 
-export const getListItemDescription = ({
+export const ListItemDescription = ({
   displayStatus,
   date,
-  user,
   additionalInfos
 }: ListItemDescriptionConfig): JSX.Element => {
+  const { user } = useTokenProvider()
   return (
     <>
       {formatDate({
@@ -37,10 +36,9 @@ export const getListItemDescription = ({
   )
 }
 
-export const getListItemIcon = (displayStatus: DisplayStatus): JSX.Element => (
-  <Icon
-    name={displayStatus.icon}
-    background={displayStatus.color}
-    gap='large'
-  />
+export const ListItemIcon = ({
+  icon,
+  color
+}: Pick<DisplayStatus, 'icon' | 'color'>): JSX.Element => (
+  <Icon name={icon} background={color} gap='large' />
 )

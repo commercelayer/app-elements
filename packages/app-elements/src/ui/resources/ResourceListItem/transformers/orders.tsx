@@ -6,8 +6,8 @@ import { formatDisplayName } from '#helpers/name'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { Text } from '#ui/atoms/Text'
 import {
-  getListItemDescription,
-  getListItemIcon
+  ListItemDescription,
+  ListItemIcon
 } from '#ui/resources/ResourceListItem/common'
 import type { Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
@@ -26,17 +26,18 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
 
   return {
     name: `${resource.market?.name ?? ''} #${resource.number ?? ''}`,
-    description: getListItemDescription({
-      displayStatus,
-      user,
-      date: resource.placed_at ?? resource.updated_at,
-      additionalInfos: descriptionAdditionalInfos
-    }),
+    description: (
+      <ListItemDescription
+        displayStatus={displayStatus}
+        date={resource.placed_at ?? resource.updated_at}
+        additionalInfos={descriptionAdditionalInfos}
+      />
+    ),
     icon:
       resource.status === 'pending' ? (
         <RadialProgress icon={displayStatus.icon} />
       ) : (
-        getListItemIcon(displayStatus)
+        <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
       ),
     rightContent: (
       <>
