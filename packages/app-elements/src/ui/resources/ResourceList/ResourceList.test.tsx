@@ -17,7 +17,7 @@ const mockedOrder: Order = {
 }
 
 const ItemTemplate: FC<{ resource?: Order }> = ({ resource }) => {
-  resource = resource != null ? resource : mockedOrder
+  resource = resource ?? mockedOrder
   return (
     <div
       data-testid={
