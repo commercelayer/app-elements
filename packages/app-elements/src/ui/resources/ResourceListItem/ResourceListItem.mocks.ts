@@ -162,15 +162,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     created_at: '2023-06-09T11:00:00.000Z',
     status: 'prospect',
-    email: 'john.doe@commercelayer.io'
-  },
-  customerAcquired: {
-    type: 'customers',
-    id: '',
-    updated_at: '2023-06-10T06:38:44.964Z',
-    created_at: '2023-06-09T11:00:00.000Z',
-    status: 'acquired',
-    email: 'john.doe@commercelayer.io'
+    email: 'john.doe@commercelayer.io',
+    total_orders_count: 1
   },
   customerRepeat: {
     type: 'customers',
@@ -178,6 +171,22 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     created_at: '2023-06-09T11:00:00.000Z',
     status: 'repeat',
-    email: 'john.doe@commercelayer.io'
+    email: 'john.doe@commercelayer.io',
+    total_orders_count: 10
+  },
+  customerAcquired: {
+    type: 'customers',
+    id: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    status: 'acquired',
+    email: 'john.doe@commercelayer.io',
+    customer_group: {
+      type: 'customer_groups',
+      id: '',
+      name: 'VIP',
+      updated_at: '2023-06-10T06:38:44.964Z',
+      created_at: '2023-06-09T11:00:00.000Z'
+    }
   }
 } satisfies Record<string, Order | Return | Customer>

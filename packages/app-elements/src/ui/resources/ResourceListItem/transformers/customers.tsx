@@ -1,3 +1,4 @@
+import { formatResourceName } from '#helpers/resources'
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import type { Customer } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
@@ -9,7 +10,10 @@ export const customerToProps: ResourceToProps<Customer> = ({
 }) => {
   return {
     name: resource.email,
-    description: `${resource.total_orders_count ?? 0} orders
+    description: `${resource.total_orders_count ?? 0} ${formatResourceName({
+      resource: 'orders',
+      count: resource.total_orders_count ?? 0
+    })}
     ${
       !isEmpty(resource.customer_group)
         ? ` · ${resource.customer_group?.name}`
