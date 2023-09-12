@@ -33,7 +33,7 @@ jobs:
         if: "github.event.release.prerelease"
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          pnpm -r publish --tag next --no-git-checks --access restricted
+          pnpm -r publish --tag next --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -41,7 +41,7 @@ jobs:
         if: "!github.event.release.prerelease"
         run: |
           npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          pnpm -r publish --no-git-checks --access restricted
+          pnpm -r publish --no-git-checks --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
