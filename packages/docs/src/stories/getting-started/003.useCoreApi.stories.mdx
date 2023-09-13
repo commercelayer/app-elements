@@ -1,4 +1,4 @@
-import { Meta } from '@storybook/blocks';
+import { Meta, Source } from '@storybook/blocks';
 
 <Meta title="Getting Started/useCoreApi"></Meta>
 
@@ -7,7 +7,11 @@ import { Meta } from '@storybook/blocks';
 `useCoreApi` is an hook used to to perform api request base on `@commercelayer/sdk` and `swr`.
 
 Example:
-```jsx
+
+<Source
+  language="tsx"
+  dark
+  code={`
 const {
   data: order,
   isLoading,
@@ -36,7 +40,7 @@ const {
     fallbackData: makeOrder()
   }
 )
-```
+`} />
 
 
 TODO: To be completed...
