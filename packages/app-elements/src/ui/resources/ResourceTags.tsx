@@ -1,5 +1,7 @@
+import { navigateTo } from '#helpers/appsNavigation'
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Tag as TagUi } from '#ui/atoms/Tag'
@@ -35,6 +37,7 @@ type TaggableResource = Extract<
 interface TagsOverlay {
   title: string
   description?: string
+  showManageAction?: boolean
 }
 
 export const ResourceTags = withSkeletonTemplate<{
@@ -88,6 +91,14 @@ export const ResourceTags = withSkeletonTemplate<{
   )
 
   if (resourceTags == null) return <></>
+
+  const { settings } = useTokenProvider()
+  const navigateToTagsManagement = navigateTo({
+    destination: {
+      app: 'tags',
+      mode: settings.mode
+    }
+  })
 
   return (
     <div>
@@ -162,6 +173,12 @@ export const ResourceTags = withSkeletonTemplate<{
           onGoBack={() => {
             close()
           }}
+          actionButton={
+            overlay.showManageAction != null &&
+            overlay.showManageAction && (
+              <a {...navigateToTagsManagement}>Manage tags</a>
+            )
+          }
         >
           <InputSelect
             label='Tags'
