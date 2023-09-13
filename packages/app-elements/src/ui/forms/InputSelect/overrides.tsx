@@ -1,8 +1,11 @@
+import { Tag } from '#ui/atoms/Tag'
 import { X } from '@phosphor-icons/react'
 import {
   components,
   type ClearIndicatorProps,
   type DropdownIndicatorProps,
+  type GroupBase,
+  type MultiValueGenericProps,
   type MultiValueRemoveProps
 } from 'react-select'
 import { type SelectValue } from '.'
@@ -45,15 +48,29 @@ function ClearIndicator(props: ClearIndicatorProps<SelectValue>): JSX.Element {
   )
 }
 
+function MultiValueContainer(
+  props: MultiValueGenericProps<
+    MultiValueGenericProps<SelectValue, boolean, GroupBase<SelectValue>>
+  >
+): JSX.Element {
+  return <Tag tag='div'>{props.children}</Tag>
+}
+
+function MultiValueLabel(
+  props: MultiValueGenericProps<
+    MultiValueGenericProps<SelectValue, boolean, GroupBase<SelectValue>>
+  >
+): string {
+  return props.data.label
+}
+
 function MultiValueRemove(
   props: MultiValueRemoveProps<SelectValue>
 ): JSX.Element {
   return (
-    <components.MultiValueRemove {...props}>
-      <button type='button' className='cursor-pointer'>
-        <X weight='bold' />
-      </button>
-    </components.MultiValueRemove>
+    <div {...props.innerProps} className='cursor-pointer py-1 px-2 -mx-2'>
+      <X weight='bold' />
+    </div>
   )
 }
 
@@ -61,6 +78,8 @@ const selectComponentOverrides = {
   DropdownIndicator,
   IndicatorSeparator: () => null,
   ClearIndicator,
+  MultiValueContainer,
+  MultiValueLabel,
   MultiValueRemove
 }
 
