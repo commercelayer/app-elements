@@ -173,7 +173,9 @@ export function navigateTo(
     e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
   ) => void
 } | null {
-  const destinationFullUrl = `${window.location.origin}/${params.destination.app}/list/${params.destination.resourceId}`
+  const destinationFullUrl = `${window.location.origin}/${
+    params.destination.app
+  }/list/${params.destination.resourceId ?? ''}`
 
   // cross linking is allowed only for Commerce Layer hosted apps. It's disabled for forked (self-hosted) apps.
   const isClHostedApp =
