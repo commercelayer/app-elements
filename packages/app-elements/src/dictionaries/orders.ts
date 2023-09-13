@@ -1,6 +1,7 @@
-import { type TriggerAttribute } from '#helpers/resources'
-import { type IconProps } from '#ui/atoms/Icon'
+import type { TriggerAttribute } from '#helpers/resources'
+import type { IconProps } from '#ui/atoms/Icon'
 import type { Order, OrderUpdate } from '@commercelayer/sdk'
+import type { DisplayStatus } from './types'
 
 type UITriggerAttributes =
   | Extract<
@@ -13,8 +14,7 @@ type UITriggerAttributes =
       | '_unarchive'
     >
   | '_return'
-
-interface OrderDisplayStatus {
+export interface OrderDisplayStatus extends DisplayStatus {
   label: string
   icon: IconProps['name']
   color: IconProps['background']

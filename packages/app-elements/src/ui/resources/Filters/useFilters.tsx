@@ -5,7 +5,7 @@ import {
   ResourceList,
   type ResourceListProps
 } from '#ui/resources/ResourceList'
-import { type ResourceListItem } from '#ui/resources/ResourceList/ResourceList'
+import { type ResourceListItemTemplate } from '#ui/resources/ResourceList/ResourceList'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -61,7 +61,7 @@ interface UseFiltersHook {
       ResourceListProps<TResource>,
       'type' | 'query' | 'emptyState' | 'actionButton'
     > &
-      ResourceListItem<TResource>
+      ResourceListItemTemplate<TResource>
   ) => JSX.Element
   /**
    * SDK filters object to be used in the sdk query
