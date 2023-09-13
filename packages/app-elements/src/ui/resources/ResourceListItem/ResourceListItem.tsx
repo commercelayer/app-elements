@@ -39,49 +39,53 @@ export interface ResourceListItemProps {
 type ResourceListItemConfig = Pick<ResourceListItemProps, 'tag' | 'onClick'> &
   ResourceListItemComponentProps
 
-const ResourceListItemComponent: React.FC<ResourceListItemConfig> = ({
-  name,
-  description,
-  icon,
-  rightContent,
-  showArrow = false,
-  tag = 'div',
-  onClick,
-  ...rest
-}) => {
-  const showRightContent = rightContent != null && !showArrow
+const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
+  ({
+    name,
+    description,
+    icon,
+    rightContent,
+    showArrow = false,
+    tag = 'div',
+    onClick,
+    ...rest
+  }) => {
+    const showRightContent = rightContent != null && !showArrow
 
-  return (
-    <ListItem
-      tag={tag}
-      icon={icon}
-      alignItems={showRightContent ? 'top' : 'center'}
-      data-test-id='ResourceListItem'
-      onClick={onClick}
-      {...rest}
-    >
-      <div>
-        <Text
-          tag='div'
-          weight='semibold'
-          data-test-id='ResourceListItem-number'
-        >
-          {name}
-        </Text>
-        <Text
-          tag='div'
-          weight='medium'
-          size='small'
-          variant='info'
-          data-test-id='ResourceListItem-content'
-        >
-          {description}
-        </Text>
-      </div>
-      <div>{showRightContent ? rightContent : <Icon name='caretRight' />}</div>
-    </ListItem>
-  )
-}
+    return (
+      <ListItem
+        tag={tag}
+        icon={icon}
+        alignItems={showRightContent ? 'top' : 'center'}
+        data-test-id='ResourceListItem'
+        onClick={onClick}
+        {...rest}
+      >
+        <div>
+          <Text
+            tag='div'
+            weight='semibold'
+            data-test-id='ResourceListItem-number'
+          >
+            {name}
+          </Text>
+          <Text
+            tag='div'
+            weight='medium'
+            size='small'
+            variant='info'
+            data-test-id='ResourceListItem-content'
+          >
+            {description}
+          </Text>
+        </div>
+        <div>
+          {showRightContent ? rightContent : <Icon name='caretRight' />}
+        </div>
+      </ListItem>
+    )
+  }
+)
 
 /**
  * This component generates a list item based on the requested resource data and type.

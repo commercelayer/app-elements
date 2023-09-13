@@ -33,7 +33,7 @@ import { Package } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { useCallback, useMemo } from 'react'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
-import { LineItems } from './LineItems'
+import { ResourceLineItems } from './ResourceLineItems'
 
 type SetNonNullableRequired<
   BaseType,
@@ -46,7 +46,7 @@ function hasPackage(
   return parcel.package != null
 }
 
-export const ShipmentParcels = withSkeletonTemplate<{
+export const ResourceShipmentParcels = withSkeletonTemplate<{
   shipment: ShipmentResource
   onRemoveParcel?: (parcelId: string) => void
 }>(({ shipment, onRemoveParcel }) => {
@@ -100,7 +100,7 @@ export const ShipmentParcels = withSkeletonTemplate<{
   )
 })
 
-ShipmentParcels.displayName = 'ShipmentParcels'
+ResourceShipmentParcels.displayName = 'ResourceShipmentParcels'
 
 const Parcel = withSkeletonTemplate<{
   parcel: SetNonNullableRequired<ParcelResource, 'package'>
@@ -124,7 +124,7 @@ const Parcel = withSkeletonTemplate<{
       }
     >
       {parcel.parcel_line_items != null && (
-        <LineItems items={parcel.parcel_line_items} size='small' />
+        <ResourceLineItems items={parcel.parcel_line_items} size='small' />
       )}
       <Spacer top='6'>
         <Text size='small'>

@@ -85,7 +85,7 @@ const Edit = withSkeletonTemplate<{
   )
 })
 
-export const LineItems = withSkeletonTemplate<{
+export const ResourceLineItems = withSkeletonTemplate<{
   items: Item[]
   size?: 'small' | 'normal'
   footer?: React.ReactNode
@@ -314,7 +314,7 @@ export const LineItems = withSkeletonTemplate<{
   )
 })
 
-LineItems.displayName = 'LineItems'
+ResourceLineItems.displayName = 'ResourceLineItems'
 
 const LineItemOptions = withSkeletonTemplate<{
   lineItemOptions: LineItem['line_item_options']

@@ -8,6 +8,7 @@ import { Text } from '#ui/atoms/Text'
 import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { ResourceListItem } from '#ui/resources/ResourceListItem'
+import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ResourceList> = {
@@ -24,6 +25,8 @@ const setup: Meta<typeof ResourceList> = {
 }
 export default setup
 
+const mockedOrder = presetResourceListItem.orderAwaitingApproval
+
 export const WithItem: StoryFn<typeof ResourceList> = () => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
@@ -33,10 +36,10 @@ export const WithItem: StoryFn<typeof ResourceList> = () => {
           emptyState={<div>Empty</div>}
           type='orders'
           actionButton={<Button variant='link'>Add new</Button>}
-          ItemTemplate={({ resource = { id: '' }, isLoading }) => {
+          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
             return (
               <SkeletonTemplate isLoading={isLoading}>
-                <ResourceListItem resource={resource as any} />
+                <ResourceListItem resource={resource} />
               </SkeletonTemplate>
             )
           }}
@@ -124,10 +127,10 @@ export const WithInfiniteScrolling: StoryFn<typeof ResourceList> = () => {
           title='Orders'
           type='orders'
           emptyState={<div>Empty</div>}
-          ItemTemplate={({ resource = { id: '' }, isLoading }) => {
+          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
             return (
               <SkeletonTemplate isLoading={isLoading}>
-                <ResourceListItem resource={resource as any} />
+                <ResourceListItem resource={resource} />
               </SkeletonTemplate>
             )
           }}

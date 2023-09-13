@@ -1,7 +1,7 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { presetLineItems } from '#ui/resources/LineItems.mocks'
-import { OrderSummary } from '#ui/resources/OrderSummary'
+import { presetLineItems } from '#ui/resources/ResourceLineItems.mocks'
+import { ResourceOrderSummary } from '#ui/resources/ResourceOrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 /**
@@ -9,16 +9,16 @@ import { type Meta, type StoryFn } from '@storybook/react'
  * Order Summary is using the `LineItems` components to render the `line_items` at the top.
  * </blockquote>
  */
-const setup: Meta<typeof OrderSummary> = {
-  title: 'Resources/OrderSummary',
-  component: OrderSummary,
+const setup: Meta<typeof ResourceOrderSummary> = {
+  title: 'Resources/ResourceOrderSummary',
+  component: ResourceOrderSummary,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-type Order = Parameters<typeof OrderSummary>[0]['order']
+type Order = Parameters<typeof ResourceOrderSummary>[0]['order']
 
 const order: Order = {
   type: 'orders',
@@ -86,11 +86,11 @@ const order: Order = {
   ]
 }
 
-const Template: StoryFn<typeof OrderSummary> = (args) => {
+const Template: StoryFn<typeof ResourceOrderSummary> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <OrderSummary {...args} />
+        <ResourceOrderSummary {...args} />
       </CoreSdkProvider>
     </TokenProvider>
   )
@@ -135,7 +135,7 @@ EditableEmptyAdjustment.args = {
 }
 
 /**
- * All `line_items` amounts with the `item_type` equal to `adjustments` are shown as a single row in the OrderSummary.
+ * All `line_items` amounts with the `item_type` equal to `adjustments` are shown as a single row in the ResourceOrderSummary.
  *
  * When the order is in `editing` status, you can click on the adjustment value to update it.
  */

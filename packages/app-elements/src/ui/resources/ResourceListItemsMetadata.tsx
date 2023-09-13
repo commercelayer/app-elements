@@ -4,7 +4,7 @@ import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
 import type { Metadata } from '@commercelayer/sdk/lib/cjs/resource'
 
-const ListItemsMetadata = withSkeletonTemplate<{
+export const ResourceListItemsMetadata = withSkeletonTemplate<{
   metadata?: Metadata
 }>(({ metadata }) => {
   if (metadata == null || Object.keys(metadata).length === 0) return <></>
@@ -34,5 +34,4 @@ const ListItemsMetadata = withSkeletonTemplate<{
   )
 })
 
-ListItemsMetadata.displayName = 'ListItemsMetadata'
-export { ListItemsMetadata }
+ResourceListItemsMetadata.displayName = 'ResourceListItemsMetadata'

@@ -1,6 +1,6 @@
-import { type ShipmentParcels } from '#ui/resources/ShipmentParcels'
+import { type ResourceShipmentParcels } from '#ui/resources/ResourceShipmentParcels'
 
-type Shipment = Parameters<typeof ShipmentParcels>[0]['shipment']
+type Shipment = Parameters<typeof ResourceShipmentParcels>[0]['shipment']
 type Parcel = NonNullable<Shipment['parcels']>[number]
 type Package = NonNullable<Parcel['package']>
 type ParcelLineItems = NonNullable<Parcel['parcel_line_items']>[number]

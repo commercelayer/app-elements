@@ -219,6 +219,7 @@ export function ResourceList<TResource extends ListableResourceType>({
     </Section>
   )
 }
+
 ResourceList.displayName = 'ResourceList'
 
 function ErrorLine({

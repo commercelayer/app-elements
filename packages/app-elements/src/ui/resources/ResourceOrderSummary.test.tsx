@@ -3,7 +3,7 @@ import { type Order } from '@commercelayer/sdk'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'
-import { OrderSummary } from './OrderSummary'
+import { ResourceOrderSummary } from './ResourceOrderSummary'
 
 const order: Order = {
   type: 'orders',
@@ -82,11 +82,11 @@ const order: Order = {
   ]
 }
 
-describe('OrderSummary', () => {
+describe('ResourceOrderSummary', () => {
   it('should render', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <OrderSummary
+        <ResourceOrderSummary
           order={{
             ...order,
             subtotal_amount_cents: 14160,
@@ -112,34 +112,44 @@ describe('OrderSummary', () => {
       )
     )
 
-    expect(queryByTestId('OrderSummary-Subtotal')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Subtotal-value')).toHaveTextContent(
-      '$141.60'
-    )
+    expect(queryByTestId('ResourceOrderSummary-Subtotal')).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Subtotal-value')
+    ).toHaveTextContent('$141.60')
 
-    expect(queryByTestId('OrderSummary-Discount')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Adjustments')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Shipping method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Shipping method-value')
+      queryByTestId('ResourceOrderSummary-Discount')
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Adjustments')
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Shipping method')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Shipping method-value')
     ).toHaveTextContent('$12.00')
-    expect(queryByTestId('OrderSummary-Payment method')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Payment method-value')
+      queryByTestId('ResourceOrderSummary-Payment method')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Payment method-value')
     ).toHaveTextContent('$10.00')
-    expect(queryByTestId('OrderSummary-Taxes')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Taxes-value')).toHaveTextContent(
+    expect(queryByTestId('ResourceOrderSummary-Taxes')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Taxes-value')).toHaveTextContent(
       '$31.15'
     )
-    expect(queryByTestId('OrderSummary-Gift card')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Total-value')).toHaveTextContent(
+    expect(
+      queryByTestId('ResourceOrderSummary-Gift card')
+    ).not.toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Total')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Total-value')).toHaveTextContent(
       '$132.45'
     )
   })
 
   it('should only show line_items with an the item_type attribute equal to "skus" or "bundles"', async () => {
-    const { queryAllByText } = render(<OrderSummary order={order} />)
+    const { queryAllByText } = render(<ResourceOrderSummary order={order} />)
     await waitFor(() => {
       expect(queryAllByText('Gray Baby Bib with Black Logo').length).toEqual(2)
     })
@@ -150,7 +160,7 @@ describe('OrderSummary', () => {
   it('should always show "subtotal", "shipping" and "total" even if the price is equal to 0 or undefined', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <OrderSummary
+        <ResourceOrderSummary
           order={{
             ...order,
             subtotal_amount_cents: 0,
@@ -170,23 +180,33 @@ describe('OrderSummary', () => {
       )
     )
 
-    expect(queryByTestId('OrderSummary-Subtotal')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Discount')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Adjustments')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Shipping method')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Subtotal')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Shipping method-value')
+      queryByTestId('ResourceOrderSummary-Discount')
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Adjustments')
+    ).not.toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Shipping method')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Shipping method-value')
     ).toHaveTextContent('free')
-    expect(queryByTestId('OrderSummary-Payment method')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Taxes')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Gift card')).not.toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Payment method')
+    ).not.toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Taxes')).not.toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Gift card')
+    ).not.toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Total')).toBeInTheDocument()
   })
 
   it('should show everything when price is greater or lower than 0', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <OrderSummary
+        <ResourceOrderSummary
           order={{
             ...order,
             subtotal_amount_cents: 5,
@@ -210,64 +230,72 @@ describe('OrderSummary', () => {
       )
     )
 
-    expect(queryByTestId('OrderSummary-Subtotal')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Subtotal-value')).toHaveTextContent(
-      '$5.00'
-    )
-
-    expect(queryByTestId('OrderSummary-Discount')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Discount-value')).toHaveTextContent(
-      '$5.00'
-    )
-
-    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Subtotal')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+      queryByTestId('ResourceOrderSummary-Subtotal-value')
+    ).toHaveTextContent('$5.00')
+
+    expect(queryByTestId('ResourceOrderSummary-Discount')).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Discount-value')
+    ).toHaveTextContent('$5.00')
+
+    expect(queryByTestId('ResourceOrderSummary-Adjustment')).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Adjustment-value')?.children[0]
     ).not.toBeInstanceOf(HTMLButtonElement)
-    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
+    expect(
+      queryByTestId('ResourceOrderSummary-Adjustment-value')
+    ).toHaveTextContent('$5.00')
+
+    expect(
+      queryByTestId('ResourceOrderSummary-Shipping method')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Shipping method-value')
+    ).toHaveTextContent('$5.00')
+
+    expect(
+      queryByTestId('ResourceOrderSummary-Payment method')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Payment method-value')
+    ).toHaveTextContent('$5.00')
+
+    expect(queryByTestId('ResourceOrderSummary-Taxes')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Taxes-value')).toHaveTextContent(
       '$5.00'
     )
 
-    expect(queryByTestId('OrderSummary-Shipping method')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Gift card')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Shipping method-value')
+      queryByTestId('ResourceOrderSummary-Gift card-value')
     ).toHaveTextContent('$5.00')
 
-    expect(queryByTestId('OrderSummary-Payment method')).toBeInTheDocument()
-    expect(
-      queryByTestId('OrderSummary-Payment method-value')
-    ).toHaveTextContent('$5.00')
-
-    expect(queryByTestId('OrderSummary-Taxes')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Taxes-value')).toHaveTextContent('$5.00')
-
-    expect(queryByTestId('OrderSummary-Gift card')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Gift card-value')).toHaveTextContent(
+    expect(queryByTestId('ResourceOrderSummary-Total')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Total-value')).toHaveTextContent(
       '$5.00'
     )
-
-    expect(queryByTestId('OrderSummary-Total')).toBeInTheDocument()
-    expect(queryByTestId('OrderSummary-Total-value')).toHaveTextContent('$5.00')
   })
 
   it('should show "Adjust total" beside Adjustment as Button when `editable` prop is set to true', async () => {
     const { queryByTestId } = await act(async () =>
-      render(<OrderSummary editable order={order} />)
+      render(<ResourceOrderSummary editable order={order} />)
     )
 
-    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Adjustment')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+      queryByTestId('ResourceOrderSummary-Adjustment-value')?.children[0]
     ).toBeInstanceOf(HTMLButtonElement)
-    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
-      'Adjust total'
-    )
+    expect(
+      queryByTestId('ResourceOrderSummary-Adjustment-value')
+    ).toHaveTextContent('Adjust total')
   })
 
   it('should render the adjustment value as Button when `editable` prop is set to true', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <OrderSummary
+        <ResourceOrderSummary
           editable
           order={{
             ...order,
@@ -278,18 +306,18 @@ describe('OrderSummary', () => {
       )
     )
 
-    expect(queryByTestId('OrderSummary-Adjustment')).toBeInTheDocument()
+    expect(queryByTestId('ResourceOrderSummary-Adjustment')).toBeInTheDocument()
     expect(
-      queryByTestId('OrderSummary-Adjustment-value')?.children[0]
+      queryByTestId('ResourceOrderSummary-Adjustment-value')?.children[0]
     ).toBeInstanceOf(HTMLButtonElement)
-    expect(queryByTestId('OrderSummary-Adjustment-value')).toHaveTextContent(
-      '$5.00'
-    )
+    expect(
+      queryByTestId('ResourceOrderSummary-Adjustment-value')
+    ).toHaveTextContent('$5.00')
   })
 
   it('should not render the action buttons when not defined', async () => {
     const { queryByTestId } = await act(async () =>
-      render(<OrderSummary order={order} />)
+      render(<ResourceOrderSummary order={order} />)
     )
 
     expect(queryByTestId('action-buttons')).not.toBeInTheDocument()
@@ -302,7 +330,7 @@ describe('OrderSummary', () => {
 
     const { getByText, getByTestId } = await act(async () =>
       render(
-        <OrderSummary
+        <ResourceOrderSummary
           order={order}
           footerActions={[
             {
@@ -367,7 +395,7 @@ describe('OrderSummary', () => {
       .mockImplementation(() => {})
     const { getByText, getByTestId } = await act(async () =>
       render(
-        <OrderSummary
+        <ResourceOrderSummary
           order={order}
           footerActions={[
             {

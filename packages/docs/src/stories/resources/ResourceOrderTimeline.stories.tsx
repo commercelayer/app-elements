@@ -1,22 +1,22 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { OrderTimeline } from '#ui/resources/OrderTimeline'
+import { ResourceOrderTimeline } from '#ui/resources/ResourceOrderTimeline'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: Meta<typeof OrderTimeline> = {
-  title: 'Resources/OrderTimeline',
-  component: OrderTimeline,
+const setup: Meta<typeof ResourceOrderTimeline> = {
+  title: 'Resources/ResourceOrderTimeline',
+  component: ResourceOrderTimeline,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof OrderTimeline> = (args) => {
+const Template: StoryFn<typeof ResourceOrderTimeline> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <OrderTimeline {...args} />
+        <ResourceOrderTimeline {...args} />
       </CoreSdkProvider>
     </TokenProvider>
   )

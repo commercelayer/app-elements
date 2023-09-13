@@ -1,8 +1,8 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { fireEvent, render, waitFor, within } from '@testing-library/react'
-import { LineItems } from './LineItems'
-import { presetLineItems } from './LineItems.mocks'
+import { ResourceLineItems } from './ResourceLineItems'
+import { presetLineItems } from './ResourceLineItems.mocks'
 
 const lineItemUpdate = vi.fn().mockResolvedValue({})
 const lineItemDelete = vi.fn().mockResolvedValue({})
@@ -56,7 +56,7 @@ vi.mock('#providers/CoreSdkProvider', async (importOriginal) => {
   }
 })
 
-describe('LineItems', () => {
+describe('ResourceLineItems', () => {
   afterEach(() => {
     vi.clearAllMocks()
   })
@@ -65,7 +65,7 @@ describe('LineItems', () => {
     const { getAllByRole, container } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
-          <LineItems items={[presetLineItems.oneLine]} />
+          <ResourceLineItems items={[presetLineItems.oneLine]} />
         </CoreSdkProvider>
       </MockTokenProvider>
     )
@@ -98,7 +98,7 @@ describe('LineItems', () => {
     const { getAllByRole, container } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
-          <LineItems
+          <ResourceLineItems
             items={[presetLineItems.oneLine]}
             footer={<div>Ehi there!</div>}
           />
@@ -120,7 +120,7 @@ describe('LineItems', () => {
     const { queryAllByText } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
-          <LineItems items={Object.values(presetLineItems)} />
+          <ResourceLineItems items={Object.values(presetLineItems)} />
         </CoreSdkProvider>
       </MockTokenProvider>
     )
@@ -142,7 +142,7 @@ describe('LineItems', () => {
     const { getAllByRole, container } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
-          <LineItems items={[presetLineItems.withOptions]} />
+          <ResourceLineItems items={[presetLineItems.withOptions]} />
         </CoreSdkProvider>
       </MockTokenProvider>
     )
@@ -183,7 +183,7 @@ describe('LineItems', () => {
     const { getAllByRole, container } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
-          <LineItems items={[presetLineItems.withBundle]} />
+          <ResourceLineItems items={[presetLineItems.withBundle]} />
         </CoreSdkProvider>
       </MockTokenProvider>
     )
@@ -237,7 +237,7 @@ describe('LineItems', () => {
     const { getAllByRole, container } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
-          <LineItems items={[presetLineItems.oneLine]} editable />
+          <ResourceLineItems items={[presetLineItems.oneLine]} editable />
         </CoreSdkProvider>
       </MockTokenProvider>
     )
