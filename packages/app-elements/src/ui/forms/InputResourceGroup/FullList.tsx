@@ -1,8 +1,8 @@
 import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
-import { Text } from '#ui/atoms/Text'
 import { SearchBar } from '#ui/composite/SearchBar'
+import { InputWrapper } from '#ui/internals/InputWrapper'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
@@ -122,49 +122,48 @@ export function FullList({
         </Spacer>
       )}
 
-      <Spacer bottom='4'>
-        <SkeletonTemplate isLoading={totalCount == null || totalCount === 0}>
-          <Text variant='info' weight='medium'>
-            {computeLabelWithSelected({
-              label: title,
-              selectedCount,
-              totalCount
-            })}
-          </Text>
-        </SkeletonTemplate>
-      </Spacer>
-
-      <Card gap='1'>
-        <ResourceList
-          type={resource}
-          emptyState={<div>No items found</div>}
-          query={{
-            pageSize: 25,
-            filters,
-            sort: {
-              [sortBy.attribute]: sortBy.direction
-            }
-          }}
-          ItemTemplate={({ isLoading, resource }) => {
-            const item = prepareCheckboxItemOrMock({
-              resource,
-              isLoading,
-              fieldForLabel,
-              fieldForValue
-            })
-            return (
-              <Checkbox
-                item={item}
-                checked={values.includes(item.value)}
-                onChange={() => {
-                  toggleValue(item.value)
-                }}
-                showIcon={showCheckboxIcon}
-              />
-            )
-          }}
-        />
-      </Card>
+      <SkeletonTemplate isLoading={totalCount == null || totalCount === 0}>
+        <InputWrapper
+          fieldset
+          label={computeLabelWithSelected({
+            label: title,
+            selectedCount,
+            totalCount
+          })}
+        >
+          <Card gap='1'>
+            <ResourceList
+              type={resource}
+              emptyState={<div>No items found</div>}
+              query={{
+                pageSize: 25,
+                filters,
+                sort: {
+                  [sortBy.attribute]: sortBy.direction
+                }
+              }}
+              ItemTemplate={({ isLoading, resource }) => {
+                const item = prepareCheckboxItemOrMock({
+                  resource,
+                  isLoading,
+                  fieldForLabel,
+                  fieldForValue
+                })
+                return (
+                  <Checkbox
+                    item={item}
+                    checked={values.includes(item.value)}
+                    onChange={() => {
+                      toggleValue(item.value)
+                    }}
+                    showIcon={showCheckboxIcon}
+                  />
+                )
+              }}
+            />
+          </Card>
+        </InputWrapper>
+      </SkeletonTemplate>
     </div>
   )
 }
