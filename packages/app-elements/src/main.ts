@@ -1,7 +1,7 @@
 import '#styles/global.css'
 
 // Helpers
-export { goBack, navigateToDetail } from '#helpers/appsNavigation'
+export { goBack, navigateTo } from '#helpers/appsNavigation'
 export { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 export {
   formatDate,
