@@ -1,0 +1,97 @@
+:root {
+  --color-primary: #656eff;
+  --icon-carret-right: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGcgaWQ9IkNhcmV0UmlnaHQiPgo8cGF0aCBpZD0iVmVjdG9yIiBkPSJNMTIgNkwyMiAxNkwxMiAyNiIgc3Ryb2tlPSJibGFjayIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz4KPC9nPgo8L3N2Zz4K');
+}
+
+* {
+  box-sizing: border-box !important;
+}
+
+/* Logo and context menu */
+.sidebar-header img {
+  margin: 16px 0;
+  max-height: 29px;
+}
+.sidebar-container .sidebar-header button[title='Shortcuts'] {
+  display: none;
+}
+.sidebar-container .sidebar-header div:first-of-type {
+  margin: 0;
+  justify-content: center;
+}
+
+/* Other changes */
+.sidebar-container {
+  background: white;
+}
+
+.sidebar-container .sidebar-subheading .sidebar-subheading-action,
+.sidebar-container button.sidebar-item > svg {
+  display: none;
+}
+.sidebar-container .sidebar-subheading {
+  margin-top: 32px;
+  margin-bottom: 6px;
+}
+.sidebar-container .sidebar-subheading > button {
+  width: 100%;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.sidebar-container .sidebar-subheading > button > span,
+.sidebar-container button.sidebar-item > span {
+  background-image: var(--icon-carret-right);
+  border: none;
+  width: 16px;
+  height: 16px;
+  background-size: 100%;
+  margin: 0 !important;
+}
+.sidebar-container .sidebar-subheading > button:focus {
+  color: var(--color-primary);
+}
+
+.sidebar-container button.sidebar-item {
+  margin: 16px 0 10px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  font-size: 14px;
+  line-height: 22px;
+  color: #5c6975;
+  background-color: transparent !important;
+}
+
+div.sidebar-item {
+  padding: 0;
+  margin: 4px 20px 4px 20px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  color: rgba(136, 153, 168, 1);
+  font-size: 14px;
+  line-height: 22px;
+}
+div.sidebar-item > a {
+  padding: 4px 8px;
+  font-size: inherit;
+}
+div.sidebar-item:hover {
+  background-color: #eceff1;
+}
+div.sidebar-item[data-selected='true'],
+div.sidebar-item[data-selected='true']:focus,
+div.sidebar-item[data-selected='true']:hover {
+  color: var(--color-primary);
+  background: #f3f3fc;
+}
+div.sidebar-item[data-selected='true'] svg {
+  color: currentColor !important;
+}
+div.sidebar-item svg {
+  display: none;
+}
