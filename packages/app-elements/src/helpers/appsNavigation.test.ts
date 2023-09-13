@@ -1,8 +1,4 @@
-import {
-  goBack,
-  navigateToDetail,
-  type BackToItem
-} from '#helpers/appsNavigation'
+import { goBack, navigateTo, type BackToItem } from '#helpers/appsNavigation'
 
 // should always match version set in appsNavigation.ts
 const currentVersion = 0.2
@@ -23,7 +19,7 @@ function allowLocationMocks(): void {
   }
 }
 
-describe('navigateToDetail', () => {
+describe('navigateTo', () => {
   beforeEach(() => {
     sessionStorage.clear()
     allowLocationMocks()
@@ -31,7 +27,7 @@ describe('navigateToDetail', () => {
   })
 
   test('should return an href string', () => {
-    const navigate = navigateToDetail({
+    const navigate = navigateTo({
       destination: {
         app: 'customers',
         resourceId: 'xBszDaQsAZ',
@@ -51,7 +47,7 @@ describe('navigateToDetail', () => {
     window.location.assign = vi.fn()
 
     // we want to x-link to a customer details in app-customers
-    const navigate = navigateToDetail({
+    const navigate = navigateTo({
       destination: {
         app: 'customers',
         resourceId: '<customerId>',
@@ -81,7 +77,7 @@ describe('navigateToDetail', () => {
     const mockedSetLocation = vi.fn()
 
     // we want to x-link to customers app
-    const navigate = navigateToDetail({
+    const navigate = navigateTo({
       setLocation: mockedSetLocation,
       destination: {
         app: 'orders',
@@ -112,7 +108,7 @@ describe('navigateToDetail', () => {
     const mockedSetLocation = vi.fn()
 
     // we want to x-link to customers app
-    const navigate = navigateToDetail({
+    const navigate = navigateTo({
       setLocation: mockedSetLocation,
       destination: {
         app: 'orders',
@@ -134,7 +130,7 @@ describe('navigateToDetail', () => {
     window.location.origin = 'https://my-custom-domain.com'
 
     // we want to x-link to customers app
-    const navigate = navigateToDetail({
+    const navigate = navigateTo({
       destination: {
         app: 'customers',
         resourceId: 'xbSzDaQsAZ',

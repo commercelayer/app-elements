@@ -121,7 +121,7 @@ export function goBack({
   window.location.assign(item.url)
 }
 
-interface NavigateToInternalDetailsParams {
+interface NavigateToInternalParams {
   /**
    * React router's history.push method, this is used when linking internal app pages.
    */
@@ -137,11 +137,11 @@ interface NavigateToInternalDetailsParams {
     /**
      * resource id to open
      */
-    resourceId: string
+    resourceId?: string
   }
 }
 
-interface NavigateToExternalDetailsParams {
+interface NavigateToExternalParams {
   /**
    * destination instructions to navigate to a detail page
    */
@@ -153,7 +153,7 @@ interface NavigateToExternalDetailsParams {
     /**
      * resource id to open
      */
-    resourceId: string
+    resourceId?: string
     /**
      * required when linking to another app, it indicates if the destination app should be opened in test or live mode
      */
@@ -165,8 +165,8 @@ interface NavigateToExternalDetailsParams {
  * Navigate to an internal or external URL or pathname and store the current url in sessionStorage
  * to be able to navigate back to it with the `goBack` function.
  */
-export function navigateToDetail(
-  params: NavigateToInternalDetailsParams | NavigateToExternalDetailsParams
+export function navigateTo(
+  params: NavigateToInternalParams | NavigateToExternalParams
 ): {
   href: string
   onClick: (
@@ -208,7 +208,7 @@ export function navigateToDetail(
 }
 
 function isNavigateToInternalParams(
-  params: NavigateToInternalDetailsParams | NavigateToExternalDetailsParams
-): params is NavigateToInternalDetailsParams {
+  params: NavigateToInternalParams | NavigateToExternalParams
+): params is NavigateToInternalParams {
   return 'setLocation' in params
 }
