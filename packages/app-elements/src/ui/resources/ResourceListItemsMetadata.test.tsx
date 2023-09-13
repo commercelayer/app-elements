@@ -1,6 +1,6 @@
 import { type Metadata } from '@commercelayer/sdk/lib/cjs/resource'
 import { render } from '@testing-library/react'
-import { ListItemsMetadata } from './ListItemsMetadata'
+import { ResourceListItemsMetadata } from './ResourceListItemsMetadata'
 
 const metadata: Metadata = {
   name: 'Michael',
@@ -10,9 +10,11 @@ const metadata: Metadata = {
   specs: { teams: ['Chicago Bulls', 'Washington Wizards'] }
 }
 
-describe('ListItemsMetadata', () => {
+describe('ResourceListItemsMetadata', () => {
   it('should render ListItems of object entries with string values', () => {
-    const { queryByTestId } = render(<ListItemsMetadata metadata={metadata} />)
+    const { queryByTestId } = render(
+      <ResourceListItemsMetadata metadata={metadata} />
+    )
 
     expect(queryByTestId('ListItemsMetadata-item-name')).toBeVisible()
     expect(queryByTestId('ListItemsMetadata-value-name')?.innerHTML).toContain(
@@ -29,7 +31,9 @@ describe('ListItemsMetadata', () => {
   })
 
   it('should not render ListItems of object entries with non string values', () => {
-    const { queryByTestId } = render(<ListItemsMetadata metadata={metadata} />)
+    const { queryByTestId } = render(
+      <ResourceListItemsMetadata metadata={metadata} />
+    )
     expect(queryByTestId('ListItemsMetadata-item-age')).toBeNull()
     expect(queryByTestId('ListItemsMetadata-item-specs')).toBeNull()
   })

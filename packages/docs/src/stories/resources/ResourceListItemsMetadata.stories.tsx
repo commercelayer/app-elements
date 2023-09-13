@@ -1,17 +1,17 @@
-import { ListItemsMetadata } from '#ui/resources/ListItemsMetadata'
+import { ResourceListItemsMetadata } from '#ui/resources/ResourceListItemsMetadata'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: Meta<typeof ListItemsMetadata> = {
-  title: 'Resources/ListItemsMetadata (DEPRECATED)',
-  component: ListItemsMetadata,
+const setup: Meta<typeof ResourceListItemsMetadata> = {
+  title: 'Resources/ResourceListItemsMetadata (DEPRECATED)',
+  component: ResourceListItemsMetadata,
   parameters: {
     layout: 'padded'
   }
 }
 export default setup
 
-const Template: StoryFn<typeof ListItemsMetadata> = (args) => (
-  <ListItemsMetadata {...args} />
+const Template: StoryFn<typeof ResourceListItemsMetadata> = (args) => (
+  <ResourceListItemsMetadata {...args} />
 )
 
 export const Default = Template.bind({})

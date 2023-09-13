@@ -15,7 +15,7 @@ import {
   type Reducer
 } from 'react'
 
-export const OrderTimeline = withSkeletonTemplate<{
+export const ResourceOrderTimeline = withSkeletonTemplate<{
   orderId?: string
   refresh?: boolean
   attachmentOption?: {
@@ -445,4 +445,4 @@ const useTimelineReducer = (order: Order) => {
   return [events, dispatch] as const
 }
 
-OrderTimeline.displayName = 'OrderTimeline'
+ResourceOrderTimeline.displayName = 'ResourceOrderTimeline'

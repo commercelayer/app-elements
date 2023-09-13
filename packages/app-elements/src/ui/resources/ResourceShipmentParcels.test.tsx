@@ -1,12 +1,12 @@
 import { render, within } from '@testing-library/react'
-import { ShipmentParcels } from './ShipmentParcels'
+import { ResourceShipmentParcels } from './ResourceShipmentParcels'
 import {
   shipmentWithMultipleParcelsMultipleTrackings,
   shipmentWithMultipleParcelsSingleTracking,
   shipmentWithSingleParcelSingleTracking,
   shipmentWithoutParcels,
   shipmentWithoutTracking
-} from './ShipmentParcels.mocks'
+} from './ResourceShipmentParcels.mocks'
 
 function getValueByDetailName(
   withinNode: HTMLElement,
@@ -15,10 +15,10 @@ function getValueByDetailName(
   return within(withinNode).getByText(text).parentNode?.nextSibling
 }
 
-describe('ShipmentParcels', () => {
+describe('ResourceShipmentParcels', () => {
   it('Should not be rendered when no parcels', () => {
     const { getByTestId } = render(
-      <ShipmentParcels shipment={shipmentWithoutParcels} />
+      <ResourceShipmentParcels shipment={shipmentWithoutParcels} />
     )
 
     const shipmentParcels = getByTestId(
@@ -31,7 +31,7 @@ describe('ShipmentParcels', () => {
 
   it('Should be rendered without tracking information', () => {
     const { getByTestId } = render(
-      <ShipmentParcels shipment={shipmentWithoutTracking} />
+      <ResourceShipmentParcels shipment={shipmentWithoutTracking} />
     )
 
     const shipmentParcels = getByTestId(
@@ -48,7 +48,9 @@ describe('ShipmentParcels', () => {
 
   it('Should be rendered with a single parcel and a single tracking information', () => {
     const { getByTestId } = render(
-      <ShipmentParcels shipment={shipmentWithSingleParcelSingleTracking} />
+      <ResourceShipmentParcels
+        shipment={shipmentWithSingleParcelSingleTracking}
+      />
     )
 
     const shipmentParcels = getByTestId(
@@ -86,7 +88,9 @@ describe('ShipmentParcels', () => {
 
   it('Should be rendered with multiple parcels and a single tracking information', () => {
     const { getByTestId } = render(
-      <ShipmentParcels shipment={shipmentWithMultipleParcelsSingleTracking} />
+      <ResourceShipmentParcels
+        shipment={shipmentWithMultipleParcelsSingleTracking}
+      />
     )
 
     const shipmentParcels = getByTestId(
@@ -131,7 +135,7 @@ describe('ShipmentParcels', () => {
 
   it('Should be rendered with multiple parcels and multiple tracking information', () => {
     const { getByTestId } = render(
-      <ShipmentParcels
+      <ResourceShipmentParcels
         shipment={shipmentWithMultipleParcelsMultipleTrackings}
       />
     )

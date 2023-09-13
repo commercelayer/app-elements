@@ -18,7 +18,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Fragment, useMemo } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { LineItems } from './LineItems'
+import { ResourceLineItems } from './ResourceLineItems'
 
 interface TotalRowProps {
   /** Displayed label */
@@ -33,7 +33,7 @@ interface TotalRowProps {
   force?: boolean
 }
 
-export const OrderSummary = withSkeletonTemplate<{
+export const ResourceOrderSummary = withSkeletonTemplate<{
   editable?: boolean
   onChange?: () => void
   footerActions?: ActionButtonsProps['actions']
@@ -44,7 +44,7 @@ export const OrderSummary = withSkeletonTemplate<{
   return (
     <div>
       {editable && <Overlay />}
-      <LineItems
+      <ResourceLineItems
         editable={editable}
         onChange={onChange}
         items={order.line_items ?? []}
@@ -212,11 +212,11 @@ function renderTotalRow({
 }): JSX.Element {
   return (
     <FlexRow
-      data-testid={`OrderSummary-${label}`}
+      data-testid={`ResourceOrderSummary-${label}`}
       className='my-4 first:mt-0 last:mb-0 font-medium last:font-bold'
     >
       <Text>{label}</Text>
-      <Text data-testid={`OrderSummary-${label}-value`} wrap='nowrap'>
+      <Text data-testid={`ResourceOrderSummary-${label}-value`} wrap='nowrap'>
         {value}
       </Text>
     </FlexRow>
@@ -274,4 +274,4 @@ function renderDiscounts(order: Order): JSX.Element | null {
   )
 }
 
-OrderSummary.displayName = 'OrderSummary'
+ResourceOrderSummary.displayName = 'ResourceOrderSummary'

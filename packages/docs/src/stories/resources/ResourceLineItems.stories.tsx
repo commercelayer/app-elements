@@ -2,17 +2,17 @@ import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Text } from '#ui/atoms/Text'
 import { FlexRow } from '#ui/internals/FlexRow'
-import { LineItems } from '#ui/resources/LineItems'
-import { presetLineItems } from '#ui/resources/LineItems.mocks'
+import { ResourceLineItems } from '#ui/resources/ResourceLineItems'
+import { presetLineItems } from '#ui/resources/ResourceLineItems.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-type Props = Parameters<typeof LineItems>[0] & {
+type Props = Parameters<typeof ResourceLineItems>[0] & {
   preset: Array<keyof typeof presetLineItems | 'custom'>
 }
 
 const setup: Meta<Props> = {
-  title: 'Resources/LineItems',
-  component: LineItems,
+  title: 'Resources/ResourceLineItems',
+  component: ResourceLineItems,
   argTypes: {
     preset: {
       options: ['custom', ...Object.keys(presetLineItems)],
@@ -34,7 +34,7 @@ const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <LineItems
+        <ResourceLineItems
           {...args}
           items={[
             ...(preset.includes('custom') ? items : []),
@@ -113,7 +113,7 @@ export const List: StoryFn<Props> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <LineItems
+        <ResourceLineItems
           {...args}
           items={Object.values(presetLineItems)}
           footer={footer}
