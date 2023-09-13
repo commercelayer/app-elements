@@ -166,10 +166,7 @@ export { ResourceOrderSummary } from '#ui/resources/ResourceOrderSummary'
 export { ResourceOrderTimeline } from '#ui/resources/ResourceOrderTimeline'
 export { ResourceShipmentParcels } from '#ui/resources/ResourceShipmentParcels'
 export { ResourceTags } from '#ui/resources/ResourceTags'
-export {
-  makeFilterAdapters,
-  useResourceFilters
-} from '#ui/resources/useResourceFilters'
+export { useResourceFilters } from '#ui/resources/useResourceFilters'
 // Dictionaries
 export {
   getCustomerDisplayStatus,
