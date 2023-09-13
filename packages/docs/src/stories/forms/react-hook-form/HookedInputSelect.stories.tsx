@@ -9,12 +9,7 @@ const setup: Meta<typeof HookedInputSelect> = {
   title: 'Forms/react-hook-form/HookedInputSelect',
   component: HookedInputSelect,
   parameters: {
-    layout: 'padded',
-    docs: {
-      source: {
-        type: 'code'
-      }
-    }
+    layout: 'padded'
   }
 }
 export default setup
@@ -38,6 +33,13 @@ const Template: StoryFn<typeof HookedInputSelect> = (args) => {
 }
 
 export const Default = Template.bind({})
+Default.parameters = {
+  docs: {
+    source: {
+      type: 'code'
+    }
+  }
+}
 Default.args = {
   label: 'City',
   name: 'city',
@@ -53,6 +55,42 @@ Default.args = {
     {
       value: 'london',
       label: 'London'
+    }
+  ]
+}
+
+/**
+ * This example shows how to use the `pathToValue` prop to store in form state
+ * a value that is different from the one displayed in the select.
+ * <blockquote type="info">Here we are using storing the values of `meta.cityCode`</blockquote>
+ */
+export const MultiSelect = Template.bind({})
+MultiSelect.args = {
+  label: 'City',
+  name: 'city',
+  isMulti: true,
+  pathToValue: 'meta.cityCode',
+  initialValues: [
+    {
+      value: 'paris',
+      label: 'Paris',
+      meta: {
+        cityCode: 'EU_PARIS'
+      }
+    },
+    {
+      value: 'rome',
+      label: 'Rome',
+      meta: {
+        cityCode: 'EU_ROME'
+      }
+    },
+    {
+      value: 'new york',
+      label: 'New York',
+      meta: {
+        cityCode: 'US_NY'
+      }
     }
   ]
 }

@@ -1,10 +1,5 @@
-import {
-  InputSelect,
-  type InputSelectProps,
-  type SelectValue
-} from '#ui/forms/InputSelect'
+import { InputSelect, type SelectValue } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { useState } from 'react'
 
 const fullList = [
   { value: 'customers', label: 'Customers' },
@@ -21,12 +16,28 @@ const fullList = [
   { value: 'sku_options', label: 'Sku Options' }
 ].sort((a, b) => a.label.localeCompare(b.label))
 
+const fakeSearch = (hint: string): SelectValue[] =>
+  fullList.filter((item) =>
+    item.label.toLowerCase().includes(hint.toLowerCase())
+  )
+
 const setup: Meta<typeof InputSelect> = {
   title: 'Forms/ui/InputSelect',
   component: InputSelect,
   parameters: {
     layout: 'padded'
-  }
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          paddingBottom: '300px'
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 
@@ -34,15 +45,22 @@ const Template: StoryFn<typeof InputSelect> = (args) => {
   return <InputSelect {...args} />
 }
 
+/**
+ * <blockquote type='info'>Default mode with ability to search within the provided `initialValues`</blockquote>
+ */
 export const Simple = Template.bind({})
 Simple.args = {
   label: 'Search resource',
   initialValues: fullList,
   placeholder: 'Type to filter list...',
   isSearchable: true,
-  isClearable: false
+  isClearable: false,
+  onBlur: () => {}
 }
 
+/**
+ * <blockquote type='info'>With the `loadAsyncValues` prop, it's possible to return options asynchronously while typing. </blockquote>
+ */
 export const Async = Template.bind({})
 Async.args = {
   label: 'Search resource',
@@ -63,6 +81,9 @@ Async.args = {
   }
 }
 
+/**
+ * <blockquote type='info'>`isMulti` allows to select more than one value</blockquote>
+ */
 export const Multi = Template.bind({})
 Multi.args = {
   label: 'Search resource',
@@ -73,29 +94,46 @@ Multi.args = {
   isClearable: false
 }
 
-const fakeSearch = (hint: string): SelectValue[] =>
-  fullList.filter((item) =>
-    item.label.toLowerCase().includes(hint.toLowerCase())
-  )
-
-const TemplateError: StoryFn<typeof InputSelect> = (args) => {
-  const [feedback, setFeedback] = useState<InputSelectProps['feedback']>()
-  return (
-    <InputSelect
-      {...args}
-      label='Select resource'
-      initialValues={fullList}
-      onSelect={() => {
-        setFeedback({
-          variant: 'danger',
-          message: 'Required field'
-        })
-      }}
-      hint={{
-        text: `Select an option to show error feedback`
-      }}
-      feedback={feedback}
-    />
-  )
+/**
+ * <blockquote type='info'>Options can be grouped by passing an array of objects with `label` and `options` properties.</blockquote>
+ */
+export const GroupedOptions = Template.bind({})
+GroupedOptions.args = {
+  label: 'Select a Country',
+  initialValues: [
+    {
+      label: 'Europe',
+      options: [
+        { label: 'France', value: 'fr' },
+        { label: 'Italy', value: 'it' },
+        { label: 'Spain', value: 'es' },
+        { label: 'Germany', value: 'de' }
+      ]
+    },
+    {
+      label: 'America',
+      options: [
+        { label: 'United States', value: 'us' },
+        { label: 'Canada', value: 'ca' },
+        { label: 'Mexico', value: 'mx' }
+      ]
+    }
+  ],
+  placeholder: 'Type to filter list...',
+  isMulti: false,
+  isSearchable: true,
+  isClearable: true
 }
-export const WithError = TemplateError.bind({})
+
+export const WithError = Template.bind({})
+WithError.args = {
+  label: 'Search resource',
+  initialValues: fullList,
+  placeholder: 'Type to filter list...',
+  isSearchable: true,
+  isClearable: false,
+  feedback: {
+    variant: 'danger',
+    message: 'Required field'
+  }
+}

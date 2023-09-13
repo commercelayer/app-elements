@@ -1,25 +1,12 @@
-import { SkeletonItem } from '#ui/atoms/Skeleton'
 import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
-import get from 'lodash/get'
-import { Suspense, lazy, type FocusEventHandler } from 'react'
-import { type MultiValue, type SingleValue } from 'react-select'
+import { type FocusEventHandler } from 'react'
+import { type MultiValue, type Options, type SingleValue } from 'react-select'
+import { AsyncSelectComponent } from './AsyncComponent'
+import { SelectComponent } from './SelectComponent'
 import { getSelectStyles } from './styles'
-
-const LazyAsyncSelect = lazy(
-  async () =>
-    await import('./Async').then((module) => ({
-      default: module.AsyncSelectComponent
-    }))
-)
-const LazySelectComponent = lazy(
-  async () =>
-    await import('./Select').then((module) => ({
-      default: module.SelectComponent
-    }))
-)
 
 export type GroupedSelectValues = Array<{
   label: string
@@ -37,21 +24,72 @@ export type PossibleSelectValue =
   | SingleValue<SelectValue>
 
 export interface InputSelectProps extends InputWrapperBaseProps {
+  /**
+   * Initial values to populate the select options. It can be a flat array of values or a grouped array.
+   */
   initialValues: GroupedSelectValues | SelectValue[]
+  /**
+   * Selected value or values, in case of `isMulti`
+   */
   defaultValue?: SelectValue | SelectValue[]
+  /**
+   * Placeholder text to display when no value is selected
+   */
   placeholder?: string
+  /**
+   * Controls loading UI state
+   */
   isLoading?: boolean
+  /**
+   * Text to display when loading
+   */
   loadingText?: string
+  /**
+   * Add a clear button (x) to the select to empty all selected values
+   */
   isClearable?: boolean
+  /**
+   * Disable the select
+   */
   isDisabled?: boolean
+  /**
+   * When `true` it's possible to type to narrow down the options
+   */
   isSearchable?: boolean
+  /**
+   * Allow to select multiple values
+   */
   isMulti?: boolean
-  isOptionDisabled?: () => boolean
+  /**
+   * Custom rule to disable an option
+   */
+  isOptionDisabled?: (
+    option: SelectValue,
+    selectValue: Options<SelectValue>
+  ) => boolean
+  /**
+   * Callback triggered when a value is selected.
+   */
   onSelect: (value: PossibleSelectValue) => void
+  /**
+   * onBlur event handler
+   */
   onBlur?: FocusEventHandler<HTMLInputElement>
+  /**
+   * HTML name attribute for the input component
+   */
   name?: string
+  /**
+   * When `true` the dropdown menu is always open
+   */
   menuIsOpen?: boolean
+  /**
+   * Message to display when no options are found
+   */
   noOptionsMessage?: string
+  /**
+   * css class name
+   */
   className?: string
   /**
    * Function to load async values on search
@@ -60,13 +98,24 @@ export interface InputSelectProps extends InputWrapperBaseProps {
     inputValue: string
   ) => Promise<GroupedSelectValues | SelectValue[]>
   /**
-   * Debounce time in milliseconds for async search
-   * Only works when `loadAsyncValues` is provided
+   * Debounce time in milliseconds for async search.
+   * It only works when `loadAsyncValues` is provided
    */
   debounceMs?: number
 }
 
-export function InputSelect({
+/**
+ * Advanced select component with support for async options loading and multi-select.
+ * It's a wrapper around `react-select` with a subset of props exposed.
+ *
+ * To enable async data fetching for loading options while typing, provide the `loadAsyncValues` prop.
+ * This function will be used to fetch new options while typing and the results will be displayed in the options menu.
+ *
+ * When `isSearchable` is `true`, it's possible to type to narrow down the options. The component will always be searchable when `loadAsyncValues` is provided.
+ * On both standard and async mode it can be set to select a single single value or multiple values.
+ *
+ */
+export const InputSelect: React.FC<InputSelectProps> = ({
   label,
   hint,
   feedback,
@@ -89,7 +138,7 @@ export function InputSelect({
   debounceMs,
   noOptionsMessage = 'No results found',
   ...rest
-}: InputSelectProps): JSX.Element {
+}) => {
   return (
     <InputWrapper
       className={className}
@@ -100,147 +149,42 @@ export function InputSelect({
       {...rest}
     >
       {loadAsyncValues != null ? (
-        <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
-          <LazyAsyncSelect
-            menuIsOpen={menuIsOpen}
-            initialValues={initialValues}
-            defaultValue={defaultValue}
-            isClearable={isClearable}
-            placeholder={isLoading === true ? loadingText : placeholder}
-            isDisabled={isLoading === true || isDisabled === true}
-            onSelect={onSelect}
-            isMulti={isMulti}
-            onBlur={onBlur}
-            name={name}
-            noOptionsMessage={noOptionsMessage}
-            loadAsyncValues={loadAsyncValues}
-            styles={getSelectStyles(feedback?.variant)}
-            debounceMs={debounceMs}
-            isOptionDisabled={isOptionDisabled}
-          />
-        </Suspense>
+        <AsyncSelectComponent
+          menuIsOpen={menuIsOpen}
+          initialValues={initialValues}
+          defaultValue={defaultValue}
+          isClearable={isClearable}
+          placeholder={isLoading === true ? loadingText : placeholder}
+          isDisabled={isLoading === true || isDisabled === true}
+          onSelect={onSelect}
+          isMulti={isMulti}
+          onBlur={onBlur}
+          name={name}
+          noOptionsMessage={noOptionsMessage}
+          loadAsyncValues={loadAsyncValues}
+          styles={getSelectStyles(feedback?.variant)}
+          debounceMs={debounceMs}
+          isOptionDisabled={isOptionDisabled}
+        />
       ) : (
-        <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
-          <LazySelectComponent
-            menuIsOpen={menuIsOpen}
-            initialValues={initialValues}
-            defaultValue={defaultValue}
-            isClearable={isClearable}
-            placeholder={isLoading === true ? loadingText : placeholder}
-            isDisabled={isLoading === true || isDisabled === true}
-            isSearchable={isSearchable}
-            onSelect={onSelect}
-            isMulti={isMulti}
-            isOptionDisabled={isOptionDisabled}
-            onBlur={onBlur}
-            name={name}
-            styles={getSelectStyles(feedback?.variant)}
-          />
-        </Suspense>
+        <SelectComponent
+          menuIsOpen={menuIsOpen}
+          initialValues={initialValues}
+          defaultValue={defaultValue}
+          isClearable={isClearable}
+          placeholder={isLoading === true ? loadingText : placeholder}
+          isDisabled={isLoading === true || isDisabled === true}
+          isSearchable={isSearchable}
+          onSelect={onSelect}
+          isMulti={isMulti}
+          isOptionDisabled={isOptionDisabled}
+          onBlur={onBlur}
+          name={name}
+          styles={getSelectStyles(feedback?.variant)}
+        />
       )}
     </InputWrapper>
   )
-}
-
-/**
- * Helper function to understand and refine type of a single selected value
- * @param selectedValue possible value returned from select component
- * @returns true if selected value is single, from this point TypeScript will treat this as `SelectValue` type
- */
-export function isSingleValueSelected(
-  selectedValue: PossibleSelectValue
-): selectedValue is SelectValue {
-  return selectedValue != null && !Array.isArray(selectedValue)
-}
-
-/**
- * Helper function to understand and refine type of a set of selected values
- * @param selectedValue possible value returned from select component
- * @returns true if selected value is an array of selected values, from this point TypeScript will treat this as `SelectValue[]` type
- */
-export function isMultiValueSelected(
-  selectedValue: PossibleSelectValue
-): selectedValue is SelectValue[] {
-  return selectedValue != null && Array.isArray(selectedValue)
-}
-
-/**
- * Type-guard to check if prop `initialValues` is a GroupedSelectValues or SelectValue
- */
-export function isGroupedSelectValues(
-  initialValues?: GroupedSelectValues | SelectValue[]
-): initialValues is GroupedSelectValues {
-  if (initialValues == null || initialValues.length === 0) {
-    return false
-  }
-  return (initialValues as []).every((v) => 'options' in v)
-}
-
-/**
- * Helper function to extract only a specific property from the `SelectValue`
- * @param selectedValue possible value returned from select component
- * @param pathToValue optional path.to.property. Default is `value`
- * @returns a string or an array of strings.
- * Examples:
- * ```
- * flatSelectValues({value: 'ABCD', label: 'T-Shirt XL'})
- * // returns 'ABCD'
- *
- * flatSelectValues([
- *   {value: 'ABCD', label: 'T-Shirt M'},
- *   {value: '1234', label: 'T-Shirt XL'},
- * ], 'label')
- * // returns ['T-Shirt M', 'T-Shirt XL']
- * ```
- */
-export function flatSelectValues(
-  selectedValue: PossibleSelectValue,
-  pathToValue = 'value'
-): null | string | Array<string | number> {
-  if (selectedValue == null) {
-    return selectedValue
-  }
-
-  return isSingleValueSelected(selectedValue)
-    ? get(selectedValue, pathToValue)
-    : selectedValue.map((item) => get(item, pathToValue))
-}
-
-/**
- * To be used when storing the flatten value and there is the need
- * to retrieve the `defaultValue` to pass as <InputSelect> prop
- * @param currentValue the current value that is being stored in app state
- * @param initialValues the array of SelectValue objects that should contain the `currentValue`
- * @param pathToValue optional path.to.property. Default is `value`
- * @returns the matched value or values, otherwise undefined.
- */
-export function getDefaultValueFromFlatten({
-  currentValue,
-  initialValues = [],
-  pathToValue = 'value'
-}: {
-  currentValue?: string | Array<string | number> | null
-  initialValues?: GroupedSelectValues | SelectValue[]
-  pathToValue?: string
-}): SelectValue | SelectValue[] | undefined {
-  if (currentValue == null) {
-    return undefined
-  }
-
-  const options = isGroupedSelectValues(initialValues)
-    ? initialValues.flatMap((v) => v.options)
-    : initialValues
-
-  if (Array.isArray(currentValue)) {
-    return options.filter((v) => {
-      const valueToCompare = get(v, pathToValue)
-      return currentValue.includes(valueToCompare)
-    })
-  }
-
-  return options.find((v) => {
-    return currentValue === get(v, pathToValue)
-  })
 }
 
 InputSelect.displayName = 'InputSelect'
