@@ -43,7 +43,7 @@ export const ResourceTags = withSkeletonTemplate<{
   overlay: TagsOverlay
   onTagClick?: (tagId: string) => void
 }>(({ resourceType, resourceId, overlay, onTagClick }) => {
-  const { Overlay, open, close } = useOverlay()
+  const { Overlay, open, close } = useOverlay({ queryParam: 'edit-tags' })
   const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
     useState(false)
 
