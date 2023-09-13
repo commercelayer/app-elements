@@ -1,4 +1,3 @@
-import { Spacer } from '#ui/atoms/Spacer'
 import {
   InputCurrency,
   formatCentsToCurrency,
@@ -40,6 +39,7 @@ export function InputCurrencyRange({
   label,
   hint,
   currencyList,
+  inline,
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   defaultCurrency = currencyList[0]!,
   className,
@@ -81,77 +81,77 @@ export function InputCurrencyRange({
   }, [activeCurrency])
 
   return (
-    <InputWrapper hint={hint} feedback={feedback} className={className}>
-      <fieldset>
-        {label != null ? (
-          <Spacer bottom='4'>
-            <legend className='text-gray-500 font-medium'>{label}</legend>
-          </Spacer>
-        ) : null}
-        <div className='flex gap-4'>
-          <InputCurrency
-            currencyCode={activeCurrency}
-            cents={internalFromCents}
-            onChange={(newCents, formatted) => {
-              setInternalCents([newCents, internalToCents])
-              onChange(
-                { cents: newCents, formatted },
-                {
-                  cents: internalToCents,
-                  formatted:
-                    internalToCents != null
-                      ? formatCentsToCurrency(internalToCents, activeCurrency)
-                      : ''
-                },
-                activeCurrency
-              )
-            }}
-            placeholder={placeholders[0]}
-            aria-label={placeholders[0]}
-            hideCurrencySymbol
-            isClearable
-          />
+    <InputWrapper
+      label={label}
+      hint={hint}
+      feedback={feedback}
+      className={className}
+      inline={inline}
+      fieldset
+    >
+      <div className='flex gap-4'>
+        <InputCurrency
+          currencyCode={activeCurrency}
+          cents={internalFromCents}
+          onChange={(newCents, formatted) => {
+            setInternalCents([newCents, internalToCents])
+            onChange(
+              { cents: newCents, formatted },
+              {
+                cents: internalToCents,
+                formatted:
+                  internalToCents != null
+                    ? formatCentsToCurrency(internalToCents, activeCurrency)
+                    : ''
+              },
+              activeCurrency
+            )
+          }}
+          placeholder={placeholders[0]}
+          aria-label={placeholders[0]}
+          hideCurrencySymbol
+          isClearable
+        />
 
-          <InputCurrency
-            currencyCode={activeCurrency}
-            cents={internalToCents}
-            onChange={(newCents, formatted) => {
-              setInternalCents([internalFromCents, newCents])
-              onChange(
-                {
-                  cents: internalFromCents,
-                  formatted:
-                    internalFromCents != null
-                      ? formatCentsToCurrency(internalFromCents, activeCurrency)
-                      : ''
-                },
-                { cents: newCents, formatted },
-                activeCurrency
-              )
-            }}
-            placeholder={placeholders[1]}
-            aria-label={placeholders[1]}
-            hideCurrencySymbol
-            isClearable
-          />
+        <InputCurrency
+          currencyCode={activeCurrency}
+          cents={internalToCents}
+          onChange={(newCents, formatted) => {
+            setInternalCents([internalFromCents, newCents])
+            onChange(
+              {
+                cents: internalFromCents,
+                formatted:
+                  internalFromCents != null
+                    ? formatCentsToCurrency(internalFromCents, activeCurrency)
+                    : ''
+              },
+              { cents: newCents, formatted },
+              activeCurrency
+            )
+          }}
+          placeholder={placeholders[1]}
+          aria-label={placeholders[1]}
+          hideCurrencySymbol
+          isClearable
+        />
 
-          <InputSelect
-            initialValues={currencyList.map((currency) => ({
-              value: currency,
-              label: currency
-            }))}
-            defaultValue={{ value: defaultCurrency, label: defaultCurrency }}
-            onSelect={(currency) => {
-              if (currency != null && isSingleValueSelected(currency)) {
-                setActiveCurrency(currency.value as Uppercase<CurrencyCode>)
-              }
-            }}
-            className='min-w-max'
-            data-testid='currency-select'
-            aria-label='currency'
-          />
-        </div>
-      </fieldset>
+        <InputSelect
+          initialValues={currencyList.map((currency) => ({
+            value: currency,
+            label: currency
+          }))}
+          defaultValue={{ value: defaultCurrency, label: defaultCurrency }}
+          onSelect={(currency) => {
+            if (currency != null && isSingleValueSelected(currency)) {
+              setActiveCurrency(currency.value as Uppercase<CurrencyCode>)
+            }
+          }}
+          className='min-w-max'
+          data-testid='currency-select'
+          aria-label='currency'
+        />
+      </div>
     </InputWrapper>
   )
 }

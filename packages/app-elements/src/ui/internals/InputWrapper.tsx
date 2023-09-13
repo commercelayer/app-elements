@@ -1,7 +1,10 @@
 import { Hint, type HintProps } from '#ui/atoms/Hint'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { InputFeedback, type InputFeedbackProps } from '#ui/forms/InputFeedback'
 import { Label } from '#ui/forms/Label'
+import { Legend } from '#ui/forms/Legend'
 import cn from 'classnames'
+import { Fragment } from 'react'
 
 export interface InputWrapperBaseProps {
   /**
@@ -33,68 +36,79 @@ export interface InputWrapperProps extends InputWrapperBaseProps {
   className?: string
   name?: string
   children: React.ReactNode
+  fieldset?: boolean
 }
 
-function InputWrapper({
-  label,
-  children,
-  className,
-  hint,
-  feedback,
-  name,
-  inline = false,
-  ...rest
-}: InputWrapperProps): JSX.Element {
-  return (
-    <div
-      className={cn(
-        {
-          'grid grid-cols-[1fr_2fr] gap-2 justify-between items-baseline':
-            inline
-        },
-        className
-      )}
-      {...rest}
-    >
-      {label != null && (
-        <Label gap={!inline} htmlFor={name}>
-          {label}
-        </Label>
-      )}
-      <div
-        className={cn('justify-self-end', {
-          'w-full flex justify-end text-right': inline
-        })}
-      >
-        {children}
-      </div>
-      <div className='col-span-2'>
-        {feedback != null && (
-          <InputFeedback
-            data-testid='input-feedback'
-            className={cn({
-              'mt-2': true
+export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
+  ({
+    label,
+    children,
+    className,
+    hint,
+    feedback,
+    name,
+    fieldset = false,
+    inline = false,
+    isLoading,
+    delayMs,
+    ...rest
+  }) => {
+    const Fieldset = fieldset ? 'fieldset' : Fragment
+    return (
+      <Fieldset>
+        <div
+          className={cn(
+            {
+              'grid grid-cols-[1fr_2fr] gap-2 justify-between items-baseline':
+                inline
+            },
+            className
+          )}
+          {...rest}
+        >
+          {label != null &&
+            (fieldset ? (
+              <Legend gap={!inline}>{label}</Legend>
+            ) : (
+              <Label gap={!inline} htmlFor={name}>
+                {label}
+              </Label>
+            ))}
+          <div
+            className={cn('justify-self-end', {
+              'w-full flex justify-end text-right': inline
             })}
-            {...feedback}
-          />
-        )}
-        {hint != null && (
-          <Hint
-            className={cn({
-              'mt-2': !inline || feedback != null
-            })}
-            icon={hint.icon}
           >
-            {hint.text}
-          </Hint>
-        )}
-      </div>
-    </div>
-  )
-}
+            {children}
+          </div>
+          <div className='col-span-2'>
+            {feedback != null && (
+              <InputFeedback
+                data-testid='input-feedback'
+                className={cn({
+                  'mt-2': true
+                })}
+                {...feedback}
+              />
+            )}
+            {hint != null && (
+              <Hint
+                className={cn({
+                  'mt-2': !inline || feedback != null
+                })}
+                icon={hint.icon}
+              >
+                {hint.text}
+              </Hint>
+            )}
+          </div>
+        </div>
+      </Fieldset>
+    )
+  }
+)
 
 InputWrapper.displayName = 'InputWrapper'
-export { InputWrapper }
 
 export function getFeedbackStyle(
   feedback?: Omit<InputFeedbackProps, 'className'>

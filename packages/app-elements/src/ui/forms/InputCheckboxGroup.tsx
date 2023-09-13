@@ -1,7 +1,7 @@
 import { Card } from '#ui/atoms/Card'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
 import { InputSpinner } from '#ui/forms/InputSpinner'
-import { Legend } from '#ui/forms/Legend'
+import { InputWrapper } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
 import {
   useCallback,
@@ -105,12 +105,7 @@ export function InputCheckboxGroup({
   )
 
   return (
-    <fieldset {...rest}>
-      {title != null && (
-        <Legend gap>
-          {title} · {totalSelected}
-        </Legend>
-      )}
+    <InputWrapper fieldset label={`${title} · ${totalSelected}`}>
       <Card gap='1'>
         {options.map((optionItem) => {
           const inputName = optionItem.name ?? optionItem.value
@@ -180,7 +175,7 @@ export function InputCheckboxGroup({
           )
         })}
       </Card>
-    </fieldset>
+    </InputWrapper>
   )
 }
 

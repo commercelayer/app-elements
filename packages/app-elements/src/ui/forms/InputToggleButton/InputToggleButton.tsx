@@ -1,4 +1,3 @@
-import { Spacer } from '#ui/atoms/Spacer'
 import {
   InputWrapper,
   type InputWrapperBaseProps
@@ -88,47 +87,38 @@ export function InputToggleButton({
       hint={hint}
       feedback={feedback}
       data-testid='toggle-buttons'
+      label={label}
       {...rest}
     >
-      <fieldset>
-        {label != null ? (
-          <Spacer bottom='4'>
-            <legend className='text-gray-500 font-medium'>{label}</legend>
-          </Spacer>
-        ) : null}
-
-        <div className='flex gap-2 flex-wrap'>
-          {options.map((opt) => {
-            const isChecked = Boolean(
-              mode === 'multi'
-                ? value?.includes(opt.value)
-                : opt.value === value
-            )
-            const handleToggle = (): void => {
-              if (mode === 'multi') {
-                // when is multi values mode, we need to add or remove from current values
-                const currentValues = value ?? []
-                const newValues = isChecked
-                  ? currentValues.filter((v) => v !== opt.value)
-                  : [...currentValues, opt.value]
-                onChange(newValues)
-              } else {
-                // when is single value mode, we need also to handle the un-check action
-                onChange(isChecked ? null : opt.value)
-              }
+      <div className='flex gap-2 flex-wrap'>
+        {options.map((opt) => {
+          const isChecked = Boolean(
+            mode === 'multi' ? value?.includes(opt.value) : opt.value === value
+          )
+          const handleToggle = (): void => {
+            if (mode === 'multi') {
+              // when is multi values mode, we need to add or remove from current values
+              const currentValues = value ?? []
+              const newValues = isChecked
+                ? currentValues.filter((v) => v !== opt.value)
+                : [...currentValues, opt.value]
+              onChange(newValues)
+            } else {
+              // when is single value mode, we need also to handle the un-check action
+              onChange(isChecked ? null : opt.value)
             }
-            return (
-              <ToggleItem
-                key={opt.label}
-                label={opt.label}
-                isChecked={isChecked}
-                isDisabled={opt.isDisabled}
-                onToggle={handleToggle}
-              />
-            )
-          })}
-        </div>
-      </fieldset>
+          }
+          return (
+            <ToggleItem
+              key={opt.label}
+              label={opt.label}
+              isChecked={isChecked}
+              isDisabled={opt.isDisabled}
+              onToggle={handleToggle}
+            />
+          )
+        })}
+      </div>
     </InputWrapper>
   )
 }

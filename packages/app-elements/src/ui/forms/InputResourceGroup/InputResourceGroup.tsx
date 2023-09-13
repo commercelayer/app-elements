@@ -6,6 +6,7 @@ import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
+import { InputWrapper } from '#ui/internals/InputWrapper'
 import { type QueryParamsList } from '@commercelayer/sdk'
 import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
@@ -98,83 +99,80 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   }
 
   return (
-    <div>
-      <Spacer bottom='4'>
-        <SkeletonTemplate isLoading={isLoading}>
-          <Text variant='info' weight='medium'>
-            {computeLabelWithSelected({
-              label: title,
-              selectedCount,
-              totalCount
-            })}
-          </Text>
-        </SkeletonTemplate>
-      </Spacer>
-
-      <Card gap='1'>
-        {list.map((item, idx) => {
-          return (
-            <Checkbox
-              key={`${item.value}-${idx}`}
-              item={item}
-              checked={values.includes(item.value)}
-              onChange={() => {
-                toggleValue(item.value)
-              }}
-              showIcon={showCheckboxIcon}
-            />
-          )
+    <SkeletonTemplate isLoading={isLoading}>
+      <InputWrapper
+        fieldset
+        label={computeLabelWithSelected({
+          label: title,
+          selectedCount,
+          totalCount
         })}
-      </Card>
-
-      {totalCount != null && totalCount > previewLimit ? (
-        <Spacer top='4'>
-          <button
-            type='button'
-            onClick={() => {
-              open()
-            }}
-          >
-            <Text variant='primary' weight='bold'>
-              See all{' '}
-              {formatResourceName({
-                resource,
-                count: 'plural'
-              })}
-            </Text>
-          </button>
-        </Spacer>
-      ) : null}
-      <Overlay
-        footer={
-          <Button
-            fullWidth
-            type='button'
-            onClick={() => {
-              close()
-              setSelectedValuesForPreview(values)
-            }}
-          >
-            Apply
-          </Button>
-        }
       >
-        <div className='pt-5'>
-          <FullList
-            defaultValues={values}
-            fieldForLabel={fieldForLabel}
-            fieldForValue={fieldForValue}
-            onChange={setValues}
-            resource={resource}
-            searchBy={searchBy}
-            sortBy={sortBy}
-            title={title}
-            totalCount={totalCount}
-            showCheckboxIcon={showCheckboxIcon}
-          />
-        </div>
-      </Overlay>
-    </div>
+        <Card gap='1'>
+          {list.map((item, idx) => {
+            return (
+              <Checkbox
+                key={`${item.value}-${idx}`}
+                item={item}
+                checked={values.includes(item.value)}
+                onChange={() => {
+                  toggleValue(item.value)
+                }}
+                showIcon={showCheckboxIcon}
+              />
+            )
+          })}
+        </Card>
+
+        {totalCount != null && totalCount > previewLimit ? (
+          <Spacer top='4'>
+            <button
+              type='button'
+              onClick={() => {
+                open()
+              }}
+            >
+              <Text variant='primary' weight='bold'>
+                See all{' '}
+                {formatResourceName({
+                  resource,
+                  count: 'plural'
+                })}
+              </Text>
+            </button>
+          </Spacer>
+        ) : null}
+        <Overlay
+          footer={
+            <Button
+              fullWidth
+              type='button'
+              onClick={() => {
+                close()
+                setSelectedValuesForPreview(values)
+              }}
+            >
+              Apply
+            </Button>
+          }
+        >
+          <div className='pt-5'>
+            <FullList
+              defaultValues={values}
+              fieldForLabel={fieldForLabel}
+              fieldForValue={fieldForValue}
+              onChange={setValues}
+              resource={resource}
+              searchBy={searchBy}
+              sortBy={sortBy}
+              title={title}
+              totalCount={totalCount}
+              showCheckboxIcon={showCheckboxIcon}
+            />
+          </div>
+        </Overlay>
+      </InputWrapper>
+    </SkeletonTemplate>
   )
 }
 InputResourceGroup.displayName = 'InputResourceGroup'
