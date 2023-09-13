@@ -32,7 +32,7 @@ export const instructions: FiltersInstructions = [
         mode: 'multi',
         options: [
           { value: 'pending', label: 'Pending' },
-          { value: 'placed', label: 'Places' },
+          { value: 'placed', label: 'Placed' },
           { value: 'approved', label: 'Approved' },
           { value: 'cancelled', label: 'Cancelled' }
         ]
