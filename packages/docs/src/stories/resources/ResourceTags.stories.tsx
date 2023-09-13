@@ -27,7 +27,9 @@ Default.args = {
   resourceType: 'customers',
   resourceId: 'NMWYhbGorj',
   overlay: {
-    title: 'hello@commercelayer.io'
+    title: 'Edit tags',
+    description: 'hello@commercelayer.io',
+    showManageAction: true
   },
   onTagClick: (tagId) => {
     console.log('onTagClick - tadId: ', tagId)
