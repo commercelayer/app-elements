@@ -19,6 +19,7 @@ export const parameters: Parameters = {
   options: {
     storySort: {
       order: [
+        'Getting Started',
         'Atoms',
         'Forms', ['react-hook-form'],
         'Hooks',

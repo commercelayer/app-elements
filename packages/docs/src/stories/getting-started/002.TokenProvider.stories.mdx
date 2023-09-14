@@ -1,0 +1,98 @@
+import { Meta, Source } from '@storybook/addon-docs';
+
+<Meta title="Getting Started/TokenProvider"></Meta>
+
+# TokenProvider
+
+`<TokenProvider>` is the component that is in charge to handle app authentication by reading and validating the received `accessToken`.
+It must be present at the top level of your application and can be configured using its props.
+
+When this component is mounted, it does the following:
+
+- Checks the presence of an `accessToken` from the current URL or if it exists in `localStorage`.
+- Validates the token by checking its expiration and if it's valid for current `organization` and current `app`. This is required to ensure that your app is only accessible with an authorized and specific token generated from your Commerce Layer Dashboard.
+- If access token is missing or invalid, it calls your commerce layer dashboard to automatically generate a valid one.
+- Once a valid token is retrieved, it will be used to fetch user details and permissions. This info will be available within your app via react context.
+
+## How to initialize it
+
+<Source
+  language="tsx"
+  dark
+  code={`
+<TokenProvider
+  kind="orders" // application kind used to generate dashboard token
+  appSlug="orders" // slug or name of current app
+  domain={window.clAppConfig.domain} // it must be 'commercelayer.io'
+  reauthenticateOnInvalidAuth={!isDev} // automatically redirect you to the dashboard in order to retrieve a new token. Keep it as 'false' during development mode.
+  devMode={isDev} // when development mode is active, all validation will be skipped and you can use an integration token for you local development.
+>
+  <div>app content</div>
+</TokenProvider>
+`}
+/>
+
+## How to configure it with a forked app
+
+TODO
+
+## How to read exposed information from react context.
+
+It's possible to import `useTokenProvider` hook and access in any part of your application to the following data:
+
+<Source
+  language="tsx"
+  dark
+  code={`
+const {
+  dashboardUrl,
+  canUser,
+  organization,
+  user,
+  settings: { mode, accessToken, appSlug, domain, organizationSlug }
+} = useTokenProvider()
+`} />
+
+`canUser` method is used to check if current user has permission to `'create' | 'destroy' | 'read' | 'update'` a specific resource.
+It will return `true` or `false` depending on the current logged user.
+Example:
+
+<Source
+  language="tsx"
+  dark
+  code={`
+canUser('create', 'shipments');
+canUser('read', 'order');
+canUser('update', 'customers');
+
+if (canUser('destroy', 'webhooks')) {
+  return <button>Delete webhook</button>;
+}
+`} />
+
+- `organization` contains the `Organization` [resource object](https://docs.commercelayer.io/core/v/api-reference/organization/object)
+- `user` contains the following information, if available from the authenticated token: `{id, email, firstName, lastName, displayName, fullName, timezone}`.
+- `settings` contains the following information: `{ mode, accessToken, appSlug, domain, organizationSlug }`.
+
+If you need to get the current user `timezone` or it's full name, you can do the following:
+
+<Source
+  language="ts"
+  dark
+  code={`
+const { user } = useTokenProvider();
+console.log(user?.timezone);
+console.log(user?.fullName);
+`} />
+
+Please note that `user` object can be `null` if you are authenticating the app with a token that does not contains a valid `User` (example an integration token).
+
+In the same way, if you need to access the current mode (`test` | `live`) from the `settings` object, you can do the following:
+
+<Source
+  language="ts"
+  dark
+  code={`
+const { settings } = useTokenProvider();
+console.log(settings.mode);
+`} />

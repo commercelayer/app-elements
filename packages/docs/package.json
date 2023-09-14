@@ -2,6 +2,7 @@
   "name": "docs",
   "private": true,
   "version": "0.1.0",
+  "license": "MIT",
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
@@ -39,6 +40,7 @@
     "@storybook/client-logger": "^7.4.0",
     "@storybook/components": "^7.4.0",
     "@storybook/core-common": "^7.4.0",
+    "@storybook/manager-api": "^7.4.0",
     "@storybook/preview-web": "^7.4.0",
     "@storybook/react": "^7.4.0",
     "@storybook/react-vite": "^7.4.0",
