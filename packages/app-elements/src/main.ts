@@ -158,13 +158,6 @@ export {
   useValidationFeedback
 } from '#ui/forms/ReactHookForm'
 // Resources
-export {
-  FiltersForm,
-  FiltersNav,
-  FiltersSearchBar,
-  makeFilterAdapters,
-  useFilters
-} from '#ui/resources/Filters'
 export { ResourceLineItems } from '#ui/resources/ResourceLineItems'
 export { ResourceList } from '#ui/resources/ResourceList'
 export { ResourceListItem } from '#ui/resources/ResourceListItem'
@@ -173,6 +166,7 @@ export { ResourceOrderSummary } from '#ui/resources/ResourceOrderSummary'
 export { ResourceOrderTimeline } from '#ui/resources/ResourceOrderTimeline'
 export { ResourceShipmentParcels } from '#ui/resources/ResourceShipmentParcels'
 export { ResourceTags } from '#ui/resources/ResourceTags'
+export { useResourceFilters } from '#ui/resources/useResourceFilters'
 // Dictionaries
 export {
   getCustomerDisplayStatus,

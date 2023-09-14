@@ -19,14 +19,14 @@ import { makeFilterAdapters } from './adapters'
 import { type FiltersInstructions } from './types'
 import { getActiveFilterCountFromUrl } from './utils'
 
-interface UseFiltersProps {
+interface UseResourceFiltersConfig {
   /**
    * Array of instruction items to build the filters behaviors
    */
   instructions: FiltersInstructions
 }
 
-interface UseFiltersHook {
+interface UseResourceFiltersHook {
   /**
    * Helper methods to transform filters from/to url query string, sdk and form values
    */
@@ -78,7 +78,9 @@ interface UseFiltersHook {
   viewTitle?: string
 }
 
-export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
+export function useResourceFilters({
+  instructions
+}: UseResourceFiltersConfig): UseResourceFiltersHook {
   const { user } = useTokenProvider()
   const [sdkFilters, setSdkFilters] = useState<QueryFilter>()
   const queryString = window.location.search
@@ -105,7 +107,7 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
     [validInstructions, queryString]
   )
 
-  const FilteredList: UseFiltersHook['FilteredList'] = useCallback(
+  const FilteredList: UseResourceFiltersHook['FilteredList'] = useCallback(
     (listProps) => {
       if (listProps == null) {
         return <div>listProps not defined</div>
@@ -134,7 +136,7 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
     [sdkFilters]
   )
 
-  const SearchWithNav: UseFiltersHook['SearchWithNav'] = useCallback(
+  const SearchWithNav: UseResourceFiltersHook['SearchWithNav'] = useCallback(
     ({
       onFilterClick,
       onUpdate,
@@ -176,7 +178,7 @@ export function useFilters({ instructions }: UseFiltersProps): UseFiltersHook {
     [instructions]
   )
 
-  const FiltersForm: UseFiltersHook['FiltersForm'] = useCallback(
+  const FiltersForm: UseResourceFiltersHook['FiltersForm'] = useCallback(
     ({ onSubmit }): JSX.Element => {
       return (
         <FiltersFormComponent

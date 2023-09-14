@@ -1,0 +1,1 @@
+export { useResourceFilters } from './useResourceFilters'
