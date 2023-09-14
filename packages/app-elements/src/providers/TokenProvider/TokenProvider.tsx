@@ -134,7 +134,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
   const dashboardUrl = makeDashboardUrl({
     domain,
-    mode: getCurrentMode({ accessToken })
+    mode: getCurrentMode({ accessToken }),
+    organizationSlug
   })
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
