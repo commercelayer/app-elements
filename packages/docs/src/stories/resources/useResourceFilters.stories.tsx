@@ -47,7 +47,7 @@ const ToggleInstructions: React.FC<{
 }
 
 /**
- * This sections shows how to configure `useFilters` hook to render a filtrable list of resources.
+ * This sections shows how to configure `useResourceFilters` hook to render a filtrable list of resources.
  *
  * The hook takes as argument an array of instructions of type `FilterInstruction`.
  * Each instruction defines a filter that will be rendered in the form.
