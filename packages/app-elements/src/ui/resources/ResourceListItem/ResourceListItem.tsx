@@ -47,8 +47,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     rightContent,
     showArrow = false,
     tag = 'div',
-    onClick,
-    ...rest
+    onClick
   }) => {
     const showRightContent = rightContent != null && !showArrow
 
@@ -59,7 +58,6 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         alignItems={showRightContent ? 'top' : 'center'}
         data-test-id='ResourceListItem'
         onClick={onClick}
-        {...rest}
       >
         <div>
           <Text
