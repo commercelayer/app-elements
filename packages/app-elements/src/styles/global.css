@@ -3,62 +3,31 @@
 @tailwind utilities;
 
 select {
-    text-align: inherit;
+  text-align: inherit;
 }
 
 body {
-    @apply text-gray-800 antialiased font-medium;
+  @apply text-gray-800 antialiased font-medium;
 }
 
 a {
-    @apply text-primary font-bold outline-0 outline-offset-4 outline-primary-light hover:text-primary-light border-primary-light cursor-pointer;
+  @apply text-primary font-bold outline-0 outline-offset-4 outline-primary-light hover:text-primary-light border-primary-light cursor-pointer;
 }
+
 
 progress.progress {
-    @apply w-full h-2;
+  @apply w-full h-2;
 }
-
 progress.progress,
 progress.progress::-webkit-progress-bar {
-    @apply rounded bg-gray-100 overflow-hidden;
+  @apply rounded bg-gray-100 overflow-hidden;
 }
-
 progress.progress::-moz-progress-bar {
-    @apply rounded bg-gray-100 overflow-hidden;
+  @apply rounded bg-gray-100 overflow-hidden;
 }
-
 progress.progress::-webkit-progress-value {
-    @apply rounded bg-primary;
+  @apply rounded bg-primary;
 }
-
 progress.progress[value]::-moz-progress-bar {
-    @apply rounded bg-primary;
-}
-
-blockquote {
-    padding: 16px !important;
-    font-size: 14px !important;
-    color: #2e3438 !important;
-}
-blockquote::before {
-    content: attr(title);
-    display: block;
-    font-weight: bold;
-}
-
-blockquote[type='info'] {
-    border-color: #3b82f6;
-    background-color: #dbebfe;
-}
-blockquote[type='warning'] {
-    border-color: #f97317;
-    background-color: #ffedd5;
-}
-blockquote[type='success'] {
-    border-color: #22c55f;
-    background-color: #ddfce7;
-}
-blockquote[type='danger'] {
-    border-color: #ef4544;
-    background-color: #fee2e3;
+  @apply rounded bg-primary;
 }

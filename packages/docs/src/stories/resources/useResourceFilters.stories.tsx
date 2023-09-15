@@ -62,11 +62,11 @@ const ToggleInstructions: React.FC<{
  *
  * Once we have our instructions array, we can pass it to the `useResourceFilters` hook.
  *
- * <blockquote type="info">
+ * <span type="info">
  * Usually you want to have two pages:
  * - a first page where you render a form with the filters
  * - a second page where you render the list with the applied filters
- * </blockquote>
+ * </span>
  *
  * Active filters state will persist as url query string.
  * This allows to set filters in a `/filter-form` page and read them from a `/filtered-list` page.
@@ -102,10 +102,10 @@ export default setup
 
 /**
  * How to render a form based on the instructions provided.
- * <blockquote type="info">
+ * <span type="info">
  * The form requires an `onSubmit` props, that will be used to handle the redirection to the filtered list page
  * with the query string generated from the form values.
- * </blockquote>
+ * </span>
  **/
 export const FiltersForm: StoryFn = () => {
   const { FiltersForm } = useResourceFilters({
@@ -127,10 +127,10 @@ export const FiltersForm: StoryFn = () => {
 
 /**
  * How to render a list of resources filtered on the base of the current active filters.
- * <blockquote type="info">
+ * <span type="info">
  * This component is a wrapper around `ResourceList` where `query`  props is auto-filled with the active filters
  * and can't be overwritten.
- * </blockquote>
+ * </span>
  **/
 export const FilteredList: StoryFn = () => {
   const { FilteredList } = useResourceFilters({
@@ -158,12 +158,12 @@ export const FilteredList: StoryFn = () => {
 
 /**
  * How to render a search bar with filters navigation buttons.
- * <blockquote type="info">
+ * <span type="info">
  * While typing in the search bar, a debounced (500ms) `onUpdate` props will be triggered.
  * It can be used to update the query string in the url with your own routing library.
  * Once `window.location.search` has been updated, it will trigger a new API request that
  * will render a fresh `FilteredList`.
- * </blockquote>
+ * </span>
  **/
 export const SearchWithNav: StoryFn = () => {
   const { SearchWithNav } = useResourceFilters({
@@ -192,7 +192,7 @@ export const SearchWithNav: StoryFn = () => {
  * While all components above, returned from `useResourceFilters` hook, are already connected together,
  * it's still possible to use some helper methods to build your own logic.
  *
- * <blockquote type="info">
+ * <span type="info">
  * The `adapters` object returned from the hook contains the following methods:
  * - `adapters.adaptFormValuesToSdk`: converts the form values to sdk filter predicates
  * - `adapters.adaptFormValuesToUrlQuery`: converts the form values to url query string
@@ -200,9 +200,9 @@ export const SearchWithNav: StoryFn = () => {
  * - `adapters.adaptUrlQueryToSdk`: converts the url query string to sdk filter predicates
  * - `adapters.adaptUrlQueryToUrlQuery`: parse the url query string to url query string by stripping out invalid params. This can be useful if your query string contains params that are not part of the instructions array.
  * - `adapters.validInstructions`: returns the valid instructions array, by stripping out invalid instructions.
- * </blockquote>
+ * </span>
  *
- * <blockquote type="warning">View source code to see how the following object is generated:</blockquote>
+ * <span type="warning">View source code to see how the following object is generated:</span>
  **/
 export const FiltersAdapters: StoryFn = () => {
   const { adapters } = useResourceFilters({

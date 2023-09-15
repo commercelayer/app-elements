@@ -39,8 +39,8 @@ interface SearchBarProps {
 
 /**
  * This component renders a search bar with a clear button with debounced `onSearch` callback.
- * <blockquote type='info'>In this way the `onSearch` callback will be triggered only when the user stops typing
- * for the specified value of `debounceMs` (default 500ms).</blockquote>
+ * <span type='info'>In this way the `onSearch` callback will be triggered only when the user stops typing
+ * for the specified value of `debounceMs` (default 500ms).</span>
  */
 export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   (

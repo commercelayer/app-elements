@@ -62,7 +62,7 @@ Default.args = {
 /**
  * This example shows how to use the `pathToValue` prop to store in form state
  * a value that is different from the one displayed in the select.
- * <blockquote type="info">Here we are using storing the values of `meta.cityCode`</blockquote>
+ * <span type="info">Here we are using storing the values of `meta.cityCode`</span>
  */
 export const MultiSelect = Template.bind({})
 MultiSelect.args = {
