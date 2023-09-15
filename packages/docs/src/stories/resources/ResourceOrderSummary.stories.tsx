@@ -5,9 +5,9 @@ import { ResourceOrderSummary } from '#ui/resources/ResourceOrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 /**
- * <blockquote title="SKUs and Bundles" type="info">
+ * <span title="SKUs and Bundles" type="info">
  * Order Summary is using the `LineItems` components to render the `line_items` at the top.
- * </blockquote>
+ * </span>
  */
 const setup: Meta<typeof ResourceOrderSummary> = {
   title: 'Resources/ResourceOrderSummary',

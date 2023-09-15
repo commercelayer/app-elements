@@ -46,7 +46,7 @@ const Template: StoryFn<typeof InputSelect> = (args) => {
 }
 
 /**
- * <blockquote type='info'>Default mode with ability to search within the provided `initialValues`</blockquote>
+ * <span type='info'>Default mode with ability to search within the provided `initialValues`</span>
  */
 export const Simple = Template.bind({})
 Simple.args = {
@@ -59,7 +59,7 @@ Simple.args = {
 }
 
 /**
- * <blockquote type='info'>With the `loadAsyncValues` prop, it's possible to return options asynchronously while typing. </blockquote>
+ * <span type='info'>With the `loadAsyncValues` prop, it's possible to return options asynchronously while typing. </span>
  */
 export const Async = Template.bind({})
 Async.args = {
@@ -82,7 +82,7 @@ Async.args = {
 }
 
 /**
- * <blockquote type='info'>`isMulti` allows to select more than one value</blockquote>
+ * <span type='info'>`isMulti` allows to select more than one value</span>
  */
 export const Multi = Template.bind({})
 Multi.args = {
@@ -95,7 +95,7 @@ Multi.args = {
 }
 
 /**
- * <blockquote type='info'>Options can be grouped by passing an array of objects with `label` and `options` properties.</blockquote>
+ * <span type='info'>Options can be grouped by passing an array of objects with `label` and `options` properties.</span>
  */
 export const GroupedOptions = Template.bind({})
 GroupedOptions.args = {

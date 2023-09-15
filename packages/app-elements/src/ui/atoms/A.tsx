@@ -7,7 +7,7 @@ export type Props = SetRequired<
 
 /**
  * This component wraps an [`<a>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a) HTML element.
- * <blockquote type='info'>All the props are directly sent to the anchor element.</blockquote>
+ * <span type='info'>All the props are directly sent to the anchor element.</span>
  */
 export const A: React.FC<Props> = ({ children, href, ...rest }) => {
   return (
