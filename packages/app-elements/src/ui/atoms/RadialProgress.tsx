@@ -20,6 +20,13 @@ interface RadialProgressProps extends SVGAttributes<SVGElement> {
   icon?: IconProps['name']
 }
 
+/**
+ * Used to render a radial progress with a pending and a progress state. It also accepts an optional icon to be rendered in the center of the circle.
+ * <span type="info">
+ * When passing a `percentage` as number, it will show a progress circle, filled with the given percentage.
+ * If `percentage` is not passed, it will be rendered as a dashed circle to represent the pending state.
+ * </span>
+ */
 function RadialProgress({
   percentage,
   className,
@@ -55,7 +62,7 @@ function RadialProgress({
             stroke='currentColor'
             strokeWidth='4'
             strokeDasharray='6'
-            fill='white'
+            fill={icon != null ? 'white' : 'transparent'}
           />
         ) : (
           // progress
@@ -68,7 +75,7 @@ function RadialProgress({
               className='text-gray-100'
               stroke='currentColor'
               strokeWidth='12'
-              fill='white'
+              fill={icon != null ? 'white' : 'transparent'}
             />
             <circle
               data-testid='radial-progress-percentage'
@@ -78,7 +85,7 @@ function RadialProgress({
               className='text-primary transition-all duration-500'
               stroke='currentColor'
               strokeWidth='12'
-              fill='white'
+              fill='transparent' // always transparent or will cover the circle behind
               strokeDasharray={circumference}
               strokeDashoffset={emptyOffset} // this is the gray part, to not be filled (percentage left)
             />
