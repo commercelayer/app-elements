@@ -27,11 +27,11 @@ const meta: Meta = {
 export default meta
 
 /**
- * Searching for an existing order by providing the order ID `NMWYhbGorj`.
+ * Get a list of orders.
  */
-export const Default: StoryFn = () => {
+export const Data: StoryFn = () => {
   const {
-    data: order,
+    data: orders,
     isLoading,
     isValidating,
     error
@@ -57,9 +57,8 @@ export const Default: StoryFn = () => {
       <br />
       error: <b>{error?.message}</b>
       <br />
-      Order ID:{' '}
-      <pre>{JSON.stringify(order?.map((o) => o.id), undefined, 2)}</pre>
-      <br />
+      Order IDs:{' '}
+      <pre>{JSON.stringify(orders?.map((o) => o.id), undefined, 2)}</pre>
     </div>
   )
 }
@@ -104,7 +103,7 @@ export const Mutate: StoryFn = () => {
           void mutateOrder()
         }}
       >
-        Mutate
+        Revalidate
       </Button>
       &nbsp;
       <Button
@@ -153,7 +152,6 @@ export const Error: StoryFn = () => {
       error: <b>{error?.message}</b>
       <br />
       Order ID: <b>{order?.id}</b>
-      <br />
     </div>
   )
 }

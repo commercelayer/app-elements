@@ -17,6 +17,9 @@ span[type]::before {
   display: block;
   font-weight: bold;
 }
+span[type] > p {
+  margin: 0;
+}
 span[type='info'] {
   border-color: #3b82f6;
   background-color: #dbebfe;
