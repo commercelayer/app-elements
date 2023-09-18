@@ -81,12 +81,12 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 <ListItem
                   tag='div'
                   key={idx}
-                  data-testid={`ListItemsMetadata-item-${metadataKey}`}
+                  data-testid={`ResourceMetadata-item-${metadataKey}`}
                 >
                   <Text variant='info'>{humanizeString(metadataKey)}</Text>
                   <Text
                     weight='semibold'
-                    data-testid={`ListItemsMetadata-value-${metadataKey}`}
+                    data-testid={`ResourceMetadata-value-${metadataKey}`}
                   >
                     {metadataValue}
                   </Text>
