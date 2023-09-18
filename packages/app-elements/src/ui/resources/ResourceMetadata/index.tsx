@@ -1,0 +1,1 @@
+export { ResourceMetadata } from './ResourceMetadata'
