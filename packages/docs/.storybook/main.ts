@@ -14,7 +14,10 @@ const storybookConfig: StorybookConfig = {
   async viteFinal(config) {
     return mergeConfig(config, viteOverrides)
   },
-  stories: ['../src/stories/*.stories.mdx', '../src/stories/**/*.stories.@(mdx|js|jsx|ts|tsx)'],
+  stories: [
+    '../src/stories/**/*.mdx',
+    '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'
+  ],
   addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [require.resolve('./addon-container/manager.tsx')],
