@@ -55,7 +55,7 @@ function RadialProgress({
             stroke='currentColor'
             strokeWidth='4'
             strokeDasharray='6'
-            fill='white'
+            fill={icon != null ? 'white' : 'transparent'}
           />
         ) : (
           // progress
@@ -68,7 +68,7 @@ function RadialProgress({
               className='text-gray-100'
               stroke='currentColor'
               strokeWidth='12'
-              fill='white'
+              fill={icon != null ? 'white' : 'transparent'}
             />
             <circle
               data-testid='radial-progress-percentage'
@@ -78,7 +78,7 @@ function RadialProgress({
               className='text-primary transition-all duration-500'
               stroke='currentColor'
               strokeWidth='12'
-              fill='white'
+              fill='transparent' // always transparent or will cover the circle behind
               strokeDasharray={circumference}
               strokeDashoffset={emptyOffset} // this is the gray part, to not be filled (percentage left)
             />
