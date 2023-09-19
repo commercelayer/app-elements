@@ -1,10 +1,15 @@
-import { CoreSdkProvider, useCoreApi } from '#providers/CoreSdkProvider'
+import {
+  CoreSdkProvider,
+  useCoreApi,
+  useCoreSdkProvider
+} from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { type Meta, type StoryFn } from '@storybook/react'
+import { useEffect, useState } from 'react'
 
 const meta: Meta = {
-  title: 'Getting Started/useCoreApi',
+  title: 'Getting Started/CoreSdkProvider',
   parameters: {
     layout: 'padded',
     docs: {
@@ -26,10 +31,38 @@ const meta: Meta = {
 
 export default meta
 
+type Order = Awaited<
+  ReturnType<
+    Awaited<
+      ReturnType<typeof useCoreSdkProvider>['sdkClient']
+    >['orders']['retrieve']
+  >
+>
+
 /**
- * Get a list of orders.
+ * This is a simple example that shows how to use the `useCoreSdkProvider` to get an order by its ID.
  */
-export const Data: StoryFn = () => {
+export const UseCoreSdkProviderDefault: StoryFn = () => {
+  const { sdkClient } = useCoreSdkProvider()
+  const [order, setOrder] = useState<Order>()
+
+  useEffect(() => {
+    void sdkClient.orders.retrieve('NMWYhbGorj').then((order) => {
+      setOrder(order)
+    })
+  }, [sdkClient])
+
+  return (
+    <div>
+      Order ID: <b>{order?.id}</b>
+    </div>
+  )
+}
+
+/**
+ * This is an example that shows how to get a list of orders using the `useCoreApi` hook.
+ */
+export const UseCoreApiData: StoryFn = () => {
   const {
     data: orders,
     isLoading,
@@ -66,7 +99,7 @@ export const Data: StoryFn = () => {
 /**
  * You can use the bound [mutate](https://swr.vercel.app/docs/mutation) by providing a valid object. If you pass `undefined` the data will be re-fetched.
  */
-export const Mutate: StoryFn = () => {
+export const UseCoreApiMutate: StoryFn = () => {
   const {
     data: order,
     isLoading,
@@ -120,9 +153,9 @@ export const Mutate: StoryFn = () => {
 }
 
 /**
- * Searching for a non existing order by providing an invalid order ID.
+ * Searching for a non existing order by providing an invalid order ID will return an error.
  */
-export const Error: StoryFn = () => {
+export const UseCoreApiError: StoryFn = () => {
   const {
     data: order,
     isLoading,
