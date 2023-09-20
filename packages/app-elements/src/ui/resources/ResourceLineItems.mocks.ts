@@ -1,6 +1,7 @@
 import {
   type LineItem,
   type ParcelLineItem,
+  type ReturnLineItem,
   type StockLineItem
 } from '@commercelayer/sdk'
 
@@ -220,6 +221,25 @@ export const presetLineItems = {
     reference_origin: null,
     metadata: {}
   },
+  returnLineItem: {
+    id: 'PZEKxtRWrw',
+    type: 'return_line_items',
+    sku_code: 'BOTT17OZ000000FFFFFFXXXX',
+    bundle_code: null,
+    quantity: 2,
+    name: 'Black Water Bottle with White Logo',
+    image_url:
+      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BOTT17OZFFFFFF000000XXXX_FLAT.png',
+    return_reason: {
+      0: 'The product received does not match what I ordered.'
+    },
+    restocked_at: '2023-08-11T09:18:49.214Z',
+    created_at: '2023-08-10T08:13:49.214Z',
+    updated_at: '2023-08-10T08:13:49.214Z',
+    reference: null,
+    reference_origin: null,
+    metadata: {}
+  },
   giftCardUsed: {
     type: 'line_items',
     id: 'vDBVtGBLWJ',
@@ -430,4 +450,7 @@ export const presetLineItems = {
     reference_origin: null,
     metadata: {}
   }
-} satisfies Record<string, LineItem | ParcelLineItem | StockLineItem>
+} satisfies Record<
+  string,
+  LineItem | ParcelLineItem | StockLineItem | ReturnLineItem
+>

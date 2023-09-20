@@ -109,6 +109,11 @@ StockLineItem.args = {
   preset: ['stockLineItem']
 }
 
+export const ReturnLineItem = Template.bind({})
+ReturnLineItem.args = {
+  preset: ['returnLineItem']
+}
+
 export const List: StoryFn<Props> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
