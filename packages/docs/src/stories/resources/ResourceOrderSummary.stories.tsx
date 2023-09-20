@@ -1,6 +1,6 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { presetLineItems } from '#ui/resources/ResourceLineItems.mocks'
+import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
 import { ResourceOrderSummary } from '#ui/resources/ResourceOrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 
