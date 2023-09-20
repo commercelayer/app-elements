@@ -37,6 +37,9 @@ function srcIsValidPreset(
   return Object.keys(presets).includes(src)
 }
 
+/**
+ * This component renders as `<img>` using different shapes and sizes. It is mostly used to show an sku image or a 3rd-party icon.
+ */
 function Avatar({
   src,
   alt,
