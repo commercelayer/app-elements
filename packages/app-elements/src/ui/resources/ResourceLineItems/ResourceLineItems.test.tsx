@@ -116,7 +116,7 @@ describe('ResourceLineItems', () => {
     expect(within(fifthRow).getByText('Ehi there!')).toBeInTheDocument()
   })
 
-  it('should only show "type" equal to "line_items" ("item_type" attribute equal to "skus", "bundles" or "gift_cards" with amount greater than 0), "stock_line_items" or "parcel_line_item"', () => {
+  it('should only show "type" equal to "line_items" ("item_type" attribute equal to "skus", "bundles" or "gift_cards" with amount greater than 0), "stock_line_items", "parcel_line_item" or "return_line_item"', () => {
     const { queryAllByText } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
@@ -134,6 +134,7 @@ describe('ResourceLineItems', () => {
     expect(queryAllByText('White Water Bottle with Black Logo').length).toEqual(
       1
     )
+    expect(queryAllByText('Enamel Mug with Black Logo').length).toEqual(1)
     expect(queryAllByText('Gift card: €9,00').length).toEqual(0)
     expect(queryAllByText('Gift card: €100,00').length).toEqual(1)
   })

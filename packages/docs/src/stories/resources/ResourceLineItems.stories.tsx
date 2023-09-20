@@ -3,7 +3,7 @@ import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/Moc
 import { Text } from '#ui/atoms/Text'
 import { FlexRow } from '#ui/internals/FlexRow'
 import { ResourceLineItems } from '#ui/resources/ResourceLineItems'
-import { presetLineItems } from '#ui/resources/ResourceLineItems.mocks'
+import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 type Props = Parameters<typeof ResourceLineItems>[0] & {
@@ -107,6 +107,11 @@ ParcelLineItem.args = {
 export const StockLineItem = Template.bind({})
 StockLineItem.args = {
   preset: ['stockLineItem']
+}
+
+export const ReturnLineItem = Template.bind({})
+ReturnLineItem.args = {
+  preset: ['returnLineItem']
 }
 
 export const List: StoryFn<Props> = (args) => {

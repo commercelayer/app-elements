@@ -12,6 +12,7 @@ import { FlexRow } from '#ui/internals/FlexRow'
 import type {
   LineItem,
   ParcelLineItem,
+  ReturnLineItem,
   StockLineItem
 } from '@commercelayer/sdk'
 import Trash from '@phosphor-icons/react/dist/icons/Trash'
@@ -22,7 +23,7 @@ interface LineItemSettings {
   showPrice: boolean
 }
 
-type Item = LineItem | ParcelLineItem | StockLineItem
+type Item = LineItem | ParcelLineItem | StockLineItem | ReturnLineItem
 
 const Edit = withSkeletonTemplate<{
   item: Item
