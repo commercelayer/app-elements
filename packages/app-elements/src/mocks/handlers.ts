@@ -1,5 +1,7 @@
 import { rest } from 'msw'
 
+import customers from './data/customers'
+
 export const handlers = [
   rest.get(
     `https://*.commercelayer.*/oauth/tokeninfo`,
@@ -101,7 +103,9 @@ export const handlers = [
             }
       )
     )
-  })
+  }),
+
+  ...customers
 ]
 
 function returnEmptyList(url: URL): boolean {
