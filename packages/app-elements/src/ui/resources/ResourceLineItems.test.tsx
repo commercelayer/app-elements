@@ -134,7 +134,7 @@ describe('ResourceLineItems', () => {
     expect(queryAllByText('White Water Bottle with Black Logo').length).toEqual(
       1
     )
-    expect(queryAllByText('Black Water Bottle with White Logo').length).toEqual(
+    expect(queryAllByText('Enamel Mug with Black Logo').length).toEqual(
       1
     )
     expect(queryAllByText('Gift card: €9,00').length).toEqual(0)
