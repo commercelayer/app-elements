@@ -222,14 +222,14 @@ export const presetLineItems = {
     metadata: {}
   },
   returnLineItem: {
-    id: 'PZEKxtRWrw',
+    id: 'WtRevFrwbv',
     type: 'return_line_items',
-    sku_code: 'BOTT17OZ000000FFFFFFXXXX',
+    sku_code: 'EMUG12OZFFFFFF000000XXXX',
     bundle_code: null,
-    quantity: 2,
-    name: 'Black Water Bottle with White Logo',
+    quantity: 1,
+    name: 'Enamel Mug with Black Logo',
     image_url:
-      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BOTT17OZFFFFFF000000XXXX_FLAT.png',
+      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/EMUG12OZFFFFFF000000XXXX_FLAT.png',
     return_reason: {
       0: 'The product received does not match what I ordered.'
     },
