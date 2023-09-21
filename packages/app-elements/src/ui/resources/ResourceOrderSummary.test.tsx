@@ -361,9 +361,9 @@ describe('ResourceOrderSummary', () => {
     const actionContainer = getByTestId('action-buttons')
     expect(actionContainer).toBeInTheDocument()
 
-    expect(actionContainer.children[0]).toHaveClass('basis-1/2 flex gap-3')
+    expect(actionContainer.children[0]).toHaveClass('md:basis-1/2 flex gap-3')
     expect(actionContainer.children[1]).toHaveClass(
-      'basis-1/2 flex gap-3 justify-end'
+      'md:basis-1/2 flex gap-3 justify-end'
     )
 
     const archiveButton = getByText('Archive')
@@ -371,19 +371,16 @@ describe('ResourceOrderSummary', () => {
     const cancelButton = getByText('Cancel')
 
     expect(archiveButton).toBeInTheDocument()
-    expect(approveButton).not.toHaveClass('w-full')
     expect(archiveButton.tagName).toEqual('BUTTON')
     await act(() => fireEvent.click(archiveButton))
     expect(mockedConsoleLog).not.toHaveBeenCalled()
 
     expect(approveButton).toBeInTheDocument()
-    expect(approveButton).not.toHaveClass('w-full')
     expect(approveButton.tagName).toEqual('BUTTON')
     await act(() => fireEvent.click(approveButton))
     expect(mockedConsoleLog).toHaveBeenCalledWith('approved!')
 
     expect(cancelButton).toBeInTheDocument()
-    expect(approveButton).not.toHaveClass('w-full')
     expect(cancelButton.tagName).toEqual('BUTTON')
     await act(() => fireEvent.click(cancelButton))
     expect(mockedConsoleLog).toHaveBeenCalledWith('cancelled!')
@@ -412,12 +409,13 @@ describe('ResourceOrderSummary', () => {
     const actionContainer = getByTestId('action-buttons')
     expect(actionContainer).toBeInTheDocument()
 
-    expect(actionContainer.children[0]).not.toHaveClass('basis-1/2 flex gap-3')
+    expect(actionContainer.children[0]).not.toHaveClass(
+      'md:basis-1/2 flex gap-3'
+    )
 
     const approveButton = getByText('Approve')
 
     expect(approveButton).toBeInTheDocument()
-    expect(approveButton).toHaveClass('w-full')
     expect(approveButton.tagName).toEqual('BUTTON')
     await act(() => fireEvent.click(approveButton))
     expect(mockedConsoleLog).toHaveBeenCalledWith('approved!')

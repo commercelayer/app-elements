@@ -31,7 +31,7 @@ describe('ActionButtons', () => {
     expect(onSaveClick).toBeCalled()
     expect(saveButton.textContent).toEqual('Save')
     expect(saveButton.parentElement?.className).toContain('flex')
-    expect(saveButton.parentElement?.className).not.toContain('basis-1/2')
+    expect(saveButton.parentElement?.className).not.toContain('md:basis-1/2')
   })
 
   it('Should render one primary action and one secondary action', () => {
@@ -59,12 +59,12 @@ describe('ActionButtons', () => {
     expect(onSaveClick).toBeCalled()
     expect(saveButton.textContent).toEqual('Save')
     expect(saveButton.parentElement?.className).toContain('flex')
-    expect(saveButton.parentElement?.className).toContain('basis-1/2')
+    expect(saveButton.parentElement?.className).toContain('md:basis-1/2')
 
     cancelButton.click()
     expect(onCancelClick).toBeCalled()
     expect(cancelButton.textContent).toEqual('Cancel')
     expect(cancelButton.parentElement?.className).toContain('flex')
-    expect(cancelButton.parentElement?.className).toContain('basis-1/2')
+    expect(cancelButton.parentElement?.className).toContain('md:basis-1/2')
   })
 })
