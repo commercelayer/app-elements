@@ -1,6 +1,7 @@
 import { getDeterministicValue, getInitials } from '#utils/text'
 import classNames from 'classnames'
 import { useMemo } from 'react'
+import { BG_COLORS, getTextColorForBackground } from './colors'
 
 interface AvatarLetterProps {
   /**
@@ -11,11 +12,19 @@ interface AvatarLetterProps {
    * css class name
    */
   className?: string
+  style?: React.CSSProperties
 }
 
-function AvatarLetter({
+/**
+ * This component can be used to show a profile picture without being forced to use an image.
+ *
+ * It takes the text and renders the initials with a background.
+ * <span type="info" title="Background color">Given the same text, the background color will be always the same.</span>
+ */
+export function AvatarLetter({
   text,
   className,
+  style,
   ...rest
 }: AvatarLetterProps): JSX.Element {
   const backgroundColor = useMemo(
@@ -28,10 +37,15 @@ function AvatarLetter({
         className,
         'w-[42px] h-[42px] rounded-full',
         'flex items-center justify-center',
-        'font-bold text-sm text-white'
+        'font-bold text-sm',
+        {
+          'text-white': getTextColorForBackground(backgroundColor) === 'white',
+          'text-black': getTextColorForBackground(backgroundColor) === 'black'
+        }
       )}
       style={{
-        backgroundColor
+        backgroundColor,
+        ...style
       }}
       {...rest}
     >
@@ -41,33 +55,3 @@ function AvatarLetter({
 }
 
 AvatarLetter.displayName = 'AvatarLetter'
-export { AvatarLetter }
-
-const BG_COLORS = [
-  '#101111',
-  '#666EFF',
-  '#055463',
-  '#F40009',
-  '#FF656B',
-  '#FFAB2E',
-  '#942e0c',
-  '#0A472D',
-  '#181650',
-  '#A00148',
-  '#3b36f5',
-  '#0BB7D8',
-  '#F40009',
-  '#f98107',
-  '#F5DC00',
-  '#11A868',
-  '#D80261',
-  '#181650',
-  '#055463',
-  '#4B0003',
-  '#461202',
-  '#4D4500',
-  '#03160E',
-  '#310016',
-  '#942e0c',
-  '#840005'
-] as const
