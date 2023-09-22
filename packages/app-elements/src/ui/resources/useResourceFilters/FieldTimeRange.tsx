@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { getTimeRangeCustomLabel, getTimeRangePresetName } from './timeUtils'
 import {
-  filtrableTimeRangePreset,
+  filterableTimeRangePreset,
   type FilterItemTime,
   type TimeRangeFormValues
 } from './types'
@@ -69,7 +69,7 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
         label={item.label}
         name='timePreset'
         mode='single'
-        options={filtrableTimeRangePreset.map((option) => {
+        options={filterableTimeRangePreset.map((option) => {
           const label =
             option === 'custom' && timeFrom != null && timeTo != null
               ? getTimeRangeCustomLabel(timeFrom, timeTo, user?.timezone)

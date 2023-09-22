@@ -1,7 +1,7 @@
 import { type InputCurrencyRangeProps } from '#ui/forms/InputCurrencyRange'
 import { type InputResourceGroupProps } from '#ui/forms/InputResourceGroup'
 
-export const filtrableTimeRangePreset = [
+export const filterableTimeRangePreset = [
   'today',
   'last7days',
   'last30days',
@@ -11,7 +11,7 @@ export const filtrableTimeRangePreset = [
 export type UiFilterName = string
 export type UiFilterValue = string | string[] | boolean | Date | undefined
 
-export type TimeRangePreset = (typeof filtrableTimeRangePreset)[number]
+export type TimeRangePreset = (typeof filterableTimeRangePreset)[number]
 
 export interface TimeRangeFormValues {
   timePreset?: TimeRangePreset | null

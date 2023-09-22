@@ -2,7 +2,7 @@ import castArray from 'lodash/castArray'
 import compact from 'lodash/compact'
 import qs, { type ParsedQuery } from 'query-string'
 import {
-  filtrableTimeRangePreset,
+  filterableTimeRangePreset,
   isCurrencyRange,
   type FiltersInstructions,
   type FormFullValues,
@@ -38,14 +38,14 @@ export function adaptUrlQueryToFormValues<
 
   // parse a single filter key value to return
   // an array of valid values or an empty array
-  const parseQueryStringValueAsArray = <TFiltrableValue extends string>(
+  const parseQueryStringValueAsArray = <TFilterableValue extends string>(
     value?: ParsedQuery[string],
-    acceptedValues?: Readonly<TFiltrableValue[]>
-  ): TFiltrableValue[] => {
+    acceptedValues?: Readonly<TFilterableValue[]>
+  ): TFilterableValue[] => {
     if (value == null) {
       return []
     }
-    const cleanValue = compact(castArray(value) as TFiltrableValue[])
+    const cleanValue = compact(castArray(value) as TFilterableValue[])
     if (acceptedValues != null) {
       return cleanValue.filter((v) => acceptedValues.includes(v))
     }
@@ -158,7 +158,7 @@ export function adaptUrlQueryToFormValues<
     {
       timePreset: parseQueryStringValueAsArray(
         parsedQuery.timePreset,
-        filtrableTimeRangePreset
+        filterableTimeRangePreset
       )[0],
       timeFrom: parseQueryStringValueAsDate(parsedQuery.timeFrom),
       timeTo: parseQueryStringValueAsDate(parsedQuery.timeTo),
