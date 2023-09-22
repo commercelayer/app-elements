@@ -24,16 +24,28 @@ Primary.args = {
   disabled: false
 }
 
+/** When you need to delete a resource or want to perform an irreversible action you can use a `danger` button that visually warns the user. */
 export const Danger = Template.bind({})
 Danger.args = {
   variant: 'danger',
   children: 'Delete webhook'
 }
 
-export const Link: StoryFn = (args) => (
+/** A `<Button>` can also be rendered as a `link` anytime you need a inline action that doesn't point to a url. */
+export const Link: StoryFn = (_args) => (
   <div>
     <Button variant='link'>I am a button</Button>
     <br />
     <A href='https://commercelayer.io'>I am a link</A>
+    <br />
+    <br />
+    <Button
+      variant='link'
+      onClick={() => {
+        alert('Item added!')
+      }}
+    >
+      Add item
+    </Button>
   </div>
 )
