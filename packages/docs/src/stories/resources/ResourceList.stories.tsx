@@ -1,6 +1,5 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { BlockCode } from '#ui/atoms/BlockCode'
 import { Button } from '#ui/atoms/Button'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -105,7 +104,7 @@ export const WithFunctionAsChild = (): JSX.Element => {
                 {isLoading || data?.list[0]?.id == null ? (
                   <div>loading</div>
                 ) : (
-                  <BlockCode json={data} />
+                  <pre>{JSON.stringify(data, null, 2)}</pre>
                 )}
               </div>
             )
