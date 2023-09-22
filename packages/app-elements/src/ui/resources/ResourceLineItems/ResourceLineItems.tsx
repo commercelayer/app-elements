@@ -215,18 +215,12 @@ export const ResourceLineItems = withSkeletonTemplate<{
                     {lineItem.type === 'line_items' &&
                       lineItem.formatted_unit_amount != null && (
                         <Spacer top='2'>
-                          <Badge
-                            label={`Unit price ${lineItem.formatted_unit_amount}`}
-                            variant='secondary'
-                          />
+                          <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
                         </Spacer>
                       )}
                     {lineItem.type !== 'line_items' &&
                       lineItem.bundle_code != null && (
-                        <Badge
-                          label={`BUNDLE ${lineItem.bundle_code}`}
-                          variant='secondary'
-                        />
+                        <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
                       )}
                   </td>
                   <td valign='top' align='right'>

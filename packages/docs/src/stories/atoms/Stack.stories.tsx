@@ -31,7 +31,7 @@ export const Steps: StoryFn<typeof Stack> = (args) => (
           Order
         </Text>
       </Spacer>
-      <Badge label='APPROVED' variant='success-solid' />
+      <Badge variant='success-solid'>APPROVED</Badge>
     </div>
     <div>
       <Spacer bottom='2'>
@@ -39,7 +39,7 @@ export const Steps: StoryFn<typeof Stack> = (args) => (
           Payment
         </Text>
       </Spacer>
-      <Badge label='AUTHORIZED' variant='secondary' />
+      <Badge variant='secondary'>AUTHORIZED</Badge>
     </div>
     <div>
       <Spacer bottom='2'>
@@ -47,7 +47,7 @@ export const Steps: StoryFn<typeof Stack> = (args) => (
           Fulfillment
         </Text>
       </Spacer>
-      <Badge label='UNFULFILLED' variant='secondary' />
+      <Badge variant='secondary'>UNFULFILLED</Badge>
     </div>
   </Stack>
 )

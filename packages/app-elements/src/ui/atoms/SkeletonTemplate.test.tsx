@@ -67,7 +67,9 @@ describe('SkeletonTemplate', () => {
   test('Should render <Badge> as "loading item"', () => {
     const { getByTestId } = render(
       <SkeletonTemplate isLoading>
-        <Badge data-testid='element' label='APPROVED' variant='danger' />
+        <Badge data-testid='element' variant='danger'>
+          APPROVED
+        </Badge>
       </SkeletonTemplate>
     )
 
