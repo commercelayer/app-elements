@@ -60,7 +60,7 @@ export function getTextColorForBackground(
   }
 
   /**
-   * Calculate contrast ratios with both white (`L1`) and black (`L2`).
+   * Calculate contrast ratios with both white and black.
    *
    * To calculate the contrast ratio,
    * the relative luminance of the lighter color (`L1`)
@@ -73,13 +73,13 @@ export function getTextColorForBackground(
    */
   const calculateWhiteAndBlackContrastRatio = (
     luminance: number
-  ): { l1: number; l2: number } => {
+  ): { white: number; black: number } => {
     const whiteLuminance = calculateRelativeLuminance(hexToRgb('#FFFFFF'))
     const blackLuminance = calculateRelativeLuminance(hexToRgb('#000000'))
 
     return {
-      l1: (whiteLuminance + 0.05) / (luminance + 0.05),
-      l2: (luminance + 0.05) / (blackLuminance + 0.05)
+      white: (whiteLuminance + 0.05) / (luminance + 0.05),
+      black: (luminance + 0.05) / (blackLuminance + 0.05)
     }
   }
 
@@ -87,7 +87,7 @@ export function getTextColorForBackground(
 
   const luminance = calculateRelativeLuminance(rgb)
 
-  const { l1, l2 } = calculateWhiteAndBlackContrastRatio(luminance)
+  const { white, black } = calculateWhiteAndBlackContrastRatio(luminance)
 
-  return l1 > l2 ? 'white' : 'black'
+  return white > black ? 'white' : 'black'
 }

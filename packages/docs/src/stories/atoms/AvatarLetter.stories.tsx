@@ -27,56 +27,39 @@ SingleWorld.args = {
 /** This is the list of all available background colors. You cannot choose the background; it is calculated based on the given `text`. */
 export const AvailableBackgroundColors: StoryFn = (_args) => {
   return (
-    <>
+    <div
+      style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))',
+        gap: '2.5rem'
+      }}
+    >
       {BG_COLORS.map((hex, index) => (
-        <Color key={hex} hex={hex}>
+        <div
+          key={hex}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '.5rem'
+          }}
+        >
           <AvatarLetter text={getText(index)} />
-        </Color>
+          <div style={{ color: '#686e6e', fontSize: '.75rem' }}>
+            {hex.toUpperCase()}
+          </div>
+        </div>
       ))}
-    </>
+    </div>
   )
 }
 AvailableBackgroundColors.parameters = {
-  layout: 'padded'
-}
-AvailableBackgroundColors.decorators = [
-  (Story) => {
-    return (
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(60px, 1fr))',
-          gap: '2.5rem'
-        }}
-      >
-        <Story />
-      </div>
-    )
+  layout: 'padded',
+  docs: {
+    source: {
+      code: null
+    }
   }
-]
-
-function Color({
-  hex,
-  children
-}: {
-  hex: string
-  children: JSX.Element
-}): JSX.Element {
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        gap: '.5rem'
-      }}
-    >
-      {children}
-      <div style={{ color: '#686e6e', fontSize: '.75rem' }}>
-        {hex.toUpperCase()}
-      </div>
-    </div>
-  )
 }
 
 function getText(index: number): string {

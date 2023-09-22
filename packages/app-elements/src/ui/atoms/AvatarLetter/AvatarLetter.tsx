@@ -28,7 +28,7 @@ export function AvatarLetter({
   ...rest
 }: AvatarLetterProps): JSX.Element {
   const backgroundColor = useMemo(
-    () => getDeterministicValue(text, BG_COLORS),
+    () => getDeterministicValue(text, BG_COLORS) ?? '#FFFFFF',
     [text]
   )
   return (

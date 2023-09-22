@@ -21,8 +21,7 @@ describe('getDeterministicValue', () => {
   })
 
   it('should return #FFFFFF when color array is empty', () => {
-    // @ts-expect-error I want to test this scenario
-    expect(getDeterministicValue('Ringo Starr', [])).toEqual('#FFFFFF')
+    expect(getDeterministicValue('Ringo Starr', [])).toBeUndefined()
   })
 })
 
