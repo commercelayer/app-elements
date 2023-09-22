@@ -402,9 +402,10 @@ const TrackingDetails = withSkeletonTemplate<{
                 <Badge
                   data-testid='timeline-date-group'
                   className='rounded-full bg-gray-200 py-1 px-3 font-bold'
-                  label={date}
                   variant='secondary'
-                />
+                >
+                  {date}
+                </Badge>
                 <table className='mt-4 mb-6 ml-1 w-full h-full'>
                   <tbody>
                     {eventsByDate.map((event) => (

@@ -3,7 +3,7 @@ import { Badge, type BadgeVariant } from './Badge'
 
 interface SetupProps {
   id: string
-  label: string
+  children: string
   variant: BadgeVariant
 }
 
@@ -24,7 +24,7 @@ describe('Badge', () => {
   test('Should be rendered', () => {
     const { element } = setup({
       id: 'my-badge',
-      label: 'Completed',
+      children: 'Completed',
       variant: 'success'
     })
     expect(element).toBeInTheDocument()

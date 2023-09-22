@@ -75,7 +75,7 @@ const children = (
     <ListItem tag='div' borderStyle='dashed'>
       <div>
         <Text tag='div'>Ehi there!</Text>
-        <Badge label='APPROVED' variant='primary' />
+        <Badge variant='primary'>APPROVED</Badge>
       </div>
       <Button
         onClick={() => {

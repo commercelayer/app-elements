@@ -16,8 +16,9 @@ export type BadgeVariant =
   | 'warning'
 
 interface Props extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  /** Render a different variant. */
   variant: BadgeVariant
-  label: string
+  children: string
 }
 
 const variantCss: Record<BadgeVariant, string> = {
@@ -39,7 +40,13 @@ export const badgeVariants = Object.keys(variantCss) as Array<
   keyof typeof variantCss
 >
 
-function Badge({ variant, label, className, ...rest }: Props): JSX.Element {
+/** Badges are used to highlight an item's status for quick recognition. */
+export const Badge: React.FC<Props> = ({
+  variant,
+  children,
+  className,
+  ...rest
+}) => {
   return (
     <div
       {...rest}
@@ -49,10 +56,9 @@ function Badge({ variant, label, className, ...rest }: Props): JSX.Element {
         variantCss[variant]
       ])}
     >
-      {label}
+      {children}
     </div>
   )
 }
 
 Badge.displayName = 'Badge'
-export { Badge }

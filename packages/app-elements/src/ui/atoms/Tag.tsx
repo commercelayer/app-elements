@@ -28,7 +28,7 @@ export type TagProps = Props &
       } & Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'children'>)
   )
 
-const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
+export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
   const JsxTag = useMemo(
     () =>
       enforceAllowedTags({
@@ -66,4 +66,3 @@ const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
 }
 
 Tag.displayName = 'Tag'
-export { Tag }

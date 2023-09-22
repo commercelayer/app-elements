@@ -8,12 +8,13 @@ const setup: Meta<typeof Badge> = {
 }
 export default setup
 
-const Template: StoryFn<typeof Badge> = (args) => <Badge {...args} />
+const Template: StoryFn<typeof Badge> = (args) => (
+  <Badge {...args}>completed</Badge>
+)
 
 export const Default = Template.bind({})
 Default.args = {
-  variant: 'success',
-  label: 'completed'
+  variant: 'success'
 }
 
 /** These are all the possible values for the `variant` prop. */
@@ -28,7 +29,9 @@ export const AvailableVariants: StoryFn = () => (
   >
     {badgeVariants.sort().map((name) => (
       <div key={name} className='flex flex-row gap-2 items-center align-middle'>
-        <Badge key={name} variant={name} label={name} />
+        <Badge key={name} variant={name}>
+          {name}
+        </Badge>
         <CopyToClipboard showValue={false} value={name} />
       </div>
     ))}
@@ -40,16 +43,4 @@ AvailableVariants.parameters = {
       code: null
     }
   }
-}
-
-export const Simple = Template.bind({})
-Simple.args = {
-  variant: 'warning',
-  label: 'TEST DATA'
-}
-
-export const Solid = Template.bind({})
-Solid.args = {
-  variant: 'warning-solid',
-  label: 'TEST DATA'
 }

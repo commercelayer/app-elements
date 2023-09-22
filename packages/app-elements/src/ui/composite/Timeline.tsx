@@ -54,9 +54,10 @@ export const Timeline = withSkeletonTemplate<Props>(
                 <Badge
                   data-testid='timeline-date-group'
                   className='rounded-full bg-gray-100 py-1 px-3 font-bold'
-                  label={date}
                   variant='secondary'
-                />
+                >
+                  {date}
+                </Badge>
               </div>
               {eventsByDate.map((event) => (
                 <Fragment key={event.date}>

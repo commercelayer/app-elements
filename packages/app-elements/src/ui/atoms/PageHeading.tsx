@@ -69,7 +69,7 @@ function PageHeading({
       )}
       {badgeLabel != null && (
         <div className='flex mb-4 md:!mt-0' data-testid='page-heading-badge'>
-          <Badge variant={badgeVariant} label={badgeLabel} />
+          <Badge variant={badgeVariant}>{badgeLabel}</Badge>
         </div>
       )}
       <h1 className='font-semibold text-title leading-title'>{title}</h1>
