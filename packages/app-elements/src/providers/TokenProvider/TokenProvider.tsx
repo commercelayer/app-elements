@@ -44,7 +44,7 @@ export interface TokenProviderValue {
 export interface TokenProviderProps {
   /**
    * Token kind (will be validated).
-   * For example: `integration`, 'sales_channel' or `webapp` but also `imports` or `orders` in case of dashboard-generated token.
+   * For example: `integration`, `sales_channel` or `webapp` but also `imports` or `orders` in case of dashboard-generated token.
    */
   kind: TokenProviderTokenApplicationKind
   /**

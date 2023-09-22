@@ -38,7 +38,7 @@ function srcIsValidPreset(
 }
 
 /**
- * This component renders as `<img>` using different shapes and sizes. It is mostly used to show an sku image or a 3rd-party icon.
+ * This component renders as `<img>` using different shapes and sizes. It is mostly used to show an SKU image or a 3rd-party icon.
  */
 function Avatar({
   src,

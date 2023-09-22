@@ -26,7 +26,7 @@ Default.args = {
   shape: 'circle'
 }
 
-/** Usually a sku image is represented with a rounder shape. */
+/** Usually a SKU image is represented with a rounder shape. */
 export const SkuImage = Template.bind({})
 SkuImage.args = {
   src: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',

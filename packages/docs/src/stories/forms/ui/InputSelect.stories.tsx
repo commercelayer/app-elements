@@ -70,7 +70,7 @@ Async.args = {
   debounceMs: 200,
   hint: {
     icon: 'bulb',
-    text: 'Try to search some of the following values: customer, sku, price, tax'
+    text: 'Try to search some of the following values: customer, SKU, price, tax'
   },
   loadAsyncValues: async (hint) => {
     return await new Promise<SelectValue[]>((resolve) => {

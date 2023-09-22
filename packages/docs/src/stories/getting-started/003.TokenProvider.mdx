@@ -12,7 +12,7 @@ When this component is mounted, it does the following:
 
 1. Checks the presence of an `accessToken` from the current URL or if it exists in `localStorage`.
 1. Validates the token by checking its expiration and if it's valid for current `organization` and current `app`. This is required to ensure that your app is only accessible with an authorized and specific token generated from your Commerce Layer Dashboard.
-1. If access token is missing or invalid, it calls your commerce layer dashboard to automatically generate a valid one.
+1. If access token is missing or invalid, it calls your Commerce Layer Dashboard to automatically generate a valid one.
 1. Once a valid token is retrieved, it will be used to fetch user details and permissions. This info will be available within your app via react context.
 
 ## How to initialize it
@@ -41,7 +41,7 @@ When this component is mounted, it does the following:
 <span type='danger'>TODO: Should this part be moved to the forked apps section?</span>
 
 During token validation, the component will read the organization slug from the current URL subdomain. 
-This only works for all Commerce Layer hosted apps since their share the same URL structure.
+This only works for all Commerce Layer hosted apps since they share the same URL structure.
 
 <span type='info'>
 When you are using a forked and self-hosted app, you need to provide the `organizationSlug` prop in order to let the component know which organization is the owner of the current token.
@@ -78,7 +78,7 @@ const {
 
 ### `canAccess`
 
-This method is used to check if current user has permission to access a specif app by providing its slug.
+This method is used to check if current user has permission to access a specific app by providing its slug.
 
 ### `canUser`
 

@@ -5,7 +5,7 @@
 
 [![NPM](https://img.shields.io/npm/v/%40commercelayer%2Fapp-elements)](https://www.npmjs.com/package/@commercelayer/app-elements)
 
-The Commerce Layer admin dashboard has a Hub section for back-office applications built on top of our APIs that facilitates the use of some of the platform's main features.
+The Commerce Layer admin Dashboard has a hub section for back-office applications built on top of our APIs that facilitates the use of some of the platform's main features.
 
 <img width="700" alt="You can access the Hub section from the dashboard sidebar menu" src="https://user-images.githubusercontent.com/1681269/268583888-265c7b96-d6d1-451c-9353-a59a4de6edb6.png">
 
