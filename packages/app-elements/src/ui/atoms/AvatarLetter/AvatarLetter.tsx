@@ -5,11 +5,11 @@ import { BG_COLORS, getTextColorForBackground } from './colors'
 
 interface AvatarLetterProps {
   /**
-   * text to be used to generate initials
+   * Text to be used to generate initials
    */
   text: string
   /**
-   * css class name
+   * CSS class name
    */
   className?: string
   style?: React.CSSProperties

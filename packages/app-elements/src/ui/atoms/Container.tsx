@@ -2,18 +2,18 @@ import cn from 'classnames'
 
 export interface ContainerProps {
   /**
-   * set min height as screen size. Default is `true`.
+   * Set min height as screen size. Default is `true`.
    */
   minHeight?: boolean
 }
 
 interface Props extends ContainerProps {
   /**
-   * css class name
+   * CSS class name
    */
   className?: string
   /**
-   * content to be rendered inside the container
+   * Content to be rendered inside the container
    */
   children: React.ReactNode
 }

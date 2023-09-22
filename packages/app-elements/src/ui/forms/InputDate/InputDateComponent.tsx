@@ -15,44 +15,44 @@ export type MaybeDate = Date | null
 
 export interface InputDateProps extends InputWrapperBaseProps {
   /**
-   * controlled value
+   * Controlled value
    */
   value?: MaybeDate
   /**
-   * callback fired when value is changed
+   * Callback fired when value is changed
    */
   onChange: (date: MaybeDate) => void
   /**
-   * optional css class names used for the outer wrapper/container element
+   * Optional CSS class names used for the outer wrapper/container element
    */
   wrapperClassName?: string
   /**
-   * optional css class names used for the input element
+   * Optional CSS class names used for the input element
    */
   inputClassName?: string
   /**
-   * optional placeholder text
+   * Optional placeholder text
    */
   placeholder?: string
   /**
-   * string to be parsed as formatter (eg. MM/dd/yyyy, dd-MM-yy, ect...).
+   * String to be parsed as formatter (eg. MM/dd/yyyy, dd-MM-yy, ect...).
    * When undefined, will autodetect format from user's browser
    */
   format?: string
   /**
-   * disable selection of previous dates
+   * Disable selection of previous dates
    */
   minDate?: Date
   /**
-   * set placeholder as detected date format
+   * Set placeholder as detected date format
    */
   autoPlaceholder?: boolean
   /**
-   * enables a button to clear the selected date
+   * Enables a button to clear the selected date
    */
   isClearable?: boolean
   /**
-   * prevent the date picker calendar from opening on focus,
+   * Prevent the date picker calendar from opening on focus,
    * this is useful when showing validation error message and
    * to avoid the calendar to open on top of the error message
    */

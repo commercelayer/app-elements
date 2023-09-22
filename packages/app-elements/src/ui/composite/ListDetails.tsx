@@ -13,11 +13,11 @@ export interface DetailsListProps {
    */
   children?: ReactNode
   /**
-   * css class name
+   * CSS class name
    */
   className?: string
   /**
-   * font size
+   * Font size
    */
   fontSize?: 'normal' | 'small'
   /**

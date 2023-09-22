@@ -8,22 +8,22 @@ import { Fragment } from 'react'
 
 export interface InputWrapperBaseProps {
   /**
-   * optional input label
+   * Optional input label
    */
   label?: string
   /**
-   * optional hint to be rendered below
+   * Optional hint to be rendered below
    */
   hint?: {
     icon?: HintProps['icon']
     text: HintProps['children']
   }
   /**
-   * optional hint to be rendered below
+   * Optional hint to be rendered below
    */
   feedback?: Omit<InputFeedbackProps, 'className'>
   /**
-   * show label and input on the same line
+   * Show label and input on the same line
    * @default false
    */
   inline?: boolean
@@ -31,7 +31,7 @@ export interface InputWrapperBaseProps {
 
 export interface InputWrapperProps extends InputWrapperBaseProps {
   /**
-   * optional css class names used for the input element
+   * Optional CSS class names used for the input element
    */
   className?: string
   name?: string
