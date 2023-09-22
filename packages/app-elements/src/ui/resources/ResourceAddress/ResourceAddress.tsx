@@ -1,34 +1,56 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/composite/ListItem'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
+import cn from 'classnames'
 import { useState } from 'react'
 import { ResourceAddressForm } from './ResourceAddressForm'
+
+type ResourceAddressEditPosition = 'side' | 'bottom'
 
 interface ResourceAddressProps {
   resource: Address
   title?: string
   editable?: boolean
+  editPosition?: ResourceAddressEditPosition
   showBillingInfo?: boolean
 }
 
 export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
-  ({ resource, title, editable = false, showBillingInfo = false }) => {
+  ({
+    resource,
+    title,
+    editable = false,
+    editPosition = 'side',
+    showBillingInfo = false
+  }) => {
     const { Overlay, open, close } = useOverlay({ queryParam: 'edit-address' })
 
     const [address, setAddress] = useState<Address>(resource)
 
-    const label =
-      address.company ?? `${address.first_name} ${address.last_name}`
-
     return (
       <>
-        <ListItem tag='div' alignItems='top'>
-          <div>
-            <Text tag='div' weight='bold'>
-              {label}
+        <div
+          className={cn(['w-full flex gap-4 space-between'], {
+            'flex-col': editPosition === 'bottom'
+          })}
+        >
+          <div className='w-full'>
+            {title != null && (
+              <Spacer bottom='2'>
+                <Text tag='div' weight='bold'>
+                  {title}
+                </Text>
+              </Spacer>
+            )}
+            <Text
+              tag='div'
+              weight={title == null ? 'bold' : undefined}
+              variant={title != null ? 'info' : undefined}
+            >
+              {address.full_name}
             </Text>
             <Text tag='div' variant='info'>
               {address.line_1} {address.line_2}
@@ -46,15 +68,17 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             ) : null}
           </div>
           {editable && (
-            <a
-              onClick={() => {
-                open()
-              }}
-            >
-              Edit
-            </a>
+            <div>
+              <a
+                onClick={() => {
+                  open()
+                }}
+              >
+                Edit
+              </a>
+            </div>
           )}
-        </ListItem>
+        </div>
         {editable && (
           <Overlay>
             <PageLayout
