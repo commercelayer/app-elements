@@ -2,9 +2,13 @@ import cn from 'classnames'
 
 type Props = Omit<React.HTMLProps<HTMLHRElement>, 'children'>
 
-export function Hr({ className, ...rest }: Props): JSX.Element {
+/**
+ * This component wraps an [`<hr>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/hr) HTML element.
+ * <span type='info'>All the props are directly sent to the horizontal rule element.</span>
+ */
+export const Hr: React.FC<Props> = ({ className, ...rest }) => {
   return (
-    <hr className={cn([className, 'border-t border-gray-100'])} {...rest} />
+    <hr className={cn(['border-t border-gray-100', className])} {...rest} />
   )
 }
 
