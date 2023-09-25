@@ -18,6 +18,7 @@ Default.args = {
   value: 40
 }
 
+/** If there is no `value` prop, the progress bar is indeterminate; this indicates that an activity is ongoing with no indication of how long it is expected to take. */
 export const Indeterminate: StoryFn<typeof Progress> = (args) => (
   <Progress {...args}>Loading...</Progress>
 )

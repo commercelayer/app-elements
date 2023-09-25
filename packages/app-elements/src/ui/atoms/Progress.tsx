@@ -1,4 +1,7 @@
-interface ProgressProps {
+import cn from 'classnames'
+
+interface ProgressProps
+  extends React.ProgressHTMLAttributes<HTMLProgressElement> {
   /**
    * This attribute describes how much work the task indicated by the `progress` element requires.
    * The `max` attribute, if present, must have a value greater than `0` and be a valid floating point number.
@@ -16,10 +19,27 @@ interface ProgressProps {
   children: React.ReactNode
 }
 
-function Progress({ max = 1, value, children }: ProgressProps): JSX.Element {
+/**
+ * This component wraps a [`<progress>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress) HTML element.
+ *
+ * The `<progress>` HTML element displays an indicator showing the completion progress of a task.
+ * <span type='info'>All the props are directly sent to the progress indicator element.</span>
+ */
+export const Progress: React.FC<ProgressProps> = ({
+  max = 1,
+  value,
+  children,
+  className,
+  ...rest
+}) => {
   return (
     <div className='flex items-center gap-3'>
-      <progress className='progress' max={max} value={value}>
+      <progress
+        className={cn('progress', className)}
+        max={max}
+        value={value}
+        {...rest}
+      >
         {children}
       </progress>
 
@@ -38,4 +58,3 @@ function Progress({ max = 1, value, children }: ProgressProps): JSX.Element {
 }
 
 Progress.displayName = 'Progress'
-export { Progress }
