@@ -45,7 +45,7 @@ async function generatePageFromAbilities() {
   )
 
   const content = `
-import { Meta, Source } from '@storybook/addon-docs';
+import { Meta } from '@storybook/addon-docs';
 
 <Meta title="Getting Started/Application roles"></Meta>
 
@@ -54,7 +54,7 @@ import { Meta, Source } from '@storybook/addon-docs';
 Each application is equipped with a specific set of permissions based on the application the developer would like to customize.
 
 ${generateToc(entries)}
-${generateTable(entries)}
+${generateAppTable(entries)}
 `
 
   writeFileSync(
@@ -86,35 +86,43 @@ function generateToc(entries) {
  * @param {[string, App][]} entries Entries from `abilities.yml`
  * @returns {string}
  */
-function generateTable(entries) {
+function generateAppTable(entries) {
   return entries
-    .map(([appName, roles]) => {
+    .map(([appName, app]) => {
       return `
-## ${appName}
+        ## ${appName}
 
-<h3 style={{ marginTop: '16px' }}>admin</h3>
-|subject|create|read|update|destroy|restriction|
-|:---|:---:|:---:|:---:|:---:|:---|
-${roles.admin.map(adminRoleToTable).join('\n')}
-
-<h3 style={{ marginTop: '16px' }}>read_only</h3>
-|subject|create
-|:---|:---:|
-${roles.read_only.map(readOnlyRoleToTable).join('\n')}
-`
+        ${generateRole(app, 'admin')}
+        ${generateRole(app, 'read_only')}
+      `
     })
     .join('\n')
 }
 
 /**
- * @param {AdminRole} role
+ *
+ * @param {App} app
+ * @param {'admin' | 'read_only'} kind
  * @returns {string}
  */
-function adminRoleToTable({
-  can_create,
-  can_destroy,
-  can_read,
-  can_update,
+function generateRole(app, kind) {
+  return `
+    <h3 style={{ marginTop: '16px' }}>${kind}</h3>
+    |subject|create|read|update|destroy|restriction|
+    |:---|:---:|:---:|:---:|:---:|:---|
+    ${app[kind].map(roleToTable).join('\n')}
+  `
+}
+
+/**
+ * @param {Role} role
+ * @returns {string}
+ */
+function roleToTable({
+  can_create = false,
+  can_destroy = false,
+  can_read = false,
+  can_update = false,
   restrictions,
   subject
 }) {
@@ -132,18 +140,17 @@ function adminRoleToTable({
   ].join('|')}`
 }
 
-/**
- * @param {ReadOnlyRole} role
- * @returns {string}
- */
-function readOnlyRoleToTable({ can_read, subject }) {
-  return `|${[
-    `<a style={{ fontWeight: 'normal' }} target="_blank" href="https://docs.commercelayer.io/core/v/api-reference/${subject}/object">${subject}</a>`,
-    booleanToIcon(can_read)
-  ].join('|')}`
-}
-
 // ------------------------------------------------------------
+
+/**
+ * @typedef {Object} Role
+ * @property {string} subject
+ * @property {boolean} [can_create]
+ * @property {boolean} [can_read]
+ * @property {boolean} [can_update]
+ * @property {boolean} [can_destroy]
+ * @property {object} [restrictions]
+ */
 
 /**
  * @typedef {Object} AdminRole
@@ -152,7 +159,7 @@ function readOnlyRoleToTable({ can_read, subject }) {
  * @property {boolean} can_read
  * @property {boolean} can_update
  * @property {boolean} can_destroy
- * @property {object?} restrictions
+ * @property {object} [restrictions]
  */
 
 /**
