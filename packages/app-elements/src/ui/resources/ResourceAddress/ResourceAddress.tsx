@@ -11,13 +11,31 @@ import { ResourceAddressForm } from './ResourceAddressForm'
 type ResourceAddressEditPosition = 'side' | 'bottom'
 
 interface ResourceAddressProps {
+  /**
+   * Resource of type `Address`
+   */
   resource: Address
+  /**
+   * Optional address title (if added it will be shown in bold on top of address infos)
+   */
   title?: string
+  /**
+   * Optional setting to define if given address is editable (if set the Edit button and Overlay will be enabled)
+   */
   editable?: boolean
+  /**
+   * Optional setting to define edit button position. It can be set to 'side' or 'bottom'
+   */
   editPosition?: ResourceAddressEditPosition
+  /**
+   * Optional setting to define if given `Address` `billing_info` data is visible
+   */
   showBillingInfo?: boolean
 }
 
+/**
+ * Renders an all-in-one visualization and editing solution to deal with a given resource of type `Address`
+ */
 export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
   ({
     resource,
