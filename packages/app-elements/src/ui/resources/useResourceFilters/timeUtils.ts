@@ -5,7 +5,7 @@ import {
 } from '#helpers/date'
 import { z } from 'zod'
 import type { TimeRangeFormValues, TimeRangePreset } from './types'
-import { filtrableTimeRangePreset } from './types'
+import { filterableTimeRangePreset } from './types'
 
 interface MakerSdkFilterTimeParams {
   timePreset?: TimeRangePreset
@@ -122,7 +122,7 @@ export const timeRangeValidationSchema = z
   .object({
     timeFrom: z.date().optional().nullable(),
     timeTo: z.date().optional().nullable(),
-    timePreset: z.enum(filtrableTimeRangePreset).optional().nullable()
+    timePreset: z.enum(filterableTimeRangePreset).optional().nullable()
   })
   .passthrough()
   .superRefine((data, ctx) => {
