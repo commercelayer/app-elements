@@ -90,14 +90,14 @@ function generateTable(entries) {
   return entries
     .map(([appName, roles]) => {
       return `
-<h2 style={{ marginTop: '32px', marginBottom: '16px' }}>${appName}</h2>
+## ${appName}
 
-### admin
+<h3 style={{ marginTop: '16px' }}>admin</h3>
 |subject|create|read|update|destroy|restriction|
 |:---|:---:|:---:|:---:|:---:|:---|
 ${roles.admin.map(adminRoleToTable).join('\n')}
 
-### read_only
+<h3 style={{ marginTop: '16px' }}>read_only</h3>
 |subject|create
 |:---|:---:|
 ${roles.read_only.map(readOnlyRoleToTable).join('\n')}
