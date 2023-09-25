@@ -55,9 +55,9 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             'flex-col': editPosition === 'bottom'
           })}
         >
-          <div className='w-full'>
+          <div className='w-full' data-testid='ResourceAddress'>
             {title != null && (
-              <Spacer bottom='2'>
+              <Spacer bottom='2' data-testid='ResourceAddress-title'>
                 <Text tag='div' weight='bold'>
                   {title}
                 </Text>
@@ -65,28 +65,37 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             )}
             <Text
               tag='div'
+              data-testid='ResourceAddress-fullName'
               weight={title == null ? 'bold' : undefined}
               variant={title != null ? 'info' : undefined}
             >
               {address.full_name}
             </Text>
-            <Text tag='div' variant='info'>
+            <Text
+              tag='div'
+              variant='info'
+              data-testid='ResourceAddress-address'
+            >
               {address.line_1} {address.line_2}
               <br />
               {address.city} {address.state_code} {address.zip_code} (
               {address.country_code})
             </Text>
-            <Text tag='div' variant='info'>
+            <Text tag='div' variant='info' data-testid='ResourceAddress-phone'>
               {address.phone}
             </Text>
             {address.billing_info != null && showBillingInfo ? (
-              <Text tag='div' variant='info'>
+              <Text
+                tag='div'
+                variant='info'
+                data-testid='ResourceAddress-billingInfo'
+              >
                 {address.billing_info}
               </Text>
             ) : null}
           </div>
           {editable && (
-            <div>
+            <div data-testid='ResourceAddress-editAction'>
               <a
                 onClick={() => {
                   open()
