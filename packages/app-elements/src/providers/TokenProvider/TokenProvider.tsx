@@ -61,7 +61,7 @@ export interface TokenProviderProps {
    */
   children: ((props: TokenProviderValue) => ReactNode) | ReactNode
   /**
-   * Required when application is forked or running as self-hosted.
+   * Required when application is running as self-hosted.
    * It's used to perform a security check to test the validity of token against current organization.
    */
   organizationSlug?: string
@@ -143,9 +143,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       onInvalidAuth({ dashboardUrl, reason })
     }
     if (reauthenticateOnInvalidAuth) {
-      // trying to build the re-authentication URL with app ID when is self-hosted/forked
+      // trying to build the re-authentication URL with app ID when is self-hosted/custom
       // this only works when we already have a token to read the app ID from otherwise `makeReAuthenticationUrl` will return the original dashboard URL.
-      // For non-forked apps we can use the appSlug
+      // For non-custom apps we can use the appSlug
       const { appId } = getInfoFromJwt(accessToken ?? '')
       const appIdentifier = isSelfHosted ? appId : appSlug
       window.location.href = makeReAuthenticationUrl(

@@ -177,7 +177,7 @@ export function navigateTo(
     params.destination.app
   }/list/${params.destination.resourceId ?? ''}`
 
-  // cross linking is allowed only for Commerce Layer hosted apps. It's disabled for forked (self-hosted) apps.
+  // cross linking is allowed only for Commerce Layer hosted apps. It's disabled for custom (self-hosted) apps.
   const isClHostedApp =
     window.location.origin.includes('commercelayer.app') ||
     window.location.origin.includes('//localhost:')

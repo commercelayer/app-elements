@@ -102,7 +102,7 @@ describe('navigateTo', () => {
   })
 
   test('should return a valid onClick handlers for internal app linking when is self-hosted app', () => {
-    // simulating we are on orders list in a forked app
+    // simulating we are on orders list in a custom app
     window.location.href =
       'https://my-custom-domain.com/list?archived_at_null=show'
     const mockedSetLocation = vi.fn()
@@ -122,8 +122,8 @@ describe('navigateTo', () => {
     expect(mockedSetLocation).toBeCalledWith('/list/xbSzDaQsAZ')
   })
 
-  test('should return null for external app linking when app is forked (self-hosted(', () => {
-    // simulating we are on orders list in a forked app
+  test('should return null for external app linking when app is custom (self-hosted)', () => {
+    // simulating we are on orders list in a custom app
     window.location.href =
       'https://my-custom-domain.com/list?archived_at_null=show'
     // @ts-expect-error we want to mock window location.origin
