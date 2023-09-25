@@ -18,12 +18,13 @@ interface Props extends ContainerProps {
   children: React.ReactNode
 }
 
-function Container({
+/** This component can be used to constrain a content's width to the current breakpoint, while keeping it fluid. */
+export const Container: React.FC<Props> = ({
   children,
   className,
   minHeight = true,
   ...rest
-}: Props): JSX.Element {
+}) => {
   return (
     <div
       className={cn(
@@ -39,4 +40,3 @@ function Container({
 }
 
 Container.displayName = 'Container'
-export { Container }
