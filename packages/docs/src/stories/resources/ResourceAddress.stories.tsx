@@ -1,5 +1,6 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
+import { Stack } from '#ui/atoms/Stack'
 import { ResourceAddress } from '#ui/resources/ResourceAddress'
 import { presetAddresses } from '#ui/resources/ResourceAddress/ResourceAddress.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -77,3 +78,28 @@ EditableBottom.args = {
   editPosition: 'bottom',
   resource: presetAddresses.withName
 }
+
+const StackedTemplate: StoryFn = () => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <Stack>
+          <ResourceAddress
+            resource={presetAddresses.withCompany}
+            title='Billing address'
+            editable
+            editPosition='bottom'
+          />
+          <ResourceAddress
+            resource={presetAddresses.withName}
+            title='Shipping address'
+            editable
+            editPosition='bottom'
+          />
+        </Stack>
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+export const StackedAddresses = StackedTemplate.bind({})
