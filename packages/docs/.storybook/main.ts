@@ -18,7 +18,12 @@ const storybookConfig: StorybookConfig = {
     '../src/stories/**/*.mdx',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'
   ],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', '@storybook/addon-interactions'],
+  addons: [
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
+    '@storybook/addon-mdx-gfm'
+  ],
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [require.resolve('./addon-container/manager.tsx')],
   framework: {

@@ -38,6 +38,7 @@ jobs:
         run: pnpm build:docs
         env:
           VITE_BASE_URL: /app-elements/
+          GITHUB_TOKEN: ${{ secrets.COMMERCELAYER_CI_TOKEN }}
 
       - name: Setup Pages 🧰
         uses: actions/configure-pages@v2
