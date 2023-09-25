@@ -14,10 +14,17 @@ const Template: StoryFn<typeof InputSpinner> = (args) => {
   return <InputSpinner {...args} />
 }
 
+export const Default = Template.bind({})
+Default.args = {
+  label: 'Quantity',
+  defaultValue: 3,
+  min: 1
+}
+
 export const DefaultMinMax = Template.bind({})
 DefaultMinMax.args = {
   label: 'Quantity',
-  defaultValue: 3,
+  defaultValue: 1,
   min: 1,
   max: 12
 }

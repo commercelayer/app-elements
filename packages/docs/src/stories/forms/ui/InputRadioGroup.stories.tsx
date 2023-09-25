@@ -3,33 +3,13 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { InputRadioGroup } from '#ui/forms/InputRadioGroup'
-import {
-  ArgsTable,
-  Description,
-  Primary,
-  Stories,
-  Subtitle,
-  Title
-} from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputRadioGroup> = {
   title: 'Forms/ui/InputRadioGroup',
   component: InputRadioGroup,
   parameters: {
-    layout: 'padded',
-    docs: {
-      page: () => (
-        <>
-          <Title />
-          <Subtitle />
-          <Description />
-          <Primary />
-          <ArgsTable story='Default' />
-          <Stories includePrimary={false} />
-        </>
-      )
-    }
+    layout: 'padded'
   }
 }
 export default setup

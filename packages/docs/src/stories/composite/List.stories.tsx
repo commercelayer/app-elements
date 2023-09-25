@@ -20,8 +20,8 @@ const Template: StoryFn<typeof List> = (args) => (
   </List>
 )
 
-export const WithTitle = Template.bind({})
-WithTitle.args = {
+export const Default = Template.bind({})
+Default.args = {
   title: 'All items',
   actionButton: <Button variant='link'>New item</Button>
 }

@@ -12,6 +12,11 @@ const Template: StoryFn<typeof AvatarLetter> = (args) => (
   <AvatarLetter {...args} />
 )
 
+export const Default = Template.bind({})
+Default.args = {
+  text: 'Commerce Layer'
+}
+
 /** When the `text` is composed of more than one word, it will use the initials from the first two words. */
 export const Initials = Template.bind({})
 Initials.args = {
