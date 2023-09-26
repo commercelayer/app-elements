@@ -14,10 +14,13 @@ async function generatePageFromAbilities() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const __dirname = urlModule.fileURLToPath(new URL('.', import.meta.url))
 
-  const { GITHUB_TOKEN } = process.env
-  const url = `https://raw.githubusercontent.com/commercelayer/core-api/master/config/abilities.yml`
+  const { GITHUB_TOKEN, ABILITIES_YAML } = process.env
 
-  const plainText = await fetch(url, {
+  if (ABILITIES_YAML == null) {
+    throw new Error('ABILITIES_YAML is not defined.')
+  }
+
+  const plainText = await fetch(ABILITIES_YAML, {
     headers: {
       Authorization: `token ${GITHUB_TOKEN}`,
       Accept: 'application/vnd.github.v3.raw'
@@ -56,7 +59,7 @@ ${await generateAppTable(entries)}
       __dirname,
       'stories',
       'getting-started',
-      '002a.application-roles.mdx'
+      '005.application-roles.mdx'
     ),
     content
   )
@@ -70,7 +73,7 @@ ${await generateAppTable(entries)}
 function generateToc(entries) {
   return `<ul>${entries
     .map(([appName]) => {
-      return `<li>${createLink(`#${appName}`, appName)}</li>`
+      return `<li>${createLink(`#${appName.toLowerCase()}`, appName)}</li>`
     })
     .join('\n')}</ul>`
 }
@@ -111,7 +114,7 @@ async function generateAppTable(entries) {
  */
 function generateRole(app, kind) {
   return `
-    |subject|create|read|update|destroy|restriction|
+    |Resource|\`create\`|\`read\`|\`update\`|\`destroy\`|Restrictions|
     |:---|:---:|:---:|:---:|:---:|:---|
     ${sortByKey(app[kind], 'subject').map(roleToTable).join('\n')}
   `
