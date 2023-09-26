@@ -32,20 +32,14 @@ async function generatePageFromAbilities() {
   // @ts-expect-error doc is `unknown`
   const doc = yaml.load(plainText)
 
-  /** @type [string, App][] */
-  const entries = Object.entries(
-    Object.keys(doc)
-      .sort()
-      .reduce((accumulator, key) => {
-        // @ts-expect-error I'm not able to type the initialValue
-        accumulator[key] = doc[key]
-
-        return accumulator
-      }, {})
+  const entries = Object.entries(sortObj(doc)).map(
+    ([appName, app]) =>
+      /** @type {const} */ ([capitalizeFirstLetter(appName), app])
   )
 
   const content = `
 import { Meta } from '@storybook/addon-docs';
+import { Tabs, Tab } from '#ui/atoms/Tabs';
 
 <Meta title="Getting Started/Application roles"></Meta>
 
@@ -54,7 +48,7 @@ import { Meta } from '@storybook/addon-docs';
 Each application is equipped with a specific set of permissions based on the application the developer would like to customize.
 
 ${generateToc(entries)}
-${generateAppTable(entries)}
+${await generateAppTable(entries)}
 `
 
   writeFileSync(
@@ -70,7 +64,7 @@ ${generateAppTable(entries)}
 
 /**
  * Convert the `abilities.yml` to a TOC
- * @param {[string, App][]} entries Entries from `abilities.yml`
+ * @param {(readonly [string, App])[]} entries Entries from `abilities.yml`
  * @returns {string}
  */
 function generateToc(entries) {
@@ -83,17 +77,27 @@ function generateToc(entries) {
 
 /**
  * Convert the `abilities.yml` to a `<table>`
- * @param {[string, App][]} entries Entries from `abilities.yml`
- * @returns {string}
+ * @param {(readonly [string, App])[]} entries Entries from `abilities.yml`
+ * @returns {Promise<string>}
  */
-function generateAppTable(entries) {
+async function generateAppTable(entries) {
   return entries
     .map(([appName, app]) => {
       return `
         ## ${appName}
 
-        ${generateRole(app, 'admin')}
-        ${generateRole(app, 'read_only')}
+        <Tabs style={{ marginTop: '24px' }}>
+          <Tab name="Can manage">
+            <div>
+              ${generateRole(app, 'admin')}
+            </div>
+          </Tab>
+          <Tab name="Can view">
+            <div>
+              ${generateRole(app, 'read_only')}
+            </div>
+          </Tab>
+        </Tabs>
       `
     })
     .join('\n')
@@ -107,10 +111,9 @@ function generateAppTable(entries) {
  */
 function generateRole(app, kind) {
   return `
-    <h3 style={{ marginTop: '16px' }}>${kind}</h3>
     |subject|create|read|update|destroy|restriction|
     |:---|:---:|:---:|:---:|:---:|:---|
-    ${app[kind].map(roleToTable).join('\n')}
+    ${sortByKey(app[kind], 'subject').map(roleToTable).join('\n')}
   `
 }
 
@@ -200,4 +203,45 @@ function booleanToIcon(canI) {
  */
 function createLink(url, text, target = '_self') {
   return `<a style={{ fontWeight: 'normal' }} target="${target}" href="${url}">${text}</a>`
+}
+
+/**
+ *
+ * @template {Object.<string, any>} T
+ * @param {T} obj
+ * @returns {T}
+ */
+function sortObj(obj) {
+  return Object.keys(obj)
+    .sort()
+    .reduce((accumulator, key) => {
+      // @ts-expect-error I'm not able to type the initialValue
+      accumulator[key] = obj[key]
+
+      return accumulator
+    }, /** @type {T} */ ({}))
+}
+
+/**
+ *
+ * @template {Array<any>} T
+ * @param {T} array
+ * @param {string} key
+ * @returns {T}
+ */
+function sortByKey(array, key) {
+  return array.sort(function (a, b) {
+    const x = a[key]
+    const y = b[key]
+    return x < y ? -1 : x > y ? 1 : 0
+  })
+}
+
+/**
+ * Capitalize first letter
+ * @param {string} str
+ * @returns {string}
+ */
+function capitalizeFirstLetter(str) {
+  return str.replace(/^./, str[0]?.toUpperCase() ?? '')
 }
