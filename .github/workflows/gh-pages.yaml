@@ -39,6 +39,7 @@ jobs:
         env:
           VITE_BASE_URL: /app-elements/
           GITHUB_TOKEN: ${{ secrets.COMMERCELAYER_CI_TOKEN }}
+          ABILITIES_YAML: ${{ secrets.ABILITIES_YAML }}
 
       - name: Setup Pages 🧰
         uses: actions/configure-pages@v2
