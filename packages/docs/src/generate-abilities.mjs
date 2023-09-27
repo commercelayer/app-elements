@@ -35,23 +35,29 @@ async function generatePageFromAbilities() {
   // @ts-expect-error doc is `unknown`
   const doc = yaml.load(plainText)
 
-  const entries = Object.entries(sortObj(doc)).map(
-    ([appName, app]) =>
-      /** @type {const} */ ([capitalizeFirstLetter(appName), app])
-  )
+  const repositories = await getRepositoryNames()
+
+  const entries = Object.entries(sortObj(doc))
+    .map(
+      ([appName, app]) =>
+        /** @type {const} */ ([capitalizeFirstLetter(appName), app])
+    )
+    .filter(([appName]) =>
+      Object.keys(repositories).includes(`app-${appName.toLowerCase()}`)
+    )
 
   const content = `
 import { Meta } from '@storybook/addon-docs';
 import { Tabs, Tab } from '#ui/atoms/Tabs';
 
-<Meta title="Getting Started/Application roles"></Meta>
+<Meta title="Getting Started/Applications"></Meta>
 
-# Application roles
+# Applications
 
 Each application is equipped with a specific set of permissions based on the application the developer would like to customize.
 
-${generateToc(entries)}
-${await generateAppTable(entries)}
+${await generateToc(repositories, entries)}
+${await generateAppTable(repositories, entries)}
 `
 
   writeFileSync(
@@ -59,18 +65,40 @@ ${await generateAppTable(entries)}
       __dirname,
       'stories',
       'getting-started',
-      '005.application-roles.mdx'
+      '001a.applications.mdx'
     ),
     content
   )
 }
 
+async function getRepositoryNames() {
+  const q = 'org:commercelayer+topic:"dashboard-apps"'
+  const queryUrl = `https://api.github.com/search/repositories?q=${q}`
+
+  const result = await fetch(queryUrl, {
+    headers: {
+      Accept: 'application/vnd.github+json',
+      Authorization: `token ${process.env.GITHUB_TOKEN}`,
+      'X-GitHub-Api-Version': '2022-11-28'
+    }
+  })
+    .then(async (res) => await res.json())
+    .then(async (json) => /** @type Repository[] */ (json.items))
+    // .then(async (items) => items.filter((repo) => repo.visibility === 'public'))
+    .then(async (items) =>
+      Object.fromEntries(items.map((repo) => [repo.name, repo]))
+    )
+
+  return result
+}
+
 /**
  * Convert the `abilities.yml` to a TOC
+ * @param {Object.<string, Repository>} repositories GitHub repositories
  * @param {(readonly [string, App])[]} entries Entries from `abilities.yml`
- * @returns {string}
+ * @returns {Promise<string>}
  */
-function generateToc(entries) {
+async function generateToc(repositories, entries) {
   return `<ul>${entries
     .map(([appName]) => {
       return `<li>${createLink(`#${appName.toLowerCase()}`, appName)}</li>`
@@ -80,14 +108,25 @@ function generateToc(entries) {
 
 /**
  * Convert the `abilities.yml` to a `<table>`
+ * @param {Object.<string, Repository>} repositories GitHub repositories
  * @param {(readonly [string, App])[]} entries Entries from `abilities.yml`
  * @returns {Promise<string>}
  */
-async function generateAppTable(entries) {
+async function generateAppTable(repositories, entries) {
   return entries
     .map(([appName, app]) => {
+      const name = `app-${appName.toLowerCase()}`
+      const repo = repositories[name]
+      const repositoryLink = createLink(
+        repo?.html_url ?? '',
+        'repository',
+        '_blank'
+      )
+
       return `
         ## ${appName}
+
+        ${repo?.description} (${repositoryLink})
 
         <Tabs style={{ marginTop: '24px' }}>
           <Tab name="Can manage">
@@ -149,6 +188,14 @@ function roleToTable({
 // ------------------------------------------------------------
 
 /**
+ * @typedef {Object} Repository
+ * @property {string} name
+ * @property {string} description
+ * @property {string} html_url
+ * @property {'public' | 'private'} visibility
+ */
+
+/**
  * @typedef {Object} Role
  * @property {string} subject
  * @property {boolean} [can_create]
@@ -205,7 +252,7 @@ function booleanToIcon(canI) {
  * @returns {string}
  */
 function createLink(url, text, target = '_self') {
-  return `<a style={{ fontWeight: 'normal' }} target="${target}" href="${url}">${text}</a>`
+  return `<a style={{ fontWeight: 'normal', display: 'inline-block' }} target="${target}" href="${url}">${text}</a>`
 }
 
 /**
