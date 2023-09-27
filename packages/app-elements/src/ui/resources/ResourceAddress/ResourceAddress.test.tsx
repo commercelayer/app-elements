@@ -1,14 +1,40 @@
-import { render, type RenderResult } from '@testing-library/react'
+import { CoreSdkProvider } from '#providers/CoreSdkProvider'
+import { MockTokenProvider } from '#providers/TokenProvider/MockTokenProvider'
+import {
+  fireEvent,
+  render,
+  waitFor,
+  type RenderResult
+} from '@testing-library/react'
 import { ResourceAddress } from './ResourceAddress'
 import { presetAddresses } from './ResourceAddress.mocks'
 
+const addressUpdate = vi.fn().mockResolvedValue({})
+
+vi.mock('#providers/CoreSdkProvider', async (importOriginal) => {
+  return {
+    ...(await importOriginal<Record<string, unknown>>()),
+    useCoreSdkProvider: vi.fn().mockImplementation(() => ({
+      sdkClient: {
+        addresses: {
+          update: addressUpdate
+        }
+      }
+    }))
+  }
+})
+
 const setup = (): RenderResult => {
   return render(
-    <ResourceAddress
-      resource={presetAddresses.withName}
-      showBillingInfo
-      editable
-    />
+    <MockTokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ResourceAddress
+          resource={presetAddresses.withName}
+          showBillingInfo
+          editable
+        />
+      </CoreSdkProvider>
+    </MockTokenProvider>
   )
 }
 
@@ -50,5 +76,22 @@ describe('ResourceAddress', () => {
   test('Should render editAction', async () => {
     const { queryByTestId } = setup()
     expect(queryByTestId('ResourceAddress-editAction')).toBeInTheDocument()
+  })
+
+  test('Should open edit Overlay and submit the form', async () => {
+    const { queryByText, getByText } = setup()
+    expect(queryByText('Edit')).not.toBe(null)
+    await waitFor(() => {
+      fireEvent.click(getByText('Edit'))
+    })
+
+    expect(queryByText('Edit address')).not.toBe(null)
+    expect(queryByText('Update address')).not.toBe(null)
+
+    await waitFor(() => {
+      fireEvent.click(getByText('Update address'))
+    })
+
+    expect(addressUpdate).toHaveBeenCalledTimes(1)
   })
 })
