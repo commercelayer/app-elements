@@ -29,6 +29,12 @@ const Template: StoryFn<Props> = ({ preset, ...args }) => {
   )
 }
 
+export const Default = Template.bind({})
+Default.args = {
+  isLoading: false,
+  resource: presetAddresses.withName
+}
+
 export const WithoutTitle = Template.bind({})
 WithoutTitle.args = {
   isLoading: false,
