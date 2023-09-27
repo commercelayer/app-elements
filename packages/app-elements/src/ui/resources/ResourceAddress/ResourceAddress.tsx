@@ -44,7 +44,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     editPosition = 'side',
     showBillingInfo = false
   }) => {
-    const { Overlay, open, close } = useOverlay({ queryParam: 'edit-address' })
+    const { Overlay, open, close } = useOverlay()
 
     const [address, setAddress] = useState<Address>(resource)
 
