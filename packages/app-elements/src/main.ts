@@ -156,6 +156,7 @@ export {
   useValidationFeedback
 } from '#ui/forms/ReactHookForm'
 // Resources
+export { ResourceAddress } from '#ui/resources/ResourceAddress'
 export { ResourceLineItems } from '#ui/resources/ResourceLineItems'
 export { ResourceList } from '#ui/resources/ResourceList'
 export { ResourceListItem } from '#ui/resources/ResourceListItem'
