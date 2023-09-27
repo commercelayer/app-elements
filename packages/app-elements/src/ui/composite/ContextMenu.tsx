@@ -1,6 +1,8 @@
-import { DotsThreeCircle } from '@phosphor-icons/react'
-import { DropdownMenu } from '#ui/atoms/dropdown'
 import { useClickAway } from '#hooks/useClickAway'
+import { Button } from '#ui/atoms/Button'
+import { DropdownMenu } from '#ui/atoms/dropdown'
+import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
+import cn from 'classnames'
 import { useState } from 'react'
 
 interface Props {
@@ -8,11 +10,11 @@ interface Props {
   menuItems: React.ReactNode
 }
 
-function ContextMenu({
+export const ContextMenu: React.FC<Props> = ({
   menuLabel = <DotsThreeCircle size={32} />,
   menuItems,
   ...rest
-}: Props): JSX.Element {
+}) => {
   const [showDropdownMenu, setShowDropdownMenu] = useState(false)
 
   function toggleDropdownMenu(): void {
@@ -35,14 +37,20 @@ function ContextMenu({
 
   return (
     <div {...rest} ref={showDropdownMenu ? clickAwayRef : undefined}>
-      <button
-        className='cursor-pointer select-none m-0 p-0 block'
+      <Button
+        variant='link'
+        className={cn('m-0 p-0 block', {
+          '!text-black': typeof menuLabel !== 'string'
+        })}
         onClick={() => {
           toggleDropdownMenu()
         }}
       >
         {menuLabel}
-      </button>
+        {typeof menuLabel === 'string' ? (
+          <CaretDown className='inline-block ml-1 -mt-0.5' weight='bold' />
+        ) : null}
+      </Button>
       {showDropdownMenu && (
         <div className='relative'>
           <div
@@ -58,4 +66,3 @@ function ContextMenu({
 }
 
 ContextMenu.displayName = 'ContextMenu'
-export { ContextMenu }
