@@ -1,6 +1,7 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Stack } from '#ui/atoms/Stack'
+import { ListItem } from '#ui/composite/ListItem'
 import { ResourceAddress } from '#ui/resources/ResourceAddress'
 import { presetAddresses } from '#ui/resources/ResourceAddress/ResourceAddress.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -12,16 +13,6 @@ type Props = Parameters<typeof ResourceAddress>[0] & {
 const setup: Meta<Props> = {
   title: 'Resources/ResourceAddress',
   component: ResourceAddress,
-  argTypes: {
-    preset: {
-      options: [...Object.keys(presetAddresses)],
-      control: { type: 'check' },
-      description: `⚠️ This attribute is **not** a component prop.
-        It is meant to be used only within this documentation.
-        You can quickly switch to a pre-configured \`lineItem\`.
-      `
-    }
-  },
   parameters: {
     layout: 'padded'
   }
@@ -38,8 +29,8 @@ const Template: StoryFn<Props> = ({ preset, ...args }) => {
   )
 }
 
-export const Default = Template.bind({})
-Default.args = {
+export const WithoutTitle = Template.bind({})
+WithoutTitle.args = {
   isLoading: false,
   resource: presetAddresses.withName
 }
@@ -49,19 +40,6 @@ WithTitle.args = {
   isLoading: false,
   title: 'Shipping address',
   resource: presetAddresses.withName
-}
-
-export const WithCompany = Template.bind({})
-WithCompany.args = {
-  isLoading: false,
-  resource: presetAddresses.withCompany
-}
-
-export const WithCompanyAndTitle = Template.bind({})
-WithCompanyAndTitle.args = {
-  isLoading: false,
-  title: 'Billing address',
-  resource: presetAddresses.withCompany
 }
 
 export const Editable = Template.bind({})
@@ -103,3 +81,20 @@ const StackedTemplate: StoryFn = () => {
 }
 
 export const StackedAddresses = StackedTemplate.bind({})
+
+const ListedTemplate: StoryFn = () => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ListItem tag='div'>
+          <ResourceAddress resource={presetAddresses.withCompany} editable />
+        </ListItem>
+        <ListItem tag='div'>
+          <ResourceAddress resource={presetAddresses.withName} editable />
+        </ListItem>
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+export const ListedAddresses = ListedTemplate.bind({})
