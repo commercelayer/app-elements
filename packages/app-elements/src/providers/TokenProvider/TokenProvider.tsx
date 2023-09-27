@@ -43,23 +43,30 @@ export interface TokenProviderValue {
 
 export interface TokenProviderProps {
   /**
-   * Token kind (will be validated)
-   * Eg. `integration` or `webapp` but also `imports` or `orders` in case of dashboard-generated token
+   * Token kind (will be validated).
+   * For example: `integration`, `sales_channel` or `webapp` but also `imports` or `orders` in case of dashboard-generated token.
    */
   kind: TokenProviderTokenApplicationKind
   /**
    * Slug of the current app. It needs to match one of the allowed app slugs enabled in the dashboard.
-   * Example: `orders`, `imports`, `exports`, `shipments`, `webhooks`, `returns`
    * Will be used to persist token for current app only.
    */
   appSlug: TokenProviderAllowedApp
   /**
-   * Required when application is forked or running as self-hosted.
+   * Skip domain slug validation when is dev mode
+   */
+  devMode: boolean
+  /**
+   * Entire app content
+   */
+  children: ((props: TokenProviderValue) => ReactNode) | ReactNode
+  /**
+   * Required when application is running as self-hosted.
    * It's used to perform a security check to test the validity of token against current organization.
    */
   organizationSlug?: string
   /**
-   * Base domain to be used for Commerce Layer API requests (eg. `commercelayer.io`)
+   * Base domain to be used for Commerce Layer API requests (e.g. `commercelayer.io`)
    */
   domain?: string
   /**
@@ -80,18 +87,10 @@ export interface TokenProviderProps {
    */
   errorElement?: ReactNode
   /**
-   * skip domain slug validation when is dev mode
-   */
-  devMode: boolean
-  /**
    * Optional. In case you already have an access token, this will skip the retrieval of token from URL or localStorage.
    * When undefined (default scenario), token is expected to be retrieved from `?accessToken=xxxx` query string or localStorage (in this order).
    */
   accessToken?: string
-  /**
-   * Entire app content
-   */
-  children: ((props: TokenProviderValue) => ReactNode) | ReactNode
 }
 
 export const AuthContext = createContext<TokenProviderValue>({
@@ -112,16 +111,16 @@ export const useTokenProvider = (): TokenProviderValue => {
 }
 
 export const TokenProvider: React.FC<TokenProviderProps> = ({
-  appSlug,
-  organizationSlug,
   kind,
-  domain = 'commercelayer.io',
-  onInvalidAuth,
-  reauthenticateOnInvalidAuth,
-  loadingElement,
-  errorElement,
+  appSlug,
   devMode,
   children,
+  organizationSlug,
+  domain = 'commercelayer.io',
+  onInvalidAuth,
+  reauthenticateOnInvalidAuth = false,
+  loadingElement,
+  errorElement,
   accessToken: accessTokenFromProp
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
@@ -143,10 +142,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
     if (onInvalidAuth != null) {
       onInvalidAuth({ dashboardUrl, reason })
     }
-    if (reauthenticateOnInvalidAuth === true) {
-      // trying to build the re-authentication URL with app ID when is self-hosted/forked
+    if (reauthenticateOnInvalidAuth) {
+      // trying to build the re-authentication URL with app ID when is self-hosted/custom
       // this only works when we already have a token to read the app ID from otherwise `makeReAuthenticationUrl` will return the original dashboard URL.
-      // For non-forked apps we can use the appSlug
+      // For non-custom apps we can use the appSlug
       const { appId } = getInfoFromJwt(accessToken ?? '')
       const appIdentifier = isSelfHosted ? appId : appSlug
       window.location.href = makeReAuthenticationUrl(
@@ -251,7 +250,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   }
 
   if (_state.isTokenError) {
-    return reauthenticateOnInvalidAuth === true ? (
+    return reauthenticateOnInvalidAuth ? (
       // while browser is redirecting back and forth, we don't want to show `<PageError>` component
       <div />
     ) : (

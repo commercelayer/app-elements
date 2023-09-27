@@ -2,28 +2,29 @@ import cn from 'classnames'
 
 export interface ContainerProps {
   /**
-   * set min height as screen size. Default is `true`.
+   * Set min height as screen size. Default is `true`.
    */
   minHeight?: boolean
 }
 
 interface Props extends ContainerProps {
   /**
-   * css class name
+   * CSS class name
    */
   className?: string
   /**
-   * content to be rendered inside the container
+   * Content to be rendered inside the container
    */
   children: React.ReactNode
 }
 
-function Container({
+/** This component can be used to constrain a content's width to the current breakpoint, while keeping it fluid. */
+export const Container: React.FC<Props> = ({
   children,
   className,
   minHeight = true,
   ...rest
-}: Props): JSX.Element {
+}) => {
   return (
     <div
       className={cn(
@@ -39,4 +40,3 @@ function Container({
 }
 
 Container.displayName = 'Container'
-export { Container }

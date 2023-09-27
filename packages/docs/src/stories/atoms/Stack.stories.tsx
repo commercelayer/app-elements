@@ -3,13 +3,31 @@ import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
 import { Text } from '#ui/atoms/Text'
+import {
+  Description,
+  Primary,
+  Stories,
+  Subtitle,
+  Title
+} from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Stack> = {
   title: 'Atoms/Stack',
   component: Stack,
   parameters: {
-    layout: 'padded'
+    layout: 'padded',
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+          <Stories includePrimary={false} />
+        </>
+      )
+    }
   }
 }
 export default setup

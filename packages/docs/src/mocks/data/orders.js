@@ -346,7 +346,7 @@ const order = {
 const orderDetail = rest.get(
   'https://mock.localhost/api/orders/NMWYhbGorj?include=shipments,transactions,payment_method,payment_source,attachments',
   async (req, res, ctx) => {
-    return new Promise((resolve) => {
+    return await new Promise((resolve) => {
       setTimeout(() => {
         resolve(
           res(
@@ -2006,10 +2006,12 @@ const orderDetail = rest.get(
   }
 )
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function getRandomFormattedPrice() {
   return `€${Math.floor(Math.random() * 1000)}.00`
 }
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function getRandomOrderStatus() {
   const statues = [
     {
@@ -2040,7 +2042,7 @@ const orderList = rest.get(
     const itemPerPage = parseInt(req.url.searchParams.get('page[size]') ?? '5')
     const pageCount = itemPerPage <= 5 ? 1 : 3
 
-    return res(
+    return await res(
       ctx.delay(2000),
       ctx.status(200),
       ctx.json({

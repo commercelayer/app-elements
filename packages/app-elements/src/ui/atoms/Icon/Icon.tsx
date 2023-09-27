@@ -1,6 +1,6 @@
-import * as phosphor from '@phosphor-icons/react'
 import cn from 'classnames'
 import { useMemo } from 'react'
+import { iconMapping } from './icons'
 
 export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -23,19 +23,16 @@ export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
    * padding around the icon can bne: 'none' | 'small' | 'large'
    */
   gap?: 'none' | 'small' | 'large'
-  /**
-   * CSS classes
-   */
-  className?: string
 }
 
-function Icon({
+/** `app-elements` provides a subset of [Phosphor Icons](https://phosphoricons.com/) out-of-the-box. */
+export const Icon: React.FC<IconProps> = ({
   name,
   className,
   background = 'none',
   gap = 'none',
   ...rest
-}: IconProps): JSX.Element {
+}) => {
   const IconSvg = useMemo(() => iconMapping[name], [iconMapping, name])
 
   return (
@@ -70,42 +67,3 @@ function Icon({
 }
 
 Icon.displayName = 'Icon'
-export { Icon }
-
-const iconMapping = {
-  arrowBendDownRight: phosphor.ArrowBendDownRight,
-  arrowCircleDown: phosphor.ArrowCircleDown,
-  arrowClockwise: phosphor.ArrowClockwise,
-  arrowDown: phosphor.ArrowDown,
-  arrowLeft: phosphor.ArrowLeft,
-  arrowsLeftRight: phosphor.ArrowsLeftRight,
-  arrowUpRight: phosphor.ArrowUpRight,
-  asterisk: phosphor.AsteriskSimple,
-  caretRight: phosphor.CaretRight,
-  chatCircle: phosphor.ChatCircle,
-  check: phosphor.Check,
-  cloud: phosphor.CloudArrowUp,
-  creditCard: phosphor.CreditCard,
-  download: phosphor.Download,
-  eye: phosphor.Eye,
-  flag: phosphor.Flag,
-  funnel: phosphor.FunnelSimple,
-  hourglass: phosphor.Hourglass,
-  magnifyingGlass: phosphor.MagnifyingGlass,
-  minus: phosphor.Minus,
-  package: phosphor.Package,
-  pencilSimple: phosphor.PencilSimple,
-  printer: phosphor.Printer,
-  shoppingBag: phosphor.ShoppingBag,
-  stack: phosphor.Stack,
-  truck: phosphor.Truck,
-  upload: phosphor.Upload,
-  user: phosphor.User,
-  warning: phosphor.Warning,
-  warningCircle: phosphor.WarningCircle,
-  x: phosphor.X
-} as const
-
-export const iconNames = Object.keys(iconMapping) as Array<
-  keyof typeof iconMapping
->

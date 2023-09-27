@@ -33,7 +33,7 @@ export interface InputCurrencyProps
    */
   placeholder?: string
   /**
-   * optional css class names used for the input element
+   * Optional CSS class names used for the input element
    */
   className?: string
   /**
@@ -49,7 +49,7 @@ export interface InputCurrencyProps
    */
   onChange: (cents: number | null, formatted: string) => void
   /**
-   * hide currency symbol but keep the currency formatting
+   * Hide currency symbol but keep the currency formatting
    */
   hideCurrencySymbol?: boolean
   /**
@@ -58,7 +58,7 @@ export interface InputCurrencyProps
    */
   allowNegativeValue?: boolean
   /**
-   * show (X) button to clear the input
+   * Show (X) button to clear the input
    */
   isClearable?: boolean
 }

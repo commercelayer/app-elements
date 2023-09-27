@@ -1,0 +1,1 @@
+export { AvatarLetter } from './AvatarLetter'

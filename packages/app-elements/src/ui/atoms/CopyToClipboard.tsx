@@ -23,12 +23,13 @@ interface CopyToClipboardProps {
 const transitionMs = 300
 const feedbackDurationMs = 3000
 
-export function CopyToClipboard({
+/** CopyToClipboard can copy a provided value to the clipboard. You can use the `showValue` prop to decide whether to render or not the provided value. */
+export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   value,
   className,
   showValue = true,
   ...rest
-}: CopyToClipboardProps): JSX.Element {
+}) => {
   const [copied, setCopied] = useState<boolean>(false)
 
   invariant(

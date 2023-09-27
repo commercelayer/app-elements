@@ -88,7 +88,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   noOptionsMessage?: string
   /**
-   * css class name
+   * CSS class name
    */
   className?: string
   /**

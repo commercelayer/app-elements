@@ -7,19 +7,19 @@ import cn from 'classnames'
 
 interface InputReadonlyProps extends InputWrapperBaseProps {
   /**
-   * controlled value
+   * Controlled value
    */
   value?: string
   /**
-   * optional css class names used for the outer wrapper/container element
+   * Optional CSS class names used for the outer wrapper/container element
    */
   wrapperClassName?: string
   /**
-   * optional css class names used for the input element
+   * Optional CSS class names used for the input element
    */
   inputClassName?: string
   /**
-   * optional prop to define whether to show or not the Copy to clipboard button
+   * Optional prop to define whether to show or not the Copy to clipboard button
    */
   showCopyAction?: boolean
 }

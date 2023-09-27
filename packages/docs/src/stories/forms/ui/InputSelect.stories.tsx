@@ -45,6 +45,16 @@ const Template: StoryFn<typeof InputSelect> = (args) => {
   return <InputSelect {...args} />
 }
 
+export const Default = Template.bind({})
+Default.args = {
+  label: 'Search resource',
+  initialValues: fullList,
+  placeholder: 'Type to filter list...',
+  isSearchable: true,
+  isClearable: false,
+  onBlur: () => {}
+}
+
 /**
  * <span type='info'>Default mode with ability to search within the provided `initialValues`</span>
  */
@@ -70,7 +80,7 @@ Async.args = {
   debounceMs: 200,
   hint: {
     icon: 'bulb',
-    text: 'Try to search some of the following values: customer, sku, price, tax'
+    text: 'Try to search some of the following values: customer, SKU, price, tax'
   },
   loadAsyncValues: async (hint) => {
     return await new Promise<SelectValue[]>((resolve) => {

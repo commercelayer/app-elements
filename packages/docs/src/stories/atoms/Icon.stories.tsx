@@ -1,16 +1,16 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import { Icon, iconNames, type IconProps } from '#ui/atoms/Icon'
+import { Icon, type IconProps } from '#ui/atoms/Icon'
+import { iconMapping } from '#ui/atoms/Icon/icons'
 import { Text } from '#ui/atoms/Text'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Icon> = {
   title: 'Atoms/Icon',
-  component: Icon,
-  parameters: {
-    layout: 'padded'
-  }
+  component: Icon
 }
 export default setup
+
+const iconNames = Object.keys(iconMapping) as Array<keyof typeof iconMapping>
 
 const Template: StoryFn<typeof Icon> = (args) => <Icon {...args} />
 
@@ -41,6 +41,9 @@ export const AvailableNames: StoryFn = () => (
   </div>
 )
 AvailableNames.parameters = {
+  parameters: {
+    layout: 'padded'
+  },
   docs: {
     source: {
       code: null
@@ -93,6 +96,9 @@ export const AvailableBackgrounds: StoryFn = () => {
   )
 }
 AvailableBackgrounds.parameters = {
+  parameters: {
+    layout: 'padded'
+  },
   docs: {
     source: {
       code: null
@@ -100,17 +106,29 @@ AvailableBackgrounds.parameters = {
   }
 }
 
-export const OrderWaiting = Template.bind({})
-OrderWaiting.args = {
-  name: 'arrowDown',
-  background: 'orange',
-  gap: 'large',
-  title: 'Waiting approval'
+export const SomeExamples: StoryFn = (_args) => {
+  return (
+    <>
+      <Icon
+        name='arrowDown'
+        background='orange'
+        gap='large'
+        title='Waiting approval'
+      />
+      <Icon name='eye' background='teal' gap='small' title='Filter view' />
+    </>
+  )
 }
-
-export const FilterView = Template.bind({})
-FilterView.args = {
-  name: 'eye',
-  background: 'teal',
-  gap: 'small'
-}
+SomeExamples.decorators = [
+  (Story) => (
+    <div
+      style={{
+        display: 'flex',
+        gap: '1rem',
+        alignItems: 'center'
+      }}
+    >
+      <Story />
+    </div>
+  )
+]

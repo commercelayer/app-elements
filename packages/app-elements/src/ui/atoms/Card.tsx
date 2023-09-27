@@ -4,16 +4,20 @@ import { withSkeletonTemplate } from './SkeletonTemplate'
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Possible values are:
-   * 1: 0.25rem, 4px
-   * 4: 1rem, 16px
-   * 6: 1.5rem, 24px
+   * - `"1"`: 0.25rem, 4px
+   * - `"4"`: 1rem, 16px
+   * - `"6"`: 1.5rem, 24px
    *
-   * @default '6'
+   * @default 6
    */
   gap?: '1' | '4' | '6'
+  /**
+   * Footer will render in a dedicated section below the main content.
+   */
   footer?: React.ReactNode
 }
 
+/** Card is a flexible component used to group and display content in a clear and concise format. */
 export const Card = withSkeletonTemplate<Props>(
   ({ className, children, gap = '6', isLoading, delayMs, footer, ...rest }) => {
     return (

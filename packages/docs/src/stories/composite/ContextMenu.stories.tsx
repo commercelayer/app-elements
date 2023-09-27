@@ -4,7 +4,18 @@ import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ContextMenu> = {
   title: 'Composite/ContextMenu',
-  component: ContextMenu
+  component: ContextMenu,
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          paddingBottom: '120px'
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 

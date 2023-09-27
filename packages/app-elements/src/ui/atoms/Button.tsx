@@ -37,7 +37,8 @@ const variantCss: Record<ButtonVariant, string> = {
   link: 'text-primary hover:opacity-80'
 }
 
-function Button({
+/** Button component is used to trigger an action or event, such as submitting a form, opening a Dialog, or performing an action. */
+export function Button({
   children,
   className,
   size = 'regular',
@@ -68,4 +69,3 @@ function Button({
 }
 
 Button.displayName = 'Button'
-export { Button }

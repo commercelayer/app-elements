@@ -10,11 +10,11 @@ export interface InputProps
   extends InputWrapperBaseProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**
-   * controlled type
+   * Controlled type
    */
   type?: 'text' | 'number' | 'password' | 'tel' | 'url' | 'email'
   /**
-   * optional css class names used for the input element
+   * Optional CSS class names used for the input element
    */
   className?: string
 }

@@ -1,3 +1,9 @@
+/* Global */
+.sbdocs-wrapper ol {
+  list-style: decimal;
+}
+
+/** Blockquote */
 span[type] {
   display: block;
   padding: 16px !important;
@@ -10,6 +16,9 @@ span[type]::before {
   content: attr(title);
   display: block;
   font-weight: bold;
+}
+span[type] > p {
+  margin: 0;
 }
 span[type='info'] {
   border-color: #3b82f6;

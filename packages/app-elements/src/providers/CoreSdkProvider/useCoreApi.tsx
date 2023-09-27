@@ -15,6 +15,29 @@ type ForceToBeMethod<Method> = Method extends GenericMethod
   ? Method
   : GenericMethod
 
+/**
+ * This hook performs api request base on [`@commercelayer/sdk`](https://github.com/commercelayer/commercelayer-sdk) and [`swr`](https://swr.vercel.app/).
+ *
+ * This is an example of getting the order with id `1234`.
+ *
+ * If you're used to use our sdk you can write:
+ * ```ts
+ * const order = await client.orders.retrieve('1234')
+ * ```
+ *
+ * With `useCoreApi` you'll write instead:
+ * ```ts
+ * const {
+ *   data: order,
+ *   isLoading
+ * } = useCoreApi('orders', 'retrieve', ['1234'])
+ * ```
+ * @param resource Resource type
+ * @param action Related resource action
+ * @param args Action arguments
+ * @param config SWR options
+ * @returns SWR response
+ */
 export function useCoreApi<
   Resource extends ResourceTypeLock,
   Action extends ConditionalKeys<CommerceLayerClient[Resource], GenericMethod>,

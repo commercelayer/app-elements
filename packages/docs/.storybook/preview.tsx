@@ -2,6 +2,7 @@
 
 import { Container } from '#ui/atoms/Container'
 import { PARAM_KEY } from '.storybook/addon-container/constants'
+import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs'
 import type { Decorator, Parameters } from '@storybook/react'
 import { worker } from '../src/mocks/browser'
 
@@ -31,6 +32,16 @@ export const parameters: Parameters = {
     }
   },
   docs: {
+    page: () => (
+      <>
+        <Title />
+        <Subtitle />
+        <Description />
+        <Primary />
+        <Controls />
+        <Stories includePrimary={false} />
+      </>
+    )
     // source: {
     //   transform: (input: string) =>
     //     prettier.format(input, {

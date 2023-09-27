@@ -16,6 +16,10 @@ export default setup
 const Template: StoryFn<typeof RadialProgress> = (args) => (
   <RadialProgress {...args} />
 )
+
+export const Default = Template.bind({})
+Default.args = {}
+
 /**
  * Default pending state: no percentage, no icon
  */

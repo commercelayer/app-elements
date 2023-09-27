@@ -1,64 +1,73 @@
 import { Avatar } from '#ui/atoms/Avatar'
+import { presets } from '#ui/atoms/Avatar.utils'
+import { humanizeString } from '#utils/text'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Avatar> = {
   title: 'Atoms/Avatar',
-  component: Avatar
+  component: Avatar,
+  decorators: [
+    (Story) => (
+      <div className='flex gap-1 flex-wrap'>
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 
 const Template: StoryFn<typeof Avatar> = (args) => <Avatar {...args} />
 
-export const ProfilePicture = Template.bind({})
-ProfilePicture.args = {
-  src: 'https://ui-avatars.com/api/Commerce+Layer/160/101111/FFFFFF/2/0.33/false/true/true',
+export const Default = Template.bind({})
+Default.args = {
+  src: 'https://data.commercelayer.app/assets/logos/glyph/white/commercelayer_glyph_white-padding.jpg',
   alt: 'Commerce Layer',
   border: 'none',
   shape: 'circle'
 }
 
-export const Payments = (): JSX.Element => (
-  <div className='flex gap-1 flex-wrap'>
-    <Avatar shape='circle' src='payments:adyen' alt='Adyen' />
-    <Avatar shape='circle' src='payments:axerve' alt='Axerve' />
-    <Avatar shape='circle' src='payments:braintree' alt='Braintree' />
-    <Avatar shape='circle' src='payments:checkout' alt='Checkout' />
-    <Avatar shape='circle' src='payments:klarna' alt='Klarna' />
-    <Avatar shape='circle' src='payments:paypal' alt='Paypal' />
-    <Avatar shape='circle' src='payments:satispay' alt='Satispay' />
-    <Avatar shape='circle' src='payments:stripe' alt='Stripe' />
-  </div>
-)
-
-export const Carriers = (): JSX.Element => (
-  <div className='flex gap-1 flex-wrap'>
-    <Avatar shape='circle' border='none' src='carriers:generic' alt='Generic' />
-    <Avatar shape='circle' border='none' src='carriers:dhl' alt='DHL' />
-    <Avatar shape='circle' border='none' src='carriers:fedex' alt='FedEx' />
-    <Avatar shape='circle' border='none' src='carriers:ups' alt='UPS' />
-  </div>
-)
-
-export const Product = Template.bind({})
-Product.args = {
+/** Usually a SKU image is represented with a rounder shape. */
+export const SkuImage = Template.bind({})
+SkuImage.args = {
   src: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
   alt: 'Hat'
 }
 
-export const Portrait = Template.bind({})
-Portrait.args = {
-  src: 'https://via.placeholder.com/58x200',
-  alt: 'Portrait'
+/** The image is scaled to maintain its aspect ratio while fitting within the element's content box. */
+export const AspectRatio: StoryFn = (_args) => {
+  return (
+    <>
+      <Avatar src='https://via.placeholder.com/50x80' alt='Portrait' />
+      <Avatar src='https://via.placeholder.com/80x50' alt='Landscape' />
+      <Avatar src='https://via.placeholder.com/40x40' alt='Small' />
+    </>
+  )
 }
 
-export const Landscape = Template.bind({})
-Landscape.args = {
-  src: 'https://via.placeholder.com/200x58',
-  alt: 'Portrait'
+/** List of all available payment icons. */
+export const Payments: StoryFn = (_args) => renderPresetGroup('payments:')
+
+/** List of all available carrier icons. */
+export const Carriers: StoryFn = (_args) => renderPresetGroup('carriers:')
+
+/** Gift card icon is currently available only with `shape="rounded"`. */
+export const GiftCard: StoryFn = (_args) => {
+  return <Avatar src='gift_card' alt='Gift Card' shape='rounded' />
 }
 
-export const Small = Template.bind({})
-Small.args = {
-  src: 'https://via.placeholder.com/30x30',
-  alt: 'Small'
+function renderPresetGroup(groupKey: string): JSX.Element {
+  return (
+    <>
+      {(Object.keys(presets) as Array<keyof typeof presets>)
+        .filter((p) => p.startsWith(groupKey))
+        .map((src) => (
+          <Avatar
+            key={src}
+            src={src}
+            shape='circle'
+            alt={humanizeString(src.replace(groupKey, ''))}
+          />
+        ))}
+    </>
+  )
 }

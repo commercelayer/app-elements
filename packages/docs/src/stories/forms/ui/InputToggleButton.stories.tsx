@@ -47,6 +47,13 @@ const Template: StoryFn<typeof InputToggleButton> = (args) => {
   return <InputToggleButton {...args} value={value} onChange={setValue} />
 }
 
+export const Default = Template.bind({})
+Default.args = {
+  label: 'Status',
+  options,
+  mode: 'single'
+}
+
 export const SingleMode = Template.bind({})
 SingleMode.args = {
   label: 'Status',

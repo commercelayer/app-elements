@@ -21,6 +21,16 @@ const setup: Meta = {
 }
 export default setup
 
+export const Default: StoryFn<typeof ResourceShipmentParcels> = (
+  args
+): JSX.Element => <ResourceShipmentParcels {...args} />
+Default.args = {
+  onRemoveParcel: function (parcelId) {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  shipment: shipmentWithoutTracking
+}
+
 /**
  * User can remove and re-create parcels only when the shipment is not yet purchased (`shipment.purchase_started_at == null`) and `shipment.status` is equal to `packing`.
  */

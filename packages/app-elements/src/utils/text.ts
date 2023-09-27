@@ -4,16 +4,19 @@ import type { JsonPrimitive } from 'type-fest'
 
 /**
  * Given a `text` and a list of `values` it returns always the same value given the same `text`.
- * For example this is used when you need to map a fullname with a color.
+ * For example this is used when you need to map a full name with a color.
+ * ```
+ * getDeterministicValue('Doe', ['#FFFFFF', '#000000']) // => '#FFFFFF'
+ * ```
  */
 export function getDeterministicValue(
   text: string,
-  values: readonly [string, ...string[]]
-): string {
+  values: readonly string[]
+): string | undefined {
   const utf8Encode = new TextEncoder()
   const hashCode = utf8Encode.encode(text).reduce((sum, v) => sum + v, 0)
   const index = hashCode % values.length
-  return values[index] ?? '#FFFFFF'
+  return values[index]
 }
 
 /**
