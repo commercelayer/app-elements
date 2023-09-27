@@ -293,7 +293,7 @@ export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
                       {hasReturnLineItemReason && (
                         <ReturnLineItemReason
                           delayMs={0}
-                          returnLineItemReason={lineItem.return_reason}
+                          reason={lineItem.return_reason}
                         />
                       )}
                       {hasBundle && (
@@ -376,9 +376,9 @@ const LineItemOptions = withSkeletonTemplate<{
 })
 
 const ReturnLineItemReason = withSkeletonTemplate<{
-  returnLineItemReason: ReturnLineItem['return_reason']
-}>(({ returnLineItemReason }) => {
-  if (returnLineItemReason == null) {
+  reason: ReturnLineItem['return_reason']
+}>(({ reason }) => {
+  if (reason == null) {
     return null
   }
 
@@ -388,18 +388,16 @@ const ReturnLineItemReason = withSkeletonTemplate<{
         <Text tag='div' weight='bold' size='small' className='mb-1'>
           Reason
         </Text>
-        {Object.entries(returnLineItemReason).map(
-          ([reasonName, reasonValue]) => {
-            return (
-              <div key={reasonName} className='flex items-center gap-1 mb-1'>
-                <Icon name='arrowBendDownRight' className='text-gray-500' />
-                <Text variant='info' tag='div' size='small' weight='medium'>
-                  {reasonValue}
-                </Text>
-              </div>
-            )
-          }
-        )}
+        {Object.entries(reason).map(([reasonName, reasonValue]) => {
+          return (
+            <div key={reasonName} className='flex items-center gap-1 mb-1'>
+              <Icon name='arrowBendDownRight' className='text-gray-500' />
+              <Text variant='info' tag='div' size='small' weight='medium'>
+                {reasonValue}
+              </Text>
+            </div>
+          )
+        })}
       </Spacer>
     </Spacer>
   )
