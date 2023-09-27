@@ -176,6 +176,10 @@ export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
                 lineItem.type === 'line_items' &&
                 lineItem.line_item_options != null
 
+              const hasReturnLineItemReason =
+                lineItem.type === 'return_line_items' &&
+                lineItem.return_reason != null
+
               const hasBundle =
                 lineItem.type === 'line_items' &&
                 lineItem.item_type === 'bundles' &&
@@ -286,6 +290,12 @@ export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
                           lineItemOptions={lineItem.line_item_options}
                         />
                       )}
+                      {hasReturnLineItemReason && (
+                        <ReturnLineItemReason
+                          delayMs={0}
+                          returnLineItemReason={lineItem.return_reason}
+                        />
+                      )}
                       {hasBundle && (
                         <Bundle delayMs={0} code={lineItem.bundle_code} />
                       )}
@@ -361,6 +371,36 @@ const LineItemOptions = withSkeletonTemplate<{
           })}
         </Spacer>
       ))}
+    </Spacer>
+  )
+})
+
+const ReturnLineItemReason = withSkeletonTemplate<{
+  returnLineItemReason: ReturnLineItem['return_reason']
+}>(({ returnLineItemReason }) => {
+  if (returnLineItemReason == null) {
+    return null
+  }
+
+  return (
+    <Spacer top='4'>
+      <Spacer top='4' className='pb-2 last:pb-0'>
+        <Text tag='div' weight='bold' size='small' className='mb-1'>
+          Reason
+        </Text>
+        {Object.entries(returnLineItemReason).map(
+          ([reasonName, reasonValue]) => {
+            return (
+              <div key={reasonName} className='flex items-center gap-1 mb-1'>
+                <Icon name='arrowBendDownRight' className='text-gray-500' />
+                <Text variant='info' tag='div' size='small' weight='medium'>
+                  {reasonValue}
+                </Text>
+              </div>
+            )
+          }
+        )}
+      </Spacer>
     </Spacer>
   )
 })
