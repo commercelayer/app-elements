@@ -1,4 +1,5 @@
 import { useClickAway } from '#hooks/useClickAway'
+import { useOnBlurFromContainer } from '#hooks/useOnBlurFromContainer'
 import { Button } from '#ui/atoms/Button'
 import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
@@ -23,35 +24,39 @@ export const Dropdown: React.FC<DropdownProps> = ({
   dropdownLabel = <DotsThreeCircle size={32} />,
   dropdownItems
 }) => {
-  const [showDropdownMenu, setShowDropdownMenu] = useState(false)
+  const [isExpanded, setIsExpanded] = useState(false)
 
-  function toggleDropdownMenu(): void {
-    setShowDropdownMenu(!showDropdownMenu)
+  function toggle(): void {
+    setIsExpanded(!isExpanded)
   }
 
-  function closeDropdownMenu(): void {
-    setShowDropdownMenu(false)
+  function close(): void {
+    setIsExpanded(false)
   }
 
-  const clickAwayRef = useClickAway(closeDropdownMenu)
+  const clickAwayRef = useClickAway(close)
 
   const closeDropdownMenuIfButtonClicked = (
     e: React.MouseEvent<HTMLElement>
   ): void => {
     if ((e.target as any).nodeName === 'BUTTON') {
-      closeDropdownMenu()
+      close()
     }
   }
 
+  const handleBlur = useOnBlurFromContainer(close)
+
   return (
-    <div ref={showDropdownMenu ? clickAwayRef : undefined}>
+    <div ref={isExpanded ? clickAwayRef : undefined} onBlur={handleBlur}>
       <Button
         variant='link'
+        aria-haspopup
+        aria-expanded={isExpanded}
         className={cn('m-0 p-0 block', {
           '!text-black': typeof dropdownLabel !== 'string'
         })}
         onClick={() => {
-          toggleDropdownMenu()
+          toggle()
         }}
       >
         {dropdownLabel}
@@ -59,7 +64,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
           <CaretDown className='inline-block ml-1 -mt-0.5' weight='bold' />
         ) : null}
       </Button>
-      {showDropdownMenu && (
+      {isExpanded && (
         <div className='relative'>
           <div
             className='absolute top-0 right-0'
