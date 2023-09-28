@@ -1,10 +1,9 @@
-import { DropdownMenuDivider, DropdownMenuItem } from '#ui/atoms/dropdown'
-import { ContextMenu } from '#ui/composite/ContextMenu'
+import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: Meta<typeof ContextMenu> = {
-  title: 'Composite/ContextMenu',
-  component: ContextMenu,
+const setup: Meta<typeof Dropdown> = {
+  title: 'Composite/Dropdown',
+  component: Dropdown,
   decorators: [
     (Story) => (
       <div
@@ -19,22 +18,22 @@ const setup: Meta<typeof ContextMenu> = {
 }
 export default setup
 
-const Template: StoryFn<typeof ContextMenu> = (args) => {
-  return <ContextMenu {...args} />
+const Template: StoryFn<typeof Dropdown> = (args) => {
+  return <Dropdown {...args} />
 }
 
 export const Default = Template.bind({})
 Default.args = {
-  menuItems: (
+  dropdownItems: (
     <>
-      <DropdownMenuItem
+      <DropdownItem
         onClick={() => {
           alert('Edit clicked!')
         }}
         label='Edit'
       />
-      <DropdownMenuDivider />
-      <DropdownMenuItem
+      <DropdownDivider />
+      <DropdownItem
         onClick={() => {
           alert('Delete clicked!')
         }}
@@ -45,9 +44,9 @@ Default.args = {
 }
 
 /** By default, the component renders as a `dots-three-circle` Phosphor icon, but you can provide instead a different icon or a more generic JSX Element. */
-export const MenuLabelAsJSXElement = Template.bind({})
-MenuLabelAsJSXElement.args = {
-  menuLabel: (
+export const DropdownLabelAsJSXElement = Template.bind({})
+DropdownLabelAsJSXElement.args = {
+  dropdownLabel: (
     <svg
       xmlns='http://www.w3.org/2000/svg'
       width='32'
@@ -58,16 +57,16 @@ MenuLabelAsJSXElement.args = {
       <path d='M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z' />
     </svg>
   ),
-  menuItems: (
+  dropdownItems: (
     <>
-      <DropdownMenuItem
+      <DropdownItem
         onClick={() => {
           alert('Edit clicked!')
         }}
         label='Edit'
       />
-      <DropdownMenuDivider />
-      <DropdownMenuItem
+      <DropdownDivider />
+      <DropdownItem
         onClick={() => {
           alert('Delete clicked!')
         }}
@@ -77,19 +76,19 @@ MenuLabelAsJSXElement.args = {
   )
 }
 
-/** When the `menuLabel` prop is set as a `string`, the component renders as a link with a caret down icon. */
-export const MenuLabelAsString = Template.bind({})
-MenuLabelAsString.args = {
-  menuLabel: 'Add item',
-  menuItems: (
+/** When the `dropdownLabel` prop is set as a `string`, the component renders as a link with a caret-down icon. */
+export const DropdownLabelAsString = Template.bind({})
+DropdownLabelAsString.args = {
+  dropdownLabel: 'Add item',
+  dropdownItems: (
     <>
-      <DropdownMenuItem
+      <DropdownItem
         onClick={() => {
           alert('Add a SKU clicked!')
         }}
         label='Add a SKU'
       />
-      <DropdownMenuItem
+      <DropdownItem
         onClick={() => {
           alert('Add a bundle clicked!')
         }}

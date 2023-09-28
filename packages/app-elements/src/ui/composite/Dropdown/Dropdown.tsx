@@ -1,19 +1,27 @@
 import { useClickAway } from '#hooks/useClickAway'
 import { Button } from '#ui/atoms/Button'
-import { DropdownMenu } from '#ui/atoms/dropdown'
 import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { useState } from 'react'
+import { DropdownMenu } from './DropdownMenu'
 
-interface Props {
-  menuLabel?: React.ReactNode
-  menuItems: React.ReactNode
+interface DropdownProps {
+  /** The trigger for the dropdown menu. Can be a JSX Element or simply a `string`. */
+  dropdownLabel?: React.ReactNode
+  /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */
+  dropdownItems: React.ReactNode
 }
 
-export const ContextMenu: React.FC<Props> = ({
-  menuLabel = <DotsThreeCircle size={32} />,
-  menuItems,
-  ...rest
+/**
+ * Dropdown is toggleable, contextual overlay for displaying lists of links and actions.
+ *
+ * There are 2 components for rendering the list you can pass to the `dropdownItems` prop:
+ * - `DropdownItem`: The trigger that handles dropdown selection.
+ * - `DropdownDivider`: A visual separator for dropdown items.
+ */
+export const Dropdown: React.FC<DropdownProps> = ({
+  dropdownLabel = <DotsThreeCircle size={32} />,
+  dropdownItems
 }) => {
   const [showDropdownMenu, setShowDropdownMenu] = useState(false)
 
@@ -36,18 +44,18 @@ export const ContextMenu: React.FC<Props> = ({
   }
 
   return (
-    <div {...rest} ref={showDropdownMenu ? clickAwayRef : undefined}>
+    <div ref={showDropdownMenu ? clickAwayRef : undefined}>
       <Button
         variant='link'
         className={cn('m-0 p-0 block', {
-          '!text-black': typeof menuLabel !== 'string'
+          '!text-black': typeof dropdownLabel !== 'string'
         })}
         onClick={() => {
           toggleDropdownMenu()
         }}
       >
-        {menuLabel}
-        {typeof menuLabel === 'string' ? (
+        {dropdownLabel}
+        {typeof dropdownLabel === 'string' ? (
           <CaretDown className='inline-block ml-1 -mt-0.5' weight='bold' />
         ) : null}
       </Button>
@@ -57,7 +65,7 @@ export const ContextMenu: React.FC<Props> = ({
             className='absolute top-0 right-0'
             onClick={closeDropdownMenuIfButtonClicked}
           >
-            <DropdownMenu>{menuItems}</DropdownMenu>
+            <DropdownMenu>{dropdownItems}</DropdownMenu>
           </div>
         </div>
       )}
@@ -65,4 +73,4 @@ export const ContextMenu: React.FC<Props> = ({
   )
 }
 
-ContextMenu.displayName = 'ContextMenu'
+Dropdown.displayName = 'Dropdown'
