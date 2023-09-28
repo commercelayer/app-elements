@@ -1,3 +1,5 @@
+import { Section } from '#ui/atoms/Section'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -96,4 +98,17 @@ DropdownLabelAsString.args = {
       />
     </>
   )
+}
+
+/** Dropdown can also be used as a Section's action button. */
+export const WithinASection: StoryFn<typeof Dropdown> = (args) => {
+  return (
+    <Section title='Summary' actionButton={<Dropdown {...args} />}>
+      <Spacer top='4'>Content here ..</Spacer>
+    </Section>
+  )
+}
+WithinASection.args = DropdownLabelAsString.args
+WithinASection.parameters = {
+  layout: 'padded'
 }
