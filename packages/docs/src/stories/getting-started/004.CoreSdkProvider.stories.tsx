@@ -40,7 +40,7 @@ type Order = Awaited<
 >
 
 /**
- * Here below a simple example that shows how to use the `useCoreSdkProvider` to get an order once you know its ID:
+ * Here below a simple example that shows how to use the `useCoreSdkProvider` to get some information about an order once you know its ID:
  */
 export const UseCoreSdkProviderDefault: StoryFn = () => {
   const { sdkClient } = useCoreSdkProvider()
@@ -70,7 +70,7 @@ export const UseCoreSdkProviderDefault: StoryFn = () => {
 }
 
 /**
- * This is an example that shows how to get a list of orders using the `useCoreApi` hook.
+ * Here below an example that shows how to get a list of orders using the `useCoreApi` hook:
  */
 export const UseCoreApiData: StoryFn = () => {
   const {
@@ -107,7 +107,7 @@ export const UseCoreApiData: StoryFn = () => {
 }
 
 /**
- * You can use the bound [mutate](https://swr.vercel.app/docs/mutation) by providing a valid object. If you pass `undefined` the data will be re-fetched.
+ * You can use the bound [mutate](https://swr.vercel.app/docs/mutation) by providing a valid object (e.g. an existing order ID). If you pass `undefined` the data will be re-fetched:
  */
 export const UseCoreApiMutate: StoryFn = () => {
   const {
@@ -141,6 +141,7 @@ export const UseCoreApiMutate: StoryFn = () => {
       <br />
       Customer Email: <b>{order?.customer_email}</b>
       <br />
+      <br />
       <Button
         onClick={function () {
           void mutateOrder()
@@ -168,7 +169,7 @@ export const UseCoreApiMutate: StoryFn = () => {
 }
 
 /**
- * Searching for a non existing order by providing an invalid order ID will return an error.
+ * As you can see from the example below, searching for a non existing order by providing an invalid order ID will return an error:
  */
 export const UseCoreApiError: StoryFn = () => {
   const {

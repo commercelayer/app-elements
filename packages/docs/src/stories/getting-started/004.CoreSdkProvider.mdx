@@ -29,7 +29,7 @@ The `<CoreSdkProvider>` component must be rendered as a children of the `<TokenP
 `}
 />
 
-## `useCoreSdkProvider`
+### `useCoreSdkProvider`
 
 This hook returns an instance of the [@commercelayer/sdk](https://github.com/commercelayer/commercelayer-sdk) client.
 
@@ -41,17 +41,17 @@ Whenever possible we encourage you to use the [`useCoreApi`](#usecoreapi) hook. 
 <Description of={ComponentStories.UseCoreSdkProviderDefault} />
 <Canvas of={ComponentStories.UseCoreSdkProviderDefault} />
 
-## useCoreApi
+### `useCoreApi`
 
 This hook performs API requesta based on [@commercelayer/sdk](https://github.com/commercelayer/commercelayer-sdk) and [swr](https://swr.vercel.app/).
 
-Suppose that you need to get the order with ID `NMWYhbGorj`.
+Here below a simple example that shows how to use the `useCoreApi` hook to retrieve the order identified by the ID `NMWYhbGorj`:
 
 <Source
   language="ts"
   dark
   code={`
-// using our sdk
+// using our SDK
 const order = await client.orders.retrieve('NMWYhbGorj')
 
 // using \`useCoreApi\`
@@ -61,17 +61,17 @@ isLoading
 } = useCoreApi('orders', 'retrieve', ['NMWYhbGorj'])
 `} />
 
-### Data
+#### `data`
 
 <Description of={ComponentStories.UseCoreApiData} />
 <Canvas of={ComponentStories.UseCoreApiData} />
 
-### Mutate
+#### `mutate`
 
 <Description of={ComponentStories.UseCoreApiMutate} />
 <Canvas of={ComponentStories.UseCoreApiMutate} />
 
-### Error
+#### `error`
 
 <Description of={ComponentStories.UseCoreApiError} />
 <Canvas of={ComponentStories.UseCoreApiError} />
