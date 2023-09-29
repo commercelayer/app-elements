@@ -177,28 +177,14 @@ export const UseCoreApiError: StoryFn = () => {
     isLoading,
     isValidating,
     error
-  } = useCoreApi('orders', 'retrieve', [
-    'non-existing',
-    {
-      include: [
-        'market',
-        'customer',
-        'line_items',
-        'shipping_address',
-        'billing_address',
-        'shipments',
-        'payment_method',
-        'payment_source'
-      ]
-    }
-  ])
+  } = useCoreApi('orders', 'retrieve', ['non-existing'])
   return (
     <div>
       isLoading: <b>{String(isLoading)}</b>
       <br />
       isValidating: <b>{String(isValidating)}</b>
       <br />
-      error: <b>{error?.message}</b>
+      error: <b>{error?.errors?.[0].detail}</b>
       <br />
       Order ID: <b>{order?.id}</b>
     </div>
