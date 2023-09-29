@@ -9,7 +9,7 @@ import { type Meta, type StoryFn } from '@storybook/react'
 import { useEffect, useState } from 'react'
 
 const meta: Meta = {
-  title: 'Getting Started/CoreSdkProvider',
+  title: 'Getting Started/Core SDK provider',
   parameters: {
     layout: 'padded',
     docs: {
@@ -40,7 +40,7 @@ type Order = Awaited<
 >
 
 /**
- * This is a simple example that shows how to use the `useCoreSdkProvider` to get an order by its ID.
+ * Here below a simple example that shows how to use the `useCoreSdkProvider` to get an order once you know its ID:
  */
 export const UseCoreSdkProviderDefault: StoryFn = () => {
   const { sdkClient } = useCoreSdkProvider()
