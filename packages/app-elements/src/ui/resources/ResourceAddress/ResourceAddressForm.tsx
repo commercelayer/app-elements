@@ -71,8 +71,8 @@ export const ResourceAddressForm =
             setIsSubmitting(true)
             void sdkClient.addresses
               .update({ ...formValues, id: address.id })
-              .then(() => {
-                onChange(formValues)
+              .then((updatedAddress) => {
+                onChange(updatedAddress)
                 setIsSubmitting(false)
               })
               .catch((error) => {
