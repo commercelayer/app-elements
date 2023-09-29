@@ -52,9 +52,19 @@ export const UseCoreSdkProviderDefault: StoryFn = () => {
     })
   }, [sdkClient])
 
+  if (order == null) return <div>Loading...</div>
+
   return (
     <div>
-      Order ID: <b>{order?.id}</b>
+      <p>
+        Order ID: <b>{order.id}</b>
+      </p>
+      <p>
+        Customer Email: <b>{order.customer_email}</b>
+      </p>
+      <p>
+        Language Code: <b>{order.language_code}</b>
+      </p>
     </div>
   )
 }
@@ -129,7 +139,7 @@ export const UseCoreApiMutate: StoryFn = () => {
       <br />
       error: <b>{error?.message}</b>
       <br />
-      Order ID: <b>{order?.id}</b>
+      Customer Email: <b>{order?.customer_email}</b>
       <br />
       <Button
         onClick={function () {
@@ -141,9 +151,14 @@ export const UseCoreApiMutate: StoryFn = () => {
       &nbsp;
       <Button
         onClick={function () {
-          void mutateOrder({
-            id: '1234'
-          })
+          void mutateOrder(
+            {
+              customer_email: 'ringostarr@commercelayer.io'
+            },
+            {
+              revalidate: false
+            }
+          )
         }}
       >
         Mutate

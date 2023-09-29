@@ -45,20 +45,20 @@ Whenever possible we encourage you to use the [`useCoreApi`](#usecoreapi) hook. 
 
 This hook performs API requesta based on [@commercelayer/sdk](https://github.com/commercelayer/commercelayer-sdk) and [swr](https://swr.vercel.app/).
 
-Suppose that you need to get the order with ID `1234`.
+Suppose that you need to get the order with ID `NMWYhbGorj`.
 
 <Source
   language="ts"
   dark
   code={`
 // using our sdk
-const order = await client.orders.retrieve('1234')
+const order = await client.orders.retrieve('NMWYhbGorj')
 
 // using \`useCoreApi\`
 const {
 data: order,
 isLoading
-} = useCoreApi('orders', 'retrieve', ['1234'])
+} = useCoreApi('orders', 'retrieve', ['NMWYhbGorj'])
 `} />
 
 ### Data
