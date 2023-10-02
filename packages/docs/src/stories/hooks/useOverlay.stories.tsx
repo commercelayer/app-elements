@@ -1,5 +1,12 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { Button } from '#ui/atoms/Button'
+import {
+  Description,
+  Primary,
+  Stories,
+  Subtitle,
+  Title
+} from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 /**
@@ -20,6 +27,15 @@ const setup: Meta = {
   },
   parameters: {
     docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+          <Stories includePrimary={false} />
+        </>
+      ),
       source: {
         type: 'code'
       }

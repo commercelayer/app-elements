@@ -4,13 +4,24 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { type StoryFn, type Meta } from '@storybook/react'
+import { Description, Primary, Subtitle, Title } from '@storybook/addon-docs'
+import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta = {
   title: 'Examples/Filters Checkboxes',
   parameters: {
-    layout: 'fullscreen'
+    layout: 'fullscreen',
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+        </>
+      )
+    }
   }
 }
 export default setup
