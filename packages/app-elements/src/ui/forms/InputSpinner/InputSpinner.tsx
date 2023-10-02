@@ -1,6 +1,5 @@
 import {
   InputWrapper,
-  getFeedbackStyle,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import { Minus, Plus } from '@phosphor-icons/react'
@@ -76,9 +75,9 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
         <div
           className={cn(
             className,
-            'flex items-center justify-between rounded w-[122px]',
-            'focus-within:ring-2 focus-within:ring-primary-500',
-            getFeedbackStyle(feedback)
+            'flex items-center justify-between rounded w-[122px] p-0.5 py-1',
+            'shadow-[0_0_0_1px_#e6e7e7_inset]',
+            'focus-within:shadow-[0_0_0_2px_#666eff_inset]'
           )}
         >
           <ButtonSpin
@@ -94,9 +93,11 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             ref={ref}
             data-testid='InputSpinner-input'
             className={cn(
-              'py-2.5 px-0 font-bold border-none min-w-0 text-center focus:ring-0',
+              'py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded',
               // reset browser default styles for number input
-              '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none'
+              '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+              // reset global style of input standard shadow color to remove it
+              'shadow-transparent'
             )}
             value={value}
             onChange={({ currentTarget }) => {
@@ -140,11 +141,9 @@ function ButtonSpin({
   return (
     <button
       type='button'
-      className={cn('py-3 text-xl relative bg-white', {
+      className={cn('p-2 mx-1 text-xl relative bg-white rounded', {
         'text-gray-300': disabled,
-        'active:top-[1px]': !disabled,
-        'pl-3 pr-1': action === 'decrement',
-        'pr-3 pl-1': action === 'increment'
+        'active:top-[1px]': !disabled
       })}
       onClick={onClick}
       disabled={disabled}
