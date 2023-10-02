@@ -302,7 +302,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                       class="flex items-center justify-between rounded w-[122px] focus-within:ring-2 focus-within:ring-primary-500 border border-gray-200"
                     >
                       <button
-                        class="py-3 text-xl relative bg-white active:top-[1px] pl-3 pr-1"
+                        class="py-3 text-xl relative bg-white rounded active:top-[1px] pl-3 pr-1"
                         data-testid="InputSpinner-decrement"
                         type="button"
                       >
@@ -319,13 +319,13 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                         </svg>
                       </button>
                       <input
-                        class="py-2.5 px-0 font-bold border-none min-w-0 text-center focus:ring-0 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                        class="py-2.5 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded shadow-transparent [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
                       />
                       <button
-                        class="py-3 text-xl relative bg-white active:top-[1px] pr-3 pl-1"
+                        class="py-3 text-xl relative bg-white rounded active:top-[1px] pr-3 pl-1"
                         data-testid="InputSpinner-increment"
                         type="button"
                       >
