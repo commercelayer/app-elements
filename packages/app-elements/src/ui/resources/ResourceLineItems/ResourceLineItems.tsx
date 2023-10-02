@@ -345,6 +345,31 @@ export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
 
 ResourceLineItems.displayName = 'ResourceLineItems'
 
+const LineItemOptionsWrapper = withSkeletonTemplate<{
+  title?: string
+  children: React.ReactNode
+}>(({ title, children }) => (
+  <Spacer top='4' className='pb-2 last:pb-0'>
+    {title != null && (
+      <Text tag='div' weight='bold' size='small' className='mb-1'>
+        {title}
+      </Text>
+    )}
+    {children}
+  </Spacer>
+))
+
+const LineItemOptionsItem = withSkeletonTemplate<{ title: string }>(
+  ({ title }) => (
+    <div className='flex items-center gap-1 mb-1'>
+      <Icon name='arrowBendDownRight' className='text-gray-500' />
+      <Text variant='info' tag='div' size='small' weight='medium'>
+        {title}
+      </Text>
+    </div>
+  )
+)
+
 const LineItemOptions = withSkeletonTemplate<{
   lineItemOptions: LineItem['line_item_options']
 }>(({ lineItemOptions }) => {
@@ -355,21 +380,16 @@ const LineItemOptions = withSkeletonTemplate<{
   return (
     <Spacer top='4'>
       {lineItemOptions.map((item) => (
-        <Spacer key={item.id} top='4' className='pb-2 last:pb-0'>
-          <Text tag='div' weight='bold' size='small' className='mb-1'>
-            {item.name}
-          </Text>
-          {Object.entries(item.options).map(([optionName, optionValue]) => {
-            return (
-              <div key={optionName} className='flex items-center gap-1 mb-1'>
-                <Icon name='arrowBendDownRight' className='text-gray-500' />
-                <Text variant='info' tag='div' size='small' weight='medium'>
-                  {optionName}: {normalizeLineItemOptionValue(optionValue)}
-                </Text>
-              </div>
-            )
-          })}
-        </Spacer>
+        <LineItemOptionsWrapper key={item.id} title={item.name ?? undefined}>
+          {Object.entries(item.options).map(([optionName, optionValue]) => (
+            <LineItemOptionsItem
+              key={optionName}
+              title={`${optionName}: ${normalizeLineItemOptionValue(
+                optionValue
+              )}`}
+            />
+          ))}
+        </LineItemOptionsWrapper>
       ))}
     </Spacer>
   )
@@ -384,21 +404,11 @@ const ReturnLineItemReason = withSkeletonTemplate<{
 
   return (
     <Spacer top='4'>
-      <Spacer top='4' className='pb-2 last:pb-0'>
-        <Text tag='div' weight='bold' size='small' className='mb-1'>
-          Reason
-        </Text>
-        {Object.entries(reason).map(([reasonName, reasonValue]) => {
-          return (
-            <div key={reasonName} className='flex items-center gap-1 mb-1'>
-              <Icon name='arrowBendDownRight' className='text-gray-500' />
-              <Text variant='info' tag='div' size='small' weight='medium'>
-                {reasonValue}
-              </Text>
-            </div>
-          )
-        })}
-      </Spacer>
+      <LineItemOptionsWrapper title='Reason'>
+        {Object.entries(reason).map(([reasonName, reasonValue]) => (
+          <LineItemOptionsItem key={reasonName} title={reasonValue} />
+        ))}
+      </LineItemOptionsWrapper>
     </Spacer>
   )
 })
