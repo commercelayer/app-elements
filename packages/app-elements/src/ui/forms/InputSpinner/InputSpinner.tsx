@@ -141,10 +141,13 @@ function ButtonSpin({
   return (
     <button
       type='button'
-      className={cn('p-2 mx-1 text-xl relative bg-white rounded', {
-        'text-gray-300': disabled,
-        'active:top-[1px]': !disabled
-      })}
+      className={cn(
+        'p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0',
+        {
+          'text-gray-300': disabled,
+          'active:top-[1px]': !disabled
+        }
+      )}
       onClick={onClick}
       disabled={disabled}
       tabIndex={disabled ? -1 : undefined}
