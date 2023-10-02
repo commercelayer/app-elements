@@ -54,7 +54,7 @@ import { Tabs, Tab } from '#ui/atoms/Tabs';
 
 # Applications
 
-Each application is equipped with a specific set of permissions based on the application the developer would like to customize.
+Each application is equipped with a different set of permissions you can check here below.
 
 ${await generateToc(repositories, entries)}
 ${await generateAppTable(repositories, entries)}
