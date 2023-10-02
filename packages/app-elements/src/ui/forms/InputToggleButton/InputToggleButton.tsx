@@ -25,6 +25,7 @@ function ToggleItem({
         {
           'opacity-50 pointer-events-none touch-none': isDisabled,
           'focus-within:ring-0': !isDisabled,
+          'focus-within:shadow-[0_0_0_2px_#666eff_inset]': !isDisabled,
           'bg-gray-100 text-gray-500': isChecked !== true,
           'bg-primary text-white': isChecked === true
         }
