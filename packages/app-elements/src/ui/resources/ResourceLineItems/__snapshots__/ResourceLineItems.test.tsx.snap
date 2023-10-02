@@ -648,9 +648,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  line1
-                  : 
-                  Commerce Layer
+                  line1: Commerce Layer
                 </div>
               </div>
               <div
@@ -674,9 +672,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  line2
-                  : 
-                  Composable Commerce API
+                  line2: Composable Commerce API
                 </div>
               </div>
             </div>
@@ -709,9 +705,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  name
-                  : 
-                  Ringo Starr
+                  name: Ringo Starr
                 </div>
               </div>
               <div
@@ -735,9 +729,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  team
-                  : 
-                  Beatles
+                  team: Beatles
                 </div>
               </div>
             </div>
@@ -770,9 +762,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  logo_url
-                  : 
-                  http://data.commercelayer.com/long_url/logo.png
+                  logo_url: http://data.commercelayer.com/long_url/logo.png
                 </div>
               </div>
               <div
@@ -796,9 +786,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  colors
-                  : 
-                  ["#400","#fff","#000fff"]
+                  colors: ["#400","#fff","#000fff"]
                 </div>
               </div>
               <div
@@ -822,9 +810,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 <div
                   class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
                 >
-                  position
-                  : 
-                  {"x":30,"y":10}
+                  position: {"x":30,"y":10}
                 </div>
               </div>
             </div>
