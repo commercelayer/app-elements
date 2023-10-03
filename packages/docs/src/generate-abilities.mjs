@@ -87,7 +87,7 @@ async function getRepositoryNames() {
   })
     .then(async (res) => await res.json())
     .then(async (json) => /** @type Repository[] */ (json.items))
-    // .then(async (items) => items.filter((repo) => repo.visibility === 'public'))
+    .then(async (items) => items.filter((repo) => repo.visibility === 'public'))
     .then(async (items) =>
       Object.fromEntries(items.map((repo) => [repo.name, repo]))
     )
