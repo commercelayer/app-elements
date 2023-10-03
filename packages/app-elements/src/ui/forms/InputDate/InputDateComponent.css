@@ -21,13 +21,16 @@
 .react-datepicker__navigation {
   height: 24px;
   width: 24px;
+  border-radius: 5px;
   margin-top: 8px;
+  margin: 4px !important;
   outline: 0;
 }
 
 .react-datepicker__navigation-icon::before {
   border-color: #686e6e;
   border-width: 1px 1px 0 0;
+  margin-top: 5px;
 }
 
 .react-datepicker__current-month,

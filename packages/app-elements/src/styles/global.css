@@ -44,15 +44,6 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-.react-datepicker__navigation {
-  border-radius: 5px;
-  margin: 4px !important;
-}
-
-.react-datepicker__navigation-icon::before {
-  margin-top: 5px;
-}
-
 progress.progress {
   @apply w-full h-2;
 }
