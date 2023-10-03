@@ -3712,4 +3712,30 @@ const orderList = rest.get(
   }
 )
 
-export default [orderDetail, orderList]
+const orderNotFound = rest.get(
+  'https://mock.localhost/api/orders/non-existing',
+  async (req, res, ctx) => {
+    return await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(
+          res(
+            ctx.status(404),
+            ctx.json({
+              errors: [
+                {
+                  title: 'Record not found',
+                  detail:
+                    'The requested resource was not found. Please double-check the resource id.',
+                  code: 'RECORD_NOT_FOUND',
+                  status: '404'
+                }
+              ]
+            })
+          )
+        )
+      }, 2000)
+    })
+  }
+)
+
+export default [orderDetail, orderList, orderNotFound]

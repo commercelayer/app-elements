@@ -1,17 +1,16 @@
-import { Meta, Source } from '@storybook/addon-docs';
+import { Meta, Source } from '@storybook/addon-docs'
 
 <Meta title="Getting Started/Welcome"></Meta>
 
 ![App Element splashscreen](welcome-hero.png)
 
-The Commerce Layer admin dashboard has a hub section for back-office applications built on top of our APIs that facilitates the use of some of the platform's main features.
+The Commerce Layer admin [Dashboard](https://dashboard.commercelayer.io/sign_up) includes a _Hub_ section for back-office applications built on top of our APIs covering some of the platform's main features (such as orders or customers management, importing or exporting data, and more).
 
-`App Elements` is the React component library for building these hub applications.
-This library contains different components, helpers, and hooks, from simple and small bits like `Button` or `Card` to complex components like `OrderSummary`.
+**App Elements** is the React component library used to build these hub [applications](/docs/getting-started-applications--docs). You can easily leverage it to replicate the Dashboard look and feel when [customizing your apps](/docs/getting-started-custom-apps--docs) or building any other app on top of Commerce Layer's APIs. This library features different components, helpers, and hooks, from simple and small bits like [buttons](/docs/atoms-button--docs) or [cards](/docs/atoms-card--docs) to complex components like the one you need to show a complete [order summary](/docs/resources-resourceordersummary--docs).
 
 ## Installation and requirements
 
-This library is [open sourced](https://github.com/commercelayer/app-elements) and served as [npm package](https://www.npmjs.com/package/@commercelayer/app-elements) and need to be installed as dependency inside your project.
+This library is [open sourced](https://github.com/commercelayer/app-elements) and served as [npm package](https://www.npmjs.com/package/@commercelayer/app-elements). It needs to be installed as dependency inside your project:
 
 <Source
   language="bash"
@@ -21,8 +20,7 @@ pnpm add @commercelayer/app-elements
 `}
 />
 
-The package does not include some required dependencies listed as `peerDependencies`. If you use `pnpm`, you will find useful to have `auto-install-peers=true` in you `.npmrc` file.
-Otherwise you need to also install the following packages:
+The package does not include some required dependencies listed as `peerDependencies`. If you use [pnpm](https://pnpm.io/), we suggest you set `auto-install-peers=true` in your `.npmrc` file. Otherwise, you need to also install the following packages:
 
 <Source
   language="bash"
@@ -33,15 +31,16 @@ pnpm add @commercelayer/sdk query-string react-hook-form wouter
 />
 
 <span title="Important notice" type="info">
-  At this time we only support ViteJS as main bundler (even if other bundlers might be used without any issue), and all
-  dashboard apps require `pnpm` as package manager. Also, all Commerce Layer dashboard apps use
-  [wouter](https://github.com/molefrog/wouter) as react routing, this create a strong relationship with it also inside
-  this package.
+  At this time we only support [Vite](https://vitejs.dev/) as the main bundler
+  (even if other bundlers might be used without any issue), and all dashboard
+  apps require pnpm as package manager. Also, both App Elements and all Commerce
+  Layer dashboard apps use [wouter](https://github.com/molefrog/wouter) as react
+  routing.
 </span>
 
 ## Local development
 
-To work with this repo you can preview components directly in storybook, launching a development server.
+When you work with App Elements you can preview components directly in [Storybook](https://storybook.js.org/). You just need to launch e development server:
 
 <Source
   language="bash"
@@ -52,7 +51,7 @@ pnpm dev
 `}
 />
 
-You can link this package in other applications using `pnpm`:
+You can link this package in other applications using pnpm:
 
 <Source
   language="bash"

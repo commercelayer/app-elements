@@ -1,4 +1,4 @@
-import { Meta, Source } from '@storybook/addon-docs';
+import { Meta, Source } from '@storybook/addon-docs'
 
 <Meta title="Getting Started/Custom apps"></Meta>
 
@@ -6,35 +6,40 @@ import { Meta, Source } from '@storybook/addon-docs';
 
 All applications showcased on the Dashboard hub provide extensive customization options. You can enhance their functionality by adding new features, extending existing ones, and integrating with third-party APIs, among other possibilities.
 
-After you made your changes and thoroughly tested your custom app, you can seamlessly integrate it into the dashboard, making it accessible to your entire team. To ensure visibility for every member of your organization, the administrator can enable each custom application individually on the team section.
+After you made your changes and thoroughly tested your custom app, you can seamlessly integrate it into the Dashboard, making it accessible to your entire team. To ensure visibility for every member of your organization, the administrator can enable each custom application individually on the _Team_ section.
 
-<img src="member-dashboard.png"  width="600" />
+<img src="member-dashboard.png" width="600" />
 
-## Steps to customize an application
+## How to customize an application
 
-Here is a step-by-step guide to kickstart the customization of one of our available applications:
+Here is a step-by-step guide to kickstart the customization of one of the available applications:
 
-1. Begin by forking one of our app repositories, such as [app-orders](https://github.com/commercelayer/app-orders), to your GitHub account.
-1. Use the `organizationSlug` within the `TokenProvider` context, as explained in detail [here](/docs/getting-started-tokenprovider--docs#how-to-configure-it-with-a-custom-app).
+1. Choose the app you want to customize and fork the related repository (e.g. [app-orders](https://github.com/commercelayer/app-orders)) to your GitHub account.
+1. Use the `organizationSlug` within the `TokenProvider` context, as explained in detail [here](/docs/getting-started-token-provider--docs#how-to-configure-the-token-provider-with-a-custom-app).
 1. Customize the app to meet your specific requirements.
 1. Thoroughly test the application on your local environment.
 1. Proceed to host and deploy your customized app. This can be done swiftly using platforms like Netlify or Vercel.
 1. As a final step, include the name and deployment URL in the Dashboard.
 
-
-Additionally, you can watch an instructional video that demonstrates how to complete the process of hosting your custom app on Vercel and making it available on the hub.
+Watch the instructional video below to learn more: it goes through the whole process of hosting your custom app on Vercel and making it available on the hub.
 
 [Video placeholder]
 
 ## Roles and permissions
 
-Each application is equipped with a specific set of permissions based on the application the developer would like to customize. You can examine these permissions using the `useTokenProvider` hook, as detailed [here](/docs/getting-started-tokenprovider--docs#how-to-read-exposed-information-from-react-context).
+Each application is equipped with a different set of permissions. When you fork the related repository, your custom apps inherits those permission.
+You can examine them using the `useTokenProvider` hook, as detailed [here](/docs/getting-started-token-provider--docs#how-to-read-exposed-information-from-react-context). To review the set of permissions specific to the application you plan to customize, please refer to the [applications](/docs/getting-started-applications--docs) section.
 
-In the near future, we will introduce a new type of customizable application that will come with comprehensive permissions, granting access to all the necessary Commerce Layer APIs.
-
-To review permissions specific to the application you plan to customize, please refer to the [applications](/docs/getting-started-applications--docs) section.
+<span type="info" title="Coming soon">
+  In the near future, we will introduce a new type of customizable application
+  that will come with comprehensive permissions, granting access to all the
+  necessary Commerce Layer APIs.
+</span>
 
 ## Cross-linking
 
-Once you've customized and added an application to the hub, cross-linking between applications will no longer be possible. Consequently, we recommend customizing not only the primary application but also any linked applications.
-
+<span type="warning">
+  Once you've customized and added an application to the hub, cross-linking
+  between applications will no longer be possible. Consequently, we recommend
+  customizing not only the primary application but also any linked applications.
+</span>

@@ -43,52 +43,52 @@ export interface TokenProviderValue {
 
 export interface TokenProviderProps {
   /**
-   * Token kind (will be validated).
+   * The token kind (will be validated).
    * For example: `integration`, `sales_channel` or `webapp` but also `imports` or `orders` in case of dashboard-generated token.
    */
   kind: TokenProviderTokenApplicationKind
   /**
-   * Slug of the current app. It needs to match one of the allowed app slugs enabled in the dashboard.
-   * Will be used to persist token for current app only.
+   * The slug of the current app. It needs to match one of the allowed app slugs enabled in the dashboard.
+   * It is used to persist token for current app only.
    */
   appSlug: TokenProviderAllowedApp
   /**
-   * Skip domain slug validation when is dev mode
+   * Set this to `true` to skip domain slug validation in dev mode.
    */
   devMode: boolean
   /**
-   * Entire app content
+   * The entire app content.
    */
   children: ((props: TokenProviderValue) => ReactNode) | ReactNode
   /**
    * Required when application is running as self-hosted.
-   * It's used to perform a security check to test the validity of token against current organization.
+   * It's used to perform a security check to test the validity of token against the current organization.
    */
   organizationSlug?: string
   /**
-   * Base domain to be used for Commerce Layer API requests (e.g. `commercelayer.io`)
+   * The base domain to be used for Commerce Layer API requests (e.g. `commercelayer.io`)
    */
   domain?: string
   /**
-   * Automatically redirect to dashboard to start re-authentication flow and return to app with fresh token
+   * Set this to `true` to automatically redirect to the dashboard, start the re-authentication flow, and return to the app with a fresh token.
    */
   reauthenticateOnInvalidAuth?: boolean
   /**
-   * Callback invoked when token is not valid.
-   * Can be used to manually handle re-authentication flow when `reauthenticateOnInvalidAuth` is false.
+   * The callback invoked when token is not valid.
+   * Can be used to manually handle the re-authentication flow when `reauthenticateOnInvalidAuth` is false.
    */
   onInvalidAuth?: (info: { dashboardUrl: string; reason: string }) => void
   /**
-   * UI element to be used as loader (eg: skeleton or spinner icon)
+   * The UI element to be used as loader (e.g. skeleton or spinner icon).
    */
   loadingElement?: ReactNode
   /**
-   * Element to display in case of invalid token
+   * The element to display in case of invalid token.
    */
   errorElement?: ReactNode
   /**
-   * Optional. In case you already have an access token, this will skip the retrieval of token from URL or localStorage.
-   * When undefined (default scenario), token is expected to be retrieved from `?accessToken=xxxx` query string or localStorage (in this order).
+   * Optional. In case you already have an access token, this will skip the retrieval of token from the URL or `localStorage`.
+   * When `undefined` (default scenario), the token is expected to be retrieved from the `?accessToken=xxxx` query string or localStorage (in this order).
    */
   accessToken?: string
 }

@@ -1,20 +1,14 @@
-import {
-  Meta,
-  Source,
-  Canvas,
-  Description
-} from '@storybook/addon-docs';
-import * as ComponentStories from './004.CoreSdkProvider.stories';
+import { Meta, Source, Canvas, Description } from '@storybook/addon-docs'
+import * as ComponentStories from './004.CoreSdkProvider.stories'
 
 <Meta of={ComponentStories} />
 
+# Core SDK provider
 
-# CoreSdkProvider
-
-The `<CoreSdkProvider>` is the component that is in charge of creating an sdk client by using the `TokenProvider` context.
+The `<CoreSdkProvider>` is the component that is in charge of creating an SDK client by using the [`TokenProvider`](/docs/getting-started-token-provider--docs) context.
 
 <span type="warning" title="Dependencies">
-It must be rendered as a children of the `<TokenProvider>` component.
+The `<CoreSdkProvider>` component must be rendered as a children of the `<TokenProvider>` component.
 </span>
 
 <Source
@@ -35,51 +29,49 @@ It must be rendered as a children of the `<TokenProvider>` component.
 `}
 />
 
-
-
-## useCoreSdkProvider
+### `useCoreSdkProvider`
 
 This hook returns an instance of the [@commercelayer/sdk](https://github.com/commercelayer/commercelayer-sdk) client.
 
 <span type="info">
-Whenever possible we encourage you to use the [`useCoreApi`](#usecoreapi) hook.
+Whenever possible we encourage you to use the [`useCoreApi`](#usecoreapi) hook. The `useCoreSdkProvider` hook is mostly used to perform **create** / **update** / **delete** operations.
 
-The `useCoreSdkProvider` hook is mostly used to perform **create**/**update**/**delete** operations.
 </span>
 
 <Description of={ComponentStories.UseCoreSdkProviderDefault} />
 <Canvas of={ComponentStories.UseCoreSdkProviderDefault} />
 
+### `useCoreApi`
 
+This hook performs API requesta based on [@commercelayer/sdk](https://github.com/commercelayer/commercelayer-sdk) and [swr](https://swr.vercel.app/).
 
-## useCoreApi
-
-This hook performs api request base on [@commercelayer/sdk](https://github.com/commercelayer/commercelayer-sdk) and [swr](https://swr.vercel.app/).
-
-Suppose that you need to get the order with ID `1234`.
+Here below a simple example that shows how to use the `useCoreApi` hook to retrieve the order identified by the ID `NMWYhbGorj`:
 
 <Source
   language="ts"
   dark
   code={`
-// using our sdk
-const order = await client.orders.retrieve('1234')
+// using our SDK
+const order = await client.orders.retrieve('NMWYhbGorj')
 
 // using \`useCoreApi\`
 const {
-  data: order,
-  isLoading
-} = useCoreApi('orders', 'retrieve', ['1234'])
+data: order,
+isLoading
+} = useCoreApi('orders', 'retrieve', ['NMWYhbGorj'])
 `} />
 
-### Data
+#### `data`
+
 <Description of={ComponentStories.UseCoreApiData} />
 <Canvas of={ComponentStories.UseCoreApiData} />
 
-### Mutate
+#### `mutate`
+
 <Description of={ComponentStories.UseCoreApiMutate} />
 <Canvas of={ComponentStories.UseCoreApiMutate} />
 
-### Error
+#### `error`
+
 <Description of={ComponentStories.UseCoreApiError} />
 <Canvas of={ComponentStories.UseCoreApiError} />

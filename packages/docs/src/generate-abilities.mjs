@@ -54,9 +54,12 @@ import { Tabs, Tab } from '#ui/atoms/Tabs';
 
 # Applications
 
-Each application is equipped with a specific set of permissions based on the application the developer would like to customize.
+This is the updated list of all the currently available Commerce Layer Dashboard hub open-source applications:
 
 ${await generateToc(repositories, entries)}
+
+Each application is equipped with a different set of permissions in terms of CRUD actions on the single resources. You can check them here below.
+
 ${await generateAppTable(repositories, entries)}
 `
 
@@ -84,7 +87,7 @@ async function getRepositoryNames() {
   })
     .then(async (res) => await res.json())
     .then(async (json) => /** @type Repository[] */ (json.items))
-    // .then(async (items) => items.filter((repo) => repo.visibility === 'public'))
+    .then(async (items) => items.filter((repo) => repo.visibility === 'public'))
     .then(async (items) =>
       Object.fromEntries(items.map((repo) => [repo.name, repo]))
     )

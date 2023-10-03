@@ -3,12 +3,23 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
+import { Description, Primary, Subtitle, Title } from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {
   title: 'Examples/Order History',
   parameters: {
-    layout: 'padded'
+    layout: 'padded',
+    docs: {
+      page: () => (
+        <>
+          <Title />
+          <Subtitle />
+          <Description />
+          <Primary />
+        </>
+      )
+    }
   }
 }
 export default setup
