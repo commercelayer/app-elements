@@ -54,9 +54,12 @@ import { Tabs, Tab } from '#ui/atoms/Tabs';
 
 # Applications
 
-Each application is equipped with a different set of permissions you can check here below.
+This is the updated list of all the currently available Commerce Layer Dashboard hub open-source applications:
 
 ${await generateToc(repositories, entries)}
+
+Each application is equipped with a different set of permissions in terms of CRUD actions on the single resources. You can check them here below.
+
 ${await generateAppTable(repositories, entries)}
 `
 
