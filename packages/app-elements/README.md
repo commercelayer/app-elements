@@ -1,6 +1,3 @@
-> [!WARNING]
-> This library is still in active development.
-
 # App Elements
 
 [![NPM](https://img.shields.io/npm/v/%40commercelayer%2Fapp-elements)](https://www.npmjs.com/package/@commercelayer/app-elements)
