@@ -29,9 +29,9 @@ const ToggleInstructions: React.FC<{
   return (
     <div>
       <p>
-        By clicking on the following button you will be able to see a full
-        example of <code>FiltersInstruction</code> array, as it has been defined
-        inside our orders app.
+        Click on the button below to see a full example of{' '}
+        <code>FiltersInstruction</code> array, as it has been defined inside the
+        Orders app.
       </p>
       <Button
         onClick={() => {
@@ -52,36 +52,34 @@ const ToggleInstructions: React.FC<{
 }
 
 /**
- * This sections shows how to configure `useResourceFilters` hook to render a filterable list of resources.
+ * The `useResourceFilters` hook can be used to render a filterable list of resources. This hook takes as argument an array of instructions of type `FilterInstruction`. Each instruction defines a filter that will be rendered in the form.
  *
- * The hook takes as argument an array of instructions of type `FilterInstruction`.
- * Each instruction defines a filter that will be rendered in the form.
+ * ### 1. Defining the instructions
  *
- * The first step is to define an array of instructions to build our filters.
- *
- * Each instruction has a `label`, `type`, `sdk` and `render` property.
- * - `label` is the label that will be used for that field.
- * - `type` is the type of filter that we need (examples: 'options', 'timeRange' or 'textSearch').
- * - `sdk` is an object that contains information to convert the filter value in sdk filter predicate.
- * - `render` is an object that contains details on which component to use to render the field in the filter form.
+ * First, you need to specify an array of instructions that will be used to build the filters. Each instruction has a `label`, `type`, `sdk` and `render` property:
+ * - `label` — the field label.
+ * - `type`— the type of filter that you need to implement (e.g.: `options`, `timeRange`, or `textSearch`).
+ * - `sdk` — an object that contains information to convert the filter value in an SDK filter predicate.
+ * - `render` — an object that contains details on which component to use to render the field in the filter form.
  *
  * <span title="Defaults and restricted values" type="info">
- * - Default values can be configured within the instructions by setting `sdk.defaultValue` property in the relative instruction item.<br />
- * In this way that specific filter predicate will be applied by default when no other value is provided.
- * <br /><br />
- * - When `render` property includes a set of options, it means the filter only accepts those values. Any other value will be ignored.
+ * - Default values can be configured within the instructions by setting `sdk.defaultValue` property in the relative instruction item. In this way that specific filter predicate will be applied by default when no other value is provided.
+ * <br />
+ * - When the `render` property includes a set of options, it means that the filter only accepts those values. Any other value will be ignored.
  * </span>
  *
- * Once we have our instructions array, we can pass it to the `useResourceFilters` hook.
+ * ### 2. Passing the instructions to the hook
+ *
+ * Once you have set the instructions array, you can pass it to the `useResourceFilters` hook.
  *
  * <span title="Where to mount the hook" type="info">
+ * <br />
  * Usually you want to have the hook in two pages:
- * 1. a page that renders a form to allow the user to configure and interact with the active filters (`<FiltersForm />` component)
- * 1. a page that renders the resource list with the applied filters (`<FilteredList />` component). <br />
- * You can enhance the filtered list with a text search bar and filters navigation buttons (`<SearchWithNav />` component)
+ * 1. A page that renders a form to allow the user to configure and interact with the active filters (`<FiltersForm />` component).
+ * 1. A page that renders the resource list with the applied filters (`<FilteredList />` component). You can enhance the filtered list with a text search bar and filters navigation buttons (`<SearchWithNav />` component).
  * </span>
  *
- * Active filters state will persist as url query string.
+ * Active filters state will persist as URL query string.
  * This allows to set filters in a `/filter-form` page and read them from a `/filtered-list` page.
  *
  **/
@@ -115,9 +113,9 @@ const setup: Meta = {
 export default setup
 
 /**
- * How to render a form based on the instructions provided.
+ * The example below shows how to render a form based on the instructions provided.
  * <span type="info">
- * The form requires an `onSubmit` props, that will be used to handle the redirection to the filtered list page
+ * The form requires an `onSubmit` prop, that will be used to handle the redirection to the filtered list page
  * with the query string generated from the form values.
  * </span>
  **/
@@ -140,10 +138,10 @@ export const FiltersForm: StoryFn = () => {
 }
 
 /**
- * How to render a list of resources filtered on the base of the current active filters.
+ * The example below shows how to render a filtered list of resources based on the current active filters.
  * <span type="info">
- * This component is a wrapper around `ResourceList` where `query`  props is auto-filled with the active filters
- * and can't be overwritten.
+ * This component is a wrapper around `ResourceList` where the `query`  prop is auto-filled with the active filters
+ * and cannot be overwritten.
  * </span>
  **/
 export const FilteredList: StoryFn = () => {
@@ -171,12 +169,11 @@ export const FilteredList: StoryFn = () => {
 }
 
 /**
- * How to render a search bar with filters navigation buttons.
+ * The example below shows how to render a search bar with filters navigation buttons.
  * <span type="info">
- * While typing in the search bar, a debounced (500ms) `onUpdate` props will be triggered.
- * It can be used to update the query string in the url with your own routing library.
- * Once `window.location.search` has been updated, it will trigger a new API request that
- * will render a fresh `FilteredList`.
+ * While typing in the search bar, a debounced (500ms) `onUpdate` prop is triggered.
+ * It can be used to update the query string in the URL with your routing library of choice.
+ * Once `window.location.search` has been updated, it triggers a new API request to render a fresh `FilteredList`.
  * </span>
  **/
 export const SearchWithNav: StoryFn = () => {
@@ -203,20 +200,19 @@ export const SearchWithNav: StoryFn = () => {
 }
 
 /**
- * While all components above, returned from `useResourceFilters` hook, are already connected together,
+ * While all the components above — returned from `useResourceFilters` hook — are already connected together,
  * it's still possible to use some helper methods to build your own logic.
  *
  * <span type="info">
  * The `adapters` object returned from the hook contains the following methods:
- * - `adapters.adaptFormValuesToSdk`: converts the form values to sdk filter predicates
- * - `adapters.adaptFormValuesToUrlQuery`: converts the form values to url query string
- * - `adapters.adaptUrlQueryToFormValues`: converts the url query string to form values
- * - `adapters.adaptUrlQueryToSdk`: converts the url query string to sdk filter predicates
- * - `adapters.adaptUrlQueryToUrlQuery`: parse the url query string to url query string by stripping out invalid params. This can be useful if your query string contains params that are not part of the instructions array.
- * - `adapters.validInstructions`: returns the valid instructions array, by stripping out invalid instructions.
- * </span>
+ * - `adapters.adaptFormValuesToSdk` — converts the form values to SDK filter predicates.
+ * - `adapters.adaptFormValuesToUrlQuery` — converts the form values to URL query string.
+ * - `adapters.adaptUrlQueryToFormValues` — converts the URL query string to form values.
+ * - `adapters.adaptUrlQueryToSdk` — converts the URL query string to SDK filter predicates.
+ * - `adapters.adaptUrlQueryToUrlQuery` — parses the URL query string to strip out invalid params (this can be useful if your query string contains params that are not part of the instructions array).
+ * - `adapters.validInstructions` — returns the valid instructions array, by stripping out invalid instructions.
  *
- * <span type="warning">View source code to see how the following object is generated:</span>
+ * Have a look at the source code to see how the following object is generated:
  **/
 export const FiltersAdapters: StoryFn = () => {
   const { adapters } = useResourceFilters({
