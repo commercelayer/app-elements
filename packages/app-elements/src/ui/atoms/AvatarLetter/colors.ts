@@ -2,28 +2,26 @@
 import { asUniqueArray } from '#utils/array'
 
 export const BG_COLORS = asUniqueArray([
-  '#101111',
-  '#666EFF',
-  '#055463',
-  '#F40009',
-  '#FF656B',
+  '#BBBEBE',
+  '#79E4F8',
+  '#FFCC80',
+  '#FFF280',
+  '#83F2C2',
+  '#18D0F3',
+  '#9CB1FF',
+  '#FFEA2E',
+  '#FF8E92',
+  '#1FDA8A',
   '#FFAB2E',
-  '#942e0c',
-  '#0A472D',
-  '#181650',
+  '#FE84BA',
+  '#BDAA00',
+  '#686E6E',
+  '#11784C',
+  '#BC0007',
+  '#942E0C',
   '#A00148',
-  '#3b36f5',
-  '#0BB7D8',
-  '#f98107',
-  '#F5DC00',
-  '#11A868',
-  '#D80261',
-  '#4B0003',
-  '#461202',
-  '#4D4500',
-  '#03160E',
-  '#310016',
-  '#840005'
+  '#322AD8',
+  '#343535'
 ])
 
 export function getTextColorForBackground(
