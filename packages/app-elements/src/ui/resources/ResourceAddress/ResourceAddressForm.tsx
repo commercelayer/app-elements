@@ -25,17 +25,17 @@ const zodString = z
   })
 
 const addressFormSchema = z.object({
-  first_name: zodString,
-  last_name: zodString,
-  company: z.optional(z.string()),
+  first_name: z.string().nullish(),
+  last_name: z.string().nullish(),
+  company: z.string().nullish(),
   line_1: zodString,
-  line_2: z.optional(z.string()),
+  line_2: z.string().nullish(),
   city: zodString,
-  zip_code: z.optional(z.string()),
+  zip_code: z.string().nullish(),
   state_code: zodString,
   country_code: zodString,
   phone: zodString,
-  billing_info: z.optional(z.string())
+  billing_info: z.string().nullish()
 })
 
 export type ResourceAddressFormValues = z.infer<typeof addressFormSchema>

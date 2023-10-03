@@ -1,4 +1,5 @@
 import { useOverlay } from '#hooks/useOverlay'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -20,15 +21,17 @@ interface ResourceAddressProps {
    */
   title?: string
   /**
-   * Optional setting to define if given address is editable (if set the Edit button and Overlay will be enabled)
+   * Optional setting to define if given address is editable (if set the Edit button and Overlay will be enabled).
+   * Given the setting the component will also verify user abilities to ensure if he is enabled to update the
+   * requested resource before to render editable related functionalities.
    */
   editable?: boolean
   /**
-   * Optional setting to define edit button position. It can be set to 'side' or 'bottom'
+   * Optional setting to define edit button position. It can be set to 'side' or 'bottom'.
    */
   editPosition?: ResourceAddressEditPosition
   /**
-   * Optional setting to define if given `Address` `billing_info` data is visible
+   * Optional setting to define if given `Address` `billing_info` data is visible.
    */
   showBillingInfo?: boolean
 }
@@ -45,6 +48,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     showBillingInfo = false
   }) => {
     const { Overlay, open, close } = useOverlay()
+    const { canUser } = useTokenProvider()
 
     const [address, setAddress] = useState<Address>(resource)
 
@@ -94,7 +98,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
               </Text>
             ) : null}
           </div>
-          {editable && (
+          {editable && canUser('update', 'addresses') && (
             <div data-testid='ResourceAddress-editAction'>
               <a
                 onClick={() => {
@@ -106,7 +110,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             </div>
           )}
         </div>
-        {editable && (
+        {editable && canUser('update', 'addresses') && (
           <Overlay>
             <PageLayout
               title='Edit address'
