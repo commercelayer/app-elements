@@ -1,5 +1,6 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -42,6 +43,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
     const [apiError, setApiError] = useState<any>(undefined)
 
     const { sdkClient } = useCoreSdkProvider()
+    const { canUser } = useTokenProvider()
 
     const {
       data: resourceData,
@@ -54,23 +56,30 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       }
     ])
 
-    if (resourceData?.metadata == null || isLoading) return <></>
+    if (
+      resourceData?.metadata == null ||
+      Object.keys(resourceData?.metadata).length === 0 ||
+      isLoading
+    )
+      return <></>
 
     return (
       <div>
         <Section
           title='Metadata'
           actionButton={
-            <div className='pr-4'>
-              <Button
-                variant='link'
-                onClick={() => {
-                  open()
-                }}
-              >
-                Edit
-              </Button>
-            </div>
+            canUser('update', resourceType) && (
+              <div className='pr-4'>
+                <Button
+                  variant='link'
+                  onClick={() => {
+                    open()
+                  }}
+                >
+                  Edit
+                </Button>
+              </div>
+            )
           }
         >
           {Object.entries(resourceData?.metadata).map(
@@ -95,45 +104,47 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             }
           )}
         </Section>
-        <Overlay>
-          <PageLayout
-            title={overlay.title}
-            description={overlay.description}
-            minHeight={false}
-            onGoBack={() => {
-              close()
-            }}
-          >
-            <ResourceMetadataForm
-              defaultValues={{ metadata: resourceData?.metadata }}
-              onSubmit={(formValues) => {
-                setIsSubmitting(true)
-                void sdkClient[resourceType]
-                  .update(
-                    {
-                      id: resourceId,
-                      metadata: formValues.metadata
-                    },
-                    {
-                      fields: ['metadata']
-                    }
-                  )
-                  .then((updatedResource) => {
-                    void mutateResource(updatedResource).then(() => {
-                      setIsSubmitting(false)
-                      close()
-                    })
-                  })
-                  .catch((error) => {
-                    setApiError(error)
-                    setIsSubmitting(false)
-                  })
+        {canUser('update', resourceType) && (
+          <Overlay>
+            <PageLayout
+              title={overlay.title}
+              description={overlay.description}
+              minHeight={false}
+              onGoBack={() => {
+                close()
               }}
-              isSubmitting={isSubmitting}
-              apiError={apiError}
-            />
-          </PageLayout>
-        </Overlay>
+            >
+              <ResourceMetadataForm
+                defaultValues={{ metadata: resourceData?.metadata }}
+                onSubmit={(formValues) => {
+                  setIsSubmitting(true)
+                  void sdkClient[resourceType]
+                    .update(
+                      {
+                        id: resourceId,
+                        metadata: formValues.metadata
+                      },
+                      {
+                        fields: ['metadata']
+                      }
+                    )
+                    .then((updatedResource) => {
+                      void mutateResource(updatedResource).then(() => {
+                        setIsSubmitting(false)
+                        close()
+                      })
+                    })
+                    .catch((error) => {
+                      setApiError(error)
+                      setIsSubmitting(false)
+                    })
+                }}
+                isSubmitting={isSubmitting}
+                apiError={apiError}
+              />
+            </PageLayout>
+          </Overlay>
+        )}
       </div>
     )
   }
