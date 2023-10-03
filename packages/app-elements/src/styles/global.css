@@ -11,7 +11,7 @@ body {
 }
 
 a {
-  @apply text-primary font-bold outline-0 focus-visible:outline-2 outline-offset-4 outline-primary-light hover:text-primary-light border-primary-light cursor-pointer;
+  @apply text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer;
 }
 
 :root {
