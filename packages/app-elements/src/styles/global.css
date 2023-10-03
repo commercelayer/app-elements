@@ -11,9 +11,38 @@ body {
 }
 
 a {
-  @apply text-primary font-bold outline-0 outline-offset-4 outline-primary-light hover:text-primary-light border-primary-light cursor-pointer;
+  @apply text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer;
 }
 
+:root {
+  --tw-shadow-color: rgb(230 231 231 / 1);
+}
+
+input {
+  border: none !important;
+  box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
+  -webkit-box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
+  -moz-box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
+}
+
+input:focus-visible {
+  ring: none;
+  outline: none !important;
+  box-shadow: inset 0 0 0 2px #666eff !important;
+  -webkit-box-shadow: inset 0 0 0 2px #666eff !important;
+  -moz-box-shadow: inset 0 0 0 2px #666eff !important;
+}
+
+select:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid #666eff !important;
+  outline-offset: 4px;
+}
+
+button:focus-visible {
+  outline: 2px solid #666eff !important;
+  outline-offset: 2px;
+}
 
 progress.progress {
   @apply w-full h-2;

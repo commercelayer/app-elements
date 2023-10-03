@@ -106,7 +106,7 @@ export const getSelectStyles = (
       borderWidth: 0,
       minHeight: '46px',
       // boxShadow: 'inset 0 0 0 1px #E6E7E7',
-      boxShadow: `inset 0 0 0 2px ${feedbackStyle.borderColor}`,
+      boxShadow: `inset 0 0 0 1px ${feedbackStyle.borderColor}`,
       borderRadius: 5,
       cursor: 'pointer',
       '&:focus-within': {
@@ -129,6 +129,9 @@ export const getSelectStyles = (
     ...style,
     margin: 0,
     padding: 0,
+    '& > input': {
+      boxShadow: 'none!important'
+    },
     '& > input:focus': {
       // reset `@tailwindcss/forms` base global styles
       boxShadow: 'none!important'
