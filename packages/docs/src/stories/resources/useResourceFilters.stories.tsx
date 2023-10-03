@@ -28,12 +28,17 @@ const ToggleInstructions: React.FC<{
   const [show, setShow] = useState(false)
   return (
     <div>
+      <p>
+        By clicking on the following button you will be able to see a full
+        example of <code>FiltersInstruction</code> array, as it has been defined
+        inside our orders app.
+      </p>
       <Button
         onClick={() => {
           setShow(!show)
         }}
       >
-        {show ? 'Hide' : 'Show'} instructions array
+        {show ? 'Hide' : 'Show'} FilterInstruction array
       </Button>
       {show && (
         <Source
@@ -60,16 +65,25 @@ const ToggleInstructions: React.FC<{
  * - `sdk` is an object that contains information to convert the filter value in sdk filter predicate.
  * - `render` is an object that contains details on which component to use to render the field in the filter form.
  *
+ * <span title="Defaults and restricted values" type="info">
+ * - Default values can be configured within the instructions by setting `sdk.defaultValue` property in the relative instruction item.<br />
+ * In this way that specific filter predicate will be applied by default when no other value is provided.
+ * <br /><br />
+ * - When `render` property includes a set of options, it means the filter only accepts those values. Any other value will be ignored.
+ * </span>
+ *
  * Once we have our instructions array, we can pass it to the `useResourceFilters` hook.
  *
- * <span type="info">
- * Usually you want to have two pages:
- * - a first page where you render a form with the filters
- * - a second page where you render the list with the applied filters
+ * <span title="Where to mount the hook" type="info">
+ * Usually you want to have the hook in two pages:
+ * 1. a page that renders a form to allow the user to configure and interact with the active filters (`<FiltersForm />` component)
+ * 1. a page that renders the resource list with the applied filters (`<FilteredList />` component). <br />
+ * You can enhance the filtered list with a text search bar and filters navigation buttons (`<SearchWithNav />` component)
  * </span>
  *
  * Active filters state will persist as url query string.
  * This allows to set filters in a `/filter-form` page and read them from a `/filtered-list` page.
+ *
  **/
 const setup: Meta = {
   title: 'Resources/useResourceFilters',
