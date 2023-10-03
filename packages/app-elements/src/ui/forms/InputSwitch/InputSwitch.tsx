@@ -20,22 +20,29 @@ export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
         name={rest.id ?? rest.name}
         inline={inline}
       >
-        <div className={cn('relative')}>
-          <input
-            id={rest.id ?? rest.name}
-            type='checkbox'
+        <div className='flex'>
+          <div
             className={cn(
-              'absolute cursor-pointer top-0 left-0 w-full h-full peer appearance-none opacity-0 z-10'
+              'relative flex',
+              'focus-within:rounded focus-within:outline focus-within:outline-2 focus-within:!outline-primary focus-within:outline-offset-2'
             )}
-            {...rest}
-            ref={ref}
-          />
-          <span
-            className={cn(
-              'w-8 h-5 flex items-center flex-shrink-0 p-[1px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3',
-              getFeedbackStyle(feedback)
-            )}
-          />
+          >
+            <input
+              id={rest.id ?? rest.name}
+              type='checkbox'
+              className={cn(
+                'absolute cursor-pointer top-0 left-0 w-full h-full peer appearance-none opacity-0 z-10'
+              )}
+              {...rest}
+              ref={ref}
+            />
+            <span
+              className={cn(
+                'w-8 h-5 flex items-center flex-shrink-0 p-[1px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3',
+                getFeedbackStyle(feedback)
+              )}
+            />
+          </div>
         </div>
       </InputWrapper>
     )
