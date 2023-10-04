@@ -15,7 +15,7 @@ import type {
   ReturnLineItem,
   StockLineItem
 } from '@commercelayer/sdk'
-import Trash from '@phosphor-icons/react/dist/icons/Trash'
+import { Trash } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState } from 'react'
 
