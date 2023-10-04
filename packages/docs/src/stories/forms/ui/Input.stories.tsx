@@ -46,6 +46,24 @@ WithError.args = {
   }
 }
 
+export const Email = Template.bind({})
+Email.args = {
+  label: 'Email',
+  name: 'email',
+  defaultValue: '',
+  autoComplete: 'off',
+  type: 'email'
+}
+
+export const Password = Template.bind({})
+Password.args = {
+  label: 'Password',
+  name: 'password',
+  defaultValue: '',
+  autoComplete: 'off',
+  type: 'password'
+}
+
 const TemplateValidation: StoryFn<typeof Input> = () => {
   const [value, setValue] = useState('')
 

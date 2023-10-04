@@ -42,8 +42,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             className,
             'block w-full px-4 py-2.5 font-medium',
             'rounded outline-0',
-            rest.autoComplete === 'off' &&
-              '!bg-white !shadow-[0_0_0_1000px_white_inset]',
+            rest.autoComplete === 'off' && '!bg-white',
             getFeedbackStyle(feedback)
           )}
           type={type}
