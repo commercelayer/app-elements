@@ -14,22 +14,23 @@ import {
 
 interface OptionItem {
   /**
-   * Input name, will be used to set the html name for checkbox and the quantity inputs
-   * If not provided, the value will be used instead
+   * Input name, will be used to set the html name for checkbox and the quantity inputs.
+   * If not provided, the value will be used instead.
    */
   name?: string
   /**
-   * Item identifier, must be unique and will be used for the onChange callback
+   * Item identifier, must be unique and will be used for the onChange callback.
    */
   value: string
   /**
-   * Item content to be displayed in the central section of the row
+   * Item content to be displayed in the central section of the row.
    */
   content: ReactNode
   /**
-   * Quantity range to be used in the InputSpinner
+   * Quantity range to be used in the InputSpinner.
+   * If not provided the quantity input spinner will not be displayed.
    */
-  quantity: {
+  quantity?: {
     min: number
     max: number
   }
@@ -43,7 +44,7 @@ interface SelectedItem {
   /**
    * Selected quantity for the checked item
    */
-  quantity: number
+  quantity?: number
 }
 
 export interface InputCheckboxGroupProps {
@@ -65,12 +66,20 @@ export interface InputCheckboxGroupProps {
   onChange: (selected: SelectedItem[]) => void
 }
 
+/**
+ * Renders a group of checkbox items. Each item can be selected/unselected.
+ * The title will be automatically computed with the number of selected items.
+ *
+ * Each item can also be associated with a quantity input, when quantity is changed the new value
+ * will be available in the onChange callback.
+ * The total number of select items in the title will be automatically computed with the sum of all selected quantities.
+ * <span type="info">Quantity for each option item has a min/max range, to prevent selecting less or more than the allowed number.</span>
+ */
 export function InputCheckboxGroup({
   options,
   defaultValues = [],
   onChange,
-  title,
-  ...rest
+  title
 }: InputCheckboxGroupProps): JSX.Element {
   const [_state, dispatch] = useReducer(
     reducer,
@@ -81,13 +90,18 @@ export function InputCheckboxGroup({
     (state: InternalState) =>
       state
         .filter(({ isSelected }) => isSelected)
-        .map(({ value, quantity }) => ({ value, quantity })),
+        .map(({ value, quantity }) =>
+          quantity != null ? { value, quantity } : { value }
+        ),
     []
   )
 
   const totalSelected = useMemo(
     () =>
-      prepareSelected(_state).reduce((total, item) => total + item.quantity, 0),
+      prepareSelected(_state).reduce(
+        (total, item) => total + (item.quantity ?? 1),
+        0
+      ),
     [_state]
   )
 
@@ -152,29 +166,31 @@ export function InputCheckboxGroup({
               >
                 <div className='flex-1'>{optionItem.content}</div>
 
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation()
-                  }}
-                >
-                  <InputSpinner
-                    name={`${inputName}_quantity`}
-                    defaultValue={
-                      _state.find(({ value }) => value === optionItem.value)
-                        ?.quantity
-                    }
-                    min={optionItem.quantity.min}
-                    max={optionItem.quantity.max}
-                    disableKeyboard
-                    disabled={!isSelected}
-                    onChange={(newQty) => {
-                      dispatch({
-                        type: 'updateQuantity',
-                        payload: { value: optionItem.value, quantity: newQty }
-                      })
+                {optionItem.quantity != null && (
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation()
                     }}
-                  />
-                </div>
+                  >
+                    <InputSpinner
+                      name={`${inputName}_quantity`}
+                      defaultValue={
+                        _state.find(({ value }) => value === optionItem.value)
+                          ?.quantity
+                      }
+                      min={optionItem.quantity.min}
+                      max={optionItem.quantity.max}
+                      disableKeyboard
+                      disabled={!isSelected}
+                      onChange={(newQty) => {
+                        dispatch({
+                          type: 'updateQuantity',
+                          payload: { value: optionItem.value, quantity: newQty }
+                        })
+                      }}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           )
@@ -186,7 +202,7 @@ export function InputCheckboxGroup({
 
 type InternalState = Array<{
   value: string
-  quantity: number
+  quantity?: number
   isSelected: boolean
 }>
 
@@ -234,11 +250,12 @@ function makeInitialState({
 }): InternalState {
   return options.reduce<InternalState>((acc, item) => {
     const defaultItem = defaultValues.find((d) => d.value === item.value)
+
     return [
       ...acc,
       {
         value: item.value,
-        quantity: defaultItem?.quantity ?? item.quantity.max,
+        quantity: defaultItem?.quantity ?? item.quantity?.max,
         isSelected: Boolean(defaultItem != null)
       }
     ]
