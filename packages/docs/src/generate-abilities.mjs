@@ -176,8 +176,8 @@ function roleToTable({
 }) {
   return `|${[
     createLink(
-      `https://docs.commercelayer.io/core/v/api-reference/${subject}/object`,
-      subject,
+      `https://docs.commercelayer.io/core/v/api-reference/${checkSubject(subject)}/object`,
+      checkSubject(subject),
       '_blank'
     ),
     booleanToIcon(can_create),
@@ -186,6 +186,14 @@ function roleToTable({
     booleanToIcon(can_destroy),
     restrictions != null ? `\`${JSON.stringify(restrictions)}\`` : ''
   ].join('|')}`
+}
+
+/**
+ * @param {string} subject
+ * @returns {string}
+ */
+function checkSubject(subject) {
+ return subject === 'organizations' ? 'organization' : subject
 }
 
 // ------------------------------------------------------------
