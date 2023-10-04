@@ -152,14 +152,17 @@ export const UseCoreApiMutate: StoryFn = () => {
       &nbsp;
       <Button
         onClick={function () {
-          void mutateOrder(
-            {
-              customer_email: 'ringostarr@commercelayer.io'
-            },
-            {
-              revalidate: false
-            }
-          )
+          if (order != null) {
+            void mutateOrder(
+              {
+                ...order,
+                customer_email: 'ringostarr@commercelayer.io'
+              },
+              {
+                revalidate: false
+              }
+            )
+          }
         }}
       >
         Mutate
