@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce'
 import isEmpty from 'lodash/isEmpty'
 import { forwardRef, useCallback, useEffect, useState } from 'react'
 
-interface SearchBarProps {
+export interface SearchBarProps {
   /**
    * Initial value of the search bar. When changed, the search bar will be updated.
    */

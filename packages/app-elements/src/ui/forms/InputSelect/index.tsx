@@ -1,4 +1,7 @@
-export { HookedInputSelect } from './HookedInputSelect'
+export {
+  HookedInputSelect,
+  type HookedInputSelectProps
+} from './HookedInputSelect'
 export {
   InputSelect,
   type InputSelectProps,

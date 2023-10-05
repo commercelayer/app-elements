@@ -1,2 +1,5 @@
-export { HookedInputSwitch } from './HookedInputSwitch'
-export { InputSwitch } from './InputSwitch'
+export {
+  HookedInputSwitch,
+  type HookedInputSwitchProps
+} from './HookedInputSwitch'
+export { InputSwitch, type InputSwitchProps } from './InputSwitch'

@@ -1,7 +1,7 @@
 import { CheckCircle, WarningCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
 
-export type FeedbackVariant = 'danger' | 'success' | 'warning'
+type FeedbackVariant = 'danger' | 'success' | 'warning'
 
 export interface InputFeedbackProps {
   message: string

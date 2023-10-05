@@ -1,7 +1,8 @@
 import cn from 'classnames'
 import { Icon, type IconProps } from './Icon'
 
-interface ButtonFilterProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ButtonFilterProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: () => void
   onRemoveRequest?: () => void
   icon?: IconProps['name']

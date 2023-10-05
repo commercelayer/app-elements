@@ -3,7 +3,7 @@ import classNames from 'classnames'
 import { useMemo } from 'react'
 import { BG_COLORS, getTextColorForBackground } from './colors'
 
-interface AvatarLetterProps {
+export interface AvatarLetterProps {
   /**
    * Text to be used to generate initials
    */

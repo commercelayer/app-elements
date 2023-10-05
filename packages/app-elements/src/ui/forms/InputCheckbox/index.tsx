@@ -1,2 +1,5 @@
-export { HookedInputCheckbox } from './HookedInputCheckbox'
-export { InputCheckbox } from './InputCheckbox'
+export {
+  HookedInputCheckbox,
+  type HookedInputCheckboxProps
+} from './HookedInputCheckbox'
+export { InputCheckbox, type InputCheckboxProps } from './InputCheckbox'

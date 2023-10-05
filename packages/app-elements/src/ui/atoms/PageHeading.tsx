@@ -1,7 +1,7 @@
 import { ArrowLeft } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
-import { Badge, type BadgeVariant } from './Badge'
+import { Badge, type BadgeProps } from './Badge'
 
 export interface PageHeadingProps {
   /**
@@ -28,7 +28,7 @@ export interface PageHeadingProps {
   /**
    * When set, it will render a badge (default as warning variant) above the title
    */
-  badgeVariant?: BadgeVariant
+  badgeVariant?: BadgeProps['variant']
   /**
    * When set, it will render a button on the right side of the first row
    */

@@ -1,1 +1,1 @@
-export { ResourceAddress } from './ResourceAddress'
+export { ResourceAddress, type ResourceAddressProps } from './ResourceAddress'

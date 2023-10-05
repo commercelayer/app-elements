@@ -6,7 +6,7 @@ import cn from 'classnames'
 import { useState } from 'react'
 import { DropdownMenu } from './DropdownMenu'
 
-interface DropdownProps {
+export interface DropdownProps {
   /** The trigger for the dropdown menu. Can be a JSX Element or simply a `string`. */
   dropdownLabel?: React.ReactNode
   /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */

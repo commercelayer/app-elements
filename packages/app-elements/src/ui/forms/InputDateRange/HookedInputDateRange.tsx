@@ -2,7 +2,8 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
 import { InputDateRange, type InputDateRangeProps } from './InputDateRange'
 
-interface Props extends Omit<InputDateRangeProps, 'onChange' | 'value'> {
+export interface HookedInputDateRangeProps
+  extends Omit<InputDateRangeProps, 'onChange' | 'value'> {
   /**
    * field name to match hook-form state
    */
@@ -15,7 +16,10 @@ interface Props extends Omit<InputDateRangeProps, 'onChange' | 'value'> {
  * (example: `["2023-08-01T22:00:00.000Z", "2023-08-14T22:00:00.000Z"]` ).
  * @see InputDateRange
  */
-export function HookedInputDateRange({ name, ...props }: Props): JSX.Element {
+export function HookedInputDateRange({
+  name,
+  ...props
+}: HookedInputDateRangeProps): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)
 

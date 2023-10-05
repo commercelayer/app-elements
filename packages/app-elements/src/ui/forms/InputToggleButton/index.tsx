@@ -1,6 +1,8 @@
-export { HookedInputToggleButton } from './HookedInputToggleButton'
+export {
+  HookedInputToggleButton,
+  type HookedInputToggleButtonProps
+} from './HookedInputToggleButton'
 export {
   InputToggleButton,
-  type InputToggleButtonProps,
-  type ToggleButtonOption
+  type InputToggleButtonProps
 } from './InputToggleButton'

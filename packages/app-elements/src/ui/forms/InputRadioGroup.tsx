@@ -4,7 +4,7 @@ import { InputWrapper } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
 import { useEffect, useState, type ReactNode } from 'react'
 
-export interface OptionItem {
+interface OptionItem {
   /**
    * Item identifier, must be unique and will be used for the onChange callback
    */

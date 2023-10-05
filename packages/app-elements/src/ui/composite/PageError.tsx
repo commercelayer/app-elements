@@ -1,8 +1,8 @@
+import { Container } from '#ui/atoms/Container'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { PageHeading } from '#ui/atoms/PageHeading'
-import { Container } from '#ui/atoms/Container'
 
-interface PageErrorProps {
+export interface PageErrorProps {
   /**
    * Main page title wrapped in a h1 element
    */
@@ -28,7 +28,7 @@ interface PageErrorProps {
   actionButton?: JSX.Element
 }
 
-function PageError({
+export function PageError({
   pageTitle = 'Commerce Layer',
   onGoBack,
   errorName,
@@ -49,4 +49,3 @@ function PageError({
 }
 
 PageError.displayName = 'PageError'
-export { PageError }

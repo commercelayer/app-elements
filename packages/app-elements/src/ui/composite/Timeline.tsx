@@ -18,14 +18,14 @@ type EventWithIcon = TimelineEvent & {
   icon: JSX.Element
 }
 
-interface Props {
+export interface TimelineProps {
   events: TimelineEvent[]
   timezone?: string
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 
-export const Timeline = withSkeletonTemplate<Props>(
+export const Timeline = withSkeletonTemplate<TimelineProps>(
   ({ events, timezone, onChange, onKeyDown }) => {
     const groupedEvents = useMemo(() => {
       const eventsWithIcon: EventWithIcon[] = events.map((event) => ({

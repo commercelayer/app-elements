@@ -1,1 +1,4 @@
-export { ResourceLineItems } from './ResourceLineItems'
+export {
+  ResourceLineItems,
+  type ResourceLineItemsProps
+} from './ResourceLineItems'

@@ -1,8 +1,8 @@
-interface Props extends React.HTMLAttributes<HTMLElement> {
+export interface TrProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
 }
 
-function Tr({ children, ...rest }: Props): JSX.Element {
+function Tr({ children, ...rest }: TrProps): JSX.Element {
   return <tr {...rest}>{children}</tr>
 }
 

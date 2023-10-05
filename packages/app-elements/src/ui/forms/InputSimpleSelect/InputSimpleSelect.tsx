@@ -4,7 +4,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import { forwardRef, type ForwardedRef } from 'react'
 
-export interface InputSimpleSelectOption {
+interface InputSimpleSelectOption {
   value: string
   label: string
 }

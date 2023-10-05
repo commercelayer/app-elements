@@ -12,7 +12,7 @@ import {
   type ReactNode
 } from 'react'
 
-export interface OptionItem {
+interface OptionItem {
   /**
    * Input name, will be used to set the html name for checkbox and the quantity inputs
    * If not provided, the value will be used instead
@@ -35,7 +35,7 @@ export interface OptionItem {
   }
 }
 
-export interface SelectedItem {
+interface SelectedItem {
   /**
    * Item identifier, should be one of the options
    */

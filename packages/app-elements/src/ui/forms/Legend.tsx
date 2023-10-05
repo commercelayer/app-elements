@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-interface Props extends React.HTMLAttributes<HTMLLegendElement> {
+export interface LegendProps extends React.HTMLAttributes<HTMLLegendElement> {
   gap?: boolean
 }
 
@@ -14,7 +14,7 @@ export function Legend({
   children,
   className,
   ...rest
-}: Props): JSX.Element {
+}: LegendProps): JSX.Element {
   return (
     <legend
       {...rest}

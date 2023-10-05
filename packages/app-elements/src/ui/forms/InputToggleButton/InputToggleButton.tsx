@@ -45,7 +45,7 @@ function ToggleItem({
 
 type ToggleButtonValue = string | boolean | number
 
-export interface ToggleButtonOption {
+interface ToggleButtonOption {
   label: string
   value: ToggleButtonValue
   isDisabled?: boolean

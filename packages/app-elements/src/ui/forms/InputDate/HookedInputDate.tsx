@@ -3,7 +3,7 @@ import { useValidationFeedback } from '../ReactHookForm'
 import { InputDate } from './InputDate'
 import { type InputDateProps } from './InputDateComponent'
 
-interface Props extends Omit<InputDateProps, 'onChange'> {
+export interface HookedInputDateProps extends Omit<InputDateProps, 'onChange'> {
   /**
    * field name to match hook-form state
    */
@@ -15,7 +15,10 @@ interface Props extends Omit<InputDateProps, 'onChange'> {
  * Value is stored in form state as iso date string (example: `"2023-08-01T22:00:00.000Z"` ).
  * @see InputDate
  */
-export function HookedInputDate({ name, ...props }: Props): JSX.Element {
+export function HookedInputDate({
+  name,
+  ...props
+}: HookedInputDateProps): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)
 

@@ -10,7 +10,12 @@ export interface HintProps {
   children: ReactNode
 }
 
-function Hint({ icon, className, children, ...rest }: HintProps): JSX.Element {
+export function Hint({
+  icon,
+  className,
+  children,
+  ...rest
+}: HintProps): JSX.Element {
   const icons: Record<HintIcon, JSX.Element> = {
     bulb: <LightbulbFilament size={24} data-testid='icon-bulb' />
   }
@@ -24,4 +29,3 @@ function Hint({ icon, className, children, ...rest }: HintProps): JSX.Element {
 }
 
 Hint.displayName = 'Hint'
-export { Hint }

@@ -6,11 +6,11 @@ interface Step {
   active?: boolean
 }
 
-interface Props {
+export interface StepsProps {
   steps: Step[]
 }
 
-export const Steps: React.FC<Props> = ({ steps }) => {
+export const Steps: React.FC<StepsProps> = ({ steps }) => {
   const lastActiveIndex = useMemo(
     () => steps.findLastIndex((step) => step.active === true),
     [steps]

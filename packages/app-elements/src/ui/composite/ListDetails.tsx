@@ -3,7 +3,7 @@ import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
-export interface DetailsListProps {
+export interface ListDetailsProps {
   /**
    * Optional title to show on top of the list
    */
@@ -37,7 +37,7 @@ function ListDetails({
   isLoading,
   loadingLines = 3,
   className
-}: DetailsListProps): JSX.Element {
+}: ListDetailsProps): JSX.Element {
   if (isLoading === true) {
     return (
       <section aria-label='Loading ...' className={className}>

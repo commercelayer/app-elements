@@ -1,13 +1,17 @@
 import { isJsonPrimitive } from '#utils/text'
 import cn from 'classnames'
 
-interface Props {
+export interface TdProps {
   className?: string
   children?: React.ReactNode
   textEllipsis?: number
 }
 
-export const Td: React.FC<Props> = ({ children, className, textEllipsis }) => {
+export const Td: React.FC<TdProps> = ({
+  children,
+  className,
+  textEllipsis
+}) => {
   return (
     <td className={cn('p-4 text-sm border-b border-gray-100', className)}>
       {textEllipsis !== undefined ? (

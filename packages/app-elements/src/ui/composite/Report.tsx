@@ -58,7 +58,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
   )
 }
 
-function Report({
+export function Report({
   items,
   isLoading = false,
   loadingLines = 2,
@@ -81,4 +81,3 @@ function Report({
 }
 
 Report.displayName = 'Report'
-export { Report }

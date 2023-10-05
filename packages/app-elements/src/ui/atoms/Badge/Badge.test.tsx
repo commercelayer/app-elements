@@ -1,10 +1,10 @@
 import { render, type RenderResult } from '@testing-library/react'
-import { Badge, type BadgeVariant } from './Badge'
+import { Badge, type BadgeProps } from './Badge'
 
 interface SetupProps {
   id: string
   children: string
-  variant: BadgeVariant
+  variant: BadgeProps['variant']
 }
 
 type SetupResult = RenderResult & {

@@ -1,3 +1,3 @@
-export { Dropdown } from './Dropdown'
-export { DropdownDivider } from './DropdownDivider'
-export { DropdownItem } from './DropdownItem'
+export { Dropdown, type DropdownProps } from './Dropdown'
+export { DropdownDivider, type DropdownDividerProps } from './DropdownDivider'
+export { DropdownItem, type DropdownItemProps } from './DropdownItem'

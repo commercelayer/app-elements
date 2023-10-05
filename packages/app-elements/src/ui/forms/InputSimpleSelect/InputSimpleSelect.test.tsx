@@ -2,7 +2,7 @@ import { fireEvent, render, type RenderResult } from '@testing-library/react'
 import { useState } from 'react'
 import {
   InputSimpleSelect,
-  type InputSimpleSelectOption
+  type InputSimpleSelectProps
 } from './InputSimpleSelect'
 
 interface SetupProps {
@@ -10,7 +10,7 @@ interface SetupProps {
   label: string
   description?: React.ReactNode
   value: string
-  options: InputSimpleSelectOption[]
+  options: InputSimpleSelectProps['options']
 }
 
 type SetupResult = RenderResult & {

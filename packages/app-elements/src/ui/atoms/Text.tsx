@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
-export type TextVariant =
+type TextVariant =
   | 'danger'
   | 'success'
   | 'primary'
@@ -9,10 +9,10 @@ export type TextVariant =
   | 'info'
   | 'plain'
   | 'disabled'
-export type TextSize = 'small' | 'regular' | 'large' | 'inherit'
-export type TextWeight = 'regular' | 'medium' | 'semibold' | 'bold' | 'inherit'
-export type TextAlignment = 'center' | 'left' | 'right' | 'inherit'
-export type TextWrap = 'normal' | 'nowrap' | 'inherit'
+type TextSize = 'small' | 'regular' | 'large' | 'inherit'
+type TextWeight = 'regular' | 'medium' | 'semibold' | 'bold' | 'inherit'
+type TextAlignment = 'center' | 'left' | 'right' | 'inherit'
+type TextWrap = 'normal' | 'nowrap' | 'inherit'
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   children?: ReactNode

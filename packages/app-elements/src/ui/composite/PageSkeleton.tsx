@@ -4,7 +4,7 @@ import { List } from '#ui/composite/List'
 import { ListDetails } from '#ui/composite/ListDetails'
 import { Report } from './Report'
 
-interface PageSkeletonProps {
+export interface PageSkeletonProps {
   layout?: 'list' | 'details'
   hasHeaderDescription?: boolean
   delayMs?: number

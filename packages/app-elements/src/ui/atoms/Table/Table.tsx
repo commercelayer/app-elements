@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import React from 'react'
 
-interface Props {
+export interface TableProps {
   thead?: React.ReactNode
   tbody?: React.ReactNode
   className?: string
@@ -20,7 +20,7 @@ interface Props {
  * } from '@commercelayer/app-elements'
  * ```
  */
-export const Table: React.FC<Props> = ({ thead, tbody, className }) => {
+export const Table: React.FC<TableProps> = ({ thead, tbody, className }) => {
   return (
     <table className={cn(['w-full rounded overflow-hidden', className])}>
       {thead != null && <thead>{thead}</thead>}

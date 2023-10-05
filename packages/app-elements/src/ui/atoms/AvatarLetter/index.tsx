@@ -1,1 +1,1 @@
-export { AvatarLetter } from './AvatarLetter'
+export { AvatarLetter, type AvatarLetterProps } from './AvatarLetter'

@@ -3,11 +3,10 @@ import { useState } from 'react'
 import { act } from 'react-dom/test-utils'
 import {
   InputToggleButton,
-  type InputToggleButtonProps,
-  type ToggleButtonOption
+  type InputToggleButtonProps
 } from './InputToggleButton'
 
-const options: ToggleButtonOption[] = [
+const options: InputToggleButtonProps['options'] = [
   {
     value: 'draft',
     label: 'Draft',

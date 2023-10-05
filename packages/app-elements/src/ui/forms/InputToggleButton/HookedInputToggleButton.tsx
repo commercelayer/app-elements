@@ -5,7 +5,10 @@ import {
   type InputToggleButtonProps
 } from './InputToggleButton'
 
-type Props = Omit<InputToggleButtonProps, 'value' | 'onChange'> & {
+export type HookedInputToggleButtonProps = Omit<
+  InputToggleButtonProps,
+  'value' | 'onChange'
+> & {
   /**
    * field name to match hook-form state
    */
@@ -20,7 +23,7 @@ type Props = Omit<InputToggleButtonProps, 'value' | 'onChange'> & {
 export function HookedInputToggleButton({
   name,
   ...props
-}: Props): JSX.Element {
+}: HookedInputToggleButtonProps): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)
 

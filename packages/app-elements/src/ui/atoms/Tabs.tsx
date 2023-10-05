@@ -8,7 +8,7 @@ import React, {
 } from 'react'
 import invariant from 'ts-invariant'
 
-interface Props {
+export interface TabsProps {
   /**
    * Used for accessability
    */
@@ -45,7 +45,7 @@ function Tabs({
   className,
   keepAlive,
   ...rest
-}: Props): JSX.Element {
+}: TabsProps): JSX.Element {
   // since we allow `null` child (conditional rendering of <Tab>), we need to understand the first not null child to set as initial active
   const firstActiveIndex = useMemo(
     () =>
@@ -127,7 +127,7 @@ function Tabs({
   )
 }
 
-interface TabProps {
+export interface TabProps {
   /**
    * This is the tab name used to render the Tab Navigation on top
    */

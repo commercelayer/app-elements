@@ -49,7 +49,7 @@ interface TagsOverlay {
   showManageAction?: boolean
 }
 
-interface ResourceTagsProps {
+export interface ResourceTagsProps {
   resourceType: TaggableResource
   resourceId: string
   /**

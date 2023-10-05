@@ -1,8 +1,8 @@
 import { render, type RenderResult } from '@testing-library/react'
-import { Text, type TextVariant } from './Text'
+import { Text, type TextProps } from './Text'
 
 interface SetupProps {
-  variant?: TextVariant
+  variant?: TextProps['variant']
   tag?: 'span' | 'div'
   className?: string
 }

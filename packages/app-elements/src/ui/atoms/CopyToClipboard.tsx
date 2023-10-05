@@ -5,7 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 import { useCallback, useEffect, useState } from 'react'
 import invariant from 'ts-invariant'
 
-interface CopyToClipboardProps {
+export interface CopyToClipboardProps {
   /**
    * text to display that will be copied on button click
    */

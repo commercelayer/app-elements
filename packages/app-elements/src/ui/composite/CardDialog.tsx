@@ -6,7 +6,7 @@ import { X } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Children } from 'react'
 
-interface Props {
+export interface CardDialogProps {
   /**
    * Card title
    */
@@ -48,7 +48,7 @@ const CloseButton: React.FC<{
   </button>
 )
 
-export const CardDialog = withSkeletonTemplate<Props>(
+export const CardDialog = withSkeletonTemplate<CardDialogProps>(
   ({
     icon,
     title,

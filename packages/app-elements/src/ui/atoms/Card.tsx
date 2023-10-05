@@ -1,7 +1,7 @@
 import cn from 'classnames'
 import { withSkeletonTemplate } from './SkeletonTemplate'
 
-interface Props extends React.HTMLAttributes<HTMLDivElement> {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Possible values are:
    * - `"1"`: 0.25rem, 4px
@@ -18,7 +18,7 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /** Card is a flexible component used to group and display content in a clear and concise format. */
-export const Card = withSkeletonTemplate<Props>(
+export const Card = withSkeletonTemplate<CardProps>(
   ({ className, children, gap = '6', isLoading, delayMs, footer, ...rest }) => {
     return (
       <div
