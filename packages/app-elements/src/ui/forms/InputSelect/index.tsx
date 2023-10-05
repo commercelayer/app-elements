@@ -5,7 +5,7 @@ export {
 export {
   InputSelect,
   type InputSelectProps,
-  type SelectValue
+  type InputSelectValue
 } from './InputSelect'
 export {
   flatSelectValues,

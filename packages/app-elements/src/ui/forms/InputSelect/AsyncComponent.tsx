@@ -4,7 +4,7 @@ import { type GroupBase, type StylesConfig } from 'react-select'
 import AsyncSelect from 'react-select/async'
 import { type AsyncAdditionalProps } from 'react-select/dist/declarations/src/useAsync'
 import { type SetRequired } from 'type-fest'
-import { type InputSelectProps, type SelectValue } from './InputSelect'
+import { type InputSelectProps, type InputSelectValue } from './InputSelect'
 import components from './overrides'
 
 interface AsyncSelectComponentProps
@@ -12,12 +12,15 @@ interface AsyncSelectComponentProps
     SetRequired<InputSelectProps, 'loadAsyncValues'>,
     'label' | 'hint'
   > {
-  styles: StylesConfig<SelectValue>
+  styles: StylesConfig<InputSelectValue>
 }
 
 // extracting loadOptions signature from react-select async types
 type ReactSelectLoadOptions = Exclude<
-  AsyncAdditionalProps<SelectValue, GroupBase<SelectValue>>['loadOptions'],
+  AsyncAdditionalProps<
+    InputSelectValue,
+    GroupBase<InputSelectValue>
+  >['loadOptions'],
   undefined
 >
 

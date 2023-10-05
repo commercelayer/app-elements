@@ -1,4 +1,4 @@
-import { InputSelect, type SelectValue } from '#ui/forms/InputSelect'
+import { InputSelect, type InputSelectValue } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const fullList = [
@@ -16,7 +16,7 @@ const fullList = [
   { value: 'sku_options', label: 'Sku Options' }
 ].sort((a, b) => a.label.localeCompare(b.label))
 
-const fakeSearch = (hint: string): SelectValue[] =>
+const fakeSearch = (hint: string): InputSelectValue[] =>
   fullList.filter((item) =>
     item.label.toLowerCase().includes(hint.toLowerCase())
   )
@@ -83,7 +83,7 @@ Async.args = {
     text: 'Try to search some of the following values: customer, SKU, price, tax'
   },
   loadAsyncValues: async (hint) => {
-    return await new Promise<SelectValue[]>((resolve) => {
+    return await new Promise<InputSelectValue[]>((resolve) => {
       setTimeout(() => {
         resolve(fakeSearch(hint))
       }, 1000)

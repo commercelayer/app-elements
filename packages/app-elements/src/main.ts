@@ -202,7 +202,7 @@ export {
   isSingleValueSelected,
   type HookedInputSelectProps,
   type InputSelectProps,
-  type SelectValue
+  type InputSelectValue
 } from '#ui/forms/InputSelect'
 export {
   HookedInputSimpleSelect,

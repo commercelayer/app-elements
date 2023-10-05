@@ -1,11 +1,11 @@
-import { type SelectValue } from './InputSelect'
+import { type InputSelectValue } from './InputSelect'
 import {
   flatSelectValues,
   getDefaultValueFromFlatten,
   isGroupedSelectValues
 } from './utils'
 
-const singleValue: SelectValue = {
+const singleValue: InputSelectValue = {
   value: 'sku001',
   label: 'Sku Item 001',
   meta: {
@@ -13,7 +13,7 @@ const singleValue: SelectValue = {
     shippable: true
   }
 }
-const multiValue: SelectValue[] = [
+const multiValue: InputSelectValue[] = [
   {
     value: 'sku001',
     label: 'Sku Item 001',

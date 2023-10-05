@@ -10,7 +10,7 @@ import { PageLayout } from '#ui/composite/PageLayout'
 import {
   InputSelect,
   isMultiValueSelected,
-  type SelectValue
+  type InputSelectValue
 } from '#ui/forms/InputSelect'
 import { type Tag } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
@@ -87,7 +87,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
     const { sdkClient } = useCoreSdkProvider()
 
     const tagsToSelectOptions = useCallback(
-      (tags: Tag[]): SelectValue[] =>
+      (tags: Tag[]): InputSelectValue[] =>
         tags.map((item) => ({
           value: item.id,
           label: `${item.name}`,
@@ -97,7 +97,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
     )
 
     const selectedOptionsToTags = useCallback(
-      (selectedOptions: SelectValue[]): Tag[] => {
+      (selectedOptions: InputSelectValue[]): Tag[] => {
         if (selectedOptions.length > 0) {
           return selectedOptions.map((item) => item.meta as Tag)
         }

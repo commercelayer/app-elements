@@ -1,8 +1,8 @@
 import get from 'lodash/get'
 import {
   type GroupedSelectValues,
-  type PossibleSelectValue,
-  type SelectValue
+  type InputSelectValue,
+  type PossibleSelectValue
 } from './InputSelect'
 
 /**
@@ -12,7 +12,7 @@ import {
  */
 export function isSingleValueSelected(
   selectedValue: PossibleSelectValue
-): selectedValue is SelectValue {
+): selectedValue is InputSelectValue {
   return selectedValue != null && !Array.isArray(selectedValue)
 }
 
@@ -23,7 +23,7 @@ export function isSingleValueSelected(
  */
 export function isMultiValueSelected(
   selectedValue: PossibleSelectValue
-): selectedValue is SelectValue[] {
+): selectedValue is InputSelectValue[] {
   return selectedValue != null && Array.isArray(selectedValue)
 }
 
@@ -31,7 +31,7 @@ export function isMultiValueSelected(
  * Type-guard to check if prop `initialValues` is a GroupedSelectValues or SelectValue
  */
 export function isGroupedSelectValues(
-  initialValues?: GroupedSelectValues | SelectValue[]
+  initialValues?: GroupedSelectValues | InputSelectValue[]
 ): initialValues is GroupedSelectValues {
   if (initialValues == null || initialValues.length === 0) {
     return false
@@ -83,9 +83,9 @@ export function getDefaultValueFromFlatten({
   pathToValue = 'value'
 }: {
   currentValue?: string | Array<string | number> | null
-  initialValues?: GroupedSelectValues | SelectValue[]
+  initialValues?: GroupedSelectValues | InputSelectValue[]
   pathToValue?: string
-}): SelectValue | SelectValue[] | undefined {
+}): InputSelectValue | InputSelectValue[] | undefined {
   if (currentValue == null) {
     return undefined
   }
