@@ -5,7 +5,7 @@ import {
   type InputSimpleSelectProps
 } from './InputSimpleSelect'
 
-interface Props extends InputSimpleSelectProps {
+export interface HookedInputSimpleSelectProps extends InputSimpleSelectProps {
   /**
    * field name to match hook-form state
    */
@@ -24,7 +24,7 @@ export function HookedInputSimpleSelect({
   name,
   showValidation,
   ...props
-}: Props): JSX.Element {
+}: HookedInputSimpleSelectProps): JSX.Element {
   const { register } = useFormContext()
 
   return (

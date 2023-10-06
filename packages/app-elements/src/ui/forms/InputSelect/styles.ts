@@ -1,11 +1,11 @@
 import { type InputFeedbackProps } from '#ui/forms/InputFeedback'
 import { getFeedbackCssInJs } from '#ui/internals/InputWrapper'
 import { type StylesConfig } from 'react-select'
-import { type SelectValue } from '.'
+import { type InputSelectValue } from '.'
 
 export const getSelectStyles = (
   feedbackVariant?: InputFeedbackProps['variant']
-): StylesConfig<SelectValue> => ({
+): StylesConfig<InputSelectValue> => ({
   menu: (style) => ({
     ...style,
     zIndex: 100,

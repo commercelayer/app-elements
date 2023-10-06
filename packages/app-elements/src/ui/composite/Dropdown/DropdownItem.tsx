@@ -1,9 +1,13 @@
-interface Props extends React.HTMLAttributes<HTMLElement> {
+export interface DropdownItemProps extends React.HTMLAttributes<HTMLElement> {
   label: string
   icon?: React.ReactNode
 }
 
-export function DropdownItem({ label, icon, ...rest }: Props): JSX.Element {
+export function DropdownItem({
+  label,
+  icon,
+  ...rest
+}: DropdownItemProps): JSX.Element {
   return (
     <button
       {...rest}

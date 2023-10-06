@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { type SVGAttributes } from 'react'
 import { Icon, type IconProps } from './Icon'
 
-interface RadialProgressProps extends SVGAttributes<SVGElement> {
+export interface RadialProgressProps extends SVGAttributes<SVGElement> {
   /**
    * Progress percentage express as number from 0 to 100.
    * When not specified, it will render a dashed circle (eg: pending state)

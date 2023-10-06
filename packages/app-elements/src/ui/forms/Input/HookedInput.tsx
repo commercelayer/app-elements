@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
 import { Input, type InputProps } from './Input'
 
-interface Props extends InputProps {
+export interface HookedInputProps extends InputProps {
   /**
    * field name to match hook-form state
    */
@@ -13,7 +13,7 @@ interface Props extends InputProps {
  * `Input` component ready to be used with the `react-hook-form` context.
  * @see InputSelect
  */
-export function HookedInput({ name, ...props }: Props): JSX.Element {
+export function HookedInput({ name, ...props }: HookedInputProps): JSX.Element {
   const { register } = useFormContext()
   const feedback = useValidationFeedback(name)
 

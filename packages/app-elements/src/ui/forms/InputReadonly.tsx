@@ -5,7 +5,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
 
-interface InputReadonlyProps extends InputWrapperBaseProps {
+export interface InputReadonlyProps extends InputWrapperBaseProps {
   /**
    * Controlled value
    */

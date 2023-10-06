@@ -2,7 +2,7 @@ import { useFormContext } from 'react-hook-form'
 import { HookedValidationError } from '../ReactHookForm'
 import { InputSwitch, type InputSwitchProps } from './InputSwitch'
 
-interface Props extends InputSwitchProps {
+export interface HookedInputSwitchProps extends InputSwitchProps {
   /**
    * field name to match hook-form state
    */
@@ -21,7 +21,7 @@ export function HookedInputSwitch({
   name,
   showValidation,
   ...props
-}: Props): JSX.Element {
+}: HookedInputSwitchProps): JSX.Element {
   const { register } = useFormContext()
 
   return (

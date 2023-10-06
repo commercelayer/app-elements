@@ -4,7 +4,7 @@ import {
   type InputResourceGroupProps
 } from './InputResourceGroup'
 
-interface Props
+export interface HookedInputResourceGroupProps
   extends Omit<InputResourceGroupProps, 'onChange' | 'defaultValues'> {
   /**
    * field name to match hook-form state
@@ -17,10 +17,9 @@ interface Props
  * Since it will perform api requests to fetch list of options, it also needs to access `CoreSdkProvider` context.
  * @see InputResourceGroup
  */
-export const HookedInputResourceGroup: React.FC<Props> = ({
-  name,
-  ...props
-}) => {
+export const HookedInputResourceGroup: React.FC<
+  HookedInputResourceGroupProps
+> = ({ name, ...props }) => {
   const { control } = useFormContext()
 
   return (

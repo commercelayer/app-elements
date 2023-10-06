@@ -9,7 +9,7 @@ import {
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
-export type ListPagination = {
+type ListPagination = {
   recordsPerPage: number
   recordCount: number
 } & Omit<PaginationProps, 'className' | 'isDisabled'>

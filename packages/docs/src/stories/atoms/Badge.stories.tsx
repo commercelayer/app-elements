@@ -1,6 +1,9 @@
-import { Badge, badgeVariants } from '#ui/atoms/Badge'
+import { Badge } from '#ui/atoms/Badge'
+import { variantCss } from '#ui/atoms/Badge/badgeVariants'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { type Meta, type StoryFn } from '@storybook/react'
+
+const badgeVariants = Object.keys(variantCss) as Array<keyof typeof variantCss>
 
 const setup: Meta<typeof Badge> = {
   title: 'Atoms/Badge',

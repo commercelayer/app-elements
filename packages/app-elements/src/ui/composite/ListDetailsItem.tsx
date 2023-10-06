@@ -4,7 +4,7 @@ import { isSpecificReactComponent } from '#utils/children'
 import classNames from 'classnames'
 import { Children, type ReactNode } from 'react'
 
-interface ListDetailsItemProps {
+export interface ListDetailsItemProps {
   /**
    * label to show on the left side. In a key/value pair, this is the `key`
    */

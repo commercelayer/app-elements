@@ -44,7 +44,7 @@ export type ListItemProps = Props &
       } & Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'>)
   )
 
-const ListItem: FC<ListItemProps> = ({
+export const ListItem: FC<ListItemProps> = ({
   icon,
   children,
   className,
@@ -107,4 +107,3 @@ const ListItem: FC<ListItemProps> = ({
 }
 
 ListItem.displayName = 'ListItem'
-export { ListItem }

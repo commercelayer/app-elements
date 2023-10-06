@@ -9,7 +9,7 @@ import cn from 'classnames'
 import { forwardRef } from 'react'
 import invariant from 'ts-invariant'
 
-interface InputFileProps
+export interface InputFileProps
   extends InputWrapperBaseProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
   /**

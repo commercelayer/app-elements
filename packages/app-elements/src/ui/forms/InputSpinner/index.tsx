@@ -1,2 +1,5 @@
-export { HookedInputSpinner } from './HookedInputSpinner'
-export { InputSpinner } from './InputSpinner'
+export {
+  HookedInputSpinner,
+  type HookedInputSpinnerProps
+} from './HookedInputSpinner'
+export { InputSpinner, type InputSpinnerProps } from './InputSpinner'

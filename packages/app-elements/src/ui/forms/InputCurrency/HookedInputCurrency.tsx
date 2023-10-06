@@ -2,7 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
 import { InputCurrency, type InputCurrencyProps } from './InputCurrency'
 
-interface Props
+export interface HookedInputCurrencyProps
   extends Omit<InputCurrencyProps, 'onChange' | 'onBlur' | 'cents'> {
   /**
    * field name to match hook-form state
@@ -15,7 +15,10 @@ interface Props
  * Value is stored in form state as cents.
  * @see InputCurrency
  */
-export function HookedInputCurrency({ name, ...props }: Props): JSX.Element {
+export function HookedInputCurrency({
+  name,
+  ...props
+}: HookedInputCurrencyProps): JSX.Element {
   const { control } = useFormContext()
   const feedback = useValidationFeedback(name)
 

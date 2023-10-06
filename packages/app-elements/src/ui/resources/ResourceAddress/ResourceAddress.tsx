@@ -11,7 +11,7 @@ import { ResourceAddressForm } from './ResourceAddressForm'
 
 type ResourceAddressEditPosition = 'side' | 'bottom'
 
-interface ResourceAddressProps {
+export interface ResourceAddressProps {
   /**
    * Resource of type `Address`
    */

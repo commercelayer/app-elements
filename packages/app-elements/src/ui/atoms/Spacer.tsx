@@ -1,23 +1,23 @@
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
-export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface SpacerProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Value to be applied as `margin-top`
    */
-  top?: SpacingValues
+  top?: SpacerValues
   /**
    * Value to be applied as `margin-bottom`.
    */
-  bottom?: SpacingValues
+  bottom?: SpacerValues
   /**
    * Value to be applied as `margin-left`.
    */
-  left?: SpacingValues
+  left?: SpacerValues
   /**
    * Value to be applied as `margin-right`.
    */
-  right?: SpacingValues
+  right?: SpacerValues
   children?: ReactNode
 }
 
@@ -30,9 +30,9 @@ export interface SpacingProps extends React.HTMLAttributes<HTMLDivElement> {
  * 12: 3rem, 48px
  * 14: 3.5rem, 56px
  */
-export type SpacingValues = '2' | '4' | '6' | '8' | '10' | '12' | '14'
+type SpacerValues = '2' | '4' | '6' | '8' | '10' | '12' | '14'
 
-const marginTopCss: Record<SpacingValues | 'none', string> = {
+const marginTopCss: Record<SpacerValues | 'none', string> = {
   none: '',
   '2': 'mt-2',
   '4': 'mt-4',
@@ -43,7 +43,7 @@ const marginTopCss: Record<SpacingValues | 'none', string> = {
   '14': 'mt-14'
 }
 
-const marginBottomCss: Record<SpacingValues | 'none', string> = {
+const marginBottomCss: Record<SpacerValues | 'none', string> = {
   none: '',
   '2': 'mb-2',
   '4': 'mb-4',
@@ -54,7 +54,7 @@ const marginBottomCss: Record<SpacingValues | 'none', string> = {
   '14': 'mb-14'
 }
 
-const marginLeftCss: Record<SpacingValues | 'none', string> = {
+const marginLeftCss: Record<SpacerValues | 'none', string> = {
   none: '',
   '2': 'ml-2',
   '4': 'ml-4',
@@ -65,7 +65,7 @@ const marginLeftCss: Record<SpacingValues | 'none', string> = {
   '14': 'ml-14'
 }
 
-const marginRightCss: Record<SpacingValues | 'none', string> = {
+const marginRightCss: Record<SpacerValues | 'none', string> = {
   none: '',
   '2': 'mr-2',
   '4': 'mr-4',
@@ -83,7 +83,7 @@ function Spacer({
   right,
   children,
   ...rest
-}: SpacingProps): JSX.Element {
+}: SpacerProps): JSX.Element {
   const valueTop = top ?? 'none'
   const valueBottom = bottom ?? 'none'
   const valueLeft = left ?? 'none'

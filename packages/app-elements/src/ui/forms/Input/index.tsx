@@ -1,2 +1,2 @@
-export { HookedInput } from './HookedInput'
-export { Input } from './Input'
+export { HookedInput, type HookedInputProps } from './HookedInput'
+export { Input, type InputProps } from './Input'

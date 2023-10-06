@@ -23,7 +23,7 @@ interface ResourceMetadataOverlay {
   description?: string
 }
 
-interface ResourceMetadataProps {
+export interface ResourceMetadataProps {
   resourceType: ListableResourceType
   resourceId: string
   /**

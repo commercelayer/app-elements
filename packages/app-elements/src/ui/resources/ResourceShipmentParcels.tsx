@@ -46,59 +46,64 @@ function hasPackage(
   return parcel.package != null
 }
 
-export const ResourceShipmentParcels = withSkeletonTemplate<{
+export interface ResourceShipmentParcelsProps {
   shipment: ShipmentResource
   onRemoveParcel?: (parcelId: string) => void
-}>(({ shipment, onRemoveParcel }) => {
-  const singleTracking = hasSingleTracking(shipment)
-  const rate = getShipmentRate(shipment)
-  const hasCarrier = rate != null
+}
 
-  return (
-    <div
-      data-testid={`shipment-parcels-${shipment.id}`}
-      className='flex flex-col gap-2'
-    >
-      {hasCarrier && <Carrier shipment={shipment} />}
-      {shipment.parcels?.map((parcel) => {
-        if (!hasPackage(parcel)) {
-          return null
-        }
+export const ResourceShipmentParcels =
+  withSkeletonTemplate<ResourceShipmentParcelsProps>(
+    ({ shipment, onRemoveParcel }) => {
+      const singleTracking = hasSingleTracking(shipment)
+      const rate = getShipmentRate(shipment)
+      const hasCarrier = rate != null
 
-        return (
-          <Parcel
-            key={parcel.id}
-            rate={rate}
-            showEstimatedDelivery={!singleTracking}
-            parcel={
-              singleTracking && hasCarrier
-                ? {
-                    ...parcel,
-                    tracking_details: undefined,
-                    tracking_number: undefined,
-                    tracking_status: undefined,
-                    tracking_status_detail: undefined,
-                    tracking_status_updated_at: undefined,
-                    shipping_label_file_type: undefined,
-                    shipping_label_resolution: undefined,
-                    shipping_label_size: undefined,
-                    shipping_label_url: undefined
-                  }
-                : parcel
+      return (
+        <div
+          data-testid={`shipment-parcels-${shipment.id}`}
+          className='flex flex-col gap-2'
+        >
+          {hasCarrier && <Carrier shipment={shipment} />}
+          {shipment.parcels?.map((parcel) => {
+            if (!hasPackage(parcel)) {
+              return null
             }
-            onRemove={
-              hasBeenPurchased(shipment) || shipment.status !== 'packing'
-                ? undefined
-                : () => {
-                    onRemoveParcel?.(parcel.id)
-                  }
-            }
-          />
-        )
-      })}
-    </div>
+
+            return (
+              <Parcel
+                key={parcel.id}
+                rate={rate}
+                showEstimatedDelivery={!singleTracking}
+                parcel={
+                  singleTracking && hasCarrier
+                    ? {
+                        ...parcel,
+                        tracking_details: undefined,
+                        tracking_number: undefined,
+                        tracking_status: undefined,
+                        tracking_status_detail: undefined,
+                        tracking_status_updated_at: undefined,
+                        shipping_label_file_type: undefined,
+                        shipping_label_resolution: undefined,
+                        shipping_label_size: undefined,
+                        shipping_label_url: undefined
+                      }
+                    : parcel
+                }
+                onRemove={
+                  hasBeenPurchased(shipment) || shipment.status !== 'packing'
+                    ? undefined
+                    : () => {
+                        onRemoveParcel?.(parcel.id)
+                      }
+                }
+              />
+            )
+          })}
+        </div>
+      )
+    }
   )
-})
 
 ResourceShipmentParcels.displayName = 'ResourceShipmentParcels'
 

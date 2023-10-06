@@ -1,8 +1,7 @@
 import cn from 'classnames'
-import { type ReactNode } from 'react'
-import React from 'react'
+import React, { type ReactNode } from 'react'
 
-interface GridProps
+export interface GridProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   children: ReactNode
   columns: '1' | '2'

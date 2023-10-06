@@ -1,11 +1,11 @@
 import {
   InputToggleButton,
-  type ToggleButtonOption
+  type InputToggleButtonProps
 } from '#ui/forms/InputToggleButton'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const options: ToggleButtonOption[] = [
+const options: InputToggleButtonProps['options'] = [
   {
     value: 'authorized',
     label: 'Authorized'
@@ -27,13 +27,14 @@ const options: ToggleButtonOption[] = [
     label: 'Free'
   }
 ]
-const optionsWithDisabled: ToggleButtonOption[] = options.map((opt, idx) =>
-  idx === 2
-    ? {
-        ...opt,
-        isDisabled: true
-      }
-    : opt
+const optionsWithDisabled: InputToggleButtonProps['options'] = options.map(
+  (opt, idx) =>
+    idx === 2
+      ? {
+          ...opt,
+          isDisabled: true
+        }
+      : opt
 )
 
 const setup: Meta<typeof InputToggleButton> = {

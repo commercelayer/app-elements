@@ -6,7 +6,7 @@ import {
 import cn from 'classnames'
 import { forwardRef } from 'react'
 
-interface InputTextAreaProps
+export interface InputTextAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     InputWrapperBaseProps {}
 

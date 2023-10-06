@@ -1,6 +1,7 @@
 import cn from 'classnames'
 
-interface Props extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface LabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   gap?: boolean
 }
 
@@ -12,7 +13,7 @@ export function Label({
   children,
   className,
   ...rest
-}: Props): JSX.Element {
+}: LabelProps): JSX.Element {
   return (
     <label
       {...rest}

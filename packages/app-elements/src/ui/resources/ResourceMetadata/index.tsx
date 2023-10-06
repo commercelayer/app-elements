@@ -1,1 +1,4 @@
-export { ResourceMetadata } from './ResourceMetadata'
+export {
+  ResourceMetadata,
+  type ResourceMetadataProps
+} from './ResourceMetadata'

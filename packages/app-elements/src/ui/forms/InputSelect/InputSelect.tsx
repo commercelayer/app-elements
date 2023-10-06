@@ -10,28 +10,28 @@ import { getSelectStyles } from './styles'
 
 export type GroupedSelectValues = Array<{
   label: string
-  options: SelectValue[]
+  options: InputSelectValue[]
 }>
 
-export interface SelectValue {
+export interface InputSelectValue {
   value: string | number
   label: string
   meta?: Record<string, any>
 }
 
 export type PossibleSelectValue =
-  | MultiValue<SelectValue>
-  | SingleValue<SelectValue>
+  | MultiValue<InputSelectValue>
+  | SingleValue<InputSelectValue>
 
 export interface InputSelectProps extends InputWrapperBaseProps {
   /**
    * Initial values to populate the select options. It can be a flat array of values or a grouped array.
    */
-  initialValues: GroupedSelectValues | SelectValue[]
+  initialValues: GroupedSelectValues | InputSelectValue[]
   /**
    * Selected value or values, in case of `isMulti`
    */
-  defaultValue?: SelectValue | SelectValue[]
+  defaultValue?: InputSelectValue | InputSelectValue[]
   /**
    * Placeholder text to display when no value is selected
    */
@@ -64,8 +64,8 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    * Custom rule to disable an option
    */
   isOptionDisabled?: (
-    option: SelectValue,
-    selectValue: Options<SelectValue>
+    option: InputSelectValue,
+    selectValue: Options<InputSelectValue>
   ) => boolean
   /**
    * Callback triggered when a value is selected.
@@ -96,7 +96,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   loadAsyncValues?: (
     inputValue: string
-  ) => Promise<GroupedSelectValues | SelectValue[]>
+  ) => Promise<GroupedSelectValues | InputSelectValue[]>
   /**
    * Debounce time in milliseconds for async search.
    * It only works when `loadAsyncValues` is provided

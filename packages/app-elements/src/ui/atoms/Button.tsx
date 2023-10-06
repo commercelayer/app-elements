@@ -1,7 +1,8 @@
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
-interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /**
    * Button content
    */
@@ -20,8 +21,8 @@ interface Props extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean
 }
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link'
-export type ButtonSize = 'small' | 'regular' | 'large'
+type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link'
+type ButtonSize = 'small' | 'regular' | 'large'
 
 const sizeCss: Record<ButtonSize, string> = {
   small: 'px-6 py-2',
@@ -46,7 +47,7 @@ export function Button({
   disabled,
   fullWidth,
   ...rest
-}: Props): JSX.Element {
+}: ButtonProps): JSX.Element {
   return (
     <button
       className={cn([

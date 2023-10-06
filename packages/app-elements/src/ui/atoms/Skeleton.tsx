@@ -2,7 +2,7 @@ import { useDelayShow } from '#hooks/useDelayShow'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
-interface SkeletonProps {
+export interface SkeletonProps {
   /**
    * This prevents Skeleton to appear immediately.
    * It can be used when loading times are too short and you don't want flashing of content
@@ -28,7 +28,7 @@ function Skeleton({
   )
 }
 
-interface SkeletonItemProps {
+export interface SkeletonItemProps {
   /**
    * CSS classes
    */

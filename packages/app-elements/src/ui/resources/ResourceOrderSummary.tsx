@@ -33,86 +33,91 @@ interface TotalRowProps {
   force?: boolean
 }
 
-export const ResourceOrderSummary = withSkeletonTemplate<{
+export interface ResourceOrderSummaryProps {
   editable?: boolean
   onChange?: () => void
   footerActions?: ActionButtonsProps['actions']
   order: Order
-}>(({ order, onChange, footerActions = [], editable = false }) => {
-  const { Overlay, open } = useAdjustTotalOverlay(order, onChange)
+}
 
-  return (
-    <div>
-      {editable && <Overlay />}
-      <ResourceLineItems
-        editable={editable}
-        onChange={onChange}
-        items={order.line_items ?? []}
-        footer={
-          <>
-            {renderTotalRowAmount({
-              force: true,
-              label: 'Subtotal',
-              formattedAmount: order.formatted_subtotal_amount
-            })}
-            {renderTotalRowAmount({
-              force: true,
-              label: 'Shipping method',
-              formattedAmount:
-                order.shipping_amount_cents !== 0
-                  ? order.formatted_shipping_amount
-                  : 'free'
-            })}
-            {renderTotalRowAmount({
-              label: 'Payment method',
-              formattedAmount: order.formatted_payment_method_amount
-            })}
-            {renderTotalRowAmount({
-              label: 'Taxes',
-              formattedAmount: order.formatted_total_tax_amount
-            })}
-            {renderTotalRowAmount({
-              label: 'Discount',
-              formattedAmount: order.formatted_discount_amount
-            })}
-            {/* {renderDiscounts(order)} */}
-            {editable
-              ? renderTotalRow({
-                  label: 'Adjustment',
-                  value: (
-                    <Button
-                      variant='link'
-                      onClick={() => {
-                        open()
-                      }}
-                    >
-                      {order.adjustment_amount_cents != null &&
-                      order.adjustment_amount_cents !== 0
-                        ? order.formatted_adjustment_amount
-                        : 'Adjust total'}
-                    </Button>
-                  )
-                })
-              : renderTotalRowAmount({
-                  label: 'Adjustment',
-                  formattedAmount: order.formatted_adjustment_amount
+export const ResourceOrderSummary =
+  withSkeletonTemplate<ResourceOrderSummaryProps>(
+    ({ order, onChange, footerActions = [], editable = false }) => {
+      const { Overlay, open } = useAdjustTotalOverlay(order, onChange)
+
+      return (
+        <div>
+          {editable && <Overlay />}
+          <ResourceLineItems
+            editable={editable}
+            onChange={onChange}
+            items={order.line_items ?? []}
+            footer={
+              <>
+                {renderTotalRowAmount({
+                  force: true,
+                  label: 'Subtotal',
+                  formattedAmount: order.formatted_subtotal_amount
                 })}
-            {renderTotalRowAmount({
-              label: 'Gift card',
-              formattedAmount: order.formatted_gift_card_amount
-            })}
-            {renderTotalRowAmount({
-              force: true,
-              label: 'Total',
-              formattedAmount: order.formatted_total_amount_with_taxes
-            })}
-          </>
-        }
-      />
-      <ActionButtons actions={footerActions} />
-    </div>
+                {renderTotalRowAmount({
+                  force: true,
+                  label: 'Shipping method',
+                  formattedAmount:
+                    order.shipping_amount_cents !== 0
+                      ? order.formatted_shipping_amount
+                      : 'free'
+                })}
+                {renderTotalRowAmount({
+                  label: 'Payment method',
+                  formattedAmount: order.formatted_payment_method_amount
+                })}
+                {renderTotalRowAmount({
+                  label: 'Taxes',
+                  formattedAmount: order.formatted_total_tax_amount
+                })}
+                {renderTotalRowAmount({
+                  label: 'Discount',
+                  formattedAmount: order.formatted_discount_amount
+                })}
+                {/* {renderDiscounts(order)} */}
+                {editable
+                  ? renderTotalRow({
+                      label: 'Adjustment',
+                      value: (
+                        <Button
+                          variant='link'
+                          onClick={() => {
+                            open()
+                          }}
+                        >
+                          {order.adjustment_amount_cents != null &&
+                          order.adjustment_amount_cents !== 0
+                            ? order.formatted_adjustment_amount
+                            : 'Adjust total'}
+                        </Button>
+                      )
+                    })
+                  : renderTotalRowAmount({
+                      label: 'Adjustment',
+                      formattedAmount: order.formatted_adjustment_amount
+                    })}
+                {renderTotalRowAmount({
+                  label: 'Gift card',
+                  formattedAmount: order.formatted_gift_card_amount
+                })}
+                {renderTotalRowAmount({
+                  force: true,
+                  label: 'Total',
+                  formattedAmount: order.formatted_total_amount_with_taxes
+                })}
+              </>
+            }
+          />
+          <ActionButtons actions={footerActions} />
+        </div>
+      )
+    }
   )
-})
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function useAdjustTotalOverlay(order: Order, onChange?: () => void) {

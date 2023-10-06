@@ -1,5 +1,6 @@
 import cn from 'classnames'
-export type DotVariant = 'success' | 'danger' | 'warning'
+
+type DotVariant = 'success' | 'danger' | 'warning'
 
 export interface StatusDotProps {
   variant: DotVariant
@@ -11,7 +12,7 @@ const variantCss: Record<DotVariant, string> = {
   success: 'bg-green'
 }
 
-function StatusDot({ variant, ...rest }: StatusDotProps): JSX.Element {
+export function StatusDot({ variant, ...rest }: StatusDotProps): JSX.Element {
   return (
     <div
       className={cn([variantCss[variant], 'w-2 h-2 rounded-full'])}
@@ -21,4 +22,3 @@ function StatusDot({ variant, ...rest }: StatusDotProps): JSX.Element {
 }
 
 StatusDot.displayName = 'StatusDot'
-export { StatusDot }

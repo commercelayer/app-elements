@@ -15,7 +15,7 @@ import {
   type Reducer
 } from 'react'
 
-export const ResourceOrderTimeline = withSkeletonTemplate<{
+export interface ResourceOrderTimelineProps {
   orderId?: string
   refresh?: boolean
   attachmentOption?: {
@@ -24,106 +24,111 @@ export const ResourceOrderTimeline = withSkeletonTemplate<{
       | typeof referenceOrigins.appOrdersNote
       | typeof referenceOrigins.appShipmentsNote
   }
-}>(({ orderId, attachmentOption, refresh, isLoading: isExternalLoading }) => {
-  const fakeOrderId = 'fake-NMWYhbGorj'
-  const {
-    data: order,
-    isLoading,
-    mutate: mutateOrder
-  } = useCoreApi(
-    'orders',
-    'retrieve',
-    orderId == null || isEmpty(orderId)
-      ? null
-      : [
-          orderId,
-          {
-            include: [
-              'shipments',
-              'shipments.attachments',
-              'transactions',
-              'payment_method',
-              'payment_source',
-              'attachments'
-            ]
+}
+
+export const ResourceOrderTimeline =
+  withSkeletonTemplate<ResourceOrderTimelineProps>(
+    ({ orderId, attachmentOption, refresh, isLoading: isExternalLoading }) => {
+      const fakeOrderId = 'fake-NMWYhbGorj'
+      const {
+        data: order,
+        isLoading,
+        mutate: mutateOrder
+      } = useCoreApi(
+        'orders',
+        'retrieve',
+        orderId == null || isEmpty(orderId)
+          ? null
+          : [
+              orderId,
+              {
+                include: [
+                  'shipments',
+                  'shipments.attachments',
+                  'transactions',
+                  'payment_method',
+                  'payment_source',
+                  'attachments'
+                ]
+              }
+            ],
+        {
+          fallbackData: {
+            type: 'orders',
+            id: fakeOrderId,
+            status: 'approved',
+            payment_status: 'paid',
+            fulfillment_status: 'in_progress',
+            created_at: '2020-05-16T11:06:02.074Z',
+            updated_at: '2020-05-16T14:18:35.572Z',
+            placed_at: '2020-05-16T11:06:22.012Z',
+            approved_at: '2020-05-16T14:18:16.775Z',
+            fulfillment_updated_at: '2020-05-16T14:18:35.411Z'
+          } satisfies Order
+        }
+      )
+
+      const [events] = useTimelineReducer(order)
+      const { sdkClient } = useCoreSdkProvider()
+      const { user } = useTokenProvider()
+
+      useEffect(
+        function refreshOrder() {
+          if (refresh === true) {
+            void mutateOrder()
           }
-        ],
-    {
-      fallbackData: {
-        type: 'orders',
-        id: fakeOrderId,
-        status: 'approved',
-        payment_status: 'paid',
-        fulfillment_status: 'in_progress',
-        created_at: '2020-05-16T11:06:02.074Z',
-        updated_at: '2020-05-16T14:18:35.572Z',
-        placed_at: '2020-05-16T11:06:22.012Z',
-        approved_at: '2020-05-16T14:18:16.775Z',
-        fulfillment_updated_at: '2020-05-16T14:18:35.411Z'
-      } satisfies Order
+        },
+        [refresh]
+      )
+
+      return (
+        <Timeline
+          isLoading={
+            isExternalLoading === true || isLoading || order.id === fakeOrderId
+          }
+          events={events}
+          timezone={user?.timezone}
+          onKeyDown={(event) => {
+            if (event.code === 'Enter' && event.currentTarget.value !== '') {
+              if (
+                attachmentOption?.referenceOrigin == null ||
+                ![
+                  referenceOrigins.appOrdersNote,
+                  referenceOrigins.appShipmentsNote
+                ].includes(attachmentOption.referenceOrigin)
+              ) {
+                console.warn(
+                  `Cannot create the attachment: "referenceOrigin" is not valid.`
+                )
+                return
+              }
+
+              if (user?.displayName == null || isEmpty(user.displayName)) {
+                console.warn(
+                  `Cannot create the attachment: token does not contain a valid "user".`
+                )
+                return
+              }
+
+              void sdkClient.attachments
+                .create({
+                  reference_origin: attachmentOption.referenceOrigin,
+                  name: user.displayName,
+                  description: event.currentTarget.value,
+                  attachable: { type: 'orders', id: order.id }
+                })
+                .then((attachment) => {
+                  void mutateOrder()
+                  attachmentOption?.onMessage?.(attachment)
+                })
+
+              event.currentTarget.value = ''
+            }
+          }}
+        />
+      )
     }
   )
-
-  const [events] = useTimelineReducer(order)
-  const { sdkClient } = useCoreSdkProvider()
-  const { user } = useTokenProvider()
-
-  useEffect(
-    function refreshOrder() {
-      if (refresh === true) {
-        void mutateOrder()
-      }
-    },
-    [refresh]
-  )
-
-  return (
-    <Timeline
-      isLoading={
-        isExternalLoading === true || isLoading || order.id === fakeOrderId
-      }
-      events={events}
-      timezone={user?.timezone}
-      onKeyDown={(event) => {
-        if (event.code === 'Enter' && event.currentTarget.value !== '') {
-          if (
-            attachmentOption?.referenceOrigin == null ||
-            ![
-              referenceOrigins.appOrdersNote,
-              referenceOrigins.appShipmentsNote
-            ].includes(attachmentOption.referenceOrigin)
-          ) {
-            console.warn(
-              `Cannot create the attachment: "referenceOrigin" is not valid.`
-            )
-            return
-          }
-
-          if (user?.displayName == null || isEmpty(user.displayName)) {
-            console.warn(
-              `Cannot create the attachment: token does not contain a valid "user".`
-            )
-            return
-          }
-
-          void sdkClient.attachments
-            .create({
-              reference_origin: attachmentOption.referenceOrigin,
-              name: user.displayName,
-              description: event.currentTarget.value,
-              attachable: { type: 'orders', id: order.id }
-            })
-            .then((attachment) => {
-              void mutateOrder()
-              attachmentOption?.onMessage?.(attachment)
-            })
-
-          event.currentTarget.value = ''
-        }
-      }}
-    />
-  )
-})
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useTimelineReducer = (order: Order) => {

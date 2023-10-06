@@ -1,1 +1,4 @@
-export { ResourceListItem } from './ResourceListItem'
+export {
+  ResourceListItem,
+  type ResourceListItemProps
+} from './ResourceListItem'

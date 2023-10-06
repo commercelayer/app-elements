@@ -19,7 +19,7 @@ export interface PageLayoutProps
   mode?: 'test' | 'live'
 }
 
-function PageLayout({
+export function PageLayout({
   title,
   description,
   onGoBack,
@@ -47,4 +47,3 @@ function PageLayout({
 }
 
 PageLayout.displayName = 'PageLayout'
-export { PageLayout }

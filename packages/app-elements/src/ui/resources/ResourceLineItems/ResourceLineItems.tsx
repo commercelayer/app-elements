@@ -86,7 +86,7 @@ const Edit = withSkeletonTemplate<{
   )
 })
 
-interface ResourceLineItemsProps {
+export interface ResourceLineItemsProps {
   /**
    * Array of supported line items to be rendered.
    */

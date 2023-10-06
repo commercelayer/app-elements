@@ -5,9 +5,6 @@ export interface ContainerProps {
    * Set min height as screen size. Default is `true`.
    */
   minHeight?: boolean
-}
-
-interface Props extends ContainerProps {
   /**
    * CSS class name
    */
@@ -19,7 +16,7 @@ interface Props extends ContainerProps {
 }
 
 /** This component can be used to constrain a content's width to the current breakpoint, while keeping it fluid. */
-export const Container: React.FC<Props> = ({
+export const Container: React.FC<ContainerProps> = ({
   children,
   className,
   minHeight = true,

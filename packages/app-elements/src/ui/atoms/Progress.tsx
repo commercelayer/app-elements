@@ -1,6 +1,6 @@
 import cn from 'classnames'
 
-interface ProgressProps
+export interface ProgressProps
   extends React.ProgressHTMLAttributes<HTMLProgressElement> {
   /**
    * This attribute describes how much work the task indicated by the `progress` element requires.
