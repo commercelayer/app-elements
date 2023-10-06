@@ -8,7 +8,6 @@ export interface ResourceListItemComponentProps {
   description: JSX.Element | string
   icon: JSX.Element
   rightContent?: JSX.Element
-  showArrow?: boolean
 }
 
 export type ResourceToProps<Resource> = (options: {

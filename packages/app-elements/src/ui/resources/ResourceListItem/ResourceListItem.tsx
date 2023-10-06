@@ -34,9 +34,13 @@ export interface ResourceListItemProps {
   onClick?: (
     e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
   ) => void
+  /**
+   * Optional setting to show right content, if available, instead of right arrow
+   */
+  showRightContent?: boolean
 }
 
-type ResourceListItemConfig = Pick<ResourceListItemProps, 'tag' | 'onClick'> &
+type ResourceListItemConfig = Omit<ResourceListItemProps, 'resource'> &
   ResourceListItemComponentProps
 
 const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
@@ -45,15 +49,13 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     description,
     icon,
     rightContent,
-    showArrow = false,
     tag = 'div',
-    onClick
+    onClick,
+    showRightContent = false
   }) => {
-    const showRightContent = rightContent != null && !showArrow
-
     return (
       <ListItem
-        tag={tag}
+        tag={onClick !== undefined ? 'a' : tag}
         icon={icon}
         alignItems={showRightContent ? 'top' : 'center'}
         data-test-id='ResourceListItem'
@@ -78,7 +80,9 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           </Text>
         </div>
         <div>
-          {showRightContent ? rightContent : <Icon name='caretRight' />}
+          {showRightContent
+            ? rightContent
+            : onClick != null && <Icon name='caretRight' />}
         </div>
       </ListItem>
     )
