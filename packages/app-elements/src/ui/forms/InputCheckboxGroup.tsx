@@ -133,7 +133,12 @@ export function InputCheckboxGroup({
                 name={inputName}
                 checked={isSelected}
                 onChange={() => {
-                  // controlled by the parent div, since clicks in on the entire row
+                  dispatch({
+                    type: 'toggleSelection',
+                    payload: {
+                      value: optionItem.value
+                    }
+                  })
                 }}
               />
 

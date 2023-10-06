@@ -167,4 +167,24 @@ describe('InputCheckboxGroup', () => {
     fireEvent.click(firstItem)
     expect(mockedOnChange).toHaveBeenCalledWith([])
   })
+
+  test('Should trigger change clicking on inner InputCheckbox', () => {
+    const mockedOnChange = vi.fn()
+    const { getAllByTestId } = render(
+      <InputCheckboxGroup options={options} onChange={mockedOnChange} />
+    )
+
+    const [firstItem] = getAllByTestId('InputCheckboxGroup-item')
+    const inputCheckbox = firstItem?.getElementsByTagName('input')[0]
+    assertToBeDefined(inputCheckbox)
+
+    expect(inputCheckbox).not.toBeChecked()
+
+    // select item by clicking on inner checkbox
+    fireEvent.click(inputCheckbox)
+    expect(inputCheckbox).toBeChecked()
+    expect(mockedOnChange).toHaveBeenCalledWith([
+      { value: 'BABYBIBXA19D9D000000XXXX', quantity: 5 }
+    ])
+  })
 })
