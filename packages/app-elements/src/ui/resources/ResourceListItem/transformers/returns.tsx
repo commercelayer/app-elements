@@ -10,7 +10,7 @@ export const returnToProps: ResourceToProps<Return> = ({ resource, user }) => {
   const displayStatus = getReturnDisplayStatus(resource)
   const returnStockLocationName =
     resource.order?.market?.name != null
-      ? `to ${resource.order?.market?.name} `
+      ? `to ${resource.order.market.name} `
       : ''
   const returnNumber = resource.number != null ? `#${resource.number}` : ''
 
