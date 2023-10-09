@@ -1,7 +1,8 @@
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { ListItem } from '#ui/composite/ListItem'
 import { InputCheckbox, type InputCheckboxProps } from '#ui/forms/InputCheckbox'
 import { InputSpinner } from '#ui/forms/InputSpinner'
+import { type ComponentProps } from 'react'
 
 export interface InputCheckboxGroupOption
   extends Pick<InputCheckboxProps, 'icon' | 'checked'> {
@@ -28,7 +29,7 @@ export interface InputCheckboxGroupOption
   }
 }
 
-export interface InputCheckboxGroupItemProps extends InputCheckboxGroupOption {
+export interface Props extends InputCheckboxGroupOption {
   /**
    * Callback triggered when the user checks/unchecks an option or changes the quantity.
    * New quantity is returned only if `quantity` is part of the option (`InputCheckboxGroupOption`).
@@ -38,29 +39,23 @@ export interface InputCheckboxGroupItemProps extends InputCheckboxGroupOption {
    * Quantity to be used as default value for the InputSpinner.
    */
   defaultQuantity?: number
-  /**
-   * Shows a loading skeleton instead of the real content.
-   */
-  isLoading?: boolean
 }
 
 /**
  * Internal component to render the single item of the InputCheckboxGroup.
  */
-export const InputCheckboxGroupItem: React.FC<InputCheckboxGroupItemProps> = ({
-  checked,
-  name,
-  value,
-  onChange,
-  content,
-  quantity,
-  defaultQuantity,
-  isLoading,
-  icon
-}) => {
-  const inputName = name ?? value
-  return (
-    <SkeletonTemplate isLoading={isLoading} delayMs={0}>
+export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
+  ({
+    checked,
+    value,
+    name = value,
+    onChange,
+    content,
+    quantity,
+    defaultQuantity,
+    icon
+  }) => {
+    return (
       <ListItem
         alignItems='center'
         alignIcon='center'
@@ -74,7 +69,7 @@ export const InputCheckboxGroupItem: React.FC<InputCheckboxGroupItemProps> = ({
         data-testid='InputCheckboxGroupItem'
       >
         <InputCheckbox
-          name={inputName}
+          name={name}
           checked={checked}
           icon={icon}
           onChange={() => {
@@ -91,7 +86,7 @@ export const InputCheckboxGroupItem: React.FC<InputCheckboxGroupItemProps> = ({
             }}
           >
             <InputSpinner
-              name={`${inputName}_quantity`}
+              name={`${name}_quantity`}
               defaultValue={defaultQuantity}
               min={quantity.min}
               max={quantity.max}
@@ -104,6 +99,10 @@ export const InputCheckboxGroupItem: React.FC<InputCheckboxGroupItemProps> = ({
           </div>
         )}
       </ListItem>
-    </SkeletonTemplate>
-  )
-}
+    )
+  }
+)
+
+export type InputCheckboxGroupItemProps = ComponentProps<
+  typeof InputCheckboxGroupItem
+>

@@ -1,11 +1,19 @@
 import { Card } from '#ui/atoms/Card'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import {
   InputWrapper,
   getFeedbackStyle,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  type ComponentProps
+} from 'react'
 import {
   InputCheckboxGroupItem,
   type InputCheckboxGroupOption
@@ -23,8 +31,7 @@ export interface SelectedItem {
   quantity?: number
 }
 
-export interface InputCheckboxGroupProps
-  extends Pick<InputWrapperBaseProps, 'feedback'> {
+interface Props extends Pick<InputWrapperBaseProps, 'feedback'> {
   /**
    * Text to be displayed on top of the list
    */
@@ -41,10 +48,6 @@ export interface InputCheckboxGroupProps
    * Callback triggered when the user checks/unchecks an option or changes the quantity
    */
   onChange: (selected: SelectedItem[]) => void
-  /**
-   * Shows a loading skeleton instead of the real content.
-   */
-  isLoading?: boolean
 }
 
 /**
@@ -56,89 +59,86 @@ export interface InputCheckboxGroupProps
  * The total number of select items in the title will be automatically computed with the sum of all selected quantities.
  * <span type="info">Quantity for each option item has a min/max range, to prevent selecting less or more than the allowed number.</span>
  */
-export const InputCheckboxGroup: React.FC<InputCheckboxGroupProps> = ({
-  options,
-  defaultValues = [],
-  onChange,
-  title,
-  isLoading,
-  feedback
-}) => {
-  const [_state, dispatch] = useReducer(
-    reducer,
-    makeInitialState({ options, defaultValues })
-  )
+export const InputCheckboxGroup = withSkeletonTemplate<Props>(
+  ({ options, defaultValues = [], onChange, title, isLoading, feedback }) => {
+    const [_state, dispatch] = useReducer(
+      reducer,
+      makeInitialState({ options, defaultValues })
+    )
 
-  const prepareSelected = useCallback(
-    (state: InternalState) =>
-      state
-        .filter(({ isSelected }) => isSelected)
-        .map(({ value, quantity }) =>
-          quantity != null ? { value, quantity } : { value }
+    const prepareSelected = useCallback(
+      (state: InternalState) =>
+        state
+          .filter(({ isSelected }) => isSelected)
+          .map(({ value, quantity }) =>
+            quantity != null ? { value, quantity } : { value }
+          ),
+      []
+    )
+
+    const totalSelected = useMemo(
+      () =>
+        prepareSelected(_state).reduce(
+          (total, item) => total + (item.quantity ?? 1),
+          0
         ),
-    []
-  )
+      [_state]
+    )
 
-  const totalSelected = useMemo(
-    () =>
-      prepareSelected(_state).reduce(
-        (total, item) => total + (item.quantity ?? 1),
-        0
-      ),
-    [_state]
-  )
+    const isFirstRender = useRef(true)
+    useEffect(
+      function syncWhenChanges() {
+        if (isFirstRender.current) {
+          isFirstRender.current = false
+          return
+        }
 
-  const isFirstRender = useRef(true)
-  useEffect(
-    function syncWhenChanges() {
-      if (isFirstRender.current) {
-        isFirstRender.current = false
-        return
-      }
+        onChange(prepareSelected(_state))
+      },
+      [_state, isFirstRender]
+    )
 
-      onChange(prepareSelected(_state))
-    },
-    [_state, isFirstRender]
-  )
+    return (
+      <InputWrapper
+        fieldset
+        label={`${title} · ${totalSelected}`}
+        feedback={feedback}
+      >
+        <Card gap='1' className={cn(getFeedbackStyle(feedback))}>
+          {options.map((optionItem) => {
+            const currentItem = _state.find(
+              ({ value }) => value === optionItem.value
+            )
 
-  return (
-    <InputWrapper
-      fieldset
-      label={`${title} · ${totalSelected}`}
-      feedback={feedback}
-    >
-      <Card gap='1' className={cn(getFeedbackStyle(feedback))}>
-        {options.map((optionItem) => {
-          const currentItem = _state.find(
-            ({ value }) => value === optionItem.value
-          )
-
-          return (
-            <InputCheckboxGroupItem
-              {...optionItem}
-              key={optionItem.value}
-              isLoading={isLoading}
-              checked={Boolean(currentItem?.isSelected)}
-              defaultQuantity={currentItem?.quantity}
-              onChange={(value, newQty) => {
-                if (newQty != null) {
-                  dispatch({
-                    type: 'updateQuantity',
-                    payload: { value, quantity: newQty }
-                  })
-                } else {
-                  dispatch({
-                    type: 'toggleSelection',
-                    payload: { value }
-                  })
-                }
-              }}
-            />
-          )
-        })}
-      </Card>
-    </InputWrapper>
-  )
-}
+            return (
+              <InputCheckboxGroupItem
+                {...optionItem}
+                key={optionItem.value}
+                isLoading={isLoading}
+                checked={Boolean(currentItem?.isSelected)}
+                defaultQuantity={currentItem?.quantity}
+                onChange={(value, newQty) => {
+                  if (newQty != null) {
+                    dispatch({
+                      type: 'updateQuantity',
+                      payload: { value, quantity: newQty }
+                    })
+                  } else {
+                    dispatch({
+                      type: 'toggleSelection',
+                      payload: { value }
+                    })
+                  }
+                }}
+              />
+            )
+          })}
+        </Card>
+      </InputWrapper>
+    )
+  }
+)
 
 InputCheckboxGroup.displayName = 'InputCheckboxGroup'
+
+export type InputCheckboxGroupProps = ComponentProps<typeof InputCheckboxGroup>
