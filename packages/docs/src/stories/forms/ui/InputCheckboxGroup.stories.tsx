@@ -236,3 +236,12 @@ WithQuantity.args = {
     }
   ]
 }
+
+export const WithErrors = Template.bind({})
+WithErrors.args = {
+  ...Default.args,
+  feedback: {
+    message: 'Please select',
+    variant: 'danger'
+  }
+}

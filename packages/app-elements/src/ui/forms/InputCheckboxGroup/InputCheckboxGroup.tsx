@@ -1,5 +1,10 @@
 import { Card } from '#ui/atoms/Card'
-import { InputWrapper } from '#ui/internals/InputWrapper'
+import {
+  InputWrapper,
+  getFeedbackStyle,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
+import cn from 'classnames'
 import { useCallback, useEffect, useMemo, useReducer, useRef } from 'react'
 import {
   InputCheckboxGroupItem,
@@ -18,7 +23,8 @@ export interface SelectedItem {
   quantity?: number
 }
 
-export interface InputCheckboxGroupProps {
+export interface InputCheckboxGroupProps
+  extends Pick<InputWrapperBaseProps, 'feedback'> {
   /**
    * Text to be displayed on top of the list
    */
@@ -50,13 +56,14 @@ export interface InputCheckboxGroupProps {
  * The total number of select items in the title will be automatically computed with the sum of all selected quantities.
  * <span type="info">Quantity for each option item has a min/max range, to prevent selecting less or more than the allowed number.</span>
  */
-export function InputCheckboxGroup({
+export const InputCheckboxGroup: React.FC<InputCheckboxGroupProps> = ({
   options,
   defaultValues = [],
   onChange,
   title,
-  isLoading
-}: InputCheckboxGroupProps): JSX.Element {
+  isLoading,
+  feedback
+}) => {
   const [_state, dispatch] = useReducer(
     reducer,
     makeInitialState({ options, defaultValues })
@@ -95,8 +102,12 @@ export function InputCheckboxGroup({
   )
 
   return (
-    <InputWrapper fieldset label={`${title} · ${totalSelected}`}>
-      <Card gap='1'>
+    <InputWrapper
+      fieldset
+      label={`${title} · ${totalSelected}`}
+      feedback={feedback}
+    >
+      <Card gap='1' className={cn(getFeedbackStyle(feedback))}>
         {options.map((optionItem) => {
           const currentItem = _state.find(
             ({ value }) => value === optionItem.value

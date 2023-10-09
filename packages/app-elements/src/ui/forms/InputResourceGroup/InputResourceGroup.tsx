@@ -112,15 +112,6 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
         <Card gap='1'>
           {list.map((item, idx) => {
             return (
-              // <Checkbox
-              //   key={`${item.value}-${idx}`}
-              //   item={item}
-              //   checked={values.includes(item.value)}
-              //   onChange={() => {
-              //     toggleValue(item.value)
-              //   }}
-              //   showIcon={showCheckboxIcon}
-              // />
               <InputCheckboxGroupItem
                 key={`${item.value}-${idx}`}
                 checked={values.includes(item.value)}

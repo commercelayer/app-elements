@@ -151,7 +151,9 @@ export {
   type InputCheckboxProps
 } from '#ui/forms/InputCheckbox'
 export {
+  HookedInputCheckboxGroup,
   InputCheckboxGroup,
+  type HookedInputCheckboxGroupProps,
   type InputCheckboxGroupProps
 } from '#ui/forms/InputCheckboxGroup'
 export {
