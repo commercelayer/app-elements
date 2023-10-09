@@ -17,7 +17,7 @@ import type {
 } from '@commercelayer/sdk'
 import { Trash } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 
 interface LineItemSettings {
   showPrice: boolean
@@ -86,7 +86,7 @@ const Edit = withSkeletonTemplate<{
   )
 })
 
-export interface ResourceLineItemsProps {
+interface Props {
   /**
    * Array of supported line items to be rendered.
    */
@@ -113,10 +113,12 @@ export interface ResourceLineItemsProps {
   onChange?: () => void
 }
 
+export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
+
 /**
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
-export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
+export const ResourceLineItems = withSkeletonTemplate<Props>(
   ({ items, size = 'normal', footer, editable = false, onChange }) => {
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(

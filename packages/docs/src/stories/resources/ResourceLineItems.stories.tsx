@@ -2,11 +2,14 @@ import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Text } from '#ui/atoms/Text'
 import { FlexRow } from '#ui/internals/FlexRow'
-import { ResourceLineItems } from '#ui/resources/ResourceLineItems'
+import {
+  ResourceLineItems,
+  type ResourceLineItemsProps
+} from '#ui/resources/ResourceLineItems'
 import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-type Props = Parameters<typeof ResourceLineItems>[0] & {
+type Props = ResourceLineItemsProps & {
   preset: Array<keyof typeof presetLineItems | 'custom'>
 }
 

@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
+import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
 import { type Order } from '@commercelayer/sdk'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'
-import { presetLineItems } from './ResourceLineItems/ResourceLineItems.mocks'
 import { ResourceOrderSummary } from './ResourceOrderSummary'
 
 const order: Order = {
