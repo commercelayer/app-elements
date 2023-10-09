@@ -3,6 +3,7 @@ import { type Order } from '@commercelayer/sdk'
 import { fireEvent, render, waitFor } from '@testing-library/react'
 import { act } from 'react-dom/test-utils'
 import { vi } from 'vitest'
+import { presetLineItems } from './ResourceLineItems/ResourceLineItems.mocks'
 import { ResourceOrderSummary } from './ResourceOrderSummary'
 
 const order: Order = {
@@ -16,69 +17,13 @@ const order: Order = {
   status: 'approved',
 
   line_items: [
-    {
-      type: 'line_items',
-      item_type: 'skus',
-      id: '1',
-      created_at: '',
-      updated_at: '',
-      sku_code: 'BABYBIBXA19D9D000000XXXX',
-      image_url:
-        'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BABYBIBXA19D9D000000XXXX_FLAT.png',
-      name: 'Gray Baby Bib with Black Logo',
-      quantity: 2,
-      formatted_unit_amount: '9.00€',
-      formatted_total_amount: '18.00€',
-      total_amount_float: 18.0,
-      tax_amount_float: 3.915
-    },
-    {
-      type: 'line_items',
-      item_type: 'skus',
-      id: '2',
-      created_at: '',
-      updated_at: '',
-      sku_code: 'BABYBIBXA19D9D000000XXXX',
-      image_url:
-        'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BABYBIBXA19D9D000000XXXX_FLAT.png',
-      name: 'Gray Baby Bib with Black Logo',
-      quantity: 2,
-      formatted_unit_amount: '9.00€',
-      formatted_total_amount: '18.00€',
-      total_amount_float: 18.0,
-      tax_amount_float: 3.915
-    },
-    {
-      type: 'line_items',
-      item_type: 'shipments',
-      id: '3',
-      created_at: '',
-      updated_at: '',
-      sku_code: null,
-      image_url: null,
-      name: 'Shipment #2474021/S/001',
-      quantity: 1,
-      formatted_unit_amount: '30.00€',
-      formatted_total_amount: '30.00€',
-      total_amount_float: 30.0,
-      tax_amount_float: 0
-    },
-    {
-      type: 'line_items',
-      item_type: 'bundles',
-      id: '3',
-      created_at: '',
-      updated_at: '',
-      sku_code: null,
-      bundle_code: 'TROPICALTREES',
-      image_url: '',
-      name: 'Tropical Trees',
-      quantity: 1,
-      formatted_unit_amount: '0.00€',
-      formatted_total_amount: '0.00€',
-      total_amount_float: 30.0,
-      tax_amount_float: 0
-    }
+    presetLineItems.oneLine,
+    presetLineItems.oneLine_2,
+    presetLineItems.shipment,
+    presetLineItems.paymentMethod,
+    presetLineItems.percentageDiscountPromotionCoupon,
+    presetLineItems.freeShippingPromotion,
+    presetLineItems.withBundle
   ]
 }
 
@@ -148,13 +93,60 @@ describe('ResourceOrderSummary', () => {
     )
   })
 
-  it('should only show line_items with an the item_type attribute equal to "skus" or "bundles"', async () => {
+  it('should only show line_items with the item_type attribute equal to "skus" or "bundles"', async () => {
     const { queryAllByText } = render(<ResourceOrderSummary order={order} />)
     await waitFor(() => {
-      expect(queryAllByText('Gray Baby Bib with Black Logo').length).toEqual(2)
+      expect(queryAllByText('Gray Baby Bib with Black Logo').length).toEqual(1)
     })
-    expect(queryAllByText('Tropical Trees').length).toEqual(1)
-    expect(queryAllByText('Shipment #2474021/S/001').length).toEqual(0)
+    await waitFor(() => {
+      expect(
+        queryAllByText('Black Baseball Hat with White Logo').length
+      ).toEqual(1)
+    })
+    expect(queryAllByText('Welcome KIT').length).toEqual(1)
+    expect(queryAllByText('Shipment #45526430/S/001').length).toEqual(0)
+  })
+
+  it('should always show all `promotions` line items instead of the discount order attribute', async () => {
+    const { queryByTestId } = await act(async () =>
+      render(
+        <ResourceOrderSummary
+          order={{
+            ...order,
+            subtotal_amount_cents: 0,
+            formatted_subtotal_amount: '$0.00',
+            discount_amount_cents: 500,
+            formatted_discount_amount: '$5.00',
+            adjustment_amount_cents: 0,
+            formatted_adjustment_amount: '$0.00',
+            shipping_amount_cents: 0,
+            formatted_shipping_amount: '$0.00',
+            payment_method_amount_cents: 0,
+            formatted_payment_method_amount: '$0.00',
+            total_tax_amount_cents: 0,
+            formatted_total_tax_amount: '$0.00'
+          }}
+        />
+      )
+    )
+
+    expect(
+      queryByTestId('ResourceOrderSummary-Discount')
+    ).not.toBeInTheDocument()
+
+    expect(
+      queryByTestId('ResourceOrderSummary-10% OFF with coupon')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-10% OFF with coupon-value')
+    ).toHaveTextContent('-€13,00')
+
+    expect(
+      queryByTestId('ResourceOrderSummary-Free shipping promo')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId('ResourceOrderSummary-Free shipping promo-value')
+    ).toHaveTextContent('-€12,00')
   })
 
   it('should always show "subtotal", "shipping" and "total" even if the price is equal to 0 or undefined', async () => {
@@ -235,10 +227,9 @@ describe('ResourceOrderSummary', () => {
       queryByTestId('ResourceOrderSummary-Subtotal-value')
     ).toHaveTextContent('$5.00')
 
-    expect(queryByTestId('ResourceOrderSummary-Discount')).toBeInTheDocument()
     expect(
-      queryByTestId('ResourceOrderSummary-Discount-value')
-    ).toHaveTextContent('$5.00')
+      queryByTestId('ResourceOrderSummary-Discount')
+    ).not.toBeInTheDocument()
 
     expect(queryByTestId('ResourceOrderSummary-Adjustment')).toBeInTheDocument()
     expect(

@@ -45,8 +45,8 @@ const order: Order = {
   formatted_shipping_amount: '€12,00',
   payment_method_amount_cents: 0,
   formatted_payment_method_amount: '€0,00',
-  discount_amount_cents: -4300,
-  formatted_discount_amount: '-€43,00',
+  discount_amount_cents: -3800,
+  formatted_discount_amount: '-€38,00',
   adjustment_amount_cents: -1000,
   formatted_adjustment_amount: '-€10,00',
   gift_card_amount_cents: -900,
@@ -73,15 +73,14 @@ const order: Order = {
   formatted_payment_method_taxable_amount: '€0,00',
   adjustment_taxable_amount_cents: 0,
   formatted_adjustment_taxable_amount: '€0,00',
-  total_amount_with_taxes_cents: 9000,
-  formatted_total_amount_with_taxes: '€90,00',
+  total_amount_with_taxes_cents: 8500,
+  formatted_total_amount_with_taxes: '€85,00',
 
   line_items: [
     presetLineItems.oneLine,
     presetLineItems.giftCardUsed,
     presetLineItems.percentageDiscountPromotionCoupon,
     presetLineItems.percentageDiscountPromotionOver100,
-    presetLineItems.percentageDiscountPromotionSkuList,
     presetLineItems.freeShippingPromotion
   ]
 }
@@ -118,6 +117,31 @@ Default.args = {
     alert('Something has changed!')
   },
   order
+}
+
+/**
+ * When the order is placed without using a `coupon_code`, it will not be shown in the summary.
+ */
+export const WithoutACouponCode = Template.bind({})
+WithoutACouponCode.args = {
+  ...Default.args,
+  order: {
+    ...order,
+    coupon_code: undefined
+  }
+}
+
+/**
+ * When the order is in `editing` status, you can click on "Add coupon" to add one.
+ */
+export const EditableWithoutACouponCode = Template.bind({})
+EditableWithoutACouponCode.args = {
+  ...Default.args,
+  editable: true,
+  order: {
+    ...order,
+    coupon_code: undefined
+  }
 }
 
 /**

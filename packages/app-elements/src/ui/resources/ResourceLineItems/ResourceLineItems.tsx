@@ -98,7 +98,11 @@ export interface ResourceLineItemsProps {
   /**
    * Optional footer slot to add bottom elements / actions.
    */
-  footer?: React.ReactNode
+  footer?: Array<{
+    key: string
+    element: React.ReactNode
+    fullWidth?: boolean
+  }>
   /**
    * Optional setting to define the visibility of line item Edit link.
    */
@@ -321,22 +325,24 @@ export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
               )
             })}
 
-          {footer != null && (
-            <tr className='border-b border-gray-100'>
-              <td />
-              <td
-                className={cn('pl-4', {
-                  'py-6': size === 'normal',
-                  'py-4': size === 'small'
-                })}
-                colSpan={settings.showPrice ? 3 : 2}
-              >
-                <Text tag='div' size={size === 'normal' ? 'regular' : size}>
-                  {footer}
-                </Text>
-              </td>
-            </tr>
-          )}
+          {footer != null &&
+            footer.length > 0 &&
+            footer.map(({ key: id, element, fullWidth = false }) => (
+              <tr key={id} className='border-b border-gray-100'>
+                {!fullWidth && <td />}
+                <td
+                  className={cn('pl-4', {
+                    'py-6': size === 'normal',
+                    'py-4': size === 'small'
+                  })}
+                  colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
+                >
+                  <Text tag='div' size={size === 'normal' ? 'regular' : size}>
+                    {element}
+                  </Text>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     )

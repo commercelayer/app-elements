@@ -51,22 +51,27 @@ const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
   )
 }
 
-const footer = (
-  <>
-    <FlexRow>
-      <Text>Subtotal</Text>
-      <Text>$141.60</Text>
-    </FlexRow>
-    <FlexRow className='my-4'>
-      <Text>Shipping method</Text>
-      <Text>$12.00</Text>
-    </FlexRow>
-    <FlexRow>
-      <Text weight='bold'>Total</Text>
-      <Text weight='bold'>$163.60</Text>
-    </FlexRow>
-  </>
-)
+const footer: Props['footer'] = [
+  {
+    key: 'example',
+    element: (
+      <>
+        <FlexRow>
+          <Text>Subtotal</Text>
+          <Text>$141.60</Text>
+        </FlexRow>
+        <FlexRow className='my-4'>
+          <Text>Shipping method</Text>
+          <Text>$12.00</Text>
+        </FlexRow>
+        <FlexRow>
+          <Text weight='bold'>Total</Text>
+          <Text weight='bold'>$163.60</Text>
+        </FlexRow>
+      </>
+    )
+  }
+]
 
 export const Default = Template.bind({})
 Default.args = {
