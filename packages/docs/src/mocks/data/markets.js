@@ -3,8 +3,8 @@ import { rest } from 'msw'
 // used in HookedInputResourceGroup
 const someMarkets = rest.get(
   'https://mock.localhost/api/markets?fields[markets]=id,name&sort=name&page[size]=3',
-  (req, res, ctx) => {
-    return res(
+  async (req, res, ctx) => {
+    return await res(
       ctx.status(200),
       ctx.json({
         data: [
@@ -51,9 +51,10 @@ const someMarkets = rest.get(
 // used in HookedInputResourceGroup
 const allMarkets = rest.get(
   'https://mock.localhost/api/markets?sort=name&page[number]=1&page[size]=25',
-  (req, res, ctx) => {
-    return res(
+  async (req, res, ctx) => {
+    return await res(
       ctx.status(200),
+      ctx.delay(1000),
       ctx.json({
         data: [
           {

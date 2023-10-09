@@ -72,7 +72,7 @@ describe('InputCheckboxGroup with quantity', () => {
   })
 
   test('Should render the options with default quantity', () => {
-    const { getAllByTestId } = render(
+    const { getAllByTestId, getByText } = render(
       <InputCheckboxGroup
         options={options}
         onChange={() => {}}
@@ -80,16 +80,17 @@ describe('InputCheckboxGroup with quantity', () => {
       />
     )
 
-    const allLabels = getAllByTestId('CheckboxList-label').map(
-      (node) => node.innerHTML
-    )
-    expect(allLabels).toEqual([
+    const expectedLabels = [
       'Gray Baby Bib with Black Logo',
       'Black Baseball Hat with White Logo',
       'Black Unisex Lightweight Hoodie'
-    ])
+    ]
 
-    const allQuantityInputs = getAllByTestId('InputCheckboxGroup-item').map(
+    expectedLabels.forEach((label) => {
+      expect(getByText(label)).toBeInTheDocument()
+    })
+
+    const allQuantityInputs = getAllByTestId('InputCheckboxGroupItem').map(
       (node) => node.getElementsByTagName('input')[1]?.value
     )
     expect(allQuantityInputs).toEqual(['5', '7', '8'])
@@ -99,7 +100,7 @@ describe('InputCheckboxGroup with quantity', () => {
     const { queryAllByTestId } = render(
       <InputCheckboxGroup options={options} onChange={() => {}} />
     )
-    queryAllByTestId('InputCheckboxGroup-item').forEach((node) => {
+    queryAllByTestId('InputCheckboxGroupItem').forEach((node) => {
       const checkbox = node.getElementsByTagName('input')[0]
       expect(checkbox).not.toBeChecked()
     })
@@ -114,7 +115,7 @@ describe('InputCheckboxGroup with quantity', () => {
       />
     )
 
-    queryAllByTestId('InputCheckboxGroup-item').forEach((node, idx) => {
+    queryAllByTestId('InputCheckboxGroupItem').forEach((node, idx) => {
       const inputs = node.getElementsByTagName('input')
       const checkbox = inputs[0]
       const quantity = inputs[1]
@@ -133,7 +134,7 @@ describe('InputCheckboxGroup with quantity', () => {
       <InputCheckboxGroup options={options} onChange={mockedOnChange} />
     )
 
-    const [firstItem] = getAllByTestId('InputCheckboxGroup-item')
+    const [firstItem] = getAllByTestId('InputCheckboxGroupItem')
     assertToBeDefined(firstItem)
 
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
@@ -174,7 +175,7 @@ describe('InputCheckboxGroup with quantity', () => {
       <InputCheckboxGroup options={options} onChange={mockedOnChange} />
     )
 
-    const [firstItem] = getAllByTestId('InputCheckboxGroup-item')
+    const [firstItem] = getAllByTestId('InputCheckboxGroupItem')
     const inputCheckbox = firstItem?.getElementsByTagName('input')[0]
     assertToBeDefined(inputCheckbox)
 
@@ -215,7 +216,7 @@ describe('InputCheckboxGroup without quantity', () => {
         onChange={() => {}}
       />
     )
-    queryAllByTestId('InputCheckboxGroup-item').forEach((node) => {
+    queryAllByTestId('InputCheckboxGroupItem').forEach((node) => {
       const checkbox = node.getElementsByTagName('input')[0]
       expect(checkbox).not.toBeChecked()
     })
@@ -230,7 +231,7 @@ describe('InputCheckboxGroup without quantity', () => {
       />
     )
 
-    queryAllByTestId('InputCheckboxGroup-item').forEach((node, idx) => {
+    queryAllByTestId('InputCheckboxGroupItem').forEach((node, idx) => {
       const inputs = node.getElementsByTagName('input')
       const checkbox = inputs[0]
       if (idx === 0) {
@@ -250,7 +251,7 @@ describe('InputCheckboxGroup without quantity', () => {
       />
     )
 
-    const [firstItem] = getAllByTestId('InputCheckboxGroup-item')
+    const [firstItem] = getAllByTestId('InputCheckboxGroupItem')
     assertToBeDefined(firstItem)
 
     expect(firstItem.getElementsByTagName('input')[0]).not.toBeChecked()
@@ -265,5 +266,25 @@ describe('InputCheckboxGroup without quantity', () => {
     // deselect item
     fireEvent.click(firstItem)
     expect(mockedOnChange).toHaveBeenCalledWith([])
+  })
+
+  test('Should trigger change when clicking on inner InputCheckbox', () => {
+    const mockedOnChange = vi.fn()
+    const { getAllByTestId } = render(
+      <InputCheckboxGroup options={options} onChange={mockedOnChange} />
+    )
+
+    const [firstItem] = getAllByTestId('InputCheckboxGroupItem')
+    const inputCheckbox = firstItem?.getElementsByTagName('input')[0]
+    assertToBeDefined(inputCheckbox)
+
+    expect(inputCheckbox).not.toBeChecked()
+
+    // select item by clicking on inner checkbox
+    fireEvent.click(inputCheckbox)
+    expect(inputCheckbox).toBeChecked()
+    expect(mockedOnChange).toHaveBeenCalledWith([
+      { value: 'BABYBIBXA19D9D000000XXXX', quantity: 5 }
+    ])
   })
 })

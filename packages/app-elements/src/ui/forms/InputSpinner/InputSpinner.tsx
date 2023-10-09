@@ -97,7 +97,10 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
               // reset browser default styles for number input
               '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
               // reset global style of input standard shadow color to remove it
-              'shadow-transparent'
+              'shadow-transparent',
+              {
+                'text-gray-300': disabled
+              }
             )}
             value={value}
             onChange={({ currentTarget }) => {
