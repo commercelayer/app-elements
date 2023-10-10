@@ -17,7 +17,7 @@ import type {
 } from '@commercelayer/sdk'
 import { Trash } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 
 interface LineItemSettings {
   showPrice: boolean
@@ -86,7 +86,7 @@ const Edit = withSkeletonTemplate<{
   )
 })
 
-export interface ResourceLineItemsProps {
+interface Props {
   /**
    * Array of supported line items to be rendered.
    */
@@ -98,7 +98,11 @@ export interface ResourceLineItemsProps {
   /**
    * Optional footer slot to add bottom elements / actions.
    */
-  footer?: React.ReactNode
+  footer?: Array<{
+    key: string
+    element: React.ReactNode
+    fullWidth?: boolean
+  }>
   /**
    * Optional setting to define the visibility of line item Edit link.
    */
@@ -109,10 +113,12 @@ export interface ResourceLineItemsProps {
   onChange?: () => void
 }
 
+export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
+
 /**
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
-export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
+export const ResourceLineItems = withSkeletonTemplate<Props>(
   ({ items, size = 'normal', footer, editable = false, onChange }) => {
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
@@ -321,22 +327,24 @@ export const ResourceLineItems = withSkeletonTemplate<ResourceLineItemsProps>(
               )
             })}
 
-          {footer != null && (
-            <tr className='border-b border-gray-100'>
-              <td />
-              <td
-                className={cn('pl-4', {
-                  'py-6': size === 'normal',
-                  'py-4': size === 'small'
-                })}
-                colSpan={settings.showPrice ? 3 : 2}
-              >
-                <Text tag='div' size={size === 'normal' ? 'regular' : size}>
-                  {footer}
-                </Text>
-              </td>
-            </tr>
-          )}
+          {footer != null &&
+            footer.length > 0 &&
+            footer.map(({ key: id, element, fullWidth = false }) => (
+              <tr key={id} className='border-b border-gray-100'>
+                {!fullWidth && <td />}
+                <td
+                  className={cn('pl-4', {
+                    'py-6': size === 'normal',
+                    'py-4': size === 'small'
+                  })}
+                  colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
+                >
+                  <Text tag='div' size={size === 'normal' ? 'regular' : size}>
+                    {element}
+                  </Text>
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
     )

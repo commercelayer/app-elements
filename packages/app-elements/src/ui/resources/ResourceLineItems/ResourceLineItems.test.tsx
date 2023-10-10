@@ -100,7 +100,12 @@ describe('ResourceLineItems', () => {
         <CoreSdkProvider>
           <ResourceLineItems
             items={[presetLineItems.oneLine]}
-            footer={<div>Ehi there!</div>}
+            footer={[
+              {
+                key: 'example',
+                element: <div>Ehi there!</div>
+              }
+            ]}
           />
         </CoreSdkProvider>
       </MockTokenProvider>

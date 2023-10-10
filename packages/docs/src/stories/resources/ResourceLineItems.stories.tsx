@@ -2,11 +2,14 @@ import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Text } from '#ui/atoms/Text'
 import { FlexRow } from '#ui/internals/FlexRow'
-import { ResourceLineItems } from '#ui/resources/ResourceLineItems'
+import {
+  ResourceLineItems,
+  type ResourceLineItemsProps
+} from '#ui/resources/ResourceLineItems'
 import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-type Props = Parameters<typeof ResourceLineItems>[0] & {
+type Props = ResourceLineItemsProps & {
   preset: Array<keyof typeof presetLineItems | 'custom'>
 }
 
@@ -51,22 +54,27 @@ const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
   )
 }
 
-const footer = (
-  <>
-    <FlexRow>
-      <Text>Subtotal</Text>
-      <Text>$141.60</Text>
-    </FlexRow>
-    <FlexRow className='my-4'>
-      <Text>Shipping method</Text>
-      <Text>$12.00</Text>
-    </FlexRow>
-    <FlexRow>
-      <Text weight='bold'>Total</Text>
-      <Text weight='bold'>$163.60</Text>
-    </FlexRow>
-  </>
-)
+const footer: Props['footer'] = [
+  {
+    key: 'example',
+    element: (
+      <>
+        <FlexRow>
+          <Text>Subtotal</Text>
+          <Text>$141.60</Text>
+        </FlexRow>
+        <FlexRow className='my-4'>
+          <Text>Shipping method</Text>
+          <Text>$12.00</Text>
+        </FlexRow>
+        <FlexRow>
+          <Text weight='bold'>Total</Text>
+          <Text weight='bold'>$163.60</Text>
+        </FlexRow>
+      </>
+    )
+  }
+]
 
 export const Default = Template.bind({})
 Default.args = {

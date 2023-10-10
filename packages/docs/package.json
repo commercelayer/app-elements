@@ -6,9 +6,9 @@
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
-    "dev": "NODE_OPTIONS='--openssl-legacy-provider' storybook dev -s public -p 6006",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' storybook dev -p 6006",
     "build:abilities": "node src/generate-abilities.mjs",
-    "build:docs": "NODE_OPTIONS='--openssl-legacy-provider' storybook build -s public -o dist",
+    "build:docs": "NODE_OPTIONS='--openssl-legacy-provider' storybook build -o dist",
     "build": "pnpm run --sequential \"/^build:.*/\"",
     "ts:check": "tsc --noEmit"
   },

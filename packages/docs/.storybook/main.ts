@@ -14,6 +14,9 @@ const storybookConfig: StorybookConfig = {
   async viteFinal(config) {
     return mergeConfig(config, viteOverrides)
   },
+  staticDirs: [
+    '../public'
+  ],
   stories: [
     '../src/stories/**/*.mdx',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'
