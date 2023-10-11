@@ -1,15 +1,21 @@
+import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
+import { Text } from '#ui/atoms/Text'
 import { SearchBar } from '#ui/composite/SearchBar'
+import { InputCheckboxGroupItem } from '#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem'
 import { InputWrapper } from '#ui/internals/InputWrapper'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import { isEmpty } from 'lodash'
 import { useEffect, useState } from 'react'
-import { Checkbox, prepareCheckboxItemOrMock } from './Checkbox'
-import { computeLabelWithSelected, useToggleCheckboxValues } from './utils'
+import {
+  computeLabelWithSelected,
+  prepareCheckboxItemOrMock,
+  useToggleCheckboxValues
+} from './utils'
 
 export interface SortBy {
   attribute: string
@@ -150,13 +156,19 @@ export function FullList({
                   fieldForValue
                 })
                 return (
-                  <Checkbox
-                    item={item}
+                  <InputCheckboxGroupItem
+                    isLoading={isLoading}
                     checked={values.includes(item.value)}
                     onChange={() => {
                       toggleValue(item.value)
                     }}
-                    showIcon={showCheckboxIcon}
+                    icon={
+                      showCheckboxIcon ? (
+                        <AvatarLetter text={item.label} />
+                      ) : undefined
+                    }
+                    content={<Text weight='semibold'>{item.label}</Text>}
+                    value={item.value}
                   />
                 )
               }}

@@ -75,7 +75,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
         <div
           className={cn(
             className,
-            'flex items-center justify-between rounded w-[122px] p-0.5 py-1',
+            'flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white',
             'shadow-[0_0_0_1px_#e6e7e7_inset]',
             'focus-within:shadow-[0_0_0_2px_#666eff_inset]'
           )}
@@ -97,7 +97,10 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
               // reset browser default styles for number input
               '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
               // reset global style of input standard shadow color to remove it
-              'shadow-transparent'
+              'shadow-transparent',
+              {
+                'text-gray-300': disabled
+              }
             )}
             value={value}
             onChange={({ currentTarget }) => {

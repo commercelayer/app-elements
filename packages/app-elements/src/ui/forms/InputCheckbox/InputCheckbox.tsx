@@ -31,13 +31,9 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
         <div className={cn('flex items-center w-full', className)}>
           <label
             data-testid='checkbox-label'
-            className={cn(
-              'flex items-center gap-4 select-none flex-1',
-              className,
-              {
-                'cursor-pointer': rest.disabled !== true
-              }
-            )}
+            className={cn('flex items-center gap-4 select-none flex-1', {
+              'cursor-pointer': rest.disabled !== true
+            })}
             onClick={(e) => {
               e.stopPropagation()
             }}

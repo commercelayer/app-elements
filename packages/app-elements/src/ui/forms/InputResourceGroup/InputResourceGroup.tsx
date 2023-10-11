@@ -1,24 +1,25 @@
 import { formatResourceName } from '#helpers/resources'
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
+import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
+import { InputCheckboxGroupItem } from '#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem'
 import { InputWrapper } from '#ui/internals/InputWrapper'
 import { type QueryParamsList } from '@commercelayer/sdk'
 import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import uniqBy from 'lodash/uniqBy'
 import { useEffect, useState } from 'react'
-import {
-  Checkbox,
-  prepareCheckboxItemOrMock,
-  type CheckboxItem
-} from './Checkbox'
 import { FullList, type FullListProps, type SortBy } from './FullList'
-import { computeLabelWithSelected, useToggleCheckboxValues } from './utils'
+import {
+  computeLabelWithSelected,
+  prepareCheckboxItemOrMock,
+  useToggleCheckboxValues
+} from './utils'
 
 export interface InputResourceGroupProps
   extends Omit<FullListProps, 'totalCount'> {
@@ -111,14 +112,20 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
         <Card gap='1'>
           {list.map((item, idx) => {
             return (
-              <Checkbox
+              <InputCheckboxGroupItem
                 key={`${item.value}-${idx}`}
-                item={item}
                 checked={values.includes(item.value)}
                 onChange={() => {
                   toggleValue(item.value)
                 }}
-                showIcon={showCheckboxIcon}
+                icon={
+                  showCheckboxIcon ? (
+                    <AvatarLetter text={item.label} />
+                  ) : undefined
+                }
+                isLoading={isLoading}
+                content={<Text weight='semibold'>{item.label}</Text>}
+                value={item.value}
               />
             )
           })}
@@ -198,7 +205,7 @@ function useList({
   selectedValues: string[]
   filters: QueryFilter
 }): {
-  list: CheckboxItem[]
+  list: Array<{ value: string; label: string }>
   totalCount?: number
   isLoading: boolean
 } {
