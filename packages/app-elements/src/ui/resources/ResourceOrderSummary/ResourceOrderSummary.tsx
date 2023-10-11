@@ -13,7 +13,13 @@ import { type ComponentProps } from 'react'
 import { useAddCouponOverlay } from './AddCouponOverlay'
 import { useAdjustTotalOverlay } from './AdjustTotalOverlay'
 import { DeleteCouponButton } from './DeleteCouponButton'
-import { renderDiscounts, renderTotalRow, renderTotalRowAmount } from './utils'
+import {
+  getManualAdjustment,
+  renderAdjustments,
+  renderDiscounts,
+  renderTotalRow,
+  renderTotalRowAmount
+} from './utils'
 
 export interface Props {
   editable?: boolean
@@ -32,6 +38,8 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
       useAdjustTotalOverlay(order, onChange)
     const { Overlay: AddCouponOverlay, open: openAddCouponOverlay } =
       useAddCouponOverlay(order, onChange)
+
+    const manualAdjustment = getManualAdjustment(order)
 
     const couponSummary: ResourceLineItemsProps['footer'] =
       order.coupon_code == null && !editable
@@ -103,6 +111,7 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                     formattedAmount: order.formatted_total_tax_amount
                   })}
                   {renderDiscounts(order)}
+                  {renderAdjustments(order)}
                   {editable
                     ? renderTotalRow({
                         label: 'Adjustment',
@@ -113,16 +122,18 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                               openAdjustTotalOverlay()
                             }}
                           >
-                            {order.adjustment_amount_cents != null &&
-                            order.adjustment_amount_cents !== 0
-                              ? order.formatted_adjustment_amount
+                            {manualAdjustment != null &&
+                            manualAdjustment.total_amount_cents !== 0
+                              ? manualAdjustment.formatted_total_amount
                               : 'Adjust total'}
                           </Button>
                         )
                       })
+                    : manualAdjustment == null
+                    ? null
                     : renderTotalRowAmount({
                         label: 'Adjustment',
-                        formattedAmount: order.formatted_adjustment_amount
+                        formattedAmount: manualAdjustment.formatted_total_amount
                       })}
                   {renderTotalRowAmount({
                     label: 'Gift card',

@@ -73,15 +73,16 @@ const order: Order = {
   formatted_payment_method_taxable_amount: '€0,00',
   adjustment_taxable_amount_cents: 0,
   formatted_adjustment_taxable_amount: '€0,00',
-  total_amount_with_taxes_cents: 8500,
-  formatted_total_amount_with_taxes: '€85,00',
+  total_amount_with_taxes_cents: 9500,
+  formatted_total_amount_with_taxes: '€95,00',
 
   line_items: [
     presetLineItems.oneLine,
     presetLineItems.giftCardUsed,
     presetLineItems.percentageDiscountPromotionCoupon,
     presetLineItems.percentageDiscountPromotionOver100,
-    presetLineItems.freeShippingPromotion
+    presetLineItems.freeShippingPromotion,
+    presetLineItems.adjustmentAdditionalService
   ]
 }
 
