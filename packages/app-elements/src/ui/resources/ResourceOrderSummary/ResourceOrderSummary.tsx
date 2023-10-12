@@ -22,9 +22,13 @@ import {
 } from './utils'
 
 export interface Props {
+  /** When `true` the order summary renders with editable components. You will be able to update line items quantity, delete a line item, add/remove coupon, and more. */
   editable?: boolean
+  /** The event gets triggered every time a change occurs. (e.g. add/remove coupon, update/remove line items, etc.) */
   onChange?: () => void
+  /** A list of `ActionButtons` components. */
   footerActions?: ActionButtonsProps['actions']
+  /** The `Order` resource. */
   order: Order
 }
 
@@ -129,9 +133,8 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                           </Button>
                         )
                       })
-                    : manualAdjustment == null
-                    ? null
-                    : renderTotalRowAmount({
+                    : manualAdjustment != null &&
+                      renderTotalRowAmount({
                         label: 'Adjustment',
                         formattedAmount: manualAdjustment.formatted_total_amount
                       })}

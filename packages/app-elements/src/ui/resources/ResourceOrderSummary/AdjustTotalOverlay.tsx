@@ -49,7 +49,7 @@ export function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
           {...formMethods}
           onSubmit={async (values) => {
             if (manualAdjustment == null) {
-              await createAdjustmentLineItem({
+              await createManualAdjustmentLineItem({
                 sdkClient,
                 order,
                 amount: values.adjustTotal
@@ -58,7 +58,7 @@ export function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
                 close()
               })
             } else {
-              await updateAdjustmentLineItem({
+              await updateManualAdjustmentLineItem({
                 sdkClient,
                 order,
                 lineItemId: manualAdjustment.id,
@@ -96,7 +96,7 @@ export function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
   }
 }
 
-async function createAdjustmentLineItem({
+async function createManualAdjustmentLineItem({
   sdkClient,
   amount,
   order
@@ -122,7 +122,7 @@ async function createAdjustmentLineItem({
   })
 }
 
-async function updateAdjustmentLineItem({
+async function updateManualAdjustmentLineItem({
   sdkClient,
   amount,
   lineItemId,

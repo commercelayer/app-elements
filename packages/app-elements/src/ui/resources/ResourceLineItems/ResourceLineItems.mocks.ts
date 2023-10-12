@@ -4,6 +4,7 @@ import {
   type ReturnLineItem,
   type StockLineItem
 } from '@commercelayer/sdk'
+import { manualAdjustmentReferenceOrigin } from '../ResourceOrderSummary/utils'
 
 export const presetLineItems = {
   oneLine: {
@@ -522,6 +523,42 @@ export const presetLineItems = {
     updated_at: '2023-10-10T15:10:53.747Z',
     reference: null,
     reference_origin: null,
+    metadata: {}
+  },
+  manualAdjustment: {
+    type: 'line_items',
+    id: 'treQQeTgDs',
+    sku_code: null,
+    bundle_code: null,
+    quantity: 1,
+    currency_code: 'EUR',
+    unit_amount_cents: -800,
+    unit_amount_float: -8,
+    formatted_unit_amount: '-€8,00',
+    options_amount_cents: 0,
+    options_amount_float: 0,
+    formatted_options_amount: '€0,00',
+    discount_cents: 0,
+    discount_float: 0,
+    formatted_discount: '€0,00',
+    total_amount_cents: -800,
+    total_amount_float: -8,
+    formatted_total_amount: '-€8,00',
+    tax_amount_cents: 0,
+    tax_amount_float: 0,
+    formatted_tax_amount: '€0,00',
+    name: 'Manual adjustment',
+    image_url: null,
+    discount_breakdown: {},
+    tax_rate: 0,
+    tax_breakdown: {},
+    item_type: 'adjustments',
+    frequency: null,
+    coupon_code: null,
+    created_at: '2023-10-09T15:07:12.477Z',
+    updated_at: '2023-10-10T15:10:53.747Z',
+    reference: null,
+    reference_origin: manualAdjustmentReferenceOrigin,
     metadata: {}
   }
 } satisfies Record<

@@ -126,7 +126,7 @@ export function renderAdjustments(order: Order): JSX.Element | null {
             label:
               adjustmentLineItem.name ??
               adjustmentLineItem.item_type ??
-              'Discount',
+              'Adjustment',
             formattedAmount: adjustmentLineItem.formatted_total_amount
           })}
         </Fragment>

@@ -20,8 +20,16 @@ export const parameters: Parameters = {
   },
   options: {
     storySort: {
+      method: 'alphabetical',
+      locales: 'en-US',
       order: [
-        'Getting Started',
+        'Getting Started', [
+          'Welcome',
+          'Applications',
+          'Custom apps',
+          'Token provider',
+          'Core SDK provider'
+        ],
         'Atoms',
         'Forms', ['react-hook-form'],
         'Hooks',
