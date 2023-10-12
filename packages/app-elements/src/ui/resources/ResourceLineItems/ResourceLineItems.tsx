@@ -406,7 +406,7 @@ const LineItemOptions = withSkeletonTemplate<{
 const ReturnLineItemReason = withSkeletonTemplate<{
   reason: ReturnLineItem['return_reason']
 }>(({ reason }) => {
-  if (reason == null || Object.entries(reason).length === 0) {
+  if (reason == null || Object.keys(reason).length === 0) {
     return null
   }
 
