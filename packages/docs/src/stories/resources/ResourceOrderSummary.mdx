@@ -1,0 +1,61 @@
+import { Meta, Canvas, Title, Subtitle, Description, Primary, Controls, Story, CodeOrSourceMdx } from '@storybook/addon-docs';
+import * as ComponentStories from './ResourceOrderSummary.stories';
+import { manualAdjustmentReferenceOrigin } from '#ui/resources/ResourceOrderSummary/utils'
+
+<Meta of={ComponentStories} />
+
+<Title />
+<Subtitle />
+<Description />
+<Primary />
+<Controls />
+
+<div style={{
+  fontSize: '13px',
+  fontWeight: '700',
+  lineHeight: '16px',
+  letterSpacing: '0.35em',
+  textTransform: 'uppercase',
+  color: '#73828C',
+  border: '0',
+  marginBottom: '12px'
+}}>Stories</div>
+
+
+### Without A Coupon Code
+<Description of={ComponentStories.WithoutACouponCode} />
+<Canvas><Story of={ComponentStories.WithoutACouponCode} /></Canvas>
+<Controls
+  of={ComponentStories.WithoutACouponCode}
+  include={['editable']}
+/>
+
+
+### With A Coupon Code
+<Description of={ComponentStories.WithACouponCode} />
+<Canvas><Story of={ComponentStories.WithACouponCode} /></Canvas>
+<Controls
+  of={ComponentStories.WithACouponCode}
+  include={['editable']}
+/>
+
+
+### Without A Manual Adjustment
+<span type="info" title="Manual adjustment">
+  A manual adjustment is a special line_items with the `reference_origin` set to <b><CodeOrSourceMdx>{manualAdjustmentReferenceOrigin}</CodeOrSourceMdx></b> and linked to an adjustment.
+</span>
+<Description of={ComponentStories.WithoutAManualAdjustment} />
+<Canvas><Story of={ComponentStories.WithoutAManualAdjustment} /></Canvas>
+<Controls
+  of={ComponentStories.WithoutAManualAdjustment}
+  include={['editable']}
+/>
+
+
+### With A Manual Adjustment
+<Description of={ComponentStories.WithAManualAdjustment} />
+<Canvas><Story of={ComponentStories.WithAManualAdjustment} /></Canvas>
+<Controls
+  of={ComponentStories.WithAManualAdjustment}
+  include={['editable']}
+/>

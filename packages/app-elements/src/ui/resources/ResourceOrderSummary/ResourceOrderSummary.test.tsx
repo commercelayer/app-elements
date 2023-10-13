@@ -23,7 +23,8 @@ const order: Order = {
     presetLineItems.paymentMethod,
     presetLineItems.percentageDiscountPromotionCoupon,
     presetLineItems.freeShippingPromotion,
-    presetLineItems.withBundle
+    presetLineItems.withBundle,
+    presetLineItems.adjustmentAdditionalService
   ]
 }
 
@@ -108,31 +109,19 @@ describe('ResourceOrderSummary', () => {
   })
 
   it('should always show all `promotions` line items instead of the discount order attribute', async () => {
-    const { queryByTestId } = await act(async () =>
+    const { queryByTestId, queryByText } = await act(async () =>
       render(
         <ResourceOrderSummary
           order={{
             ...order,
-            subtotal_amount_cents: 0,
-            formatted_subtotal_amount: '$0.00',
-            discount_amount_cents: 500,
-            formatted_discount_amount: '$5.00',
-            adjustment_amount_cents: 0,
-            formatted_adjustment_amount: '$0.00',
-            shipping_amount_cents: 0,
-            formatted_shipping_amount: '$0.00',
-            payment_method_amount_cents: 0,
-            formatted_payment_method_amount: '$0.00',
-            total_tax_amount_cents: 0,
-            formatted_total_tax_amount: '$0.00'
+            discount_amount_cents: 1234567,
+            formatted_discount_amount: '$1234567.00'
           }}
         />
       )
     )
 
-    expect(
-      queryByTestId('ResourceOrderSummary-Discount')
-    ).not.toBeInTheDocument()
+    expect(queryByText('$1234567.00')).not.toBeInTheDocument()
 
     expect(
       queryByTestId('ResourceOrderSummary-10% OFF with coupon')
@@ -149,6 +138,35 @@ describe('ResourceOrderSummary', () => {
     ).toHaveTextContent('-€12,00')
   })
 
+  it('should always show all `adjustments` line items instead of the adjustment order attribute', async () => {
+    const { queryByTestId, queryByText } = await act(async () =>
+      render(
+        <ResourceOrderSummary
+          order={{
+            ...order,
+            adjustment_amount_cents: 1234567,
+            formatted_adjustment_amount: '$1234567.00',
+            adjustment_tax_amount_cents: 1234567,
+            formatted_adjustment_tax_amount: '$1234567.00',
+            adjustment_taxable_amount_cents: 1234567,
+            formatted_adjustment_taxable_amount: '$1234567.00'
+          }}
+        />
+      )
+    )
+
+    expect(queryByText('$1234567.00')).not.toBeInTheDocument()
+
+    expect(
+      queryByTestId('ResourceOrderSummary-Additional service (adjustment)')
+    ).toBeInTheDocument()
+    expect(
+      queryByTestId(
+        'ResourceOrderSummary-Additional service (adjustment)-value'
+      )
+    ).toHaveTextContent('€10,00')
+  })
+
   it('should always show "subtotal", "shipping" and "total" even if the price is equal to 0 or undefined', async () => {
     const { queryByTestId } = await act(async () =>
       render(
@@ -159,8 +177,6 @@ describe('ResourceOrderSummary', () => {
             formatted_subtotal_amount: '$0.00',
             discount_amount_cents: 0,
             formatted_discount_amount: '$0.00',
-            adjustment_amount_cents: 0,
-            formatted_adjustment_amount: '$0.00',
             shipping_amount_cents: 0,
             formatted_shipping_amount: '$0.00',
             payment_method_amount_cents: 0,
@@ -175,9 +191,6 @@ describe('ResourceOrderSummary', () => {
     expect(queryByTestId('ResourceOrderSummary-Subtotal')).toBeInTheDocument()
     expect(
       queryByTestId('ResourceOrderSummary-Discount')
-    ).not.toBeInTheDocument()
-    expect(
-      queryByTestId('ResourceOrderSummary-Adjustments')
     ).not.toBeInTheDocument()
     expect(
       queryByTestId('ResourceOrderSummary-Shipping method')
@@ -231,13 +244,9 @@ describe('ResourceOrderSummary', () => {
       queryByTestId('ResourceOrderSummary-Discount')
     ).not.toBeInTheDocument()
 
-    expect(queryByTestId('ResourceOrderSummary-Adjustment')).toBeInTheDocument()
     expect(
-      queryByTestId('ResourceOrderSummary-Adjustment-value')?.children[0]
-    ).not.toBeInstanceOf(HTMLButtonElement)
-    expect(
-      queryByTestId('ResourceOrderSummary-Adjustment-value')
-    ).toHaveTextContent('$5.00')
+      queryByTestId('ResourceOrderSummary-Adjustment')
+    ).not.toBeInTheDocument()
 
     expect(
       queryByTestId('ResourceOrderSummary-Shipping method')
@@ -269,7 +278,7 @@ describe('ResourceOrderSummary', () => {
     )
   })
 
-  it('should show "Adjust total" beside Adjustment as Button when `editable` prop is set to true', async () => {
+  it('should show "Adjust total" beside Adjustment as Button when `editable` prop is set to true and there is no a manual adjustment', async () => {
     const { queryByTestId } = await act(async () =>
       render(<ResourceOrderSummary editable order={order} />)
     )
@@ -290,8 +299,10 @@ describe('ResourceOrderSummary', () => {
           editable
           order={{
             ...order,
-            adjustment_amount_cents: 5,
-            formatted_adjustment_amount: '$5.00'
+            line_items: [
+              ...(order.line_items ?? []),
+              presetLineItems.manualAdjustment
+            ]
           }}
         />
       )
@@ -303,7 +314,7 @@ describe('ResourceOrderSummary', () => {
     ).toBeInstanceOf(HTMLButtonElement)
     expect(
       queryByTestId('ResourceOrderSummary-Adjustment-value')
-    ).toHaveTextContent('$5.00')
+    ).toHaveTextContent('-€8,00')
   })
 
   it('should not render the action buttons when not defined', async () => {

@@ -1,6 +1,6 @@
 import { Text } from '#ui/atoms/Text'
 import { FlexRow } from '#ui/internals/FlexRow'
-import type { Order } from '@commercelayer/sdk'
+import type { LineItem, Order } from '@commercelayer/sdk'
 import cn from 'classnames'
 import { Fragment } from 'react'
 
@@ -90,6 +90,44 @@ export function renderDiscounts(order: Order): JSX.Element | null {
               promotionLineItem.item_type ??
               'Discount',
             formattedAmount: promotionLineItem.formatted_total_amount
+          })}
+        </Fragment>
+      ))}
+    </>
+  )
+}
+
+export const manualAdjustmentReferenceOrigin = 'app-orders--manual-adjustment'
+
+export function getManualAdjustment(order: Order): LineItem | undefined {
+  const [manualAdjustment] =
+    order.line_items?.filter(
+      (lineItem) =>
+        lineItem.item_type === 'adjustments' &&
+        lineItem.reference_origin === manualAdjustmentReferenceOrigin
+    ) ?? []
+
+  return manualAdjustment
+}
+
+export function renderAdjustments(order: Order): JSX.Element | null {
+  const adjustmentLineItems =
+    order.line_items?.filter(
+      (lineItem) =>
+        lineItem.item_type === 'adjustments' &&
+        lineItem.reference_origin !== manualAdjustmentReferenceOrigin
+    ) ?? []
+
+  return (
+    <>
+      {adjustmentLineItems.map((adjustmentLineItem) => (
+        <Fragment key={adjustmentLineItem.id}>
+          {renderTotalRowAmount({
+            label:
+              adjustmentLineItem.name ??
+              adjustmentLineItem.item_type ??
+              'Adjustment',
+            formattedAmount: adjustmentLineItem.formatted_total_amount
           })}
         </Fragment>
       ))}

@@ -5,9 +5,8 @@ import { ResourceOrderSummary } from '#ui/resources/ResourceOrderSummary'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 /**
- * <span title="SKUs and Bundles" type="info">
- * Order Summary is using the `LineItems` components to render the `line_items` at the top.
- * </span>
+ * The main responsibility of the Order Summary component is rendering the summary given an Order resource.
+ * Other then that, it uses the `LineItems` component to render the `line_items` at the top.
  */
 const setup: Meta<typeof ResourceOrderSummary> = {
   title: 'Resources/ResourceOrderSummary',
@@ -73,15 +72,16 @@ const order: Order = {
   formatted_payment_method_taxable_amount: '€0,00',
   adjustment_taxable_amount_cents: 0,
   formatted_adjustment_taxable_amount: '€0,00',
-  total_amount_with_taxes_cents: 8500,
-  formatted_total_amount_with_taxes: '€85,00',
+  total_amount_with_taxes_cents: 9500,
+  formatted_total_amount_with_taxes: '€95,00',
 
   line_items: [
     presetLineItems.oneLine,
     presetLineItems.giftCardUsed,
     presetLineItems.percentageDiscountPromotionCoupon,
     presetLineItems.percentageDiscountPromotionOver100,
-    presetLineItems.freeShippingPromotion
+    presetLineItems.freeShippingPromotion,
+    presetLineItems.adjustmentAdditionalService
   ]
 }
 
@@ -120,11 +120,14 @@ Default.args = {
 }
 
 /**
- * When the order is placed without using a `coupon_code`, it will not be shown in the summary.
+ * When the order is placed **without** using a `coupon_code`, it will not be shown in the summary.
+ *
+ * When you set `editable: true`, you'll be able to add a coupon by clicking on "Add coupon" link.
  */
 export const WithoutACouponCode = Template.bind({})
 WithoutACouponCode.args = {
   ...Default.args,
+  editable: false,
   order: {
     ...order,
     coupon_code: undefined
@@ -132,39 +135,44 @@ WithoutACouponCode.args = {
 }
 
 /**
- * When the order is in `editing` status, you can click on "Add coupon" to add one.
- */
-export const EditableWithoutACouponCode = Template.bind({})
-EditableWithoutACouponCode.args = {
-  ...Default.args,
-  editable: true,
-  order: {
-    ...order,
-    coupon_code: undefined
-  }
-}
-
-/**
- * When the order does not contain an `adjustment` line_item, then the adjustment row is not shown, but when the order is in `editing` status, you will see the row and you can add a new adjustment.
- */
-export const EditableEmptyAdjustment = Template.bind({})
-EditableEmptyAdjustment.args = {
-  ...Default.args,
-  editable: true,
-  order: {
-    ...order,
-    adjustment_amount_cents: undefined,
-    formatted_adjustment_amount: undefined
-  }
-}
-
-/**
- * All `line_items` amounts with the `item_type` equal to `adjustments` are shown as a single row in the ResourceOrderSummary.
+ * When the order is placed **with** a `coupon_code`, it will be visible in the order summary in a dedicated section.
  *
- * When the order is in `editing` status, you can click on the adjustment value to update it.
+ * When you set `editable: true`, you'll be able to remove the coupon by clicking on the "trash" icon.
  */
-export const EditableAdjustmentWithExistingValue = Template.bind({})
-EditableAdjustmentWithExistingValue.args = {
+export const WithACouponCode = Template.bind({})
+WithACouponCode.args = {
   ...Default.args,
-  editable: true
+  editable: false,
+  order
+}
+
+/**
+ * When the order does not contain a "manual adjustment" line_item, then the adjustment row is not shown.
+ *
+ * When you set `editable: true`, you'll be able to adjust the total by clicking on "Adjust total" link.
+ */
+export const WithoutAManualAdjustment = Template.bind({})
+WithoutAManualAdjustment.args = {
+  ...Default.args,
+  editable: false,
+  order: {
+    ...order,
+    coupon_code: undefined
+  }
+}
+
+/**
+ * When the order contains a "manual adjustment" line_item, then the adjustment row is visible in the order summary with a label "Adjustment".
+ *
+ * When you set `editable: true`, you'll be able to update the manual adjustment by clicking on its value (e.g. `-€8,00`).
+ */
+export const WithAManualAdjustment = Template.bind({})
+WithAManualAdjustment.args = {
+  ...Default.args,
+  editable: true,
+  order: {
+    ...order,
+    coupon_code: undefined,
+    line_items: [...(order.line_items ?? []), presetLineItems.manualAdjustment]
+  }
 }
