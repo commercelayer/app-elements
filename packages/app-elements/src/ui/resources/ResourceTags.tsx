@@ -85,6 +85,14 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
     )
 
     const { sdkClient } = useCoreSdkProvider()
+    const { settings } = useTokenProvider()
+
+    const navigateToTagsManagement = navigateTo({
+      destination: {
+        app: 'tags',
+        mode: settings.mode
+      }
+    })
 
     const tagsToSelectOptions = useCallback(
       (tags: Tag[]): InputSelectValue[] =>
@@ -112,14 +120,6 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
     )
 
     if (resourceTags == null) return <></>
-
-    const { settings } = useTokenProvider()
-    const navigateToTagsManagement = navigateTo({
-      destination: {
-        app: 'tags',
-        mode: settings.mode
-      }
-    })
 
     return (
       <div>

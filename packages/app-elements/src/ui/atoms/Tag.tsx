@@ -1,5 +1,5 @@
 import { type FlexRowProps } from '#ui/internals/FlexRow'
-import { enforceAllowedTags, removeTagProp } from '#utils/htmltags'
+import { enforceAllowedTags, removeUnwantedProps } from '#utils/htmltags'
 import cn from 'classnames'
 import { useMemo, type FC } from 'react'
 
@@ -39,6 +39,10 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
     [rest.tag]
   )
   const hasHover = rest.onClick != null && rest.tag === 'button'
+  const wantedProps =
+    rest.tag === 'button'
+      ? removeUnwantedProps(rest, ['tag', 'buttonStyle'])
+      : removeUnwantedProps(rest, ['tag'])
 
   return (
     <JsxTag
@@ -55,9 +59,9 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
         }
       ])}
       type={rest.tag === 'button' ? 'button' : undefined}
-      // we don't want `tag` prop to be present as attribute on html tag
+      // we don't want `tag` and eventually `buttonStyle` props to be present as attribute on html tag
       // still we need to be part of `rest` to discriminate the union type
-      {...(removeTagProp(rest) as any)}
+      {...(wantedProps as any)}
     >
       {icon != null && <div className='flex-shrink-0'>{icon}</div>}
       {children}

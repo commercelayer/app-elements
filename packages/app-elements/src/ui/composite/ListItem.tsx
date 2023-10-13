@@ -1,5 +1,5 @@
 import { FlexRow, type FlexRowProps } from '#ui/internals/FlexRow'
-import { enforceAllowedTags, removeTagProp } from '#utils/htmltags'
+import { enforceAllowedTags, removeUnwantedProps } from '#utils/htmltags'
 import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useMemo, type FC } from 'react'
@@ -82,7 +82,7 @@ export const ListItem: FC<ListItemProps> = ({
       )}
       // we don't want `tag` prop to be present as attribute on html tag
       // still we need to be part of `rest` to discriminate the union type
-      {...(removeTagProp(rest) as any)}
+      {...(removeUnwantedProps(rest, ['tag']) as any)}
     >
       <div className={cn('flex gap-4 flex-1 items-center')}>
         {icon != null && (

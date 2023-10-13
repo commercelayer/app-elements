@@ -1,3 +1,5 @@
+import omit from 'lodash/omit'
+
 export function enforceAllowedTags<
   AllowedTags extends ReadonlyArray<keyof JSX.IntrinsicElements>,
   Tag extends AllowedTags[number],
@@ -14,9 +16,9 @@ export function enforceAllowedTags<
   return tag != null && allowedTags.includes(tag) ? tag : defaultTag
 }
 
-export function removeTagProp<T extends object>(props: T): Omit<T, 'tag'> {
-  return {
-    ...props,
-    tag: undefined
-  }
+export function removeUnwantedProps<P extends object, U extends keyof P>(
+  props: P,
+  unwantedProps: U[]
+): Omit<P, (typeof unwantedProps)[number]> {
+  return omit(props, unwantedProps) as Omit<P, (typeof unwantedProps)[number]>
 }
