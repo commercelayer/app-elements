@@ -50,6 +50,7 @@ export {
 
 // Atoms
 export { A, type AProps } from '#ui/atoms/A'
+export { Alert, type AlertProps } from '#ui/atoms/Alert'
 export { Avatar, type AvatarProps } from '#ui/atoms/Avatar'
 export { AvatarLetter, type AvatarLetterProps } from '#ui/atoms/AvatarLetter'
 export { Badge, type BadgeProps } from '#ui/atoms/Badge'
