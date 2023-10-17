@@ -7,13 +7,15 @@ import { Fragment } from 'react'
 interface TotalRowProps {
   /** Displayed label */
   label: string
+  /** Amount cents */
+  amountCents: number | undefined | null
   /** Formatted amount */
   formattedAmount: string | undefined | null
   /** Set font-weight to bold */
   bold?: boolean
 
   /**
-   * When `true` the row will be always  printed.
+   * When `true` the row will be always printed even if the `amountCents` is equal to 0.
    * @default false
    */
   force?: boolean
@@ -46,6 +48,7 @@ export function renderTotalRow({
 
 export function renderTotalRowAmount({
   label,
+  amountCents,
   formattedAmount,
   force = false,
   bold = false
@@ -54,8 +57,7 @@ export function renderTotalRowAmount({
     formattedAmount = ''
   }
 
-  const amountCents = parseInt(formattedAmount.replace(/[^0-9\-.,]+/g, ''))
-  const showRow = force || (!isNaN(amountCents) && amountCents !== 0)
+  const showRow = force || (amountCents != null && amountCents !== 0)
 
   return showRow
     ? renderTotalRow({ label, value: formattedAmount, bold })
@@ -89,6 +91,7 @@ export function renderDiscounts(order: Order): JSX.Element | null {
               promotionLineItem.name ??
               promotionLineItem.item_type ??
               'Discount',
+            amountCents: promotionLineItem.total_amount_cents,
             formattedAmount: promotionLineItem.formatted_total_amount
           })}
         </Fragment>
@@ -127,6 +130,7 @@ export function renderAdjustments(order: Order): JSX.Element | null {
               adjustmentLineItem.name ??
               adjustmentLineItem.item_type ??
               'Adjustment',
+            amountCents: adjustmentLineItem.total_amount_cents,
             formattedAmount: adjustmentLineItem.formatted_total_amount
           })}
         </Fragment>
