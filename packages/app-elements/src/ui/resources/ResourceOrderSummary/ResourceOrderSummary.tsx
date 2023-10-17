@@ -96,11 +96,13 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                   {renderTotalRowAmount({
                     force: true,
                     label: 'Subtotal',
+                    amountCents: order.subtotal_amount_cents,
                     formattedAmount: order.formatted_subtotal_amount
                   })}
                   {renderTotalRowAmount({
                     force: true,
                     label: 'Shipping method',
+                    amountCents: order.shipping_amount_cents,
                     formattedAmount:
                       order.shipping_amount_cents !== 0
                         ? order.formatted_shipping_amount
@@ -108,10 +110,12 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                   })}
                   {renderTotalRowAmount({
                     label: 'Payment method',
+                    amountCents: order.payment_method_amount_cents,
                     formattedAmount: order.formatted_payment_method_amount
                   })}
                   {renderTotalRowAmount({
                     label: 'Taxes',
+                    amountCents: order.total_tax_amount_cents,
                     formattedAmount: order.formatted_total_tax_amount
                   })}
                   {renderDiscounts(order)}
@@ -136,15 +140,18 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                     : manualAdjustment != null &&
                       renderTotalRowAmount({
                         label: 'Adjustment',
+                        amountCents: manualAdjustment.total_amount_cents,
                         formattedAmount: manualAdjustment.formatted_total_amount
                       })}
                   {renderTotalRowAmount({
                     label: 'Gift card',
+                    amountCents: order.gift_card_amount_cents,
                     formattedAmount: order.formatted_gift_card_amount
                   })}
                   {renderTotalRowAmount({
                     force: true,
                     label: 'Total',
+                    amountCents: order.total_amount_with_taxes_cents,
                     formattedAmount: order.formatted_total_amount_with_taxes,
                     bold: true
                   })}

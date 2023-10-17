@@ -214,21 +214,21 @@ describe('ResourceOrderSummary', () => {
         <ResourceOrderSummary
           order={{
             ...order,
-            subtotal_amount_cents: 5,
+            subtotal_amount_cents: 500,
             formatted_subtotal_amount: '$5.00',
-            discount_amount_cents: 5,
+            discount_amount_cents: 500,
             formatted_discount_amount: '$5.00',
-            adjustment_amount_cents: 5,
+            adjustment_amount_cents: 500,
             formatted_adjustment_amount: '$5.00',
-            shipping_amount_cents: 5,
+            shipping_amount_cents: 500,
             formatted_shipping_amount: '$5.00',
-            payment_method_amount_cents: 5,
+            payment_method_amount_cents: 500,
             formatted_payment_method_amount: '$5.00',
-            total_tax_amount_cents: 5,
+            total_tax_amount_cents: 500,
             formatted_total_tax_amount: '$5.00',
-            gift_card_amount_cents: 5,
-            formatted_gift_card_amount: '$5.00',
-            total_amount_with_taxes_cents: 5,
+            gift_card_amount_cents: 3,
+            formatted_gift_card_amount: '$0.03',
+            total_amount_with_taxes_cents: 500,
             formatted_total_amount_with_taxes: '$5.00'
           }}
         />
@@ -270,7 +270,7 @@ describe('ResourceOrderSummary', () => {
     expect(queryByTestId('ResourceOrderSummary-Gift card')).toBeInTheDocument()
     expect(
       queryByTestId('ResourceOrderSummary-Gift card-value')
-    ).toHaveTextContent('$5.00')
+    ).toHaveTextContent('$0.03')
 
     expect(queryByTestId('ResourceOrderSummary-Total')).toBeInTheDocument()
     expect(queryByTestId('ResourceOrderSummary-Total-value')).toHaveTextContent(
