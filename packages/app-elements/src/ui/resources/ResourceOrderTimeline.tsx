@@ -70,7 +70,7 @@ export const ResourceOrderTimeline =
 
       const [events] = useTimelineReducer(order)
       const { sdkClient } = useCoreSdkProvider()
-      const { user } = useTokenProvider()
+      const { user, canUser } = useTokenProvider()
 
       useEffect(
         function refreshOrder() {
@@ -83,6 +83,7 @@ export const ResourceOrderTimeline =
 
       return (
         <Timeline
+          disabled={!canUser('create', 'attachments')}
           isLoading={
             isExternalLoading === true || isLoading || order.id === fakeOrderId
           }

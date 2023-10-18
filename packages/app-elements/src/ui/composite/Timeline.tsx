@@ -19,6 +19,7 @@ type EventWithIcon = TimelineEvent & {
 }
 
 export interface TimelineProps {
+  disabled?: boolean
   events: TimelineEvent[]
   timezone?: string
   onChange?: React.ChangeEventHandler<HTMLInputElement>
@@ -26,7 +27,7 @@ export interface TimelineProps {
 }
 
 export const Timeline = withSkeletonTemplate<TimelineProps>(
-  ({ events, timezone, onChange, onKeyDown }) => {
+  ({ disabled, events, timezone, onChange, onKeyDown }) => {
     const groupedEvents = useMemo(() => {
       const eventsWithIcon: EventWithIcon[] = events.map((event) => ({
         ...event,
@@ -38,6 +39,7 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
     return (
       <div data-testid='timeline'>
         <Input
+          disabled={disabled}
           onKeyDown={onKeyDown}
           onChange={onChange}
           className='relative bg-gray-50'
