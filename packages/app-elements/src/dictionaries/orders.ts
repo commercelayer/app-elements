@@ -43,42 +43,10 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
   switch (combinedStatus) {
     case 'placed:authorized:unfulfilled':
-      return {
-        label: 'Placed',
-        icon: 'arrowDown',
-        color: 'orange',
-        task: 'Awaiting approval',
-        triggerAttributes: ['_approve', '_cancel']
-      }
-
     case 'placed:authorized:not_required':
-      return {
-        label: 'Placed',
-        icon: 'arrowDown',
-        color: 'orange',
-        task: 'Awaiting approval',
-        triggerAttributes: ['_approve', '_cancel']
-      }
-
     case 'placed:paid:unfulfilled':
     case 'placed:partially_refunded:unfulfilled':
-      return {
-        label: 'Placed',
-        icon: 'arrowDown',
-        color: 'orange',
-        task: 'Awaiting approval',
-        triggerAttributes: ['_approve', '_cancel']
-      }
-
     case 'placed:free:unfulfilled':
-      return {
-        label: 'Placed',
-        icon: 'arrowDown',
-        color: 'orange',
-        task: 'Awaiting approval',
-        triggerAttributes: ['_approve', '_cancel']
-      }
-
     case 'placed:free:not_required':
       return {
         label: 'Placed',
@@ -89,14 +57,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'approved:authorized:unfulfilled':
-      return {
-        label: 'Approved',
-        icon: 'creditCard',
-        color: 'orange',
-        task: 'Payment to capture',
-        triggerAttributes: ['_capture']
-      }
-
     case 'approved:authorized:not_required':
       return {
         label: 'Approved',
@@ -107,14 +67,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'approved:paid:in_progress':
-      return {
-        label: 'In progress',
-        icon: 'arrowClockwise',
-        color: 'orange',
-        task: 'Fulfillment in progress',
-        triggerAttributes: ['_refund']
-      }
-
     case 'approved:partially_refunded:in_progress':
       return {
         label: 'In progress',
@@ -176,13 +128,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'cancelled:voided:unfulfilled':
-      return {
-        label: 'Cancelled',
-        icon: 'x',
-        color: 'gray',
-        triggerAttributes: [archiveTriggerAttribute]
-      }
-
     case 'cancelled:refunded:unfulfilled':
     case 'cancelled:refunded:not_required':
     case 'cancelled:unpaid:unfulfilled':
@@ -212,21 +157,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'pending:unpaid:unfulfilled':
-      return {
-        label: 'Pending',
-        icon: 'shoppingBag',
-        color: 'white',
-        triggerAttributes: []
-      }
-
     case 'pending:authorized:unfulfilled':
-      return {
-        label: 'Pending',
-        icon: 'shoppingBag',
-        color: 'white',
-        triggerAttributes: []
-      }
-
     case 'pending:free:unfulfilled':
       return {
         label: 'Pending',
