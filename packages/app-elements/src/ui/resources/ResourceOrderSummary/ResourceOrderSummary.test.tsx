@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-confusing-void-expression */
+import { MockTokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
 import { type Order } from '@commercelayer/sdk'
 import { fireEvent, render, waitFor } from '@testing-library/react'
@@ -32,29 +33,31 @@ describe('ResourceOrderSummary', () => {
   it('should render', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <ResourceOrderSummary
-          order={{
-            ...order,
-            subtotal_amount_cents: 14160,
-            formatted_subtotal_amount: '$141.60',
-            discount_amount_cents: 0,
-            formatted_discount_amount: '$0.00',
-            adjustment_amount_cents: 0,
-            formatted_adjustment_amount: '$0.00',
-            shipping_amount_cents: 1200,
-            formatted_shipping_amount: '$12.00',
-            payment_method_amount_cents: 1000,
-            formatted_payment_method_amount: '$10.00',
-            total_tax_amount_cents: 3115,
-            formatted_total_tax_amount: '$31.15',
-            gift_card_amount_cents: 0,
-            formatted_gift_card_amount: '$0.00',
-            total_amount_cents: 16360,
-            formatted_total_amount: '$163.60',
-            total_amount_with_taxes_cents: 13245,
-            formatted_total_amount_with_taxes: '$132.45'
-          }}
-        />
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary
+            order={{
+              ...order,
+              subtotal_amount_cents: 14160,
+              formatted_subtotal_amount: '$141.60',
+              discount_amount_cents: 0,
+              formatted_discount_amount: '$0.00',
+              adjustment_amount_cents: 0,
+              formatted_adjustment_amount: '$0.00',
+              shipping_amount_cents: 1200,
+              formatted_shipping_amount: '$12.00',
+              payment_method_amount_cents: 1000,
+              formatted_payment_method_amount: '$10.00',
+              total_tax_amount_cents: 3115,
+              formatted_total_tax_amount: '$31.15',
+              gift_card_amount_cents: 0,
+              formatted_gift_card_amount: '$0.00',
+              total_amount_cents: 16360,
+              formatted_total_amount: '$163.60',
+              total_amount_with_taxes_cents: 13245,
+              formatted_total_amount_with_taxes: '$132.45'
+            }}
+          />
+        </MockTokenProvider>
       )
     )
 
@@ -95,7 +98,11 @@ describe('ResourceOrderSummary', () => {
   })
 
   it('should only show line_items with the item_type attribute equal to "skus" or "bundles"', async () => {
-    const { queryAllByText } = render(<ResourceOrderSummary order={order} />)
+    const { queryAllByText } = render(
+      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+        <ResourceOrderSummary order={order} />
+      </MockTokenProvider>
+    )
     await waitFor(() => {
       expect(queryAllByText('Gray Baby Bib with Black Logo').length).toEqual(1)
     })
@@ -170,21 +177,23 @@ describe('ResourceOrderSummary', () => {
   it('should always show "subtotal", "shipping" and "total" even if the price is equal to 0 or undefined', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <ResourceOrderSummary
-          order={{
-            ...order,
-            subtotal_amount_cents: 0,
-            formatted_subtotal_amount: '$0.00',
-            discount_amount_cents: 0,
-            formatted_discount_amount: '$0.00',
-            shipping_amount_cents: 0,
-            formatted_shipping_amount: '$0.00',
-            payment_method_amount_cents: 0,
-            formatted_payment_method_amount: '$0.00',
-            total_tax_amount_cents: 0,
-            formatted_total_tax_amount: '$0.00'
-          }}
-        />
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary
+            order={{
+              ...order,
+              subtotal_amount_cents: 0,
+              formatted_subtotal_amount: '$0.00',
+              discount_amount_cents: 0,
+              formatted_discount_amount: '$0.00',
+              shipping_amount_cents: 0,
+              formatted_shipping_amount: '$0.00',
+              payment_method_amount_cents: 0,
+              formatted_payment_method_amount: '$0.00',
+              total_tax_amount_cents: 0,
+              formatted_total_tax_amount: '$0.00'
+            }}
+          />
+        </MockTokenProvider>
       )
     )
 
@@ -211,27 +220,29 @@ describe('ResourceOrderSummary', () => {
   it('should show everything when price is greater or lower than 0', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <ResourceOrderSummary
-          order={{
-            ...order,
-            subtotal_amount_cents: 500,
-            formatted_subtotal_amount: '$5.00',
-            discount_amount_cents: 500,
-            formatted_discount_amount: '$5.00',
-            adjustment_amount_cents: 500,
-            formatted_adjustment_amount: '$5.00',
-            shipping_amount_cents: 500,
-            formatted_shipping_amount: '$5.00',
-            payment_method_amount_cents: 500,
-            formatted_payment_method_amount: '$5.00',
-            total_tax_amount_cents: 500,
-            formatted_total_tax_amount: '$5.00',
-            gift_card_amount_cents: 3,
-            formatted_gift_card_amount: '$0.03',
-            total_amount_with_taxes_cents: 500,
-            formatted_total_amount_with_taxes: '$5.00'
-          }}
-        />
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary
+            order={{
+              ...order,
+              subtotal_amount_cents: 500,
+              formatted_subtotal_amount: '$5.00',
+              discount_amount_cents: 500,
+              formatted_discount_amount: '$5.00',
+              adjustment_amount_cents: 500,
+              formatted_adjustment_amount: '$5.00',
+              shipping_amount_cents: 500,
+              formatted_shipping_amount: '$5.00',
+              payment_method_amount_cents: 500,
+              formatted_payment_method_amount: '$5.00',
+              total_tax_amount_cents: 500,
+              formatted_total_tax_amount: '$5.00',
+              gift_card_amount_cents: 3,
+              formatted_gift_card_amount: '$0.03',
+              total_amount_with_taxes_cents: 500,
+              formatted_total_amount_with_taxes: '$5.00'
+            }}
+          />
+        </MockTokenProvider>
       )
     )
 
@@ -280,7 +291,11 @@ describe('ResourceOrderSummary', () => {
 
   it('should show "Adjust total" beside Adjustment as Button when `editable` prop is set to true and there is no a manual adjustment', async () => {
     const { queryByTestId } = await act(async () =>
-      render(<ResourceOrderSummary editable order={order} />)
+      render(
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary editable order={order} />
+        </MockTokenProvider>
+      )
     )
 
     expect(queryByTestId('ResourceOrderSummary-Adjustment')).toBeInTheDocument()
@@ -295,16 +310,18 @@ describe('ResourceOrderSummary', () => {
   it('should render the adjustment value as Button when `editable` prop is set to true', async () => {
     const { queryByTestId } = await act(async () =>
       render(
-        <ResourceOrderSummary
-          editable
-          order={{
-            ...order,
-            line_items: [
-              ...(order.line_items ?? []),
-              presetLineItems.manualAdjustment
-            ]
-          }}
-        />
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary
+            editable
+            order={{
+              ...order,
+              line_items: [
+                ...(order.line_items ?? []),
+                presetLineItems.manualAdjustment
+              ]
+            }}
+          />
+        </MockTokenProvider>
       )
     )
 
@@ -319,7 +336,11 @@ describe('ResourceOrderSummary', () => {
 
   it('should not render the action buttons when not defined', async () => {
     const { queryByTestId } = await act(async () =>
-      render(<ResourceOrderSummary order={order} />)
+      render(
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary order={order} />
+        </MockTokenProvider>
+      )
     )
 
     expect(queryByTestId('action-buttons')).not.toBeInTheDocument()
@@ -332,31 +353,33 @@ describe('ResourceOrderSummary', () => {
 
     const { getByText, getByTestId } = await act(async () =>
       render(
-        <ResourceOrderSummary
-          order={order}
-          footerActions={[
-            {
-              label: 'Archive',
-              disabled: true,
-              onClick: () => {
-                console.log('archived!')
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary
+            order={order}
+            footerActions={[
+              {
+                label: 'Archive',
+                disabled: true,
+                onClick: () => {
+                  console.log('archived!')
+                }
+              },
+              {
+                label: 'Approve',
+                onClick: () => {
+                  console.log('approved!')
+                }
+              },
+              {
+                label: 'Cancel',
+                variant: 'secondary',
+                onClick: () => {
+                  console.log('cancelled!')
+                }
               }
-            },
-            {
-              label: 'Approve',
-              onClick: () => {
-                console.log('approved!')
-              }
-            },
-            {
-              label: 'Cancel',
-              variant: 'secondary',
-              onClick: () => {
-                console.log('cancelled!')
-              }
-            }
-          ]}
-        />
+            ]}
+          />
+        </MockTokenProvider>
       )
     )
 
@@ -394,17 +417,19 @@ describe('ResourceOrderSummary', () => {
       .mockImplementation(() => {})
     const { getByText, getByTestId } = await act(async () =>
       render(
-        <ResourceOrderSummary
-          order={order}
-          footerActions={[
-            {
-              label: 'Approve',
-              onClick: () => {
-                console.log('approved!')
+        <MockTokenProvider kind='integration' appSlug='orders' devMode>
+          <ResourceOrderSummary
+            order={order}
+            footerActions={[
+              {
+                label: 'Approve',
+                onClick: () => {
+                  console.log('approved!')
+                }
               }
-            }
-          ]}
-        />
+            ]}
+          />
+        </MockTokenProvider>
       )
     )
 

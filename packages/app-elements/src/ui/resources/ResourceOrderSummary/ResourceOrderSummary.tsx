@@ -1,3 +1,4 @@
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import {
@@ -43,10 +44,19 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
     const { Overlay: AddCouponOverlay, open: openAddCouponOverlay } =
       useAddCouponOverlay(order, onChange)
 
+    const { canUser } = useTokenProvider()
+
+    const canEditOrder = editable && canUser('update', 'orders')
+
+    const canEditManualAdjustment =
+      canEditOrder &&
+      canUser('update', 'adjustments') &&
+      canUser('destroy', 'adjustments')
+
     const manualAdjustment = getManualAdjustment(order)
 
     const couponSummary: ResourceLineItemsProps['footer'] =
-      order.coupon_code == null && !editable
+      order.coupon_code == null && !canEditOrder
         ? []
         : [
             {
@@ -66,7 +76,7 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                   ) : (
                     <div className='flex gap-3'>
                       {order.coupon_code}
-                      {editable && (
+                      {canEditOrder && (
                         <DeleteCouponButton order={order} onChange={onChange} />
                       )}
                     </div>
@@ -77,14 +87,14 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
 
     return (
       <div>
-        {editable && (
+        {canEditOrder && (
           <>
-            <AdjustTotalOverlay />
+            {canEditManualAdjustment && <AdjustTotalOverlay />}
             <AddCouponOverlay />
           </>
         )}
         <ResourceLineItems
-          editable={editable}
+          editable={canEditOrder}
           onChange={onChange}
           items={order.line_items ?? []}
           footer={[
@@ -120,7 +130,7 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                   })}
                   {renderDiscounts(order)}
                   {renderAdjustments(order)}
-                  {editable
+                  {canEditManualAdjustment
                     ? renderTotalRow({
                         label: 'Adjustment',
                         value: (
@@ -160,7 +170,9 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
             }
           ]}
         />
-        <ActionButtons actions={footerActions} />
+        {canUser('update', 'orders') && (
+          <ActionButtons actions={footerActions} />
+        )}
       </div>
     )
   }
