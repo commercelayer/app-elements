@@ -45,7 +45,9 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case 'placed:authorized:unfulfilled':
     case 'placed:authorized:not_required':
     case 'placed:paid:unfulfilled':
+    case 'placed:paid:not_required':
     case 'placed:partially_refunded:unfulfilled':
+    case 'placed:partially_refunded:not_required':
     case 'placed:free:unfulfilled':
     case 'placed:free:not_required':
       return {
@@ -54,6 +56,15 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         color: 'orange',
         task: 'Awaiting approval',
         triggerAttributes: ['_approve', '_cancel']
+      }
+
+    case 'placed:unpaid:unfulfilled':
+      return {
+        label: 'Placed',
+        icon: 'x',
+        color: 'red',
+        task: 'Error to cancel',
+        triggerAttributes: ['_cancel']
       }
 
     case 'approved:authorized:unfulfilled':
@@ -145,15 +156,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         icon: 'x',
         color: 'gray',
         triggerAttributes: ['_return', archiveTriggerAttribute]
-      }
-
-    case 'placed:unpaid:unfulfilled':
-      return {
-        label: 'Placed',
-        icon: 'x',
-        color: 'red',
-        task: 'Error to cancel',
-        triggerAttributes: ['_cancel']
       }
 
     case 'pending:unpaid:unfulfilled':
