@@ -61,6 +61,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'placed:paid:unfulfilled':
+    case 'placed:partially_refunded:unfulfilled':
       return {
         label: 'Placed',
         icon: 'arrowDown',
@@ -150,6 +151,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'approved:paid:not_required':
+    case 'approved:partially_refunded:not_required':
       return {
         label: 'Approved',
         icon: 'check',
@@ -182,6 +184,9 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case 'cancelled:refunded:unfulfilled':
+    case 'cancelled:refunded:not_required':
+    case 'cancelled:unpaid:unfulfilled':
+    case 'cancelled:free:unfulfilled':
       return {
         label: 'Cancelled',
         icon: 'x',
