@@ -4,7 +4,7 @@ const order = {
   id: 'NMWYhbGorj',
   type: 'orders',
   links: {
-    self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj'
+    self: 'https://mock.localhost/api/orders/NMWYhbGorj'
   },
   attributes: {
     number: 2485862,
@@ -138,85 +138,78 @@ const order = {
   relationships: {
     market: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/market',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/market'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/market',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/market'
       },
       data: { type: 'markets', id: 'dlQbPhNNop' }
     },
     customer: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/customer',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/customer'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/customer',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/customer'
       },
       data: { type: 'customers', id: 'JkAdBhNGjQ' }
     },
     shipping_address: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/shipping_address',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/shipping_address'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/shipping_address',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/shipping_address'
       },
       data: { type: 'addresses', id: 'dPoNukZmnB' }
     },
     billing_address: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/billing_address',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/billing_address'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/billing_address',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/billing_address'
       },
       data: { type: 'addresses', id: 'dQxruwZDnB' }
     },
     available_payment_methods: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/available_payment_methods',
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/available_payment_methods',
         related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/available_payment_methods'
+          'https://mock.localhost/api/orders/NMWYhbGorj/available_payment_methods'
       }
     },
     available_customer_payment_sources: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/available_customer_payment_sources',
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/available_customer_payment_sources',
         related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/available_customer_payment_sources'
+          'https://mock.localhost/api/orders/NMWYhbGorj/available_customer_payment_sources'
       }
     },
     available_free_skus: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/available_free_skus',
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/available_free_skus',
         related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/available_free_skus'
+          'https://mock.localhost/api/orders/NMWYhbGorj/available_free_skus'
       }
     },
     available_free_bundles: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/available_free_bundles',
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/available_free_bundles',
         related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/available_free_bundles'
+          'https://mock.localhost/api/orders/NMWYhbGorj/available_free_bundles'
       }
     },
     payment_method: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/payment_method',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/payment_method'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/payment_method',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/payment_method'
       },
       data: { type: 'payment_methods', id: 'wmBvQsARml' }
     },
     payment_source: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/payment_source',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/payment_source'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/payment_source',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/payment_source'
       },
       data: { type: 'stripe_payments', id: 'onXELSmbQy' }
     },
     line_items: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/line_items',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/line_items'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/line_items',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/line_items'
       },
       data: [
         { type: 'line_items', id: 'vaoMtAZlXy' },
@@ -229,9 +222,8 @@ const order = {
     },
     shipments: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/shipments',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/shipments'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/shipments',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/shipments'
       },
       data: [
         { type: 'shipments', id: 'YpLwCnNQgY' },
@@ -240,9 +232,8 @@ const order = {
     },
     transactions: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/transactions',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/transactions'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/transactions',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/transactions'
       },
       data: [
         { type: 'authorizations', id: 'nKZkPUDBVj' },
@@ -251,92 +242,83 @@ const order = {
     },
     authorizations: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/authorizations',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/authorizations'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/authorizations',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/authorizations'
       }
     },
     captures: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/captures',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/captures'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/captures',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/captures'
       }
     },
     voids: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/voids',
-        related: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/voids'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/voids',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/voids'
       }
     },
     refunds: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/refunds',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/refunds'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/refunds',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/refunds'
       }
     },
     returns: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/returns',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/returns'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/returns',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/returns'
       }
     },
     order_subscriptions: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/order_subscriptions',
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/order_subscriptions',
         related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/order_subscriptions'
+          'https://mock.localhost/api/orders/NMWYhbGorj/order_subscriptions'
       }
     },
     order_factories: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/order_factories',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/order_factories'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/order_factories',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/order_factories'
       }
     },
     order_copies: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/order_copies',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/order_copies'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/order_copies',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/order_copies'
       }
     },
     recurring_order_copies: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/recurring_order_copies',
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/recurring_order_copies',
         related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/recurring_order_copies'
+          'https://mock.localhost/api/orders/NMWYhbGorj/recurring_order_copies'
       }
     },
     attachments: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/attachments',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/attachments'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/attachments',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/attachments'
       },
       data: [{ type: 'attachments', id: 'EqGrksxWNW' }]
     },
     events: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/events',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/events'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/events',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/events'
       }
     },
     tags: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/tags',
-        related: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/tags'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/tags',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/tags'
       }
     },
     versions: {
       links: {
-        self: 'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/relationships/versions',
-        related:
-          'https://alessani.commercelayer.co/api/orders/NMWYhbGorj/versions'
+        self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/versions',
+        related: 'https://mock.localhost/api/orders/NMWYhbGorj/versions'
       }
     }
   },
@@ -356,15 +338,14 @@ const orderDetail = rest.get(
             id: 'dlQbPhNNop',
             type: 'markets',
             links: {
-              self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop'
+              self: 'https://mock.localhost/api/markets/dlQbPhNNop'
             },
             attributes: {
               number: 350,
               name: 'Europe',
               facebook_pixel_id: null,
               checkout_url: '',
-              external_prices_url:
-                'https://pippo.malessani.commercelayer.dev/api/verify',
+              external_prices_url: 'https://mock.commercelayer.dev/api/verify',
               external_order_validation_url: '',
               private: false,
               disabled_at: null,
@@ -377,58 +358,58 @@ const orderDetail = rest.get(
             relationships: {
               merchant: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/merchant',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/merchant',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/merchant'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/merchant'
                 }
               },
               price_list: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/price_list',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/price_list',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/price_list'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/price_list'
                 }
               },
               inventory_model: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/inventory_model',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/inventory_model',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/inventory_model'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/inventory_model'
                 }
               },
               subscription_model: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/subscription_model',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/subscription_model',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/subscription_model'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/subscription_model'
                 }
               },
               tax_calculator: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/tax_calculator',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/tax_calculator',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/tax_calculator'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/tax_calculator'
                 }
               },
               customer_group: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/customer_group',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/customer_group',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/customer_group'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/customer_group'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/attachments',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/attachments'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/versions',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/versions'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/versions'
                 }
               }
             },
@@ -438,7 +419,7 @@ const orderDetail = rest.get(
             id: 'JkAdBhNGjQ',
             type: 'customers',
             links: {
-              self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ'
+              self: 'https://mock.localhost/api/customers/JkAdBhNGjQ'
             },
             attributes: {
               email: 'customer@tk.com',
@@ -454,79 +435,79 @@ const orderDetail = rest.get(
             relationships: {
               customer_group: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_group',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_group',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_group'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_group'
                 }
               },
               customer_addresses: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_addresses'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_addresses'
                 }
               },
               customer_payment_sources: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_payment_sources'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_payment_sources'
                 }
               },
               customer_subscriptions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_subscriptions'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_subscriptions'
                 }
               },
               orders: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/orders',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/orders',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/orders'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/orders'
                 }
               },
               order_subscriptions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/order_subscriptions'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/order_subscriptions'
                 }
               },
               returns: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/returns',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/returns',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/returns'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/returns'
                 }
               },
               sku_lists: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/sku_lists',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/sku_lists',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/sku_lists'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/sku_lists'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/attachments',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/attachments'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/events',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/events'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/tags',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/tags'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/tags'
                 }
               }
             },
@@ -536,7 +517,7 @@ const orderDetail = rest.get(
             id: 'dPoNukZmnB',
             type: 'addresses',
             links: {
-              self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB'
+              self: 'https://mock.localhost/api/addresses/dPoNukZmnB'
             },
             attributes: {
               business: false,
@@ -573,30 +554,30 @@ const orderDetail = rest.get(
             relationships: {
               geocoder: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/geocoder',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/geocoder',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/geocoder'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/geocoder'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/events',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/events'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/tags',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/tags'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/tags'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/versions',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/versions'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/versions'
                 }
               }
             },
@@ -606,7 +587,7 @@ const orderDetail = rest.get(
             id: 'dQxruwZDnB',
             type: 'addresses',
             links: {
-              self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB'
+              self: 'https://mock.localhost/api/addresses/dQxruwZDnB'
             },
             attributes: {
               business: false,
@@ -643,30 +624,30 @@ const orderDetail = rest.get(
             relationships: {
               geocoder: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/geocoder',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/geocoder',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/geocoder'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/geocoder'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/events',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/events'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/tags',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/tags'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/tags'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/versions',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/versions'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/versions'
                 }
               }
             },
@@ -676,7 +657,7 @@ const orderDetail = rest.get(
             id: 'wmBvQsARml',
             type: 'payment_methods',
             links: {
-              self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml'
+              self: 'https://mock.localhost/api/payment_methods/wmBvQsARml'
             },
             attributes: {
               payment_source_type: 'stripe_payments',
@@ -701,30 +682,30 @@ const orderDetail = rest.get(
             relationships: {
               market: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/market',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/market',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/market'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/market'
                 }
               },
               payment_gateway: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/payment_gateway',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/payment_gateway',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/payment_gateway'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/payment_gateway'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/attachments',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/attachments'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/versions',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/versions'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/versions'
                 }
               }
             },
@@ -734,7 +715,7 @@ const orderDetail = rest.get(
             id: 'onXELSmbQy',
             type: 'stripe_payments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy'
+              self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy'
             },
             attributes: {
               client_secret:
@@ -842,23 +823,23 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/order',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/order'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/order'
                 }
               },
               payment_gateway: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/payment_gateway'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/payment_gateway'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/versions',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/versions'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/versions'
                 }
               }
             },
@@ -868,7 +849,7 @@ const orderDetail = rest.get(
             id: 'vaoMtAZlXy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy'
+              self: 'https://mock.localhost/api/line_items/vaoMtAZlXy'
             },
             attributes: {
               sku_code: null,
@@ -906,65 +887,65 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/order'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/item'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/line_item_options'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_reservations'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_line_items'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_transfers'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/events'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/tags'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/tags'
                 }
               }
             },
@@ -974,7 +955,7 @@ const orderDetail = rest.get(
             id: 'kmnptjPlBv',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv'
+              self: 'https://mock.localhost/api/line_items/kmnptjPlBv'
             },
             attributes: {
               sku_code: null,
@@ -1012,65 +993,65 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/order'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/item'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/line_item_options'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/shipment_line_items'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_reservations'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_line_items'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_transfers'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/events'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/tags'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/tags'
                 }
               }
             },
@@ -1080,7 +1061,7 @@ const orderDetail = rest.get(
             id: 'vWEZtMGVKy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy'
+              self: 'https://mock.localhost/api/line_items/vWEZtMGVKy'
             },
             attributes: {
               sku_code: null,
@@ -1118,65 +1099,65 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/order'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/item'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/line_item_options'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_reservations'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_line_items'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_transfers'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/events'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/tags'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/tags'
                 }
               }
             },
@@ -1186,7 +1167,7 @@ const orderDetail = rest.get(
             id: 'NqYatGaKnN',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN'
+              self: 'https://mock.localhost/api/line_items/NqYatGaKnN'
             },
             attributes: {
               sku_code: null,
@@ -1224,65 +1205,65 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/order'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/item'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/line_item_options'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_reservations'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_line_items'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_transfers'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/events'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/tags'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/tags'
                 }
               }
             },
@@ -1292,7 +1273,7 @@ const orderDetail = rest.get(
             id: 'NoEntBwEdk',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk'
+              self: 'https://mock.localhost/api/line_items/NoEntBwEdk'
             },
             attributes: {
               sku_code: 'TSHIRTMMFFFFFF000000XLXX',
@@ -1333,65 +1314,65 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/order'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/item'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/line_item_options'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_reservations'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_line_items'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_transfers'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/events'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/tags'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/tags'
                 }
               }
             },
@@ -1401,7 +1382,7 @@ const orderDetail = rest.get(
             id: 'NlQmtMAnGy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy'
+              self: 'https://mock.localhost/api/line_items/NlQmtMAnGy'
             },
             attributes: {
               sku_code: 'CANVASAU000000FFFFFF1824',
@@ -1442,65 +1423,65 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/order'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/item'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/line_item_options'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_reservations'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_line_items'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_transfers'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/events'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/tags'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/tags'
                 }
               }
             },
@@ -1510,7 +1491,7 @@ const orderDetail = rest.get(
             id: 'YpLwCnNQgY',
             type: 'shipments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY'
+              self: 'https://mock.localhost/api/shipments/YpLwCnNQgY'
             },
             attributes: {
               number: '2485862/S/001',
@@ -1544,114 +1525,114 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/order',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/order'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/order'
                 }
               },
               shipping_category: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_category',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_category',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_category'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_category'
                 }
               },
               stock_location: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_location',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_location',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_location'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_location'
                 }
               },
               origin_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/origin_address',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/origin_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/origin_address'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/origin_address'
                 }
               },
               shipping_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_address',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_address'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_address'
                 }
               },
               shipping_method: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_method',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_method',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_method'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_method'
                 }
               },
               delivery_lead_time: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/delivery_lead_time',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/delivery_lead_time',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/delivery_lead_time'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/delivery_lead_time'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipment_line_items'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipment_line_items'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_line_items'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_transfers'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_transfers'
                 }
               },
               available_shipping_methods: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/available_shipping_methods',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/available_shipping_methods',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/available_shipping_methods'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/available_shipping_methods'
                 }
               },
               carrier_accounts: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/carrier_accounts',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/carrier_accounts',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/carrier_accounts'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/carrier_accounts'
                 }
               },
               parcels: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/parcels',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/parcels',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/parcels'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/parcels'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/attachments',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/attachments'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/events',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/events'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/events'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/versions',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/versions'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/versions'
                 }
               }
             },
@@ -1661,7 +1642,7 @@ const orderDetail = rest.get(
             id: 'PabvCpOxRy',
             type: 'shipments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy'
+              self: 'https://mock.localhost/api/shipments/PabvCpOxRy'
             },
             attributes: {
               number: '2485862/S/002',
@@ -1695,114 +1676,114 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/order',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/order'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/order'
                 }
               },
               shipping_category: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_category',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_category',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_category'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_category'
                 }
               },
               stock_location: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_location',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_location',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_location'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_location'
                 }
               },
               origin_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/origin_address',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/origin_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/origin_address'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/origin_address'
                 }
               },
               shipping_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_address',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_address'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_address'
                 }
               },
               shipping_method: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_method',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_method',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_method'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_method'
                 }
               },
               delivery_lead_time: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/delivery_lead_time',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/delivery_lead_time',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/delivery_lead_time'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/delivery_lead_time'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipment_line_items'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipment_line_items'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_line_items'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_transfers'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_transfers'
                 }
               },
               available_shipping_methods: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/available_shipping_methods',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/available_shipping_methods',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/available_shipping_methods'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/available_shipping_methods'
                 }
               },
               carrier_accounts: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/carrier_accounts',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/carrier_accounts',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/carrier_accounts'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/carrier_accounts'
                 }
               },
               parcels: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/parcels',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/parcels',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/parcels'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/parcels'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/attachments',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/attachments'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/events',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/events'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/events'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/versions',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/versions'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/versions'
                 }
               }
             },
@@ -1812,7 +1793,7 @@ const orderDetail = rest.get(
             id: 'nKZkPUDBVj',
             type: 'authorizations',
             links: {
-              self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj'
+              self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj'
             },
             attributes: {
               number: '2485862/T/001',
@@ -1849,44 +1830,44 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/order',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/order'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/order'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/attachments',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/attachments'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/versions',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/versions'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/versions'
                 }
               },
               captures: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/captures',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/captures',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/captures'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/captures'
                 }
               },
               voids: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/voids',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/voids',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/voids'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/voids'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/events',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/events'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/events'
                 }
               }
             },
@@ -1896,7 +1877,7 @@ const orderDetail = rest.get(
             id: 'kyAnxUgegE',
             type: 'captures',
             links: {
-              self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE'
+              self: 'https://mock.localhost/api/captures/kyAnxUgegE'
             },
             attributes: {
               number: '2485862/T/002',
@@ -1925,44 +1906,44 @@ const orderDetail = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/order',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/order'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/order'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/attachments',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/attachments'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/versions',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/versions'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/versions'
                 }
               },
               reference_authorization: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/reference_authorization',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/reference_authorization',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/reference_authorization'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/reference_authorization'
                 }
               },
               refunds: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/refunds',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/refunds',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/refunds'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/refunds'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/events',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/events'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/events'
                 }
               }
             },
@@ -1972,7 +1953,7 @@ const orderDetail = rest.get(
             id: 'EqGrksxWNW',
             type: 'attachments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW'
+              self: 'https://mock.localhost/api/attachments/EqGrksxWNW'
             },
             attributes: {
               name: 'M. Montalbano',
@@ -1987,9 +1968,9 @@ const orderDetail = rest.get(
             relationships: {
               attachable: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/relationships/attachable',
+                  self: 'https://mock.localhost/api/attachments/EqGrksxWNW/relationships/attachable',
                   related:
-                    'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/attachable'
+                    'https://mock.localhost/api/attachments/EqGrksxWNW/attachable'
                 }
               }
             },
@@ -2039,15 +2020,14 @@ const orderUpdate = rest.patch(
             id: 'dlQbPhNNop',
             type: 'markets',
             links: {
-              self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop'
+              self: 'https://mock.localhost/api/markets/dlQbPhNNop'
             },
             attributes: {
               number: 350,
               name: 'Europe',
               facebook_pixel_id: null,
               checkout_url: '',
-              external_prices_url:
-                'https://pippo.malessani.commercelayer.dev/api/verify',
+              external_prices_url: 'https://mock.commercelayer.dev/api/verify',
               external_order_validation_url: '',
               private: false,
               disabled_at: null,
@@ -2060,58 +2040,58 @@ const orderUpdate = rest.patch(
             relationships: {
               merchant: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/merchant',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/merchant',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/merchant'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/merchant'
                 }
               },
               price_list: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/price_list',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/price_list',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/price_list'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/price_list'
                 }
               },
               inventory_model: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/inventory_model',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/inventory_model',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/inventory_model'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/inventory_model'
                 }
               },
               subscription_model: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/subscription_model',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/subscription_model',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/subscription_model'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/subscription_model'
                 }
               },
               tax_calculator: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/tax_calculator',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/tax_calculator',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/tax_calculator'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/tax_calculator'
                 }
               },
               customer_group: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/customer_group',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/customer_group',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/customer_group'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/customer_group'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/attachments',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/attachments'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/versions',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/versions'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/versions'
                 }
               }
             },
@@ -2121,7 +2101,7 @@ const orderUpdate = rest.patch(
             id: 'JkAdBhNGjQ',
             type: 'customers',
             links: {
-              self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ'
+              self: 'https://mock.localhost/api/customers/JkAdBhNGjQ'
             },
             attributes: {
               email: 'customer@tk.com',
@@ -2137,79 +2117,79 @@ const orderUpdate = rest.patch(
             relationships: {
               customer_group: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_group',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_group',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_group'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_group'
                 }
               },
               customer_addresses: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_addresses'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_addresses'
                 }
               },
               customer_payment_sources: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_payment_sources'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_payment_sources'
                 }
               },
               customer_subscriptions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_subscriptions'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_subscriptions'
                 }
               },
               orders: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/orders',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/orders',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/orders'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/orders'
                 }
               },
               order_subscriptions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/order_subscriptions'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/order_subscriptions'
                 }
               },
               returns: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/returns',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/returns',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/returns'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/returns'
                 }
               },
               sku_lists: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/sku_lists',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/sku_lists',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/sku_lists'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/sku_lists'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/attachments',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/attachments'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/events',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/events'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/tags',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/tags'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/tags'
                 }
               }
             },
@@ -2219,7 +2199,7 @@ const orderUpdate = rest.patch(
             id: 'dPoNukZmnB',
             type: 'addresses',
             links: {
-              self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB'
+              self: 'https://mock.localhost/api/addresses/dPoNukZmnB'
             },
             attributes: {
               business: false,
@@ -2256,30 +2236,30 @@ const orderUpdate = rest.patch(
             relationships: {
               geocoder: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/geocoder',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/geocoder',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/geocoder'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/geocoder'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/events',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/events'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/tags',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/tags'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/tags'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/versions',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/versions'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/versions'
                 }
               }
             },
@@ -2289,7 +2269,7 @@ const orderUpdate = rest.patch(
             id: 'dQxruwZDnB',
             type: 'addresses',
             links: {
-              self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB'
+              self: 'https://mock.localhost/api/addresses/dQxruwZDnB'
             },
             attributes: {
               business: false,
@@ -2326,30 +2306,30 @@ const orderUpdate = rest.patch(
             relationships: {
               geocoder: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/geocoder',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/geocoder',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/geocoder'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/geocoder'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/events',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/events'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/tags',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/tags'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/tags'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/versions',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/versions'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/versions'
                 }
               }
             },
@@ -2359,7 +2339,7 @@ const orderUpdate = rest.patch(
             id: 'wmBvQsARml',
             type: 'payment_methods',
             links: {
-              self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml'
+              self: 'https://mock.localhost/api/payment_methods/wmBvQsARml'
             },
             attributes: {
               payment_source_type: 'stripe_payments',
@@ -2384,30 +2364,30 @@ const orderUpdate = rest.patch(
             relationships: {
               market: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/market',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/market',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/market'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/market'
                 }
               },
               payment_gateway: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/payment_gateway',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/payment_gateway',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/payment_gateway'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/payment_gateway'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/attachments',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/attachments'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/versions',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/versions'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/versions'
                 }
               }
             },
@@ -2417,7 +2397,7 @@ const orderUpdate = rest.patch(
             id: 'onXELSmbQy',
             type: 'stripe_payments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy'
+              self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy'
             },
             attributes: {
               client_secret:
@@ -2525,23 +2505,23 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/order',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/order'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/order'
                 }
               },
               payment_gateway: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/payment_gateway'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/payment_gateway'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/versions',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/versions'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/versions'
                 }
               }
             },
@@ -2551,7 +2531,7 @@ const orderUpdate = rest.patch(
             id: 'vaoMtAZlXy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy'
+              self: 'https://mock.localhost/api/line_items/vaoMtAZlXy'
             },
             attributes: {
               sku_code: null,
@@ -2589,65 +2569,65 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/order'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/item'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/line_item_options'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_reservations'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_line_items'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_transfers'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/events'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/tags'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/tags'
                 }
               }
             },
@@ -2657,7 +2637,7 @@ const orderUpdate = rest.patch(
             id: 'kmnptjPlBv',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv'
+              self: 'https://mock.localhost/api/line_items/kmnptjPlBv'
             },
             attributes: {
               sku_code: null,
@@ -2695,65 +2675,65 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/order'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/item'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/line_item_options'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/shipment_line_items'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_reservations'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_line_items'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_transfers'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/events'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/tags'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/tags'
                 }
               }
             },
@@ -2763,7 +2743,7 @@ const orderUpdate = rest.patch(
             id: 'vWEZtMGVKy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy'
+              self: 'https://mock.localhost/api/line_items/vWEZtMGVKy'
             },
             attributes: {
               sku_code: null,
@@ -2801,65 +2781,65 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/order'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/item'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/line_item_options'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_reservations'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_line_items'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_transfers'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/events'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/tags'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/tags'
                 }
               }
             },
@@ -2869,7 +2849,7 @@ const orderUpdate = rest.patch(
             id: 'NqYatGaKnN',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN'
+              self: 'https://mock.localhost/api/line_items/NqYatGaKnN'
             },
             attributes: {
               sku_code: null,
@@ -2907,65 +2887,65 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/order'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/item'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/line_item_options'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_reservations'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_line_items'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_transfers'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/events'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/tags'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/tags'
                 }
               }
             },
@@ -2975,7 +2955,7 @@ const orderUpdate = rest.patch(
             id: 'NoEntBwEdk',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk'
+              self: 'https://mock.localhost/api/line_items/NoEntBwEdk'
             },
             attributes: {
               sku_code: 'TSHIRTMMFFFFFF000000XLXX',
@@ -3016,65 +2996,65 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/order'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/item'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/line_item_options'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_reservations'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_line_items'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_transfers'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/events'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/tags'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/tags'
                 }
               }
             },
@@ -3084,7 +3064,7 @@ const orderUpdate = rest.patch(
             id: 'NlQmtMAnGy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy'
+              self: 'https://mock.localhost/api/line_items/NlQmtMAnGy'
             },
             attributes: {
               sku_code: 'CANVASAU000000FFFFFF1824',
@@ -3125,65 +3105,65 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/order'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/item'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/line_item_options'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_reservations'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_line_items'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_transfers'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/events'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/tags'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/tags'
                 }
               }
             },
@@ -3193,7 +3173,7 @@ const orderUpdate = rest.patch(
             id: 'YpLwCnNQgY',
             type: 'shipments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY'
+              self: 'https://mock.localhost/api/shipments/YpLwCnNQgY'
             },
             attributes: {
               number: '2485862/S/001',
@@ -3227,114 +3207,114 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/order',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/order'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/order'
                 }
               },
               shipping_category: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_category',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_category',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_category'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_category'
                 }
               },
               stock_location: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_location',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_location',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_location'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_location'
                 }
               },
               origin_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/origin_address',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/origin_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/origin_address'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/origin_address'
                 }
               },
               shipping_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_address',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_address'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_address'
                 }
               },
               shipping_method: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_method',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_method',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_method'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_method'
                 }
               },
               delivery_lead_time: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/delivery_lead_time',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/delivery_lead_time',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/delivery_lead_time'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/delivery_lead_time'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipment_line_items'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipment_line_items'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_line_items'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_transfers'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_transfers'
                 }
               },
               available_shipping_methods: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/available_shipping_methods',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/available_shipping_methods',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/available_shipping_methods'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/available_shipping_methods'
                 }
               },
               carrier_accounts: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/carrier_accounts',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/carrier_accounts',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/carrier_accounts'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/carrier_accounts'
                 }
               },
               parcels: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/parcels',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/parcels',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/parcels'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/parcels'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/attachments',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/attachments'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/events',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/events'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/events'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/versions',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/versions'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/versions'
                 }
               }
             },
@@ -3344,7 +3324,7 @@ const orderUpdate = rest.patch(
             id: 'PabvCpOxRy',
             type: 'shipments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy'
+              self: 'https://mock.localhost/api/shipments/PabvCpOxRy'
             },
             attributes: {
               number: '2485862/S/002',
@@ -3378,114 +3358,114 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/order',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/order'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/order'
                 }
               },
               shipping_category: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_category',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_category',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_category'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_category'
                 }
               },
               stock_location: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_location',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_location',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_location'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_location'
                 }
               },
               origin_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/origin_address',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/origin_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/origin_address'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/origin_address'
                 }
               },
               shipping_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_address',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_address'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_address'
                 }
               },
               shipping_method: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_method',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_method',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_method'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_method'
                 }
               },
               delivery_lead_time: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/delivery_lead_time',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/delivery_lead_time',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/delivery_lead_time'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/delivery_lead_time'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipment_line_items'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipment_line_items'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_line_items'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_transfers'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_transfers'
                 }
               },
               available_shipping_methods: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/available_shipping_methods',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/available_shipping_methods',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/available_shipping_methods'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/available_shipping_methods'
                 }
               },
               carrier_accounts: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/carrier_accounts',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/carrier_accounts',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/carrier_accounts'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/carrier_accounts'
                 }
               },
               parcels: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/parcels',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/parcels',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/parcels'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/parcels'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/attachments',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/attachments'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/events',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/events'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/events'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/versions',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/versions'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/versions'
                 }
               }
             },
@@ -3495,7 +3475,7 @@ const orderUpdate = rest.patch(
             id: 'nKZkPUDBVj',
             type: 'authorizations',
             links: {
-              self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj'
+              self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj'
             },
             attributes: {
               number: '2485862/T/001',
@@ -3532,44 +3512,44 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/order',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/order'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/order'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/attachments',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/attachments'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/versions',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/versions'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/versions'
                 }
               },
               captures: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/captures',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/captures',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/captures'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/captures'
                 }
               },
               voids: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/voids',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/voids',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/voids'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/voids'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/events',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/events'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/events'
                 }
               }
             },
@@ -3579,7 +3559,7 @@ const orderUpdate = rest.patch(
             id: 'kyAnxUgegE',
             type: 'captures',
             links: {
-              self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE'
+              self: 'https://mock.localhost/api/captures/kyAnxUgegE'
             },
             attributes: {
               number: '2485862/T/002',
@@ -3608,44 +3588,44 @@ const orderUpdate = rest.patch(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/order',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/order'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/order'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/attachments',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/attachments'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/versions',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/versions'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/versions'
                 }
               },
               reference_authorization: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/reference_authorization',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/reference_authorization',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/reference_authorization'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/reference_authorization'
                 }
               },
               refunds: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/refunds',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/refunds',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/refunds'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/refunds'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/events',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/events'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/events'
                 }
               }
             },
@@ -3655,7 +3635,7 @@ const orderUpdate = rest.patch(
             id: 'EqGrksxWNW',
             type: 'attachments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW'
+              self: 'https://mock.localhost/api/attachments/EqGrksxWNW'
             },
             attributes: {
               name: 'M. Montalbano',
@@ -3670,9 +3650,9 @@ const orderUpdate = rest.patch(
             relationships: {
               attachable: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/relationships/attachable',
+                  self: 'https://mock.localhost/api/attachments/EqGrksxWNW/relationships/attachable',
                   related:
-                    'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/attachable'
+                    'https://mock.localhost/api/attachments/EqGrksxWNW/attachable'
                 }
               }
             },
@@ -3745,15 +3725,14 @@ const orderList = rest.get(
             id: 'dlQbPhNNop',
             type: 'markets',
             links: {
-              self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop'
+              self: 'https://mock.localhost/api/markets/dlQbPhNNop'
             },
             attributes: {
               number: 350,
               name: 'Europe',
               facebook_pixel_id: null,
               checkout_url: '',
-              external_prices_url:
-                'https://pippo.malessani.commercelayer.dev/api/verify',
+              external_prices_url: 'https://mock.commercelayer.dev/api/verify',
               external_order_validation_url: '',
               private: false,
               disabled_at: null,
@@ -3766,58 +3745,58 @@ const orderList = rest.get(
             relationships: {
               merchant: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/merchant',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/merchant',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/merchant'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/merchant'
                 }
               },
               price_list: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/price_list',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/price_list',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/price_list'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/price_list'
                 }
               },
               inventory_model: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/inventory_model',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/inventory_model',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/inventory_model'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/inventory_model'
                 }
               },
               subscription_model: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/subscription_model',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/subscription_model',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/subscription_model'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/subscription_model'
                 }
               },
               tax_calculator: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/tax_calculator',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/tax_calculator',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/tax_calculator'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/tax_calculator'
                 }
               },
               customer_group: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/customer_group',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/customer_group',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/customer_group'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/customer_group'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/attachments',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/attachments'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/relationships/versions',
+                  self: 'https://mock.localhost/api/markets/dlQbPhNNop/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/markets/dlQbPhNNop/versions'
+                    'https://mock.localhost/api/markets/dlQbPhNNop/versions'
                 }
               }
             },
@@ -3827,7 +3806,7 @@ const orderList = rest.get(
             id: 'JkAdBhNGjQ',
             type: 'customers',
             links: {
-              self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ'
+              self: 'https://mock.localhost/api/customers/JkAdBhNGjQ'
             },
             attributes: {
               email: 'customer@tk.com',
@@ -3843,79 +3822,79 @@ const orderList = rest.get(
             relationships: {
               customer_group: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_group',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_group',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_group'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_group'
                 }
               },
               customer_addresses: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_addresses',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_addresses'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_addresses'
                 }
               },
               customer_payment_sources: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_payment_sources',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_payment_sources'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_payment_sources'
                 }
               },
               customer_subscriptions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/customer_subscriptions',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/customer_subscriptions'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/customer_subscriptions'
                 }
               },
               orders: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/orders',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/orders',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/orders'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/orders'
                 }
               },
               order_subscriptions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/order_subscriptions',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/order_subscriptions'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/order_subscriptions'
                 }
               },
               returns: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/returns',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/returns',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/returns'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/returns'
                 }
               },
               sku_lists: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/sku_lists',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/sku_lists',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/sku_lists'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/sku_lists'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/attachments',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/attachments'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/events',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/events'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/relationships/tags',
+                  self: 'https://mock.localhost/api/customers/JkAdBhNGjQ/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/customers/JkAdBhNGjQ/tags'
+                    'https://mock.localhost/api/customers/JkAdBhNGjQ/tags'
                 }
               }
             },
@@ -3925,7 +3904,7 @@ const orderList = rest.get(
             id: 'dPoNukZmnB',
             type: 'addresses',
             links: {
-              self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB'
+              self: 'https://mock.localhost/api/addresses/dPoNukZmnB'
             },
             attributes: {
               business: false,
@@ -3962,30 +3941,30 @@ const orderList = rest.get(
             relationships: {
               geocoder: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/geocoder',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/geocoder',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/geocoder'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/geocoder'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/events',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/events'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/tags',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/tags'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/tags'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/relationships/versions',
+                  self: 'https://mock.localhost/api/addresses/dPoNukZmnB/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dPoNukZmnB/versions'
+                    'https://mock.localhost/api/addresses/dPoNukZmnB/versions'
                 }
               }
             },
@@ -3995,7 +3974,7 @@ const orderList = rest.get(
             id: 'dQxruwZDnB',
             type: 'addresses',
             links: {
-              self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB'
+              self: 'https://mock.localhost/api/addresses/dQxruwZDnB'
             },
             attributes: {
               business: false,
@@ -4032,30 +4011,30 @@ const orderList = rest.get(
             relationships: {
               geocoder: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/geocoder',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/geocoder',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/geocoder'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/geocoder'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/events',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/events'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/tags',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/tags'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/tags'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/relationships/versions',
+                  self: 'https://mock.localhost/api/addresses/dQxruwZDnB/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/addresses/dQxruwZDnB/versions'
+                    'https://mock.localhost/api/addresses/dQxruwZDnB/versions'
                 }
               }
             },
@@ -4065,7 +4044,7 @@ const orderList = rest.get(
             id: 'wmBvQsARml',
             type: 'payment_methods',
             links: {
-              self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml'
+              self: 'https://mock.localhost/api/payment_methods/wmBvQsARml'
             },
             attributes: {
               payment_source_type: 'stripe_payments',
@@ -4090,30 +4069,30 @@ const orderList = rest.get(
             relationships: {
               market: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/market',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/market',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/market'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/market'
                 }
               },
               payment_gateway: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/payment_gateway',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/payment_gateway',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/payment_gateway'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/payment_gateway'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/attachments',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/attachments'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/relationships/versions',
+                  self: 'https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/payment_methods/wmBvQsARml/versions'
+                    'https://mock.localhost/api/payment_methods/wmBvQsARml/versions'
                 }
               }
             },
@@ -4123,7 +4102,7 @@ const orderList = rest.get(
             id: 'onXELSmbQy',
             type: 'stripe_payments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy'
+              self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy'
             },
             attributes: {
               client_secret:
@@ -4231,23 +4210,23 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/order',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/order'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/order'
                 }
               },
               payment_gateway: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/payment_gateway',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/payment_gateway'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/payment_gateway'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/relationships/versions',
+                  self: 'https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/stripe_payments/onXELSmbQy/versions'
+                    'https://mock.localhost/api/stripe_payments/onXELSmbQy/versions'
                 }
               }
             },
@@ -4257,7 +4236,7 @@ const orderList = rest.get(
             id: 'vaoMtAZlXy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy'
+              self: 'https://mock.localhost/api/line_items/vaoMtAZlXy'
             },
             attributes: {
               sku_code: null,
@@ -4295,65 +4274,65 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/order'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/item'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/line_item_options'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_reservations'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_line_items'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/stock_transfers'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/events'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/vaoMtAZlXy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vaoMtAZlXy/tags'
+                    'https://mock.localhost/api/line_items/vaoMtAZlXy/tags'
                 }
               }
             },
@@ -4363,7 +4342,7 @@ const orderList = rest.get(
             id: 'kmnptjPlBv',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv'
+              self: 'https://mock.localhost/api/line_items/kmnptjPlBv'
             },
             attributes: {
               sku_code: null,
@@ -4401,65 +4380,65 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/order'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/item'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/line_item_options'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/shipment_line_items'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_reservations'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_line_items'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/stock_transfers'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/events'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/kmnptjPlBv/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/kmnptjPlBv/tags'
+                    'https://mock.localhost/api/line_items/kmnptjPlBv/tags'
                 }
               }
             },
@@ -4469,7 +4448,7 @@ const orderList = rest.get(
             id: 'vWEZtMGVKy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy'
+              self: 'https://mock.localhost/api/line_items/vWEZtMGVKy'
             },
             attributes: {
               sku_code: null,
@@ -4507,65 +4486,65 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/order'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/item'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/line_item_options'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_reservations'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_line_items'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/stock_transfers'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/events'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/vWEZtMGVKy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/vWEZtMGVKy/tags'
+                    'https://mock.localhost/api/line_items/vWEZtMGVKy/tags'
                 }
               }
             },
@@ -4575,7 +4554,7 @@ const orderList = rest.get(
             id: 'NqYatGaKnN',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN'
+              self: 'https://mock.localhost/api/line_items/NqYatGaKnN'
             },
             attributes: {
               sku_code: null,
@@ -4613,65 +4592,65 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/order'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/item'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/line_item_options'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_reservations'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_line_items'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/stock_transfers'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/events'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NqYatGaKnN/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NqYatGaKnN/tags'
+                    'https://mock.localhost/api/line_items/NqYatGaKnN/tags'
                 }
               }
             },
@@ -4681,7 +4660,7 @@ const orderList = rest.get(
             id: 'NoEntBwEdk',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk'
+              self: 'https://mock.localhost/api/line_items/NoEntBwEdk'
             },
             attributes: {
               sku_code: 'TSHIRTMMFFFFFF000000XLXX',
@@ -4722,65 +4701,65 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/order'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/item'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/line_item_options'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_reservations'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_line_items'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/stock_transfers'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/events'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NoEntBwEdk/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NoEntBwEdk/tags'
+                    'https://mock.localhost/api/line_items/NoEntBwEdk/tags'
                 }
               }
             },
@@ -4790,7 +4769,7 @@ const orderList = rest.get(
             id: 'NlQmtMAnGy',
             type: 'line_items',
             links: {
-              self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy'
+              self: 'https://mock.localhost/api/line_items/NlQmtMAnGy'
             },
             attributes: {
               sku_code: 'CANVASAU000000FFFFFF1824',
@@ -4831,65 +4810,65 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/order',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/order'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/order'
                 }
               },
               item: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/item',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/item',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/item'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/item'
                 }
               },
               line_item_options: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/line_item_options',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/line_item_options',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/line_item_options'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/line_item_options'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/shipment_line_items'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/shipment_line_items'
                 }
               },
               stock_reservations: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_reservations',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_reservations'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_reservations'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_line_items'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/stock_transfers'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/stock_transfers'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/events',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/events'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/events'
                 }
               },
               tags: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/relationships/tags',
+                  self: 'https://mock.localhost/api/line_items/NlQmtMAnGy/relationships/tags',
                   related:
-                    'https://alessani.commercelayer.co/api/line_items/NlQmtMAnGy/tags'
+                    'https://mock.localhost/api/line_items/NlQmtMAnGy/tags'
                 }
               }
             },
@@ -4899,7 +4878,7 @@ const orderList = rest.get(
             id: 'YpLwCnNQgY',
             type: 'shipments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY'
+              self: 'https://mock.localhost/api/shipments/YpLwCnNQgY'
             },
             attributes: {
               number: '2485862/S/001',
@@ -4933,114 +4912,114 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/order',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/order'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/order'
                 }
               },
               shipping_category: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_category',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_category',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_category'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_category'
                 }
               },
               stock_location: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_location',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_location',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_location'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_location'
                 }
               },
               origin_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/origin_address',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/origin_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/origin_address'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/origin_address'
                 }
               },
               shipping_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_address',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_address'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_address'
                 }
               },
               shipping_method: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipping_method',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipping_method',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipping_method'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipping_method'
                 }
               },
               delivery_lead_time: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/delivery_lead_time',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/delivery_lead_time',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/delivery_lead_time'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/delivery_lead_time'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/shipment_line_items'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/shipment_line_items'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_line_items'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/stock_transfers'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/stock_transfers'
                 }
               },
               available_shipping_methods: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/available_shipping_methods',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/available_shipping_methods',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/available_shipping_methods'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/available_shipping_methods'
                 }
               },
               carrier_accounts: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/carrier_accounts',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/carrier_accounts',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/carrier_accounts'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/carrier_accounts'
                 }
               },
               parcels: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/parcels',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/parcels',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/parcels'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/parcels'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/attachments',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/attachments'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/events',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/events'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/events'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/relationships/versions',
+                  self: 'https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/YpLwCnNQgY/versions'
+                    'https://mock.localhost/api/shipments/YpLwCnNQgY/versions'
                 }
               }
             },
@@ -5050,7 +5029,7 @@ const orderList = rest.get(
             id: 'PabvCpOxRy',
             type: 'shipments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy'
+              self: 'https://mock.localhost/api/shipments/PabvCpOxRy'
             },
             attributes: {
               number: '2485862/S/002',
@@ -5084,114 +5063,114 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/order',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/order'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/order'
                 }
               },
               shipping_category: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_category',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_category',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_category'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_category'
                 }
               },
               stock_location: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_location',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_location',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_location'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_location'
                 }
               },
               origin_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/origin_address',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/origin_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/origin_address'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/origin_address'
                 }
               },
               shipping_address: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_address',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_address',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_address'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_address'
                 }
               },
               shipping_method: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipping_method',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipping_method',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipping_method'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipping_method'
                 }
               },
               delivery_lead_time: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/delivery_lead_time',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/delivery_lead_time',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/delivery_lead_time'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/delivery_lead_time'
                 }
               },
               shipment_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/shipment_line_items',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/shipment_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/shipment_line_items'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/shipment_line_items'
                 }
               },
               stock_line_items: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_line_items',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_line_items',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_line_items'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_line_items'
                 }
               },
               stock_transfers: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/stock_transfers',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/stock_transfers',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/stock_transfers'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/stock_transfers'
                 }
               },
               available_shipping_methods: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/available_shipping_methods',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/available_shipping_methods',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/available_shipping_methods'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/available_shipping_methods'
                 }
               },
               carrier_accounts: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/carrier_accounts',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/carrier_accounts',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/carrier_accounts'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/carrier_accounts'
                 }
               },
               parcels: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/parcels',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/parcels',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/parcels'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/parcels'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/attachments',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/attachments'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/attachments'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/events',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/events'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/events'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/relationships/versions',
+                  self: 'https://mock.localhost/api/shipments/PabvCpOxRy/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/shipments/PabvCpOxRy/versions'
+                    'https://mock.localhost/api/shipments/PabvCpOxRy/versions'
                 }
               }
             },
@@ -5201,7 +5180,7 @@ const orderList = rest.get(
             id: 'nKZkPUDBVj',
             type: 'authorizations',
             links: {
-              self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj'
+              self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj'
             },
             attributes: {
               number: '2485862/T/001',
@@ -5238,44 +5217,44 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/order',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/order'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/order'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/attachments',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/attachments'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/versions',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/versions'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/versions'
                 }
               },
               captures: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/captures',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/captures',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/captures'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/captures'
                 }
               },
               voids: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/voids',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/voids',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/voids'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/voids'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/relationships/events',
+                  self: 'https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/authorizations/nKZkPUDBVj/events'
+                    'https://mock.localhost/api/authorizations/nKZkPUDBVj/events'
                 }
               }
             },
@@ -5285,7 +5264,7 @@ const orderList = rest.get(
             id: 'kyAnxUgegE',
             type: 'captures',
             links: {
-              self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE'
+              self: 'https://mock.localhost/api/captures/kyAnxUgegE'
             },
             attributes: {
               number: '2485862/T/002',
@@ -5314,44 +5293,44 @@ const orderList = rest.get(
             relationships: {
               order: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/order',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/order',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/order'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/order'
                 }
               },
               attachments: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/attachments',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/attachments',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/attachments'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/attachments'
                 }
               },
               versions: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/versions',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/versions',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/versions'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/versions'
                 }
               },
               reference_authorization: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/reference_authorization',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/reference_authorization',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/reference_authorization'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/reference_authorization'
                 }
               },
               refunds: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/refunds',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/refunds',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/refunds'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/refunds'
                 }
               },
               events: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/relationships/events',
+                  self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/events',
                   related:
-                    'https://alessani.commercelayer.co/api/captures/kyAnxUgegE/events'
+                    'https://mock.localhost/api/captures/kyAnxUgegE/events'
                 }
               }
             },
@@ -5361,7 +5340,7 @@ const orderList = rest.get(
             id: 'EqGrksxWNW',
             type: 'attachments',
             links: {
-              self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW'
+              self: 'https://mock.localhost/api/attachments/EqGrksxWNW'
             },
             attributes: {
               name: 'M. Montalbano',
@@ -5376,9 +5355,9 @@ const orderList = rest.get(
             relationships: {
               attachable: {
                 links: {
-                  self: 'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/relationships/attachable',
+                  self: 'https://mock.localhost/api/attachments/EqGrksxWNW/relationships/attachable',
                   related:
-                    'https://alessani.commercelayer.co/api/attachments/EqGrksxWNW/attachable'
+                    'https://mock.localhost/api/attachments/EqGrksxWNW/attachable'
                 }
               }
             },
