@@ -53,10 +53,14 @@ export interface InputCurrencyProps
    */
   hideCurrencySymbol?: boolean
   /**
-   * Allow user to enter negative value
-   * @default false
+   * It defines which are the available signs.
+   *
+   * By default only `+` sign is allowed, but you can set it to `-` if you want to use only negative numbers.
+   *
+   * The signs `+-` and `-+` can accept both positive and negative numbers (first sign is the default).
+   * @default +
    */
-  allowNegativeValue?: boolean
+  sign?: '+' | '-' | '+-' | '-+'
   /**
    * Show (X) button to clear the input
    */
@@ -75,7 +79,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       currencyCode,
       placeholder,
       hideCurrencySymbol,
-      allowNegativeValue = false,
+      sign = '+',
       isClearable,
       inline,
       ...rest
@@ -87,11 +91,6 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
     const [_value, setValue] = useState<string | number | undefined>(
       makeInitialValue({ cents, currency })
     )
-
-    const isNegativeZero =
-      _value != null
-        ? Object.is(-0, typeof _value === 'string' ? parseInt(_value) : _value)
-        : false
 
     const decimalLength = useMemo(
       () => (currency != null ? getDecimalLength(currency) : 0),
@@ -109,6 +108,9 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
     if (cents != null && cents > 0 && cents % 1 !== 0) {
       return <div>`cents` ({cents}) is not an integer value</div>
     }
+
+    const allowNegativeValue = sign.includes('-')
+    const defaultSign = sign.startsWith('+') ? '+' : '-'
 
     return (
       <InputWrapper
@@ -147,8 +149,28 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             decimalsLimit={decimalLength}
             decimalSeparator={currency.decimal_mark}
             groupSeparator={currency.thousands_separator}
-            placeholder={placeholder ?? makePlaceholder(currency)}
-            value={_value != null ? (isNegativeZero ? '-0' : _value) : ''}
+            placeholder={
+              placeholder ??
+              makePlaceholder(currency, defaultSign === '-' ? '-' : '')
+            }
+            value={_value ?? ''}
+            transformRawValue={(rawValue) => {
+              const noMinus = rawValue.replaceAll('-', '')
+              const notEmpty = rawValue != null && rawValue !== ''
+
+              const newValue =
+                sign === '+'
+                  ? noMinus
+                  : sign === '-' && notEmpty
+                  ? `-${noMinus}`
+                  : rawValue
+
+              if (newValue.length === 1 && _value == null) {
+                return `${defaultSign === '-' ? '-' : ''}${newValue}`
+              }
+
+              return newValue
+            }}
             onValueChange={(val, __, values) => {
               setValue(val)
               if (values?.float == null) {

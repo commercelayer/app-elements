@@ -48,15 +48,15 @@ const Form: React.FC<Props> = ({ order, onChange, close }) => {
     () =>
       z.object({
         adjustTotal: z.number({
-          required_error: 'Please enter a negative or positive value.',
-          invalid_type_error: 'Please enter a negative or positive value.'
+          required_error: 'The amount is required.',
+          invalid_type_error: 'The amount is required.'
         })
       }),
     []
   )
   const formMethods = useForm({
     defaultValues: {
-      adjustTotal: manualAdjustment?.total_amount_cents ?? -0
+      adjustTotal: manualAdjustment?.total_amount_cents
     },
     resolver: zodResolver(validationSchema)
   })
@@ -68,6 +68,10 @@ const Form: React.FC<Props> = ({ order, onChange, close }) => {
     <HookedForm
       {...formMethods}
       onSubmit={async (values) => {
+        if (values.adjustTotal == null) {
+          return
+        }
+
         if (manualAdjustment == null) {
           await createManualAdjustmentLineItem({
             sdkClient,
@@ -107,7 +111,7 @@ const Form: React.FC<Props> = ({ order, onChange, close }) => {
         <Spacer bottom='8'>
           <HookedInputCurrency
             isClearable
-            allowNegativeValue
+            sign='-'
             disabled={isSubmitting}
             currencyCode={currencyCode}
             label='Amount'

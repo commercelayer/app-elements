@@ -56,15 +56,62 @@ describe('InputCurrency', () => {
     expect(queryByTestId('inputCurrency-input')).not.toBeInTheDocument()
   })
 
-  it('should display a negative 0 when default is set to -0', () => {
-    const onChange = vi.fn()
-    const { getByTestId } = render(
-      <InputCurrency currencyCode='EUR' onChange={onChange} cents={-0} />
-    )
+  describe('attribute `sign`', () => {
+    it('should always display a positive value when sign is equal to `+`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='+' />
+      )
 
-    expect(getByTestId('inputCurrency-symbol').innerHTML).toBe('€')
-    const input = getByTestId('inputCurrency-input')
-    expect(input).toHaveValue('-0')
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '-4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+
+      fireEvent.change(input, { target: { value: '-4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+    })
+
+    it('should display a positive value the first time when sign is equal to `+-`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='+-' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+
+      fireEvent.change(input, { target: { value: '-4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+    })
+
+    it('should display a negative value the first time when sign is equal to `-+`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='-+' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+    })
+
+    it('should always display a negative value when sign is equal to `-`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='-' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+    })
   })
 })
 
