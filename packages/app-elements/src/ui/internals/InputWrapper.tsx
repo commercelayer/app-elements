@@ -114,13 +114,11 @@ export function getFeedbackStyle(
   feedback?: Omit<InputFeedbackProps, 'className'>
 ): Record<string, boolean> {
   return {
-    // default ui state
-    'border border-gray-200': feedback == null,
     // with feedback
     'focus:!ring-0': feedback != null,
-    '!border-red border-2': feedback?.variant === 'danger',
-    '!border-green border-2': feedback?.variant === 'success',
-    '!border-orange border-2': feedback?.variant === 'warning'
+    '!shadow-inputfocus !shadow-red ': feedback?.variant === 'danger',
+    '!shadow-inputfocus !shadow-green': feedback?.variant === 'success',
+    '!shadow-inputfocus !shadow-orange': feedback?.variant === 'warning'
   }
 }
 
