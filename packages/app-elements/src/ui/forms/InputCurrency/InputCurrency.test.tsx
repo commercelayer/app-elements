@@ -55,6 +55,17 @@ describe('InputCurrency', () => {
     )
     expect(queryByTestId('inputCurrency-input')).not.toBeInTheDocument()
   })
+
+  it('should display a negative 0 when default is set to -0', () => {
+    const onChange = vi.fn()
+    const { getByTestId } = render(
+      <InputCurrency currencyCode='EUR' onChange={onChange} cents={-0} />
+    )
+
+    expect(getByTestId('inputCurrency-symbol').innerHTML).toBe('€')
+    const input = getByTestId('inputCurrency-input')
+    expect(input).toHaveValue('-0')
+  })
 })
 
 describe('formatCentsToCurrency', () => {

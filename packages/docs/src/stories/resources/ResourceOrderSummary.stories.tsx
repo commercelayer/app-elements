@@ -169,7 +169,7 @@ WithoutAManualAdjustment.args = {
 export const WithAManualAdjustment = Template.bind({})
 WithAManualAdjustment.args = {
   ...Default.args,
-  editable: true,
+  editable: false,
   order: {
     ...order,
     coupon_code: undefined,

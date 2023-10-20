@@ -88,6 +88,11 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       makeInitialValue({ cents, currency })
     )
 
+    const isNegativeZero =
+      _value != null
+        ? Object.is(-0, typeof _value === 'string' ? parseInt(_value) : _value)
+        : false
+
     const decimalLength = useMemo(
       () => (currency != null ? getDecimalLength(currency) : 0),
       [currency]
@@ -143,7 +148,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             decimalSeparator={currency.decimal_mark}
             groupSeparator={currency.thousands_separator}
             placeholder={placeholder ?? makePlaceholder(currency)}
-            value={_value ?? ''}
+            value={_value != null ? (isNegativeZero ? '-0' : _value) : ''}
             onValueChange={(val, __, values) => {
               setValue(val)
               if (values?.float == null) {
