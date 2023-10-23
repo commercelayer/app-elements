@@ -333,10 +333,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
               <tr key={id} className='border-b border-gray-100'>
                 {!fullWidth && <td />}
                 <td
-                  className={cn('pl-4', {
-                    'py-6': size === 'normal',
-                    'py-4': size === 'small'
-                  })}
+                  className={cn('pl-4')}
                   colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
                 >
                   <Text tag='div' size={size === 'normal' ? 'regular' : size}>

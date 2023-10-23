@@ -22,6 +22,11 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
    */
   padding?: 'xy' | 'x' | 'y' | 'none'
   /**
+   * Control the padding size.
+   * @default '4'
+   */
+  paddingSize?: '4' | '2'
+  /**
    * Border style to render
    * @default 'solid'
    */
@@ -49,6 +54,7 @@ export const ListItem: FC<ListItemProps> = ({
   children,
   className,
   padding = 'xy',
+  paddingSize = '4',
   alignItems = 'center',
   alignIcon = 'top',
   borderStyle = 'solid',
@@ -66,14 +72,24 @@ export const ListItem: FC<ListItemProps> = ({
   const hasHover =
     rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href))
 
+  const pySize = cn({
+    'py-4': paddingSize === '4',
+    'py-2': paddingSize === '2'
+  })
+
+  const pxSize = cn({
+    'px-4': paddingSize === '4',
+    'px-2': paddingSize === '2'
+  })
+
   return (
     <JsxTag
       className={cn(
         'flex gap-4 border-gray-100',
         'text-gray-800 hover:text-gray-800 font-normal', // keep default text color also when used as `<a>` tag
         {
-          'py-4': padding !== 'none' && padding !== 'x',
-          'px-4': padding !== 'none' && padding !== 'y',
+          [pySize]: padding !== 'none' && padding !== 'x',
+          [pxSize]: padding !== 'none' && padding !== 'y',
           'border-dashed': borderStyle === 'dashed',
           'border-b': borderStyle !== 'none',
           'cursor-pointer hover:bg-gray-50': hasHover

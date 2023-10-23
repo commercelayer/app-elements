@@ -1,7 +1,6 @@
 import { Text } from '#ui/atoms/Text'
-import { FlexRow } from '#ui/internals/FlexRow'
+import { ListItem } from '#ui/composite/ListItem'
 import type { LineItem, Order } from '@commercelayer/sdk'
-import cn from 'classnames'
 import { Fragment } from 'react'
 
 interface TotalRowProps {
@@ -31,18 +30,22 @@ export function renderTotalRow({
   bold?: boolean
 }): JSX.Element {
   return (
-    <FlexRow
+    <ListItem
       data-testid={`ResourceOrderSummary-${label}`}
-      className={cn('my-4 first:mt-0 last:mb-0', {
-        'font-bold': bold,
-        'font-medium': !bold
-      })}
+      tag='div'
+      borderStyle='none'
+      padding='y'
+      paddingSize='2'
     >
-      <Text>{label}</Text>
-      <Text data-testid={`ResourceOrderSummary-${label}-value`} wrap='nowrap'>
+      <Text weight={bold ? 'bold' : 'medium'}>{label}</Text>
+      <Text
+        data-testid={`ResourceOrderSummary-${label}-value`}
+        wrap='nowrap'
+        weight={bold ? 'bold' : 'medium'}
+      >
         {value}
       </Text>
-    </FlexRow>
+    </ListItem>
   )
 }
 

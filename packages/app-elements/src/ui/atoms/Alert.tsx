@@ -31,7 +31,7 @@ export const Alert: React.FC<AlertProps> = ({ children, status }) => {
       })}
     >
       <div className='flex gap-3'>
-        <Icon focusable={false} size={24} />
+        <Icon className='flex-shrink-0' focusable={false} size={24} />
         <div>{children}</div>
       </div>
     </Card>

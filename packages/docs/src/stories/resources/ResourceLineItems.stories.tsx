@@ -1,7 +1,9 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
+import { Button } from '#ui/atoms/Button'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { FlexRow } from '#ui/internals/FlexRow'
+import { ListItem } from '#ui/composite/ListItem'
 import {
   ResourceLineItems,
   type ResourceLineItemsProps
@@ -56,22 +58,33 @@ const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
 
 const footer: Props['footer'] = [
   {
-    key: 'example',
+    key: 'first-row',
     element: (
-      <>
-        <FlexRow>
+      <Spacer top='4' bottom='4'>
+        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
+          <Text>Coupon</Text>
+          <Button variant='link'>Add coupon</Button>
+        </ListItem>
+      </Spacer>
+    )
+  },
+  {
+    key: 'second-row',
+    element: (
+      <Spacer top='4' bottom='4'>
+        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
           <Text>Subtotal</Text>
           <Text>$141.60</Text>
-        </FlexRow>
-        <FlexRow className='my-4'>
+        </ListItem>
+        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
           <Text>Shipping method</Text>
           <Text>$12.00</Text>
-        </FlexRow>
-        <FlexRow>
+        </ListItem>
+        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
           <Text weight='bold'>Total</Text>
           <Text weight='bold'>$163.60</Text>
-        </FlexRow>
-      </>
+        </ListItem>
+      </Spacer>
     )
   }
 ]
