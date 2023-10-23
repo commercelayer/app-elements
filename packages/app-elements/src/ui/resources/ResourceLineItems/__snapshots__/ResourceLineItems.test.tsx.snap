@@ -188,7 +188,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
       >
         <td />
         <td
-          class="pl-4 py-6"
+          class="pl-4"
           colspan="3"
         >
           <div

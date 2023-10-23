@@ -1,6 +1,7 @@
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
 import {
   ActionButtons,
   type ActionButtonsProps
@@ -61,27 +62,34 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
         : [
             {
               key: 'coupon',
-              element: renderTotalRow({
-                label: 'Coupon',
-                value:
-                  order.coupon_code == null ? (
-                    <Button
-                      variant='link'
-                      onClick={() => {
-                        openAddCouponOverlay()
-                      }}
-                    >
-                      Add coupon
-                    </Button>
-                  ) : (
-                    <div className='flex gap-3'>
-                      {order.coupon_code}
-                      {canEditOrder && (
-                        <DeleteCouponButton order={order} onChange={onChange} />
-                      )}
-                    </div>
-                  )
-              })
+              element: (
+                <Spacer top='4' bottom='4'>
+                  {renderTotalRow({
+                    label: 'Coupon',
+                    value:
+                      order.coupon_code == null ? (
+                        <Button
+                          variant='link'
+                          onClick={() => {
+                            openAddCouponOverlay()
+                          }}
+                        >
+                          Add coupon
+                        </Button>
+                      ) : (
+                        <div className='flex gap-3'>
+                          {order.coupon_code}
+                          {canEditOrder && (
+                            <DeleteCouponButton
+                              order={order}
+                              onChange={onChange}
+                            />
+                          )}
+                        </div>
+                      )
+                  })}
+                </Spacer>
+              )
             }
           ]
 
@@ -102,7 +110,7 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
             {
               key: 'summary',
               element: (
-                <>
+                <Spacer top='4' bottom='4'>
                   {renderTotalRowAmount({
                     force: true,
                     label: 'Subtotal',
@@ -165,7 +173,7 @@ export const ResourceOrderSummary = withSkeletonTemplate<Props>(
                     formattedAmount: order.formatted_total_amount_with_taxes,
                     bold: true
                   })}
-                </>
+                </Spacer>
               )
             }
           ]}
