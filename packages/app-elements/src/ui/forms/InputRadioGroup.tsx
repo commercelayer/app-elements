@@ -1,6 +1,10 @@
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { InputWrapper } from '#ui/internals/InputWrapper'
+import {
+  InputWrapper,
+  getFeedbackStyle,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
 import cn from 'classnames'
 import { useEffect, useState, type ReactNode } from 'react'
 
@@ -15,7 +19,8 @@ interface OptionItem {
   content: ReactNode
 }
 
-export interface InputRadioGroupProps {
+export interface InputRadioGroupProps
+  extends Pick<InputWrapperBaseProps, 'feedback' | 'hint'> {
   /**
    * Text to be displayed on top of the list
    */
@@ -44,7 +49,7 @@ export interface InputRadioGroupProps {
    * Define how the item options are rendered
    * @default list
    */
-  viewMode?: 'list' | 'inline'
+  viewMode?: 'list' | 'inline' | 'grid'
 }
 
 export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
@@ -55,7 +60,9 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     title,
     onChange = () => {},
     showInput = true,
-    viewMode = 'list'
+    viewMode = 'list',
+    feedback,
+    hint
   }: InputRadioGroupProps) => {
     const [selectedValue, setSelectedValue] = useState(defaultValue)
 
@@ -67,12 +74,13 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     )
 
     return (
-      <InputWrapper fieldset label={title}>
+      <InputWrapper fieldset label={title} feedback={feedback} hint={hint}>
         <div
           className={cn('flex gap-2 wrap', {
             'flex-col': viewMode === 'list',
             'flex-row [&>*]:flex-shrink [&>*]:flex-grow [&>*]:basis-0':
-              viewMode === 'inline'
+              viewMode === 'inline',
+            'grid grid-cols-2': viewMode === 'grid'
           })}
         >
           {options.map((optionItem, index) => {
@@ -84,7 +92,8 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
                 className={cn({
                   '!p-1': !isSelected,
                   'border-primary-500 border-2 !p-[calc(theme(space.1)-1px)]':
-                    isSelected
+                    isSelected,
+                  ...getFeedbackStyle(feedback)
                 })}
                 tabIndex={showInput ? undefined : 0}
                 onKeyDown={
@@ -101,7 +110,10 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
               >
                 <label
                   className={cn(
-                    'rounded-md cursor-pointer hover:bg-gray-50 flex items-center gap-4 p-4 h-full'
+                    'rounded-md cursor-pointer hover:bg-gray-50 flex gap-4 p-4 h-full',
+                    {
+                      'items-center': viewMode === 'list'
+                    }
                   )}
                   data-testid='InputRadioGroup-item'
                 >

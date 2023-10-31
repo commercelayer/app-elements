@@ -33,7 +33,7 @@ export const Card = withSkeletonTemplate<CardProps>(
         ])}
         {...rest}
       >
-        <div className='rounded overflow-hidden'>{children}</div>
+        <div className='rounded overflow-hidden h-full'>{children}</div>
         {footer != null && (
           <div
             className={cn([
