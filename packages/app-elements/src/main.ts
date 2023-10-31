@@ -185,7 +185,9 @@ export { InputFeedback, type InputFeedbackProps } from '#ui/forms/InputFeedback'
 export { InputFile, type InputFileProps } from '#ui/forms/InputFile'
 export { InputJson, type InputJsonProps } from '#ui/forms/InputJson'
 export {
+  HookedInputRadioGroup,
   InputRadioGroup,
+  type HookedInputRadioGroupProps,
   type InputRadioGroupProps
 } from '#ui/forms/InputRadioGroup'
 export { InputReadonly, type InputReadonlyProps } from '#ui/forms/InputReadonly'
