@@ -62,6 +62,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'placed:paid:unfulfilled':
     case 'placed:partially_refunded:unfulfilled':
+    case 'placed:partially_refunded:not_required':
       return {
         label: 'Placed',
         icon: 'arrowDown',
