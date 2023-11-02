@@ -1,3 +1,4 @@
+import { formatDate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
@@ -15,7 +16,7 @@ import type {
   ReturnLineItem,
   StockLineItem
 } from '@commercelayer/sdk'
-import { Trash } from '@phosphor-icons/react'
+import { Checks, Trash } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 
@@ -247,6 +248,19 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                         lineItem.formatted_unit_amount != null && (
                           <Spacer top='2'>
                             <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
+                          </Spacer>
+                        )}
+                      {lineItem.type === 'return_line_items' &&
+                        lineItem.restocked_at != null && (
+                          <Spacer top='2'>
+                            <Badge variant='secondary'>
+                              <div className='flex items-center gap-1'>
+                                <Checks size={16} className='text-gray-500' />{' '}
+                                {`Restocked on ${formatDate({
+                                  isoDate: lineItem.restocked_at
+                                })}`}
+                              </div>
+                            </Badge>
                           </Spacer>
                         )}
                       {lineItem.type !== 'line_items' &&
