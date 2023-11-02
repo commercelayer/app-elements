@@ -124,30 +124,42 @@ export function getFeedbackStyle(
 
 export function getFeedbackCssInJs(
   variant?: InputFeedbackProps['variant']
-): Pick<CSSStyleDeclaration, 'borderColor' | 'borderWidth'> {
+): Pick<CSSStyleDeclaration, 'boxShadow'> & {
+  '&:focus-within': {
+    boxShadow: string
+  }
+} {
   switch (variant) {
     case 'danger':
       return {
-        borderColor: '#FF656B',
-        borderWidth: '2px'
+        boxShadow: 'inset 0 0 0 2px #FF656B',
+        '&:focus-within': {
+          boxShadow: 'inset 0 0 0 2px #FF656B'
+        }
       }
 
     case 'success':
       return {
-        borderColor: '#1FDA8A',
-        borderWidth: '2px'
+        boxShadow: 'inset 0 0 0 2px #1FDA8A',
+        '&:focus-within': {
+          boxShadow: 'inset 0 0 0 2px #1FDA8A'
+        }
       }
 
     case 'warning':
       return {
-        borderColor: '#FFAB2E',
-        borderWidth: '2px'
+        boxShadow: 'inset 0 0 0 2px #FFAB2E',
+        '&:focus-within': {
+          boxShadow: 'inset 0 0 0 2px #FFAB2E'
+        }
       }
 
     default:
       return {
-        borderColor: 'rgb(230 231 231)',
-        borderWidth: '1px'
+        boxShadow: 'inset 0 0 0 1px #E6E7E7',
+        '&:focus-within': {
+          boxShadow: 'inset 0 0 0 2px #666EFF'
+        }
       }
   }
 }

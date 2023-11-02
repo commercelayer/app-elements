@@ -104,18 +104,11 @@ export const getSelectStyles = (
       ...style,
       ...feedbackStyle,
       borderWidth: 0,
-      minHeight: '46px',
-      // boxShadow: 'inset 0 0 0 1px #E6E7E7',
-      boxShadow: `inset 0 0 0 1px ${feedbackStyle.borderColor}`,
+      minHeight: '44px',
+
+      outline: 'none',
       borderRadius: 5,
-      cursor: 'pointer',
-      '&:focus-within': {
-        // we enforce feedback color as hover style, otherwise default brand color will be used as border
-        outline: 'none',
-        boxShadow: `inset 0 0 0 2px ${
-          feedbackVariant != null ? feedbackStyle.borderColor : '#666EFF'
-        }`
-      }
+      cursor: 'pointer'
     }
   },
   placeholder: (style) => ({
