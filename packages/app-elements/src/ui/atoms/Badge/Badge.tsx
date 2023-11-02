@@ -6,7 +6,7 @@ export interface BadgeProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Render a different variant. */
   variant: keyof typeof variantCss
-  children: string
+  children: React.ReactNode
 }
 
 /** Badges are used to highlight an item's status for quick recognition. */
