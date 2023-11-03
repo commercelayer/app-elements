@@ -171,13 +171,34 @@ ViewModeInline.args = {
   ]
 }
 
-export const DefaultValue = Template.bind({})
-DefaultValue.args = {
+export const ViewModeGrid = Template.bind({})
+ViewModeGrid.args = {
+  title: 'Choose a box',
   name: 'package',
-  viewMode: 'inline',
+  viewMode: 'grid',
   showInput: false,
-  defaultValue: 'large',
+  onChange: (v) => {
+    console.log(v)
+  },
   options: [
+    {
+      value: 'small',
+      content: (
+        <>
+          <Spacer bottom='2'>
+            <Text size='regular' weight='bold'>
+              Small box
+            </Text>
+            <Text tag='div' size='small' weight='bold' variant='info'>
+              Fragile
+            </Text>
+          </Spacer>
+          <Text size='small' tag='div' variant='info' weight='medium'>
+            10 × 20 × 20 cm
+          </Text>
+        </>
+      )
+    },
     {
       value: 'medium',
       content: (
@@ -209,4 +230,65 @@ DefaultValue.args = {
       )
     }
   ]
+}
+
+export const DefaultValue = Template.bind({})
+DefaultValue.args = {
+  name: 'package',
+  viewMode: 'inline',
+  showInput: false,
+  defaultValue: 'large',
+  options: [
+    {
+      value: 'medium',
+      content: (
+        <>
+          <Spacer bottom='2'>
+            <Text size='regular' weight='bold'>
+              Medium box
+            </Text>
+          </Spacer>
+          <Text size='small' tag='div' variant='info' weight='medium'>
+            20 × 30 × 40 cm
+          </Text>
+        </>
+      )
+    },
+    {
+      value: 'large',
+      content: (
+        <>
+          <Spacer bottom='2'>
+            <Text size='regular' weight='bold'>
+              Large box
+            </Text>
+            <Text tag='div' size='small' weight='bold' variant='info'>
+              Extra solid
+            </Text>
+          </Spacer>
+          <Text size='small' tag='div' variant='info' weight='medium'>
+            40 × 60 × 80 cm
+          </Text>
+        </>
+      )
+    }
+  ]
+}
+
+export const WithErrors = Template.bind({})
+WithErrors.args = {
+  ...Default.args,
+  feedback: {
+    message: 'Please select an option',
+    variant: 'danger'
+  }
+}
+
+export const ViewModeInlineWithErrors = Template.bind({})
+ViewModeInlineWithErrors.args = {
+  ...ViewModeInline.args,
+  feedback: {
+    message: 'Please select an option',
+    variant: 'danger'
+  }
 }
