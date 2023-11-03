@@ -6,7 +6,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, type ComponentProps, type ReactNode } from 'react'
 
 interface OptionItem {
   /**
@@ -19,8 +19,7 @@ interface OptionItem {
   content: ReactNode
 }
 
-export interface InputRadioGroupProps
-  extends Pick<InputWrapperBaseProps, 'feedback' | 'hint'> {
+interface Props extends Pick<InputWrapperBaseProps, 'feedback' | 'hint'> {
   /**
    * Text to be displayed on top of the list
    */
@@ -52,7 +51,7 @@ export interface InputRadioGroupProps
   viewMode?: 'list' | 'inline' | 'grid'
 }
 
-export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
+export const InputRadioGroup = withSkeletonTemplate<Props>(
   ({
     name,
     options,
@@ -63,7 +62,7 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
     viewMode = 'list',
     feedback,
     hint
-  }: InputRadioGroupProps) => {
+  }) => {
     const [selectedValue, setSelectedValue] = useState(defaultValue)
 
     useEffect(
@@ -143,3 +142,5 @@ export const InputRadioGroup = withSkeletonTemplate<InputRadioGroupProps>(
 )
 
 InputRadioGroup.displayName = 'InputRadioGroup'
+
+export type InputRadioGroupProps = ComponentProps<typeof InputRadioGroup>
