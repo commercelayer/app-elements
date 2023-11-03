@@ -37,6 +37,7 @@ export {
   useCoreSdkProvider
 } from '#providers/CoreSdkProvider'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
+export { GTMProvider, useTagManager } from '#providers/GTMProvider'
 export {
   MetaTags,
   TokenProvider,
