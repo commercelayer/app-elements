@@ -264,6 +264,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           </Spacer>
                         )}
                       {lineItem.type !== 'line_items' &&
+                        'bundle_code' in lineItem &&
                         lineItem.bundle_code != null && (
                           <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
                         )}

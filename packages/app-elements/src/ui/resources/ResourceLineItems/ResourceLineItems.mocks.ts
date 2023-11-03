@@ -178,7 +178,6 @@ export const presetLineItems = {
     id: 'nBJxuxMObn',
     type: 'stock_line_items',
     sku_code: 'TSHIRTMMFFFFFFE63E74MXXX',
-    bundle_code: null,
     quantity: 3,
     created_at: '2023-08-09T10:37:26.211Z',
     updated_at: '2023-08-09T10:37:26.211Z',
