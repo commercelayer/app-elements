@@ -448,6 +448,90 @@ const useTimelineReducer = (order: Order) => {
     [order.shipments]
   )
 
+  useEffect(
+    function addReturns() {
+      order.returns?.forEach((returnObj) => {
+        dispatchAttachments(returnObj.attachments)
+
+        if (returnObj.approved_at != null) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: returnObj.approved_at,
+              message: (
+                <>
+                  Return #{returnObj.number} was{' '}
+                  <Text weight='bold'>approved</Text>
+                </>
+              )
+            }
+          })
+        }
+
+        if (returnObj.cancelled_at != null) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: returnObj.cancelled_at,
+              message: (
+                <>
+                  Return #{returnObj.number} was{' '}
+                  <Text weight='bold'>cancelled</Text>
+                </>
+              )
+            }
+          })
+        }
+
+        if (returnObj.shipped_at != null) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: returnObj.shipped_at,
+              message: (
+                <>
+                  Return #{returnObj.number} was{' '}
+                  <Text weight='bold'>shipped</Text>
+                </>
+              )
+            }
+          })
+        }
+
+        if (returnObj.rejected_at != null) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: returnObj.rejected_at,
+              message: (
+                <>
+                  Return #{returnObj.number} was{' '}
+                  <Text weight='bold'>rejected</Text>
+                </>
+              )
+            }
+          })
+        }
+
+        if (returnObj.received_at != null) {
+          dispatch({
+            type: 'add',
+            payload: {
+              date: returnObj.received_at,
+              message: (
+                <>
+                  Return #{returnObj.number} was{' '}
+                  <Text weight='bold'>received</Text>
+                </>
+              )
+            }
+          })
+        }
+      })
+    },
+    [order.returns]
+  )
+
   return [events, dispatch] as const
 }
 
