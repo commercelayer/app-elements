@@ -521,6 +521,12 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           </Spacer>
         )}
 
+        {parcel.customs_info_required === true && (
+          <Spacer top='4' bottom='4'>
+            <Hr variant='dashed' />
+          </Spacer>
+        )}
+
         {!isEmpty(parcel.eel_pfc) && (
           <Spacer top='4'>
             <FlexRow>
@@ -538,18 +544,10 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
               <Text variant='info' wrap='nowrap'>
                 Contents type
               </Text>
-              <Text weight='semibold'>{parcel.contents_type}</Text>
-            </FlexRow>
-          </Spacer>
-        )}
-
-        {!isEmpty(parcel.contents_explanation) && (
-          <Spacer top='4'>
-            <FlexRow>
-              <Text variant='info' wrap='nowrap'>
-                Contents explanation
+              <Text weight='semibold'>
+                {/* `contents_explanation` is optional but if exists it means `contents_type` is set. So if it exists we give it priority */}
+                {parcel.contents_explanation ?? parcel.contents_type}
               </Text>
-              <Text weight='semibold'>{parcel.contents_explanation}</Text>
             </FlexRow>
           </Spacer>
         )}
@@ -569,16 +567,12 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           <Spacer top='4'>
             <FlexRow>
               <Text variant='info'>Restriction type</Text>
-              <Text weight='semibold'>{parcel.restriction_type}</Text>
-            </FlexRow>
-          </Spacer>
-        )}
-
-        {!isEmpty(parcel.restriction_comments) && (
-          <Spacer top='4'>
-            <FlexRow>
-              <Text variant='info'>Restriction comments</Text>
-              <Text weight='semibold'>{parcel.restriction_comments}</Text>
+              <Text weight='semibold'>
+                {parcel.restriction_type}{' '}
+                {parcel.restriction_comments != null
+                  ? ` - ${parcel.restriction_comments}`
+                  : ''}
+              </Text>
             </FlexRow>
           </Spacer>
         )}

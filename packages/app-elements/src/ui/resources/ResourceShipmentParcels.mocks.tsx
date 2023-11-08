@@ -315,15 +315,15 @@ export const parcelWithoutTrackingDetails1 = createParcel({
 
 export const parcelWithCustomsInfo: Parcel = {
   ...parcelWithTracking1,
-  id: 'parcel-with-customs-information',
+  id: 'parcel-with-customs-info',
   incoterm: 'DDP',
   delivery_confirmation: 'signature',
   eel_pfc: 'NOEEI_30_37_a',
-  contents_type: 'merchandise',
+  contents_type: 'other',
   contents_explanation: 'T-shirts, books and other stuff',
   non_delivery_option: 'abandon',
   restriction_type: 'other',
-  restriction_comments: 'Some comments',
+  restriction_comments: 'please do not bend',
   customs_signer: 'John Doe',
   customs_certify: true,
   customs_info_required: true

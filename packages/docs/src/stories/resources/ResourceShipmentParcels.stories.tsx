@@ -137,7 +137,7 @@ NoTrackingDetails.args = {
 }
 
 /**
- * When there's a customs info, it's shown in the parcel box.
+ * We show customs info, separated by a dashed line, if the parcel has it.
  */
 export const WithCustomsInfo: StoryFn<typeof ResourceShipmentParcels> = (
   args
