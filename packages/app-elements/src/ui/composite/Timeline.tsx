@@ -102,6 +102,7 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
                         <div className='w-6' />
                       </div>
                       <Card
+                        overflow='hidden'
                         data-testid='timeline-event-note'
                         className='w-full mt-1'
                       >

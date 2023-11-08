@@ -109,7 +109,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
           totalCount
         })}
       >
-        <Card gap='1'>
+        <Card gap='1' overflow='hidden'>
           {list.map((item, idx) => {
             return (
               <InputCheckboxGroupItem

@@ -61,7 +61,7 @@ export const CardDialog = withSkeletonTemplate<CardDialogProps>(
   }) => {
     const hasChildren = Children.toArray(children).length > 0
     return (
-      <Card {...rest} footer={footer}>
+      <Card {...rest} overflow='visible' footer={footer}>
         <ListItem
           tag='div'
           alignItems='top'

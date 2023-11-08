@@ -15,17 +15,39 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
    * Footer will render in a dedicated section below the main content.
    */
   footer?: React.ReactNode
+  /**
+   * Set the overflow behavior. In most of the cases you might want to keep overflow visible,
+   * but when you have inner content with hover effects you might want to set overflow to hidden.
+   */
+  overflow: 'visible' | 'hidden'
+  /**
+   * Set a gray background color
+   */
+  backgroundColor?: 'light'
 }
 
 /** Card is a flexible component used to group and display content in a clear and concise format. */
 export const Card = withSkeletonTemplate<CardProps>(
-  ({ className, children, gap = '6', isLoading, delayMs, footer, ...rest }) => {
+  ({
+    className,
+    children,
+    gap = '6',
+    isLoading,
+    delayMs,
+    footer,
+    backgroundColor,
+    overflow,
+    ...rest
+  }) => {
     return (
       <div
         className={cn([
           className,
-          'border border-solid border-gray-200 rounded-md overflow-hidden',
+          'border border-solid rounded-md',
           {
+            'overflow-hidden': overflow === 'hidden',
+            'border-gray-200': backgroundColor == null,
+            'bg-gray-50 border-gray-50': backgroundColor === 'light',
             'p-1': gap === '1',
             'p-4': gap === '4',
             'p-6': gap === '6'
@@ -33,7 +55,13 @@ export const Card = withSkeletonTemplate<CardProps>(
         ])}
         {...rest}
       >
-        <div className='rounded overflow-hidden h-full'>{children}</div>
+        <div
+          className={cn('rounded h-full', {
+            'overflow-hidden': overflow === 'hidden'
+          })}
+        >
+          {children}
+        </div>
         {footer != null && (
           <div
             className={cn([
