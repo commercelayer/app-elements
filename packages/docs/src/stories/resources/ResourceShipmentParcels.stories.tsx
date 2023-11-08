@@ -1,6 +1,7 @@
 import { ResourceShipmentParcels } from '#ui/resources/ResourceShipmentParcels'
 import {
   shipmentHasBeenPurchased,
+  shipmentWithCustomsInfo,
   shipmentWithMultipleParcelsMultipleTrackings,
   shipmentWithMultipleParcelsSingleTracking,
   shipmentWithSingleParcelSingleTracking,
@@ -133,6 +134,19 @@ NoTrackingDetails.args = {
     alert(`removed parcel "${parcelId}"`)
   },
   shipment: shipmentWithoutTrackingDetails
+}
+
+/**
+ * We show customs info, separated by a dashed line, if the parcel has it.
+ */
+export const WithCustomsInfo: StoryFn<typeof ResourceShipmentParcels> = (
+  args
+): JSX.Element => <ResourceShipmentParcels {...args} />
+WithCustomsInfo.args = {
+  onRemoveParcel: function (parcelId) {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  shipment: shipmentWithCustomsInfo
 }
 
 /**

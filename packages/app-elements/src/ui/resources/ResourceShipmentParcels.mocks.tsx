@@ -313,6 +313,22 @@ export const parcelWithoutTrackingDetails1 = createParcel({
   trackingNumber: '12314321ASD1111'
 })
 
+export const parcelWithCustomsInfo: Parcel = {
+  ...parcelWithTracking1,
+  id: 'parcel-with-customs-info',
+  incoterm: 'DDP',
+  delivery_confirmation: 'signature',
+  eel_pfc: 'NOEEI_30_37_a',
+  contents_type: 'other',
+  contents_explanation: 'T-shirts, books and other stuff',
+  non_delivery_option: 'abandon',
+  restriction_type: 'other',
+  restriction_comments: 'please do not bend',
+  customs_signer: 'John Doe',
+  customs_certify: true,
+  customs_info_required: true
+}
+
 const rates = [
   {
     id: 'rate_dhl_1111',
@@ -435,4 +451,11 @@ export const shipmentWithoutParcels = createShipment({
   status: 'picking',
   purchaseStartedAt: '2023-07-11',
   parcels: []
+})
+
+export const shipmentWithCustomsInfo = createShipment({
+  id: 'shipment-with-customs-info',
+  status: 'picking',
+  purchaseStartedAt: '2023-07-11',
+  parcels: [parcelWithCustomsInfo]
 })

@@ -15,6 +15,7 @@ import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button } from '#ui/atoms/Button'
+import { Hr } from '#ui/atoms/Hr'
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -31,6 +32,7 @@ import {
 } from '@commercelayer/sdk'
 import { Package } from '@phosphor-icons/react'
 import cn from 'classnames'
+import isEmpty from 'lodash/isEmpty'
 import { useCallback, useMemo } from 'react'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 import { ResourceLineItems } from './ResourceLineItems'
@@ -152,6 +154,7 @@ const Parcel = withSkeletonTemplate<{
             rate={rate}
             showEstimatedDelivery={showEstimatedDelivery}
           />
+          <CustomsInfo parcel={parcel} />
         </Text>
       </Spacer>
     </CardDialog>
@@ -470,3 +473,134 @@ const PrintLabel = withSkeletonTemplate<{ href: string }>(({ href }) => {
     </div>
   )
 })
+
+const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
+  ({ parcel }) => {
+    const hasCustomsInfo = useMemo(
+      () =>
+        !isEmpty(parcel.incoterm) ||
+        !isEmpty(parcel.delivery_confirmation) ||
+        !isEmpty(parcel.eel_pfc) ||
+        !isEmpty(parcel.contents_type) ||
+        !isEmpty(parcel.contents_explanation) ||
+        !isEmpty(parcel.non_delivery_option) ||
+        !isEmpty(parcel.restriction_type) ||
+        !isEmpty(parcel.restriction_comments) ||
+        !isEmpty(parcel.customs_signer) ||
+        !isEmpty(parcel.customs_certify),
+      [parcel]
+    )
+
+    if (!hasCustomsInfo) {
+      return null
+    }
+
+    return (
+      <div>
+        <Spacer top='4' bottom='4'>
+          <Hr variant='dashed' />
+        </Spacer>
+
+        {!isEmpty(parcel.incoterm) && (
+          <FlexRow>
+            <Text variant='info' wrap='nowrap'>
+              Iconterm
+            </Text>
+            <Text weight='semibold'>{parcel.incoterm}</Text>
+          </FlexRow>
+        )}
+
+        {!isEmpty(parcel.delivery_confirmation) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info' wrap='nowrap'>
+                Delivery confirmation
+              </Text>
+              <Text weight='semibold'>{parcel.delivery_confirmation}</Text>
+            </FlexRow>
+          </Spacer>
+        )}
+
+        {parcel.customs_info_required === true && (
+          <Spacer top='4' bottom='4'>
+            <Hr variant='dashed' />
+          </Spacer>
+        )}
+
+        {!isEmpty(parcel.eel_pfc) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info' wrap='nowrap'>
+                EEL/PFC
+              </Text>
+              <Text weight='semibold'>{parcel.eel_pfc}</Text>
+            </FlexRow>
+          </Spacer>
+        )}
+
+        {!isEmpty(parcel.contents_type) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info' wrap='nowrap'>
+                Contents type
+              </Text>
+              <Text weight='semibold'>
+                {/* `contents_explanation` is optional but if exists it means `contents_type` is set. So if it exists we give it priority */}
+                {parcel.contents_explanation ?? parcel.contents_type}
+              </Text>
+            </FlexRow>
+          </Spacer>
+        )}
+
+        {!isEmpty(parcel.non_delivery_option) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info' wrap='nowrap'>
+                Non delivery option
+              </Text>
+              <Text weight='semibold'>{parcel.non_delivery_option}</Text>
+            </FlexRow>
+          </Spacer>
+        )}
+
+        {!isEmpty(parcel.restriction_type) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info'>Restriction type</Text>
+              <Text weight='semibold'>
+                {parcel.restriction_type}{' '}
+                {parcel.restriction_comments != null
+                  ? ` - ${parcel.restriction_comments}`
+                  : ''}
+              </Text>
+            </FlexRow>
+          </Spacer>
+        )}
+
+        {!isEmpty(parcel.customs_signer) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info' wrap='nowrap'>
+                Customs signer
+              </Text>
+              <Text weight='semibold'>{parcel.customs_signer}</Text>
+            </FlexRow>
+          </Spacer>
+        )}
+
+        {!isEmpty(parcel.customs_certify) && (
+          <Spacer top='4'>
+            <FlexRow>
+              <Text variant='info' wrap='nowrap'>
+                Customs certify
+              </Text>
+              <Text weight='semibold'>
+                {parcel.customs_certify === true ? 'Yes' : 'No'}
+              </Text>
+            </FlexRow>
+          </Spacer>
+        )}
+      </div>
+    )
+  }
+)
