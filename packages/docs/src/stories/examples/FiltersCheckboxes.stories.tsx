@@ -62,7 +62,7 @@ const Template: StoryFn<typeof InputCheckbox> = (args) => {
             : options.length}
         </Text>
       </Spacer>
-      <Card>
+      <Card overflow='hidden'>
         {options.map((opt, idx) => {
           const isChecked = selectedIds.includes(opt.id)
           return (

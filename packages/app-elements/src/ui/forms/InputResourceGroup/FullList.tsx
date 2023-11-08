@@ -137,7 +137,7 @@ export function FullList({
             totalCount
           })}
         >
-          <Card gap='1'>
+          <Card gap='1' overflow='hidden'>
             <ResourceList
               type={resource}
               emptyState={<div>No items found</div>}

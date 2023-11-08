@@ -104,7 +104,11 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
         label={`${title} · ${totalSelected}`}
         feedback={feedback}
       >
-        <Card gap='1' className={cn(getFeedbackStyle(feedback))}>
+        <Card
+          gap='1'
+          overflow='hidden'
+          className={cn(getFeedbackStyle(feedback))}
+        >
           {options.map((optionItem) => {
             const currentItem = _state.find(
               ({ value }) => value === optionItem.value

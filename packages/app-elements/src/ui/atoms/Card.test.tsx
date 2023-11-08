@@ -1,35 +1,49 @@
-import { render, type RenderResult } from '@testing-library/react'
+import { render } from '@testing-library/react'
 import { Card } from './Card'
-
-interface SetupProps {
-  id: string
-  content: React.ReactElement
-}
-
-type SetupResult = RenderResult & {
-  element: HTMLElement
-}
-
-const setup = ({ id, content }: SetupProps): SetupResult => {
-  const utils = render(<Card data-testid={id}>{content}</Card>)
-  const element = utils.getByTestId(id)
-  return {
-    element,
-    ...utils
-  }
-}
 
 describe('Card', () => {
   test('Should be rendered', () => {
-    const { element } = setup({
-      id: 'card',
-      content: (
+    const { getByText, container } = render(
+      <Card overflow='visible'>
         <p>
-          <strong>I'm a Card</strong>
+          <strong>I am a Card</strong>
         </p>
-      )
-    })
-    expect(element.innerHTML).toContain("I'm a Card")
-    expect(element.tagName).toBe('DIV')
+      </Card>
+    )
+    expect(getByText('I am a Card')).toBeVisible()
+    expect(container.firstElementChild?.tagName).toBe('DIV')
+  })
+
+  test('Should have light gray background', () => {
+    const { container } = render(
+      <Card overflow='visible' backgroundColor='light'>
+        I am a Card
+      </Card>
+    )
+    expect(container.firstElementChild).toHaveClass('bg-gray-50')
+  })
+
+  test('Should have overflow hidden', () => {
+    const { container } = render(
+      <Card overflow='hidden' backgroundColor='light'>
+        I am a Card
+      </Card>
+    )
+    const mainDiv = container.firstElementChild
+    const innerDiv = container.firstElementChild?.firstElementChild
+    expect(mainDiv).toHaveClass('overflow-hidden')
+    expect(innerDiv).toHaveClass('overflow-hidden')
+  })
+
+  test('Should NOT have overflow hidden', () => {
+    const { container } = render(
+      <Card overflow='visible' backgroundColor='light'>
+        I am a Card
+      </Card>
+    )
+    const mainDiv = container.firstElementChild
+    const innerDiv = container.firstElementChild?.firstElementChild
+    expect(mainDiv).not.toHaveClass('overflow-hidden')
+    expect(innerDiv).not.toHaveClass('overflow-hidden')
   })
 })

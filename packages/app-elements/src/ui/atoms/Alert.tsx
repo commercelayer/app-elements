@@ -23,6 +23,7 @@ export const Alert: React.FC<AlertProps> = ({ children, status }) => {
   return (
     <Card
       role='alert'
+      overflow='hidden'
       className={classNames('border-0', {
         'bg-orange-50 text-orange-700': status === 'warning',
         'bg-red-50 text-red-700': status === 'error',

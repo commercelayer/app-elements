@@ -88,6 +88,7 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
             return (
               <Card
                 key={optionItem.value}
+                overflow='hidden'
                 className={cn({
                   '!p-1': !isSelected,
                   'border-primary-500 border-2 !p-[calc(theme(space.1)-1px)]':
