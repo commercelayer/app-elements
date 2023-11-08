@@ -193,6 +193,13 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 lineItem.bundle_code != null
 
               const isEditable = editable && lineItem.type === 'line_items'
+              const restockedOnDate =
+                lineItem.type === 'return_line_items' &&
+                lineItem.restocked_at != null
+                  ? formatDate({
+                      isoDate: lineItem.restocked_at
+                    })
+                  : ''
 
               return (
                 <Fragment key={lineItem.id}>
@@ -256,9 +263,9 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                             <Badge variant='secondary'>
                               <div className='flex items-center gap-1'>
                                 <Checks size={16} className='text-gray-500' />{' '}
-                                {`Restocked on ${formatDate({
-                                  isoDate: lineItem.restocked_at
-                                })}`}
+                                {restockedOnDate === 'Today'
+                                  ? 'Restocked today'
+                                  : `Restocked on ${restockedOnDate}`}
                               </div>
                             </Badge>
                           </Spacer>
