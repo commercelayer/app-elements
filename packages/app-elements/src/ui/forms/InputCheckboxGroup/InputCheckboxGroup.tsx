@@ -48,6 +48,10 @@ interface Props extends Pick<InputWrapperBaseProps, 'feedback'> {
    * Callback triggered when the user checks/unchecks an option or changes the quantity
    */
   onChange: (selected: SelectedItem[]) => void
+  /**
+   * Show total count based on the sum of items quantities or items count itself
+   */
+  countBy?: 'quantity' | 'items'
 }
 
 /**
@@ -60,7 +64,15 @@ interface Props extends Pick<InputWrapperBaseProps, 'feedback'> {
  * <span type="info">Quantity for each option item has a min/max range, to prevent selecting less or more than the allowed number.</span>
  */
 export const InputCheckboxGroup = withSkeletonTemplate<Props>(
-  ({ options, defaultValues = [], onChange, title, isLoading, feedback }) => {
+  ({
+    options,
+    defaultValues = [],
+    onChange,
+    title,
+    isLoading,
+    feedback,
+    countBy = 'quantity'
+  }) => {
     const [_state, dispatch] = useReducer(
       reducer,
       makeInitialState({ options, defaultValues })
@@ -76,14 +88,14 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
       []
     )
 
-    const totalSelected = useMemo(
-      () =>
-        prepareSelected(_state).reduce(
-          (total, item) => total + (item.quantity ?? 1),
-          0
-        ),
-      [_state]
-    )
+    const totalSelected = useMemo(() => {
+      const selected = prepareSelected(_state)
+      if (countBy === 'quantity') {
+        return selected.reduce((total, item) => total + (item.quantity ?? 1), 0)
+      }
+
+      return selected.length
+    }, [_state, countBy])
 
     const isFirstRender = useRef(true)
     useEffect(
