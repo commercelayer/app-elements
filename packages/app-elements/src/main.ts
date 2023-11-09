@@ -304,4 +304,4 @@ export {
 export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
-} from '#dictionaries/stock_transfers'
+} from '#dictionaries/stockTransfers'
