@@ -10,16 +10,17 @@ export const returnToProps: ResourceToProps<Return> = ({ resource, user }) => {
   const displayStatus = getReturnDisplayStatus(resource)
   const returnStockLocationName =
     resource.order?.market?.name != null
-      ? `to ${resource.order.market.name} `
+      ? `To ${resource.order.market.name} `
       : ''
-  const returnNumber = resource.number != null ? `#${resource.number}` : ''
+  const number = resource.number != null ? `#${resource.number}` : ''
 
   return {
-    name: `Return ${returnStockLocationName}${returnNumber}`,
+    name: `Return ${number}`,
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
         date={resource.updated_at}
+        additionalInfos={returnStockLocationName}
       />
     ),
     icon: <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
