@@ -86,6 +86,11 @@ Returns.args = {
   type: 'returns'
 }
 
+export const StockTransfers = ItemsByTypeTemplate.bind({})
+StockTransfers.args = {
+  type: 'stock_transfers'
+}
+
 export const Customers = ItemsByTypeTemplate.bind({})
 Customers.args = {
   type: 'customers'
