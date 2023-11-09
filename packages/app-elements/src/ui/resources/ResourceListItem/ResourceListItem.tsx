@@ -9,7 +9,8 @@ import { useMemo } from 'react'
 import {
   customerToProps,
   orderToProps,
-  returnToProps
+  returnToProps,
+  stockTransferToProps
 } from '#ui/resources/ResourceListItem/transformers'
 
 import { useTokenProvider } from '#providers/TokenProvider'
@@ -103,6 +104,8 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
           return orderToProps({ resource, user })
         case 'returns':
           return returnToProps({ resource, user })
+        case 'stock_transfers':
+          return stockTransferToProps({ resource, user })
       }
     }, [resource])
     return (
