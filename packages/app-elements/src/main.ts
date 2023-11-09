@@ -299,8 +299,7 @@ export {
 } from '#dictionaries/orders'
 export {
   getReturnDisplayStatus,
-  getReturnStatusName,
-  getReturnTriggerAttributeName
+  getReturnStatusName
 } from '#dictionaries/returns'
 export {
   getStockTransferDisplayStatus,
