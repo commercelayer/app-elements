@@ -1,4 +1,11 @@
-import type { Customer, Market, Order, Return } from '@commercelayer/sdk'
+import type {
+  Customer,
+  Market,
+  Order,
+  Return,
+  StockLocation,
+  StockTransfer
+} from '@commercelayer/sdk'
 
 const market = {
   type: 'markets',
@@ -8,6 +15,22 @@ const market = {
   updated_at: '',
   shared_secret: ''
 } as const satisfies Market
+
+const originStockLocation = {
+  type: 'stock_locations',
+  id: '',
+  name: 'US Warehouse',
+  created_at: '',
+  updated_at: ''
+} as const satisfies StockLocation
+
+const destinationStockLocation = {
+  type: 'stock_locations',
+  id: '',
+  name: 'NY Store',
+  created_at: '',
+  updated_at: ''
+} as const satisfies StockLocation
 
 const order = {
   type: 'orders',
@@ -188,5 +211,39 @@ export const presetResourceListItem = {
       updated_at: '2023-06-10T06:38:44.964Z',
       created_at: '2023-06-09T11:00:00.000Z'
     }
+  },
+  stockTransferUpcoming: {
+    type: 'stock_transfers',
+    id: '',
+    number: 3478,
+    quantity: 1,
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    status: 'upcoming',
+    origin_stock_location: originStockLocation,
+    destination_stock_location: destinationStockLocation
+  },
+  stockTransferPicking: {
+    type: 'stock_transfers',
+    id: '',
+    number: 3478,
+    quantity: 1,
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    status: 'picking',
+    origin_stock_location: originStockLocation,
+    destination_stock_location: destinationStockLocation
+  },
+  stockTransferCompleted: {
+    type: 'stock_transfers',
+    id: '',
+    number: 3478,
+    quantity: 1,
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '2023-06-09T11:00:00.000Z',
+    completed_at: '2023-06-10T11:40:00.000Z',
+    status: 'completed',
+    origin_stock_location: originStockLocation,
+    destination_stock_location: destinationStockLocation
   }
-} satisfies Record<string, Order | Return | Customer>
+} satisfies Record<string, Order | Return | Customer | StockTransfer>
