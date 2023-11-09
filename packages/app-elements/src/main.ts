@@ -302,3 +302,7 @@ export {
   getReturnStatusName,
   getReturnTriggerAttributeName
 } from '#dictionaries/returns'
+export {
+  getStockTransferDisplayStatus,
+  getStockTransferStatusName
+} from '#dictionaries/stock_transfers'
