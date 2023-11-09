@@ -1,9 +1,5 @@
 lockfileVersion: '6.0'
 
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
-
 importers:
 
   .:
@@ -27,8 +23,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@commercelayer/sdk':
-        specifier: 5.19.2
-        version: 5.19.2
+        specifier: 5.20.0
+        version: 5.20.0
       '@types/lodash':
         specifier: ^4.14.200
         version: 4.14.200
@@ -1755,8 +1751,8 @@ packages:
       - supports-color
     dev: true
 
-  /@commercelayer/sdk@5.19.2:
-    resolution: {integrity: sha512-INANGtJelLcqJ6FYulR+PpMMTdHv3amDYGiuv7EMPF8Uw+5fYqtuQvVOX9qoH08VUkA9NUbLCpn8fRdTjBg6IA==}
+  /@commercelayer/sdk@5.20.0:
+    resolution: {integrity: sha512-E/Ythi4c5+tk+zDZArKDy6Gkmzt06e8JJh3ZDA0gCU18dX4tKxsNX7m6MoPsrYhPNGAg5B1TBaYMOXc03PbBSg==}
     engines: {node: '>=16 || ^14.17'}
     dependencies:
       axios: 1.5.1
@@ -5973,16 +5969,6 @@ packages:
     engines: {node: '>= 0.4'}
     dev: true
 
-  /axios@1.5.0:
-    resolution: {integrity: sha512-D4DdjDo5CY50Qms0qGQTTw6Q44jl7zRwY7bthds06pUGfChBCTcQs+N743eFWGEd6pRTMd6A+I87aWyFV5wiZQ==}
-    dependencies:
-      follow-redirects: 1.15.2
-      form-data: 4.0.0
-      proxy-from-env: 1.1.0
-    transitivePeerDependencies:
-      - debug
-    dev: true
-
   /axios@1.5.1:
     resolution: {integrity: sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==}
     dependencies:
@@ -5991,7 +5977,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: false
 
   /babel-core@7.0.0-bridge.0(@babel/core@7.23.2):
     resolution: {integrity: sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==}
@@ -11455,7 +11440,7 @@ packages:
       '@yarnpkg/lockfile': 1.1.0
       '@yarnpkg/parsers': 3.0.0-rc.46
       '@zkochan/js-yaml': 0.0.6
-      axios: 1.5.0
+      axios: 1.5.1
       chalk: 4.1.2
       cli-cursor: 3.1.0
       cli-spinners: 2.6.1
@@ -15276,3 +15261,7 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
