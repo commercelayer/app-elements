@@ -1,4 +1,4 @@
-import { getStockTransferDisplayStatus } from '#dictionaries/stock_transfers'
+import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import {
   ListItemDescription,
   ListItemIcon
