@@ -5,6 +5,7 @@ export { goBack, navigateTo } from '#helpers/appsNavigation'
 export { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 export {
   formatDate,
+  formatDateWithPredicate,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
   sortAndGroupByDate,

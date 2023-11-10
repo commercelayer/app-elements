@@ -69,6 +69,54 @@ export function formatDate({
   }
 }
 
+interface FormatDateWithPredicateOptions extends FormatDateOptions {
+  /**
+   * Date predicate verb string. Example: 'Created' or 'Updated'.
+   */
+  predicate: string
+}
+
+/**
+ * Generate a valid separator string based on provided date format
+ * @param format a string belonging to `Format` type
+ * @returns a string containing the wanted separator. Example: 'on' is valid separator for formats containing a date and 'at' is a valid separator for formats related to time.
+ */
+function getDatePredicateSeparatorByFormat(format: Format): string {
+  switch (format) {
+    case 'distanceToNow':
+      return ''
+    case 'time':
+    case 'timeWithSeconds':
+      return 'at '
+    default:
+      return 'on '
+  }
+}
+
+/**
+ * Generate a string containing provided predicate, a separator and provided date formatted according to `formatDate` method
+ * @param opts a set of `FormatDateOptions` along with a date verb predicate. In this method `format` prop has 'full' default value.
+ * @returns a nice string representation of the predicate, followed by the proper separator and the formatted date. Examples: 'Created today · 1:16 PM', 'Updated on Jul 21, 2022 · 1:16 PM' or 'Updated at 1:16 PM'
+ */
+export function formatDateWithPredicate({
+  isoDate,
+  timezone,
+  format = 'full',
+  predicate
+}: FormatDateWithPredicateOptions): string {
+  const formattedDate = formatDate({
+    isoDate,
+    timezone,
+    format
+  }).replace('Today', 'today')
+
+  const separator = !formattedDate.includes('today')
+    ? `${getDatePredicateSeparatorByFormat(format)}`
+    : ''
+
+  return `${predicate} ${separator}${formattedDate}`
+}
+
 export const timeSeparator = '·'
 
 function getPresetFormatTemplate(
