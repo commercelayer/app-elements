@@ -1,4 +1,9 @@
-import { formatDate, getIsoDateAtDayEdge, getIsoDateAtDaysBefore } from './date'
+import {
+  formatDate,
+  formatDateWithPredicate,
+  getIsoDateAtDayEdge,
+  getIsoDateAtDaysBefore
+} from './date'
 
 describe('formatDate', () => {
   beforeEach(() => {
@@ -179,6 +184,86 @@ describe('formatDate', () => {
         format: 'distanceToNow'
       })
     ).toBe('10 months ago')
+  })
+})
+
+describe('formatDateWithPredicate', () => {
+  beforeEach(() => {
+    vi.useFakeTimers().setSystemTime('2023-12-25T14:30:00.000Z')
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  test('Should return a nice date string with predicate', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Created',
+        isoDate: '2022-10-14T14:32:00.000Z'
+      })
+    ).toBe('Created on Oct 14, 2022 · 14:32')
+  })
+
+  test('Should return the predicate followed by `on` and the date without the year when current year', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Updated',
+        isoDate: '2023-10-14T14:32:00.000Z',
+        format: 'date'
+      })
+    ).toBe('Updated on Oct 14')
+  })
+
+  test('Should return the predicate followed by just "today" when date is today', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Created',
+        isoDate: '2023-12-25T14:32:00.000Z',
+        format: 'date'
+      })
+    ).toBe('Created today')
+  })
+
+  test('Should return the predicate followed by `on` and the date with time', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Updated',
+        isoDate: '2023-02-22T10:32:47.284Z',
+        format: 'full'
+      })
+    ).toBe('Updated on Feb 22 · 10:32')
+  })
+
+  test('Should return the predicate followed by `on` and the date with time and seconds', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Updated',
+        isoDate: '2023-02-22T10:32:47.284Z',
+        format: 'fullWithSeconds'
+      })
+    ).toBe('Updated on Feb 22 · 10:32:47')
+  })
+
+  test('Should return the predicate followed by `at` and the time', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Updated',
+        isoDate: '2023-02-22T05:32:47.284Z',
+        format: 'time'
+      })
+    ).toBe('Updated at 05:32')
+  })
+
+  test('Should return the predicate followed by just the distance to now', () => {
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Updated',
+        isoDate: '2023-12-25T14:30:00.000Z',
+        timezone: 'Australia/Sydney',
+        format: 'distanceToNow'
+      })
+    ).toBe('Updated less than a minute ago')
   })
 })
 
