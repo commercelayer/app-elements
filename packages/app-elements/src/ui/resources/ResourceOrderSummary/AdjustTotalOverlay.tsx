@@ -111,7 +111,7 @@ const Form: React.FC<Props> = ({ order, onChange, close }) => {
         <Spacer bottom='8'>
           <HookedInputCurrency
             isClearable
-            sign='-'
+            sign='-+'
             disabled={isSubmitting}
             currencyCode={currencyCode}
             label='Amount'
