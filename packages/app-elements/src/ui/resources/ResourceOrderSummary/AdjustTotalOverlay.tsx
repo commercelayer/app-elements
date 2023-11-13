@@ -118,8 +118,7 @@ async function createManualAdjustmentLineItem({
     order: sdkClient.orders.relationship(order.id),
     quantity: 1,
     item: adjustment,
-    reference_origin: manualAdjustmentReferenceOrigin,
-    compare_at_amount_cents: 0
+    reference_origin: manualAdjustmentReferenceOrigin
   })
 }
 
@@ -153,8 +152,7 @@ async function updateManualAdjustmentLineItem({
         order: sdkClient.orders.relationship(order.id),
         quantity: 1,
         item: adjustment,
-        reference_origin: manualAdjustmentReferenceOrigin,
-        compare_at_amount_cents: 0
+        reference_origin: manualAdjustmentReferenceOrigin
       })
     }
   }
