@@ -3,8 +3,8 @@ import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
-import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
+import { RemoveButton } from '#ui/atoms/RemoveButton'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -16,7 +16,7 @@ import type {
   ReturnLineItem,
   StockLineItem
 } from '@commercelayer/sdk'
-import { Checks, Trash } from '@phosphor-icons/react'
+import { Checks } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 
@@ -64,11 +64,9 @@ const Edit = withSkeletonTemplate<{
       </div>
       <div>
         {canRemove && (
-          <Button
+          <RemoveButton
             aria-label='Delete'
             disabled={disabled}
-            className='block'
-            variant='link'
             onClick={() => {
               if (!disabled) {
                 setDisabled(true)
@@ -78,9 +76,7 @@ const Edit = withSkeletonTemplate<{
                 })
               }
             }}
-          >
-            <Trash size={18} weight='bold' />
-          </Button>
+          />
         )}
       </div>
     </FlexRow>
