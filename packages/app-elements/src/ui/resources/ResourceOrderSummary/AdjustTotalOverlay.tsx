@@ -6,33 +6,57 @@ import { PageLayout } from '#ui/composite/PageLayout'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputCurrency } from '#ui/forms/InputCurrency'
 import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
+import { HookedValidationApiError } from '#ui/forms/ReactHookForm/HookedValidationApiError'
 import type { CommerceLayerClient, Order } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { getManualAdjustment, manualAdjustmentReferenceOrigin } from './utils'
 
+interface Props {
+  order: Order
+  onChange?: () => void
+  close: () => void
+}
+
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
+export function useAdjustTotalOverlay(
+  order: Props['order'],
+  onChange?: Props['onChange']
+) {
+  const { Overlay, open, close } = useOverlay()
+
+  return {
+    close,
+    open,
+    Overlay: () => (
+      <Overlay>
+        <Form order={order} onChange={onChange} close={close} />
+      </Overlay>
+    )
+  }
+}
+
+const Form: React.FC<Props> = ({ order, onChange, close }) => {
   const currencyCode = order.currency_code as Uppercase<CurrencyCode>
   const manualAdjustment = getManualAdjustment(order)
   const { sdkClient } = useCoreSdkProvider()
-  const { Overlay, open, close } = useOverlay()
+  const [apiError, setApiError] = useState<any>()
 
   const validationSchema = useMemo(
     () =>
       z.object({
         adjustTotal: z.number({
-          required_error: 'Please enter a negative or positive value.',
-          invalid_type_error: 'Please enter a negative or positive value.'
+          required_error: 'The amount is required.',
+          invalid_type_error: 'The amount is required.'
         })
       }),
     []
   )
   const formMethods = useForm({
     defaultValues: {
-      adjustTotal: manualAdjustment?.total_amount_cents ?? 0
+      adjustTotal: manualAdjustment?.total_amount_cents
     },
     resolver: zodResolver(validationSchema)
   })
@@ -40,60 +64,70 @@ export function useAdjustTotalOverlay(order: Order, onChange?: () => void) {
     formState: { isSubmitting }
   } = formMethods
 
-  return {
-    close,
-    open,
-    Overlay: () => (
-      <Overlay>
-        <HookedForm
-          {...formMethods}
-          onSubmit={async (values) => {
-            if (manualAdjustment == null) {
-              await createManualAdjustmentLineItem({
-                sdkClient,
-                order,
-                amount: values.adjustTotal
-              }).then(() => {
-                onChange?.()
-                close()
-              })
-            } else {
-              await updateManualAdjustmentLineItem({
-                sdkClient,
-                order,
-                lineItemId: manualAdjustment.id,
-                amount: values.adjustTotal
-              }).then(() => {
-                onChange?.()
-                close()
-              })
-            }
-          }}
-        >
-          <PageLayout
-            title='Adjust total'
-            onGoBack={() => {
+  return (
+    <HookedForm
+      {...formMethods}
+      onSubmit={async (values) => {
+        if (values.adjustTotal == null) {
+          return
+        }
+
+        if (manualAdjustment == null) {
+          await createManualAdjustmentLineItem({
+            sdkClient,
+            order,
+            amount: values.adjustTotal
+          })
+            .then(() => {
+              onChange?.()
               close()
-            }}
-          >
-            <Spacer bottom='8'>
-              <HookedInputCurrency
-                isClearable
-                allowNegativeValue
-                disabled={isSubmitting}
-                currencyCode={currencyCode}
-                label='Amount'
-                name='adjustTotal'
-              />
-            </Spacer>
-            <Button type='submit' fullWidth disabled={isSubmitting}>
-              Apply
-            </Button>
-          </PageLayout>
-        </HookedForm>
-      </Overlay>
-    )
-  }
+            })
+            .catch((error) => {
+              setApiError(error)
+            })
+        } else {
+          await updateManualAdjustmentLineItem({
+            sdkClient,
+            order,
+            lineItemId: manualAdjustment.id,
+            amount: values.adjustTotal
+          })
+            .then(() => {
+              onChange?.()
+              close()
+            })
+            .catch((error) => {
+              setApiError(error)
+            })
+        }
+      }}
+    >
+      <PageLayout
+        title='Adjust total'
+        onGoBack={() => {
+          close()
+        }}
+      >
+        <Spacer bottom='8'>
+          <HookedInputCurrency
+            isClearable
+            sign='-+'
+            disabled={isSubmitting}
+            currencyCode={currencyCode}
+            label='Amount'
+            name='adjustTotal'
+          />
+        </Spacer>
+        <Button type='submit' fullWidth disabled={isSubmitting}>
+          Apply
+        </Button>
+
+        <Spacer top='4'>
+          <HookedValidationApiError apiError={apiError} />
+        </Spacer>
+      </PageLayout>
+    </HookedForm>
+  )
 }
 
 async function createManualAdjustmentLineItem({
@@ -105,22 +139,24 @@ async function createManualAdjustmentLineItem({
   amount: number
   order: Order
 }): Promise<void> {
-  const currencyCode = order.currency_code as Uppercase<CurrencyCode>
+  if (amount !== 0) {
+    const currencyCode = order.currency_code as Uppercase<CurrencyCode>
 
-  const adjustment = await sdkClient.adjustments.create({
-    currency_code: currencyCode,
-    amount_cents: amount,
-    name: 'Manual adjustment',
-    reference_origin: manualAdjustmentReferenceOrigin
-  })
+    const adjustment = await sdkClient.adjustments.create({
+      currency_code: currencyCode,
+      amount_cents: amount,
+      name: 'Manual adjustment',
+      reference_origin: manualAdjustmentReferenceOrigin
+    })
 
-  await sdkClient.line_items.create({
-    order: sdkClient.orders.relationship(order.id),
-    quantity: 1,
-    item: adjustment,
-    reference_origin: manualAdjustmentReferenceOrigin,
-    compare_at_amount_cents: 0
-  })
+    await sdkClient.line_items.create({
+      order: sdkClient.orders.relationship(order.id),
+      quantity: 1,
+      item: adjustment,
+      reference_origin: manualAdjustmentReferenceOrigin,
+      compare_at_amount_cents: 0
+    })
+  }
 }
 
 async function updateManualAdjustmentLineItem({

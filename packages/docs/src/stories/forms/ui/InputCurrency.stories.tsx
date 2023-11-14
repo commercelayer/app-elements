@@ -46,3 +46,31 @@ WithError.args = {
     message: 'Required field'
   }
 }
+
+export const ForcePositiveValue = Template.bind({})
+ForcePositiveValue.args = {
+  name: 'input-force-positive-value',
+  currencyCode: 'USD',
+  sign: '+'
+}
+
+export const PositiveAndNegativeValues = Template.bind({})
+PositiveAndNegativeValues.args = {
+  name: 'input-positive-and-negative-values',
+  currencyCode: 'USD',
+  sign: '+-'
+}
+
+export const NegativeAndPositiveValues = Template.bind({})
+NegativeAndPositiveValues.args = {
+  name: 'input-negative-and-positive-values',
+  currencyCode: 'USD',
+  sign: '-+'
+}
+
+export const ForceNegativeValue = Template.bind({})
+ForceNegativeValue.args = {
+  name: 'input-force-negative-value',
+  currencyCode: 'USD',
+  sign: '-'
+}
