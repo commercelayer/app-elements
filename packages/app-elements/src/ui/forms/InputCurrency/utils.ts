@@ -47,13 +47,16 @@ export function addCurrencySymbol({
  * Example: JPY -> 0
  * Example: CLF -> 0,0000
  */
-export function makePlaceholder(currency: Currency): string {
+export function makePlaceholder(
+  currency: Currency,
+  prefix: string = ''
+): string {
   const decimalLength = getDecimalLength(currency)
   if (decimalLength === 0) {
     return '0'
   }
   const decimals = ''.padEnd(decimalLength, '0')
-  return `0${currency.decimal_mark}${decimals}`
+  return `${prefix}0${currency.decimal_mark}${decimals}`
 }
 
 /**

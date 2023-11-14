@@ -1,10 +1,10 @@
-import { formatDate } from '#helpers/date'
+import { formatDateWithPredicate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
-import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
+import { RemoveButton } from '#ui/atoms/RemoveButton'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -16,7 +16,7 @@ import type {
   ReturnLineItem,
   StockLineItem
 } from '@commercelayer/sdk'
-import { Checks, Trash } from '@phosphor-icons/react'
+import { Checks } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 
@@ -64,11 +64,9 @@ const Edit = withSkeletonTemplate<{
       </div>
       <div>
         {canRemove && (
-          <Button
+          <RemoveButton
             aria-label='Delete'
             disabled={disabled}
-            className='block'
-            variant='link'
             onClick={() => {
               if (!disabled) {
                 setDisabled(true)
@@ -78,9 +76,7 @@ const Edit = withSkeletonTemplate<{
                 })
               }
             }}
-          >
-            <Trash size={18} weight='bold' />
-          </Button>
+          />
         )}
       </div>
     </FlexRow>
@@ -146,6 +142,8 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
       )
     }
 
+    const { user } = useTokenProvider()
+
     return (
       <table className='w-full'>
         <tbody>
@@ -193,13 +191,6 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 lineItem.bundle_code != null
 
               const isEditable = editable && lineItem.type === 'line_items'
-              const restockedOnDate =
-                lineItem.type === 'return_line_items' &&
-                lineItem.restocked_at != null
-                  ? formatDate({
-                      isoDate: lineItem.restocked_at
-                    })
-                  : ''
 
               return (
                 <Fragment key={lineItem.id}>
@@ -263,9 +254,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                             <Badge variant='secondary'>
                               <div className='flex items-center gap-1'>
                                 <Checks size={16} className='text-gray-500' />{' '}
-                                {restockedOnDate === 'Today'
-                                  ? 'Restocked today'
-                                  : `Restocked on ${restockedOnDate}`}
+                                {formatDateWithPredicate({
+                                  predicate: 'Restocked',
+                                  isoDate: lineItem.restocked_at,
+                                  timezone: user?.timezone
+                                })}
                               </div>
                             </Badge>
                           </Spacer>

@@ -55,6 +55,64 @@ describe('InputCurrency', () => {
     )
     expect(queryByTestId('inputCurrency-input')).not.toBeInTheDocument()
   })
+
+  describe('attribute `sign`', () => {
+    it('should always display a positive value when sign is equal to `+`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='+' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '-4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+
+      fireEvent.change(input, { target: { value: '-4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+    })
+
+    it('should display a positive value the first time when sign is equal to `+-`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='+-' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+
+      fireEvent.change(input, { target: { value: '-4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+    })
+
+    it('should display a negative value the first time when sign is equal to `-+`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='-+' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(400, '€4,00')
+    })
+
+    it('should always display a negative value when sign is equal to `-`', () => {
+      const onChange = vi.fn()
+      const { getByTestId } = render(
+        <InputCurrency currencyCode='EUR' onChange={onChange} sign='-' />
+      )
+
+      const input = getByTestId('inputCurrency-input')
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+
+      fireEvent.change(input, { target: { value: '4' } })
+      expect(onChange).lastCalledWith(-400, '€-4,00')
+    })
+  })
 })
 
 describe('formatCentsToCurrency', () => {

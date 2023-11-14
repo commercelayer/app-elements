@@ -76,6 +76,7 @@ export {
   RadialProgress,
   type RadialProgressProps
 } from '#ui/atoms/RadialProgress'
+export { RemoveButton, type RemoveButtonProps } from '#ui/atoms/RemoveButton'
 export { Section, type SectionProps } from '#ui/atoms/Section'
 export {
   Skeleton,
