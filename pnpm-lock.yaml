@@ -1,5 +1,9 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 importers:
 
   .:
@@ -23,8 +27,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       '@commercelayer/sdk':
-        specifier: 5.20.0
-        version: 5.20.0
+        specifier: 5.21.1
+        version: 5.21.1
       '@types/lodash':
         specifier: ^4.14.200
         version: 4.14.200
@@ -1751,11 +1755,11 @@ packages:
       - supports-color
     dev: true
 
-  /@commercelayer/sdk@5.20.0:
-    resolution: {integrity: sha512-E/Ythi4c5+tk+zDZArKDy6Gkmzt06e8JJh3ZDA0gCU18dX4tKxsNX7m6MoPsrYhPNGAg5B1TBaYMOXc03PbBSg==}
+  /@commercelayer/sdk@5.21.1:
+    resolution: {integrity: sha512-ePnXjVMRSdmdJhSZF2GI6joHi3Zm/QEC8gkrwJ0oh4tEhKqL8DOdX8dlhGblDEBJfls8ix1LHr8W+Oh+hkWvFw==}
     engines: {node: '>=16 || ^14.17'}
     dependencies:
-      axios: 1.5.1
+      axios: 1.6.1
     transitivePeerDependencies:
       - debug
     dev: false
@@ -5977,6 +5981,17 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
+    dev: true
+
+  /axios@1.6.1:
+    resolution: {integrity: sha512-vfBmhDpKafglh0EldBEbVuoe7DyAavGSLWhuSm5ZSEKQnHhBf0xAAwybbNH1IkrJNGnS/VG4I5yxig1pCEXE4g==}
+    dependencies:
+      follow-redirects: 1.15.2
+      form-data: 4.0.0
+      proxy-from-env: 1.1.0
+    transitivePeerDependencies:
+      - debug
+    dev: false
 
   /babel-core@7.0.0-bridge.0(@babel/core@7.23.2):
     resolution: {integrity: sha512-poPX9mZH/5CSanm50Q+1toVci6pv5KSRv/5TWCwtzQS5XEwn40BcCrgIeMFWP9CKKIniKXNxoIOnOq4VVlGXhg==}
@@ -15261,7 +15276,3 @@ packages:
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
-
-settings:
-  autoInstallPeers: true
-  excludeLinksFromLockfile: false
