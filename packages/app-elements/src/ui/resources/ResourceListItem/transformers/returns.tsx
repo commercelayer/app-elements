@@ -9,8 +9,8 @@ import { type ResourceToProps } from '../types'
 export const returnToProps: ResourceToProps<Return> = ({ resource, user }) => {
   const displayStatus = getReturnDisplayStatus(resource)
   const returnStockLocationName =
-    resource.order?.market?.name != null
-      ? `To ${resource.order.market.name} `
+    resource.stock_location?.name != null
+      ? `To ${resource.stock_location.name} `
       : ''
   const number = resource.number != null ? `#${resource.number}` : ''
 
