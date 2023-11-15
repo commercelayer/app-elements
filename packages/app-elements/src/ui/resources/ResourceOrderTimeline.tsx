@@ -45,6 +45,7 @@ export const ResourceOrderTimeline =
                 include: [
                   'shipments',
                   'shipments.attachments',
+                  'returns',
                   'transactions',
                   'payment_method',
                   'payment_source',
