@@ -318,8 +318,7 @@ export {
   getOrderFulfillmentStatusName,
   getOrderPaymentStatusName,
   getOrderStatusName,
-  getOrderTransactionName,
-  getOrderTriggerAttributeName
+  getOrderTransactionName
 } from '#dictionaries/orders'
 export { getPromotionDisplayStatus } from '#dictionaries/promotions'
 export {
@@ -334,3 +333,4 @@ export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
 } from '#dictionaries/stockTransfers'
+
