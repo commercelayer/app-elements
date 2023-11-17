@@ -52,7 +52,7 @@ export const Editable = Template.bind({})
 Editable.args = {
   isLoading: false,
   editable: true,
-  resource: presetAddresses.withName
+  resource: presetAddresses.withNotes
 }
 
 export const EditableBottom = Template.bind({})

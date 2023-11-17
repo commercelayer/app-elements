@@ -6,6 +6,7 @@ import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
 import cn from 'classnames'
+import isEmpty from 'lodash/isEmpty'
 import { useState } from 'react'
 import { ResourceAddressForm } from './ResourceAddressForm'
 
@@ -95,6 +96,11 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                 data-testid='ResourceAddress-billingInfo'
               >
                 {address.billing_info}
+              </Text>
+            ) : null}
+            {!isEmpty(address.notes) ? (
+              <Text tag='div' variant='info'>
+                {address.notes}
               </Text>
             ) : null}
           </div>

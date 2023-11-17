@@ -8,6 +8,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form/HookedForm'
 import { HookedInput } from '#ui/forms/Input/HookedInput'
 import { HookedInputSelect } from '#ui/forms/InputSelect/HookedInputSelect'
+import { HookedInputTextArea } from '#ui/forms/InputTextArea'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm/HookedValidationApiError'
 import { type Address } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -124,6 +125,10 @@ export const ResourceAddressForm =
               <HookedInput name='billing_info' label='Billing info' />
             </FieldRow>
           )}
+
+          <FieldRow columns='1'>
+            <HookedInputTextArea name='notes' label='Notes' rows={2} />
+          </FieldRow>
 
           <Spacer top='14'>
             <Button type='submit' disabled={isSubmitting} className='w-full'>
