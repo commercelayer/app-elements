@@ -29,7 +29,7 @@ const setup = (): RenderResult => {
     <MockTokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
         <ResourceAddress
-          resource={presetAddresses.withName}
+          resource={presetAddresses.withNotes}
           showBillingInfo
           editable
         />
@@ -62,34 +62,39 @@ describe('ResourceAddress', () => {
   })
 
   test('Should render phone', async () => {
-    const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress-phone')).toContainHTML(
-      '+39 055 1234567890'
-    )
+    const { getByText } = setup()
+    expect(getByText('+39 055 1234567890')).toBeVisible()
+  })
+
+  test('Should render notes', async () => {
+    const { getByText } = setup()
+    expect(
+      getByText('Kindly leave the package to my neighbor, Adam Sandler.')
+    ).toBeVisible()
   })
 
   test('Should render billingInfo', async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('ResourceAddress-billingInfo')).toBeInTheDocument()
+    expect(queryByTestId('ResourceAddress-billingInfo')).toBeVisible()
   })
 
-  test('Should render editAction', async () => {
+  test('Should render edit button', async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('ResourceAddress-editAction')).toBeInTheDocument()
+    expect(queryByTestId('ResourceAddress-editButton')).toBeVisible()
   })
 
   test('Should open edit Overlay and submit the form', async () => {
-    const { queryByText, getByText } = setup()
-    expect(queryByText('Edit')).not.toBe(null)
+    const { getByTestId, getByText } = setup()
+    const editButton = getByTestId('ResourceAddress-editButton')
     await waitFor(() => {
-      fireEvent.click(getByText('Edit'))
+      fireEvent.click(editButton)
     })
 
-    expect(queryByText('Edit address')).not.toBe(null)
-    expect(queryByText('Update address')).not.toBe(null)
-
+    const saveAddressButton = getByText('Update address')
+    expect(getByText('Edit address')).toBeVisible()
+    expect(saveAddressButton).toBeVisible()
     await waitFor(() => {
-      fireEvent.click(getByText('Update address'))
+      fireEvent.click(saveAddressButton)
     })
 
     expect(addressUpdate).toHaveBeenCalledTimes(1)

@@ -54,6 +54,6 @@ export const presetAddresses = {
     billing_info: 'ABCDEFGHIJKLMNOPQRSTUVWYXZ',
     created_at: '',
     updated_at: '',
-    notes: 'This is a note, please read it'
+    notes: 'Kindly leave the package to my neighbor, Adam Sandler.'
   }
 } satisfies Record<string, Address>
