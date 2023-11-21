@@ -52,15 +52,7 @@ export const Editable = Template.bind({})
 Editable.args = {
   isLoading: false,
   editable: true,
-  resource: presetAddresses.withName
-}
-
-export const EditableBottom = Template.bind({})
-EditableBottom.args = {
-  isLoading: false,
-  editable: true,
-  editPosition: 'bottom',
-  resource: presetAddresses.withName
+  resource: presetAddresses.withNotes
 }
 
 const StackedTemplate: StoryFn = () => {
@@ -72,13 +64,11 @@ const StackedTemplate: StoryFn = () => {
             resource={presetAddresses.withCompany}
             title='Billing address'
             editable
-            editPosition='bottom'
           />
           <ResourceAddress
-            resource={presetAddresses.withName}
+            resource={presetAddresses.withNotes}
             title='Shipping address'
             editable
-            editPosition='bottom'
           />
         </Stack>
       </CoreSdkProvider>

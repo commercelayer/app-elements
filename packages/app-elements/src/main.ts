@@ -230,7 +230,12 @@ export {
   type HookedInputSwitchProps,
   type InputSwitchProps
 } from '#ui/forms/InputSwitch'
-export { InputTextArea, type InputTextAreaProps } from '#ui/forms/InputTextArea'
+export {
+  HookedInputTextArea,
+  InputTextArea,
+  type HookedInputTextAreaProps,
+  type InputTextAreaProps
+} from '#ui/forms/InputTextArea'
 export {
   HookedInputToggleButton,
   InputToggleButton,

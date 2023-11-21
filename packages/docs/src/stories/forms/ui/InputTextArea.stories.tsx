@@ -21,6 +21,14 @@ Default.args = {
   defaultValue: 'I love Commerce Layer'
 }
 
+export const CustomHeight = Template.bind({})
+CustomHeight.args = {
+  label: 'Your name',
+  name: 'fullname',
+  defaultValue: 'I love Commerce Layer',
+  rows: 2
+}
+
 export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'Your name',

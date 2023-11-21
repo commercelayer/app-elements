@@ -1,15 +1,16 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { useTokenProvider } from '#providers/TokenProvider'
+import { Button } from '#ui/atoms/Button'
+import { Hr } from '#ui/atoms/Hr'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
-import cn from 'classnames'
+import { Note, PencilSimple, Phone } from '@phosphor-icons/react'
+import isEmpty from 'lodash/isEmpty'
 import { useState } from 'react'
 import { ResourceAddressForm } from './ResourceAddressForm'
-
-type ResourceAddressEditPosition = 'side' | 'bottom'
 
 export interface ResourceAddressProps {
   /**
@@ -27,10 +28,6 @@ export interface ResourceAddressProps {
    */
   editable?: boolean
   /**
-   * Optional setting to define edit button position. It can be set to 'side' or 'bottom'.
-   */
-  editPosition?: ResourceAddressEditPosition
-  /**
    * Optional setting to define if given `Address` `billing_info` data is visible.
    */
   showBillingInfo?: boolean
@@ -40,13 +37,7 @@ export interface ResourceAddressProps {
  * Renders an all-in-one visualization and editing solution to deal with a given resource of type `Address`
  */
 export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
-  ({
-    resource,
-    title,
-    editable = false,
-    editPosition = 'side',
-    showBillingInfo = false
-  }) => {
+  ({ resource, title, editable = false, showBillingInfo = false }) => {
     const { Overlay, open, close } = useOverlay()
     const { canUser } = useTokenProvider()
 
@@ -54,11 +45,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
 
     return (
       <>
-        <div
-          className={cn(['w-full flex gap-4 space-between'], {
-            'flex-col': editPosition === 'bottom'
-          })}
-        >
+        <div className='w-full flex gap-4 space-between'>
           <div className='w-full' data-testid='ResourceAddress'>
             {title != null && (
               <Spacer bottom='2' data-testid='ResourceAddress-title'>
@@ -85,9 +72,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
               {address.city} {address.state_code} {address.zip_code} (
               {address.country_code})
             </Text>
-            <Text tag='div' variant='info' data-testid='ResourceAddress-phone'>
-              {address.phone}
-            </Text>
+
             {address.billing_info != null && showBillingInfo ? (
               <Text
                 tag='div'
@@ -97,16 +82,49 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                 {address.billing_info}
               </Text>
             ) : null}
+
+            {!isEmpty(address.phone) || !isEmpty(address.notes) ? (
+              <>
+                <Spacer top='4' bottom='4'>
+                  <Hr variant='dashed' />
+                </Spacer>
+                <div className='grid gap-1'>
+                  {!isEmpty(address.phone) && (
+                    <div className='flex gap-2 '>
+                      {/* mt-[2px] to keep icon aligned with text  */}
+                      <Text tag='div' variant='info' className='mt-[2px]'>
+                        <Phone weight='bold' />
+                      </Text>
+                      <Text tag='div' size='small' variant='info'>
+                        {address.phone}
+                      </Text>
+                    </div>
+                  )}
+                  {!isEmpty(address.notes) && (
+                    <div className='flex gap-2'>
+                      <Text tag='div' variant='info' className='mt-[2px]'>
+                        <Note weight='bold' />
+                      </Text>
+                      <Text tag='div' size='small' variant='info'>
+                        {address.notes}
+                      </Text>
+                    </div>
+                  )}
+                </div>
+              </>
+            ) : null}
           </div>
           {editable && canUser('update', 'addresses') && (
-            <div data-testid='ResourceAddress-editAction'>
-              <a
+            <div>
+              <Button
+                variant='link'
                 onClick={() => {
                   open()
                 }}
+                data-testid='ResourceAddress-editButton'
               >
-                Edit
-              </a>
+                <PencilSimple weight='bold' />
+              </Button>
             </div>
           )}
         </div>
