@@ -33,8 +33,7 @@ export const presetLineItems = {
     created_at: '',
     updated_at: '',
     sku_code: 'BASEBHAT000000FFFFFFXXXX',
-    image_url:
-      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
+    // image_url: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
     name: 'Black Baseball Hat with White Logo',
     quantity: 1,
     formatted_total_amount: '34.00€',

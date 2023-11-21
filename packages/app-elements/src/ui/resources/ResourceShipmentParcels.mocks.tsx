@@ -36,7 +36,10 @@ function createParcelLineItems({
     name,
     quantity,
     sku_code: code,
-    image_url: `https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/${code}_FLAT.png`
+    image_url:
+      code === 'POLOMXXXFFFFFF000000SXXX'
+        ? null
+        : `https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/${code}_FLAT.png`
   }
 }
 

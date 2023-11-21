@@ -2,8 +2,8 @@ import { rest } from 'msw'
 
 const bundles = rest.get(
   'https://mock.localhost/api/bundles?include=sku_list.sku_list_items.sku&filter[q][code_in]=WELCOME_KIT_001',
-  (req, res, ctx) => {
-    return res(
+  async (req, res, ctx) => {
+    return await res(
       ctx.status(200),
       ctx.json({
         data: [
@@ -307,8 +307,6 @@ const bundles = rest.get(
               name: 'Sport Grey Unisex Hoodie Sweatshirt with Black Logo (M)',
               description:
                 'With a large front pouch pocket and drawstrings in a matching color, this hoodie is a sure crowd-favorite. It’s soft, stylish, and perfect for the cooler evenings.',
-              image_url:
-                'https://data.commercelayer.app/seed/images/skus/HOODIEMX7F7F7F000000MXXX_FLAT.png',
               pieces_per_pack: null,
               weight: null,
               unit_of_weight: '',

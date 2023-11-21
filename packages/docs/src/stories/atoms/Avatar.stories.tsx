@@ -22,7 +22,6 @@ export const Default = Template.bind({})
 Default.args = {
   src: 'https://data.commercelayer.app/assets/logos/glyph/white/commercelayer_glyph_white-padding.jpg',
   alt: 'Commerce Layer',
-  border: 'none',
   shape: 'circle'
 }
 
@@ -31,6 +30,12 @@ export const SkuImage = Template.bind({})
 SkuImage.args = {
   src: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
   alt: 'Hat'
+}
+
+/** When `src` prop is not set, then a placeholder will be shown. */
+export const UndefinedSource = Template.bind({})
+UndefinedSource.args = {
+  alt: 'The image is not present'
 }
 
 /** The image is scaled to maintain its aspect ratio while fitting within the element's content box. */
