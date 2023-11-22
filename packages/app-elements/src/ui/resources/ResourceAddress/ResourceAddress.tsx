@@ -152,3 +152,5 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     )
   }
 )
+
+ResourceAddress.displayName = 'ResourceAddress'
