@@ -36,7 +36,8 @@ const addressFormSchema = z.object({
   state_code: zodString,
   country_code: zodString,
   phone: zodString,
-  billing_info: z.string().nullish()
+  billing_info: z.string().nullish(),
+  notes: z.string().nullish()
 })
 
 export type ResourceAddressFormValues = z.infer<typeof addressFormSchema>
