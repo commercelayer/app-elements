@@ -44,4 +44,17 @@ describe('Avatar', () => {
     expect(element.getAttribute('src')).toContain('data:image/')
     expect(element.getAttribute('alt')).toBe('Stripe')
   })
+
+  test('Should be rendered with a placeholder image when src is not defined', () => {
+    const { element } = setup({
+      id: 'avatar',
+      // @ts-expect-error I want to test this scenario.
+      src: undefined,
+      alt: 'Undefined source'
+    })
+    expect(element).toBeVisible()
+    expect(element).toMatchSnapshot()
+    expect(element.getAttribute('src')).toContain('data:image/')
+    expect(element.getAttribute('alt')).toBe('Undefined source')
+  })
 })

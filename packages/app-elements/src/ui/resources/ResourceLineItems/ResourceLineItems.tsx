@@ -204,13 +204,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       align='center'
                       rowSpan={3}
                     >
-                      {imageUrl != null && (
-                        <Avatar
-                          size={size}
-                          src={imageUrl as `https://${string}`}
-                          alt={name ?? ''}
-                        />
-                      )}
+                      <Avatar
+                        size={size}
+                        src={imageUrl as `https://${string}`}
+                        alt={name ?? ''}
+                      />
                     </td>
                     <td
                       className={cn('pl-4', {
