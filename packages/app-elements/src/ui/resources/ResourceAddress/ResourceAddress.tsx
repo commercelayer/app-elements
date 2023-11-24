@@ -9,7 +9,7 @@ import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
 import { Note, PencilSimple, Phone } from '@phosphor-icons/react'
 import isEmpty from 'lodash/isEmpty'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ResourceAddressForm } from './ResourceAddressForm'
 
 export interface ResourceAddressProps {
@@ -42,6 +42,10 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     const { canUser } = useTokenProvider()
 
     const [address, setAddress] = useState<Address>(resource)
+
+    useEffect(() => {
+      setAddress(resource)
+    }, [resource.id])
 
     return (
       <>
