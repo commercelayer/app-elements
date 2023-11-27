@@ -3,6 +3,7 @@ import type {
   Market,
   Order,
   Return,
+  Shipment,
   StockLocation,
   StockTransfer
 } from '@commercelayer/sdk'
@@ -31,6 +32,17 @@ const destinationStockLocation = {
   created_at: '',
   updated_at: ''
 } as const satisfies StockLocation
+
+const stockTransfer = {
+  type: 'stock_transfers',
+  id: '',
+  number: 30817130,
+  sku_code: 'BABYBIBXA19D9D000000XXXX',
+  quantity: 1,
+  status: 'upcoming',
+  created_at: '',
+  updated_at: ''
+} as const satisfies StockTransfer
 
 const order = {
   type: 'orders',
@@ -245,5 +257,69 @@ export const presetResourceListItem = {
     status: 'completed',
     origin_stock_location: originStockLocation,
     destination_stock_location: destinationStockLocation
+  },
+  shipmentUpcoming: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'upcoming',
+    stock_location: originStockLocation
+  },
+  shipmentPicking: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'picking',
+    stock_location: originStockLocation
+  },
+  shipmentPacking: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'packing',
+    stock_location: originStockLocation
+  },
+  shipmentReadyToShip: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'ready_to_ship',
+    stock_location: originStockLocation
+  },
+  shipmentOnHold: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'on_hold',
+    stock_location: originStockLocation
+  },
+  shipmentShipped: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'shipped',
+    stock_location: originStockLocation
+  },
+  shipmentWithStockTransfer: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'upcoming',
+    stock_location: originStockLocation,
+    stock_transfers: [stockTransfer]
   }
-} satisfies Record<string, Order | Return | Customer | StockTransfer>
+} satisfies Record<string, Order | Return | Customer | StockTransfer | Shipment>
