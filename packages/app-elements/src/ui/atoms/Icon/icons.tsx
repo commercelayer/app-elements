@@ -18,6 +18,8 @@ export const iconMapping = {
   eye: phosphor.Eye,
   flag: phosphor.Flag,
   funnel: phosphor.FunnelSimple,
+  github: phosphor.GithubLogo,
+  google: phosphor.GoogleLogo,
   hourglass: phosphor.Hourglass,
   magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
