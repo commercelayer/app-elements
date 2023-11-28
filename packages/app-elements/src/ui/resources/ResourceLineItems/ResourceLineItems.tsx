@@ -1,3 +1,5 @@
+import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
+import { navigateTo } from '#helpers/appsNavigation'
 import { formatDateWithPredicate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
@@ -14,17 +16,22 @@ import type {
   LineItem,
   ParcelLineItem,
   ReturnLineItem,
-  StockLineItem
+  StockTransfer
 } from '@commercelayer/sdk'
 import { Checks } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
+import { type StockLineItemWithStockTransfer } from './types'
 
 interface LineItemSettings {
   showPrice: boolean
 }
 
-type Item = LineItem | ParcelLineItem | StockLineItem | ReturnLineItem
+type Item =
+  | LineItem
+  | ParcelLineItem
+  | StockLineItemWithStockTransfer
+  | ReturnLineItem
 
 const Edit = withSkeletonTemplate<{
   item: Item
@@ -185,6 +192,10 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 lineItem.type === 'return_line_items' &&
                 lineItem.return_reason != null
 
+              const hasStockTransfer =
+                lineItem.type === 'stock_line_items' &&
+                lineItem.stockTransfer != null
+
               const hasBundle =
                 lineItem.type === 'line_items' &&
                 lineItem.item_type === 'bundles' &&
@@ -318,6 +329,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       {hasBundle && (
                         <Bundle delayMs={0} code={lineItem.bundle_code} />
                       )}
+                      {hasStockTransfer && (
+                        <StockLineItemStockTransfer
+                          stockTransfer={lineItem.stockTransfer}
+                        />
+                      )}
                       {isEditable && (
                         <Edit item={lineItem} onChange={onChange} />
                       )}
@@ -428,6 +444,66 @@ const ReturnLineItemReason = withSkeletonTemplate<{
         ))}
       </LineItemOptionsWrapper>
     </Spacer>
+  )
+})
+
+const StockLineItemStockTransfer = withSkeletonTemplate<{
+  stockTransfer?: StockTransfer
+}>(({ stockTransfer }) => {
+  const {
+    canAccess,
+    settings: { mode }
+  } = useTokenProvider()
+
+  if (stockTransfer === undefined) return <></>
+
+  const displayStatus = getStockTransferDisplayStatus(stockTransfer)
+  const status =
+    displayStatus.task != null ? (
+      <Text weight='semibold' size='small' variant='warning'>
+        {displayStatus.task}
+      </Text>
+    ) : (
+      displayStatus.label
+    )
+  const originStockLocationName =
+    stockTransfer.origin_stock_location?.name != null ? (
+      <Text variant='info' size='small'>
+        {' '}
+        · From {stockTransfer.origin_stock_location.name}{' '}
+      </Text>
+    ) : undefined
+
+  const navigateToStockTransfer = canAccess('stock_transfers')
+    ? navigateTo({
+        destination: {
+          app: 'stock_transfers',
+          resourceId: stockTransfer.id,
+          mode
+        }
+      })
+    : {}
+
+  const stockTransferLabel = `See transfer #${stockTransfer.number}`
+  const stockTransferClickableLabel = canAccess('stock_transfers') ? (
+    <a {...navigateToStockTransfer}>
+      <Text size='small'>{stockTransferLabel}</Text>
+    </a>
+  ) : (
+    <Text size='small' variant='info'>
+      {stockTransferLabel}
+    </Text>
+  )
+
+  return (
+    <>
+      {status}
+      {originStockLocationName}
+      <Text size='small' variant='info'>
+        {' · '}
+      </Text>
+      {stockTransferClickableLabel}
+    </>
   )
 })
 
