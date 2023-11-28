@@ -1,0 +1,158 @@
+import { rest } from 'msw'
+
+export default [
+  rest.get(
+    `https://data.commercelayer.app/assets/lists/countries.json`,
+    async (req, res, ctx) => {
+      return await res(
+        ctx.status(200),
+        ctx.json([
+          {
+            label: 'Angola',
+            value: 'AO'
+          },
+          {
+            label: 'Hungary',
+            value: 'HU'
+          },
+          {
+            label: 'Iraq',
+            value: 'IQ'
+          },
+          {
+            label: 'Ireland',
+            value: 'IE'
+          },
+          {
+            label: 'Italy',
+            value: 'IT'
+          },
+          {
+            label: 'Jamaica',
+            value: 'JM'
+          },
+          {
+            label: 'Japan',
+            value: 'JP'
+          },
+          {
+            label: 'Philippines',
+            value: 'PH'
+          },
+          {
+            label: 'Pitcairn Island',
+            value: 'PN'
+          },
+          {
+            label: 'Poland',
+            value: 'PL'
+          },
+          {
+            label: 'Portugal',
+            value: 'PT'
+          },
+          {
+            label: 'United Kingdom',
+            value: 'GB'
+          },
+          {
+            label: 'United States',
+            value: 'US'
+          },
+          {
+            label: 'United States Minor Outlying Islands',
+            value: 'UM'
+          },
+          {
+            label: 'Uruguay',
+            value: 'UY'
+          }
+        ])
+      )
+    }
+  ),
+  rest.get(
+    `https://data.commercelayer.app/assets/lists/states/IT.json`,
+    async (req, res, ctx) => {
+      return await res(
+        ctx.status(200),
+        ctx.json([
+          {
+            label: 'Agrigento',
+            value: 'AG'
+          },
+          {
+            label: 'Alessandria',
+            value: 'AL'
+          },
+          {
+            label: 'Como',
+            value: 'CO'
+          },
+          {
+            label: 'Firenze',
+            value: 'FI'
+          },
+          {
+            label: 'Genoa',
+            value: 'GE'
+          },
+          {
+            label: 'Milano',
+            value: 'MI'
+          },
+          {
+            label: 'Napoli',
+            value: 'NA'
+          }
+        ])
+      )
+    }
+  ),
+  rest.get(
+    `https://data.commercelayer.app/assets/lists/states/US.json`,
+    async (req, res, ctx) => {
+      return await res(
+        ctx.status(200),
+        ctx.json([
+          {
+            label: 'Alabama',
+            value: 'AL'
+          },
+          {
+            label: 'Alaska',
+            value: 'AK'
+          },
+          {
+            label: 'Arizona',
+            value: 'AZ'
+          },
+          {
+            label: 'Arkansas',
+            value: 'AR'
+          },
+          {
+            label: 'California',
+            value: 'CA'
+          },
+          {
+            label: 'Colorado',
+            value: 'CO'
+          },
+          {
+            label: 'Connecticut',
+            value: 'CT'
+          },
+          {
+            label: 'Delaware',
+            value: 'DE'
+          },
+          {
+            label: 'District of Columbia',
+            value: 'DC'
+          }
+        ])
+      )
+    }
+  )
+]

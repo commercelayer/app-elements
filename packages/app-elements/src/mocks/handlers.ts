@@ -1,5 +1,6 @@
 import { rest } from 'msw'
 
+import countries from './data/countries'
 import customers from './data/customers'
 
 export const handlers = [
@@ -105,7 +106,8 @@ export const handlers = [
     )
   }),
 
-  ...customers
+  ...customers,
+  ...countries
 ]
 
 function returnEmptyList(url: URL): boolean {

@@ -29,7 +29,6 @@
     "ts:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@ac-dev/countries-service": "^1.2.0",
     "@commercelayer/sdk": "5.21.1",
     "@types/lodash": "^4.14.200",
     "@types/react": "^18.2.34",
