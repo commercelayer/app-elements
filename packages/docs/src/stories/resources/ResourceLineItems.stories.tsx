@@ -127,7 +127,7 @@ ParcelLineItem.args = {
 
 export const StockLineItem = Template.bind({})
 StockLineItem.args = {
-  preset: ['stockLineItem']
+  preset: ['stockLineItem', 'stockLineItemWithStockTransfer']
 }
 
 export const ReturnLineItem = Template.bind({})

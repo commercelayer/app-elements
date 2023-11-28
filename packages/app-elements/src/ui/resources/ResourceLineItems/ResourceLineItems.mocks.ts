@@ -2,9 +2,39 @@ import {
   type LineItem,
   type ParcelLineItem,
   type ReturnLineItem,
-  type StockLineItem
+  type StockLocation,
+  type StockTransfer
 } from '@commercelayer/sdk'
 import { manualAdjustmentReferenceOrigin } from '../ResourceOrderSummary/utils'
+import { type StockLineItemWithStockTransfer } from './types'
+
+const originStockLocation = {
+  type: 'stock_locations',
+  id: '',
+  name: 'US Warehouse',
+  created_at: '',
+  updated_at: ''
+} as const satisfies StockLocation
+
+const destinationStockLocation = {
+  type: 'stock_locations',
+  id: '',
+  name: 'NY Store',
+  created_at: '',
+  updated_at: ''
+} as const satisfies StockLocation
+
+const stockTransfer = {
+  type: 'stock_transfers',
+  id: '',
+  number: 3478,
+  quantity: 1,
+  updated_at: '2023-06-10T06:38:44.964Z',
+  created_at: '2023-06-09T11:00:00.000Z',
+  status: 'upcoming',
+  origin_stock_location: originStockLocation,
+  destination_stock_location: destinationStockLocation
+} as const satisfies StockTransfer
 
 export const presetLineItems = {
   oneLine: {
@@ -219,6 +249,39 @@ export const presetLineItems = {
       reference_origin: '',
       metadata: {}
     }
+  },
+  stockLineItemWithStockTransfer: {
+    id: 'nBJxuxMObm',
+    type: 'stock_line_items',
+    sku_code: 'TSHIRTMMFFFFFFE63E74MXXX',
+    quantity: 3,
+    created_at: '2023-08-09T10:37:26.211Z',
+    updated_at: '2023-08-09T10:37:26.211Z',
+    reference: null,
+    reference_origin: null,
+    metadata: {},
+    sku: {
+      id: 'bnRwRSJQlZ',
+      type: 'skus',
+      code: 'TSHIRTMSFFFFFF000000XLXX_FLAT',
+      name: 'White Men T-Shirt with Black Logo (XL)',
+      description:
+        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam pellentesque in neque vitae tincidunt. In gravida eu ipsum non condimentum. Curabitur libero leo, gravida a dictum vestibulum, sollicitudin vel quam.',
+      image_url:
+        'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/TSHIRTMSFFFFFF000000LXXX_FLAT.png',
+      weight: 200,
+      unit_of_weight: 'gr',
+      hs_tariff_number: '',
+      do_not_ship: false,
+      do_not_track: false,
+      inventory: null,
+      created_at: '2022-05-13T12:33:45.266Z',
+      updated_at: '2023-07-12T14:43:38.731Z',
+      reference: 'TSHIRTMMFFFFFFE63E74',
+      reference_origin: '',
+      metadata: {}
+    },
+    stockTransfer
   },
   parcelLineItem: {
     id: 'PZEKxtRWrw',
@@ -603,5 +666,5 @@ export const presetLineItems = {
   }
 } satisfies Record<
   string,
-  LineItem | ParcelLineItem | StockLineItem | ReturnLineItem
+  LineItem | ParcelLineItem | StockLineItemWithStockTransfer | ReturnLineItem
 >
