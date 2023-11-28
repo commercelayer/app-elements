@@ -1,19 +1,18 @@
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Countries } from '@ac-dev/countries-service'
-
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { Grid } from '#ui/atoms/Grid'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form/HookedForm'
 import { HookedInput } from '#ui/forms/Input/HookedInput'
+import { type InputSelectValue } from '#ui/forms/InputSelect'
 import { HookedInputSelect } from '#ui/forms/InputSelect/HookedInputSelect'
 import { HookedInputTextArea } from '#ui/forms/InputTextArea'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm/HookedValidationApiError'
 import { type Address } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import React, { useEffect, useState } from 'react'
+import { useForm, useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 
 const zodString = z
@@ -61,11 +60,6 @@ export const ResourceAddressForm =
 
       const { sdkClient } = useCoreSdkProvider()
 
-      const countries = Countries.getCountries().map((country) => ({
-        value: country.iso2,
-        label: country.name
-      }))
-
       return (
         <HookedForm
           {...methods}
@@ -100,21 +94,19 @@ export const ResourceAddressForm =
             <HookedInput name='line_2' label='Address line 2' />
           </FieldRow>
 
-          <FieldRow columns='2'>
-            <HookedInput name='city' label='City' />
-            <Grid columns='2'>
-              <HookedInput name='zip_code' label='ZIP code' />
-              <HookedInput name='state_code' label='State code' />
-            </Grid>
+          <FieldRow columns='1'>
+            <SelectCountry />
           </FieldRow>
 
           <FieldRow columns='1'>
-            <HookedInputSelect
-              name='country_code'
-              label='Country'
-              initialValues={countries}
-              pathToValue='value'
-            />
+            <HookedInput name='city' label='City' />
+          </FieldRow>
+
+          <FieldRow columns='1'>
+            <div className='grid grid-cols-[2fr_1fr] gap-4'>
+              <SelectStates />
+              <HookedInput name='zip_code' label='ZIP code' />
+            </div>
           </FieldRow>
 
           <FieldRow columns='1'>
@@ -153,5 +145,91 @@ const FieldRow = ({
     <Spacer bottom='8'>
       <Grid columns={columns}>{children}</Grid>
     </Spacer>
+  )
+}
+
+const SelectCountry: React.FC = () => {
+  const [countries, setCountries] = useState<InputSelectValue[] | undefined>()
+  const [forceTextInput, setForceTextInput] = useState(false)
+
+  useEffect(() => {
+    void fetch('https://data.commercelayer.app/assets/lists/countries.json')
+      .then(async (res) => await res.json())
+      .then((data) => {
+        setCountries(data)
+      })
+      .catch(() => {
+        // error fetching states, fallback to text input
+        setForceTextInput(true)
+      })
+  }, [])
+
+  if (forceTextInput) {
+    return <HookedInput name='country_code' label='Country' />
+  }
+
+  return (
+    <HookedInputSelect
+      name='country_code'
+      label='Country'
+      key={countries?.length}
+      initialValues={countries ?? []}
+      pathToValue='value'
+      isLoading={countries == null}
+    />
+  )
+}
+
+const SelectStates: React.FC = () => {
+  const [states, setStates] = useState<InputSelectValue[] | undefined>()
+  const { watch, setValue } = useFormContext<ResourceAddressFormValues>()
+  const [forceTextInput, setForceTextInput] = useState(false)
+
+  const countryCode = watch('country_code')
+  const stateCode = watch('state_code')
+  const countryWithStates = ['US', 'IT']
+
+  useEffect(() => {
+    if (countryCode != null && countryWithStates.includes(countryCode)) {
+      void fetch(
+        `https://data.commercelayer.app/assets/lists/states/${countryCode}.json`
+      )
+        .then(async (res) => await res.json())
+        .then((data) => {
+          setStates(data)
+          if (
+            data.find(
+              ({ value }: { value: string; label: string }) =>
+                value === stateCode
+            ) == null
+          ) {
+            // reset state_code if not found in the list
+            setValue('state_code', '')
+          }
+        })
+        .catch(() => {
+          // error fetching states, fallback to text input
+          setForceTextInput(true)
+        })
+    }
+  }, [countryCode])
+
+  if (
+    !countryWithStates.includes(countryCode) ||
+    states?.length === 0 ||
+    forceTextInput
+  ) {
+    return <HookedInput name='state_code' label='State code' />
+  }
+
+  return (
+    <HookedInputSelect
+      name='state_code'
+      label='State'
+      key={`${countryCode}_${states?.length}`}
+      initialValues={states ?? []}
+      pathToValue='value'
+      isLoading={states == null}
+    />
   )
 }
