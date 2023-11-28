@@ -95,3 +95,8 @@ export const Customers = ItemsByTypeTemplate.bind({})
 Customers.args = {
   type: 'customers'
 }
+
+export const Shipments = ItemsByTypeTemplate.bind({})
+Shipments.args = {
+  type: 'shipments'
+}

@@ -1,7 +1,18 @@
 import type { TokenProviderAuthUser } from '#providers/TokenProvider/types'
-import type { Customer, Order, Return, StockTransfer } from '@commercelayer/sdk'
+import type {
+  Customer,
+  Order,
+  Return,
+  Shipment,
+  StockTransfer
+} from '@commercelayer/sdk'
 
-export type ResourceListItemType = Order | Return | Customer | StockTransfer
+export type ResourceListItemType =
+  | Order
+  | Return
+  | Customer
+  | StockTransfer
+  | Shipment
 
 export interface ResourceListItemComponentProps {
   name: string

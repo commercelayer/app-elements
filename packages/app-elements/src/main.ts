@@ -309,6 +309,10 @@ export {
   getReturnStatusName
 } from '#dictionaries/returns'
 export {
+  getShipmentDisplayStatus,
+  getShipmentStatusName
+} from '#dictionaries/shipments'
+export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
 } from '#dictionaries/stockTransfers'

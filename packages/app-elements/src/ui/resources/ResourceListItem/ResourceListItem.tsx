@@ -10,6 +10,7 @@ import {
   customerToProps,
   orderToProps,
   returnToProps,
+  shipmentToProps,
   stockTransferToProps
 } from '#ui/resources/ResourceListItem/transformers'
 
@@ -106,6 +107,8 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
           return returnToProps({ resource, user })
         case 'stock_transfers':
           return stockTransferToProps({ resource, user })
+        case 'shipments':
+          return shipmentToProps({ resource, user })
       }
     }, [resource])
     return (
