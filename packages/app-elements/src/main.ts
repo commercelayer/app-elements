@@ -134,6 +134,7 @@ export {
 } from '#ui/composite/PageSkeleton'
 export { Report, type ReportProps } from '#ui/composite/Report'
 export { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
+export { SwitchMode, type SwitchModeProps } from '#ui/composite/SwitchMode'
 export { TableData, type TableDataProps } from '#ui/composite/TableData'
 export {
   Timeline,
