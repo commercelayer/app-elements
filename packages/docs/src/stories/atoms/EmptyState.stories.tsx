@@ -35,7 +35,7 @@ WithIcon.args = {
       </A>
     </>
   ),
-  icon: 'stack'
+  icon: 'resources'
 }
 export const WithAction = TemplateWithIcon.bind({})
 WithAction.args = {
