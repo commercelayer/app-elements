@@ -13,6 +13,11 @@ export interface AvatarLetterProps {
    */
   className?: string
   style?: React.CSSProperties
+  children?: (values: {
+    initials: string
+    backgroundColor: string
+    textColor: string
+  }) => JSX.Element
 }
 
 /**
@@ -25,12 +30,27 @@ export function AvatarLetter({
   text,
   className,
   style,
+  children,
   ...rest
 }: AvatarLetterProps): JSX.Element {
+  const initials = useMemo(() => getInitials(text), [text])
   const backgroundColor = useMemo(
     () => getDeterministicValue(text, BG_COLORS) ?? '#FFFFFF',
     [text]
   )
+  const textColor = useMemo(
+    () => getTextColorForBackground(backgroundColor),
+    [backgroundColor]
+  )
+
+  if (children != null) {
+    return children({
+      initials,
+      backgroundColor,
+      textColor
+    })
+  }
+
   return (
     <div
       className={classNames(
@@ -39,8 +59,8 @@ export function AvatarLetter({
         'flex items-center justify-center',
         'font-bold text-sm',
         {
-          'text-white': getTextColorForBackground(backgroundColor) === 'white',
-          'text-black': getTextColorForBackground(backgroundColor) === 'black'
+          'text-white': textColor === 'white',
+          'text-black': textColor === 'black'
         }
       )}
       style={{
@@ -49,7 +69,7 @@ export function AvatarLetter({
       }}
       {...rest}
     >
-      {getInitials(text)}
+      {initials}
     </div>
   )
 }

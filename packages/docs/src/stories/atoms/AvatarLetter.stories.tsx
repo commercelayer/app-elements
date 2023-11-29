@@ -29,6 +29,17 @@ SingleWorld.args = {
   text: 'Doe'
 }
 
+/** Access to internal values with children props. */
+export const ChildrenProps: StoryFn<typeof AvatarLetter> = () => (
+  <AvatarLetter text='John Doe'>
+    {({ initials, backgroundColor, textColor }) => (
+      <pre>
+        {JSON.stringify({ initials, backgroundColor, textColor }, null, 2)}
+      </pre>
+    )}
+  </AvatarLetter>
+)
+
 /** This is the list of all available background colors. You cannot choose the background; it is calculated based on the given `text`. */
 export const AvailableBackgroundColors: StoryFn = (_args) => {
   return (
