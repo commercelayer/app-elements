@@ -32,6 +32,7 @@ type TaggableResource = Extract<
   | 'returns'
   | 'sku_options'
   | 'skus'
+  | 'shipments'
 >
 
 interface TagsOverlay {
