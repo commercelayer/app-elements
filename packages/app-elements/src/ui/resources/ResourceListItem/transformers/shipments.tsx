@@ -11,8 +11,15 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
   resource,
   user
 }) => {
-  const awaitingStockTransfer =
-    resource.stock_transfers != null && resource.stock_transfers.length > 0
+  const stockTransfersToBeAwaited =
+    resource.stock_transfers?.filter(
+      (stockTransfer) =>
+        stockTransfer.status !== 'completed' &&
+        stockTransfer.status !== 'cancelled' &&
+        stockTransfer.status !== 'draft'
+    ) ?? []
+
+  const awaitingStockTransfer = stockTransfersToBeAwaited.length > 0
   const displayStatus = getShipmentDisplayStatus(
     resource,
     awaitingStockTransfer
