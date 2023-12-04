@@ -29,6 +29,7 @@ export const iconMapping = {
   package: phosphor.Package,
   pencilSimple: phosphor.PencilSimple,
   printer: phosphor.Printer,
+  pulse: phosphor.Pulse,
   resources: phosphor.Stack,
   settings: phosphor.GearFine,
   shoppingBag: phosphor.ShoppingBag,
