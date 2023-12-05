@@ -91,6 +91,7 @@ export {
 export { Spacer, type SpacerProps } from '#ui/atoms/Spacer'
 export { Stack, type StackProps } from '#ui/atoms/Stack'
 export { StatusDot, type StatusDotProps } from '#ui/atoms/StatusDot'
+export { StatusIcon, type StatusIconProps } from '#ui/atoms/StatusIcon'
 export { Steps, type StepsProps } from '#ui/atoms/Steps'
 export {
   Table,

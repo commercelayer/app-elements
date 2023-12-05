@@ -1,7 +1,7 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
 import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
@@ -37,7 +37,7 @@ export const Parcel: StoryFn<typeof CardDialog> = (args): JSX.Element => (
 )
 Parcel.args = {
   title: 'Large Box #1',
-  icon: <Icon name='package' gap='large' background='teal' />,
+  icon: <StatusIcon name='package' gap='large' background='teal' />,
   onClose: () => {
     alert('clicked')
   },
@@ -132,7 +132,7 @@ Carrier.args = {
       $29
     </Text>
   ),
-  icon: <Icon name='cloud' gap='large' background='gray' />,
+  icon: <StatusIcon name='cloud' gap='large' background='gray' />,
   onClose: undefined,
   children: (
     <Spacer top='4'>
@@ -175,7 +175,7 @@ NoChildren.args = {
       $29
     </Text>
   ),
-  icon: <Icon name='cloud' gap='large' background='gray' />,
+  icon: <StatusIcon name='cloud' gap='large' background='gray' />,
   onClose: undefined
 }
 
@@ -190,7 +190,7 @@ WithFooter.args = {
       $29
     </Text>
   ),
-  icon: <Icon name='cloud' gap='large' background='gray' />,
+  icon: <StatusIcon name='cloud' gap='large' background='gray' />,
   onClose: undefined,
   footer: (
     <div className='text-center'>

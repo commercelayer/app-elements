@@ -1,5 +1,5 @@
-import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
@@ -29,7 +29,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
     <List title='Results · 13,765'>
       <ListItem
         tag='div'
-        icon={<Icon name='arrowDown' background='orange' gap='large' />}
+        icon={<StatusIcon name='arrowDown' background='orange' gap='large' />}
       >
         <div>
           <Text tag='div' weight='semibold'>
@@ -54,7 +54,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
 
       <ListItem
         tag='div'
-        icon={<Icon name='x' background='gray' gap='large' />}
+        icon={<StatusIcon name='x' background='gray' gap='large' />}
       >
         <div>
           <Text tag='div' weight='semibold'>

@@ -6,6 +6,7 @@ import { Button } from './Button'
 import { Icon } from './Icon'
 import { RadialProgress } from './RadialProgress'
 import { SkeletonTemplate } from './SkeletonTemplate'
+import { StatusIcon } from './StatusIcon'
 import { Text } from './Text'
 
 describe('SkeletonTemplate', () => {
@@ -80,6 +81,16 @@ describe('SkeletonTemplate', () => {
     const { getByTestId } = render(
       <SkeletonTemplate isLoading>
         <Icon data-testid='element' name='arrowLeft' />
+      </SkeletonTemplate>
+    )
+
+    expect(getByTestId('element')).toHaveClass('animate-pulse', '!bg-gray-50')
+  })
+
+  test('Should render <StatusIcon> as "loading item"', () => {
+    const { getByTestId } = render(
+      <SkeletonTemplate isLoading>
+        <StatusIcon data-testid='element' name='arrowLeft' />
       </SkeletonTemplate>
     )
 

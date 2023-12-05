@@ -5,10 +5,10 @@ import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
-import { Icon } from '#ui/atoms/Icon'
 import { RemoveButton } from '#ui/atoms/RemoveButton'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { InputSpinner } from '#ui/forms/InputSpinner'
 import { FlexRow } from '#ui/internals/FlexRow'
@@ -396,7 +396,7 @@ const LineItemOptionsWrapper = withSkeletonTemplate<{
 const LineItemOptionsItem = withSkeletonTemplate<{ title: string }>(
   ({ title }) => (
     <div className='flex items-center gap-1 mb-1'>
-      <Icon name='arrowBendDownRight' className='text-gray-500' />
+      <StatusIcon name='arrowBendDownRight' className='text-gray-500' />
       <Text variant='info' tag='div' size='small' weight='medium'>
         {title}
       </Text>

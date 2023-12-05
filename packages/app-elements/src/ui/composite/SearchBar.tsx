@@ -1,4 +1,4 @@
-import { Icon } from '#ui/atoms/Icon'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import cn from 'classnames'
 import debounce from 'lodash/debounce'
 import isEmpty from 'lodash/isEmpty'
@@ -81,7 +81,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         className={cn('relative w-full', className)}
         {...rest}
       >
-        <Icon
+        <StatusIcon
           name='magnifyingGlass'
           className='absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px]'
         />
@@ -116,7 +116,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
               onClear()
             }}
           >
-            <Icon name='x' className='text-[20px]' />
+            <StatusIcon name='x' className='text-[20px]' />
           </button>
         ) : null}
       </div>

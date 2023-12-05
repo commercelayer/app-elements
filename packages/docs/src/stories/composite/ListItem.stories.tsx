@@ -1,6 +1,6 @@
 import { Avatar } from '#ui/atoms/Avatar'
-import { Icon } from '#ui/atoms/Icon'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -17,7 +17,7 @@ export default setup
 export const Simple: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args}>
     <Text weight='bold'>Skus</Text>
-    <Icon name='caretRight' />
+    <StatusIcon name='caretRight' />
   </ListItem>
 )
 Simple.args = {
@@ -53,13 +53,13 @@ const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
 export const WithIcon = WithIconTemplate.bind({})
 WithIcon.args = {
   tag: 'div',
-  icon: <Icon name='arrowDown' background='orange' gap='large' />
+  icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
 }
 
 export const WithCenteredIcon = WithIconTemplate.bind({})
 WithCenteredIcon.args = {
   tag: 'div',
-  icon: <Icon name='arrowDown' background='orange' gap='large' />,
+  icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
   alignIcon: 'center'
 }
 
@@ -68,7 +68,7 @@ AsAnchor.args = {
   tag: 'a',
   href: 'https://www.commercelayer.io',
   target: '_blank',
-  icon: <Icon name='arrowDown' background='orange' gap='large' />
+  icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
 }
 
 export const OrderLine: StoryFn<typeof ListItem> = (args) => (
@@ -110,7 +110,7 @@ export const Task: StoryFn<typeof ListItem> = (args) => (
         Importing 35%
       </Text>
     </div>
-    <Icon name='caretRight' />
+    <StatusIcon name='caretRight' />
   </ListItem>
 )
 
@@ -124,6 +124,6 @@ export const Pending: StoryFn<typeof ListItem> = (args) => (
         Importing 35%
       </Text>
     </div>
-    <Icon name='caretRight' />
+    <StatusIcon name='caretRight' />
   </ListItem>
 )

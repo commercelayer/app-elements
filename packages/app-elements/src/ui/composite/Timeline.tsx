@@ -1,8 +1,8 @@
 import { formatDate, sortAndGroupByDate, timeSeparator } from '#helpers/date'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
-import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { Input } from '#ui/forms/Input'
 import { Fragment, useMemo, type ReactNode } from 'react'
@@ -122,11 +122,11 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
 
 function getIcon(event: TimelineEvent): JSX.Element {
   if (event.note != null) {
-    return <Icon name='chatCircle' background='black' gap='small' />
+    return <StatusIcon name='chatCircle' background='black' gap='small' />
   }
 
   return (
-    <Icon
+    <StatusIcon
       name='check'
       background='gray'
       className='!text-transparent rounded-full !w-[16px] !h-[16px] mx-1'

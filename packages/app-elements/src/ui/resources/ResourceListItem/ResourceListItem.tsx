@@ -1,4 +1,4 @@
-import { Icon } from '#ui/atoms/Icon'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
@@ -84,7 +84,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         <div>
           {showRightContent
             ? rightContent
-            : onClick != null && <Icon name='caretRight' />}
+            : onClick != null && <StatusIcon name='caretRight' />}
         </div>
       </ListItem>
     )

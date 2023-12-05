@@ -1,8 +1,8 @@
 import type { DisplayStatus } from '#dictionaries/types'
 import { formatDate } from '#helpers/date'
 import { useTokenProvider } from '#providers/TokenProvider'
-import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 
 interface ListItemDescriptionConfig {
@@ -38,4 +38,6 @@ export const ListItemDescription =
 
 export const ListItemIcon = withSkeletonTemplate<
   Pick<DisplayStatus, 'icon' | 'color'>
->(({ icon, color }) => <Icon name={icon} background={color} gap='large' />)
+>(({ icon, color }) => (
+  <StatusIcon name={icon} background={color} gap='large' />
+))

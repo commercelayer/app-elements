@@ -7,7 +7,7 @@ import { useMemo, type FC } from 'react'
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   /**
    * Icon component
-   * Example: `<Icon>` or `<RadialProgress>` or `<Avatar>`
+   * Example: `<StatusIcon>` or `<RadialProgress>` or `<Avatar>`
    */
   icon?: JSX.Element
   /**

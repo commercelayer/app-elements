@@ -1,8 +1,8 @@
-import { type IconProps } from '#ui/atoms/Icon'
+import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 
 export interface DisplayStatus {
   label: string
-  icon: IconProps['name']
-  color: IconProps['background']
+  icon: StatusIconProps['name']
+  color: StatusIconProps['background']
   task?: string
 }

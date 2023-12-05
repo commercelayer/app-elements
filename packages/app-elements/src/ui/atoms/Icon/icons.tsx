@@ -39,5 +39,6 @@ export const iconMapping = {
   user: phosphor.User,
   warning: phosphor.Warning,
   warningCircle: phosphor.WarningCircle,
-  x: phosphor.X
+  x: phosphor.X,
+  xCircle: phosphor.XCircle
 } as const

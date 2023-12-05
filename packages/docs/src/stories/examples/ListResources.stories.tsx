@@ -1,5 +1,5 @@
-import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
@@ -58,7 +58,7 @@ const Template: StoryFn<typeof List> = (args) => (
         ].map((resource) => (
           <ListItem tag='a' key={resource} href='#' target='_blank'>
             <Text weight='semibold'>{resource}</Text>
-            <Icon name='caretRight' />
+            <StatusIcon name='caretRight' />
           </ListItem>
         ))}
       </List>

@@ -1,18 +1,18 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
-import { Icon, type IconProps } from '#ui/atoms/Icon'
 import { iconMapping } from '#ui/atoms/Icon/icons'
+import { StatusIcon, type StatusIconProps } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: Meta<typeof Icon> = {
-  title: 'Atoms/Icon',
-  component: Icon
+const setup: Meta<typeof StatusIcon> = {
+  title: 'Atoms/StatusIcon',
+  component: StatusIcon
 }
 export default setup
 
 const iconNames = Object.keys(iconMapping) as Array<keyof typeof iconMapping>
 
-const Template: StoryFn<typeof Icon> = (args) => <Icon {...args} />
+const Template: StoryFn<typeof StatusIcon> = (args) => <StatusIcon {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
@@ -31,7 +31,7 @@ export const AvailableNames: StoryFn = () => (
   >
     {iconNames.map((name) => (
       <div key={name} className='flex flex-row gap-2 items-center align-middle'>
-        <Icon key={name} name={name} background='black' gap='small' />
+        <StatusIcon key={name} name={name} background='black' gap='small' />
         <Text size='small' variant='info'>
           {name}
         </Text>
@@ -65,9 +65,10 @@ export const AvailableBackgrounds: StoryFn = () => {
         red: null,
         teal: null,
         white: null
-      } satisfies Record<NonNullable<IconProps['background']>, null>) as Array<
-        NonNullable<IconProps['background']>
-      >
+      } satisfies Record<
+        NonNullable<StatusIconProps['background']>,
+        null
+      >) as Array<NonNullable<StatusIconProps['background']>>
     ).sort()
   ]
 
@@ -85,7 +86,7 @@ export const AvailableBackgrounds: StoryFn = () => {
           key={name}
           className='flex flex-row gap-2 items-center align-middle'
         >
-          <Icon key={name} name='check' background={name} gap='small' />
+          <StatusIcon key={name} name='check' background={name} gap='small' />
           <Text size='small' variant='info'>
             {name}
           </Text>
@@ -109,13 +110,18 @@ AvailableBackgrounds.parameters = {
 export const SomeExamples: StoryFn = (_args) => {
   return (
     <>
-      <Icon
+      <StatusIcon
         name='arrowDown'
         background='orange'
         gap='large'
         title='Waiting approval'
       />
-      <Icon name='eye' background='teal' gap='small' title='Filter view' />
+      <StatusIcon
+        name='eye'
+        background='teal'
+        gap='small'
+        title='Filter view'
+      />
     </>
   )
 }

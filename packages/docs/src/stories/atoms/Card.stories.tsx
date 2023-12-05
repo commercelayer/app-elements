@@ -1,7 +1,7 @@
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
-import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { Input } from '#ui/forms/Input'
@@ -39,7 +39,7 @@ Footer.args = {
   footer: (
     <div className='text-center'>
       <Button variant='link'>
-        <Icon gap='small' className='text-2xl mr-1' name='cloud' />{' '}
+        <StatusIcon gap='small' className='text-2xl mr-1' name='cloud' />{' '}
         <Text size='small'>Download file</Text>
       </Button>
     </div>

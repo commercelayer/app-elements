@@ -1,13 +1,13 @@
 import cn from 'classnames'
 import { type ReactNode } from 'react'
-import { Icon, type IconProps } from './Icon'
+import { StatusIcon, type StatusIconProps } from './StatusIcon'
 
 export interface EmptyStateProps {
   title: string
   description?: ReactNode
   action?: ReactNode
   className?: string
-  icon?: IconProps['name']
+  icon?: StatusIconProps['name']
 }
 
 function EmptyState({
@@ -41,7 +41,7 @@ function EmptyState({
         <div className='absolute -bottom-2.5 -right-2'>
           {icon != null && (
             <div className='text-10xl text-gray-100 mt-auto'>
-              <Icon name={icon} />
+              <StatusIcon name={icon} />
             </div>
           )}
         </div>
