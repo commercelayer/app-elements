@@ -68,7 +68,6 @@ export { EmptyState, type EmptyStateProps } from '#ui/atoms/EmptyState'
 export { Grid, type GridProps } from '#ui/atoms/Grid'
 export { Hint, type HintProps } from '#ui/atoms/Hint'
 export { Hr, type HrProps } from '#ui/atoms/Hr'
-export { Icon, type IconProps } from '#ui/atoms/Icon'
 export { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
 export { Pagination, type PaginationProps } from '#ui/atoms/Pagination'
 export { Progress, type ProgressProps } from '#ui/atoms/Progress'
@@ -91,6 +90,7 @@ export {
 export { Spacer, type SpacerProps } from '#ui/atoms/Spacer'
 export { Stack, type StackProps } from '#ui/atoms/Stack'
 export { StatusDot, type StatusDotProps } from '#ui/atoms/StatusDot'
+export { StatusIcon, type StatusIconProps } from '#ui/atoms/StatusIcon'
 export { Steps, type StepsProps } from '#ui/atoms/Steps'
 export {
   Table,

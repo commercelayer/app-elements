@@ -16,11 +16,11 @@ import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button } from '#ui/atoms/Button'
 import { Hr } from '#ui/atoms/Hr'
-import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Steps } from '#ui/atoms/Steps'
 import { Text } from '#ui/atoms/Text'
 import { CardDialog } from '#ui/composite/CardDialog'
@@ -467,7 +467,7 @@ const PrintLabel = withSkeletonTemplate<{ href: string }>(({ href }) => {
   return (
     <div className='text-center'>
       <A href={href}>
-        <Icon gap='small' className='text-2xl mr-1' name='printer' />{' '}
+        <StatusIcon gap='small' className='text-2xl mr-1' name='printer' />{' '}
         <Text size='small'>Print label</Text>
       </A>
     </div>

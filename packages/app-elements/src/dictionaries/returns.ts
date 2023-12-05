@@ -1,11 +1,11 @@
-import { type IconProps } from '#ui/atoms/Icon'
+import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { Return } from '@commercelayer/sdk'
 import type { DisplayStatus } from './types'
 
 export interface ReturnDisplayStatus extends DisplayStatus {
   label: string
-  icon: IconProps['name']
-  color: IconProps['background']
+  icon: StatusIconProps['name']
+  color: StatusIconProps['background']
   task?: string
 }
 

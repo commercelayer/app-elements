@@ -1,13 +1,13 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
   SkeletonTemplate,
   withSkeletonTemplate
 } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -69,7 +69,7 @@ const children = (
         />
       }
     >
-      <Icon name='check' background='green' gap='large' />
+      <StatusIcon name='check' background='green' gap='large' />
       <RadialProgress percentage={42} />
     </ListItem>
     <ListItem tag='div' borderStyle='dashed'>

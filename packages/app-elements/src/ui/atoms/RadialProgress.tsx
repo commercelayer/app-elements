@@ -1,6 +1,6 @@
 import cn from 'classnames'
 import { type SVGAttributes } from 'react'
-import { Icon, type IconProps } from './Icon'
+import { StatusIcon, type StatusIconProps } from './StatusIcon'
 
 export interface RadialProgressProps extends SVGAttributes<SVGElement> {
   /**
@@ -17,7 +17,7 @@ export interface RadialProgressProps extends SVGAttributes<SVGElement> {
   /**
    * Optional icon to be rendered in the center of the circle
    */
-  icon?: IconProps['name']
+  icon?: StatusIconProps['name']
 }
 
 /**
@@ -93,7 +93,7 @@ function RadialProgress({
         )}
       </svg>
       {icon != null && (
-        <Icon
+        <StatusIcon
           name={icon}
           className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
           data-testid='radial-progress-icon'

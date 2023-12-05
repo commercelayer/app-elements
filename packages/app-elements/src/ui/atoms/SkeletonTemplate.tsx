@@ -168,7 +168,7 @@ const SkeletonTemplate: SkeletonTemplateComponent<
               'AvatarLetter',
               'Badge',
               'Button',
-              'Icon',
+              'StatusIcon',
               'RadialProgress',
               'ButtonFilter'
             ])

@@ -1,7 +1,7 @@
 import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
@@ -74,12 +74,12 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
                 Pending
               </Text>
             </div>
-            <Icon name='caretRight' />
+            <StatusIcon name='caretRight' />
           </ListItem>
 
           <ListItem
             tag='div'
-            icon={<Icon gap='large' name='check' background='green' />}
+            icon={<StatusIcon gap='large' name='check' background='green' />}
           >
             <div>
               <Text tag='div' weight='semibold'>
@@ -89,12 +89,12 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
                 Imported on Jan 27, 2023
               </Text>
             </div>
-            <Icon name='caretRight' />
+            <StatusIcon name='caretRight' />
           </ListItem>
 
           <ListItem
             tag='div'
-            icon={<Icon gap='large' name='x' background='red' />}
+            icon={<StatusIcon gap='large' name='x' background='red' />}
           >
             <div>
               <Text tag='div' weight='semibold'>
@@ -104,7 +104,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
                 Imported failed Jan 26, 2023
               </Text>
             </div>
-            <Icon name='caretRight' />
+            <StatusIcon name='caretRight' />
           </ListItem>
         </List>
       </Spacer>

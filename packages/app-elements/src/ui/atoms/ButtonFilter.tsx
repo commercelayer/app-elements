@@ -1,11 +1,11 @@
 import cn from 'classnames'
-import { Icon, type IconProps } from './Icon'
+import { StatusIcon, type StatusIconProps } from './StatusIcon'
 
 export interface ButtonFilterProps
   extends React.HTMLAttributes<HTMLDivElement> {
   onClick?: () => void
   onRemoveRequest?: () => void
-  icon?: IconProps['name']
+  icon?: StatusIconProps['name']
   label: string
 }
 
@@ -41,7 +41,7 @@ function ButtonFilter({
         )}
       >
         {icon != null ? (
-          <Icon
+          <StatusIcon
             name={icon}
             className='px-0.5 text-base'
             data-testid='ButtonFilter-icon'
@@ -57,7 +57,7 @@ function ButtonFilter({
           onClick={onRemoveRequest}
           aria-label={`Remove ${label}`}
         >
-          <Icon name='x' className='text-base' />
+          <StatusIcon name='x' className='text-base' />
         </button>
       ) : null}
     </div>

@@ -3,9 +3,9 @@ import { A } from './A'
 import { Avatar } from './Avatar'
 import { Badge } from './Badge'
 import { Button } from './Button'
-import { Icon } from './Icon'
 import { RadialProgress } from './RadialProgress'
 import { SkeletonTemplate } from './SkeletonTemplate'
+import { StatusIcon } from './StatusIcon'
 import { Text } from './Text'
 
 describe('SkeletonTemplate', () => {
@@ -76,10 +76,10 @@ describe('SkeletonTemplate', () => {
     expect(getByTestId('element')).toHaveClass('animate-pulse', '!bg-gray-50')
   })
 
-  test('Should render <Icon> as "loading item"', () => {
+  test('Should render <StatusIcon> as "loading item"', () => {
     const { getByTestId } = render(
       <SkeletonTemplate isLoading>
-        <Icon data-testid='element' name='arrowLeft' />
+        <StatusIcon data-testid='element' name='arrowLeft' />
       </SkeletonTemplate>
     )
 

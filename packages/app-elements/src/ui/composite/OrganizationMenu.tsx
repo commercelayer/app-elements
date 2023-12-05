@@ -1,4 +1,4 @@
-import { Icon } from '#ui/atoms/Icon'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import cn from 'classnames'
 import React, { useMemo, type FC, type ReactNode } from 'react'
 
@@ -52,7 +52,7 @@ export const OrganizationMenuItem: FC<OrganizationMenuItemProps> = ({
         { 'bg-gray-100 text-black': isActive === true }
       )}
     >
-      <Icon name={type} className='text-2xl' />
+      <StatusIcon name={type} className='text-2xl' />
       {label}
     </a>
   )

@@ -2,7 +2,7 @@ import cn from 'classnames'
 import { useMemo } from 'react'
 import { iconMapping } from './icons'
 
-export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface StatusIconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Name of the icon to display
    */
@@ -26,7 +26,7 @@ export interface IconProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 /** `app-elements` provides a subset of [Phosphor Icons](https://phosphoricons.com/) out-of-the-box. */
-export const Icon: React.FC<IconProps> = ({
+export const StatusIcon: React.FC<StatusIconProps> = ({
   name,
   className,
   background = 'none',
@@ -66,4 +66,4 @@ export const Icon: React.FC<IconProps> = ({
   )
 }
 
-Icon.displayName = 'Icon'
+StatusIcon.displayName = 'StatusIcon'
