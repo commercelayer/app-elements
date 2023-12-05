@@ -1,6 +1,6 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { iconMapping } from '#ui/atoms/Icon/icons'
 import { StatusIcon, type StatusIconProps } from '#ui/atoms/StatusIcon'
-import { iconMapping } from '#ui/atoms/StatusIcon/icons'
 import { Text } from '#ui/atoms/Text'
 import { type Meta, type StoryFn } from '@storybook/react'
 

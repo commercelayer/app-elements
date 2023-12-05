@@ -1,6 +1,6 @@
 import cn from 'classnames'
-import { useMemo } from 'react'
-import { iconMapping } from './icons'
+import { Icon } from './Icon'
+import { type iconMapping } from './Icon/icons'
 
 export interface StatusIconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
@@ -25,7 +25,6 @@ export interface StatusIconProps extends React.HTMLAttributes<HTMLDivElement> {
   gap?: 'none' | 'small' | 'large'
 }
 
-/** `app-elements` provides a subset of [Phosphor Icons](https://phosphoricons.com/) out-of-the-box. */
 export const StatusIcon: React.FC<StatusIconProps> = ({
   name,
   className,
@@ -33,8 +32,6 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
   gap = 'none',
   ...rest
 }) => {
-  const IconSvg = useMemo(() => iconMapping[name], [iconMapping, name])
-
   return (
     <div
       className={cn([
@@ -58,7 +55,8 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
       ])}
       {...rest}
     >
-      <IconSvg
+      <Icon
+        name={name}
         size={gap === 'large' ? '1.25rem' : undefined}
         weight={background !== 'none' ? 'bold' : undefined}
       />
