@@ -5,7 +5,7 @@ import { Text } from '#ui/atoms/Text'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof StatusIcon> = {
-  title: 'Atoms/Icon',
+  title: 'Atoms/StatusIcon',
   component: StatusIcon
 }
 export default setup
