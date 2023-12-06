@@ -20,6 +20,12 @@ Default.args = {
   variant: 'success'
 }
 
+export const WithIcon = Template.bind({})
+WithIcon.args = {
+  variant: 'success',
+  icon: 'pulse'
+}
+
 /** These are all the possible values for the `variant` prop. */
 export const AvailableVariants: StoryFn = () => (
   <div

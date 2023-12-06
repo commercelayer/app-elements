@@ -29,6 +29,6 @@ describe('Badge', () => {
     })
     expect(element).toBeInTheDocument()
     expect(element.tagName).toBe('DIV')
-    expect(element.innerHTML).toBe('Completed')
+    expect(element.innerHTML).toContain('Completed')
   })
 })
