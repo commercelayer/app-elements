@@ -33,6 +33,7 @@ export const iconMapping = {
   package: phosphor.Package,
   pencilSimple: phosphor.PencilSimple,
   printer: phosphor.Printer,
+  plus: phosphor.Plus,
   pulse: phosphor.Pulse,
   resources: phosphor.Stack,
   settings: phosphor.GearFine,

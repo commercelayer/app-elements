@@ -11,6 +11,8 @@ export interface DropdownProps {
   dropdownLabel?: React.ReactNode
   /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */
   dropdownItems: React.ReactNode
+  /** Optional header for the dropdown menu */
+  menuHeader?: string
 }
 
 /**
@@ -22,6 +24,7 @@ export interface DropdownProps {
  */
 export const Dropdown: React.FC<DropdownProps> = ({
   dropdownLabel = <DotsThreeCircle size={32} />,
+  menuHeader,
   dropdownItems
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -70,7 +73,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             className='absolute top-0 right-0'
             onClick={closeDropdownMenuIfButtonClicked}
           >
-            <DropdownMenu>{dropdownItems}</DropdownMenu>
+            <DropdownMenu header={menuHeader}>{dropdownItems}</DropdownMenu>
           </div>
         </div>
       )}

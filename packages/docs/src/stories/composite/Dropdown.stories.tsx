@@ -100,6 +100,35 @@ DropdownLabelAsString.args = {
   )
 }
 
+/** Dropdown menu can have an header  */
+export const MenuWithHeader = Template.bind({})
+MenuWithHeader.args = {
+  menuHeader: 'ringostarr@commercelayer-very-long-text.io',
+  dropdownItems: (
+    <>
+      <DropdownItem onClick={() => {}} label='Edit' />
+      <DropdownItem onClick={() => {}} label='Delete' />
+    </>
+  )
+}
+
+/**
+ * Dropdown items can also have icons. When you need to list them
+ * together with items without icons, you can pass `keep-space` so gap will be mainteined.
+ **/
+export const ItemsWithIcons = Template.bind({})
+ItemsWithIcons.args = {
+  dropdownItems: (
+    <>
+      <DropdownItem onClick={() => {}} icon='userCircle' label='Profile' />
+      <DropdownItem onClick={() => {}} icon='creditCard' label='Subscription' />
+      <DropdownItem onClick={() => {}} icon='keep-space' label='No icon' />
+      <DropdownDivider />
+      <DropdownItem onClick={() => {}} icon='signOut' label='Logout' />
+    </>
+  )
+}
+
 /** Dropdown can also be used as a Section's action button. */
 export const WithinASection: StoryFn<typeof Dropdown> = (args) => {
   return (

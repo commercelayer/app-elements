@@ -8,7 +8,7 @@ export function DropdownDivider({
   ...rest
 }: DropdownDividerProps): JSX.Element {
   return (
-    <div {...rest} className='h-px'>
+    <div {...rest} className='h-px my-1'>
       <hr className='border-gray-600' />
     </div>
   )
