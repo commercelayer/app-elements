@@ -1,18 +1,22 @@
 import cn from 'classnames'
+import { type FC } from 'react'
 import { DropdownDivider } from './DropdownDivider'
 
-interface Props extends React.HTMLAttributes<HTMLElement> {
+export interface DropdownMenuProps extends React.HTMLAttributes<HTMLElement> {
+  /** Menu content */
   children?: React.ReactNode
+  /** Set to `none` to hide the top arrow */
   arrow?: 'none'
-  header?: string
+  /** Optional header for the dropdown menu */
+  menuHeader?: string
 }
 
-export function DropdownMenu({
+export const DropdownMenu: FC<DropdownMenuProps> = ({
   children,
   arrow,
-  header,
+  menuHeader,
   ...rest
-}: Props): JSX.Element {
+}) => {
   const showArrow = arrow === undefined
   const showArrowMenuCss = showArrow && 'mt-[5px]'
 
@@ -41,13 +45,13 @@ export function DropdownMenu({
           showArrowMenuCss
         ])}
       >
-        {header != null && (
+        {menuHeader != null && (
           <>
             <div
               className='py-2 px-4 text-gray-400 text-xs font-semibold text-ellipsis overflow-hidden whitespace-nowrap'
-              title={header}
+              title={menuHeader}
             >
-              {header}
+              {menuHeader}
             </div>
             <DropdownDivider />
           </>

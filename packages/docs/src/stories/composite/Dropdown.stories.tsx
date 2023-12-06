@@ -122,6 +122,11 @@ ItemsWithIcons.args = {
     <>
       <DropdownItem onClick={() => {}} icon='userCircle' label='Profile' />
       <DropdownItem onClick={() => {}} icon='creditCard' label='Subscription' />
+      <DropdownItem
+        onClick={() => {}}
+        icon='keep-space'
+        label='Super long label that eventually will be trimmed'
+      />
       <DropdownItem onClick={() => {}} icon='keep-space' label='No icon' />
       <DropdownDivider />
       <DropdownItem onClick={() => {}} icon='signOut' label='Logout' />

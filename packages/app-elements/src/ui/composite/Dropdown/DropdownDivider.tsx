@@ -1,12 +1,14 @@
+import { type FC } from 'react'
+
 export interface DropdownDividerProps
   extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
 }
 
-export function DropdownDivider({
+export const DropdownDivider: FC<DropdownDividerProps> = ({
   children,
   ...rest
-}: DropdownDividerProps): JSX.Element {
+}) => {
   return (
     <div {...rest} className='h-px my-1'>
       <hr className='border-gray-600' />

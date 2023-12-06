@@ -27,7 +27,10 @@ export const DropdownItem: FC<DropdownItemProps> = ({
         </div>
       ) : null}
 
-      <span className='text-ellipsis overflow-hidden whitespace-nowrap'>
+      <span
+        className='text-ellipsis overflow-hidden whitespace-nowrap'
+        title={label}
+      >
         {label}
       </span>
     </button>
