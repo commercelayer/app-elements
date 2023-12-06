@@ -48,7 +48,7 @@ export const OrganizationMenuItem: FC<OrganizationMenuItemProps> = ({
       href={href}
       onClick={onClick}
       className={cn(
-        'flex items-center gap-3 p-2 font-semibold rounded-s text-gray-700 hover:bg-gray-100 hover:text-black',
+        'flex items-center gap-3 p-2 font-semibold rounded text-gray-700 hover:bg-gray-100 hover:text-black',
         { 'bg-gray-100 text-black': isActive === true }
       )}
     >
