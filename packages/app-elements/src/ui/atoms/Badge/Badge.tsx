@@ -1,5 +1,4 @@
-import { Icon } from '#ui/atoms/Icon'
-import { type iconMapping } from '#ui/atoms/Icon/icons'
+import { Icon, type IconProps } from '#ui/atoms/Icon'
 import cn from 'classnames'
 import React from 'react'
 import { variantCss } from './badgeVariants'
@@ -8,7 +7,7 @@ export interface BadgeProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** Render a different variant. */
   variant: keyof typeof variantCss
-  icon?: keyof typeof iconMapping
+  icon?: IconProps['name']
   children: React.ReactNode
 }
 
