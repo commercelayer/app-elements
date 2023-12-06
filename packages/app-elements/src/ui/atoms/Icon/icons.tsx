@@ -26,6 +26,7 @@ export const iconMapping = {
   hourglass: phosphor.Hourglass,
   magnifyingGlass: phosphor.MagnifyingGlass,
   minus: phosphor.Minus,
+  minusCircle: phosphor.MinusCircle,
   package: phosphor.Package,
   pencilSimple: phosphor.PencilSimple,
   printer: phosphor.Printer,

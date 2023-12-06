@@ -48,7 +48,11 @@ exports[`ResourceLineItems > should render 1`] = `
             <div
               class="text-xs font-bold py-0.5 px-2 rounded inline-block text-gray-500 bg-gray-500/10"
             >
-              Unit price 9.00€
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price 9.00€
+              </div>
             </div>
           </div>
         </td>
@@ -142,7 +146,11 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
             <div
               class="text-xs font-bold py-0.5 px-2 rounded inline-block text-gray-500 bg-gray-500/10"
             >
-              Unit price 9.00€
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price 9.00€
+              </div>
             </div>
           </div>
         </td>
@@ -253,7 +261,11 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
             <div
               class="text-xs font-bold py-0.5 px-2 rounded inline-block text-gray-500 bg-gray-500/10"
             >
-              Unit price 9.00€
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price 9.00€
+              </div>
             </div>
           </div>
         </td>
@@ -435,7 +447,11 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
             <div
               class="text-xs font-bold py-0.5 px-2 rounded inline-block text-gray-500 bg-gray-500/10"
             >
-              Unit price $10.00
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price $10.00
+              </div>
             </div>
           </div>
         </td>
@@ -584,7 +600,11 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
             <div
               class="text-xs font-bold py-0.5 px-2 rounded inline-block text-gray-500 bg-gray-500/10"
             >
-              Unit price 27.00€
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price 27.00€
+              </div>
             </div>
           </div>
         </td>
