@@ -174,3 +174,45 @@ WithinASection.args = DropdownLabelAsString.args
 WithinASection.parameters = {
   layout: 'padded'
 }
+
+/** Dropdown can also be used with different opening positions */
+export const Positioning: StoryFn<typeof Dropdown> = (args) => {
+  const items = Default.args?.dropdownItems
+  return (
+    <div>
+      <div className='flex flex-wrap gap-8 justify-around'>
+        <Dropdown
+          dropdownLabel={<div>top-left</div>}
+          dropdownItems={items}
+          menuPosition='top-left'
+        />
+        <Dropdown
+          dropdownLabel={<div>top-right</div>}
+          dropdownItems={items}
+          menuPosition='top-right'
+        />
+        <Dropdown
+          dropdownLabel={<div>bottom-left</div>}
+          dropdownItems={items}
+          menuPosition='bottom-left'
+        />
+        <Dropdown
+          dropdownLabel={<div>bottom-right</div>}
+          dropdownItems={items}
+          menuPosition='bottom-right'
+        />
+      </div>
+    </div>
+  )
+}
+Positioning.decorators = [
+  (Story) => (
+    <div
+      style={{
+        paddingTop: '120px'
+      }}
+    >
+      <Story />
+    </div>
+  )
+]

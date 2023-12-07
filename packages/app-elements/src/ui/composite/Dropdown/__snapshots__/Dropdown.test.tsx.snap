@@ -1,0 +1,257 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Dropdown > Should be rendering bottom-left 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="m-0 p-0 align-top rounded text-center font-bold focus:outline-none text-primary hover:opacity-80"
+    >
+      open dropdown
+      <svg
+        class="inline-block ml-1 -mt-0.5"
+        fill="currentColor"
+        height="1em"
+        viewBox="0 0 256 256"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+        />
+      </svg>
+    </button>
+    <div
+      class="absolute z-30 top-full mt-[5px] left-0"
+    >
+      <div
+        class="flex flex-col items-start"
+      >
+        <span
+          class="relative border-black border-l-transparent border-r-transparent"
+          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; left: 10px;"
+        />
+        <div
+          class="bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Dropdown > Should be rendering top-left 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="m-0 p-0 align-top rounded text-center font-bold focus:outline-none text-primary hover:opacity-80"
+    >
+      open dropdown
+      <svg
+        class="inline-block ml-1 -mt-0.5"
+        fill="currentColor"
+        height="1em"
+        viewBox="0 0 256 256"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+        />
+      </svg>
+    </button>
+    <div
+      class="absolute z-30 bottom-full mb-[5px] left-0"
+    >
+      <div
+        class="flex flex-col-reverse items-start"
+      >
+        <span
+          class="relative border-black border-l-transparent border-r-transparent"
+          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; left: 10px;"
+        />
+        <div
+          class="bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Dropdown > Should be rendering top-right 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="m-0 p-0 align-top rounded text-center font-bold focus:outline-none text-primary hover:opacity-80"
+    >
+      open dropdown
+      <svg
+        class="inline-block ml-1 -mt-0.5"
+        fill="currentColor"
+        height="1em"
+        viewBox="0 0 256 256"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+        />
+      </svg>
+    </button>
+    <div
+      class="absolute z-30 bottom-full mb-[5px] right-0"
+    >
+      <div
+        class="flex flex-col-reverse items-end"
+      >
+        <span
+          class="relative border-black border-l-transparent border-r-transparent"
+          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; right: 10px;"
+        />
+        <div
+          class="bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]"
+        >
+          <div />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`Dropdown > Should be rendering with default bottom-right position 1`] = `
+<div>
+  <div
+    class="relative"
+  >
+    <button
+      aria-expanded="true"
+      aria-haspopup="true"
+      class="m-0 p-0 align-top rounded text-center font-bold focus:outline-none text-primary hover:opacity-80"
+    >
+      open dropdown
+      <svg
+        class="inline-block ml-1 -mt-0.5"
+        fill="currentColor"
+        height="1em"
+        viewBox="0 0 256 256"
+        width="1em"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M216.49,104.49l-80,80a12,12,0,0,1-17,0l-80-80a12,12,0,0,1,17-17L128,159l71.51-71.52a12,12,0,0,1,17,17Z"
+        />
+      </svg>
+    </button>
+    <div
+      class="absolute z-30 top-full mt-[5px] right-0"
+    >
+      <div
+        class="flex flex-col items-end"
+      >
+        <span
+          class="relative border-black border-l-transparent border-r-transparent"
+          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; right: 10px;"
+        />
+        <div
+          class="bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]"
+        >
+          <button
+            aria-label="Payments"
+            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold cursor-pointer flex items-center hover:bg-primary focus:bg-primary focus:!outline-none"
+          >
+            <div
+              class="mr-2"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M224,44H32A20,20,0,0,0,12,64V192a20,20,0,0,0,20,20H224a20,20,0,0,0,20-20V64A20,20,0,0,0,224,44Zm-4,24V88H36V68ZM36,188V112H220v76Zm172-24a12,12,0,0,1-12,12H164a12,12,0,0,1,0-24h32A12,12,0,0,1,208,164Zm-68,0a12,12,0,0,1-12,12H116a12,12,0,0,1,0-24h12A12,12,0,0,1,140,164Z"
+                />
+              </svg>
+            </div>
+            <span
+              class="text-ellipsis overflow-hidden whitespace-nowrap"
+              title="Payments"
+            >
+              Payments
+            </span>
+          </button>
+          <button
+            aria-label="Items"
+            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold cursor-pointer flex items-center hover:bg-primary focus:bg-primary focus:!outline-none"
+          >
+            <div
+              class="mr-2"
+            >
+              <div
+                class="w-[14px]"
+              />
+            </div>
+            <span
+              class="text-ellipsis overflow-hidden whitespace-nowrap"
+              title="Items"
+            >
+              Items
+            </span>
+          </button>
+          <div
+            class="h-px my-1"
+          >
+            <hr
+              class="border-gray-600"
+            />
+          </div>
+          <button
+            aria-label="Delete"
+            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold cursor-pointer flex items-center hover:bg-primary focus:bg-primary focus:!outline-none"
+          >
+            <div
+              class="mr-2"
+            >
+              <svg
+                fill="currentColor"
+                height="1em"
+                viewBox="0 0 256 256"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M168.49,104.49,145,128l23.52,23.51a12,12,0,0,1-17,17L128,145l-23.51,23.52a12,12,0,0,1-17-17L111,128,87.51,104.49a12,12,0,0,1,17-17L128,111l23.51-23.52a12,12,0,0,1,17,17ZM236,128A108,108,0,1,1,128,20,108.12,108.12,0,0,1,236,128Zm-24,0a84,84,0,1,0-84,84A84.09,84.09,0,0,0,212,128Z"
+                />
+              </svg>
+            </div>
+            <span
+              class="text-ellipsis overflow-hidden whitespace-nowrap"
+              title="Delete"
+            >
+              Delete
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
