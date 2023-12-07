@@ -1,6 +1,11 @@
 import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
-import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
+import {
+  Dropdown,
+  DropdownDivider,
+  DropdownItem,
+  DropdownSearch
+} from '#ui/composite/Dropdown'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Dropdown> = {
@@ -114,7 +119,7 @@ MenuWithHeader.args = {
 
 /**
  * Dropdown items can also have icons. When you need to list them
- * together with items without icons, you can pass `keep-space` so gap will be mainteined.
+ * together with items without icons, you can pass `keep-space` so gap will be maintained.
  **/
 export const ItemsWithIcons = Template.bind({})
 ItemsWithIcons.args = {
@@ -130,6 +135,29 @@ ItemsWithIcons.args = {
       <DropdownItem onClick={() => {}} icon='keep-space' label='No icon' />
       <DropdownDivider />
       <DropdownItem onClick={() => {}} icon='signOut' label='Logout' />
+    </>
+  )
+}
+
+/**
+ * Dropdown can also accept a DropdownSearch item that returns debounced values.
+ **/
+export const WithDropdownSearch = Template.bind({})
+WithDropdownSearch.args = {
+  dropdownItems: (
+    <>
+      <DropdownSearch
+        onSearch={(hint) => {
+          console.log(hint)
+        }}
+        placeholder='Search...'
+      />
+      <DropdownDivider />
+      <DropdownItem onClick={() => {}} icon='check' label='Green' />
+      <DropdownItem onClick={() => {}} icon='keep-space' label='Red' />
+      <DropdownItem onClick={() => {}} icon='keep-space' label='Yellow' />
+      <DropdownItem onClick={() => {}} icon='keep-space' label='Black' />
+      <DropdownItem onClick={() => {}} icon='keep-space' label='White' />
     </>
   )
 }
