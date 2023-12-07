@@ -1,3 +1,4 @@
+import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
@@ -175,8 +176,34 @@ WithinASection.parameters = {
   layout: 'padded'
 }
 
+/**
+ * Arrow will try to center itself to the parent element when is smaller than 50px.
+ **/
+export const AutoCenterArrow: StoryFn = (args) => {
+  return (
+    <div>
+      <div className='flex gap-8'>
+        <div>
+          <Dropdown
+            dropdownLabel={<Icon name='arrowCircleDown' size={30} />}
+            dropdownItems={Default.args?.dropdownItems}
+            menuPosition='bottom-left'
+          />
+        </div>
+        <div>
+          <Dropdown
+            dropdownLabel={<Icon name='arrowCircleDown' size={48} />}
+            dropdownItems={Default.args?.dropdownItems}
+            menuPosition='bottom-right'
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
 /** Dropdown can also be used with different opening positions */
-export const Positioning: StoryFn<typeof Dropdown> = (args) => {
+export const Positioning: StoryFn = (args) => {
   const items = Default.args?.dropdownItems
   return (
     <div>

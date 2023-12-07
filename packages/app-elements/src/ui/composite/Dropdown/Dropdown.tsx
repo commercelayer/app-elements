@@ -82,7 +82,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
           })}
           onClick={closeDropdownMenuIfButtonClicked}
         >
-          <DropdownMenu menuHeader={menuHeader} menuPosition={menuPosition}>
+          <DropdownMenu
+            menuHeader={menuHeader}
+            menuPosition={menuPosition}
+            parentElementRef={clickAwayRef}
+          >
             {dropdownItems}
           </DropdownMenu>
         </div>
