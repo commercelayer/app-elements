@@ -116,9 +116,11 @@ export {
   Dropdown,
   DropdownDivider,
   DropdownItem,
+  DropdownSearch,
   type DropdownDividerProps,
   type DropdownItemProps,
-  type DropdownProps
+  type DropdownProps,
+  type DropdownSearchProps
 } from '#ui/composite/Dropdown'
 export { List, type ListProps } from '#ui/composite/List'
 export { ListDetails, type ListDetailsProps } from '#ui/composite/ListDetails'
