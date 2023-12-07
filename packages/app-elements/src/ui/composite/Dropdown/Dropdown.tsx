@@ -1,12 +1,13 @@
 import { useClickAway } from '#hooks/useClickAway'
 import { useOnBlurFromContainer } from '#hooks/useOnBlurFromContainer'
 import { Button } from '#ui/atoms/Button'
+import { type DropdownMenuProps } from '#ui/composite/Dropdown/DropdownMenu'
 import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { useState } from 'react'
 import { DropdownMenu } from './DropdownMenu'
 
-export interface DropdownProps {
+export interface DropdownProps extends Pick<DropdownMenuProps, 'menuHeader'> {
   /** The trigger for the dropdown menu. Can be a JSX Element or simply a `string`. */
   dropdownLabel?: React.ReactNode
   /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */
@@ -22,6 +23,7 @@ export interface DropdownProps {
  */
 export const Dropdown: React.FC<DropdownProps> = ({
   dropdownLabel = <DotsThreeCircle size={32} />,
+  menuHeader,
   dropdownItems
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
@@ -70,7 +72,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             className='absolute top-0 right-0'
             onClick={closeDropdownMenuIfButtonClicked}
           >
-            <DropdownMenu>{dropdownItems}</DropdownMenu>
+            <DropdownMenu menuHeader={menuHeader}>{dropdownItems}</DropdownMenu>
           </div>
         </div>
       )}
