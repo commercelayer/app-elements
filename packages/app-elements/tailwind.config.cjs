@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { transparentize } = require('polished')
 
 const colorBrand = '#666EFF'
@@ -8,7 +9,8 @@ module.exports = {
   theme: {
     container: {
       screens: {
-        sm: '540px'
+        sm: '540px',
+        md: '632px'
       }
     },
     borderRadius: {
