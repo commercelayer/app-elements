@@ -156,3 +156,38 @@ export const LongContent: StoryFn = () => {
     </div>
   )
 }
+
+/**
+ * Overlay can also open with a light gray background.
+ **/
+export const OverlayWithBackgroundVariant: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open overlay</Button>
+      <Overlay
+        backgroundColor='light'
+        footer={
+          <Button onClick={close} fullWidth>
+            close
+          </Button>
+        }
+      >
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          fringilla, leo vel blandit consequat, arcu tellus tristique ipsum, vel
+          accumsan risus urna in ante. Morbi iaculis elit mattis dolor laoreet
+          rhoncus. Aliquam interdum vel dui nec dapibus. Praesent id justo
+          ultricies quam finibus sollicitudin eu nec magna. Pellentesque
+          habitant morbi tristique senectus et netus et malesuada fames ac
+          turpis egestas. Nunc eget luctus nisi. Orci varius natoque penatibus
+          et magnis dis parturient montes, nascetur ridiculus mus. Nam malesuada
+          lacus eget aliquam tempor. Fusce sit amet lorem bibendum, congue dui
+          at, porttitor tellus. Ut venenatis enim ut sapien fringilla, sit amet
+          consequat lectus commodo.
+        </p>
+      </Overlay>
+    </div>
+  )
+}
