@@ -1,5 +1,6 @@
 import { Container } from '#ui/atoms/Container'
 import { Spacer } from '#ui/atoms/Spacer'
+import cn from 'classnames'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { useSearch } from 'wouter/use-location'
@@ -13,9 +14,18 @@ interface OverlayProps {
    * Footer element to be rendered at the bottom of the overlay.
    **/
   footer?: React.ReactNode
+  /**
+   * Set a gray background color
+   */
+  backgroundColor?: 'light'
 }
 
-const Overlay: React.FC<OverlayProps> = ({ footer, children, ...rest }) => {
+const Overlay: React.FC<OverlayProps> = ({
+  footer,
+  children,
+  backgroundColor,
+  ...rest
+}) => {
   const element = useRef<HTMLDivElement | null>(null)
 
   useEffect(function preventBodyScrollbar() {
@@ -41,7 +51,13 @@ const Overlay: React.FC<OverlayProps> = ({ footer, children, ...rest }) => {
       ref={element}
       role='dialog'
       tabIndex={0}
-      className='fixed inset-0 z-50 w-full h-full bg-white overflow-y-auto outline-none'
+      className={cn(
+        'fixed inset-0 z-50 w-full h-full  overflow-y-auto outline-none',
+        {
+          'bg-gray-50': backgroundColor === 'light',
+          'bg-white': backgroundColor == null
+        }
+      )}
       data-testid='overlay'
       {...rest}
     >
@@ -49,7 +65,10 @@ const Overlay: React.FC<OverlayProps> = ({ footer, children, ...rest }) => {
         <Spacer bottom='14'>{children}</Spacer>
         {footer != null && (
           <div
-            className='w-full sticky bottom-0 bg-white pb-8'
+            className={cn('w-full sticky bottom-0 pb-8', {
+              'bg-gray-50': backgroundColor === 'light',
+              'bg-white': backgroundColor == null
+            })}
             data-testid='overlay-buttonContainer'
           >
             {footer}
