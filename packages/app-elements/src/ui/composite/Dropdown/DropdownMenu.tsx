@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { type FC } from 'react'
+import { useEffect, useState, type FC } from 'react'
 import { DropdownDivider } from './DropdownDivider'
 
 export interface DropdownMenuProps extends React.HTMLAttributes<HTMLElement> {
@@ -9,41 +9,46 @@ export interface DropdownMenuProps extends React.HTMLAttributes<HTMLElement> {
   arrow?: 'none'
   /** Optional header for the dropdown menu */
   menuHeader?: string
+  /**
+   * Opening position of the dropdown menu
+   * @default bottom-right
+   */
+  menuPosition?: 'bottom-left' | 'bottom-right' | 'top-left' | 'top-right'
+  /**
+   * If set, the arrow will be centered when trigger button is smaller than 50px
+   * Otherwise it will fallback to a default centering based on 32px trigger button
+   */
+  parentElementRef?: React.RefObject<HTMLDivElement>
 }
 
 export const DropdownMenu: FC<DropdownMenuProps> = ({
   children,
   arrow,
   menuHeader,
+  menuPosition = 'bottom-right',
+  parentElementRef,
   ...rest
 }) => {
-  const showArrow = arrow === undefined
-  const showArrowMenuCss = showArrow && 'mt-[5px]'
-
-  // const arrowHeight = 5
-  // const arrowWidth = 12
-
-  const menuLabelSizeCss: Record<number, string[]> = {
-    32: [
-      'w-0 h-0',
-      `absolute top-[-5px] right-[10px]`, // arrowHeight / 2 & (menuLabelSize - arrowWidth) / 2
-      `border-b-[5px] border-b-black`, // arrowHeight / 2
-      `border-l-[6px] border-l-transparent`, // arrowWidth / 2
-      `border-r-[6px] border-r-transparent` // arrowWidth / 2
-    ]
-  }
-
-  const arrowCss = cn(menuLabelSizeCss[32])
+  const [centerToWidth, setCenterToWidth] = useState<number>()
+  useEffect(() => {
+    setCenterToWidth(parentElementRef?.current?.clientWidth)
+  }, [parentElementRef])
 
   return (
-    <div className='relative'>
-      {showArrow && <span className={arrowCss} />}
+    <div
+      className={cn('flex', {
+        'flex-col items-end': menuPosition === 'bottom-right',
+        'flex-col items-start': menuPosition === 'bottom-left',
+        'flex-col-reverse items-end': menuPosition === 'top-right',
+        'flex-col-reverse items-start': menuPosition === 'top-left'
+      })}
+    >
+      {arrow === 'none' ? null : (
+        <Arrow menuPosition={menuPosition} centerToWidth={centerToWidth} />
+      )}
       <div
         {...rest}
-        className={cn([
-          'bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]',
-          showArrowMenuCss
-        ])}
+        className='bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]'
       >
         {menuHeader != null && (
           <>
@@ -63,3 +68,64 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
 }
 
 DropdownMenu.displayName = 'DropdownMenu'
+
+const Arrow: FC<{
+  menuPosition: DropdownMenuProps['menuPosition']
+  centerToWidth?: number
+}> = ({ menuPosition = 'bottom-right', centerToWidth }) => {
+  const arrowHeight = 5
+  const arrowWidth = 12
+
+  const centeringOffset = calculateArrowCenteringOffset({
+    arrowWidth,
+    centerToWidth
+  })
+
+  const alignProp = menuPosition.includes('right') ? 'right' : 'left'
+  const arrowDirection =
+    menuPosition === 'bottom-right' || menuPosition === 'bottom-left'
+      ? 'top'
+      : 'bottom'
+  const cssForPointingDirection =
+    arrowDirection === 'top'
+      ? {
+          borderBottomWidth: arrowHeight,
+          borderTopColor: 'transparent'
+        }
+      : {
+          borderTopWidth: arrowHeight,
+          borderBottomColor: 'transparent'
+        }
+
+  return (
+    <span
+      className='relative border-black border-l-transparent border-r-transparent'
+      style={{
+        // base styles
+        borderLeftWidth: arrowWidth / 2,
+        borderRightWidth: arrowWidth / 2,
+        ...cssForPointingDirection,
+        // keep the arrow centered on the dropdown button
+        [alignProp]: centeringOffset
+      }}
+    />
+  )
+}
+
+// Calculate the offset for centering the arrow on the dropdown button when this does not excide 50px
+// This means that for smaller buttons (up to 50px) the arrow will be centered on the button
+// otherwise it will 10px from the left or right as design system
+function calculateArrowCenteringOffset({
+  arrowWidth,
+  centerToWidth
+}: {
+  arrowWidth: number
+  centerToWidth?: number
+}): number {
+  if (centerToWidth == null || centerToWidth > 50) {
+    return 10 // default offset calculated on a base of 32px button width
+  }
+
+  const centeringOffset = centerToWidth / 2 - arrowWidth / 2
+  return centeringOffset
+}

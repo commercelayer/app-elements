@@ -1,3 +1,4 @@
+import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
@@ -174,3 +175,71 @@ WithinASection.args = DropdownLabelAsString.args
 WithinASection.parameters = {
   layout: 'padded'
 }
+
+/**
+ * Arrow will try to center itself to the parent element when is smaller than 50px.
+ **/
+export const AutoCenterArrow: StoryFn = (args) => {
+  return (
+    <div>
+      <div className='flex gap-8'>
+        <div>
+          <Dropdown
+            dropdownLabel={<Icon name='arrowCircleDown' size={30} />}
+            dropdownItems={Default.args?.dropdownItems}
+            menuPosition='bottom-left'
+          />
+        </div>
+        <div>
+          <Dropdown
+            dropdownLabel={<Icon name='arrowCircleDown' size={48} />}
+            dropdownItems={Default.args?.dropdownItems}
+            menuPosition='bottom-right'
+          />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/** Dropdown can also be used with different opening positions */
+export const Positioning: StoryFn = (args) => {
+  const items = Default.args?.dropdownItems
+  return (
+    <div>
+      <div className='flex flex-wrap gap-8 justify-around'>
+        <Dropdown
+          dropdownLabel={<div>top-left</div>}
+          dropdownItems={items}
+          menuPosition='top-left'
+        />
+        <Dropdown
+          dropdownLabel={<div>top-right</div>}
+          dropdownItems={items}
+          menuPosition='top-right'
+        />
+        <Dropdown
+          dropdownLabel={<div>bottom-left</div>}
+          dropdownItems={items}
+          menuPosition='bottom-left'
+        />
+        <Dropdown
+          dropdownLabel={<div>bottom-right</div>}
+          dropdownItems={items}
+          menuPosition='bottom-right'
+        />
+      </div>
+    </div>
+  )
+}
+Positioning.decorators = [
+  (Story) => (
+    <div
+      style={{
+        paddingTop: '120px'
+      }}
+    >
+      <Story />
+    </div>
+  )
+]

@@ -7,7 +7,8 @@ import cn from 'classnames'
 import { useState } from 'react'
 import { DropdownMenu } from './DropdownMenu'
 
-export interface DropdownProps extends Pick<DropdownMenuProps, 'menuHeader'> {
+export interface DropdownProps
+  extends Pick<DropdownMenuProps, 'menuHeader' | 'menuPosition'> {
   /** The trigger for the dropdown menu. Can be a JSX Element or simply a `string`. */
   dropdownLabel?: React.ReactNode
   /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */
@@ -24,7 +25,8 @@ export interface DropdownProps extends Pick<DropdownMenuProps, 'menuHeader'> {
 export const Dropdown: React.FC<DropdownProps> = ({
   dropdownLabel = <DotsThreeCircle size={32} />,
   menuHeader,
-  dropdownItems
+  dropdownItems,
+  menuPosition = 'bottom-right'
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -49,7 +51,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const handleBlur = useOnBlurFromContainer(close)
 
   return (
-    <div ref={isExpanded ? clickAwayRef : undefined} onBlur={handleBlur}>
+    <div
+      ref={isExpanded ? clickAwayRef : undefined}
+      onBlur={handleBlur}
+      className='relative'
+    >
       <Button
         variant='link'
         aria-haspopup
@@ -67,13 +73,22 @@ export const Dropdown: React.FC<DropdownProps> = ({
         ) : null}
       </Button>
       {isExpanded && (
-        <div className='relative'>
-          <div
-            className='absolute top-0 right-0'
-            onClick={closeDropdownMenuIfButtonClicked}
+        <div
+          className={cn('absolute z-30', {
+            'top-full mt-[5px] right-0': menuPosition === 'bottom-right',
+            'top-full mt-[5px] left-0': menuPosition === 'bottom-left',
+            'bottom-full mb-[5px] right-0': menuPosition === 'top-right',
+            'bottom-full mb-[5px] left-0': menuPosition === 'top-left'
+          })}
+          onClick={closeDropdownMenuIfButtonClicked}
+        >
+          <DropdownMenu
+            menuHeader={menuHeader}
+            menuPosition={menuPosition}
+            parentElementRef={clickAwayRef}
           >
-            <DropdownMenu menuHeader={menuHeader}>{dropdownItems}</DropdownMenu>
-          </div>
+            {dropdownItems}
+          </DropdownMenu>
         </div>
       )}
     </div>
