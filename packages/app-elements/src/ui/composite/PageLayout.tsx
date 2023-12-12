@@ -6,7 +6,7 @@ import { type ReactNode } from 'react'
 export interface PageLayoutProps
   extends Pick<
       PageHeadingProps,
-      'title' | 'description' | 'onGoBack' | 'actionButton' | 'gap'
+      'title' | 'description' | 'navigationButton' | 'actionButton' | 'gap'
     >,
     Pick<ContainerProps, 'minHeight'> {
   /**
@@ -22,7 +22,7 @@ export interface PageLayoutProps
 export function PageLayout({
   title,
   description,
-  onGoBack,
+  navigationButton,
   children,
   actionButton,
   mode,
@@ -35,7 +35,7 @@ export function PageLayout({
       <PageHeading
         title={title}
         description={description}
-        onGoBack={onGoBack}
+        navigationButton={navigationButton}
         actionButton={actionButton}
         badgeLabel={mode === 'test' ? 'TEST DATA' : undefined}
         badgeVariant={mode === 'test' ? 'warning-solid' : undefined}

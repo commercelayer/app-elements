@@ -53,7 +53,13 @@ const Template: StoryFn<typeof InputCheckbox> = (args) => {
   const [selectedIds, setSelectedId] = useState<string[]>([])
 
   return (
-    <PageLayout title='Filters' onGoBack={() => {}}>
+    <PageLayout
+      title='Filters'
+      navigationButton={{
+        label: 'Back',
+        onClick: () => {}
+      }}
+    >
       <Spacer bottom='4'>
         <Text variant='info' weight='medium'>
           Markets{' '}

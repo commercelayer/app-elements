@@ -281,8 +281,11 @@ const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
         <Overlay>
           <PageLayout
             title={`Tracking #${parcel.tracking_number}`}
-            onGoBack={() => {
-              close()
+            navigationButton={{
+              label: 'Back',
+              onClick: () => {
+                close()
+              }
             }}
           >
             <TrackingDetails parcel={parcel} rate={rate} />

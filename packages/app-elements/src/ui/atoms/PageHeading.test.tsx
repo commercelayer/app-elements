@@ -47,14 +47,15 @@ describe('PageHeading', () => {
     ).toBeInTheDocument()
   })
 
-  test('Should also have a button when onGoBack is set', () => {
+  test('Should also have a button when navigationButton is set', () => {
     const foo: string[] = []
     const { element } = setup({
       id: 'heading',
       title: 'My Page Heading',
       description: 'Lorem ipsum...',
-      onGoBack: () => {
-        foo.push('bar')
+      navigationButton: {
+        label: 'Go back',
+        onClick: () => foo.push('bar')
       }
     })
     expect(element.querySelector('button')).toBeVisible()

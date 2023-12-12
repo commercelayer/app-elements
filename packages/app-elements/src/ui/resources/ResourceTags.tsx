@@ -192,8 +192,11 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
             title={overlay.title}
             description={overlay.description}
             minHeight={false}
-            onGoBack={() => {
-              close()
+            navigationButton={{
+              label: 'Back',
+              onClick: () => {
+                close()
+              }
             }}
             actionButton={
               overlay.showManageAction != null &&

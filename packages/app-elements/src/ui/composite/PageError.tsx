@@ -1,17 +1,14 @@
 import { Container } from '#ui/atoms/Container'
 import { EmptyState } from '#ui/atoms/EmptyState'
-import { PageHeading } from '#ui/atoms/PageHeading'
+import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
 
-export interface PageErrorProps {
+export interface PageErrorProps
+  extends Pick<PageHeadingProps, 'navigationButton'> {
   /**
    * Main page title wrapped in a h1 element
    */
   pageTitle?: string
-  /**
-   * Optional callback that will be called when "go back" button is pressed
-   * If missing, the "go back" button will not be shown
-   */
-  onGoBack?: () => void
+
   /**
    * The name of the error to be show above the detailed message text.
    * Example: 'Not Found'
@@ -30,7 +27,7 @@ export interface PageErrorProps {
 
 export function PageError({
   pageTitle = 'Commerce Layer',
-  onGoBack,
+  navigationButton,
   errorName,
   errorDescription,
   actionButton,
@@ -38,7 +35,7 @@ export function PageError({
 }: PageErrorProps): JSX.Element {
   return (
     <Container {...rest}>
-      <PageHeading title={pageTitle} onGoBack={onGoBack} />
+      <PageHeading title={pageTitle} navigationButton={navigationButton} />
       <EmptyState
         title={errorName}
         description={errorDescription}

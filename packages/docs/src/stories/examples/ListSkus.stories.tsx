@@ -28,8 +28,9 @@ export default setup
 const Template: StoryFn<typeof List> = (args) => (
   <PageLayout
     title='SKUs'
-    onGoBack={() => {
-      alert('onGoBack clicked')
+    navigationButton={{
+      label: 'Home',
+      onClick: () => {}
     }}
   >
     <Spacer bottom='14'>

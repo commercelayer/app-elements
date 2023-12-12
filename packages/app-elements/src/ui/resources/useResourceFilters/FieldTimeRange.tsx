@@ -99,11 +99,14 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
       >
         <PageLayout
           title='Custom Time Range'
-          onGoBack={() => {
-            setValue('timeFrom', null)
-            setValue('timeTo', null)
-            setValue('timePreset', null)
-            close()
+          navigationButton={{
+            label: 'Back',
+            onClick: () => {
+              setValue('timeFrom', null)
+              setValue('timeTo', null)
+              setValue('timePreset', null)
+              close()
+            }
           }}
         >
           <Spacer bottom='14'>

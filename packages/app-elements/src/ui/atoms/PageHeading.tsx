@@ -1,7 +1,8 @@
-import { ArrowLeft } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 import { Badge, type BadgeProps } from './Badge'
+import { Icon } from './Icon'
+import { Text } from './Text'
 
 export interface PageHeadingProps {
   /**
@@ -12,11 +13,6 @@ export interface PageHeadingProps {
    * A short text that helps to describe the page
    */
   description?: ReactNode
-  /**
-   * Optional callback that will be called when "go back" button is pressed
-   * If missing, the "go back" button will not be shown
-   */
-  onGoBack?: () => void
   /**
    * If `true` removes element vertical paddings
    */
@@ -30,6 +26,20 @@ export interface PageHeadingProps {
    */
   badgeVariant?: BadgeProps['variant']
   /**
+   * When set, it will render a navigation (eg: go back) button on the left side of the first row
+   */
+  navigationButton?: {
+    /* Button label */
+    label: string
+    /* Button callback */
+    onClick: () => void
+    /**
+     * Button icon
+     * @default arrowLeft
+     */
+    icon?: 'x' | 'arrowLeft'
+  }
+  /**
    * When set, it will render a button on the right side of the first row
    */
   actionButton?: React.ReactNode
@@ -38,7 +48,7 @@ export interface PageHeadingProps {
 function PageHeading({
   gap = 'both',
   badgeLabel,
-  onGoBack,
+  navigationButton,
   title,
   description,
   badgeVariant = 'warning-solid',
@@ -57,11 +67,18 @@ function PageHeading({
       ])}
       {...rest}
     >
-      {(onGoBack != null || actionButton != null) && (
+      {(navigationButton != null || actionButton != null) && (
         <div className={cn('mb-4 flex items-center justify-between')}>
-          {onGoBack != null ? (
-            <button type='button' onClick={onGoBack}>
-              <ArrowLeft className='text-2.5xl' />
+          {navigationButton != null ? (
+            <button
+              type='button'
+              className='flex items-center gap-1'
+              onClick={() => {
+                navigationButton.onClick()
+              }}
+            >
+              <Icon name={navigationButton.icon ?? 'arrowLeft'} size={24} />{' '}
+              <Text weight='semibold'>{navigationButton.label}</Text>
             </button>
           ) : null}
           {actionButton != null ? <div>{actionButton}</div> : null}

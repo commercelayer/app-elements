@@ -104,8 +104,11 @@ const Form: React.FC<Props> = ({ order, onChange, close }) => {
     >
       <PageLayout
         title='Adjust total'
-        onGoBack={() => {
-          close()
+        navigationButton={{
+          label: 'Back',
+          onClick: () => {
+            close()
+          }
         }}
       >
         <Spacer bottom='8'>
