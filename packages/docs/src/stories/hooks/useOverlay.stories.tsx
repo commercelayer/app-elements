@@ -1,5 +1,6 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { Button } from '#ui/atoms/Button'
+import { Card } from '#ui/atoms/Card'
 import {
   Description,
   Primary,
@@ -178,14 +179,24 @@ export const OverlayWithBackgroundVariant: StoryFn = () => {
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
           fringilla, leo vel blandit consequat, arcu tellus tristique ipsum, vel
           accumsan risus urna in ante. Morbi iaculis elit mattis dolor laoreet
-          rhoncus. Aliquam interdum vel dui nec dapibus. Praesent id justo
-          ultricies quam finibus sollicitudin eu nec magna. Pellentesque
-          habitant morbi tristique senectus et netus et malesuada fames ac
-          turpis egestas. Nunc eget luctus nisi. Orci varius natoque penatibus
-          et magnis dis parturient montes, nascetur ridiculus mus. Nam malesuada
-          lacus eget aliquam tempor. Fusce sit amet lorem bibendum, congue dui
-          at, porttitor tellus. Ut venenatis enim ut sapien fringilla, sit amet
-          consequat lectus commodo.
+          rhoncus. Aliquam interdum vel dui nec dapibus.
+        </p>
+        <br />
+        <Card overflow='visible'>
+          Praesent id justo ultricies quam finibus sollicitudin eu nec magna.
+          Pellentesque habitant morbi tristique senectus et netus et malesuada
+          fames ac turpis egestas. Nunc eget luctus nisi. Orci varius natoque
+          penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam
+          malesuada lacus eget aliquam tempor. Fusce sit amet lorem bibendum,
+          congue dui at, porttitor tellus. Ut venenatis enim ut sapien
+          fringilla, sit amet consequat lectus commodo.
+        </Card>
+        <br />
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+          fringilla, leo vel blandit consequat, arcu tellus tristique ipsum, vel
+          accumsan risus urna in ante. Morbi iaculis elit mattis dolor laoreet
+          rhoncus. Aliquam interdum vel dui nec dapibus.
         </p>
       </Overlay>
     </div>
