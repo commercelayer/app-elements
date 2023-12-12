@@ -1,6 +1,7 @@
 import type { ContainerProps } from '#ui/atoms/Container'
 import { Container } from '#ui/atoms/Container'
 import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
+import { ScrollToTop } from '#ui/atoms/ScrollToTop'
 import { type ReactNode } from 'react'
 
 export interface PageLayoutProps
@@ -17,6 +18,10 @@ export interface PageLayoutProps
    * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
    */
   mode?: 'test' | 'live'
+  /**
+   * Optional prop to enable scroll to top behavior on location change
+   */
+  scrollToTop?: boolean
 }
 
 export function PageLayout({
@@ -28,6 +33,7 @@ export function PageLayout({
   mode,
   gap,
   minHeight,
+  scrollToTop,
   ...rest
 }: PageLayoutProps): JSX.Element {
   return (
@@ -42,6 +48,7 @@ export function PageLayout({
         gap={gap}
       />
       {children}
+      {scrollToTop === true && <ScrollToTop />}
     </Container>
   )
 }
