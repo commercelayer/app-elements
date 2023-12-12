@@ -35,8 +35,9 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
     <PageLayout
       title='All imports'
       mode='test'
-      onGoBack={() => {
-        alert('onGoBack clicked')
+      navigationButton={{
+        label: 'Back to dashboard',
+        onClick: () => {}
       }}
     >
       <Spacer bottom='14'>

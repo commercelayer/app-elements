@@ -110,8 +110,11 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
               title={overlay.title}
               description={overlay.description}
               minHeight={false}
-              onGoBack={() => {
-                close()
+              navigationButton={{
+                label: 'Back',
+                onClick: () => {
+                  close()
+                }
               }}
             >
               <ResourceMetadataForm

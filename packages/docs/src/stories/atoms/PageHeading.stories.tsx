@@ -21,12 +21,28 @@ Default.args = {
   description: 'Lorem ipsum dolor sit'
 }
 
-export const WithGoBack = Template.bind({})
-WithGoBack.args = {
+export const WithNavGoBack = Template.bind({})
+WithNavGoBack.args = {
+  title: 'Order details',
+  description: 'Lorem ipsum dolor sit',
+  navigationButton: {
+    label: 'All orders',
+    onClick: () => {
+      historyGoBack()
+    }
+  }
+}
+
+export const WithNavClose = Template.bind({})
+WithNavClose.args = {
   title: 'SKUs',
   description: 'Lorem ipsum dolor sit',
-  onGoBack: () => {
-    historyGoBack()
+  navigationButton: {
+    label: 'Close',
+    onClick: () => {
+      historyGoBack()
+    },
+    icon: 'x'
   }
 }
 
@@ -34,8 +50,11 @@ export const WithBadge = Template.bind({})
 WithBadge.args = {
   title: 'SKUs',
   badgeLabel: 'TEST DATA',
-  onGoBack: () => {
-    historyGoBack()
+  navigationButton: {
+    label: 'Back',
+    onClick: () => {
+      historyGoBack()
+    }
   }
 }
 

@@ -20,7 +20,10 @@ export const Default = Template.bind({})
 Default.args = {
   title: 'Resources',
   description: 'View all resources',
-  onGoBack: () => undefined,
+  navigationButton: {
+    label: 'Back to dashboard',
+    onClick: () => undefined
+  },
   mode: 'test'
 }
 
@@ -28,7 +31,11 @@ export const WithActionButton = Template.bind({})
 WithActionButton.args = {
   title: 'Resources',
   description: 'View all resources',
-  onGoBack: () => undefined,
+  navigationButton: {
+    label: 'Close',
+    onClick: () => undefined,
+    icon: 'x'
+  },
   mode: 'live',
   actionButton: <Button variant='link'>Add new</Button>
 }

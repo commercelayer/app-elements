@@ -137,8 +137,11 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             <PageLayout
               title='Edit address'
               minHeight={false}
-              onGoBack={() => {
-                close()
+              navigationButton={{
+                label: 'Back',
+                onClick: () => {
+                  close()
+                }
               }}
             >
               <ResourceAddressForm
