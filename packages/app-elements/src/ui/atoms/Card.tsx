@@ -46,7 +46,7 @@ export const Card = withSkeletonTemplate<CardProps>(
           'border border-solid rounded-md',
           {
             'overflow-hidden': overflow === 'hidden',
-            'border-gray-200': backgroundColor == null,
+            'border-gray-200 bg-white': backgroundColor == null,
             'bg-gray-50 border-gray-50': backgroundColor === 'light',
             'p-1': gap === '1',
             'p-4': gap === '4',
