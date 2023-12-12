@@ -1,8 +1,9 @@
 import * as phosphor from '@phosphor-icons/react'
 
 export const iconMapping = {
-  arrowBendDownRight: phosphor.ArrowBendDownRight,
   apps: phosphor.SquaresFour,
+  appWindow: phosphor.AppWindow,
+  arrowBendDownRight: phosphor.ArrowBendDownRight,
   arrowCircleDown: phosphor.ArrowCircleDown,
   arrowClockwise: phosphor.ArrowClockwise,
   arrowDown: phosphor.ArrowDown,
@@ -23,6 +24,7 @@ export const iconMapping = {
   flag: phosphor.Flag,
   funnel: phosphor.FunnelSimple,
   github: phosphor.GithubLogo,
+  globe: phosphor.GlobeSimple,
   google: phosphor.GoogleLogo,
   home: phosphor.HouseSimple,
   hourglass: phosphor.Hourglass,
@@ -32,9 +34,10 @@ export const iconMapping = {
   minusCircle: phosphor.MinusCircle,
   package: phosphor.Package,
   pencilSimple: phosphor.PencilSimple,
-  printer: phosphor.Printer,
   plus: phosphor.Plus,
+  printer: phosphor.Printer,
   pulse: phosphor.Pulse,
+  puzzle: phosphor.PuzzlePiece,
   resources: phosphor.Stack,
   settings: phosphor.GearFine,
   shoppingBag: phosphor.ShoppingBag,

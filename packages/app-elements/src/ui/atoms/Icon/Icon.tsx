@@ -1,12 +1,21 @@
-import { type IconProps as PhosphorIconProps } from '@phosphor-icons/react'
-import { useMemo } from 'react'
+import { useMemo, type ComponentPropsWithRef } from 'react'
 import { iconMapping } from './icons'
 
-export interface IconProps extends PhosphorIconProps {
+type IconWeight = 'regular' | 'bold'
+
+export interface IconProps extends ComponentPropsWithRef<'svg'> {
   /**
    * Name of the icon to display
    */
   name: keyof typeof iconMapping
+  /**
+   * Size in CSS units or a number of pixels.
+   */
+  size?: string | number
+  /**
+   * Weight of the icon
+   */
+  weight?: IconWeight
 }
 
 /** `app-elements` provides a subset of [Phosphor Icons](https://phosphoricons.com/) out-of-the-box. */
