@@ -23,7 +23,7 @@ const Template: StoryFn<typeof InputReadonly> = (args) => {
 export const Default = Template.bind({})
 Default.args = {
   label: 'Secret',
-  value: 'asd6as78d6asds',
+  value: 'elyFpGvqXsOSsvEko6ues2Ua4No1_HxaKH_0rUaFuYiX9',
   showCopyAction: true
 }
 
@@ -42,4 +42,12 @@ WithError.args = {
     variant: 'danger',
     message: 'Do not share this secret with others'
   }
+}
+
+export const Loading = Template.bind({})
+Loading.args = {
+  label: 'Secret',
+  value: 'asd6as78d6asds',
+  isLoading: true,
+  hint: { text: 'Do not share this secret with others' }
 }
