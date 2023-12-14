@@ -1,11 +1,9 @@
-import { LightbulbFilament } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
-
-export type HintIcon = 'bulb'
+import { Icon, type IconProps } from './Icon'
 
 export interface HintProps {
-  icon?: HintIcon
+  icon?: IconProps['name']
   className?: string
   children: ReactNode
 }
@@ -16,13 +14,9 @@ export function Hint({
   children,
   ...rest
 }: HintProps): JSX.Element {
-  const icons: Record<HintIcon, JSX.Element> = {
-    bulb: <LightbulbFilament size={24} data-testid='icon-bulb' />
-  }
-
   return (
     <div className={cn('flex gap-2 items-center', className)} {...rest}>
-      {icon != null && icons[icon]}
+      {icon != null && <Icon name={icon} size={24} />}
       <div className='text-sm font-medium text-gray-500'>{children}</div>
     </div>
   )
