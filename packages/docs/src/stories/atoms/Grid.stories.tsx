@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
 import { Grid } from '#ui/atoms/Grid'
+import { type Meta, type StoryFn } from '@storybook/react'
 
 const meta: Meta<typeof Grid> = {
   title: 'Atoms/Grid',
@@ -10,19 +10,70 @@ const meta: Meta<typeof Grid> = {
 }
 
 export default meta
-type Story = StoryObj<typeof Grid>
 
-export const Primary: Story = {
-  args: {
-    columns: '2',
-    children: (
-      <>
-        <div>grid item #1</div>
-        <div>grid item #2</div>
-        <div>grid item #3</div>
-        <div>grid item #4</div>
-        <div>grid item #5</div>
-      </>
-    )
-  }
+const Template: StoryFn<typeof Grid> = (args) => <Grid {...args} />
+
+export const Default = Template.bind({})
+Default.args = {
+  columns: '2',
+  children: (
+    <>
+      <div className='border'>grid item #1</div>
+      <div className='border'>
+        <p>grid item #2</p>
+        <p>grid item #2 (new line)</p>
+      </div>
+      <div className='border'>grid item #3</div>
+      <div className='border'>grid item #4</div>
+      <div className='border'>grid item #5</div>
+    </>
+  )
+}
+
+/** Vertically align items center */
+export const ItemsCenter = Template.bind({})
+ItemsCenter.args = {
+  columns: '2',
+  alignItems: 'center',
+  children: (
+    <>
+      <div className='border'>
+        <p>grid item #1</p>
+        <p>grid item #1 (new line)</p>
+      </div>
+      <div className='border'>grid item #2</div>
+    </>
+  )
+}
+
+/** Vertically align items to the top (start) */
+export const ItemsTop = Template.bind({})
+ItemsTop.args = {
+  columns: '2',
+  alignItems: 'start',
+  children: (
+    <>
+      <div className='border'>
+        <p>grid item #1</p>
+        <p>grid item #1 (new line)</p>
+      </div>
+      <div className='border'>grid item #2</div>
+    </>
+  )
+}
+
+/** Vertically align items to the bottom (end) */
+export const ItemsBottom = Template.bind({})
+ItemsBottom.args = {
+  columns: '2',
+  alignItems: 'end',
+  children: (
+    <>
+      <div className='border'>
+        <p>grid item #1</p>
+        <p>grid item #1 (new line)</p>
+      </div>
+      <div className='border'>grid item #2</div>
+    </>
+  )
 }

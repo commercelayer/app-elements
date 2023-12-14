@@ -18,6 +18,11 @@ export interface GridProps
   alignItems?: 'center' | 'start' | 'end'
 }
 
+/**
+ * Render the children as a grid.
+ * By default the grid will have 1 column and al items will have same height.
+ * It's possible to set the number of columns and the alignment of the items.
+ */
 function Grid({
   children,
   columns,
