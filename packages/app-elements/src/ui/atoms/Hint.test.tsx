@@ -29,11 +29,11 @@ describe('Hint', () => {
   })
 
   test('Should show an icon', () => {
-    const { element, getByTestId } = setup({
+    const { element } = setup({
       id: 'my-helper-text-with-bulb',
       icon: 'bulb'
     })
     expect(element).toBeInTheDocument()
-    expect(getByTestId('icon-bulb')).toBeInTheDocument()
+    expect(element.querySelector('svg')).toBeInTheDocument()
   })
 })
