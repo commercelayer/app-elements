@@ -174,7 +174,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
         >
           <button
             aria-label="Payments"
-            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold cursor-pointer flex items-center hover:bg-primary focus:bg-primary focus:!outline-none"
+            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none hover:bg-primary cursor-pointer focus:bg-primary"
           >
             <div
               class="mr-2"
@@ -200,7 +200,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </button>
           <button
             aria-label="Items"
-            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold cursor-pointer flex items-center hover:bg-primary focus:bg-primary focus:!outline-none"
+            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none hover:bg-primary cursor-pointer focus:bg-primary"
           >
             <div
               class="mr-2"
@@ -225,7 +225,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </div>
           <button
             aria-label="Delete"
-            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold cursor-pointer flex items-center hover:bg-primary focus:bg-primary focus:!outline-none"
+            class="w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none hover:bg-primary cursor-pointer focus:bg-primary"
           >
             <div
               class="mr-2"
