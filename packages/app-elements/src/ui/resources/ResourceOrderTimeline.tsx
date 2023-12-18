@@ -1,11 +1,12 @@
 import { getOrderTransactionPastTense } from '#dictionaries/orders'
+import { navigateTo } from '#helpers/appsNavigation'
 import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
-import type { Attachment, Order } from '@commercelayer/sdk'
+import type { Attachment, Order, StockTransfer } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import {
   useCallback,
@@ -45,6 +46,8 @@ export const ResourceOrderTimeline =
                 include: [
                   'shipments',
                   'shipments.attachments',
+                  'shipments.stock_transfers',
+                  'shipments.stock_transfers.origin_stock_location',
                   'returns',
                   'transactions',
                   'payment_method',
@@ -135,6 +138,10 @@ export const ResourceOrderTimeline =
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useTimelineReducer = (order: Order) => {
   const [orderId, setOrderId] = useState<string>(order.id)
+  const {
+    canAccess,
+    settings: { mode }
+  } = useTokenProvider()
 
   const [events, dispatch] = useReducer<
     Reducer<
@@ -365,10 +372,57 @@ const useTimelineReducer = (order: Order) => {
     [order.attachments]
   )
 
+  const dispatchStockTransfers = useCallback(
+    (stockTransfers?: StockTransfer[] | null | undefined) => {
+      if (stockTransfers != null) {
+        stockTransfers.forEach((stockTransfer) => {
+          if (stockTransfer.completed_at != null) {
+            const navigateToStockTransfer = canAccess('stock_transfers')
+              ? navigateTo({
+                  destination: {
+                    app: 'stock_transfers',
+                    resourceId: stockTransfer.id,
+                    mode
+                  }
+                })
+              : {}
+
+            const stockTransferLabel = `Transfer #${stockTransfer.number}`
+            const stockTransferClickableLabel = canAccess('stock_transfers') ? (
+              <a {...navigateToStockTransfer}>
+                <Text>{stockTransferLabel}</Text>
+              </a>
+            ) : (
+              <Text variant='info'>{stockTransferLabel}</Text>
+            )
+            const stockTransferFrom =
+              stockTransfer.origin_stock_location != null
+                ? `from ${stockTransfer.origin_stock_location?.name} `
+                : ''
+            dispatch({
+              type: 'add',
+              payload: {
+                date: stockTransfer.completed_at,
+                message: (
+                  <>
+                    {stockTransferClickableLabel} {stockTransferFrom}
+                    <Text weight='bold'>completed</Text>
+                  </>
+                )
+              }
+            })
+          }
+        })
+      }
+    },
+    []
+  )
+
   useEffect(
     function addShipments() {
       order.shipments?.forEach((shipment) => {
         dispatchAttachments(shipment.attachments)
+        dispatchStockTransfers(shipment.stock_transfers)
 
         if (shipment.on_hold_at != null) {
           dispatch({
