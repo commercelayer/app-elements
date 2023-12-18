@@ -1,5 +1,6 @@
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
+import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
   Dropdown,
@@ -114,6 +115,21 @@ MenuWithHeader.args = {
     <>
       <DropdownItem onClick={() => {}} label='Edit' />
       <DropdownItem onClick={() => {}} label='Delete' />
+    </>
+  )
+}
+
+/** Dropdown menu can have an header  */
+export const ItemsWithSkeleton = Template.bind({})
+ItemsWithSkeleton.args = {
+  dropdownItems: (
+    <>
+      <DropdownItem label='Item loaded' />
+      <SkeletonTemplate delayMs={0} isLoading>
+        <DropdownItem label='Item is loading' />
+        <DropdownItem label='Item is loading' />
+      </SkeletonTemplate>
+      <DropdownItem onClick={() => {}} label='Item loaded' />
     </>
   )
 }
