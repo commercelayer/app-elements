@@ -1,4 +1,5 @@
 import debounce from 'lodash/debounce'
+import isEmpty from 'lodash/isEmpty'
 import { useCallback, useEffect } from 'react'
 import { type GroupBase, type StylesConfig } from 'react-select'
 import AsyncSelect from 'react-select/async'
@@ -53,7 +54,12 @@ export const AsyncSelectComponent: React.FC<AsyncSelectComponentProps> = ({
       {...rest}
       defaultOptions={initialValues}
       onChange={onSelect}
-      noOptionsMessage={() => noOptionsMessage}
+      noOptionsMessage={({ inputValue }) =>
+        isEmpty(inputValue) &&
+        (initialValues === undefined || initialValues.length === 0)
+          ? null
+          : noOptionsMessage
+      }
       loadOptions={loadOptions}
       components={{
         ...components,
