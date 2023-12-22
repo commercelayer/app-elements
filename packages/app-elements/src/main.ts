@@ -25,6 +25,11 @@ export {
   type Rate,
   type TrackingDetail
 } from '#helpers/tracking'
+export {
+  getUnitOfWeightName,
+  getUnitsOfWeightForSelect,
+  type UnitOfWeight
+} from '#helpers/unitsOfWeight'
 // Hooks
 export { useClickAway } from '#hooks/useClickAway'
 export { useDelayShow } from '#hooks/useDelayShow'
