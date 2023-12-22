@@ -134,6 +134,27 @@ ItemsWithSkeleton.args = {
   )
 }
 
+/** Dropdown items can be anchor or button on div depending on the existence of `href` or `onClick`  */
+export const ItemsDifferentTags = Template.bind({})
+ItemsDifferentTags.args = {
+  dropdownItems: (
+    <>
+      <DropdownItem
+        onClick={() => {
+          alert('clicked!')
+        }}
+        label='I am a button with onClick'
+      />
+      <DropdownItem label='I am a button without onClick' />
+      <DropdownItem
+        href='https://commercelayer.io/'
+        target='_blank'
+        label='I am a link'
+      />
+    </>
+  )
+}
+
 /**
  * Dropdown items can also have icons. When you need to list them
  * together with items without icons, you can pass `keep-space` so gap will be maintained.
@@ -170,7 +191,7 @@ WithDropdownSearch.args = {
         placeholder='Search...'
       />
       <DropdownDivider />
-      <DropdownItem onClick={() => {}} icon='check' label='Green' />
+      <DropdownItem icon='check' label='Green' />
       <DropdownItem onClick={() => {}} icon='keep-space' label='Red' />
       <DropdownItem onClick={() => {}} icon='keep-space' label='Yellow' />
       <DropdownItem onClick={() => {}} icon='keep-space' label='Black' />

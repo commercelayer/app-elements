@@ -1,25 +1,54 @@
 import { Icon, type IconProps } from '#ui/atoms/Icon/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { enforceAllowedTags } from '#utils/htmltags'
 import cn from 'classnames'
-import { type FC } from 'react'
+import { useMemo, type FC } from 'react'
 
-export interface DropdownItemProps extends React.HTMLAttributes<HTMLElement> {
+export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
   label: string
   icon?: IconProps['name'] | 'keep-space'
-}
+} & (
+    | {
+        /**
+         * render the component as anchor tag
+         */
+        href: string
+        target?: string
+      }
+    | {
+        href?: never
+      }
+  )
 
+/**
+ * Render a dropdown item to be used inside a `Dropdown` component.
+ * By default the component renders as a `button` tag, but you can provide an `href` prop to render it as an `a` tag.
+ * When no `href` or `onClick` is provided, the component still renders as `button` tag to prevent the dropdown to be closed when clicked.
+ */
 export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
-  ({ label, icon, isLoading, delayMs, className, ...rest }) => {
+  ({ label, icon, isLoading, delayMs, href, className, onClick, ...rest }) => {
+    const JsxTag = useMemo(
+      () =>
+        enforceAllowedTags({
+          tag: href != null ? 'a' : 'button',
+          allowedTags: ['a', 'button'],
+          defaultTag: 'button'
+        }),
+      [href, onClick]
+    )
+
     return (
-      <button
+      <JsxTag
         {...rest}
+        onClick={onClick}
+        href={href}
         className={cn(
-          'w-full bg-black text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none',
+          'w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none',
           className,
           {
             'hover:bg-primary cursor-pointer focus:bg-primary':
-              rest.onClick != null,
-            'cursor-default': rest.onClick == null
+              onClick != null || href != null,
+            'cursor-default': onClick == null && href == null
           }
         )}
         aria-label={label}
@@ -40,7 +69,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         >
           {label}
         </span>
-      </button>
+      </JsxTag>
     )
   }
 )
