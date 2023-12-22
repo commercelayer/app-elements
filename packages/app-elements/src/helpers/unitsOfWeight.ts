@@ -1,15 +1,17 @@
 const unitsOfWeight = ['gr', 'lb', 'oz'] as const
 
-const unitsOfWeightLabels = {
+const unitsOfWeightNames = {
   gr: 'Grams',
   lb: 'Pounds',
   oz: 'Ounces'
 } as const
 
 export type UnitOfWeight = (typeof unitsOfWeight)[number]
+type UnitOfWeightLabel =
+  (typeof unitsOfWeightNames)[keyof typeof unitsOfWeightNames]
 
 interface UnitOfWeightForSelect {
-  label: (typeof unitsOfWeightLabels)[keyof typeof unitsOfWeightLabels]
+  label: UnitOfWeightLabel
   value: UnitOfWeight
 }
 
@@ -21,7 +23,13 @@ export const getUnitsOfWeightForSelect = (): UnitOfWeightForSelect[] => {
   return unitsOfWeight.map((unitOfWeight) => {
     return {
       value: unitOfWeight,
-      label: unitsOfWeightLabels[unitOfWeight]
+      label: unitsOfWeightNames[unitOfWeight]
     }
   })
+}
+
+export function getUnitOfWeightName(
+  unitOfWeight: UnitOfWeight
+): UnitOfWeightLabel {
+  return unitsOfWeightNames[unitOfWeight]
 }

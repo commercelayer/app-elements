@@ -26,6 +26,7 @@ export {
   type TrackingDetail
 } from '#helpers/tracking'
 export {
+  getUnitOfWeightName,
   getUnitsOfWeightForSelect,
   type UnitOfWeight
 } from '#helpers/unitsOfWeight'
