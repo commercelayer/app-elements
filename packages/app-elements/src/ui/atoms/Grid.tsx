@@ -10,7 +10,7 @@ export interface GridProps
   /**
    * Number of columns
    */
-  columns: '1' | '2'
+  columns?: '1' | '2' | 'auto'
   /**
    * Items alignment.
    * When not set all items will hame same height (items-stretch)
@@ -33,6 +33,7 @@ function Grid({
   return (
     <div
       className={cn('grid grid-cols-1 gap-4', className, {
+        'grid-flow-col': columns === 'auto',
         'sm:!grid-cols-2': columns === '2',
         'items-center': alignItems === 'center',
         'items-start': alignItems === 'start',
