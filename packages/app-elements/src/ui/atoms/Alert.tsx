@@ -1,4 +1,3 @@
-import { Card } from '#ui/atoms/Card'
 import {
   CheckCircle,
   Info,
@@ -21,21 +20,20 @@ export const Alert: React.FC<AlertProps> = ({ children, status }) => {
   const Icon = icons[status]
 
   return (
-    <Card
+    <div
       role='alert'
-      overflow='hidden'
-      className={classNames('border-0', {
-        'bg-orange-50 text-orange-700': status === 'warning',
-        'bg-red-50 text-red-700': status === 'error',
-        'bg-gray-50 text-gray-700': status === 'info',
-        'bg-green-50 text-green-700': status === 'success'
+      className={classNames('border p-6 rounded-md', {
+        'border-orange-200 bg-orange-50 text-orange-700': status === 'warning',
+        'border-red-200 bg-red-50 text-red-700': status === 'error',
+        'border-gray-200 bg-gray-50 text-gray-700': status === 'info',
+        'border-green-200 bg-green-50 text-green-700': status === 'success'
       })}
     >
       <div className='flex gap-3'>
         <Icon className='flex-shrink-0' focusable={false} size={24} />
         <div>{children}</div>
       </div>
-    </Card>
+    </div>
   )
 }
 
