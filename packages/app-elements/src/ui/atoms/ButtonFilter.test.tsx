@@ -45,7 +45,7 @@ describe('ButtonFilter', () => {
 
   test('Should render left icon when passed as prop', () => {
     const { getByTestId } = render(
-      <ButtonFilter label='Filter' icon='funnel' />
+      <ButtonFilter label='Filter' icon='funnelSimple' />
     )
     expect(getByTestId('ButtonFilter-icon')).toBeVisible()
   })

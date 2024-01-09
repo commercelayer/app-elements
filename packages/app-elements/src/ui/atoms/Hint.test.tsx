@@ -31,7 +31,7 @@ describe('Hint', () => {
   test('Should show an icon', () => {
     const { element } = setup({
       id: 'my-helper-text-with-bulb',
-      icon: 'bulb'
+      icon: 'lightbulbFilament'
     })
     expect(element).toBeInTheDocument()
     expect(element.querySelector('svg')).toBeInTheDocument()

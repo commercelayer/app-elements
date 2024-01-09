@@ -1,4 +1,4 @@
-import { StatusIcon } from '#ui/atoms/StatusIcon'
+import { StatusIcon, type StatusIconProps } from '#ui/atoms/StatusIcon'
 import cn from 'classnames'
 import React, { useMemo, type FC, type ReactNode } from 'react'
 
@@ -43,6 +43,23 @@ export const OrganizationMenuItem: FC<OrganizationMenuItemProps> = ({
     }
   }, [type])
 
+  const iconName = useMemo((): StatusIconProps['name'] => {
+    switch (type) {
+      case 'home':
+        return 'houseSimple'
+      case 'apps':
+        return 'squaresFour'
+      case 'resources':
+        return 'stack'
+      case 'credentials':
+        return 'lockSimpleOpen'
+      case 'team':
+        return 'users'
+      case 'settings':
+        return 'gearFine'
+    }
+  }, [type])
+
   return (
     <a
       href={href}
@@ -52,7 +69,7 @@ export const OrganizationMenuItem: FC<OrganizationMenuItemProps> = ({
         { 'bg-gray-100 text-black': isActive === true }
       )}
     >
-      <StatusIcon name={type} className='text-2xl' />
+      <StatusIcon name={iconName} className='text-2xl' />
       {label}
     </a>
   )

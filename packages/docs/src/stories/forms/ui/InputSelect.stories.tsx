@@ -79,7 +79,7 @@ Async.args = {
   isClearable: false,
   debounceMs: 200,
   hint: {
-    icon: 'bulb',
+    icon: 'lightbulbFilament',
     text: 'Try to search some of the following values: customer, SKU, price, tax'
   },
   loadAsyncValues: async (hint) => {

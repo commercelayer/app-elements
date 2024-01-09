@@ -22,5 +22,5 @@ WithIcon.args = {
       Check our <A href='https://docs.commercelayer.io/core'>documentation</A>.
     </div>
   ),
-  icon: 'bulb'
+  icon: 'lightbulbFilament'
 }
