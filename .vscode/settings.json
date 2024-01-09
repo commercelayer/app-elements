@@ -23,8 +23,8 @@
   "editor.formatOnSave": true,
   // this ensure ESLint autofix all issue (formatting is done by prettier loaded as eslint rules)
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
   },
   // be sure vscode always uses TS version in local project
   "typescript.tsdk": "node_modules/typescript/lib",

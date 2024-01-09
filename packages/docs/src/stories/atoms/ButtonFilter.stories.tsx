@@ -1,5 +1,5 @@
-import type { Meta, StoryObj } from '@storybook/react'
 import { ButtonFilter } from '#ui/atoms/ButtonFilter'
+import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof ButtonFilter> = {
   title: 'Atoms/ButtonFilter',
@@ -18,7 +18,7 @@ export const Primary: Story = {
     onRemoveRequest: () => {
       alert('remove clicked')
     },
-    icon: 'funnel'
+    icon: 'funnelSimple'
   }
 }
 
@@ -29,7 +29,7 @@ export const NoRemove: Story = {
       alert('main clicked')
     },
     onRemoveRequest: undefined,
-    icon: 'funnel'
+    icon: 'funnelSimple'
   }
 }
 

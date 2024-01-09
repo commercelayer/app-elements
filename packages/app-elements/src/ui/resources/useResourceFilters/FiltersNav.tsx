@@ -222,7 +222,7 @@ export function FiltersNav({
       {activeGroupCount > 0 ? (
         <ButtonFilter
           label={`Filters · ${activeGroupCount}`}
-          icon='funnel'
+          icon='funnelSimple'
           onClick={() => {
             onLabelClickHandler()
           }}
@@ -231,7 +231,7 @@ export function FiltersNav({
       ) : (
         <ButtonFilter
           label='Filters'
-          icon='funnel'
+          icon='funnelSimple'
           onClick={() => {
             onLabelClickHandler()
           }}

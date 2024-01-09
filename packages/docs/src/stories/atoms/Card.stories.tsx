@@ -39,7 +39,7 @@ Footer.args = {
   footer: (
     <div className='text-center'>
       <Button variant='link'>
-        <StatusIcon gap='small' className='text-2xl mr-1' name='cloud' />{' '}
+        <StatusIcon gap='small' className='text-2xl mr-1' name='cloudArrowUp' />{' '}
         <Text size='small'>Download file</Text>
       </Button>
     </div>

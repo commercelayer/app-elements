@@ -85,7 +85,7 @@ describe('RadialProgress > svg fillings', () => {
   })
 
   test('Should have white filling when is pending with icon', () => {
-    const { getByTestId } = render(<RadialProgress icon='cloud' />)
+    const { getByTestId } = render(<RadialProgress icon='cloudArrowUp' />)
     expect(getByTestId('radial-progress-pending')).toHaveAttribute(
       'fill',
       'white'
@@ -105,7 +105,7 @@ describe('RadialProgress > svg fillings', () => {
   })
   test('Should have white fillings, only on base circle, when is progress without icon', () => {
     const { getByTestId } = render(
-      <RadialProgress percentage={30} icon='cloud' />
+      <RadialProgress percentage={30} icon='cloudArrowUp' />
     )
     expect(getByTestId('radial-progress-base')).toHaveAttribute('fill', 'white')
     expect(getByTestId('radial-progress-percentage')).toHaveAttribute(

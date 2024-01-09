@@ -132,7 +132,7 @@ Carrier.args = {
       $29
     </Text>
   ),
-  icon: <StatusIcon name='cloud' gap='large' background='gray' />,
+  icon: <StatusIcon name='cloudArrowUp' gap='large' background='gray' />,
   onClose: undefined,
   children: (
     <Spacer top='4'>
@@ -175,7 +175,7 @@ NoChildren.args = {
       $29
     </Text>
   ),
-  icon: <StatusIcon name='cloud' gap='large' background='gray' />,
+  icon: <StatusIcon name='cloudArrowUp' gap='large' background='gray' />,
   onClose: undefined
 }
 
@@ -190,7 +190,7 @@ WithFooter.args = {
       $29
     </Text>
   ),
-  icon: <StatusIcon name='cloud' gap='large' background='gray' />,
+  icon: <StatusIcon name='cloudArrowUp' gap='large' background='gray' />,
   onClose: undefined,
   footer: (
     <div className='text-center'>

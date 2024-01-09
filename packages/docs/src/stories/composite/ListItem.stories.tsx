@@ -115,7 +115,7 @@ export const Task: StoryFn<typeof ListItem> = (args) => (
 )
 
 export const Pending: StoryFn<typeof ListItem> = (args) => (
-  <ListItem {...args} icon={<RadialProgress icon='cloud' />}>
+  <ListItem {...args} icon={<RadialProgress icon='cloudArrowUp' />}>
     <div>
       <Text tag='div' weight='semibold'>
         Prices
