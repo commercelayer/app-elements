@@ -4,13 +4,14 @@ import { withSkeletonTemplate } from './SkeletonTemplate'
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * Possible values are:
+   * - `none`: 0rem, 0px
    * - `"1"`: 0.25rem, 4px
    * - `"4"`: 1rem, 16px
    * - `"6"`: 1.5rem, 24px
    *
    * @default 6
    */
-  gap?: '1' | '4' | '6'
+  gap?: 'none' | '1' | '4' | '6'
   /**
    * Footer will render in a dedicated section below the main content.
    */
@@ -65,8 +66,10 @@ export const Card = withSkeletonTemplate<CardProps>(
         {footer != null && (
           <div
             className={cn([
-              'mt-8 py-4 border-t',
+              'py-4 border-t',
               {
+                '-mt-[1px]': gap === 'none',
+                'mt-8': gap !== 'none',
                 '-m-4 px-4': gap === '4',
                 '-m-6 px-6': gap === '6'
               }

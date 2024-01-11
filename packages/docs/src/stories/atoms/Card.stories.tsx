@@ -2,6 +2,7 @@ import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { Spacer } from '#ui/atoms/Spacer'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
+import { Table, Td, Th, Tr } from '#ui/atoms/Table'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { Input } from '#ui/forms/Input'
@@ -36,6 +37,50 @@ export const Footer: StoryFn<typeof Card> = (args) => (
 )
 Footer.args = {
   overflow: 'visible',
+  footer: (
+    <div className='text-center'>
+      <Button variant='link'>
+        <StatusIcon gap='small' className='text-2xl mr-1' name='cloudArrowUp' />{' '}
+        <Text size='small'>Download file</Text>
+      </Button>
+    </div>
+  )
+}
+
+/**
+ * The `footer` can also be set when card has gap set as `none`.
+ * Example: we want to show a table with a footer, insider a rounded card
+ */
+export const FooterNoGap: StoryFn<typeof Card> = (args) => (
+  <Card {...args}>
+    <Table
+      thead={
+        <Tr>
+          <Th>NAME</Th>
+          <Th>EMAIL</Th>
+          <Th>STATUS</Th>
+        </Tr>
+      }
+      tbody={
+        <>
+          <Tr>
+            <Td>M. Jordan</Td>
+            <Td>mjordan@email.com</Td>
+            <Td>active</Td>
+          </Tr>
+          <Tr>
+            <Td>B. Wayne</Td>
+            <Td>bwayne@email.com</Td>
+            <Td>active</Td>
+          </Tr>
+        </>
+      }
+    />
+  </Card>
+)
+FooterNoGap.args = {
+  overflow: 'visible',
+  gap: 'none',
   footer: (
     <div className='text-center'>
       <Button variant='link'>
