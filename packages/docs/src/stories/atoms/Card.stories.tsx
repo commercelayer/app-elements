@@ -79,7 +79,6 @@ export const FooterNoGap: StoryFn<typeof Card> = (args) => (
   </Card>
 )
 FooterNoGap.args = {
-  overflow: 'visible',
   gap: 'none',
   footer: (
     <div className='text-center'>
