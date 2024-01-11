@@ -110,3 +110,29 @@ export const Addresses: StoryFn<typeof Stack> = (args) => (
   </Stack>
 )
 Addresses.args = {}
+
+/**
+ * By using multiple `Stack` components it's possible to make a grid. Border top won't be duplicated.
+ *
+ * However it's always suggested, but not required, to group them in a parent `div` since the `nth+1` sibling will have a negative `1px` margin-top.
+ */
+export const MultipleStacks: StoryFn<typeof Stack> = (args) => (
+  <>
+    <div>first sibling</div>
+    <Stack>
+      <div>1</div>
+      <div>2</div>
+      <div>3</div>
+    </Stack>
+    <Stack>
+      <div>4</div>
+      <div>5</div>
+      <div>6</div>
+    </Stack>
+    <Stack>
+      <div>7</div>
+      <div>8</div>
+    </Stack>
+    <div>last sibling</div>
+  </>
+)
