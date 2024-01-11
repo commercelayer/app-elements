@@ -3,6 +3,11 @@ import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc'
 import endOfDay from 'date-fns/endOfDay'
 import format from 'date-fns/format'
 import formatDistance from 'date-fns/formatDistance'
+import isAfter from 'date-fns/isAfter'
+import isFuture from 'date-fns/isFuture'
+import isPast from 'date-fns/isPast'
+import isSameMonth from 'date-fns/isSameMonth'
+import isSameYear from 'date-fns/isSameYear'
 import isThisYear from 'date-fns/isThisYear'
 import isToday from 'date-fns/isToday'
 import startOfDay from 'date-fns/startOfDay'
@@ -129,8 +134,8 @@ function getPresetFormatTemplate(
       return isToday(zonedDate)
         ? "'Today'"
         : isThisYear(zonedDate)
-        ? 'LLL dd'
-        : 'LLL dd, yyyy'
+          ? 'LLL dd'
+          : 'LLL dd, yyyy'
     case 'time':
       return 'kk:mm'
     case 'timeWithSeconds':
@@ -242,6 +247,75 @@ export function getIsoDateAtDaysBefore({
   }
 
   return sub(new Date(startOfDay), { days }).toISOString()
+}
+
+/**
+ * Given two date (startsAt and expiresAt) it returns whether the today date is before, after that range or is in between.
+ */
+export function getEventDateInfo({
+  startsAt,
+  expiresAt,
+  timezone = 'UTC'
+}: {
+  /** The activation date/time of the event (ISO date string. Example '2022-10-06T11:59:30.371Z'). */
+  startsAt: DateISOString
+  /** The expiration date/time of the promotion (must be after startsAt) (ISO date string. Example '2022-10-06T11:59:30.371Z'). */
+  expiresAt: DateISOString
+  /** Set a specific timezone, when not passed default value is 'UTC' */
+  timezone?: string
+}): 'upcoming' | 'past' | 'active' {
+  const zonedStartsAt = utcToZonedTime(new Date(startsAt), timezone)
+  const zonedExpiresAt = utcToZonedTime(new Date(expiresAt), timezone)
+
+  if (isAfter(zonedStartsAt, zonedExpiresAt)) {
+    throw new Error(
+      'The expiration date/time of the event must be after the activation (startsAt).'
+    )
+  }
+
+  if (isFuture(zonedStartsAt)) {
+    return 'upcoming'
+  }
+
+  if (isPast(zonedExpiresAt)) {
+    return 'past'
+  }
+
+  return 'active'
+}
+
+/**
+ * Format a date range as a nice string also specifying a custom timezone
+ * @returns a nice string representation. Example: '1-21 Jul, 2022' or 'Jul 21, 2022 - Jan 12, 2023'
+ */
+export function formatDateRange({
+  rangeFrom,
+  rangeTo,
+  timezone = 'UTC'
+}: {
+  /** JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z' */
+  rangeFrom: DateISOString
+  /** JavaScript ISO date string. Example '2022-11-06T11:59:30.371Z' */
+  rangeTo: DateISOString
+  /** Set a specific timezone, when not passed default value is 'UTC' */
+  timezone?: string
+}): string {
+  const zonedFrom = utcToZonedTime(new Date(rangeFrom), timezone)
+  const zonedTo = utcToZonedTime(new Date(rangeTo), timezone)
+
+  if (isSameYear(zonedFrom, zonedTo) && isSameMonth(zonedFrom, zonedTo)) {
+    const dayOfMonthFrom = format(zonedFrom, 'd')
+    const dayOfMonthTo = format(zonedTo, 'd')
+    const month = format(zonedFrom, 'LLL')
+    const year = isThisYear(zonedFrom) ? '' : `, ${format(zonedFrom, 'yyyy')}`
+
+    return `${dayOfMonthFrom}-${dayOfMonthTo} ${month}${year}`
+  }
+
+  const formattedFrom = formatDate({ isoDate: rangeFrom, timezone })
+  const formattedTo = formatDate({ isoDate: rangeTo, timezone })
+
+  return `${formattedFrom} - ${formattedTo}`
 }
 
 export interface Event {

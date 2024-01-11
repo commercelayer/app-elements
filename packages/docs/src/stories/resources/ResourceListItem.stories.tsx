@@ -61,14 +61,14 @@ Default.args = {
 }
 
 type ListProps = Props & {
-  type: ResourceListItemType['type']
+  type: Array<ResourceListItemType['type']>
 }
 
 const ItemsByTypeTemplate: StoryFn<ListProps> = (args) => {
   return (
     <>
       {Object.values(presetResourceListItem)
-        .filter((preset) => preset.type === args.type)
+        .filter((preset) => args.type.includes(preset.type))
         .map((preset, idx) => (
           <ResourceListItem key={idx} resource={preset} />
         ))}
@@ -78,25 +78,38 @@ const ItemsByTypeTemplate: StoryFn<ListProps> = (args) => {
 
 export const Orders = ItemsByTypeTemplate.bind({})
 Orders.args = {
-  type: 'orders'
+  type: ['orders']
 }
 
 export const Returns = ItemsByTypeTemplate.bind({})
 Returns.args = {
-  type: 'returns'
+  type: ['returns']
 }
 
 export const StockTransfers = ItemsByTypeTemplate.bind({})
 StockTransfers.args = {
-  type: 'stock_transfers'
+  type: ['stock_transfers']
 }
 
 export const Customers = ItemsByTypeTemplate.bind({})
 Customers.args = {
-  type: 'customers'
+  type: ['customers']
 }
 
 export const Shipments = ItemsByTypeTemplate.bind({})
 Shipments.args = {
-  type: 'shipments'
+  type: ['shipments']
+}
+
+export const Promotions = ItemsByTypeTemplate.bind({})
+Promotions.args = {
+  type: [
+    'buy_x_pay_y_promotions',
+    'external_promotions',
+    'fixed_amount_promotions',
+    'fixed_price_promotions',
+    'free_gift_promotions',
+    'free_shipping_promotions',
+    'percentage_discount_promotions'
+  ]
 }

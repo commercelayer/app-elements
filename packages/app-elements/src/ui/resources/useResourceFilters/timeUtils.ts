@@ -1,8 +1,4 @@
-import {
-  formatDate,
-  getIsoDateAtDayEdge,
-  getIsoDateAtDaysBefore
-} from '#helpers/date'
+import { getIsoDateAtDayEdge, getIsoDateAtDaysBefore } from '#helpers/date'
 import { z } from 'zod'
 import type { TimeRangeFormValues, TimeRangePreset } from './types'
 import { filterableTimeRangePreset } from './types'
@@ -77,27 +73,7 @@ export const makeSdkFilterTime = ({
   }
 }
 
-export function getTimeRangeCustomLabel(
-  timeFrom: Date,
-  timeTo: Date,
-  timezone = getDefaultBrowserTimezone()
-): string {
-  const formattedFrom = formatDate({ isoDate: timeFrom.toString(), timezone })
-  const formattedTo = formatDate({ isoDate: timeTo.toString(), timezone })
-  const formattedFromMonthFrom = formattedFrom.split(' ')[0] ?? ''
-  const formattedToMonthFrom = formattedTo.split(' ')[0] ?? ''
-
-  const dayFrom = timeFrom.getDate()
-  const dayTo = timeTo.getDate()
-
-  if (formattedFromMonthFrom === formattedToMonthFrom) {
-    return `${dayFrom}-${dayTo} ${formattedFromMonthFrom}`
-  }
-
-  return `${formattedFrom} - ${formattedTo}`
-}
-
-function getDefaultBrowserTimezone(): string | undefined {
+export function getDefaultBrowserTimezone(): string | undefined {
   try {
     return Intl.DateTimeFormat().resolvedOptions().timeZone
   } catch {

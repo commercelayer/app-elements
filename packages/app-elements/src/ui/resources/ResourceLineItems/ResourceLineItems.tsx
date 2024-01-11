@@ -181,8 +181,8 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 lineItem.type === 'stock_line_items'
                   ? lineItem.sku?.image_url
                   : isGiftCard(lineItem)
-                  ? 'gift_card'
-                  : lineItem.image_url
+                    ? 'gift_card'
+                    : lineItem.image_url
 
               const hasLineItemOptions =
                 lineItem.type === 'line_items' &&

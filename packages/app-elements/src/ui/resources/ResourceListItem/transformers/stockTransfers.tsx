@@ -1,4 +1,5 @@
 import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
+import { formatDate } from '#helpers/date'
 import {
   ListItemDescription,
   ListItemIcon
@@ -26,7 +27,11 @@ export const stockTransferToProps: ResourceToProps<StockTransfer> = ({
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
-        date={resource.updated_at}
+        date={formatDate({
+          format: 'date',
+          isoDate: resource.updated_at,
+          timezone: user?.timezone
+        })}
         additionalInfos={`${originStockLocationName} · ${destinationStockLocationName}`}
       />
     ),

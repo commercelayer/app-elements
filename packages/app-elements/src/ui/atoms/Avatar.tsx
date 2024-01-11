@@ -53,8 +53,8 @@ function Avatar({
         srcIsValidPreset(src)
           ? presets[src]
           : srcIsValidUrl(src)
-          ? src
-          : placeholderSvg
+            ? src
+            : placeholderSvg
       }
       alt={alt}
       className={cn(

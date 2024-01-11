@@ -83,16 +83,16 @@ const TemplateValidation: StoryFn<typeof Input> = () => {
               message: 'Required field'
             }
           : value === 'success'
-          ? {
-              variant: 'success',
-              message: 'All good'
-            }
-          : value === 'warning'
-          ? {
-              variant: 'warning',
-              message: 'Check something'
-            }
-          : undefined
+            ? {
+                variant: 'success',
+                message: 'All good'
+              }
+            : value === 'warning'
+              ? {
+                  variant: 'warning',
+                  message: 'Check something'
+                }
+              : undefined
       }
     />
   )

@@ -2,6 +2,7 @@ import {
   getOrderDisplayStatus,
   getOrderPaymentStatusName
 } from '#dictionaries/orders'
+import { formatDate } from '#helpers/date'
 import { formatDisplayName } from '#helpers/name'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { Text } from '#ui/atoms/Text'
@@ -29,7 +30,11 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
-        date={resource.placed_at ?? resource.updated_at}
+        date={formatDate({
+          format: 'date',
+          isoDate: resource.placed_at ?? resource.updated_at,
+          timezone: user?.timezone
+        })}
         additionalInfos={descriptionAdditionalInfos}
       />
     ),

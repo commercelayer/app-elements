@@ -1,4 +1,5 @@
 import { getShipmentDisplayStatus } from '#dictionaries/shipments'
+import { formatDate } from '#helpers/date'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
   ListItemDescription,
@@ -35,7 +36,11 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
-        date={resource.updated_at}
+        date={formatDate({
+          format: 'date',
+          isoDate: resource.updated_at,
+          timezone: user?.timezone
+        })}
         additionalInfos={returnStockLocationName}
       />
     ),
