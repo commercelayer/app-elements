@@ -1,4 +1,4 @@
-import { formatDate, formatDateRange } from '#helpers/date'
+import { formatDate, formatDateRange, getEventDateInfo } from '#helpers/date'
 import { Description, Stories, Subtitle, Title } from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { CodeSample } from 'src/components/CodeSample'
@@ -208,6 +208,40 @@ export const FormatDateRange: StoryFn = () => {
             rangeTo: `${currentYear + 1}-01-31T14:30:00.000Z`
           })
         }}
+      />
+    </>
+  )
+}
+
+/**
+ * Given the event date (`startsAt` and `expiresAt`) it returns whether the the event is `active`, `past` or `upcoming`.
+ */
+export const GetEventDateInfo: StoryFn = () => {
+  return (
+    <>
+      <CodeSample
+        fn={() =>
+          getEventDateInfo({
+            startsAt: '2024-01-01T14:30:00.000Z',
+            expiresAt: '3024-01-31T14:30:00.000Z'
+          })
+        }
+      />
+      <CodeSample
+        fn={() =>
+          getEventDateInfo({
+            startsAt: '2023-01-01T14:30:00.000Z',
+            expiresAt: '2023-01-31T14:30:00.000Z'
+          })
+        }
+      />
+      <CodeSample
+        fn={() =>
+          getEventDateInfo({
+            startsAt: '3023-01-01T14:30:00.000Z',
+            expiresAt: '3023-01-31T14:30:00.000Z'
+          })
+        }
       />
     </>
   )

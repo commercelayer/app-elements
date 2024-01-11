@@ -250,7 +250,7 @@ export function getIsoDateAtDaysBefore({
 }
 
 /**
- * Given two date (startsAt and expiresAt) it returns whether the today date is before, after that range or is in between.
+ * Given the event date (`startsAt` and `expiresAt`) it returns whether the the event is `active`, `past` or `upcoming`.
  */
 export function getEventDateInfo({
   startsAt,
@@ -263,7 +263,7 @@ export function getEventDateInfo({
   expiresAt: DateISOString
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
-}): 'upcoming' | 'past' | 'active' {
+}): 'active' | 'past' | 'upcoming' {
   const zonedStartsAt = utcToZonedTime(new Date(startsAt), timezone)
   const zonedExpiresAt = utcToZonedTime(new Date(expiresAt), timezone)
 
