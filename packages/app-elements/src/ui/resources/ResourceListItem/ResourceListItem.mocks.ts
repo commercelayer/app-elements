@@ -348,6 +348,7 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     starts_at: '2024-01-01T06:38:44.964Z',
     expires_at: '2033-01-01T06:38:44.964Z',
+    disabled_at: '2023-01-01T06:38:44.964Z',
     name: 'Jan 50% off',
     percentage: 50,
     total_usage_limit: 3,
@@ -360,9 +361,21 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     starts_at: '2033-01-01T06:38:44.964Z',
     expires_at: '2043-01-01T06:38:44.964Z',
-    name: 'Free shipping',
+    name: 'Jan free shipping',
     total_usage_limit: 3,
-    active: true
+    active: false
+  },
+  promotionDisabledAndUpcoming: {
+    type: 'free_shipping_promotions',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    starts_at: '2033-01-01T06:38:44.964Z',
+    expires_at: '2043-01-01T06:38:44.964Z',
+    disabled_at: '2023-01-01T06:38:44.964Z',
+    name: 'Jan free shipping (alternative test)',
+    total_usage_limit: 3,
+    active: false
   },
   promotionExpired: {
     type: 'free_gift_promotions',
@@ -373,7 +386,7 @@ export const presetResourceListItem = {
     expires_at: '2023-12-01T06:38:44.964Z',
     name: 'Free gift',
     total_usage_limit: 3,
-    active: true
+    active: false
   },
   promotionWithCoupons: {
     type: 'percentage_discount_promotions',

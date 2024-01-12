@@ -9,7 +9,7 @@ interface PromotionDisplayStatus extends DisplayStatus {
 export function getPromotionDisplayStatus(
   promotion: Omit<Promotion, 'type'>
 ): PromotionDisplayStatus {
-  if (promotion.active !== true) {
+  if (promotion.disabled_at != null) {
     return {
       status: 'disabled',
       label: 'Disabled',
