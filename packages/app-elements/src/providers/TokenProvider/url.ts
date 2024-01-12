@@ -40,3 +40,13 @@ export function makeReAuthenticationUrl(
     return dashboardUrl
   }
 }
+
+export function isProductionHostname(): boolean {
+  if (typeof window !== 'undefined') {
+    return /^[\w-]+\.commercelayer\.app$|^dashboard\.commercelayer\.io$/.test(
+      window.location.hostname
+    )
+  }
+
+  return false
+}

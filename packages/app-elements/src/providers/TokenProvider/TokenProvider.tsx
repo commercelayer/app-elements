@@ -1,4 +1,5 @@
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
+import { isProductionHostname } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { type Organization } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
@@ -125,6 +126,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   const isSelfHosted = organizationSlug != null
+
+  domain = isProductionHostname() ? 'commercelayer.io' : domain
 
   const accessToken =
     accessTokenFromProp ??
