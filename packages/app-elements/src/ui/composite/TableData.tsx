@@ -65,10 +65,10 @@ export function TableData({
                     {isEmpty(value?.toString())
                       ? '-'
                       : isJsonPrimitive(value)
-                      ? value?.toString()
-                      : Array.isArray(value)
-                      ? '[ ... ]'
-                      : '{ ... }'}
+                        ? value?.toString()
+                        : Array.isArray(value)
+                          ? '[ ... ]'
+                          : '{ ... }'}
                   </Td>
                 )
               })}

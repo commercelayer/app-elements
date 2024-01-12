@@ -1,3 +1,4 @@
+import { formatDateRange } from '#helpers/date'
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { ButtonFilter } from '#ui/atoms/ButtonFilter'
@@ -13,7 +14,7 @@ import isEmpty from 'lodash/isEmpty'
 import { useCallback, useMemo } from 'react'
 import { makeFilterAdapters } from './adapters'
 import {
-  getTimeRangeCustomLabel,
+  getDefaultBrowserTimezone,
   getTimeRangePresetName,
   isTimeRangeFilterUiName
 } from './timeUtils'
@@ -319,11 +320,11 @@ export function FiltersNav({
       selectedTimeTo != null &&
       selectedTimeFrom != null ? (
         <ButtonFilter
-          label={getTimeRangeCustomLabel(
-            selectedTimeFrom,
-            selectedTimeTo,
-            user?.timezone
-          )}
+          label={formatDateRange({
+            rangeFrom: selectedTimeFrom.toString(),
+            rangeTo: selectedTimeTo.toString(),
+            timezone: user?.timezone ?? getDefaultBrowserTimezone()
+          })}
           onClick={() => {
             onLabelClickHandler('timePreset')
           }}

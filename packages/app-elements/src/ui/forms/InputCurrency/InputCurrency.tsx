@@ -162,8 +162,8 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
                 sign === '+'
                   ? noMinus
                   : sign === '-' && notEmpty
-                  ? `-${noMinus}`
-                  : rawValue
+                    ? `-${noMinus}`
+                    : rawValue
 
               if (newValue.length === 1 && _value == null) {
                 return `${defaultSign === '-' ? '-' : ''}${newValue}`

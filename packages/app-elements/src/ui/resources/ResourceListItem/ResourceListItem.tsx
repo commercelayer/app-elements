@@ -1,11 +1,8 @@
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-
+import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
-
-import { useMemo } from 'react'
-
 import {
   customerToProps,
   orderToProps,
@@ -13,9 +10,8 @@ import {
   shipmentToProps,
   stockTransferToProps
 } from '#ui/resources/ResourceListItem/transformers'
-
-import { useTokenProvider } from '#providers/TokenProvider'
-
+import { useMemo } from 'react'
+import { promotionToProps } from './transformers/promotions'
 import {
   type ResourceListItemComponentProps,
   type ResourceListItemType
@@ -109,6 +105,14 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
           return stockTransferToProps({ resource, user })
         case 'shipments':
           return shipmentToProps({ resource, user })
+        case 'buy_x_pay_y_promotions':
+        case 'external_promotions':
+        case 'fixed_amount_promotions':
+        case 'fixed_price_promotions':
+        case 'free_gift_promotions':
+        case 'free_shipping_promotions':
+        case 'percentage_discount_promotions':
+          return promotionToProps({ resource, user })
       }
     }, [resource])
     return (

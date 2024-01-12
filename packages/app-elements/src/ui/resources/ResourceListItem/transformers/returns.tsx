@@ -1,4 +1,5 @@
 import { getReturnDisplayStatus } from '#dictionaries/returns'
+import { formatDate } from '#helpers/date'
 import {
   ListItemDescription,
   ListItemIcon
@@ -19,7 +20,11 @@ export const returnToProps: ResourceToProps<Return> = ({ resource, user }) => {
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
-        date={resource.updated_at}
+        date={formatDate({
+          format: 'date',
+          isoDate: resource.updated_at,
+          timezone: user?.timezone
+        })}
         additionalInfos={returnStockLocationName}
       />
     ),

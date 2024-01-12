@@ -32,7 +32,7 @@ export const AvailableNames: StoryFn = () => (
   >
     {iconNames.map((name) => (
       <div key={name} className='flex flex-row gap-2 items-center align-middle'>
-        <Icon key={name} name={name} />
+        <Icon key={name} name={name} size='1.5rem' />
         <Text size='small' variant='info'>
           {name}
         </Text>

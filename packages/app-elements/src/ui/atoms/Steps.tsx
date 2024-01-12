@@ -51,8 +51,8 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
           index < lastActiveIndex
             ? 'before'
             : index === lastActiveIndex
-            ? 'active'
-            : 'after'
+              ? 'active'
+              : 'after'
 
         return (
           <li

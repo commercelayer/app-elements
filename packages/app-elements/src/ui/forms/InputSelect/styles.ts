@@ -24,8 +24,8 @@ export const getSelectStyles = (
     backgroundColor: isSelected
       ? '#404141'
       : isFocused
-      ? '#F8F8F8'
-      : 'transparent',
+        ? '#F8F8F8'
+        : 'transparent',
     color: isSelected ? '#fff' : 'rgb(40 41 41)',
     fontSize: 16,
     fontWeight: 500,

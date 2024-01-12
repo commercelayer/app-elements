@@ -1,3 +1,4 @@
+import { formatDateRange } from '#helpers/date'
 import { useOverlay } from '#hooks/useOverlay'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
@@ -7,7 +8,7 @@ import { HookedInputDate } from '#ui/forms/InputDate'
 import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { getTimeRangeCustomLabel, getTimeRangePresetName } from './timeUtils'
+import { getDefaultBrowserTimezone, getTimeRangePresetName } from './timeUtils'
 import {
   filterableTimeRangePreset,
   type FilterItemTime,
@@ -72,7 +73,11 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
         options={filterableTimeRangePreset.map((option) => {
           const label =
             option === 'custom' && timeFrom != null && timeTo != null
-              ? getTimeRangeCustomLabel(timeFrom, timeTo, user?.timezone)
+              ? formatDateRange({
+                  rangeFrom: timeFrom.toString(),
+                  rangeTo: timeTo.toString(),
+                  timezone: user?.timezone ?? getDefaultBrowserTimezone()
+                })
               : getTimeRangePresetName(option)
           return {
             label,

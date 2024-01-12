@@ -1,7 +1,14 @@
 import type {
+  BuyXPayYPromotion,
   Customer,
+  ExternalPromotion,
+  FixedAmountPromotion,
+  FixedPricePromotion,
+  FreeGiftPromotion,
+  FreeShippingPromotion,
   Market,
   Order,
+  PercentageDiscountPromotion,
   Return,
   Shipment,
   StockLocation,
@@ -321,5 +328,80 @@ export const presetResourceListItem = {
     status: 'upcoming',
     stock_location: originStockLocation,
     stock_transfers: [stockTransfer]
+  },
+  promotionActive: {
+    type: 'percentage_discount_promotions',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    starts_at: '2024-01-01T06:38:44.964Z',
+    expires_at: '3033-01-01T06:38:44.964Z',
+    name: 'Jan 30% off',
+    percentage: 30,
+    total_usage_limit: 3,
+    active: true
+  },
+  promotionDisabled: {
+    type: 'percentage_discount_promotions',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    starts_at: '2024-01-01T06:38:44.964Z',
+    expires_at: '2033-01-01T06:38:44.964Z',
+    name: 'Jan 50% off',
+    percentage: 50,
+    total_usage_limit: 3,
+    active: false
+  },
+  promotionUpcoming: {
+    type: 'free_shipping_promotions',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    starts_at: '2033-01-01T06:38:44.964Z',
+    expires_at: '2043-01-01T06:38:44.964Z',
+    name: 'Free shipping',
+    total_usage_limit: 3,
+    active: true
+  },
+  promotionExpired: {
+    type: 'free_gift_promotions',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    starts_at: '2023-01-01T06:38:44.964Z',
+    expires_at: '2023-12-01T06:38:44.964Z',
+    name: 'Free gift',
+    total_usage_limit: 3,
+    active: true
+  },
+  promotionWithCoupons: {
+    type: 'percentage_discount_promotions',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    starts_at: '2024-01-01T06:38:44.964Z',
+    expires_at: '3033-01-01T06:38:44.964Z',
+    name: '50% off',
+    percentage: 23,
+    total_usage_limit: 3,
+    active: true,
+    coupons: [
+      { code: '1234', created_at: '', id: '', type: 'coupons', updated_at: '' }
+    ]
   }
-} satisfies Record<string, Order | Return | Customer | StockTransfer | Shipment>
+} satisfies Record<
+  string,
+  | Order
+  | Return
+  | Customer
+  | StockTransfer
+  | Shipment
+  | BuyXPayYPromotion
+  | ExternalPromotion
+  | FixedAmountPromotion
+  | FixedPricePromotion
+  | FreeGiftPromotion
+  | FreeShippingPromotion
+  | PercentageDiscountPromotion
+>

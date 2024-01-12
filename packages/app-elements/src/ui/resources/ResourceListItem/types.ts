@@ -1,7 +1,14 @@
 import type { TokenProviderAuthUser } from '#providers/TokenProvider/types'
 import type {
+  BuyXPayYPromotion,
   Customer,
+  ExternalPromotion,
+  FixedAmountPromotion,
+  FixedPricePromotion,
+  FreeGiftPromotion,
+  FreeShippingPromotion,
   Order,
+  PercentageDiscountPromotion,
   Return,
   Shipment,
   StockTransfer
@@ -13,9 +20,16 @@ export type ResourceListItemType =
   | Customer
   | StockTransfer
   | Shipment
+  | BuyXPayYPromotion
+  | ExternalPromotion
+  | FixedAmountPromotion
+  | FixedPricePromotion
+  | FreeGiftPromotion
+  | FreeShippingPromotion
+  | PercentageDiscountPromotion
 
 export interface ResourceListItemComponentProps {
-  name: string
+  name: React.ReactNode
   description: JSX.Element | string
   icon: JSX.Element
   rightContent?: JSX.Element

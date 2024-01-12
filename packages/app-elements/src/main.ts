@@ -5,7 +5,9 @@ export { goBack, navigateTo } from '#helpers/appsNavigation'
 export { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 export {
   formatDate,
+  formatDateRange,
   formatDateWithPredicate,
+  getEventDateInfo,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
   sortAndGroupByDate,
@@ -319,6 +321,7 @@ export {
   getOrderTransactionPastTense,
   getOrderTriggerAttributeName
 } from '#dictionaries/orders'
+export { getPromotionDisplayStatus } from '#dictionaries/promotions'
 export {
   getReturnDisplayStatus,
   getReturnStatusName
