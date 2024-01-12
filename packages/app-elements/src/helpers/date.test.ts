@@ -158,7 +158,7 @@ describe('formatDate', () => {
   test('Should return the distance to now', () => {
     expect(
       formatDate({
-        isoDate: '2023-12-25T14:30:00.000Z',
+        isoDate: '2023-12-25T14:29:40.000Z',
         timezone: 'Australia/Sydney',
         format: 'distanceToNow'
       })
@@ -166,11 +166,19 @@ describe('formatDate', () => {
 
     expect(
       formatDate({
-        isoDate: '2023-12-25T14:30:00.000Z',
+        isoDate: '2023-12-25T14:29:40.000Z',
         timezone: 'Europe/Rome',
         format: 'distanceToNow'
       })
     ).toBe('less than a minute ago')
+
+    expect(
+      formatDate({
+        isoDate: '2023-12-25T14:30:10.000Z',
+        timezone: 'Europe/Rome',
+        format: 'distanceToNow'
+      })
+    ).toBe('in less than a minute')
 
     expect(
       formatDate({
@@ -182,10 +190,25 @@ describe('formatDate', () => {
 
     expect(
       formatDate({
+        isoDate: '2023-12-25T14:37:00.000Z',
+        timezone: 'Europe/Rome',
+        format: 'distanceToNow'
+      })
+    ).toBe('in 7 minutes')
+
+    expect(
+      formatDate({
         isoDate: '2023-02-27T16:00:00.000Z',
         format: 'distanceToNow'
       })
     ).toBe('10 months ago')
+
+    expect(
+      formatDate({
+        isoDate: '2024-10-27T16:00:00.000Z',
+        format: 'distanceToNow'
+      })
+    ).toBe('in 10 months')
   })
 })
 
@@ -261,11 +284,20 @@ describe('formatDateWithPredicate', () => {
     expect(
       formatDateWithPredicate({
         predicate: 'Updated',
-        isoDate: '2023-12-25T14:30:00.000Z',
+        isoDate: '2023-12-25T14:29:50.000Z',
         timezone: 'Australia/Sydney',
         format: 'distanceToNow'
       })
     ).toBe('Updated less than a minute ago')
+
+    expect(
+      formatDateWithPredicate({
+        predicate: 'Expires',
+        isoDate: '2023-12-25T14:30:10.000Z',
+        timezone: 'Australia/Sydney',
+        format: 'distanceToNow'
+      })
+    ).toBe('Expires in less than a minute')
   })
 })
 

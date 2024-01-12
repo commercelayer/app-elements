@@ -117,6 +117,15 @@ export const FormatDate: StoryFn = () => {
           })
         }}
       />
+      <CodeSample
+        fn={() => {
+          return formatDate({
+            isoDate: '2033-12-25T14:30:00.000Z',
+            timezone: 'Europe/Rome',
+            format: 'distanceToNow'
+          })
+        }}
+      />
     </>
   )
 }

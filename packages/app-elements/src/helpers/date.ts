@@ -3,7 +3,7 @@ import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc'
 import endOfDay from 'date-fns/endOfDay'
 import format from 'date-fns/format'
 import formatDistance from 'date-fns/formatDistance'
-import isAfter from 'date-fns/isAfter'
+import isBefore from 'date-fns/isBefore'
 import isFuture from 'date-fns/isFuture'
 import isPast from 'date-fns/isPast'
 import isSameMonth from 'date-fns/isSameMonth'
@@ -163,8 +163,9 @@ function getPresetFormatTemplate(
     case 'distanceToNow':
       return `'${formatDistance(
         zonedDate,
-        utcToZonedTime(new Date(), timezone)
-      )} ago'`
+        utcToZonedTime(new Date(), timezone),
+        { addSuffix: true }
+      )}'`
   }
 }
 
@@ -267,7 +268,7 @@ export function getEventDateInfo({
   const zonedStartsAt = utcToZonedTime(new Date(startsAt), timezone)
   const zonedExpiresAt = utcToZonedTime(new Date(expiresAt), timezone)
 
-  if (isAfter(zonedStartsAt, zonedExpiresAt)) {
+  if (isBefore(zonedExpiresAt, zonedStartsAt)) {
     throw new Error(
       'The expiration date/time of the event must be after the activation (startsAt).'
     )
