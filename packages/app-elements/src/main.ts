@@ -135,11 +135,6 @@ export {
   type ListDetailsItemProps
 } from '#ui/composite/ListDetailsItem'
 export { ListItem, type ListItemProps } from '#ui/composite/ListItem'
-export {
-  OrganizationMenu,
-  OrganizationMenuItem,
-  type OrganizationMenuItemProps
-} from '#ui/composite/OrganizationMenu'
 export { PageError, type PageErrorProps } from '#ui/composite/PageError'
 export { PageLayout, type PageLayoutProps } from '#ui/composite/PageLayout'
 export {
