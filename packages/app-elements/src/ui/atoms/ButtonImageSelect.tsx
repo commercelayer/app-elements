@@ -1,5 +1,4 @@
 import cn from 'classnames'
-import { type AvatarProps } from './Avatar'
 import { Icon } from './Icon'
 
 export interface ButtonImageSelectProps
@@ -7,7 +6,7 @@ export interface ButtonImageSelectProps
   /**
    * Image URL
    */
-  src?: AvatarProps['src']
+  src?: HTMLImageElement['src']
 }
 
 /**
