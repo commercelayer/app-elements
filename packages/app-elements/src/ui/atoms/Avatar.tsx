@@ -27,7 +27,7 @@ export interface AvatarProps {
    * (small: 48px, normal: 58px)
    * @default "normal"
    */
-  size?: 'small' | 'normal' | 'x-small'
+  size?: 'small' | 'normal' | 'x-small' | 'large'
   /**
    * Image class
    */
@@ -61,6 +61,7 @@ function Avatar({
         'border object-contain object-center',
         {
           // size
+          'min-w-[96px] min-h-[96px] w-[96px] h-[96px]': size === 'large',
           'min-w-[58px] min-h-[58px] w-[58px] h-[58px]': size === 'normal',
           'min-w-[42px] min-h-[42px] w-[42px] h-[42px]': size === 'small',
           'min-w-8 min-h-8 w-8 h-8': size === 'x-small',
@@ -72,7 +73,9 @@ function Avatar({
           'border-transparent': border === 'none',
           // placeholder
           'p-1':
-            !srcIsValidPreset(src) && !srcIsValidUrl(src) && size === 'normal',
+            !srcIsValidPreset(src) &&
+            !srcIsValidUrl(src) &&
+            (size === 'normal' || size === 'large'),
           'p-0.5':
             !srcIsValidPreset(src) && !srcIsValidUrl(src) && size !== 'normal'
         },
