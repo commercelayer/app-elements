@@ -11,7 +11,6 @@ const paddingCss: Record<ButtonCardPadding, string> = {
 
 export interface ButtonCardProps
   extends React.HTMLAttributes<HTMLButtonElement> {
-  onClick?: () => void
   padding?: ButtonCardPadding
   icon?: IconProps['name']
   iconLabel?: string
@@ -20,7 +19,6 @@ export interface ButtonCardProps
 }
 
 function ButtonCard({
-  onClick,
   padding = '4',
   icon,
   iconLabel,
@@ -33,7 +31,6 @@ function ButtonCard({
     <button
       type='button'
       data-testid='ButtonCard-main'
-      onClick={onClick}
       className={cn(
         'border border-dashed border-gray-300 hover:border-primary hover:border-solid hover:ring-inset hover:ring-1 hover:ring-primary',
         paddingCss[padding],
