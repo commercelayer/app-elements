@@ -11,19 +11,38 @@ const paddingCss: Record<ButtonCardPadding, string> = {
 
 export interface ButtonCardProps
   extends React.HTMLAttributes<HTMLButtonElement> {
+  /**
+   * Set button content padding
+   */
   padding?: ButtonCardPadding
-  icon?: IconProps['name']
-  iconLabel?: string
+  /**
+   * Set button width to 100%
+   */
   fullWidth?: boolean
+  /**
+   * Optional button free content
+   */
   children?: React.ReactNode
+  /**
+   * Optional button icon name
+   */
+  icon?: IconProps['name']
+  /**
+   * Optional button icon label
+   */
+  iconLabel?: string
 }
 
-function ButtonCard({
+/**
+ * Renders a `button` tag with customizable content and Card-like UI.
+ * <span type='info'>Content can be customized by providing `children` and/or `icon` and/or `iconLabel` props.</span>
+ */
+export function ButtonCard({
   padding = '4',
-  icon,
-  iconLabel,
   fullWidth,
   children,
+  icon,
+  iconLabel,
   className,
   ...rest
 }: ButtonCardProps): JSX.Element {
@@ -74,4 +93,3 @@ function ButtonCard({
 }
 
 ButtonCard.displayName = 'ButtonCard'
-export { ButtonCard }
