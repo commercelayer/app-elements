@@ -1,13 +1,7 @@
 import cn from 'classnames'
 import { Icon, type IconProps } from './Icon'
 
-type ButtonCardBorderVariant = 'dashed'
-
 type ButtonCardPadding = 'none' | '4' | '6'
-
-const borderVariantCss: Record<ButtonCardBorderVariant, string> = {
-  dashed: 'border-dashed'
-}
 
 const paddingCss: Record<ButtonCardPadding, string> = {
   none: 'p-0',
@@ -18,7 +12,6 @@ const paddingCss: Record<ButtonCardPadding, string> = {
 export interface ButtonCardProps
   extends React.HTMLAttributes<HTMLButtonElement> {
   onClick?: () => void
-  border?: ButtonCardBorderVariant
   padding?: ButtonCardPadding
   icon?: IconProps['name']
   iconLabel?: string
@@ -28,7 +21,6 @@ export interface ButtonCardProps
 
 function ButtonCard({
   onClick,
-  border = 'dashed',
   padding = '4',
   icon,
   iconLabel,
@@ -43,9 +35,8 @@ function ButtonCard({
       data-testid='ButtonCard-main'
       onClick={onClick}
       className={cn(
-        'border border-gray-300 hover:border-primary hover:border-solid hover:ring-inset hover:ring-1 hover:ring-primary',
+        'border border-dashed border-gray-300 hover:border-primary hover:border-solid hover:ring-inset hover:ring-1 hover:ring-primary',
         paddingCss[padding],
-        borderVariantCss[border],
         children == null ? 'rounded' : 'rounded-md',
         children == null && 'text-primary',
         fullWidth === true && 'w-full',
