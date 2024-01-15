@@ -14,7 +14,6 @@ export default setup
 
 const Template: StoryFn<typeof ButtonCard> = (args) => (
   <div>
-    {/* <div className='container w-screen' style={{ width: '100vw' }}> */}
     <ButtonCard {...args} />
   </div>
 )

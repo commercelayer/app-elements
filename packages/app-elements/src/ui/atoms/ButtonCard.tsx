@@ -34,7 +34,7 @@ export interface ButtonCardProps
 }
 
 /**
- * Renders a `button` tag with customizable content and Card-like UI.
+ * This component renders as `<button>` with dashed border and Card-like UI.
  * <span type='info'>Content can be customized by providing `children` and/or `icon` and/or `iconLabel` props.</span>
  */
 export function ButtonCard({
