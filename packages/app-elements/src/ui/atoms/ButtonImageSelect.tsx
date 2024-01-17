@@ -1,19 +1,27 @@
 import cn from 'classnames'
 import { Icon } from './Icon'
 
-export interface ButtonImageSelectProps
-  extends React.HTMLAttributes<HTMLButtonElement> {
-  /**
-   * Image URL
-   */
-  src?: HTMLImageElement['src']
+interface WithImg {
+  src: string
+  alt: string
 }
+
+interface WithoutImg {
+  src?: never
+  alt?: never
+}
+
+type ImageProps = WithImg | WithoutImg
+
+export type ButtonImageSelectProps = React.HTMLAttributes<HTMLButtonElement> &
+  ImageProps
 
 /**
  * This component renders as `<button>` showing an `Avatar` image, if given, or a camera icon to choose one.
  */
 export function ButtonImageSelect({
   src,
+  alt,
   ...rest
 }: ButtonImageSelectProps): JSX.Element {
   return (
@@ -29,7 +37,7 @@ export function ButtonImageSelect({
       {...rest}
     >
       {src != null ? (
-        <img src={src} data-testid='ButtonImageSelect-image' />
+        <img src={src} alt={alt} data-testid='ButtonImageSelect-image' />
       ) : (
         <Icon name='camera' size={32} />
       )}

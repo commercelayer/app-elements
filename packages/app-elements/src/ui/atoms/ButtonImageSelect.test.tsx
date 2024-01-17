@@ -17,6 +17,7 @@ describe('ButtonImageSelect', () => {
     const { getByTestId } = render(
       <ButtonImageSelect
         src='https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png'
+        alt=''
         onClick={() => {
           console.log('main-button-clicked')
         }}
