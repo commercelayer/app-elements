@@ -7,8 +7,8 @@ interface WithImg {
 }
 
 interface WithoutImg {
-  src?: never
-  alt?: never
+  src?: undefined
+  alt?: undefined
 }
 
 type ImageProps = WithImg | WithoutImg
