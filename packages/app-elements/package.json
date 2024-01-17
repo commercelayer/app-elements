@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "tsc && vite build && pnpm build:css-vendor",
+    "build:tailwind-cfg": "tsc tailwind.config.ts --esModuleInterop --outDir ./dist --declaration",
     "build:css-vendor": "pnpm dlx tailwindcss -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",

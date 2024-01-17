@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { transparentize } = require('polished')
+import tailwindForms from '@tailwindcss/forms'
+import type { Config } from 'tailwindcss'
 
 const colorBrand = '#666EFF'
 
-/** @type {import('tailwindcss').Config} */
-module.exports = {
+const config: Config = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     container: {
@@ -24,7 +23,7 @@ module.exports = {
     },
     colors: {
       primary: {
-        light: transparentize(0.2, colorBrand),
+        light: 'rgba(102,110,255,0.8)', // transparentize(0.2, colorBrand),
         DEFAULT: colorBrand,
         50: '#ecf2ff',
         100: '#dde6ff',
@@ -164,5 +163,7 @@ module.exports = {
       }
     }
   },
-  plugins: [require('@tailwindcss/forms')]
+  plugins: [tailwindForms()]
 }
+
+export default config
