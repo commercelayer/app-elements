@@ -66,6 +66,10 @@ export { Badge, type BadgeProps } from '#ui/atoms/Badge'
 export { Button, type ButtonProps } from '#ui/atoms/Button'
 export { ButtonCard, type ButtonCardProps } from '#ui/atoms/ButtonCard'
 export { ButtonFilter, type ButtonFilterProps } from '#ui/atoms/ButtonFilter'
+export {
+  ButtonImageSelect,
+  type ButtonImageSelectProps
+} from '#ui/atoms/ButtonImageSelect'
 export { Card, type CardProps } from '#ui/atoms/Card'
 export { Container, type ContainerProps } from '#ui/atoms/Container'
 export {
