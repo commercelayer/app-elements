@@ -7,8 +7,8 @@ interface WithImg {
 }
 
 interface WithoutImg {
-  src?: never
-  alt?: never
+  src?: undefined
+  alt?: undefined
 }
 
 type ImageProps = WithImg | WithoutImg
@@ -31,7 +31,7 @@ export function ButtonImageSelect({
       className={cn(
         'flex items-center justify-center rounded p-[2px] text-primary',
         'min-w-[96px] min-h-[96px] w-[96px] h-[96px]',
-        'border border-gray-300 hover:border-primary hover:border-solid hover:ring-inset hover:ring-1 hover:ring-primary',
+        'border border-gray-200 hover:border-primary hover:border-solid hover:ring-inset hover:ring-1 hover:ring-primary',
         src != null ? 'border-solid' : 'border-dashed'
       )}
       {...rest}
