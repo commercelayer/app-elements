@@ -1,8 +1,3 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { transparentize } = require('polished')
-
-const colorBrand = '#666EFF'
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
@@ -24,8 +19,8 @@ module.exports = {
     },
     colors: {
       primary: {
-        light: transparentize(0.2, colorBrand),
-        DEFAULT: colorBrand,
+        light: 'rgba(102,110,255,0.8)', // transparentize(0.2, colorBrand),
+        DEFAULT: '#666EFF',
         50: '#ecf2ff',
         100: '#dde6ff',
         200: '#c2d1ff',
