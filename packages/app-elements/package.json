@@ -17,6 +17,9 @@
     },
     "./vendor.css": {
       "import": "./dist/vendor.css"
+    },
+    "./tailwind.config": {
+      "require": "./dist/tailwind.config.js"
     }
   },
   "engines": {
@@ -24,8 +27,8 @@
     "pnpm": ">=7"
   },
   "scripts": {
-    "build": "tsc && vite build && pnpm build:css-vendor",
-    "build:tailwind-cfg": "tsc tailwind.config.ts --esModuleInterop --outDir ./dist --declaration",
+    "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
+    "build:tailwind-cfg": "tsc tailwind.config.ts --esModuleInterop --outDir ./dist --module commonjs",
     "build:css-vendor": "pnpm dlx tailwindcss -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
