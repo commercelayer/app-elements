@@ -17,6 +17,9 @@
     },
     "./vendor.css": {
       "import": "./dist/vendor.css"
+    },
+    "./tailwind.config": {
+      "require": "./dist/tailwind.config.js"
     }
   },
   "engines": {
