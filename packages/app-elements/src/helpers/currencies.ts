@@ -7,7 +7,7 @@ export interface Currency {
   [key: string]: unknown
 }
 
-export type CurrencyCode = keyof typeof currencies
+export type CurrencyCode = Uppercase<keyof typeof currencies>
 
 // https://github.com/RubyMoney/money/blob/b17ebda66b7f18317bd164adfb404e1bfd352d3e/config/currency_iso.json
 export const currencies = {

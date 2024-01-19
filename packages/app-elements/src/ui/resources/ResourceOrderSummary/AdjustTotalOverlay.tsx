@@ -1,3 +1,4 @@
+import type { CurrencyCode } from '#helpers/currencies'
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
@@ -5,7 +6,6 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputCurrency } from '#ui/forms/InputCurrency'
-import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm/HookedValidationApiError'
 import type { CommerceLayerClient, Order } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -39,7 +39,7 @@ export function useAdjustTotalOverlay(
 }
 
 const Form: React.FC<Props> = ({ order, onChange, close }) => {
-  const currencyCode = order.currency_code as Uppercase<CurrencyCode>
+  const currencyCode = order.currency_code as CurrencyCode
   const manualAdjustment = getManualAdjustment(order)
   const { sdkClient } = useCoreSdkProvider()
   const [apiError, setApiError] = useState<any>()
@@ -143,7 +143,7 @@ async function createManualAdjustmentLineItem({
   order: Order
 }): Promise<void> {
   if (amount !== 0) {
-    const currencyCode = order.currency_code as Uppercase<CurrencyCode>
+    const currencyCode = order.currency_code as CurrencyCode
 
     const adjustment = await sdkClient.adjustments.create({
       currency_code: currencyCode,
