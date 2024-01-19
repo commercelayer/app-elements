@@ -1,13 +1,17 @@
+import {
+  currencies,
+  type Currency,
+  type CurrencyCode
+} from '#helpers/currencies'
 import { formatValue } from 'react-currency-input-field'
-import { currencies, type Currency, type CurrencyCode } from './currencies'
 
 /**
  *  Returns a currency object for a given currency code
  */
 export function getCurrency(
-  currencyCode: Uppercase<CurrencyCode> | CurrencyCode
+  currencyCode: CurrencyCode | Lowercase<CurrencyCode>
 ): Currency | undefined {
-  return currencies[currencyCode.toLowerCase() as CurrencyCode]
+  return currencies[currencyCode.toLowerCase() as Lowercase<CurrencyCode>]
 }
 
 /**
@@ -70,7 +74,7 @@ export function makePlaceholder(
  **/
 export function formatCentsToCurrency(
   cents: number,
-  currencyCode: Uppercase<CurrencyCode>,
+  currencyCode: CurrencyCode,
   stripZeroDecimals = false
 ): string {
   const currency = getCurrency(currencyCode)

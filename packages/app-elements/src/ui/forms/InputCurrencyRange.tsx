@@ -1,9 +1,9 @@
+import type { CurrencyCode } from '#helpers/currencies'
 import {
   InputCurrency,
   formatCentsToCurrency,
   type InputCurrencyProps
 } from '#ui/forms/InputCurrency'
-import { type CurrencyCode } from '#ui/forms/InputCurrency/currencies'
 import { isSingleValueSelected } from '#ui/forms/InputSelect/index'
 import {
   InputWrapper,
@@ -20,14 +20,11 @@ export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
   onChange: (
     from: { cents: Cents; formatted: string },
     to: { cents: Cents; formatted: string },
-    currency: Uppercase<CurrencyCode>
+    currency: CurrencyCode
   ) => void
   placeholders?: [string, string]
-  currencyList: readonly [
-    Uppercase<CurrencyCode>,
-    ...Array<Uppercase<CurrencyCode>>
-  ]
-  defaultCurrency?: Uppercase<CurrencyCode>
+  currencyList: readonly [CurrencyCode, ...CurrencyCode[]]
+  defaultCurrency?: CurrencyCode
   className?: string
 }
 
@@ -46,7 +43,7 @@ export function InputCurrencyRange({
   feedback
 }: InputCurrencyRangeProps): JSX.Element {
   const [activeCurrency, setActiveCurrency] =
-    useState<Uppercase<CurrencyCode>>(defaultCurrency)
+    useState<CurrencyCode>(defaultCurrency)
 
   const [internalCents, setInternalCents] = useState<[Cents, Cents]>([
     fromCents,
@@ -144,7 +141,7 @@ export function InputCurrencyRange({
           defaultValue={{ value: defaultCurrency, label: defaultCurrency }}
           onSelect={(currency) => {
             if (currency != null && isSingleValueSelected(currency)) {
-              setActiveCurrency(currency.value as Uppercase<CurrencyCode>)
+              setActiveCurrency(currency.value as CurrencyCode)
             }
           }}
           className='min-w-max'

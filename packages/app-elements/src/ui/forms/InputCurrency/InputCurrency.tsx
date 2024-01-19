@@ -1,3 +1,4 @@
+import type { Currency, CurrencyCode } from '#helpers/currencies'
 import {
   InputWrapper,
   getFeedbackStyle,
@@ -9,7 +10,6 @@ import { forwardRef, useEffect, useMemo, useState } from 'react'
 import ReactCurrencyInputField, {
   type CurrencyInputProps as ReactCurrencyInputFieldProps
 } from 'react-currency-input-field'
-import { type Currency, type CurrencyCode } from './currencies'
 import {
   formatCentsToCurrency,
   getCurrency,
@@ -39,7 +39,7 @@ export interface InputCurrencyProps
   /**
    * Valid 3-digit iso currency code (eg: EUR, USD, GBP)
    */
-  currencyCode: Uppercase<CurrencyCode>
+  currencyCode: CurrencyCode
   /**
    * Value in cents
    */

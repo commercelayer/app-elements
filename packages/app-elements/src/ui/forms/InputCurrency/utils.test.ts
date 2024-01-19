@@ -1,4 +1,4 @@
-import { currencies } from './currencies'
+import { currencies } from '#helpers/currencies'
 import { addCurrencySymbol, getDecimalLength, makePlaceholder } from './utils'
 
 describe('getDecimalLength', () => {

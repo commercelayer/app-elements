@@ -3,6 +3,7 @@ import '#styles/global.css'
 // Helpers
 export { goBack, navigateTo } from '#helpers/appsNavigation'
 export { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
+export { currencies, type CurrencyCode } from '#helpers/currencies'
 export {
   formatDate,
   formatDateRange,
@@ -180,7 +181,6 @@ export {
   HookedInputCurrency,
   InputCurrency,
   formatCentsToCurrency,
-  type CurrencyCode,
   type HookedInputCurrencyProps,
   type InputCurrencyProps
 } from '#ui/forms/InputCurrency'
