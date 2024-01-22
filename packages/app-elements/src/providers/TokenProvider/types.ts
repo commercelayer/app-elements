@@ -1,12 +1,29 @@
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 
+export type TokenProviderAllowedApp =
+  | 'bundles'
+  | 'customers'
+  | 'exports'
+  | 'gift_cards'
+  | 'imports'
+  | 'inventory'
+  | 'orders'
+  | 'price_lists'
+  | 'promotions'
+  | 'returns'
+  | 'shipments'
+  | 'skus'
+  | 'stock_transfers'
+  | 'subscriptions'
+  | 'tags'
+  | 'webhooks'
+
 export type TokenProviderTokenApplicationKind =
   | 'integration'
   | 'sales_channel'
   | 'webapp'
-  | ListableResourceType
-
-export type TokenProviderAllowedApp = ListableResourceType | 'resources'
+  | 'resources'
+  | TokenProviderAllowedApp
 
 export type TokenProviderRoleActions = 'create' | 'destroy' | 'read' | 'update'
 
@@ -47,7 +64,7 @@ export interface TokenProviderTokenInfo {
     /**
      * Token application kind.
      */
-    kind: 'integration' | 'sales_channel' | 'webapp' | ListableResourceType
+    kind: TokenProviderTokenApplicationKind
     /**
      * The name of the application.
      * When token is generated from the dashboard hub it could be 'Imports', 'Orders', etc...
@@ -80,7 +97,7 @@ export interface TokenProviderTokenInfo {
    */
   accessible_apps?: Array<{
     name: string
-    kind: ListableResourceType
+    kind: TokenProviderAllowedApp
     core: boolean
   }>
 }
