@@ -17,6 +17,7 @@ export {
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { computeFullname, formatDisplayName } from '#helpers/name'
 export { formatResourceName, type TriggerAttribute } from '#helpers/resources'
+export { createRoute, createTypedRoute, type GetParams } from '#helpers/route'
 export {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,
