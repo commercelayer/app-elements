@@ -17,6 +17,7 @@ export type TokenProviderAllowedApp =
   | 'subscriptions'
   | 'tags'
   | 'webhooks'
+  | 'dashboard'
 
 export type TokenProviderTokenApplicationKind =
   | 'integration'

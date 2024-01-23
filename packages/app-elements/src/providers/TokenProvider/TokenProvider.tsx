@@ -38,7 +38,7 @@ export interface TokenProviderValue {
     action: TokenProviderRoleActions,
     resource: ListableResourceType
   ) => boolean
-  canAccess: (appSlug: TokenProviderAllowedApp) => boolean
+  canAccess: (appSlug: Exclude<TokenProviderAllowedApp, 'dashboard'>) => boolean
   emitInvalidAuth: (reason: string) => void
 }
 
@@ -207,9 +207,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
           return
         }
 
-        // fetching organization details if user has read permission
+        // fetching organization details if user has read permission and app is not dashboard
         const organization =
-          tokenInfo.permissions?.organizations?.read === true
+          tokenInfo.permissions?.organizations?.read === true &&
+          appSlug !== 'dashboard'
             ? await getOrganization({
                 accessToken,
                 domain,
