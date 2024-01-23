@@ -1,18 +1,20 @@
 import { Source } from '@storybook/addon-docs'
-import * as prettierBabel from 'prettier/plugins/babel'
 import * as prettierEstree from 'prettier/plugins/estree'
+import * as prettierTypescript from 'prettier/plugins/typescript'
 import * as prettier from 'prettier/standalone'
 import { useEffect, useState } from 'react'
 
 export function CodeSample({
   fn,
+  code,
   description
 }: {
   fn: () => any
+  code?: string
   description?: string
 }): JSX.Element {
   const [sanitizedCode, setSanitizedCode] = useState<string>()
-  const code = fn.toString()
+  const [rawCode, setRawCode] = useState<string | undefined>(code)
 
   const result = fn()
 
@@ -20,32 +22,43 @@ export function CodeSample({
   // eslint-disable-next-line no-eval
   eval('')
 
+  useEffect(
+    function UpdateRawCode() {
+      if (rawCode === undefined) {
+        setRawCode(fn.toString())
+      }
+    },
+    [rawCode]
+  )
+
   useEffect(() => {
     void (async () => {
-      let tmpSanitizedCode = code
-        .replaceAll('\n', '')
-        .replace(/^\(\) => {(.*)}/, '$1')
-        .replace(/^\(\)=>{(.*)}$/, '$1')
-        .replaceAll('() =>', '')
-        .replaceAll('()=>', '')
-        .replaceAll('return ', '')
-        .replaceAll("eval('')", '')
-        .replaceAll('eval("")', '')
-        .replaceAll('/* @__PURE__ */ ', '')
+      if (rawCode !== undefined) {
+        let tmpSanitizedCode = rawCode
+          .replaceAll('\n', '')
+          .replace(/^\(\) => {(.*)}/, '$1')
+          .replace(/^\(\)=>{(.*)}$/, '$1')
+          .replaceAll('() =>', '')
+          .replaceAll('()=>', '')
+          .replaceAll('return ', '')
+          .replaceAll("eval('')", '')
+          .replaceAll('eval("")', '')
+          .replaceAll('/* @__PURE__ */ ', '')
 
-      tmpSanitizedCode = await prettier.format(tmpSanitizedCode, {
-        singleQuote: true,
-        trailingComma: 'none',
-        parser: 'babel',
-        printWidth: 60,
-        plugins: [prettierBabel, prettierEstree]
-      })
+        tmpSanitizedCode = await prettier.format(tmpSanitizedCode, {
+          singleQuote: true,
+          trailingComma: 'none',
+          parser: 'typescript',
+          printWidth: 60,
+          plugins: [prettierTypescript, prettierEstree]
+        })
 
-      tmpSanitizedCode = tmpSanitizedCode.replaceAll(';', ';\n')
+        tmpSanitizedCode = tmpSanitizedCode.replaceAll(';', ';\n')
 
-      setSanitizedCode(tmpSanitizedCode)
+        setSanitizedCode(tmpSanitizedCode)
+      }
     })()
-  }, [code])
+  }, [rawCode])
 
   return (
     <>
