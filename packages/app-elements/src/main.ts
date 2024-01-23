@@ -318,7 +318,7 @@ export {
   getOrderFulfillmentStatusName,
   getOrderPaymentStatusName,
   getOrderStatusName,
-  getOrderTransactionPastTense,
+  getOrderTransactionName,
   getOrderTriggerAttributeName
 } from '#dictionaries/orders'
 export { getPromotionDisplayStatus } from '#dictionaries/promotions'

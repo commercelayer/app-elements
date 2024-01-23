@@ -178,17 +178,26 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
   }
 }
 
-export function getOrderTransactionPastTense(
+export function getOrderTransactionName(
   type: NonNullable<Order['transactions']>[number]['type']
-): string {
-  const dictionary: Record<typeof type, string> = {
+): { pastTense: string; singular: string } {
+  const pastTenseDictionary: Record<typeof type, string> = {
     authorizations: 'authorized',
     captures: 'captured',
     refunds: 'refunded',
     voids: 'voided'
   }
+  const singularDictionary: Record<typeof type, string> = {
+    authorizations: 'Payment authorization',
+    captures: 'Payment capture',
+    refunds: 'Refund',
+    voids: 'Void'
+  }
 
-  return dictionary[type]
+  return {
+    pastTense: pastTenseDictionary[type],
+    singular: singularDictionary[type]
+  }
 }
 
 export function getOrderStatusName(status: Order['status']): string {
