@@ -1,7 +1,13 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const { transparentize } = require('polished')
-
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 const colorBrand = '#666EFF'
+
+/** @type {(percentage: number) => string} */
+function alphaToHex(percentage) {
+  return Math.floor((percentage * 255) / 100)
+    .toString(16)
+    .toUpperCase()
+    .padStart(2, '0')
+}
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -24,7 +30,7 @@ module.exports = {
     },
     colors: {
       primary: {
-        light: transparentize(0.2, colorBrand),
+        light: `${colorBrand}${alphaToHex(80)}`,
         DEFAULT: colorBrand,
         50: '#ecf2ff',
         100: '#dde6ff',

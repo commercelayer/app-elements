@@ -38,6 +38,48 @@ pnpm add @commercelayer/sdk query-string react-hook-form wouter
   routing.
 </span>
 
+## Basic setup
+Add the following code to your `main.tsx` (app entrypoint) file:
+<Source
+  language="jsx"
+  dark
+  code={`import '@commercelayer/app-elements/style.css'`}
+/>
+
+Then just import the components you need in your components:
+<Source
+  language="jsx"
+  dark
+  code={`import { Button } from '@commercelayer/app-elements'
+`}
+/>
+
+## Working with existing Tailwind CSS projects
+You need to use `app-elements` tailwind config as [preset](https://tailwindcss.com/docs/presets) for your consumer project.
+
+To do so, in your local `tailwind.config.js` file, add the following code:
+<Source
+  language="jsx"
+  dark
+  code={`
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  presets: [require('@commercelayer/app-elements/tailwind.config')],
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}', // your consumer project files
+    './node_modules/@commercelayer/app-elements/dist/**/*.js'
+  ]
+} 
+  `}
+/>
+
+Then instead of importing the full CSS bundle, you only need the vendor CSS file:
+<Source
+  language="jsx"
+  dark
+  code={`import '@commercelayer/app-elements/vendor.css'`}
+/>
+
 ## Local development
 
 When you work with App Elements you can preview components directly in [Storybook](https://storybook.js.org/). You just need to launch e development server:
