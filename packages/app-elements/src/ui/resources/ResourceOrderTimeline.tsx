@@ -1,4 +1,4 @@
-import { getOrderTransactionPastTense } from '#dictionaries/orders'
+import { getOrderTransactionName } from '#dictionaries/orders'
 import { navigateTo } from '#helpers/appsNavigation'
 import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
@@ -300,29 +300,34 @@ const useTimelineReducer = (order: Order) => {
     function addTransactions() {
       if (order.transactions != null) {
         order.transactions.forEach((transaction) => {
-          const name = getOrderTransactionPastTense(transaction.type)
+          const name = getOrderTransactionName(transaction.type)
           const isFailedCapture =
             transaction.type === 'captures' && !transaction.succeeded
+          const isFailedAuthorization =
+            transaction.type === 'authorizations' && !transaction.succeeded
 
           dispatch({
             type: 'add',
             payload: {
               date: transaction.created_at,
-              message: isFailedCapture ? (
+              message: transaction.succeeded ? (
                 <>
-                  Payment capture of {transaction.formatted_amount}{' '}
-                  <Text weight='bold'>failed</Text>
+                  Payment of {transaction.formatted_amount} was{' '}
+                  <Text weight='bold'>{name.pastTense}</Text>
                 </>
               ) : (
                 <>
-                  Payment of {transaction.formatted_amount} was{' '}
-                  <Text weight='bold'>{name}</Text>
+                  {/* `Payment capture of xxxx failed` or `Authorization of xxxx failed`, etc... */}
+                  {name.singular} of {transaction.formatted_amount}{' '}
+                  <Text weight='bold'>failed</Text>
                 </>
               ),
               note:
                 isFailedCapture && transaction.message != null
                   ? transaction.message
-                  : undefined
+                  : isFailedAuthorization && !isEmpty(transaction.error_detail)
+                    ? transaction.error_detail ?? ''
+                    : undefined
             }
           })
         })
@@ -589,5 +594,3 @@ const useTimelineReducer = (order: Order) => {
 
   return [events, dispatch] as const
 }
-
-ResourceOrderTimeline.displayName = 'ResourceOrderTimeline'
