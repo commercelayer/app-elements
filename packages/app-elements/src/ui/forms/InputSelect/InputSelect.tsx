@@ -17,6 +17,7 @@ export interface InputSelectValue {
   value: string | number
   label: string
   meta?: Record<string, any>
+  isDisabled?: boolean
 }
 
 export type PossibleSelectValue =

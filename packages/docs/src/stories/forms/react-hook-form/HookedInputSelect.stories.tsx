@@ -54,7 +54,8 @@ Default.args = {
     },
     {
       value: 'london',
-      label: 'London'
+      label: 'London',
+      isDisabled: true
     }
   ]
 }
@@ -83,7 +84,8 @@ MultiSelect.args = {
       label: 'Rome',
       meta: {
         cityCode: 'EU_ROME'
-      }
+      },
+      isDisabled: true
     },
     {
       value: 'new york',

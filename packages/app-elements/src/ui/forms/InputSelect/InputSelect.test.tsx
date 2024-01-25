@@ -46,8 +46,12 @@ describe('InputSelect', () => {
         onSelect={mockedOnSelect}
         initialValues={[
           {
-            value: 'ABC123',
-            label: 'Cap with Black Logo'
+            value: 'paris',
+            label: 'Paris'
+          },
+          {
+            value: 'london',
+            label: 'London'
           }
         ]}
         placeholder='Please select an option'
@@ -55,17 +59,58 @@ describe('InputSelect', () => {
     )
     expect(container).toBeVisible()
     expect(queryByText('Please select an option')).toBeVisible()
-    expect(queryByText('Cap with Black Logo')).toBeNull()
+    expect(queryByText('London')).toBeNull()
 
     // open select dropdown
     fireEvent.keyDown(getByText('Please select an option'), {
       key: 'ArrowDown'
     })
-    await waitFor(() => queryByText('Cap with Black Logo'))
-    fireEvent.click(getByText('Cap with Black Logo'))
+    await waitFor(() => queryByText('London'))
+    expect(queryByText('Paris')).toBeVisible()
+    expect(queryByText('London')).toBeVisible()
+    fireEvent.click(getByText('London'))
     expect(mockedOnSelect).toHaveBeenCalledTimes(1)
 
     expect(queryByText('Please select an option')).toBeNull()
-    expect(queryByText('Cap with Black Logo')).toBeVisible()
+    expect(queryByText('Paris')).toBeNull()
+    expect(queryByText('London')).toBeVisible()
+  })
+
+  test('should not select the value when the option is disabled', async () => {
+    const mockedOnSelect = vi.fn()
+    const { container, queryByText, getByText } = render(
+      <InputSelect
+        onSelect={mockedOnSelect}
+        initialValues={[
+          {
+            value: 'paris',
+            label: 'Paris'
+          },
+          {
+            value: 'london',
+            label: 'London',
+            isDisabled: true
+          }
+        ]}
+        placeholder='Please select an option'
+      />
+    )
+    expect(container).toBeVisible()
+    expect(queryByText('Please select an option')).toBeVisible()
+    expect(queryByText('London')).toBeNull()
+
+    // open select dropdown
+    fireEvent.keyDown(getByText('Please select an option'), {
+      key: 'ArrowDown'
+    })
+    await waitFor(() => queryByText('London'))
+    expect(queryByText('Paris')).toBeVisible()
+    expect(queryByText('London')).toBeVisible()
+    fireEvent.click(getByText('London'))
+    expect(mockedOnSelect).not.toHaveBeenCalledTimes(1)
+
+    expect(queryByText('Please select an option')).toBeVisible()
+    expect(queryByText('Paris')).toBeVisible()
+    expect(queryByText('London')).toBeVisible()
   })
 })
