@@ -1,7 +1,11 @@
 import debounce from 'lodash/debounce'
 import isEmpty from 'lodash/isEmpty'
-import { useCallback, useEffect } from 'react'
-import { type GroupBase, type StylesConfig } from 'react-select'
+import { forwardRef, useCallback, useEffect } from 'react'
+import {
+  type GroupBase,
+  type SelectInstance,
+  type StylesConfig
+} from 'react-select'
 import AsyncSelect from 'react-select/async'
 import { type AsyncAdditionalProps } from 'react-select/dist/declarations/src/useAsync'
 import { type SetRequired } from 'type-fest'
@@ -25,49 +29,59 @@ type ReactSelectLoadOptions = Exclude<
   undefined
 >
 
-export const AsyncSelectComponent: React.FC<AsyncSelectComponentProps> = ({
-  onSelect,
-  noOptionsMessage,
-  initialValues,
-  isOptionDisabled,
-  loadAsyncValues,
-  debounceMs = 500,
-  ...rest
-}) => {
-  const loadOptions = useCallback(
-    debounce<ReactSelectLoadOptions>((inputText, callback) => {
-      void loadAsyncValues(inputText).then((options) => {
-        callback(options)
-      })
-    }, debounceMs),
-    [debounceMs]
-  )
+export const AsyncSelectComponent = forwardRef<
+  SelectInstance<InputSelectValue, boolean, GroupBase<InputSelectValue>>,
+  AsyncSelectComponentProps
+>(
+  (
+    {
+      onSelect,
+      noOptionsMessage,
+      initialValues,
+      isOptionDisabled,
+      loadAsyncValues,
+      debounceMs = 500,
+      ...rest
+    },
+    ref
+  ) => {
+    const loadOptions = useCallback(
+      debounce<ReactSelectLoadOptions>((inputText, callback) => {
+        void loadAsyncValues(inputText).then((options) => {
+          callback(options)
+        })
+      }, debounceMs),
+      [debounceMs]
+    )
 
-  useEffect(() => {
-    return () => {
-      loadOptions.cancel()
-    }
-  }, [debounceMs])
-
-  return (
-    <AsyncSelect
-      {...rest}
-      defaultOptions={initialValues}
-      onChange={onSelect}
-      noOptionsMessage={({ inputValue }) =>
-        isEmpty(inputValue) &&
-        (initialValues === undefined || initialValues.length === 0)
-          ? null
-          : noOptionsMessage
+    useEffect(() => {
+      return () => {
+        loadOptions.cancel()
       }
-      loadOptions={loadOptions}
-      components={{
-        ...components,
-        DropdownIndicator: null
-      }}
-      isOptionDisabled={isOptionDisabled}
-    />
-  )
-}
+    }, [debounceMs])
+
+    return (
+      <AsyncSelect
+        {...rest}
+        ref={ref}
+        defaultOptions={initialValues}
+        onChange={onSelect}
+        closeMenuOnSelect={rest.isMulti !== true}
+        noOptionsMessage={({ inputValue }) =>
+          isEmpty(inputValue) &&
+          (initialValues === undefined || initialValues.length === 0)
+            ? null
+            : noOptionsMessage
+        }
+        loadOptions={loadOptions}
+        components={{
+          ...components,
+          DropdownIndicator: null
+        }}
+        isOptionDisabled={isOptionDisabled}
+      />
+    )
+  }
+)
 
 AsyncSelectComponent.displayName = 'AsyncSelectComponent'
