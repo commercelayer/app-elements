@@ -131,7 +131,7 @@ export function useOverlay(options?: OverlayOptions): OverlayHook {
     } else {
       setShow(true)
     }
-  }, [isInQueryParamMode])
+  }, [isInQueryParamMode, options?.queryParam])
 
   // when component is mounted and `queryParam` exists in current url, overlay will automatically opened
   useEffect(
