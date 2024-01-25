@@ -40,6 +40,10 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   defaultValue?: InputSelectValue | InputSelectValue[]
   /**
+   * Selected value or values, in case of `isMulti`
+   */
+  value?: InputSelectValue | InputSelectValue[]
+  /**
    * Placeholder text to display when no value is selected
    */
   placeholder?: string
@@ -134,6 +138,7 @@ export const InputSelect = forwardRef<
       menuIsOpen,
       initialValues,
       defaultValue,
+      value,
       isClearable,
       isLoading,
       loadingText = 'Loading...',
@@ -168,6 +173,7 @@ export const InputSelect = forwardRef<
             menuIsOpen={menuIsOpen}
             initialValues={initialValues}
             defaultValue={defaultValue}
+            value={value}
             isClearable={isClearable}
             placeholder={isLoading === true ? loadingText : placeholder}
             isDisabled={isLoading === true || isDisabled === true}
@@ -187,6 +193,7 @@ export const InputSelect = forwardRef<
             menuIsOpen={menuIsOpen}
             initialValues={initialValues}
             defaultValue={defaultValue}
+            value={value}
             isClearable={isClearable}
             placeholder={isLoading === true ? loadingText : placeholder}
             isDisabled={isLoading === true || isDisabled === true}
