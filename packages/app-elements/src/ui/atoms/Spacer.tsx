@@ -30,10 +30,11 @@ export interface SpacerProps extends React.HTMLAttributes<HTMLDivElement> {
  * 12: 3rem, 48px
  * 14: 3.5rem, 56px
  */
-type SpacerValues = '2' | '4' | '6' | '8' | '10' | '12' | '14'
+type SpacerValues = '1' | '2' | '4' | '6' | '8' | '10' | '12' | '14'
 
 const marginTopCss: Record<SpacerValues | 'none', string> = {
   none: '',
+  '1': 'mt-1',
   '2': 'mt-2',
   '4': 'mt-4',
   '6': 'mt-6',
@@ -45,6 +46,7 @@ const marginTopCss: Record<SpacerValues | 'none', string> = {
 
 const marginBottomCss: Record<SpacerValues | 'none', string> = {
   none: '',
+  '1': 'mb-1',
   '2': 'mb-2',
   '4': 'mb-4',
   '6': 'mb-6',
@@ -56,6 +58,7 @@ const marginBottomCss: Record<SpacerValues | 'none', string> = {
 
 const marginLeftCss: Record<SpacerValues | 'none', string> = {
   none: '',
+  '1': 'ml-1',
   '2': 'ml-2',
   '4': 'ml-4',
   '6': 'ml-6',
@@ -67,6 +70,7 @@ const marginLeftCss: Record<SpacerValues | 'none', string> = {
 
 const marginRightCss: Record<SpacerValues | 'none', string> = {
   none: '',
+  '1': 'mr-1',
   '2': 'mr-2',
   '4': 'mr-4',
   '6': 'mr-6',
