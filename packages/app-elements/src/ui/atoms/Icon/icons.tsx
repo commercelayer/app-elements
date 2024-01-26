@@ -44,7 +44,7 @@ export const iconMapping = {
   linkSimple: phosphor.LinkSimple,
   list: phosphor.List,
   lockSimpleOpen: phosphor.LockSimpleOpen,
-  LockSimple: phosphor.LockSimple,
+  lockSimple: phosphor.LockSimple,
   magnifyingGlass: phosphor.MagnifyingGlass,
   megaphoneSimple: phosphor.MegaphoneSimple,
   minus: phosphor.Minus,
