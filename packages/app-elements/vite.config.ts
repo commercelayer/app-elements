@@ -27,6 +27,7 @@ export default defineConfig({
       // into your library
       external: Object.keys(pkg.peerDependencies),
       output: {
+        banner: `'use client';`,
         // Provide global variables to use in the UMD build
         // for externalized deps
         globals: {

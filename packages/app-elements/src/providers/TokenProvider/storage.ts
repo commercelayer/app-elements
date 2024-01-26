@@ -18,6 +18,10 @@ export function getPersistentAccessToken({
 }: {
   appSlug: TokenProviderAllowedApp
 }): string | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
   const storedAccessToken = window.localStorage.getItem(
     makeStorageKey({ appSlug, item: 'accessToken' })
   )
@@ -31,6 +35,10 @@ export function savePersistentAccessToken({
   appSlug: TokenProviderAllowedApp
   accessToken: string
 }): void {
+  if (typeof window === 'undefined') {
+    return
+  }
+
   window.localStorage.setItem(
     makeStorageKey({ appSlug, item: 'accessToken' }),
     accessToken
