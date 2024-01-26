@@ -21,6 +21,10 @@ export const getCurrentMode = ({
 }: {
   accessToken?: string | null
 }): Mode => {
+  if (typeof window === 'undefined') {
+    return 'live'
+  }
+
   const defaultMode = 'live'
   const modeParam = new URLSearchParams(window.location.search).get('mode')
 

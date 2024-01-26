@@ -1,6 +1,10 @@
 import { type Mode } from './types'
 
-export function getOrgSlugFromCurrentUrl(): string {
+export function getOrgSlugFromCurrentUrl(): string | null {
+  if (typeof window === 'undefined') {
+    return null
+  }
+
   const [orgSlug] = window.location.hostname.split('.')
 
   if (orgSlug === undefined) {
