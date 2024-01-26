@@ -1,6 +1,12 @@
+import { useEffect, useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { type GroupBase, type SelectInstance } from 'react-select'
 import { useValidationFeedback } from '../ReactHookForm'
-import { InputSelect, type InputSelectProps } from './InputSelect'
+import {
+  InputSelect,
+  type InputSelectProps,
+  type InputSelectValue
+} from './InputSelect'
 import { flatSelectValues, getDefaultValueFromFlatten } from './utils'
 
 export interface HookedInputSelectProps
@@ -37,8 +43,28 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
   pathToValue = 'value',
   ...props
 }: HookedInputSelectProps) => {
-  const { control } = useFormContext()
+  const { control, watch, getValues } = useFormContext()
   const feedback = useValidationFeedback(name)
+  const [prevWatched, setPrevWatched] = useState(getValues(name))
+
+  const watched = watch(name)
+
+  const ref =
+    useRef<
+      SelectInstance<InputSelectValue, boolean, GroupBase<InputSelectValue>>
+    >(null)
+
+  useEffect(
+    function resetInput() {
+      if (ref.current != null && watched == null && prevWatched !== watched) {
+        ref.current.clearValue()
+      }
+      setPrevWatched(watched)
+    },
+    [watched, ref]
+  )
+
+  const isAsync = props.loadAsyncValues != null
 
   return (
     <Controller
@@ -47,12 +73,26 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
       render={({ field: { onChange, value, onBlur } }) => (
         <InputSelect
           {...props}
+          ref={ref}
           onBlur={onBlur}
-          defaultValue={getDefaultValueFromFlatten({
-            initialValues: props.initialValues,
-            currentValue: value,
-            pathToValue
-          })}
+          defaultValue={
+            isAsync
+              ? getDefaultValueFromFlatten({
+                  initialValues: props.initialValues,
+                  currentValue: value,
+                  pathToValue
+                })
+              : undefined
+          }
+          value={
+            !isAsync
+              ? getDefaultValueFromFlatten({
+                  initialValues: props.initialValues,
+                  currentValue: value,
+                  pathToValue
+                })
+              : undefined
+          }
           onSelect={(values) => {
             onChange(flatSelectValues(values, pathToValue))
           }}

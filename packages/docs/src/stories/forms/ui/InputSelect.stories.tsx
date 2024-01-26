@@ -1,7 +1,7 @@
 import { InputSelect, type InputSelectValue } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-const fullList = [
+const fullList: InputSelectValue[] = [
   { value: 'customers', label: 'Customers' },
   { value: 'customer_subscriptions', label: 'Customer subscriptions' },
   { value: 'skus', label: 'SKUs' },
@@ -56,7 +56,7 @@ Default.args = {
 }
 
 /**
- * <span type='info'>Default mode with ability to search within the provided `initialValues`</span>
+ * Default mode with ability to search within the provided `initialValues`
  */
 export const Simple = Template.bind({})
 Simple.args = {
@@ -69,7 +69,24 @@ Simple.args = {
 }
 
 /**
- * <span type='info'>With the `loadAsyncValues` prop, it's possible to return options asynchronously while typing. </span>
+ * Use `isDisabled` option property to disable the option. In the list below `Customers` will be disabled.
+ */
+export const DisabledOptions = Template.bind({})
+DisabledOptions.args = {
+  label: 'Search resource',
+  initialValues: [
+    { value: 'customer_subscriptions', label: 'Customer subscriptions' },
+    { value: 'customers', label: 'Customers', isDisabled: true },
+    { value: 'skus', label: 'SKUs' }
+  ],
+  placeholder: 'Type to filter list...',
+  isSearchable: true,
+  isClearable: false,
+  onBlur: () => {}
+}
+
+/**
+ * With the `loadAsyncValues` prop, it's possible to return options asynchronously while typing.
  */
 export const Async = Template.bind({})
 Async.args = {
@@ -92,7 +109,7 @@ Async.args = {
 }
 
 /**
- * <span type='info'>`isMulti` allows to select more than one value</span>
+ * `isMulti` allows to select more than one value
  */
 export const Multi = Template.bind({})
 Multi.args = {
@@ -105,7 +122,7 @@ Multi.args = {
 }
 
 /**
- * <span type='info'>Options can be grouped by passing an array of objects with `label` and `options` properties.</span>
+ * Options can be grouped by passing an array of objects with `label` and `options` properties.
  */
 export const GroupedOptions = Template.bind({})
 GroupedOptions.args = {
@@ -115,7 +132,7 @@ GroupedOptions.args = {
       label: 'Europe',
       options: [
         { label: 'France', value: 'fr' },
-        { label: 'Italy', value: 'it' },
+        { label: 'Italy', value: 'it', isDisabled: true },
         { label: 'Spain', value: 'es' },
         { label: 'Germany', value: 'de' }
       ]

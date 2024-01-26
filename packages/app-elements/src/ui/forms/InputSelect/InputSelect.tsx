@@ -2,8 +2,14 @@ import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
-import { type FocusEventHandler } from 'react'
-import { type MultiValue, type Options, type SingleValue } from 'react-select'
+import { forwardRef, type FocusEventHandler } from 'react'
+import {
+  type GroupBase,
+  type MultiValue,
+  type Options,
+  type SelectInstance,
+  type SingleValue
+} from 'react-select'
 import { AsyncSelectComponent } from './AsyncComponent'
 import { SelectComponent } from './SelectComponent'
 import { getSelectStyles } from './styles'
@@ -17,6 +23,7 @@ export interface InputSelectValue {
   value: string | number
   label: string
   meta?: Record<string, any>
+  isDisabled?: boolean
 }
 
 export type PossibleSelectValue =
@@ -32,6 +39,10 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    * Selected value or values, in case of `isMulti`
    */
   defaultValue?: InputSelectValue | InputSelectValue[]
+  /**
+   * Selected value or values, in case of `isMulti`
+   */
+  value?: InputSelectValue | InputSelectValue[]
   /**
    * Placeholder text to display when no value is selected
    */
@@ -115,76 +126,89 @@ export interface InputSelectProps extends InputWrapperBaseProps {
  * On both standard and async mode it can be set to select a single single value or multiple values.
  *
  */
-export const InputSelect: React.FC<InputSelectProps> = ({
-  label,
-  hint,
-  feedback,
-  menuIsOpen,
-  initialValues,
-  defaultValue,
-  isClearable,
-  isLoading,
-  loadingText = 'Loading...',
-  placeholder,
-  isDisabled,
-  isOptionDisabled,
-  isSearchable,
-  onSelect,
-  isMulti,
-  onBlur,
-  name,
-  className,
-  loadAsyncValues,
-  debounceMs,
-  noOptionsMessage = 'No results found',
-  ...rest
-}) => {
-  return (
-    <InputWrapper
-      className={className}
-      label={label}
-      hint={hint}
-      feedback={feedback}
-      name={name}
-      {...rest}
-    >
-      {loadAsyncValues != null ? (
-        <AsyncSelectComponent
-          menuIsOpen={menuIsOpen}
-          initialValues={initialValues}
-          defaultValue={defaultValue}
-          isClearable={isClearable}
-          placeholder={isLoading === true ? loadingText : placeholder}
-          isDisabled={isLoading === true || isDisabled === true}
-          onSelect={onSelect}
-          isMulti={isMulti}
-          onBlur={onBlur}
-          name={name}
-          noOptionsMessage={noOptionsMessage}
-          loadAsyncValues={loadAsyncValues}
-          styles={getSelectStyles(feedback?.variant)}
-          debounceMs={debounceMs}
-          isOptionDisabled={isOptionDisabled}
-        />
-      ) : (
-        <SelectComponent
-          menuIsOpen={menuIsOpen}
-          initialValues={initialValues}
-          defaultValue={defaultValue}
-          isClearable={isClearable}
-          placeholder={isLoading === true ? loadingText : placeholder}
-          isDisabled={isLoading === true || isDisabled === true}
-          isSearchable={isSearchable}
-          onSelect={onSelect}
-          isMulti={isMulti}
-          isOptionDisabled={isOptionDisabled}
-          onBlur={onBlur}
-          name={name}
-          styles={getSelectStyles(feedback?.variant)}
-        />
-      )}
-    </InputWrapper>
-  )
-}
+export const InputSelect = forwardRef<
+  SelectInstance<InputSelectValue, boolean, GroupBase<InputSelectValue>>,
+  InputSelectProps
+>(
+  (
+    {
+      label,
+      hint,
+      feedback,
+      menuIsOpen,
+      initialValues,
+      defaultValue,
+      value,
+      isClearable,
+      isLoading,
+      loadingText = 'Loading...',
+      placeholder,
+      isDisabled,
+      isOptionDisabled,
+      isSearchable,
+      onSelect,
+      isMulti,
+      onBlur,
+      name,
+      className,
+      loadAsyncValues,
+      debounceMs,
+      noOptionsMessage = 'No results found',
+      ...rest
+    },
+    ref
+  ) => {
+    return (
+      <InputWrapper
+        className={className}
+        label={label}
+        hint={hint}
+        feedback={feedback}
+        name={name}
+        {...rest}
+      >
+        {loadAsyncValues != null ? (
+          <AsyncSelectComponent
+            ref={ref}
+            menuIsOpen={menuIsOpen}
+            initialValues={initialValues}
+            defaultValue={defaultValue}
+            value={value}
+            isClearable={isClearable}
+            placeholder={isLoading === true ? loadingText : placeholder}
+            isDisabled={isLoading === true || isDisabled === true}
+            onSelect={onSelect}
+            isMulti={isMulti}
+            onBlur={onBlur}
+            name={name}
+            noOptionsMessage={noOptionsMessage}
+            loadAsyncValues={loadAsyncValues}
+            styles={getSelectStyles(feedback?.variant)}
+            debounceMs={debounceMs}
+            isOptionDisabled={isOptionDisabled}
+          />
+        ) : (
+          <SelectComponent
+            ref={ref}
+            menuIsOpen={menuIsOpen}
+            initialValues={initialValues}
+            defaultValue={defaultValue}
+            value={value}
+            isClearable={isClearable}
+            placeholder={isLoading === true ? loadingText : placeholder}
+            isDisabled={isLoading === true || isDisabled === true}
+            isSearchable={isSearchable}
+            onSelect={onSelect}
+            isMulti={isMulti}
+            isOptionDisabled={isOptionDisabled}
+            onBlur={onBlur}
+            name={name}
+            styles={getSelectStyles(feedback?.variant)}
+          />
+        )}
+      </InputWrapper>
+    )
+  }
+)
 
 InputSelect.displayName = 'InputSelect'

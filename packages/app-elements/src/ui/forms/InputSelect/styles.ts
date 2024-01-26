@@ -18,7 +18,7 @@ export const getSelectStyles = (
     ...style,
     padding: '0'
   }),
-  option: (style, { isSelected, isFocused }) => ({
+  option: (style, { isSelected, isFocused, isDisabled }) => ({
     ...style,
     padding: '0.625rem 1rem',
     backgroundColor: isSelected
@@ -26,7 +26,7 @@ export const getSelectStyles = (
       : isFocused
         ? '#F8F8F8'
         : 'transparent',
-    color: isSelected ? '#fff' : 'rgb(40 41 41)',
+    color: isSelected ? '#fff' : isDisabled ? '#BBBEBE' : 'rgb(40 41 41)',
     fontSize: 16,
     fontWeight: 500,
     cursor: 'pointer',

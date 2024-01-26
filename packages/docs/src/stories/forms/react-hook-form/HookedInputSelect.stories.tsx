@@ -15,17 +15,37 @@ const setup: Meta<typeof HookedInputSelect> = {
 export default setup
 
 const Template: StoryFn<typeof HookedInputSelect> = (args) => {
-  const methods = useForm()
+  const methods = useForm({
+    resolver: async (data, context) => {
+      return {
+        errors:
+          data.city == null || data.city.length === 0
+            ? { city: { type: 'required', message: 'City is required' } }
+            : {},
+        values: data
+      }
+    }
+  })
 
   return (
     <HookedForm
       {...methods}
-      onSubmit={(values) => {
+      onSubmit={(values): void => {
         alert(JSON.stringify(values))
       }}
     >
       <HookedInputSelect {...args} />
       <Spacer top='4'>
+        <Button
+          type='reset'
+          variant='secondary'
+          onClick={() => {
+            methods.reset()
+          }}
+        >
+          Reset
+        </Button>
+        &nbsp;&nbsp;&nbsp;
         <Button type='submit'>Submit</Button>
       </Spacer>
     </HookedForm>
@@ -54,7 +74,8 @@ Default.args = {
     },
     {
       value: 'london',
-      label: 'London'
+      label: 'London',
+      isDisabled: true
     }
   ]
 }
@@ -83,7 +104,8 @@ MultiSelect.args = {
       label: 'Rome',
       meta: {
         cityCode: 'EU_ROME'
-      }
+      },
+      isDisabled: true
     },
     {
       value: 'new york',
@@ -93,4 +115,40 @@ MultiSelect.args = {
       }
     }
   ]
+}
+
+export const Clear: StoryFn<typeof HookedInputSelect> = () => {
+  const methods = useForm({
+    defaultValues: { city: ['paris'] }
+  })
+
+  return (
+    <HookedForm
+      {...methods}
+      onSubmit={(values) => {
+        alert(JSON.stringify(values))
+      }}
+    >
+      <HookedInputSelect
+        name='city'
+        isMulti
+        label='Search resource'
+        initialValues={MultiSelect.args?.initialValues ?? []}
+        placeholder='Type to filter list...'
+      />
+      <Spacer top='4'>
+        <Button
+          type='reset'
+          variant='secondary'
+          onClick={() => {
+            methods.reset()
+          }}
+        >
+          Reset
+        </Button>
+        &nbsp;&nbsp;&nbsp;
+        <Button type='submit'>Submit</Button>
+      </Spacer>
+    </HookedForm>
+  )
 }
