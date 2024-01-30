@@ -6,19 +6,23 @@ exports[`PageLayout > Should be rendered 1`] = `
   data-testid="my-page"
 >
   <div
-    class="w-full pt-10 pb-14"
+    class="mb-14"
   >
-    <h1
-      class="font-semibold text-title leading-title"
-    >
-      Page title
-    </h1>
     <div
-      class="text-gray-500 leading-6 mt-2"
-    />
-  </div>
-  <div>
-    Content...
+      class="w-full pt-10 pb-14"
+    >
+      <h1
+        class="font-semibold text-title leading-title"
+      >
+        Page title
+      </h1>
+      <div
+        class="text-gray-500 leading-6 mt-2"
+      />
+    </div>
+    <div>
+      Content...
+    </div>
   </div>
 </div>
 `;
