@@ -9,17 +9,28 @@ import {
 import type { Promotion } from '@commercelayer/sdk'
 import { type ResourceToProps } from '../types'
 
+export const referenceOrigins = {
+  appPromotions: 'app-promotions'
+} as const
+
 export const promotionToProps: ResourceToProps<Omit<Promotion, 'type'>> = ({
   resource,
   user
 }) => {
   const displayStatus = getPromotionDisplayStatus(resource)
   const hasCoupons = (resource.coupons ?? []).length > 0
+  const createdFromApi =
+    resource.reference_origin !== referenceOrigins.appPromotions
 
   return {
     name: (
       <>
         {resource.name}{' '}
+        {createdFromApi && (
+          <Badge className='ml-1' variant='warning'>
+            API
+          </Badge>
+        )}
         {hasCoupons && (
           <Badge className='ml-1' variant='teal'>
             coupons
