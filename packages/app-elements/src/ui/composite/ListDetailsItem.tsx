@@ -52,7 +52,7 @@ export function ListDetailsItem({
     <div
       data-testid={`list-details-item-${label}`}
       className={classNames(
-        'border-gray-100 overflow-hidden flex flex-col md:!flex-row md:!gap-4 py-2 md:py-0',
+        'border-gray-100 flex flex-col md:!flex-row md:!gap-4 py-2 md:py-0',
         {
           'px-4': gutter !== 'none',
           'border-b py-4 md:!py-2': border !== 'none'
@@ -65,7 +65,7 @@ export function ListDetailsItem({
       </div>
       <div
         data-testid={`list-details-item-${label}-value`}
-        className={classNames('w-full overflow-x-auto font-semibold', {
+        className={classNames('w-full font-semibold', {
           'py-2': !childrenHaveInternalPadding,
           'md:text-right': childrenAlign === 'right'
         })}
