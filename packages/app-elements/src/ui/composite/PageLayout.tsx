@@ -2,6 +2,8 @@ import type { ContainerProps } from '#ui/atoms/Container'
 import { Container } from '#ui/atoms/Container'
 import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
 import { ScrollToTop } from '#ui/atoms/ScrollToTop'
+import { Spacer } from '#ui/atoms/Spacer'
+import { Overlay } from '#ui/internals/Overlay'
 import { type ReactNode } from 'react'
 
 export interface PageLayoutProps
@@ -19,6 +21,10 @@ export interface PageLayoutProps
    */
   mode?: 'test' | 'live'
   /**
+   * Renders as overlay
+   */
+  overlay?: boolean
+  /**
    * Optional prop to enable scroll to top behavior on location change
    */
   scrollToTop?: boolean
@@ -34,10 +40,11 @@ export function PageLayout({
   gap,
   minHeight,
   scrollToTop,
+  overlay = false,
   ...rest
 }: PageLayoutProps): JSX.Element {
-  return (
-    <Container minHeight={minHeight} {...rest}>
+  const component = (
+    <>
       <PageHeading
         title={title}
         description={description}
@@ -49,6 +56,16 @@ export function PageLayout({
       />
       {children}
       {scrollToTop === true && <ScrollToTop />}
+    </>
+  )
+
+  if (overlay) {
+    return <Overlay backgroundColor='light'>{component}</Overlay>
+  }
+
+  return (
+    <Container minHeight={minHeight} {...rest}>
+      <Spacer bottom='14'>{component}</Spacer>
     </Container>
   )
 }
