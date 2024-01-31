@@ -1,7 +1,9 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
+import { Input } from '#ui/forms/Input'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
+import { InputSelect } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputCheckbox> = {
@@ -77,4 +79,31 @@ WithError.args = {
     variant: 'danger',
     message: 'Required field'
   }
+}
+
+export const WithCheckedElement: StoryFn<typeof InputCheckbox> = (args) => {
+  return (
+    <div style={{ height: '300px' }}>
+      <InputCheckbox>First checkbox</InputCheckbox>
+      <InputCheckbox defaultChecked checkedElement={<Input />}>
+        Set a name
+      </InputCheckbox>
+      <InputCheckbox
+        checkedElement={
+          <InputSelect
+            onSelect={() => {}}
+            hint={{ text: 'Select your preferred color.' }}
+            initialValues={[
+              { label: 'Red', value: 'red' },
+              { label: 'Green', value: 'green' },
+              { label: 'Blue', value: 'blue' }
+            ]}
+          />
+        }
+      >
+        Preferred color
+      </InputCheckbox>
+      <InputCheckbox>Last checkbox</InputCheckbox>
+    </div>
+  )
 }

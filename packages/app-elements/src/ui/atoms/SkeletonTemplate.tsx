@@ -164,14 +164,14 @@ const SkeletonTemplate: SkeletonTemplateComponent<
 
           if (
             isSpecificReactComponent(child, [
-              'Avatar',
-              'AvatarLetter',
-              'Badge',
-              'Button',
-              'Icon',
-              'StatusIcon',
-              'RadialProgress',
-              'ButtonFilter'
+              /^Avatar$/,
+              /^AvatarLetter$/,
+              /^Badge$/,
+              /^Button$/,
+              /^Icon$/,
+              /^StatusIcon$/,
+              /^RadialProgress$/,
+              /^ButtonFilter$/
             ])
           ) {
             return cloneElement(child, {
