@@ -57,7 +57,7 @@ export const WithCheckedElement: StoryFn = () => {
   const methods = useForm<Fields>({
     defaultValues: {
       color_selected: true,
-      color: null,
+      color: 'green',
       accept: false
     },
     resolver: async (data) => {
