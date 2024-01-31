@@ -24,7 +24,7 @@ export function HookedInputCheckbox({
   name,
   ...props
 }: HookedInputCheckboxProps): JSX.Element {
-  const { register, getValues, watch, resetField } = useFormContext()
+  const { register, getValues, watch, resetField, setValue } = useFormContext()
   const feedback = useValidationFeedback(name)
   const isChecked = Boolean(watch(name))
 
@@ -39,9 +39,13 @@ export function HookedInputCheckbox({
   }, [props.checkedElement])
 
   useEffect(() => {
-    if (!isChecked && childrenFieldNames.length > 0) {
+    if (childrenFieldNames.length > 0) {
       childrenFieldNames.forEach((fieldName) => {
-        resetField(fieldName)
+        if (isChecked) {
+          resetField(fieldName)
+        } else {
+          setValue(fieldName, undefined)
+        }
       })
     }
   }, [isChecked])
