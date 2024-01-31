@@ -1,4 +1,5 @@
-import { isValidElement, type ReactNode } from 'react'
+import { isDefined } from '#utils/array'
+import { Children, isValidElement, type ReactNode } from 'react'
 
 export function isFunctionComponent(
   reactNode: any
@@ -19,7 +20,7 @@ export function isFunctionComponent(
  * @example
  * ```jsx
  * React.Children.map(children, (child) =>
- *   isSpecificReactComponent(child, ['Button'])
+ *   isSpecificReactComponent(child, [/^Button$/])
  * )
  * // will return an array of true/false values depending if some child is a button
  * ```
@@ -27,7 +28,7 @@ export function isFunctionComponent(
 
 export function isSpecificReactComponent(
   reactNode: ReactNode,
-  displayNames: string[]
+  displayNames: RegExp[]
 ): boolean {
   if (reactNode == null) {
     return false
@@ -36,7 +37,11 @@ export function isSpecificReactComponent(
   return (
     isFunctionComponent(reactNode) &&
     reactNode.type.displayName !== undefined &&
-    displayNames.includes(reactNode.type.displayName)
+    displayNames.find(
+      (rx) =>
+        reactNode.type.displayName != null &&
+        rx.test(reactNode.type.displayName)
+    ) != null
   )
 }
 
@@ -67,4 +72,37 @@ export function getInnerText(reactNode: ReactNode): string {
   }
 
   return buf
+}
+
+/**
+ * Filter an `Element` looking for all children with the given `displayName`.
+ *
+ * @example
+ * ```tsx
+ * filterByDisplayName(children, /^Hooked/)
+ * // will return an array of all children with a displayName starting with `Hooked*`
+ * ```
+ */
+export function filterByDisplayName(
+  children: JSX.Element,
+  displayName: RegExp
+): JSX.Element[] {
+  return Children.toArray(children)
+    .flatMap((child) => {
+      if (
+        isValidElement(child) &&
+        isSpecificReactComponent(child, [displayName])
+      ) {
+        return child
+      }
+
+      if (isValidElement<any>(child)) {
+        if (child.props.children != null) {
+          return filterByDisplayName(child.props.children, displayName)
+        }
+      }
+
+      return null
+    })
+    .filter(isDefined)
 }

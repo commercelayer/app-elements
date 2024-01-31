@@ -1,4 +1,7 @@
 import { useValidationFeedback } from '#ui/forms/ReactHookForm'
+import { isDefined } from '#utils/array'
+import { filterByDisplayName } from '#utils/children'
+import { useEffect, useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { InputCheckbox, type InputCheckboxProps } from './InputCheckbox'
 
@@ -21,10 +24,36 @@ export function HookedInputCheckbox({
   name,
   ...props
 }: HookedInputCheckboxProps): JSX.Element {
-  const { register } = useFormContext()
+  const { register, getValues, watch, resetField } = useFormContext()
   const feedback = useValidationFeedback(name)
+  const isChecked = Boolean(watch(name))
 
-  return <InputCheckbox {...props} {...register(name)} feedback={feedback} />
+  /** Array of all `Hooked*` components from `checkedElement` */
+  const childrenFieldNames = useMemo<string[]>(() => {
+    if (props.checkedElement != null) {
+      return filterByDisplayName(props.checkedElement, /^Hooked/)
+        .map((child) => child.props.name as string | undefined)
+        .filter(isDefined)
+    }
+    return []
+  }, [props.checkedElement])
+
+  useEffect(() => {
+    if (!isChecked && childrenFieldNames.length > 0) {
+      childrenFieldNames.forEach((fieldName) => {
+        resetField(fieldName)
+      })
+    }
+  }, [isChecked])
+
+  return (
+    <InputCheckbox
+      {...props}
+      defaultChecked={getValues(name)}
+      {...register(name)}
+      feedback={feedback}
+    />
+  )
 }
 
 HookedInputCheckbox.displayName = 'HookedInputCheckbox'

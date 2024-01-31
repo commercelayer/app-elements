@@ -4,7 +4,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { forwardRef } from 'react'
+import { forwardRef, useState } from 'react'
 
 export interface InputCheckboxProps
   extends Omit<InputWrapperBaseProps, 'label' | 'inline'>,
@@ -14,14 +14,22 @@ export interface InputCheckboxProps
    * Example: `<Avatar>`
    */
   icon?: JSX.Element
+  /**
+   * Additional `Element` to be rendered when the input is checked
+   */
+  checkedElement?: JSX.Element
   children?: JSX.Element | string
 }
 
 export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
   (
-    { className, hint, feedback, icon, children, ...rest },
+    { className, hint, feedback, icon, children, checkedElement, ...rest },
     ref
   ): JSX.Element => {
+    const [checked, setChecked] = useState<boolean>(
+      rest.defaultChecked ?? rest.checked ?? false
+    )
+
     return (
       <InputWrapper
         hint={hint}
@@ -40,6 +48,14 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
           >
             <input
               type='checkbox'
+              onChangeCapture={(event) => {
+                setChecked(event.currentTarget.checked)
+                rest.onChangeCapture?.(event)
+              }}
+              onChange={(event) => {
+                setChecked(event.currentTarget.checked)
+                rest.onChange?.(event)
+              }}
               data-testid='checkbox-input'
               className={cn(
                 'border border-gray-300 rounded w-[18px] h-[18px] text-primary focus:ring-primary',
@@ -58,6 +74,9 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
             ) : null}
           </label>
         </div>
+        {checkedElement != null && (rest.checked === true || checked) && (
+          <div className='my-2 ml-[18px] pl-4'>{checkedElement}</div>
+        )}
       </InputWrapper>
     )
   }
