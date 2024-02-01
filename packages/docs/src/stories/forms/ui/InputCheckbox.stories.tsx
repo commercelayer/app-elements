@@ -19,9 +19,12 @@ const Template: StoryFn<typeof InputCheckbox> = (args) => {
   return <InputCheckbox {...args} />
 }
 
-export const Default = Template.bind({})
-Default.args = {
-  children: 'Click me'
+export const Default: StoryFn = () => {
+  return (
+    <InputCheckbox>
+      Click me <b>!!!</b>
+    </InputCheckbox>
+  )
 }
 
 export const WithAvatar = Template.bind({})
