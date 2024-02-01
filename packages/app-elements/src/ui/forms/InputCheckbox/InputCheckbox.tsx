@@ -18,7 +18,7 @@ export interface InputCheckboxProps
    * Additional `Element` to be rendered when the input is checked
    */
   checkedElement?: JSX.Element
-  children?: JSX.Element | string
+  children?: React.ReactNode
 }
 
 export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
