@@ -132,7 +132,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
-    getPersistentAccessToken({ appSlug })
+    getPersistentAccessToken({ appSlug, organizationSlug })
 
   const dashboardUrl = makeDashboardUrl({
     domain,
@@ -219,7 +219,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
             : null
 
         // all good
-        savePersistentAccessToken({ appSlug, accessToken })
+        savePersistentAccessToken({ appSlug, accessToken, organizationSlug })
         removeAuthParamsFromUrl()
 
         dispatch({
