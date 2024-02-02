@@ -232,6 +232,27 @@ ViewModeGrid.args = {
   ]
 }
 
+/** It possible to specify a custom CSS class name for a single option item */
+export const ItemCustomClassName = Template.bind({})
+ItemCustomClassName.args = {
+  title: 'Choose a color',
+  name: 'package',
+  viewMode: 'grid',
+  showInput: false,
+  options: [
+    {
+      value: 'orange',
+      className: 'text-orange',
+      content: <div>orange</div>
+    },
+    {
+      value: 'red',
+      className: 'text-red',
+      content: <div>red</div>
+    }
+  ]
+}
+
 export const DefaultValue = Template.bind({})
 DefaultValue.args = {
   name: 'package',
