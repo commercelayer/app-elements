@@ -1,4 +1,4 @@
-import { type ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
+import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
 import isEmpty from 'lodash/isEmpty'
 
 const currentVersion = 0.2
@@ -133,7 +133,7 @@ interface NavigateToInternalParams {
     /**
      * app name to navigate to, it could be the current app (internal linking) or another app (cross linking)
      */
-    app: ResourceTypeLock
+    app: TokenProviderAllowedApp
     /**
      * resource id to open
      */
@@ -149,7 +149,7 @@ interface NavigateToExternalParams {
     /**
      * app name to navigate to, it could be the current app (internal linking) or another app (cross linking)
      */
-    app: ResourceTypeLock
+    app: TokenProviderAllowedApp
     /**
      * resource id to open
      */
