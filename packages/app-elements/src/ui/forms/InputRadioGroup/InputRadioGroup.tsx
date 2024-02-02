@@ -17,6 +17,10 @@ interface OptionItem {
    * Item content to be displayed in the central section of the row
    */
   content: ReactNode
+  /**
+   * Optional CSS class name to be applied to the card item
+   */
+  className?: string
 }
 
 interface Props extends Pick<InputWrapperBaseProps, 'feedback' | 'hint'> {
@@ -82,14 +86,14 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
             'grid grid-cols-2': viewMode === 'grid'
           })}
         >
-          {options.map((optionItem, index) => {
+          {options.map((optionItem) => {
             const isSelected = optionItem.value === selectedValue
 
             return (
               <Card
                 key={optionItem.value}
                 overflow='hidden'
-                className={cn({
+                className={cn(optionItem.className, {
                   '!p-1': !isSelected,
                   'border-primary-500 border-2 !p-[calc(theme(space.1)-1px)]':
                     isSelected,
