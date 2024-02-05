@@ -24,7 +24,7 @@ export interface AvatarProps {
   shape?: 'rounded' | 'circle'
   /**
    * Image size
-   * (x-small: 32px, small: 48px, normal: 58px, large: 96px)
+   * (x-small: 32px, small: 48px, normal: 58px, large: 72px)
    * @default "normal"
    */
   size?: 'x-small' | 'small' | 'normal' | 'large'
@@ -61,7 +61,7 @@ export function Avatar({
         'border object-contain object-center',
         {
           // size
-          'min-w-[96px] min-h-[96px] w-[96px] h-[96px]': size === 'large',
+          'min-w-[72px] min-h-[72px] w-[72px] h-[72px]': size === 'large',
           'min-w-[58px] min-h-[58px] w-[58px] h-[58px]': size === 'normal',
           'min-w-[42px] min-h-[42px] w-[42px] h-[42px]': size === 'small',
           'min-w-8 min-h-8 w-8 h-8': size === 'x-small',
