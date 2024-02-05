@@ -61,7 +61,9 @@ interface UseResourceFiltersHook {
       ResourceListProps<TResource>,
       'type' | 'query' | 'emptyState' | 'actionButton'
     > &
-      ResourceListItemTemplate<TResource>
+      ResourceListItemTemplate<TResource> & {
+        hideTitle?: boolean
+      }
   ) => JSX.Element
   /**
    * SDK filters object to be used in the sdk query
@@ -108,7 +110,7 @@ export function useResourceFilters({
   )
 
   const FilteredList: UseResourceFiltersHook['FilteredList'] = useCallback(
-    (listProps) => {
+    ({ hideTitle, ...listProps }) => {
       if (listProps == null) {
         return <div>listProps not defined</div>
       }
@@ -119,12 +121,14 @@ export function useResourceFilters({
         <ResourceList
           {...listProps}
           title={
-            hasActiveFilter
-              ? 'Results'
-              : `All ${formatResourceName({
-                  resource: listProps.type,
-                  count: 'plural'
-                })}`
+            hideTitle === true
+              ? undefined
+              : hasActiveFilter
+                ? 'Results'
+                : `All ${formatResourceName({
+                    resource: listProps.type,
+                    count: 'plural'
+                  })}`
           }
           query={{
             ...listProps.query,
