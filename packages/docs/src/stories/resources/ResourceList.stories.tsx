@@ -48,6 +48,27 @@ export const WithItem: StoryFn<typeof ResourceList> = () => {
   )
 }
 
+export const WithNoTitle: StoryFn<typeof ResourceList> = () => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ResourceList
+          title={undefined}
+          emptyState={<div>Empty</div>}
+          type='orders'
+          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+            return (
+              <SkeletonTemplate isLoading={isLoading}>
+                <ResourceListItem resource={resource} />
+              </SkeletonTemplate>
+            )
+          }}
+        />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
 export const AsInputCheckboxGroup: StoryFn<typeof ResourceList> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
