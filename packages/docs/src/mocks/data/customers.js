@@ -1,4 +1,4 @@
-import { rest } from 'msw'
+import { HttpResponse, http } from 'msw'
 
 const mockedCustomer = {
   id: 'NMWYhbGorj',
@@ -23,27 +23,21 @@ const mockedCustomer = {
   meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
 }
 
-const customer = rest.get(
+const customer = http.get(
   `https://mock.localhost/api/customers/NMWYhbGorj`,
-  async (req, res, ctx) => {
-    return await res(
-      ctx.status(200),
-      ctx.json({
-        data: mockedCustomer
-      })
-    )
+  async () => {
+    return HttpResponse.json({
+      data: mockedCustomer
+    })
   }
 )
 
-const customerUpdate = rest.patch(
+const customerUpdate = http.patch(
   `https://mock.localhost/api/customers/NMWYhbGorj`,
-  async (req, res, ctx) => {
-    return await res(
-      ctx.status(200),
-      ctx.json({
-        data: mockedCustomer
-      })
-    )
+  async () => {
+    return HttpResponse.json({
+      data: mockedCustomer
+    })
   }
 )
 
