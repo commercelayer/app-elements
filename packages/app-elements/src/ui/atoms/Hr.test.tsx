@@ -7,6 +7,9 @@ describe('Hr', () => {
     const element = getByTestId('hr')
     expect(element).toBeVisible()
     expect(element.tagName).toBe('HR')
-    expect(element.classList).toContain(['border-t', 'border-gray-100'])
+    expect(Array.from(element.classList)).toEqual([
+      'border-t',
+      'border-gray-100'
+    ])
   })
 })
