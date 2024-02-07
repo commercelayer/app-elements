@@ -39,5 +39,8 @@
     "lerna": "^8.1.2",
     "lint-staged": "^15.2.2",
     "npm-check-updates": "^16.14.14"
+  },
+  "resolutions": {
+    "semver@5.7.1": "^5.7.2"
   }
 }
