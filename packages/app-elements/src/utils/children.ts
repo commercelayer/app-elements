@@ -1,9 +1,14 @@
 import { isDefined } from '#utils/array'
-import { Children, isValidElement, type ReactNode } from 'react'
+import {
+  Children,
+  isValidElement,
+  type ReactElement,
+  type ReactNode
+} from 'react'
 
 export function isFunctionComponent(
-  reactNode: any
-): reactNode is { type: React.FunctionComponent<any> } {
+  reactNode: ReactNode
+): reactNode is ReactElement<any, React.FunctionComponent<any>> {
   return (
     isValidElement(reactNode) &&
     typeof reactNode.type === 'function' &&
@@ -51,7 +56,7 @@ export function getInnerText(reactNode: ReactNode): string {
     if (typeof reactNode === 'string' || typeof reactNode === 'number') {
       buf += reactNode.toString()
     } else if (typeof reactNode === 'object') {
-      let children = null
+      let children: ReactNode = null
       if (Array.isArray(reactNode)) {
         children = reactNode
       } else {
@@ -61,7 +66,7 @@ export function getInnerText(reactNode: ReactNode): string {
       }
       if (children != null) {
         if (Array.isArray(children)) {
-          children.forEach(function (o) {
+          children.forEach(function (o: ReactNode) {
             buf += getInnerText(o)
           })
         } else {
@@ -98,7 +103,10 @@ export function filterByDisplayName(
 
       if (isValidElement<any>(child)) {
         if (child.props.children != null) {
-          return filterByDisplayName(child.props.children, displayName)
+          return filterByDisplayName(
+            child.props.children as JSX.Element,
+            displayName
+          )
         }
       }
 

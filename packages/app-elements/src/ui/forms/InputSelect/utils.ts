@@ -96,7 +96,7 @@ export function getDefaultValueFromFlatten({
 
   if (Array.isArray(currentValue)) {
     return options.filter((v) => {
-      const valueToCompare = get(v, pathToValue)
+      const valueToCompare: string | number = get(v, pathToValue)
       return currentValue.includes(valueToCompare)
     })
   }

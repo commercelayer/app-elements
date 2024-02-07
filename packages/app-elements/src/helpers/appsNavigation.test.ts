@@ -5,7 +5,7 @@ const currentVersion = 0.2
 
 const fakeEvent = {
   preventDefault: () => undefined
-} as unknown as React.MouseEvent<any, any>
+} as unknown as React.MouseEvent<HTMLDivElement | HTMLAnchorElement, MouseEvent>
 
 function getSessionStorageItem(key: string): BackToItem {
   return JSON.parse(sessionStorage.getItem(key) ?? '{}')
@@ -57,6 +57,7 @@ describe('navigateTo', () => {
 
     navigate?.onClick(fakeEvent)
 
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.location.assign).toBeCalledWith(
       'https://demo-store.commercelayer.app/customers/list/<customerId>?mode=test'
     )
@@ -189,6 +190,8 @@ describe('goBack', () => {
       defaultRelativePath: '/list',
       setLocation: () => undefined
     })
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.location.assign).toBeCalledWith(
       'https://demo-store.commercelayer.app/order/list/xbSzDaQsAZ'
     )

@@ -37,7 +37,7 @@ export function useAddCouponOverlay(
 
 const Form: React.FC<Props> = ({ order, onChange, close }) => {
   const { sdkClient } = useCoreSdkProvider()
-  const [apiError, setApiError] = useState<string>()
+  const [apiError, setApiError] = useState<any>()
 
   const validationSchema = useMemo(
     () =>
@@ -68,7 +68,7 @@ const Form: React.FC<Props> = ({ order, onChange, close }) => {
   return (
     <HookedForm
       {...formMethods}
-      onSubmit={async (values) => {
+      onSubmit={async (values): Promise<void> => {
         await sdkClient.orders
           .update({
             id: order.id,

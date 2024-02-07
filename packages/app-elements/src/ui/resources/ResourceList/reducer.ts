@@ -9,7 +9,7 @@ interface ResourceListInternalState<TResource extends ListableResourceType> {
   data?: FetcherResponse<Resource<TResource>> | undefined
 }
 
-export const initialState: ResourceListInternalState<any> = {
+export const initialState: ResourceListInternalState<ListableResourceType> = {
   isLoading: true
 }
 

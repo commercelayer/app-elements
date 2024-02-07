@@ -59,7 +59,11 @@ function childRecursiveMap(
     if (child.props.children != null) {
       return fn(
         cloneElement(child, {
-          children: childrenRecursiveMap(child.props.children, options, fn)
+          children: childrenRecursiveMap(
+            child.props.children as JSX.Element,
+            options,
+            fn
+          )
         })
       )
     }
@@ -147,19 +151,21 @@ const SkeletonTemplate: SkeletonTemplateComponent<
           }
 
           const props = Object.fromEntries(
-            Object.entries(child.props).map(([key, value]) => {
-              if (key !== 'children' && isValidElement(value)) {
-                const newValue = (
-                  <SkeletonTemplate delayMs={0} isLoading>
-                    {value}
-                  </SkeletonTemplate>
-                )
+            Object.entries(child.props as Record<string, unknown>).map(
+              ([key, value]) => {
+                if (key !== 'children' && isValidElement(value)) {
+                  const newValue = (
+                    <SkeletonTemplate delayMs={0} isLoading>
+                      {value}
+                    </SkeletonTemplate>
+                  )
 
-                return [key, newValue]
+                  return [key, newValue]
+                }
+
+                return [key, value]
               }
-
-              return [key, value]
-            })
+            )
           )
 
           if (
