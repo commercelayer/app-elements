@@ -4,6 +4,8 @@ import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useMemo, type FC } from 'react'
 
+type ListItemVariant = 'list' | 'card'
+
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   /**
    * Icon component
@@ -31,6 +33,16 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
    * @default 'solid'
    */
   borderStyle?: 'dashed' | 'solid' | 'none'
+  /**
+   * ListItem variant: 'list' or 'card' with rounded borders
+   * @default 'list'
+   */
+  variant?: ListItemVariant
+  /**
+   * Disabled effect
+   * @default undefined
+   */
+  disabled?: boolean
 }
 
 export type ListItemProps = Props &
@@ -58,6 +70,8 @@ export const ListItem: FC<ListItemProps> = ({
   alignItems = 'center',
   alignIcon = 'top',
   borderStyle = 'solid',
+  variant = 'list',
+  disabled = false,
   ...rest
 }) => {
   const JsxTag = useMemo(
@@ -70,7 +84,8 @@ export const ListItem: FC<ListItemProps> = ({
     [rest.tag]
   )
   const hasHover =
-    rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href))
+    !disabled &&
+    (rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href)))
 
   const pySize = cn({
     'py-4': paddingSize === '4',
@@ -92,7 +107,9 @@ export const ListItem: FC<ListItemProps> = ({
           [pxSize]: padding !== 'none' && padding !== 'y',
           'border-dashed': borderStyle === 'dashed',
           'border-b': borderStyle !== 'none',
-          'cursor-pointer hover:bg-gray-50': hasHover
+          'cursor-pointer hover:bg-gray-50': hasHover,
+          'border rounded': variant === 'card',
+          'border-gray-200 bg-gray-100': disabled
         },
         className
       )}
