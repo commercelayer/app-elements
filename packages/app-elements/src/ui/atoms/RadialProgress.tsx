@@ -109,7 +109,7 @@ function RadialProgress({
  * @returns a number from 0 to 100
  */
 function parsePercentageRange(percentage: any): number {
-  if (isNaN(percentage) || percentage < 0) {
+  if (typeof percentage !== 'number' || isNaN(percentage) || percentage < 0) {
     return 0
   }
 

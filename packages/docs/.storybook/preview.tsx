@@ -96,7 +96,8 @@ if (typeof global.process === 'undefined') {
     },
     quiet: import.meta.env.PROD,
     onUnhandledRequest: !import.meta.env.PROD ? (req, reqPrint) => {
-      if (req.url.hostname === 'mock.localhost') {
+      const url = new URL(req.url)
+      if (url.hostname === 'mock.localhost') {
         reqPrint.warning()
       }
     } : () => {}

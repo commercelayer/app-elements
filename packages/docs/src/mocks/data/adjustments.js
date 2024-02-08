@@ -1,30 +1,34 @@
-import { rest } from 'msw'
+import { HttpResponse, delay, http } from 'msw'
 
-const restPost = rest.post(
+const restPost = http.post(
   `https://mock.localhost/api/adjustments`,
-  async (req, res, ctx) => {
-    return await res(ctx.status(200), ctx.delay(1000), ctx.json(adjustment))
+  async () => {
+    await delay(1000)
+    return HttpResponse.json(adjustment)
   }
 )
 
-const restGet = rest.get(
+const restGet = http.get(
   `https://mock.localhost/api/adjustments/QWOaGhpKbd`,
-  async (req, res, ctx) => {
-    return await res(ctx.status(200), ctx.delay(1000), ctx.json(adjustment))
+  async () => {
+    await delay(1000)
+    return HttpResponse.json(adjustment)
   }
 )
 
-const restPatch = rest.patch(
+const restPatch = http.patch(
   `https://mock.localhost/api/adjustments/QWOaGhpKbd`,
-  async (req, res, ctx) => {
-    return await res(ctx.status(200), ctx.delay(1000), ctx.json(adjustment))
+  async () => {
+    await delay(1000)
+    return HttpResponse.json(adjustment)
   }
 )
 
-const restDelete = rest.delete(
+const restDelete = http.delete(
   `https://mock.localhost/api/adjustments/QWOaGhpKbd`,
-  async (req, res, ctx) => {
-    return await res(ctx.status(200), ctx.delay(1000), ctx.json(adjustment))
+  async () => {
+    await delay(1000)
+    return HttpResponse.json(adjustment)
   }
 )
 

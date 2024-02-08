@@ -1,6 +1,6 @@
 import { Overlay, type OverlayProps } from '#ui/internals/Overlay'
 import { useCallback, useEffect, useState } from 'react'
-import { useSearch } from 'wouter/use-location'
+import { useSearch } from 'wouter/use-browser-location'
 
 interface OverlayOptions {
   /**

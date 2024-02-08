@@ -154,7 +154,7 @@ const SelectCountry: React.FC = () => {
 
   useEffect(() => {
     void fetch('https://data.commercelayer.app/assets/lists/countries.json')
-      .then(async (res) => await res.json())
+      .then<InputSelectValue[]>(async (res) => await res.json())
       .then((data) => {
         setCountries(data)
       })
@@ -194,15 +194,10 @@ const SelectStates: React.FC = () => {
       void fetch(
         `https://data.commercelayer.app/assets/lists/states/${countryCode}.json`
       )
-        .then(async (res) => await res.json())
+        .then<InputSelectValue[]>(async (res) => await res.json())
         .then((data) => {
           setStates(data)
-          if (
-            data.find(
-              ({ value }: { value: string; label: string }) =>
-                value === stateCode
-            ) == null
-          ) {
+          if (data.find(({ value }) => value === stateCode) == null) {
             // reset state_code if not found in the list
             setValue('state_code', '')
           }

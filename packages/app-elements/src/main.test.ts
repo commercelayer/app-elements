@@ -39,6 +39,7 @@ async function getExports(path: string | string[]): Promise<string[]> {
     await Promise.all(
       files.map(async (file) =>
         Object.keys(
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
           await import(
             join(
               path,

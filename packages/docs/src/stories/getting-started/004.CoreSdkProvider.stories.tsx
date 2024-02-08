@@ -101,7 +101,13 @@ export const UseCoreApiData: StoryFn = () => {
       error: <b>{error?.message}</b>
       <br />
       Order IDs:{' '}
-      <pre>{JSON.stringify(orders?.map((o) => o.id), undefined, 2)}</pre>
+      <pre>
+        {JSON.stringify(
+          orders?.map((o) => o.id),
+          undefined,
+          2
+        )}
+      </pre>
     </div>
   )
 }

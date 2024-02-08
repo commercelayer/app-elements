@@ -88,6 +88,8 @@ describe('useOverlay in `queryParam` mode', () => {
     act(() => {
       fireEvent.click(getByText('close overlay'))
     })
+
+    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.history.back).toBeCalledTimes(1)
   })
 })

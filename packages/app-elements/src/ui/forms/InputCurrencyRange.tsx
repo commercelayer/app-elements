@@ -38,7 +38,7 @@ export function InputCurrencyRange({
   currencyList,
   inline,
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  defaultCurrency = currencyList[0]!,
+  defaultCurrency = currencyList[0],
   className,
   feedback
 }: InputCurrencyRangeProps): JSX.Element {

@@ -80,7 +80,9 @@ describe('CopyToClipboard click', () => {
 
     fireEvent.click(getByTestId('copy-value-button'))
     await waitFor(() => {
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(navigator.clipboard.writeText).toBeCalledTimes(1)
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith(value)
       expect(navigator.clipboard.readText()).toBe(value)
     })

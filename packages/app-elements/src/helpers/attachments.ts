@@ -25,7 +25,8 @@ export function isAttachmentValidNote(
   }
 
   return (
-    validReferenceOrigins.includes(attachment.reference_origin as any) &&
-    attachment.description != null
+    validReferenceOrigins.includes(
+      attachment.reference_origin as (typeof validReferenceOrigins)[number]
+    ) && attachment.description != null
   )
 }

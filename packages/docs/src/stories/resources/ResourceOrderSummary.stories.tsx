@@ -22,7 +22,7 @@ type Order = Parameters<typeof ResourceOrderSummary>[0]['order']
 const order: Order = {
   type: 'orders',
   id: 'JZYhBKoLZW',
-  number: 45531033,
+  number: '45531033',
   status: 'placed',
   payment_status: 'authorized',
   fulfillment_status: 'unfulfilled',
