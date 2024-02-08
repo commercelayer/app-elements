@@ -56,6 +56,23 @@ WithIcon.args = {
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
 }
 
+export const Card = WithIconTemplate.bind({})
+Card.args = {
+  tag: 'div',
+  icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
+  onClick: () => {},
+  variant: 'card'
+}
+
+export const Disabled = WithIconTemplate.bind({})
+Disabled.args = {
+  tag: 'div',
+  icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
+  onClick: () => {},
+  variant: 'card',
+  disabled: true
+}
+
 export const WithCenteredIcon = WithIconTemplate.bind({})
 WithCenteredIcon.args = {
   tag: 'div',
