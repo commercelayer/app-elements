@@ -82,7 +82,17 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       )}
       {...rest}
     >
-      {showValue && <p className='overflow-x-auto py-2'>{value}</p>}
+      {showValue && (
+        <p className='overflow-x-auto py-2'>
+          {isJsonString(value) ? (
+            <div className='whitespace-pre max-h-[200px] font-mono font-medium'>
+              {JSON.stringify(JSON.parse(value), null, 2)}
+            </div>
+          ) : (
+            value
+          )}
+        </p>
+      )}
       <div className='pt-2'>
         <button
           type='button'
@@ -137,6 +147,16 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       </div>
     </div>
   )
+}
+
+/** check if a string can be considered as stringified JSON object */
+function isJsonString(str: string): boolean {
+  try {
+    JSON.parse(str)
+  } catch (e) {
+    return false
+  }
+  return true
 }
 
 CopyToClipboard.displayName = 'CopyToClipboard'

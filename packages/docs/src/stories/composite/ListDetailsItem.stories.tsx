@@ -1,5 +1,6 @@
 import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
+import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { Text } from '#ui/atoms/Text'
@@ -108,3 +109,45 @@ export const ListWithActions: StoryFn<typeof ListDetailsItem> = (_args) => {
     </Section>
   )
 }
+
+/**
+ * ListDetailsItem allow to render long content without breaking the layout.
+ *
+ * Just be sure that the long children passed to the component can automatically handle the overflow, or content will be truncated by css.
+ */
+export const ListWithCopyToClipboardAndLongContent: StoryFn<
+  typeof ListDetailsItem
+> = (_args) => (
+  <>
+    <ListDetailsItem label='Status'>
+      <Button variant='link'>In transit</Button>
+    </ListDetailsItem>
+    <ListDetailsItem label='Tracking'>42314321ASD4545</ListDetailsItem>
+    <ListDetailsItem label='Payment instrument:'>
+      <CopyToClipboard value='{"issuer_type":"cards"}' />
+    </ListDetailsItem>
+    <ListDetailsItem label='Payment request data:'>
+      <CopyToClipboard
+        value={`{"web-app":{"servlet":[{"servlet-name":"cofaxEmail","servlet-class":"org.cofax.cds.EmailServlet","init-param":{"mailHost":"mail1","mailHostOverride":"mail2"}},{"servlet-name":"cofaxAdmin","servlet-class":"org.cofax.cds.AdminServlet"},{"servlet-name":"fileServlet","servlet-class":"org.cofax.cds.FileServlet"},{"servlet-name":"cofaxTools","servlet-class":"org.cofax.cms.CofaxToolsServlet","init-param":{"templatePath":"toolstemplates/","log":1,"logLocation":"/usr/local/tomcat/logs/CofaxTools.log","logMaxSize":"","dataLog":1,"dataLogLocation":"/usr/local/tomcat/logs/dataLog.log","dataLogMaxSize":"","removePageCache":"/content/admin/remove?cache=pages&id=","removeTemplateCache":"/content/admin/remove?cache=templates&id=","fileTransferFolder":"/usr/local/tomcat/webapps/content/fileTransferFolder","lookInContext":1,"adminGroupID":4,"betaServer":true}}],"servlet-mapping":{"cofaxCDS":"/","cofaxEmail":"/cofaxutil/aemail/*","cofaxAdmin":"/admin/*","fileServlet":"/static/*","cofaxTools":"/tools/*"},"taglib":{"taglib-uri":"cofax.tld","taglib-location":"/WEB-INF/tlds/cofax.tld"}}}`}
+      />
+    </ListDetailsItem>
+    <ListDetailsItem label='Description:'>
+      <CopyToClipboard value='Body-hugging crop top that will become the centerpiece of any summer outfit! 82% polyester, 18% spandex. Made with a smooth and comfortable microfiber yarn.' />
+    </ListDetailsItem>
+
+    <ListDetailsItem label='Long string (no whitespaces):'>
+      <CopyToClipboard value='eyJ2ZXJzaW9uIjoiMS4wLjAiLCJkZXZpY2VGaW5nZXJwcmludCI6IjFCMk0yWdsdsadsdsAwMDAwSHhaMmZZNHUwN3J6c2VLR1FKOWw6NDAiLCJwZXJzaXN0ZW50Q29va2llIjpbXSwiY29tcG9uZW50cyI6edsdsdsdxNmUzNdsdsdsdsdsdsdsdsdsdsdwMDAwMDAwMDAwMCJ9fQ' />
+    </ListDetailsItem>
+    <ListDetailsItem label='String child that do not handle overflow:'>
+      eyJ2ZXJzaW9uIjoiMS4wLjAiLCJkZXZpY2VGaW5nZXJwcmludCI6IjFCMk0yWdsdsadsdsAwMDAwSHhaMmZZNHUwN3J6c2VLR1FKOWw6NDAiLCJwZXJzaXN0ZW50Q29va2llIjpbXSwiY29tcG9uZW50cyI6edsdsdsdxNmUzNdsdsdsdsdsdsdsdsdsdsdwMDAwMDAwMDAwMCJ9fQ
+    </ListDetailsItem>
+    <ListDetailsItem label='Long content in <Text>:' childrenAlign='right'>
+      <Text>
+        customer, shipping_address, billing_address,
+        payment_method.payment_gateway, line_items.item, shipments.parcels,
+        line_items.stock_line_items.stock_item.sku.prices,
+        shipments.shipping_method
+      </Text>
+    </ListDetailsItem>
+  </>
+)
