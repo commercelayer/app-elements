@@ -52,7 +52,7 @@ export function ListDetailsItem({
     <div
       data-testid={`list-details-item-${label}`}
       className={classNames(
-        'border-gray-100 flex flex-col md:!flex-row md:!gap-4 py-2 md:py-0',
+        'border-gray-100 md:!gap-4 py-2 md:py-0 grid md:!grid-cols-[1fr,1.4fr]',
         {
           'px-4': gutter !== 'none',
           'border-b py-4 md:!py-2': border !== 'none'
@@ -60,14 +60,16 @@ export function ListDetailsItem({
       )}
       {...rest}
     >
-      <div className='text-gray-500 font-medium flex-none w-5/12 md:!py-2'>
+      <div className='text-gray-500 font-medium flex-none w-full md:!py-2 min-w-0'>
         {label}
       </div>
       <div
         data-testid={`list-details-item-${label}-value`}
-        className={classNames('w-full font-semibold', {
+        // keep `min-w-0` to avoid grid overflow when grid-item content is too long
+        className={classNames('font-semibold min-w-0', {
           'py-2': !childrenHaveInternalPadding,
-          'md:text-right': childrenAlign === 'right'
+          'md:text-right': childrenAlign === 'right',
+          truncate: typeof children === 'string'
         })}
       >
         {isLoading === true ? (
