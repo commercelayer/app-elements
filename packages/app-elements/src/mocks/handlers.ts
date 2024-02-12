@@ -102,6 +102,25 @@ export const handlers = [
     )
   }),
 
+  http.get(`https://*/api/markets/AlRevhXQga`, async ({ request }) => {
+    return HttpResponse.json({
+      data: {
+        id: 'AlRevhXQga',
+        type: 'markets',
+        links: {
+          self: 'https://alessani.commercelayer.co/api/markets/AlRevhXQga'
+        },
+        attributes: {
+          name: 'Europe'
+        },
+        meta: {
+          mode: 'test',
+          organization_id: 'WXlEOFrjnr'
+        }
+      }
+    })
+  }),
+
   ...customers,
   ...countries
 ]

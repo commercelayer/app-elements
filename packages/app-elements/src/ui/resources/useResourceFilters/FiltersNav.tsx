@@ -253,7 +253,8 @@ export function FiltersNav({
 
         if (
           instructionItem.render.component === 'inputResourceGroup' &&
-          arrValue[0] !== undefined
+          arrValue[0] !== undefined &&
+          arrValue.length === 1
         ) {
           return (
             <ButtonFilterFetchResource
