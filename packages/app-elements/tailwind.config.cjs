@@ -13,9 +13,13 @@ function alphaToHex(percentage) {
 module.exports = {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    screens: {
+      md: '768px',
+      lg: '992px',
+      xl: '1200px'
+    },
     container: {
       screens: {
-        sm: '540px',
         md: '632px'
       }
     },

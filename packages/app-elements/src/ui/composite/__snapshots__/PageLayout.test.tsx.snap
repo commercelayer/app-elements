@@ -2,7 +2,7 @@
 
 exports[`PageLayout > Should be rendered 1`] = `
 <div
-  class="container mx-auto  flex flex-col px-4 md:!px-0 min-h-screen"
+  class="container mx-auto flex flex-col px-4 md:px-0 min-h-screen"
   data-testid="my-page"
 >
   <div
