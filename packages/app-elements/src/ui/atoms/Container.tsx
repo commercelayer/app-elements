@@ -25,7 +25,7 @@ export const Container: React.FC<ContainerProps> = ({
   return (
     <div
       className={cn(
-        'container mx-auto  flex flex-col px-4 md:!px-0',
+        'container mx-auto flex flex-col px-4 md:px-0',
         { 'min-h-screen': minHeight },
         className
       )}

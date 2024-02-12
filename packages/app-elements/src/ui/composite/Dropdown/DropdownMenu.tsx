@@ -48,7 +48,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
       )}
       <div
         {...rest}
-        className='bg-black text-white rounded min-w-[150px] overflow-hidden py-1 sm:max-w-[250px]'
+        className='bg-black text-white rounded min-w-[150px] overflow-hidden py-1 md:max-w-[250px]'
       >
         {menuHeader != null && (
           <>

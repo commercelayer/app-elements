@@ -34,7 +34,7 @@ function Grid({
     <div
       className={cn('grid grid-cols-1 gap-4', className, {
         'grid-flow-col': columns === 'auto',
-        'sm:!grid-cols-2': columns === '2',
+        'md:grid-cols-2': columns === '2',
         'items-center': alignItems === 'center',
         'items-start': alignItems === 'start',
         'items-end': alignItems === 'end'
