@@ -22,7 +22,7 @@ export interface TableProps {
  */
 export const Table: React.FC<TableProps> = ({ thead, tbody, className }) => {
   return (
-    <table className={cn(['w-full rounded overflow-hidden', className])}>
+    <table className={cn(['w-full', className])}>
       {thead != null && <thead>{thead}</thead>}
       {tbody != null && <tbody>{tbody}</tbody>}
     </table>
