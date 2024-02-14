@@ -1,33 +1,14 @@
-import type { TriggerAttribute } from '#helpers/resources'
 import type { StatusIconProps } from '#ui/atoms/StatusIcon'
-import type { Order, OrderUpdate } from '@commercelayer/sdk'
+import type { Order } from '@commercelayer/sdk'
 import type { DisplayStatus } from './types'
-
-type UITriggerAttributes =
-  | Extract<
-      TriggerAttribute<OrderUpdate>,
-      | '_approve'
-      | '_cancel'
-      | '_capture'
-      | '_refund'
-      | '_archive'
-      | '_unarchive'
-    >
-  | '_return'
 export interface OrderDisplayStatus extends DisplayStatus {
   label: string
   icon: StatusIconProps['name']
   color: StatusIconProps['background']
   task?: string
-  triggerAttributes: UITriggerAttributes[]
 }
 
 export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
-  const archiveTriggerAttribute: Extract<
-    UITriggerAttributes,
-    '_archive' | '_unarchive'
-  > = order.archived_at == null ? '_archive' : '_unarchive'
-
   const combinedStatus =
     `${order.status}:${order.payment_status}:${order.fulfillment_status}` as const
 
@@ -36,8 +17,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       label: 'Editing',
       icon: 'pencilSimple',
       color: 'orange',
-      task: 'Editing',
-      triggerAttributes: []
+      task: 'Editing'
     }
   }
 
@@ -54,8 +34,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: 'Placed',
         icon: 'arrowDown',
         color: 'orange',
-        task: 'Awaiting approval',
-        triggerAttributes: ['_approve', '_cancel']
+        task: 'Awaiting approval'
       }
 
     case 'placed:unpaid:unfulfilled':
@@ -63,8 +42,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: 'Placed',
         icon: 'x',
         color: 'red',
-        task: 'Error to cancel',
-        triggerAttributes: ['_cancel']
+        task: 'Error to cancel'
       }
 
     case 'approved:authorized:unfulfilled':
@@ -73,8 +51,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: 'Approved',
         icon: 'creditCard',
         color: 'orange',
-        task: 'Payment to capture',
-        triggerAttributes: ['_capture']
+        task: 'Payment to capture'
       }
 
     case 'approved:paid:in_progress':
@@ -83,8 +60,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: 'In progress',
         icon: 'arrowClockwise',
         color: 'orange',
-        task: 'Fulfillment in progress',
-        triggerAttributes: ['_refund']
+        task: 'Fulfillment in progress'
       }
 
     case 'approved:authorized:in_progress':
@@ -92,16 +68,14 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: 'In progress (Manual)',
         icon: 'arrowClockwise',
         color: 'orange',
-        task: 'Fulfillment in progress',
-        triggerAttributes: ['_capture']
+        task: 'Fulfillment in progress'
       }
 
     case 'approved:paid:fulfilled':
       return {
         label: 'Fulfilled',
         icon: 'check',
-        color: 'green',
-        triggerAttributes: ['_refund', '_return', archiveTriggerAttribute]
+        color: 'green'
       }
 
     // TODO: This could be a gift-card and what If i do return?
@@ -109,8 +83,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       return {
         label: 'Fulfilled',
         icon: 'check',
-        color: 'green',
-        triggerAttributes: ['_return', archiveTriggerAttribute]
+        color: 'green'
       }
 
     case 'approved:paid:not_required':
@@ -118,24 +91,21 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       return {
         label: 'Approved',
         icon: 'check',
-        color: 'green',
-        triggerAttributes: ['_refund', archiveTriggerAttribute]
+        color: 'green'
       }
 
     case 'approved:free:not_required':
       return {
         label: 'Approved',
         icon: 'check',
-        color: 'green',
-        triggerAttributes: [archiveTriggerAttribute]
+        color: 'green'
       }
 
     case 'approved:partially_refunded:fulfilled':
       return {
         label: 'Part. refunded',
         icon: 'check',
-        color: 'green',
-        triggerAttributes: ['_refund', '_return', archiveTriggerAttribute]
+        color: 'green'
       }
 
     case 'cancelled:voided:unfulfilled':
@@ -146,16 +116,14 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       return {
         label: 'Cancelled',
         icon: 'x',
-        color: 'gray',
-        triggerAttributes: [archiveTriggerAttribute]
+        color: 'gray'
       }
 
     case 'cancelled:refunded:fulfilled':
       return {
         label: 'Cancelled',
         icon: 'x',
-        color: 'gray',
-        triggerAttributes: ['_return', archiveTriggerAttribute]
+        color: 'gray'
       }
 
     case 'pending:unpaid:unfulfilled':
@@ -164,16 +132,14 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       return {
         label: 'Pending',
         icon: 'shoppingBag',
-        color: 'white',
-        triggerAttributes: []
+        color: 'white'
       }
 
     default:
       return {
         label: `Not handled: (${combinedStatus})`,
         icon: 'warning',
-        color: 'white',
-        triggerAttributes: []
+        color: 'white'
       }
   }
 }
@@ -243,20 +209,4 @@ export function getOrderFulfillmentStatusName(
   }
 
   return dictionary[status]
-}
-
-export function getOrderTriggerAttributeName(
-  triggerAttribute: UITriggerAttributes
-): string {
-  const dictionary: Record<typeof triggerAttribute, string> = {
-    _approve: 'Approve',
-    _archive: 'Archive',
-    _cancel: 'Cancel',
-    _capture: 'Capture payment',
-    _refund: 'Refund',
-    _return: 'Return',
-    _unarchive: 'Unarchive'
-  }
-
-  return dictionary[triggerAttribute]
 }

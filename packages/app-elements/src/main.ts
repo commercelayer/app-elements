@@ -289,10 +289,6 @@ export {
   type ResourceMetadataProps
 } from '#ui/resources/ResourceMetadata'
 export {
-  ResourceOrderSummary,
-  type ResourceOrderSummaryProps
-} from '#ui/resources/ResourceOrderSummary'
-export {
   ResourceOrderTimeline,
   type ResourceOrderTimelineProps
 } from '#ui/resources/ResourceOrderTimeline'
@@ -318,8 +314,7 @@ export {
   getOrderFulfillmentStatusName,
   getOrderPaymentStatusName,
   getOrderStatusName,
-  getOrderTransactionName,
-  getOrderTriggerAttributeName
+  getOrderTransactionName
 } from '#dictionaries/orders'
 export { getPromotionDisplayStatus } from '#dictionaries/promotions'
 export {
