@@ -15,7 +15,9 @@
     "dep:upgrade:major": "pnpm -r exec npm-check-updates -u",
     "dep:upgrade:minor": "pnpm dep:upgrade:major -t minor",
     "dep:self-upgrade:major": "pnpm exec npm-check-updates -u",
-    "dep:self-upgrade:minor": "pnpm dep:self-upgrade:major -t minor"
+    "dep:self-upgrade:minor": "pnpm dep:self-upgrade:major -t minor",
+    "dep:major": "pnpm dep:upgrade:major && pnpm dep:self-upgrade:major",
+    "dep:minor": "pnpm dep:upgrade:minor && pnpm dep:self-upgrade:minor"
   },
   "keywords": [],
   "author": {
@@ -35,12 +37,9 @@
     "packages/*"
   ],
   "devDependencies": {
-    "husky": "^9.0.10",
+    "husky": "^9.0.11",
     "lerna": "^8.1.2",
     "lint-staged": "^15.2.2",
-    "npm-check-updates": "^16.14.14"
-  },
-  "resolutions": {
-    "semver@5.7.1": "^5.7.2"
+    "npm-check-updates": "^16.14.15"
   }
 }

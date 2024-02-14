@@ -26,7 +26,7 @@ const destinationStockLocation = {
 const stockTransfer = {
   type: 'stock_transfers',
   id: '',
-  number: 3478,
+  number: '3478',
   quantity: 1,
   updated_at: '2023-06-10T06:38:44.964Z',
   created_at: '2023-06-09T11:00:00.000Z',
