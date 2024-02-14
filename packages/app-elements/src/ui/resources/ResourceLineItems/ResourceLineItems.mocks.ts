@@ -5,7 +5,6 @@ import {
   type StockLocation,
   type StockTransfer
 } from '@commercelayer/sdk'
-import { manualAdjustmentReferenceOrigin } from '../ResourceOrderSummary/utils'
 import { type StockLineItemWithStockTransfer } from './types'
 
 const originStockLocation = {
@@ -661,7 +660,7 @@ export const presetLineItems = {
     created_at: '2023-10-09T15:07:12.477Z',
     updated_at: '2023-10-10T15:10:53.747Z',
     reference: null,
-    reference_origin: manualAdjustmentReferenceOrigin,
+    reference_origin: 'app-orders--manual-adjustment',
     metadata: {}
   }
 } satisfies Record<

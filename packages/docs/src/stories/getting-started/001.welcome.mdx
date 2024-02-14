@@ -1,4 +1,4 @@
-import { Meta, Source } from '@storybook/addon-docs'
+import { Meta, Source } from '@storybook/addon-docs';
 
 <Meta title="Getting Started/Welcome"></Meta>
 
@@ -6,7 +6,7 @@ import { Meta, Source } from '@storybook/addon-docs'
 
 The Commerce Layer admin [Dashboard](https://dashboard.commercelayer.io/sign_up) includes a _Hub_ section for back-office applications built on top of our APIs covering some of the platform's main features (such as orders or customers management, importing or exporting data, and more).
 
-**App Elements** is the React component library used to build these hub [applications](/docs/getting-started-applications--docs). You can easily leverage it to replicate the Dashboard look and feel when [customizing your apps](/docs/getting-started-custom-apps--docs) or building any other app on top of Commerce Layer's APIs. This library features different components, helpers, and hooks, from simple and small bits like [buttons](/docs/atoms-button--docs) or [cards](/docs/atoms-card--docs) to complex components like the one you need to show a complete [order summary](/docs/resources-resourceordersummary--docs).
+**App Elements** is the React component library used to build these hub [applications](/docs/getting-started-applications--docs). You can easily leverage it to replicate the Dashboard look and feel when [customizing your apps](/docs/getting-started-custom-apps--docs) or building any other app on top of Commerce Layer's APIs. This library features different components, helpers, and hooks, from simple and small bits like [buttons](/docs/atoms-button--docs) or [cards](/docs/atoms-card--docs) to complex components like the one you need to show [resource filters](/docs/resources-useresourcefilters--docs).
 
 ## Installation and requirements
 
@@ -31,22 +31,19 @@ pnpm add @commercelayer/sdk query-string react-hook-form wouter
 />
 
 <span title="Important notice" type="info">
-  At this time we only support [Vite](https://vitejs.dev/) as the main bundler
-  (even if other bundlers might be used without any issue), and all dashboard
-  apps require pnpm as package manager. Also, both App Elements and all Commerce
-  Layer dashboard apps use [wouter](https://github.com/molefrog/wouter) as react
-  routing.
+  At this time we only support [Vite](https://vitejs.dev/) as the main bundler (even if other bundlers might be used
+  without any issue), and all dashboard apps require pnpm as package manager. Also, both App Elements and all Commerce
+  Layer dashboard apps use [wouter](https://github.com/molefrog/wouter) as react routing.
 </span>
 
 ## Basic setup
+
 Add the following code to your `main.tsx` (app entrypoint) file:
-<Source
-  language="jsx"
-  dark
-  code={`import '@commercelayer/app-elements/style.css'`}
-/>
+
+<Source language="jsx" dark code={`import '@commercelayer/app-elements/style.css'`} />
 
 Then just import the components you need in your components:
+
 <Source
   language="jsx"
   dark
@@ -55,9 +52,11 @@ Then just import the components you need in your components:
 />
 
 ## Working with existing Tailwind CSS projects
+
 You need to use `app-elements` tailwind config as [preset](https://tailwindcss.com/docs/presets) for your consumer project.
 
 To do so, in your local `tailwind.config.js` file, add the following code:
+
 <Source
   language="jsx"
   dark
@@ -74,11 +73,8 @@ module.exports = {
 />
 
 Then instead of importing the full CSS bundle, you only need the vendor CSS file:
-<Source
-  language="jsx"
-  dark
-  code={`import '@commercelayer/app-elements/vendor.css'`}
-/>
+
+<Source language="jsx" dark code={`import '@commercelayer/app-elements/vendor.css'`} />
 
 ## Local development
 

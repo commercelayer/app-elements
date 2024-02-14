@@ -289,10 +289,6 @@ export {
   type ResourceMetadataProps
 } from '#ui/resources/ResourceMetadata'
 export {
-  ResourceOrderSummary,
-  type ResourceOrderSummaryProps
-} from '#ui/resources/ResourceOrderSummary'
-export {
   ResourceOrderTimeline,
   type ResourceOrderTimelineProps
 } from '#ui/resources/ResourceOrderTimeline'
@@ -333,4 +329,3 @@ export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
 } from '#dictionaries/stockTransfers'
-
