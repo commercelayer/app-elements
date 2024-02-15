@@ -23,11 +23,7 @@ describe('Tooltip', () => {
 
   test('should open tooltip on mouse hover', async () => {
     const { getByText } = render(
-      <Tooltip
-        id='my-tooltip'
-        label='Hover me'
-        content={<div>This is a tooltip.</div>}
-      />
+      <Tooltip label='Hover me' content='This is a tooltip.' />
     )
 
     act(() => {
@@ -36,6 +32,10 @@ describe('Tooltip', () => {
 
     await waitFor(() => {
       expect(getByText('This is a tooltip.')).toBeInTheDocument()
+      expect(getByText('This is a tooltip.')).toHaveAttribute(
+        'id',
+        'hoverme-thisisatooltip-top'
+      )
     })
   })
 })
