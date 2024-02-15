@@ -28,7 +28,6 @@ const Template: StoryFn<typeof Tooltip> = (args) => <Tooltip {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  id: 'my-tooltip',
   label: 'Hover me',
   content: 'This is a tooltip.'
 }
@@ -38,7 +37,6 @@ Default.args = {
  **/
 export const WithCustomElements = Template.bind({})
 WithCustomElements.args = {
-  id: 'my-tooltip2',
   label: <Icon name='info' className='inline' weight='bold' size={20} />,
   content: (
     <div>
@@ -49,7 +47,7 @@ WithCustomElements.args = {
             display: 'inline-block'
           }}
         />{' '}
-        I am a JSX element
+        I'm a JSX element
       </Text>
     </div>
   )
@@ -62,7 +60,6 @@ export const Inline: StoryFn<typeof Tooltip> = (args) => (
   <div>
     We can have an{' '}
     <Tooltip
-      id='inline-tooltip'
       label={<a>inline tooltip</a>}
       content='Lorem ipsum is a placeholder text commonly used.'
       direction='top'
@@ -85,9 +82,8 @@ export const ControlledRef: StoryFn<typeof Tooltip> = () => {
     <div onMouseEnter={open} onMouseLeave={close}>
       Hover me{' '}
       <Tooltip
-        id='controlled-tooltip'
         label={<Icon name='info' className='inline' weight='bold' size={20} />}
-        content='Tooltip arrow centered on the icon, but triggered from the entire parent div.'
+        content='Tooltip arrow centered on the icon, but triggered from the entire parent "div".'
         direction='bottom-start'
         ref={ref}
       />{' '}

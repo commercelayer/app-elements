@@ -1,3 +1,4 @@
+import { getInnerText } from '#utils/children'
 import cn from 'classnames'
 import { forwardRef, type ReactNode } from 'react'
 import {
@@ -10,7 +11,7 @@ export { type TooltipRefProps } from 'react-tooltip'
 
 export interface TooltipProps {
   /** Tooltip unique identifier  */
-  id: string
+  id?: string
   /** Label that triggers the opening of the tooltip  */
   label: ReactNode
   /** Content to be rendered inside the tooltip box */
@@ -33,11 +34,19 @@ export interface TooltipProps {
  * This component is a wrapper around react-tooltip.
  */
 export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
-  ({ id, label, content, direction = 'top' }, ref): JSX.Element => {
+  (
+    {
+      label,
+      content,
+      direction = 'top',
+      id = `${getSanitizedInnerText(label)}-${getSanitizedInnerText(content)}-${direction}`
+    },
+    ref
+  ): JSX.Element => {
     return (
       <>
         <span
-          aria-describedby={id}
+          aria-description={getInnerText(content)}
           data-tooltip-id={id}
           className='cursor-pointer'
         >
@@ -64,4 +73,9 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
     )
   }
 )
+
 Tooltip.displayName = 'Tooltip'
+
+function getSanitizedInnerText(node: ReactNode): string {
+  return getInnerText(node).replace(/\W+/g, '').toLowerCase()
+}
