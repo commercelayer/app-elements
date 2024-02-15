@@ -121,6 +121,11 @@ export {
 export { Tab, Tabs, type TabProps, type TabsProps } from '#ui/atoms/Tabs'
 export { Tag, type TagProps } from '#ui/atoms/Tag'
 export { Text, type TextProps } from '#ui/atoms/Text'
+export {
+  Tooltip,
+  type TooltipProps,
+  type TooltipRefProps
+} from '#ui/atoms/Tooltip'
 // Composite
 export {
   ActionButtons,
