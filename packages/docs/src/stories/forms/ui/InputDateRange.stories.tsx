@@ -7,7 +7,18 @@ const setup: Meta<typeof InputDateRange> = {
   component: InputDateRange,
   parameters: {
     layout: 'padded'
-  }
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          paddingBottom: '300px'
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 
