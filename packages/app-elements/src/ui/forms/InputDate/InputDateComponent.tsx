@@ -33,6 +33,10 @@ export interface InputDateProps extends InputWrapperBaseProps {
    */
   placeholder?: string
   /**
+   * Show the time selector
+   */
+  showTimeSelect?: boolean | undefined
+  /**
    * String to be parsed as formatter (eg. MM/dd/yyyy, dd-MM-yy, ect...).
    * When undefined, will autodetect format from user's browser
    */
@@ -64,6 +68,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       value,
       wrapperClassName,
       inputClassName,
+      showTimeSelect = false,
       format,
       placeholder,
       minDate,
@@ -77,7 +82,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
     },
     ref
   ): JSX.Element => {
-    const dateFormat = format ?? detectDateFormat()
+    const dateFormat = format ?? detectDateTimeFormat(showTimeSelect)
     return (
       <InputWrapper
         {...rest}
@@ -92,6 +97,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
             selected={value}
             onChange={onChange}
             dateFormat={dateFormat}
+            showTimeSelect={showTimeSelect}
             placeholderText={
               autoPlaceholder === true ? dateFormat.toLowerCase() : placeholder
             }
@@ -127,11 +133,16 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
 
 InputDateComponent.displayName = 'InputDateComponent'
 
-function detectDateFormat(): string {
+function detectDateTimeFormat(showTime: boolean): string {
   const date = new Date(2023, 11, 15) //  15th of December
-  let format = date.toLocaleDateString()
-  format = format.replace('15', 'dd')
-  format = format.replace('12', 'MM')
-  format = format.replace('2023', 'yyyy')
-  return format
+
+  const dateFormat = date
+    .toLocaleDateString()
+    .replace('15', 'dd')
+    .replace('12', 'MM')
+    .replace('2023', 'yyyy')
+
+  const timeFormat = ', h:mm aa'
+
+  return `${dateFormat}${showTime ? timeFormat : ''}`
 }

@@ -7,7 +7,18 @@ const setup: Meta<typeof InputDate> = {
   component: InputDate,
   parameters: {
     layout: 'padded'
-  }
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          paddingBottom: '300px'
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 
@@ -24,7 +35,8 @@ Default.args = {
 export const WithMinValue = Template.bind({})
 WithMinValue.args = {
   placeholder: 'select a future date',
-  minDate: new Date()
+  minDate: new Date(),
+  showTimeSelect: true
 }
 
 export const AutoPlaceholder = Template.bind({})
@@ -36,6 +48,12 @@ export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'Shipping date',
   hint: { text: 'Please enter a valid date ' }
+}
+
+export const WithTimeSelect = Template.bind({})
+WithTimeSelect.args = {
+  label: 'Starts on',
+  showTimeSelect: true
 }
 
 export const WithError = Template.bind({})

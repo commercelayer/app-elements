@@ -15,7 +15,18 @@ const setup: Meta<typeof HookedInputDate> = {
         type: 'code'
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <div
+        style={{
+          paddingBottom: '300px'
+        }}
+      >
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 
