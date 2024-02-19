@@ -12,6 +12,7 @@ export type TokenProviderAllowedApp =
   | 'promotions'
   | 'returns'
   | 'shipments'
+  | 'sku_lists'
   | 'skus'
   | 'stock_transfers'
   | 'subscriptions'
