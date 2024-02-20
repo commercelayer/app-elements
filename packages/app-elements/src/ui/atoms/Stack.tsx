@@ -6,7 +6,7 @@ export interface StackProps {
 
 function renderChild(child: ReactNode): JSX.Element {
   return (
-    <div className='flex-1 flex flex-col items-start py-6 md:py-2 px-6 border-t md:border-l border-l-0 md:border-t-0 border-gray-100 first:border-l-0 first:border-t-0 md:first:-ml-6 md:last:-mr-6'>
+    <div className='flex-1 flex flex-col items-start py-6 md:py-2 md:px-6 border-t md:border-l border-l-0 md:border-t-0 border-gray-100 first:border-l-0 first:border-t-0 md:first:-ml-6 md:last:-mr-6'>
       {child}
     </div>
   )
