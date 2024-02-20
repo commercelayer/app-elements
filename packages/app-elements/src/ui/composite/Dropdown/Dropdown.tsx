@@ -4,7 +4,7 @@ import { Button } from '#ui/atoms/Button'
 import { type DropdownMenuProps } from '#ui/composite/Dropdown/DropdownMenu'
 import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { useState } from 'react'
+import { Children, useState } from 'react'
 import { DropdownMenu } from './DropdownMenu'
 
 export interface DropdownProps
@@ -49,6 +49,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }
 
   const handleBlur = useOnBlurFromContainer(close)
+
+  if (Children.count(dropdownItems) === 0) {
+    return null
+  }
 
   return (
     <div
