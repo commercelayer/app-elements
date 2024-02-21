@@ -6,7 +6,7 @@ export interface StackProps {
 
 function renderChild(child: ReactNode): JSX.Element {
   return (
-    <div className='flex-1 flex flex-col items-start py-2 px-4 border-l border-gray-100 first:border-l-0'>
+    <div className='flex-1 flex flex-col items-start py-6 md:py-2 md:px-6 border-t md:border-l border-l-0 md:border-t-0 border-gray-100 first:border-l-0 first:border-t-0 md:first:-ml-6 md:last:-mr-6'>
       {child}
     </div>
   )
@@ -17,9 +17,9 @@ function Stack({ children, ...props }: StackProps): JSX.Element {
     <>
       <div
         {...props}
-        className='border-t border-b border-gray-100 py-6 [&:not(:first-child)]:mt-[-1px]' // make multiple stack possible even across different siblings
+        className='border-t border-b border-gray-100 md:py-6 [&:not(:first-child)]:mt-[-1px]' // make multiple stack possible even across different siblings
       >
-        <div className='flex'>
+        <div className='flex flex-col md:flex-row'>
           {Children.map(
             children,
             (child) => child != null && renderChild(child)
