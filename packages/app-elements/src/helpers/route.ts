@@ -74,10 +74,42 @@ export const createTypedRoute =
  *   name?: string | undefined;
  * }
  * ```
+ *
+ * @example
+ * ```ts
+ * const route = createTypedRoute<{ type: 'A' | 42; enabled?: boolean }>()(
+ *   '/orders/:type/:enabled?/'
+ * )
+ *
+ * type Params = GetParams<typeof route>
+ *
+ * // equivalent to
+ *
+ * type Params = {
+ *   type: 'A' | '42';
+ *   enabled?: "false" | "true" | undefined;
+ * }
+ * ```
  */
 export type GetParams<R extends { makePath: (...arg: any[]) => string }> = {
-  [K in keyof Parameters<R['makePath']>[0]]: string
+  [K in keyof Parameters<R['makePath']>[0]]: Exclude<
+    ToLiteral<Parameters<R['makePath']>[0][K]>,
+    'undefined' | 'null'
+  >
 }
+
+/**
+ * Cast a valid `string | number | bigint | boolean | null | undefined` to literal.
+ *
+ * @example
+ * ```ts
+ * type N = ToLiteral<42> //= '42'
+ * type B = ToLiteral<boolean> //= 'false' | 'true'
+ * ```
+ */
+type ToLiteral<
+  V extends string | number | bigint | boolean | null | undefined
+> = `${V}`
 
 interface Route<
   Path extends `/${string}/` | `/`,
