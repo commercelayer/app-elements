@@ -1,3 +1,4 @@
+import isEmpty from 'lodash/isEmpty'
 import { type ReactNode } from 'react'
 import ReactDOM, { type Root } from 'react-dom/client'
 
@@ -45,6 +46,7 @@ export function AppInit({
         app({
           ...options,
           domain: options?.domain ?? window.clAppConfig?.domain,
+          organizationSlug: parseOrganizationSlug(options?.organizationSlug),
           routerBase: parseRouterBase(options?.routerBase)
         })
       )
@@ -53,8 +55,14 @@ export function AppInit({
   }
 }
 
+function parseOrganizationSlug(organizationSlug?: string): string | undefined {
+  return isEmpty(organizationSlug) // catching empty string since this might arrive from `env`
+    ? undefined
+    : organizationSlug
+}
+
 function parseRouterBase(path?: string): string | undefined {
-  if (path == null) {
+  if (path == null || isEmpty(path)) {
     return
   }
 
