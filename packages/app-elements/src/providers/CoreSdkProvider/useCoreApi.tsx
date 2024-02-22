@@ -1,3 +1,4 @@
+import { useTokenProvider } from '#providers/TokenProvider'
 import type { CommerceLayerClient } from '@commercelayer/sdk'
 import { type ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
 import { useCallback } from 'react'
@@ -52,6 +53,9 @@ export function useCoreApi<
   config?: SWROptions
 ): SWRResponse<Output, any, SWROptions> {
   const { sdkClient } = useCoreSdkProvider()
+  const {
+    settings: { mode }
+  } = useTokenProvider()
 
   const fetcher = useCallback(
     async ([resource, action, args]: [
@@ -66,7 +70,7 @@ export function useCoreApi<
   )
 
   return useSWR(
-    args !== null ? [resource, action, args] : null,
+    args !== null ? [resource, action, args, mode] : null,
     fetcher,
     config
   )
