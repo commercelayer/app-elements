@@ -8,13 +8,14 @@ export function MockTokenProvider({
   children
 }: TokenProviderProps): JSX.Element {
   const value: TokenProviderValue = {
-    dashboardUrl: '',
     settings: {
       accessToken: '1234',
       domain: 'localhost',
       mode: 'test',
       organizationSlug: 'mock',
-      appSlug: 'elements'
+      appSlug: 'elements',
+      isInDashboard: false,
+      dashboardUrl: ''
     },
     user: {
       displayName: 'J. Doe',

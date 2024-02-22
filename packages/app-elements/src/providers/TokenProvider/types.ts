@@ -112,6 +112,9 @@ export interface TokenProviderAuthSettings {
   appSlug: string
   domain: string
   mode: Mode
+  isInDashboard: boolean
+  dashboardUrl?: string
+  onAppClose?: () => void
 }
 
 export interface TokenProviderAuthUser {

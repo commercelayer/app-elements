@@ -30,7 +30,6 @@ import { makeDashboardUrl, makeReAuthenticationUrl } from './url'
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 
 export interface TokenProviderValue {
-  dashboardUrl?: string
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
   organization: Organization | null
@@ -92,13 +91,21 @@ export interface TokenProviderProps {
    * When `undefined` (default scenario), the token is expected to be retrieved from the `?accessToken=xxxx` query string or localStorage (in this order).
    */
   accessToken?: string
+
+  /**
+   * Optional. Set to `true` to enable the app to be used within the dashboard.
+   * In this way the UI can be adapted.
+   */
+  isInDashboard?: boolean
+  /**
+   * Optional. Define a callback to be invoked when the app is closed.
+   * When this is defined, it means the app is running as micro-frontend (eg: initialized from the dashboard, that needs to handle the go back).
+   * This methods will also be returned within the context as part of `TokenProviderValue` object.
+   */
+  onAppClose?: () => void
 }
 
 export const AuthContext = createContext<TokenProviderValue>({
-  dashboardUrl: makeDashboardUrl({
-    domain: initialTokenProviderState.settings.domain,
-    mode: initialTokenProviderState.settings.mode
-  }),
   canUser: () => false,
   canAccess: () => false,
   emitInvalidAuth: () => undefined,
@@ -122,7 +129,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   reauthenticateOnInvalidAuth = false,
   loadingElement,
   errorElement,
-  accessToken: accessTokenFromProp
+  accessToken: accessTokenFromProp,
+  onAppClose,
+  isInDashboard = false
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   const isSelfHosted = organizationSlug != null
@@ -230,7 +239,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               organizationSlug: tokenInfo.organizationSlug,
               appSlug,
               mode: tokenInfo.mode,
-              domain
+              domain,
+              dashboardUrl,
+              onAppClose,
+              isInDashboard
             },
             user: tokenInfo.user,
             organization,
@@ -244,7 +256,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   )
 
   const value: TokenProviderValue = {
-    dashboardUrl,
     settings: _state.settings,
     user: _state.user,
     organization: _state.organization,
