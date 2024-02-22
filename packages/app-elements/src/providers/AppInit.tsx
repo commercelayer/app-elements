@@ -7,6 +7,7 @@ export interface ClAppOptions {
   onInvalidAuth?: () => void
   onAppClose?: () => void
   isInDashboard?: boolean
+  domain?: string
 }
 
 declare global {
@@ -29,12 +30,8 @@ declare global {
 }
 
 export function AppInit({
-  app,
-  selfHostedSlug,
-  projectPath
+  app
 }: {
-  selfHostedSlug?: string
-  projectPath: string | undefined
   app: (options?: ClAppOptions) => ReactNode
 }): void {
   window.clApp = {
@@ -44,17 +41,26 @@ export function AppInit({
       }
 
       const root = ReactDOM.createRoot(node)
-      const defaultRouterBase =
-        projectPath != null ? `/${projectPath}` : undefined
-
       root.render(
         app({
           ...options,
-          routerBase: options?.routerBase ?? defaultRouterBase,
-          organizationSlug: options?.organizationSlug ?? selfHostedSlug
+          domain: options?.domain ?? window.clAppConfig?.domain,
+          routerBase: parseRouterBase(options?.routerBase)
         })
       )
       return root
     }
+  }
+}
+
+function parseRouterBase(path?: string): string | undefined {
+  if (path == null) {
+    return
+  }
+
+  if (path.startsWith('/')) {
+    return path
+  } else {
+    return `/${path}`
   }
 }
