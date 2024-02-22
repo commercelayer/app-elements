@@ -142,6 +142,10 @@ export {
   type DropdownProps,
   type DropdownSearchProps
 } from '#ui/composite/Dropdown'
+export {
+  HomePageLayout,
+  type HomePageLayoutProps
+} from '#ui/composite/HomePageLayout'
 export { List, type ListProps } from '#ui/composite/List'
 export { ListDetails, type ListDetailsProps } from '#ui/composite/ListDetails'
 export {
