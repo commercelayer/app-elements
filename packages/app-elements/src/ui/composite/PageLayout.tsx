@@ -56,8 +56,14 @@ export function PageLayout({
         description={description}
         navigationButton={navigationButton}
         actionButton={actionButton}
-        badgeLabel={mode === 'test' && !isInDashboard ? 'TEST DATA' : undefined}
-        badgeVariant={mode === 'test' ? 'warning-solid' : undefined}
+        badge={
+          mode === 'test' && !isInDashboard
+            ? {
+                label: 'TEST DATA',
+                variant: 'warning-solid'
+              }
+            : undefined
+        }
         gap={gap}
       />
       {children}
