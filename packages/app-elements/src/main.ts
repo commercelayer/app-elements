@@ -41,7 +41,6 @@ export { useIsChanged } from '#hooks/useIsChanged'
 export { useOnBlurFromContainer } from '#hooks/useOnBlurFromContainer'
 export { useOverlay } from '#hooks/useOverlay'
 // Providers
-export { AppInit, type ClAppOptions } from '#providers/AppInit'
 export {
   CoreSdkProvider,
   useCoreApi,
@@ -59,6 +58,7 @@ export {
   type TokenProviderRolePermissions,
   type TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider'
+export { createApp, type ClAppProps } from '#providers/createApp'
 
 // Atoms
 export { A, type AProps } from '#ui/atoms/A'
