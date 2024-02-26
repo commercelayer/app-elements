@@ -24,6 +24,7 @@ export const iconMapping = {
   chat: phosphor.Chat,
   chatCircle: phosphor.ChatCircle,
   check: phosphor.Check,
+  clipboardText: phosphor.ClipboardText,
   cloudArrowUp: phosphor.CloudArrowUp,
   creditCard: phosphor.CreditCard,
   currencyEur: phosphor.CurrencyEur,
@@ -85,6 +86,7 @@ export const iconMapping = {
   warehouse: phosphor.Warehouse,
   warning: phosphor.Warning,
   warningCircle: phosphor.WarningCircle,
+  webhooksLogo: phosphor.WebhooksLogo,
   x: phosphor.X,
   xCircle: phosphor.XCircle
 } as const
