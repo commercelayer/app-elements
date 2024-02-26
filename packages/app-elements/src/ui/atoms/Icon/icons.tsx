@@ -24,6 +24,7 @@ export const iconMapping = {
   chat: phosphor.Chat,
   chatCircle: phosphor.ChatCircle,
   check: phosphor.Check,
+  clipboardText: phosphor.ClipboardText,
   cloudArrowUp: phosphor.CloudArrowUp,
   creditCard: phosphor.CreditCard,
   currencyEur: phosphor.CurrencyEur,
