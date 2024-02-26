@@ -59,7 +59,9 @@ function Tabs({
       ),
     [children]
   )
-  const [activeIndex, setActiveIndex] = useState(firstActiveIndex ?? 0)
+  const [activeIndex, setActiveIndex] = useState(
+    defaultTab ?? firstActiveIndex ?? 0
+  )
 
   useEffect(
     function validateChildren() {
@@ -90,16 +92,6 @@ function Tabs({
       onTabSwitch(activeIndex)
     }
   }, [activeIndex, onTabSwitch])
-
-  useEffect(() => {
-    if (
-      defaultTab != null &&
-      defaultTab !== firstActiveIndex &&
-      defaultTab < Children.count(children)
-    ) {
-      setActiveIndex(defaultTab)
-    }
-  }, [defaultTab, setActiveIndex])
 
   return (
     <div id={id} role='tablist' className={className} {...rest}>
