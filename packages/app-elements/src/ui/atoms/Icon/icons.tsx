@@ -86,6 +86,7 @@ export const iconMapping = {
   warehouse: phosphor.Warehouse,
   warning: phosphor.Warning,
   warningCircle: phosphor.WarningCircle,
+  webhooksLogo: phosphor.WebhooksLogo,
   x: phosphor.X,
   xCircle: phosphor.XCircle
 } as const
