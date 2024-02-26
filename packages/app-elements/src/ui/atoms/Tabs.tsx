@@ -18,7 +18,7 @@ export interface TabsProps {
    */
   className?: string
   /**
-   * Event the fires every time a tab is activated. Note that this also fires on first render.
+   * Event that fires every time a tab is activated. Note that this also fires on first render.
    */
   onTabSwitch?: (tabIndex: number) => void
   /**
@@ -33,9 +33,13 @@ export interface TabsProps {
    */
   children: Array<React.ReactElement<TabProps, typeof Tab> | null>
   /**
-   * This controls whether the content of inactive panels should be un-mounted or kept mounted but hidden.
+   * This controls whether the content of inactive tabs should be un-mounted or kept mounted but hidden.
    */
   keepAlive?: boolean
+  /**
+   * Optional tab index to activate a particular tab at component mount. First tab has index 0.
+   */
+  defaultTab?: number
 }
 
 function Tabs({
@@ -44,6 +48,7 @@ function Tabs({
   onTabSwitch,
   className,
   keepAlive,
+  defaultTab,
   ...rest
 }: TabsProps): JSX.Element {
   // since we allow `null` child (conditional rendering of <Tab>), we need to understand the first not null child to set as initial active
@@ -85,6 +90,12 @@ function Tabs({
       onTabSwitch(activeIndex)
     }
   }, [activeIndex, onTabSwitch])
+
+  useEffect(() => {
+    if (defaultTab != null && defaultTab !== firstActiveIndex) {
+      setActiveIndex(defaultTab)
+    }
+  }, [defaultTab, setActiveIndex])
 
   return (
     <div id={id} role='tablist' className={className} {...rest}>
