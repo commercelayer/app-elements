@@ -32,8 +32,7 @@ export function HomePageLayout({
         isInDashboard && onAppClose == null
           ? undefined
           : {
-              // TODO: can we use only Apps (rename current dashboard)
-              label: onAppClose != null ? 'Apps' : 'Hub',
+              label: 'Apps',
               onClick: () => {
                 if (onAppClose != null) {
                   onAppClose()
