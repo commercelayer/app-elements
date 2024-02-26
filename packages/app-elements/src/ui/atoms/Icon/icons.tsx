@@ -74,6 +74,7 @@ export const iconMapping = {
   stack: phosphor.Stack,
   tag: phosphor.Tag,
   ticket: phosphor.Ticket,
+  trash: phosphor.Trash,
   treeStructure: phosphor.TreeStructure,
   truck: phosphor.Truck,
   tShirt: phosphor.TShirt,
