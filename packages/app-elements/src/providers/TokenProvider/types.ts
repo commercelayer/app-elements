@@ -107,11 +107,40 @@ export interface TokenProviderTokenInfo {
 export type Mode = 'live' | 'test'
 
 export interface TokenProviderAuthSettings {
+  /**
+   * Access token that is being used to authenticate Core API requests.
+   */
   accessToken: string
-  organizationSlug: string
-  appSlug: string
+  /**
+   * Domain used for Core API requests.
+   */
   domain: string
+  /**
+   * Current organization slug.
+   */
+  organizationSlug: string
+  /**
+   * Current app slug.
+   */
+  appSlug: string
+  /**
+   * Current mode (live or test)
+   */
   mode: Mode
+  /**
+   * URL of the dashboard (eg: `https://your-org-slug.commercelayer.io`)
+   */
+  dashboardUrl: string
+  /**
+   * When `true` it means that the app has been initialized from the Dashboard.
+   * Useful when is needed to tweak some UI elements.
+   */
+  isInDashboard: boolean
+  /**
+   * Optional callback available within the TokenProvider context to be invoked when the app is closed.
+   * This is defined only if it has been declared when TokenProvider has been initialized.
+   */
+  onAppClose?: () => void
 }
 
 export interface TokenProviderAuthUser {

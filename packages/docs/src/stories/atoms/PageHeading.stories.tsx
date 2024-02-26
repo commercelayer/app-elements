@@ -49,7 +49,9 @@ WithNavClose.args = {
 export const WithBadge = Template.bind({})
 WithBadge.args = {
   title: 'SKUs',
-  badgeLabel: 'TEST DATA',
+  badge: {
+    label: 'TEST DATA'
+  },
   navigationButton: {
     label: 'Back',
     onClick: () => {

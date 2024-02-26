@@ -18,13 +18,13 @@ export interface PageHeadingProps {
    */
   gap?: 'none' | 'only-top' | 'only-bottom' | 'both'
   /**
-   * When set, it will render a badge (warning variant)
+   * When set, it will render a badge (default as warning variant)
    */
-  badgeLabel?: string
-  /**
-   * When set, it will render a badge (default as warning variant) above the title
-   */
-  badgeVariant?: BadgeProps['variant']
+  badge?: {
+    label: string
+    /**  @default warning-solid  */
+    variant?: BadgeProps['variant']
+  }
   /**
    * When set, it will render a navigation (eg: go back) button on the left side of the first row
    */
@@ -47,11 +47,10 @@ export interface PageHeadingProps {
 
 function PageHeading({
   gap = 'both',
-  badgeLabel,
+  badge,
   navigationButton,
   title,
   description,
-  badgeVariant = 'warning-solid',
   actionButton,
   ...rest
 }: PageHeadingProps): JSX.Element {
@@ -84,9 +83,11 @@ function PageHeading({
           {actionButton != null ? <div>{actionButton}</div> : null}
         </div>
       )}
-      {badgeLabel != null && (
+      {badge != null && (
         <div className='flex mb-4 md:!mt-0' data-testid='page-heading-badge'>
-          <Badge variant={badgeVariant}>{badgeLabel}</Badge>
+          <Badge variant={badge.variant ?? 'warning-solid'}>
+            {badge.label}
+          </Badge>
         </div>
       )}
       <h1 className='font-semibold text-title leading-title'>{title}</h1>

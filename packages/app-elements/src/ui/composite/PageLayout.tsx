@@ -1,3 +1,4 @@
+import { useTokenProvider } from '#providers/TokenProvider'
 import type { ContainerProps } from '#ui/atoms/Container'
 import { Container } from '#ui/atoms/Container'
 import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
@@ -18,6 +19,7 @@ export interface PageLayoutProps
   children: ReactNode
   /**
    * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
+   * Only if app is standalone mode.
    */
   mode?: 'test' | 'live'
   /**
@@ -43,6 +45,10 @@ export function PageLayout({
   overlay = false,
   ...rest
 }: PageLayoutProps): JSX.Element {
+  const {
+    settings: { isInDashboard }
+  } = useTokenProvider()
+
   const component = (
     <>
       <PageHeading
@@ -50,8 +56,14 @@ export function PageLayout({
         description={description}
         navigationButton={navigationButton}
         actionButton={actionButton}
-        badgeLabel={mode === 'test' ? 'TEST DATA' : undefined}
-        badgeVariant={mode === 'test' ? 'warning-solid' : undefined}
+        badge={
+          mode === 'test' && !isInDashboard
+            ? {
+                label: 'TEST DATA',
+                variant: 'warning-solid'
+              }
+            : undefined
+        }
         gap={gap}
       />
       {children}

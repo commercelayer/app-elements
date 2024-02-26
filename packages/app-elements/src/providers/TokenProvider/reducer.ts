@@ -8,7 +8,6 @@ import {
 
 interface TokenProviderInternalState {
   validAuthToken?: string
-  dashboardUrl: string
   isLoading: boolean
   isTokenError: boolean
   rolePermissions: TokenProviderRolePermissions
@@ -20,7 +19,6 @@ interface TokenProviderInternalState {
 
 export const initialTokenProviderState: TokenProviderInternalState = {
   validAuthToken: undefined,
-  dashboardUrl: 'https://dashboard.commercelayer.io/',
   isLoading: true,
   isTokenError: false,
   rolePermissions: {},
@@ -30,7 +28,9 @@ export const initialTokenProviderState: TokenProviderInternalState = {
     accessToken: '',
     domain: 'commercelayer.io',
     organizationSlug: '',
-    appSlug: ''
+    appSlug: '',
+    isInDashboard: false,
+    dashboardUrl: 'https://dashboard.commercelayer.io/'
   },
   user: null,
   organization: null

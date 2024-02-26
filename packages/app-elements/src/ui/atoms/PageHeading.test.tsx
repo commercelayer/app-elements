@@ -37,8 +37,7 @@ describe('PageHeading', () => {
     const { getByTestId } = setup({
       id: 'heading-w-badge',
       title: 'My Page Heading',
-      badgeVariant: 'success',
-      badgeLabel: 'TEST DATA'
+      badge: { label: 'TEST DATA', variant: 'success' }
     })
     const badgeElement = getByTestId('page-heading-badge')
     expect(badgeElement).toBeInTheDocument()

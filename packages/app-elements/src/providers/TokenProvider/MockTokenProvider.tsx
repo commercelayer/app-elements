@@ -5,16 +5,20 @@ import {
 } from './TokenProvider'
 
 export function MockTokenProvider({
-  children
+  children,
+  isInDashboard,
+  onAppClose
 }: TokenProviderProps): JSX.Element {
   const value: TokenProviderValue = {
-    dashboardUrl: '',
     settings: {
       accessToken: '1234',
       domain: 'localhost',
       mode: 'test',
       organizationSlug: 'mock',
-      appSlug: 'elements'
+      appSlug: 'elements',
+      isInDashboard: Boolean(isInDashboard),
+      dashboardUrl: '',
+      onAppClose
     },
     user: {
       displayName: 'J. Doe',
