@@ -37,7 +37,7 @@ export interface TabsProps {
    */
   keepAlive?: boolean
   /**
-   * Optional tab index to activate a particular tab at component mount. First tab has index 0.
+   * Optional prop to define which tab needs to be activated at component mount by providing its numerical index. First tab has index 0.
    */
   defaultTab?: number
 }
@@ -92,7 +92,11 @@ function Tabs({
   }, [activeIndex, onTabSwitch])
 
   useEffect(() => {
-    if (defaultTab != null && defaultTab !== firstActiveIndex) {
+    if (
+      defaultTab != null &&
+      defaultTab !== firstActiveIndex &&
+      defaultTab < Children.count(children)
+    ) {
       setActiveIndex(defaultTab)
     }
   }, [defaultTab, setActiveIndex])
