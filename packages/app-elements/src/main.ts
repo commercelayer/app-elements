@@ -58,7 +58,7 @@ export {
   type TokenProviderRolePermissions,
   type TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider'
-export { createApp, type ClAppProps } from '#providers/createApp'
+export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 
 // Atoms
 export { A, type AProps } from '#ui/atoms/A'
