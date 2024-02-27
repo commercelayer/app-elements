@@ -1,9 +1,22 @@
 import isEmpty from 'lodash/isEmpty'
 import { type FC } from 'react'
 import ReactDOM, { type Root } from 'react-dom/client'
+import { type TokenProviderAllowedApp } from './TokenProvider'
+
+export type ClAppKey = `clApp_${TokenProviderAllowedApp}`
+
+/**
+ * Method to mount the React application in the provider `node` with the set of options passed as `props`.
+ */
+type ClApp = Record<
+  ClAppKey,
+  {
+    init: (node?: HTMLElement, props?: ClAppProps) => Root | undefined
+  }
+>
 
 declare global {
-  interface Window {
+  interface Window extends ClApp {
     clAppConfig: {
       /**
        * Specific domain to use for Commerce Layer API requests.
@@ -14,12 +27,6 @@ declare global {
        * Enable Google Tag Manager for the provided GTM ID.
        */
       gtmId?: string
-    }
-    /**
-     * Method to mount the React application in the provider `node` with the set of options passed as `props`.
-     */
-    clApp?: {
-      init: (node?: HTMLElement, props?: ClAppProps) => Root | undefined
     }
   }
 }
@@ -58,8 +65,11 @@ export interface ClAppProps {
  * The React application will them be mounted into the provided `node` element, when the `init` method is called.
  * @param children - The root component of the app.
  **/
-export function createApp(children: FC<ClAppProps>): void {
-  window.clApp = {
+export function createApp(
+  children: FC<ClAppProps>,
+  appSlug: TokenProviderAllowedApp
+): void {
+  window[`clApp_${appSlug}`] = {
     init: (node, props) => {
       if (node == null) {
         return
@@ -74,6 +84,7 @@ export function createApp(children: FC<ClAppProps>): void {
           routerBase: parseRouterBase(props?.routerBase)
         })
       )
+
       return root
     }
   }
