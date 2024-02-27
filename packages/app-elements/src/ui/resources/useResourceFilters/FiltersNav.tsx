@@ -401,16 +401,21 @@ function getButtonFilterLabel({
   values: string | string[]
   instructionItem: FiltersInstructionItem
 }): string {
+  const isSingleElementArray = Array.isArray(values) && values.length === 1
+  const isString = typeof values === 'string'
+
   if (
     isItemOptions(instructionItem) &&
     'options' in instructionItem.render.props &&
     instructionItem.render.props.options != null &&
     instructionItem.render.props.options.length > 0 &&
-    values.length === 1
+    (isSingleElementArray || isString)
   ) {
+    const optionValue = Array.isArray(values) ? values[0] : values
+
     return (
       instructionItem.render.props.options.find(
-        ({ value }) => value === values[0]
+        ({ value }) => value === optionValue
       )?.label ?? instructionItem.label
     )
   }

@@ -43,12 +43,12 @@ export const instructions: FiltersInstructions = [
     label: 'Payment Status',
     type: 'options',
     sdk: {
-      predicate: 'payment_status_in'
+      predicate: 'payment_status_eq'
     },
     render: {
       component: 'inputToggleButton',
       props: {
-        mode: 'multi',
+        mode: 'single',
         options: [
           { value: 'authorized', label: 'Authorized' },
           { value: 'paid', label: 'Paid' },

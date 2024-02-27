@@ -31,12 +31,12 @@ describe('adaptUrlQueryToSdk', () => {
   test('should return invalid status preset if not in url ', () => {
     expect(
       adaptUrlQueryToSdk({
-        queryString: 'payment_status_in=authorized',
+        queryString: 'payment_status_eq=authorized',
         instructions
       })
     ).toStrictEqual({
       status_in: 'placed,approved,cancelled',
-      payment_status_in: 'authorized',
+      payment_status_eq: 'authorized',
       archived_at_null: true
     })
   })
@@ -57,7 +57,7 @@ describe('adaptUrlQueryToSdk', () => {
     expect(
       adaptUrlQueryToSdk({
         queryString:
-          'status_in=approved&payment_status_in=not-existing&status_in=draft',
+          'status_in=approved&payment_status_eq=not-existing&status_in=draft',
         instructions
       })
     ).toStrictEqual({

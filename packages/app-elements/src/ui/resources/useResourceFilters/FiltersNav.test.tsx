@@ -15,14 +15,14 @@ describe('FiltersNav', () => {
         instructions={instructions}
         onFilterClick={() => {}}
         onUpdate={() => {}}
-        queryString='?status_in=placed&status_in=approved&payment_status_in=authorized&market_id_in=abc123&market_id_in=zxy456&market_id_in=xxx789'
+        queryString='?status_in=placed&status_in=approved&payment_status_eq=authorized&market_id_in=abc123&market_id_in=zxy456&market_id_in=xxx789'
       />
     )
     expect(container).toBeVisible()
 
     // grouped by status_in
     expect(getByText('Order status · 2')).toBeVisible()
-    // payment_status_in is only one, so it should not be grouped
+    // payment_status_eq is only one, so it should not be grouped
     expect(getByText('Authorized')).toBeVisible()
     // grouped by market_in, we have 3 markets
     expect(getByText('Markets · 3')).toBeVisible()
@@ -57,14 +57,14 @@ describe('FiltersNav', () => {
         instructions={instructions}
         onFilterClick={onFilterClick}
         onUpdate={() => {}}
-        queryString='?status_in=placed&status_in=approved&payment_status_in=authorized'
+        queryString='?status_in=placed&status_in=approved&payment_status_eq=authorized'
       />
     )
 
     fireEvent.click(getByText('Authorized'))
     expect(onFilterClick).toHaveBeenCalledWith(
-      'payment_status_in=authorized&status_in=placed&status_in=approved',
-      'payment_status_in'
+      'payment_status_eq=authorized&status_in=placed&status_in=approved',
+      'payment_status_eq'
     )
   })
 
@@ -76,11 +76,11 @@ describe('FiltersNav', () => {
         instructions={instructions}
         onFilterClick={() => {}}
         onUpdate={onUpdate}
-        queryString='?status_in=placed&payment_status_in=authorized'
+        queryString='?status_in=placed&payment_status_eq=authorized'
       />
     )
 
-    // expecting to find 3 remove buttons (all + status_in + payment_status_in)
+    // expecting to find 3 remove buttons (all + status_in + payment_status_eq)
     const removeAllFiltersButton = getAllByTestId('ButtonFilter-remove')[0]
     const removeStatusButton = getAllByTestId('ButtonFilter-remove')[1]
     const removeAuthorizedButton = getAllByTestId('ButtonFilter-remove')[2]
@@ -90,9 +90,9 @@ describe('FiltersNav', () => {
     assertToBeDefined(removeAllFiltersButton)
     assertToBeDefined(removeStatusButton)
 
-    // remove status_in filter, expecting that new query string only contains payment_status_in
+    // remove status_in filter, expecting that new query string only contains payment_status_eq
     fireEvent.click(removeStatusButton)
-    expect(onUpdate).toHaveBeenCalledWith('payment_status_in=authorized')
+    expect(onUpdate).toHaveBeenCalledWith('payment_status_eq=authorized')
 
     onUpdate.mockReset()
 
