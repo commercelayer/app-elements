@@ -14,7 +14,7 @@ export function getPromotionDisplayStatus(
       status: 'disabled',
       label: 'Disabled',
       icon: 'minus',
-      color: 'gray'
+      color: 'lightGray'
     }
   }
 

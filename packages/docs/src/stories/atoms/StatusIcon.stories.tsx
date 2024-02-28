@@ -58,6 +58,7 @@ export const AvailableBackgrounds: StoryFn = () => {
     ...(
       Object.keys({
         black: null,
+        lightGray: null,
         gray: null,
         green: null,
         none: null,
