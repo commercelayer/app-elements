@@ -15,6 +15,7 @@ export interface StatusIconProps extends React.HTMLAttributes<HTMLDivElement> {
     | 'orange'
     | 'red'
     | 'gray'
+    | 'lightGray'
     | 'teal'
     | 'white'
     | 'black'
@@ -46,6 +47,9 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
         { 'bg-green border-green text-white': background === 'green' },
         { 'bg-red border-red text-white': background === 'red' },
         { 'bg-gray-300 border-gray-300 text-white': background === 'gray' },
+        {
+          'bg-gray-200 border-gray-200 text-white': background === 'lightGray'
+        },
         { 'bg-orange border-orange text-white': background === 'orange' },
         { 'bg-teal border-teal text-white': background === 'teal' },
         { 'bg-white border-gray-200': background === 'white' },

@@ -52,11 +52,7 @@ export const promotionToProps: ResourceToProps<Omit<Promotion, 'type'>> = ({
       displayStatus.status === 'upcoming' ? (
         <RadialProgress icon='calendarBlank' />
       ) : (
-        <div
-          className={displayStatus.status === 'disabled' ? 'opacity-50' : ''}
-        >
-          <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
-        </div>
+        <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
       )
   }
 }
