@@ -1,6 +1,7 @@
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button } from '#ui/atoms/Button'
+import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
   SkeletonTemplate,
@@ -109,6 +110,9 @@ const children = (
         quis ultricies nisl sollicitudin tempus. Ut ut tempus nisi. Proin
         fermentum consectetur lacus id condimentum.
       </Text>
+    </Spacer>
+    <Spacer top='8'>
+      <CopyToClipboard value='Copy this to clipboard!' />
     </Spacer>
   </>
 )
