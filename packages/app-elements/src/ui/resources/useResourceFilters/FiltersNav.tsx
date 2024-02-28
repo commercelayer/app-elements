@@ -19,7 +19,6 @@ import {
   isTimeRangeFilterUiName
 } from './timeUtils'
 import {
-  isItemOptions,
   isTextSearch,
   type CurrencyRangeFieldValue,
   type FiltersInstructionItem,
@@ -51,13 +50,27 @@ export interface FiltersNavProps {
    * Implemented function should open the filters form.
    */
   onFilterClick: (queryString: string, filterPredicate?: string) => void
+  /**
+   * By default, we strip out all filters that are not part of the `instructions` array.
+   * The option `predicateWhitelist` is used to whitelist a set of predicates that you want to use as filters.
+   *
+   * @example
+   * ```jsx
+   * useResourceFilters({
+   *   instructions,
+   *   predicateWhitelist: [ 'starts_at_lteq', 'expires_at_gteq', 'starts_at_gt', 'expires_at_lt' ]
+   * })
+   * ```
+   */
+  predicateWhitelist: string[]
 }
 
 export function FiltersNav({
   instructions,
   onFilterClick: onBtnLabelClick,
   onUpdate,
-  queryString
+  queryString,
+  predicateWhitelist
 }: FiltersNavProps): JSX.Element {
   const { user } = useTokenProvider()
 
@@ -66,7 +79,8 @@ export function FiltersNav({
     adaptFormValuesToUrlQuery,
     adaptUrlQueryToUrlQuery
   } = makeFilterAdapters({
-    instructions
+    instructions,
+    predicateWhitelist
   })
 
   const filters = useMemo(
@@ -245,7 +259,11 @@ export function FiltersNav({
           filterPredicate
         })
 
-        if (instructionItem == null || instructionItem.type === 'textSearch') {
+        if (
+          instructionItem == null ||
+          (instructionItem.type === 'textSearch' &&
+            instructionItem.render.component === 'searchBar')
+        ) {
           return null
         }
 
@@ -403,21 +421,24 @@ function getButtonFilterLabel({
 }): string {
   const isSingleElementArray = Array.isArray(values) && values.length === 1
   const isString = typeof values === 'string'
+  const optionValue = Array.isArray(values) ? values[0] : values
 
   if (
-    isItemOptions(instructionItem) &&
+    instructionItem.type === 'options' &&
     'options' in instructionItem.render.props &&
     instructionItem.render.props.options != null &&
     instructionItem.render.props.options.length > 0 &&
     (isSingleElementArray || isString)
   ) {
-    const optionValue = Array.isArray(values) ? values[0] : values
-
     return (
       instructionItem.render.props.options.find(
         ({ value }) => value === optionValue
       )?.label ?? instructionItem.label
     )
+  }
+
+  if (instructionItem.type === 'textSearch') {
+    return `${instructionItem.label} · ${optionValue}`
   }
 
   return `${instructionItem.label} · ${values.length}`

@@ -24,6 +24,19 @@ interface UseResourceFiltersConfig {
    * Array of instruction items to build the filters behaviors
    */
   instructions: FiltersInstructions
+  /**
+   * By default, we strip out all filters that are not part of the `instructions` array.
+   * The option `predicateWhitelist` is used to whitelist a set of predicates that you want to use as filters.
+   *
+   * @example
+   * ```jsx
+   * useResourceFilters({
+   *   instructions,
+   *   predicateWhitelist: [ 'starts_at_lteq', 'expires_at_gteq', 'starts_at_gt', 'expires_at_lt' ]
+   * })
+   * ```
+   */
+  predicateWhitelist?: string[]
 }
 
 interface UseResourceFiltersHook {
@@ -81,14 +94,16 @@ interface UseResourceFiltersHook {
 }
 
 export function useResourceFilters({
-  instructions
+  instructions,
+  predicateWhitelist = []
 }: UseResourceFiltersConfig): UseResourceFiltersHook {
   const { user } = useTokenProvider()
   const [sdkFilters, setSdkFilters] = useState<QueryFilter>()
   const queryString = window.location.search
 
   const adapters = makeFilterAdapters({
-    instructions
+    instructions,
+    predicateWhitelist
   })
   const { validInstructions } = adapters
 
@@ -164,6 +179,7 @@ export function useResourceFilters({
                 instructions={validInstructions}
                 onUpdate={onUpdate}
                 queryString={queryStringProp}
+                predicateWhitelist={predicateWhitelist}
               />
             </Spacer>
           )}
@@ -174,6 +190,7 @@ export function useResourceFilters({
               onFilterClick={onFilterClick}
               onUpdate={onUpdate}
               queryString={queryStringProp}
+              predicateWhitelist={predicateWhitelist}
             />
           )}
         </Spacer>
@@ -187,6 +204,7 @@ export function useResourceFilters({
       return (
         <FiltersFormComponent
           instructions={validInstructions}
+          predicateWhitelist={predicateWhitelist}
           onSubmit={onSubmit}
         />
       )

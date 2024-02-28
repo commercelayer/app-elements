@@ -14,6 +14,7 @@ import { getAllowedValuesFromItemOptions } from './utils'
 export interface AdaptUrlQueryToFormValuesParams {
   queryString: string
   instructions: FiltersInstructions
+  predicateWhitelist?: string[]
 }
 
 /**
@@ -25,14 +26,16 @@ export function adaptUrlQueryToFormValues<
   FilterFormValues extends Record<UiFilterName, UiFilterValue>
 >({
   queryString,
-  instructions
+  instructions,
+  predicateWhitelist = []
 }: AdaptUrlQueryToFormValuesParams): FilterFormValues & FormFullValues {
   const parsedQuery = qs.parse(queryString)
 
   const allowedQueryParams = [
     ...instructions
       .filter((item) => !isCurrencyRange(item))
-      .map((item) => item.sdk.predicate)
+      .map((item) => item.sdk.predicate),
+    ...predicateWhitelist
     // ...currencyRangeFieldKeys
   ]
 
@@ -102,6 +105,13 @@ export function adaptUrlQueryToFormValues<
       )
 
       if (instructionItem == null) {
+        if (predicateWhitelist.includes(key)) {
+          return {
+            ...formValues,
+            [key]: parsedQuery[key]
+          }
+        }
+
         return formValues
       }
 

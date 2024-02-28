@@ -57,11 +57,26 @@ describe('adaptUrlQueryToSdk', () => {
     expect(
       adaptUrlQueryToSdk({
         queryString:
-          'status_in=approved&payment_status_eq=not-existing&status_in=draft',
+          'status_in=approved&payment_status_eq=not-existing&status_in=draft&lastname_eq=doe',
         instructions
       })
     ).toStrictEqual({
       status_in: 'approved',
+      archived_at_null: true
+    })
+  })
+
+  test('should consider the query string whitelist', () => {
+    expect(
+      adaptUrlQueryToSdk({
+        queryString:
+          'status_in=approved&payment_status_eq=not-existing&status_in=draft&lastname_eq=doe',
+        predicateWhitelist: ['lastname_eq'],
+        instructions
+      })
+    ).toStrictEqual({
+      status_in: 'approved',
+      lastname_eq: 'doe',
       archived_at_null: true
     })
   })

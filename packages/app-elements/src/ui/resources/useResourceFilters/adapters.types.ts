@@ -15,6 +15,7 @@ import {
 
 interface MakeFilterAdaptersParams {
   instructions: FiltersInstructions
+  predicateWhitelist: string[]
 }
 
 interface MakeFilterAdaptersReturn<FilterFormValues extends FormFullValues> {
@@ -47,5 +48,6 @@ interface MakeFilterAdaptersReturn<FilterFormValues extends FormFullValues> {
 export type MakeFiltersAdapters = <
   FilterFormValues extends Record<UiFilterName, UiFilterValue>
 >({
-  instructions
+  instructions,
+  predicateWhitelist
 }: MakeFilterAdaptersParams) => MakeFilterAdaptersReturn<FilterFormValues>

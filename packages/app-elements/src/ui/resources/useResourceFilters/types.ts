@@ -110,9 +110,11 @@ export interface FilterItemTextSearch extends Omit<BaseFilterItem, 'sdk'> {
   type: 'textSearch'
   render: {
     /**
-     * UI component to render
+     * UI component to render.
+     *
+     * ⚠️ You can have only one `searchBar` component.
      */
-    component: 'searchBar'
+    component: 'searchBar' | 'input'
   }
   sdk: Pick<BaseFilterItem['sdk'], 'predicate'>
 }

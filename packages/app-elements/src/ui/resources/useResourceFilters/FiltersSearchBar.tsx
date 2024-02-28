@@ -24,21 +24,38 @@ export interface FilterSearchBarProps {
    * Input placeholder
    */
   placeholder?: string
+  /**
+   * By default, we strip out all filters that are not part of the `instructions` array.
+   * The option `predicateWhitelist` is used to whitelist a set of predicates that you want to use as filters.
+   *
+   * @example
+   * ```jsx
+   * useResourceFilters({
+   *   instructions,
+   *   predicateWhitelist: [ 'starts_at_lteq', 'expires_at_gteq', 'starts_at_gt', 'expires_at_lt' ]
+   * })
+   * ```
+   */
+  predicateWhitelist: string[]
 }
 
 function FiltersSearchBar({
   instructions,
   placeholder,
   onUpdate,
-  queryString
+  queryString,
+  predicateWhitelist
 }: FilterSearchBarProps): JSX.Element {
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
     makeFilterAdapters({
-      instructions
+      instructions,
+      predicateWhitelist
     })
 
-  const textPredicate = instructions.find((item) => item.type === 'textSearch')
-    ?.sdk.predicate
+  const textPredicate = instructions.find(
+    (item) =>
+      item.type === 'textSearch' && item.render.component === 'searchBar'
+  )?.sdk.predicate
 
   const updateTextFilter = (hint?: string): void => {
     if (textPredicate == null) {

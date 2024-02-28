@@ -14,6 +14,31 @@ describe('adaptUrlQueryToUrlQuery', () => {
     )
   })
 
+  test('should strip out params from query string when not defined in the instructions', () => {
+    expect(
+      adaptUrlQueryToUrlQuery({
+        queryString:
+          'lastname_eq=doe&market_id_in=abc123&status_in=approved&status_in=cancelled&viewTitle=Awaiting%20Approval',
+        instructions
+      })
+    ).toBe(
+      'market_id_in=abc123&status_in=approved&status_in=cancelled&viewTitle=Awaiting%20Approval'
+    )
+  })
+
+  test('should include whitelisted predicates', () => {
+    expect(
+      adaptUrlQueryToUrlQuery({
+        queryString:
+          'lastname_eq=doe&market_id_in=abc123&status_in=approved&status_in=cancelled&viewTitle=Awaiting%20Approval',
+        instructions,
+        predicateWhitelist: ['lastname_eq']
+      })
+    ).toBe(
+      'lastname_eq=doe&market_id_in=abc123&status_in=approved&status_in=cancelled&viewTitle=Awaiting%20Approval'
+    )
+  })
+
   test('should re-sort query params alphabetically same string', () => {
     expect(
       adaptUrlQueryToUrlQuery({

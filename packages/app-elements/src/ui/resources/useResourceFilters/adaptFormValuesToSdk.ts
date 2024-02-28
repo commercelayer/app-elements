@@ -23,6 +23,7 @@ export interface AdaptFormValuesToSdkParams<FilterFormValues> {
   formValues: FilterFormValues
   timezone?: string
   instructions: FiltersInstructions
+  predicateWhitelist?: string[]
 }
 
 /**
@@ -38,7 +39,8 @@ export function adaptFormValuesToSdk<
 >({
   formValues,
   instructions,
-  timezone
+  timezone,
+  predicateWhitelist = []
 }: AdaptFormValuesToSdkParams<FilterFormValues>): QueryFilter {
   const formFieldNames = instructions
     .filter(
@@ -50,7 +52,9 @@ export function adaptFormValuesToSdk<
         | FilterItemCurrencyRange =>
         isItemOptions(item) || isTextSearch(item) || isCurrencyRange(item)
     )
-    .map((item) => item.sdk.predicate)
+    .flatMap((item) =>
+      ([] as string[]).concat(item.sdk.predicate).concat(predicateWhitelist)
+    )
 
   const sdkFilters = formFieldNames.reduce<Partial<QueryFilter>>(
     (acc, key) => {
@@ -59,6 +63,13 @@ export function adaptFormValuesToSdk<
       )
 
       if (instructionItem == null) {
+        if (predicateWhitelist.includes(key)) {
+          return {
+            ...acc,
+            [key]: formValues[key]
+          }
+        }
+
         return acc
       }
 
