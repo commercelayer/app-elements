@@ -19,7 +19,6 @@ import {
   isTimeRangeFilterUiName
 } from './timeUtils'
 import {
-  isItemOptions,
   isTextSearch,
   type CurrencyRangeFieldValue,
   type FiltersInstructionItem,
@@ -245,7 +244,11 @@ export function FiltersNav({
           filterPredicate
         })
 
-        if (instructionItem == null || instructionItem.type === 'textSearch') {
+        if (
+          instructionItem == null ||
+          (instructionItem.type === 'textSearch' &&
+            instructionItem.render.component === 'searchBar')
+        ) {
           return null
         }
 
@@ -403,21 +406,24 @@ function getButtonFilterLabel({
 }): string {
   const isSingleElementArray = Array.isArray(values) && values.length === 1
   const isString = typeof values === 'string'
+  const optionValue = Array.isArray(values) ? values[0] : values
 
   if (
-    isItemOptions(instructionItem) &&
+    instructionItem.type === 'options' &&
     'options' in instructionItem.render.props &&
     instructionItem.render.props.options != null &&
     instructionItem.render.props.options.length > 0 &&
     (isSingleElementArray || isString)
   ) {
-    const optionValue = Array.isArray(values) ? values[0] : values
-
     return (
       instructionItem.render.props.options.find(
         ({ value }) => value === optionValue
       )?.label ?? instructionItem.label
     )
+  }
+
+  if (instructionItem.type === 'textSearch') {
+    return `${instructionItem.label} · ${optionValue}`
   }
 
   return `${instructionItem.label} · ${values.length}`

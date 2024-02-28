@@ -37,8 +37,10 @@ function FiltersSearchBar({
       instructions
     })
 
-  const textPredicate = instructions.find((item) => item.type === 'textSearch')
-    ?.sdk.predicate
+  const textPredicate = instructions.find(
+    (item) =>
+      item.type === 'textSearch' && item.render.component === 'searchBar'
+  )?.sdk.predicate
 
   const updateTextFilter = (hint?: string): void => {
     if (textPredicate == null) {

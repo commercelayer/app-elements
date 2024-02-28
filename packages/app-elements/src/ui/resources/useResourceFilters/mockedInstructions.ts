@@ -121,6 +121,16 @@ export const instructions: FiltersInstructions = [
     }
   },
   {
+    label: 'Name',
+    type: 'textSearch',
+    sdk: {
+      predicate: 'name_eq'
+    },
+    render: {
+      component: 'input'
+    }
+  },
+  {
     label: 'Amount',
     type: 'currencyRange',
     sdk: {

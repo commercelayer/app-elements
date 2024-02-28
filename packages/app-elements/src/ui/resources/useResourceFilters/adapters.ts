@@ -53,7 +53,10 @@ export const makeFilterAdapters: MakeFiltersAdapters = ({ instructions }) => {
  */
 function isValidInstructions(instructions: FiltersInstructions): boolean {
   const hasMultipleText =
-    instructions.filter((item) => item.type === 'textSearch')?.length > 1
+    instructions.filter(
+      (item) =>
+        item.type === 'textSearch' && item.render.component === 'searchBar'
+    )?.length > 1
 
   const hasMultipleTimePreset =
     instructions.filter((item) => item.type === 'timeRange')?.length > 1

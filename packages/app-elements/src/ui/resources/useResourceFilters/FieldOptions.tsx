@@ -1,24 +1,17 @@
 import { HookedInputResourceGroup } from '#ui/forms/InputResourceGroup'
 import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
 import { useFormContext } from 'react-hook-form'
-import { type FilterItemOptions, type FilterItemTextSearch } from './types'
+import { type FilterItemOptions } from './types'
 import { computeFilterLabel } from './utils'
 
 interface FieldProps {
-  item: FilterItemOptions | FilterItemTextSearch
+  item: FilterItemOptions
 }
 
-export function FieldItem({ item }: FieldProps): JSX.Element | null {
+export function FieldOptions({ item }: FieldProps): JSX.Element | null {
   const { watch } = useFormContext()
 
-  if (item.hidden === true) {
-    return null
-  }
-
   switch (item.render.component) {
-    case 'searchBar':
-      return null
-
     case 'inputToggleButton':
       return (
         <HookedInputToggleButton

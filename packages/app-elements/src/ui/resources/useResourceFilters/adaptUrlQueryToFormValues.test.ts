@@ -18,6 +18,7 @@ describe('adaptUrlQueryToFormValues', () => {
       timePreset: undefined,
       timeFrom: undefined,
       timeTo: undefined,
+      name_eq: undefined,
       number_or_email_cont: 'foobar',
       viewTitle: 'Awaiting Approval',
       total_amount_cents: {
@@ -43,6 +44,7 @@ describe('adaptUrlQueryToFormValues', () => {
       timePreset: undefined,
       timeFrom: undefined,
       timeTo: undefined,
+      name_eq: undefined,
       number_or_email_cont: undefined,
       viewTitle: undefined,
       total_amount_cents: {
@@ -68,6 +70,7 @@ describe('adaptUrlQueryToFormValues', () => {
       timePreset: undefined,
       timeFrom: undefined,
       timeTo: undefined,
+      name_eq: undefined,
       number_or_email_cont: undefined,
       viewTitle: undefined,
       total_amount_cents: {
@@ -94,6 +97,7 @@ describe('adaptUrlQueryToFormValues', () => {
       timePreset: undefined,
       timeFrom: undefined,
       timeTo: undefined,
+      name_eq: undefined,
       number_or_email_cont: undefined,
       viewTitle: undefined,
       total_amount_cents: {
@@ -120,6 +124,7 @@ describe('adaptUrlQueryToFormValues', () => {
       timePreset: undefined,
       timeFrom: undefined,
       timeTo: undefined,
+      name_eq: undefined,
       number_or_email_cont: undefined,
       viewTitle: undefined,
       total_amount_cents: {
@@ -146,6 +151,7 @@ describe('adaptUrlQueryToFormValues', () => {
       timePreset: undefined,
       timeFrom: undefined,
       timeTo: undefined,
+      name_eq: undefined,
       number_or_email_cont: undefined,
       viewTitle: undefined,
       total_amount_cents: {

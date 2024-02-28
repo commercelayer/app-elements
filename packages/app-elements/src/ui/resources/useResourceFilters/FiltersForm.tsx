@@ -4,12 +4,12 @@ import { HookedForm } from '#ui/forms/Form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { FieldCurrencyRange } from './FieldCurrencyRange'
-import { FieldItem } from './FieldItem'
+import { FieldOptions } from './FieldOptions'
+import { FieldTextSearch } from './FieldTextSearch'
 import { FieldTimeRange } from './FieldTimeRange'
 import { makeFilterAdapters } from './adapters'
 import { timeRangeValidationSchema } from './timeUtils'
 import type { FiltersInstructions } from './types'
-import { isItemOptions } from './types'
 
 export interface FiltersFormProps {
   /**
@@ -54,10 +54,22 @@ function FiltersForm({
       }}
     >
       {instructions.map((item) => {
-        if (isItemOptions(item) && item.hidden !== true) {
+        if (item.hidden === true) {
+          return null
+        }
+
+        if (item.type === 'textSearch') {
           return (
             <Spacer bottom='10' key={item.label}>
-              <FieldItem item={item} />
+              <FieldTextSearch item={item} />
+            </Spacer>
+          )
+        }
+
+        if (item.type === 'options') {
+          return (
+            <Spacer bottom='10' key={item.label}>
+              <FieldOptions item={item} />
             </Spacer>
           )
         }
