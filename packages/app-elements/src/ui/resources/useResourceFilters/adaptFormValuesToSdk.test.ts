@@ -184,6 +184,7 @@ describe('adaptFormValuesToSdk', () => {
       adaptFormValuesToSdk({
         formValues: {
           status_in: ['approved'],
+          lastname_eq: 'doe',
           total_amount_cents: {
             currencyCode: 'USD'
           }
@@ -192,6 +193,23 @@ describe('adaptFormValuesToSdk', () => {
       })
     ).toStrictEqual({
       status_in: 'approved',
+      archived_at_null: true
+    })
+  })
+
+  test('should generate `lastname_eq` when whitelisted', () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          status_in: ['approved'],
+          lastname_eq: 'doe'
+        },
+        instructions,
+        predicateWhitelist: ['lastname_eq']
+      })
+    ).toStrictEqual({
+      status_in: 'approved',
+      lastname_eq: 'doe',
       archived_at_null: true
     })
   })

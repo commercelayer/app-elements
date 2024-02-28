@@ -10,12 +10,13 @@ describe('adaptFormValuesToUrlQuery', () => {
           market_id_in: ['dFDdasdgAN', 'KToVGDooQp'],
           payment_status_in: [],
           fulfillment_status_in: [],
-          archived_at_null: 'hide'
+          archived_at_null: 'hide',
+          lastname_eq: 'doe'
         },
         instructions
       })
     ).toBe(
-      'archived_at_null=hide&market_id_in=dFDdasdgAN&market_id_in=KToVGDooQp&status_in=cancelled'
+      'archived_at_null=hide&lastname_eq=doe&market_id_in=dFDdasdgAN&market_id_in=KToVGDooQp&status_in=cancelled'
     )
   })
 

@@ -6,6 +6,7 @@ import { type FiltersInstructions } from './types'
 export interface AdaptUrlQueryToSdkParams {
   queryString: string
   instructions: FiltersInstructions
+  predicateWhitelist?: string[]
   timezone?: string
 }
 
@@ -18,16 +19,19 @@ export interface AdaptUrlQueryToSdkParams {
 export function adaptUrlQueryToSdk({
   queryString,
   instructions,
+  predicateWhitelist = [],
   timezone
 }: AdaptUrlQueryToSdkParams): QueryFilter {
   const formValues = adaptUrlQueryToFormValues({
     queryString,
+    predicateWhitelist,
     instructions
   })
 
   return adaptFormValuesToSdk({
     formValues,
     instructions,
+    predicateWhitelist,
     timezone
   })
 }

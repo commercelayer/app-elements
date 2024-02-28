@@ -29,6 +29,60 @@ describe('adaptUrlQueryToFormValues', () => {
     })
   })
 
+  test('should strip out params from query string when not defined in the instructions', () => {
+    expect(
+      adaptUrlQueryToFormValues({
+        queryString: 'lastname_eq=doe',
+        instructions
+      })
+    ).toStrictEqual({
+      market_id_in: [],
+      status_in: [],
+      payment_status_eq: undefined,
+      fulfillment_status_in: [],
+      archived_at_null: undefined,
+      timePreset: undefined,
+      timeFrom: undefined,
+      timeTo: undefined,
+      name_eq: undefined,
+      number_or_email_cont: undefined,
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined
+      }
+    })
+  })
+
+  test('should include whitelisted predicates', () => {
+    expect(
+      adaptUrlQueryToFormValues({
+        queryString: 'lastname_eq=doe',
+        instructions,
+        predicateWhitelist: ['lastname_eq']
+      })
+    ).toStrictEqual({
+      lastname_eq: 'doe',
+      market_id_in: [],
+      status_in: [],
+      payment_status_eq: undefined,
+      fulfillment_status_in: [],
+      archived_at_null: undefined,
+      timePreset: undefined,
+      timeFrom: undefined,
+      timeTo: undefined,
+      name_eq: undefined,
+      number_or_email_cont: undefined,
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined
+      }
+    })
+  })
+
   test('should build proper form value object when partially empty', () => {
     expect(
       adaptUrlQueryToFormValues({

@@ -50,13 +50,27 @@ export interface FiltersNavProps {
    * Implemented function should open the filters form.
    */
   onFilterClick: (queryString: string, filterPredicate?: string) => void
+  /**
+   * By default, we strip out all filters that are not part of the `instructions` array.
+   * The option `predicateWhitelist` is used to whitelist a set of predicates that you want to use as filters.
+   *
+   * @example
+   * ```jsx
+   * useResourceFilters({
+   *   instructions,
+   *   predicateWhitelist: [ 'starts_at_lteq', 'expires_at_gteq', 'starts_at_gt', 'expires_at_lt' ]
+   * })
+   * ```
+   */
+  predicateWhitelist: string[]
 }
 
 export function FiltersNav({
   instructions,
   onFilterClick: onBtnLabelClick,
   onUpdate,
-  queryString
+  queryString,
+  predicateWhitelist
 }: FiltersNavProps): JSX.Element {
   const { user } = useTokenProvider()
 
@@ -65,7 +79,8 @@ export function FiltersNav({
     adaptFormValuesToUrlQuery,
     adaptUrlQueryToUrlQuery
   } = makeFilterAdapters({
-    instructions
+    instructions,
+    predicateWhitelist
   })
 
   const filters = useMemo(

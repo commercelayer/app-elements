@@ -5,6 +5,7 @@ import { type FiltersInstructions } from './types'
 export interface AdaptUrlQueryToUrlQueryParams {
   queryString: string
   instructions: FiltersInstructions
+  predicateWhitelist?: string[]
 }
 
 /**
@@ -14,11 +15,16 @@ export interface AdaptUrlQueryToUrlQueryParams {
  */
 export function adaptUrlQueryToUrlQuery({
   queryString,
-  instructions
+  instructions,
+  predicateWhitelist = []
 }: AdaptUrlQueryToUrlQueryParams): string {
   const formValues = adaptUrlQueryToFormValues({
     queryString,
+    instructions,
+    predicateWhitelist
+  })
+  return adaptFormValuesToUrlQuery({
+    formValues,
     instructions
   })
-  return adaptFormValuesToUrlQuery({ formValues, instructions })
 }

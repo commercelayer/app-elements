@@ -16,6 +16,7 @@ describe('FiltersNav', () => {
         onFilterClick={() => {}}
         onUpdate={() => {}}
         queryString='?status_in=placed&status_in=approved&payment_status_eq=authorized&market_id_in=abc123&market_id_in=zxy456&market_id_in=xxx789'
+        predicateWhitelist={[]}
       />
     )
     expect(container).toBeVisible()
@@ -37,6 +38,7 @@ describe('FiltersNav', () => {
             onFilterClick={() => {}}
             onUpdate={() => {}}
             queryString='?market_id_in=AlRevhXQga' // mocked in msw as Europe
+            predicateWhitelist={[]}
           />
         </CoreSdkProvider>
       </TokenProvider>
@@ -58,6 +60,7 @@ describe('FiltersNav', () => {
         onFilterClick={onFilterClick}
         onUpdate={() => {}}
         queryString='?status_in=placed&status_in=approved&payment_status_eq=authorized'
+        predicateWhitelist={[]}
       />
     )
 
@@ -77,6 +80,7 @@ describe('FiltersNav', () => {
         onFilterClick={() => {}}
         onUpdate={onUpdate}
         queryString='?status_in=placed&payment_status_eq=authorized'
+        predicateWhitelist={[]}
       />
     )
 

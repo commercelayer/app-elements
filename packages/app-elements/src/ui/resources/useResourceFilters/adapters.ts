@@ -6,7 +6,10 @@ import { adaptUrlQueryToUrlQuery as adaptUrlQueryToUrlQueryFn } from './adaptUrl
 import type { MakeFiltersAdapters } from './adapters.types'
 import { type FiltersInstructions } from './types'
 
-export const makeFilterAdapters: MakeFiltersAdapters = ({ instructions }) => {
+export const makeFilterAdapters: MakeFiltersAdapters = ({
+  instructions,
+  predicateWhitelist
+}) => {
   const validInstructions = isValidInstructions(instructions)
     ? instructions
     : []
@@ -21,25 +24,29 @@ export const makeFilterAdapters: MakeFiltersAdapters = ({ instructions }) => {
     adaptFormValuesToSdk: (params) =>
       adaptFormValuesToSdkFn({
         ...params,
-        instructions: validInstructions
+        instructions: validInstructions,
+        predicateWhitelist
       }),
 
     adaptUrlQueryToFormValues: (params) =>
       adaptUrlQueryToFormValuesFn({
         ...params,
-        instructions: validInstructions
+        instructions: validInstructions,
+        predicateWhitelist
       }),
 
     adaptUrlQueryToSdk: (params) =>
       adaptUrlQueryToSdkFn({
         ...params,
-        instructions: validInstructions
+        instructions: validInstructions,
+        predicateWhitelist
       }),
 
     adaptUrlQueryToUrlQuery: (params) =>
       adaptUrlQueryToUrlQueryFn({
         ...params,
-        instructions: validInstructions
+        instructions: validInstructions,
+        predicateWhitelist
       }),
 
     validInstructions
