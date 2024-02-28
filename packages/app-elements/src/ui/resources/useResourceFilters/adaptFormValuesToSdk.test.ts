@@ -18,16 +18,16 @@ describe('adaptFormValuesToSdk', () => {
       adaptFormValuesToSdk({
         formValues: {
           market_id_in: ['dFDdasdgAN', 'KToVGDooQp'],
-          status_in: ['cancelled'],
-          payment_status_in: ['paid', 'refunded'],
+          status_in: ['cancelled', 'approved'],
+          payment_status_eq: ['paid'],
           fulfillment_status_in: ['fulfilled']
         },
         instructions
       })
     ).toStrictEqual({
       market_id_in: 'dFDdasdgAN,KToVGDooQp',
-      status_in: 'cancelled',
-      payment_status_in: 'paid,refunded',
+      status_in: 'cancelled,approved',
+      payment_status_eq: 'paid',
       fulfillment_status_in: 'fulfilled',
       archived_at_null: true
     })
@@ -39,7 +39,7 @@ describe('adaptFormValuesToSdk', () => {
         formValues: {
           market_id_in: [],
           status_in: [],
-          payment_status_in: [],
+          payment_status_eq: [],
           fulfillment_status_in: [],
           archived_at_null: 'only'
         },
@@ -57,7 +57,7 @@ describe('adaptFormValuesToSdk', () => {
         formValues: {
           market_id_in: [],
           status_in: [],
-          payment_status_in: [],
+          payment_status_eq: [],
           fulfillment_status_in: [],
           archived_at_null: undefined
         },
@@ -75,7 +75,7 @@ describe('adaptFormValuesToSdk', () => {
         formValues: {
           market_id_in: [],
           status_in: [],
-          payment_status_in: [],
+          payment_status_eq: [],
           fulfillment_status_in: [],
           archived_at_null: undefined,
           timePreset: 'today',
@@ -97,7 +97,7 @@ describe('adaptFormValuesToSdk', () => {
         formValues: {
           market_id_in: [],
           status_in: [],
-          payment_status_in: [],
+          payment_status_eq: [],
           fulfillment_status_in: [],
           archived_at_null: undefined,
           timePreset: 'today'
@@ -118,7 +118,7 @@ describe('adaptFormValuesToSdk', () => {
         formValues: {
           market_id_in: [],
           status_in: [],
-          payment_status_in: [],
+          payment_status_eq: [],
           fulfillment_status_in: [],
           archived_at_null: undefined,
           timePreset: 'custom',

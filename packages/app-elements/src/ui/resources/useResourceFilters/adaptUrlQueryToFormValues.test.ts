@@ -12,7 +12,7 @@ describe('adaptUrlQueryToFormValues', () => {
     ).toStrictEqual({
       market_id_in: ['dFDdasdgAN', 'KToVGDooQp'],
       status_in: ['cancelled'],
-      payment_status_in: [],
+      payment_status_eq: undefined,
       fulfillment_status_in: [],
       archived_at_null: undefined,
       timePreset: undefined,
@@ -37,7 +37,7 @@ describe('adaptUrlQueryToFormValues', () => {
     ).toStrictEqual({
       market_id_in: [],
       status_in: ['approved'],
-      payment_status_in: [],
+      payment_status_eq: undefined,
       fulfillment_status_in: [],
       archived_at_null: undefined,
       timePreset: undefined,
@@ -62,7 +62,7 @@ describe('adaptUrlQueryToFormValues', () => {
     ).toStrictEqual({
       market_id_in: [],
       status_in: [],
-      payment_status_in: [],
+      payment_status_eq: undefined,
       fulfillment_status_in: [],
       archived_at_null: undefined,
       timePreset: undefined,
@@ -82,13 +82,13 @@ describe('adaptUrlQueryToFormValues', () => {
     expect(
       adaptUrlQueryToFormValues({
         queryString:
-          'payment_status_in=invalid-value&status_in=draft&status_in=placed',
+          'payment_status_eq=invalid-value&status_in=draft&status_in=placed',
         instructions
       })
     ).toStrictEqual({
       market_id_in: [],
       status_in: ['placed'],
-      payment_status_in: [],
+      payment_status_eq: undefined,
       fulfillment_status_in: [],
       archived_at_null: undefined,
       timePreset: undefined,
@@ -114,7 +114,7 @@ describe('adaptUrlQueryToFormValues', () => {
     ).toStrictEqual({
       market_id_in: [],
       status_in: ['placed'],
-      payment_status_in: [],
+      payment_status_eq: undefined,
       fulfillment_status_in: [],
       archived_at_null: undefined,
       timePreset: undefined,
@@ -140,7 +140,7 @@ describe('adaptUrlQueryToFormValues', () => {
     ).toStrictEqual({
       market_id_in: [],
       status_in: ['placed'],
-      payment_status_in: [],
+      payment_status_eq: undefined,
       fulfillment_status_in: [],
       archived_at_null: undefined,
       timePreset: undefined,
