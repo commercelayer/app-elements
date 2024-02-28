@@ -147,7 +147,7 @@ export function useResourceFilters({
           }
           query={{
             ...listProps.query,
-            filters: sdkFilters
+            filters: { ...sdkFilters, ...listProps.query?.filters }
           }}
         />
       )
