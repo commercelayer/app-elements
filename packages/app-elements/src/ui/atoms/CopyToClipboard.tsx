@@ -83,7 +83,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       {...rest}
     >
       {showValue && (
-        <p className='overflow-x-auto py-2'>
+        <div className='overflow-x-auto py-2'>
           {isJsonString(value) ? (
             <div className='whitespace-pre max-h-[200px] font-mono font-medium'>
               {JSON.stringify(JSON.parse(value), null, 2)}
@@ -91,7 +91,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
           ) : (
             value
           )}
-        </p>
+        </div>
       )}
       <div className='pt-2'>
         <button

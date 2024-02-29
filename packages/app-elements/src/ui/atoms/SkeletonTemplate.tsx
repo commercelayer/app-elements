@@ -177,7 +177,8 @@ const SkeletonTemplate: SkeletonTemplateComponent<
               /^Icon$/,
               /^StatusIcon$/,
               /^RadialProgress$/,
-              /^ButtonFilter$/
+              /^ButtonFilter$/,
+              /^CopyToClipboard$/
             ])
           ) {
             return cloneElement(child, {
