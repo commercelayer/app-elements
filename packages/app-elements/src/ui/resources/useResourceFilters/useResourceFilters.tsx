@@ -72,9 +72,16 @@ interface UseResourceFiltersHook {
   FilteredList: <TResource extends ListableResourceType>(
     props: Pick<
       ResourceListProps<TResource>,
-      'type' | 'query' | 'emptyState' | 'actionButton'
+      'type' | 'emptyState' | 'actionButton'
     > &
       ResourceListItemTemplate<TResource> & {
+        query?: Omit<
+          NonNullable<ResourceListProps<TResource>['query']>,
+          'filters'
+        > & {
+          /** Filters need to be configured within the `useResourceFilters` options. */
+          filters?: never
+        }
         hideTitle?: boolean
       }
   ) => JSX.Element
