@@ -3,6 +3,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { InputRadioGroup } from '#ui/forms/InputRadioGroup'
+import { InputSelect } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputRadioGroup> = {
@@ -227,6 +228,37 @@ ViewModeGrid.args = {
             40 × 60 × 80 cm
           </Text>
         </>
+      )
+    }
+  ]
+}
+
+export const ViewModeSimple = Template.bind({})
+ViewModeSimple.args = {
+  title: 'Choose a store',
+  name: 'option',
+  viewMode: 'simple',
+  onChange: (v) => {
+    console.log(v)
+  },
+  options: [
+    {
+      value: 'NY',
+      content: <Text weight='semibold'>New York</Text>
+    },
+    {
+      value: 'MI',
+      content: <Text weight='semibold'>Milan</Text>,
+      checkedElement: (
+        <InputSelect
+          onSelect={() => {}}
+          hint={{ text: 'Select your preferred color.' }}
+          initialValues={[
+            { label: 'Red', value: 'red' },
+            { label: 'Green', value: 'green' },
+            { label: 'Blue', value: 'blue' }
+          ]}
+        />
       )
     }
   ]
