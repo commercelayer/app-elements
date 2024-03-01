@@ -63,7 +63,11 @@ export function CodeSample({
   return (
     <>
       {description}
-      <Source dark language='js' code={`${sanitizedCode}//=  ${result}`} />
+      <Source
+        dark
+        language='js'
+        code={`${sanitizedCode}//=  ${typeof result === 'object' ? JSON.stringify(result) : result}`}
+      />
     </>
   )
 }

@@ -11,6 +11,8 @@ export {
   getEventDateInfo,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
+  getLastYearIsoRange,
+  removeMillisecondsFromIsoDate,
   sortAndGroupByDate,
   timeSeparator
 } from '#helpers/date'
