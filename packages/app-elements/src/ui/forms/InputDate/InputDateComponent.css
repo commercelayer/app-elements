@@ -13,6 +13,11 @@
   box-shadow: 2px 2px 0 #f8f8f8;
 }
 
+.react-datepicker-popper {
+  min-width: 370px;
+  text-align: center;
+}
+
 .react-datepicker-popper .react-datepicker__triangle {
   display: none;
 }
