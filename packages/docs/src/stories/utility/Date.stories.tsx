@@ -1,4 +1,9 @@
-import { formatDate, formatDateRange, getEventDateInfo } from '#helpers/date'
+import {
+  formatDate,
+  formatDateRange,
+  getEventDateInfo,
+  getLastYearIsoRange
+} from '#helpers/date'
 import { Description, Stories, Subtitle, Title } from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { CodeSample } from 'src/components/CodeSample'
@@ -249,6 +254,24 @@ export const GetEventDateInfo: StoryFn = () => {
           getEventDateInfo({
             startsAt: '3023-01-01T14:30:00.000Z',
             expiresAt: '3023-01-31T14:30:00.000Z'
+          })
+        }
+      />
+    </>
+  )
+}
+
+/**
+ *  Returns one year date range (minus 1 second) from the specified `now` date.
+ */
+export const GetLastYearIsoRange: StoryFn = () => {
+  return (
+    <>
+      <CodeSample
+        fn={() =>
+          getLastYearIsoRange({
+            now: new Date('2024-01-01T14:30:00.000Z'),
+            showMilliseconds: true
           })
         }
       />

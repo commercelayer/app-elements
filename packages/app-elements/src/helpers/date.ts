@@ -367,3 +367,60 @@ export function sortAndGroupByDate<T extends Event>(
     }).toUpperCase()
   )
 }
+
+/**
+ * Remove milliseconds from a date ISO string.
+ *
+ * Example:
+ * ```
+ * removeMilliseconds('2022-04-24T13:44:59.452Z') // '2022-04-24T13:44:59Z'
+ * ```
+ */
+export function removeMillisecondsFromIsoDate(isoDate: string): string {
+  try {
+    const validDate = new Date(isoDate)
+    return (validDate.toISOString().split('.')[0] ?? '') + 'Z'
+  } catch (e) {
+    return isoDate
+  }
+}
+
+/**
+ * Returns one year date range (minus 1 second) from the specified now date.
+ *
+ * If `showMilliseconds` is false will remove milliseconds from the Date ISO strings,
+ * ready to be used, for instance, in Metrics APIs requests.
+ *
+ * Example:
+ * ```
+ * // with showMilliseconds = true
+ * { date_from: '2022-04-24T13:44:59:452Z', date_to: '2023-04-24T13:45:452Z' }
+ * // with showMilliseconds = false
+ * { date_from: '2022-04-24T13:44:59Z', date_to: '2023-04-24T13:45Z' }
+ * ```
+ */
+export function getLastYearIsoRange({
+  now,
+  showMilliseconds = true
+}: {
+  now: Date
+  showMilliseconds: boolean
+}): {
+  date_from: string
+  date_to: string
+} {
+  const to = now.toISOString()
+
+  // same day, one year ago
+  const lastYearDate = new Date(
+    new Date(now).setFullYear(now.getFullYear() - 1)
+  )
+  // remove 1 second to avoid overlapping with the current year
+  lastYearDate.setSeconds(lastYearDate.getSeconds() + 1)
+  const from = lastYearDate.toISOString()
+
+  return {
+    date_from: showMilliseconds ? from : removeMillisecondsFromIsoDate(from),
+    date_to: showMilliseconds ? to : removeMillisecondsFromIsoDate(to)
+  }
+}

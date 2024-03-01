@@ -1,4 +1,8 @@
 import {
+  getLastYearIsoRange,
+  removeMillisecondsFromIsoDate
+} from '#helpers/date'
+import {
   formatDate,
   formatDateRange,
   formatDateWithPredicate,
@@ -582,5 +586,47 @@ describe('formatDateRange should return the proper date format', () => {
         rangeTo: '2025-01-31T14:30:00.000Z'
       })
     ).toEqual('Dec 01, 2023 - Jan 31, 2025')
+  })
+})
+
+describe('getLastYearIsoRange', () => {
+  test('should return last year range with milliseconds', () => {
+    const now = new Date('2023-04-24T13:45:00.000Z')
+    const result = getLastYearIsoRange({ now, showMilliseconds: true })
+
+    expect(result).toEqual({
+      date_from: '2022-04-24T13:45:01.000Z',
+      date_to: '2023-04-24T13:45:00.000Z'
+    })
+  })
+
+  test('should return last year range without milliseconds', () => {
+    const now = new Date('2023-04-24T13:45:00.538Z')
+    const result = getLastYearIsoRange({ now, showMilliseconds: false })
+
+    expect(result).toEqual({
+      date_from: '2022-04-24T13:45:01Z',
+      date_to: '2023-04-24T13:45:00Z'
+    })
+  })
+})
+
+describe('removeMillisecondsFromIsoDate', () => {
+  test('should remove milliseconds from the date', () => {
+    expect(removeMillisecondsFromIsoDate('2023-04-24T13:45:00.538Z')).toBe(
+      '2023-04-24T13:45:00Z'
+    )
+  })
+
+  test('should accept partial date string', () => {
+    expect(removeMillisecondsFromIsoDate('2023-03-25')).toBe(
+      '2023-03-25T00:00:00Z'
+    )
+  })
+
+  test('should return same value if argument is invalid', () => {
+    expect(removeMillisecondsFromIsoDate('2023-broken-date')).toBe(
+      '2023-broken-date'
+    )
   })
 })
