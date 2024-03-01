@@ -232,6 +232,26 @@ ViewModeGrid.args = {
   ]
 }
 
+export const ViewModeSimple = Template.bind({})
+ViewModeSimple.args = {
+  title: 'Choose a store',
+  name: 'option',
+  viewMode: 'simple',
+  onChange: (v) => {
+    console.log(v)
+  },
+  options: [
+    {
+      value: 'NY',
+      content: <Text weight='semibold'>New York</Text>
+    },
+    {
+      value: 'MI',
+      content: <Text weight='semibold'>Milan</Text>
+    }
+  ]
+}
+
 /** It possible to specify a custom CSS class name for a single option item */
 export const ItemCustomClassName = Template.bind({})
 ItemCustomClassName.args = {
