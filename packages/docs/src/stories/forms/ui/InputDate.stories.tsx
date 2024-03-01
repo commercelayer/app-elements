@@ -1,3 +1,4 @@
+import { Grid } from '#ui/atoms/Grid'
 import { InputDate } from '#ui/forms/InputDate'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
@@ -54,6 +55,27 @@ export const WithTimeSelect = Template.bind({})
 WithTimeSelect.args = {
   label: 'Starts on',
   showTimeSelect: true
+}
+
+export const With2TimeSelects: StoryFn<typeof InputDate> = (args) => {
+  const [startsOn, setStartsOn] = useState<Date | null>(null)
+  const [expiresOn, setExpiresOn] = useState<Date | null>(null)
+  return (
+    <Grid columns='2'>
+      <InputDate
+        value={startsOn}
+        onChange={setStartsOn}
+        label='Starts on'
+        showTimeSelect
+      />
+      <InputDate
+        value={expiresOn}
+        onChange={setExpiresOn}
+        label='Expires on'
+        showTimeSelect
+      />
+    </Grid>
+  )
 }
 
 export const WithError = Template.bind({})
