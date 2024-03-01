@@ -6,7 +6,13 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { useEffect, useState, type ComponentProps, type ReactNode } from 'react'
+import {
+  Fragment,
+  useEffect,
+  useState,
+  type ComponentProps,
+  type ReactNode
+} from 'react'
 
 interface OptionItem {
   /**
@@ -17,6 +23,10 @@ interface OptionItem {
    * Item content to be displayed in the central section of the row
    */
   content: ReactNode
+  /**
+   * Additional `Element` to be rendered when the input is checked
+   */
+  checkedElement?: JSX.Element
   /**
    * Optional CSS class name to be applied to the card item
    */
@@ -90,34 +100,41 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
             const isSelected = optionItem.value === selectedValue
 
             const option = (
-              <label
-                className={cn('flex gap-4 cursor-pointer h-full', {
-                  'rounded-md px-4 py-4 hover:bg-gray-50':
-                    viewMode !== 'simple',
-                  'items-center': ['list', 'simple'].includes(viewMode)
-                })}
-                data-testid='InputRadioGroup-item'
-              >
-                <input
-                  type='radio'
-                  checked={isSelected}
-                  name={name}
-                  value={optionItem.value}
-                  onChange={(event) => {
-                    setSelectedValue(event.currentTarget.value)
-                  }}
-                  className={cn(
-                    'border border-gray-300 rounded-full w-[18px] h-[18px] text-primary focus:ring-primary',
-                    { hidden: !showInput }
-                  )}
-                />
+              <div>
+                <label
+                  className={cn('flex gap-4 cursor-pointer h-full', {
+                    'rounded-md px-4 py-4 hover:bg-gray-50':
+                      viewMode !== 'simple',
+                    'items-center': ['list', 'simple'].includes(viewMode)
+                  })}
+                  data-testid='InputRadioGroup-item'
+                >
+                  <input
+                    type='radio'
+                    checked={isSelected}
+                    name={name}
+                    value={optionItem.value}
+                    onChange={(event) => {
+                      setSelectedValue(event.currentTarget.value)
+                    }}
+                    className={cn(
+                      'border border-gray-300 rounded-full w-[18px] h-[18px] text-primary focus:ring-primary',
+                      { hidden: !showInput }
+                    )}
+                  />
 
-                <div className='flex-1'>{optionItem.content}</div>
-              </label>
+                  <div className='flex-1'>{optionItem.content}</div>
+                </label>
+                {optionItem.checkedElement != null && isSelected && (
+                  <div className='my-2 ml-[18px] pl-4'>
+                    {optionItem.checkedElement}
+                  </div>
+                )}
+              </div>
             )
 
             if (viewMode === 'simple') {
-              return option
+              return <Fragment key={optionItem.value}>{option}</Fragment>
             }
 
             return (

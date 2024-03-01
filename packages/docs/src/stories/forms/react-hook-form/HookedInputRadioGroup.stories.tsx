@@ -5,6 +5,7 @@ import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputRadioGroup } from '#ui/forms/InputRadioGroup'
+import { HookedInputSelect } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useForm } from 'react-hook-form'
 
@@ -25,14 +26,16 @@ export default setup
 const Template: StoryFn<typeof HookedInputRadioGroup> = (args) => {
   const methods = useForm({
     defaultValues: {
-      carrier: 'Fedex'
+      carrier: 'Fedex',
+      option: 'MI',
+      color: 'green'
     }
   })
 
   return (
     <HookedForm
       {...methods}
-      onSubmit={(values) => {
+      onSubmit={(values): void => {
         alert(JSON.stringify(values))
       }}
     >
@@ -146,6 +149,34 @@ Default.args = {
             €37,61
           </Text>
         </ListItem>
+      )
+    }
+  ]
+}
+
+export const WithCheckedElement = Template.bind({})
+WithCheckedElement.args = {
+  title: 'Choose a store',
+  name: 'option',
+  viewMode: 'simple',
+  options: [
+    {
+      value: 'NY',
+      content: <Text weight='semibold'>New York</Text>
+    },
+    {
+      value: 'MI',
+      content: <Text weight='semibold'>Milan</Text>,
+      checkedElement: (
+        <HookedInputSelect
+          name='color'
+          hint={{ text: 'Select your preferred color.' }}
+          initialValues={[
+            { label: 'Red', value: 'red' },
+            { label: 'Green', value: 'green' },
+            { label: 'Blue', value: 'blue' }
+          ]}
+        />
       )
     }
   ]

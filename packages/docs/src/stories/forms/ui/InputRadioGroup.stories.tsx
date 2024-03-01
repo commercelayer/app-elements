@@ -3,6 +3,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { InputRadioGroup } from '#ui/forms/InputRadioGroup'
+import { InputSelect } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof InputRadioGroup> = {
@@ -247,7 +248,18 @@ ViewModeSimple.args = {
     },
     {
       value: 'MI',
-      content: <Text weight='semibold'>Milan</Text>
+      content: <Text weight='semibold'>Milan</Text>,
+      checkedElement: (
+        <InputSelect
+          onSelect={() => {}}
+          hint={{ text: 'Select your preferred color.' }}
+          initialValues={[
+            { label: 'Red', value: 'red' },
+            { label: 'Green', value: 'green' },
+            { label: 'Blue', value: 'blue' }
+          ]}
+        />
+      )
     }
   ]
 }
