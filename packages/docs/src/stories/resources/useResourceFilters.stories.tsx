@@ -161,6 +161,7 @@ export const FilteredList: StoryFn = () => {
               </SkeletonTemplate>
             )
           }}
+          query={{}}
           emptyState={<div>empty</div>}
         />
       </CoreSdkProvider>
