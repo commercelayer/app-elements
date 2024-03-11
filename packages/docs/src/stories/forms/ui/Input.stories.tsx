@@ -1,3 +1,4 @@
+import { Icon } from '#ui/atoms/Icon'
 import { Input } from '#ui/forms/Input'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
@@ -27,6 +28,31 @@ export const WithLabel = Template.bind({})
 WithLabel.args = {
   label: 'Your name',
   name: 'fullname'
+}
+
+export const WithSuffix = Template.bind({})
+WithSuffix.args = {
+  type: 'number',
+  label: 'Percentage',
+  name: 'percentage',
+  suffix: '%'
+}
+
+export const WithActionSuffix = Template.bind({})
+WithActionSuffix.args = {
+  type: 'number',
+  label: 'Weight',
+  name: 'weight',
+  suffix: (
+    <Icon
+      name='arrowClockwise'
+      style={{ cursor: 'pointer' }}
+      size={22}
+      onClick={() => {
+        alert('Refresh')
+      }}
+    />
+  )
 }
 
 export const WithHint = Template.bind({})
