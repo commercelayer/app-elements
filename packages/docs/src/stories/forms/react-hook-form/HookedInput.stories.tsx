@@ -25,7 +25,7 @@ const Template: StoryFn<typeof HookedInput> = (args) => {
   return (
     <HookedForm
       {...methods}
-      onSubmit={(values) => {
+      onSubmit={(values): void => {
         alert(JSON.stringify(values))
       }}
     >
@@ -41,4 +41,12 @@ export const Default = Template.bind({})
 Default.args = {
   label: 'First name',
   name: 'firstname'
+}
+
+export const WithSuffix = Template.bind({})
+WithSuffix.args = {
+  type: 'number',
+  label: 'Assign a priority',
+  name: 'priority',
+  suffix: 'index'
 }

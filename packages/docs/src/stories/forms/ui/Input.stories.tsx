@@ -29,6 +29,14 @@ WithLabel.args = {
   name: 'fullname'
 }
 
+export const WithSuffix = Template.bind({})
+WithSuffix.args = {
+  type: 'number',
+  label: 'Percentage',
+  name: 'percentage',
+  suffix: '%'
+}
+
 export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'Your name',
