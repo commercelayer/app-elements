@@ -23,14 +23,23 @@ export function getPromotionDisplayStatus(
     expiresAt: promotion.expires_at
   })
 
+  const expiredStatus: PromotionDisplayStatus = {
+    status: 'expired',
+    label: 'Expired',
+    icon: 'flag',
+    color: 'gray'
+  }
+
+  if (
+    promotion.total_usage_limit != null &&
+    promotion.total_usage_count === promotion.total_usage_limit
+  ) {
+    return expiredStatus
+  }
+
   switch (eventDateInfo) {
     case 'past':
-      return {
-        status: 'expired',
-        label: 'Expired',
-        icon: 'flag',
-        color: 'gray'
-      }
+      return expiredStatus
 
     case 'upcoming':
       return {
