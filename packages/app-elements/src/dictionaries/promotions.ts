@@ -3,7 +3,7 @@ import type { Promotion } from '@commercelayer/sdk'
 import type { DisplayStatus } from './types'
 
 interface PromotionDisplayStatus extends DisplayStatus {
-  status: 'disabled' | 'active' | 'upcoming' | 'expired'
+  status: 'disabled' | 'active' | 'upcoming' | 'expired' | 'used'
 }
 
 export function getPromotionDisplayStatus(
@@ -23,23 +23,26 @@ export function getPromotionDisplayStatus(
     expiresAt: promotion.expires_at
   })
 
-  const expiredStatus: PromotionDisplayStatus = {
-    status: 'expired',
-    label: 'Expired',
-    icon: 'flag',
-    color: 'gray'
-  }
-
   if (
     promotion.total_usage_limit != null &&
     promotion.total_usage_count === promotion.total_usage_limit
   ) {
-    return expiredStatus
+    return {
+      status: 'used',
+      label: 'Expired',
+      icon: 'flag',
+      color: 'gray'
+    }
   }
 
   switch (eventDateInfo) {
     case 'past':
-      return expiredStatus
+      return {
+        status: 'expired',
+        label: 'Expired',
+        icon: 'flag',
+        color: 'gray'
+      }
 
     case 'upcoming':
       return {
