@@ -14,7 +14,6 @@ import type {
   StockLocation,
   StockTransfer
 } from '@commercelayer/sdk'
-import { referenceOrigins } from './transformers/promotions'
 
 const market = {
   type: 'markets',
@@ -332,7 +331,6 @@ export const presetResourceListItem = {
   },
   promotionActive: {
     type: 'percentage_discount_promotions',
-    reference_origin: referenceOrigins.appPromotions,
     id: '',
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
@@ -345,7 +343,6 @@ export const presetResourceListItem = {
   },
   promotionDisabled: {
     type: 'percentage_discount_promotions',
-    reference_origin: referenceOrigins.appPromotions,
     id: '',
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
@@ -359,7 +356,6 @@ export const presetResourceListItem = {
   },
   promotionUpcoming: {
     type: 'free_shipping_promotions',
-    reference_origin: referenceOrigins.appPromotions,
     id: '',
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
@@ -371,7 +367,6 @@ export const presetResourceListItem = {
   },
   promotionDisabledAndUpcoming: {
     type: 'free_shipping_promotions',
-    reference_origin: referenceOrigins.appPromotions,
     id: '',
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
@@ -384,7 +379,6 @@ export const presetResourceListItem = {
   },
   promotionExpired: {
     type: 'free_gift_promotions',
-    reference_origin: referenceOrigins.appPromotions,
     id: '',
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
@@ -394,23 +388,20 @@ export const presetResourceListItem = {
     total_usage_limit: 3,
     active: false
   },
-  promotionWithCoupons: {
+  promotionUsed: {
     type: 'percentage_discount_promotions',
-    reference_origin: referenceOrigins.appPromotions,
     id: '',
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
     starts_at: '2024-01-01T06:38:44.964Z',
     expires_at: '3033-01-01T06:38:44.964Z',
-    name: '50% off',
-    percentage: 23,
+    name: 'Jan 30% off',
+    percentage: 30,
+    total_usage_count: 3, // count === limit
     total_usage_limit: 3,
-    active: true,
-    coupons: [
-      { code: '1234', created_at: '', id: '', type: 'coupons', updated_at: '' }
-    ]
+    active: true
   },
-  promotionFromApi: {
+  promotionWithCoupons: {
     type: 'percentage_discount_promotions',
     id: '',
     created_at: '',
