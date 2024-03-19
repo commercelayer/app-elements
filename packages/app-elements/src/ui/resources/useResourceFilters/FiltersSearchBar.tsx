@@ -1,10 +1,11 @@
-import { SearchBar } from '#ui/composite/SearchBar'
+import { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
 import castArray from 'lodash/castArray'
 import isEmpty from 'lodash/isEmpty'
 import { makeFilterAdapters } from './adapters'
 import { type FiltersInstructions } from './types'
 
-export interface FilterSearchBarProps {
+export interface FilterSearchBarProps
+  extends Pick<SearchBarProps, 'placeholder' | 'debounceMs'> {
   /**
    * Array of instruction items to build the filters behaviors
    */
@@ -20,10 +21,6 @@ export interface FilterSearchBarProps {
    * It must be "reactive", so most of the time it should come for router.
    */
   queryString: string
-  /**
-   * Input placeholder
-   */
-  placeholder?: string
   /**
    * By default, we strip out all filters that are not part of the `instructions` array.
    * The option `predicateWhitelist` is used to whitelist a set of predicates that you want to use as filters.
@@ -44,7 +41,8 @@ function FiltersSearchBar({
   placeholder,
   onUpdate,
   queryString,
-  predicateWhitelist
+  predicateWhitelist,
+  debounceMs
 }: FilterSearchBarProps): JSX.Element {
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
     makeFilterAdapters({
@@ -92,6 +90,7 @@ function FiltersSearchBar({
       onClear={updateTextFilter}
       onSearch={updateTextFilter}
       autoFocus={safeInitialValue !== undefined && safeInitialValue.length > 0}
+      debounceMs={debounceMs}
     />
   )
 }
