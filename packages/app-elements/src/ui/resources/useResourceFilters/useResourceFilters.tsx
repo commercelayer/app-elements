@@ -60,6 +60,11 @@ interface UseResourceFiltersHook {
        * @default 'Search...'
        */
       searchBarPlaceholder?: string
+      /**
+       * Milliseconds to wait before triggering the search bar callback
+       * @default 500
+       */
+      searchBarDebounceMs?: number
     }
   ) => JSX.Element
   /**
@@ -167,6 +172,7 @@ export function useResourceFilters({
       onFilterClick,
       onUpdate,
       searchBarPlaceholder,
+      searchBarDebounceMs,
       // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
       // so we can't reuse the `queryString` variable we have in the hook scope
       queryString: queryStringProp,
@@ -183,6 +189,7 @@ export function useResourceFilters({
             <Spacer bottom='2'>
               <FiltersSearchBar
                 placeholder={searchBarPlaceholder ?? 'Search...'}
+                debounceMs={searchBarDebounceMs}
                 instructions={validInstructions}
                 onUpdate={onUpdate}
                 queryString={queryStringProp}
