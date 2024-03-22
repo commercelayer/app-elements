@@ -1,5 +1,6 @@
 import { useIsChanged } from '#hooks/useIsChanged'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { Section, type SectionProps } from '#ui/atoms/Section'
@@ -52,7 +53,19 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
    */
   query?: Omit<QueryParamsList, 'pageNumber'>
-
+  /**
+   * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
+   */
+  metricsQuery?: {
+    search: {
+      limit?: number
+      sort?: 'asc' | 'desc'
+      sort_by?: string
+      fields?: string[]
+    }
+    filter: Record<string, any>
+    _invalidate_cache?: boolean
+  }
   /**
    * An element to be rendered when the list is empty.
    */
@@ -87,8 +100,12 @@ export function ResourceList<TResource extends ListableResourceType>({
   title,
   actionButton,
   emptyState,
+  metricsQuery,
   ...props
 }: ResourceListProps<TResource>): JSX.Element {
+  const {
+    settings: { accessToken, organizationSlug, domain }
+  } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
     reducer,
@@ -115,7 +132,17 @@ export function ResourceList<TResource extends ListableResourceType>({
           // when is new query, we don't want to pass existing data
           currentData: isQueryChanged ? undefined : data,
           resourceType: type,
-          query
+          query,
+          metricsApiFetcherParams:
+            metricsQuery != null
+              ? {
+                  accessToken,
+                  query: metricsQuery,
+                  domain,
+                  resourceType: type,
+                  slug: organizationSlug
+                }
+              : undefined
         })
         dispatch({ type: 'loaded', payload: listResponse })
       } catch (err) {
