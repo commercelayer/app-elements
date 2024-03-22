@@ -69,7 +69,11 @@ export type MetricsFilters = Partial<
     Record<
       MetricsAttribute,
       Partial<Record<MetricsOperator | 'query', string | string[] | boolean>>
-    >
+    > & {
+      date_from: string
+      date_to: string
+      date_field: string
+    }
   >
 >
 
@@ -248,9 +252,7 @@ export function adaptSdkToMetrics({
     regroupedFilters.aggregatedSearch != null
       ? {
           aggregated_details: {
-            query: regroupedFilters.aggregatedSearch.includes('*')
-              ? regroupedFilters.aggregatedSearch
-              : `${regroupedFilters.aggregatedSearch}*`
+            query: regroupedFilters.aggregatedSearch
           }
         }
       : {}

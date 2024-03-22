@@ -2,6 +2,14 @@ import { adaptSdkToMetrics } from './adaptSdkToMetrics'
 import { instructions } from './mockedInstructions'
 
 describe('adaptSdkToMetrics', () => {
+  beforeEach(() => {
+    vi.useFakeTimers().setSystemTime('2023-04-05T15:20:00.000Z')
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
   test('Should generate a valid Metrics API filter from a core SDK filter', () => {
     const sdkFilters = {
       market_id_not_in: 'dFDdasdgAN,KToVGDooQp',
@@ -54,7 +62,7 @@ describe('adaptSdkToMetrics', () => {
         currency_code: {
           eq: 'USD'
         },
-        aggregated_details: { query: 'Commerce Layer*' }
+        aggregated_details: { query: 'Commerce Layer' }
       },
       market: {
         ids: {
@@ -67,5 +75,16 @@ describe('adaptSdkToMetrics', () => {
         }
       }
     })
+  })
+
+  test('Should always set a 1-year date range when is date range is not defined', () => {
+    const metricsFilters = adaptSdkToMetrics({
+      sdkFilters: {},
+      resourceType: 'orders',
+      instructions
+    })
+    expect(metricsFilters.order?.date_from).toBe('2022-04-05T15:20:01Z')
+    expect(metricsFilters.order?.date_to).toBe('2023-04-05T15:20:00Z')
+    expect(metricsFilters.order?.date_field).toBe('updated_at')
   })
 })
