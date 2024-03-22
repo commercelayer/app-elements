@@ -83,6 +83,10 @@ interface UseResourceFiltersHook {
         query?: Omit<
           NonNullable<ResourceListProps<TResource>['query']>,
           'filters'
+        >
+        metricsQuery?: Omit<
+          NonNullable<ResourceListProps<TResource>['metricsQuery']>,
+          'filter'
         > & {
           /** Filters need to be configured within the `useResourceFilters` options. */
           filters?: never
@@ -137,7 +141,7 @@ export function useResourceFilters({
   )
 
   const FilteredList: UseResourceFiltersHook['FilteredList'] = useCallback(
-    ({ hideTitle, ...listProps }) => {
+    ({ hideTitle, metricsQuery, ...listProps }) => {
       if (listProps == null) {
         return <div>listProps not defined</div>
       }
@@ -161,6 +165,17 @@ export function useResourceFilters({
             ...listProps.query,
             filters: sdkFilters
           }}
+          metricsQuery={
+            metricsQuery == null
+              ? undefined
+              : {
+                  ...metricsQuery,
+                  filter: adapters.adaptSdkToMetrics({
+                    sdkFilters,
+                    resourceType: listProps.type
+                  })
+                }
+          }
         />
       )
     },
