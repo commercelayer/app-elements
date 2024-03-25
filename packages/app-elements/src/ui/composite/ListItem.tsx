@@ -108,7 +108,7 @@ export const ListItem: FC<ListItemProps> = ({
           'border-dashed': borderStyle === 'dashed',
           'border-b': borderStyle !== 'none',
           'cursor-pointer hover:bg-gray-50': hasHover,
-          'border rounded': variant === 'card',
+          'border rounded bg-white': variant === 'card',
           'border-gray-200 bg-gray-100': disabled
         },
         className
