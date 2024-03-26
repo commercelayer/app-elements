@@ -1,3 +1,8 @@
+import {
+  isValidMetricsResource,
+  type MetricsApiClient,
+  type MetricsResources
+} from '#ui/resources/ResourceList/metricsApiClient'
 import type { CommerceLayerClient, QueryParamsList } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import uniqBy from 'lodash/uniqBy'
@@ -16,26 +21,51 @@ export interface FetcherResponse<TResource> {
     recordCount: number
     currentPage: number
     recordsPerPage: number
+    cursor?: string | null
   }
 }
 
 export async function infiniteFetcher<TResource extends ListableResourceType>({
-  sdkClient,
-  query,
   currentData,
-  resourceType
+  resourceType,
+  client,
+  clientType,
+  query
 }: {
-  sdkClient: CommerceLayerClient
-  query?: Omit<QueryParamsList, 'pageNumber'>
   currentData?: FetcherResponse<Resource<TResource>>
   resourceType: TResource
-}): Promise<FetcherResponse<Resource<TResource>>> {
+} & (
+  | {
+      client: CommerceLayerClient
+      clientType: 'coreSdkClient'
+      query?: Omit<QueryParamsList, 'pageNumber'>
+    }
+  | {
+      client: MetricsApiClient
+      clientType: 'metricsClient'
+      query: Record<string, Record<string, unknown>>
+    }
+)): Promise<FetcherResponse<Resource<TResource>>> {
   const currentPage = currentData?.meta.currentPage ?? 0
   const pageToFetch = currentPage + 1
-  const listResponse = await sdkClient[resourceType].list({
-    ...query,
-    pageNumber: pageToFetch
-  })
+
+  if (clientType === 'metricsClient' && !isValidMetricsResource(resourceType)) {
+    throw new Error('Metrics client is not available for this resource type')
+  }
+
+  const listResponse =
+    clientType === 'metricsClient'
+      ? await client.list(resourceType as MetricsResources, {
+          ...query,
+          search: {
+            ...query.search,
+            cursor: currentData?.meta.cursor ?? null
+          }
+        })
+      : await client[resourceType].list({
+          ...query,
+          pageNumber: pageToFetch
+        })
 
   // we need the primitive array
   // without the sdk added methods ('meta' | 'first' | 'last' | 'get')
