@@ -31,6 +31,19 @@ Danger.args = {
   children: 'Delete webhook'
 }
 
+export const Secondary = Template.bind({})
+Secondary.args = {
+  variant: 'secondary',
+  children: 'Add webhook'
+}
+
+export const SecondarySmall = Template.bind({})
+SecondarySmall.args = {
+  size: 'small',
+  variant: 'secondary',
+  children: 'Add webhook'
+}
+
 /** A `<Button>` can also be rendered as a `link` anytime you need a inline action that doesn't point to a url. */
 export const Link: StoryFn = (_args) => (
   <div>
