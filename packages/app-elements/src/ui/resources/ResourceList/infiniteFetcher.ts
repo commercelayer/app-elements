@@ -1,8 +1,11 @@
-import { metricsApiFetcher } from '#ui/resources/ResourceList/metricsApiClient'
+import {
+  isValidMetricsResource,
+  type MetricsApiClient,
+  type MetricsResources
+} from '#ui/resources/ResourceList/metricsApiClient'
 import type { CommerceLayerClient, QueryParamsList } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import uniqBy from 'lodash/uniqBy'
-import { type MetricsApiFetcherParams } from './metricsApiClient'
 
 type ListResource<TResource extends ListableResourceType> = Awaited<
   ReturnType<CommerceLayerClient[TResource]['list']>
@@ -18,45 +21,49 @@ export interface FetcherResponse<TResource> {
     recordCount: number
     currentPage: number
     recordsPerPage: number
-    cursor?: string
+    cursor?: string | null
   }
 }
 
 export async function infiniteFetcher<TResource extends ListableResourceType>({
   currentData,
   resourceType,
-  ...rest
+  client,
+  clientType,
+  query
 }: {
   currentData?: FetcherResponse<Resource<TResource>>
   resourceType: TResource
 } & (
   | {
-      sdkClient: CommerceLayerClient
+      client: CommerceLayerClient
+      clientType: 'coreSdkClient'
       query?: Omit<QueryParamsList, 'pageNumber'>
     }
   | {
-      metricsApiFetcherParams: MetricsApiFetcherParams
-      sdkClient: never
-      query: never
+      client: MetricsApiClient
+      clientType: 'metricsClient'
+      query: Record<string, Record<string, unknown>>
     }
 )): Promise<FetcherResponse<Resource<TResource>>> {
   const currentPage = currentData?.meta.currentPage ?? 0
   const pageToFetch = currentPage + 1
 
+  if (clientType === 'metricsClient' && !isValidMetricsResource(resourceType)) {
+    throw new Error('Metrics client is not available for this resource type')
+  }
+
   const listResponse =
-    'metricsApiFetcherParams' in rest && rest.metricsApiFetcherParams != null
-      ? await metricsApiFetcher({
-          ...rest.metricsApiFetcherParams,
-          query: {
-            ...rest.metricsApiFetcherParams.query,
-            search: {
-              ...rest.metricsApiFetcherParams.query.search,
-              cursor: currentData?.meta.cursor ?? null
-            }
+    clientType === 'metricsClient'
+      ? await client.list(resourceType as MetricsResources, {
+          ...query,
+          search: {
+            ...query.search,
+            cursor: currentData?.meta.cursor ?? null
           }
         })
-      : await rest.sdkClient[resourceType].list({
-          ...rest.query,
+      : await client[resourceType].list({
+          ...query,
           pageNumber: pageToFetch
         })
 

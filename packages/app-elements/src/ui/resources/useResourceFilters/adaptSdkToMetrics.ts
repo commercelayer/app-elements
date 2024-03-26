@@ -8,49 +8,21 @@ import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import pluralize from 'pluralize'
 
 export type CoreResourceEnabledInMetrics = 'orders' | 'returns'
-type MetricResource = 'order' | 'return'
-
-const coreFiltersOperators = [
-  '_eq',
-  '_not_eq',
-  '_lt',
-  '_lteq',
-  '_gt',
-  '_gteq',
-  '_in',
-  '_not_in'
-] as const
-type CoreFilterOperator = (typeof coreFiltersOperators)[number]
-
-const metricsFiltersOperators = [
-  'in',
-  'not_in',
-  'eq',
-  'ne',
-  'gt',
-  'gte',
-  'lt',
-  'lte'
-] as const
+type MetricsResource = 'order' | 'return'
 
 const metricsResourceMapping: Record<
   CoreResourceEnabledInMetrics,
-  MetricResource
+  MetricsResource
 > = {
   orders: 'order',
   returns: 'return'
 }
-const coreResourceEnabledInMetrics = Object.keys(
-  metricsResourceMapping
-) as CoreResourceEnabledInMetrics[]
 
 // Relationships that are not part of the main resource, but are part of the filters
 const relationships = ['market', 'tags', 'billing_address', 'shipping_address']
 
-const metricsFiltersMapping: Record<
-  CoreFilterOperator,
-  (typeof metricsFiltersOperators)[number]
-> = {
+/** Record of core api filter operators with relative metrics operator */
+const metricsFiltersMapping = {
   _eq: 'eq',
   _not_eq: 'ne',
   _lt: 'lt',
@@ -59,16 +31,18 @@ const metricsFiltersMapping: Record<
   _gteq: 'gte',
   _in: 'in',
   _not_in: 'not_in'
-}
+} as const
 
+type CoreFilterOperator = keyof typeof metricsFiltersMapping
+type MetricsFilterOperator = (typeof metricsFiltersMapping)[CoreFilterOperator]
 type MetricsAttribute = string
-type MetricsOperator = (typeof metricsFiltersOperators)[number]
+
 export type MetricsFilters = Partial<
   Record<
-    MetricResource,
+    MetricsResource,
     Record<
       MetricsAttribute,
-      Partial<Record<MetricsOperator | 'query', string | string[] | boolean>>
+      Partial<Record<MetricsFilterOperator, string | string[] | boolean>>
     > & {
       date_from: string
       date_to: string
@@ -105,9 +79,13 @@ export function adaptSdkToMetrics({
 
   // separate relationships from main resource filters
   const regroupedFilters = Object.entries(sdkFilters).reduce<{
+    /** main resource filters */
     main: QueryFilter
+    /** relationships filters */
     rel: QueryFilter
-    aggregatedSearch?: string
+    /** value to be used to build the `aggregated_details` filter predicate (free text search) */
+    aggregatedDetails?: string
+    /** date range filter */
     date?: { from: string; to: string; field: string }
   }>(
     (acc, [key, value]) => {
@@ -136,7 +114,6 @@ export function adaptSdkToMetrics({
       // Handle date range
       // only supporting one between `updated_at` and `created_at`,
       // if both are included we use the last one found
-      // if (key.startsWith('updated_at') || key.startsWith('created_at')) {
       if (key.startsWith(defaultDatePredicate)) {
         const dateField = `${key.split('_at_')[0]}_at`
         const dateFrom =
@@ -144,7 +121,7 @@ export function adaptSdkToMetrics({
         const dateTo =
           sdkFilters[`${dateField}_lteq`] ??
           sdkFilters[`${dateField}_lt`] ??
-          new Date().toISOString() // we can accept a partial date range when ony the from is set (eg: 7 days ago to now)
+          new Date().toJSON() // we can accept a partial date range when ony the from is set (eg: 7 days ago to now)
 
         if (
           dateFrom == null ||
@@ -161,7 +138,7 @@ export function adaptSdkToMetrics({
           date: {
             from: removeMillisecondsFromIsoDate(dateFrom),
             to: removeMillisecondsFromIsoDate(dateTo),
-            field: `${key.split('_at_')[0]}_at`
+            field: dateField
           }
         }
       }
@@ -169,7 +146,7 @@ export function adaptSdkToMetrics({
       if (key === 'aggregated_details' && typeof value === 'string') {
         return {
           ...acc,
-          aggregatedSearch: value
+          aggregatedDetails: value
         }
       }
 
@@ -222,6 +199,10 @@ export function adaptSdkToMetrics({
     (metricsRelFilters, [key, value]) => {
       // key might be `billing_address_id_not_eq`
       const coreOperator = getCoreOperator(key) // _not_eq
+      if (coreOperator == null) {
+        return metricsRelFilters
+      }
+
       const coreResourceRelParts = key.replace(coreOperator, '').split('_') // ['billing', 'address', 'id']
       const coreAttribute = coreResourceRelParts.pop() // id
       const coreResourceRel = coreResourceRelParts.join('_') // billing_address
@@ -249,10 +230,10 @@ export function adaptSdkToMetrics({
   )
 
   const filterAggregatedDetails =
-    regroupedFilters.aggregatedSearch != null
+    regroupedFilters.aggregatedDetails != null
       ? {
           aggregated_details: {
-            query: regroupedFilters.aggregatedSearch
+            query: regroupedFilters.aggregatedDetails
           }
         }
       : {}
@@ -293,23 +274,21 @@ function pluralizePredicate(predicate: string): string {
   return [...parts, pluralize(last)].join('_')
 }
 
-function getCoreOperator(coreSdkFilterPredicate: string): CoreFilterOperator {
-  const enabledNotOperators = ['_not_in', '_not_eq']
-  const coreOperator =
-    enabledNotOperators.find((predicate) =>
-      coreSdkFilterPredicate.endsWith(predicate)
-    ) ??
-    coreFiltersOperators.find((predicate) =>
-      coreSdkFilterPredicate.endsWith(predicate)
-    )
-
-  return coreOperator as CoreFilterOperator
+function getCoreOperator(
+  coreSdkFilterPredicate: string
+): CoreFilterOperator | undefined {
+  const coreFiltersOperators = Object.keys(metricsFiltersMapping)
+  const regexp = new RegExp(`(?<matcher>${coreFiltersOperators.join('|')})$`)
+  const matcher = coreSdkFilterPredicate.match(regexp)?.groups?.matcher as
+    | CoreFilterOperator
+    | undefined
+  return matcher
 }
 
 function isValidResourceForMetrics(
   resourceType: ListableResourceType
 ): resourceType is CoreResourceEnabledInMetrics {
-  return coreResourceEnabledInMetrics.includes(
+  return Object.keys(metricsResourceMapping).includes(
     resourceType as CoreResourceEnabledInMetrics
   )
 }

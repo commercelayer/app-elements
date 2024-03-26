@@ -1,6 +1,5 @@
 import { useIsChanged } from '#hooks/useIsChanged'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { Section, type SectionProps } from '#ui/atoms/Section'
@@ -8,6 +7,7 @@ import { type SkeletonTemplateProps } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import { type FetcherResponse } from '#ui/resources/ResourceList/infiniteFetcher'
+import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClient'
 import { CommerceLayerStatic, type QueryParamsList } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { useCallback, useEffect, useReducer, type FC } from 'react'
@@ -63,8 +63,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
       sort_by?: string
       fields?: string[]
     }
-    filter: Record<string, any>
-    _invalidate_cache?: boolean
+    filter: Record<string, unknown>
   }
   /**
    * An element to be rendered when the list is empty.
@@ -103,10 +102,8 @@ export function ResourceList<TResource extends ListableResourceType>({
   metricsQuery,
   ...props
 }: ResourceListProps<TResource>): JSX.Element {
-  const {
-    settings: { accessToken, organizationSlug, domain }
-  } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
+  const { metricsClient } = useMetricsSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
     reducer,
     initialState
@@ -128,21 +125,20 @@ export function ResourceList<TResource extends ListableResourceType>({
       dispatch({ type: 'prepare' })
       try {
         const listResponse = await infiniteFetcher({
-          sdkClient,
           // when is new query, we don't want to pass existing data
           currentData: isQueryChanged ? undefined : data,
           resourceType: type,
-          query,
-          metricsApiFetcherParams:
-            metricsQuery != null
-              ? {
-                  accessToken,
-                  query: metricsQuery,
-                  domain,
-                  resourceType: type,
-                  slug: organizationSlug
-                }
-              : undefined
+          ...(metricsQuery != null
+            ? {
+                clientType: 'metricsClient',
+                client: metricsClient,
+                query: metricsQuery
+              }
+            : {
+                clientType: 'coreSdkClient',
+                client: sdkClient,
+                query
+              })
         })
         dispatch({ type: 'loaded', payload: listResponse })
       } catch (err) {
