@@ -25,7 +25,7 @@ type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link'
 type ButtonSize = 'small' | 'regular' | 'large'
 
 const sizeCss: Record<ButtonSize, string> = {
-  small: 'px-6 py-2',
+  small: 'px-4 py-2',
   regular: 'px-6 py-3',
   large: 'px-8 py-4'
 }
@@ -33,7 +33,7 @@ const sizeCss: Record<ButtonSize, string> = {
 const variantCss: Record<ButtonVariant, string> = {
   primary: 'bg-black border border-black text-white hover:opacity-80',
   secondary:
-    'bg-white border border-gray-300 text-black hover:opacity-80 hover:bg-gray-50',
+    'bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50',
   danger: 'bg-white border border-red text-red hover:bg-red/10',
   link: 'text-primary hover:opacity-80'
 }

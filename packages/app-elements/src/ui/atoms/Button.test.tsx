@@ -46,7 +46,7 @@ describe('Button', () => {
     })
     expect(element.className).toContain('bg-white')
     expect(element.className).toContain('text-black')
-    expect(element.className).toContain('border border-gray-300')
+    expect(element.className).toContain('border border-black')
   })
 
   test('Should render as danger variant', () => {
@@ -66,7 +66,7 @@ describe('Button', () => {
       size: 'small',
       text: 'Small button'
     })
-    expect(element.className).toContain('px-6 py-2')
+    expect(element.className).toContain('px-4 py-2')
   })
 
   test('Should render as size regular (default)', () => {
