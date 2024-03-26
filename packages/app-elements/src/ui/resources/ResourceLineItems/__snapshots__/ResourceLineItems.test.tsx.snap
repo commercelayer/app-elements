@@ -367,7 +367,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               <div>
                 <button
                   aria-label="Delete"
-                  class="flex items-center rounded text-center font-bold focus:outline-none text-primary hover:opacity-80"
+                  class="flex items-center rounded text-center focus:outline-none font-bold text-primary hover:opacity-80"
                 >
                   <svg
                     fill="currentColor"

@@ -31,11 +31,11 @@ const sizeCss: Record<ButtonSize, string> = {
 }
 
 const variantCss: Record<ButtonVariant, string> = {
-  primary: 'bg-black border border-black text-white hover:opacity-80',
+  primary: 'font-bold bg-black border border-black text-white hover:opacity-80',
   secondary:
-    'bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50',
-  danger: 'bg-white border border-red text-red hover:bg-red/10',
-  link: 'text-primary hover:opacity-80'
+    'font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50',
+  danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
+  link: 'font-bold text-primary hover:opacity-80'
 }
 
 /** Button component is used to trigger an action or event, such as submitting a form, opening a Dialog, or performing an action. */
@@ -52,7 +52,7 @@ export function Button({
     <button
       className={cn([
         className,
-        'rounded text-center font-bold focus:outline-none',
+        'rounded text-center focus:outline-none',
         {
           'opacity-50 pointer-events-none touch-none': disabled,
           'w-full': fullWidth === true,
