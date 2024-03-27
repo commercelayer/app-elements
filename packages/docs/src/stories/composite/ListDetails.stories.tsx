@@ -47,7 +47,6 @@ export const WithListItem: StoryFn<typeof ListDetails> = (args) => (
       <ListItem
         tag='div'
         padding='y'
-        borderStyle='dashed'
         icon={
           <Avatar
             src='https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png'

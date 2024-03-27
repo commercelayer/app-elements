@@ -1,4 +1,6 @@
 import { Avatar } from '#ui/atoms/Avatar'
+import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
@@ -56,12 +58,33 @@ WithIcon.args = {
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
 }
 
-export const Card = WithIconTemplate.bind({})
-Card.args = {
+export const Boxed = WithIconTemplate.bind({})
+Boxed.args = {
   tag: 'div',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
   onClick: () => {},
-  variant: 'card'
+  variant: 'boxed'
+}
+
+const BoxedCTATemplate: StoryFn<typeof ListItem> = (args) => (
+  <ListItem {...args}>
+    <Text>
+      Enable flexible price adjustments based on the quantities purchased.
+    </Text>
+    <Button variant='secondary' size='small' alignItems='center'>
+      <Icon name='plus' size={16} />
+      Volume tier
+    </Button>
+  </ListItem>
+)
+
+export const BoxedCTA = BoxedCTATemplate.bind({})
+BoxedCTA.args = {
+  tag: 'div',
+  icon: <Icon name='stack' size={32} />,
+  alignIcon: 'center',
+  variant: 'boxed',
+  paddingSize: '6'
 }
 
 export const Disabled = WithIconTemplate.bind({})
@@ -69,7 +92,7 @@ Disabled.args = {
   tag: 'div',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
   onClick: () => {},
-  variant: 'card',
+  variant: 'boxed',
   disabled: true
 }
 
@@ -108,7 +131,6 @@ export const OrderLine: StoryFn<typeof ListItem> = (args) => (
 )
 OrderLine.args = {
   padding: 'y',
-  borderStyle: 'dashed',
   icon: (
     <Avatar
       src='https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png'

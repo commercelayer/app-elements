@@ -57,7 +57,6 @@ const children = (
     <WithSkeletonComponentB>C</WithSkeletonComponentB>
     <ListItem
       tag='div'
-      borderStyle='dashed'
       onClick={() => {
         alert('Hello world!')
       }}
@@ -73,7 +72,7 @@ const children = (
       <StatusIcon name='check' background='green' gap='large' />
       <RadialProgress percentage={42} />
     </ListItem>
-    <ListItem tag='div' borderStyle='dashed'>
+    <ListItem tag='div'>
       <div>
         <Text tag='div'>Ehi there!</Text>
         <Badge variant='primary'>APPROVED</Badge>
