@@ -4,7 +4,7 @@ import cn from 'classnames'
 import isEmpty from 'lodash/isEmpty'
 import { useMemo, type FC } from 'react'
 
-type ListItemVariant = 'list' | 'card'
+type ListItemVariant = 'list' | 'boxed'
 
 type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
   /**
@@ -27,14 +27,14 @@ type Props = Pick<FlexRowProps, 'alignItems' | 'children'> & {
    * Control the padding size.
    * @default '4'
    */
-  paddingSize?: '4' | '2'
+  paddingSize?: '6' | '4' | '2'
   /**
    * Border style to render
    * @default 'solid'
    */
-  borderStyle?: 'dashed' | 'solid' | 'none'
+  borderStyle?: 'solid' | 'none'
   /**
-   * ListItem variant: 'list' or 'card' with rounded borders
+   * ListItem variant: 'list' or 'boxed' with rounded borders
    * @default 'list'
    */
   variant?: ListItemVariant
@@ -88,11 +88,13 @@ export const ListItem: FC<ListItemProps> = ({
     (rest.onClick != null || (rest.tag === 'a' && !isEmpty(rest.href)))
 
   const pySize = cn({
+    'py-6': paddingSize === '6',
     'py-4': paddingSize === '4',
     'py-2': paddingSize === '2'
   })
 
   const pxSize = cn({
+    'px-6': paddingSize === '6',
     'px-4': paddingSize === '4',
     'px-2': paddingSize === '2'
   })
@@ -100,16 +102,16 @@ export const ListItem: FC<ListItemProps> = ({
   return (
     <JsxTag
       className={cn(
-        'flex gap-4 border-gray-100',
-        'text-gray-800 hover:text-gray-800 font-normal', // keep default text color also when used as `<a>` tag
+        'flex gap-4 bg-white',
+        'text-gray-800 hover:text-gray-800', // keep default text color also when used as `<a>` tag
         {
           [pySize]: padding !== 'none' && padding !== 'x',
           [pxSize]: padding !== 'none' && padding !== 'y',
-          'border-dashed': borderStyle === 'dashed',
           'border-b': borderStyle !== 'none',
           'cursor-pointer hover:bg-gray-50': hasHover,
-          'border rounded': variant === 'card',
-          'border-gray-200 bg-gray-100': disabled
+          'border-gray-200 bg-gray-100': disabled,
+          'border-gray-100': variant === 'list',
+          'rounded border border-gray-200': variant === 'boxed'
         },
         className
       )}
