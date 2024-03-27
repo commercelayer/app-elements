@@ -6,15 +6,27 @@ interface SetupProps {
   text: string
   variant?: ButtonProps['variant']
   size?: ButtonProps['size']
+  alignItems?: ButtonProps['alignItems']
 }
 
 type SetupResult = RenderResult & {
   element: HTMLElement
 }
 
-const setup = ({ id, variant, size, text }: SetupProps): SetupResult => {
+const setup = ({
+  id,
+  variant,
+  size,
+  text,
+  alignItems
+}: SetupProps): SetupResult => {
   const utils = render(
-    <Button data-testid={id} variant={variant} size={size}>
+    <Button
+      data-testid={id}
+      variant={variant}
+      size={size}
+      alignItems={alignItems}
+    >
       {text}
     </Button>
   )
@@ -84,5 +96,14 @@ describe('Button', () => {
       text: 'Large button'
     })
     expect(element.className).toContain('px-8 py-4')
+  })
+
+  test('Should render with flex alignment', () => {
+    const { element } = setup({
+      id: 'flex',
+      text: 'Flex button',
+      alignItems: 'center'
+    })
+    expect(element.className).toContain('flex gap-1 items-center')
   })
 })
