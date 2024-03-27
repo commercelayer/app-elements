@@ -19,6 +19,10 @@ export interface ButtonProps
    * Set button width to 100%
    */
   fullWidth?: boolean
+  /**
+   * Flex content alignment with a standard gap
+   */
+  alignItems?: 'center'
 }
 
 type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'link'
@@ -46,16 +50,19 @@ export function Button({
   variant = 'primary',
   disabled,
   fullWidth,
+  alignItems,
   ...rest
 }: ButtonProps): JSX.Element {
   return (
     <button
       className={cn([
         className,
-        'rounded text-center focus:outline-none',
+        'rounded text-center focus:outline-none whitespace-nowrap',
         {
           'opacity-50 pointer-events-none touch-none': disabled,
           'w-full': fullWidth === true,
+          'flex gap-1': alignItems != null,
+          'items-center': alignItems === 'center',
           [`text-sm transition-opacity duration-500 ${sizeCss[size]}`]:
             variant !== 'link'
         },
