@@ -90,6 +90,7 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
         <div
           className={cn('flex gap-2 wrap', {
             'flex-col': ['list', 'simple'].includes(viewMode),
+            'gap-4': ['inline', 'grid'].includes(viewMode),
             'flex-row [&>*]:flex-shrink [&>*]:flex-grow [&>*]:basis-0':
               viewMode === 'inline',
             'grid grid-cols-2': viewMode === 'grid'
