@@ -31,6 +31,18 @@ Default.args = {
   overflow: 'visible'
 }
 
+export const ButtonElement = Template.bind({})
+ButtonElement.args = {
+  onClick: () => {
+    alert('You just clicked!')
+  }
+}
+
+export const AnchorElement = Template.bind({})
+AnchorElement.args = {
+  href: 'https://example.com'
+}
+
 /** Card can have a `footer` that renders in dedicated section. */
 export const Footer: StoryFn<typeof Card> = (args) => (
   <Card {...args}>I'm the card content</Card>

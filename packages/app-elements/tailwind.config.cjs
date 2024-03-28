@@ -29,10 +29,12 @@ module.exports = {
       full: '9999px'
     },
     boxShadow: {
+      hover: '0 0 0 1px #101111',
       focus: '0 0 0 2px #666EFF',
       inputfocus: 'inset 0 0 0 2px #666EFF'
     },
     colors: {
+      inherit: 'inherit',
       primary: {
         light: `${colorBrand}${alphaToHex(80)}`,
         DEFAULT: colorBrand,
@@ -171,6 +173,9 @@ module.exports = {
       },
       objectPosition: {
         'out-of-bounds': '-99999px 99999px'
+      },
+      fontWeight: {
+        inherit: 'inherit'
       }
     }
   },
