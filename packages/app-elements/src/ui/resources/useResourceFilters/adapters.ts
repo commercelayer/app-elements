@@ -53,7 +53,8 @@ export const makeFilterAdapters: MakeFiltersAdapters = ({
     adaptSdkToMetrics: (params) =>
       adaptSdkToMetricsFn({
         ...params,
-        instructions: validInstructions
+        instructions: validInstructions,
+        predicateWhitelist
       }),
 
     validInstructions
