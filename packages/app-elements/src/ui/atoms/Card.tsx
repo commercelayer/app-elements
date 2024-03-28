@@ -2,16 +2,17 @@ import { removeUnwantedProps } from '#utils/htmltags'
 import cn from 'classnames'
 import { withSkeletonTemplate } from './SkeletonTemplate'
 
-export type CardProps = React.HTMLAttributes<HTMLDivElement> & {
-  /**
-   * Footer will render in a dedicated section below the main content.
-   */
-  footer?: React.ReactNode
-  /**
-   * Set a gray background color
-   */
-  backgroundColor?: 'light'
-} & (
+export type CardProps = React.HTMLAttributes<HTMLElement> &
+  Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'onClick' | 'href'> & {
+    /**
+     * Footer will render in a dedicated section below the main content.
+     */
+    footer?: React.ReactNode
+    /**
+     * Set a gray background color
+     */
+    backgroundColor?: 'light'
+  } & (
     | {
         /**
          * Possible values are:
@@ -52,19 +53,25 @@ export const Card = withSkeletonTemplate<CardProps>(
     const overflow = 'overflow' in rest ? rest.overflow : 'hidden'
     const divProps =
       'overflow' in rest ? removeUnwantedProps(rest, ['overflow']) : rest
+    const Tag =
+      rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
 
     return (
-      <div
+      <Tag
         className={cn([
           className,
           'border border-solid rounded-md',
+          'text-left', // reset <button>
+          'text-inherit active:text-inherit hover:text-inherit font-inherit', // reset <a>
           {
             'overflow-hidden': overflow === 'hidden',
             'border-gray-200 bg-white': backgroundColor == null,
             'bg-gray-50 border-gray-50': backgroundColor === 'light',
             'p-1': gap === '1',
             'p-4': gap === '4',
-            'p-6': gap === '6'
+            'p-6': gap === '6',
+            [`hover:border-black hover:shadow-hover`]:
+              Tag === 'a' || Tag === 'button'
           }
         ])}
         {...divProps}
@@ -91,7 +98,7 @@ export const Card = withSkeletonTemplate<CardProps>(
             {footer}
           </div>
         )}
-      </div>
+      </Tag>
     )
   }
 )
