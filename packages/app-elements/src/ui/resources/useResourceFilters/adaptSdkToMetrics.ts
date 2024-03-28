@@ -254,11 +254,80 @@ export function adaptSdkToMetrics({
           date_field: defaultDatePredicate
         }
 
+  // In our definition of filters components the amount range is always in cents and linked to a currency code.
+  // In fact the filter instructions expect an item of type `currencyRange`.
+  // The following block adapts this logic to the metrics API where the amount is in float and the currency is always a plural `in` operator
+  const instructionItemsCurrencyRange = instructions.filter(
+    (item) => item.type === 'currencyRange'
+  )
+  const filterCurrencyRange = instructionItemsCurrencyRange.reduce(
+    (acc, item) => {
+      // defining which operator is used in the sdk core filters
+      const coreOperatorFrom =
+        sdkFilters[`${item.sdk.predicate}_gteq`] != null ? '_gteq' : '_gt'
+      const coreOperatorTo =
+        sdkFilters[`${item.sdk.predicate}_lteq`] != null ? '_lteq' : '_lt'
+
+      // getting relative metrics operators
+      const metricsOperatorFrom = metricsFiltersMapping[coreOperatorFrom]
+      const metricsOperatorTo = metricsFiltersMapping[coreOperatorTo]
+
+      // metrics api has values as float, so we need to convert the cents to float if our sdk predicate is in cents
+      const rangeFrom = parseMetricsAmountValue({
+        value: sdkFilters[`${item.sdk.predicate}${coreOperatorFrom}`],
+        sdkPredicate: item.sdk.predicate
+      })
+      const rangeTo = parseMetricsAmountValue({
+        value: sdkFilters[`${item.sdk.predicate}${coreOperatorTo}`],
+        sdkPredicate: item.sdk.predicate
+      })
+      const metricsPredicate = item.sdk.predicate
+        .replace('_cents', '')
+        .replace('_float', '')
+
+      if (rangeFrom == null && rangeTo == null) {
+        return acc
+      }
+
+      // While Core API handles range with two attributes, metrics API has one operator for both
+      const metricsValue =
+        rangeFrom != null && rangeTo != null
+          ? {
+              // Possible keys for the range could be `gte_lte`,  `gt_te` or `gte_lt`
+              // Example: { gte_lte: [10.3, 30.1] }
+              [`${metricsOperatorFrom}_${metricsOperatorTo}`]: [
+                rangeFrom,
+                rangeTo
+              ]
+            }
+          : rangeFrom != null
+            ? { [metricsOperatorFrom]: rangeFrom }
+            : { [metricsOperatorTo]: rangeTo }
+
+      const currencyCode =
+        sdkFilters.currency_code_eq != null
+          ? {
+              currency_codes: {
+                in: [sdkFilters.currency_code_eq]
+              }
+            }
+          : {}
+
+      return {
+        ...acc,
+        ...currencyCode,
+        [metricsPredicate]: metricsValue
+      }
+    },
+    {}
+  )
+
   return {
     [mainResource]: {
       ...filterValueMainResource,
       ...filterAggregatedDetails,
-      ...filterDate
+      ...filterDate,
+      ...filterCurrencyRange
     },
     ...filterValueRelResource
   }
@@ -291,4 +360,27 @@ function isValidResourceForMetrics(
   return Object.keys(metricsResourceMapping).includes(
     resourceType as CoreResourceEnabledInMetrics
   )
+}
+
+/**
+ * Given the sdk predicate and a value, it returns the value in the metrics format.
+ * If the predicate refers to cents, it will convert the value to float.
+ * Value in sdkFilters can be a string or a number, metrics only accepts numbers (float).
+ */
+function parseMetricsAmountValue({
+  sdkPredicate,
+  value
+}: {
+  sdkPredicate: string
+  value?: QueryFilter[keyof QueryFilter]
+}): number | undefined {
+  if (typeof value !== 'string' && typeof value !== 'number') {
+    return undefined
+  }
+
+  if (sdkPredicate.endsWith('_cents')) {
+    return parseInt(`${value}`, 10) / 100
+  }
+
+  return parseFloat(`${value}`)
 }
