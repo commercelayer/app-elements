@@ -14,7 +14,7 @@ export const promotionToProps: ResourceToProps<Omit<Promotion, 'type'>> = ({
   user
 }) => {
   const displayStatus = getPromotionDisplayStatus(resource)
-  const hasCoupons = (resource.coupons ?? []).length > 0
+  const hasCoupons = resource.coupon_codes_promotion_rule != null
 
   return {
     name: (

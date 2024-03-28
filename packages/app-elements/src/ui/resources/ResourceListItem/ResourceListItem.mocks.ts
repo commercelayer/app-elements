@@ -412,9 +412,12 @@ export const presetResourceListItem = {
     percentage: 23,
     total_usage_limit: 3,
     active: true,
-    coupons: [
-      { code: '1234', created_at: '', id: '', type: 'coupons', updated_at: '' }
-    ]
+    coupon_codes_promotion_rule: {
+      type: 'coupon_codes_promotion_rules',
+      id: '',
+      created_at: '',
+      updated_at: '2023-06-10T06:38:44.964Z'
+    }
   }
 } satisfies Record<
   string,
