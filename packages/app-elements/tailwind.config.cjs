@@ -143,7 +143,7 @@ module.exports = {
     },
     fontFamily: {
       sans: ['Manrope', 'ui-sans-serif', 'sans-serif'],
-      mono: ['ui-monospace', 'Menlo', 'monospace']
+      mono: ['Roboto Mono', 'ui-monospace', 'Menlo', 'monospace']
     },
     fontSize: {
       '2xs': '.688rem',

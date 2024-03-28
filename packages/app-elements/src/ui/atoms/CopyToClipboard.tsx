@@ -99,7 +99,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
           onClick={() => {
             void handleCopy(value)
           }}
-          className='text-xl cursor-pointer text-gray-300 hover:text-gray-500 relative'
+          className='text-xl cursor-pointer text-gray-500 hover:text-gray-300 relative'
           data-testid='copy-value-button'
         >
           {!copied ? (

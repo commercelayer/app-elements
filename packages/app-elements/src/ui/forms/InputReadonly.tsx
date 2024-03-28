@@ -6,11 +6,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
 
-export interface InputReadonlyProps extends InputWrapperBaseProps {
-  /**
-   * Controlled value
-   */
-  value?: string
+export type InputReadonlyProps = InputWrapperBaseProps & {
   /**
    * Optional CSS class names used for the outer wrapper/container element
    */
@@ -23,6 +19,15 @@ export interface InputReadonlyProps extends InputWrapperBaseProps {
    * Optional prop to define whether to show or not the Copy to clipboard button
    */
   showCopyAction?: boolean
+  /**
+   * Value to be rendered as simple input text
+   */
+  value?: string
+  /**
+   * Multi-line content to be rendered as textarea like.
+   * It only accepts a string and will respect new lines when passing a template literal (backticks).
+   */
+  children?: string
 }
 
 export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
@@ -36,8 +41,12 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
     feedback,
     isLoading,
     delayMs,
+    children,
     ...rest
   }) => {
+    const cssBase =
+      'block w-full rounded bg-gray-50 text-teal text-sm font-mono font-medium marker:font-bold border-none'
+
     return (
       <InputWrapper
         {...rest}
@@ -46,19 +55,44 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
         label={label}
         hint={hint}
       >
-        <div className='relative w-full select-none group'>
-          <input
-            className={cn(
-              'block w-full bg-gray-50 px-4 h-[44px] text-teal text-sm font-mono font-medium marker:font-bold border-none',
-              'rounded outline-0 !ring-0 group-hover:bg-gray-100',
-              inputClassName
-            )}
-            value={isLoading === true ? '' : value}
-            readOnly
-          />
+        <div className='relative w-full group'>
+          {children == null ? (
+            <input
+              className={cn(
+                cssBase,
+                'px-4 h-[44px] outline-0 !ring-0',
+                inputClassName
+              )}
+              value={isLoading === true ? '' : value}
+              readOnly
+            />
+          ) : (
+            <div
+              tabIndex={0}
+              role='textbox'
+              aria-label={label}
+              className={cn(
+                cssBase,
+                'flex flex-col px-4 py-[11px]',
+                inputClassName
+              )}
+            >
+              {children.split('\n').map((line, idx) => (
+                <span key={idx}>{line}</span>
+              ))}
+            </div>
+          )}
           {showCopyAction && (
-            <div className='absolute top-[2px] bottom-[2px] right-4 group-hover:bg-gray-100 flex items-center opacity-0 group-hover:opacity-100'>
-              <CopyToClipboard value={value} showValue={false} />
+            <div
+              className={cn('absolute right-4  flex', {
+                'top-[2px] items-center': children == null,
+                'top-2': children != null
+              })}
+            >
+              <CopyToClipboard
+                value={value ?? children?.trim()}
+                showValue={false}
+              />
             </div>
           )}
         </div>

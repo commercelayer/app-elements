@@ -27,6 +27,22 @@ Default.args = {
   showCopyAction: true
 }
 
+/**
+ * In this example we are using the `children` prop to render a code snippet with multi-line content.
+ * Special characters like `\` need to be escaped with `\\` to be rendered correctly.
+ */
+export const MultiLine: StoryFn = () => {
+  return (
+    <InputReadonly label='Login with your admin credentials' showCopyAction>
+      {`commercelayer app:login \\
+      -i asdGvqXsOSsdko6ueiX9 \\
+      -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 \\
+      -o demo-store \\
+      -a admin`}
+    </InputReadonly>
+  )
+}
+
 export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'Secret',
