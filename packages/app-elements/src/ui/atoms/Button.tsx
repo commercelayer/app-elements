@@ -1,3 +1,4 @@
+import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 import { type ReactNode } from 'react'
 
@@ -57,14 +58,15 @@ export function Button({
     <button
       className={cn([
         className,
-        'rounded text-center focus:outline-none whitespace-nowrap',
+        'rounded text-center focus:outline-none whitespace-nowrap leading-5',
         {
           'opacity-50 pointer-events-none touch-none': disabled,
           'w-full': fullWidth === true,
           'flex gap-1': alignItems != null,
           'items-center': alignItems === 'center',
           [`text-sm transition-opacity duration-500 ${sizeCss[size]}`]:
-            variant !== 'link'
+            variant !== 'link',
+          '!p-[10px]': isSpecificReactComponent(children, [/^Icon$/])
         },
         variantCss[variant]
       ])}
