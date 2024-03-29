@@ -31,12 +31,9 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
       <StatusIcon name='percent' background='black' gap='medium' />
       <Spacer top='4'>
         <Text weight='semibold'>Percentage discount</Text>
-        <p>
-          <Text size='small' variant='info'>
-            Apply a specific percentage discount to the subtotal amount of
-            orders.
-          </Text>
-        </p>
+        <Text tag='div' size='small' variant='info'>
+          Apply a specific percentage discount to the subtotal amount of orders.
+        </Text>
       </Spacer>
     </Card>
 
@@ -44,11 +41,9 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
       <StatusIcon name='truck' background='black' gap='medium' />
       <Spacer top='4'>
         <Text weight='semibold'>Free shipping</Text>
-        <p>
-          <Text size='small' variant='info'>
-            Set the shipping cost amount to zero for orders.
-          </Text>
-        </p>
+        <Text tag='div' size='small' variant='info'>
+          Set the shipping cost amount to zero for orders.
+        </Text>
       </Spacer>
     </Card>
   </Grid>

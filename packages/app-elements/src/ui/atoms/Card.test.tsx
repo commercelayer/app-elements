@@ -2,7 +2,7 @@ import { render } from '@testing-library/react'
 import { Card } from './Card'
 
 describe('Card', () => {
-  test('Should be rendered', () => {
+  test('Should be rendered simply as DIV', () => {
     const { getByText, container } = render(
       <Card overflow='visible'>
         <p>
@@ -12,6 +12,33 @@ describe('Card', () => {
     )
     expect(getByText('I am a Card')).toBeVisible()
     expect(container.firstElementChild?.tagName).toBe('DIV')
+  })
+
+  test('Should be rendered as BUTTON when `onClick` is set', () => {
+    const { getByText, container } = render(
+      <Card overflow='visible' onClick={() => {}}>
+        <p>
+          <strong>I am a Card</strong>
+        </p>
+      </Card>
+    )
+    expect(getByText('I am a Card')).toBeVisible()
+    expect(container.firstElementChild?.tagName).toBe('BUTTON')
+  })
+
+  test('Should be rendered as BUTTON when `onClick` is set', () => {
+    const { getByText, container } = render(
+      <Card overflow='visible' href='https://example.com' onClick={() => {}}>
+        <p>
+          <strong>I am a Card</strong>
+        </p>
+      </Card>
+    )
+    expect(getByText('I am a Card')).toBeVisible()
+    expect(container.firstElementChild?.tagName).toBe('A')
+    expect(container.firstElementChild?.getAttribute('href')).toBe(
+      'https://example.com'
+    )
   })
 
   test('Should have light gray background', () => {
