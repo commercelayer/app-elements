@@ -2,7 +2,6 @@ import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import {
   InputWrapper,
-  getFeedbackStyle,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
@@ -91,6 +90,7 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
         <div
           className={cn('flex gap-2 wrap', {
             'flex-col': ['list', 'simple'].includes(viewMode),
+            'gap-4': ['inline', 'grid'].includes(viewMode),
             'flex-row [&>*]:flex-shrink [&>*]:flex-grow [&>*]:basis-0':
               viewMode === 'inline',
             'grid grid-cols-2': viewMode === 'grid'
@@ -103,8 +103,7 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
               <div>
                 <label
                   className={cn('flex gap-4 cursor-pointer h-full', {
-                    'rounded-md px-4 py-4 hover:bg-gray-50':
-                      viewMode !== 'simple',
+                    'rounded-md px-4 py-4': viewMode !== 'simple',
                     'items-center': ['list', 'simple'].includes(viewMode)
                   })}
                   data-testid='InputRadioGroup-item'
@@ -142,10 +141,10 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
                 key={optionItem.value}
                 overflow='hidden'
                 className={cn(optionItem.className, {
-                  '!p-1': !isSelected,
+                  '!p-1 hover:border-black hover:border-2 hover:!p-[calc(theme(space.1)-1px)]':
+                    !isSelected,
                   'border-primary-500 border-2 !p-[calc(theme(space.1)-1px)]':
-                    isSelected,
-                  ...getFeedbackStyle(feedback)
+                    isSelected
                 })}
                 tabIndex={showInput ? undefined : 0}
                 onKeyDown={
