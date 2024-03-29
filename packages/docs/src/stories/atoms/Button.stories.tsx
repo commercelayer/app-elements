@@ -1,5 +1,6 @@
 import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Button> = {
@@ -62,3 +63,11 @@ export const Link: StoryFn = (_args) => (
     </Button>
   </div>
 )
+
+/** A `<Button>` that contains only an `Icon` is rendered with a square shape. */
+export const IconOnly = Template.bind({})
+IconOnly.args = {
+  size: 'small',
+  variant: 'secondary',
+  children: <Icon name='dotsThree' size={16} />
+}
