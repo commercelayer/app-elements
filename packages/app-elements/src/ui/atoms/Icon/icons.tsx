@@ -82,6 +82,7 @@ export const iconMapping = {
   upload: phosphor.Upload,
   user: phosphor.User,
   userCircle: phosphor.UserCircle,
+  userRectangle: phosphor.UserRectangle,
   users: phosphor.Users,
   warehouse: phosphor.Warehouse,
   warning: phosphor.Warning,
