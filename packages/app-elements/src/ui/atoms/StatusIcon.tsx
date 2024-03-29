@@ -23,7 +23,7 @@ export interface StatusIconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * padding around the icon can bne: 'none' | 'small' | 'large'
    */
-  gap?: 'none' | 'small' | 'large'
+  gap?: 'none' | 'small' | 'medium' | 'large'
 }
 
 export const StatusIcon: React.FC<StatusIconProps> = ({
@@ -41,6 +41,7 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
         'w-fit',
         // padding
         { 'p-[10px]': gap === 'large' },
+        { 'p-[6px]': gap === 'medium' },
         { 'p-[3px]': gap === 'small' },
         // variants
         { 'border rounded-full': background !== 'none' },
