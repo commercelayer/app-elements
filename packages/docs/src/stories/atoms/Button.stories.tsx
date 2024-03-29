@@ -64,6 +64,12 @@ export const Link: StoryFn = (_args) => (
   </div>
 )
 
+export const WithText: StoryFn = () => (
+  <div>
+    A <Button variant='link'>button</Button> in between other text.
+  </div>
+)
+
 /** A `<Button>` that contains only an `Icon` is rendered with a square shape. */
 export const IconOnly = Template.bind({})
 IconOnly.args = {
