@@ -1,4 +1,5 @@
-import { Button } from '#ui/atoms/Button'
+import { A } from '#ui/atoms/A'
+import { Icon } from '#ui/atoms/Icon'
 import { List } from '#ui/composite/List'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -23,7 +24,16 @@ const Template: StoryFn<typeof List> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
   title: 'All items',
-  actionButton: <Button variant='link'>New item</Button>
+  actionButton: (
+    <A
+      href='https://commercelayer.io'
+      variant='secondary'
+      size='mini'
+      alignItems='center'
+    >
+      <Icon name='plus' /> New item
+    </A>
+  )
 }
 
 export const WithPagination = Template.bind({})

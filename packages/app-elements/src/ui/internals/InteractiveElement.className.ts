@@ -2,7 +2,7 @@ import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 
 type Variant = 'primary' | 'secondary' | 'danger' | 'link'
-type Size = 'small' | 'regular' | 'large'
+type Size = 'mini' | 'small' | 'regular' | 'large'
 
 export interface InteractiveElementProps {
   children: React.ReactNode
@@ -42,7 +42,7 @@ export function getInteractiveElementClassName({
     {
       'opacity-50 pointer-events-none touch-none': disabled,
       'w-full': fullWidth === true && variant !== 'link',
-      'flex gap-1': alignItems != null,
+      'inline-flex gap-1': alignItems != null,
       'items-center justify-center': alignItems === 'center',
       'inline w-fit': variant === 'link',
       [`inline-block text-center text-sm transition-opacity duration-500 ${getSizeCss(size)}`]:
@@ -59,6 +59,7 @@ function getSizeCss(size: InteractiveElementProps['size']): string | undefined {
   }
 
   const mapping = {
+    mini: 'px-2.5 py-1',
     small: 'px-4 py-2',
     regular: 'px-6 py-3',
     large: 'px-8 py-4'

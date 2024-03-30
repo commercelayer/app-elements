@@ -115,6 +115,27 @@ export const VariantDanger: StoryFn = () => (
   </div>
 )
 
+export const VariantSecondaryMini: StoryFn = () => (
+  <div>
+    <Spacer>
+      <A
+        href='https://commercelayer.io'
+        target='_blank'
+        variant='secondary'
+        size='mini'
+        alignItems='center'
+      >
+        <Icon name='plus' size={16} /> Rule
+      </A>
+    </Spacer>
+    <Spacer top='4'>
+      <Button variant='secondary' size='mini' alignItems='center'>
+        <Icon name='plus' size={16} /> Rule
+      </Button>
+    </Spacer>
+  </div>
+)
+
 export const WithIconOnly: StoryFn = () => (
   <div>
     <Spacer>
