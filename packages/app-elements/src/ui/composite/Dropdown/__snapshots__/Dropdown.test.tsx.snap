@@ -8,7 +8,7 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
     <button
       aria-expanded="true"
       aria-haspopup="true"
-      class="m-0 p-0 align-top rounded focus:outline-none whitespace-nowrap leading-5 inline w-fit text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer"
+      class="m-0 p-0 align-top rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
     >
       open dropdown
       <svg
@@ -53,7 +53,7 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
     <button
       aria-expanded="true"
       aria-haspopup="true"
-      class="m-0 p-0 align-top rounded focus:outline-none whitespace-nowrap leading-5 inline w-fit text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer"
+      class="m-0 p-0 align-top rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
     >
       open dropdown
       <svg
@@ -98,7 +98,7 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
     <button
       aria-expanded="true"
       aria-haspopup="true"
-      class="m-0 p-0 align-top rounded focus:outline-none whitespace-nowrap leading-5 inline w-fit text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer"
+      class="m-0 p-0 align-top rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
     >
       open dropdown
       <svg
@@ -143,7 +143,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
     <button
       aria-expanded="true"
       aria-haspopup="true"
-      class="m-0 p-0 align-top rounded focus:outline-none whitespace-nowrap leading-5 inline w-fit text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer"
+      class="m-0 p-0 align-top rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
     >
       open dropdown
       <svg

@@ -38,7 +38,7 @@ export function getInteractiveElementClassName({
   variant
 }: InteractiveElementProps) {
   return cn([
-    'rounded focus:outline-none whitespace-nowrap leading-5',
+    'rounded whitespace-nowrap leading-5',
     {
       'opacity-50 pointer-events-none touch-none': disabled,
       'w-full': fullWidth === true && variant !== 'link',
@@ -81,7 +81,7 @@ function getVariantCss(
     secondary:
       'font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50',
     danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
-    link: 'text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer'
+    link: 'text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer'
   } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
 
   return mapping[variant]

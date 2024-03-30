@@ -42,9 +42,9 @@ select:focus-visible {
   outline-offset: 4px;
 }
 
-button:focus-visible {
-  outline: 2px solid theme(colors.primary.DEFAULT) !important;
-  outline-offset: 2px;
+a,
+button {
+  @apply focus-visible:outline focus-visible:outline-2 outline-offset-2 outline-primary;
 }
 
 progress.progress {
