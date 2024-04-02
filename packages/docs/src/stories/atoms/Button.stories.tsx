@@ -38,11 +38,16 @@ Secondary.args = {
   children: 'Add webhook'
 }
 
-export const SecondarySmall = Template.bind({})
-SecondarySmall.args = {
-  size: 'small',
+export const SecondaryMini = Template.bind({})
+SecondaryMini.args = {
+  size: 'mini',
   variant: 'secondary',
-  children: 'Add webhook'
+  alignItems: 'center',
+  children: (
+    <>
+      <Icon name='plus' size={16} /> Rule
+    </>
+  )
 }
 
 /** A `<Button>` can also be rendered as a `link` anytime you need a inline action that doesn't point to a url. */
@@ -61,6 +66,12 @@ export const Link: StoryFn = (_args) => (
     >
       Add item
     </Button>
+  </div>
+)
+
+export const WithText: StoryFn = () => (
+  <div>
+    A <Button variant='link'>button</Button> in between other text.
   </div>
 )
 

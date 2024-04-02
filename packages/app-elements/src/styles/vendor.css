@@ -1,5 +1,5 @@
-@import "react-datepicker/dist/react-datepicker.css";
-@import "../ui/forms/InputDate/InputDateComponent.css";
+@import 'react-datepicker/dist/react-datepicker.css';
+@import '../ui/forms/InputDate/InputDateComponent.css';
 
 select {
   text-align: inherit;
@@ -9,23 +9,22 @@ body {
   @apply text-gray-800 antialiased font-medium;
 }
 
-a {
-  @apply text-primary font-bold outline-0 focus-visible:outline-2 focus-visible:rounded outline-offset-4 outline-primary hover:text-primary-light border-primary-light cursor-pointer;
-}
-
 :root {
   --tw-shadow-color: rgb(230 231 231 / 1);
 }
 
-
-input, textarea, div[role=textbox] {
+input,
+textarea,
+div[role='textbox'] {
   border: none !important;
   box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
   -webkit-box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
   -moz-box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
 }
 
-input:focus-visible, textarea:focus-visible, div[role=textbox]:focus  {
+input:focus-visible,
+textarea:focus-visible,
+div[role='textbox']:focus {
   ring: none;
   outline: none !important;
   box-shadow: inset 0 0 0 2px theme(colors.primary.DEFAULT) !important;
@@ -33,7 +32,7 @@ input:focus-visible, textarea:focus-visible, div[role=textbox]:focus  {
   -moz-box-shadow: inset 0 0 0 2px theme(colors.primary.DEFAULT) !important;
 }
 
-input[type=radio] {
+input[type='radio'] {
   --tw-shadow-color: theme(colors.gray.200);
 }
 
@@ -43,9 +42,9 @@ select:focus-visible {
   outline-offset: 4px;
 }
 
-button:focus-visible {
-  outline: 2px solid theme(colors.primary.DEFAULT) !important;
-  outline-offset: 2px;
+a,
+button {
+  @apply focus-visible:outline focus-visible:outline-2 outline-offset-2 outline-primary;
 }
 
 progress.progress {
@@ -64,4 +63,3 @@ progress.progress::-webkit-progress-value {
 progress.progress[value]::-moz-progress-bar {
   @apply rounded bg-primary;
 }
-
