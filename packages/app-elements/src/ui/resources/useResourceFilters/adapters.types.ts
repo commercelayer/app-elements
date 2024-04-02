@@ -1,10 +1,11 @@
-import {
-  type AdaptSdkToMetricsParams,
-  type MetricsFilters
-} from '#ui/resources/useResourceFilters/adaptSdkToMetrics'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
 import { type AdaptFormValuesToSdkParams } from './adaptFormValuesToSdk'
 import { type AdaptFormValuesToUrlQueryParams } from './adaptFormValuesToUrlQuery'
+import {
+  type AdaptSdkToMetricsParams,
+  type MetricsFilters
+} from './adaptSdkToMetrics'
+import { type AdaptSdkToUrlQueryParams } from './adaptSdkToUrlQuery'
 import { type AdaptUrlQueryToFormValuesParams } from './adaptUrlQueryToFormValues'
 import { type AdaptUrlQueryToSdkParams } from './adaptUrlQueryToSdk'
 import { type AdaptUrlQueryToUrlQueryParams } from './adaptUrlQueryToUrlQuery'
@@ -49,6 +50,10 @@ interface MakeFilterAdaptersReturn<FilterFormValues extends FormFullValues> {
   adaptSdkToMetrics: (
     params: Pick<AdaptSdkToMetricsParams, 'sdkFilters' | 'resourceType'>
   ) => MetricsFilters
+
+  adaptSdkToUrlQuery: (
+    params: Pick<AdaptSdkToUrlQueryParams, 'sdkFilters'>
+  ) => string
 
   validInstructions: FiltersInstructions
 }

@@ -1,6 +1,7 @@
 import { adaptFormValuesToSdk as adaptFormValuesToSdkFn } from './adaptFormValuesToSdk'
 import { adaptFormValuesToUrlQuery as adaptFormValuesToUrlQueryFn } from './adaptFormValuesToUrlQuery'
 import { adaptSdkToMetrics as adaptSdkToMetricsFn } from './adaptSdkToMetrics'
+import { adaptSdkToUrlQuery as adaptSdkToUrlQueryFn } from './adaptSdkToUrlQuery'
 import { adaptUrlQueryToFormValues as adaptUrlQueryToFormValuesFn } from './adaptUrlQueryToFormValues'
 import { adaptUrlQueryToSdk as adaptUrlQueryToSdkFn } from './adaptUrlQueryToSdk'
 import { adaptUrlQueryToUrlQuery as adaptUrlQueryToUrlQueryFn } from './adaptUrlQueryToUrlQuery'
@@ -52,6 +53,13 @@ export const makeFilterAdapters: MakeFiltersAdapters = ({
 
     adaptSdkToMetrics: (params) =>
       adaptSdkToMetricsFn({
+        ...params,
+        instructions: validInstructions,
+        predicateWhitelist
+      }),
+
+    adaptSdkToUrlQuery: (params) =>
+      adaptSdkToUrlQueryFn({
         ...params,
         instructions: validInstructions,
         predicateWhitelist
