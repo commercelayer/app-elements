@@ -1,3 +1,4 @@
+import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -65,6 +66,33 @@ DropdownLabelAsJSXElement.args = {
     >
       <path d='M140,128a12,12,0,1,1-12-12A12,12,0,0,1,140,128Zm56-12a12,12,0,1,0,12,12A12,12,0,0,0,196,116ZM60,116a12,12,0,1,0,12,12A12,12,0,0,0,60,116Z' />
     </svg>
+  ),
+  dropdownItems: (
+    <>
+      <DropdownItem
+        onClick={() => {
+          alert('Edit clicked!')
+        }}
+        label='Edit'
+      />
+      <DropdownDivider />
+      <DropdownItem
+        onClick={() => {
+          alert('Delete clicked!')
+        }}
+        label='Delete'
+      />
+    </>
+  )
+}
+
+/** When the `dropdownLabel` prop is set as a `button`, the component will use the provided Button instead of creating a new one. */
+export const DropdownLabelAsButton = Template.bind({})
+DropdownLabelAsButton.args = {
+  dropdownLabel: (
+    <Button variant='secondary' size='small'>
+      <Icon name='dotsThree' size={16} />
+    </Button>
   ),
   dropdownItems: (
     <>

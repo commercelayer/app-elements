@@ -2,9 +2,10 @@ import { useClickAway } from '#hooks/useClickAway'
 import { useOnBlurFromContainer } from '#hooks/useOnBlurFromContainer'
 import { Button } from '#ui/atoms/Button'
 import { type DropdownMenuProps } from '#ui/composite/Dropdown/DropdownMenu'
+import { isSpecificReactComponent } from '#utils/children'
 import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { Children, useState } from 'react'
+import { Children, cloneElement, useMemo, useState } from 'react'
 import { DropdownMenu } from './DropdownMenu'
 
 export interface DropdownProps
@@ -54,12 +55,18 @@ export const Dropdown: React.FC<DropdownProps> = ({
     return null
   }
 
-  return (
-    <div
-      ref={isExpanded ? clickAwayRef : undefined}
-      onBlur={handleBlur}
-      className='relative'
-    >
+  const dropdownButton = useMemo(() => {
+    if (isSpecificReactComponent(dropdownLabel, [/^Button$/])) {
+      return cloneElement(dropdownLabel, {
+        'aria-haspopup': true,
+        'aria-expanded': isExpanded,
+        onClick: () => {
+          toggle()
+        }
+      })
+    }
+
+    return (
       <Button
         variant='link'
         aria-haspopup
@@ -76,6 +83,16 @@ export const Dropdown: React.FC<DropdownProps> = ({
           <CaretDown className='inline-block ml-1 -mt-0.5' weight='bold' />
         ) : null}
       </Button>
+    )
+  }, [dropdownLabel, isExpanded])
+
+  return (
+    <div
+      ref={isExpanded ? clickAwayRef : undefined}
+      onBlur={handleBlur}
+      className='relative'
+    >
+      {dropdownButton}
       {isExpanded && (
         <div
           className={cn('absolute z-30', {
