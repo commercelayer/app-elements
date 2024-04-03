@@ -1,3 +1,4 @@
+import { Button } from '#ui/atoms/Button'
 import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
 import { fireEvent, render } from '@testing-library/react'
 
@@ -16,6 +17,36 @@ const items = (
 )
 
 describe('Dropdown', () => {
+  test('Should use the provided Button when `dropdownLabel` is set to Button', () => {
+    const { container, getByText, getAllByRole } = render(
+      <Dropdown
+        dropdownLabel={<Button>Open dropdown</Button>}
+        dropdownItems={items}
+      />
+    )
+
+    expect(container).toMatchInlineSnapshot(`
+      <div>
+        <div
+          class="relative"
+        >
+          <button
+            aria-expanded="false"
+            aria-haspopup="true"
+            class="rounded whitespace-nowrap leading-5 inline-block text-center text-sm transition-opacity duration-500 px-6 py-3 font-bold bg-black border border-black text-white hover:opacity-80"
+          >
+            Open dropdown
+          </button>
+        </div>
+      </div>
+    `)
+
+    const button = getByText('Open dropdown')
+    expect(button).not.toHaveClass('m-0 p-0 align-top')
+
+    expect(getAllByRole('button').length).toEqual(1)
+  })
+
   test('Should be rendering with default bottom-right position', () => {
     const { container, getByText } = render(
       <Dropdown dropdownLabel='open dropdown' dropdownItems={items} />

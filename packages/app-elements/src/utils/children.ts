@@ -34,7 +34,7 @@ export function isFunctionComponent(
 export function isSpecificReactComponent(
   reactNode: ReactNode,
   displayNames: RegExp[]
-): boolean {
+): reactNode is JSX.Element {
   if (reactNode == null) {
     return false
   }
@@ -89,7 +89,7 @@ export function getInnerText(reactNode: ReactNode): string {
  * ```
  */
 export function filterByDisplayName(
-  children: JSX.Element,
+  children: React.ReactNode,
   displayName: RegExp
 ): JSX.Element[] {
   return Children.toArray(children)
