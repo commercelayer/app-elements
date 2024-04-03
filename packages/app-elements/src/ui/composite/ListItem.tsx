@@ -59,7 +59,7 @@ export const ListItem: FC<ListItemProps> = ({
   disabled = false,
   ...rest
 }) => {
-  const divProps =
+  const wantedProps =
     'overflow' in rest ? removeUnwantedProps(rest, ['overflow']) : rest
   const Tag = rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
   const isClickable = !disabled && (rest.href != null || rest.onClick != null)
@@ -92,11 +92,12 @@ export const ListItem: FC<ListItemProps> = ({
           'bg-gray-100': disabled,
           'border-gray-200': variant === 'boxed' || disabled,
           'border-gray-100': variant === 'list',
-          'text-left': divProps.onClick != null // to prevent standard behavior of `button` elements (with centered content)
+          'text-left': wantedProps.onClick != null // to prevent standard behavior of `button` elements (with centered content)
         },
         className
       )}
-      {...divProps}
+      type={rest.onClick != null ? 'button' : undefined}
+      {...wantedProps}
     >
       <div className={cn('flex gap-4 flex-1 items-center')}>
         {icon != null && (
