@@ -61,7 +61,8 @@ export const ListItem: FC<ListItemProps> = ({
 }) => {
   const wantedProps =
     'overflow' in rest ? removeUnwantedProps(rest, ['overflow']) : rest
-  const Tag = rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
+  const JsxTag =
+    rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
   const isClickable = !disabled && (rest.href != null || rest.onClick != null)
 
   const pySize = cn({
@@ -77,7 +78,7 @@ export const ListItem: FC<ListItemProps> = ({
   })
 
   return (
-    <Tag
+    <JsxTag
       className={cn(
         'flex gap-4 w-full',
         'text-gray-800 hover:text-gray-800', // keep default text color also when used as `<a>` tag
@@ -96,7 +97,7 @@ export const ListItem: FC<ListItemProps> = ({
         },
         className
       )}
-      type={rest.onClick != null ? 'button' : undefined}
+      type={JsxTag === 'button' ? 'button' : undefined}
       {...wantedProps}
     >
       <div className={cn('flex gap-4 flex-1 items-center')}>
@@ -117,7 +118,7 @@ export const ListItem: FC<ListItemProps> = ({
         )}
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
-    </Tag>
+    </JsxTag>
   )
 }
 
