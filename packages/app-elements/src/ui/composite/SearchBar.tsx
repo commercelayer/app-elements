@@ -89,7 +89,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           className={cn(
             'rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400',
             'shadow-none !outline-0 !border-0 !ring-0',
-            '!focus:shadow-none !active:shadow-none focus:caret-primary'
+            '!focus:shadow-none !active:shadow-none focus:caret-primary focus:bg-white'
           )}
           data-testid='SearchBar-input'
           placeholder={placeholder}
