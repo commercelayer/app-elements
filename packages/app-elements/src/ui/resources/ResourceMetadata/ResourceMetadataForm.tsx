@@ -43,7 +43,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
               const label = humanizeString(metadataKey)
               if (typeof metadataValue !== 'string') return <></>
               return (
-                <ListItem tag='div' key={idx}>
+                <ListItem key={idx}>
                   <Text variant='info'>{label}</Text>
                   <HookedInput name={`metadata.${metadataKey}`} />
                 </ListItem>

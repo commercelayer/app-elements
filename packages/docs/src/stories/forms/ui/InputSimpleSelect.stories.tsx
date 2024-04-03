@@ -93,7 +93,7 @@ WithoutLabel.args = {
 export const WithinAListItem: StoryFn = () => {
   return (
     <Section title='More options' titleSize='small'>
-      <ListItem tag='div'>
+      <ListItem>
         <InputSimpleSelect
           options={Default.args?.options ?? []}
           name='export-format'
@@ -102,7 +102,7 @@ export const WithinAListItem: StoryFn = () => {
           hint={{ text: 'Select a format' }}
         />
       </ListItem>
-      <ListItem tag='div'>
+      <ListItem>
         <InputSimpleSelect
           options={[
             { label: 'Black', value: '#000' },

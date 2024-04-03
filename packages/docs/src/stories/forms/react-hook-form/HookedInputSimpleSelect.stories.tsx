@@ -67,7 +67,7 @@ export const WithinAListItem: StoryFn = () => {
       }}
     >
       <Section title='More options' titleSize='small'>
-        <ListItem tag='div'>
+        <ListItem>
           <HookedInputSimpleSelect
             options={[
               { label: 'JSON', value: 'json' },
@@ -82,7 +82,7 @@ export const WithinAListItem: StoryFn = () => {
             hint={{ text: 'Select a format' }}
           />
         </ListItem>
-        <ListItem tag='div'>
+        <ListItem>
           <HookedInputSimpleSelect
             options={[
               { label: 'Black', value: '#000' },

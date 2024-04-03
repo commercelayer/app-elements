@@ -44,7 +44,6 @@ Parcel.args = {
   children: (
     <div>
       <ListItem
-        tag='div'
         padding='y'
         icon={
           <Avatar
@@ -72,7 +71,6 @@ Parcel.args = {
         </div>
       </ListItem>
       <ListItem
-        tag='div'
         padding='y'
         icon={
           <Avatar

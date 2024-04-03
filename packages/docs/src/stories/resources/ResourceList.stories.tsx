@@ -38,7 +38,12 @@ export const WithItem: StoryFn<typeof ResourceList> = () => {
           ItemTemplate={({ resource = mockedOrder, isLoading }) => {
             return (
               <SkeletonTemplate isLoading={isLoading}>
-                <ResourceListItem resource={resource} />
+                <ResourceListItem
+                  resource={resource}
+                  onClick={() => {
+                    console.log('click')
+                  }}
+                />
               </SkeletonTemplate>
             )
           }}

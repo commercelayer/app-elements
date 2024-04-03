@@ -28,7 +28,6 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
   <Spacer bottom='14'>
     <List title='Results · 13,765'>
       <ListItem
-        tag='div'
         icon={<StatusIcon name='arrowDown' background='orange' gap='large' />}
       >
         <div>
@@ -52,10 +51,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => (
         </div>
       </ListItem>
 
-      <ListItem
-        tag='div'
-        icon={<StatusIcon name='x' background='gray' gap='large' />}
-      >
+      <ListItem icon={<StatusIcon name='x' background='gray' gap='large' />}>
         <div>
           <Text tag='div' weight='semibold'>
             US online #19346523

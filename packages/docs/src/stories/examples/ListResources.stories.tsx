@@ -59,7 +59,7 @@ const Template: StoryFn<typeof List> = (args) => (
           'Tax rules',
           'Wire transfers'
         ].map((resource) => (
-          <ListItem tag='a' key={resource} href='#' target='_blank'>
+          <ListItem key={resource} href='#'>
             <Text weight='semibold'>{resource}</Text>
             <StatusIcon name='caretRight' />
           </ListItem>

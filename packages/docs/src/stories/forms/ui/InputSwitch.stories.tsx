@@ -69,10 +69,10 @@ WithoutLabel.args = {
 export const WithinAListItem: StoryFn = () => {
   return (
     <Section title='More options' titleSize='small'>
-      <ListItem tag='div'>
+      <ListItem>
         <InputSwitch name='export-all' label='Export all' inline />
       </ListItem>
-      <ListItem tag='div'>
+      <ListItem>
         <InputSwitch
           name='exclude-last'
           label='Exclude last'

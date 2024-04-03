@@ -63,7 +63,6 @@ export const CardDialog = withSkeletonTemplate<CardDialogProps>(
     return (
       <Card {...rest} overflow='visible' footer={footer}>
         <ListItem
-          tag='div'
           alignItems='top'
           padding='y'
           borderStyle='none'
@@ -73,7 +72,6 @@ export const CardDialog = withSkeletonTemplate<CardDialogProps>(
           <div>
             <ListItem
               borderStyle={hasChildren ? undefined : 'none'}
-              tag='div'
               padding='y'
               className={cn('pt-0', { 'pb-0': !hasChildren })}
               alignItems='top'

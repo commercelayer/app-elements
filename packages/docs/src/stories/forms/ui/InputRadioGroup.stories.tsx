@@ -31,7 +31,6 @@ Default.args = {
       value: 'DHL1',
       content: (
         <ListItem
-          tag='div'
           alignItems='top'
           alignIcon='center'
           borderStyle='none'
@@ -64,7 +63,6 @@ Default.args = {
       value: 'Fedex',
       content: (
         <ListItem
-          tag='div'
           alignItems='top'
           alignIcon='center'
           borderStyle='none'
@@ -97,7 +95,6 @@ Default.args = {
       value: 'DHL2',
       content: (
         <ListItem
-          tag='div'
           alignItems='top'
           alignIcon='center'
           borderStyle='none'

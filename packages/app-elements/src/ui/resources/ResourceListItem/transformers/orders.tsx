@@ -49,7 +49,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
         <Text
           tag='div'
           weight='semibold'
-          data-test-id='ResourceListItem-total'
+          data-testid='ResourceListItem-total'
           className='break-keep'
           wrap='nowrap'
         >
@@ -60,7 +60,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
           weight='medium'
           size='small'
           variant='info'
-          data-test-id='ResourceListItem-payment'
+          data-testid='ResourceListItem-payment'
           wrap='nowrap'
         >
           {getOrderPaymentStatusName(resource.payment_status)}

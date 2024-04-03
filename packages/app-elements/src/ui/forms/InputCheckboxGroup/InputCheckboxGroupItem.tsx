@@ -60,7 +60,6 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
         alignItems='center'
         alignIcon='center'
         borderStyle='none'
-        tag='div'
         padding='none'
         className='rounded flex items-center gap-3 p-3'
         onClick={() => {

@@ -108,13 +108,13 @@ FooterNoGap.args = {
  */
 export const ChildrenWithBackground: StoryFn<typeof Card> = (args) => (
   <Card {...args}>
-    <ListItem tag='a' onClick={() => {}} borderStyle='none'>
+    <ListItem onClick={() => {}} borderStyle='none'>
       Item #1
     </ListItem>
-    <ListItem tag='a' onClick={() => {}} borderStyle='none'>
+    <ListItem onClick={() => {}} borderStyle='none'>
       Item #2
     </ListItem>
-    <ListItem tag='a' onClick={() => {}} borderStyle='none'>
+    <ListItem onClick={() => {}} borderStyle='none'>
       Item #3
     </ListItem>
   </Card>
