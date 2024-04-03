@@ -53,11 +53,11 @@ export const Card = withSkeletonTemplate<CardProps>(
     const overflow = 'overflow' in rest ? rest.overflow : 'hidden'
     const divProps =
       'overflow' in rest ? removeUnwantedProps(rest, ['overflow']) : rest
-    const Tag =
+    const JsxTag =
       rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
 
     return (
-      <Tag
+      <JsxTag
         className={cn([
           className,
           'border border-solid rounded-md',
@@ -71,9 +71,10 @@ export const Card = withSkeletonTemplate<CardProps>(
             'p-4': gap === '4',
             'p-6': gap === '6',
             [`hover:border-black hover:shadow-hover`]:
-              Tag === 'a' || Tag === 'button'
+              JsxTag === 'a' || JsxTag === 'button'
           }
         ])}
+        type={JsxTag === 'button' ? 'button' : undefined}
         {...divProps}
       >
         <div
@@ -98,7 +99,7 @@ export const Card = withSkeletonTemplate<CardProps>(
             {footer}
           </div>
         )}
-      </Tag>
+      </JsxTag>
     )
   }
 )
