@@ -88,7 +88,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
 
               return (
                 <ListItem
-                  tag='div'
                   key={idx}
                   data-testid={`ResourceMetadata-item-${metadataKey}`}
                 >

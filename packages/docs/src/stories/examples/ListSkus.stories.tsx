@@ -45,7 +45,7 @@ const Template: StoryFn<typeof List> = (args) => (
         }}
       >
         {[...Array(10).keys()].map((_, idx) => (
-          <ListItem tag='div' key={idx} onClick={() => {}}>
+          <ListItem key={idx} onClick={() => {}}>
             <div>
               <Text weight='semibold' tag='div'>
                 WGDMSMNOwJ

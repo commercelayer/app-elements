@@ -45,7 +45,6 @@ export const WithListItem: StoryFn<typeof ListDetails> = (args) => (
   <ListDetails {...args}>
     {Array(3).fill(
       <ListItem
-        tag='div'
         padding='y'
         icon={
           <Avatar

@@ -82,10 +82,10 @@ const ListedTemplate: StoryFn = () => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
-        <ListItem tag='div'>
+        <ListItem>
           <ResourceAddress resource={presetAddresses.withCompany} editable />
         </ListItem>
-        <ListItem tag='div'>
+        <ListItem>
           <ResourceAddress resource={presetAddresses.withName} editable />
         </ListItem>
       </CoreSdkProvider>

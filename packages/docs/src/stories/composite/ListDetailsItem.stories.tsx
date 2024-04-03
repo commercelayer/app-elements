@@ -88,19 +88,19 @@ export const ListWithActions: StoryFn<typeof ListDetailsItem> = (_args) => {
   return (
     <Section title='List' actionButton={<Button variant='link'>Add</Button>}>
       <ListDetailsItem label='Number' gutter='none'>
-        <ListItem tag='div' padding='none' borderStyle='none'>
+        <ListItem padding='none' borderStyle='none'>
           <Text weight='semibold'>is greater than 10</Text>
           {Menu}
         </ListItem>
       </ListDetailsItem>
       <ListDetailsItem label='Color' gutter='none'>
-        <ListItem tag='div' padding='none' borderStyle='none'>
+        <ListItem padding='none' borderStyle='none'>
           <Text weight='semibold'>is not Red</Text>
           {Menu}
         </ListItem>
       </ListDetailsItem>
       <ListDetailsItem label='Item' gutter='none'>
-        <ListItem tag='div' padding='none' borderStyle='none'>
+        <ListItem padding='none' borderStyle='none'>
           <Text weight='semibold'>is the last one</Text>
           {Menu}
         </ListItem>

@@ -2,7 +2,7 @@ import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/composite/ListItem'
+import { ListItem, type ListItemProps } from '#ui/composite/ListItem'
 import {
   customerToProps,
   orderToProps,
@@ -23,15 +23,13 @@ export interface ResourceListItemProps {
    */
   resource: ResourceListItemType
   /**
-   * HTML tag to render
+   * Optional href
    */
-  tag?: 'a' | 'div'
+  href?: ListItemProps['href']
   /**
    * Optional onClick function
    */
-  onClick?: (
-    e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
-  ) => void
+  onClick?: ListItemProps['onClick']
   /**
    * Optional setting to show right content, if available, instead of right arrow
    */
@@ -47,16 +45,16 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     description,
     icon,
     rightContent,
-    tag = 'div',
+    href,
     onClick,
     showRightContent = false
   }) => {
     return (
       <ListItem
-        tag={onClick !== undefined ? 'a' : tag}
         icon={icon}
         alignItems={showRightContent ? 'top' : 'center'}
         data-test-id='ResourceListItem'
+        href={href}
         onClick={onClick}
       >
         <div>
@@ -91,7 +89,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
  * This component generates a list item based on the requested resource data and type.
  */
 export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
-  ({ resource, tag = 'div', isLoading, delayMs, onClick, ...rest }) => {
+  ({ resource, isLoading, delayMs, href, onClick, ...rest }) => {
     const { user } = useTokenProvider()
     const listItemProps = useMemo(() => {
       switch (resource.type) {
@@ -118,7 +116,7 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     return (
       <ResourceListItemComponent
         {...listItemProps}
-        tag={tag}
+        href={href}
         onClick={onClick}
         {...rest}
       />

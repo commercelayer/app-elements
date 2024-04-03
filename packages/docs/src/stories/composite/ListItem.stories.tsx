@@ -54,13 +54,11 @@ const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
 
 export const WithIcon = WithIconTemplate.bind({})
 WithIcon.args = {
-  tag: 'div',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
 }
 
 export const Boxed = WithIconTemplate.bind({})
 Boxed.args = {
-  tag: 'div',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
   onClick: () => {},
   variant: 'boxed'
@@ -80,7 +78,6 @@ const BoxedCTATemplate: StoryFn<typeof ListItem> = (args) => (
 
 export const BoxedCTA = BoxedCTATemplate.bind({})
 BoxedCTA.args = {
-  tag: 'div',
   icon: <Icon name='stack' size={32} />,
   alignIcon: 'center',
   variant: 'boxed',
@@ -89,7 +86,6 @@ BoxedCTA.args = {
 
 export const Disabled = WithIconTemplate.bind({})
 Disabled.args = {
-  tag: 'div',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
   onClick: () => {},
   variant: 'boxed',
@@ -98,16 +94,13 @@ Disabled.args = {
 
 export const WithCenteredIcon = WithIconTemplate.bind({})
 WithCenteredIcon.args = {
-  tag: 'div',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
   alignIcon: 'center'
 }
 
 export const AsAnchor = WithIconTemplate.bind({})
 AsAnchor.args = {
-  tag: 'a',
-  href: 'https://www.commercelayer.io',
-  target: '_blank',
+  href: '#',
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
 }
 

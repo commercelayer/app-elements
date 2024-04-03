@@ -61,7 +61,7 @@ const footer: Props['footer'] = [
     key: 'first-row',
     element: (
       <Spacer top='4' bottom='4'>
-        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
+        <ListItem borderStyle='none' padding='y' paddingSize='2'>
           <Text>Coupon</Text>
           <Button variant='link'>Add coupon</Button>
         </ListItem>
@@ -72,15 +72,15 @@ const footer: Props['footer'] = [
     key: 'second-row',
     element: (
       <Spacer top='4' bottom='4'>
-        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
+        <ListItem borderStyle='none' padding='y' paddingSize='2'>
           <Text>Subtotal</Text>
           <Text>$141.60</Text>
         </ListItem>
-        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
+        <ListItem borderStyle='none' padding='y' paddingSize='2'>
           <Text>Shipping method</Text>
           <Text>$12.00</Text>
         </ListItem>
-        <ListItem tag='div' borderStyle='none' padding='y' paddingSize='2'>
+        <ListItem borderStyle='none' padding='y' paddingSize='2'>
           <Text weight='bold'>Total</Text>
           <Text weight='bold'>$163.60</Text>
         </ListItem>

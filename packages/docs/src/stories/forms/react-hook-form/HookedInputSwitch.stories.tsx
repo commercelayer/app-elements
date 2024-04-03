@@ -64,10 +64,10 @@ export const WithinAListItem: StoryFn = () => {
       }}
     >
       <Section title='More options' titleSize='small'>
-        <ListItem tag='div'>
+        <ListItem>
           <HookedInputSwitch name='export-all' label='Export all' inline />
         </ListItem>
-        <ListItem tag='div'>
+        <ListItem>
           <HookedInputSwitch
             name='exclude-last'
             label='Exclude last'

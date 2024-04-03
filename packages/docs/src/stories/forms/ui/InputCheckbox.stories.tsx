@@ -58,7 +58,7 @@ WithListItem.args = {
     />
   ),
   children: (
-    <ListItem tag='div' alignItems='top' borderStyle='none' padding='none'>
+    <ListItem alignItems='top' borderStyle='none' padding='none'>
       <div>
         <Text size='regular' weight='bold'>
           Express Easy

@@ -54,7 +54,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
             pageCount: 5
           }}
         >
-          <ListItem tag='div' icon={<RadialProgress percentage={45} />}>
+          <ListItem icon={<RadialProgress percentage={45} />}>
             <div>
               <Text tag='div' weight='semibold'>
                 Prices
@@ -66,7 +66,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
             <Button variant='danger'>Cancel</Button>
           </ListItem>
 
-          <ListItem tag='div' icon={<RadialProgress />}>
+          <ListItem icon={<RadialProgress />}>
             <div>
               <Text tag='div' weight='semibold'>
                 Orders
@@ -79,7 +79,6 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
           </ListItem>
 
           <ListItem
-            tag='div'
             icon={<StatusIcon gap='large' name='check' background='green' />}
           >
             <div>
@@ -93,10 +92,7 @@ export const Default: StoryFn<typeof ListItem> = (args): JSX.Element => {
             <StatusIcon name='caretRight' />
           </ListItem>
 
-          <ListItem
-            tag='div'
-            icon={<StatusIcon gap='large' name='x' background='red' />}
-          >
+          <ListItem icon={<StatusIcon gap='large' name='x' background='red' />}>
             <div>
               <Text tag='div' weight='semibold'>
                 SKUs
