@@ -53,7 +53,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
       <ListItem
         icon={icon}
         alignItems={showRightContent ? 'top' : 'center'}
-        data-test-id='ResourceListItem'
+        data-testid='ResourceListItem'
         href={href}
         onClick={onClick}
       >
@@ -61,7 +61,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           <Text
             tag='div'
             weight='semibold'
-            data-test-id='ResourceListItem-number'
+            data-testid='ResourceListItem-number'
           >
             {name}
           </Text>
@@ -70,7 +70,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
             weight='medium'
             size='small'
             variant='info'
-            data-test-id='ResourceListItem-content'
+            data-testid='ResourceListItem-content'
           >
             {description}
           </Text>
