@@ -129,8 +129,6 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
             if (onTagClick != null) {
               return (
                 <TagUi
-                  tag='button'
-                  buttonStyle='button'
                   key={idx}
                   onClick={() => {
                     onTagClick(tag.id)
@@ -140,22 +138,16 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
                 </TagUi>
               )
             }
-            return (
-              <TagUi tag='div' key={idx}>
-                {tag.name}
-              </TagUi>
-            )
+            return <TagUi key={idx}>{tag.name}</TagUi>
           })}
           <TagUi
-            tag='button'
-            buttonStyle='anchor'
             icon={<TagIcon weight='bold' />}
             onClick={(e) => {
               e.preventDefault()
               open()
             }}
           >
-            Edit tags
+            tags
           </TagUi>
         </div>
         <Overlay

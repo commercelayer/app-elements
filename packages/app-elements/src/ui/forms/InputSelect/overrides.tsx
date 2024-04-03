@@ -5,8 +5,7 @@ import {
   type ClearIndicatorProps,
   type DropdownIndicatorProps,
   type GroupBase,
-  type MultiValueGenericProps,
-  type MultiValueRemoveProps
+  type MultiValueGenericProps
 } from 'react-select'
 import { type InputSelectValue } from '.'
 
@@ -59,7 +58,7 @@ function MultiValueContainer(
     >
   >
 ): JSX.Element {
-  return <Tag tag='div'>{props.children}</Tag>
+  return <Tag>{props.children}</Tag>
 }
 
 function MultiValueLabel(
@@ -74,13 +73,11 @@ function MultiValueLabel(
   return props.data.label
 }
 
-function MultiValueRemove(
-  props: MultiValueRemoveProps<InputSelectValue>
-): JSX.Element {
+function MultiValueRemove(props: any): JSX.Element {
   return (
-    <div {...props.innerProps} className='cursor-pointer py-1 px-2 -mx-2'>
+    <button {...props.innerProps} className='cursor-pointer -mr-2 rounded'>
       <X weight='bold' />
-    </div>
+    </button>
   )
 }
 
