@@ -5,6 +5,7 @@ export interface TableProps {
   thead?: React.ReactNode
   tbody?: React.ReactNode
   className?: string
+  variant?: 'boxed'
 }
 
 /**
@@ -20,9 +21,23 @@ export interface TableProps {
  * } from '@commercelayer/app-elements'
  * ```
  */
-export const Table: React.FC<TableProps> = ({ thead, tbody, className }) => {
+export const Table: React.FC<TableProps> = ({
+  thead,
+  tbody,
+  className,
+  variant
+}) => {
   return (
-    <table className={cn(['w-full', className])}>
+    <table
+      className={cn([
+        'w-full',
+        {
+          'border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0':
+            variant === 'boxed'
+        },
+        className
+      ])}
+    >
       {thead != null && <thead>{thead}</thead>}
       {tbody != null && <tbody>{tbody}</tbody>}
     </table>
