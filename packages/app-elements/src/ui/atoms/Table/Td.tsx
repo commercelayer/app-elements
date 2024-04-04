@@ -14,7 +14,7 @@ export const Td: React.FC<TdProps> = ({
 }) => {
   return (
     <td
-      className={cn('p-4 text-sm border-b border-gray-100', className)}
+      className={cn('p-4 text-sm border-b border-gray-100 bg-white', className)}
       {...rest}
     >
       {textEllipsis !== undefined ? (

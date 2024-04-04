@@ -60,6 +60,10 @@ Default.args = {
 }
 
 export const VariantBoxed = Template.bind({})
+VariantBoxed.parameters = {
+  ...(VariantBoxed.parameters ?? {}),
+  backgrounds: { default: 'overlay' }
+}
 VariantBoxed.args = {
   ...baseProps,
   variant: 'boxed'

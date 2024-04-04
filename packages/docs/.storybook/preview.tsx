@@ -18,6 +18,14 @@ export const parameters: Parameters = {
       date: /Date$/,
     },
   },
+  backgrounds: {
+    values: [
+      {
+        name: 'overlay',
+        value: '#F8F8F8',
+      },
+    ],
+  },
   options: {
     storySort: {
       method: 'alphabetical',
