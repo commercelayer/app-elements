@@ -12,7 +12,8 @@ export interface TableProps {
  * `<Table>` component is used to organize and display data efficiently.
  *
  * These are all the available components you can use to manage a table:
- * ```
+ *
+ * ```js
  * import {
  *   Table,
  *   Tr,
@@ -32,7 +33,7 @@ export const Table: React.FC<TableProps> = ({
       className={cn([
         'w-full',
         {
-          'border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0':
+          'border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 [&>tbody>tr:last-of-type>td]:first-of-type:rounded-es [&>tbody>tr:last-of-type>td]:last-of-type:rounded-ee':
             variant === 'boxed'
         },
         className
