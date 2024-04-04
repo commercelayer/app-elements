@@ -41,14 +41,30 @@ Default.args = {
   disabled: false
 }
 
-/** The `a` HTML element is not styled. If you need to add a link to the page, you need to use the `A` component. */
-export const HTMLElementIsNotStyled: StoryFn = () => (
+/**
+ * The `a` HTML element is styled only when the `class` attribute is not defined.
+ * This is useful when using the wouter `Link` component.
+ *
+ * ```tsx
+ * <Link href="https://commercelayer.io">Text</Link>
+ * ```
+ */
+export const HTMLElement: StoryFn = () => (
   <>
     <A href='https://commercelayer.io' target='_blank'>
-      I am the &lt;A&gt; element
+      I am the &lt;A&gt; component
     </A>
     <a href='https://commercelayer.io' target='_blank' rel='noreferrer'>
       I am an &lt;a&gt; HTML element
+    </a>
+    <a
+      href='https://commercelayer.io'
+      target='_blank'
+      rel='noreferrer'
+      className='boh'
+    >
+      I am an &lt;a&gt; HTML element and I'm not styled due to my class
+      attribute
     </a>
   </>
 )
