@@ -27,15 +27,26 @@ const tBody = (
 )
 
 describe('Table', () => {
-  test('Should be rendered', () => {
+  it('Should be rendered', () => {
     const { getByRole } = render(<Table thead={tHead} tbody={tBody} />)
 
     const element = getByRole('table')
     expect(element).toBeInTheDocument()
+    expect(element).not.toHaveClass('border')
     expect(element.getElementsByTagName('thead')).toHaveLength(1)
     expect(element.getElementsByTagName('tbody')).toHaveLength(1)
     expect(element.getElementsByTagName('tr')).toHaveLength(4)
     expect(element.getElementsByTagName('th')).toHaveLength(2)
     expect(element.getElementsByTagName('td')).toHaveLength(6)
+  })
+
+  it('Should be rendered as boxed variant', () => {
+    const { getByRole } = render(
+      <Table variant='boxed' thead={tHead} tbody={tBody} />
+    )
+
+    const element = getByRole('table')
+    expect(element).toBeInTheDocument()
+    expect(element).toHaveClass('border')
   })
 })

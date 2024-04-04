@@ -1,5 +1,5 @@
 import { Icon } from '#ui/atoms/Icon'
-import { Table, Td, Th, Tr } from '#ui/atoms/Table'
+import { Table, Td, Th, Tr, type TableProps } from '#ui/atoms/Table'
 import { Dropdown, DropdownItem } from '#ui/composite/Dropdown'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -16,32 +16,6 @@ const Template: StoryFn<typeof Table> = (args) => {
   return <Table {...args} />
 }
 
-export const Default = Template.bind({})
-Default.args = {
-  thead: (
-    <Tr>
-      <Th>Name</Th>
-      <Th>Surname</Th>
-    </Tr>
-  ),
-  tbody: (
-    <>
-      <Tr>
-        <Td>John</Td>
-        <Td>Mayer</Td>
-      </Tr>
-      <Tr>
-        <Td>Eddie</Td>
-        <Td>Van Halen</Td>
-      </Tr>
-      <Tr>
-        <Td>Ben</Td>
-        <Td>Harper</Td>
-      </Tr>
-    </>
-  )
-}
-
 const Menu = (
   <Dropdown
     dropdownLabel={<Icon name='dotsThree' size={24} />}
@@ -51,8 +25,7 @@ const Menu = (
   />
 )
 
-export const WithActions = Template.bind({})
-WithActions.args = {
+const baseProps: Partial<TableProps> = {
   thead: (
     <Tr>
       <Th>Name</Th>
@@ -81,22 +54,18 @@ WithActions.args = {
   )
 }
 
+export const Default = Template.bind({})
+Default.args = {
+  ...baseProps
+}
+
+export const VariantBoxed = Template.bind({})
+VariantBoxed.args = {
+  ...baseProps,
+  variant: 'boxed'
+}
+
 export const WithoutThead = Default.bind({})
 WithoutThead.args = {
-  tbody: (
-    <>
-      <Tr>
-        <Td>John</Td>
-        <Td>Mayer</Td>
-      </Tr>
-      <Tr>
-        <Td>Eddie</Td>
-        <Td>Van Halen</Td>
-      </Tr>
-      <Tr>
-        <Td>Ben</Td>
-        <Td>Harper</Td>
-      </Tr>
-    </>
-  )
+  tbody: baseProps.tbody
 }
