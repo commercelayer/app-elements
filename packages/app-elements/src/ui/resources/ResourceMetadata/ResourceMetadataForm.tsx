@@ -2,53 +2,129 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInput } from '#ui/forms/Input'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
-import { useForm, type UseFormSetError } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 
 import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
 import { type Metadata } from '@commercelayer/sdk/lib/cjs/resource'
+import { type ResourceMetadataProps } from './ResourceMetadata'
 
 interface ResourceMetadataFormValues {
   metadata: Metadata
 }
 
 export const ResourceMetadataForm = withSkeletonTemplate<{
+  resourceId: string
   defaultValues: ResourceMetadataFormValues
-  onSubmit: (
-    formValues: ResourceMetadataFormValues,
-    setError: UseFormSetError<ResourceMetadataFormValues>
-  ) => void
+  mode: ResourceMetadataProps['mode']
+  onSubmit: (formValues: ResourceMetadataFormValues) => void
   isSubmitting: boolean
   apiError?: any
-}>(({ defaultValues, onSubmit, isSubmitting, apiError }) => {
+}>(({ resourceId, defaultValues, mode, onSubmit, isSubmitting, apiError }) => {
+  interface KeyedMetadata {
+    key: string
+    value: string
+  }
+  const keyedMetadata: KeyedMetadata[] = []
+  Object.entries(defaultValues.metadata).forEach(
+    ([metadataKey, metadataValue]) => {
+      keyedMetadata.push({
+        key: metadataKey,
+        value: metadataValue
+      })
+    }
+  )
+
+  if (mode === 'advanced' && keyedMetadata.length === 0) {
+    keyedMetadata.push({
+      key: '',
+      value: ''
+    })
+  }
+
+  const medatataKey = `metadata-${resourceId}`
   const methods = useForm({
-    defaultValues
+    defaultValues: { [medatataKey]: keyedMetadata }
   })
+
+  const addNewRow = (): void => {
+    watchedMetadata.push({
+      key: '',
+      value: ''
+    })
+    methods.setValue(medatataKey, watchedMetadata)
+    setTimeout(() => {
+      methods.setFocus(`${medatataKey}.${watchedMetadata.length - 1}.key`, {
+        shouldSelect: true
+      })
+    }, 200)
+  }
+
+  const watchedMetadata = methods.watch(medatataKey)
 
   return (
     <HookedForm
       {...methods}
       onSubmit={(formValues) => {
-        onSubmit(formValues, methods.setError)
+        const sdkMetadata: Metadata = {}
+        formValues[medatataKey]?.forEach((m) => {
+          sdkMetadata[m.key] = m.value
+        })
+        onSubmit({ metadata: sdkMetadata })
       }}
     >
       <Spacer bottom='12'>
         <Section title='Metadata'>
-          {Object.entries(methods.watch('metadata')).map(
-            ([metadataKey, metadataValue], idx) => {
-              const label = humanizeString(metadataKey)
-              if (typeof metadataValue !== 'string') return <></>
-              return (
-                <ListItem key={idx}>
+          {watchedMetadata.map((metadata, idx) => {
+            const label = humanizeString(metadata.key)
+            if (typeof metadata.value !== 'string') return <></>
+            return (
+              <ListItem
+                key={`${medatataKey}.${idx}`}
+                alignItems='center'
+                padding='y'
+              >
+                {mode === 'simple' ? (
                   <Text variant='info'>{label}</Text>
-                  <HookedInput name={`metadata.${metadataKey}`} />
-                </ListItem>
-              )
-            }
+                ) : (
+                  <HookedInput name={`${medatataKey}.${idx}.key`} />
+                )}
+                <HookedInput name={`${medatataKey}.${idx}.value`} />
+                {mode === 'advanced' && (
+                  <button
+                    aria-label='Remove'
+                    type='button'
+                    className='rounded'
+                    onClick={() => {
+                      watchedMetadata.splice(idx)
+                      methods.setValue(medatataKey, watchedMetadata)
+                    }}
+                  >
+                    <Icon name='minus' size={24} />
+                  </button>
+                )}
+              </ListItem>
+            )
+          })}
+          {mode === 'advanced' && (
+            <Spacer top='4'>
+              <Button
+                variant='secondary'
+                type='button'
+                onClick={() => {
+                  addNewRow()
+                }}
+                size='small'
+                alignItems='center'
+              >
+                <Icon name='plus' /> Add another
+              </Button>
+            </Spacer>
           )}
         </Section>
       </Spacer>
