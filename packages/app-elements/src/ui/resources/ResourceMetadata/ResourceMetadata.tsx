@@ -27,8 +27,8 @@ export interface ResourceMetadataProps {
   resourceId: string
   /**
    * Metadata management mode:
-   * - If set to 'simple' the metadata block is shown only if any of them is present. The edit page will permit to edit just the values of the existing items.
-   * - If set to 'advanced' the metadata block is always shown providing a `create` CTA to add a metadata if any is present. The edit page will permit to fully create, edit and remove the items.
+   * - If set to `simple` the edit page will permit to edit just the values of the existing items.
+   * - If set to `advanced` the edit page will permit to fully create, edit and remove the items.
    * @default simple
    */
   mode?: ResourceMetadataMode
@@ -75,7 +75,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       <div>
         <Section
           title='Metadata'
-          border={mode === 'advanced' ? 'none' : undefined}
           actionButton={
             hasStringMetadata &&
             canUser('update', resourceType) && (
