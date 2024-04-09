@@ -12,6 +12,7 @@ import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
 import { type Metadata } from '@commercelayer/sdk/lib/cjs/resource'
+import { useMemo } from 'react'
 import { type ResourceMetadataProps } from './ResourceMetadata'
 
 interface ResourceMetadataFormValues {
@@ -26,28 +27,26 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
   isSubmitting: boolean
   apiError?: any
 }>(({ resourceId, defaultValues, mode, onSubmit, isSubmitting, apiError }) => {
-  interface KeyedMetadata {
-    key: string
-    value: string
-  }
-  const keyedMetadata: KeyedMetadata[] = []
-  Object.entries(defaultValues.metadata).forEach(
-    ([metadataKey, metadataValue]) => {
-      keyedMetadata.push({
+  const keyedMetadata: KeyedMetadata[] = useMemo(() => {
+    const result = Object.entries(defaultValues.metadata).map(
+      ([metadataKey, metadataValue]) => ({
         key: metadataKey,
         value: metadataValue
       })
-    }
-  )
+    )
 
-  if (mode === 'advanced' && keyedMetadata.length === 0) {
-    keyedMetadata.push({
-      key: '',
-      value: ''
-    })
-  }
+    if (mode === 'advanced' && result.length === 0) {
+      result.push({
+        key: '',
+        value: ''
+      })
+    }
+
+    return result
+  }, [defaultValues.metadata, mode])
 
   const medatataKey = `metadata-${resourceId}`
+
   const methods = useForm({
     defaultValues: { [medatataKey]: keyedMetadata }
   })
@@ -135,3 +134,8 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     </HookedForm>
   )
 })
+
+interface KeyedMetadata {
+  key: string
+  value: string
+}

@@ -22,11 +22,7 @@ interface OverlayHook {
 }
 
 export function useEditMetadataOverlay(): OverlayHook {
-  const {
-    Overlay: OverlayElement,
-    open,
-    close
-  } = useOverlay({ queryParam: 'edit-metadata' })
+  const { Overlay: OverlayElement, open, close } = useOverlay()
 
   return {
     show: open,

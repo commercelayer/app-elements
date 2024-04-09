@@ -6,6 +6,7 @@ import markets from './data/markets'
 import orders from './data/orders'
 import tags from './data/tags'
 
+/** @type {import('msw').RequestHandler[]} */
 export const handlers = [
   ...adjustments,
   ...bundles,

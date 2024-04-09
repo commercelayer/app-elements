@@ -2,7 +2,6 @@ import { useEditMetadataOverlay } from '#hooks/useEditMetadataOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
@@ -30,6 +29,7 @@ export interface ResourceMetadataProps {
    * Metadata management mode:
    * - If set to 'simple' the metadata block is shown only if any of them is present. The edit page will permit to edit just the values of the existing items.
    * - If set to 'advanced' the metadata block is always shown providing a `create` CTA to add a metadata if any is present. The edit page will permit to fully create, edit and remove the items.
+   * @default simple
    */
   mode?: ResourceMetadataMode
   /**
@@ -65,9 +65,8 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       ).length > 0
 
     if (
-      (mode === 'simple' &&
-        (resourceData?.metadata == null ||
-          Object.keys(resourceData?.metadata).length === 0)) ||
+      resourceData?.metadata == null ||
+      Object.keys(resourceData?.metadata).length === 0 ||
       isLoading
     )
       return <></>
@@ -91,27 +90,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             )
           }
         >
-          {!hasStringMetadata && mode === 'advanced' && (
-            <ListItem
-              alignIcon='center'
-              icon={<Icon name='bracketsCurly' size={32} />}
-              paddingSize='6'
-              variant='boxed'
-            >
-              <Text>Manage your string metadata keys and values.</Text>
-              <Button
-                alignItems='center'
-                size='small'
-                variant='secondary'
-                onClick={() => {
-                  show()
-                }}
-              >
-                <Icon name='plus' size={16} />
-                Metadata
-              </Button>
-            </ListItem>
-          )}
           {Object.entries(resourceData?.metadata ?? []).map(
             ([metadataKey, metadataValue], idx) => {
               if (typeof metadataValue !== 'string') return null

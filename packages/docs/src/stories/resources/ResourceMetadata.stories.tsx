@@ -34,26 +34,54 @@ Default.args = {
   }
 }
 
-export const WithOverlay: StoryFn = () => {
+/**
+ * When `metadata` are not defined the component doesn't render at all.
+ */
+export const WithoutMetadata = Template.bind({})
+WithoutMetadata.args = {
+  resourceType: 'customers',
+  resourceId: 'OEMAhobdgO',
+  mode: 'advanced',
+  overlay: {
+    title: 'Edit metadata',
+    description: 'hello@commercelayer.io'
+  }
+}
+
+/** If you don't need the readonly metadata table, but you still want to edit the metadata, you can use the `useEditMetadataOverlay` hook: */
+export const EditMetadataOverlay: StoryFn = () => {
   const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
 
   return (
-    <>
-      <EditMetadataOverlay
-        title='Edit metadata'
-        description='hello@commercelayer.io'
-        resourceId='OEMAhobdgO'
-        resourceType='customers'
-        mode='advanced'
-      />
-      <Dropdown
-        menuPosition='bottom-left'
-        dropdownItems={
-          <>
-            <DropdownItem onClick={show} label='Edit metadata' />
-          </>
-        }
-      />
-    </>
+    <TokenProvider kind='integration' appSlug='customers' devMode>
+      <CoreSdkProvider>
+        <EditMetadataOverlay
+          title='Edit metadata'
+          description='hello@commercelayer.io'
+          resourceId='ASEYfdNrwa'
+          resourceType='customers'
+          mode='advanced'
+        />
+        <Dropdown
+          menuPosition='bottom-left'
+          dropdownItems={
+            <>
+              <DropdownItem onClick={show} label='Edit metadata' />
+            </>
+          }
+        />
+      </CoreSdkProvider>
+    </TokenProvider>
   )
 }
+EditMetadataOverlay.decorators = [
+  (Story) => (
+    <div
+      style={{
+        paddingBottom: '100px'
+      }}
+    >
+      <Story />
+    </div>
+  )
+]
