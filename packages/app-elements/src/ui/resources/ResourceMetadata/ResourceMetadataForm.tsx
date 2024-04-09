@@ -45,33 +45,31 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     return result
   }, [defaultValues.metadata, mode])
 
-  const medatataKey = `metadata-${resourceId}`
-
   const methods = useForm({
-    defaultValues: { [medatataKey]: keyedMetadata }
+    defaultValues: { metadata: keyedMetadata }
   })
+
+  const watchedMetadata = methods.watch('metadata')
 
   const addNewRow = (): void => {
     watchedMetadata.push({
       key: '',
       value: ''
     })
-    methods.setValue(medatataKey, watchedMetadata)
+    methods.setValue('metadata', watchedMetadata)
     setTimeout(() => {
-      methods.setFocus(`${medatataKey}.${watchedMetadata.length - 1}.key`, {
+      methods.setFocus(`metadata.${watchedMetadata.length - 1}.key`, {
         shouldSelect: true
       })
     }, 200)
   }
-
-  const watchedMetadata = methods.watch(medatataKey)
 
   return (
     <HookedForm
       {...methods}
       onSubmit={(formValues) => {
         const sdkMetadata: Metadata = {}
-        formValues[medatataKey]?.forEach((m) => {
+        formValues.metadata?.forEach((m) => {
           sdkMetadata[m.key] = m.value
         })
         onSubmit({ metadata: sdkMetadata })
@@ -83,25 +81,25 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
             const label = humanizeString(metadata.key)
             if (typeof metadata.value !== 'string') return <></>
             return (
-              <ListItem
-                key={`${medatataKey}.${idx}`}
-                alignItems='center'
-                padding='y'
-              >
-                {mode === 'simple' ? (
-                  <Text variant='info'>{label}</Text>
-                ) : (
-                  <HookedInput name={`${medatataKey}.${idx}.key`} />
-                )}
-                <HookedInput name={`${medatataKey}.${idx}.value`} />
+              <ListItem key={`metadata.${idx}`} alignItems='center' padding='y'>
+                <div className='flex items-center justify-between gap-4'>
+                  {mode === 'simple' ? (
+                    <Text variant='info'>{label}</Text>
+                  ) : (
+                    <HookedInput name={`metadata.${idx}.key`} />
+                  )}
+                  <div className='md:w-3/5'>
+                    <HookedInput name={`metadata.${idx}.value`} />
+                  </div>
+                </div>
                 {mode === 'advanced' && (
                   <button
                     aria-label='Remove'
                     type='button'
                     className='rounded'
                     onClick={() => {
-                      watchedMetadata.splice(idx)
-                      methods.setValue(medatataKey, watchedMetadata)
+                      watchedMetadata.splice(idx, 1)
+                      methods.setValue('metadata', watchedMetadata)
                     }}
                   >
                     <Icon name='minus' size={24} />
