@@ -26,7 +26,13 @@ export function useEditMetadataOverlay(): OverlayHook {
 
   return {
     show: open,
-    Overlay: ({ title, description, resourceId, resourceType, mode }) => {
+    Overlay: ({
+      title,
+      description,
+      resourceId,
+      resourceType,
+      mode = 'advanced'
+    }) => {
       const [isSubmitting, setIsSubmitting] = useState(false)
       const [apiError, setApiError] = useState<any>(undefined)
 
