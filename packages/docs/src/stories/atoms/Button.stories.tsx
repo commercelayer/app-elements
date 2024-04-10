@@ -78,7 +78,13 @@ export const WithText: StoryFn = () => (
 /** A `<Button>` that contains only an `Icon` is rendered with a square shape. */
 export const IconOnly = Template.bind({})
 IconOnly.args = {
-  size: 'small',
   variant: 'secondary',
   children: <Icon name='dotsThree' size={16} />
+}
+
+/** A `<Button>` with `variant="circle"` that contains only an `Icon` is rendered with a circle shape. */
+export const Circle = Template.bind({})
+Circle.args = {
+  variant: 'circle',
+  children: <Icon name='dotsThree' size={24} />
 }
