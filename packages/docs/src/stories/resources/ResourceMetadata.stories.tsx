@@ -35,6 +35,20 @@ Default.args = {
 }
 
 /**
+ * When mode attribute is set to `advanced` you'll be able to edit the metadata keys and add/remove metadata.
+ */
+export const Advanced = Template.bind({})
+Advanced.args = {
+  resourceType: 'customers',
+  resourceId: 'NMWYhbGorj',
+  mode: 'advanced',
+  overlay: {
+    title: 'Edit metadata',
+    description: 'hello@commercelayer.io'
+  }
+}
+
+/**
  * When `metadata` are not defined the component doesn't render at all.
  */
 export const WithoutMetadata = Template.bind({})
