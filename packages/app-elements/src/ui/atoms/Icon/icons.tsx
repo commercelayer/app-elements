@@ -15,6 +15,7 @@ export const iconMapping = {
   arrowUUpLeft: phosphor.ArrowUUpLeft,
   asteriskSimple: phosphor.AsteriskSimple,
   bookOpenText: phosphor.BookOpenText,
+  bracketsCurly: phosphor.BracketsCurly,
   buildings: phosphor.Buildings,
   calendarBlank: phosphor.CalendarBlank,
   calendarCheck: phosphor.CalendarCheck,

@@ -1,44 +1,52 @@
+// @ts-check
+
 import { HttpResponse, http } from 'msw'
 
-const mockedCustomer = {
-  id: 'NMWYhbGorj',
-  type: 'customers',
-  links: {
-    self: 'https://alessani.commercelayer.co/api/customers/NMWYhbGorj'
-  },
-  attributes: {
-    email: 'customer@tk.com',
-    status: 'repeat',
-    has_password: false,
-    total_orders_count: 2753,
-    created_at: '2022-03-14T09:13:06.633Z',
-    updated_at: '2023-07-31T09:13:06.049Z',
-    reference: null,
-    reference_origin: null,
-    metadata: {
-      first_name: 'John',
-      last_name: 'Doe'
-    }
-  },
-  meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+/** @type {import('msw').RequestHandler[]} */
+export default [
+  ...mockCustomer('OEMAhobdgO'),
+  ...mockCustomer('NMWYhbGorj', {
+    first_name: 'John',
+    last_name: 'Doe'
+  }),
+  ...mockCustomer('ASEYfdNrwa', {
+    hidden: 'true'
+  })
+]
+
+/** @type {(id: string, metadata?: Record<string, unknown>) => import('msw').RequestHandler[]} */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function mockCustomer(id, metadata = {}) {
+  const data = {
+    id,
+    type: 'customers',
+    links: {
+      self: `https://myorg.commercelayer.co/api/customers/${id}`
+    },
+    attributes: {
+      email: 'customer@tk.com',
+      status: 'repeat',
+      has_password: false,
+      total_orders_count: 2753,
+      created_at: '2022-03-14T09:13:06.633Z',
+      updated_at: '2023-07-31T09:13:06.049Z',
+      reference: null,
+      reference_origin: null,
+      metadata
+    },
+    meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+  }
+
+  return [
+    http.get(`https://mock.localhost/api/customers/${id}`, async () => {
+      return HttpResponse.json({
+        data
+      })
+    }),
+    http.patch(`https://mock.localhost/api/customers/${id}`, async () => {
+      return HttpResponse.json({
+        data
+      })
+    })
+  ]
 }
-
-const customer = http.get(
-  `https://mock.localhost/api/customers/NMWYhbGorj`,
-  async () => {
-    return HttpResponse.json({
-      data: mockedCustomer
-    })
-  }
-)
-
-const customerUpdate = http.patch(
-  `https://mock.localhost/api/customers/NMWYhbGorj`,
-  async () => {
-    return HttpResponse.json({
-      data: mockedCustomer
-    })
-  }
-)
-
-export default [customer, customerUpdate]
