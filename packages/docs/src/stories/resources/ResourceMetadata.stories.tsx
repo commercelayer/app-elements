@@ -35,13 +35,13 @@ Default.args = {
 }
 
 /**
- * When mode attribute is set to `advanced` you'll be able to edit the metadata keys and add/remove metadata.
+ * When mode attribute is set to `simple` you'll be able just to edit the metadata values.
  */
-export const Advanced = Template.bind({})
-Advanced.args = {
+export const Simple = Template.bind({})
+Simple.args = {
   resourceType: 'customers',
   resourceId: 'NMWYhbGorj',
-  mode: 'advanced',
+  mode: 'simple',
   overlay: {
     title: 'Edit metadata',
     description: 'hello@commercelayer.io'
@@ -55,7 +55,6 @@ export const WithoutMetadata = Template.bind({})
 WithoutMetadata.args = {
   resourceType: 'customers',
   resourceId: 'OEMAhobdgO',
-  mode: 'advanced',
   overlay: {
     title: 'Edit metadata',
     description: 'hello@commercelayer.io'
@@ -74,7 +73,6 @@ export const EditMetadataOverlay: StoryFn = () => {
           description='hello@commercelayer.io'
           resourceId='ASEYfdNrwa'
           resourceType='customers'
-          mode='advanced'
         />
         <Dropdown
           menuPosition='bottom-left'

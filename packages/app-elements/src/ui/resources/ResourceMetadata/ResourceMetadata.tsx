@@ -29,7 +29,7 @@ export interface ResourceMetadataProps {
    * Metadata management mode:
    * - If set to `simple` the edit page will permit to edit just the values of the existing items.
    * - If set to `advanced` the edit page will permit to fully create, edit and remove the items.
-   * @default simple
+   * @default advanced
    */
   mode?: ResourceMetadataMode
   /**
