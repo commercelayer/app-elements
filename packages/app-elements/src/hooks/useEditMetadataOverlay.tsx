@@ -82,7 +82,9 @@ export function useEditMetadataOverlay(): OverlayHook {
                   .update(
                     {
                       id: resourceId,
-                      metadata: formValues.metadata
+                      metadata: Object.entries(formValues.metadata).filter(
+                        ([k]) => k.toString().length > 0
+                      )
                     },
                     {
                       fields: ['metadata']
