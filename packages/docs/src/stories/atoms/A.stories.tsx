@@ -166,3 +166,18 @@ export const WithIconOnly: StoryFn = () => (
     </Spacer>
   </div>
 )
+
+export const Circle: StoryFn = () => (
+  <div>
+    <Spacer>
+      <A href='https://commercelayer.io' target='_blank' variant='circle'>
+        <Icon name='dotsThree' size={24} />
+      </A>
+    </Spacer>
+    <Spacer top='4'>
+      <Button variant='circle'>
+        <Icon name='dotsThree' size={24} />
+      </Button>
+    </Spacer>
+  </div>
+)

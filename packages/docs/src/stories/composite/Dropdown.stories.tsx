@@ -90,8 +90,35 @@ DropdownLabelAsJSXElement.args = {
 export const DropdownLabelAsButton = Template.bind({})
 DropdownLabelAsButton.args = {
   dropdownLabel: (
-    <Button variant='secondary' size='small'>
+    <Button variant='secondary'>
       <Icon name='dotsThree' size={16} />
+    </Button>
+  ),
+  dropdownItems: (
+    <>
+      <DropdownItem
+        onClick={() => {
+          alert('Edit clicked!')
+        }}
+        label='Edit'
+      />
+      <DropdownDivider />
+      <DropdownItem
+        onClick={() => {
+          alert('Delete clicked!')
+        }}
+        label='Delete'
+      />
+    </>
+  )
+}
+
+/** The provided `button` can also have the `variant="circle"`. */
+export const DropdownLabelAsCircleButton = Template.bind({})
+DropdownLabelAsCircleButton.args = {
+  dropdownLabel: (
+    <Button variant='circle'>
+      <Icon name='dotsThree' size={24} />
     </Button>
   ),
   dropdownItems: (

@@ -1,7 +1,7 @@
 import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 
-type Variant = 'primary' | 'secondary' | 'danger' | 'link'
+type Variant = 'primary' | 'secondary' | 'danger' | 'link' | 'circle'
 type Size = 'mini' | 'small' | 'regular' | 'large'
 
 export interface InteractiveElementProps {
@@ -37,6 +37,7 @@ export function getInteractiveElementClassName({
   size,
   variant
 }: InteractiveElementProps) {
+  const hasIcon = isSpecificReactComponent(children, [/^Icon$/])
   return cn([
     'rounded whitespace-nowrap leading-5',
     {
@@ -47,7 +48,8 @@ export function getInteractiveElementClassName({
       'inline w-fit': variant === 'link',
       [`inline-block text-center text-sm transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== 'link',
-      '!p-[10px]': isSpecificReactComponent(children, [/^Icon$/])
+      '!p-2.5': hasIcon && variant !== 'circle',
+      '!p-1': hasIcon && variant === 'circle'
     },
     getVariantCss(variant)
   ])
@@ -80,6 +82,8 @@ function getVariantCss(
       'font-bold bg-black border border-black text-white hover:opacity-80',
     secondary:
       'font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50',
+    circle:
+      'font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full',
     danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
     link: 'text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer'
   } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
