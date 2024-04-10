@@ -43,7 +43,7 @@ export interface ResourceMetadataProps {
  * More in detail the `metadata` attribute is a JSON object, customizable for several purposes, and this component will allow to show and manage its keys with a simple (string kind) values.
  */
 export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
-  ({ resourceType, resourceId, mode = 'simple', overlay }) => {
+  ({ resourceType, resourceId, mode = 'advanced', overlay }) => {
     const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
 
     const { canUser } = useTokenProvider()
@@ -75,7 +75,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       <div>
         <Section
           title='Metadata'
-          border={mode === 'advanced' ? 'none' : undefined}
           actionButton={
             hasStringMetadata &&
             canUser('update', resourceType) && (
@@ -100,7 +99,11 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                   key={idx}
                   data-testid={`ResourceMetadata-item-${metadataKey}`}
                 >
-                  <Text variant='info'>{humanizeString(metadataKey)}</Text>
+                  <Text variant='info'>
+                    {mode === 'advanced'
+                      ? metadataKey
+                      : humanizeString(metadataKey)}
+                  </Text>
                   <Text
                     weight='semibold'
                     data-testid={`ResourceMetadata-value-${metadataKey}`}
