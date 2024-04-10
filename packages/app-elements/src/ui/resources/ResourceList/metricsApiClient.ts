@@ -1,10 +1,12 @@
 import { useTokenProvider } from '#providers/TokenProvider'
 import { type Resource } from '#ui/resources/ResourceList/infiniteFetcher'
+import { type MetricsFilters } from '#ui/resources/useResourceFilters/adaptSdkToMetrics'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import {
   type ListMeta,
   type ListResponse
 } from '@commercelayer/sdk/lib/cjs/resource'
+import castArray from 'lodash/castArray'
 import { useMemo } from 'react'
 import { type Writable } from 'type-fest'
 
@@ -34,7 +36,16 @@ type ListResponseMetrics<ResourceType extends MetricsResources> =
 
 type MetricsList = <Resource extends MetricsResources>(
   resourceType: Resource,
-  query: Record<string, unknown>
+  query: {
+    search?: {
+      limit?: number
+      sort?: 'asc' | 'desc'
+      sort_by?: string
+      fields?: string[]
+      cursor?: string | null
+    }
+    filter?: MetricsFilters
+  }
 ) => Promise<ListResponseMetrics<Resource>>
 
 export interface MetricsApiClient {
@@ -57,7 +68,15 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
   const baseUrl = `https://${slug}.${domain}/metrics`
 
   const list: MetricsList = async (resourceType, query) => {
-    const response = await fetch(`${baseUrl}/${resourceType}/search`, {
+    // when searching pending orders we need to call `/carts` endpoint, not `/orders`
+    const orderFilterStatus = castArray(
+      query.filter?.order?.statuses?.in ?? query.filter?.order?.status?.eq
+    )
+    const endpoint = orderFilterStatus.includes('pending')
+      ? 'carts'
+      : resourceType
+
+    const response = await fetch(`${baseUrl}/${endpoint}/search`, {
       method: 'POST',
       headers: {
         accept: 'application/vnd.api.v1+json',
