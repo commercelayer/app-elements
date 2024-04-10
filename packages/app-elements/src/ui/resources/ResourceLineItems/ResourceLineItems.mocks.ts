@@ -307,7 +307,7 @@ export const presetLineItems = {
     image_url:
       'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/EMUG12OZFFFFFF000000XXXX_FLAT.png',
     return_reason: {
-      0: 'The product received does not match what I ordered.'
+      status: 'The product received does not match what I ordered.'
     },
     restocked_at: '2023-08-11T09:18:49.214Z',
     created_at: '2023-08-10T08:13:49.214Z',

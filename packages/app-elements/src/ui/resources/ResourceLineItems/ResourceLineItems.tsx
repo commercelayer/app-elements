@@ -440,7 +440,10 @@ const ReturnLineItemReason = withSkeletonTemplate<{
     <Spacer top='4'>
       <LineItemOptionsWrapper title='Reason'>
         {Object.entries(reason).map(([reasonName, reasonValue]) => (
-          <LineItemOptionsItem key={reasonName} title={reasonValue} />
+          <LineItemOptionsItem
+            key={reasonName}
+            title={`${reasonName}: ${reasonValue}`}
+          />
         ))}
       </LineItemOptionsWrapper>
     </Spacer>
