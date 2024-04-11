@@ -64,12 +64,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         ([, metadataValue]) => typeof metadataValue === 'string'
       ).length > 0
 
-    if (
-      resourceData?.metadata == null ||
-      Object.keys(resourceData?.metadata).length === 0 ||
-      isLoading
-    )
-      return <></>
+    if (!hasStringMetadata || isLoading) return <></>
 
     return (
       <div>
