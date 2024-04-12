@@ -7,7 +7,9 @@ export default [
   ...mockCustomer('OEMAhobdgO'),
   ...mockCustomer('NMWYhbGorj', {
     first_name: 'John',
-    last_name: 'Doe'
+    last_name: 'Doe',
+    age: 35,
+    other: { pet: 'cat' }
   }),
   ...mockCustomer('ASEYfdNrwa', {
     hidden: 'true'
