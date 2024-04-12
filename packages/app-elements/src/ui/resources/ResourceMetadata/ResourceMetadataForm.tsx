@@ -12,11 +12,43 @@ import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
 import { type Metadata } from '@commercelayer/sdk/lib/cjs/resource'
-import { useMemo } from 'react'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Fragment, useMemo } from 'react'
+import { z } from 'zod'
 import { type ResourceMetadataProps } from './ResourceMetadata'
+import { groupMetadataKeys } from './utils'
 
 interface ResourceMetadataFormValues {
   metadata: Metadata
+}
+
+const metadataForm = z
+  .object({
+    metadata: z
+      .object({
+        key: z.string(),
+        value: z.unknown()
+      })
+      .array()
+  })
+  .superRefine((data, ctx) => {
+    const grouped = groupMetadataKeys(data.metadata)
+
+    Object.entries(grouped).forEach(([_key, group]) => {
+      if (group.count > 1) {
+        group.indexes.forEach((index) => {
+          ctx.addIssue({
+            code: z.ZodIssueCode.custom,
+            path: [`metadata.${index}.key`],
+            message: 'Key already used'
+          })
+        })
+      }
+    })
+  })
+
+function isEditable(metadata: Metadata): boolean {
+  return typeof metadata.value === 'string'
 }
 
 export const ResourceMetadataForm = withSkeletonTemplate<{
@@ -46,7 +78,8 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
   }, [defaultValues.metadata, mode])
 
   const methods = useForm({
-    defaultValues: { metadata: keyedMetadata }
+    defaultValues: { metadata: keyedMetadata },
+    resolver: zodResolver(metadataForm)
   })
 
   const watchedMetadata = methods.watch('metadata')
@@ -78,13 +111,15 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       <Spacer bottom='12'>
         <Section title='Metadata'>
           {watchedMetadata.map((metadata, idx) => {
-            const label = humanizeString(metadata.key)
-            if (typeof metadata.value !== 'string') return <></>
+            if (!isEditable(metadata)) {
+              return <Fragment key={idx} />
+            }
+
             return (
               <ListItem key={`metadata.${idx}`} alignItems='center' padding='y'>
-                <div className='flex items-center justify-between gap-4'>
+                <div className='flex items-start justify-between gap-4'>
                   {mode === 'simple' ? (
-                    <Text variant='info'>{label}</Text>
+                    <Text variant='info'>{humanizeString(metadata.key)}</Text>
                   ) : (
                     <HookedInput name={`metadata.${idx}.key`} />
                   )}
@@ -135,5 +170,5 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
 
 interface KeyedMetadata {
   key: string
-  value: string
+  value: unknown
 }
