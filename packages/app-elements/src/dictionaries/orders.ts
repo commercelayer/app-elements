@@ -173,7 +173,8 @@ export function getOrderStatusName(status: Order['status']): string {
     draft: 'Draft',
     editing: 'Editing',
     pending: 'Pending',
-    placed: 'Placed'
+    placed: 'Placed',
+    placing: 'Placing'
   }
 
   return dictionary[status]
