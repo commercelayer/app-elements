@@ -48,13 +48,27 @@ function setPersistentItem({ destination }: { destination: string }): void {
 }
 
 /**
+ *  Returns `true` if we are running apps within the Commerce Layer dashboard.
+ */
+function isInDashboard(): boolean {
+  return window.location.origin.includes('https://dashboard.commercelayer.')
+}
+
+/**
  * Checks if the URL belongs to the same app by considering the hostname and the first path segment
  * and comparing it with same info for `window.location.href`
  */
 function urlIsForSameApp(url: string): boolean {
   function getAppBaseUrl(url: string): string {
     const urlObj = new URL(url)
-    const [, appSlug] = urlObj.pathname.split('/')
+
+    const [appSlug] = urlObj.pathname
+      .split('/')
+      .filter((p) => !isEmpty(p))
+      // when isInDashboard pathname is `/test/demo-store/hub/orders/list/xbSzDaQsAZ`
+      // when is standalone we have only `/orders/list/xbSzDaQsAZ `
+      // so we need to remove 3 parts to reach the app slug
+      .slice(isInDashboard() ? 3 : 0)
 
     if (appSlug === undefined) {
       throw new Error('Cannot access to the application slug.')
@@ -77,12 +91,14 @@ function urlIsForSameApp(url: string): boolean {
 function getRelativePath(url: string): string {
   const urlObj = new URL(url)
 
-  // remove app base path
-  // eg: /orders/list/qfgDgXszab?foo=bar -> /list/qfgDgXszab?foo=bar
+  // remove app base path, this changes depending if app is in dashboard or stand alone
+  // examples:
+  // when in dashboard pathname is `/test/demo-store/hub/orders/list/qfgDgXszab`, so we need to to remove 4 parts to reach `/list/qfgDgXszab`
+  // when is standalone pathname is `/orders/list/qfgDgXszab?foo=bar` so we need to remove 1 part to reach `/list/qfgDgXszab?foo=bar`
   const relativePath = urlObj.pathname
     .split('/')
     .filter((p) => !isEmpty(p))
-    .slice(1)
+    .slice(isInDashboard() ? 4 : 1)
     .join('/')
 
   return isEmpty(urlObj.search)
@@ -173,12 +189,21 @@ export function navigateTo(
     e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
   ) => void
 } | null {
-  const destinationFullUrl = `${window.location.origin}/${
+  const pathname = isInDashboard()
+    ? `/${location.pathname
+        .split('/')
+        .filter((p) => !isEmpty(p))
+        .slice(0, 3)
+        .join('/')}/`
+    : '/'
+
+  const destinationFullUrl = `${window.location.origin}${pathname}${
     params.destination.app
   }/list/${params.destination.resourceId ?? ''}`
 
   // cross linking is allowed only for Commerce Layer hosted apps. It's disabled for custom (self-hosted) apps.
   const isClHostedApp =
+    isInDashboard() ||
     window.location.origin.includes('commercelayer.app') ||
     window.location.origin.includes('//localhost:')
   if (!isNavigateToInternalParams(params) && !isClHostedApp) {
