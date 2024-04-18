@@ -14,13 +14,24 @@ interface ToolbarItem {
   size?: ButtonProps['size']
   variant?: ButtonProps['variant']
   onClick?: ButtonProps['onClick']
+  /**
+   * Dropdown items nested into current item.
+   * If they are set, the current item will be rendered as a `Dropdown` that can be opened by clicking the `Button` configure using current item's props.
+   */
   dropdownItems?: DropdownItemProps[][]
 }
 
 export interface ToolbarProps {
+  /**
+   * Toolbar menu items.
+   * They are rendered as `Button`s as default behavior. They could behave as a `Dropdown` if they have `dropdownItems`.
+   */
   items: ToolbarItem[]
 }
 
+/**
+ * This component renders a horizontal navigation menu made of `Button`s and `Dropdown`s.
+ */
 export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
   const itemsHtml = items.map((item, idx) => {
     const children = item.dropdownItems
