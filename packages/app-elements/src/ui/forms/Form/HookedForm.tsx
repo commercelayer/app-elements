@@ -15,7 +15,8 @@ interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
  * Form component to be used as main provider for the `react-hook-form` context.
  *
  * Example:
- * ```
+ *
+ * ```tsx
  * import { useForm } from "react-hook-form"
  * import { zodResolver } from "@hookform/resolvers/zod"
  * import { HookedForm, HookedInput, HookedInputDate} from "@commercelayer/app-elements"
