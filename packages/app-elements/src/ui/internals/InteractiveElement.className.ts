@@ -1,5 +1,6 @@
 import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
+import { Children } from 'react'
 
 type Variant = 'primary' | 'secondary' | 'danger' | 'link' | 'circle'
 type Size = 'mini' | 'small' | 'regular' | 'large'
@@ -37,7 +38,15 @@ export function getInteractiveElementClassName({
   size,
   variant
 }: InteractiveElementProps) {
-  const hasIcon = isSpecificReactComponent(children, [/^Icon$/])
+  /*
+   * Prop `children` could be an array of elements with just one element inside.
+   * In this case we want to check if the only iterable element is of kind `Icon`.
+   */
+  const childrenAsArray = Children.toArray(children)
+  const isIcon =
+    childrenAsArray.length === 1 &&
+    isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
+
   return cn([
     'rounded whitespace-nowrap leading-5',
     {
@@ -48,8 +57,8 @@ export function getInteractiveElementClassName({
       'inline w-fit': variant === 'link',
       [`inline-block text-center text-sm transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== 'link',
-      '!p-2.5': hasIcon && variant !== 'circle',
-      '!p-1': hasIcon && variant === 'circle'
+      '!p-2.5': isIcon && variant !== 'circle',
+      '!p-1': isIcon && variant === 'circle'
     },
     getVariantCss(variant)
   ])

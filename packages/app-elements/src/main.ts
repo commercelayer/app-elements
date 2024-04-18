@@ -170,6 +170,7 @@ export {
   type TimelineEvent,
   type TimelineProps
 } from '#ui/composite/Timeline'
+export { Toolbar, type ToolbarProps } from '#ui/composite/Toolbar'
 // Forms
 export { HookedForm } from '#ui/forms/Form'
 export {
