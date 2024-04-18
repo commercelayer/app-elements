@@ -8,7 +8,7 @@ import {
   type DropdownItemProps
 } from '#ui/composite/Dropdown'
 
-interface ToolbarAction {
+interface ToolbarItem {
   label?: string
   icon?: IconProps['name']
   size?: ButtonProps['size']
@@ -18,19 +18,24 @@ interface ToolbarAction {
 }
 
 export interface ToolbarProps {
-  actions: ToolbarAction[]
+  items: ToolbarItem[]
 }
 
-export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ actions }) => {
-  const actionsHtml = actions.map((action, idx) => {
-    const children = action.dropdownItems
+export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
+  const itemsHtml = items.map((item, idx) => {
+    const children = item.dropdownItems
     const hasChildren = children != null && children.length > 0
-    const handleClick = action.onClick
+    const handleClick = item.onClick
     if (hasChildren) {
       const dropdownItemsHtml = children.map((group, gidx) => {
         const dropdownGroup: JSX.Element[] = []
         if (gidx > 0) {
-          dropdownGroup.push(<DropdownDivider key={`divider-${gidx}-${idx}`} />)
+          dropdownGroup.push(
+            <DropdownDivider
+              key={`divider-${gidx}-${idx}`}
+              data-testid='toolbar-dropdown-divider'
+            />
+          )
         }
 
         group.forEach((dropdownItem, idx) => {
@@ -40,6 +45,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ actions }) => {
               key={`dropdown-${gidx}-${idx}`}
               label={dropdownItem.label}
               onClick={dropdownItemHandleClick}
+              data-testid='toolbar-dropdown-item'
             />
           )
         })
@@ -53,18 +59,20 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ actions }) => {
             dropdownLabel={
               <Button
                 key={`button-${idx}`}
-                size={action.size}
-                variant={action.variant}
+                size={item.size}
+                variant={item.variant}
                 onClick={handleClick}
                 alignItems='center'
+                data-testid='toolbar-dropdown-button'
               >
-                {action.icon != null && (
-                  <Icon name={action.icon} size={16} weight='bold' />
+                {item.icon != null && (
+                  <Icon name={item.icon} size={16} weight='bold' />
                 )}
-                {action.label}
+                {item.label}
               </Button>
             }
             dropdownItems={dropdownItemsHtml}
+            data-testid='toolbar-dropdown'
           />
         )
       )
@@ -72,18 +80,28 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ actions }) => {
       return (
         <Button
           key={`button-${idx}`}
-          size={action.size}
-          variant={action.variant}
+          size={item.size}
+          variant={item.variant}
           onClick={handleClick}
           alignItems='center'
+          data-testid='toolbar-button'
         >
-          {action.icon != null && (
-            <Icon name={action.icon} size={16} weight='bold' />
+          {item.icon != null && (
+            <Icon name={item.icon} size={16} weight='bold' />
           )}
-          {action.label}
+          {item.label}
         </Button>
       )
     }
   })
-  return <div className='flex items-center gap-2'>{actionsHtml}</div>
+
+  if (itemsHtml.length === 0) {
+    return null
+  }
+
+  return (
+    <div className='flex items-center gap-2' data-testid='toolbar'>
+      {itemsHtml}
+    </div>
+  )
 })

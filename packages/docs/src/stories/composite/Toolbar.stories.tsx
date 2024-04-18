@@ -12,7 +12,7 @@ export default setup
 
 export const Simple: StoryFn<typeof Toolbar> = (args) => <Toolbar {...args} />
 Simple.args = {
-  actions: [
+  items: [
     {
       label: 'Primary',
       size: 'small',
