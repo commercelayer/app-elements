@@ -2,7 +2,7 @@
 
 import { Container } from '#ui/atoms/Container'
 import { PARAM_KEY } from '.storybook/addon-container/constants'
-import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs'
+import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/blocks'
 import type { Decorator, Parameters } from '@storybook/react'
 import React from 'react'
 import { worker } from '../src/mocks/browser'
@@ -10,7 +10,6 @@ import { worker } from '../src/mocks/browser'
 import '../../app-elements/src/styles/global.css'
 
 export const parameters: Parameters = {
-  actions: { argTypesRegex: '^on[A-Z].*' },
   layout: 'centered',
   controls: {
     matchers: {

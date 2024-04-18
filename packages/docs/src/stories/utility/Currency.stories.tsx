@@ -1,7 +1,7 @@
 import { currencies, type CurrencyCode } from '#helpers/currencies'
 import { Text } from '#ui/atoms/Text'
 import { formatCentsToCurrency } from '#ui/forms/InputCurrency'
-import { Description, Stories, Subtitle, Title } from '@storybook/addon-docs'
+import { Description, Stories, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { CodeSample } from 'src/components/CodeSample'
 

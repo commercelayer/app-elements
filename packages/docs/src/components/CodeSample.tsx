@@ -1,4 +1,4 @@
-import { Source } from '@storybook/addon-docs'
+import { Source } from '@storybook/blocks'
 import * as prettierEstree from 'prettier/plugins/estree'
 import * as prettierTypescript from 'prettier/plugins/typescript'
 import * as prettier from 'prettier/standalone'
@@ -65,7 +65,7 @@ export function CodeSample({
       {description}
       <Source
         dark
-        language='js'
+        language='typescript'
         code={`${sanitizedCode}//=  ${typeof result === 'object' ? JSON.stringify(result) : result}`}
       />
     </>
