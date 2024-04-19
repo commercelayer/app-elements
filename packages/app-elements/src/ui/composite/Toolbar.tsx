@@ -8,11 +8,12 @@ import {
   type DropdownItemProps
 } from '#ui/composite/Dropdown'
 
-interface ToolbarItem {
+export interface ToolbarItem {
   label?: string
   icon?: IconProps['name']
   size?: ButtonProps['size']
   variant?: ButtonProps['variant']
+  className?: ButtonProps['className']
   onClick?: ButtonProps['onClick']
   /**
    * Dropdown items nested into current item.
@@ -55,6 +56,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
             <DropdownItem
               key={`dropdown-${gidx}-${idx}`}
               label={dropdownItem.label}
+              className={dropdownItem.className}
               onClick={dropdownItemHandleClick}
               data-testid='toolbar-dropdown-item'
             />
@@ -74,6 +76,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
                 variant={item.variant}
                 onClick={handleClick}
                 alignItems='center'
+                className={item.className}
                 data-testid='toolbar-dropdown-button'
               >
                 {item.icon != null && (
@@ -95,6 +98,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
           variant={item.variant}
           onClick={handleClick}
           alignItems='center'
+          className={item.className}
           data-testid='toolbar-button'
         >
           {item.icon != null && (
