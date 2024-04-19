@@ -19,6 +19,11 @@ export interface DropdownMenuProps extends React.HTMLAttributes<HTMLElement> {
    * Otherwise it will fallback to a default centering based on 32px trigger button
    */
   parentElementRef?: React.RefObject<HTMLDivElement>
+  /**
+   * Set a wider menu, fixed to 280px.
+   * By default, when no width is set, the menu adjusts its width dynamically to accommodate content, within a range of 150px to 250px.
+   **/
+  menuWidth?: 'wide'
 }
 
 export const DropdownMenu: FC<DropdownMenuProps> = ({
@@ -27,6 +32,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
   menuHeader,
   menuPosition = 'bottom-right',
   parentElementRef,
+  menuWidth,
   ...rest
 }) => {
   const [centerToWidth, setCenterToWidth] = useState<number>()
@@ -48,7 +54,10 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
       )}
       <div
         {...rest}
-        className='bg-black text-white rounded min-w-[150px] overflow-hidden py-1 md:max-w-[250px]'
+        className={cn('bg-black text-white rounded overflow-hidden py-2', {
+          'min-w-[150px] md:max-w-[250px]': menuWidth == null, // default width
+          'w-[280px]': menuWidth === 'wide'
+        })}
       >
         {menuHeader != null && (
           <>
