@@ -35,6 +35,7 @@ export const iconMapping = {
   dotsThree: phosphor.DotsThree,
   download: phosphor.Download,
   eye: phosphor.Eye,
+  eyeSlash: phosphor.EyeSlash,
   flag: phosphor.Flag,
   folderOpen: phosphor.FolderOpen,
   funnelSimple: phosphor.FunnelSimple,

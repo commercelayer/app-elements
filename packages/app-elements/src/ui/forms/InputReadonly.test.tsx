@@ -1,39 +1,27 @@
-import { render, type RenderResult } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import { InputReadonly } from './InputReadonly'
-
-interface SetupProps {
-  id: string
-  value: string
-}
-
-type SetupResult = RenderResult & {
-  element: HTMLInputElement
-}
-
-const setup = ({ id, value }: SetupProps): SetupResult => {
-  const utils = render(<InputReadonly data-testid={id} value={value} />)
-  const element = utils.getByTestId(id) as HTMLInputElement
-  return {
-    element,
-    ...utils
-  }
-}
 
 describe('InputReadonly', () => {
   test('Should be rendered', () => {
-    const { element } = setup({
-      id: 'my-input-readonly',
-      value: ''
-    })
-    expect(element).toBeInTheDocument()
+    const { container } = render(<InputReadonly value='' />)
+    expect(container.querySelector('input')).toBeInTheDocument()
   })
+
   test('Should has value', () => {
-    const { element } = setup({
-      id: 'my-input-readonly',
-      value: 'NAx1zYM55_B3Eq2wiFg'
-    })
-    expect(element.getElementsByTagName('input')[0]?.value).toBe(
-      'NAx1zYM55_B3Eq2wiFg'
+    const { container } = render(<InputReadonly value='NAx1zYM55_B3Eq2wiFg' />)
+    expect(container.querySelector('input')?.value).toBe('NAx1zYM55_B3Eq2wiFg')
+  })
+
+  test('Should handle secret value', () => {
+    const { container, getByTestId } = render(
+      <InputReadonly value='abc-123' secret />
     )
+    expect(container.querySelector('input')?.value).includes('****')
+
+    fireEvent.click(getByTestId('toggle-secret'))
+    expect(container.querySelector('input')?.value).toBe('abc-123')
+
+    fireEvent.click(getByTestId('toggle-secret'))
+    expect(container.querySelector('input')?.value).includes('****')
   })
 })

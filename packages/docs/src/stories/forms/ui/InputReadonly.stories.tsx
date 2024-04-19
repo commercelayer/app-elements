@@ -22,9 +22,20 @@ const Template: StoryFn<typeof InputReadonly> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
+  label: 'Domain',
+  value: 'https://demo-store.commercelayer.io',
+  showCopyAction: true
+}
+
+/**
+ * This component can be used to hide (from the screen) sensitive information like API keys or secrets.
+ */
+export const Secret = Template.bind({})
+Secret.args = {
   label: 'Secret',
   value: 'elyFpGvqXsOSsvEko6ues2Ua4No1_HxaKH_0rUaFuYiX9',
-  showCopyAction: true
+  showCopyAction: true,
+  secret: true
 }
 
 /**
@@ -34,6 +45,22 @@ Default.args = {
 export const MultiLine: StoryFn = () => {
   return (
     <InputReadonly label='Login with your admin credentials' showCopyAction>
+      {`commercelayer app:login \\
+      -i asdGvqXsOSsdko6ueiX9 \\
+      -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 \\
+      -o demo-store \\
+      -a admin`}
+    </InputReadonly>
+  )
+}
+
+export const MultiLineSecret: StoryFn = () => {
+  return (
+    <InputReadonly
+      label='Login with your admin credentials'
+      showCopyAction
+      secret
+    >
       {`commercelayer app:login \\
       -i asdGvqXsOSsdko6ueiX9 \\
       -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 \\
