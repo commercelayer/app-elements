@@ -1,10 +1,12 @@
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { Icon } from '#ui/atoms/Icon'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
+import { useState } from 'react'
 
 export type InputReadonlyProps = InputWrapperBaseProps & {
   /**
@@ -28,6 +30,10 @@ export type InputReadonlyProps = InputWrapperBaseProps & {
    * It only accepts a string and will respect new lines when passing a template literal (backticks).
    */
   children?: string
+  /**
+   * Show an icon to hide/show content. Content starts hidden if `secret` is true.
+   */
+  secret?: boolean
 }
 
 export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
@@ -42,10 +48,13 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
     isLoading,
     delayMs,
     children,
+    secret = false,
     ...rest
   }) => {
     const cssBase =
       'block w-full rounded bg-gray-50 text-teal text-sm font-mono font-medium marker:font-bold border-none'
+
+    const [hideValue, setHideValue] = useState(secret)
 
     return (
       <InputWrapper
@@ -60,10 +69,16 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
             <input
               className={cn(
                 cssBase,
-                'px-4 h-[44px] outline-0 !ring-0',
-                inputClassName
+                inputClassName,
+                'px-4 h-[44px] outline-0 !ring-0'
               )}
-              value={isLoading === true ? '' : value}
+              value={
+                isLoading === true
+                  ? ''
+                  : hideValue
+                    ? randomHiddenValue()
+                    : value
+              }
               readOnly
             />
           ) : (
@@ -78,23 +93,39 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
               )}
             >
               {children.split('\n').map((line, idx) => (
-                <span key={idx}>{line}</span>
+                <span key={idx}>{hideValue ? randomHiddenValue() : line}</span>
               ))}
             </div>
           )}
-          {showCopyAction && (
+          {showCopyAction || secret ? (
             <div
-              className={cn('absolute right-4  flex', {
-                'top-[2px] items-center': children == null,
+              className={cn('absolute right-4 flex gap-4 items-center', {
+                'top-[2px] bottom-[2px] items-center': children == null,
                 'top-2': children != null
               })}
             >
-              <CopyToClipboard
-                value={value ?? children?.trim()}
-                showValue={false}
-              />
+              {secret && (
+                <button
+                  onClick={() => {
+                    setHideValue(!hideValue)
+                  }}
+                  data-testid='toggle-secret'
+                >
+                  <Icon
+                    name={hideValue ? 'eyeSlash' : 'eye'}
+                    className='text-gray-500 hover:text-gray-300'
+                    size={20}
+                  />
+                </button>
+              )}
+              {showCopyAction && (
+                <CopyToClipboard
+                  value={value ?? children?.trim()}
+                  showValue={false}
+                />
+              )}
             </div>
-          )}
+          ) : null}
         </div>
       </InputWrapper>
     )
@@ -102,3 +133,7 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
 )
 
 InputReadonly.displayName = 'InputReadonly'
+
+function randomHiddenValue(): string {
+  return '*'.repeat(Math.floor(Math.random() * 7) + 10)
+}
