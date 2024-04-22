@@ -111,7 +111,7 @@ type ToLiteral<
   V extends string | number | bigint | boolean | null | undefined
 > = `${V}`
 
-interface Route<
+export interface Route<
   Path extends `/${string}/` | `/`,
   Parameters extends Record<string, unknown> = ExtractParameters<Path>
 > {
