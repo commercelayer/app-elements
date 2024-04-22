@@ -53,6 +53,37 @@ Default.args = {
   )
 }
 
+/**
+ * While by default, the dropdown menu will try to fit its content using a min/max width range,
+ * it can be also set to use a fixed `wider` width.
+ **/
+export const MenuWidthWide = Template.bind({})
+MenuWidthWide.args = {
+  menuWidth: 'wide',
+  dropdownItems: (
+    <>
+      <DropdownItem
+        onClick={() => {
+          alert('Edit clicked!')
+        }}
+        label='Lorem impsum dolor sit amet elit.'
+      />
+      <DropdownItem
+        onClick={() => {
+          alert('Delete clicked!')
+        }}
+        label='Short label'
+      />
+      <DropdownItem
+        onClick={() => {
+          alert('Delete clicked!')
+        }}
+        label='Still trimmed when max width is reached'
+      />
+    </>
+  )
+}
+
 /** By default, the component renders as a `dots-three-circle` Phosphor icon, but you can provide instead a different icon or a more generic JSX Element. */
 export const DropdownLabelAsJSXElement = Template.bind({})
 DropdownLabelAsJSXElement.args = {

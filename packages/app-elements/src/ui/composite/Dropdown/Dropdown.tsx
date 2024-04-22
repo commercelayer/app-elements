@@ -9,7 +9,7 @@ import { Children, cloneElement, useMemo, useState } from 'react'
 import { DropdownMenu } from './DropdownMenu'
 
 export interface DropdownProps
-  extends Pick<DropdownMenuProps, 'menuHeader' | 'menuPosition'> {
+  extends Pick<DropdownMenuProps, 'menuHeader' | 'menuPosition' | 'menuWidth'> {
   /** The trigger for the dropdown menu. Can be a JSX Element or simply a `string`. */
   dropdownLabel?: React.ReactNode
   /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */
@@ -27,7 +27,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   dropdownLabel = <DotsThreeCircle size={32} />,
   menuHeader,
   dropdownItems,
-  menuPosition = 'bottom-right'
+  menuPosition = 'bottom-right',
+  menuWidth
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -107,6 +108,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             menuHeader={menuHeader}
             menuPosition={menuPosition}
             parentElementRef={clickAwayRef}
+            menuWidth={menuWidth}
           >
             {dropdownItems}
           </DropdownMenu>
