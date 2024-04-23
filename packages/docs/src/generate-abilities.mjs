@@ -37,14 +37,13 @@ async function generatePageFromAbilities() {
 
   const repositories = await getRepositoryNames()
 
-  const entries = Object.entries(sortObj(doc))
-    .map(
-      ([appName, app]) =>
-        /** @type {const} */ ([capitalizeFirstLetter(appName), app])
-    )
-    .filter(([appName]) =>
-      Object.keys(repositories).includes(`app-${appName.toLowerCase()}`)
-    )
+  const entries = Object.entries(sortObj(doc)).filter(([appSlug]) =>
+    Object.keys(repositories).includes(toRepositoryName(appSlug))
+  )
+
+  console.group('Available applications:')
+  console.log(entries.map(([appSlug]) => `- ${appSlug}`).join('\n'))
+  console.groupEnd()
 
   const content = `
 import { Meta } from '@storybook/addon-docs';
@@ -74,6 +73,28 @@ ${await generateAppTable(repositories, entries)}
   )
 }
 
+/**
+ * Convert an application slug like `stock_transfers` to the repository name (e.g. `app-stock-transfers`)
+ * @param {string} appSlug Application slug
+ * @returns {string}
+ */
+function toRepositoryName(appSlug) {
+  return `app-${appSlug.replaceAll('_', '-').toLowerCase()}`
+}
+
+/**
+ * Convert an application slug like `stock_transfers` to the application name (e.g. `Stock transfers`)
+ * @param {string} appSlug Application slug
+ * @returns {string}
+ */
+function toAppName(appSlug) {
+  return capitalizeFirstLetter(appSlug.toLowerCase()).replaceAll('_', ' ')
+}
+
+/**
+ * Get all repositories tagged as `dashboard-apps`
+ * @returns {Promise<{ [repositoryName: string]: Repository }>}
+ */
 async function getRepositoryNames() {
   const q = 'org:commercelayer+topic:"dashboard-apps"'
   const queryUrl = `https://api.github.com/search/repositories?q=${q}`
@@ -98,13 +119,13 @@ async function getRepositoryNames() {
 /**
  * Convert the `abilities.yml` to a TOC
  * @param {Object.<string, Repository>} repositories GitHub repositories
- * @param {(readonly [string, App])[]} entries Entries from `abilities.yml`
+ * @param {(readonly [appSlug: string, App])[]} entries Entries from `abilities.yml`
  * @returns {Promise<string>}
  */
 async function generateToc(repositories, entries) {
   return `<ul>${entries
-    .map(([appName]) => {
-      return `<li>${createLink(`#${appName.toLowerCase()}`, appName)}</li>`
+    .map(([appSlug]) => {
+      return `<li>${createLink(`#${appSlug.toLowerCase().replaceAll('_', '-')}`, toAppName(appSlug))}</li>`
     })
     .join('\n')}</ul>`
 }
@@ -112,14 +133,13 @@ async function generateToc(repositories, entries) {
 /**
  * Convert the `abilities.yml` to a `<table>`
  * @param {Object.<string, Repository>} repositories GitHub repositories
- * @param {(readonly [string, App])[]} entries Entries from `abilities.yml`
+ * @param {(readonly [appSlug: string, App])[]} entries Entries from `abilities.yml`
  * @returns {Promise<string>}
  */
 async function generateAppTable(repositories, entries) {
   return entries
-    .map(([appName, app]) => {
-      const name = `app-${appName.toLowerCase()}`
-      const repo = repositories[name]
+    .map(([appSlug, app]) => {
+      const repo = repositories[toRepositoryName(appSlug)]
       const repositoryLink = createLink(
         repo?.html_url ?? '',
         'repository',
@@ -127,7 +147,7 @@ async function generateAppTable(repositories, entries) {
       )
 
       return `
-        ## ${appName}
+        ## ${toAppName(appSlug)}
 
         ${repo?.description} (${repositoryLink})
 
@@ -193,7 +213,7 @@ function roleToTable({
  * @returns {string}
  */
 function checkSubject(subject) {
- return subject === 'organizations' ? 'organization' : subject
+  return subject === 'organizations' ? 'organization' : subject
 }
 
 // ------------------------------------------------------------
