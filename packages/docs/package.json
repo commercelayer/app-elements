@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "private": true,
-  "version": "1.23.0",
+  "version": "1.23.1",
   "license": "MIT",
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx",
@@ -61,8 +61,8 @@
     "eslint-plugin-storybook": "^0.8.0",
     "js-yaml": "^4.1.0",
     "msw": "^2.2.13",
-    "remark-gfm": "^3.0.1",
     "react-hook-form": "^7.51.3",
+    "remark-gfm": "^3.0.1",
     "storybook": "^7.6.16",
     "typescript": "^5.4.5",
     "vite": "^5.2.8",
