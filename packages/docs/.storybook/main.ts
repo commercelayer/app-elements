@@ -1,5 +1,6 @@
 import { type StorybookConfig } from '@storybook/react-vite'
 import { resolve } from 'path'
+import remarkGfm from 'remark-gfm'
 import { mergeConfig, type UserConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
@@ -25,7 +26,16 @@ const storybookConfig: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@storybook/addon-interactions',
-    '@storybook/addon-mdx-gfm'
+    {
+      name: '@storybook/addon-docs',
+      options: {
+        mdxPluginOptions: {
+          mdxCompileOptions: {
+            remarkPlugins: [remarkGfm],
+          },
+        },
+      },
+    }
   ],
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [

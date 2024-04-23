@@ -211,9 +211,6 @@ importers:
       '@storybook/addon-links':
         specifier: ^7.6.16
         version: 7.6.16(react@18.2.0)
-      '@storybook/addon-mdx-gfm':
-        specifier: ^7.6.16
-        version: 7.6.16
       '@storybook/addon-measure':
         specifier: ^7.6.16
         version: 7.6.16
@@ -304,6 +301,9 @@ importers:
       react-hook-form:
         specifier: ^7.51.3
         version: 7.51.3(react@18.2.0)
+      remark-gfm:
+        specifier: ^3.0.1
+        version: 3.0.1
       storybook:
         specifier: ^7.6.16
         version: 7.6.16(encoding@0.1.13)
@@ -2411,9 +2411,6 @@ packages:
     peerDependenciesMeta:
       react:
         optional: true
-
-  '@storybook/addon-mdx-gfm@7.6.16':
-    resolution: {integrity: sha512-Rao0oqSJ6umHTAz/CpKlspvhHDbiqAVge/k82Xrg0iqzYUTRAjJxpro58JcKS6zNR5dPZGbSlbmxrHEochSzGg==}
 
   '@storybook/addon-measure@7.6.16':
     resolution: {integrity: sha512-lQw7WXEeLuvDe3bfi7699WnHMryLIRnoT/w7oHqvS19UHp2HR0TKqYiPPppI6Yy4RoWHx+qFhKZJlajFyKDGfg==}
@@ -11069,14 +11066,6 @@ snapshots:
       ts-dedent: 2.2.0
     optionalDependencies:
       react: 18.2.0
-
-  '@storybook/addon-mdx-gfm@7.6.16':
-    dependencies:
-      '@storybook/node-logger': 7.6.16
-      remark-gfm: 3.0.1
-      ts-dedent: 2.2.0
-    transitivePeerDependencies:
-      - supports-color
 
   '@storybook/addon-measure@7.6.16':
     dependencies:
