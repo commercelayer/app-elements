@@ -288,6 +288,7 @@ export {
 // Resources
 export {
   ResourceAddress,
+  useResourceAddressOverlay,
   type ResourceAddressProps
 } from '#ui/resources/ResourceAddress'
 export {

@@ -51,13 +51,15 @@ describe('ResourceAddress', () => {
 
   test('Should render fullName', async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress-fullName')).toContainHTML('Darth Vader')
+    expect(getByTestId('ResourceAddress-fullName')).toContainHTML(
+      'Luke Skywalker'
+    )
   })
 
   test('Should render address', async () => {
     const { getByTestId } = setup()
     expect(getByTestId('ResourceAddress-address')).toContainHTML(
-      'Via Morte Nera, 13'
+      'Via Polis Massa, 42'
     )
   })
 

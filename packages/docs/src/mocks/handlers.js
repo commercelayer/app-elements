@@ -1,3 +1,4 @@
+import addresses from './data/addresses'
 import adjustments from './data/adjustments'
 import bundles from './data/bundles'
 import customers from './data/customers'
@@ -8,6 +9,7 @@ import tags from './data/tags'
 
 /** @type {import('msw').RequestHandler[]} */
 export const handlers = [
+  ...addresses,
   ...adjustments,
   ...bundles,
   ...customers,

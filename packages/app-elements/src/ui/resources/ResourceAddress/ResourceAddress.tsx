@@ -1,16 +1,14 @@
-import { useOverlay } from '#hooks/useOverlay'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Hr } from '#ui/atoms/Hr'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
 import { Note, PencilSimple, Phone } from '@phosphor-icons/react'
 import isEmpty from 'lodash/isEmpty'
 import { useEffect, useState } from 'react'
-import { ResourceAddressForm } from './ResourceAddressForm'
+import { useResourceAddressOverlay } from './useResourceAddressOverlay'
 
 export interface ResourceAddressProps {
   /**
@@ -38,10 +36,17 @@ export interface ResourceAddressProps {
  */
 export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
   ({ resource, title, editable = false, showBillingInfo = false }) => {
-    const { Overlay, open, close } = useOverlay()
+    const [address, setAddress] = useState<Address>(resource)
     const { canUser } = useTokenProvider()
 
-    const [address, setAddress] = useState<Address>(resource)
+    const { ResourceAddressOverlay, openAddressOverlay } =
+      useResourceAddressOverlay({
+        address: resource,
+        showBillingInfo,
+        onUpdate: (updatedAddress) => {
+          setAddress(updatedAddress)
+        }
+      })
 
     useEffect(() => {
       setAddress(resource)
@@ -123,7 +128,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
               <Button
                 variant='link'
                 onClick={() => {
-                  open()
+                  openAddressOverlay()
                 }}
                 data-testid='ResourceAddress-editButton'
               >
@@ -132,29 +137,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             </div>
           )}
         </div>
-        {editable && canUser('update', 'addresses') && (
-          <Overlay>
-            <PageLayout
-              title='Edit address'
-              minHeight={false}
-              navigationButton={{
-                label: 'Back',
-                onClick: () => {
-                  close()
-                }
-              }}
-            >
-              <ResourceAddressForm
-                address={address}
-                showBillingInfo={showBillingInfo}
-                onChange={(updatedAddress: Address) => {
-                  setAddress(updatedAddress)
-                  close()
-                }}
-              />
-            </PageLayout>
-          </Overlay>
-        )}
+        {editable && <ResourceAddressOverlay />}
       </>
     )
   }
