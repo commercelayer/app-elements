@@ -74,7 +74,10 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             hasStringMetadata &&
             canUser('update', resourceType) && (
               <Button
-                variant='link'
+                variant='secondary'
+                size='mini'
+                alignItems='center'
+                aria-label='Edit metadata'
                 onClick={() => {
                   show()
                 }}
