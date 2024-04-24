@@ -52,7 +52,7 @@ export const Section = withSkeletonTemplate<SectionProps>(
               <h2
                 className={cn({
                   // titleSize
-                  'text-gray-500 font-medium': titleSize === 'small',
+                  'text-gray-600 font-medium': titleSize === 'small',
                   'text-lg font-semibold': titleSize === 'normal'
                 })}
               >
