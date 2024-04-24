@@ -30,8 +30,8 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=18",
-    "pnpm": ">=7"
+    "node": ">=20",
+    "pnpm": ">=9"
   },
   "workspaces": [
     "packages/*"
