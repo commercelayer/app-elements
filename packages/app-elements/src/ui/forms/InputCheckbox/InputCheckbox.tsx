@@ -39,7 +39,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
         <div className={cn('flex items-center w-full', className)}>
           <label
             data-testid='checkbox-label'
-            className={cn('flex items-center gap-4 select-none flex-1', {
+            className={cn('flex items-center gap-[10px] select-none flex-1', {
               'cursor-pointer': rest.disabled !== true
             })}
             onClick={(e) => {
@@ -58,7 +58,9 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
               }}
               data-testid='checkbox-input'
               className={cn(
-                'border border-gray-300 rounded w-[18px] h-[18px] text-primary focus:ring-primary',
+                'w-[20px] h-[20px] text-primary focus:ring-primary round',
+                '!border !border-solid !border-gray-300 rounded-sm',
+                '![box-shadow:none] checked:!border-primary',
                 { 'cursor-pointer': rest.disabled !== true },
                 getFeedbackStyle(feedback)
               )}
