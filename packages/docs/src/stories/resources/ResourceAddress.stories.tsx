@@ -1,15 +1,25 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
 import { ListItem } from '#ui/composite/ListItem'
+import { HookedForm } from '#ui/forms/Form'
+import { HookedInput } from '#ui/forms/Input'
 import {
   ResourceAddress,
   useResourceAddressOverlay
 } from '#ui/resources/ResourceAddress'
 import { presetAddresses } from '#ui/resources/ResourceAddress/ResourceAddress.mocks'
+import {
+  ResourceAddressFormFields,
+  resourceAddressFormFieldsSchema
+} from '#ui/resources/ResourceAddress/ResourceAddressFormFields'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 type Props = Parameters<typeof ResourceAddress>[0] & {
   preset: Array<keyof typeof presetAddresses | 'custom'>
@@ -117,6 +127,52 @@ export const UseResourceAddressOverlay: StoryFn = () => {
       >
         Edit address
       </Button>
+    </>
+  )
+}
+
+export const ReuseTheAddressForm: StoryFn = () => {
+  const methods = useForm({
+    defaultValues: {
+      name: 'John Doe Inc.',
+      address: {
+        first_name: 'John',
+        last_name: 'Doe'
+      }
+    },
+    resolver: zodResolver(
+      z.object({
+        name: z
+          .string({
+            required_error: 'Required field',
+            invalid_type_error: 'Invalid format'
+          })
+          .min(1, {
+            message: 'Required field'
+          }),
+        address: resourceAddressFormFieldsSchema
+      })
+    )
+  })
+
+  return (
+    <>
+      <HookedForm
+        {...methods}
+        onSubmit={(formValues) => {
+          console.log(formValues)
+        }}
+      >
+        <Spacer bottom='8'>
+          <HookedInput name='name' label='Name' />
+        </Spacer>
+        <ResourceAddressFormFields name='address' />
+        <Spacer top='14'>
+          <Button type='submit' className='w-full'>
+            Create merchant
+          </Button>
+        </Spacer>
+      </HookedForm>
     </>
   )
 }

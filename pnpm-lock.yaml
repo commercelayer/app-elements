@@ -87,8 +87,8 @@ importers:
         specifier: ^4.15.0
         version: 4.15.0
       zod:
-        specifier: ^3.22.4
-        version: 3.22.4
+        specifier: ^3.23.4
+        version: 3.23.4
     devDependencies:
       '@commercelayer/eslint-config-ts-react':
         specifier: ^1.4.5
@@ -190,6 +190,9 @@ importers:
       '@commercelayer/eslint-config-ts-react':
         specifier: ^1.4.5
         version: 1.4.5(@types/eslint@8.56.2)(eslint@8.56.0)(react@18.2.0)(typescript@5.4.5)
+      '@hookform/resolvers':
+        specifier: ^3.3.4
+        version: 3.3.4(react-hook-form@7.51.3(react@18.2.0))
       '@mdx-js/react':
         specifier: ^3.0.1
         version: 3.0.1(@types/react@18.2.78)(react@18.2.0)
@@ -316,6 +319,9 @@ importers:
       vite-tsconfig-paths:
         specifier: ^4.3.2
         version: 4.3.2(typescript@5.4.5)(vite@5.2.8(@types/node@20.12.7)(terser@5.27.1))
+      zod:
+        specifier: ^3.23.4
+        version: 3.23.4
 
 packages:
 
@@ -8603,8 +8609,8 @@ packages:
     engines: {node: '>=8.0.0'}
     hasBin: true
 
-  zod@3.22.4:
-    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+  zod@3.23.4:
+    resolution: {integrity: sha512-/AtWOKbBgjzEYYQRNfoGKHObgfAZag6qUJX1VbHo2PRBgS+wfWagEY2mizjfyAPcGesrJOcx/wcl0L9WnVrHFw==}
 
   zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
@@ -18824,6 +18830,6 @@ snapshots:
     optionalDependencies:
       commander: 9.5.0
 
-  zod@3.22.4: {}
+  zod@3.23.4: {}
 
   zwitch@2.0.4: {}
