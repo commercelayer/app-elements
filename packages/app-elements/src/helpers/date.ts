@@ -1,17 +1,16 @@
-import utcToZonedTime from 'date-fns-tz/utcToZonedTime'
-import zonedTimeToUtc from 'date-fns-tz/zonedTimeToUtc'
-import endOfDay from 'date-fns/endOfDay'
-import format from 'date-fns/format'
-import formatDistance from 'date-fns/formatDistance'
-import isBefore from 'date-fns/isBefore'
-import isFuture from 'date-fns/isFuture'
-import isPast from 'date-fns/isPast'
-import isSameMonth from 'date-fns/isSameMonth'
-import isSameYear from 'date-fns/isSameYear'
-import isThisYear from 'date-fns/isThisYear'
-import isToday from 'date-fns/isToday'
-import startOfDay from 'date-fns/startOfDay'
-import sub from 'date-fns/sub'
+import { fromZonedTime, toZonedTime } from 'date-fns-tz'
+import { endOfDay } from 'date-fns/endOfDay'
+import { format } from 'date-fns/format'
+import { formatDistance } from 'date-fns/formatDistance'
+import { isBefore } from 'date-fns/isBefore'
+import { isFuture } from 'date-fns/isFuture'
+import { isPast } from 'date-fns/isPast'
+import { isSameMonth } from 'date-fns/isSameMonth'
+import { isSameYear } from 'date-fns/isSameYear'
+import { isThisYear } from 'date-fns/isThisYear'
+import { isToday } from 'date-fns/isToday'
+import { startOfDay } from 'date-fns/startOfDay'
+import { sub } from 'date-fns/sub'
 import groupBy from 'lodash/groupBy'
 import orderBy from 'lodash/orderBy'
 import { type Simplify } from 'type-fest'
@@ -61,7 +60,7 @@ export function formatDate({
 
   try {
     const date = new Date(isoDate)
-    const zonedDate = utcToZonedTime(date, timezone)
+    const zonedDate = toZonedTime(date, timezone)
     const formatTemplate = getPresetFormatTemplate(
       zonedDate,
       timezone,
@@ -161,11 +160,9 @@ function getPresetFormatTemplate(
         'timeWithSeconds'
       )}`
     case 'distanceToNow':
-      return `'${formatDistance(
-        zonedDate,
-        utcToZonedTime(new Date(), timezone),
-        { addSuffix: true }
-      )}'`
+      return `'${formatDistance(zonedDate, toZonedTime(new Date(), timezone), {
+        addSuffix: true
+      })}'`
   }
 }
 
@@ -194,14 +191,14 @@ export function getIsoDateAtDayEdge({
       return undefined
     }
 
-    const zonedDate = utcToZonedTime(date, timezone)
+    const zonedDate = toZonedTime(date, timezone)
 
     if (edge === 'startOfTheDay') {
-      return zonedTimeToUtc(startOfDay(zonedDate), timezone).toISOString()
+      return fromZonedTime(startOfDay(zonedDate), timezone).toISOString()
     }
 
     if (edge === 'endOfTheDay') {
-      return zonedTimeToUtc(endOfDay(zonedDate), timezone).toISOString()
+      return fromZonedTime(endOfDay(zonedDate), timezone).toISOString()
     }
 
     return undefined
@@ -265,8 +262,8 @@ export function getEventDateInfo({
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
 }): 'active' | 'past' | 'upcoming' {
-  const zonedStartsAt = utcToZonedTime(new Date(startsAt), timezone)
-  const zonedExpiresAt = utcToZonedTime(new Date(expiresAt), timezone)
+  const zonedStartsAt = toZonedTime(new Date(startsAt), timezone)
+  const zonedExpiresAt = toZonedTime(new Date(expiresAt), timezone)
 
   if (isBefore(zonedExpiresAt, zonedStartsAt)) {
     throw new Error(
@@ -301,8 +298,8 @@ export function formatDateRange({
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
 }): string {
-  const zonedFrom = utcToZonedTime(new Date(rangeFrom), timezone)
-  const zonedTo = utcToZonedTime(new Date(rangeTo), timezone)
+  const zonedFrom = toZonedTime(new Date(rangeFrom), timezone)
+  const zonedTo = toZonedTime(new Date(rangeTo), timezone)
 
   if (isSameYear(zonedFrom, zonedTo) && isSameMonth(zonedFrom, zonedTo)) {
     const dayOfMonthFrom = format(zonedFrom, 'd')
