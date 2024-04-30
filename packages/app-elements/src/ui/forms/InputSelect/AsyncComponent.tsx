@@ -1,5 +1,6 @@
 import debounce from 'lodash/debounce'
 import isEmpty from 'lodash/isEmpty'
+import { type AsyncAdditionalProps } from 'node_modules/react-select/dist/declarations/src/useAsync'
 import { forwardRef, useCallback, useEffect } from 'react'
 import {
   type GroupBase,
@@ -7,7 +8,6 @@ import {
   type StylesConfig
 } from 'react-select'
 import AsyncSelect from 'react-select/async'
-import { type AsyncAdditionalProps } from 'react-select/dist/declarations/src/useAsync'
 import { type SetRequired } from 'type-fest'
 import { type InputSelectProps, type InputSelectValue } from './InputSelect'
 import components from './overrides'
