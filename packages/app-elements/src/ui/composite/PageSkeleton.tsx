@@ -1,47 +1,61 @@
-import { Container } from '#ui/atoms/Container'
-import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
+import { Section } from '#ui/atoms/Section'
+import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
+import { StatusIcon } from '#ui/atoms/StatusIcon'
+import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/composite/List'
-import { ListDetails } from '#ui/composite/ListDetails'
-import { Report } from './Report'
+import { ListItem } from '#ui/composite/ListItem'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { SearchBar } from '#ui/composite/SearchBar'
 
-export interface PageSkeletonProps {
-  layout?: 'list' | 'details'
-  hasHeaderDescription?: boolean
-  delayMs?: number
-}
-
-function PageSkeleton({
-  layout,
-  hasHeaderDescription,
-  delayMs
-}: PageSkeletonProps): JSX.Element {
+/**
+ * This component renders a skeleton page layout simulating the presence of the common elements of an initial app page:
+ * - page title,
+ * - back button,
+ * - search bar,
+ * - list of items.
+ *
+ * <span type='info'>You can use this component to display generic loading UI when you can't rely on single SkeletonTemplate blocks.</span>
+ **/
+function PageSkeleton(): JSX.Element {
   return (
-    <Container data-testid='page-skeleton'>
-      <Skeleton delayMs={delayMs}>
-        {/* PageHeading */}
-        <div className='pt-10 pb-14'>
-          <div>
-            <SkeletonItem className='w-8 h-8 mb-2' />
-            <SkeletonItem className='w-36 h-8' />
-            {hasHeaderDescription === true && (
-              <SkeletonItem
-                data-testid='loading-header-description'
-                className='w-36 h-5 mt-2'
-              />
-            )}
-          </div>
-        </div>
+    <SkeletonTemplate isLoading delayMs={0}>
+      <PageLayout
+        title='Loading'
+        navigationButton={{
+          label: 'Back',
+          onClick: () => {}
+        }}
+        gap='only-top'
+      >
+        <Spacer bottom='14'>
+          <SearchBar onSearch={() => {}} isLoading delayMs={0} />
+        </Spacer>
 
-        {layout === 'list' ? (
-          <List data-testid='loading-list' isLoading />
-        ) : layout === 'details' ? (
-          <div data-testid='loading-details'>
-            <Report isLoading loadingLines={2} items={[]} />
-            <ListDetails title='Details' isLoading loadingLines={4} />
-          </div>
-        ) : null}
-      </Skeleton>
-    </Container>
+        <Section title='Loading' border='none'>
+          <List>
+            {Array.from({ length: 2 }).map((_, index) => (
+              <ListItem
+                key={index}
+                icon={
+                  <StatusIcon name='arrowDown' background='gray' gap='large' />
+                }
+              >
+                <div>
+                  <Text tag='div' weight='semibold'>
+                    Loading item number {index}
+                  </Text>
+                  <Text tag='div' weight='medium' size='small' variant='info'>
+                    please wait a moment
+                  </Text>
+                </div>
+                <StatusIcon name='caretRight' />
+              </ListItem>
+            ))}
+          </List>
+        </Section>
+      </PageLayout>
+    </SkeletonTemplate>
   )
 }
 
