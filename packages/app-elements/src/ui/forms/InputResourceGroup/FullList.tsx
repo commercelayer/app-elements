@@ -9,7 +9,7 @@ import { InputWrapper } from '#ui/internals/InputWrapper'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import { useEffect, useState } from 'react'
 import {
   computeLabelWithSelected,

@@ -1,5 +1,5 @@
-import { isNumber } from 'lodash'
 import isEmpty from 'lodash/isEmpty'
+import isNumber from 'lodash/isNumber'
 import omitBy from 'lodash/omitBy'
 import queryString from 'query-string'
 import {
