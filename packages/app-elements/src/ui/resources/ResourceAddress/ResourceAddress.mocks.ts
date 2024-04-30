@@ -3,7 +3,7 @@ import { type Address } from '@commercelayer/sdk'
 export const presetAddresses = {
   withName: {
     type: 'addresses',
-    id: '',
+    id: 'aaZYuDJVXW',
     company: '',
     first_name: 'Darth',
     last_name: 'Vader',
@@ -21,7 +21,7 @@ export const presetAddresses = {
   },
   withCompany: {
     type: 'addresses',
-    id: '',
+    id: 'bbZYuDJVXW',
     company: 'Galactic Empire',
     first_name: '',
     last_name: '',
@@ -39,12 +39,12 @@ export const presetAddresses = {
   },
   withNotes: {
     type: 'addresses',
-    id: '',
+    id: 'ccZYuDJVXW',
     company: '',
-    first_name: 'Darth',
-    last_name: 'Vader',
-    full_name: 'Darth Vader',
-    line_1: 'Via Morte Nera, 13',
+    first_name: 'Luke',
+    last_name: 'Skywalker',
+    full_name: 'Luke Skywalker',
+    line_1: 'Via Polis Massa, 42',
     line_2: 'Ragnatela, 99',
     city: 'Cogorno',
     country_code: 'IT',

@@ -288,6 +288,10 @@ export {
 // Resources
 export {
   ResourceAddress,
+  ResourceAddressFormFields,
+  resourceAddressFormFieldsSchema,
+  useResourceAddressOverlay,
+  type ResourceAddressFormFieldsProps,
   type ResourceAddressProps
 } from '#ui/resources/ResourceAddress'
 export {
