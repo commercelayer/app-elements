@@ -5,7 +5,8 @@ import {
 } from '#ui/forms/InputCurrencyRange'
 import { type CommerceLayerClient, type PriceList } from '@commercelayer/sdk'
 import { type ListResponse } from '@commercelayer/sdk/lib/cjs/resource'
-import { isEmpty, uniq } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import uniq from 'lodash/uniq'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import {
