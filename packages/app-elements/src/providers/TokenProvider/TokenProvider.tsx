@@ -1,6 +1,7 @@
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
 import { isProductionHostname } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
+import { PageSkeleton } from '#ui/composite/PageSkeleton'
 import { type Organization } from '@commercelayer/sdk'
 import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import {
@@ -80,6 +81,7 @@ export interface TokenProviderProps {
   onInvalidAuth?: (info: { dashboardUrl: string; reason: string }) => void
   /**
    * The UI element to be used as loader (e.g. skeleton or spinner icon).
+   * This element is ignored when app is running within the dashboard, since it will use the standard PageSkeleton ad not-overridable ui loader.
    */
   loadingElement?: ReactNode
   /**
@@ -282,7 +284,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   }
 
   if (_state.isLoading) {
-    return <>{loadingElement}</>
+    return <>{isInDashboard ? <PageSkeleton /> : loadingElement}</>
   }
 
   return (

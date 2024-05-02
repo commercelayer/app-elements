@@ -54,6 +54,7 @@ export {
   useCoreApi,
   useCoreSdkProvider
 } from '#providers/CoreSdkProvider'
+export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
 export { GTMProvider, useTagManager } from '#providers/GTMProvider'
 export {
@@ -66,7 +67,6 @@ export {
   type TokenProviderRolePermissions,
   type TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider'
-export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 
 // Atoms
 export { A, type AProps } from '#ui/atoms/A'
@@ -163,10 +163,7 @@ export {
 export { ListItem, type ListItemProps } from '#ui/composite/ListItem'
 export { PageError, type PageErrorProps } from '#ui/composite/PageError'
 export { PageLayout, type PageLayoutProps } from '#ui/composite/PageLayout'
-export {
-  PageSkeleton,
-  type PageSkeletonProps
-} from '#ui/composite/PageSkeleton'
+export { PageSkeleton } from '#ui/composite/PageSkeleton'
 export { Report, type ReportProps } from '#ui/composite/Report'
 export { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
 export { TableData, type TableDataProps } from '#ui/composite/TableData'

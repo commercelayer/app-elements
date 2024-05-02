@@ -3,6 +3,7 @@ import type { ContainerProps } from '#ui/atoms/Container'
 import { Container } from '#ui/atoms/Container'
 import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
 import { ScrollToTop } from '#ui/atoms/ScrollToTop'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Overlay } from '#ui/internals/Overlay'
 import { type ReactNode } from 'react'
@@ -32,54 +33,60 @@ export interface PageLayoutProps
   scrollToTop?: boolean
 }
 
-export function PageLayout({
-  title,
-  description,
-  navigationButton,
-  children,
-  actionButton,
-  mode,
-  gap,
-  minHeight,
-  scrollToTop,
-  overlay = false,
-  ...rest
-}: PageLayoutProps): JSX.Element {
-  const {
-    settings: { isInDashboard }
-  } = useTokenProvider()
+export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
+  ({
+    title,
+    description,
+    navigationButton,
+    children,
+    actionButton,
+    mode,
+    gap,
+    minHeight,
+    scrollToTop,
+    overlay = false,
+    isLoading,
+    delayMs,
+    ...rest
+  }) => {
+    const {
+      settings: { isInDashboard }
+    } = useTokenProvider()
 
-  const component = (
-    <>
-      <PageHeading
-        title={title}
-        description={description}
-        navigationButton={navigationButton}
-        actionButton={actionButton}
-        badge={
-          mode === 'test' && !isInDashboard
-            ? {
-                label: 'TEST DATA',
-                variant: 'warning-solid'
-              }
-            : undefined
-        }
-        gap={gap}
-      />
-      {children}
-      {scrollToTop === true && <ScrollToTop />}
-    </>
-  )
+    const component = (
+      <>
+        <PageHeading
+          title={title}
+          description={description}
+          navigationButton={navigationButton}
+          actionButton={actionButton}
+          badge={
+            mode === 'test' && !isInDashboard
+              ? {
+                  label: 'TEST DATA',
+                  variant: 'warning-solid'
+                }
+              : undefined
+          }
+          gap={gap}
+          isLoading={isLoading}
+          delayMs={delayMs}
+        />
+        {children}
+        {scrollToTop === true && <ScrollToTop />}
+      </>
+    )
 
-  if (overlay) {
-    return <Overlay backgroundColor='light'>{component}</Overlay>
+    if (overlay) {
+      return <Overlay backgroundColor='light'>{component}</Overlay>
+    }
+
+    return (
+      <Container minHeight={minHeight} {...rest}>
+        <Spacer bottom='14'>{component}</Spacer>
+      </Container>
+    )
   }
-
-  return (
-    <Container minHeight={minHeight} {...rest}>
-      <Spacer bottom='14'>{component}</Spacer>
-    </Container>
-  )
-}
+)
 
 PageLayout.displayName = 'PageLayout'
