@@ -27,6 +27,7 @@ function PageSkeleton(): JSX.Element {
           onClick: () => {}
         }}
         gap='only-top'
+        scrollToTop
       >
         <Spacer bottom='14'>
           <SearchBar onSearch={() => {}} isLoading delayMs={0} />
