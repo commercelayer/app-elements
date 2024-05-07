@@ -107,7 +107,7 @@ function FiltersForm({
 
         return null
       })}
-      <div className='w-full sticky bottom-0 bg-white pb-8'>
+      <div className='w-full sticky bottom-0 bg-gray-50 pb-8'>
         <Button type='submit' fullWidth>
           Apply filters
         </Button>

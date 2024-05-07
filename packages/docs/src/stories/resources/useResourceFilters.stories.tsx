@@ -1,3 +1,4 @@
+import { useOverlay } from '#hooks/useOverlay'
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
@@ -132,6 +133,34 @@ export const FiltersForm: StoryFn = () => {
             alert(`Redirect to /list?${queryString}`)
           }}
         />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+/**
+ * The example below shows the filters form placed inside an overlay.
+ **/
+export const FiltersFormInOverlay: StoryFn = () => {
+  const { FiltersForm } = useResourceFilters({
+    instructions
+  })
+
+  const { Overlay, open } = useOverlay()
+
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <>
+          <Button onClick={open}>Filters</Button>
+          <Overlay backgroundColor='light'>
+            <FiltersForm
+              onSubmit={(queryString) => {
+                alert(`Redirect to /list?${queryString}`)
+              }}
+            />
+          </Overlay>
+        </>
       </CoreSdkProvider>
     </TokenProvider>
   )
