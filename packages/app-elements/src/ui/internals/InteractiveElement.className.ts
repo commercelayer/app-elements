@@ -2,7 +2,14 @@ import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 import { Children } from 'react'
 
-type Variant = 'primary' | 'secondary' | 'danger' | 'link' | 'circle'
+// The `relationship` variant is temporary to cover the old dashed `ButtonCard` behavior until there will be an updated design proof solution
+type Variant =
+  | 'primary'
+  | 'secondary'
+  | 'danger'
+  | 'link'
+  | 'circle'
+  | 'relationship'
 type Size = 'mini' | 'small' | 'regular' | 'large'
 
 export interface InteractiveElementProps {
@@ -48,14 +55,14 @@ export function getInteractiveElementClassName({
     isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
 
   return cn([
-    'rounded whitespace-nowrap leading-5',
+    `rounded whitespace-nowrap leading-5 ${getFontSizeCss(size)}`,
     {
       'opacity-50 pointer-events-none touch-none': disabled,
       'w-full': fullWidth === true && variant !== 'link',
       'inline-flex gap-1': alignItems != null,
       'items-center justify-center': alignItems === 'center',
       'inline w-fit': variant === 'link',
-      [`inline-block text-center text-sm transition-opacity duration-500 ${getSizeCss(size)}`]:
+      [`inline-block text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== 'link',
       '!p-2.5': isIcon && variant !== 'circle',
       '!p-1': isIcon && variant === 'circle'
@@ -79,6 +86,23 @@ function getSizeCss(size: InteractiveElementProps['size']): string | undefined {
   return mapping[size]
 }
 
+function getFontSizeCss(
+  size: InteractiveElementProps['size']
+): string | undefined {
+  if (size == null) {
+    return undefined
+  }
+
+  const mapping = {
+    mini: 'text-sm',
+    small: 'text-sm',
+    regular: 'text-base',
+    large: 'text-base'
+  } satisfies Record<NonNullable<InteractiveElementProps['size']>, string>
+
+  return mapping[size]
+}
+
 function getVariantCss(
   variant: InteractiveElementProps['variant']
 ): string | undefined {
@@ -94,7 +118,8 @@ function getVariantCss(
     circle:
       'font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full',
     danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
-    link: 'text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer'
+    link: 'text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer',
+    relationship: 'font-bold text-primary border border-gray-300 border-dashed'
   } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
 
   return mapping[variant]
