@@ -30,7 +30,6 @@ export function isFunctionComponent(
  * // will return an array of true/false values depending if some child is a button
  * ```
  */
-
 export function isSpecificReactComponent(
   reactNode: ReactNode,
   displayNames: RegExp[]
@@ -47,6 +46,35 @@ export function isSpecificReactComponent(
         reactNode.type.displayName != null &&
         rx.test(reactNode.type.displayName)
     ) != null
+  )
+}
+
+/**
+ * Checks if a ReactNode matches a specific JSX tag.
+ * @param reactNode - a ReactNode single child
+ * @param tagNames - a list of names of the jsx tags we would like to match
+ * @returns a boolean value indicating argument match the passed displayNames
+ *
+ * @example
+ * ```jsx
+ * React.Children.map(children, (child) =>
+ *   isSpecificJsxTag(child, ['button', 'input'])
+ * )
+ * // will return an array of true/false values depending if some child is a button
+ * ```
+ */
+export function isSpecificJsxTag(
+  reactNode: ReactNode,
+  tagNames: string[]
+): reactNode is JSX.Element {
+  if (reactNode == null) {
+    return false
+  }
+
+  return (
+    isValidElement(reactNode) &&
+    typeof reactNode.type === 'string' &&
+    tagNames.includes(reactNode.type)
   )
 }
 

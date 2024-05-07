@@ -1,3 +1,4 @@
+import { isSpecificJsxTag } from '#utils/children'
 import {
   filterByDisplayName,
   getInnerText,
@@ -35,6 +36,16 @@ describe('isSpecificReactComponent', () => {
     expect(
       isSpecificReactComponent('string is a valid ReactNode', [/^Button$/])
     ).toBe(false)
+  })
+})
+
+describe('isSpecificJsxTag', () => {
+  it('should return `true` for matched named component as jsx element', () => {
+    expect(isSpecificJsxTag(<button>foo</button>, ['button'])).toBe(true)
+  })
+
+  it('should return `false` for not matched named component', () => {
+    expect(isSpecificJsxTag(<div>foo</div>, ['button'])).toBe(false)
   })
 })
 

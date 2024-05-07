@@ -2,7 +2,7 @@ import { useClickAway } from '#hooks/useClickAway'
 import { useOnBlurFromContainer } from '#hooks/useOnBlurFromContainer'
 import { Button } from '#ui/atoms/Button'
 import { type DropdownMenuProps } from '#ui/composite/Dropdown/DropdownMenu'
-import { isSpecificReactComponent } from '#utils/children'
+import { isSpecificJsxTag, isSpecificReactComponent } from '#utils/children'
 import { CaretDown, DotsThreeCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Children, cloneElement, useMemo, useState } from 'react'
@@ -57,7 +57,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
   }
 
   const dropdownButton = useMemo(() => {
-    if (isSpecificReactComponent(dropdownLabel, [/^Button$/])) {
+    if (
+      isSpecificReactComponent(dropdownLabel, [/^Button$/]) ||
+      isSpecificJsxTag(dropdownLabel, ['button'])
+    ) {
       return cloneElement(dropdownLabel, {
         'aria-haspopup': true,
         'aria-expanded': isExpanded,

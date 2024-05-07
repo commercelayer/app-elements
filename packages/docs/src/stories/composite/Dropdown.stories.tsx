@@ -54,6 +54,21 @@ Default.args = {
 }
 
 /**
+ * It is possible to pass a custom `<button>` element as the dropdown label.
+ * In this case the Dropdown component will use the provided button instead of creating a new one.
+ **/
+export const CustomButton = Template.bind({})
+CustomButton.args = {
+  dropdownLabel: <button>click me</button>,
+  dropdownItems: (
+    <>
+      <DropdownItem label='Edit' />
+      <DropdownItem label='Delete' />
+    </>
+  )
+}
+
+/**
  * While by default, the dropdown menu will try to fit its content using a min/max width range,
  * it can be also set to use a fixed `wider` width.
  **/
