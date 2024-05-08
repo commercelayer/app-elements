@@ -35,6 +35,7 @@ export const iconMapping = {
   currencyEur: phosphor.CurrencyEur,
   dotsThree: phosphor.DotsThree,
   download: phosphor.Download,
+  envelopeSimple: phosphor.EnvelopeSimple,
   eye: phosphor.Eye,
   eyeSlash: phosphor.EyeSlash,
   flag: phosphor.Flag,
