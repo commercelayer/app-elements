@@ -50,10 +50,6 @@ const items = [
 ] satisfies ToolbarProps['items']
 
 describe('Toolbar', () => {
-  beforeEach(() => {
-    vi.useRealTimers()
-  })
-
   it('Should not be rendered', () => {
     const { queryByTestId } = render(<Toolbar items={[]} />)
     expect(queryByTestId('toolbar')).not.toBeInTheDocument()
