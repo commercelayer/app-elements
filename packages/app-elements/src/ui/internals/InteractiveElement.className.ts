@@ -55,7 +55,7 @@ export function getInteractiveElementClassName({
     isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
 
   return cn([
-    `rounded whitespace-nowrap leading-5 ${getFontSizeCss(size)}`,
+    `rounded whitespace-nowrap leading-5`,
     {
       'opacity-50 pointer-events-none touch-none': disabled,
       'w-full': fullWidth === true && variant !== 'link',
@@ -65,7 +65,8 @@ export function getInteractiveElementClassName({
       [`inline-block text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== 'link',
       '!p-2.5': isIcon && variant !== 'circle',
-      '!p-1': isIcon && variant === 'circle'
+      '!p-1': isIcon && variant === 'circle',
+      [`${getFontSizeCss(size)}`]: variant !== 'link'
     },
     getVariantCss(variant)
   ])
