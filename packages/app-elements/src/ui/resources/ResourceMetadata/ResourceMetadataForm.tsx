@@ -163,7 +163,9 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       <Button type='submit' disabled={isSubmitting} className='w-full'>
         Update
       </Button>
-      <HookedValidationApiError apiError={apiError} />
+      <Spacer top='2'>
+        <HookedValidationApiError apiError={apiError} />
+      </Spacer>
     </HookedForm>
   )
 })

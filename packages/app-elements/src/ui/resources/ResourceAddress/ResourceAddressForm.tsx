@@ -56,7 +56,9 @@ export const ResourceAddressForm =
             <Button type='submit' disabled={isSubmitting} className='w-full'>
               Update address
             </Button>
-            <HookedValidationApiError apiError={apiError} />
+            <Spacer top='2'>
+              <HookedValidationApiError apiError={apiError} />
+            </Spacer>
           </Spacer>
         </HookedForm>
       )
