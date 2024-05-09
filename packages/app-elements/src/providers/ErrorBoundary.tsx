@@ -1,7 +1,7 @@
-import { Component, type ErrorInfo, type ReactNode } from 'react'
 import { Button } from '#ui/atoms/Button'
 import { Container } from '#ui/atoms/Container'
 import { EmptyState } from '#ui/atoms/EmptyState'
+import { Component, type ErrorInfo, type ReactNode } from 'react'
 
 interface Props {
   children?: ReactNode
@@ -12,6 +12,7 @@ interface Props {
 }
 
 interface State {
+  error?: Error
   hasError: boolean
 }
 
@@ -29,32 +30,47 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
-    console.error('Uncaught error:', error, errorInfo)
+    console.error('Uncaught error:', error?.name, error, errorInfo)
   }
 
   public render(): ReactNode {
-    const inner = (
-      <EmptyState
-        title={this.props.errorTitle ?? 'Something went wrong'}
-        description={
-          this.props.errorDescription ??
-          'Try to reload the page and start again'
-        }
-        action={
-          <Button
-            onClick={() => {
-              if (this.props.onRetry != null) {
-                this.props.onRetry()
-              } else {
+    const inner =
+      this.state.error?.name === 'ChunkLoadError' ? (
+        <EmptyState
+          title='Update required'
+          description='This app has been updated, please refresh the page to access the new content.'
+          action={
+            <Button
+              onClick={() => {
                 window.location.reload()
-              }
-            }}
-          >
-            Retry
-          </Button>
-        }
-      />
-    )
+              }}
+            >
+              Reload
+            </Button>
+          }
+        />
+      ) : (
+        <EmptyState
+          title={this.props.errorTitle ?? 'Something went wrong'}
+          description={
+            this.props.errorDescription ??
+            'Try to reload the page and start again'
+          }
+          action={
+            <Button
+              onClick={() => {
+                if (this.props.onRetry != null) {
+                  this.props.onRetry()
+                } else {
+                  window.location.reload()
+                }
+              }}
+            >
+              Retry
+            </Button>
+          }
+        />
+      )
 
     if (this.state.hasError) {
       return this.props.hasContainer === true ? (
