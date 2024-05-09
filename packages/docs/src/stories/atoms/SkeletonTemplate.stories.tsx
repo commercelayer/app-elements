@@ -1,7 +1,9 @@
+import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
 import { Button } from '#ui/atoms/Button'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { Hr } from '#ui/atoms/Hr'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
   SkeletonTemplate,
@@ -54,6 +56,9 @@ const children = (
     <ForwardRefComponent>
       <a>Simil Wouter</a>
     </ForwardRefComponent>
+    <Spacer top='4' bottom='4'>
+      <Hr />
+    </Spacer>
     <WithSkeletonComponentB>C</WithSkeletonComponentB>
     <ListItem
       onClick={() => {
@@ -71,21 +76,28 @@ const children = (
       <StatusIcon name='check' background='green' gap='large' />
       <RadialProgress percentage={42} />
     </ListItem>
-    <ListItem>
-      <div>
-        <Text tag='div'>Ehi there!</Text>
-        <Badge variant='primary'>APPROVED</Badge>
-      </div>
-      <Button
-        onClick={() => {
-          alert('Hello world!')
-        }}
-      >
-        OK
-      </Button>
-    </ListItem>
+    <Spacer top='8'>
+      <ListItem variant='boxed'>
+        <div>
+          <Text tag='div'>Ehi there!</Text>
+          <Badge variant='primary'>APPROVED</Badge>
+        </div>
+        <Button
+          onClick={() => {
+            alert('Hello world!')
+          }}
+        >
+          OK
+        </Button>
+        <A variant='secondary' href='https://commercelayer.io'>
+          OK
+        </A>
+      </ListItem>
+    </Spacer>
     <Spacer top='8'>
       <a href='https://example.com'>It's a link</a>
+      <br />
+      <A href='https://example.com'>It's an A component</A>
       <br />
       <div
         onClick={() => {
@@ -126,7 +138,7 @@ const Template: StoryFn<typeof SkeletonTemplate> = ({ children, ...args }) => (
       </SkeletonTemplate>
     </div>
     <Spacer bottom='8'>
-      <hr />
+      <Hr />
     </Spacer>
     <div className='flex gap-2'>
       <div>{children}</div>
