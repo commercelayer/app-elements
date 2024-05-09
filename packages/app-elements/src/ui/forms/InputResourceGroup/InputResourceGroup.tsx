@@ -61,9 +61,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   showCheckboxIcon = true,
   title
 }) => {
-  const { Overlay, close, open } = useOverlay({
-    queryParam: `${resource}ViewAll`
-  })
+  const { Overlay, close, open } = useOverlay()
 
   const { values, toggleValue, setValues } =
     useToggleCheckboxValues(defaultValues)
