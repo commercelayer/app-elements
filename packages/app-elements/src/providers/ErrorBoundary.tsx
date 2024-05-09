@@ -16,6 +16,11 @@ interface State {
   hasError: boolean
 }
 
+/**
+ * ErrorBoundary component that catches errors in its children and displays a fallback UI.
+ * In case of error name is ChunkLoadError it will display a different message.
+ * When the `onRetry` callback is provided, the retry button will call it, so it can be used to reset internal state
+ */
 export class ErrorBoundary extends Component<Props, State> {
   static displayName = 'ErrorBoundary'
 
@@ -24,9 +29,9 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public static getDerivedStateFromError(_error: Error): State {
+  public static getDerivedStateFromError(error: Error): State {
     // Update state so the next render will show the fallback UI.
-    return { hasError: true }
+    return { hasError: true, error }
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
@@ -39,6 +44,7 @@ export class ErrorBoundary extends Component<Props, State> {
         <EmptyState
           title='Update required'
           description='This app has been updated, please refresh the page to access the new content.'
+          icon='cloudArrowUp'
           action={
             <Button
               onClick={() => {
