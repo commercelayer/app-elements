@@ -174,6 +174,7 @@ const SkeletonTemplate: SkeletonTemplateComponent<
               /^AvatarLetter$/,
               /^Badge$/,
               /^Button$/,
+              /^A$/,
               /^Icon$/,
               /^StatusIcon$/,
               /^RadialProgress$/,
@@ -184,6 +185,13 @@ const SkeletonTemplate: SkeletonTemplateComponent<
             return cloneElement(child, {
               ...props,
               className: cn(props.className as string, skeletonClass)
+            })
+          }
+
+          if (isSpecificReactComponent(child, [/^ListItem$/, /^Hr$/])) {
+            return cloneElement(child, {
+              ...props,
+              className: cn(props.className as string, '!border-gray-50')
             })
           }
 
