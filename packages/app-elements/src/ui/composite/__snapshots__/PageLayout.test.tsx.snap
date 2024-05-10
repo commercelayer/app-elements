@@ -12,7 +12,7 @@ exports[`PageLayout > Should be rendered 1`] = `
       class="w-full pt-10 pb-14"
     >
       <h1
-        class="font-semibold text-title leading-title"
+        class="font-semibold text-2xl md:text-title leading-title break-words"
       >
         Page title
       </h1>

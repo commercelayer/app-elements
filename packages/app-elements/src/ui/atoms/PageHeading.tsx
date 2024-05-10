@@ -94,7 +94,9 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
             </Badge>
           </div>
         )}
-        <h1 className='font-semibold text-title leading-title'>{title}</h1>
+        <h1 className='font-semibold text-2xl md:text-title leading-title break-words'>
+          {title}
+        </h1>
         {description !== null && (
           <div className='text-gray-500 leading-6 mt-2'>{description}</div>
         )}

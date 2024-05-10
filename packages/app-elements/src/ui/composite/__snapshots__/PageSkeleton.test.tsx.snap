@@ -52,7 +52,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                 </button>
               </div>
               <h1
-                class="font-semibold text-title leading-title"
+                class="font-semibold text-2xl md:text-title leading-title break-words"
               >
                 <span
                   class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
