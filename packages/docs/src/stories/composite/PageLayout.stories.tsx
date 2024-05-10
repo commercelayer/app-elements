@@ -37,5 +37,37 @@ WithActionButton.args = {
     icon: 'x'
   },
   mode: 'live',
-  actionButton: <Button variant='link'>Add new</Button>
+  actionButton: (
+    <Button variant='primary' size='small'>
+      Add new
+    </Button>
+  )
 }
+
+export const MobileWidthWithLongTitle = Template.bind({})
+MobileWidthWithLongTitle.args = {
+  title: 'welcome@commercelayer.io',
+  description: 'This long title should break thanks to `break-words` className',
+  navigationButton: {
+    label: 'Close',
+    onClick: () => undefined,
+    icon: 'x'
+  },
+  mode: 'live',
+  actionButton: (
+    <Button variant='primary' size='small'>
+      Add new
+    </Button>
+  )
+}
+MobileWidthWithLongTitle.decorators = [
+  (Story) => (
+    <div
+      style={{
+        maxWidth: '320px'
+      }}
+    >
+      <Story />
+    </div>
+  )
+]
