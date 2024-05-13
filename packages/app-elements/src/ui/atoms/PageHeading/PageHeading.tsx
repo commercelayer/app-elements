@@ -1,9 +1,13 @@
 import cn from 'classnames'
 import { type ReactNode } from 'react'
-import { Badge, type BadgeProps } from './Badge'
-import { Icon } from './Icon'
-import { withSkeletonTemplate } from './SkeletonTemplate'
-import { Text } from './Text'
+import { Badge, type BadgeProps } from '../Badge'
+import { Icon } from '../Icon'
+import { withSkeletonTemplate } from '../SkeletonTemplate'
+import { Text } from '../Text'
+import {
+  PageHeadingToolbar,
+  type PageHeadingToolbarProps
+} from './PageHeadingToolbar'
 
 export interface PageHeadingProps {
   /**
@@ -41,9 +45,9 @@ export interface PageHeadingProps {
     icon?: 'x' | 'arrowLeft'
   }
   /**
-   * When set, it will render a button on the right side of the first row
+   * When set, it will render a proper toolbar on the right side of the first row
    */
-  actionButton?: React.ReactNode
+  toolbar?: PageHeadingToolbarProps
 }
 
 const PageHeading = withSkeletonTemplate<PageHeadingProps>(
@@ -53,7 +57,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
     navigationButton,
     title,
     description,
-    actionButton,
+    toolbar,
     isLoading,
     delayMs,
     ...rest
@@ -70,7 +74,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
         ])}
         {...rest}
       >
-        {(navigationButton != null || actionButton != null) && (
+        {(navigationButton != null || toolbar != null) && (
           <div className={cn('mb-4 flex items-center justify-between')}>
             {navigationButton != null ? (
               <button
@@ -84,7 +88,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
                 <Text weight='semibold'>{navigationButton.label}</Text>
               </button>
             ) : null}
-            {actionButton != null ? <div>{actionButton}</div> : null}
+            {toolbar != null ? <PageHeadingToolbar {...toolbar} /> : null}
           </div>
         )}
         {badge != null && (

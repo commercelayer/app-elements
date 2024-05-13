@@ -2,7 +2,7 @@ import { navigateTo } from '#helpers/appsNavigation'
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
-import { Button } from '#ui/atoms/Button'
+import { Button, type ButtonProps } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Tag as TagUi } from '#ui/atoms/Tag'
 import { Text } from '#ui/atoms/Text'
@@ -190,12 +190,20 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
                 close()
               }
             }}
-            actionButton={
-              overlay.showManageAction != null &&
-              overlay.showManageAction && (
-                <a {...navigateToTagsManagement}>Manage tags</a>
-              )
-            }
+            toolbar={{
+              buttons:
+                overlay.showManageAction != null && overlay.showManageAction
+                  ? [
+                      {
+                        label: 'Manage tags',
+                        variant: 'primary',
+                        size: 'small',
+                        onClick:
+                          navigateToTagsManagement?.onClick as ButtonProps['onClick']
+                      }
+                    ]
+                  : []
+            }}
           >
             <InputSelect
               label='Tags'
