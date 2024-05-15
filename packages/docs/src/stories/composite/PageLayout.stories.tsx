@@ -41,13 +41,19 @@ WithToolbar.args = {
       {
         label: 'Add new',
         icon: 'plus',
-        size: 'small'
+        size: 'small',
+        onClick: () => {
+          alert('Add new clicked!')
+        }
       },
       {
         label: 'Secondary',
         icon: 'pulse',
         variant: 'secondary',
-        size: 'small'
+        size: 'small',
+        onClick: () => {
+          alert('Secondary clicked!')
+        }
       }
     ],
     dropdownItems: [
@@ -55,13 +61,13 @@ WithToolbar.args = {
         {
           label: 'Edit',
           onClick: () => {
-            console.log('Edit')
+            alert('Edit clicked!')
           }
         },
         {
           label: 'Set metadata',
           onClick: () => {
-            console.log('Set metadata')
+            alert('Set metadata clicked!')
           }
         }
       ],
@@ -69,7 +75,7 @@ WithToolbar.args = {
         {
           label: 'Delete',
           onClick: () => {
-            console.log('Delete')
+            alert('Delete clicked!')
           }
         }
       ]

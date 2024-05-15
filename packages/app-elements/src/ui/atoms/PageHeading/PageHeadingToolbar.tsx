@@ -1,9 +1,9 @@
-import { withSkeletonTemplate } from '../SkeletonTemplate'
 import {
   Toolbar,
-  type ToolbarProps,
-  type ToolbarItem
+  type ToolbarItem,
+  type ToolbarProps
 } from '#ui/composite/Toolbar'
+import { withSkeletonTemplate } from '../SkeletonTemplate'
 
 import { type DropdownItemProps } from '#ui/composite/Dropdown/DropdownItem'
 
@@ -25,50 +25,34 @@ export interface PageHeadingToolbarProps {
  * It will use the `Toolbar` component UI to render properly the given items providing automated responsive behaviors to reorganize them.
  */
 export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
-  ({ buttons, dropdownItems }) => {
-    const toolbarItems: ToolbarProps['items'] = []
-    const dropdownItemsToAdd: DropdownItemProps[] = []
-
-    buttons?.forEach((button) => {
-      // Desktop only button is pushed to the first level of the toolbar
-      toolbarItems.push({
+  ({ buttons = [], dropdownItems = [] }) => {
+    const dropdownMobileButtons: DropdownItemProps[] = buttons.map(
+      (button) => ({
         ...button,
-        className: 'hidden md:flex'
-      })
-
-      // Mobile only dropdown item is pushed to a list that will be merged at the beginning of first dropdown items group of the toolbar
-      const dropdownItemWithCss = {
-        ...button,
+        label: button.label ?? '',
         className: 'flex md:hidden'
-      }
-      dropdownItemsToAdd.push(dropdownItemWithCss as DropdownItemProps)
-    })
-
-    const toolbarDropDown: ToolbarItem = {
-      icon: 'dotsThree',
-      size: 'small',
-      variant: 'secondary'
-    }
-    const toolbarDropDownItems: DropdownItemProps[][] = []
-    if (dropdownItems != null && dropdownItems.length > 0) {
-      // If `dropdownItems` are set we need to insert `dropdownItemsToAdd` items at the beginning of the first group
-      dropdownItems.forEach((group, index) => {
-        if (index === 0 && dropdownItemsToAdd.length > 0) {
-          toolbarDropDownItems.push(dropdownItemsToAdd.concat(group))
-        } else {
-          toolbarDropDownItems.push(group)
-        }
       })
-    } else {
-      // If `dropdownItems` are not set we will have a mobile only dropdown showing `dropdownItemsToAdd` items
-      if (dropdownItemsToAdd.length > 0) {
-        toolbarDropDownItems.push(dropdownItemsToAdd)
-      }
-      toolbarDropDown.className = 'flex md:hidden'
-    }
-    toolbarDropDown.dropdownItems = toolbarDropDownItems
-    if (toolbarDropDownItems.length > 0) {
-      toolbarItems.push(toolbarDropDown)
+    )
+
+    const [firstDropdownItemsGroup = [], ...otherDropdownItems] = dropdownItems
+
+    const combinedDropdownItems = [
+      dropdownMobileButtons.concat(firstDropdownItemsGroup)
+    ].concat(otherDropdownItems)
+
+    const toolbarItems: ToolbarProps['items'] = buttons.map((button) => ({
+      ...button,
+      className: 'hidden md:flex'
+    }))
+
+    if (combinedDropdownItems.flat().length > 0) {
+      toolbarItems.push({
+        icon: 'dotsThree',
+        size: 'small',
+        variant: 'secondary',
+        className: dropdownItems.length > 0 ? '' : 'flex md:hidden',
+        dropdownItems: combinedDropdownItems
+      })
     }
 
     if (toolbarItems.length > 0) {
