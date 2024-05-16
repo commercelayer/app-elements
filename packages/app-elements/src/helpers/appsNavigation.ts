@@ -186,7 +186,10 @@ export function navigateTo(
 ): {
   href: string
   onClick: (
-    e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+    e: React.MouseEvent<
+      HTMLAnchorElement | HTMLDivElement | HTMLButtonElement,
+      MouseEvent
+    >
   ) => void
 } | null {
   const pathname = isInDashboard()
@@ -215,7 +218,10 @@ export function navigateTo(
       ? destinationFullUrl
       : `${destinationFullUrl}?mode=${params.destination.mode}`,
     onClick: (
-      e: React.MouseEvent<HTMLAnchorElement | HTMLDivElement, MouseEvent>
+      e: React.MouseEvent<
+        HTMLAnchorElement | HTMLDivElement | HTMLButtonElement,
+        MouseEvent
+      >
     ) => {
       if (e.ctrlKey || e.metaKey) {
         // allow to open link in a new tab with ctrl+click or cmd+click
