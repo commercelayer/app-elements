@@ -11,7 +11,7 @@ import { type ReactNode } from 'react'
 export interface PageLayoutProps
   extends Pick<
       PageHeadingProps,
-      'title' | 'description' | 'navigationButton' | 'actionButton' | 'gap'
+      'title' | 'description' | 'navigationButton' | 'toolbar' | 'gap'
     >,
     Pick<ContainerProps, 'minHeight'> {
   /**
@@ -39,7 +39,7 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     description,
     navigationButton,
     children,
-    actionButton,
+    toolbar,
     mode,
     gap,
     minHeight,
@@ -59,7 +59,7 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           title={title}
           description={description}
           navigationButton={navigationButton}
-          actionButton={actionButton}
+          toolbar={toolbar}
           badge={
             mode === 'test' && !isInDashboard
               ? {

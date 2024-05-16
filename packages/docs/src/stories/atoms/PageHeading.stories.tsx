@@ -1,4 +1,3 @@
-import { Button } from '#ui/atoms/Button'
 import { PageHeading } from '#ui/atoms/PageHeading'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -12,7 +11,18 @@ const setup: Meta<typeof PageHeading> = {
 export default setup
 
 const Template: StoryFn<typeof PageHeading> = (args) => (
-  <PageHeading {...args} actionButton={<Button variant='link'>Edit</Button>} />
+  <PageHeading
+    {...args}
+    toolbar={{
+      buttons: [
+        {
+          label: 'Edit',
+          variant: 'primary',
+          size: 'small'
+        }
+      ]
+    }}
+  />
 )
 
 export const Default = Template.bind({})

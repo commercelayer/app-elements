@@ -1,7 +1,10 @@
 import { act, fireEvent, render, waitFor } from '@testing-library/react'
-import { Toolbar, type ToolbarProps } from './Toolbar'
+import {
+  PageHeadingToolbar,
+  type PageHeadingToolbarProps
+} from './PageHeadingToolbar'
 
-const items = [
+const buttons = [
   {
     label: 'Primary',
     size: 'small',
@@ -17,47 +20,43 @@ const items = [
     onClick: () => {
       console.log('Secondary')
     }
-  },
-  {
-    icon: 'dotsThree',
-    size: 'small',
-    variant: 'secondary',
-    dropdownItems: [
-      [
-        {
-          label: 'Edit',
-          onClick: () => {
-            console.log('Edit')
-          }
-        },
-        {
-          label: 'Set metadata',
-          onClick: () => {
-            console.log('Set metadata')
-          }
-        }
-      ],
-      [
-        {
-          label: 'Delete',
-          onClick: () => {
-            console.log('Delete')
-          }
-        }
-      ]
-    ]
   }
-] satisfies ToolbarProps['items']
+] satisfies PageHeadingToolbarProps['buttons']
 
-describe('Toolbar', () => {
+const dropdownItems = [
+  [
+    {
+      label: 'Edit',
+      onClick: () => {
+        console.log('Edit')
+      }
+    },
+    {
+      label: 'Set metadata',
+      onClick: () => {
+        console.log('Set metadata')
+      }
+    }
+  ],
+  [
+    {
+      label: 'Delete',
+      onClick: () => {
+        console.log('Delete')
+      }
+    }
+  ]
+] satisfies PageHeadingToolbarProps['dropdownItems']
+
+describe('PageHeadingToolbar', () => {
   it('Should not be rendered', () => {
-    const { queryByTestId } = render(<Toolbar items={[]} />)
+    const { queryByTestId } = render(<PageHeadingToolbar />)
     expect(queryByTestId('toolbar')).not.toBeInTheDocument()
   })
 
   it('Should render items', async () => {
     const { queryAllByTestId, queryByTestId, getByText } = render(
-      <Toolbar items={items} />
+      <PageHeadingToolbar buttons={buttons} dropdownItems={dropdownItems} />
     )
 
     expect(queryAllByTestId('toolbar-button').length).toEqual(2)

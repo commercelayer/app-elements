@@ -35,11 +35,9 @@ export interface ToolbarProps {
  */
 export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
   const itemsHtml = items.map((item, idx) => {
-    const children = item.dropdownItems
-    const hasChildren = children != null && children.length > 0
     const handleClick = item.onClick
-    if (hasChildren) {
-      const dropdownItemsHtml = children.map((group, gidx) => {
+    if (item.dropdownItems != null) {
+      const dropdownItemsHtml = item.dropdownItems.map((group, gidx) => {
         const dropdownGroup: JSX.Element[] = []
         if (gidx > 0) {
           dropdownGroup.push(

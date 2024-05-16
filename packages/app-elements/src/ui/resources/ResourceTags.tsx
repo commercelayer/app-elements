@@ -190,12 +190,19 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
                 close()
               }
             }}
-            actionButton={
-              overlay.showManageAction != null &&
-              overlay.showManageAction && (
-                <a {...navigateToTagsManagement}>Manage tags</a>
-              )
-            }
+            toolbar={{
+              buttons:
+                overlay.showManageAction != null && overlay.showManageAction
+                  ? [
+                      {
+                        label: 'Manage tags',
+                        variant: 'primary',
+                        size: 'small',
+                        onClick: navigateToTagsManagement?.onClick
+                      }
+                    ]
+                  : []
+            }}
           >
             <InputSelect
               label='Tags'

@@ -1,4 +1,3 @@
-import { Button } from '#ui/atoms/Button'
 import { PageLayout } from '#ui/composite/PageLayout'
 
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -27,8 +26,8 @@ Default.args = {
   mode: 'test'
 }
 
-export const WithActionButton = Template.bind({})
-WithActionButton.args = {
+export const WithToolbar = Template.bind({})
+WithToolbar.args = {
   title: 'Resources',
   description: 'View all resources',
   navigationButton: {
@@ -37,11 +36,51 @@ WithActionButton.args = {
     icon: 'x'
   },
   mode: 'live',
-  actionButton: (
-    <Button variant='primary' size='small'>
-      Add new
-    </Button>
-  )
+  toolbar: {
+    buttons: [
+      {
+        label: 'Add new',
+        icon: 'plus',
+        size: 'small',
+        onClick: () => {
+          alert('Add new clicked!')
+        }
+      },
+      {
+        label: 'Secondary',
+        icon: 'pulse',
+        variant: 'secondary',
+        size: 'small',
+        onClick: () => {
+          alert('Secondary clicked!')
+        }
+      }
+    ],
+    dropdownItems: [
+      [
+        {
+          label: 'Edit',
+          onClick: () => {
+            alert('Edit clicked!')
+          }
+        },
+        {
+          label: 'Set metadata',
+          onClick: () => {
+            alert('Set metadata clicked!')
+          }
+        }
+      ],
+      [
+        {
+          label: 'Delete',
+          onClick: () => {
+            alert('Delete clicked!')
+          }
+        }
+      ]
+    ]
+  }
 }
 
 export const MobileWidthWithLongTitle = Template.bind({})
@@ -54,11 +93,14 @@ MobileWidthWithLongTitle.args = {
     icon: 'x'
   },
   mode: 'live',
-  actionButton: (
-    <Button variant='primary' size='small'>
-      Add new
-    </Button>
-  )
+  toolbar: {
+    buttons: [
+      {
+        label: 'Edit',
+        size: 'small'
+      }
+    ]
+  }
 }
 MobileWidthWithLongTitle.decorators = [
   (Story) => (
