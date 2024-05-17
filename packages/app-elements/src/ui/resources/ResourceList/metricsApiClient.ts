@@ -1,11 +1,11 @@
 import { useTokenProvider } from '#providers/TokenProvider'
 import { type Resource } from '#ui/resources/ResourceList/infiniteFetcher'
 import { type MetricsFilters } from '#ui/resources/useResourceFilters/adaptSdkToMetrics'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
 import {
+  type ListableResourceType,
   type ListMeta,
   type ListResponse
-} from '@commercelayer/sdk/lib/cjs/resource'
+} from '@commercelayer/sdk'
 import castArray from 'lodash/castArray'
 import { useMemo } from 'react'
 import { type Writable } from 'type-fest'

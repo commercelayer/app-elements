@@ -12,10 +12,11 @@ import {
   isMultiValueSelected,
   type InputSelectValue
 } from '#ui/forms/InputSelect'
-import { type Tag } from '@commercelayer/sdk'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import type { QueryParamsList } from '@commercelayer/sdk/lib/cjs/query'
-import { type ListResponse } from '@commercelayer/sdk/lib/cjs/resource'
+import type {
+  ListableResourceType,
+  ListResponse,
+  Tag
+} from '@commercelayer/sdk'
 import { Tag as TagIcon } from '@phosphor-icons/react'
 import isEmpty from 'lodash/isEmpty'
 import { useCallback, useState } from 'react'
@@ -223,7 +224,13 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
               loadAsyncValues={async (hint) => {
                 if (hint.length > 0) {
                   return await sdkClient.tags
-                    .list(makeTagQuery(hint))
+                    .list({
+                      fields: ['id', 'name'],
+                      filters: {
+                        ...(!isEmpty(hint) && { name_cont: hint })
+                      },
+                      pageSize: 25
+                    })
                     .then(tagsToSelectOptions)
                 }
                 return []
@@ -245,18 +252,5 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
     )
   }
 )
-
-/**
- * Generate a valid SDK query object to retrieve the available tags with hint to filter by name
- */
-function makeTagQuery(hint: string): QueryParamsList {
-  return {
-    fields: ['id', 'name'],
-    filters: {
-      ...(!isEmpty(hint) && { name_cont: hint })
-    },
-    pageSize: 25
-  }
-}
 
 ResourceTags.displayName = 'ResourceTags'

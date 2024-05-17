@@ -1,5 +1,5 @@
 import { formatResourceName } from '#helpers/resources'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type ListableResourceType } from '@commercelayer/sdk'
 import { useEffect } from 'react'
 import { useTokenProvider } from './index'
 

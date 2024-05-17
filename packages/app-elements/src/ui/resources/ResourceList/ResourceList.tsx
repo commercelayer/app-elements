@@ -8,8 +8,11 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import { type FetcherResponse } from '#ui/resources/ResourceList/infiniteFetcher'
 import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClient'
-import { CommerceLayerStatic, type QueryParamsList } from '@commercelayer/sdk'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import {
+  CommerceLayerStatic,
+  type ListableResourceType,
+  type QueryParamsList
+} from '@commercelayer/sdk'
 import { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'

@@ -1,4 +1,4 @@
-import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
+import { type QueryFilter } from '@commercelayer/sdk'
 import { type AdaptFormValuesToSdkParams } from './adaptFormValuesToSdk'
 import { type AdaptFormValuesToUrlQueryParams } from './adaptFormValuesToUrlQuery'
 import {

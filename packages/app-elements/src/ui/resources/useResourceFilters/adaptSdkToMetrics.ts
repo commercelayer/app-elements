@@ -3,8 +3,7 @@ import {
   removeMillisecondsFromIsoDate
 } from '#helpers/date'
 import { type FiltersInstructions } from '#ui/resources/useResourceFilters/types'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
+import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import pluralize from 'pluralize'
 
 export type CoreResourceEnabledInMetrics = 'orders' | 'returns'

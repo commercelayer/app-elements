@@ -1,4 +1,4 @@
-import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
+import { type QueryFilter } from '@commercelayer/sdk'
 import castArray from 'lodash/castArray'
 import isBoolean from 'lodash/isBoolean'
 import isEmpty from 'lodash/isEmpty'

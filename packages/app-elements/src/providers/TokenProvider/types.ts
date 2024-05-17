@@ -1,4 +1,4 @@
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type ListableResourceType } from '@commercelayer/sdk'
 
 export type TokenProviderAllowedApp =
   | 'bundles'

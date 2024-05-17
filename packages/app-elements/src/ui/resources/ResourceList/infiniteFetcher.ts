@@ -3,8 +3,11 @@ import {
   type MetricsApiClient,
   type MetricsResources
 } from '#ui/resources/ResourceList/metricsApiClient'
-import type { CommerceLayerClient, QueryParamsList } from '@commercelayer/sdk'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import type {
+  CommerceLayerClient,
+  ListableResourceType,
+  QueryParamsList
+} from '@commercelayer/sdk'
 import uniqBy from 'lodash/uniqBy'
 
 type ListResource<TResource extends ListableResourceType> = Awaited<
@@ -62,7 +65,8 @@ export async function infiniteFetcher<TResource extends ListableResourceType>({
             cursor: currentData?.meta.cursor ?? null
           }
         })
-      : await client[resourceType].list({
+      : // @ts-expect-error "Expression produces a union type that is too complex to represent"
+        await client[resourceType].list({
           ...query,
           pageNumber: pageToFetch
         })

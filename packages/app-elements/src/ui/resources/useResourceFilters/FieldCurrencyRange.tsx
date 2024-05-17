@@ -3,8 +3,11 @@ import {
   InputCurrencyRange,
   type InputCurrencyRangeProps
 } from '#ui/forms/InputCurrencyRange'
-import { type CommerceLayerClient, type PriceList } from '@commercelayer/sdk'
-import { type ListResponse } from '@commercelayer/sdk/lib/cjs/resource'
+import {
+  type CommerceLayerClient,
+  type ListResponse,
+  type PriceList
+} from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import uniq from 'lodash/uniq'
 import { useEffect, useState } from 'react'
@@ -102,6 +105,7 @@ async function fetchAllCurrencies({
     const priceLists = await fetchPriceLists({
       pageNumber: allCurrencies.meta.currentPage + 1
     })
+
     allCurrencies.currencies = [
       ...allCurrencies.currencies,
       ...priceLists.map((item) => item.currency_code)

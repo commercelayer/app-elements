@@ -1,5 +1,7 @@
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import { type ResourceUpdate } from '@commercelayer/sdk/lib/cjs/resource'
+import {
+  type ListableResourceType,
+  type ResourceUpdate
+} from '@commercelayer/sdk'
 
 const singularLowercase: Record<ListableResourceType, string> = {
   addresses: 'address',

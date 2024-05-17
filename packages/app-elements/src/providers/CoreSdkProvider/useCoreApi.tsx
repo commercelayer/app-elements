@@ -1,6 +1,5 @@
 import { useTokenProvider } from '#providers/TokenProvider'
-import type { CommerceLayerClient } from '@commercelayer/sdk'
-import { type ResourceTypeLock } from '@commercelayer/sdk/lib/cjs/api'
+import type { CommerceLayerClient, ResourceTypeLock } from '@commercelayer/sdk'
 import { useCallback } from 'react'
 import useSWR, {
   type Fetcher,
