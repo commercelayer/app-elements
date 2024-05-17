@@ -6,8 +6,7 @@ import {
   type ResourceListProps
 } from '#ui/resources/ResourceList'
 import { type ResourceListItemTemplate } from '#ui/resources/ResourceList/ResourceList'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
+import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   FiltersForm as FiltersFormComponent,

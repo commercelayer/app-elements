@@ -9,9 +9,11 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckboxGroupItem } from '#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem'
 import { InputWrapper } from '#ui/internals/InputWrapper'
-import { type QueryParamsList } from '@commercelayer/sdk'
-import type { ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
-import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
+import {
+  type ListableResourceType,
+  type QueryFilter,
+  type QueryParamsList
+} from '@commercelayer/sdk'
 import uniqBy from 'lodash/uniqBy'
 import { useEffect, useState } from 'react'
 import { FullList, type FullListProps, type SortBy } from './FullList'
@@ -208,8 +210,10 @@ function useList({
   isLoading: boolean
 } {
   const queryParam: QueryParamsList = {
-    fields: [fieldForValue, fieldForLabel],
-    pageSize: limit,
+    fields: {
+      [resource]: [fieldForValue, fieldForLabel]
+    },
+    pageSize: limit as QueryParamsList['pageSize'],
     sort: {
       [sortBy.attribute]: sortBy.direction
     },

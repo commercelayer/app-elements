@@ -1,5 +1,5 @@
 import { type FiltersInstructions } from '#ui/resources/useResourceFilters/types'
-import { type QueryFilter } from '@commercelayer/sdk/lib/cjs/query'
+import { type QueryFilter } from '@commercelayer/sdk'
 import queryString from 'query-string'
 import { adaptUrlQueryToUrlQuery } from './adaptUrlQueryToUrlQuery'
 

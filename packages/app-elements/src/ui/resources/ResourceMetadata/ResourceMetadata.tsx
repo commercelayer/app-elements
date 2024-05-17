@@ -7,7 +7,7 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type ListableResourceType } from '@commercelayer/sdk'
 
 export interface ResourceMetadataOverlay {
   /**

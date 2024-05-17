@@ -3,7 +3,7 @@ import {
   type TokenProviderAllowedApp,
   type TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type ListableResourceType } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import {

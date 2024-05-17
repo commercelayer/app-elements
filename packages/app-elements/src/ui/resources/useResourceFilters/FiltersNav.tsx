@@ -7,7 +7,7 @@ import {
   formatCentsToCurrency,
   type InputCurrencyProps
 } from '#ui/forms/InputCurrency'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import { type ListableResourceType } from '@commercelayer/sdk'
 import castArray from 'lodash/castArray'
 import isDate from 'lodash/isDate'
 import isEmpty from 'lodash/isEmpty'
@@ -387,7 +387,7 @@ function ButtonFilterFetchResource({
   const { data, isLoading } = useCoreApi(resource, 'retrieve', [
     id,
     {
-      fields: [fieldForLabel]
+      fields: { [resource]: [fieldForLabel] }
     }
   ])
 

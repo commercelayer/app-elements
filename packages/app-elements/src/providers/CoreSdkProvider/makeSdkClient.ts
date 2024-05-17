@@ -12,9 +12,7 @@ interface ApiReasonError {
 }
 
 function isSdk401Error(error: ErrorObj): boolean {
-  const errors = (error.response?.data as any)?.errors as
-    | ApiReasonError[]
-    | undefined
+  const errors = error.errors as ApiReasonError[] | undefined
   return !isEmpty(errors) && Array.isArray(errors) && errors.length > 0
     ? errors.some((err) => err.code === 'INVALID_TOKEN')
     : false

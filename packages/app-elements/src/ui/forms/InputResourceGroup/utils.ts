@@ -1,5 +1,7 @@
-import { type CommerceLayerClient } from '@commercelayer/sdk'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import {
+  type CommerceLayerClient,
+  type ListableResourceType
+} from '@commercelayer/sdk'
 import { useState } from 'react'
 
 export function useToggleCheckboxValues(defaultValues: string[]): {

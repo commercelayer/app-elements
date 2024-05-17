@@ -2,8 +2,10 @@ import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider
 import { isProductionHostname } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { PageSkeleton } from '#ui/composite/PageSkeleton'
-import { type Organization } from '@commercelayer/sdk'
-import { type ListableResourceType } from '@commercelayer/sdk/lib/cjs/api'
+import {
+  type ListableResourceType,
+  type Organization
+} from '@commercelayer/sdk'
 import {
   createContext,
   useCallback,
