@@ -54,7 +54,6 @@ export {
   useCoreApi,
   useCoreSdkProvider
 } from '#providers/CoreSdkProvider'
-export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
 export { GTMProvider, useTagManager } from '#providers/GTMProvider'
 export {
@@ -67,6 +66,7 @@ export {
   type TokenProviderRolePermissions,
   type TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider'
+export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 
 // Atoms
 export { A, type AProps } from '#ui/atoms/A'
@@ -229,6 +229,7 @@ export { InputReadonly, type InputReadonlyProps } from '#ui/forms/InputReadonly'
 export {
   HookedInputResourceGroup,
   InputResourceGroup,
+  useInputResourceGroupOverlay,
   type HookedInputResourceGroupProps,
   type InputResourceGroupProps
 } from '#ui/forms/InputResourceGroup'

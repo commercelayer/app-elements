@@ -1,15 +1,15 @@
+import { useOverlay } from '#hooks/useOverlay'
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
-import { Card } from '#ui/atoms/Card'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { SearchBar } from '#ui/composite/SearchBar'
-import { InputCheckboxGroupItem } from '#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem'
-import { InputWrapper } from '#ui/internals/InputWrapper'
+import { type OverlayProps } from '#ui/internals/Overlay'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+import { InputCheckboxGroupItem } from '../InputCheckboxGroup/InputCheckboxGroupItem'
 import {
   computeLabelWithSelected,
   prepareCheckboxItemOrMock,
@@ -68,10 +68,6 @@ export interface FullListProps {
    */
   title: string
   /**
-   * Total count of pre-fetched items.
-   */
-  totalCount?: number
-  /**
    * Show icon in checkbox selectors
    */
   showCheckboxIcon?: boolean
@@ -86,7 +82,6 @@ export function FullList({
   searchBy,
   sortBy,
   title,
-  totalCount,
   showCheckboxIcon = true
 }: FullListProps): JSX.Element {
   const { values, toggleValue } = useToggleCheckboxValues(defaultValues)
@@ -127,54 +122,79 @@ export function FullList({
         </Spacer>
       )}
 
-      <SkeletonTemplate isLoading={totalCount == null || totalCount === 0}>
-        <InputWrapper
-          fieldset
-          label={computeLabelWithSelected({
-            label: title,
-            selectedCount,
-            totalCount
-          })}
-        >
-          <Card gap='1' overflow='hidden'>
-            <ResourceList
-              type={resource}
-              emptyState={<div>No items found</div>}
-              query={{
-                pageSize: 25,
-                filters,
-                sort: {
-                  [sortBy.attribute]: sortBy.direction
+      <SkeletonTemplate>
+        <ResourceList
+          type={resource}
+          title={(totalCount) => (
+            <Text weight='semibold'>
+              {computeLabelWithSelected({
+                label: title,
+                selectedCount,
+                totalCount
+              })}
+            </Text>
+          )}
+          variant='boxed'
+          emptyState={<div>No items found</div>}
+          query={{
+            pageSize: 25,
+            filters,
+            sort: {
+              [sortBy.attribute]: sortBy.direction
+            }
+          }}
+          ItemTemplate={({ isLoading, resource }) => {
+            const item = prepareCheckboxItemOrMock({
+              resource,
+              isLoading,
+              fieldForLabel,
+              fieldForValue
+            })
+            return (
+              <InputCheckboxGroupItem
+                isLoading={isLoading}
+                checked={values.includes(item.value)}
+                onChange={() => {
+                  toggleValue(item.value)
+                }}
+                icon={
+                  showCheckboxIcon ? (
+                    <AvatarLetter text={item.label} />
+                  ) : undefined
                 }
-              }}
-              ItemTemplate={({ isLoading, resource }) => {
-                const item = prepareCheckboxItemOrMock({
-                  resource,
-                  isLoading,
-                  fieldForLabel,
-                  fieldForValue
-                })
-                return (
-                  <InputCheckboxGroupItem
-                    isLoading={isLoading}
-                    checked={values.includes(item.value)}
-                    onChange={() => {
-                      toggleValue(item.value)
-                    }}
-                    icon={
-                      showCheckboxIcon ? (
-                        <AvatarLetter text={item.label} />
-                      ) : undefined
-                    }
-                    content={<Text weight='semibold'>{item.label}</Text>}
-                    value={item.value}
-                  />
-                )
-              }}
-            />
-          </Card>
-        </InputWrapper>
+                content={<Text weight='semibold'>{item.label}</Text>}
+                value={item.value}
+              />
+            )
+          }}
+        />
       </SkeletonTemplate>
     </div>
   )
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const useInputResourceGroupOverlay = () => {
+  const { Overlay, close, open } = useOverlay()
+
+  const InputResourceGroupOverlay = useCallback(
+    ({
+      footer,
+      backgroundColor,
+      ...props
+    }: FullListProps & Omit<OverlayProps, 'children'>) => (
+      <Overlay backgroundColor={backgroundColor} footer={footer}>
+        <div className='pt-5'>
+          <FullList {...props} />
+        </div>
+      </Overlay>
+    ),
+    [Overlay]
+  )
+
+  return {
+    InputResourceGroupOverlay,
+    openInputResourceGroupOverlay: open,
+    closeInputResourceGroupOverlay: close
+  }
 }
