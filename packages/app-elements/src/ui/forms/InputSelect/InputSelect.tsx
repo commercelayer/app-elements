@@ -15,7 +15,7 @@ import { SelectComponent } from './SelectComponent'
 import { getSelectStyles } from './styles'
 
 export type GroupedSelectValues = Array<{
-  label: string
+  label?: string
   options: InputSelectValue[]
 }>
 
