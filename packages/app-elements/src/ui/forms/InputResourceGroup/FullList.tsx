@@ -8,7 +8,7 @@ import { type OverlayProps } from '#ui/internals/Overlay'
 import { ResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { InputCheckboxGroupItem } from '../InputCheckboxGroup/InputCheckboxGroupItem'
 import {
   computeLabelWithSelected,
@@ -71,6 +71,10 @@ export interface FullListProps {
    * Show icon in checkbox selectors
    */
   showCheckboxIcon?: boolean
+  /**
+   * Hide selected items
+   */
+  hideSelected?: boolean
 }
 
 export function FullList({
@@ -82,11 +86,15 @@ export function FullList({
   searchBy,
   sortBy,
   title,
-  showCheckboxIcon = true
+  showCheckboxIcon = true,
+  hideSelected = false
 }: FullListProps): JSX.Element {
   const { values, toggleValue } = useToggleCheckboxValues(defaultValues)
   const [filters, setFilters] = useState<QueryFilter>({})
   const [search, setSearch] = useState<string>('')
+
+  const initialValues = useMemo(() => defaultValues, [])
+
   const selectedCount = values.length
 
   useEffect(() => {
@@ -129,8 +137,13 @@ export function FullList({
             <Text weight='semibold'>
               {computeLabelWithSelected({
                 label: title,
-                selectedCount,
-                totalCount
+                selectedCount: hideSelected
+                  ? selectedCount - initialValues.length
+                  : selectedCount,
+                totalCount:
+                  hideSelected && totalCount != null
+                    ? totalCount - initialValues.length
+                    : totalCount
               })}
             </Text>
           )}
@@ -150,6 +163,11 @@ export function FullList({
               fieldForLabel,
               fieldForValue
             })
+
+            if (hideSelected && initialValues.includes(item.value)) {
+              return null
+            }
+
             return (
               <InputCheckboxGroupItem
                 isLoading={isLoading}

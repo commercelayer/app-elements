@@ -64,6 +64,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   filters = {},
   hideWhenSingleItem,
   showCheckboxIcon = true,
+  hideSelected = false,
   title
 }) => {
   const { values, toggleValue, setValues } =
@@ -177,6 +178,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
           searchBy={searchBy}
           sortBy={sortBy}
           title={title}
+          hideSelected={hideSelected}
           showCheckboxIcon={showCheckboxIcon}
         />
       </InputWrapper>
