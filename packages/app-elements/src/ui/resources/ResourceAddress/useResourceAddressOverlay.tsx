@@ -9,11 +9,13 @@ export const useResourceAddressOverlay = ({
   title = 'Edit address',
   address,
   showBillingInfo,
+  showNotes,
   onUpdate
 }: {
   title?: string
   address: Address
   showBillingInfo?: boolean
+  showNotes?: boolean
   onUpdate?: (updatedAddress: Address) => void
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 }) => {
@@ -43,6 +45,7 @@ export const useResourceAddressOverlay = ({
             <ResourceAddressForm
               address={address}
               showBillingInfo={showBillingInfo}
+              showNotes={showNotes}
               onChange={(updatedAddress: Address) => {
                 onUpdate?.(updatedAddress)
                 close()
@@ -52,7 +55,7 @@ export const useResourceAddressOverlay = ({
         </Overlay>
       )
     )
-  }, [Overlay, close, canUser, address, showBillingInfo, onUpdate])
+  }, [Overlay, close, canUser, address, showBillingInfo, showNotes, onUpdate])
 
   return { ResourceAddressOverlay, openAddressOverlay }
 }

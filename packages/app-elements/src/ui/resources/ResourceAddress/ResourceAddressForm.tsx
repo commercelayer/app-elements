@@ -22,7 +22,7 @@ interface ResourceAddressFormProps
 
 export const ResourceAddressForm =
   withSkeletonTemplate<ResourceAddressFormProps>(
-    ({ address, showBillingInfo = false, onChange }) => {
+    ({ address, showBillingInfo = false, showNotes = true, onChange }) => {
       const methods = useForm({
         defaultValues: address,
         resolver: zodResolver(resourceAddressFormFieldsSchema)
@@ -50,7 +50,10 @@ export const ResourceAddressForm =
               })
           }}
         >
-          <ResourceAddressFormFields showBillingInfo={showBillingInfo} />
+          <ResourceAddressFormFields
+            showBillingInfo={showBillingInfo}
+            showNotes={showNotes}
+          />
 
           <Spacer top='14'>
             <Button type='submit' disabled={isSubmitting} className='w-full'>

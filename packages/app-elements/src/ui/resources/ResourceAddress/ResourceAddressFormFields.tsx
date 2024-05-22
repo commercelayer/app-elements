@@ -36,11 +36,12 @@ export const resourceAddressFormFieldsSchema = z.object({
 export interface ResourceAddressFormFieldsProps {
   name?: string
   showBillingInfo?: boolean
+  showNotes?: boolean
 }
 
 export const ResourceAddressFormFields =
   withSkeletonTemplate<ResourceAddressFormFieldsProps>(
-    ({ name, showBillingInfo = false }) => {
+    ({ name, showBillingInfo = false, showNotes = true }) => {
       const namePrefix = name == null ? '' : `${name}.`
 
       return (
@@ -90,13 +91,15 @@ export const ResourceAddressFormFields =
             </FieldRow>
           )}
 
-          <FieldRow columns='1'>
-            <HookedInputTextArea
-              name={`${namePrefix}notes`}
-              label='Notes'
-              rows={2}
-            />
-          </FieldRow>
+          {showNotes && (
+            <FieldRow columns='1'>
+              <HookedInputTextArea
+                name={`${namePrefix}notes`}
+                label='Notes'
+                rows={2}
+              />
+            </FieldRow>
+          )}
         </>
       )
     }
