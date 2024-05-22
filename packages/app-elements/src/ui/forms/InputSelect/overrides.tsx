@@ -2,6 +2,7 @@ import { Hr } from '#ui/atoms/Hr'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Tag } from '#ui/atoms/Tag'
 import { X } from '@phosphor-icons/react'
+import { castArray } from 'lodash'
 import {
   components,
   type ClearIndicatorProps,
@@ -98,8 +99,18 @@ function GroupHeading(
       })
   )
 
+  // checking if all values in the previous group are selected,
+  // in that case we don't need the separator since the previous group is empty
+  const prevGroup = props.selectProps.options[idx - 1]
+  const prevGroupIsEmpty =
+    prevGroup != null &&
+    'options' in prevGroup &&
+    prevGroup.options.every((o) =>
+      castArray(props.selectProps.value).includes(o)
+    )
+
   // no separator for the first group
-  if (props.data.label == null && idx === 0) {
+  if ((props.data.label == null && idx === 0) || prevGroupIsEmpty) {
     return null
   }
 

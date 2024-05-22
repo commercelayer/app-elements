@@ -162,7 +162,7 @@ WithSeparator.args = {
   label: 'Select a currency',
   initialValues: currencyInputSelectOptions,
   placeholder: 'Type to filter list...',
-  isMulti: false,
+  isMulti: true,
   isSearchable: true,
   isClearable: true
 }
