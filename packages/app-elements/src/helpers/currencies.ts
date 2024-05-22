@@ -1,3 +1,4 @@
+import { type GroupedSelectValues } from '#ui/forms/InputSelect/InputSelect'
 export interface Currency {
   symbol: string
   subunit_to_unit: number
@@ -2730,3 +2731,24 @@ export const currencies = {
     smallest_denomination: 5
   }
 } satisfies Record<string, Currency>
+
+/**
+ * List of all currencies ready to be used in the `InputSelect` component.
+ * The list is grouped by the top currencies and the rest of the currencies.
+ */
+export const currencyInputSelectOptions: GroupedSelectValues = (() => {
+  const topCurrencies = ['USD', 'EUR', 'GBP']
+
+  return [
+    {
+      options: topCurrencies.map((code) => ({ value: code, label: code }))
+    },
+    {
+      options: Object.entries(currencies)
+        .map(([, item]) => item.iso_code)
+        .filter((code) => !topCurrencies.includes(code))
+        .map((code) => ({ value: code, label: code }))
+        .sort((a, b) => a.label.localeCompare(b.label))
+    }
+  ]
+})()

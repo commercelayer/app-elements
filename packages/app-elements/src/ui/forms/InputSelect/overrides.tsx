@@ -1,10 +1,14 @@
+import { Hr } from '#ui/atoms/Hr'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Tag } from '#ui/atoms/Tag'
 import { X } from '@phosphor-icons/react'
+import { castArray } from 'lodash'
 import {
   components,
   type ClearIndicatorProps,
   type DropdownIndicatorProps,
   type GroupBase,
+  type GroupHeadingProps,
   type MultiValueGenericProps
 } from 'react-select'
 import { type InputSelectValue } from '.'
@@ -81,13 +85,55 @@ function MultiValueRemove(props: any): JSX.Element {
   )
 }
 
+function GroupHeading(
+  props: GroupHeadingProps<InputSelectValue>
+): JSX.Element | null {
+  // Since is not exposed in the props, we need to get the index of the current group
+  // by finding  options of the current group (props.data.options) with the options of the selectProps
+  const idx = props.selectProps.options.findIndex(
+    (group) =>
+      'options' in group &&
+      group.options.every((option) => {
+        const currentGroupValues = props.data.options.map((o) => o.value)
+        return currentGroupValues.includes(option.value)
+      })
+  )
+
+  // checking if all values in the previous group are selected,
+  // in that case we don't need the separator since the previous group is empty
+  const prevGroup = props.selectProps.options[idx - 1]
+  const prevGroupIsEmpty =
+    prevGroup != null &&
+    'options' in prevGroup &&
+    prevGroup.options.every((o) =>
+      castArray(props.selectProps.value).includes(o)
+    )
+
+  // no separator for the first group
+  if ((props.data.label == null && idx === 0) || prevGroupIsEmpty) {
+    return null
+  }
+
+  if (props.data.label == null) {
+    return (
+      <Spacer bottom='4'>
+        <Hr />
+      </Spacer>
+    )
+  }
+
+  // standard group heading when label exists
+  return <components.GroupHeading {...props} />
+}
+
 const selectComponentOverrides = {
   DropdownIndicator,
   IndicatorSeparator: () => null,
   ClearIndicator,
   MultiValueContainer,
   MultiValueLabel,
-  MultiValueRemove
+  MultiValueRemove,
+  GroupHeading
 }
 
 export default selectComponentOverrides

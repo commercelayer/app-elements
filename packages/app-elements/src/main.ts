@@ -3,7 +3,11 @@ import '#styles/global.css'
 // Helpers
 export { goBack, navigateTo } from '#helpers/appsNavigation'
 export { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
-export { currencies, type CurrencyCode } from '#helpers/currencies'
+export {
+  currencies,
+  currencyInputSelectOptions,
+  type CurrencyCode
+} from '#helpers/currencies'
 export {
   formatDate,
   formatDateRange,

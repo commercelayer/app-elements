@@ -1,3 +1,4 @@
+import { currencyInputSelectOptions } from '#helpers/currencies'
 import { InputSelect, type InputSelectValue } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -148,6 +149,20 @@ GroupedOptions.args = {
   ],
   placeholder: 'Type to filter list...',
   isMulti: false,
+  isSearchable: true,
+  isClearable: true
+}
+
+/**
+ * Options group can be separated by an horizontal line when group label is `undefined`.
+ * Separator won't be rendered for the first group.
+ */
+export const WithSeparator = Template.bind({})
+WithSeparator.args = {
+  label: 'Select a currency',
+  initialValues: currencyInputSelectOptions,
+  placeholder: 'Type to filter list...',
+  isMulti: true,
   isSearchable: true,
   isClearable: true
 }
