@@ -56,11 +56,10 @@ export const ResourceAddressFormFields =
           </FieldRow>
 
           <FieldRow columns='1'>
-            <HookedInput name={`${namePrefix}line_1`} label='Address line 1' />
-          </FieldRow>
-
-          <FieldRow columns='1'>
-            <HookedInput name={`${namePrefix}line_2`} label='Address line 2' />
+            <div className='flex flex-col gap-2'>
+              <HookedInput name={`${namePrefix}line_1`} label='Address' />
+              <HookedInput name={`${namePrefix}line_2`} />
+            </div>
           </FieldRow>
 
           <FieldRow columns='1'>
