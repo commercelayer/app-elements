@@ -51,4 +51,61 @@ const restPatch = ['aaZYuDJVXW', 'bbZYuDJVXW', 'ccZYuDJVXW'].map((id) =>
   })
 )
 
-export default [...restPatch]
+const apiErrorPatch = http.patch(
+  `https://mock.localhost/api/addresses/ddZYuDJVXW`,
+  async () => {
+    return HttpResponse.json(
+      {
+        errors: [
+          {
+            title: "can't be blank",
+            detail: "first_name - can't be blank",
+            code: 'VALIDATION_ERROR',
+            source: {
+              pointer: '/data/attributes/first_name'
+            },
+            status: '422',
+            meta: {
+              error: 'blank'
+            }
+          },
+          {
+            title: "can't be blank",
+            detail: "last_name - can't be blank",
+            code: 'VALIDATION_ERROR',
+            source: {
+              pointer: '/data/attributes/last_name'
+            },
+            status: '422',
+            meta: {
+              error: 'blank'
+            }
+          }
+        ]
+      },
+      { status: 422 }
+    )
+  }
+)
+
+// const restPatch = ['aaZYuDJVXW', 'bbZYuDJVXW', 'ccZYuDJVXW'].map((id) =>
+//   http.patch(
+//     `https://mock.localhost/api/addresses/${id}`,
+//     async ({ request }) => {
+//       const json = await request.json()
+//       console.log(json.data.attributes)
+//       return HttpResponse.json({
+//         data: {
+//           ...mockedAddress,
+//           id,
+//           attributes: {
+//             ...mockedAddress.attributes,
+//             ...json.data.attributes
+//           }
+//         }
+//       })
+//     }
+//   )
+// )
+
+export default [...restPatch, apiErrorPatch]

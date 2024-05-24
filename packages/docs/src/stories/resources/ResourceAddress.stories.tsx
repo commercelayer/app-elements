@@ -103,6 +103,18 @@ export const ListedAddresses: StoryFn = () => {
   )
 }
 
+export const ApiError: StoryFn = () => {
+  return (
+    <Stack>
+      <ResourceAddress
+        resource={presetAddresses.withErrors}
+        title='Billing address'
+        editable
+      />
+    </Stack>
+  )
+}
+
 export const UseResourceAddressOverlay: StoryFn = () => {
   const [address, setAddress] = useState(presetAddresses.withName)
 
@@ -159,7 +171,7 @@ export const ReuseTheAddressForm: StoryFn = () => {
     <>
       <HookedForm
         {...methods}
-        onSubmit={(formValues) => {
+        onSubmit={(formValues): void => {
           console.log(formValues)
         }}
       >

@@ -1,3 +1,6 @@
+import isObject from 'lodash/isObject'
+import merge from 'lodash/merge'
+import reduce from 'lodash/reduce'
 import { useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { HookedValidationError } from './HookedValidationError'
@@ -26,12 +29,24 @@ export function HookedValidationApiError({
 }: ValidationApiErrorProps): JSX.Element {
   const { setError, getValues } = useFormContext()
 
+  const flattenKeys = (obj: any, path: string[] = []): Record<string, any> =>
+    !isObject(obj)
+      ? { [path.join('.')]: obj }
+      : reduce(
+          obj,
+          (cum, next, key) => merge(cum, flattenKeys(next, [...path, key])),
+          {}
+        )
+
   useEffect(() => {
     if (apiError != null) {
       setApiFormErrors({
         apiError,
         setError,
-        formFields: Object.keys(getValues()),
+        formFields: [
+          ...Object.keys(getValues()),
+          ...Object.keys(flattenKeys(getValues()))
+        ],
         fieldMap
       })
     }

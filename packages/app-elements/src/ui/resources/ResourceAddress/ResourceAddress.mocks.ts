@@ -55,5 +55,24 @@ export const presetAddresses = {
     created_at: '',
     updated_at: '',
     notes: 'Kindly leave the package to my neighbor, Adam Sandler.'
+  },
+  withErrors: {
+    type: 'addresses',
+    id: 'ddZYuDJVXW',
+    company: '',
+    first_name: '',
+    last_name: '',
+    full_name: '',
+    line_1: 'Via Polis Massa, 42',
+    line_2: 'Ragnatela, 99',
+    city: 'Cogorno',
+    country_code: 'IT',
+    state_code: 'GE',
+    zip_code: '16030',
+    phone: '+39 055 1234567890',
+    billing_info: 'ABCDEFGHIJKLMNOPQRSTUVWYXZ',
+    created_at: '',
+    updated_at: '',
+    notes: 'Kindly leave the package to my neighbor, Adam Sandler.'
   }
 } satisfies Record<string, Address>

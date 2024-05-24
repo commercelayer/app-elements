@@ -61,21 +61,35 @@ function isApiError(error: any): error is ApiErrorResponse {
 }
 
 /**
- * Guesses the field name from the error source pointer (if available).
- * Example: "/data/attributes/quantity" -> "quantity"
- * Otherwise, guesses the field name from the error detail.
- * Example: "quantity - must be less than or equal to 10" -> "quantity"
+ * Guesses the api field name from the error source pointer (when available).
+ * Example: `"/data/attributes/quantity" → "quantity"`
+ *
+ * Otherwise, guesses the api field name from the error detail.
+ * Example: `"quantity - must be less than or equal to 10" → "quantity"`
+ *
+ * The `formFields` is used to guess the form field name given the api field name.
+ * For example sometimes can happen to have a form field name `address.first_name` but the api field name is just `first_name`.
+ *
+ * @param item Error item
+ * @param formFields List of form fields
  */
-function guessField(item: ApiError): string | undefined {
+function guessField(item: ApiError, formFields: string[]): string | undefined {
+  let guessedField: string | undefined
+
   if (item.source?.pointer != null && item.source?.pointer !== '') {
-    const field = item.source?.pointer.split('/').at(-1)
-    return field
+    guessedField = item.source?.pointer.split('/').at(-1)
   }
 
   if (item.detail != null && item.detail !== '') {
-    const field = item.detail.split(' - ').at(0)
-    return field
+    guessedField = item.detail.split(' - ').at(0)
   }
+
+  return (
+    // guess the real field inside the form.
+    formFields.find(
+      (formField) => formField.split('.').pop() === guessedField
+    ) ?? guessedField
+  )
 }
 
 const API_ERROR_FIELD_NAME = 'root.apiError'
@@ -95,7 +109,7 @@ export function setApiFormErrors({
    */
   setError: UseFormSetError<any>
   /**
-   * list of from fields
+   * list of form fields
    */
   formFields: string[]
   /**
@@ -107,7 +121,7 @@ export function setApiFormErrors({
 
   const errorByTypes = errors.reduce(
     (allErrors, item) => {
-      const guessedField = guessField(item)
+      const guessedField = guessField(item, formFields)
       const field =
         guessedField != null
           ? fieldMap?.[guessedField] ?? guessedField
