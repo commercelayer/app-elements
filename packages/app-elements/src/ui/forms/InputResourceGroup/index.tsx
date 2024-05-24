@@ -1,3 +1,4 @@
+export { useInputResourceGroupOverlay } from './FullList'
 export {
   HookedInputResourceGroup,
   type HookedInputResourceGroupProps

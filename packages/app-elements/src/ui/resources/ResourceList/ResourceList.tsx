@@ -1,6 +1,7 @@
 import { useIsChanged } from '#hooks/useIsChanged'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
+import { Card } from '#ui/atoms/Card'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { Section, type SectionProps } from '#ui/atoms/Section'
 import { type SkeletonTemplateProps } from '#ui/atoms/SkeletonTemplate'
@@ -13,7 +14,7 @@ import {
   type ListableResourceType,
   type QueryParamsList
 } from '@commercelayer/sdk'
-import { useCallback, useEffect, useReducer, type FC } from 'react'
+import React, { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
@@ -46,7 +47,7 @@ export interface ResourceListItemTemplate<
 
 export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   SectionProps,
-  'title' | 'actionButton'
+  'actionButton'
 > & {
   /**
    * The resource type to be fetched in the list
@@ -72,6 +73,16 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    * An element to be rendered when the list is empty.
    */
   emptyState: JSX.Element
+  /**
+   * Title.
+   */
+  title?:
+    | ((recordCount: number | undefined) => React.ReactNode)
+    | React.ReactNode
+  /**
+   *
+   */
+  variant?: 'boxed'
 } & (
     | ResourceListItemTemplate<TResource>
     | {
@@ -87,6 +98,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
         children: (childrenProps: {
           isLoading: boolean
           data?: FetcherResponse<Resource<TResource>>
+          isFirstLoading: boolean
         }) => React.ReactNode
       }
   )
@@ -100,6 +112,7 @@ export function ResourceList<TResource extends ListableResourceType>({
   type,
   query,
   title,
+  variant,
   actionButton,
   emptyState,
   metricsQuery,
@@ -184,64 +197,74 @@ export function ResourceList<TResource extends ListableResourceType>({
   const hasMorePages =
     data == null || data.meta.pageCount > data.meta.currentPage
 
+  const Boxed = variant === 'boxed' ? Card : React.Fragment
+
   return (
     <Section
       isLoading={isFirstLoading}
-      title={computeTitleWithTotalCount({
-        title,
-        recordCount
-      })}
+      title={
+        typeof title === 'function'
+          ? title(recordCount)
+          : computeTitleWithTotalCount({
+              title,
+              recordCount
+            })
+      }
+      border={variant === 'boxed' ? 'none' : undefined}
       actionButton={actionButton}
       titleSize='small'
       data-testid='resource-list'
     >
-      {'ItemTemplate' in props &&
-        data?.list.map((resource) => {
-          return (
-            <props.ItemTemplate
-              resource={resource}
-              key={resource.id}
-              remove={() => {
-                dispatch({
-                  type: 'removeItem',
-                  payload: {
-                    resourceId: resource.id
-                  }
-                })
-              }}
-            />
-          )
-        })}
+      <Boxed gap='1' overflow='hidden'>
+        {'ItemTemplate' in props &&
+          data?.list.map((resource) => {
+            return (
+              <props.ItemTemplate
+                resource={resource}
+                key={resource.id}
+                remove={() => {
+                  dispatch({
+                    type: 'removeItem',
+                    payload: {
+                      resourceId: resource.id
+                    }
+                  })
+                }}
+              />
+            )
+          })}
 
-      {'children' in props && props.children({ isLoading, data })}
+        {'children' in props &&
+          props.children({ isLoading, data, isFirstLoading })}
 
-      {error != null ? (
-        <ErrorLine
-          message={error.message}
-          onRetry={() => {
-            void fetchMore({ query })
-          }}
-        />
-      ) : isLoading && 'ItemTemplate' in props ? (
-        Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-          .fill(null)
-          .map((_, idx) => (
-            <props.ItemTemplate
-              isLoading
-              delayMs={!isFirstLoading ? 0 : undefined}
-              key={idx}
-            />
-          ))
-      ) : (
-        <VisibilityTrigger
-          enabled={hasMorePages}
-          callback={(entry) => {
-            if (entry.isIntersecting) {
+        {error != null ? (
+          <ErrorLine
+            message={error.message}
+            onRetry={() => {
               void fetchMore({ query })
-            }
-          }}
-        />
-      )}
+            }}
+          />
+        ) : isLoading && 'ItemTemplate' in props ? (
+          Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+            .fill(null)
+            .map((_, idx) => (
+              <props.ItemTemplate
+                isLoading
+                delayMs={!isFirstLoading ? 0 : undefined}
+                key={idx}
+              />
+            ))
+        ) : (
+          <VisibilityTrigger
+            enabled={hasMorePages}
+            callback={(entry) => {
+              if (entry.isIntersecting) {
+                void fetchMore({ query })
+              }
+            }}
+          />
+        )}
+      </Boxed>
     </Section>
   )
 }

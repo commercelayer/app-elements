@@ -1,5 +1,4 @@
 import { formatResourceName } from '#helpers/resources'
-import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { Button } from '#ui/atoms/Button'
@@ -16,7 +15,11 @@ import {
 } from '@commercelayer/sdk'
 import uniqBy from 'lodash/uniqBy'
 import { useEffect, useState } from 'react'
-import { FullList, type FullListProps, type SortBy } from './FullList'
+import {
+  useInputResourceGroupOverlay,
+  type FullListProps,
+  type SortBy
+} from './FullList'
 import {
   computeLabelWithSelected,
   prepareCheckboxItemOrMock,
@@ -61,10 +64,9 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   filters = {},
   hideWhenSingleItem,
   showCheckboxIcon = true,
+  hideSelected = false,
   title
 }) => {
-  const { Overlay, close, open } = useOverlay()
-
   const { values, toggleValue, setValues } =
     useToggleCheckboxValues(defaultValues)
   const selectedCount = values.length
@@ -89,6 +91,12 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
     },
     [values]
   )
+
+  const {
+    InputResourceGroupOverlay,
+    closeInputResourceGroupOverlay,
+    openInputResourceGroupOverlay
+  } = useInputResourceGroupOverlay()
 
   const isEmptyList = !isLoading && list.length === 0
   const isHidden =
@@ -136,7 +144,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
             <button
               type='button'
               onClick={() => {
-                open()
+                openInputResourceGroupOverlay()
               }}
             >
               <Text variant='primary' weight='bold'>
@@ -149,35 +157,30 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
             </button>
           </Spacer>
         ) : null}
-        <Overlay
+        <InputResourceGroupOverlay
           footer={
             <Button
               fullWidth
               type='button'
               onClick={() => {
-                close()
+                closeInputResourceGroupOverlay()
                 setSelectedValuesForPreview(values)
               }}
             >
               Apply
             </Button>
           }
-        >
-          <div className='pt-5'>
-            <FullList
-              defaultValues={values}
-              fieldForLabel={fieldForLabel}
-              fieldForValue={fieldForValue}
-              onChange={setValues}
-              resource={resource}
-              searchBy={searchBy}
-              sortBy={sortBy}
-              title={title}
-              totalCount={totalCount}
-              showCheckboxIcon={showCheckboxIcon}
-            />
-          </div>
-        </Overlay>
+          defaultValues={values}
+          fieldForLabel={fieldForLabel}
+          fieldForValue={fieldForValue}
+          onChange={setValues}
+          resource={resource}
+          searchBy={searchBy}
+          sortBy={sortBy}
+          title={title}
+          hideSelected={hideSelected}
+          showCheckboxIcon={showCheckboxIcon}
+        />
       </InputWrapper>
     </SkeletonTemplate>
   )

@@ -33,6 +33,7 @@ export const iconMapping = {
   cloudArrowUp: phosphor.CloudArrowUp,
   creditCard: phosphor.CreditCard,
   currencyEur: phosphor.CurrencyEur,
+  dotsSixVertical: phosphor.DotsSixVertical,
   dotsThree: phosphor.DotsThree,
   download: phosphor.Download,
   envelopeSimple: phosphor.EnvelopeSimple,
