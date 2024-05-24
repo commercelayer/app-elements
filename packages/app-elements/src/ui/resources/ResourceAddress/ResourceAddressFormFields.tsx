@@ -18,42 +18,112 @@ const zodRequiredField = z
     message: 'Required field'
   })
 
-export const resourceAddressFormFieldsSchema = z.object({
-  first_name: z.string().nullish(),
-  last_name: z.string().nullish(),
-  company: z.string().nullish(),
-  line_1: zodRequiredField,
-  line_2: z.string().nullish(),
-  city: zodRequiredField,
-  zip_code: z.string().nullish(),
-  state_code: zodRequiredField,
-  country_code: zodRequiredField,
-  phone: zodRequiredField,
-  billing_info: z.string().nullish(),
-  notes: z.string().nullish()
-})
+export const resourceAddressFormFieldsSchema = z
+  .object({
+    business: z.boolean().nullish().default(false),
+    first_name: z.string().nullish(),
+    last_name: z.string().nullish(),
+    company: z.string().nullish(),
+    line_1: zodRequiredField,
+    line_2: z.string().nullish(),
+    city: zodRequiredField,
+    zip_code: z.string().nullish(),
+    state_code: zodRequiredField,
+    country_code: zodRequiredField,
+    phone: zodRequiredField,
+    billing_info: z.string().nullish(),
+    notes: z.string().nullish()
+  })
+  .superRefine((data, ctx) => {
+    if (data.business === true) {
+      if (data.company == null || data.company.length === 0) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['company'],
+          message: 'Required field'
+        })
+      }
+    } else {
+      if (data.first_name == null || data.first_name.length === 0) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['first_name'],
+          message: 'Required field'
+        })
+      }
+
+      if (data.last_name == null || data.last_name.length === 0) {
+        ctx.addIssue({
+          code: 'custom',
+          path: ['last_name'],
+          message: 'Required field'
+        })
+      }
+    }
+  })
 
 export interface ResourceAddressFormFieldsProps {
+  /**
+   * Optional namespace.
+   * @example If you set `name="address"` then all input names will be prepended by `address.` (e.g. `address.first_name`).
+   */
   name?: string
+  /**
+   * Optional setting to define if given `Address` `billing_info` data is visible.
+   * @default false
+   */
   showBillingInfo?: boolean
+  /**
+   * Optional setting to define if given `Address` `billing_info` data is visible.
+   * @default true
+   */
   showNotes?: boolean
+  /**
+   * Determines whether to show only business fields (`company`) or non-business fields (`first_name` and `last_name`).
+   *
+   * When `business` is set to **`true`** the `first_name` and `last_name` fields are hidden.
+   * When `business` is set to **`false`** the `company` field is hidden.
+   *
+   * @default false
+   */
+  showNameOrCompany?: boolean
 }
 
 export const ResourceAddressFormFields =
   withSkeletonTemplate<ResourceAddressFormFieldsProps>(
-    ({ name, showBillingInfo = false, showNotes = true }) => {
+    ({
+      name,
+      showBillingInfo = false,
+      showNotes = true,
+      showNameOrCompany = false
+    }) => {
       const namePrefix = name == null ? '' : `${name}.`
+      const { getValues } = useFormContext()
+
+      const business = getValues(`${namePrefix}business`) ?? false
+
+      const isNameVisible =
+        !showNameOrCompany || (showNameOrCompany && business === false)
+      const isCompanyVisible =
+        !showNameOrCompany || (showNameOrCompany && business === true)
 
       return (
         <>
-          <FieldRow columns='2'>
-            <HookedInput name={`${namePrefix}first_name`} label='First name' />
-            <HookedInput name={`${namePrefix}last_name`} label='Last name' />
-          </FieldRow>
+          {isNameVisible && (
+            <FieldRow columns='2'>
+              <HookedInput
+                name={`${namePrefix}first_name`}
+                label='First name'
+              />
+              <HookedInput name={`${namePrefix}last_name`} label='Last name' />
+            </FieldRow>
+          )}
 
-          <FieldRow columns='1'>
-            <HookedInput name={`${namePrefix}company`} label='Company' />
-          </FieldRow>
+          {isCompanyVisible && (
+            <FieldRow columns='1'>
+              <HookedInput name={`${namePrefix}company`} label='Company' />
+            </FieldRow>
+          )}
 
           <FieldRow columns='1'>
             <div className='flex flex-col gap-2'>

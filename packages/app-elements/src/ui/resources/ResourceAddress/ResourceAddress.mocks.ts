@@ -4,6 +4,7 @@ export const presetAddresses = {
   withName: {
     type: 'addresses',
     id: 'aaZYuDJVXW',
+    business: false,
     company: '',
     first_name: 'Darth',
     last_name: 'Vader',
@@ -22,6 +23,7 @@ export const presetAddresses = {
   withCompany: {
     type: 'addresses',
     id: 'bbZYuDJVXW',
+    business: true,
     company: 'Galactic Empire',
     first_name: '',
     last_name: '',

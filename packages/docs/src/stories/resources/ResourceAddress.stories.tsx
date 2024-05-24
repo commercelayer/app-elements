@@ -149,7 +149,7 @@ export const ReuseTheAddressForm: StoryFn = () => {
       name: 'John Doe Inc.',
       address: {
         first_name: 'John',
-        last_name: 'Doe'
+        country_code: 'IT'
       }
     },
     resolver: zodResolver(
@@ -179,6 +179,52 @@ export const ReuseTheAddressForm: StoryFn = () => {
           <HookedInput name='name' label='Name' />
         </Spacer>
         <ResourceAddressFormFields name='address' />
+        <Spacer top='14'>
+          <Button type='submit' className='w-full'>
+            Create merchant
+          </Button>
+        </Spacer>
+      </HookedForm>
+    </>
+  )
+}
+
+export const ShowNameOrCompany: StoryFn = () => {
+  const methods = useForm({
+    defaultValues: {
+      name: 'John Doe Inc.',
+      address: {
+        business: true,
+        country_code: 'IT'
+      }
+    },
+    resolver: zodResolver(
+      z.object({
+        name: z
+          .string({
+            required_error: 'Required field',
+            invalid_type_error: 'Invalid format'
+          })
+          .min(1, {
+            message: 'Required field'
+          }),
+        address: resourceAddressFormFieldsSchema
+      })
+    )
+  })
+
+  return (
+    <>
+      <HookedForm
+        {...methods}
+        onSubmit={(formValues): void => {
+          console.log(formValues)
+        }}
+      >
+        <Spacer bottom='8'>
+          <HookedInput name='name' label='Name' />
+        </Spacer>
+        <ResourceAddressFormFields name='address' showNameOrCompany />
         <Spacer top='14'>
           <Button type='submit' className='w-full'>
             Create merchant
