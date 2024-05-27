@@ -1,11 +1,13 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Stack } from '#ui/atoms/Stack'
 import { ListItem } from '#ui/composite/ListItem'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInput } from '#ui/forms/Input'
+import { InputCheckbox } from '#ui/forms/InputCheckbox'
 import {
   ResourceAddress,
   useResourceAddressOverlay
@@ -190,11 +192,13 @@ export const ReuseTheAddressForm: StoryFn = () => {
 }
 
 export const ShowNameOrCompany: StoryFn = () => {
+  const defaultBusiness = true
+
   const methods = useForm({
     defaultValues: {
       name: 'John Doe Inc.',
       address: {
-        business: true,
+        business: defaultBusiness,
         country_code: 'IT'
       }
     },
@@ -215,22 +219,43 @@ export const ShowNameOrCompany: StoryFn = () => {
 
   return (
     <>
-      <HookedForm
-        {...methods}
-        onSubmit={(formValues): void => {
-          console.log(formValues)
-        }}
+      <Section
+        title='Address'
+        actionButton={
+          <div style={{ display: 'inline-block' }}>
+            <InputCheckbox
+              defaultChecked={defaultBusiness}
+              onChange={(event) => {
+                methods.setValue(
+                  'address.business',
+                  event.currentTarget.checked
+                )
+              }}
+            >
+              Business
+            </InputCheckbox>
+          </div>
+        }
       >
-        <Spacer bottom='8'>
-          <HookedInput name='name' label='Name' />
+        <Spacer top='6'>
+          <HookedForm
+            {...methods}
+            onSubmit={(formValues): void => {
+              console.log(formValues)
+            }}
+          >
+            <Spacer bottom='8'>
+              <HookedInput name='name' label='Name' />
+            </Spacer>
+            <ResourceAddressFormFields name='address' showNameOrCompany />
+            <Spacer top='14'>
+              <Button type='submit' className='w-full'>
+                Create merchant
+              </Button>
+            </Spacer>
+          </HookedForm>
         </Spacer>
-        <ResourceAddressFormFields name='address' showNameOrCompany />
-        <Spacer top='14'>
-          <Button type='submit' className='w-full'>
-            Create merchant
-          </Button>
-        </Spacer>
-      </HookedForm>
+      </Section>
     </>
   )
 }

@@ -98,9 +98,9 @@ export const ResourceAddressFormFields =
       showNameOrCompany = false
     }) => {
       const namePrefix = name == null ? '' : `${name}.`
-      const { getValues } = useFormContext()
+      const { watch } = useFormContext()
 
-      const business = getValues(`${namePrefix}business`) ?? false
+      const business = watch(`${namePrefix}business`) ?? false
 
       const isNameVisible =
         !showNameOrCompany || (showNameOrCompany && business === false)
