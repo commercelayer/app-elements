@@ -27,15 +27,27 @@ export interface ResourceAddressProps {
   editable?: boolean
   /**
    * Optional setting to define if given `Address` `billing_info` data is visible.
+   * @default false
    */
   showBillingInfo?: boolean
+  /**
+   * Optional setting to define if given `Address` `billing_info` data is visible.
+   * @default true
+   */
+  showNotes?: boolean
 }
 
 /**
  * Renders an all-in-one visualization and editing solution to deal with a given resource of type `Address`
  */
 export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
-  ({ resource, title, editable = false, showBillingInfo = false }) => {
+  ({
+    resource,
+    title,
+    editable = false,
+    showBillingInfo = false,
+    showNotes = true
+  }) => {
     const [address, setAddress] = useState<Address>(resource)
     const { canUser } = useTokenProvider()
 
@@ -43,6 +55,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
       useResourceAddressOverlay({
         address: resource,
         showBillingInfo,
+        showNotes,
         onUpdate: (updatedAddress) => {
           setAddress(updatedAddress)
         }
@@ -92,7 +105,8 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
               </Text>
             ) : null}
 
-            {!isEmpty(address.phone) || !isEmpty(address.notes) ? (
+            {!isEmpty(address.phone) ||
+            (showNotes && !isEmpty(address.notes)) ? (
               <>
                 <Spacer top='4' bottom='4'>
                   <Hr variant='dashed' />
@@ -109,7 +123,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                       </Text>
                     </div>
                   )}
-                  {!isEmpty(address.notes) && (
+                  {showNotes && !isEmpty(address.notes) && (
                     <div className='flex gap-2'>
                       <Text tag='div' variant='info' className='mt-[2px]'>
                         <Note weight='bold' />
