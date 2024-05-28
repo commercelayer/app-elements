@@ -1,0 +1,1 @@
+export { InputResourceSelect } from './InputResourceSelect'

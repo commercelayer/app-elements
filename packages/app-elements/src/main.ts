@@ -236,6 +236,7 @@ export {
   type HookedInputResourceGroupProps,
   type InputResourceGroupProps
 } from '#ui/forms/InputResourceGroup'
+export { InputResourceSelect } from '#ui/forms/InputResourceSelect'
 export {
   HookedInputSelect,
   InputSelect,

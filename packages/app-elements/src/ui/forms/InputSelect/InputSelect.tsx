@@ -20,7 +20,7 @@ export type GroupedSelectValues = Array<{
 }>
 
 export interface InputSelectValue {
-  value: string | number
+  value: string | number | null
   label: string
   meta?: Record<string, any>
   isDisabled?: boolean
