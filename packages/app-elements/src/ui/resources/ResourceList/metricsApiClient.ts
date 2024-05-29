@@ -87,9 +87,21 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
     })
 
     const json: OpenApiResponse<typeof resourceType> = await response.json()
+    const data =
+      endpoint === 'carts'
+        ? await removePlacedOrdersFromCarts({
+            resourceType,
+            accessToken,
+            baseUrl,
+            metricsData: json.data,
+            dateField: query.filter?.order?.date_field,
+            dateFrom: query.filter?.order?.date_from,
+            dateTo: query.filter?.order?.date_to
+          })
+        : json.data
 
     const list = [
-      ...json.data.map((item) => ({
+      ...data.map((item) => ({
         ...item,
         type: resourceType // metrics api does not return the type
       }))
@@ -139,4 +151,63 @@ export function isValidMetricsResource(
   resourceType: ListableResourceType
 ): resourceType is MetricsResources {
   return ['orders', 'returns'].includes(resourceType)
+}
+
+/**
+ * Clean up the list of metrics data by removing placed orders from carts.
+ * This is necessary because the metrics api does not have a way to filter out placed orders from carts.
+ */
+async function removePlacedOrdersFromCarts<Resource extends MetricsResources>({
+  dateFrom,
+  dateTo,
+  dateField,
+  metricsData,
+  baseUrl,
+  accessToken,
+  resourceType
+}: {
+  metricsData: OpenApiResponse<typeof resourceType>['data']
+  dateFrom?: string
+  dateTo?: string
+  dateField?: string
+  baseUrl: string
+  accessToken: string
+  resourceType: Resource
+}): Promise<OpenApiResponse<typeof resourceType>['data']> {
+  if (metricsData.length === 0) {
+    return metricsData
+  }
+  const placedOrdersResponse = await fetch(`${baseUrl}/orders/search`, {
+    method: 'POST',
+    headers: {
+      accept: 'application/vnd.api.v1+json',
+      'content-type': 'application/vnd.api+json',
+      authorization: `Bearer ${accessToken}`
+    },
+    body: JSON.stringify({
+      search: {
+        limit: 25,
+        fields: ['order.id']
+      },
+      filter: {
+        order: {
+          date_from: dateFrom,
+          date_to: dateTo,
+          date_field: dateField,
+          ids: {
+            in: metricsData.map((item) => item.id)
+          }
+        }
+      }
+    })
+  })
+  const placedOrders: OpenApiResponse<'orders'> =
+    await placedOrdersResponse.json()
+
+  const placedOrdersIds = placedOrders.data.map((item) => item.id)
+  const filteredList = metricsData.filter(
+    (item) => !placedOrdersIds.includes(item.id)
+  )
+
+  return filteredList
 }
