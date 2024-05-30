@@ -74,6 +74,14 @@ export function getShipmentDisplayStatus(
     case 'shipped':
       return {
         label: 'Shipped',
+        icon: 'arrowUpRight',
+        color: 'green'
+      }
+
+    // @ts-expect-error waiting for SDK types
+    case 'delivered':
+      return {
+        label: 'Delivered',
         icon: 'check',
         color: 'green'
       }

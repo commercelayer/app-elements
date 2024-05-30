@@ -319,6 +319,16 @@ export const presetResourceListItem = {
     status: 'shipped',
     stock_location: originStockLocation
   },
+  shipmentDelivered: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    // @ts-expect-error waiting for SDK types
+    status: 'delivered',
+    stock_location: originStockLocation
+  },
   shipmentWithStockTransfer: {
     type: 'shipments',
     id: '',
