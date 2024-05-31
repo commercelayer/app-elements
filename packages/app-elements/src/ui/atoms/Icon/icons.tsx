@@ -96,6 +96,7 @@ export const iconMapping = {
   userCircle: phosphor.UserCircle,
   userRectangle: phosphor.UserRectangle,
   users: phosphor.Users,
+  usersThree: phosphor.UsersThree,
   warehouse: phosphor.Warehouse,
   warning: phosphor.Warning,
   warningCircle: phosphor.WarningCircle,
