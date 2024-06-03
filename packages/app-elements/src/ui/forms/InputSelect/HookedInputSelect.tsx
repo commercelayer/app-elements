@@ -5,7 +5,8 @@ import { useValidationFeedback } from '../ReactHookForm'
 import {
   InputSelect,
   type InputSelectProps,
-  type InputSelectValue
+  type InputSelectValue,
+  type PossibleSelectValue
 } from './InputSelect'
 import { flatSelectValues, getDefaultValueFromFlatten } from './utils'
 
@@ -31,6 +32,11 @@ export interface HookedInputSelectProps
    * ```
    */
   pathToValue?: string
+  /**
+   * Optional callback executed when a value is selected to allow custom behavior and re-use the selected value.
+   * This does not effect the field value neither the form state.
+   */
+  onSelect?: (value: PossibleSelectValue) => void
 }
 
 /**
@@ -41,6 +47,7 @@ export interface HookedInputSelectProps
 export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
   name,
   pathToValue = 'value',
+  onSelect,
   ...props
 }: HookedInputSelectProps) => {
   const { control, watch, getValues } = useFormContext()
@@ -95,6 +102,7 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
           }
           onSelect={(values) => {
             onChange(flatSelectValues(values, pathToValue))
+            onSelect?.(values)
           }}
           feedback={feedback}
         />
