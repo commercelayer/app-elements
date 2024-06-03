@@ -9,6 +9,7 @@ import {
   type DropdownIndicatorProps,
   type GroupBase,
   type GroupHeadingProps,
+  type MenuListProps,
   type MultiValueGenericProps
 } from 'react-select'
 import { type InputSelectValue } from '.'
@@ -126,6 +127,22 @@ function GroupHeading(
   return <components.GroupHeading {...props} />
 }
 
+function MenuList(props: MenuListProps<InputSelectValue>): JSX.Element {
+  // @ts-expect-error `isLoading` is missing in type definitions
+  const isLoading = Boolean(props.isLoading)
+  // @ts-expect-error I found no way to enhance `props.selectProps` definitions with custom ones specified in our wrapped `InputSelect` component
+  const menuFooterText = props.selectProps.menuFooterText as string | undefined
+
+  return (
+    <components.MenuList {...props}>
+      {props.children}
+      {menuFooterText != null && !isLoading && props.options.length > 0 ? (
+        <div className='px-4 py-2 text-sm text-gray-500'>{menuFooterText}</div>
+      ) : null}
+    </components.MenuList>
+  )
+}
+
 const selectComponentOverrides = {
   DropdownIndicator,
   IndicatorSeparator: () => null,
@@ -133,7 +150,8 @@ const selectComponentOverrides = {
   MultiValueContainer,
   MultiValueLabel,
   MultiValueRemove,
-  GroupHeading
+  GroupHeading,
+  MenuList
 }
 
 export default selectComponentOverrides
