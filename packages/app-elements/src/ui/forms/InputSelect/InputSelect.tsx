@@ -109,6 +109,10 @@ export interface InputSelectProps extends InputWrapperBaseProps {
     inputValue: string
   ) => Promise<GroupedSelectValues | InputSelectValue[]>
   /**
+   * Optional text to display at the bottom of the dropdown menu
+   */
+  menuFooterText?: string
+  /**
    * Debounce time in milliseconds for async search.
    * It only works when `loadAsyncValues` is provided
    */
@@ -154,6 +158,7 @@ export const InputSelect = forwardRef<
       loadAsyncValues,
       debounceMs,
       noOptionsMessage = 'No results found',
+      menuFooterText,
       ...rest
     },
     ref
@@ -186,6 +191,7 @@ export const InputSelect = forwardRef<
             styles={getSelectStyles(feedback?.variant)}
             debounceMs={debounceMs}
             isOptionDisabled={isOptionDisabled}
+            menuFooterText={menuFooterText}
           />
         ) : (
           <SelectComponent
@@ -204,6 +210,7 @@ export const InputSelect = forwardRef<
             onBlur={onBlur}
             name={name}
             styles={getSelectStyles(feedback?.variant)}
+            menuFooterText={menuFooterText}
           />
         )}
       </InputWrapper>

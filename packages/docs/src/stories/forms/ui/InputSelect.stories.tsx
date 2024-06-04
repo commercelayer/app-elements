@@ -110,6 +110,31 @@ Async.args = {
 }
 
 /**
+ * It's possible to specify a footer text that will be rendered at the bottom of the dropdown list.
+ */
+export const MenuFooterText = Template.bind({})
+MenuFooterText.args = {
+  label: 'Search resource',
+  placeholder: 'Type to search async...',
+  isSearchable: true,
+  isClearable: false,
+  debounceMs: 200,
+  hint: {
+    icon: 'lightbulbFilament',
+    text: 'Try to search some of the following values: customer, SKU, price, tax'
+  },
+  initialValues: fullList.slice(0, 5),
+  loadAsyncValues: async (hint) => {
+    return await new Promise<InputSelectValue[]>((resolve) => {
+      setTimeout(() => {
+        resolve(fakeSearch(hint))
+      }, 1000)
+    })
+  },
+  menuFooterText: 'Type to search for more options.'
+}
+
+/**
  * `isMulti` allows to select more than one value
  */
 export const Multi = Template.bind({})

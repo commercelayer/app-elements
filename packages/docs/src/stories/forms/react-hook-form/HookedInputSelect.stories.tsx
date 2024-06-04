@@ -114,7 +114,10 @@ MultiSelect.args = {
         cityCode: 'US_NY'
       }
     }
-  ]
+  ],
+  onSelect: (value) => {
+    alert(JSON.stringify(value))
+  }
 }
 
 export const Clear: StoryFn<typeof HookedInputSelect> = () => {
