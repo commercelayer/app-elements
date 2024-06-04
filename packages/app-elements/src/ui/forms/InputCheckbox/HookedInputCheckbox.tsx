@@ -24,7 +24,7 @@ export function HookedInputCheckbox({
   name,
   ...props
 }: HookedInputCheckboxProps): JSX.Element {
-  const { register, getValues, watch, resetField, setValue } = useFormContext()
+  const { register, watch, resetField, setValue } = useFormContext()
   const feedback = useValidationFeedback(name)
   const isChecked = Boolean(watch(name))
 
@@ -50,14 +50,7 @@ export function HookedInputCheckbox({
     }
   }, [isChecked])
 
-  return (
-    <InputCheckbox
-      {...props}
-      defaultChecked={getValues(name)}
-      {...register(name)}
-      feedback={feedback}
-    />
-  )
+  return <InputCheckbox {...props} {...register(name)} feedback={feedback} />
 }
 
 HookedInputCheckbox.displayName = 'HookedInputCheckbox'
