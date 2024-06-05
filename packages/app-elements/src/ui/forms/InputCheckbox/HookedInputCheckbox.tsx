@@ -50,7 +50,14 @@ export function HookedInputCheckbox({
     }
   }, [isChecked])
 
-  return <InputCheckbox {...props} {...register(name)} feedback={feedback} />
+  return (
+    <InputCheckbox
+      {...props}
+      {...register(name)}
+      checked={isChecked}
+      feedback={feedback}
+    />
+  )
 }
 
 HookedInputCheckbox.displayName = 'HookedInputCheckbox'
