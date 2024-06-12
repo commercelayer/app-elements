@@ -27,6 +27,14 @@ Default.args = {
   showCopyAction: true
 }
 
+export const LongContent = Template.bind({})
+LongContent.args = {
+  label: 'Full URL',
+  value:
+    'https://demo-store.commercelayer.io/api/v1/orders/1234567890/line_items/0987654321',
+  showCopyAction: true
+}
+
 /**
  * This component can be used to hide (from the screen) sensitive information like API keys or secrets.
  */

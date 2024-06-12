@@ -70,7 +70,8 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
               className={cn(
                 cssBase,
                 inputClassName,
-                'px-4 h-[44px] outline-0 !ring-0'
+                'px-4 h-[44px] outline-0 !ring-0',
+                { 'pr-12': !secret, 'pr-20': secret }
               )}
               value={
                 isLoading === true
@@ -112,7 +113,7 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
                   data-testid='toggle-secret'
                 >
                   <Icon
-                    name={hideValue ? 'eyeSlash' : 'eye'}
+                    name={hideValue ? 'eye' : 'eyeSlash'}
                     className='text-gray-500 hover:text-gray-300'
                     size={20}
                   />
