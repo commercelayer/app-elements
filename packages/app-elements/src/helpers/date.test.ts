@@ -1,5 +1,5 @@
 import {
-  getLastYearIsoRange,
+  makeDateYearsRange,
   removeMillisecondsFromIsoDate
 } from '#helpers/date'
 import {
@@ -589,10 +589,14 @@ describe('formatDateRange should return the proper date format', () => {
   })
 })
 
-describe('getLastYearIsoRange', () => {
+describe('makeDateYearsRange', () => {
   test('should return last year range with milliseconds', () => {
     const now = new Date('2023-04-24T13:45:00.000Z')
-    const result = getLastYearIsoRange({ now, showMilliseconds: true })
+    const result = makeDateYearsRange({
+      now,
+      showMilliseconds: true,
+      yearsAgo: 1
+    })
 
     expect(result).toEqual({
       date_from: '2022-04-24T13:45:01.000Z',
@@ -602,10 +606,28 @@ describe('getLastYearIsoRange', () => {
 
   test('should return last year range without milliseconds', () => {
     const now = new Date('2023-04-24T13:45:00.538Z')
-    const result = getLastYearIsoRange({ now, showMilliseconds: false })
+    const result = makeDateYearsRange({
+      now,
+      showMilliseconds: false,
+      yearsAgo: 1
+    })
 
     expect(result).toEqual({
       date_from: '2022-04-24T13:45:01Z',
+      date_to: '2023-04-24T13:45:00Z'
+    })
+  })
+
+  test('should return 5 years range without milliseconds', () => {
+    const now = new Date('2023-04-24T13:45:00.538Z')
+    const result = makeDateYearsRange({
+      now,
+      showMilliseconds: false,
+      yearsAgo: 5
+    })
+
+    expect(result).toEqual({
+      date_from: '2018-04-24T13:45:01Z',
       date_to: '2023-04-24T13:45:00Z'
     })
   })

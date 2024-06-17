@@ -2,7 +2,7 @@ import {
   formatDate,
   formatDateRange,
   getEventDateInfo,
-  getLastYearIsoRange
+  makeDateYearsRange
 } from '#helpers/date'
 import { Description, Stories, Subtitle, Title } from '@storybook/addon-docs'
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -262,15 +262,16 @@ export const GetEventDateInfo: StoryFn = () => {
 }
 
 /**
- *  Returns one year date range (minus 1 second) from the specified `now` date.
+ *  Returns the specified `yearsAgo` date range (minus 1 second) from the specified `now` date.
  */
-export const GetLastYearIsoRange: StoryFn = () => {
+export const MakeDateYearsRange: StoryFn = () => {
   return (
     <>
       <CodeSample
         fn={() =>
-          getLastYearIsoRange({
+          makeDateYearsRange({
             now: new Date('2024-01-01T14:30:00.000Z'),
+            yearsAgo: 1,
             showMilliseconds: true
           })
         }
