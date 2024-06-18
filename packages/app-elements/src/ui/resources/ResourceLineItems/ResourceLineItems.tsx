@@ -381,14 +381,22 @@ ResourceLineItems.displayName = 'ResourceLineItems'
 
 const LineItemOptionsWrapper = withSkeletonTemplate<{
   title?: string
+  quantity?: number
   children: React.ReactNode
-}>(({ title, children }) => (
+}>(({ title, quantity, children }) => (
   <Spacer top='4' className='pb-2 last:pb-0'>
-    {title != null && (
-      <Text tag='div' weight='bold' size='small' className='mb-1'>
-        {title}
-      </Text>
-    )}
+    <div className='flex gap-1'>
+      {title != null && (
+        <Text tag='div' weight='bold' size='small' className='mb-1'>
+          {title}
+        </Text>
+      )}
+      {quantity != null && (
+        <Text tag='div' size='small' weight='bold'>
+          x {quantity}
+        </Text>
+      )}
+    </div>
     {children}
   </Spacer>
 ))
@@ -414,7 +422,11 @@ const LineItemOptions = withSkeletonTemplate<{
   return (
     <Spacer top='4'>
       {lineItemOptions.map((item) => (
-        <LineItemOptionsWrapper key={item.id} title={item.name ?? undefined}>
+        <LineItemOptionsWrapper
+          key={item.id}
+          title={item.name ?? undefined}
+          quantity={item.quantity}
+        >
           {Object.entries(item.options).map(([optionName, optionValue]) => (
             <LineItemOptionsItem
               key={optionName}

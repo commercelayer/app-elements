@@ -643,9 +643,19 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
               class="pb-2 last:pb-0"
             >
               <div
-                class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                class="flex gap-1"
               >
-                Front Text
+                <div
+                  class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                >
+                  Front Text
+                </div>
+                <div
+                  class="font-bold text-sm [overflow-wrap:anywhere]"
+                >
+                  x 
+                  1
+                </div>
               </div>
               <div
                 class="flex items-center gap-1 mb-1"
@@ -700,9 +710,19 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
               class="pb-2 last:pb-0"
             >
               <div
-                class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                class="flex gap-1"
               >
-                Rear Text
+                <div
+                  class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                >
+                  Rear Text
+                </div>
+                <div
+                  class="font-bold text-sm [overflow-wrap:anywhere]"
+                >
+                  x 
+                  1
+                </div>
               </div>
               <div
                 class="flex items-center gap-1 mb-1"
@@ -757,9 +777,19 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
               class="pb-2 last:pb-0"
             >
               <div
-                class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                class="flex gap-1"
               >
-                Special
+                <div
+                  class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                >
+                  Special
+                </div>
+                <div
+                  class="font-bold text-sm [overflow-wrap:anywhere]"
+                >
+                  x 
+                  1
+                </div>
               </div>
               <div
                 class="flex items-center gap-1 mb-1"
