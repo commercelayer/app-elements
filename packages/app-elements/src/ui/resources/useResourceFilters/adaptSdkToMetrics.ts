@@ -1,5 +1,5 @@
 import {
-  getLastYearIsoRange,
+  makeDateYearsRange,
   removeMillisecondsFromIsoDate
 } from '#helpers/date'
 import { type FiltersInstructions } from '#ui/resources/useResourceFilters/types'
@@ -246,9 +246,15 @@ export function adaptSdkToMetrics({
         }
       : {
           // default date range for metrics, when no custom date range is set, is 1 year
-          ...getLastYearIsoRange({
+          // for archived orders we use 5 years
+          ...makeDateYearsRange({
             now: new Date(),
-            showMilliseconds: false
+            showMilliseconds: false,
+            yearsAgo:
+              'archived' in filterValueMainResource &&
+              filterValueMainResource.archived === true
+                ? 5
+                : 1
           }),
           date_field: defaultDatePredicate
         }

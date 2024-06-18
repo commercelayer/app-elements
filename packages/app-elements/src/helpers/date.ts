@@ -384,34 +384,48 @@ export function removeMillisecondsFromIsoDate(isoDate: string): string {
 }
 
 /**
- * Returns one year date range (minus 1 second) from the specified now date.
+ * Creates a date range spanning a specified number of years back from a given reference date.
+ * The range includes the start date and ends exactly one second before the reference date to form a precise interval.
  *
- * If `showMilliseconds` is false will remove milliseconds from the Date ISO strings,
- * ready to be used, for instance, in Metrics APIs requests.
+ * @param now The reference date from which the range is calculated. Typically the current date.
+ * @param yearsAgo The number of years to go back from the reference date to determine the start of the range.
+ * @param showMilliseconds If set to false, the resulting date strings are formatted to exclude milliseconds.
+ * @returns An object containing `date_from` and `date_to` properties. `date_from` is the calculated start date of the range,
+ *          going back the specified number of years from `now`. `date_to` is adjusted to be one second before `now`,
+ *          effectively marking the end of the range. Both dates are returned as ISO 8601 formatted strings, with an option
+ *          to include or exclude milliseconds.
  *
- * Example:
+ * Example usage:
  * ```
- * // with showMilliseconds = true
- * { date_from: '2022-04-24T13:44:59:452Z', date_to: '2023-04-24T13:45:452Z' }
- * // with showMilliseconds = false
- * { date_from: '2022-04-24T13:44:59Z', date_to: '2023-04-24T13:45Z' }
+ * const range = makeDateYearsRange(new Date(), 1, false);
+ * console.log(range);
+ * // Output when showMilliseconds is false:
+ * // { date_from: '2022-04-24T13:45:01Z, date_to: '2023-04-24T13:45:00Z' }
+ * // Output when showMilliseconds is true:
+ * // { date_from: '2022-04-24T13:45:01.000Z, date_to: '2023-04-24T13:45:00.000Z' }
  * ```
  */
-export function getLastYearIsoRange({
+export function makeDateYearsRange({
   now,
+  yearsAgo,
   showMilliseconds = true
 }: {
   now: Date
+  yearsAgo: number
   showMilliseconds: boolean
 }): {
   date_from: string
   date_to: string
 } {
+  if (yearsAgo < 1) {
+    throw new Error('Years ago must be greater than 0')
+  }
+
   const to = now.toISOString()
 
   // same day, one year ago
   const lastYearDate = new Date(
-    new Date(now).setFullYear(now.getFullYear() - 1)
+    new Date(now).setFullYear(now.getFullYear() - yearsAgo)
   )
   // remove 1 second to avoid overlapping with the current year
   lastYearDate.setSeconds(lastYearDate.getSeconds() + 1)
