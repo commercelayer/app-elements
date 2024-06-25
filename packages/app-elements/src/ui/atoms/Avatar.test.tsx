@@ -1,5 +1,6 @@
 import { render, type RenderResult } from '@testing-library/react'
 import { Avatar, type AvatarProps } from './Avatar'
+import { presets } from './Avatar.utils'
 
 interface SetupProps extends AvatarProps {
   id: string
@@ -41,7 +42,7 @@ describe('Avatar', () => {
     })
     expect(element).toBeVisible()
     expect(element).toMatchSnapshot()
-    expect(element.getAttribute('src')).toContain('data:image/')
+    expect(element.getAttribute('src')).toContain(presets['payments:stripe'])
     expect(element.getAttribute('alt')).toBe('Stripe')
   })
 
@@ -54,7 +55,9 @@ describe('Avatar', () => {
     })
     expect(element).toBeVisible()
     expect(element).toMatchSnapshot()
-    expect(element.getAttribute('src')).toContain('data:image/')
+    expect(element.getAttribute('src')).toContain(
+      'https://data.commercelayer.app/assets/images/icons/items/placeholder.svg'
+    )
     expect(element.getAttribute('alt')).toBe('Undefined source')
   })
 })
