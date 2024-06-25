@@ -99,6 +99,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
           isLoading: boolean
           data?: FetcherResponse<Resource<TResource>>
           isFirstLoading: boolean
+          removeItem: (resourceId: string) => void
         }) => React.ReactNode
       }
   )
@@ -235,7 +236,19 @@ export function ResourceList<TResource extends ListableResourceType>({
           })}
 
         {'children' in props &&
-          props.children({ isLoading, data, isFirstLoading })}
+          props.children({
+            isLoading,
+            data,
+            isFirstLoading,
+            removeItem: (resourceId) => {
+              dispatch({
+                type: 'removeItem',
+                payload: {
+                  resourceId
+                }
+              })
+            }
+          })}
 
         {error != null ? (
           <ErrorLine
