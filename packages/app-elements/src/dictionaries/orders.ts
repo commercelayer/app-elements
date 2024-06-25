@@ -26,6 +26,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case 'placed:authorized:not_required':
     case 'placed:paid:unfulfilled':
     case 'placed:paid:not_required':
+    case 'placed:paid:in_progress':
     case 'placed:partially_refunded:unfulfilled':
     case 'placed:partially_refunded:not_required':
     case 'placed:free:unfulfilled':
