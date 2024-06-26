@@ -9,6 +9,7 @@ export default [
     first_name: 'John',
     last_name: 'Doe',
     age: 35,
+    is_vip: true,
     other: { pet: 'cat' }
   }),
   ...mockCustomer('ASEYfdNrwa', {
