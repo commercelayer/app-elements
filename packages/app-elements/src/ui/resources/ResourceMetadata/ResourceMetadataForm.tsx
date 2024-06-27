@@ -102,7 +102,13 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       case 'string':
         return <HookedInput name={`metadata.${idx}.value`} />
       case 'number':
-        return <HookedInput type='number' name={`metadata.${idx}.value`} />
+        return (
+          <HookedInput
+            type='number'
+            name={`metadata.${idx}.value`}
+            step='any'
+          />
+        )
       case 'boolean':
         return <HookedInputCheckbox name={`metadata.${idx}.value`} />
       default:
@@ -115,8 +121,16 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       {...methods}
       onSubmit={(formValues) => {
         const sdkMetadata: Metadata = {}
-        formValues.metadata?.forEach((m) => {
-          sdkMetadata[m.key] = m.value
+        formValues.metadata?.forEach((m, idx) => {
+          // I need to check if the original value of a metadata entry was `number` to force it to be parsed as `float` because input field behavior will change it to `string` by default
+          if (
+            keyedMetadata[idx] != null &&
+            typeof keyedMetadata[idx]?.value === 'number'
+          ) {
+            sdkMetadata[m.key] = parseFloat(m.value as string)
+          } else {
+            sdkMetadata[m.key] = m.value
+          }
         })
         onSubmit({ metadata: sdkMetadata })
       }}
@@ -124,7 +138,8 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       <Spacer bottom='12'>
         <Section title='Metadata'>
           {watchedMetadata.map((metadata, idx) => {
-            if (!isUpdatableType(metadata.value)) {
+            const originalMetadata = keyedMetadata[idx] ?? metadata
+            if (!isUpdatableType(originalMetadata.value)) {
               return <Fragment key={idx} />
             }
 
@@ -137,7 +152,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
                     <HookedInput name={`metadata.${idx}.key`} />
                   )}
                   <div className='md:w-3/5'>
-                    {editInputComponent(metadata, idx)}
+                    {editInputComponent(originalMetadata, idx)}
                   </div>
                 </div>
                 {mode === 'advanced' && (

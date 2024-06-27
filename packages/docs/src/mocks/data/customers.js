@@ -9,6 +9,7 @@ export default [
     first_name: 'John',
     last_name: 'Doe',
     age: 35,
+    height: 1.8,
     is_vip: true,
     other: { pet: 'cat' }
   }),
