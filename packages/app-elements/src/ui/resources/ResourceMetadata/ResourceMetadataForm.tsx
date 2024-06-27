@@ -1,6 +1,7 @@
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInput } from '#ui/forms/Input'
+import { HookedInputCheckbox } from '#ui/forms/InputCheckbox'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
 import { useForm } from 'react-hook-form'
 
@@ -15,7 +16,7 @@ import { type Metadata } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Fragment, useMemo } from 'react'
 import { z } from 'zod'
-import { type ResourceMetadataProps } from './ResourceMetadata'
+import { isUpdatableType, type ResourceMetadataProps } from './ResourceMetadata'
 import { groupMetadataKeys } from './utils'
 
 interface ResourceMetadataFormValues {
@@ -46,10 +47,6 @@ const metadataForm = z
       }
     })
   })
-
-function isEditable(metadata: Metadata): boolean {
-  return typeof metadata.value === 'string'
-}
 
 export const ResourceMetadataForm = withSkeletonTemplate<{
   resourceId: string
@@ -97,6 +94,22 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     }, 200)
   }
 
+  const editInputComponent = (
+    metadata: KeyedMetadata,
+    idx: number
+  ): JSX.Element | undefined => {
+    switch (typeof metadata.value) {
+      case 'string':
+        return <HookedInput name={`metadata.${idx}.value`} />
+      case 'number':
+        return <HookedInput type='number' name={`metadata.${idx}.value`} />
+      case 'boolean':
+        return <HookedInputCheckbox name={`metadata.${idx}.value`} />
+      default:
+        return undefined
+    }
+  }
+
   return (
     <HookedForm
       {...methods}
@@ -111,20 +124,20 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       <Spacer bottom='12'>
         <Section title='Metadata'>
           {watchedMetadata.map((metadata, idx) => {
-            if (!isEditable(metadata)) {
+            if (!isUpdatableType(metadata.value)) {
               return <Fragment key={idx} />
             }
 
             return (
               <ListItem key={`metadata.${idx}`} alignItems='center' padding='y'>
-                <div className='flex items-start justify-between gap-4'>
+                <div className='flex items-center justify-between gap-4'>
                   {mode === 'simple' ? (
                     <Text variant='info'>{humanizeString(metadata.key)}</Text>
                   ) : (
                     <HookedInput name={`metadata.${idx}.key`} />
                   )}
                   <div className='md:w-3/5'>
-                    <HookedInput name={`metadata.${idx}.value`} />
+                    {editInputComponent(metadata, idx)}
                   </div>
                 </div>
                 {mode === 'advanced' && (

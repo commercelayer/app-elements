@@ -38,6 +38,13 @@ export interface ResourceMetadataProps {
   overlay: ResourceMetadataOverlay
 }
 
+export const updatableTypes = ['string', 'number', 'boolean'] as const
+export type UpdatableType = (typeof updatableTypes)[number]
+
+export const isUpdatableType = (value: any): value is UpdatableType => {
+  return updatableTypes.includes(typeof value as UpdatableType)
+}
+
 /**
  * This component provides an all-in-one visualization and editing interface for the `metadata` attribute of a given resource.
  * More in detail the `metadata` attribute is a JSON object, customizable for several purposes, and this component will allow to show and manage its keys with a simple (string kind) values.
@@ -59,19 +66,19 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       ]
     )
 
-    const hasStringMetadata =
-      Object.entries(resourceData?.metadata ?? []).filter(
-        ([, metadataValue]) => typeof metadataValue === 'string'
+    const isUpdatable =
+      Object.entries(resourceData?.metadata ?? []).filter(([, metadataValue]) =>
+        isUpdatableType(metadataValue)
       ).length > 0
 
-    if (!hasStringMetadata || isLoading) return <></>
+    if (!isUpdatable || isLoading) return <></>
 
     return (
       <div>
         <Section
           title='Metadata'
           actionButton={
-            hasStringMetadata &&
+            isUpdatable &&
             canUser('update', resourceType) && (
               <Button
                 variant='secondary'
@@ -89,7 +96,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         >
           {Object.entries(resourceData?.metadata ?? []).map(
             ([metadataKey, metadataValue], idx) => {
-              if (typeof metadataValue !== 'string') return null
+              if (!isUpdatableType(metadataValue)) return null
 
               return (
                 <ListItem
@@ -106,7 +113,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                     weight='semibold'
                     data-testid={`ResourceMetadata-value-${metadataKey}`}
                   >
-                    {metadataValue}
+                    {metadataValue.toString()}
                   </Text>
                 </ListItem>
               )
