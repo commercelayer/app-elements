@@ -14,7 +14,7 @@ import {
   Stories,
   Subtitle,
   Title
-} from '@storybook/addon-docs'
+} from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

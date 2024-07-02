@@ -4,7 +4,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
-import { Description, Primary, Subtitle, Title } from '@storybook/addon-docs'
+import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 

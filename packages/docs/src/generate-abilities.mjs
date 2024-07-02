@@ -46,7 +46,7 @@ async function generatePageFromAbilities() {
   console.groupEnd()
 
   const content = `
-import { Meta } from '@storybook/addon-docs';
+import { Meta } from '@storybook/blocks';
 import { Tabs, Tab } from '#ui/atoms/Tabs';
 
 <Meta title="Getting Started/Applications"></Meta>
