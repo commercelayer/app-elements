@@ -144,14 +144,17 @@ describe('getDefaultValueFromFlatten', () => {
     ).toStrictEqual({ value: 'MI', label: 'Milan', meta: { zipCode: '20100' } })
   })
 
-  test('should return `undefined` when single value is not matched', () => {
+  test('should return a new option generated from `currentValue` when this is not included in `initialValues`', () => {
     expect(
       getDefaultValueFromFlatten({
         initialValues,
         currentValue: '000000',
         pathToValue: 'meta.zipCode'
       })
-    ).toBe(undefined)
+    ).toStrictEqual({
+      value: '000000',
+      label: '000000'
+    })
   })
 
   test('should return an array when working as multi select', () => {
@@ -163,13 +166,18 @@ describe('getDefaultValueFromFlatten', () => {
     ).toStrictEqual(initialValues.slice(0, 2))
   })
 
-  test('should return empty array when current value is not matched', () => {
+  test('should return an array with the new option generated from `currentValue` when this is not included in `initialValues` (isMulti)', () => {
     expect(
       getDefaultValueFromFlatten({
         initialValues,
         currentValue: ['TO']
       })
-    ).toStrictEqual([])
+    ).toStrictEqual([
+      {
+        value: 'TO',
+        label: 'TO'
+      }
+    ])
   })
 
   test('should undefined when current value does not exist', () => {

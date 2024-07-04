@@ -95,13 +95,24 @@ export function getDefaultValueFromFlatten({
     : initialValues
 
   if (Array.isArray(currentValue)) {
-    return options.filter((v) => {
+    // in case of creatable the value is not in the options list
+    const newOptions: InputSelectValue[] = currentValue
+      .filter((v) => !options.map((o) => o.value).includes(v))
+      .map((o) => ({ value: o, label: o.toString() }))
+
+    return options.concat(newOptions).filter((v) => {
       const valueToCompare: string | number = get(v, pathToValue)
       return currentValue.includes(valueToCompare)
     })
   }
 
-  return options.find((v) => {
-    return currentValue === get(v, pathToValue)
-  })
+  return (
+    options.find((v) => {
+      return currentValue === get(v, pathToValue)
+    }) ?? {
+      // in case of creatable the value is not in the options list
+      value: currentValue,
+      label: currentValue.toString()
+    }
+  )
 }

@@ -11,6 +11,7 @@ import {
   type SingleValue
 } from 'react-select'
 import { AsyncSelectComponent } from './AsyncComponent'
+import { CreatableComponent } from './CreatableComponent'
 import { SelectComponent } from './SelectComponent'
 import { getSelectStyles } from './styles'
 
@@ -117,6 +118,11 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    * It only works when `loadAsyncValues` is provided
    */
   debounceMs?: number
+  /**
+   * Allows to create new options on the fly when no option is found.
+   * It does not work with `loadAsyncValues`.
+   */
+  isCreatable?: boolean
 }
 
 /**
@@ -159,6 +165,7 @@ export const InputSelect = forwardRef<
       debounceMs,
       noOptionsMessage = 'No results found',
       menuFooterText,
+      isCreatable,
       ...rest
     },
     ref
@@ -191,6 +198,25 @@ export const InputSelect = forwardRef<
             styles={getSelectStyles(feedback?.variant)}
             debounceMs={debounceMs}
             isOptionDisabled={isOptionDisabled}
+            menuFooterText={menuFooterText}
+          />
+        ) : isCreatable === true ? (
+          <CreatableComponent
+            ref={ref}
+            menuIsOpen={menuIsOpen}
+            initialValues={initialValues}
+            defaultValue={defaultValue}
+            value={value}
+            isClearable={isClearable}
+            placeholder={isLoading === true ? loadingText : placeholder}
+            isDisabled={isLoading === true || isDisabled === true}
+            isSearchable={isSearchable}
+            onSelect={onSelect}
+            isMulti={isMulti}
+            isOptionDisabled={isOptionDisabled}
+            onBlur={onBlur}
+            name={name}
+            styles={getSelectStyles(feedback?.variant)}
             menuFooterText={menuFooterText}
           />
         ) : (
