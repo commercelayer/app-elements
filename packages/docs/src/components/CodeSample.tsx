@@ -1,18 +1,20 @@
-import { Source } from '@storybook/addon-docs'
+import { Source } from '@storybook/blocks'
 import * as prettierEstree from 'prettier/plugins/estree'
 import * as prettierTypescript from 'prettier/plugins/typescript'
 import * as prettier from 'prettier/standalone'
 import { useEffect, useState } from 'react'
 
+export interface CodeSampleProps {
+  fn: () => any
+  code?: string
+  description?: string
+}
+
 export function CodeSample({
   fn,
   code,
   description
-}: {
-  fn: () => any
-  code?: string
-  description?: string
-}): JSX.Element {
+}: CodeSampleProps): JSX.Element {
   const [sanitizedCode, setSanitizedCode] = useState<string>()
   const [rawCode, setRawCode] = useState<string | undefined>(code)
 
@@ -65,7 +67,7 @@ export function CodeSample({
       {description}
       <Source
         dark
-        language='js'
+        language='jsx'
         code={`${sanitizedCode}//=  ${typeof result === 'object' ? JSON.stringify(result) : result}`}
       />
     </>

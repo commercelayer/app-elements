@@ -1,0 +1,70 @@
+import {
+  formatDate,
+  formatDateRange,
+  getEventDateInfo,
+  makeDateYearsRange
+} from '#helpers/date'
+import { Canvas, Title, Description, Meta, Source } from '@storybook/blocks'
+import * as Examples from './Currency.data'
+import { CodeSample } from 'src/components/CodeSample'
+import { Text } from '#ui/atoms/Text'
+import { currencies } from '#helpers/currencies'
+
+# Currency
+
+This list of `currency` utilities help to format the currency in a standard and conventional way.
+<br />
+
+### Currencies
+
+<Source dark language='tsx' code="import { currencies } from '@commercelayer/app-elements'" />
+
+You can get the full list of supported currencies by importing `currencies`.
+
+{
+  <div
+    style={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
+      gridAutoFlow: 'row',
+      gap: '1rem',
+      marginTop: '2rem',
+      marginBottom: '3rem',
+      padding: '0 1.5rem 0'
+    }}
+  >
+    {Object.values(currencies).map((c) => c.iso_code).map((code) => (
+      <div
+        key={code}
+        className='flex flex-row gap-2 items-center align-middle'
+      >
+        <Text size='small' variant='info'>
+          {code}
+        </Text>
+      </div>
+    ))}
+  </div>
+}
+
+
+### `type CurrencyCode`
+
+<Source dark language='tsx' code="import type { CurrencyCode } from '@commercelayer/app-elements'" />
+
+{
+  Examples.currencyCodeTypeExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}
+
+
+### `formatCentsToCurrency()`
+
+Format cents to currency.
+Useful to display the returned value from `<InputCurrency>` component.
+
+{
+  Examples.formatCentsToCurrencyExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}

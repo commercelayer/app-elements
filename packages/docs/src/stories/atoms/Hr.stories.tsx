@@ -1,5 +1,5 @@
 import { Hr } from '#ui/atoms/Hr'
-import { Description, Stories, Subtitle, Title } from '@storybook/addon-docs'
+import { Description, Stories, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Hr> = {

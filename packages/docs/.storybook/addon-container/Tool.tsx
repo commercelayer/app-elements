@@ -1,5 +1,5 @@
-import { useGlobals, useStorybookApi } from '@storybook/api'
 import { IconButton, Icons } from '@storybook/components'
+import { useGlobals, useStorybookApi } from '@storybook/manager-api'
 import React, { useCallback, useEffect } from 'react'
 import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from './constants'
 

@@ -1,0 +1,57 @@
+import {
+  formatDate,
+  formatDateRange,
+  getEventDateInfo,
+  makeDateYearsRange
+} from '#helpers/date'
+import { Canvas, Title, Description, Meta, Source } from '@storybook/blocks'
+import * as Examples from './Date.data'
+import { CodeSample } from 'src/components/CodeSample'
+
+# Date
+
+This list of `date` utilities help to manipulate and format the date in a standard and conventional way.
+<br />
+
+### `formatDate()`
+
+Format the date as nice string also specifying a custom timezone.
+
+{
+  Examples.formatDateExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}
+
+
+### `formatDateRange()`
+
+Format a date range as a nice string also specifying a custom timezone.
+
+{
+  Examples.formatDateRangeExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}
+
+
+### `getEventDateInfo()`
+
+Given the event date (`startsAt` and `expiresAt`) it returns whether the the event is `active`, `past` or `upcoming`.
+
+{
+  Examples.getEventDateInfoExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}
+
+
+### `makeDateYearsRange()`
+
+Returns the specified `yearsAgo` date range (minus 1 second) from the specified `now` date.
+
+{
+  Examples.makeDateYearsRangeExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}

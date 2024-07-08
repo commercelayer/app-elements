@@ -1,5 +1,5 @@
 import { type StorybookConfig } from '@storybook/react-vite'
-import { resolve } from 'path'
+import { dirname, join, resolve } from 'path'
 import remarkGfm from 'remark-gfm'
 import { mergeConfig, type UserConfig } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
@@ -23,9 +23,9 @@ const storybookConfig: StorybookConfig = {
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'
   ],
   addons: [
-    '@storybook/addon-links',
-    '@storybook/addon-essentials',
-    '@storybook/addon-interactions',
+    getAbsolutePath('@storybook/addon-links'),
+    getAbsolutePath('@storybook/addon-essentials'),
+    getAbsolutePath('@storybook/addon-interactions'),
     {
       name: '@storybook/addon-docs',
       options: {
@@ -35,7 +35,7 @@ const storybookConfig: StorybookConfig = {
           },
         },
       },
-    }
+    },
   ],
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [
@@ -43,19 +43,23 @@ const storybookConfig: StorybookConfig = {
     require.resolve('./addon-gh-repository/manager.tsx')
   ],
   framework: {
-    name: '@storybook/react-vite',
+    name: getAbsolutePath("@storybook/react-vite"),
     options: {}
   },
   core: {
     disableTelemetry: true
   },
-  features: {
-    storyStoreV7: true
-  },
   docs: {
     autodocs: true,
     docsMode: true
+  },
+  typescript: {
+    reactDocgen: 'react-docgen-typescript'
   }
 }
 
 module.exports = storybookConfig
+
+function getAbsolutePath(value: string): any {
+  return dirname(require.resolve(join(value, 'package.json')));
+}

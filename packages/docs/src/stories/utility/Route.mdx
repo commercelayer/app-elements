@@ -1,0 +1,33 @@
+import {
+  formatDate,
+  formatDateRange,
+  getEventDateInfo,
+  makeDateYearsRange
+} from '#helpers/date'
+import { Canvas, Title, Description, Meta, Source } from '@storybook/blocks'
+import * as Examples from './Route.data'
+import { CodeSample } from 'src/components/CodeSample'
+
+# Route
+
+This list of `route` utilities help to work with routes.
+<br />
+
+### `createRoute()`
+
+Create a `Route` given a path. Route has the provided `path` and a `makePath` method that helps making a path.
+
+{
+  Examples.createRouteExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}
+
+
+### `createTypedRoute()`
+
+{
+  Examples.createTypedRouteExamples.map(props => (
+    <CodeSample {...props} />
+  ))
+}
