@@ -148,6 +148,20 @@ Multi.args = {
 }
 
 /**
+ * `isCreatable` allows to add custom value to the list simply by typing it.
+ */
+export const Creatable = Template.bind({})
+Creatable.args = {
+  label: 'Search resource or type for new value',
+  initialValues: fullList,
+  placeholder: 'Type something...',
+  isMulti: true,
+  isSearchable: true,
+  isClearable: false,
+  isCreatable: true
+}
+
+/**
  * Options can be grouped by passing an array of objects with `label` and `options` properties.
  */
 export const GroupedOptions = Template.bind({})

@@ -120,6 +120,28 @@ MultiSelect.args = {
   }
 }
 
+/**
+ * This example shows a multi select with the `isCreatable` prop enabled.
+ */
+export const MultiSelectCreatable = Template.bind({})
+MultiSelectCreatable.args = {
+  label: 'City',
+  name: 'city',
+  isMulti: true,
+  isCreatable: true,
+  placeholder: 'Type to create a new city that is not in the list...',
+  initialValues: [
+    {
+      value: 'paris',
+      label: 'Paris'
+    },
+    {
+      value: 'new york',
+      label: 'New York'
+    }
+  ]
+}
+
 export const Clear: StoryFn<typeof HookedInputSelect> = () => {
   const methods = useForm({
     defaultValues: { city: ['paris'] }
