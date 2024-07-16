@@ -44,6 +44,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
       ) : (
         <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
       ),
+    showRightContent: true,
     rightContent: (
       <>
         <Text
