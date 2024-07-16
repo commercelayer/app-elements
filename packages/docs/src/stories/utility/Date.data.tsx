@@ -30,6 +30,21 @@ export const formatDateExamples: CodeSampleProps[] = [
   },
   {
     fn: () => {
+      // This is to avoid name mangling.
+      // eslint-disable-next-line no-eval
+      eval('')
+
+      const currentYear = new Date().getFullYear()
+
+      return formatDate({
+        isoDate: `${currentYear}-10-14T14:32:00.000Z`,
+        format: 'date',
+        showCurrentYear: true
+      })
+    }
+  },
+  {
+    fn: () => {
       return formatDate({
         isoDate: new Date().toString(),
         format: 'date'
