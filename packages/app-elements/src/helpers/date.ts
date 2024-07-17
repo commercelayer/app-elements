@@ -43,6 +43,11 @@ interface FormatDateOptions {
    * @default date
    */
   format?: Format
+  /**
+   * Whether to show or not the current year.
+   * @default false
+   */
+  showCurrentYear?: boolean
 }
 
 /**
@@ -53,6 +58,7 @@ interface FormatDateOptions {
 export function formatDate({
   isoDate,
   timezone = 'UTC',
+  showCurrentYear = false,
   ...opts
 }: FormatDateOptions): string {
   if (isoDate == null) {
@@ -65,7 +71,8 @@ export function formatDate({
     const formatTemplate = getPresetFormatTemplate(
       zonedDate,
       timezone,
-      opts.format
+      opts.format,
+      showCurrentYear
     )
 
     return format(zonedDate, formatTemplate)
@@ -122,43 +129,48 @@ export function formatDateWithPredicate({
   return `${predicate} ${separator}${formattedDate}`
 }
 
-export const timeSeparator = '·'
+export const timeSeparator = ', '
 
 function getPresetFormatTemplate(
   zonedDate: Date,
   timezone: string,
-  format: Format = 'date'
+  format: Format = 'date',
+  showCurrentYear: boolean
 ): string {
   switch (format) {
     case 'date':
       return isToday(zonedDate)
         ? "'Today'"
-        : isThisYear(zonedDate)
+        : isThisYear(zonedDate) && !showCurrentYear
           ? 'LLL dd'
           : 'LLL dd, yyyy'
     case 'time':
       return 'kk:mm'
     case 'timeWithSeconds':
-      return `${getPresetFormatTemplate(zonedDate, timezone, 'time')}:ss`
+      return `${getPresetFormatTemplate(zonedDate, timezone, 'time', showCurrentYear)}:ss`
     case 'full':
       return `${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'date'
-      )} ${timeSeparator} ${getPresetFormatTemplate(
+        'date',
+        showCurrentYear
+      )}${timeSeparator}${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'time'
+        'time',
+        showCurrentYear
       )}`
     case 'fullWithSeconds':
       return `${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'date'
-      )} ${timeSeparator} ${getPresetFormatTemplate(
+        'date',
+        showCurrentYear
+      )}${timeSeparator}${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'timeWithSeconds'
+        'timeWithSeconds',
+        showCurrentYear
       )}`
     case 'distanceToNow':
       return `'${formatDistance(zonedDate, toZonedTime(new Date(), timezone), {

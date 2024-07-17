@@ -21,7 +21,7 @@ export const returnToProps: ResourceToProps<Return> = ({ resource, user }) => {
       <ListItemDescription
         displayStatus={displayStatus}
         date={formatDate({
-          format: 'date',
+          format: 'full',
           isoDate: resource.updated_at,
           timezone: user?.timezone
         })}

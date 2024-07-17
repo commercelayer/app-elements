@@ -37,7 +37,7 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
       <ListItemDescription
         displayStatus={displayStatus}
         date={formatDate({
-          format: 'date',
+          format: 'full',
           isoDate: resource.updated_at,
           timezone: user?.timezone
         })}

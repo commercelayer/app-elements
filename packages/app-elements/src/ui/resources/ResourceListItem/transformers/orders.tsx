@@ -31,7 +31,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
       <ListItemDescription
         displayStatus={displayStatus}
         date={formatDate({
-          format: 'date',
+          format: 'full',
           isoDate: resource.placed_at ?? resource.updated_at,
           timezone: user?.timezone
         })}
@@ -44,6 +44,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
       ) : (
         <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
       ),
+    showRightContent: true,
     rightContent: (
       <>
         <Text

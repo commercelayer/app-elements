@@ -74,7 +74,7 @@ describe('formatDate', () => {
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'full'
       })
-    ).toBe('Feb 22 · 10:32')
+    ).toBe('Feb 22, 10:32')
 
     // PM
     expect(
@@ -82,7 +82,7 @@ describe('formatDate', () => {
         isoDate: '2022-10-26T16:16:31.279Z',
         format: 'full'
       })
-    ).toBe('Oct 26, 2022 · 16:16')
+    ).toBe('Oct 26, 2022, 16:16')
   })
 
   test('Should return a date with time and seconds', () => {
@@ -92,7 +92,7 @@ describe('formatDate', () => {
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'fullWithSeconds'
       })
-    ).toBe('Feb 22 · 10:32:47')
+    ).toBe('Feb 22, 10:32:47')
 
     // PM
     expect(
@@ -100,7 +100,7 @@ describe('formatDate', () => {
         isoDate: '2022-10-26T16:16:31.279Z',
         format: 'fullWithSeconds'
       })
-    ).toBe('Oct 26, 2022 · 16:16:31')
+    ).toBe('Oct 26, 2022, 16:16:31')
   })
 
   test('Should return only the time', () => {
@@ -156,7 +156,7 @@ describe('formatDate', () => {
         timezone: 'Europe/Rome',
         format: 'full'
       })
-    ).toBe('Oct 26, 2022 · 18:16')
+    ).toBe('Oct 26, 2022, 18:16')
   })
 
   test('Should return the distance to now', () => {
@@ -231,7 +231,7 @@ describe('formatDateWithPredicate', () => {
         predicate: 'Created',
         isoDate: '2022-10-14T14:32:00.000Z'
       })
-    ).toBe('Created on Oct 14, 2022 · 14:32')
+    ).toBe('Created on Oct 14, 2022, 14:32')
   })
 
   test('Should return the predicate followed by `on` and the date without the year when current year', () => {
@@ -261,7 +261,7 @@ describe('formatDateWithPredicate', () => {
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'full'
       })
-    ).toBe('Updated on Feb 22 · 10:32')
+    ).toBe('Updated on Feb 22, 10:32')
   })
 
   test('Should return the predicate followed by `on` and the date with time and seconds', () => {
@@ -271,7 +271,7 @@ describe('formatDateWithPredicate', () => {
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'fullWithSeconds'
       })
-    ).toBe('Updated on Feb 22 · 10:32:47')
+    ).toBe('Updated on Feb 22, 10:32:47')
   })
 
   test('Should return the predicate followed by `at` and the time', () => {
