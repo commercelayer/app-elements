@@ -1,4 +1,4 @@
-import { formatDate, sortAndGroupByDate, timeSeparator } from '#helpers/date'
+import { formatDate, sortAndGroupByDate } from '#helpers/date'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -86,9 +86,9 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
                           </Text>
                         )}
                         <Text variant='info'>
-                          {event.message} {timeSeparator}{' '}
+                          {event.message} ·{' '}
                           {formatDate({
-                            format: 'time',
+                            format: 'timeWithSeconds',
                             isoDate: event.date,
                             timezone
                           })}
