@@ -49,8 +49,6 @@
   "include": [
     ".storybook/*.tsx",
     "src",
-    ".eslintrc.cjs",
-    "*.config.ts",
-    "*.config.js"
+    ".eslintrc.cjs"
   ]
 }

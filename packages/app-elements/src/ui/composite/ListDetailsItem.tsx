@@ -77,7 +77,7 @@ export function ListDetailsItem({
             <SkeletonItem className='w-28 h-6' />
           </Skeleton>
         ) : (
-          children ?? <Text variant='disabled'>&#8212;</Text>
+          (children ?? <Text variant='disabled'>&#8212;</Text>)
         )}
       </div>
     </div>

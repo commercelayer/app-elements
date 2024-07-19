@@ -29,7 +29,8 @@ const options: InputToggleButtonProps['options'] = [
 function Component(
   props: Omit<InputToggleButtonProps, 'onChange'>
 ): JSX.Element {
-  const initialValue = props.mode === 'multi' ? props.value ?? [] : props.value
+  const initialValue =
+    props.mode === 'multi' ? (props.value ?? []) : props.value
   const [value, setValue] = useState<any>(initialValue)
   return (
     <InputToggleButton

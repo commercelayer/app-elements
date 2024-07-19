@@ -326,7 +326,7 @@ const useTimelineReducer = (order: Order) => {
                 isFailedCapture && transaction.message != null
                   ? transaction.message
                   : isFailedAuthorization && !isEmpty(transaction.error_detail)
-                    ? transaction.error_detail ?? ''
+                    ? (transaction.error_detail ?? '')
                     : undefined
             }
           })

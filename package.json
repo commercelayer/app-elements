@@ -1,7 +1,7 @@
 {
   "private": true,
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "husky",
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm --stream -r dev",
     "build:elements": "pnpm --stream --filter @commercelayer/app-elements build",
@@ -12,12 +12,8 @@
     "test": "pnpm -r test",
     "test:watch": "pnpm --stream -r test:watch",
     "ts:check": "pnpm --stream -r ts:check",
-    "dep:upgrade:major": "pnpm -r exec npm-check-updates -u",
-    "dep:upgrade:minor": "pnpm dep:upgrade:major -t minor",
-    "dep:self-upgrade:major": "pnpm exec npm-check-updates -u",
-    "dep:self-upgrade:minor": "pnpm dep:self-upgrade:major -t minor",
-    "dep:major": "pnpm dep:upgrade:major && pnpm dep:self-upgrade:major",
-    "dep:minor": "pnpm dep:upgrade:minor && pnpm dep:self-upgrade:minor"
+    "dep:major": "pnpm dlx npm-check-updates --packageFile '**/package.json' -u",
+    "dep:minor": "pnpm dep:major -t minor"
   },
   "keywords": [],
   "author": {
@@ -37,10 +33,9 @@
     "packages/*"
   ],
   "devDependencies": {
-    "husky": "^9.0.11",
-    "lerna": "^8.1.2",
-    "lint-staged": "^15.2.2",
-    "npm-check-updates": "^16.14.18"
+    "husky": "^9.1.1",
+    "lerna": "^8.1.6",
+    "lint-staged": "^15.2.7"
   },
   "resolutions": {
     "tar": "^6.2.1"
