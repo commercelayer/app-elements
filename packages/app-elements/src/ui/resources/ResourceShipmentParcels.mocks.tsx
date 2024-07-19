@@ -92,6 +92,7 @@ function createShipment({
 }): Shipment {
   return {
     type: 'shipments',
+    number: '#1234/S/001',
     id,
     created_at: '',
     updated_at: '',

@@ -66,8 +66,8 @@ export function SkeletonItem({
         rounded: type === 'box'
       })}
       style={{
-        width: className == null ? width ?? '100%' : undefined,
-        height: className == null ? height ?? '1em' : undefined
+        width: className == null ? (width ?? '100%') : undefined,
+        height: className == null ? (height ?? '1em') : undefined
       }}
       {...rest}
     />

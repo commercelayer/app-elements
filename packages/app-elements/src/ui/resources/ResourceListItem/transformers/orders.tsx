@@ -19,7 +19,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
 
   const billingAddress = resource.billing_address
   const descriptionAdditionalInfos = !isEmpty(billingAddress?.company)
-    ? billingAddress?.company ?? ''
+    ? (billingAddress?.company ?? '')
     : formatDisplayName(
         billingAddress?.first_name ?? '',
         billingAddress?.last_name ?? ''

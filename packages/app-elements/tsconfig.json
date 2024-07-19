@@ -52,10 +52,7 @@
   "include": [
     "src",
     "mocks",
-    ".eslintrc.cjs",
-    "*.config.ts",
-    "*.config.js",
-    "*.config.cjs"
+    ".eslintrc.cjs"
   ],
   "references": [
     {

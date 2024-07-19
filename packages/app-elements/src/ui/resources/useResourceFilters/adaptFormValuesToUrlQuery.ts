@@ -44,7 +44,7 @@ export function adaptFormValuesToUrlQuery<
       const currencyTo = currencyRangeField?.to ?? undefined
       const currencyCode =
         currencyFrom != null || currencyTo != null
-          ? currencyRangeField?.currencyCode ?? undefined
+          ? (currencyRangeField?.currencyCode ?? undefined)
           : undefined
 
       return {

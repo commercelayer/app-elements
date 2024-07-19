@@ -78,7 +78,6 @@ export function getShipmentDisplayStatus(
         color: 'green'
       }
 
-    // @ts-expect-error waiting for SDK types
     case 'delivered':
       return {
         label: 'Delivered',
@@ -112,7 +111,8 @@ export function getShipmentStatusName(status: Shipment['status']): string {
     picking: 'Picking',
     ready_to_ship: 'Ready to ship',
     shipped: 'Shipped',
-    cancelled: 'Cancelled'
+    cancelled: 'Cancelled',
+    delivered: 'Delivered'
   }
 
   return dictionary[status]

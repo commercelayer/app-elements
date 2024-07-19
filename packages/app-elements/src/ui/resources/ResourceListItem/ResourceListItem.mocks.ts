@@ -325,7 +325,6 @@ export const presetResourceListItem = {
     created_at: '',
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
-    // @ts-expect-error waiting for SDK types
     status: 'delivered',
     stock_location: originStockLocation
   },

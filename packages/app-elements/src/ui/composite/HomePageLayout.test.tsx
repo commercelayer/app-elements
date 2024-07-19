@@ -4,7 +4,6 @@ import { HomePageLayout } from './HomePageLayout'
 
 describe('HomePageLayout', () => {
   beforeAll(() => {
-    // @ts-expect-error mocking window.scrollTo for testing purposes
     window.scrollTo = vi.fn()
   })
   afterAll(() => {

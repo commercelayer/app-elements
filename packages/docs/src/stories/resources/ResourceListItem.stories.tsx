@@ -40,7 +40,6 @@ const Template: StoryFn<Props> = ({ preset, resource, ...args }) => {
           <ResourceListItem
             key={idx}
             {...args}
-            // @ts-expect-error waiting for SDK types (shipments.status delivered)
             resource={typeof p === 'string' ? presetResourceListItem[p] : p}
           />
         )
@@ -71,7 +70,6 @@ const ItemsByTypeTemplate: StoryFn<ListProps> = (args) => {
       {Object.values(presetResourceListItem)
         .filter((preset) => args.type.includes(preset.type))
         .map((preset, idx) => (
-          // @ts-expect-error waiting for SDK types (shipments.status delivered)
           <ResourceListItem key={idx} resource={preset} />
         ))}
     </>

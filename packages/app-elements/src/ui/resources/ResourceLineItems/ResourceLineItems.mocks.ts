@@ -304,6 +304,7 @@ export const presetLineItems = {
     bundle_code: null,
     quantity: 1,
     name: 'Enamel Mug with Black Logo',
+    total_amount_float: 100,
     image_url:
       'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/EMUG12OZFFFFFF000000XXXX_FLAT.png',
     return_reason: {

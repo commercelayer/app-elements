@@ -73,7 +73,8 @@ export function getReturnStatusName(status: Return['status']): string {
     shipped: 'Shipped',
     received: 'Received',
     cancelled: 'Cancelled',
-    rejected: 'Rejected'
+    rejected: 'Rejected',
+    refunded: 'Refunded'
   }
 
   return dictionary[status]
