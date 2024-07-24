@@ -5,6 +5,7 @@ import {
 } from '#providers/TokenProvider'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
+import isEmpty from 'lodash/isEmpty'
 import { getInfoFromJwt } from './getInfoFromJwt'
 import {
   type Mode,
@@ -13,7 +14,6 @@ import {
   type TokenProviderRolePermissions,
   type TokenProviderTokenInfo
 } from './types'
-import { getOrgSlugFromCurrentUrl } from './url'
 
 export function isTokenExpired({
   accessToken,
@@ -87,8 +87,9 @@ export async function isValidTokenForCurrentApp({
     })
     const isValidOnCore = Boolean(tokenInfo?.token)
     const isValidKind = jwtInfo.appKind === kind
-    const isValidOrganizationSlug =
-      jwtInfo.orgSlug === (organizationSlug ?? getOrgSlugFromCurrentUrl())
+    const isValidOrganizationSlug = isEmpty(organizationSlug)
+      ? true // skip validation if organizationSlug is not provided
+      : jwtInfo.orgSlug === organizationSlug
 
     const isAllValid = isValidKind && isValidOrganizationSlug && isValidOnCore
 

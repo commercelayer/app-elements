@@ -19,7 +19,6 @@ import {
   getCurrentMode,
   removeAuthParamsFromUrl
 } from './getAccessTokenFromUrl'
-import { getInfoFromJwt } from './getInfoFromJwt'
 import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
@@ -29,7 +28,7 @@ import {
   type TokenProviderAuthUser,
   type TokenProviderRoleActions
 } from './types'
-import { makeDashboardUrl, makeReAuthenticationUrl } from './url'
+import { makeDashboardUrl } from './url'
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 
 export interface TokenProviderValue {
@@ -64,18 +63,16 @@ export interface TokenProviderProps {
    */
   children: ((props: TokenProviderValue) => ReactNode) | ReactNode
   /**
-   * Required when application is running as self-hosted.
-   * It's used to perform a security check to test the validity of token against the current organization.
+   * If present, only an access token with the same organization slug will be considered valid.
+   * It will be also used to generate the local storage key when the token is persisted.
+   * When empty, the app will use the organization slug decoded from the token
+   * and the token will be persisted using a default key ('commercelayer').
    */
   organizationSlug?: string
   /**
    * The base domain to be used for Commerce Layer API requests (e.g. `commercelayer.io`)
    */
   domain?: string
-  /**
-   * Set this to `true` to automatically redirect to the dashboard, start the re-authentication flow, and return to the app with a fresh token.
-   */
-  reauthenticateOnInvalidAuth?: boolean
   /**
    * The callback invoked when token is not valid.
    * Can be used to manually handle the re-authentication flow when `reauthenticateOnInvalidAuth` is false.
@@ -130,7 +127,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   organizationSlug,
   domain = 'commercelayer.io',
   onInvalidAuth,
-  reauthenticateOnInvalidAuth = false,
   loadingElement,
   errorElement,
   accessToken: accessTokenFromProp,
@@ -138,8 +134,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   isInDashboard = false
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
-  const isSelfHosted = organizationSlug != null
-
   domain = isProductionHostname() ? 'commercelayer.io' : domain
 
   const accessToken =
@@ -149,25 +143,13 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
   const dashboardUrl = makeDashboardUrl({
     domain,
-    mode: getCurrentMode({ accessToken }),
-    organizationSlug
+    accessToken
   })
 
   const emitInvalidAuth = useCallback(function (reason: string): void {
     dispatch({ type: 'invalidAuth' })
     if (onInvalidAuth != null) {
       onInvalidAuth({ dashboardUrl, reason })
-    }
-    if (reauthenticateOnInvalidAuth) {
-      // trying to build the re-authentication URL with app ID when is self-hosted/custom
-      // this only works when we already have a token to read the app ID from otherwise `makeReAuthenticationUrl` will return the original dashboard URL.
-      // For non-custom apps we can use the appSlug
-      const { appId } = getInfoFromJwt(accessToken ?? '')
-      const appIdentifier = isSelfHosted ? appId : appSlug
-      window.location.href = makeReAuthenticationUrl(
-        dashboardUrl,
-        appIdentifier
-      )
     }
   }, [])
 
@@ -232,7 +214,11 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
             : null
 
         // all good
-        savePersistentAccessToken({ appSlug, accessToken, organizationSlug })
+        savePersistentAccessToken({
+          appSlug,
+          accessToken,
+          organizationSlug
+        })
         removeAuthParamsFromUrl()
 
         dispatch({
@@ -269,10 +255,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   }
 
   if (_state.isTokenError) {
-    return reauthenticateOnInvalidAuth ? (
-      // while browser is redirecting back and forth, we don't want to show `<PageError>` component
-      <div />
-    ) : (
+    return (
       <>
         {errorElement ?? (
           <PageError
