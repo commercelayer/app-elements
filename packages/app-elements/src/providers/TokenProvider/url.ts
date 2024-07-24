@@ -1,48 +1,22 @@
-import { type Mode } from './types'
-
-export function getOrgSlugFromCurrentUrl(): string | null {
-  if (typeof window === 'undefined') {
-    return null
-  }
-
-  const [orgSlug] = window.location.hostname.split('.')
-
-  if (orgSlug === undefined) {
-    throw new Error('Cannot access to the organization slug.')
-  }
-
-  return orgSlug
-}
+import { getCurrentMode } from './getAccessTokenFromUrl'
+import { getInfoFromJwt } from './getInfoFromJwt'
 
 export function makeDashboardUrl({
   domain = 'commercelayer.io',
-  mode = 'live',
-  organizationSlug
+  accessToken
 }: {
   domain?: string
-  mode?: Mode
-  organizationSlug?: string // only if self-hosted
+  accessToken?: string | null
 }): string {
-  return `https://dashboard.${domain}/${mode}/${
-    organizationSlug ?? getOrgSlugFromCurrentUrl()
-  }`
-}
+  if (accessToken == null) {
+    // we don't have an access token, so dashboard URL is just the base URL
+    return `https://dashboard.${domain}/`
+  }
 
-export function makeReAuthenticationUrl(
-  dashboardUrl: string,
-  appIdOrSlug?: string
-): string {
-  if (appIdOrSlug == null || appIdOrSlug === '') {
-    return dashboardUrl
-  }
-  try {
-    const baseUrl = new URL(dashboardUrl).toString() // will parse and remove trailing slash
-    const currentAppUrl = `${window.location.origin}${window.location.pathname}`
-    const authUrl = `${baseUrl}/hub/${appIdOrSlug}/authenticate?redirect_to=${currentAppUrl}`
-    return new URL(authUrl).toString()
-  } catch {
-    return dashboardUrl
-  }
+  const mode = getCurrentMode({ accessToken })
+  const orgSlug = getInfoFromJwt(accessToken)?.orgSlug
+
+  return `https://dashboard.${domain}/${mode}/${orgSlug}`
 }
 
 export function isProductionHostname(): boolean {
