@@ -37,6 +37,7 @@ export const iconMapping = {
   dotsThree: phosphor.DotsThree,
   download: phosphor.Download,
   envelopeSimple: phosphor.EnvelopeSimple,
+  equals: phosphor.Equals,
   eye: phosphor.Eye,
   eyeSlash: phosphor.EyeSlash,
   flag: phosphor.Flag,
