@@ -38,7 +38,7 @@ async function generatePageFromAbilities() {
   const repositories = await getRepositoryNames()
 
   const entries = Object.entries(sortObj(doc)).filter(([appSlug]) =>
-    Object.keys(repositories).includes(toRepositoryName(appSlug))
+    Object.keys(repositories).includes(appSlug)
   )
 
   console.group('Available applications:')
@@ -74,15 +74,6 @@ ${await generateAppTable(repositories, entries)}
 }
 
 /**
- * Convert an application slug like `stock_transfers` to the repository name (e.g. `app-stock-transfers`)
- * @param {string} appSlug Application slug
- * @returns {string}
- */
-function toRepositoryName(appSlug) {
-  return `app-${appSlug.replaceAll('_', '-').toLowerCase()}`
-}
-
-/**
  * Convert an application slug like `stock_transfers` to the application name (e.g. `Stock transfers`)
  * @param {string} appSlug Application slug
  * @returns {string}
@@ -93,11 +84,10 @@ function toAppName(appSlug) {
 
 /**
  * Get all repositories tagged as `dashboard-apps`
- * @returns {Promise<{ [repositoryName: string]: Repository }>}
+ * @returns {Promise<{ [appSlug: string]: Repository }>}
  */
 async function getRepositoryNames() {
-  const q = 'org:commercelayer+topic:"dashboard-apps"'
-  const queryUrl = `https://api.github.com/search/repositories?q=${q}`
+  const queryUrl = `https://api.github.com/repos/commercelayer/dashboard-apps/contents/apps/`
 
   const result = await fetch(queryUrl, {
     headers: {
@@ -107,10 +97,25 @@ async function getRepositoryNames() {
     }
   })
     .then(async (res) => await res.json())
-    .then(async (json) => /** @type Repository[] */ (json.items))
-    .then(async (items) => items.filter((repo) => repo.visibility === 'public'))
-    .then(async (items) =>
-      Object.fromEntries(items.map((repo) => [repo.name, repo]))
+    .then(async (/** @type GitHubRepositoryContent[] */ json) =>
+      Object.fromEntries(
+        json.map((appFolders) => {
+          const appSlug = appFolders.name
+          /** @type {`app-${string}`} */
+          const packageName = `app-${appSlug}`
+          return [
+            appSlug,
+            {
+              slug: appSlug,
+              name: packageName,
+              displayName: toAppName(appSlug),
+              description: `Commerce Layer application for managing ${toAppName(appSlug).toLocaleLowerCase()}.`,
+              repositoryUrl: appFolders.html_url,
+              visibility: /** @type {const} */ ('public')
+            }
+          ]
+        })
+      )
     )
 
   return result
@@ -139,15 +144,15 @@ async function generateToc(repositories, entries) {
 async function generateAppTable(repositories, entries) {
   return entries
     .map(([appSlug, app]) => {
-      const repo = repositories[toRepositoryName(appSlug)]
+      const repo = repositories[appSlug]
       const repositoryLink = createLink(
-        repo?.html_url ?? '',
+        repo?.repositoryUrl ?? '',
         'repository',
         '_blank'
       )
 
       return `
-        ## ${toAppName(appSlug)}
+        ## ${repo?.displayName}
 
         ${repo?.description} (${repositoryLink})
 
@@ -219,10 +224,17 @@ function checkSubject(subject) {
 // ------------------------------------------------------------
 
 /**
- * @typedef {Object} Repository
- * @property {string} name
- * @property {string} description
+ * @typedef {Object} GitHubRepositoryContent
+ * @property {`app-${string}`} name
  * @property {string} html_url
+ */
+
+/**
+ * @typedef {Object} Repository
+ * @property {`app-${string}`} name
+ * @property {string} displayName
+ * @property {string} description
+ * @property {string} repositoryUrl
  * @property {'public' | 'private'} visibility
  */
 
