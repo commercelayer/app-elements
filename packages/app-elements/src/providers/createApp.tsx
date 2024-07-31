@@ -2,6 +2,7 @@ import isEmpty from 'lodash/isEmpty'
 import { type FC } from 'react'
 import ReactDOM, { type Root } from 'react-dom/client'
 import { type TokenProviderAllowedApp } from './TokenProvider'
+import { type TokenProviderProps } from './TokenProvider/TokenProvider'
 
 export type ClAppKey = `clApp_${TokenProviderAllowedApp}`
 
@@ -31,33 +32,20 @@ declare global {
   }
 }
 
-export interface ClAppProps {
+export interface ClAppProps
+  extends Pick<
+    TokenProviderProps,
+    'organizationSlug' | 'domain' | 'onAppClose' | 'isInDashboard' | 'extras'
+  > {
   /**
    * Base path for internal routing.
    * Example: `my-app` if you want to serve the app at `https://my-domain.com/my-app/`.
    */
   routerBase?: string
   /**
-   * Organization slug to use for Commerce Layer API requests.
-   */
-  organizationSlug?: string
-  /**
    * Callback to be called when the user is not authenticated or the token is invalid/expired.
    */
   onInvalidAuth?: () => void
-  /**
-   * Callback to be called when the app is closed (when go-back button from the app home page is clicked)
-   */
-  onAppClose?: () => void
-  /**
-   * Handle some UI elements to be hidden when the app is loaded in the dashboard.
-   */
-  isInDashboard?: boolean
-  /**
-   * Domain used for Core API requests
-   * @default 'commercelayer.io'
-   */
-  domain?: string
 }
 
 /**

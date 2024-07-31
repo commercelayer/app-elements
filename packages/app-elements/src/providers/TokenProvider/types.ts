@@ -142,6 +142,13 @@ export interface TokenProviderAuthSettings {
    * This is defined only if it has been declared when TokenProvider has been initialized.
    */
   onAppClose?: () => void
+
+  /**
+   * Extra data received from the outside and made available in the app.
+   */
+  extras?: {
+    salesChannels?: Array<{ name: string; client_id: string }>
+  }
 }
 
 export interface TokenProviderAuthUser {

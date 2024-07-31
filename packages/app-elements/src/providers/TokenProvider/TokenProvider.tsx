@@ -104,6 +104,14 @@ export interface TokenProviderProps {
    * This methods will also be returned within the context as part of `TokenProviderValue` object.
    */
   onAppClose?: () => void
+  /**
+   * Optional. Extra data to pass from the dashboard or when the app is initialized.
+   * They will be received on app init and make available in the TokenProvider > settings context.
+   */
+  extras?: {
+    /** List of applications to be used inside the app. */
+    salesChannels?: Array<{ name: string; client_id: string }>
+  }
 }
 
 export const AuthContext = createContext<TokenProviderValue>({
@@ -131,7 +139,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   errorElement,
   accessToken: accessTokenFromProp,
   onAppClose,
-  isInDashboard = false
+  isInDashboard = false,
+  extras
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   domain = isProductionHostname() ? 'commercelayer.io' : domain
@@ -232,7 +241,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               domain,
               dashboardUrl,
               onAppClose,
-              isInDashboard
+              isInDashboard,
+              extras
             },
             user: tokenInfo.user,
             organization,
