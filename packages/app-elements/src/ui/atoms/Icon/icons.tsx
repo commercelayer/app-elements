@@ -3,6 +3,7 @@ import * as phosphor from '@phosphor-icons/react'
 export const iconMapping = {
   airplaneTakeoff: phosphor.AirplaneTakeoff,
   appWindow: phosphor.AppWindow,
+  archive: phosphor.Archive,
   arrowBendDownRight: phosphor.ArrowBendDownRight,
   arrowCircleDown: phosphor.ArrowCircleDown,
   arrowCircleUp: phosphor.ArrowCircleUp,
@@ -79,6 +80,7 @@ export const iconMapping = {
   shapes: phosphor.Shapes,
   shield: phosphor.Shield,
   shoppingBag: phosphor.ShoppingBag,
+  shoppingBagOpen: phosphor.ShoppingBagOpen,
   signOut: phosphor.SignOut,
   slackLogo: phosphor.SlackLogo,
   sliders: phosphor.Sliders,
