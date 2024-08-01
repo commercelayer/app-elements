@@ -15,9 +15,9 @@ type BadgeVariant =
 export const variantCss: Record<BadgeVariant, string> = {
   'danger-solid': 'text-white bg-red',
   'primary-solid': 'text-white bg-primary',
-  'secondary-solid': 'text-white bg-gray-500',
+  'secondary-solid': 'text-gray bg-gray-200',
   'success-solid': 'text-white bg-green',
-  'teal-solid': 'text-white bg-teal',
+  'teal-solid': 'text-white bg-teal-800',
   'warning-solid': 'text-white bg-orange',
   danger: 'text-red bg-red-50',
   primary: 'text-primary bg-primary-50',
