@@ -7,6 +7,7 @@ export const iconMapping = {
   arrowBendDownRight: phosphor.ArrowBendDownRight,
   arrowCircleDown: phosphor.ArrowCircleDown,
   arrowCircleUp: phosphor.ArrowCircleUp,
+  arrowCircleUpRight: phosphor.ArrowCircleUpRight,
   arrowClockwise: phosphor.ArrowClockwise,
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
