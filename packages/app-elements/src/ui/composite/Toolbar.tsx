@@ -77,7 +77,9 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
                 className={item.className}
                 data-testid='toolbar-dropdown-button'
               >
-                {item.icon != null && <Icon name={item.icon} size={16} />}
+                {item.icon != null && (
+                  <Icon name={item.icon} size={16} weight='bold' />
+                )}
                 {item.label}
               </Button>
             }
@@ -97,9 +99,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
           className={item.className}
           data-testid='toolbar-button'
         >
-          {item.icon != null && (
-            <Icon name={item.icon} size={16} weight='bold' />
-          )}
+          {item.icon != null && <Icon name={item.icon} size={16} />}
           {item.label}
         </Button>
       )
