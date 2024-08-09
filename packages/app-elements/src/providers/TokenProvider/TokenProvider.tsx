@@ -242,6 +242,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               dashboardUrl,
               onAppClose,
               isInDashboard,
+              scopes: tokenInfo.scopes,
               extras
             },
             user: tokenInfo.user,

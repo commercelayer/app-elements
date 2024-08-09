@@ -1,3 +1,4 @@
+import { type ParsedScopes } from '#providers/TokenProvider/getInfoFromJwt'
 import { type ListableResourceType } from '@commercelayer/sdk'
 
 export type TokenProviderAllowedApp =
@@ -142,7 +143,10 @@ export interface TokenProviderAuthSettings {
    * This is defined only if it has been declared when TokenProvider has been initialized.
    */
   onAppClose?: () => void
-
+  /**
+   * If token has a scope, it will be parsed and made available here in the keys of `markets` and `stock_locations`
+   */
+  scopes?: ParsedScopes
   /**
    * Extra data received from the outside and made available in the app.
    */
