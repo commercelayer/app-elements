@@ -67,6 +67,7 @@ export const UseInputResourceGroupOverlay: StoryFn = () => {
         <InputResourceGroupOverlay
           defaultValues={values}
           onChange={setValues}
+          onCancel={closeInputResourceGroupOverlay}
           resource='markets'
           fieldForLabel='name'
           fieldForValue='id'
@@ -111,6 +112,7 @@ export const HideSelected: StoryFn = () => {
         <InputResourceGroupOverlay
           defaultValues={values}
           onChange={setValues}
+          onCancel={closeInputResourceGroupOverlay}
           resource='markets'
           fieldForLabel='name'
           fieldForValue='id'
