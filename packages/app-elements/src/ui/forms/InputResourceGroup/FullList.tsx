@@ -46,6 +46,11 @@ export interface FullListProps {
    */
   onChange: (values: string[]) => void
   /**
+   * Optional callback to be triggered when cancel button is pressed.
+   * If missing, the local history will be used to go back (`history.back()`).
+   */
+  onCancel?: () => void
+  /**
    * Value to be used as search predicate when SearchBar is used.
    * If missing the search bar will not be shown.
    * It must match the format described in the Core APIs documentation.
@@ -81,6 +86,7 @@ export function FullList({
   defaultValues,
   fieldForLabel,
   fieldForValue,
+  onCancel,
   onChange,
   resource,
   searchBy,
@@ -119,8 +125,13 @@ export function FullList({
               }}
             />
             <button
+              type='button'
               onClick={() => {
-                history.back()
+                if (onCancel != null) {
+                  onCancel()
+                } else {
+                  history.back()
+                }
               }}
               className='text-primary font-bold rounded px-1 shadow-none !outline-0 !border-0 !ring-0 focus:shadow-focus'
             >
