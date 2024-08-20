@@ -79,6 +79,7 @@ export const iconMapping = {
   rocketLaunch: phosphor.RocketLaunch,
   seal: phosphor.Seal,
   shapes: phosphor.Shapes,
+  shareFat: phosphor.ShareFat,
   shield: phosphor.Shield,
   shoppingBag: phosphor.ShoppingBag,
   shoppingBagOpen: phosphor.ShoppingBagOpen,
@@ -105,6 +106,7 @@ export const iconMapping = {
   warning: phosphor.Warning,
   warningCircle: phosphor.WarningCircle,
   webhooksLogo: phosphor.WebhooksLogo,
+  whatsappLogo: phosphor.WhatsappLogo,
   x: phosphor.X,
   xCircle: phosphor.XCircle
 } as const
