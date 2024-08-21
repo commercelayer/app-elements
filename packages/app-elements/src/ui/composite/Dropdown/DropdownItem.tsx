@@ -58,7 +58,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
             {icon === 'keep-space' ? (
               <FakeIcon /> // keep the gap as if there was an icon
             ) : (
-              <Icon name={icon} weight='bold' />
+              <Icon name={icon} size={16} weight='regular' />
             )}
           </div>
         ) : null}
@@ -76,5 +76,5 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
 DropdownItem.displayName = 'DropdownItem'
 
 const FakeIcon: FC = () => {
-  return <div className='w-[14px]' />
+  return <div className='w-[16px]' />
 }
