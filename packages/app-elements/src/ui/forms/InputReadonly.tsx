@@ -52,7 +52,7 @@ export const InputReadonly = withSkeletonTemplate<InputReadonlyProps>(
     ...rest
   }) => {
     const cssBase =
-      'block w-full rounded bg-gray-50 text-teal text-sm font-mono font-medium marker:font-bold border-none'
+      'block w-full rounded bg-gray-50 text-teal text-sm font-mono font-medium marker:font-bold border-none break-all'
 
     const [hideValue, setHideValue] = useState(secret)
 
