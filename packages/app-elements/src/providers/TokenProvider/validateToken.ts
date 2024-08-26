@@ -6,7 +6,7 @@ import {
 import { type ListableResourceType } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
 import isEmpty from 'lodash/isEmpty'
-import { getInfoFromJwt } from './getInfoFromJwt'
+import { getInfoFromJwt, type ParsedScopes } from './getInfoFromJwt'
 import {
   type Mode,
   type TokenProviderAuthUser,
@@ -40,6 +40,7 @@ interface ValidToken {
   permissions?: TokenProviderRolePermissions
   accessibleApps?: TokenProviderAllowedApp[]
   user: TokenProviderAuthUser | null
+  scopes?: ParsedScopes
 }
 interface InvalidToken {
   isValidToken: false
@@ -139,7 +140,8 @@ export async function isValidTokenForCurrentApp({
                 tokenInfo.owner.last_name
               )
             }
-          : null
+          : null,
+      scopes: jwtInfo.scopes
     }
   } catch {
     return {
