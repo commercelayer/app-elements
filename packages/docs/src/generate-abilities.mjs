@@ -145,16 +145,11 @@ async function generateAppTable(repositories, entries) {
   return entries
     .map(([appSlug, app]) => {
       const repo = repositories[appSlug]
-      const repositoryLink = createLink(
-        repo?.repositoryUrl ?? '',
-        'repository',
-        '_blank'
-      )
 
       return `
         ## ${repo?.displayName}
 
-        ${repo?.description} (${repositoryLink})
+        ${repo?.description}
 
         <Tabs style={{ marginTop: '24px' }}>
           <Tab name="Can manage">
