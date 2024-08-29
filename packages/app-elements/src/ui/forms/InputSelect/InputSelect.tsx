@@ -11,8 +11,13 @@ import {
   type SingleValue
 } from 'react-select'
 import { AsyncSelectComponent } from './AsyncComponent'
-import { CreatableComponent } from './CreatableComponent'
-import { SelectComponent } from './SelectComponent'
+import { AsyncCreatableSelectComponent } from './AsyncCreatableComponent'
+import {
+  CreatableComponent,
+  type CreatableComponentProps
+} from './CreatableComponent'
+import { type GenericAsyncSelectComponentProps } from './GenericAsyncComponent'
+import { SelectComponent, type SelectComponentProps } from './SelectComponent'
 import { getSelectStyles } from './styles'
 
 export type GroupedSelectValues = Array<{
@@ -170,6 +175,26 @@ export const InputSelect = forwardRef<
     },
     ref
   ) => {
+    const commonProps:
+      | GenericAsyncSelectComponentProps
+      | CreatableComponentProps
+      | SelectComponentProps = {
+      menuIsOpen,
+      initialValues,
+      defaultValue,
+      value,
+      isClearable,
+      placeholder: isLoading === true ? loadingText : placeholder,
+      isDisabled: isLoading === true || isDisabled === true,
+      onSelect,
+      isMulti,
+      isOptionDisabled,
+      onBlur,
+      name,
+      styles: getSelectStyles(feedback?.variant),
+      menuFooterText
+    }
+
     return (
       <InputWrapper
         className={className}
@@ -179,64 +204,33 @@ export const InputSelect = forwardRef<
         name={name}
         {...rest}
       >
-        {loadAsyncValues != null ? (
-          <AsyncSelectComponent
+        {loadAsyncValues != null && isCreatable === true ? (
+          <AsyncCreatableSelectComponent
+            {...commonProps}
             ref={ref}
-            menuIsOpen={menuIsOpen}
-            initialValues={initialValues}
-            defaultValue={defaultValue}
-            value={value}
-            isClearable={isClearable}
-            placeholder={isLoading === true ? loadingText : placeholder}
-            isDisabled={isLoading === true || isDisabled === true}
-            onSelect={onSelect}
-            isMulti={isMulti}
-            onBlur={onBlur}
-            name={name}
-            noOptionsMessage={noOptionsMessage}
             loadAsyncValues={loadAsyncValues}
-            styles={getSelectStyles(feedback?.variant)}
             debounceMs={debounceMs}
-            isOptionDisabled={isOptionDisabled}
-            menuFooterText={menuFooterText}
+            noOptionsMessage={noOptionsMessage}
+          />
+        ) : loadAsyncValues != null ? (
+          <AsyncSelectComponent
+            {...commonProps}
+            ref={ref}
+            loadAsyncValues={loadAsyncValues}
+            debounceMs={debounceMs}
+            noOptionsMessage={noOptionsMessage}
           />
         ) : isCreatable === true ? (
           <CreatableComponent
+            {...commonProps}
             ref={ref}
-            menuIsOpen={menuIsOpen}
-            initialValues={initialValues}
-            defaultValue={defaultValue}
-            value={value}
-            isClearable={isClearable}
-            placeholder={isLoading === true ? loadingText : placeholder}
-            isDisabled={isLoading === true || isDisabled === true}
             isSearchable={isSearchable}
-            onSelect={onSelect}
-            isMulti={isMulti}
-            isOptionDisabled={isOptionDisabled}
-            onBlur={onBlur}
-            name={name}
-            styles={getSelectStyles(feedback?.variant)}
-            menuFooterText={menuFooterText}
           />
         ) : (
           <SelectComponent
+            {...commonProps}
             ref={ref}
-            menuIsOpen={menuIsOpen}
-            initialValues={initialValues}
-            defaultValue={defaultValue}
-            value={value}
-            isClearable={isClearable}
-            placeholder={isLoading === true ? loadingText : placeholder}
-            isDisabled={isLoading === true || isDisabled === true}
             isSearchable={isSearchable}
-            onSelect={onSelect}
-            isMulti={isMulti}
-            isOptionDisabled={isOptionDisabled}
-            onBlur={onBlur}
-            name={name}
-            styles={getSelectStyles(feedback?.variant)}
-            menuFooterText={menuFooterText}
           />
         )}
       </InputWrapper>

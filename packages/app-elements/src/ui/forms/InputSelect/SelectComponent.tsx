@@ -7,7 +7,7 @@ import Select, {
 import { type InputSelectProps, type InputSelectValue } from './InputSelect'
 import components from './overrides'
 
-interface SelectComponentProps
+export interface SelectComponentProps
   extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'hint'> {
   styles: StylesConfig<InputSelectValue>
 }
