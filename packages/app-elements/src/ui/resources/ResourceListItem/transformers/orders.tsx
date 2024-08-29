@@ -54,7 +54,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
           className='break-keep'
           wrap='nowrap'
         >
-          {resource.formatted_total_amount}
+          {resource.formatted_total_amount_with_taxes}
         </Text>
         <Text
           tag='div'
