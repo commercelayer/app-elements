@@ -1,5 +1,6 @@
 import { useTokenProvider } from '#providers/TokenProvider'
 import { type PageHeadingProps } from '#ui/atoms/PageHeading'
+import { type PageHeadingToolbarProps } from '#ui/atoms/PageHeading/PageHeadingToolbar'
 import { type ReactNode } from 'react'
 import { PageLayout } from './PageLayout'
 
@@ -8,6 +9,10 @@ export interface HomePageLayoutProps extends Pick<PageHeadingProps, 'title'> {
    * Page content
    */
   children: ReactNode
+  /**
+   * When set, it will render a proper toolbar on the right side of the first row
+   */
+  toolbar?: PageHeadingToolbarProps
 }
 
 /**
@@ -16,7 +21,8 @@ export interface HomePageLayoutProps extends Pick<PageHeadingProps, 'title'> {
  */
 export function HomePageLayout({
   title,
-  children
+  children,
+  toolbar
 }: HomePageLayoutProps): JSX.Element {
   const {
     settings: { mode, dashboardUrl, isInDashboard, onAppClose }
@@ -42,6 +48,7 @@ export function HomePageLayout({
               }
             }
       }
+      toolbar={toolbar}
     >
       {children}
     </PageLayout>
