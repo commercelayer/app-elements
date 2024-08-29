@@ -53,7 +53,7 @@ import { Tabs, Tab } from '#ui/atoms/Tabs';
 
 # Applications
 
-This is the updated list of all the currently available Commerce Layer Dashboard hub open-source applications:
+This is the updated list of all the currently available Commerce Layer Dashboard open-source applications:
 
 ${await generateToc(repositories, entries)}
 
@@ -74,12 +74,12 @@ ${await generateAppTable(repositories, entries)}
 }
 
 /**
- * Convert an application slug like `stock_transfers` to the application name (e.g. `Stock transfers`)
+ * Convert an application slug like `stock_transfers` to the application name (e.g. `stock transfers`, or `SKUs`)
  * @param {string} appSlug Application slug
  * @returns {string}
  */
 function toAppName(appSlug) {
-  return capitalizeFirstLetter(appSlug.toLowerCase()).replaceAll('_', ' ')
+  return appSlug.toLowerCase().replaceAll('_', ' ').replaceAll('sku', 'SKU')
 }
 
 /**
@@ -108,8 +108,8 @@ async function getRepositoryNames() {
             {
               slug: appSlug,
               name: packageName,
-              displayName: toAppName(appSlug),
-              description: `Commerce Layer application for managing ${toAppName(appSlug).toLocaleLowerCase()}.`,
+              displayName: capitalizeFirstLetter(toAppName(appSlug)),
+              description: `Commerce Layer application for managing ${toAppName(appSlug)}.`,
               repositoryUrl: appFolders.html_url,
               visibility: /** @type {const} */ ('public')
             }
@@ -130,7 +130,7 @@ async function getRepositoryNames() {
 async function generateToc(repositories, entries) {
   return `<ul>${entries
     .map(([appSlug]) => {
-      return `<li>${createLink(`#${appSlug.toLowerCase().replaceAll('_', '-')}`, toAppName(appSlug))}</li>`
+      return `<li>${createLink(`#${appSlug.toLowerCase().replaceAll('_', '-')}`, capitalizeFirstLetter(toAppName(appSlug)))}</li>`
     })
     .join('\n')}</ul>`
 }
