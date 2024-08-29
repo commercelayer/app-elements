@@ -162,6 +162,30 @@ Creatable.args = {
 }
 
 /**
+ * It's possible to combine the `loadAsyncValues` prop with the `isCreatable` prop.
+ */
+export const AsyncCreatable = Template.bind({})
+AsyncCreatable.args = {
+  label: 'Search resource',
+  placeholder: 'Type to search async...',
+  isSearchable: true,
+  isCreatable: true,
+  isClearable: false,
+  debounceMs: 200,
+  hint: {
+    icon: 'lightbulbFilament',
+    text: 'Try to search some of the following values: customer, SKU, price, tax or any other text'
+  },
+  loadAsyncValues: async (hint) => {
+    return await new Promise<InputSelectValue[]>((resolve) => {
+      setTimeout(() => {
+        resolve(fakeSearch(hint))
+      }, 1000)
+    })
+  }
+}
+
+/**
  * Options can be grouped by passing an array of objects with `label` and `options` properties.
  */
 export const GroupedOptions = Template.bind({})

@@ -8,7 +8,7 @@ import CreatableSelect from 'react-select/creatable'
 import { type InputSelectProps, type InputSelectValue } from './InputSelect'
 import components from './overrides'
 
-interface CreatableComponentProps
+export interface CreatableComponentProps
   extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'hint'> {
   styles: StylesConfig<InputSelectValue>
 }
