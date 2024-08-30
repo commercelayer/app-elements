@@ -2,9 +2,9 @@
 
 [![NPM](https://img.shields.io/npm/v/%40commercelayer%2Fapp-elements)](https://www.npmjs.com/package/@commercelayer/app-elements)
 
-The Commerce Layer admin [Dashboard](https://dashboard.commercelayer.io/sign_up) includes a _Hub_ section for back-office applications built on top of our APIs covering some of the platform's main features (such as orders or customers management, importing or exporting data, and more).
+The Commerce Layer admin [Dashboard](https://dashboard.commercelayer.io/sign_up) includes back-office applications built on top of our APIs covering some of the platform's main features (such as orders or customers management, importing or exporting data, and more).
 
-**App Elements** is the React component library used to build these hub applications. You can easily leverage it to replicate the Dashboard look and feel when customizing your apps or building any other app on top of Commerce Layer's APIs. This library features different components, helpers, and hooks, from simple and small bits like buttons or cards to complex components like the one you need to show a complete order summary.
+**App Elements** is the React component library used to build these applications. You can easily leverage it to replicate the Dashboard look and feel when customizing your apps or building any other app on top of Commerce Layer's APIs. This library features different components, helpers, and hooks, from simple and small bits like buttons or cards to complex components like the one you need to show a complete order summary.
 
 ## Getting started
 
