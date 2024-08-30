@@ -158,10 +158,10 @@ importers:
         version: 5.4.3(@types/node@20.16.4)(terser@5.31.6)
       vite-plugin-dts:
         specifier: ^3.9.1
-        version: 3.9.1(@types/node@20.16.4)(rollup@4.21.2)(typescript@5.5.4)(vite@5.4.3(@types/node@20.16.4))
+        version: 3.9.1(@types/node@20.16.4)(rollup@4.21.2)(typescript@5.5.4)(vite@5.4.3(@types/node@20.16.4)(terser@5.31.6))
       vitest:
         specifier: ^2.0.5
-        version: 2.0.5(@types/node@20.16.4)(jsdom@24.1.3)
+        version: 2.0.5(@types/node@20.16.4)(jsdom@24.1.3)(terser@5.31.6)
       wouter:
         specifier: ^3.3.5
         version: 3.3.5(react@18.3.1)
@@ -232,6 +232,9 @@ importers:
       '@storybook/core-common':
         specifier: ^8.2.9
         version: 8.2.9(storybook@8.2.9(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
+      '@storybook/icons':
+        specifier: ^1.2.10
+        version: 1.2.10(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@storybook/manager-api':
         specifier: ^8.2.9
         version: 8.2.9(storybook@8.2.9(@babel/preset-env@7.25.4(@babel/core@7.25.2)))
@@ -8983,7 +8986,7 @@ snapshots:
       redent: 3.0.0
     optionalDependencies:
       '@types/jest': 29.5.12
-      vitest: 2.0.5(@types/node@20.16.4)(terser@5.31.6)
+      vitest: 2.0.5(@types/node@20.16.4)(jsdom@24.1.3)(terser@5.31.6)
 
   '@testing-library/jest-dom@6.5.0':
     dependencies:
@@ -14466,7 +14469,7 @@ snapshots:
       - supports-color
       - terser
 
-  vite-plugin-dts@3.9.1(@types/node@20.16.4)(rollup@4.21.2)(typescript@5.5.4)(vite@5.4.3(@types/node@20.16.4)):
+  vite-plugin-dts@3.9.1(@types/node@20.16.4)(rollup@4.21.2)(typescript@5.5.4)(vite@5.4.3(@types/node@20.16.4)(terser@5.31.6)):
     dependencies:
       '@microsoft/api-extractor': 7.43.0(@types/node@20.16.4)
       '@rollup/pluginutils': 5.1.0(rollup@4.21.2)
@@ -14504,7 +14507,7 @@ snapshots:
       fsevents: 2.3.3
       terser: 5.31.6
 
-  vitest@2.0.5(@types/node@20.16.4)(jsdom@24.1.3):
+  vitest@2.0.5(@types/node@20.16.4)(jsdom@24.1.3)(terser@5.31.6):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.5
@@ -14537,40 +14540,6 @@ snapshots:
       - sugarss
       - supports-color
       - terser
-
-  vitest@2.0.5(@types/node@20.16.4)(terser@5.31.6):
-    dependencies:
-      '@ampproject/remapping': 2.3.0
-      '@vitest/expect': 2.0.5
-      '@vitest/pretty-format': 2.0.5
-      '@vitest/runner': 2.0.5
-      '@vitest/snapshot': 2.0.5
-      '@vitest/spy': 2.0.5
-      '@vitest/utils': 2.0.5
-      chai: 5.1.1
-      debug: 4.3.6
-      execa: 8.0.1
-      magic-string: 0.30.11
-      pathe: 1.1.2
-      std-env: 3.7.0
-      tinybench: 2.9.0
-      tinypool: 1.0.1
-      tinyrainbow: 1.2.0
-      vite: 5.4.3(@types/node@20.16.4)(terser@5.31.6)
-      vite-node: 2.0.5(@types/node@20.16.4)(terser@5.31.6)
-      why-is-node-running: 2.3.0
-    optionalDependencies:
-      '@types/node': 20.16.4
-    transitivePeerDependencies:
-      - less
-      - lightningcss
-      - sass
-      - sass-embedded
-      - stylus
-      - sugarss
-      - supports-color
-      - terser
-    optional: true
 
   vue-template-compiler@2.7.16:
     dependencies:

@@ -1,4 +1,5 @@
-import { IconButton, Icons } from '@storybook/components'
+import { IconButton } from '@storybook/components'
+import { BoxIcon } from '@storybook/icons'
 import { useGlobals, useStorybookApi } from '@storybook/manager-api'
 import React, { useCallback, useEffect } from 'react'
 import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from './constants'
@@ -33,7 +34,7 @@ export const Tool = () => {
       title={ADDON_NAME}
       onClick={toggleContainer}
     >
-      <Icons icon="box" />
+      <BoxIcon />
     </IconButton>
   )
 }
