@@ -1,4 +1,8 @@
 import { useTokenProvider } from '#providers/TokenProvider'
+import {
+  adaptMetricsOrderToCore,
+  type MetricsResourceOrder
+} from '#ui/resources/ResourceList/adaptMetricsOrderToCore'
 import { type Resource } from '#ui/resources/ResourceList/infiniteFetcher'
 import { type MetricsFilters } from '#ui/resources/useResourceFilters/adaptSdkToMetrics'
 import {
@@ -101,10 +105,15 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
         : json.data
 
     const list = [
-      ...data.map((item) => ({
-        ...item,
-        type: resourceType // metrics api does not return the type
-      }))
+      ...data.map((item) =>
+        resourceType === 'orders'
+          ? adaptMetricsOrderToCore(item as MetricsResourceOrder)
+          : {
+              // We only convert orders at this stage (`returns` are not supported and are sent back 1:1 from the metrics API)
+              ...item,
+              type: resourceType
+            }
+      )
     ] as unknown as ListResponseMetrics<typeof resourceType>
 
     // fake meta just to make the list compatible with core sdk ListResponse
