@@ -43,6 +43,7 @@ export const iconMapping = {
   eye: phosphor.Eye,
   eyeSlash: phosphor.EyeSlash,
   flag: phosphor.Flag,
+  flashlight: phosphor.Flashlight,
   folderOpen: phosphor.FolderOpen,
   funnelSimple: phosphor.FunnelSimple,
   gearFine: phosphor.GearFine,
