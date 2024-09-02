@@ -78,6 +78,15 @@ export const MultiLineSecret: StoryFn = () => {
   )
 }
 
+export const LongSingleLine: StoryFn = () => {
+  return (
+    <InputReadonly label='Login with your admin credentials' showCopyAction>
+      commercelayer app:login -i asdGvqXsOSsdko6ueiX9 -s
+      elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 -o demo-store -a admin
+    </InputReadonly>
+  )
+}
+
 export const WithHint = Template.bind({})
 WithHint.args = {
   label: 'Secret',
