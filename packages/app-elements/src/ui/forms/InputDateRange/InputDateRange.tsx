@@ -3,6 +3,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import { ArrowRight } from '@phosphor-icons/react'
+import classNames from 'classnames'
 import { forwardRef, useEffect } from 'react'
 import { InputDate } from '../InputDate'
 import {
@@ -11,24 +12,33 @@ import {
 } from '../InputDate/InputDateComponent'
 
 export interface InputDateRangeProps
-  extends Pick<InputDateProps, 'isClearable' | 'format' | 'autoPlaceholder'>,
+  extends Pick<
+      InputDateProps,
+      'isClearable' | 'format' | 'autoPlaceholder' | 'showTimeSelect'
+    >,
     InputWrapperBaseProps {
-  /**
-   * a tuple that represents the [from, to] dates
-   */
+  /** a tuple that represents the [from, to] dates */
   value: [MaybeDate, MaybeDate]
-  /**
-   * callback triggered when one of the two dates changes
-   */
+  /** callback triggered when one of the two dates changes */
   onChange: (dates: [MaybeDate, MaybeDate]) => void
-  /**
-   * optional placeholder text for the `from` date
-   */
+
+  /** label to be displayed on the `from` date input. */
+  fromLabel?: string
+  /** optional placeholder text for the `from` date  */
   fromPlaceholder?: string
-  /**
-   * optional placeholder text for the `to` date
-   */
+  /** optional hint text for the `from` date  */
+  fromHint?: InputWrapperBaseProps['hint']
+  /** label to be displayed on the `to` date input */
+  /** optional feedback message for the `from` date  */
+  fromFeedback?: InputWrapperBaseProps['feedback']
+
+  toLabel?: string
+  /** optional placeholder text for the `to` date */
   toPlaceholder?: string
+  /** optional hint text for the `to` date  */
+  toHint?: InputWrapperBaseProps['hint']
+  /** optional feedback message for the `to` date  */
+  toFeedback?: InputWrapperBaseProps['feedback']
 }
 
 export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
@@ -44,6 +54,13 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       onChange,
       hint,
       feedback,
+      showTimeSelect,
+      fromLabel,
+      toLabel,
+      fromHint,
+      toHint,
+      fromFeedback,
+      toFeedback,
       ...rest
     },
     ref
@@ -63,9 +80,16 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       [fromDate]
     )
 
+    const hasSingleLabels = fromLabel != null || toLabel != null
+
     return (
       <InputWrapper label={label} hint={hint} feedback={feedback} {...rest}>
-        <div className='flex items-center'>
+        <div
+          className={classNames('flex', {
+            'items-center': !hasSingleLabels,
+            'items-start': hasSingleLabels
+          })}
+        >
           <InputDate
             value={fromDate}
             onChange={(newDate) => {
@@ -76,10 +100,13 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
-            feedback={feedback}
+            feedback={fromFeedback}
+            showTimeSelect={showTimeSelect}
+            label={fromLabel}
+            hint={fromHint}
           />
-          <div className='px-2 text-gray-300'>
-            <ArrowRight size={24} />
+          <div className='px-4 text-gray-300'>
+            {hasSingleLabels ? null : <ArrowRight size={24} />}
           </div>
           <InputDate
             value={toDate}
@@ -92,7 +119,10 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
-            feedback={feedback}
+            feedback={toFeedback}
+            showTimeSelect={showTimeSelect}
+            label={toLabel}
+            hint={toHint}
           />
         </div>
       </InputWrapper>
