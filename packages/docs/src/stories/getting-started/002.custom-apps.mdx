@@ -12,20 +12,20 @@ After you made your changes and thoroughly tested your custom app, you can seaml
 
 ## How to customize an application
 
-Here is a step-by-step guide to kickstart the customization of one of the available applications:
+We manage all the applications in the [dashboard-apps](https://github.com/commercelayer/dashboard-apps) monorepo. This allows you to run them all locally effortlessly. You can choose to customize and release a single application or all of them. It's up to you.
 
-1. Choose the app you want to customize and fork the related repository (e.g. [app-orders](https://github.com/commercelayer/app-orders)) to your GitHub account.
-1. Use the `organizationSlug` within the `TokenProvider` context, as explained in detail [here](/docs/getting-started-token-provider--docs#how-to-configure-the-token-provider-with-a-custom-app).
-1. Customize the app to meet your specific requirements.
-1. Thoroughly test the application on your local environment.
-1. Proceed to host and deploy your customized app. This can be done swiftly using platforms like Netlify or Vercel.
+Here is a step-by-step guide:
+
+1. Create a new repository from [this template](https://github.com/new?template_owner=commercelayer&template_name=dashboard-apps) (if you want to contribute you can start from a fork instead).
+1. Customize the applications to meet your specific requirements.
+1. Thoroughly test the applications on your local environment.
+1. Proceed to host and deploy your customized apps. This can be done swiftly using platforms like Netlify or Vercel.
 1. As a final step, include the name and deployment URL in the Dashboard.
 
-Watch the instructional video below to learn more: it goes through the whole process of hosting your custom app on Vercel and making it available on the Dashboard.
-
-<div class="embed-responsive">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/8dEvt7B-Vrk?si=ptcsBrVdlFrCKZI-" title="Introducing Commerce Layer's Custom Apps" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-</div>
+<span type="warning">
+  By default all applications can run on each organization.
+  You can force the application to work only on one organization by setting the environment variable `PUBLIC_SELF_HOSTED_SLUG` (e.g. `PUBLIC_SELF_HOSTED_SLUG=my-org`).
+</span>
 
 ## Roles and permissions
 
