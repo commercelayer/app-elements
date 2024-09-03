@@ -41,7 +41,7 @@ When this component is mounted, it does the following:
 During the token validation, the component reads the organization slug from the current URL subdomain. This only works for all Commerce Layer hosted apps since they share the same URL structure.
 
 <span type="info">
-  When you are using a custom app (self-hosted), you can to provide the
+  When you are using a custom app (self-hosted), you can provide the
   `organizationSlug` prop in order to let the component know which organization
   is the owner of the current token. In this way no one else can use your
   deployed version of the app with a different token.
@@ -113,7 +113,10 @@ It contains the [organization object](https://docs.commercelayer.io/core/v/api-r
 
 ### `settings`
 
-```ts
+<Source
+  language="ts"
+  dark
+  code={`
 interface TokenProviderAuthSettings {
   accessToken: string
   appSlug: string
@@ -121,9 +124,10 @@ interface TokenProviderAuthSettings {
   mode: Mode
   organizationSlug: string
 }
-```
+`}
+/>
 
-Here below a simple example on how to to access the current mode (`test` | `live`) from the `settings` object:
+Here below a simple example on how to access the current mode (`test` | `live`) from the `settings` object:
 
 <Source
   language="ts"
@@ -138,7 +142,10 @@ console.log(settings.mode);
 
 This can be `null` if you are authenticating the app with a token that does not contains a valid `User` (e.g. an [integration](https://docs.commercelayer.io/core/applications#integration) token).
 
-```ts
+<Source
+  language="ts"
+  dark
+  code={`
 interface TokenProviderAuthUser {
   id: string
   email: string
@@ -148,7 +155,8 @@ interface TokenProviderAuthUser {
   fullName: string
   timezone: string
 }
-```
+`}
+/>
 
 Here below a simple example on how to get the current user timezone or it's full name:
 
