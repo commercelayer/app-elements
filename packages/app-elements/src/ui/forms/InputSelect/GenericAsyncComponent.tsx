@@ -71,6 +71,8 @@ export const GenericAsyncSelectComponent = forwardRef<
         defaultOptions={initialValues}
         onChange={onSelect}
         closeMenuOnSelect={rest.isMulti !== true}
+        createOptionPosition='first'
+        allowCreateWhileLoading
         noOptionsMessage={({ inputValue }) =>
           isEmpty(inputValue) &&
           (initialValues === undefined || initialValues.length === 0)
