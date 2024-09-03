@@ -24,6 +24,7 @@ export const iconMapping = {
   calculator: phosphor.Calculator,
   calendarBlank: phosphor.CalendarBlank,
   calendarCheck: phosphor.CalendarCheck,
+  calendarDots: phosphor.CalendarDots,
   camera: phosphor.Camera,
   caretDown: phosphor.CaretDown,
   caretRight: phosphor.CaretRight,
