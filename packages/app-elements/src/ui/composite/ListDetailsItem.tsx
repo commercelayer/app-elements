@@ -12,7 +12,7 @@ export interface ListDetailsItemProps {
   /**
    * content to show on the right side.
    * It represent the value.
-   * Most of the type it should be a `<CopyToClipboard>` component
+   * Most of the time it should be a `<CopyToClipboard>` component
    */
   children?: ReactNode
   /**

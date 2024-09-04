@@ -77,7 +77,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   return (
     <div
       className={cn(
-        'break-normal overflow-hidden font-semibold flex justify-between items-start gap-3 border-b border-gray-100 last:border-b-0',
+        'break-normal overflow-hidden font-semibold flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0',
         className
       )}
       {...rest}
@@ -93,58 +93,56 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
           )}
         </div>
       )}
-      <div className='pt-2'>
-        <button
-          type='button'
-          onClick={() => {
-            void handleCopy(value)
-          }}
-          className='text-xl cursor-pointer text-gray-500 hover:text-gray-300 relative'
-          data-testid='copy-value-button'
-        >
-          {!copied ? (
-            <Copy />
-          ) : (
-            <span className='block w-5 h-5'>
-              <Copy className='absolute'>
-                <animate
-                  attributeName='opacity'
-                  values='1;0'
-                  dur={`${transitionMs}ms`}
-                  fill='freeze'
-                  repeatCount='1'
-                />
-                <animate
-                  attributeName='opacity'
-                  values='0;1'
-                  begin={`${feedbackDurationMs}ms`}
-                  dur={`${transitionMs}ms`}
-                  fill='freeze'
-                  repeatCount='1'
-                />
-              </Copy>
-              <Check className='text-green opacity-0 absolute'>
-                <animate
-                  attributeName='opacity'
-                  values='0;1'
-                  begin={`${transitionMs}ms`}
-                  dur={`${transitionMs}ms`}
-                  fill='freeze'
-                  repeatCount='1'
-                />
-                <animate
-                  attributeName='opacity'
-                  values='1;0'
-                  begin={`${feedbackDurationMs - transitionMs}ms`}
-                  dur={`${transitionMs}ms`}
-                  fill='freeze'
-                  repeatCount='1'
-                />
-              </Check>
-            </span>
-          )}
-        </button>
-      </div>
+      <button
+        type='button'
+        onClick={() => {
+          void handleCopy(value)
+        }}
+        className='flex items-center text-xl cursor-pointer text-gray-500 hover:text-gray-300 relative'
+        data-testid='copy-value-button'
+      >
+        {!copied ? (
+          <Copy />
+        ) : (
+          <span className='block w-5 h-5'>
+            <Copy className='absolute'>
+              <animate
+                attributeName='opacity'
+                values='1;0'
+                dur={`${transitionMs}ms`}
+                fill='freeze'
+                repeatCount='1'
+              />
+              <animate
+                attributeName='opacity'
+                values='0;1'
+                begin={`${feedbackDurationMs}ms`}
+                dur={`${transitionMs}ms`}
+                fill='freeze'
+                repeatCount='1'
+              />
+            </Copy>
+            <Check className='text-green opacity-0 absolute'>
+              <animate
+                attributeName='opacity'
+                values='0;1'
+                begin={`${transitionMs}ms`}
+                dur={`${transitionMs}ms`}
+                fill='freeze'
+                repeatCount='1'
+              />
+              <animate
+                attributeName='opacity'
+                values='1;0'
+                begin={`${feedbackDurationMs - transitionMs}ms`}
+                dur={`${transitionMs}ms`}
+                fill='freeze'
+                repeatCount='1'
+              />
+            </Check>
+          </span>
+        )}
+      </button>
     </div>
   )
 }
