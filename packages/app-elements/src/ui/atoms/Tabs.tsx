@@ -70,11 +70,13 @@ function Tabs({
           return
         }
         invariant(
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           tab.type.name,
           `Only "<Tab>" components can be used as children. Invalid at index #${index}`
         )
 
         invariant(
+          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           tab.props.name,
           `Missing prop "name" in <Tab> component at index #${index}`
         )

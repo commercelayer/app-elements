@@ -43,7 +43,7 @@ export function adaptUrlQueryToFormValues<
   // an array of valid values or an empty array
   const parseQueryStringValueAsArray = <TFilterableValue extends string>(
     value?: ParsedQuery[string],
-    acceptedValues?: Readonly<TFilterableValue[]>
+    acceptedValues?: readonly TFilterableValue[]
   ): TFilterableValue[] => {
     if (value == null) {
       return []
