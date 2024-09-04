@@ -51,3 +51,23 @@ WithHint.args = {
   fromPlaceholder: 'Start date...',
   hint: { text: 'Please enter a valid date range' }
 }
+
+/**
+ * When passing specific labels for the two fields (from and to), the component will be rendered without the middle arrow icon.
+ * And each field will have its own label.
+ */
+export const WithIndividualLabels = Template.bind({})
+WithIndividualLabels.args = {
+  fromLabel: 'Start date',
+  fromHint: { text: 'Please enter the start date' },
+  toLabel: 'End date',
+  toHint: { text: 'Please enter the end date' }
+}
+
+export const WithIndividualErrors = Template.bind({})
+WithIndividualErrors.args = {
+  fromLabel: 'Start date',
+  toLabel: 'End date',
+  fromFeedback: { message: 'Invalid start date', variant: 'danger' },
+  toFeedback: { message: 'Invalid end date', variant: 'danger' }
+}

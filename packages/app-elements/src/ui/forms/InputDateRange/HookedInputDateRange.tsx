@@ -1,5 +1,6 @@
+import get from 'lodash/get'
 import { Controller, useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
+import { type InputFeedbackProps } from '../InputFeedback'
 import { InputDateRange, type InputDateRangeProps } from './InputDateRange'
 
 export interface HookedInputDateRangeProps
@@ -20,8 +21,37 @@ export function HookedInputDateRange({
   name,
   ...props
 }: HookedInputDateRangeProps): JSX.Element {
-  const { control } = useFormContext()
-  const feedback = useValidationFeedback(name)
+  const { control, formState } = useFormContext()
+
+  const errors = get(formState.errors, name)
+  const feedbackVariant: InputFeedbackProps['variant'] = 'danger'
+
+  // Since the component value is a tuple, you could end up to receive an array of validation errors.
+  // Especially when only one of the two dates is invalid.
+  const errorMessageFrom =
+    Array.isArray(errors) && typeof errors[0]?.message === 'string'
+      ? {
+          message: errors[0]?.message as string,
+          variant: feedbackVariant
+        }
+      : undefined
+  const errorMessageTo =
+    Array.isArray(errors) && typeof errors[1]?.message === 'string'
+      ? {
+          message: errors[1]?.message as string,
+          variant: feedbackVariant
+        }
+      : undefined
+
+  // When the value is nullish, the error is single object and not an array.
+  // In this case we handle it as single error message shared between the two inputs and displayed at the bottom.
+  const errorMessageGeneric =
+    typeof errors?.message === 'string'
+      ? {
+          message: errors.message,
+          variant: feedbackVariant
+        }
+      : undefined
 
   return (
     <Controller
@@ -33,7 +63,9 @@ export function HookedInputDateRange({
           onChange={onChange}
           value={value}
           ref={ref}
-          feedback={feedback}
+          fromFeedback={errorMessageFrom}
+          toFeedback={errorMessageTo}
+          feedback={errorMessageGeneric}
         />
       )}
     />
