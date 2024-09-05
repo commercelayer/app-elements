@@ -1,0 +1,112 @@
+import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { Icon } from '#ui/atoms/Icon'
+import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import {
+  InputWrapper,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
+import cn from 'classnames'
+import { useEffect, useState } from 'react'
+
+export type CodeBlockProps = Pick<InputWrapperBaseProps, 'label' | 'hint'> & {
+  /**
+   * Optional CSS class names used for the outer wrapper/container element.
+   */
+  wrapperClassName?: string
+  /**
+   * Optional CSS class names used for the content wrapper element.
+   */
+  contentClassName?: string
+  /**
+   * Show a Copy to clipboard button.
+   */
+  showCopyAction?: boolean
+  /**
+   * Show a button to hide/show content. Content starts hidden if `showSecretAction` is true.
+   */
+  showSecretAction?: boolean
+  /**
+   * Content to be rendered.
+   * It only accepts a string and will respect new lines when passing a template literal (backticks).
+   */
+  children: string
+}
+
+export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
+  ({
+    wrapperClassName,
+    contentClassName,
+    showCopyAction = false,
+    showSecretAction = false,
+    label,
+    hint,
+    isLoading,
+    delayMs,
+    children,
+    ...rest
+  }) => {
+    const [hideValue, setHideValue] = useState(showSecretAction)
+
+    useEffect(() => {
+      setHideValue(showSecretAction)
+    }, [showSecretAction])
+
+    return (
+      <InputWrapper
+        {...rest}
+        className={wrapperClassName}
+        label={label}
+        hint={hint}
+      >
+        <div className='flex group w-full rounded bg-gray-50'>
+          <div
+            tabIndex={0}
+            aria-label={label}
+            className={cn(
+              'flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono font-medium marker:font-bold border-none break-all',
+              contentClassName
+            )}
+            data-testid='codeblock-content'
+          >
+            {isLoading === true
+              ? ''
+              : children
+                  .split('\n')
+                  .map((line, idx) => (
+                    <span key={idx}>
+                      {hideValue ? randomHiddenValue() : line}
+                    </span>
+                  ))}
+          </div>
+          {showCopyAction || showSecretAction ? (
+            <div className={cn('flex gap-4 items-start pr-4 py-2.5 pl-0')}>
+              {showSecretAction && (
+                <button
+                  onClick={() => {
+                    setHideValue(!hideValue)
+                  }}
+                  data-testid='toggle-secret'
+                >
+                  <Icon
+                    name={hideValue ? 'eye' : 'eyeSlash'}
+                    className='text-gray-500 hover:text-gray-300'
+                    size={20}
+                  />
+                </button>
+              )}
+              {showCopyAction && (
+                <CopyToClipboard value={children?.trim()} showValue={false} />
+              )}
+            </div>
+          ) : null}
+        </div>
+      </InputWrapper>
+    )
+  }
+)
+
+CodeBlock.displayName = 'CodeBlock'
+
+function randomHiddenValue(): string {
+  return '*'.repeat(Math.floor(Math.random() * 7) + 10)
+}

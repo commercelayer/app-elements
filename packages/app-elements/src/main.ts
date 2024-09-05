@@ -85,6 +85,7 @@ export {
   type ButtonImageSelectProps
 } from '#ui/atoms/ButtonImageSelect'
 export { Card, type CardProps } from '#ui/atoms/Card'
+export { CodeBlock, type CodeBlockProps } from '#ui/atoms/CodeBlock'
 export { Container, type ContainerProps } from '#ui/atoms/Container'
 export {
   CopyToClipboard,
@@ -229,7 +230,6 @@ export {
   type HookedInputRadioGroupProps,
   type InputRadioGroupProps
 } from '#ui/forms/InputRadioGroup'
-export { InputReadonly, type InputReadonlyProps } from '#ui/forms/InputReadonly'
 export {
   HookedInputResourceGroup,
   InputResourceGroup,
