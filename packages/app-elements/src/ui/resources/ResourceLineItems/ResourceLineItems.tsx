@@ -140,7 +140,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
 
     function isGiftCard(
       item: Item
-    ): item is Extract<Item, LineItem> & { item_type: 'gift_cards' } {
+    ): item is Exclude<LineItem, 'item_type'> & { item_type: 'gift_cards' } {
       return (
         item.type === 'line_items' &&
         item.item_type === 'gift_cards' &&
@@ -151,210 +151,216 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
 
     const { user } = useTokenProvider()
 
+    const validLineItems = items.filter((lineItem) => {
+      if (
+        lineItem.type === 'parcel_line_items' ||
+        lineItem.type === 'return_line_items' ||
+        lineItem.type === 'stock_line_items'
+      ) {
+        return true
+      }
+
+      return (
+        lineItem.item_type === 'skus' ||
+        lineItem.item_type === 'bundles' ||
+        isGiftCard(lineItem)
+      )
+    })
+
     return (
       <table className='w-full'>
         <tbody>
-          {items
-            .filter((lineItem) => {
-              return lineItem.type !== 'line_items'
-                ? true
-                : lineItem.item_type === 'skus' ||
-                    lineItem.item_type === 'bundles' ||
-                    isGiftCard(lineItem)
-            })
-            .map((lineItem, index, arr) => {
-              const isLastRow = index === arr.length - 1
+          {validLineItems.map((lineItem, index, arr) => {
+            const isLastRow = index === arr.length - 1
 
-              const code =
-                lineItem.type === 'line_items'
-                  ? lineItem.item_type === 'skus'
-                    ? lineItem.sku_code
-                    : lineItem.bundle_code
-                  : lineItem.sku_code
+            const code =
+              lineItem.type === 'line_items'
+                ? lineItem.item_type === 'skus'
+                  ? lineItem.sku_code
+                  : lineItem.bundle_code
+                : lineItem.sku_code
 
-              const name =
-                lineItem.type === 'stock_line_items'
-                  ? lineItem.sku?.name
-                  : lineItem.name
+            const name =
+              lineItem.type === 'stock_line_items'
+                ? lineItem.sku?.name
+                : lineItem.name
 
-              const imageUrl =
-                lineItem.type === 'stock_line_items'
-                  ? lineItem.sku?.image_url
-                  : isGiftCard(lineItem)
-                    ? 'gift_card'
-                    : lineItem.image_url
+            const imageUrl =
+              lineItem.type === 'stock_line_items'
+                ? lineItem.sku?.image_url
+                : isGiftCard(lineItem)
+                  ? 'gift_card'
+                  : lineItem.image_url
 
-              const hasLineItemOptions =
-                lineItem.type === 'line_items' &&
-                lineItem.line_item_options != null
+            const hasLineItemOptions =
+              lineItem.type === 'line_items' &&
+              lineItem.line_item_options != null
 
-              const hasReturnLineItemReason =
-                lineItem.type === 'return_line_items' &&
-                lineItem.return_reason != null
+            const hasReturnLineItemReason =
+              lineItem.type === 'return_line_items' &&
+              lineItem.return_reason != null
 
-              const hasStockTransfer =
-                lineItem.type === 'stock_line_items' &&
-                lineItem.stockTransfer != null
+            const hasStockTransfer =
+              lineItem.type === 'stock_line_items' &&
+              lineItem.stockTransfer != null
 
-              const hasBundle =
-                lineItem.type === 'line_items' &&
-                lineItem.item_type === 'bundles' &&
-                lineItem.bundle_code != null
+            const hasBundle =
+              lineItem.type === 'line_items' &&
+              lineItem.item_type === 'bundles' &&
+              lineItem.bundle_code != null
 
-              const isEditable = editable && lineItem.type === 'line_items'
+            const isEditable = editable && lineItem.type === 'line_items'
 
-              return (
-                <Fragment key={lineItem.id}>
-                  <tr className='h-0'>
-                    <td
-                      className={cn('w-0', {
-                        'pt-6': size === 'normal',
-                        'pt-4': size === 'small'
-                      })}
-                      valign='top'
-                      align='center'
-                      rowSpan={3}
-                    >
-                      <Avatar
-                        size={size}
-                        src={imageUrl as `https://${string}`}
-                        alt={name ?? ''}
-                      />
-                    </td>
-                    <td
-                      className={cn('pl-4', {
-                        'pt-6': size === 'normal',
-                        'pt-4': size === 'small'
-                      })}
-                      colSpan={settings.showPrice ? 3 : 2}
-                    >
-                      <Text
-                        tag='div'
-                        variant='info'
-                        className={cn({
-                          'text-sm font-semibold': size === 'normal',
-                          'text-xs font-medium': size === 'small'
-                        })}
-                      >
-                        {code}
-                      </Text>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='px-4 w-full' valign='top'>
-                      <Text
-                        tag='div'
-                        className={cn({
-                          'font-bold': size === 'normal',
-                          'text-sm font-bold': size === 'small'
-                        })}
-                      >
-                        {name}
-                      </Text>
-                      {lineItem.type === 'line_items' &&
-                        lineItem.formatted_unit_amount != null && (
-                          <Spacer top='2'>
-                            <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
-                          </Spacer>
-                        )}
-                      {lineItem.type === 'return_line_items' &&
-                        lineItem.restocked_at != null && (
-                          <Spacer top='2'>
-                            <Badge variant='secondary'>
-                              <div className='flex items-center gap-1'>
-                                <Checks size={16} className='text-gray-500' />{' '}
-                                {formatDateWithPredicate({
-                                  predicate: 'Restocked',
-                                  isoDate: lineItem.restocked_at,
-                                  timezone: user?.timezone
-                                })}
-                              </div>
-                            </Badge>
-                          </Spacer>
-                        )}
-                      {lineItem.type !== 'line_items' &&
-                        'bundle_code' in lineItem &&
-                        lineItem.bundle_code != null && (
-                          <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
-                        )}
-                    </td>
-                    <td valign='top' align='right'>
-                      <Text
-                        tag='div'
-                        variant='info'
-                        wrap='nowrap'
-                        className={cn({
-                          'font-medium': size === 'normal',
-                          'text-sm': size === 'small',
-                          hidden: isEditable
-                        })}
-                      >
-                        x {lineItem.quantity}
-                      </Text>
-                    </td>
-                    {settings.showPrice && (
-                      <td className='pl-2' valign='top' align='right'>
-                        {lineItem.type === 'line_items' && (
-                          <Text
-                            tag='div'
-                            wrap='nowrap'
-                            className={cn({
-                              'font-bold': size === 'normal',
-                              'text-sm font-bold': size === 'small'
-                            })}
-                          >
-                            {lineItem.formatted_total_amount}
-                          </Text>
-                        )}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td
-                      className='p-0 pl-4 w-full'
-                      colSpan={settings.showPrice ? 3 : 2}
-                    >
-                      {hasLineItemOptions && (
-                        <LineItemOptions
-                          delayMs={0}
-                          lineItemOptions={lineItem.line_item_options}
-                        />
-                      )}
-                      {hasReturnLineItemReason && (
-                        <ReturnLineItemReason
-                          delayMs={0}
-                          reason={lineItem.return_reason}
-                        />
-                      )}
-                      {hasBundle && (
-                        <Bundle delayMs={0} code={lineItem.bundle_code} />
-                      )}
-                      {hasStockTransfer && (
-                        <StockLineItemStockTransfer
-                          stockTransfer={lineItem.stockTransfer}
-                        />
-                      )}
-                      {isEditable && (
-                        <Edit item={lineItem} onChange={onChange} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr
-                    className={cn('border-b border-gray-100', {
-                      'border-dashed': !isLastRow
+            return (
+              <Fragment key={lineItem.id}>
+                <tr className='h-0'>
+                  <td
+                    className={cn('w-0', {
+                      'pt-6': size === 'normal',
+                      'pt-4': size === 'small'
                     })}
+                    valign='top'
+                    align='center'
+                    rowSpan={3}
                   >
-                    <td
-                      className={cn('w-full p-0', {
-                        'pb-6': size === 'normal',
-                        'pb-4': size === 'small'
-                      })}
-                      colSpan={settings.showPrice ? 4 : 3}
+                    <Avatar
+                      size={size}
+                      src={imageUrl as `https://${string}`}
+                      alt={name ?? ''}
                     />
-                  </tr>
-                </Fragment>
-              )
-            })}
+                  </td>
+                  <td
+                    className={cn('pl-4', {
+                      'pt-6': size === 'normal',
+                      'pt-4': size === 'small'
+                    })}
+                    colSpan={settings.showPrice ? 3 : 2}
+                  >
+                    <Text
+                      tag='div'
+                      variant='info'
+                      className={cn({
+                        'text-sm font-semibold': size === 'normal',
+                        'text-xs font-medium': size === 'small'
+                      })}
+                    >
+                      {code}
+                    </Text>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-4 w-full' valign='top'>
+                    <Text
+                      tag='div'
+                      className={cn({
+                        'font-bold': size === 'normal',
+                        'text-sm font-bold': size === 'small'
+                      })}
+                    >
+                      {name}
+                    </Text>
+                    {lineItem.type === 'line_items' &&
+                      lineItem.formatted_unit_amount != null && (
+                        <Spacer top='2'>
+                          <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
+                        </Spacer>
+                      )}
+                    {lineItem.type === 'return_line_items' &&
+                      lineItem.restocked_at != null && (
+                        <Spacer top='2'>
+                          <Badge variant='secondary'>
+                            <div className='flex items-center gap-1'>
+                              <Checks size={16} className='text-gray-500' />{' '}
+                              {formatDateWithPredicate({
+                                predicate: 'Restocked',
+                                isoDate: lineItem.restocked_at,
+                                timezone: user?.timezone
+                              })}
+                            </div>
+                          </Badge>
+                        </Spacer>
+                      )}
+                    {lineItem.type !== 'line_items' &&
+                      'bundle_code' in lineItem &&
+                      lineItem.bundle_code != null && (
+                        <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
+                      )}
+                  </td>
+                  <td valign='top' align='right'>
+                    <Text
+                      tag='div'
+                      variant='info'
+                      wrap='nowrap'
+                      className={cn({
+                        'font-medium': size === 'normal',
+                        'text-sm': size === 'small',
+                        hidden: isEditable
+                      })}
+                    >
+                      x {lineItem.quantity}
+                    </Text>
+                  </td>
+                  {settings.showPrice && (
+                    <td className='pl-2' valign='top' align='right'>
+                      {lineItem.type === 'line_items' && (
+                        <Text
+                          tag='div'
+                          wrap='nowrap'
+                          className={cn({
+                            'font-bold': size === 'normal',
+                            'text-sm font-bold': size === 'small'
+                          })}
+                        >
+                          {lineItem.formatted_total_amount}
+                        </Text>
+                      )}
+                    </td>
+                  )}
+                </tr>
+                <tr>
+                  <td
+                    className='p-0 pl-4 w-full'
+                    colSpan={settings.showPrice ? 3 : 2}
+                  >
+                    {hasLineItemOptions && (
+                      <LineItemOptions
+                        delayMs={0}
+                        lineItemOptions={lineItem.line_item_options}
+                      />
+                    )}
+                    {hasReturnLineItemReason && (
+                      <ReturnLineItemReason
+                        delayMs={0}
+                        reason={lineItem.return_reason}
+                      />
+                    )}
+                    {hasBundle && (
+                      <Bundle delayMs={0} code={lineItem.bundle_code} />
+                    )}
+                    {hasStockTransfer && (
+                      <StockLineItemStockTransfer
+                        stockTransfer={lineItem.stockTransfer}
+                      />
+                    )}
+                    {isEditable && <Edit item={lineItem} onChange={onChange} />}
+                  </td>
+                </tr>
+                <tr
+                  className={cn('border-b border-gray-100', {
+                    'border-dashed': !isLastRow
+                  })}
+                >
+                  <td
+                    className={cn('w-full p-0', {
+                      'pb-6': size === 'normal',
+                      'pb-4': size === 'small'
+                    })}
+                    colSpan={settings.showPrice ? 4 : 3}
+                  />
+                </tr>
+              </Fragment>
+            )
+          })}
 
           {footer != null &&
             footer.length > 0 &&
