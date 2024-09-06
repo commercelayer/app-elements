@@ -1,4 +1,7 @@
+import { useOverlay } from '#hooks/useOverlay'
+import { Button } from '#ui/atoms/Button'
 import { CodeBlock } from '#ui/atoms/CodeBlock'
+import { PageHeading } from '#ui/atoms/PageHeading'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof CodeBlock> = {
@@ -87,4 +90,40 @@ Loading.args = {
   children: 'asd6as78d6asds',
   isLoading: true,
   hint: { text: 'Do not share this secret with others' }
+}
+
+/**
+ * This component can be used inside an overlay without having to customize the background color.
+ */
+export const UsageInsideOverlay: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open overlay</Button>
+      <Overlay backgroundColor='light'>
+        <PageHeading
+          title='Your credentials'
+          navigationButton={{
+            label: 'Close',
+            icon: 'x',
+            onClick: () => {
+              close()
+            }
+          }}
+        />
+        <CodeBlock
+          label='Login with your admin credentials'
+          showCopyAction
+          showSecretAction
+        >
+          {`commercelayer app:login \\
+          -i asdGvqXsOSsdko6ueiX9 \\
+          -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 \\
+          -o demo-store \\
+          -a admin`}
+        </CodeBlock>
+      </Overlay>
+    </div>
+  )
 }

@@ -51,6 +51,7 @@ export const Overlay: React.FC<OverlayProps> = ({
       role='dialog'
       tabIndex={0}
       className={cn(
+        'overlay-container',
         'fixed inset-0 z-50 w-full h-full  overflow-y-auto outline-none',
         {
           'bg-gray-50': backgroundColor === 'light',

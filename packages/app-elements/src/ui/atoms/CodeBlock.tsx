@@ -10,14 +10,6 @@ import { useEffect, useState } from 'react'
 
 export type CodeBlockProps = Pick<InputWrapperBaseProps, 'label' | 'hint'> & {
   /**
-   * Optional CSS class names used for the outer wrapper/container element.
-   */
-  wrapperClassName?: string
-  /**
-   * Optional CSS class names used for the content wrapper element.
-   */
-  contentClassName?: string
-  /**
    * Show a Copy to clipboard button.
    */
   showCopyAction?: boolean
@@ -34,8 +26,6 @@ export type CodeBlockProps = Pick<InputWrapperBaseProps, 'label' | 'hint'> & {
 
 export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
   ({
-    wrapperClassName,
-    contentClassName,
     showCopyAction = false,
     showSecretAction = false,
     label,
@@ -52,20 +42,12 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
     }, [showSecretAction])
 
     return (
-      <InputWrapper
-        {...rest}
-        className={wrapperClassName}
-        label={label}
-        hint={hint}
-      >
-        <div className='flex group w-full rounded bg-gray-50'>
+      <InputWrapper {...rest} label={label} hint={hint}>
+        <div className='flex group w-full rounded bg-gray-50 [.overlay-container_&]:bg-gray-200'>
           <div
             tabIndex={0}
             aria-label={label}
-            className={cn(
-              'flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono font-medium marker:font-bold border-none break-all',
-              contentClassName
-            )}
+            className='flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono font-medium marker:font-bold border-none break-all'
             data-testid='codeblock-content'
           >
             {isLoading === true
