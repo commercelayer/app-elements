@@ -11,6 +11,8 @@ import type {
   PercentageDiscountPromotion,
   Return,
   Shipment,
+  Sku,
+  SkuListItem,
   StockLocation,
   StockTransfer
 } from '@commercelayer/sdk'
@@ -39,6 +41,17 @@ const destinationStockLocation = {
   created_at: '',
   updated_at: ''
 } as const satisfies StockLocation
+
+const sku = {
+  type: 'skus',
+  id: '',
+  code: 'BASEBHAT000000FFFFFFXXXX',
+  name: 'Black Baseball Hat with White Logo',
+  image_url:
+    'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
+  created_at: '',
+  updated_at: ''
+} as const satisfies Sku
 
 const stockTransfer = {
   type: 'stock_transfers',
@@ -230,6 +243,14 @@ export const presetResourceListItem = {
       updated_at: '2023-06-10T06:38:44.964Z',
       created_at: '2023-06-09T11:00:00.000Z'
     }
+  },
+  skuListItemWithQuantity: {
+    type: 'sku_list_items',
+    id: '',
+    quantity: 3,
+    sku,
+    created_at: '',
+    updated_at: ''
   },
   stockTransferUpcoming: {
     type: 'stock_transfers',
@@ -435,6 +456,7 @@ export const presetResourceListItem = {
   | Customer
   | StockTransfer
   | Shipment
+  | SkuListItem
   | BuyXPayYPromotion
   | ExternalPromotion
   | FixedAmountPromotion
