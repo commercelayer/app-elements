@@ -156,3 +156,42 @@ EditableList.args = {
     alert('Something has changed!')
   }
 }
+
+export const LastItem: StoryFn<Props> = (args) => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ResourceLineItems
+          {...args}
+          items={[presetLineItems.oneLine]}
+          footer={footer}
+        />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+/**
+ * When there's only one editable item in the order, you can make it swappable by setting and managing the `onSwap` method. You'll not be able to remove the item (`remove` action is disabled).
+ */
+export const SwappableItem = LastItem.bind({})
+SwappableItem.args = {
+  editable: true,
+  onChange() {
+    alert('Something has changed!')
+  },
+  onSwap(lineItem) {
+    alert(`Swap item #${lineItem.id}`)
+  }
+}
+
+/**
+ * By default, the item can be removed.
+ */
+export const NonSwappableItem = LastItem.bind({})
+NonSwappableItem.args = {
+  editable: true,
+  onChange() {
+    alert('Something has changed!')
+  }
+}

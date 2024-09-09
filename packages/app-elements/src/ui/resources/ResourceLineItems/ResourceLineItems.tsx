@@ -5,11 +5,13 @@ import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
+import { Button } from '#ui/atoms/Button'
 import { RemoveButton } from '#ui/atoms/RemoveButton'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
+import { Tooltip } from '#ui/atoms/Tooltip'
 import { InputSpinner } from '#ui/forms/InputSpinner'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type {
@@ -18,7 +20,7 @@ import type {
   ReturnLineItem,
   StockTransfer
 } from '@commercelayer/sdk'
-import { Checks } from '@phosphor-icons/react'
+import { ArrowClockwise, Checks } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 import { type StockLineItemWithStockTransfer } from './types'
@@ -35,8 +37,10 @@ type Item =
 
 const Edit = withSkeletonTemplate<{
   item: Item
-  onChange?: () => void
-}>(({ item, onChange }) => {
+  isLast: boolean
+  onSwap?: (item: LineItem) => void
+  onChange?: (item: LineItem | null) => void
+}>(({ item, isLast, onChange, onSwap }) => {
   const { canUser } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
   const [disabled, setDisabled] = useState<boolean>(false)
@@ -44,7 +48,29 @@ const Edit = withSkeletonTemplate<{
   const canUpdate =
     item.type === 'line_items' && canUser('update', 'line_items')
   const canRemove =
-    item.type === 'line_items' && canUser('destroy', 'line_items')
+    canUpdate && item.type === 'line_items' && canUser('destroy', 'line_items')
+  const canSwap =
+    canRemove &&
+    isLast &&
+    onSwap != null &&
+    item.type === 'line_items' &&
+    canUser('create', 'line_items')
+
+  const removeButton = (
+    <RemoveButton
+      aria-label='Delete'
+      disabled={disabled || canSwap}
+      onClick={() => {
+        if (!disabled) {
+          setDisabled(true)
+          void sdkClient.line_items.delete(item.id).then(() => {
+            onChange?.(null)
+            setDisabled(false)
+          })
+        }
+      }}
+    />
+  )
 
   return (
     <FlexRow className='pt-8' alignItems='center'>
@@ -61,29 +87,42 @@ const Edit = withSkeletonTemplate<{
                   id: item.id,
                   quantity: value
                 })
-                .then(() => {
-                  onChange?.()
+                .then((newItem) => {
+                  onChange?.(newItem)
                   setDisabled(false)
                 })
             }}
           />
         )}
       </div>
-      <div>
-        {canRemove && (
-          <RemoveButton
-            aria-label='Delete'
+      <div className='flex gap-4'>
+        {canSwap && (
+          <Button
+            variant='link'
+            className={cn(['flex items-center'])}
+            aria-label='Swap item'
             disabled={disabled}
             onClick={() => {
               if (!disabled) {
-                setDisabled(true)
-                void sdkClient.line_items.delete(item.id).then(() => {
-                  onChange?.()
-                  setDisabled(false)
-                })
+                onSwap?.(item)
               }
             }}
-          />
+          >
+            <ArrowClockwise size={18} weight='bold' />
+          </Button>
+        )}
+        {canRemove && (
+          <>
+            {canSwap ? (
+              <Tooltip
+                label={removeButton}
+                content="Can't remove the last item"
+                direction='top-end'
+              />
+            ) : (
+              removeButton
+            )}
+          </>
         )}
       </div>
     </FlexRow>
@@ -108,13 +147,19 @@ interface Props {
     fullWidth?: boolean
   }>
   /**
-   * Optional setting to define the visibility of line item Edit link.
+   * Make the line items editable.
    */
   editable?: boolean
   /**
-   * Optional onChange function to define line item Edit callback.
+   * Get triggered when a line item changes.
    */
-  onChange?: () => void
+  onChange?: (item: LineItem | null) => void
+  /**
+   * When defined, it adds a `swap` icon and disables the `remove` action when there's only one editable item in the order.
+   *
+   * Get triggered when a line item swaps (a line item can be swapped when it is the only editable item in the order).
+   */
+  onSwap?: (item: LineItem) => void
 }
 
 export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
@@ -123,7 +168,7 @@ export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
 export const ResourceLineItems = withSkeletonTemplate<Props>(
-  ({ items, size = 'normal', footer, editable = false, onChange }) => {
+  ({ items, size = 'normal', footer, editable = false, onChange, onSwap }) => {
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
         (acc, lineItem): LineItemSettings => {
@@ -149,6 +194,10 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
       )
     }
 
+    function isEditable(item: Item): boolean {
+      return editable && item.type === 'line_items'
+    }
+
     const { user } = useTokenProvider()
 
     const validLineItems = items.filter((lineItem) => {
@@ -166,6 +215,10 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
         isGiftCard(lineItem)
       )
     })
+
+    const editableLineItems = validLineItems.filter((lineItem) =>
+      isEditable(lineItem)
+    )
 
     return (
       <table className='w-full'>
@@ -208,8 +261,6 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
               lineItem.type === 'line_items' &&
               lineItem.item_type === 'bundles' &&
               lineItem.bundle_code != null
-
-            const isEditable = editable && lineItem.type === 'line_items'
 
             return (
               <Fragment key={lineItem.id}>
@@ -294,7 +345,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       className={cn({
                         'font-medium': size === 'normal',
                         'text-sm': size === 'small',
-                        hidden: isEditable
+                        hidden: isEditable(lineItem)
                       })}
                     >
                       x {lineItem.quantity}
@@ -342,7 +393,14 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                         stockTransfer={lineItem.stockTransfer}
                       />
                     )}
-                    {isEditable && <Edit item={lineItem} onChange={onChange} />}
+                    {isEditable(lineItem) && (
+                      <Edit
+                        item={lineItem}
+                        isLast={editableLineItems.length === 1}
+                        onChange={onChange}
+                        onSwap={onSwap}
+                      />
+                    )}
                   </td>
                 </tr>
                 <tr
