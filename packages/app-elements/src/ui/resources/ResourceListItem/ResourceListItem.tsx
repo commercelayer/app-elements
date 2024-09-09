@@ -52,6 +52,8 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     showRightContent = false,
     invertNameDescription = false
   }) => {
+    const isClickable = href != null || onClick != null
+
     return (
       <ListItem
         icon={icon}
@@ -59,6 +61,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         data-testid='ResourceListItem'
         href={href}
         onClick={onClick}
+        padding={isClickable ? 'xy' : 'y'}
       >
         <div
           className={`flex  ${invertNameDescription ? 'flex-col-reverse' : 'flex-col'}`}
@@ -83,7 +86,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         <div>
           {showRightContent
             ? rightContent
-            : onClick != null && <StatusIcon name='caretRight' />}
+            : isClickable && <StatusIcon name='caretRight' />}
         </div>
       </ListItem>
     )
