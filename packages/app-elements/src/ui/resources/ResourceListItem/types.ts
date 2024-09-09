@@ -1,4 +1,5 @@
 import type { TokenProviderAuthUser } from '#providers/TokenProvider/types'
+import { type ListItemProps } from '#ui/composite/ListItem'
 import type {
   BuyXPayYPromotion,
   Customer,
@@ -11,6 +12,7 @@ import type {
   PercentageDiscountPromotion,
   Return,
   Shipment,
+  SkuListItem,
   StockTransfer
 } from '@commercelayer/sdk'
 
@@ -19,6 +21,7 @@ export type ResourceListItemType =
   | Return
   | Customer
   | StockTransfer
+  | SkuListItem
   | Shipment
   | BuyXPayYPromotion
   | ExternalPromotion
@@ -33,6 +36,8 @@ export interface ResourceListItemComponentProps {
   description: JSX.Element | string
   icon: JSX.Element
   rightContent?: JSX.Element
+  invertNameDescription?: boolean
+  alignItems?: ListItemProps['alignItems']
 }
 
 export type ResourceToProps<Resource> = (options: {

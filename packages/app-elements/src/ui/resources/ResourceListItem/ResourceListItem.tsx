@@ -8,6 +8,7 @@ import {
   orderToProps,
   returnToProps,
   shipmentToProps,
+  skuListItemToProps,
   stockTransferToProps
 } from '#ui/resources/ResourceListItem/transformers'
 import { useMemo } from 'react'
@@ -47,17 +48,21 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     rightContent,
     href,
     onClick,
-    showRightContent = false
+    alignItems,
+    showRightContent = false,
+    invertNameDescription = false
   }) => {
     return (
       <ListItem
         icon={icon}
-        alignItems={showRightContent ? 'top' : 'center'}
+        alignItems={alignItems ?? (showRightContent ? 'top' : 'center')}
         data-testid='ResourceListItem'
         href={href}
         onClick={onClick}
       >
-        <div>
+        <div
+          className={`flex  ${invertNameDescription ? 'flex-col-reverse' : 'flex-col'}`}
+        >
           <Text
             tag='div'
             weight='semibold'
@@ -103,6 +108,8 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
           return stockTransferToProps({ resource, user })
         case 'shipments':
           return shipmentToProps({ resource, user })
+        case 'sku_list_items':
+          return skuListItemToProps({ resource, user })
         case 'buy_x_pay_y_promotions':
         case 'external_promotions':
         case 'fixed_amount_promotions':

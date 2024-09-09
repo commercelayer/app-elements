@@ -101,6 +101,11 @@ Shipments.args = {
   type: ['shipments']
 }
 
+export const SkuListItems = ItemsByTypeTemplate.bind({})
+SkuListItems.args = {
+  type: ['sku_list_items']
+}
+
 export const Promotions = ItemsByTypeTemplate.bind({})
 Promotions.args = {
   type: [
