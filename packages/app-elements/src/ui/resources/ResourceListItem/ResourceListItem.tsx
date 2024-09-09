@@ -49,6 +49,8 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     onClick,
     showRightContent = false
   }) => {
+    const isClickable = href != null || onClick != null
+
     return (
       <ListItem
         icon={icon}
@@ -56,6 +58,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         data-testid='ResourceListItem'
         href={href}
         onClick={onClick}
+        padding={isClickable ? 'xy' : 'y'}
       >
         <div>
           <Text
@@ -78,7 +81,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         <div>
           {showRightContent
             ? rightContent
-            : onClick != null && <StatusIcon name='caretRight' />}
+            : isClickable && <StatusIcon name='caretRight' />}
         </div>
       </ListItem>
     )
