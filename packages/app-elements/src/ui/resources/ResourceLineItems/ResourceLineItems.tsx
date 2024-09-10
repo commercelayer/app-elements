@@ -100,7 +100,7 @@ const Edit = withSkeletonTemplate<{
           <Button
             variant='link'
             className={cn(['flex items-center'])}
-            aria-label='Swap item'
+            aria-label='Swap'
             disabled={disabled}
             onClick={() => {
               if (!disabled) {
