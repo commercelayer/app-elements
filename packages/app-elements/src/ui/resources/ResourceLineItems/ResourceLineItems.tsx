@@ -20,7 +20,7 @@ import type {
   ReturnLineItem,
   StockTransfer
 } from '@commercelayer/sdk'
-import { Checks, Pencil } from '@phosphor-icons/react'
+import { Checks, PencilSimple } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 import { type StockLineItemWithStockTransfer } from './types'
@@ -110,7 +110,7 @@ const Edit = withSkeletonTemplate<{
                   }
                 }}
               >
-                <Pencil size={18} weight='bold' />
+                <PencilSimple size={18} weight='bold' />
               </Button>
             }
             content='Change item'
