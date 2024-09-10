@@ -1,5 +1,5 @@
-import { type ParsedScopes } from '#providers/TokenProvider/getInfoFromJwt'
-import { type ListableResourceType } from '@commercelayer/sdk'
+import type { ParsedScopes } from '#providers/TokenProvider/getInfoFromJwt'
+import type { ListableResourceType } from '@commercelayer/sdk'
 
 export type TokenProviderAllowedApp =
   | 'bundles'
@@ -150,9 +150,7 @@ export interface TokenProviderAuthSettings {
   /**
    * Extra data received from the outside and made available in the app.
    */
-  extras?: {
-    salesChannels?: Array<{ name: string; client_id: string }>
-  }
+  extras?: TokenProviderExtras
 }
 
 export interface TokenProviderAuthUser {
@@ -163,4 +161,16 @@ export interface TokenProviderAuthUser {
   displayName: string
   fullName: string
   timezone: string
+}
+
+export interface TokenProviderExtras {
+  /** List of sales channel to be used inside the app. */
+  salesChannels?: Array<{ name: string; client_id: string }>
+  /** Current user plan limits, received from provisioning API subscription, when available. */
+  limits?: {
+    markets?: number
+    memberships?: number
+    organizations?: number
+    skus?: number
+  }
 }

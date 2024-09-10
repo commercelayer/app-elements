@@ -64,8 +64,10 @@ export { GTMProvider, useTagManager } from '#providers/GTMProvider'
 export {
   MetaTags,
   TokenProvider,
+  encodeExtras,
   useTokenProvider,
   type TokenProviderAllowedApp,
+  type TokenProviderExtras,
   type TokenProviderPermissionItem,
   type TokenProviderRoleActions,
   type TokenProviderRolePermissions,

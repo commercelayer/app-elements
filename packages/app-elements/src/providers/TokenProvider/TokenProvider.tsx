@@ -1,11 +1,9 @@
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
+import { decodeExtras, getExtrasFromUrl } from '#providers/TokenProvider/extras'
 import { isProductionHostname } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { PageSkeleton } from '#ui/composite/PageSkeleton'
-import {
-  type ListableResourceType,
-  type Organization
-} from '@commercelayer/sdk'
+import type { ListableResourceType, Organization } from '@commercelayer/sdk'
 import {
   createContext,
   useCallback,
@@ -22,11 +20,12 @@ import {
 import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
-import {
-  type TokenProviderAllowedApp,
-  type TokenProviderAuthSettings,
-  type TokenProviderAuthUser,
-  type TokenProviderRoleActions
+import type {
+  TokenProviderAllowedApp,
+  TokenProviderAuthSettings,
+  TokenProviderAuthUser,
+  TokenProviderExtras,
+  TokenProviderRoleActions
 } from './types'
 import { makeDashboardUrl } from './url'
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
@@ -108,10 +107,7 @@ export interface TokenProviderProps {
    * Optional. Extra data to pass from the dashboard or when the app is initialized.
    * They will be received on app init and make available in the TokenProvider > settings context.
    */
-  extras?: {
-    /** List of applications to be used inside the app. */
-    salesChannels?: Array<{ name: string; client_id: string }>
-  }
+  extras?: TokenProviderExtras
 }
 
 export const AuthContext = createContext<TokenProviderValue>({
@@ -140,7 +136,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   accessToken: accessTokenFromProp,
   onAppClose,
   isInDashboard = false,
-  extras
+  extras: extrasFromProp
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   domain = isProductionHostname() ? 'commercelayer.io' : domain
@@ -149,6 +145,8 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
     getPersistentAccessToken({ appSlug, organizationSlug })
+
+  const extras = extrasFromProp ?? decodeExtras(getExtrasFromUrl())
 
   const dashboardUrl = makeDashboardUrl({
     domain,
