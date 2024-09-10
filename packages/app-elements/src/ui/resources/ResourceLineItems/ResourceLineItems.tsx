@@ -97,31 +97,35 @@ const Edit = withSkeletonTemplate<{
       </div>
       <div className='flex gap-4'>
         {canSwap && (
-          <Button
-            variant='link'
-            className={cn(['flex items-center'])}
-            aria-label='Swap'
-            disabled={disabled}
-            onClick={() => {
-              if (!disabled) {
-                onSwap?.(item)
-              }
-            }}
-          >
-            <Pencil size={18} weight='bold' />
-          </Button>
+          <Tooltip
+            label={
+              <Button
+                variant='link'
+                className={cn(['flex items-center'])}
+                aria-label='Swap'
+                disabled={disabled}
+                onClick={() => {
+                  if (!disabled) {
+                    onSwap?.(item)
+                  }
+                }}
+              >
+                <Pencil size={18} weight='bold' />
+              </Button>
+            }
+            content='Change item'
+            direction='top-end'
+          />
         )}
         {canRemove && (
           <>
-            {removeDisabled ? (
-              <Tooltip
-                label={removeButton}
-                content="Can't remove the last item"
-                direction='top-end'
-              />
-            ) : (
-              removeButton
-            )}
+            <Tooltip
+              label={removeButton}
+              content={
+                removeDisabled ? "Can't remove the last item" : 'Remove item'
+              }
+              direction='top-end'
+            />
           </>
         )}
       </div>
