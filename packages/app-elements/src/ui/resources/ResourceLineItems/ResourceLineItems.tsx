@@ -20,7 +20,7 @@ import type {
   ReturnLineItem,
   StockTransfer
 } from '@commercelayer/sdk'
-import { ArrowClockwise, Checks } from '@phosphor-icons/react'
+import { Checks, Pencil } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 import { type StockLineItemWithStockTransfer } from './types'
@@ -51,15 +51,15 @@ const Edit = withSkeletonTemplate<{
     canUpdate && item.type === 'line_items' && canUser('destroy', 'line_items')
   const canSwap =
     canRemove &&
-    isLast &&
     onSwap != null &&
     item.type === 'line_items' &&
     canUser('create', 'line_items')
+  const removeDisabled = canSwap && isLast
 
   const removeButton = (
     <RemoveButton
       aria-label='Delete'
-      disabled={disabled || canSwap}
+      disabled={disabled || removeDisabled}
       onClick={() => {
         if (!disabled) {
           setDisabled(true)
@@ -108,12 +108,12 @@ const Edit = withSkeletonTemplate<{
               }
             }}
           >
-            <ArrowClockwise size={18} weight='bold' />
+            <Pencil size={18} weight='bold' />
           </Button>
         )}
         {canRemove && (
           <>
-            {canSwap ? (
+            {removeDisabled ? (
               <Tooltip
                 label={removeButton}
                 content="Can't remove the last item"

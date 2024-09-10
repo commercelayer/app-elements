@@ -157,7 +157,25 @@ EditableList.args = {
   }
 }
 
-export const LastItem: StoryFn<Props> = (args) => {
+/**
+ * You can make line items swappable by setting and managing the `onSwap` method.
+ */
+export const SwappableItem = List.bind({})
+SwappableItem.args = {
+  editable: true,
+  onChange() {
+    alert('Something has changed!')
+  },
+  onSwap(lineItem) {
+    alert(`Swap item #${lineItem.id}`)
+  }
+}
+
+/**
+ * When there's only one editable item in the order and the `onSwap` method is defined, you'll not be able to remove the item (`remove` action is disabled).
+ * When `onSwap` method is not defined, the item can be removed, even if it is the last one.
+ */
+export const RemoveDisabled: StoryFn<Props> = (args) => {
   return (
     <TokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
@@ -170,28 +188,12 @@ export const LastItem: StoryFn<Props> = (args) => {
     </TokenProvider>
   )
 }
-
-/**
- * When there's only one editable item in the order, you can make it swappable by setting and managing the `onSwap` method. You'll not be able to remove the item (`remove` action is disabled).
- */
-export const SwappableItem = LastItem.bind({})
-SwappableItem.args = {
+RemoveDisabled.args = {
   editable: true,
   onChange() {
     alert('Something has changed!')
   },
   onSwap(lineItem) {
     alert(`Swap item #${lineItem.id}`)
-  }
-}
-
-/**
- * By default, the item can be removed.
- */
-export const NonSwappableItem = LastItem.bind({})
-NonSwappableItem.args = {
-  editable: true,
-  onChange() {
-    alert('Something has changed!')
   }
 }
