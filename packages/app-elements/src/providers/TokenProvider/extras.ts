@@ -9,11 +9,7 @@ import type { TokenProviderExtras } from './types'
  * @returns The Base64 encoded string representation of the extras object.
  */
 export function encodeExtras(extras: TokenProviderExtras): string {
-  const jsonString = encodeURIComponent(JSON.stringify(extras))
-
-  return typeof window !== 'undefined'
-    ? window.btoa(jsonString)
-    : Buffer.from(jsonString).toString('base64')
+  return base64URLSafe.encode(JSON.stringify(extras))
 }
 
 /**
@@ -30,12 +26,7 @@ export function decodeExtras(
     return undefined
   }
 
-  const jsonString =
-    typeof window !== 'undefined'
-      ? window.atob(encodedExtras)
-      : Buffer.from(encodedExtras, 'base64').toString('utf-8')
-
-  return JSON.parse(decodeURIComponent(jsonString))
+  return JSON.parse(base64URLSafe.decode(encodedExtras))
 }
 
 /**
@@ -46,5 +37,39 @@ export const getExtrasFromUrl = (): string | undefined => {
     const params = new URLSearchParams(window.location.search)
     const extras = params.get('extras')
     return isEmpty(extras) || extras == null ? undefined : extras
+  }
+}
+
+/**
+ * Encode/decode base64 URL safe strings.
+ * Utils cloned from CommerceLayer JS Auth library.
+ * https://github.com/commercelayer/commercelayer-js-auth/blob/main/packages/js-auth/src/utils/base64.ts
+ */
+const base64URLSafe = {
+  encode: (stringToEncode: string): string => {
+    if (typeof btoa !== 'undefined') {
+      return (
+        btoa(stringToEncode)
+          // Remove padding equal characters
+          .replaceAll('=', '')
+          // Replace characters according to base64url specifications
+          .replaceAll('+', '-')
+          .replaceAll('/', '_')
+      )
+    }
+
+    return Buffer.from(stringToEncode, 'binary').toString('base64url')
+  },
+  decode: (encodedData: string): string => {
+    if (typeof atob !== 'undefined') {
+      return atob(
+        encodedData
+          // Replace characters according to base64url specifications
+          .replaceAll('-', '+')
+          .replaceAll('_', '/')
+      )
+    }
+
+    return Buffer.from(encodedData, 'base64url').toString('binary')
   }
 }

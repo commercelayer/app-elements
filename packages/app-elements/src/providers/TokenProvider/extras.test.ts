@@ -17,7 +17,7 @@ describe('TokenProviderExtras encoding and decoding', () => {
 
   test('should encode extras to a Base64 string', () => {
     expect(encodeExtras(extras)).toBe(
-      'JTdCJTIyc2FsZXNDaGFubmVscyUyMiUzQSU1QiU3QiUyMm5hbWUlMjIlM0ElMjJDaGFubmVsMSUyMiUyQyUyMmNsaWVudF9pZCUyMiUzQSUyMmNsaWVudDElMjIlN0QlMkMlN0IlMjJuYW1lJTIyJTNBJTIyQ2hhbm5lbDIlMjIlMkMlMjJjbGllbnRfaWQlMjIlM0ElMjJjbGllbnQyJTIyJTdEJTVEJTJDJTIybGltaXRzJTIyJTNBJTdCJTIybWFya2V0cyUyMiUzQTUlMkMlMjJtZW1iZXJzaGlwcyUyMiUzQTEwJTJDJTIyb3JnYW5pemF0aW9ucyUyMiUzQTMlMkMlMjJza3VzJTIyJTNBMTAwMCU3RCU3RA=='
+      'eyJzYWxlc0NoYW5uZWxzIjpbeyJuYW1lIjoiQ2hhbm5lbDEiLCJjbGllbnRfaWQiOiJjbGllbnQxIn0seyJuYW1lIjoiQ2hhbm5lbDIiLCJjbGllbnRfaWQiOiJjbGllbnQyIn1dLCJsaW1pdHMiOnsibWFya2V0cyI6NSwibWVtYmVyc2hpcHMiOjEwLCJvcmdhbml6YXRpb25zIjozLCJza3VzIjoxMDAwfX0'
     )
   })
 
@@ -72,8 +72,8 @@ describe('getExtrasFromUrl', () => {
   })
 
   test('accessToken exists in URL params', () => {
-    window.location.search = '?extras=JTdCJTIyc2FsZXNDaGFubmVscyUy'
-    expect(getExtrasFromUrl()).toBe('JTdCJTIyc2FsZXNDaGFubmVscyUy')
+    window.location.search = '?extras=eyJzYWxlc0NoYW5uZWxzIjpbeyJuYW1lIjoiQ'
+    expect(getExtrasFromUrl()).toBe('eyJzYWxlc0NoYW5uZWxzIjpbeyJuYW1lIjoiQ')
   })
 })
 
