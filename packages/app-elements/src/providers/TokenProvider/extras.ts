@@ -57,9 +57,9 @@ const base64URLSafe = {
           .replaceAll('/', '_')
       )
     }
-
     return Buffer.from(stringToEncode, 'binary').toString('base64url')
   },
+
   decode: (encodedData: string): string => {
     if (typeof atob !== 'undefined') {
       return atob(
@@ -69,7 +69,6 @@ const base64URLSafe = {
           .replaceAll('_', '/')
       )
     }
-
     return Buffer.from(encodedData, 'base64url').toString('binary')
   }
 }

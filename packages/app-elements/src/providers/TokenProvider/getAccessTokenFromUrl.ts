@@ -44,6 +44,7 @@ export const removeAuthParamsFromUrl = (): void => {
   if (typeof window !== 'undefined') {
     const url = new URL(window.location.href)
     url.searchParams.delete('accessToken')
+    url.searchParams.delete('extras')
     url.searchParams.delete('mode')
     window.history.replaceState({}, '', url.toString())
   }

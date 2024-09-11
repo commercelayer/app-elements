@@ -146,7 +146,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
     getAccessTokenFromUrl() ??
     getPersistentJWT({ appSlug, organizationSlug, itemType: 'accessToken' })
 
-  const extras = extrasFromProp ?? decodeExtras(getExtrasFromUrl())
+  const encodeExtras =
+    getExtrasFromUrl() ??
+    getPersistentJWT({ appSlug, organizationSlug, itemType: 'extras' })
+  const extras = extrasFromProp ?? decodeExtras(encodeExtras)
 
   const dashboardUrl = makeDashboardUrl({
     domain,
@@ -227,6 +230,16 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
           organizationSlug,
           itemType: 'accessToken'
         })
+
+        if (encodeExtras != null) {
+          savePersistentJWT({
+            appSlug,
+            jwt: encodeExtras,
+            organizationSlug,
+            itemType: 'extras'
+          })
+        }
+
         removeAuthParamsFromUrl()
 
         dispatch({
