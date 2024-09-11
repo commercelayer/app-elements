@@ -152,7 +152,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               class="text-right"
             >
               <div
-                class="flex gap-4"
+                class="flex gap-4 flex-col md:flex-row"
               >
                 <button
                   aria-label="Swap"
@@ -586,7 +586,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               class="text-right"
             >
               <div
-                class="flex gap-4"
+                class="flex gap-4 flex-col md:flex-row"
               >
                 <button
                   aria-label="Delete"
@@ -1260,7 +1260,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               class="text-right"
             >
               <div
-                class="flex gap-4"
+                class="flex gap-4 flex-col md:flex-row"
               >
                 <button
                   aria-label="Swap"
@@ -1519,7 +1519,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               class="text-right"
             >
               <div
-                class="flex gap-4"
+                class="flex gap-4 flex-col md:flex-row"
               >
                 <button
                   aria-label="Swap"
