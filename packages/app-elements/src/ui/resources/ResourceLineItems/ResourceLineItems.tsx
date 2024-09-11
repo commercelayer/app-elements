@@ -20,7 +20,7 @@ import type {
   ReturnLineItem,
   StockTransfer
 } from '@commercelayer/sdk'
-import { Checks, PencilSimple } from '@phosphor-icons/react'
+import { Checks, Swap } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 import { type StockLineItemWithStockTransfer } from './types'
@@ -69,7 +69,9 @@ const Edit = withSkeletonTemplate<{
           })
         }
       }}
-    />
+    >
+      Remove
+    </RemoveButton>
   )
 
   return (
@@ -97,35 +99,32 @@ const Edit = withSkeletonTemplate<{
       </div>
       <div className='flex gap-4'>
         {canSwap && (
-          <Tooltip
-            label={
-              <Button
-                variant='link'
-                className={cn(['flex items-center'])}
-                aria-label='Swap'
-                disabled={disabled}
-                onClick={() => {
-                  if (!disabled) {
-                    onSwap?.(item)
-                  }
-                }}
-              >
-                <PencilSimple size={18} weight='bold' />
-              </Button>
-            }
-            content='Change item'
-            direction='top-end'
-          />
+          <Button
+            variant='link'
+            className={cn(['flex items-center'])}
+            aria-label='Swap'
+            disabled={disabled}
+            onClick={() => {
+              if (!disabled) {
+                onSwap?.(item)
+              }
+            }}
+          >
+            <Swap size={18} weight='bold' />
+            <span className='pl-1'>Swap</span>
+          </Button>
         )}
         {canRemove && (
           <>
-            <Tooltip
-              label={removeButton}
-              content={
-                removeDisabled ? "Can't remove the last item" : 'Remove item'
-              }
-              direction='top-end'
-            />
+            {removeDisabled ? (
+              <Tooltip
+                label={removeButton}
+                content="Can't remove the last item"
+                direction='top-end'
+              />
+            ) : (
+              removeButton
+            )}
           </>
         )}
       </div>

@@ -154,32 +154,31 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               <div
                 class="flex gap-4"
               >
-                <span
-                  aria-description="Change item"
-                  class="cursor-pointer"
-                  data-tooltip-id="-changeitem-top-end"
+                <button
+                  aria-label="Swap"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
-                  <button
-                    aria-label="Swap"
-                    class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      fill="currentColor"
-                      height="18"
-                      viewBox="0 0 256 256"
-                      width="18"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M230.14,70.54,185.46,25.85a20,20,0,0,0-28.29,0L33.86,149.17A19.85,19.85,0,0,0,28,163.31V208a20,20,0,0,0,20,20H92.69a19.86,19.86,0,0,0,14.14-5.86L230.14,98.82a20,20,0,0,0,0-28.28ZM91,204H52V165l84-84,39,39ZM192,103,153,64l18.34-18.34,39,39Z"
-                      />
-                    </svg>
-                  </button>
-                </span>
+                    <path
+                      d="M228,48V152a20,20,0,0,1-20,20H112.92a12,12,0,0,1-17.41,16.49l-20-20a12,12,0,0,1,0-17l20-20A12,12,0,0,1,112.92,148H204V52H100a12,12,0,0,1-24,0V48A20,20,0,0,1,96,28H208A20,20,0,0,1,228,48ZM168,192a12,12,0,0,0-12,12H52V108h91.08a12,12,0,0,0,17.41,16.49l20-20a12,12,0,0,0,0-17l-20-20A12,12,0,0,0,143.08,84H48a20,20,0,0,0-20,20V208a20,20,0,0,0,20,20H160a20,20,0,0,0,20-20v-4A12,12,0,0,0,168,192Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Swap
+                  </span>
+                </button>
                 <span
                   aria-description="Can't remove the last item"
                   class="cursor-pointer"
-                  data-tooltip-id="-cantremovethelastitem-top-end"
+                  data-tooltip-id="remove-cantremovethelastitem-top-end"
                 >
                   <button
                     aria-label="Delete"
@@ -197,6 +196,11 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                         d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
                       />
                     </svg>
+                    <span
+                      class="pl-1"
+                    >
+                      Remove
+                    </span>
                   </button>
                 </span>
               </div>
@@ -584,28 +588,27 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               <div
                 class="flex gap-4"
               >
-                <span
-                  aria-description="Remove item"
-                  class="cursor-pointer"
-                  data-tooltip-id="-removeitem-top-end"
+                <button
+                  aria-label="Delete"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
-                  <button
-                    aria-label="Delete"
-                    class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      fill="currentColor"
-                      height="18"
-                      viewBox="0 0 256 256"
-                      width="18"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
-                      />
-                    </svg>
-                  </button>
-                </span>
+                    <path
+                      d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Remove
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -1259,50 +1262,48 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               <div
                 class="flex gap-4"
               >
-                <span
-                  aria-description="Change item"
-                  class="cursor-pointer"
-                  data-tooltip-id="-changeitem-top-end"
+                <button
+                  aria-label="Swap"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
-                  <button
-                    aria-label="Swap"
-                    class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      fill="currentColor"
-                      height="18"
-                      viewBox="0 0 256 256"
-                      width="18"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M230.14,70.54,185.46,25.85a20,20,0,0,0-28.29,0L33.86,149.17A19.85,19.85,0,0,0,28,163.31V208a20,20,0,0,0,20,20H92.69a19.86,19.86,0,0,0,14.14-5.86L230.14,98.82a20,20,0,0,0,0-28.28ZM91,204H52V165l84-84,39,39ZM192,103,153,64l18.34-18.34,39,39Z"
-                      />
-                    </svg>
-                  </button>
-                </span>
-                <span
-                  aria-description="Remove item"
-                  class="cursor-pointer"
-                  data-tooltip-id="-removeitem-top-end"
+                    <path
+                      d="M228,48V152a20,20,0,0,1-20,20H112.92a12,12,0,0,1-17.41,16.49l-20-20a12,12,0,0,1,0-17l20-20A12,12,0,0,1,112.92,148H204V52H100a12,12,0,0,1-24,0V48A20,20,0,0,1,96,28H208A20,20,0,0,1,228,48ZM168,192a12,12,0,0,0-12,12H52V108h91.08a12,12,0,0,0,17.41,16.49l20-20a12,12,0,0,0,0-17l-20-20A12,12,0,0,0,143.08,84H48a20,20,0,0,0-20,20V208a20,20,0,0,0,20,20H160a20,20,0,0,0,20-20v-4A12,12,0,0,0,168,192Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Swap
+                  </span>
+                </button>
+                <button
+                  aria-label="Delete"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
-                  <button
-                    aria-label="Delete"
-                    class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      fill="currentColor"
-                      height="18"
-                      viewBox="0 0 256 256"
-                      width="18"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
-                      />
-                    </svg>
-                  </button>
-                </span>
+                    <path
+                      d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Remove
+                  </span>
+                </button>
               </div>
             </div>
           </div>
@@ -1520,50 +1521,48 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               <div
                 class="flex gap-4"
               >
-                <span
-                  aria-description="Change item"
-                  class="cursor-pointer"
-                  data-tooltip-id="-changeitem-top-end"
+                <button
+                  aria-label="Swap"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
-                  <button
-                    aria-label="Swap"
-                    class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      fill="currentColor"
-                      height="18"
-                      viewBox="0 0 256 256"
-                      width="18"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M230.14,70.54,185.46,25.85a20,20,0,0,0-28.29,0L33.86,149.17A19.85,19.85,0,0,0,28,163.31V208a20,20,0,0,0,20,20H92.69a19.86,19.86,0,0,0,14.14-5.86L230.14,98.82a20,20,0,0,0,0-28.28ZM91,204H52V165l84-84,39,39ZM192,103,153,64l18.34-18.34,39,39Z"
-                      />
-                    </svg>
-                  </button>
-                </span>
-                <span
-                  aria-description="Remove item"
-                  class="cursor-pointer"
-                  data-tooltip-id="-removeitem-top-end"
+                    <path
+                      d="M228,48V152a20,20,0,0,1-20,20H112.92a12,12,0,0,1-17.41,16.49l-20-20a12,12,0,0,1,0-17l20-20A12,12,0,0,1,112.92,148H204V52H100a12,12,0,0,1-24,0V48A20,20,0,0,1,96,28H208A20,20,0,0,1,228,48ZM168,192a12,12,0,0,0-12,12H52V108h91.08a12,12,0,0,0,17.41,16.49l20-20a12,12,0,0,0,0-17l-20-20A12,12,0,0,0,143.08,84H48a20,20,0,0,0-20,20V208a20,20,0,0,0,20,20H160a20,20,0,0,0,20-20v-4A12,12,0,0,0,168,192Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Swap
+                  </span>
+                </button>
+                <button
+                  aria-label="Delete"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
-                  <button
-                    aria-label="Delete"
-                    class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
-                    <svg
-                      fill="currentColor"
-                      height="18"
-                      viewBox="0 0 256 256"
-                      width="18"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
-                      />
-                    </svg>
-                  </button>
-                </span>
+                    <path
+                      d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Remove
+                  </span>
+                </button>
               </div>
             </div>
           </div>
