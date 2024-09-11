@@ -19,7 +19,7 @@ import {
 } from './getAccessTokenFromUrl'
 import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
-import { getPersistentAccessToken, savePersistentAccessToken } from './storage'
+import { getPersistentJWT, savePersistentJWT } from './storage'
 import type {
   TokenProviderAllowedApp,
   TokenProviderAuthSettings,
@@ -144,7 +144,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
-    getPersistentAccessToken({ appSlug, organizationSlug })
+    getPersistentJWT({ appSlug, organizationSlug, itemType: 'accessToken' })
 
   const extras = extrasFromProp ?? decodeExtras(getExtrasFromUrl())
 
@@ -221,10 +221,11 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
             : null
 
         // all good
-        savePersistentAccessToken({
+        savePersistentJWT({
           appSlug,
-          accessToken,
-          organizationSlug
+          jwt: accessToken,
+          organizationSlug,
+          itemType: 'accessToken'
         })
         removeAuthParamsFromUrl()
 

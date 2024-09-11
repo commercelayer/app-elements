@@ -1,23 +1,34 @@
-import { getPersistentAccessToken } from '#providers/TokenProvider/storage'
-import { makeStorageKey, savePersistentAccessToken } from './storage'
+import { getPersistentJWT, makeStorageKey, savePersistentJWT } from './storage'
 
 describe('makeStorageKey', () => {
-  test('should return the storage key for clientId', () => {
+  test('should return the storage key for access token', () => {
     const key = makeStorageKey({
       appSlug: 'imports',
-      organizationSlug: 'myorg'
+      organizationSlug: 'myorg',
+      itemType: 'accessToken'
     })
 
     expect(key).to.equal('imports:myorg:accessToken')
   })
+
+  test('should return the storage key for extras', () => {
+    const key = makeStorageKey({
+      appSlug: 'imports',
+      organizationSlug: 'myorg',
+      itemType: 'extras'
+    })
+
+    expect(key).to.equal('imports:myorg:extras')
+  })
 })
 
-describe('getPersistentAccessToken', () => {
+describe('getPersistentJWT', () => {
   test('should retrieve the access token by inferring organization slug from URL', () => {
     localStorage.setItem('orders:commercelayer:accessToken', 'pre-saved-token')
     expect(
-      getPersistentAccessToken({
-        appSlug: 'orders'
+      getPersistentJWT({
+        appSlug: 'orders',
+        itemType: 'accessToken'
       })
     ).toBe('pre-saved-token')
   })
@@ -25,9 +36,10 @@ describe('getPersistentAccessToken', () => {
   test('should retrieve the access token by using specific organization slug, ignoring URL', () => {
     localStorage.setItem('orders:the-red-store:accessToken', 'pre-saved-token2')
     expect(
-      getPersistentAccessToken({
+      getPersistentJWT({
         appSlug: 'orders',
-        organizationSlug: 'the-red-store'
+        organizationSlug: 'the-red-store',
+        itemType: 'accessToken'
       })
     ).toBe('pre-saved-token2')
   })
@@ -35,10 +47,11 @@ describe('getPersistentAccessToken', () => {
 
 describe('savePersistentAccessToken', () => {
   test('should save the access token by using specific organization slug', () => {
-    savePersistentAccessToken({
-      accessToken: 'myAccessToken2',
+    savePersistentJWT({
+      jwt: 'myAccessToken2',
       appSlug: 'shipments',
-      organizationSlug: 'blue-store'
+      organizationSlug: 'blue-store',
+      itemType: 'accessToken'
     })
     expect(localStorage.getItem('shipments:demo-store:accessToken')).toBe(null)
     expect(localStorage.getItem('shipments:blue-store:accessToken')).toBe(

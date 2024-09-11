@@ -20,7 +20,7 @@ export function encodeExtras(extras: TokenProviderExtras): string {
  * @returns The decoded extras object.
  */
 export function decodeExtras(
-  encodedExtras?: string
+  encodedExtras?: string | null
 ): TokenProviderExtras | undefined {
   if (encodedExtras == null) {
     return undefined

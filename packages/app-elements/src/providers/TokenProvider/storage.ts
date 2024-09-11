@@ -1,23 +1,30 @@
 import { type TokenProviderAllowedApp } from './types'
 
+type ItemType = 'accessToken' | 'extras'
+
 export function makeStorageKey({
   appSlug,
-  organizationSlug
+  organizationSlug,
+  itemType
 }: {
   appSlug: TokenProviderAllowedApp
   organizationSlug: string
+  itemType: ItemType
 }): string {
-  return `${appSlug}:${organizationSlug}:accessToken`
+  return `${appSlug}:${organizationSlug}:${itemType}`
 }
 
-export function getPersistentAccessToken({
+export function getPersistentJWT({
   appSlug,
-  organizationSlug = 'commercelayer'
+  organizationSlug = 'commercelayer',
+  itemType
 }: {
   /** The app for which to get the token. */
   appSlug: TokenProviderAllowedApp
   /** The organization slug for the token we want to retrieve. */
   organizationSlug?: string
+  /** The JWT item type you want to retrieve. */
+  itemType: ItemType
 }): string | null {
   if (typeof window === 'undefined') {
     return null
@@ -26,23 +33,27 @@ export function getPersistentAccessToken({
   const storedAccessToken = window.localStorage.getItem(
     makeStorageKey({
       appSlug,
-      organizationSlug
+      organizationSlug,
+      itemType
     })
   )
   return storedAccessToken
 }
 
-export function savePersistentAccessToken({
+export function savePersistentJWT({
   appSlug,
-  accessToken,
-  organizationSlug = 'commercelayer'
+  jwt,
+  organizationSlug = 'commercelayer',
+  itemType
 }: {
   /** The app for which to get the token. */
   appSlug: TokenProviderAllowedApp
   /** The token to save. */
-  accessToken: string
+  jwt: string
   /** The organization slug for the token we want to store. */
   organizationSlug?: string
+  /** The JWT item type you want to store. */
+  itemType: ItemType
 }): void {
   if (typeof window === 'undefined') {
     return
@@ -51,8 +62,9 @@ export function savePersistentAccessToken({
   window.localStorage.setItem(
     makeStorageKey({
       appSlug,
-      organizationSlug
+      organizationSlug,
+      itemType
     }),
-    accessToken
+    jwt
   )
 }
