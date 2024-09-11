@@ -266,6 +266,10 @@ describe('ResourceLineItems', () => {
       thirdRow
     ).getByTestId('InputSpinner-increment')
 
+    const swapButton: HTMLButtonElement | null =
+      within(thirdRow).queryByLabelText('Swap')
+    expect(swapButton).not.toBeInTheDocument()
+
     const deleteButton: HTMLButtonElement =
       within(thirdRow).getByLabelText('Delete')
 
@@ -274,6 +278,7 @@ describe('ResourceLineItems', () => {
     expect(inputSpinner).toBeInTheDocument()
     expect(inputSpinner.value).toEqual('2')
     expect(deleteButton).toBeInTheDocument()
+    expect(deleteButton).not.toBeDisabled()
 
     await waitFor(() => {
       fireEvent.click(inputSpinnerIncrement)
@@ -301,5 +306,67 @@ describe('ResourceLineItems', () => {
 
     expect(lineItemDelete).toHaveBeenCalledTimes(1)
     expect(lineItemDelete).toHaveBeenLastCalledWith('Rew3423fwr')
+  })
+
+  it('should render the swap action when `onSwap` is defined', () => {
+    const onSwap = vi.fn()
+    const { container, getAllByLabelText } = render(
+      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems
+            editable
+            onSwap={onSwap}
+            items={[presetLineItems.oneLine, presetLineItems.withBundle]}
+          />
+        </CoreSdkProvider>
+      </MockTokenProvider>
+    )
+    expect(container).toMatchSnapshot()
+
+    const swapButton = getAllByLabelText('Swap')
+    const deleteButton = getAllByLabelText('Delete')
+
+    expect(swapButton.length).toEqual(2)
+    expect(deleteButton.length).toEqual(2)
+
+    expect(swapButton[0]).toBeInTheDocument()
+    expect(swapButton[0]).not.toBeDisabled()
+
+    expect(swapButton[1]).toBeInTheDocument()
+    expect(swapButton[1]).not.toBeDisabled()
+
+    expect(deleteButton[0]).toBeInTheDocument()
+    expect(deleteButton[0]).not.toBeDisabled()
+
+    expect(deleteButton[1]).toBeInTheDocument()
+    expect(deleteButton[1]).not.toBeDisabled()
+  })
+
+  it('should disable the remove action when `onSwap` is defined and the item is the last one in the order', () => {
+    const onSwap = vi.fn()
+    const { container, getAllByLabelText } = render(
+      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems
+            editable
+            onSwap={onSwap}
+            items={[presetLineItems.oneLine]}
+          />
+        </CoreSdkProvider>
+      </MockTokenProvider>
+    )
+    expect(container).toMatchSnapshot()
+
+    const swapButton = getAllByLabelText('Swap')
+    const deleteButton = getAllByLabelText('Delete')
+
+    expect(swapButton.length).toEqual(1)
+    expect(deleteButton.length).toEqual(1)
+
+    expect(swapButton[0]).toBeInTheDocument()
+    expect(swapButton[0]).not.toBeDisabled()
+
+    expect(deleteButton[0]).toBeInTheDocument()
+    expect(deleteButton[0]).toBeDisabled()
   })
 })

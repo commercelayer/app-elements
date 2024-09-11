@@ -1,5 +1,226 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is defined and the item is the last one in the order 1`] = `
+<div>
+  <table
+    class="w-full"
+  >
+    <tbody>
+      <tr
+        class="h-0"
+      >
+        <td
+          align="center"
+          class="w-0 pt-6"
+          rowspan="3"
+          valign="top"
+        >
+          <img
+            alt="Gray Baby Bib with Black Logo"
+            class="border object-contain object-center min-w-[58px] min-h-[58px] w-[58px] h-[58px] rounded border-gray-100"
+            src="https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BABYBIBXA19D9D000000XXXX_FLAT.png"
+          />
+        </td>
+        <td
+          class="pl-4 pt-6"
+          colspan="3"
+        >
+          <div
+            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+          >
+            BABYBIBXA19D9D000000XXXX
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="px-4 w-full"
+          valign="top"
+        >
+          <div
+            class="font-bold [overflow-wrap:anywhere]"
+          >
+            Gray Baby Bib with Black Logo
+          </div>
+          <div
+            class="mt-2"
+          >
+            <div
+              class="text-xs font-bold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+            >
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price 9.00€
+              </div>
+            </div>
+          </div>
+        </td>
+        <td
+          align="right"
+          valign="top"
+        >
+          <div
+            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+          >
+            x 
+            2
+          </div>
+        </td>
+        <td
+          align="right"
+          class="pl-2"
+          valign="top"
+        >
+          <div
+            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+          >
+            18.00€
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="p-0 pl-4 w-full"
+          colspan="3"
+        >
+          <div
+            class="flex justify-between w-full gap-4 items-center pt-8"
+          >
+            <div
+              class="flex-grow"
+            >
+              <div>
+                <div
+                  class=""
+                >
+                  <div
+                    class="justify-self-end"
+                  >
+                    <div
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                    >
+                      <button
+                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        data-testid="InputSpinner-decrement"
+                        type="button"
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                      <input
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        data-testid="InputSpinner-input"
+                        type="number"
+                        value="2"
+                      />
+                      <button
+                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        data-testid="InputSpinner-increment"
+                        type="button"
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="col-span-2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-right"
+            >
+              <div
+                class="flex gap-4 flex-col md:flex-row"
+              >
+                <button
+                  aria-label="Swap"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M228,48V152a20,20,0,0,1-20,20H112.92a12,12,0,0,1-17.41,16.49l-20-20a12,12,0,0,1,0-17l20-20A12,12,0,0,1,112.92,148H204V52H100a12,12,0,0,1-24,0V48A20,20,0,0,1,96,28H208A20,20,0,0,1,228,48ZM168,192a12,12,0,0,0-12,12H52V108h91.08a12,12,0,0,0,17.41,16.49l20-20a12,12,0,0,0,0-17l-20-20A12,12,0,0,0,143.08,84H48a20,20,0,0,0-20,20V208a20,20,0,0,0,20,20H160a20,20,0,0,0,20-20v-4A12,12,0,0,0,168,192Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Swap
+                  </span>
+                </button>
+                <span
+                  aria-description="Can't remove the last item"
+                  class="cursor-pointer"
+                  data-tooltip-id="remove-cantremovethelastitem-top-end"
+                >
+                  <button
+                    aria-label="Delete"
+                    class="flex items-center rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                    disabled=""
+                  >
+                    <svg
+                      fill="currentColor"
+                      height="18"
+                      viewBox="0 0 256 256"
+                      width="18"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
+                      />
+                    </svg>
+                    <span
+                      class="pl-1"
+                    >
+                      Remove
+                    </span>
+                  </button>
+                </span>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="border-b border-gray-100"
+      >
+        <td
+          class="w-full p-0 pb-6"
+          colspan="4"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
 exports[`ResourceLineItems > should render 1`] = `
 <div>
   <table
@@ -364,7 +585,9 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
             <div
               class="text-right"
             >
-              <div>
+              <div
+                class="flex gap-4 flex-col md:flex-row"
+              >
                 <button
                   aria-label="Delete"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
@@ -380,6 +603,11 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                       d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
                     />
                   </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Remove
+                  </span>
                 </button>
               </div>
             </div>
@@ -862,6 +1090,479 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 >
                   position: {"x":30,"y":10}
                 </div>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="border-b border-gray-100"
+      >
+        <td
+          class="w-full p-0 pb-6"
+          colspan="4"
+        />
+      </tr>
+    </tbody>
+  </table>
+</div>
+`;
+
+exports[`ResourceLineItems > should render the swap action when \`onSwap\` is defined 1`] = `
+<div>
+  <table
+    class="w-full"
+  >
+    <tbody>
+      <tr
+        class="h-0"
+      >
+        <td
+          align="center"
+          class="w-0 pt-6"
+          rowspan="3"
+          valign="top"
+        >
+          <img
+            alt="Gray Baby Bib with Black Logo"
+            class="border object-contain object-center min-w-[58px] min-h-[58px] w-[58px] h-[58px] rounded border-gray-100"
+            src="https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BABYBIBXA19D9D000000XXXX_FLAT.png"
+          />
+        </td>
+        <td
+          class="pl-4 pt-6"
+          colspan="3"
+        >
+          <div
+            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+          >
+            BABYBIBXA19D9D000000XXXX
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="px-4 w-full"
+          valign="top"
+        >
+          <div
+            class="font-bold [overflow-wrap:anywhere]"
+          >
+            Gray Baby Bib with Black Logo
+          </div>
+          <div
+            class="mt-2"
+          >
+            <div
+              class="text-xs font-bold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+            >
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price 9.00€
+              </div>
+            </div>
+          </div>
+        </td>
+        <td
+          align="right"
+          valign="top"
+        >
+          <div
+            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+          >
+            x 
+            2
+          </div>
+        </td>
+        <td
+          align="right"
+          class="pl-2"
+          valign="top"
+        >
+          <div
+            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+          >
+            18.00€
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="p-0 pl-4 w-full"
+          colspan="3"
+        >
+          <div
+            class="flex justify-between w-full gap-4 items-center pt-8"
+          >
+            <div
+              class="flex-grow"
+            >
+              <div>
+                <div
+                  class=""
+                >
+                  <div
+                    class="justify-self-end"
+                  >
+                    <div
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                    >
+                      <button
+                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        data-testid="InputSpinner-decrement"
+                        type="button"
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                      <input
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        data-testid="InputSpinner-input"
+                        type="number"
+                        value="2"
+                      />
+                      <button
+                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        data-testid="InputSpinner-increment"
+                        type="button"
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="col-span-2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-right"
+            >
+              <div
+                class="flex gap-4 flex-col md:flex-row"
+              >
+                <button
+                  aria-label="Swap"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M228,48V152a20,20,0,0,1-20,20H112.92a12,12,0,0,1-17.41,16.49l-20-20a12,12,0,0,1,0-17l20-20A12,12,0,0,1,112.92,148H204V52H100a12,12,0,0,1-24,0V48A20,20,0,0,1,96,28H208A20,20,0,0,1,228,48ZM168,192a12,12,0,0,0-12,12H52V108h91.08a12,12,0,0,0,17.41,16.49l20-20a12,12,0,0,0,0-17l-20-20A12,12,0,0,0,143.08,84H48a20,20,0,0,0-20,20V208a20,20,0,0,0,20,20H160a20,20,0,0,0,20-20v-4A12,12,0,0,0,168,192Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Swap
+                  </span>
+                </button>
+                <button
+                  aria-label="Delete"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Remove
+                  </span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr
+        class="border-b border-gray-100 border-dashed"
+      >
+        <td
+          class="w-full p-0 pb-6"
+          colspan="4"
+        />
+      </tr>
+      <tr
+        class="h-0"
+      >
+        <td
+          align="center"
+          class="w-0 pt-6"
+          rowspan="3"
+          valign="top"
+        >
+          <img
+            alt="Welcome KIT"
+            class="border object-contain object-center min-w-[58px] min-h-[58px] w-[58px] h-[58px] rounded border-gray-100"
+            src="https://data.commercelayer.app/assets/images/t-shirts/color/png/t-shirt-flat_GREEN-ALIEN.png"
+          />
+        </td>
+        <td
+          class="pl-4 pt-6"
+          colspan="3"
+        >
+          <div
+            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+          >
+            WELCOME_KIT_001
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="px-4 w-full"
+          valign="top"
+        >
+          <div
+            class="font-bold [overflow-wrap:anywhere]"
+          >
+            Welcome KIT
+          </div>
+          <div
+            class="mt-2"
+          >
+            <div
+              class="text-xs font-bold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+            >
+              <div
+                class="flex items-center gap-1"
+              >
+                Unit price $10.00
+              </div>
+            </div>
+          </div>
+        </td>
+        <td
+          align="right"
+          valign="top"
+        >
+          <div
+            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+          >
+            x 
+            1
+          </div>
+        </td>
+        <td
+          align="right"
+          class="pl-2"
+          valign="top"
+        >
+          <div
+            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+          >
+            $10.00
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td
+          class="p-0 pl-4 w-full"
+          colspan="3"
+        >
+          <ul
+            class="ml-1 mt-2.5"
+          >
+            <li
+              class="flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]"
+            >
+              <img
+                alt="Black Men T-Shirt with White Logo (L)"
+                class="border object-contain object-center min-w-8 min-h-8 w-8 h-8 rounded border-gray-100 ml-2"
+                src="https://data.commercelayer.app/seed/images/skus/TSHIRTMS000000FFFFFFLXXX_FLAT.png"
+              />
+              <div
+                class="flex flex-row gap-2 items-center ml-2"
+              >
+                <span
+                  class="whitespace-nowrap text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                >
+                  x 
+                  1
+                </span>
+                 
+                <span
+                  class="leading-4 font-semibold text-sm [overflow-wrap:anywhere]"
+                >
+                  Black Men T-Shirt with White Logo (L)
+                </span>
+              </div>
+            </li>
+            <li
+              class="flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]"
+            >
+              <img
+                alt="Sport Grey Unisex Hoodie Sweatshirt with Black Logo (M)"
+                class="border object-contain object-center min-w-8 min-h-8 w-8 h-8 rounded border-gray-100 ml-2"
+                src="https://data.commercelayer.app/seed/images/skus/HOODIEMX7F7F7F000000MXXX_FLAT.png"
+              />
+              <div
+                class="flex flex-row gap-2 items-center ml-2"
+              >
+                <span
+                  class="whitespace-nowrap text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                >
+                  x 
+                  2
+                </span>
+                 
+                <span
+                  class="leading-4 font-semibold text-sm [overflow-wrap:anywhere]"
+                >
+                  Sport Grey Unisex Hoodie Sweatshirt with Black Logo (M)
+                </span>
+              </div>
+            </li>
+          </ul>
+          <div
+            class="flex justify-between w-full gap-4 items-center pt-8"
+          >
+            <div
+              class="flex-grow"
+            >
+              <div>
+                <div
+                  class=""
+                >
+                  <div
+                    class="justify-self-end"
+                  >
+                    <div
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                    >
+                      <button
+                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 text-gray-300"
+                        data-testid="InputSpinner-decrement"
+                        disabled=""
+                        tabindex="-1"
+                        type="button"
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                      <input
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        data-testid="InputSpinner-input"
+                        type="number"
+                        value="1"
+                      />
+                      <button
+                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        data-testid="InputSpinner-increment"
+                        type="button"
+                      >
+                        <svg
+                          fill="currentColor"
+                          height="1em"
+                          viewBox="0 0 256 256"
+                          width="1em"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                          />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div
+                    class="col-span-2"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-right"
+            >
+              <div
+                class="flex gap-4 flex-col md:flex-row"
+              >
+                <button
+                  aria-label="Swap"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M228,48V152a20,20,0,0,1-20,20H112.92a12,12,0,0,1-17.41,16.49l-20-20a12,12,0,0,1,0-17l20-20A12,12,0,0,1,112.92,148H204V52H100a12,12,0,0,1-24,0V48A20,20,0,0,1,96,28H208A20,20,0,0,1,228,48ZM168,192a12,12,0,0,0-12,12H52V108h91.08a12,12,0,0,0,17.41,16.49l20-20a12,12,0,0,0,0-17l-20-20A12,12,0,0,0,143.08,84H48a20,20,0,0,0-20,20V208a20,20,0,0,0,20,20H160a20,20,0,0,0,20-20v-4A12,12,0,0,0,168,192Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Swap
+                  </span>
+                </button>
+                <button
+                  aria-label="Delete"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                >
+                  <svg
+                    fill="currentColor"
+                    height="18"
+                    viewBox="0 0 256 256"
+                    width="18"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M216,48H180V36A28,28,0,0,0,152,8H104A28,28,0,0,0,76,36V48H40a12,12,0,0,0,0,24h4V208a20,20,0,0,0,20,20H192a20,20,0,0,0,20-20V72h4a12,12,0,0,0,0-24ZM100,36a4,4,0,0,1,4-4h48a4,4,0,0,1,4,4V48H100Zm88,168H68V72H188ZM116,104v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Zm48,0v64a12,12,0,0,1-24,0V104a12,12,0,0,1,24,0Z"
+                    />
+                  </svg>
+                  <span
+                    class="pl-1"
+                  >
+                    Remove
+                  </span>
+                </button>
               </div>
             </div>
           </div>

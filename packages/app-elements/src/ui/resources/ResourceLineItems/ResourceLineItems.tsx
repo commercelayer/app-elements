@@ -5,11 +5,13 @@ import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
+import { Button } from '#ui/atoms/Button'
 import { RemoveButton } from '#ui/atoms/RemoveButton'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
+import { Tooltip } from '#ui/atoms/Tooltip'
 import { InputSpinner } from '#ui/forms/InputSpinner'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type {
@@ -18,7 +20,7 @@ import type {
   ReturnLineItem,
   StockTransfer
 } from '@commercelayer/sdk'
-import { Checks } from '@phosphor-icons/react'
+import { Checks, Swap } from '@phosphor-icons/react'
 import cn from 'classnames'
 import { Fragment, useMemo, useState, type ComponentProps } from 'react'
 import { type StockLineItemWithStockTransfer } from './types'
@@ -35,8 +37,10 @@ type Item =
 
 const Edit = withSkeletonTemplate<{
   item: Item
-  onChange?: () => void
-}>(({ item, onChange }) => {
+  isLast: boolean
+  onSwap?: (item: LineItem) => void
+  onChange?: (item: LineItem | null) => void
+}>(({ item, isLast, onChange, onSwap }) => {
   const { canUser } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
   const [disabled, setDisabled] = useState<boolean>(false)
@@ -44,7 +48,31 @@ const Edit = withSkeletonTemplate<{
   const canUpdate =
     item.type === 'line_items' && canUser('update', 'line_items')
   const canRemove =
-    item.type === 'line_items' && canUser('destroy', 'line_items')
+    canUpdate && item.type === 'line_items' && canUser('destroy', 'line_items')
+  const canSwap =
+    canRemove &&
+    onSwap != null &&
+    item.type === 'line_items' &&
+    canUser('create', 'line_items')
+  const removeDisabled = canSwap && isLast
+
+  const removeButton = (
+    <RemoveButton
+      aria-label='Delete'
+      disabled={disabled || removeDisabled}
+      onClick={() => {
+        if (!disabled) {
+          setDisabled(true)
+          void sdkClient.line_items.delete(item.id).then(() => {
+            onChange?.(null)
+            setDisabled(false)
+          })
+        }
+      }}
+    >
+      Remove
+    </RemoveButton>
+  )
 
   return (
     <FlexRow className='pt-8' alignItems='center'>
@@ -61,29 +89,43 @@ const Edit = withSkeletonTemplate<{
                   id: item.id,
                   quantity: value
                 })
-                .then(() => {
-                  onChange?.()
+                .then((newItem) => {
+                  onChange?.(newItem)
                   setDisabled(false)
                 })
             }}
           />
         )}
       </div>
-      <div>
-        {canRemove && (
-          <RemoveButton
-            aria-label='Delete'
+      <div className='flex gap-4 flex-col md:flex-row'>
+        {canSwap && (
+          <Button
+            variant='link'
+            className={cn(['flex items-center'])}
+            aria-label='Swap'
             disabled={disabled}
             onClick={() => {
               if (!disabled) {
-                setDisabled(true)
-                void sdkClient.line_items.delete(item.id).then(() => {
-                  onChange?.()
-                  setDisabled(false)
-                })
+                onSwap?.(item)
               }
             }}
-          />
+          >
+            <Swap size={18} weight='bold' />
+            <span className='pl-1'>Swap</span>
+          </Button>
+        )}
+        {canRemove && (
+          <>
+            {removeDisabled ? (
+              <Tooltip
+                label={removeButton}
+                content="Can't remove the last item"
+                direction='top-end'
+              />
+            ) : (
+              removeButton
+            )}
+          </>
         )}
       </div>
     </FlexRow>
@@ -108,13 +150,19 @@ interface Props {
     fullWidth?: boolean
   }>
   /**
-   * Optional setting to define the visibility of line item Edit link.
+   * Make the line items editable.
    */
   editable?: boolean
   /**
-   * Optional onChange function to define line item Edit callback.
+   * Get triggered when a line item changes.
    */
-  onChange?: () => void
+  onChange?: (item: LineItem | null) => void
+  /**
+   * When defined, it adds a `swap` icon and disables the `remove` action when there's only one editable item in the order.
+   *
+   * Get triggered when a line item swaps (a line item can be swapped when it is the only editable item in the order).
+   */
+  onSwap?: (item: LineItem) => void
 }
 
 export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
@@ -123,7 +171,7 @@ export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
 export const ResourceLineItems = withSkeletonTemplate<Props>(
-  ({ items, size = 'normal', footer, editable = false, onChange }) => {
+  ({ items, size = 'normal', footer, editable = false, onChange, onSwap }) => {
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
         (acc, lineItem): LineItemSettings => {
@@ -140,7 +188,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
 
     function isGiftCard(
       item: Item
-    ): item is Extract<Item, LineItem> & { item_type: 'gift_cards' } {
+    ): item is Exclude<LineItem, 'item_type'> & { item_type: 'gift_cards' } {
       return (
         item.type === 'line_items' &&
         item.item_type === 'gift_cards' &&
@@ -149,212 +197,231 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
       )
     }
 
+    function isEditable(item: Item): boolean {
+      return editable && item.type === 'line_items'
+    }
+
     const { user } = useTokenProvider()
+
+    const validLineItems = items.filter((lineItem) => {
+      if (
+        lineItem.type === 'parcel_line_items' ||
+        lineItem.type === 'return_line_items' ||
+        lineItem.type === 'stock_line_items'
+      ) {
+        return true
+      }
+
+      return (
+        lineItem.item_type === 'skus' ||
+        lineItem.item_type === 'bundles' ||
+        isGiftCard(lineItem)
+      )
+    })
+
+    const editableLineItems = validLineItems.filter((lineItem) =>
+      isEditable(lineItem)
+    )
 
     return (
       <table className='w-full'>
         <tbody>
-          {items
-            .filter((lineItem) => {
-              return lineItem.type !== 'line_items'
-                ? true
-                : lineItem.item_type === 'skus' ||
-                    lineItem.item_type === 'bundles' ||
-                    isGiftCard(lineItem)
-            })
-            .map((lineItem, index, arr) => {
-              const isLastRow = index === arr.length - 1
+          {validLineItems.map((lineItem, index, arr) => {
+            const isLastRow = index === arr.length - 1
 
-              const code =
-                lineItem.type === 'line_items'
-                  ? lineItem.item_type === 'skus'
-                    ? lineItem.sku_code
-                    : lineItem.bundle_code
-                  : lineItem.sku_code
+            const code =
+              lineItem.type === 'line_items'
+                ? lineItem.item_type === 'skus'
+                  ? lineItem.sku_code
+                  : lineItem.bundle_code
+                : lineItem.sku_code
 
-              const name =
-                lineItem.type === 'stock_line_items'
-                  ? lineItem.sku?.name
-                  : lineItem.name
+            const name =
+              lineItem.type === 'stock_line_items'
+                ? lineItem.sku?.name
+                : lineItem.name
 
-              const imageUrl =
-                lineItem.type === 'stock_line_items'
-                  ? lineItem.sku?.image_url
-                  : isGiftCard(lineItem)
-                    ? 'gift_card'
-                    : lineItem.image_url
+            const imageUrl =
+              lineItem.type === 'stock_line_items'
+                ? lineItem.sku?.image_url
+                : isGiftCard(lineItem)
+                  ? 'gift_card'
+                  : lineItem.image_url
 
-              const hasLineItemOptions =
-                lineItem.type === 'line_items' &&
-                lineItem.line_item_options != null
+            const hasLineItemOptions =
+              lineItem.type === 'line_items' &&
+              lineItem.line_item_options != null
 
-              const hasReturnLineItemReason =
-                lineItem.type === 'return_line_items' &&
-                lineItem.return_reason != null
+            const hasReturnLineItemReason =
+              lineItem.type === 'return_line_items' &&
+              lineItem.return_reason != null
 
-              const hasStockTransfer =
-                lineItem.type === 'stock_line_items' &&
-                lineItem.stockTransfer != null
+            const hasStockTransfer =
+              lineItem.type === 'stock_line_items' &&
+              lineItem.stockTransfer != null
 
-              const hasBundle =
-                lineItem.type === 'line_items' &&
-                lineItem.item_type === 'bundles' &&
-                lineItem.bundle_code != null
+            const hasBundle =
+              lineItem.type === 'line_items' &&
+              lineItem.item_type === 'bundles' &&
+              lineItem.bundle_code != null
 
-              const isEditable = editable && lineItem.type === 'line_items'
-
-              return (
-                <Fragment key={lineItem.id}>
-                  <tr className='h-0'>
-                    <td
-                      className={cn('w-0', {
-                        'pt-6': size === 'normal',
-                        'pt-4': size === 'small'
-                      })}
-                      valign='top'
-                      align='center'
-                      rowSpan={3}
-                    >
-                      <Avatar
-                        size={size}
-                        src={imageUrl as `https://${string}`}
-                        alt={name ?? ''}
-                      />
-                    </td>
-                    <td
-                      className={cn('pl-4', {
-                        'pt-6': size === 'normal',
-                        'pt-4': size === 'small'
-                      })}
-                      colSpan={settings.showPrice ? 3 : 2}
-                    >
-                      <Text
-                        tag='div'
-                        variant='info'
-                        className={cn({
-                          'text-sm font-semibold': size === 'normal',
-                          'text-xs font-medium': size === 'small'
-                        })}
-                      >
-                        {code}
-                      </Text>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className='px-4 w-full' valign='top'>
-                      <Text
-                        tag='div'
-                        className={cn({
-                          'font-bold': size === 'normal',
-                          'text-sm font-bold': size === 'small'
-                        })}
-                      >
-                        {name}
-                      </Text>
-                      {lineItem.type === 'line_items' &&
-                        lineItem.formatted_unit_amount != null && (
-                          <Spacer top='2'>
-                            <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
-                          </Spacer>
-                        )}
-                      {lineItem.type === 'return_line_items' &&
-                        lineItem.restocked_at != null && (
-                          <Spacer top='2'>
-                            <Badge variant='secondary'>
-                              <div className='flex items-center gap-1'>
-                                <Checks size={16} className='text-gray-500' />{' '}
-                                {formatDateWithPredicate({
-                                  predicate: 'Restocked',
-                                  isoDate: lineItem.restocked_at,
-                                  timezone: user?.timezone
-                                })}
-                              </div>
-                            </Badge>
-                          </Spacer>
-                        )}
-                      {lineItem.type !== 'line_items' &&
-                        'bundle_code' in lineItem &&
-                        lineItem.bundle_code != null && (
-                          <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
-                        )}
-                    </td>
-                    <td valign='top' align='right'>
-                      <Text
-                        tag='div'
-                        variant='info'
-                        wrap='nowrap'
-                        className={cn({
-                          'font-medium': size === 'normal',
-                          'text-sm': size === 'small',
-                          hidden: isEditable
-                        })}
-                      >
-                        x {lineItem.quantity}
-                      </Text>
-                    </td>
-                    {settings.showPrice && (
-                      <td className='pl-2' valign='top' align='right'>
-                        {lineItem.type === 'line_items' && (
-                          <Text
-                            tag='div'
-                            wrap='nowrap'
-                            className={cn({
-                              'font-bold': size === 'normal',
-                              'text-sm font-bold': size === 'small'
-                            })}
-                          >
-                            {lineItem.formatted_total_amount}
-                          </Text>
-                        )}
-                      </td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td
-                      className='p-0 pl-4 w-full'
-                      colSpan={settings.showPrice ? 3 : 2}
-                    >
-                      {hasLineItemOptions && (
-                        <LineItemOptions
-                          delayMs={0}
-                          lineItemOptions={lineItem.line_item_options}
-                        />
-                      )}
-                      {hasReturnLineItemReason && (
-                        <ReturnLineItemReason
-                          delayMs={0}
-                          reason={lineItem.return_reason}
-                        />
-                      )}
-                      {hasBundle && (
-                        <Bundle delayMs={0} code={lineItem.bundle_code} />
-                      )}
-                      {hasStockTransfer && (
-                        <StockLineItemStockTransfer
-                          stockTransfer={lineItem.stockTransfer}
-                        />
-                      )}
-                      {isEditable && (
-                        <Edit item={lineItem} onChange={onChange} />
-                      )}
-                    </td>
-                  </tr>
-                  <tr
-                    className={cn('border-b border-gray-100', {
-                      'border-dashed': !isLastRow
+            return (
+              <Fragment key={lineItem.id}>
+                <tr className='h-0'>
+                  <td
+                    className={cn('w-0', {
+                      'pt-6': size === 'normal',
+                      'pt-4': size === 'small'
                     })}
+                    valign='top'
+                    align='center'
+                    rowSpan={3}
                   >
-                    <td
-                      className={cn('w-full p-0', {
-                        'pb-6': size === 'normal',
-                        'pb-4': size === 'small'
-                      })}
-                      colSpan={settings.showPrice ? 4 : 3}
+                    <Avatar
+                      size={size}
+                      src={imageUrl as `https://${string}`}
+                      alt={name ?? ''}
                     />
-                  </tr>
-                </Fragment>
-              )
-            })}
+                  </td>
+                  <td
+                    className={cn('pl-4', {
+                      'pt-6': size === 'normal',
+                      'pt-4': size === 'small'
+                    })}
+                    colSpan={settings.showPrice ? 3 : 2}
+                  >
+                    <Text
+                      tag='div'
+                      variant='info'
+                      className={cn({
+                        'text-sm font-semibold': size === 'normal',
+                        'text-xs font-medium': size === 'small'
+                      })}
+                    >
+                      {code}
+                    </Text>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-4 w-full' valign='top'>
+                    <Text
+                      tag='div'
+                      className={cn({
+                        'font-bold': size === 'normal',
+                        'text-sm font-bold': size === 'small'
+                      })}
+                    >
+                      {name}
+                    </Text>
+                    {lineItem.type === 'line_items' &&
+                      lineItem.formatted_unit_amount != null && (
+                        <Spacer top='2'>
+                          <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
+                        </Spacer>
+                      )}
+                    {lineItem.type === 'return_line_items' &&
+                      lineItem.restocked_at != null && (
+                        <Spacer top='2'>
+                          <Badge variant='secondary'>
+                            <div className='flex items-center gap-1'>
+                              <Checks size={16} className='text-gray-500' />{' '}
+                              {formatDateWithPredicate({
+                                predicate: 'Restocked',
+                                isoDate: lineItem.restocked_at,
+                                timezone: user?.timezone
+                              })}
+                            </div>
+                          </Badge>
+                        </Spacer>
+                      )}
+                    {lineItem.type !== 'line_items' &&
+                      'bundle_code' in lineItem &&
+                      lineItem.bundle_code != null && (
+                        <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
+                      )}
+                  </td>
+                  <td valign='top' align='right'>
+                    <Text
+                      tag='div'
+                      variant='info'
+                      wrap='nowrap'
+                      className={cn({
+                        'font-medium': size === 'normal',
+                        'text-sm': size === 'small',
+                        hidden: isEditable(lineItem)
+                      })}
+                    >
+                      x {lineItem.quantity}
+                    </Text>
+                  </td>
+                  {settings.showPrice && (
+                    <td className='pl-2' valign='top' align='right'>
+                      {lineItem.type === 'line_items' && (
+                        <Text
+                          tag='div'
+                          wrap='nowrap'
+                          className={cn({
+                            'font-bold': size === 'normal',
+                            'text-sm font-bold': size === 'small'
+                          })}
+                        >
+                          {lineItem.formatted_total_amount}
+                        </Text>
+                      )}
+                    </td>
+                  )}
+                </tr>
+                <tr>
+                  <td
+                    className='p-0 pl-4 w-full'
+                    colSpan={settings.showPrice ? 3 : 2}
+                  >
+                    {hasLineItemOptions && (
+                      <LineItemOptions
+                        delayMs={0}
+                        lineItemOptions={lineItem.line_item_options}
+                      />
+                    )}
+                    {hasReturnLineItemReason && (
+                      <ReturnLineItemReason
+                        delayMs={0}
+                        reason={lineItem.return_reason}
+                      />
+                    )}
+                    {hasBundle && (
+                      <Bundle delayMs={0} code={lineItem.bundle_code} />
+                    )}
+                    {hasStockTransfer && (
+                      <StockLineItemStockTransfer
+                        stockTransfer={lineItem.stockTransfer}
+                      />
+                    )}
+                    {isEditable(lineItem) && (
+                      <Edit
+                        item={lineItem}
+                        isLast={editableLineItems.length === 1}
+                        onChange={onChange}
+                        onSwap={onSwap}
+                      />
+                    )}
+                  </td>
+                </tr>
+                <tr
+                  className={cn('border-b border-gray-100', {
+                    'border-dashed': !isLastRow
+                  })}
+                >
+                  <td
+                    className={cn('w-full p-0', {
+                      'pb-6': size === 'normal',
+                      'pb-4': size === 'small'
+                    })}
+                    colSpan={settings.showPrice ? 4 : 3}
+                  />
+                </tr>
+              </Fragment>
+            )
+          })}
 
           {footer != null &&
             footer.length > 0 &&
