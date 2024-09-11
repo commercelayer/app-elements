@@ -77,12 +77,18 @@ export const ListItem: FC<ListItemProps> = ({
     'px-2': paddingSize === '2'
   })
 
+  const overlayPxSize = cn({
+    '[.overlay-container_&]:px-6': paddingSize === '6',
+    '[.overlay-container_&]:px-4': paddingSize === '4',
+    '[.overlay-container_&]:px-2': paddingSize === '2'
+  })
   return (
     <JsxTag
       className={cn(
         'flex gap-4 w-full',
         'text-gray-800 hover:text-gray-800', // keep default text color also when used as `<a>` tag
         {
+          [overlayPxSize]: padding === 'y',
           [pySize]: padding !== 'none' && padding !== 'x',
           [pxSize]: padding !== 'none' && padding !== 'y',
           'border-b': borderStyle !== 'none',
