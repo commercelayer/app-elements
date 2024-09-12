@@ -30,6 +30,16 @@ Simple.args = {
       }
     },
     {
+      label: 'Disabled',
+      icon: 'pulse',
+      variant: 'secondary',
+      size: 'small',
+      disabled: true,
+      onClick: () => {
+        console.log('Cannot click me')
+      }
+    },
+    {
       icon: 'dotsThree',
       size: 'small',
       variant: 'secondary',
@@ -45,6 +55,13 @@ Simple.args = {
             label: 'Set metadata',
             onClick: () => {
               console.log('Set metadata')
+            }
+          },
+          {
+            label: 'Disabled item',
+            disabled: true,
+            onClick: () => {
+              console.log('Cannot click me')
             }
           }
         ],

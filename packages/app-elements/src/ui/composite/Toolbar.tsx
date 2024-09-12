@@ -15,6 +15,7 @@ export interface ToolbarItem {
   variant?: ButtonProps['variant']
   className?: ButtonProps['className']
   onClick?: ButtonProps['onClick']
+  disabled?: ButtonProps['disabled']
   /**
    * Dropdown items nested into current item.
    * If they are set, the current item will be rendered as a `Dropdown` that can be opened by clicking the `Button` configure using current item's props.
@@ -57,6 +58,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
               className={dropdownItem.className}
               onClick={dropdownItemHandleClick}
               data-testid='toolbar-dropdown-item'
+              disabled={dropdownItem.href == null && dropdownItem.disabled}
             />
           )
         })
@@ -72,6 +74,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
                 key={`button-${idx}`}
                 size={item.size}
                 variant={item.variant}
+                disabled={item.disabled}
                 onClick={handleClick}
                 alignItems='center'
                 className={item.className}
@@ -94,6 +97,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
           key={`button-${idx}`}
           size={item.size}
           variant={item.variant}
+          disabled={item.disabled}
           onClick={handleClick}
           alignItems='center'
           className={item.className}
