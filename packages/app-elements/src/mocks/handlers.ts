@@ -2,6 +2,7 @@ import { HttpResponse, http } from 'msw'
 
 import countries from './data/countries'
 import customers from './data/customers'
+import markets from './data/markets'
 
 export const handlers = [
   http.get(`https://*.commercelayer.*/oauth/tokeninfo`, async ({ request }) => {
@@ -102,27 +103,9 @@ export const handlers = [
     )
   }),
 
-  http.get(`https://*/api/markets/AlRevhXQga`, async ({ request }) => {
-    return HttpResponse.json({
-      data: {
-        id: 'AlRevhXQga',
-        type: 'markets',
-        links: {
-          self: 'https://alessani.commercelayer.co/api/markets/AlRevhXQga'
-        },
-        attributes: {
-          name: 'Europe'
-        },
-        meta: {
-          mode: 'test',
-          organization_id: 'WXlEOFrjnr'
-        }
-      }
-    })
-  }),
-
   ...customers,
-  ...countries
+  ...countries,
+  ...markets
 ]
 
 function returnEmptyList(url: URL): boolean {

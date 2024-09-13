@@ -284,6 +284,10 @@ export {
 export { Label, type LabelProps } from '#ui/forms/Label'
 export { Legend, type LegendProps } from '#ui/forms/Legend'
 export {
+  HookedMarketWithCurrencySelector,
+  type HookedMarketWithCurrencySelectorProps
+} from '#ui/forms/MarketWithCurrencySelector'
+export {
   HookedValidationApiError,
   HookedValidationError,
   setApiFormErrors,

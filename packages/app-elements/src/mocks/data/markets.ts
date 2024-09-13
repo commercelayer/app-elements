@@ -1,55 +1,30 @@
-import { HttpResponse, delay, http } from 'msw'
+import { HttpResponse, http } from 'msw'
 
-// used in HookedInputResourceGroup
-const someMarkets = http.get(
-  'https://mock.localhost/api/markets?fields[markets]=id,name&sort=name&page[size]=3',
-  async () => {
+const singleMarket = http.get(
+  `https://*/api/markets/:marketId`,
+  async ({ params }) => {
     return HttpResponse.json({
-      data: [
-        {
-          id: 'rlEPzheRgO',
-          type: 'markets',
-          links: {
-            self: 'https://mock.localhost/api/markets/rlEPzheRgO'
-          },
-          attributes: { name: 'Adyen' },
-          meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+      data: {
+        id: params.marketId,
+        type: 'markets',
+        links: {
+          self: `https://alessani.commercelayer.co/api/markets/${params.marketId?.toString()}`
         },
-        {
-          id: 'dlQbPhNNop',
-          type: 'markets',
-          links: {
-            self: 'https://mock.localhost/api/markets/dlQbPhNNop'
-          },
-          attributes: { name: 'Europe' },
-          meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+        attributes: {
+          name: 'Europe'
         },
-        {
-          id: 'AlRevhXQga',
-          type: 'markets',
-          links: {
-            self: 'https://mock.localhost/api/markets/AlRevhXQga'
-          },
-          attributes: { name: 'Milan' },
-          meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+        meta: {
+          mode: 'test',
+          organization_id: 'WXlEOFrjnr'
         }
-      ],
-      meta: { record_count: 5, page_count: 2 },
-      links: {
-        first:
-          'https://mock.localhost/api/markets?fields%5Bmarkets%5D=id%2Cname&page%5Bnumber%5D=1&page%5Bsize%5D=3&sort=name',
-        next: 'https://mock.localhost/api/markets?fields%5Bmarkets%5D=id%2Cname&page%5Bnumber%5D=2&page%5Bsize%5D=3&sort=name',
-        last: 'https://mock.localhost/api/markets?fields%5Bmarkets%5D=id%2Cname&page%5Bnumber%5D=2&page%5Bsize%5D=3&sort=name'
       }
     })
   }
 )
 
-// used in HookedInputResourceGroup
-const allMarkets = http.get(
-  'https://mock.localhost/api/markets?sort=name&page[number]=1&page[size]=25',
+const allMarketsWithPriceList = http.get(
+  'https://mock.localhost/api/markets',
   async () => {
-    await delay(1000)
     return HttpResponse.json({
       data: [
         {
@@ -459,4 +434,4 @@ const allMarkets = http.get(
   }
 )
 
-export default [allMarkets, someMarkets]
+export default [singleMarket, allMarketsWithPriceList]
