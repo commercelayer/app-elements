@@ -1,12 +1,9 @@
 import { formatResourceName } from '#helpers/resources'
-import type { GetParams } from '@commercelayer/app-elements'
-import {
-  Button,
-  EmptyState,
-  PageLayout,
-  SkeletonTemplate,
-  useTokenProvider
-} from '@commercelayer/app-elements'
+import { useTokenProvider } from '#providers/TokenProvider'
+import { Button } from '#ui/atoms/Button'
+import { EmptyState } from '#ui/atoms/EmptyState'
+import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { PageLayout } from '#ui/composite/PageLayout'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import { Suspense, lazy } from 'react'
 import type { SetRequired } from 'type-fest'
@@ -15,6 +12,7 @@ import type {
   RouteProps as WouterRouteProps
 } from 'wouter'
 import { Switch, Route as WouterRoute, useLocation } from 'wouter'
+import { type GetParams } from './utils'
 
 /**
  * Renders the Switch component to conditionally render a route based on the current path
