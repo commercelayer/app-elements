@@ -17,6 +17,7 @@ export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
       }
     | {
         href?: never
+        disabled?: boolean
       }
   )
 
@@ -37,10 +38,16 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
       [href, onClick]
     )
 
+    const isDisabled = Boolean('disabled' in rest && rest.disabled)
+
     return (
       <JsxTag
         {...rest}
-        onClick={onClick}
+        onClick={(e) => {
+          if (!isDisabled) {
+            onClick?.(e)
+          }
+        }}
         href={href}
         className={cn(
           'w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none',
@@ -48,7 +55,8 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           {
             'hover:bg-primary cursor-pointer focus:bg-primary':
               onClick != null || href != null,
-            'cursor-default': onClick == null && href == null
+            'cursor-default': onClick == null && href == null,
+            'opacity-50 pointer-events-none': isDisabled
           }
         )}
         aria-label={label}
