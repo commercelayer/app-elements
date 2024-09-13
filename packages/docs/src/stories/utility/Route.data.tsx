@@ -1,4 +1,4 @@
-import { createRoute, createTypedRoute } from '#helpers/route'
+import { createRoute, createTypedRoute } from '#ui/composite/Routes'
 import { type StoryFn } from '@storybook/react'
 import { CodeSample, type CodeSampleProps } from 'src/components/CodeSample'
 

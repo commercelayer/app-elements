@@ -1,4 +1,4 @@
-import { createRoute, createTypedRoute } from './route'
+import { createRoute, createTypedRoute } from './utils'
 
 describe('createRoute', () => {
   it('`makePath` should be without variables when `path` does not have variables', () => {
