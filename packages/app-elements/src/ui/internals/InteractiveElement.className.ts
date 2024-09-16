@@ -66,7 +66,8 @@ export function getInteractiveElementClassName({
         variant !== 'link',
       '!p-2.5': isIcon && variant !== 'circle',
       '!p-1': isIcon && variant === 'circle',
-      [`${getFontSizeCss(size)}`]: variant !== 'link'
+      [`${getFontSizeCss(size)}`]: variant !== 'link',
+      button: variant !== 'link'
     },
     getVariantCss(variant)
   ])
