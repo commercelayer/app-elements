@@ -3,9 +3,9 @@ import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import {
   flatSelectValues,
   HookedInputSelect,
+  type InputSelectProps,
   type InputSelectValue
 } from '#ui/forms/InputSelect'
-import { type InputWrapperBaseProps } from '#ui/internals/InputWrapper'
 import {
   type ListResponse,
   type Market,
@@ -18,7 +18,7 @@ import type { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 
 export interface HookedMarketWithCurrencySelectorProps
-  extends Pick<InputWrapperBaseProps, 'hint' | 'label'> {
+  extends Pick<InputSelectProps, 'hint' | 'label' | 'isDisabled'> {
   /**
    * Market input name where market ID is stored.
    * Must match the field name in your form state/schema.
@@ -37,7 +37,13 @@ export interface HookedMarketWithCurrencySelectorProps
  */
 export const HookedMarketWithCurrencySelector: FC<
   HookedMarketWithCurrencySelectorProps
-> = ({ fieldNameMarket, fieldNameCurrencyCode, label = 'Market *', hint }) => {
+> = ({
+  fieldNameMarket,
+  fieldNameCurrencyCode,
+  label = 'Market *',
+  hint,
+  isDisabled
+}) => {
   const { sdkClient } = useCoreSdkProvider()
   const {
     watch,
@@ -118,6 +124,7 @@ export const HookedMarketWithCurrencySelector: FC<
         isLoading={isLoadingInitialValues || isLoadingDefaultResource}
         isClearable={false}
         isSearchable
+        isDisabled={isDisabled}
         key={defaultMarketId}
         initialValues={initialValues}
         onSelect={(selected) => {
@@ -168,8 +175,10 @@ export const HookedMarketWithCurrencySelector: FC<
         <HookedInputSelect
           name={fieldNameCurrencyCode}
           label='&nbsp;'
+          aria-label='Currency'
           initialValues={currencyInputSelectOptions}
           key={defaultCurrencyCode}
+          isDisabled={isDisabled}
         />
       )}
     </div>
