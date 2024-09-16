@@ -1,5 +1,5 @@
-@import 'react-datepicker/dist/react-datepicker.css';
-@import '../ui/forms/InputDate/InputDateComponent.css';
+@import "react-datepicker/dist/react-datepicker.css";
+@import "../ui/forms/InputDate/InputDateComponent.css";
 
 select {
   text-align: inherit;
@@ -15,7 +15,7 @@ body {
 
 input,
 textarea,
-div[role='textbox'] {
+div[role="textbox"] {
   border: none !important;
   box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
   -webkit-box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
@@ -24,8 +24,9 @@ div[role='textbox'] {
 
 input:focus-visible,
 textarea:focus-visible,
-div[role='textbox']:focus,
-.group:focus-within input, .group:focus-within div[role='textbox']  {
+div[role="textbox"]:focus,
+.group:focus-within input,
+.group:focus-within div[role="textbox"] {
   ring: none;
   outline: none !important;
   box-shadow: inset 0 0 0 2px theme(colors.primary.DEFAULT) !important;
@@ -33,7 +34,7 @@ div[role='textbox']:focus,
   -moz-box-shadow: inset 0 0 0 2px theme(colors.primary.DEFAULT) !important;
 }
 
-input[type='radio'] {
+input[type="radio"] {
   --tw-shadow-color: theme(colors.gray.200);
 }
 
@@ -44,6 +45,10 @@ select:focus-visible {
 }
 
 /** Style all simple links. Useful with <Link ...> */
+a:not(.border) {
+  @apply underline;
+}
+
 a:not([class]) {
   @apply rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer;
 }
