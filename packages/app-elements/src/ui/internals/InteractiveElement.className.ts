@@ -61,7 +61,7 @@ export function getInteractiveElementClassName({
       'w-full': fullWidth === true && variant !== 'link',
       'inline-flex gap-1': alignItems != null,
       'items-center justify-center': alignItems === 'center',
-      'inline w-fit': variant === 'link',
+      'inline w-fit underline': variant === 'link',
       [`inline-block text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== 'link',
       '!p-2.5': isIcon && variant !== 'circle',

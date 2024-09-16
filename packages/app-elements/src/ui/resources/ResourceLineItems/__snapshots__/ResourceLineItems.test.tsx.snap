@@ -156,7 +156,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               >
                 <button
                   aria-label="Swap"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -182,7 +182,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 >
                   <button
                     aria-label="Delete"
-                    class="flex items-center rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                    class="flex items-center rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                     disabled=""
                   >
                     <svg
@@ -590,7 +590,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               >
                 <button
                   aria-label="Delete"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1264,7 +1264,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="Swap"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1285,7 +1285,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 </button>
                 <button
                   aria-label="Delete"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1523,7 +1523,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="Swap"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1544,7 +1544,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 </button>
                 <button
                   aria-label="Delete"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
+                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
