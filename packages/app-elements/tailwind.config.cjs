@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
-const colorBrand = '#666EFF'
+const colorBrand = '#101111'
 
 /** @type {(percentage: number) => string} */
 function alphaToHex(percentage) {
@@ -39,16 +39,16 @@ module.exports = {
       primary: {
         light: `${colorBrand}${alphaToHex(80)}`,
         DEFAULT: colorBrand,
-        50: '#ecf2ff',
-        100: '#dde6ff',
-        200: '#c2d1ff',
-        300: '#9cb1ff',
-        400: '#7586ff',
-        500: '#666EFF',
-        600: '#3b36f5',
-        700: '#322ad8',
-        800: '#2925ae',
-        900: '#181650'
+        50: '#F8F8F8',
+        100: '#EDEEEE',
+        200: '#E6E7E7',
+        300: '#BBBEBE',
+        400: '#878888',
+        500: '#686E6E',
+        600: '#404141',
+        700: '#343535',
+        800: '#282929',
+        900: '#1D1E1E'
       },
       transparent: 'transparent',
       black: '#101111',
