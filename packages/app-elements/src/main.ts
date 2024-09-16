@@ -24,12 +24,6 @@ export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { computeFullname, formatDisplayName } from '#helpers/name'
 export { formatResourceName, type TriggerAttribute } from '#helpers/resources'
 export {
-  createRoute,
-  createTypedRoute,
-  type GetParams,
-  type Route
-} from '#helpers/route'
-export {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,
   getParcelTrackingDetails,
@@ -172,6 +166,15 @@ export { PageError, type PageErrorProps } from '#ui/composite/PageError'
 export { PageLayout, type PageLayoutProps } from '#ui/composite/PageLayout'
 export { PageSkeleton } from '#ui/composite/PageSkeleton'
 export { Report, type ReportProps } from '#ui/composite/Report'
+export {
+  GenericPageNotFound,
+  Routes,
+  createRoute,
+  createTypedRoute,
+  type GetParams,
+  type PageProps,
+  type Route
+} from '#ui/composite/Routes'
 export { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
 export { TableData, type TableDataProps } from '#ui/composite/TableData'
 export {
