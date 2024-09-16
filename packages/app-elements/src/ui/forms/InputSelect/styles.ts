@@ -31,7 +31,7 @@ export const getSelectStyles = (
     fontWeight: 500,
     cursor: 'pointer',
     '&:active': {
-      backgroundColor: isSelected ? '#666EFF' : 'rgb(248 248 248)'
+      backgroundColor: isSelected ? '#101111' : 'rgb(248 248 248)'
     },
     '&:first-of-type': {
       borderTopLeftRadius: 5,
@@ -95,7 +95,7 @@ export const getSelectStyles = (
     '> button:focus-within': {
       color: 'black',
       outline: 'none',
-      boxShadow: '0 0 0 2px #666EFF'
+      boxShadow: '0 0 0 2px #101111'
     }
   }),
   control: (style) => {
@@ -143,7 +143,7 @@ export const getSelectStyles = (
     },
     '> button:focus-within': {
       outline: 'none',
-      boxShadow: '0 0 0 2px #666EFF'
+      boxShadow: '0 0 0 2px #101111'
     }
   })
 })

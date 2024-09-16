@@ -98,7 +98,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                     class="justify-self-end"
                   >
                     <div
-                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
                         class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
@@ -532,7 +532,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                     class="justify-self-end"
                   >
                     <div
-                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
                         class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
@@ -1206,7 +1206,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     class="justify-self-end"
                   >
                     <div
-                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
                         class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
@@ -1463,7 +1463,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     class="justify-self-end"
                   >
                     <div
-                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#666eff_inset]"
+                      class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
                         class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 text-gray-300"

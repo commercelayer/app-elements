@@ -9,7 +9,7 @@ describe('getDeterministicValue', () => {
   it('should return the same value for the same text', () => {
     const colors = [
       '#101111',
-      '#666EFF',
+      '#101111',
       '#055463',
       '#F40009',
       '#FF656B',

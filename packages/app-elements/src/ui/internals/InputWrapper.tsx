@@ -158,7 +158,7 @@ export function getFeedbackCssInJs(
       return {
         boxShadow: 'inset 0 0 0 1px #E6E7E7',
         '&:focus-within': {
-          boxShadow: 'inset 0 0 0 2px #666EFF'
+          boxShadow: 'inset 0 0 0 2px #101111'
         }
       }
   }

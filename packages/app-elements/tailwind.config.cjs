@@ -31,8 +31,8 @@ module.exports = {
     },
     boxShadow: {
       hover: '0 0 0 1px #101111',
-      focus: '0 0 0 2px #666EFF',
-      inputfocus: 'inset 0 0 0 2px #666EFF'
+      focus: '0 0 0 2px #101111',
+      inputfocus: 'inset 0 0 0 2px #101111'
     },
     colors: {
       inherit: 'inherit',
