@@ -77,7 +77,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             className,
             'flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white',
             'shadow-[0_0_0_1px_#e6e7e7_inset]',
-            'focus-within:shadow-[0_0_0_2px_#666eff_inset]'
+            'focus-within:shadow-[0_0_0_2px_#101111_inset]'
           )}
         >
           <ButtonSpin
