@@ -53,6 +53,19 @@ module.exports = {
       transparent: 'transparent',
       black: '#101111',
       white: '#fff',
+      violet: {
+        DEFAULT: '#666EFF',
+        50: '#ECF2FF',
+        100: '#DDE6FF',
+        200: '#C2D1FF',
+        300: '#9CB1FF',
+        400: '#7586FF',
+        500: '#666EFF',
+        600: '#3B36F5',
+        700: '#322AD8',
+        800: '#2925AE',
+        900: '#181650'
+      },
       gray: {
         50: '#F8F8F8',
         100: '#EDEEEE',
