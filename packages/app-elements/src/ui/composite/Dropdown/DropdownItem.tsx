@@ -53,7 +53,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           'w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none',
           className,
           {
-            'hover:bg-primary cursor-pointer focus:bg-primary':
+            'hover:bg-violet cursor-pointer focus:bg-violet':
               onClick != null || href != null,
             'cursor-default': onClick == null && href == null,
             'opacity-50 pointer-events-none': isDisabled
