@@ -73,7 +73,7 @@ describe('adaptMetricsOrderToCore', () => {
       type: 'orders',
       created_at: '2024-08-28T09:01:01.253Z',
       updated_at: '2024-08-28T09:01:02.245Z',
-      number: 2579416,
+      number: '2579416',
       status: 'placed',
       payment_status: 'authorized',
       fulfillment_status: 'unfulfilled',
