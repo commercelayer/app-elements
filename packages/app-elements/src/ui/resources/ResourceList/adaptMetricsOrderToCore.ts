@@ -91,8 +91,7 @@ export function adaptMetricsOrderToCore(
     type: 'orders',
     created_at: metricsOrder.created_at ?? '',
     updated_at: metricsOrder.updated_at ?? '',
-    // @ts-expect-error: wrong type from SDK
-    number: metricsOrder.number != null ? parseInt(metricsOrder.number) : '',
+    number: metricsOrder.number ?? '',
     status: metricsOrder.status as Order['status'],
     payment_status: metricsOrder.payment_status as Order['payment_status'],
     fulfillment_status:
