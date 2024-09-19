@@ -73,3 +73,37 @@ export const WithoutThead = Default.bind({})
 WithoutThead.args = {
   tbody: baseProps.tbody
 }
+
+/** By default all columns are left aligned, but we support native HTML `align` attribute */
+export const CustomColumnsAlignments: StoryFn = () => {
+  return (
+    <Table
+      thead={
+        <Tr>
+          <Th>Left</Th>
+          <Th align='center'>Center</Th>
+          <Th align='right'>Right</Th>
+        </Tr>
+      }
+      tbody={
+        <>
+          <Tr>
+            <Td>Left</Td>
+            <Td align='center'>Center</Td>
+            <Td align='right'>right</Td>
+          </Tr>
+          <Tr>
+            <Td>Left</Td>
+            <Td align='center'>Center</Td>
+            <Td align='left'>left</Td>
+          </Tr>
+          <Tr>
+            <Td align='center'>Center</Td>
+            <Td align='left'>Left</Td>
+            <Td align='right'>right</Td>
+          </Tr>
+        </>
+      }
+    />
+  )
+}
