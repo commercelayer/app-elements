@@ -50,7 +50,7 @@ a:not(.button):not(:has(*)) {
 }
 
 a:not([class]) {
-  @apply rounded whitespace-nowrap leading-5 inline w-fit text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer;
+  @apply rounded whitespace-nowrap leading-5 inline w-fit text-primary hover:text-primary-light border-primary-light cursor-pointer;
 }
 
 a,

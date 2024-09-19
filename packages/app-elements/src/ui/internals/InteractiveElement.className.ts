@@ -120,7 +120,7 @@ function getVariantCss(
     circle:
       'font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full',
     danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
-    link: 'text-primary font-bold hover:text-primary-light border-primary-light cursor-pointer',
+    link: 'text-primary hover:text-primary-light border-primary-light cursor-pointer',
     relationship: 'font-bold text-primary border border-gray-300 border-dashed'
   } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
 
