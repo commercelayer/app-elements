@@ -43,7 +43,7 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
 
     return (
       <InputWrapper {...rest} label={label} hint={hint}>
-        <div className='flex group w-full rounded bg-gray-50 [.overlay-container_&]:bg-gray-200'>
+        <div className='flex group w-full rounded cl-input-bg'>
           <div
             tabIndex={0}
             aria-label={label}

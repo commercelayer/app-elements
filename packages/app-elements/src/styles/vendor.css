@@ -11,6 +11,19 @@ body {
 
 :root {
   --tw-shadow-color: rgb(230 231 231 / 1);
+  --cl-input-bg: theme(colors.gray.50);
+}
+
+.overlay-container.bg-gray-50 {
+  --cl-input-bg: theme(colors.gray.200);
+}
+
+.boxed-container.bg-white {
+  --cl-input-bg: theme(colors.gray.50);
+}
+
+.cl-input-bg {
+  background-color: var(--cl-input-bg);
 }
 
 input,

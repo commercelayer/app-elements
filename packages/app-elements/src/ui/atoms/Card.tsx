@@ -60,6 +60,7 @@ export const Card = withSkeletonTemplate<CardProps>(
       <JsxTag
         className={cn([
           className,
+          'boxed-container',
           'border border-solid rounded-md',
           'text-left', // reset <button>
           'text-inherit active:text-inherit hover:text-inherit font-inherit', // reset <a>
