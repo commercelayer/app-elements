@@ -1,6 +1,7 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Card } from '#ui/atoms/Card'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
@@ -60,18 +61,16 @@ const footer: Props['footer'] = [
   {
     key: 'first-row',
     element: (
-      <Spacer top='4' bottom='4'>
-        <ListItem borderStyle='none' padding='y' paddingSize='2'>
-          <Text>Coupon</Text>
-          <Button variant='link'>Add coupon</Button>
-        </ListItem>
-      </Spacer>
+      <ListItem borderStyle='none' padding='y' paddingSize='2'>
+        <Text>Coupon</Text>
+        <Button variant='link'>Add coupon</Button>
+      </ListItem>
     )
   },
   {
     key: 'second-row',
     element: (
-      <Spacer top='4' bottom='4'>
+      <>
         <ListItem borderStyle='none' padding='y' paddingSize='2'>
           <Text>Subtotal</Text>
           <Text>$141.60</Text>
@@ -84,7 +83,7 @@ const footer: Props['footer'] = [
           <Text weight='bold'>Total</Text>
           <Text weight='bold'>$163.60</Text>
         </ListItem>
-      </Spacer>
+      </>
     )
   }
 ]
@@ -196,4 +195,35 @@ RemoveDisabled.args = {
   onSwap(lineItem) {
     alert(`Swap item #${lineItem.id}`)
   }
+}
+
+/**
+ * When the ResourcelLineItems lives within a `<Card />` component it avoid render the last border.
+ */
+export const WithinACard: StoryFn<Props> = (args) => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <Spacer bottom='4'>
+          <Card overflow='visible'>
+            <ResourceLineItems {...args} items={[presetLineItems.oneLine]} />
+          </Card>
+        </Spacer>
+
+        <Card overflow='visible'>
+          <ResourceLineItems
+            {...args}
+            items={[presetLineItems.oneLine]}
+            footer={footer}
+          />
+        </Card>
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+WithinACard.parameters = {
+  backgrounds: { default: 'overlay' }
+}
+WithinACard.args = {
+  editable: true
 }

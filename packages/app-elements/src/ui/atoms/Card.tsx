@@ -59,6 +59,7 @@ export const Card = withSkeletonTemplate<CardProps>(
     return (
       <JsxTag
         className={cn([
+          'boxed-container',
           className,
           'border border-solid rounded-md',
           'text-left', // reset <button>
