@@ -309,7 +309,30 @@ export const WithinASection: StoryFn<typeof Dropdown> = (args) => {
     </Section>
   )
 }
-WithinASection.args = DropdownLabelAsString.args
+WithinASection.args = {
+  dropdownLabel: (
+    <Button variant='secondary' size='mini' alignItems='center'>
+      <Icon name='plus' />
+      Add
+    </Button>
+  ),
+  dropdownItems: (
+    <>
+      <DropdownItem
+        onClick={() => {
+          alert('Add a SKU clicked!')
+        }}
+        label='Add a SKU'
+      />
+      <DropdownItem
+        onClick={() => {
+          alert('Add a bundle clicked!')
+        }}
+        label='Add a bundle'
+      />
+    </>
+  )
+}
 WithinASection.parameters = {
   layout: 'padded'
 }

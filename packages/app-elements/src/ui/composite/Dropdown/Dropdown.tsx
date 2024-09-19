@@ -76,7 +76,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
         aria-haspopup
         aria-expanded={isExpanded}
         className={cn('m-0 p-0 align-top', {
-          '!text-black': typeof dropdownLabel !== 'string'
+          '!text-black': typeof dropdownLabel !== 'string',
+          '!no-underline hover:!underline': typeof dropdownLabel === 'string'
         })}
         onClick={() => {
           toggle()
