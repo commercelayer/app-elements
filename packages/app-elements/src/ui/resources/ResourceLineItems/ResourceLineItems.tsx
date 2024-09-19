@@ -408,13 +408,16 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 </tr>
                 <tr
                   className={cn('border-b border-gray-100', {
-                    'border-dashed': !isLastRow
+                    'border-dashed': !isLastRow,
+                    '[.boxed-container_&]:border-b-0':
+                      isLastRow && footer == null
                   })}
                 >
                   <td
                     className={cn('w-full p-0', {
                       'pb-6': size === 'normal',
-                      'pb-4': size === 'small'
+                      'pb-4': size === 'small',
+                      '[.boxed-container_&]:pb-0': isLastRow && footer == null
                     })}
                     colSpan={settings.showPrice ? 4 : 3}
                   />
@@ -426,14 +429,19 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
           {footer != null &&
             footer.length > 0 &&
             footer.map(({ key: id, element, fullWidth = false }) => (
-              <tr key={id} className='border-b border-gray-100'>
+              <tr
+                key={id}
+                className='border-b [.boxed-container_&]:last-of-type:border-b-0 border-gray-100'
+              >
                 {!fullWidth && <td />}
                 <td
                   className={cn('pl-4')}
                   colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
                 >
                   <Text tag='div' size={size === 'normal' ? 'regular' : size}>
-                    {element}
+                    <div className='mt-4 mb-4 [.boxed-container_tr:last-of-type_&]:last-of-type:mb-0'>
+                      {element}
+                    </div>
                   </Text>
                 </td>
               </tr>

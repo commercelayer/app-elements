@@ -209,10 +209,10 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6"
+          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
           colspan="4"
         />
       </tr>
@@ -307,10 +307,10 @@ exports[`ResourceLineItems > should render 1`] = `
         />
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6"
+          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
           colspan="4"
         />
       </tr>
@@ -413,7 +413,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
         />
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b [.boxed-container_&]:last-of-type:border-b-0 border-gray-100"
       >
         <td />
         <td
@@ -423,8 +423,12 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           <div
             class="text-base [overflow-wrap:anywhere]"
           >
-            <div>
-              Ehi there!
+            <div
+              class="mt-4 mb-4 [.boxed-container_tr:last-of-type_&]:last-of-type:mb-0"
+            >
+              <div>
+                Ehi there!
+              </div>
             </div>
           </div>
         </td>
@@ -615,10 +619,10 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6"
+          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
           colspan="4"
         />
       </tr>
@@ -768,10 +772,10 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6"
+          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
           colspan="4"
         />
       </tr>
@@ -1096,10 +1100,10 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6"
+          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
           colspan="4"
         />
       </tr>
@@ -1569,10 +1573,10 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100"
+        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6"
+          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
           colspan="4"
         />
       </tr>
