@@ -116,7 +116,7 @@ export interface FilterItemTextSearch extends Omit<BaseFilterItem, 'sdk'> {
      */
     component: 'searchBar' | 'input'
   }
-  sdk: Pick<BaseFilterItem['sdk'], 'predicate'>
+  sdk: Pick<BaseFilterItem['sdk'], 'predicate' | 'parseFormValue'>
 }
 
 export interface FilterItemTime extends Omit<BaseFilterItem, 'sdk'> {

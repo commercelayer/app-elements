@@ -136,9 +136,6 @@ export function ResourceList<TResource extends ListableResourceType>({
 
   const fetchMore = useCallback(
     async ({ query }: { query?: QueryParamsList }): Promise<void> => {
-      if (sdkClient == null) {
-        return
-      }
       dispatch({ type: 'prepare' })
       try {
         const listResponse = await infiniteFetcher({
@@ -167,16 +164,10 @@ export function ResourceList<TResource extends ListableResourceType>({
 
   useEffect(
     function initialFetch() {
-      if (sdkClient != null) {
-        void fetchMore({ query })
-      }
+      void fetchMore({ query })
     },
     [sdkClient]
   )
-
-  if (sdkClient == null) {
-    return <div />
-  }
 
   const isApiError = data != null && error != null
   if (isApiError) {
@@ -203,6 +194,7 @@ export function ResourceList<TResource extends ListableResourceType>({
   return (
     <Section
       isLoading={isFirstLoading}
+      delayMs={0}
       title={
         typeof title === 'function'
           ? title(recordCount)
@@ -261,11 +253,7 @@ export function ResourceList<TResource extends ListableResourceType>({
           Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
             .fill(null)
             .map((_, idx) => (
-              <props.ItemTemplate
-                isLoading
-                delayMs={!isFirstLoading ? 0 : undefined}
-                key={idx}
-              />
+              <props.ItemTemplate isLoading delayMs={0} key={idx} />
             ))
         ) : (
           <VisibilityTrigger
