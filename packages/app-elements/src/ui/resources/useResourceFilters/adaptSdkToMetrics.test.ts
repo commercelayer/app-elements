@@ -87,6 +87,20 @@ describe('adaptSdkToMetrics', () => {
     expect(metricsFilters.order?.date_field).toBe('updated_at')
   })
 
+  test('Should set a default 5-year date range when text search is defined', () => {
+    const metricsFilters = adaptSdkToMetrics({
+      sdkFilters: {
+        aggregated_details: 'Commerce Layer'
+      },
+      predicateWhitelist: ['aggregated_details'],
+      resourceType: 'orders',
+      instructions
+    })
+    expect(metricsFilters.order?.date_from).toBe('2018-04-05T15:20:01Z')
+    expect(metricsFilters.order?.date_to).toBe('2023-04-05T15:20:00Z')
+    expect(metricsFilters.order?.date_field).toBe('updated_at')
+  })
+
   test('Should handle amount range and currency', () => {
     const sdkFilters = {
       total_amount_cents_lteq: '3010',

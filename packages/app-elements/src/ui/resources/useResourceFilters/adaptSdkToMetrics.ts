@@ -251,8 +251,9 @@ export function adaptSdkToMetrics({
             now: new Date(),
             showMilliseconds: false,
             yearsAgo:
-              'archived' in filterValueMainResource &&
-              filterValueMainResource.archived === true
+              ('archived' in filterValueMainResource &&
+                filterValueMainResource.archived === true) ||
+              regroupedFilters.aggregatedDetails != null
                 ? 5
                 : 1
           }),
