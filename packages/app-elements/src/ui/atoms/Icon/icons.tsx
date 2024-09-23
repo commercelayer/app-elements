@@ -78,6 +78,7 @@ export const iconMapping = {
   pulse: phosphor.Pulse,
   pushPin: phosphor.PushPin,
   puzzlePiece: phosphor.PuzzlePiece,
+  qrCode: phosphor.QrCode,
   question: phosphor.Question,
   receipt: phosphor.Receipt,
   rocketLaunch: phosphor.RocketLaunch,
