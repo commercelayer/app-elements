@@ -222,6 +222,7 @@ export const SearchWithNav: StoryFn = () => {
             navigate(`?${qs}`)
           }}
           searchBarPlaceholder='Type to search...'
+          queryString='?name_eq=Ehi there&status_in=placed&status_in=approved&payment_status_eq=authorized&fulfillment_status_in=unfulfilled&timeFrom=2023-09-03T22%3A00%3A00.000Z&timePreset=custom&timeTo=2023-09-05T22%3A00%3A00.000Z'
         />
       </CoreSdkProvider>
     </TokenProvider>
