@@ -12,6 +12,7 @@ import castArray from 'lodash/castArray'
 import isDate from 'lodash/isDate'
 import isEmpty from 'lodash/isEmpty'
 import { useCallback, useMemo } from 'react'
+import { useSearch } from 'wouter'
 import { makeFilterAdapters } from './adapters'
 import {
   getDefaultBrowserTimezone,
@@ -34,11 +35,6 @@ export interface FiltersNavProps {
    * Array of instruction items to build the filters behaviors
    */
   instructions: FiltersInstructions
-  /**
-   * Url query string to be parsed.
-   * It must be "reactive", so most of the time it should come for router.
-   */
-  queryString: string
   /**
    * Callback function triggered when user interacts with the filters buttons.
    * Implemented function should update the url query string / search params,
@@ -69,10 +65,11 @@ export function FiltersNav({
   instructions,
   onFilterClick: onBtnLabelClick,
   onUpdate,
-  queryString,
+
   predicateWhitelist
 }: FiltersNavProps): JSX.Element {
   const { user } = useTokenProvider()
+  const queryString = useSearch()
 
   const {
     adaptUrlQueryToFormValues,

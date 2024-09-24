@@ -5,17 +5,30 @@ import { FiltersNav } from './FiltersNav'
 import { instructions } from './mockedInstructions'
 
 describe('FiltersNav', () => {
-  afterEach(() => {
+  const { location } = window
+  beforeEach(() => {
+    localStorage.clear()
+  })
+  beforeAll(function clearLocation() {
+    delete (window as any).location
+    ;(window as any).location = {
+      ...location,
+      hostname: ''
+    }
+  })
+  afterAll(function resetLocation() {
+    window.location = location
     vi.resetAllMocks()
   })
 
   test('should render filter nav buttons', () => {
+    window.location.search =
+      '?status_in=placed&status_in=approved&payment_status_eq=authorized&market_id_in=abc123&market_id_in=zxy456&market_id_in=xxx789'
     const { container, getByText } = render(
       <FiltersNav
         instructions={instructions}
         onFilterClick={() => {}}
         onUpdate={() => {}}
-        queryString='?status_in=placed&status_in=approved&payment_status_eq=authorized&market_id_in=abc123&market_id_in=zxy456&market_id_in=xxx789'
         predicateWhitelist={[]}
       />
     )
@@ -30,6 +43,7 @@ describe('FiltersNav', () => {
   })
 
   test('should render single resource name (relationship) when there is only 1 filter for relationship selected (InputResourceGroup component)', async () => {
+    window.location.search = '?market_id_in=AlRevhXQga'
     const { container, getByText } = render(
       <TokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>
@@ -37,7 +51,6 @@ describe('FiltersNav', () => {
             instructions={instructions}
             onFilterClick={() => {}}
             onUpdate={() => {}}
-            queryString='?market_id_in=AlRevhXQga' // mocked in msw as Europe
             predicateWhitelist={[]}
           />
         </CoreSdkProvider>
@@ -53,13 +66,14 @@ describe('FiltersNav', () => {
 
   test('should handle onFilterClick callback, returning current query string and clicked filter id', () => {
     const onFilterClick = vi.fn()
+    window.location.search =
+      '?status_in=placed&status_in=approved&payment_status_eq=authorized'
 
     const { getByText } = render(
       <FiltersNav
         instructions={instructions}
         onFilterClick={onFilterClick}
         onUpdate={() => {}}
-        queryString='?status_in=placed&status_in=approved&payment_status_eq=authorized'
         predicateWhitelist={[]}
       />
     )
@@ -73,13 +87,13 @@ describe('FiltersNav', () => {
 
   test('should handle onUpdate callback, returning current query string and clicked filter id', () => {
     const onUpdate = vi.fn()
+    window.location.search = '?status_in=placed&payment_status_eq=authorized'
 
     const { getAllByTestId } = render(
       <FiltersNav
         instructions={instructions}
         onFilterClick={() => {}}
         onUpdate={onUpdate}
-        queryString='?status_in=placed&payment_status_eq=authorized'
         predicateWhitelist={[]}
       />
     )
