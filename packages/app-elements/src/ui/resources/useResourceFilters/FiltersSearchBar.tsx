@@ -1,7 +1,6 @@
 import { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
 import castArray from 'lodash/castArray'
 import isEmpty from 'lodash/isEmpty'
-import { useSearch } from 'wouter'
 import { makeFilterAdapters } from './adapters'
 import { type FiltersInstructions } from './types'
 
@@ -17,6 +16,11 @@ export interface FilterSearchBarProps
    * based on the new queryString received as argument.
    */
   onUpdate: (queryString: string) => void
+  /**
+   * Url query string to be parsed.
+   * It must be "reactive", so most of the time it should come for router.
+   */
+  queryString: string
   /**
    * By default, we strip out all filters that are not part of the `instructions` array.
    * The option `predicateWhitelist` is used to whitelist a set of predicates that you want to use as filters.
@@ -36,6 +40,7 @@ function FiltersSearchBar({
   instructions,
   placeholder,
   onUpdate,
+  queryString,
   predicateWhitelist,
   debounceMs
 }: FilterSearchBarProps): JSX.Element {
@@ -44,8 +49,6 @@ function FiltersSearchBar({
       instructions,
       predicateWhitelist
     })
-
-  const queryString = useSearch()
 
   const textPredicate = instructions.find(
     (item) =>
