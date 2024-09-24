@@ -47,7 +47,7 @@ interface UseResourceFiltersHook {
    * Search bar component with filters navigation buttons
    */
   SearchWithNav: (
-    props: Pick<FiltersNavProps, 'onFilterClick' | 'queryString'> & {
+    props: Pick<FiltersNavProps, 'onFilterClick'> & {
       /**
        * Callback triggered when user interact with search bar or remove a filter from the buttons
        */
@@ -187,9 +187,6 @@ export function useResourceFilters({
       onUpdate,
       searchBarPlaceholder,
       searchBarDebounceMs,
-      // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
-      // so we can't reuse the `queryString` variable we have in the hook scope
-      queryString: queryStringProp,
       hideSearchBar,
       hideFiltersNav
     }): JSX.Element => {
@@ -206,7 +203,6 @@ export function useResourceFilters({
                 debounceMs={searchBarDebounceMs}
                 instructions={validInstructions}
                 onUpdate={onUpdate}
-                queryString={queryStringProp}
                 predicateWhitelist={predicateWhitelist}
               />
             </Spacer>
@@ -217,14 +213,13 @@ export function useResourceFilters({
               instructions={validInstructions}
               onFilterClick={onFilterClick}
               onUpdate={onUpdate}
-              queryString={queryStringProp}
               predicateWhitelist={predicateWhitelist}
             />
           )}
         </Spacer>
       )
     },
-    [instructions]
+    [JSON.stringify(validInstructions)]
   )
 
   const FiltersForm: UseResourceFiltersHook['FiltersForm'] = useCallback(
