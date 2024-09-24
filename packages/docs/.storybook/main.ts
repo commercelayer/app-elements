@@ -40,6 +40,7 @@ const storybookConfig: StorybookConfig = {
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [
     require.resolve('./addon-container/manager.tsx'),
+    require.resolve('./addon-version/manager.tsx'),
     require.resolve('./addon-gh-repository/manager.tsx')
   ],
   framework: {

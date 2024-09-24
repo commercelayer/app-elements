@@ -4,32 +4,46 @@ import { Meta, Source } from '@storybook/blocks'
 
 # Custom apps
 
-All applications showcased on the Dashboard hub provide extensive customization options. You can enhance their functionality by adding new features, extending existing ones, and integrating with third-party APIs, among other possibilities.
+All applications showcased on the Dashboard provide extensive customization options. You can enhance their functionality by adding new features, extending existing ones, and integrating with third-party APIs, among other possibilities.
 
 After you made your changes and thoroughly tested your custom app, you can seamlessly integrate it into the Dashboard, making it accessible to your entire team. To ensure visibility for every member of your organization, the administrator can enable each custom application individually on the _Team_ section.
 
-<img src="member-dashboard.png" width="600" />
+<img
+  alt="A new custom app called 'My Order APP' is visible in the Dashboard's 'custom apps' section."
+  src="dashboard-custom-apps.jpeg"
+  className='rounded'
+  style={{ marginBottom: '24px' }}
+  />
 
 ## How to customize an application
 
-Here is a step-by-step guide to kickstart the customization of one of the available applications:
+We manage all the applications in the [dashboard-apps](https://github.com/commercelayer/dashboard-apps) monorepo. This allows you to run them all locally effortlessly. You can choose to customize and release a single application or all of them. It's up to you.
 
-1. Choose the app you want to customize and fork the related repository (e.g. [app-orders](https://github.com/commercelayer/app-orders)) to your GitHub account.
-1. Use the `organizationSlug` within the `TokenProvider` context, as explained in detail [here](/docs/getting-started-token-provider--docs#how-to-configure-the-token-provider-with-a-custom-app).
-1. Customize the app to meet your specific requirements.
-1. Thoroughly test the application on your local environment.
-1. Proceed to host and deploy your customized app. This can be done swiftly using platforms like Netlify or Vercel.
+Here is a step-by-step guide:
+
+1. Create a new repository from [this template](https://github.com/new?template_owner=commercelayer&template_name=dashboard-apps) (if you want to contribute you can start from a fork instead).
+1. Customize the applications to meet your specific requirements.
+1. Thoroughly test the applications on your local environment.
+1. Proceed to host and deploy your customized apps. This can be done swiftly using platforms like Netlify or Vercel.
 1. As a final step, include the name and deployment URL in the Dashboard.
 
-Watch the instructional video below to learn more: it goes through the whole process of hosting your custom app on Vercel and making it available on the hub.
-
-<div class="embed-responsive">
-  <iframe width="560" height="315" src="https://www.youtube.com/embed/8dEvt7B-Vrk?si=ptcsBrVdlFrCKZI-" title="Introducing Commerce Layer's Custom Apps" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<div className='rounded' style={{ backgroundColor: '#f8f8f8', marginBottom: '24px', padding: '20px 0px 10px' }}>
+  <img
+    alt="The last step for a new custom app. Name and deployment URL are required."
+    src="dashboard-new-custom-app.png"
+    className='rounded'
+    style={{ margin: '0 auto', maxWidth: '500px', width: '100%' }}
+    />
 </div>
+
+<span type="warning">
+  By default, all applications can run on each organization.
+  You can force the application to work only on one organization by setting the environment variable `PUBLIC_SELF_HOSTED_SLUG` (e.g. `PUBLIC_SELF_HOSTED_SLUG=my-org`).
+</span>
 
 ## Roles and permissions
 
-Each application is equipped with a different set of permissions. When you fork the related repository, your custom apps inherits those permission.
+Each application is equipped with a different set of permissions. When you fork the related repository, your custom apps inherit those permission.
 You can examine them using the `useTokenProvider` hook, as detailed [here](/docs/getting-started-token-provider--docs#how-to-read-exposed-information-from-react-context). To review the set of permissions specific to the application you plan to customize, please refer to the [applications](/docs/getting-started-applications--docs) section.
 
 <span type="info" title="Coming soon">
@@ -41,7 +55,7 @@ You can examine them using the `useTokenProvider` hook, as detailed [here](/docs
 ## Cross-linking
 
 <span type="warning">
-  Once you've customized and added an application to the hub, cross-linking
+  Once you've customized and added an application to the Dashboard, cross-linking
   between applications will no longer be possible. Consequently, we recommend
   customizing not only the primary application but also any linked applications.
 </span>

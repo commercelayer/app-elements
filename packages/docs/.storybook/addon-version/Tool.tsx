@@ -1,7 +1,8 @@
 import { IconButton, Separator } from '@storybook/components'
-import { GithubIcon } from '@storybook/icons'
 import React from 'react'
-import { ADDON_NAME, REPOSITORY_URL, TOOL_ID } from './constants'
+import { ADDON_NAME, LINK_URL, TOOL_ID, VERSION } from './constants'
+
+
 
 export const Tool = () => {
   return (
@@ -12,10 +13,10 @@ export const Tool = () => {
         title={ADDON_NAME}
         active={false}
         onClick={() => {
-          window.open(REPOSITORY_URL, '_blank')
+          window.open(LINK_URL, '_blank')
         }}
       >
-        <GithubIcon /> repository
+        v{VERSION}
       </IconButton>
     </>
   )
