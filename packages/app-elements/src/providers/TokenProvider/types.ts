@@ -71,13 +71,13 @@ export interface TokenProviderTokenInfo {
     kind: TokenProviderTokenApplicationKind
     /**
      * The name of the application.
-     * When token is generated from the dashboard hub it could be 'Imports', 'Orders', etc...
+     * When token is generated from the dashboard it could be 'Imports', 'Orders', etc...
      * When is a standard token (`integration`, `sales_channel` or `webapp`) it will be the name assigned when the application was created.
      */
     name: string
     /**
-     * This will be `true` when the token is generated from the dashboard hub.
-     * Only dashboard hub can generate a `core` token.
+     * This will be `true` when the token is generated from the dashboard.
+     * Only dashboard can generate a `core` token.
      */
     core: boolean
   }
