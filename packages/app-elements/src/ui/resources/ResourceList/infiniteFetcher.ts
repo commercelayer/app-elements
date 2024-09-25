@@ -6,7 +6,8 @@ import {
 import type {
   CommerceLayerClient,
   ListableResourceType,
-  QueryParamsList
+  QueryParamsList,
+  ResourceFields
 } from '@commercelayer/sdk'
 import uniqBy from 'lodash/uniqBy'
 
@@ -41,7 +42,7 @@ export async function infiniteFetcher<TResource extends ListableResourceType>({
   | {
       client: CommerceLayerClient
       clientType: 'coreSdkClient'
-      query?: Omit<QueryParamsList, 'pageNumber'>
+      query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
     }
   | {
       client: MetricsApiClient
