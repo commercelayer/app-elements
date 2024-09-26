@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@commercelayer/sdk": "6.22.0",
+    "@monaco-editor/react": "4.6.0",
     "@types/lodash": "^4.17.10",
     "@types/react": "^18.3.11",
     "@types/react-datepicker": "^7.0.0",

@@ -1,0 +1,169 @@
+import {
+  InputWrapper,
+  type InputWrapperBaseProps
+} from '#ui/internals/InputWrapper'
+import Editor, {
+  useMonaco,
+  type EditorProps,
+  type OnMount,
+  type OnValidate
+} from '@monaco-editor/react'
+import { forwardRef, useEffect, useState } from 'react'
+
+export interface CodeEditorProps
+  extends InputWrapperBaseProps,
+    Pick<HTMLInputElement, 'id' | 'name'>,
+    Pick<EditorProps, 'defaultValue' | 'value' | 'language' | 'height'> {
+  jsonSchema?: 'none' | 'promotions-rules'
+  /**
+   * Trigger on every update.
+   * @param markers List of markers (errors). `null` when there're no errors.
+   * @returns
+   */
+  onValidate?: (markers: Parameters<OnValidate>[0] | null) => void
+  /**
+   * Trigger on every update only when there are **no** errors.
+   */
+  onChange?: (value: string) => void
+}
+
+const defer = createDeferred(500)
+
+export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
+  (
+    {
+      feedback,
+      hint,
+      inline,
+      label,
+      defaultValue,
+      value,
+      language,
+      height = '220px',
+      jsonSchema = 'none',
+      onValidate,
+      onChange,
+      ...rest
+    },
+    ref
+  ): JSX.Element => {
+    const monaco = useMonaco()
+    const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
+
+    const handleEditorDidMount: OnMount = (editor, monaco) => {
+      setEditor(editor)
+
+      editor.onDidPaste(() => {
+        void editor.getAction('editor.action.formatDocument')?.run()
+      })
+
+      editor.onDidChangeModelDecorations(() => {
+        const model = editor.getModel()
+        const markers = monaco.editor.getModelMarkers({
+          resource: model?.uri
+        })
+
+        const editorValue = editor.getValue()
+
+        defer(() => {
+          onValidate?.(markers.length > 0 ? markers : null)
+
+          if (markers.length === 0) {
+            onChange?.(editorValue)
+          }
+        })
+      })
+    }
+
+    useEffect(() => {
+      const uri = editor?.getModel()?.uri.toString()
+
+      if (monaco != null && uri != null && jsonSchema != null) {
+        const schemas = (
+          monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
+        ).filter((schema) => {
+          // Remove all previous definitions for that specific `uri`.
+          const fileMatches = schema.fileMatch?.includes(uri) ?? false
+          return !fileMatches
+        })
+
+        switch (jsonSchema) {
+          case 'none': {
+            break
+          }
+
+          case 'promotions-rules': {
+            schemas.push({
+              // uri: 'http://localhost:6006/rules.json',
+              uri: 'https://core.commercelayer.io/api/public/schemas/rules',
+              fileMatch: [uri]
+            })
+
+            break
+          }
+        }
+
+        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+          enableSchemaRequest: true,
+          schemaRequest: 'ignore',
+          schemaValidation: 'error',
+          validate: true,
+          schemas
+        })
+      }
+    }, [monaco, editor, jsonSchema])
+
+    return (
+      <InputWrapper
+        label={label}
+        hint={hint}
+        feedback={feedback}
+        name={rest.id ?? rest.name}
+        inline={inline}
+      >
+        <Editor
+          defaultPath={rest.id ?? rest.name}
+          className='[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'
+          theme='vs-dark'
+          language={language}
+          height={height}
+          defaultValue={defaultValue}
+          value={value}
+          onMount={handleEditorDidMount}
+          options={{
+            readOnly: false,
+            automaticLayout: true,
+            insertSpaces: true,
+            tabSize: 2,
+            lineNumbers: 'on',
+            padding: { top: 18, bottom: 18 },
+            scrollBeyondLastLine: false,
+            pasteAs: { enabled: true },
+            minimap: {
+              enabled: false
+            }
+          }}
+        />
+      </InputWrapper>
+    )
+  }
+)
+
+CodeEditor.displayName = 'CodeEditor'
+
+function createDeferred(delay: number = 100) {
+  let timeoutId: NodeJS.Timeout | null = null
+
+  return function defer(callback: () => void): void {
+    // Clear the previous timeout if it exists
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId)
+    }
+
+    // Set a new timeout with the provided delay
+    timeoutId = setTimeout(() => {
+      callback()
+      timeoutId = null // Reset timeoutId after execution
+    }, delay)
+  }
+}
