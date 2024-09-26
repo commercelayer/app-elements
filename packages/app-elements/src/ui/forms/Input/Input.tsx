@@ -58,7 +58,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               'block w-full px-4 py-2.5 font-medium',
               'rounded outline-0',
               {
-                '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none':
+                '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-12':
                   suffix != null,
                 '!bg-white': rest.autoComplete === 'off'
               },
