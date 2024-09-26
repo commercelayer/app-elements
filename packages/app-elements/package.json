@@ -37,7 +37,7 @@
     "ts:check": "tsc --noEmit"
   },
   "dependencies": {
-    "@commercelayer/sdk": "6.15.0",
+    "@commercelayer/sdk": "6.19.1",
     "@types/lodash": "^4.17.7",
     "@types/react": "^18.3.5",
     "@types/react-datepicker": "^6.2.0",

@@ -12,7 +12,8 @@ import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClie
 import {
   CommerceLayerStatic,
   type ListableResourceType,
-  type QueryParamsList
+  type QueryParamsList,
+  type ResourceFields
 } from '@commercelayer/sdk'
 import React, { useCallback, useEffect, useReducer, type FC } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
@@ -56,7 +57,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   /**
    * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
    */
-  query?: Omit<QueryParamsList, 'pageNumber'>
+  query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
   /**
    * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
    */
@@ -135,7 +136,11 @@ export function ResourceList<TResource extends ListableResourceType>({
   })
 
   const fetchMore = useCallback(
-    async ({ query }: { query?: QueryParamsList }): Promise<void> => {
+    async ({
+      query
+    }: {
+      query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
+    }): Promise<void> => {
       dispatch({ type: 'prepare' })
       try {
         const listResponse = await infiniteFetcher({
