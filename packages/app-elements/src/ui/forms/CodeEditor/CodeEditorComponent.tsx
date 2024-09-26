@@ -9,10 +9,11 @@ import Editor, {
   type OnValidate
 } from '@monaco-editor/react'
 import { forwardRef, useEffect, useState } from 'react'
+import { type SetOptional } from 'type-fest'
 
 export interface CodeEditorProps
   extends InputWrapperBaseProps,
-    Pick<HTMLInputElement, 'id' | 'name'>,
+    SetOptional<Pick<HTMLInputElement, 'id' | 'name'>, 'id' | 'name'>,
     Pick<EditorProps, 'defaultValue' | 'value' | 'language' | 'height'> {
   jsonSchema?: 'none' | 'promotions-rules'
   /**
@@ -24,6 +25,7 @@ export interface CodeEditorProps
   /**
    * Trigger on every update only when there are **no** errors.
    */
+  onValid?: (value: string) => void
   onChange?: (value: string) => void
 }
 
@@ -42,6 +44,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       height = '220px',
       jsonSchema = 'none',
       onValidate,
+      onValid,
       onChange,
       ...rest
     },
@@ -67,9 +70,10 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
 
         defer(() => {
           onValidate?.(markers.length > 0 ? markers : null)
+          onChange?.(editorValue)
 
           if (markers.length === 0) {
-            onChange?.(editorValue)
+            onValid?.(editorValue)
           }
         })
       })

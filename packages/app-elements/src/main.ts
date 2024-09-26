@@ -185,7 +185,12 @@ export {
 } from '#ui/composite/Timeline'
 export { Toolbar, type ToolbarProps } from '#ui/composite/Toolbar'
 // Forms
-export { CodeEditor, type CodeEditorProps } from '#ui/forms/CodeEditor'
+export {
+  CodeEditor,
+  HookedCodeEditor,
+  type CodeEditorProps,
+  type HookedCodeEditorProps
+} from '#ui/forms/CodeEditor'
 export { HookedForm } from '#ui/forms/Form'
 export {
   HookedInput,
