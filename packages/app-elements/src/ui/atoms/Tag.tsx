@@ -30,10 +30,9 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
         'text-black text-sm',
         'px-4 py-1',
         'rounded border border-solid border-gray-200',
+        'bg-gray-50',
         {
-          'cursor-pointer hover:bg-gray-50  outline-primary-light': hasHover,
-          'font-semibold': !hasHover,
-          'text-primary font-bold': hasHover
+          'cursor-pointer hover:bg-gray-100  outline-primary-light': hasHover
         }
       ])}
       type={JsxTag === 'button' ? 'button' : undefined}

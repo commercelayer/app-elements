@@ -43,6 +43,7 @@ export {
 export { useClickAway } from '#hooks/useClickAway'
 export { useDelayShow } from '#hooks/useDelayShow'
 export { useEditMetadataOverlay } from '#hooks/useEditMetadataOverlay'
+export { useEditTagsOverlay } from '#hooks/useEditTagsOverlay'
 export { useIsChanged } from '#hooks/useIsChanged'
 export { useOnBlurFromContainer } from '#hooks/useOnBlurFromContainer'
 export { useOverlay } from '#hooks/useOverlay'
