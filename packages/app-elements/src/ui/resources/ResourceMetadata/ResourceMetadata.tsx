@@ -1,4 +1,7 @@
-import { useEditMetadataOverlay } from '#hooks/useEditMetadataOverlay'
+import {
+  type EditMetadataOverlayProps,
+  useEditMetadataOverlay
+} from '#hooks/useEditMetadataOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
@@ -9,16 +12,11 @@ import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
 import { type ListableResourceType } from '@commercelayer/sdk'
 
-export interface ResourceMetadataOverlay {
-  /**
-   * Title shown as first line in edit overlay heading
-   */
-  title: string
-  /**
-   * Optional description shown as second line in edit overlay heading
-   */
-  description?: string
-}
+interface MetadataOverlay
+  extends Omit<
+    EditMetadataOverlayProps,
+    'resourceId' | 'resourceType' | 'mode'
+  > {}
 
 export type ResourceMetadataMode = 'simple' | 'advanced'
 
@@ -35,7 +33,7 @@ export interface ResourceMetadataProps {
   /**
    * Edit overlay configuration
    */
-  overlay: ResourceMetadataOverlay
+  overlay: MetadataOverlay
 }
 
 export const updatableTypes = ['string', 'number', 'boolean'] as const

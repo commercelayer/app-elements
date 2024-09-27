@@ -1,27 +1,30 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { PageLayout } from '#ui/composite/PageLayout'
-import {
-  type ResourceMetadataOverlay,
-  type ResourceMetadataProps
-} from '#ui/resources/ResourceMetadata'
+import { type ResourceMetadataProps } from '#ui/resources/ResourceMetadata'
 import { ResourceMetadataForm } from '#ui/resources/ResourceMetadata/ResourceMetadataForm'
 import { useState } from 'react'
 
-interface OverlayProps {
-  title: ResourceMetadataOverlay['title']
-  description?: ResourceMetadataOverlay['description']
+export interface EditMetadataOverlayProps {
+  /**
+   * Title shown as first line in edit overlay heading
+   */
+  title: string
+  /**
+   * Optional description shown as second line in edit overlay heading
+   */
+  description?: string
   resourceId: ResourceMetadataProps['resourceId']
   resourceType: ResourceMetadataProps['resourceType']
   mode?: ResourceMetadataProps['mode']
 }
 
-interface OverlayHook {
+interface MetadataOverlayHook {
   show: () => void
-  Overlay: React.FC<OverlayProps>
+  Overlay: React.FC<EditMetadataOverlayProps>
 }
 
-export function useEditMetadataOverlay(): OverlayHook {
+export function useEditMetadataOverlay(): MetadataOverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
 
   return {
