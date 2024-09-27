@@ -1,25 +1,18 @@
-import { navigateTo } from '#helpers/appsNavigation'
-import { useOverlay } from '#hooks/useOverlay'
-import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import {
+  type EditTagsOverlayProps,
+  useEditTagsOverlay
+} from '#hooks/useEditTagsOverlay'
+import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
+import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Tag as TagUi } from '#ui/atoms/Tag'
 import { Text } from '#ui/atoms/Text'
-import { PageLayout } from '#ui/composite/PageLayout'
-import {
-  InputSelect,
-  isMultiValueSelected,
-  type InputSelectValue
-} from '#ui/forms/InputSelect'
-import type {
-  ListableResourceType,
-  ListResponse,
-  Tag
-} from '@commercelayer/sdk'
-import { Tag as TagIcon } from '@phosphor-icons/react'
+import type { ListableResourceType } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
-import { useCallback, useState } from 'react'
 
 type TaggableResource = Extract<
   ListableResourceType,
@@ -36,20 +29,8 @@ type TaggableResource = Extract<
   | 'shipments'
 >
 
-interface TagsOverlay {
-  /**
-   * Title shown as first line in edit overlay heading
-   */
-  title: string
-  /**
-   * Optional description shown as second line in edit overlay heading
-   */
-  description?: string
-  /**
-   * Optional setting to define if tags app management link is to be shown in edit overlay heading
-   */
-  showManageAction?: boolean
-}
+interface TagsOverlay
+  extends Omit<EditTagsOverlayProps, 'resourceId' | 'resourceType'> {}
 
 export interface ResourceTagsProps {
   resourceType: TaggableResource
@@ -69,11 +50,7 @@ export interface ResourceTagsProps {
  */
 export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
   ({ resourceType, resourceId, overlay, onTagClick }) => {
-    const { Overlay, open, close } = useOverlay({ queryParam: 'edit-tags' })
-    const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
-      useState(false)
-
-    const { data: resourceTags, mutate: mutateResourceTags } = useCoreApi(
+    const { data: resourceTags } = useCoreApi(
       resourceType,
       'tags',
       resourceId == null || isEmpty(resourceId)
@@ -86,176 +63,62 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
           ]
     )
 
-    const { sdkClient } = useCoreSdkProvider()
-    const { settings } = useTokenProvider()
+    const { Overlay: EditTagsOverlay, show } = useEditTagsOverlay()
 
-    const navigateToTagsManagement = navigateTo({
-      destination: {
-        app: 'tags',
-        mode: settings.mode
-      }
-    })
-
-    const tagsToSelectOptions = useCallback(
-      (tags: Tag[]): InputSelectValue[] =>
-        tags.map((item) => ({
-          value: item.id,
-          label: `${item.name}`,
-          meta: item
-        })),
-      []
-    )
-
-    const selectedOptionsToTags = useCallback(
-      (selectedOptions: InputSelectValue[]): Tag[] => {
-        if (selectedOptions.length > 0) {
-          return selectedOptions.map((item) => item.meta as Tag)
-        }
-        // We need to set this particular empty value because at the moment SDK expects always at least an empty tag object while updating the relationship
-        return [{ id: null, type: 'tags' } as unknown as Tag]
-      },
-      []
-    )
-
-    const [selectedTags, setSelectedTags] = useState(
-      tagsToSelectOptions(resourceTags ?? [])
-    )
-
-    if (resourceTags == null) return <></>
+    const { canUser } = useTokenProvider()
 
     return (
-      <div>
-        <div className='flex flex-wrap gap-2'>
-          {resourceTags.map((tag, idx) => {
-            if (onTagClick != null) {
-              return (
-                <TagUi
-                  key={idx}
-                  onClick={() => {
-                    onTagClick(tag.id)
-                  }}
-                >
-                  {tag.name}
-                </TagUi>
-              )
-            }
-            return <TagUi key={idx}>{tag.name}</TagUi>
-          })}
-          <TagUi
-            icon={<TagIcon weight='bold' />}
-            onClick={(e) => {
-              e.preventDefault()
-              open()
-            }}
-          >
-            tags
-          </TagUi>
-        </div>
-        <Overlay
-          footer={
+      <Section
+        title='Tags'
+        actionButton={
+          canUser('update', 'tags') && (
             <Button
-              type='button'
-              fullWidth
-              onClick={() => {
-                void sdkClient[resourceType]
-                  .update(
-                    {
-                      id: resourceId,
-                      tags: selectedOptionsToTags(selectedTags)
-                    },
-                    {
-                      include: ['tags']
-                    }
-                  )
-                  .then((updatedResource) => {
-                    const newTags = updatedResource.tags ?? []
-                    void mutateResourceTags(newTags as ListResponse<Tag>, {
-                      revalidate: false
-                    }).then(() => {
-                      close()
-                    })
-                  })
+              variant='secondary'
+              size='mini'
+              alignItems='center'
+              aria-label='Edit tags'
+              onClick={(e) => {
+                e.preventDefault()
+                show()
               }}
             >
-              Update
+              <Icon name='pencilSimple' size='16' />
+              Edit
             </Button>
-          }
-        >
-          <PageLayout
-            title={overlay.title}
-            description={overlay.description}
-            minHeight={false}
-            navigationButton={{
-              label: 'Back',
-              onClick: () => {
-                close()
-              }
-            }}
-            toolbar={{
-              buttons:
-                overlay.showManageAction != null && overlay.showManageAction
-                  ? [
-                      {
-                        label: 'Manage tags',
-                        variant: 'primary',
-                        size: 'small',
-                        onClick: navigateToTagsManagement?.onClick
-                      }
-                    ]
-                  : []
-            }}
-          >
-            <InputSelect
-              label='Tags'
-              placeholder='Search...'
-              hint={{
-                text: (
-                  <>
-                    You can add up to 10 tags.
-                    {selectedTagsLimitReached && (
-                      <>
-                        {' '}
-                        <Text weight='bold' variant='warning'>
-                          Limit reached
-                        </Text>
-                        .
-                      </>
-                    )}
-                  </>
+          )
+        }
+      >
+        {resourceTags == null ? (
+          <Spacer top='4'>
+            <Text variant='info'>No items.</Text>
+          </Spacer>
+        ) : (
+          <div className='flex flex-wrap gap-2 mt-4'>
+            {resourceTags.map((tag, idx) => {
+              if (onTagClick != null) {
+                return (
+                  <TagUi
+                    key={idx}
+                    onClick={() => {
+                      onTagClick(tag.id)
+                    }}
+                  >
+                    {tag.name}
+                  </TagUi>
                 )
-              }}
-              isMulti
-              isSearchable
-              isClearable={false}
-              isOptionDisabled={() => selectedTags.length >= 10}
-              loadAsyncValues={async (hint) => {
-                if (hint.length > 0) {
-                  return await sdkClient.tags
-                    .list({
-                      fields: ['id', 'name'],
-                      filters: {
-                        ...(!isEmpty(hint) && { name_cont: hint })
-                      },
-                      pageSize: 25
-                    })
-                    .then(tagsToSelectOptions)
-                }
-                return []
-              }}
-              initialValues={[]}
-              defaultValue={tagsToSelectOptions(resourceTags)}
-              onSelect={(selectedTags) => {
-                if (isMultiValueSelected(selectedTags)) {
-                  setSelectedTagsLimitReached(selectedTags.length >= 10)
-                  setSelectedTags(selectedTags)
-                  return
-                }
-                setSelectedTags([])
-              }}
-            />
-          </PageLayout>
-        </Overlay>
-      </div>
+              }
+              return <TagUi key={idx}>{tag.name}</TagUi>
+            })}
+          </div>
+        )}
+        <EditTagsOverlay
+          resourceId={resourceId}
+          resourceType={resourceType}
+          title={overlay.title}
+          description={overlay.description}
+          showManageAction={overlay.showManageAction}
+        />
+      </Section>
     )
   }
 )
