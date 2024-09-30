@@ -34,8 +34,8 @@ function mockCustomer(id, metadata = {}) {
       total_orders_count: 2753,
       created_at: '2022-03-14T09:13:06.633Z',
       updated_at: '2023-07-31T09:13:06.049Z',
-      reference: null,
-      reference_origin: null,
+      reference: 'reference',
+      reference_origin: 'reference origin',
       metadata
     },
     meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
