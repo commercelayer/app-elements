@@ -307,6 +307,10 @@ export {
   type ResourceAddressProps
 } from '#ui/resources/ResourceAddress'
 export {
+  ResourceDetails,
+  type ResourceDetailsProps
+} from '#ui/resources/ResourceDetails'
+export {
   ResourceLineItems,
   type ResourceLineItemsProps
 } from '#ui/resources/ResourceLineItems'
