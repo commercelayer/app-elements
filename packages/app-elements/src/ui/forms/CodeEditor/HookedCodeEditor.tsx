@@ -26,10 +26,12 @@ export function HookedCodeEditor({
       name={name}
       control={control}
       rules={{
-        validate: (asd) => {
+        validate: () => {
           return isValid == null || isValid.length === 0
             ? true
-            : isValid[0]?.message
+            : isValid[0]?.message.includes('Valid values: ') === true
+              ? 'Value is not accepted.'
+              : isValid[0]?.message
         }
       }}
       render={({ field }) => (

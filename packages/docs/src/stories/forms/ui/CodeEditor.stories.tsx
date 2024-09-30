@@ -20,21 +20,15 @@ const Template: StoryFn<typeof CodeEditor> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'code-editor',
-  label: 'Code',
-  language: 'typescript',
-  // onChange: (value) => console.log('Changed to:', value),
-  // onValidate: (markers) => console.log('Markers:', markers),
-  defaultValue: `/**
- * Says hello to whoever dares to enter their name!
- * @param name The name of the person to greet.
- */
-function greet(name: string): void {
-  alert(\`Hello \${name}!\`)
-}
-
-greet('Marco')
-`
+  name: 'plaintext',
+  label: 'Message',
+  onChange: (value) => {
+    console.log('plaintext • Changed to:', value)
+  },
+  onValidate: (markers) => {
+    console.log('plaintext • Markers:', markers)
+  },
+  defaultValue: 'This is just a \nmulti-line plaintext.\n'
 }
 
 export const Rules = Template.bind({})
@@ -42,8 +36,12 @@ Rules.args = {
   name: 'rules',
   label: 'Rules',
   height: '520px',
-  // onChange: (value) => console.log('Changed to:', value),
-  // onValidate: (markers) => console.log('Markers:', markers),
+  onChange: (value) => {
+    console.log('rules • Changed to:', value)
+  },
+  onValidate: (markers) => {
+    console.log('rules • Markers:', markers)
+  },
   language: 'json',
   jsonSchema: 'promotions-rules',
   defaultValue: JSON.stringify(
@@ -81,6 +79,7 @@ export const WithHint = Template.bind({})
 WithHint.args = {
   name: 'code-editor-hint',
   label: 'Code',
+  language: 'plaintext',
   hint: {
     text: 'Please enter a valid rule'
   }
@@ -90,6 +89,7 @@ export const WithError = Template.bind({})
 WithError.args = {
   name: 'code-editor-error',
   label: 'Code',
+  language: 'plaintext',
   feedback: {
     variant: 'danger',
     message: 'Required field'

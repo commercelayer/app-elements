@@ -50,11 +50,35 @@ Default.args = {
 export const TypescriptCode: StoryFn<typeof HookedCodeEditor> = (args) => {
   const methods = useForm({
     defaultValues: {
-      'ts-code': `// Simple function
-function greet(name: string): void {
-  alert(\`Hello \${name}!\`)
-}
-`,
+      rules: JSON.stringify(
+        {
+          rules: [
+            {
+              id: 'dkt7685f-7760-452e-b9b4-83434b89e2a4',
+              name: 'Discount products that are not already discounted (by diff price_amount_cents compared_at_amount_cents)',
+              conditions: [
+                {
+                  field:
+                    'order.line_items.diff_cents_compare_at_amount_unit_amount',
+                  matcher: 'eq',
+                  value: 0,
+                  group: 'discountable_items'
+                }
+              ],
+              actions: [
+                {
+                  type: 'percentage',
+                  selector: 'order.line_items.sku',
+                  groups: ['discountable_items'],
+                  value: '10%'
+                }
+              ]
+            }
+          ]
+        },
+        undefined,
+        2
+      ).concat('\n'),
       json: JSON.stringify({ name: 'Marco' }, undefined, 2).concat('\n')
     }
   })
@@ -67,14 +91,16 @@ function greet(name: string): void {
       }}
     >
       <Spacer top='4'>
-        <HookedCodeEditor
-          name='ts-code'
-          label='Typescript'
-          language='typescript'
-        />
+        <HookedCodeEditor name='json' label='JSON' language='json' />
       </Spacer>
       <Spacer top='4'>
-        <HookedCodeEditor name='json' label='JSON' language='json' />
+        <HookedCodeEditor
+          name='rules'
+          label='Rules'
+          language='json'
+          jsonSchema='promotions-rules'
+          height='550px'
+        />
       </Spacer>
       <Spacer top='6'>
         <Button type='submit'>Submit</Button>

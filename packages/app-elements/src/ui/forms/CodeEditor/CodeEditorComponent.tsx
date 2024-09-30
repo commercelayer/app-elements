@@ -14,7 +14,21 @@ import { type SetOptional } from 'type-fest'
 export interface CodeEditorProps
   extends InputWrapperBaseProps,
     SetOptional<Pick<HTMLInputElement, 'id' | 'name'>, 'id' | 'name'>,
-    Pick<EditorProps, 'defaultValue' | 'value' | 'language' | 'height'> {
+    Pick<EditorProps, 'defaultValue' | 'value'> {
+  /**
+   * Height of the editor wrapper
+   * @default "200px"
+   */
+  height?: number | string
+  /**
+   * Language of the current model
+   * @default plaintext
+   */
+  language?: 'plaintext' | 'json'
+  /**
+   * JSON Schema to be used when writing JSON
+   * @default none
+   */
   jsonSchema?: 'none' | 'promotions-rules'
   /**
    * Trigger on every update.
@@ -40,7 +54,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       label,
       defaultValue,
       value,
-      language,
+      language = 'plaintext',
       height = '220px',
       jsonSchema = 'none',
       onValidate,
