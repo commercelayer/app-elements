@@ -7,9 +7,9 @@ import { useState } from 'react'
 
 export interface EditMetadataOverlayProps {
   /**
-   * Title shown as first line in edit overlay heading
+   * Optional title shown as first line in edit overlay heading
    */
-  title: string
+  title?: string
   /**
    * Optional description shown as second line in edit overlay heading
    */
@@ -30,7 +30,7 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
   return {
     show: open,
     Overlay: ({
-      title,
+      title = 'Edit metadata',
       description,
       resourceId,
       resourceType,

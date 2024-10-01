@@ -17,9 +17,9 @@ import { useCallback, useState } from 'react'
 
 export interface EditTagsOverlayProps {
   /**
-   * Title shown as first line in edit overlay heading
+   * Optional title shown as first line in edit overlay heading
    */
-  title: string
+  title?: string
   /**
    * Optional description shown as second line in edit overlay heading
    */
@@ -59,7 +59,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
   return {
     show: open,
     Overlay: ({
-      title,
+      title = 'Edit tags',
       description,
       showManageAction,
       resourceId,
