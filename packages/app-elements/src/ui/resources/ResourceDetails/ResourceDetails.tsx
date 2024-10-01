@@ -39,7 +39,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
               {formatDate({
                 isoDate: resource?.updated_at,
                 timezone: user?.timezone,
-                format: 'full'
+                format: 'fullWithSeconds'
               })}
             </Text>
           </ListDetailsItem>
@@ -48,7 +48,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
               {formatDate({
                 isoDate: resource?.created_at,
                 timezone: user?.timezone,
-                format: 'full'
+                format: 'fullWithSeconds'
               })}
             </Text>
           </ListDetailsItem>
