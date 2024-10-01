@@ -24,16 +24,12 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
           <ListDetailsItem label='ID' gutter='none'>
             <CopyToClipboard value={resource?.id} />
           </ListDetailsItem>
-          {resource?.reference != null && (
-            <ListDetailsItem label='Reference' gutter='none'>
-              <CopyToClipboard value={resource?.reference ?? ''} />
-            </ListDetailsItem>
-          )}
-          {resource?.reference_origin != null && (
-            <ListDetailsItem label='Reference origin' gutter='none'>
-              <CopyToClipboard value={resource?.reference_origin} />
-            </ListDetailsItem>
-          )}
+          <ListDetailsItem label='Reference' gutter='none'>
+            <CopyToClipboard value={resource?.reference ?? undefined} />
+          </ListDetailsItem>
+          <ListDetailsItem label='Reference origin' gutter='none'>
+            <CopyToClipboard value={resource?.reference_origin ?? undefined} />
+          </ListDetailsItem>
           <ListDetailsItem label='Updated' gutter='none'>
             <Text weight='semibold'>
               {formatDate({
