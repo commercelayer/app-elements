@@ -5,6 +5,7 @@ import {
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -88,6 +89,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                   show()
                 }}
               >
+                <Icon name='pencilSimple' size='16' />
                 Edit
               </Button>
             )
