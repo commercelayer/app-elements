@@ -147,7 +147,8 @@ export function useEditTagsOverlay(): TagsOverlayHook {
             description={description}
             minHeight={false}
             navigationButton={{
-              label: 'Back',
+              label: 'Close',
+              icon: 'x',
               onClick: () => {
                 close()
               }

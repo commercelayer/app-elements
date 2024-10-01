@@ -67,7 +67,8 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
             description={description}
             minHeight={false}
             navigationButton={{
-              label: 'Back',
+              label: 'Close',
+              icon: 'x',
               onClick: () => {
                 close()
               }
