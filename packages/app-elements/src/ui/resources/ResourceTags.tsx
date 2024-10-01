@@ -90,7 +90,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
       >
         {resourceTags == null ? (
           <Spacer top='4'>
-            <Text variant='info'>No items.</Text>
+            <Text variant='info'>No tags.</Text>
           </Spacer>
         ) : (
           <div className='flex flex-wrap gap-2 mt-4'>

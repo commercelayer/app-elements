@@ -61,7 +61,7 @@ WithoutMetadata.args = {
   }
 }
 
-/** If you don't need the readonly metadata table, but you still want to edit the metadata, you can use the `useEditMetadataOverlay` hook: */
+/** If you need to edit the metadata from outside the `ResourceMetadata` component you can use the `useEditMetadataOverlay` hook: */
 export const EditMetadataOverlay: StoryFn = () => {
   const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
 

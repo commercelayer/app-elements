@@ -7,6 +7,7 @@ import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
@@ -69,7 +70,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         isUpdatableType(metadataValue)
       ).length > 0
 
-    if (!isUpdatable || isLoading) return <></>
+    if (isLoading) return <></>
 
     return (
       <div>
@@ -92,30 +93,36 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             )
           }
         >
-          {Object.entries(resourceData?.metadata ?? []).map(
-            ([metadataKey, metadataValue], idx) => {
-              if (!isUpdatableType(metadataValue)) return null
+          {isUpdatable ? (
+            Object.entries(resourceData?.metadata ?? []).map(
+              ([metadataKey, metadataValue], idx) => {
+                if (!isUpdatableType(metadataValue)) return null
 
-              return (
-                <ListItem
-                  padding='y'
-                  key={idx}
-                  data-testid={`ResourceMetadata-item-${metadataKey}`}
-                >
-                  <Text variant='info'>
-                    {mode === 'advanced'
-                      ? metadataKey
-                      : humanizeString(metadataKey)}
-                  </Text>
-                  <Text
-                    weight='semibold'
-                    data-testid={`ResourceMetadata-value-${metadataKey}`}
+                return (
+                  <ListItem
+                    padding='y'
+                    key={idx}
+                    data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
-                    {metadataValue.toString()}
-                  </Text>
-                </ListItem>
-              )
-            }
+                    <Text variant='info'>
+                      {mode === 'advanced'
+                        ? metadataKey
+                        : humanizeString(metadataKey)}
+                    </Text>
+                    <Text
+                      weight='semibold'
+                      data-testid={`ResourceMetadata-value-${metadataKey}`}
+                    >
+                      {metadataValue.toString()}
+                    </Text>
+                  </ListItem>
+                )
+              }
+            )
+          ) : (
+            <Spacer top='4'>
+              <Text variant='info'>No metadata.</Text>
+            </Spacer>
           )}
         </Section>
         {canUser('update', resourceType) && (
