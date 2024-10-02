@@ -38,7 +38,7 @@ export interface ResourceTagsProps {
   /**
    * Edit overlay configuration
    */
-  overlay: TagsOverlay
+  overlay?: TagsOverlay
   /**
    * Optional onTagClick function to define the click behavior of single tag in visualization
    */
@@ -114,8 +114,8 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
         <EditTagsOverlay
           resourceId={resourceId}
           resourceType={resourceType}
-          title={overlay.title}
-          showManageAction={overlay.showManageAction}
+          title={overlay?.title}
+          showManageAction={overlay?.showManageAction}
         />
       </Section>
     )

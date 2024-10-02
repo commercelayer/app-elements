@@ -35,7 +35,7 @@ export interface ResourceMetadataProps {
   /**
    * Edit overlay configuration
    */
-  overlay: MetadataOverlay
+  overlay?: MetadataOverlay
 }
 
 export const updatableTypes = ['string', 'number', 'boolean'] as const
@@ -129,7 +129,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         </Section>
         {canUser('update', resourceType) && (
           <EditMetadataOverlay
-            title={overlay.title}
+            title={overlay?.title}
             resourceId={resourceId}
             resourceType={resourceType}
             mode={mode}

@@ -56,7 +56,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
     show: open,
     Overlay: ({
       title = 'Back',
-      showManageAction,
+      showManageAction = false,
       resourceId,
       resourceType
     }) => {
