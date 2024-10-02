@@ -1,58 +1,93 @@
-const resources = await fetch(
-  'https://core.commercelayer.io/api/public/resources'
-)
-  .then<{
-    data: Array<{
-      id: string
-      attributes: {
-        fields: Record<
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+const fetchResources = (() => {
+  let cache: Record<
+    string,
+    {
+      fields: ReadonlyArray<
+        readonly [
           string,
           {
             desc: string
           }
-        >
-        relationships: Record<
+        ]
+      >
+      relationships: ReadonlyArray<
+        readonly [
           string,
           {
             desc: string
             class_name: string
           }
+        ]
+      >
+    }
+  >
+
+  return async () => {
+    if (cache != null) {
+      return cache
+    }
+
+    cache = await fetch('https://core.commercelayer.io/api/public/resources')
+      .then<{
+        data: Array<{
+          id: string
+          attributes: {
+            fields: Record<
+              string,
+              {
+                desc: string
+              }
+            >
+            relationships: Record<
+              string,
+              {
+                desc: string
+                class_name: string
+              }
+            >
+          }
+        }>
+      }>(async (res) => await res.json())
+      .then<
+        Record<
+          string,
+          {
+            fields: ReadonlyArray<readonly [string, { desc: string }]>
+            relationships: ReadonlyArray<
+              readonly [string, { desc: string; class_name: string }]
+            >
+          }
         >
-      }
-    }>
-  }>(async (res) => await res.json())
-  .then<
-    Record<
-      string,
-      {
-        fields: ReadonlyArray<readonly [string, { desc: string }]>
-        relationships: ReadonlyArray<
-          readonly [string, { desc: string; class_name: string }]
-        >
-      }
-    >
-  >(({ data: resources }) =>
-    resources.reduce((acc, cv, index, list) => {
-      return {
-        ...acc,
-        [cv.id]: {
-          fields: Object.entries(cv.attributes.fields)
-            // remove trigger attributes
-            .filter(([attr]) => !attr.startsWith('_')),
-          relationships: Object.entries(cv.attributes.relationships)
-            // remove trigger attributes
-            .filter(([attr]) => !attr.startsWith('_'))
-            // remove polymorphic relationships
-            .filter(
-              ([, value]) =>
-                resources.find(
-                  (res) => res.id === toSnakeCase(value.class_name)
-                ) != null
-            )
-        }
-      }
-    }, {})
-  )
+      >(({ data: resources }) =>
+        resources.reduce((acc, cv, index, list) => {
+          return {
+            ...acc,
+            [cv.id]: {
+              fields: Object.entries(cv.attributes.fields)
+                // remove trigger attributes
+                .filter(([attr]) => !attr.startsWith('_')),
+              relationships: Object.entries(cv.attributes.relationships)
+                // remove trigger attributes
+                .filter(([attr]) => !attr.startsWith('_'))
+                // remove polymorphic relationships
+                .filter(
+                  ([, value]) =>
+                    resources.find(
+                      (res) => res.id === toSnakeCase(value.class_name)
+                    ) != null
+                )
+            }
+          }
+        }, {})
+      )
+      .catch((error) => {
+        throw error
+      })
+
+    return cache
+  }
+})()
 
 /**
  *
@@ -69,7 +104,7 @@ export async function fetchCoreResourcesSuggestions(
     }))
   }
 
-  const pathResolved = atPath(path)
+  const pathResolved = await atPath(path)
 
   const suggestions = (
     [] as Array<{ value: string; type: 'field' | 'relationship' }>
@@ -90,7 +125,7 @@ export async function fetchCoreResourcesSuggestions(
   return suggestions
 }
 
-export function atPath(
+export async function atPath(
   path: string,
   obj?: {
     fields: ReadonlyArray<readonly [string, { desc: string }]>
@@ -98,7 +133,7 @@ export function atPath(
       readonly [string, { desc: string; class_name: string }]
     >
   }
-): {
+): Promise<{
   path: string
   obj?: {
     fields: ReadonlyArray<readonly [string, { desc: string }]>
@@ -106,7 +141,8 @@ export function atPath(
       readonly [string, { desc: string; class_name: string }]
     >
   }
-} {
+}> {
+  const resources = await fetchResources()
   const splittedPath = path.replace(/\.$/, '').split('.')
 
   const mainResourceId = splittedPath.shift()

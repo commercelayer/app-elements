@@ -347,8 +347,8 @@ describe('fetchCoreResourcesSuggestions', () => {
 })
 
 describe('atPath', () => {
-  it('should handle known resourceId', () => {
-    expect(atPath('order')).toEqual(
+  it('should handle known resourceId', async () => {
+    expect(await atPath('order')).toEqual(
       expect.objectContaining({
         obj: expect.objectContaining({
           fields: expect.arrayContaining([
@@ -365,8 +365,8 @@ describe('atPath', () => {
     )
   })
 
-  it('should handle unknown resourceId', () => {
-    expect(atPath('ore')).toEqual(
+  it('should handle unknown resourceId', async () => {
+    expect(await atPath('ore')).toEqual(
       expect.objectContaining({
         obj: undefined,
         path: ''
@@ -374,8 +374,8 @@ describe('atPath', () => {
     )
   })
 
-  it('should handle fields', () => {
-    expect(atPath('order.number')).toEqual(
+  it('should handle fields', async () => {
+    expect(await atPath('order.number')).toEqual(
       expect.objectContaining({
         obj: expect.objectContaining({
           fields: expect.arrayContaining([
@@ -392,8 +392,10 @@ describe('atPath', () => {
     )
   })
 
-  it('should handle nested relationships', () => {
-    expect(atPath('price.jwt_markets.price_list.prices.currency_code')).toEqual(
+  it('should handle nested relationships', async () => {
+    expect(
+      await atPath('price.jwt_markets.price_list.prices.currency_code')
+    ).toEqual(
       expect.objectContaining({
         obj: expect.objectContaining({
           fields: expect.arrayContaining([
@@ -411,8 +413,8 @@ describe('atPath', () => {
     )
   })
 
-  it('should hide polymorphic relationships', () => {
-    expect(atPath('order.attachments.attachable')).toEqual(
+  it('should hide polymorphic relationships', async () => {
+    expect(await atPath('order.attachments.attachable')).toEqual(
       expect.objectContaining({
         obj: expect.objectContaining({
           fields: expect.arrayContaining([
