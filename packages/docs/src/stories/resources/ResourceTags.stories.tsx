@@ -29,8 +29,7 @@ Default.args = {
   resourceType: 'customers',
   resourceId: 'NMWYhbGorj',
   overlay: {
-    title: 'Edit tags',
-    description: 'hello@commercelayer.io',
+    title: 'hello@commercelayer.io',
     showManageAction: true
   },
   onTagClick: (tagId) => {
@@ -46,8 +45,7 @@ WithoutTags.args = {
   resourceType: 'customers',
   resourceId: 'OEMAhobdgO',
   overlay: {
-    title: 'Edit tags',
-    description: 'hello@commercelayer.io'
+    title: 'hello@commercelayer.io'
   }
 }
 
@@ -59,8 +57,7 @@ export const EditTagsOverlay: StoryFn = () => {
     <TokenProvider kind='integration' appSlug='customers' devMode>
       <CoreSdkProvider>
         <EditTagsOverlay
-          title='Edit tags'
-          description='hello@commercelayer.io'
+          title='hello@commercelayer.io'
           resourceId='ASEYfdNrwa'
           resourceType='customers'
         />

@@ -115,7 +115,6 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
           resourceId={resourceId}
           resourceType={resourceType}
           title={overlay.title}
-          description={overlay.description}
           showManageAction={overlay.showManageAction}
         />
       </Section>

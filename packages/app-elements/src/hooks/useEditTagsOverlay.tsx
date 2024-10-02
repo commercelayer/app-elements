@@ -21,10 +21,6 @@ export interface EditTagsOverlayProps {
    */
   title?: string
   /**
-   * Optional description shown as second line in edit overlay heading
-   */
-  description?: string
-  /**
    * Optional setting to define if tags app management link is to be shown in edit overlay heading
    */
   showManageAction?: boolean
@@ -59,8 +55,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
   return {
     show: open,
     Overlay: ({
-      title = 'Edit tags',
-      description,
+      title = 'Back',
       showManageAction,
       resourceId,
       resourceType
@@ -143,12 +138,11 @@ export function useEditTagsOverlay(): TagsOverlayHook {
           }
         >
           <PageLayout
-            title={title}
-            description={description}
+            title='Edit tags'
             minHeight={false}
             navigationButton={{
-              label: 'Close',
-              icon: 'x',
+              label: title,
+              icon: 'arrowLeft',
               onClick: () => {
                 close()
               }

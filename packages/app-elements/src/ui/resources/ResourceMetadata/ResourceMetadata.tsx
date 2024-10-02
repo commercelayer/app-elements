@@ -78,7 +78,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         <Section
           title='Metadata'
           actionButton={
-            isUpdatable &&
+            mode === 'advanced' &&
             canUser('update', resourceType) && (
               <Button
                 variant='secondary'
@@ -130,7 +130,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         {canUser('update', resourceType) && (
           <EditMetadataOverlay
             title={overlay.title}
-            description={overlay.description ?? ''}
             resourceId={resourceId}
             resourceType={resourceType}
             mode={mode}
