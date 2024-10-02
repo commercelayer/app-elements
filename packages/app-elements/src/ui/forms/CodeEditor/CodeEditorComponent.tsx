@@ -9,7 +9,7 @@ import Editor, {
   type OnValidate
 } from '@monaco-editor/react'
 import { forwardRef, useEffect, useRef, useState } from 'react'
-import { type SetOptional } from 'type-fest'
+import { type JsonValue, type SetOptional } from 'type-fest'
 import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
 
 export interface CodeEditorProps
@@ -99,8 +99,6 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       void (async function () {
         const uri = editor?.getModel()?.uri.toString()
 
-        console.log('uri', uri)
-
         if (monaco != null && uri != null && jsonSchema != null) {
           const schemas = (
             monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
@@ -119,8 +117,15 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
 
             case 'promotions-rules': {
               schemas.push({
-                // uri: 'http://localhost:6006/rules.json',
-                uri: 'https://core.commercelayer.io/api/public/schemas/rules',
+                schema: await fetch(
+                  // 'http://localhost:6006/rules.json'
+                  'https://core.commercelayer.io/api/public/schemas/rules'
+                )
+                  .then<JsonValue>(async (res) => await res.json())
+                  .then((json) => {
+                    return clearExamples(json)
+                  }),
+                uri: `file:///json-schema--${jsonSchema}.json`,
                 fileMatch: [uri]
               })
 
@@ -135,12 +140,6 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
                     }
 
                     const wordInfo = model.getWordUntilPosition(position)
-                    const wordRange = {
-                      startLineNumber: position.lineNumber,
-                      startColumn: wordInfo.startColumn,
-                      endLineNumber: position.lineNumber,
-                      endColumn: wordInfo.endColumn
-                    }
 
                     // Get the entire line up to the cursor
                     const lineContent = model
@@ -169,7 +168,12 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
                             label: suggestion.value,
                             insertText: suggestion.value,
                             // documentation: `Field: ${suggestion}`,
-                            range: wordRange
+                            range: {
+                              startLineNumber: position.lineNumber,
+                              startColumn: wordInfo.startColumn,
+                              endLineNumber: position.lineNumber,
+                              endColumn: wordInfo.endColumn
+                            }
                           }))
                         }
                       }
@@ -254,4 +258,26 @@ function createDeferred(delay: number = 100) {
       timeoutId = null // Reset timeoutId after execution
     }, delay)
   }
+}
+
+/**
+ * Remove `examples` attribute when present.
+ */
+function clearExamples(json: JsonValue): JsonValue {
+  if (typeof json !== 'object' || json === null) {
+    return json
+  }
+
+  return Array.isArray(json)
+    ? json.map((item) => clearExamples(item))
+    : Object.entries(json).reduce((acc, [key, value]) => {
+        if (['examples', 'default'].includes(key)) {
+          return acc
+        }
+
+        return {
+          ...acc,
+          [key]: clearExamples(value)
+        }
+      }, {})
 }

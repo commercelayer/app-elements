@@ -35,7 +35,7 @@ export const Rules = Template.bind({})
 Rules.args = {
   name: 'rules',
   label: 'Rules',
-  height: '520px',
+  height: '450px',
   onChange: (value) => {
     console.log('rules • Changed to:', value)
   },
@@ -48,23 +48,20 @@ Rules.args = {
     {
       rules: [
         {
-          id: 'dkt7685f-7760-452e-b9b4-83434b89e2a4',
-          name: 'Discount products that are not already discounted (by diff price_amount_cents compared_at_amount_cents)',
+          id: 'b569f656-8bc2-4253-a19b-56062e7653ab',
+          name: 'Discount 3% if paid by credit card',
           conditions: [
             {
-              field:
-                'order.line_items.diff_cents_compare_at_amount_unit_amount',
+              field: 'order.payment_method.payment_source_type',
               matcher: 'eq',
-              value: 0,
-              group: 'discountable_items'
+              value: 'credit_cards'
             }
           ],
           actions: [
             {
               type: 'percentage',
-              selector: 'order.line_items.sku',
-              groups: ['discountable_items'],
-              value: '10%'
+              selector: 'order',
+              value: '3%'
             }
           ]
         }
