@@ -88,7 +88,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
           )
         }
       >
-        {resourceTags == null ? (
+        {resourceTags == null || resourceTags.length === 0 ? (
           <Spacer top='4'>
             <Text variant='info'>No tags.</Text>
           </Spacer>
