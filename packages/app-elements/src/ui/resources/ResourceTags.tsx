@@ -38,7 +38,7 @@ export interface ResourceTagsProps {
   /**
    * Edit overlay configuration
    */
-  overlay: TagsOverlay
+  overlay?: TagsOverlay
   /**
    * Optional onTagClick function to define the click behavior of single tag in visualization
    */
@@ -90,7 +90,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
       >
         {resourceTags == null ? (
           <Spacer top='4'>
-            <Text variant='info'>No items.</Text>
+            <Text variant='info'>No tags.</Text>
           </Spacer>
         ) : (
           <div className='flex flex-wrap gap-2 mt-4'>
@@ -114,9 +114,8 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
         <EditTagsOverlay
           resourceId={resourceId}
           resourceType={resourceType}
-          title={overlay.title}
-          description={overlay.description}
-          showManageAction={overlay.showManageAction}
+          title={overlay?.title}
+          showManageAction={overlay?.showManageAction}
         />
       </Section>
     )

@@ -29,8 +29,7 @@ Default.args = {
   resourceType: 'customers',
   resourceId: 'NMWYhbGorj',
   overlay: {
-    title: 'Edit metadata',
-    description: 'hello@commercelayer.io'
+    title: 'hello@commercelayer.io'
   }
 }
 
@@ -43,8 +42,7 @@ Simple.args = {
   resourceId: 'NMWYhbGorj',
   mode: 'simple',
   overlay: {
-    title: 'Edit metadata',
-    description: 'hello@commercelayer.io'
+    title: 'hello@commercelayer.io'
   }
 }
 
@@ -56,12 +54,11 @@ WithoutMetadata.args = {
   resourceType: 'customers',
   resourceId: 'OEMAhobdgO',
   overlay: {
-    title: 'Edit metadata',
-    description: 'hello@commercelayer.io'
+    title: 'hello@commercelayer.io'
   }
 }
 
-/** If you don't need the readonly metadata table, but you still want to edit the metadata, you can use the `useEditMetadataOverlay` hook: */
+/** If you need to edit the metadata from outside the `ResourceMetadata` component you can use the `useEditMetadataOverlay` hook: */
 export const EditMetadataOverlay: StoryFn = () => {
   const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
 
@@ -69,8 +66,7 @@ export const EditMetadataOverlay: StoryFn = () => {
     <TokenProvider kind='integration' appSlug='customers' devMode>
       <CoreSdkProvider>
         <EditMetadataOverlay
-          title='Edit metadata'
-          description='hello@commercelayer.io'
+          title='hello@commercelayer.io'
           resourceId='ASEYfdNrwa'
           resourceType='customers'
         />

@@ -5,8 +5,10 @@ import {
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
@@ -33,7 +35,7 @@ export interface ResourceMetadataProps {
   /**
    * Edit overlay configuration
    */
-  overlay: MetadataOverlay
+  overlay?: MetadataOverlay
 }
 
 export const updatableTypes = ['string', 'number', 'boolean'] as const
@@ -69,14 +71,14 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         isUpdatableType(metadataValue)
       ).length > 0
 
-    if (!isUpdatable || isLoading) return <></>
+    if (isLoading) return <></>
 
     return (
       <div>
         <Section
           title='Metadata'
           actionButton={
-            isUpdatable &&
+            mode === 'advanced' &&
             canUser('update', resourceType) && (
               <Button
                 variant='secondary'
@@ -87,41 +89,47 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                   show()
                 }}
               >
+                <Icon name='pencilSimple' size='16' />
                 Edit
               </Button>
             )
           }
         >
-          {Object.entries(resourceData?.metadata ?? []).map(
-            ([metadataKey, metadataValue], idx) => {
-              if (!isUpdatableType(metadataValue)) return null
+          {isUpdatable ? (
+            Object.entries(resourceData?.metadata ?? []).map(
+              ([metadataKey, metadataValue], idx) => {
+                if (!isUpdatableType(metadataValue)) return null
 
-              return (
-                <ListItem
-                  padding='y'
-                  key={idx}
-                  data-testid={`ResourceMetadata-item-${metadataKey}`}
-                >
-                  <Text variant='info'>
-                    {mode === 'advanced'
-                      ? metadataKey
-                      : humanizeString(metadataKey)}
-                  </Text>
-                  <Text
-                    weight='semibold'
-                    data-testid={`ResourceMetadata-value-${metadataKey}`}
+                return (
+                  <ListItem
+                    padding='y'
+                    key={idx}
+                    data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
-                    {metadataValue.toString()}
-                  </Text>
-                </ListItem>
-              )
-            }
+                    <Text variant='info'>
+                      {mode === 'advanced'
+                        ? metadataKey
+                        : humanizeString(metadataKey)}
+                    </Text>
+                    <Text
+                      weight='semibold'
+                      data-testid={`ResourceMetadata-value-${metadataKey}`}
+                    >
+                      {metadataValue.toString()}
+                    </Text>
+                  </ListItem>
+                )
+              }
+            )
+          ) : (
+            <Spacer top='4'>
+              <Text variant='info'>No metadata.</Text>
+            </Spacer>
           )}
         </Section>
         {canUser('update', resourceType) && (
           <EditMetadataOverlay
-            title={overlay.title}
-            description={overlay.description ?? ''}
+            title={overlay?.title}
             resourceId={resourceId}
             resourceType={resourceType}
             mode={mode}

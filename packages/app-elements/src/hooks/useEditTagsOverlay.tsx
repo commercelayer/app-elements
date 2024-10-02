@@ -17,13 +17,9 @@ import { useCallback, useState } from 'react'
 
 export interface EditTagsOverlayProps {
   /**
-   * Title shown as first line in edit overlay heading
+   * Optional title shown as first line in edit overlay heading
    */
-  title: string
-  /**
-   * Optional description shown as second line in edit overlay heading
-   */
-  description?: string
+  title?: string
   /**
    * Optional setting to define if tags app management link is to be shown in edit overlay heading
    */
@@ -59,9 +55,8 @@ export function useEditTagsOverlay(): TagsOverlayHook {
   return {
     show: open,
     Overlay: ({
-      title,
-      description,
-      showManageAction,
+      title = 'Back',
+      showManageAction = false,
       resourceId,
       resourceType
     }) => {
@@ -143,11 +138,11 @@ export function useEditTagsOverlay(): TagsOverlayHook {
           }
         >
           <PageLayout
-            title={title}
-            description={description}
+            title='Edit tags'
             minHeight={false}
             navigationButton={{
-              label: 'Back',
+              label: title,
+              icon: 'arrowLeft',
               onClick: () => {
                 close()
               }

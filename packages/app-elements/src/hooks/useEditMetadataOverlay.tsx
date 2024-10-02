@@ -7,13 +7,9 @@ import { useState } from 'react'
 
 export interface EditMetadataOverlayProps {
   /**
-   * Title shown as first line in edit overlay heading
+   * Optional title shown as first line in edit overlay heading
    */
-  title: string
-  /**
-   * Optional description shown as second line in edit overlay heading
-   */
-  description?: string
+  title?: string
   resourceId: ResourceMetadataProps['resourceId']
   resourceType: ResourceMetadataProps['resourceType']
   mode?: ResourceMetadataProps['mode']
@@ -30,8 +26,7 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
   return {
     show: open,
     Overlay: ({
-      title,
-      description,
+      title = 'Back',
       resourceId,
       resourceType,
       mode = 'advanced'
@@ -63,11 +58,11 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
       return (
         <OverlayElement backgroundColor='light'>
           <PageLayout
-            title={title}
-            description={description}
+            title='Edit metadata'
             minHeight={false}
             navigationButton={{
-              label: 'Back',
+              label: title,
+              icon: 'arrowLeft',
               onClick: () => {
                 close()
               }
