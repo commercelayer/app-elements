@@ -131,7 +131,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
 
               disposeCompletionItemProvider.current =
                 monaco.languages.registerCompletionItemProvider('json', {
-                  // triggerCharacters: ['"', ':', '.'],
+                  triggerCharacters: ['"', ':', '.'],
                   provideCompletionItems: async function (model, position) {
                     if (model.uri.toString() !== uri.toString()) {
                       return {

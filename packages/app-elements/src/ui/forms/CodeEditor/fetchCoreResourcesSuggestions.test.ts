@@ -1,5 +1,8 @@
 import { describe } from 'vitest'
-import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
+import {
+  atPath,
+  fetchCoreResourcesSuggestions
+} from './fetchCoreResourcesSuggestions'
 
 describe('fetchCoreResourcesSuggestions', () => {
   describe('should return the provided "mainResourceIds" list', () => {
@@ -52,19 +55,9 @@ describe('fetchCoreResourcesSuggestions', () => {
     })
 
     it('when the first resource in the path is well-defined but a last dot (.) is missing', async () => {
-      expect(await fetchCoreResourcesSuggestions(['order', 'price'], 'order'))
-        .toMatchInlineSnapshot(`
-        [
-          {
-            "type": "relationship",
-            "value": "order",
-          },
-          {
-            "type": "relationship",
-            "value": "price",
-          },
-        ]
-      `)
+      expect(
+        await fetchCoreResourcesSuggestions(['order', 'price'], 'order')
+      ).toMatchInlineSnapshot(orderSuggestionsSnapshot)
     })
   })
 
@@ -243,10 +236,6 @@ describe('fetchCoreResourcesSuggestions', () => {
         },
         {
           "type": "relationship",
-          "value": "order.line_items.item",
-        },
-        {
-          "type": "relationship",
           "value": "order.line_items.sku",
         },
         {
@@ -305,7 +294,7 @@ describe('fetchCoreResourcesSuggestions', () => {
     `)
   })
 
-  it('it should return the 3rd level for autocompletion', async () => {
+  it('it should return the 4th level for autocompletion', async () => {
     expect(
       await fetchCoreResourcesSuggestions(['order'], 'order.line_items.events.')
     ).toMatchInlineSnapshot(`
@@ -354,6 +343,88 @@ describe('fetchCoreResourcesSuggestions', () => {
     expect(
       await fetchCoreResourcesSuggestions(['order'], 'order.number.')
     ).toMatchInlineSnapshot(orderSuggestionsSnapshot)
+  })
+})
+
+describe('atPath', () => {
+  it('should handle known resourceId', () => {
+    expect(atPath('order')).toEqual(
+      expect.objectContaining({
+        obj: expect.objectContaining({
+          fields: expect.arrayContaining([
+            expect.arrayContaining(['id']),
+            expect.arrayContaining(['number'])
+          ]),
+          relationships: expect.arrayContaining([
+            expect.arrayContaining(['versions']),
+            expect.arrayContaining(['line_items'])
+          ])
+        }),
+        path: 'order'
+      })
+    )
+  })
+
+  it('should handle unknown resourceId', () => {
+    expect(atPath('ore')).toEqual(
+      expect.objectContaining({
+        obj: undefined,
+        path: ''
+      })
+    )
+  })
+
+  it('should handle fields', () => {
+    expect(atPath('order.number')).toEqual(
+      expect.objectContaining({
+        obj: expect.objectContaining({
+          fields: expect.arrayContaining([
+            expect.arrayContaining(['id']),
+            expect.arrayContaining(['number'])
+          ]),
+          relationships: expect.arrayContaining([
+            expect.arrayContaining(['versions']),
+            expect.arrayContaining(['line_items'])
+          ])
+        }),
+        path: 'order'
+      })
+    )
+  })
+
+  it('should handle nested relationships', () => {
+    expect(atPath('price.jwt_markets.price_list.prices.currency_code')).toEqual(
+      expect.objectContaining({
+        obj: expect.objectContaining({
+          fields: expect.arrayContaining([
+            expect.arrayContaining(['currency_code']),
+            expect.arrayContaining(['sku_code']),
+            expect.arrayContaining(['amount_cents'])
+          ]),
+          relationships: expect.arrayContaining([
+            expect.arrayContaining(['price_list']),
+            expect.arrayContaining(['sku'])
+          ])
+        }),
+        path: 'price.jwt_markets.price_list.prices'
+      })
+    )
+  })
+
+  it('should hide polymorphic relationships', () => {
+    expect(atPath('order.attachments.attachable')).toEqual(
+      expect.objectContaining({
+        obj: expect.objectContaining({
+          fields: expect.arrayContaining([
+            expect.arrayContaining(['name']),
+            expect.arrayContaining(['description']),
+            expect.arrayContaining(['url'])
+          ]),
+          relationships: []
+        }),
+        path: 'order.attachments'
+      })
+    )
   })
 })
 
@@ -858,10 +929,6 @@ const orderSuggestionsSnapshot = `
     {
       "type": "relationship",
       "value": "order.payment_method",
-    },
-    {
-      "type": "relationship",
-      "value": "order.payment_source",
     },
     {
       "type": "relationship",

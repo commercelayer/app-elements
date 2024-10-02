@@ -1,5 +1,3 @@
-import { singular } from 'pluralize'
-
 const resources = await fetch(
   'https://core.commercelayer.io/api/public/resources'
 )
@@ -7,26 +5,53 @@ const resources = await fetch(
     data: Array<{
       id: string
       attributes: {
-        fields: Record<string, any>
-        relationships: Record<string, any>
+        fields: Record<
+          string,
+          {
+            desc: string
+          }
+        >
+        relationships: Record<
+          string,
+          {
+            desc: string
+            class_name: string
+          }
+        >
       }
     }>
   }>(async (res) => await res.json())
-  .then<Record<string, { fields: string[]; relationships: string[] }>>(
-    ({ data: resources }) =>
-      resources.reduce((acc, cv) => {
-        return {
-          ...acc,
-          [cv.id]: {
-            fields: Object.keys(cv.attributes.fields)
-              // remove trigger attributes
-              .filter((attr) => !attr.startsWith('_')),
-            relationships: Object.keys(cv.attributes.relationships)
-              // remove trigger attributes
-              .filter((attr) => !attr.startsWith('_'))
-          }
+  .then<
+    Record<
+      string,
+      {
+        fields: ReadonlyArray<readonly [string, { desc: string }]>
+        relationships: ReadonlyArray<
+          readonly [string, { desc: string; class_name: string }]
+        >
+      }
+    >
+  >(({ data: resources }) =>
+    resources.reduce((acc, cv, index, list) => {
+      return {
+        ...acc,
+        [cv.id]: {
+          fields: Object.entries(cv.attributes.fields)
+            // remove trigger attributes
+            .filter(([attr]) => !attr.startsWith('_')),
+          relationships: Object.entries(cv.attributes.relationships)
+            // remove trigger attributes
+            .filter(([attr]) => !attr.startsWith('_'))
+            // remove polymorphic relationships
+            .filter(
+              ([, value]) =>
+                resources.find(
+                  (res) => res.id === toSnakeCase(value.class_name)
+                ) != null
+            )
         }
-      }, {})
+      }
+    }, {})
   )
 
 /**
@@ -37,8 +62,6 @@ export async function fetchCoreResourcesSuggestions(
   mainResourceIds: Array<'order' | 'price'>,
   path: string
 ): Promise<Array<{ value: string; type: 'field' | 'relationship' }>> {
-  path = path.replace(/.$/, '')
-
   if (!new RegExp(`^(${mainResourceIds.join('|')})(.|$)`).test(path)) {
     return mainResourceIds.map((res) => ({
       value: res,
@@ -46,42 +69,78 @@ export async function fetchCoreResourcesSuggestions(
     }))
   }
 
-  const splittedPath = path.split('.')
-
-  const validPath = splittedPath.reduce<string[]>(
-    (acc, cv, index, list) => {
-      const parent = list[index - 1]
-      if (
-        parent != null &&
-        resources[singular(parent)]?.relationships.includes(cv) === true
-      ) {
-        acc.push(cv)
-      }
-
-      return acc
-    },
-    splittedPath[0] != null ? [splittedPath[0]] : []
-  )
-
-  const lastValidResource = singular(
-    validPath[validPath.length - 1] ?? splittedPath[0] ?? ''
-  )
+  const pathResolved = atPath(path)
 
   const suggestions = (
     [] as Array<{ value: string; type: 'field' | 'relationship' }>
   )
     .concat(
-      resources[lastValidResource]?.fields.map((a) => ({
-        value: `${validPath.join('.')}.${a}`,
+      pathResolved.obj?.fields.map(([key]) => ({
+        value: `${pathResolved.path}.${key}`,
         type: 'field'
       })) ?? []
     )
     .concat(
-      resources[lastValidResource]?.relationships.map((a) => ({
-        value: `${validPath.join('.')}.${a}`,
+      pathResolved.obj?.relationships.map(([key]) => ({
+        value: `${pathResolved.path}.${key}`,
         type: 'relationship'
       })) ?? []
     )
 
   return suggestions
+}
+
+export function atPath(
+  path: string,
+  obj?: {
+    fields: ReadonlyArray<readonly [string, { desc: string }]>
+    relationships: ReadonlyArray<
+      readonly [string, { desc: string; class_name: string }]
+    >
+  }
+): {
+  path: string
+  obj?: {
+    fields: ReadonlyArray<readonly [string, { desc: string }]>
+    relationships: ReadonlyArray<
+      readonly [string, { desc: string; class_name: string }]
+    >
+  }
+} {
+  const splittedPath = path.replace(/\.$/, '').split('.')
+
+  const mainResourceId = splittedPath.shift()
+
+  obj ??= resources[mainResourceId ?? '']
+
+  return splittedPath.reduce(
+    (acc, attr) => {
+      const className = acc.obj?.relationships.find(
+        ([key]) => key === attr
+      )?.[1].class_name
+
+      if (className == null) {
+        return acc
+      }
+
+      const obj = resources[toSnakeCase(className)]
+
+      if (obj == null) {
+        return acc
+      }
+
+      return {
+        path: `${acc.path == null ? '' : `${acc.path}.`}${attr}`,
+        obj
+      }
+    },
+    { path: obj != null ? (mainResourceId ?? '') : '', obj }
+  )
+}
+
+function toSnakeCase(str: string): string {
+  return str
+    .replace(/([A-Z])/g, '_$1')
+    .replace(/^_/, '')
+    .toLowerCase()
 }
