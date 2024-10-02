@@ -8,8 +8,9 @@ import Editor, {
   type OnMount,
   type OnValidate
 } from '@monaco-editor/react'
-import { forwardRef, useEffect, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState } from 'react'
 import { type SetOptional } from 'type-fest'
+import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
 
 export interface CodeEditorProps
   extends InputWrapperBaseProps,
@@ -65,6 +66,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
     ref
   ): JSX.Element => {
     const monaco = useMonaco()
+    const disposeCompletionItemProvider = useRef<() => void>()
     const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
@@ -94,40 +96,107 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
     }
 
     useEffect(() => {
-      const uri = editor?.getModel()?.uri.toString()
+      void (async function () {
+        const uri = editor?.getModel()?.uri.toString()
 
-      if (monaco != null && uri != null && jsonSchema != null) {
-        const schemas = (
-          monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
-        ).filter((schema) => {
-          // Remove all previous definitions for that specific `uri`.
-          const fileMatches = schema.fileMatch?.includes(uri) ?? false
-          return !fileMatches
-        })
+        console.log('uri', uri)
 
-        switch (jsonSchema) {
-          case 'none': {
-            break
+        if (monaco != null && uri != null && jsonSchema != null) {
+          const schemas = (
+            monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
+          ).filter((schema) => {
+            // Remove all previous definitions for that specific `uri`.
+            const fileMatches = schema.fileMatch?.includes(uri) ?? false
+            return !fileMatches
+          })
+
+          disposeCompletionItemProvider.current?.()
+
+          switch (jsonSchema) {
+            case 'none': {
+              break
+            }
+
+            case 'promotions-rules': {
+              schemas.push({
+                // uri: 'http://localhost:6006/rules.json',
+                uri: 'https://core.commercelayer.io/api/public/schemas/rules',
+                fileMatch: [uri]
+              })
+
+              disposeCompletionItemProvider.current =
+                monaco.languages.registerCompletionItemProvider('json', {
+                  // triggerCharacters: ['"', ':', '.'],
+                  provideCompletionItems: async function (model, position) {
+                    if (model.uri.toString() !== uri.toString()) {
+                      return {
+                        suggestions: []
+                      }
+                    }
+
+                    const wordInfo = model.getWordUntilPosition(position)
+                    const wordRange = {
+                      startLineNumber: position.lineNumber,
+                      startColumn: wordInfo.startColumn,
+                      endLineNumber: position.lineNumber,
+                      endColumn: wordInfo.endColumn
+                    }
+
+                    // Get the entire line up to the cursor
+                    const lineContent = model
+                      .getLineContent(position.lineNumber)
+                      .substring(0, position.column - 1)
+
+                    // Check if we're editing the value of the "field" key
+                    const fieldRegex = /"(field|selector)"\s*:\s*"[^"]*$/
+
+                    if (fieldRegex.test(lineContent)) {
+                      const currentValue = wordInfo.word
+
+                      if (currentValue != null) {
+                        const suggestions = await fetchCoreResourcesSuggestions(
+                          ['order'],
+                          currentValue
+                        )
+
+                        return {
+                          incomplete: false,
+                          suggestions: suggestions.map((suggestion) => ({
+                            kind:
+                              suggestion.type === 'relationship'
+                                ? monaco.languages.CompletionItemKind.Module
+                                : monaco.languages.CompletionItemKind.Value,
+                            label: suggestion.value,
+                            insertText: suggestion.value,
+                            // documentation: `Field: ${suggestion}`,
+                            range: wordRange
+                          }))
+                        }
+                      }
+                    }
+
+                    return {
+                      suggestions: []
+                    }
+                  }
+                }).dispose = () => {}
+
+              break
+            }
           }
 
-          case 'promotions-rules': {
-            schemas.push({
-              // uri: 'http://localhost:6006/rules.json',
-              uri: 'https://core.commercelayer.io/api/public/schemas/rules',
-              fileMatch: [uri]
-            })
-
-            break
-          }
+          monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
+            enableSchemaRequest: true,
+            schemaRequest: 'ignore',
+            schemaValidation: 'error',
+            validate: true,
+            schemas
+          })
         }
+      })()
 
-        monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
-          enableSchemaRequest: true,
-          schemaRequest: 'ignore',
-          schemaValidation: 'error',
-          validate: true,
-          schemas
-        })
+      return () => {
+        disposeCompletionItemProvider.current?.()
       }
     }, [monaco, editor, jsonSchema])
 
@@ -149,6 +218,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
           value={value}
           onMount={handleEditorDidMount}
           options={{
+            quickSuggestions: true,
             readOnly: false,
             automaticLayout: true,
             insertSpaces: true,
