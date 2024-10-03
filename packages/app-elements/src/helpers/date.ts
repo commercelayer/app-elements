@@ -139,7 +139,7 @@ function getPresetFormatTemplate(
 ): string {
   switch (format) {
     case 'date':
-      return isToday(zonedDate)
+      return isToday(zonedDate) && !showCurrentYear
         ? "'Today'"
         : isThisYear(zonedDate) && !showCurrentYear
           ? 'LLL dd'
