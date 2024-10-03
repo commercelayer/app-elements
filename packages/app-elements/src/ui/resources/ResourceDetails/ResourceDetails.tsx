@@ -6,6 +6,7 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { type Resource } from '@commercelayer/sdk'
+import isEmpty from 'lodash/isEmpty'
 
 export interface ResourceDetailsProps {
   resource: Resource
@@ -24,16 +25,17 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
           <ListDetailsItem label='ID' gutter='none'>
             <CopyToClipboard value={resource?.id} />
           </ListDetailsItem>
-          {resource?.reference != null && (
+          {resource?.reference != null && !isEmpty(resource?.reference) && (
             <ListDetailsItem label='Reference' gutter='none'>
               <CopyToClipboard value={resource?.reference} />
             </ListDetailsItem>
           )}
-          {resource?.reference_origin != null && (
-            <ListDetailsItem label='Reference origin' gutter='none'>
-              <CopyToClipboard value={resource?.reference_origin} />
-            </ListDetailsItem>
-          )}
+          {resource?.reference_origin != null &&
+            !isEmpty(resource?.reference_origin) && (
+              <ListDetailsItem label='Reference origin' gutter='none'>
+                <CopyToClipboard value={resource?.reference_origin} />
+              </ListDetailsItem>
+            )}
           <ListDetailsItem label='Updated' gutter='none'>
             <Text weight='semibold'>
               {formatDate({
