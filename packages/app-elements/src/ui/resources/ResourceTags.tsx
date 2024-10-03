@@ -71,7 +71,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
       <Section
         title='Tags'
         actionButton={
-          canUser('update', 'tags') && (
+          canUser('update', resourceType) && (
             <Button
               variant='secondary'
               size='mini'
