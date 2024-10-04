@@ -1,18 +1,13 @@
 import cn from 'classnames'
 import React from 'react'
 
-export type TableProps = {
+export interface TableProps {
   thead?: React.ReactNode
   className?: string
   variant?: 'boxed'
-} & (
-  | {
-      tbody?: React.ReactNode
-    }
-  | {
-      children: React.ReactNode
-    }
-)
+  tbody?: React.ReactNode
+  tfoot?: React.ReactNode
+}
 
 /**
  * `<Table>` component is used to organize and display data efficiently.
@@ -32,7 +27,8 @@ export const Table: React.FC<TableProps> = ({
   thead,
   className,
   variant,
-  ...rest
+  tbody,
+  tfoot
 }) => {
   return (
     <table
@@ -46,11 +42,8 @@ export const Table: React.FC<TableProps> = ({
       ])}
     >
       {thead != null && <thead>{thead}</thead>}
-      {'tbody' in rest && rest.tbody != null ? (
-        <tbody>{rest.tbody}</tbody>
-      ) : 'children' in rest ? (
-        <>{rest.children}</>
-      ) : null}
+      {tbody != null && <tbody>{tbody}</tbody>}
+      {tfoot != null && <tfoot>{tfoot}</tfoot>}
     </table>
   )
 }
