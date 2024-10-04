@@ -1,8 +1,10 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
+import { Td, Tr } from '#ui/atoms/Table'
 import { Text } from '#ui/atoms/Text'
 import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
 import { ResourceList } from '#ui/resources/ResourceList'
@@ -66,6 +68,81 @@ export const WithNoTitle: StoryFn<typeof ResourceList> = () => {
               <SkeletonTemplate isLoading={isLoading}>
                 <ResourceListItem resource={resource} />
               </SkeletonTemplate>
+            )
+          }}
+        />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+export const AsTableVariant: StoryFn<typeof ResourceList> = () => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ResourceList
+          title='Orders'
+          type='orders'
+          variant='table'
+          headings={[
+            { label: 'NUMBER' },
+            { label: 'MARKET' },
+            { label: 'TOTAL', align: 'right' }
+          ]}
+          actionButton={
+            <Button variant='secondary' size='mini' alignItems='center'>
+              <Icon name='plus' /> Order
+            </Button>
+          }
+          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+            return (
+              <Tr>
+                <Td isLoading={isLoading}>#{resource.number}</Td>
+                <Td isLoading={isLoading}>{resource.market?.name}</Td>
+                <Td isLoading={isLoading} align='right'>
+                  {resource.formatted_total_amount}
+                </Td>
+              </Tr>
+            )
+          }}
+        />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+export const AsTableWithEmptyList: StoryFn<typeof ResourceList> = () => {
+  return (
+    <TokenProvider kind='integration' appSlug='orders' devMode>
+      <CoreSdkProvider>
+        <ResourceList
+          title='Orders'
+          type='orders'
+          variant='table'
+          headings={[
+            { label: 'NUMBER' },
+            { label: 'MARKET' },
+            { label: 'TOTAL', align: 'right' }
+          ]}
+          query={{
+            filters: {
+              market_id_eq: 'not-existing-id'
+            }
+          }}
+          actionButton={
+            <Button variant='secondary' size='mini' alignItems='center'>
+              <Icon name='plus' /> Order
+            </Button>
+          }
+          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+            return (
+              <Tr>
+                <Td isLoading={isLoading}>#{resource.number}</Td>
+                <Td isLoading={isLoading}>{resource.market?.name}</Td>
+                <Td isLoading={isLoading} align='right'>
+                  {resource.formatted_total_amount}
+                </Td>
+              </Tr>
             )
           }}
         />

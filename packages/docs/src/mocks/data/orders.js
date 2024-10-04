@@ -3652,11 +3652,23 @@ const orderList = http.get(
   'https://mock.localhost/api/orders',
   async ({ request }) => {
     const url = new URL(request.url)
+    const marketIdFilter = url.searchParams.get('filter[q][market_id_eq]')
     const currentPage = parseInt(url.searchParams.get('page[number]') ?? '1')
     const itemPerPage = parseInt(url.searchParams.get('page[size]') ?? '5')
     const pageCount = itemPerPage <= 5 ? 1 : 3
 
     await delay(2000)
+
+    if (marketIdFilter === 'not-existing-id') {
+      return HttpResponse.json({
+        data: [],
+        meta: {
+          record_count: 0,
+          page_count: 1
+        },
+        included: []
+      })
+    }
 
     return HttpResponse.json({
       data: Array(itemPerPage)

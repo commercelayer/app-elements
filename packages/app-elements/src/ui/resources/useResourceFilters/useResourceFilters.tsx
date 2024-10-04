@@ -74,10 +74,7 @@ interface UseResourceFiltersHook {
    * Filtered ResourceList component based on current active filters
    */
   FilteredList: <TResource extends ListableResourceType>(
-    props: Pick<
-      ResourceListProps<TResource>,
-      'type' | 'emptyState' | 'actionButton'
-    > &
+    props: Omit<ResourceListProps<TResource>, 'query' | 'metricsQuery'> &
       ResourceListItemTemplate<TResource> & {
         query?: Omit<
           NonNullable<ResourceListProps<TResource>['query']>,
@@ -149,7 +146,10 @@ export function useResourceFilters({
       }
       return (
         <ResourceList
-          {...listProps}
+          {
+            // could not discriminate on `variant`
+            ...(listProps as ResourceListProps<any>)
+          }
           title={
             hideTitle === true
               ? undefined
