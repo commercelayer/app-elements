@@ -18,15 +18,25 @@ type TaggableResource = Extract<
   ListableResourceType,
   | 'addresses'
   | 'bundles'
-  | 'customers'
   | 'coupons'
+  | 'customers'
   | 'gift_cards'
   | 'line_items'
+  | 'line_item_options'
+  | 'order_subscriptions'
   | 'orders'
+  | 'buy_x_pay_y_promotions'
+  | 'external_promotions'
+  | 'fixed_amount_promotions'
+  | 'fixed_price_promotions'
+  | 'flex_promotions'
+  | 'free_gift_promotions'
+  | 'free_shipping_promotions'
+  | 'percentage_discount_promotions'
   | 'returns'
+  | 'shipments'
   | 'sku_options'
   | 'skus'
-  | 'shipments'
 >
 
 interface TagsOverlay
