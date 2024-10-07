@@ -12,6 +12,7 @@ export const iconMapping = {
   arrowDown: phosphor.ArrowDown,
   arrowLeft: phosphor.ArrowLeft,
   arrowRight: phosphor.ArrowRight,
+  arrowsDownUp: phosphor.ArrowsDownUp,
   arrowsLeftRight: phosphor.ArrowsLeftRight,
   arrowSquareOut: phosphor.ArrowSquareOut,
   arrowUpRight: phosphor.ArrowUpRight,
