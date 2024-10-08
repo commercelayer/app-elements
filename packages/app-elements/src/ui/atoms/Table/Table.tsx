@@ -3,9 +3,10 @@ import React from 'react'
 
 export interface TableProps {
   thead?: React.ReactNode
-  tbody?: React.ReactNode
   className?: string
   variant?: 'boxed'
+  tbody?: React.ReactNode
+  tfoot?: React.ReactNode
 }
 
 /**
@@ -24,9 +25,10 @@ export interface TableProps {
  */
 export const Table: React.FC<TableProps> = ({
   thead,
-  tbody,
   className,
-  variant
+  variant,
+  tbody,
+  tfoot
 }) => {
   return (
     <table
@@ -41,6 +43,7 @@ export const Table: React.FC<TableProps> = ({
     >
       {thead != null && <thead>{thead}</thead>}
       {tbody != null && <tbody>{tbody}</tbody>}
+      {tfoot != null && <tfoot>{tfoot}</tfoot>}
     </table>
   )
 }

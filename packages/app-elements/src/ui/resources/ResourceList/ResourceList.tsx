@@ -1,11 +1,18 @@
+import { formatResourceName } from '#helpers/resources'
 import { useIsChanged } from '#hooks/useIsChanged'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { EmptyState } from '#ui/atoms/EmptyState'
-import { Section, type SectionProps } from '#ui/atoms/Section'
-import { type SkeletonTemplateProps } from '#ui/atoms/SkeletonTemplate'
+import { Section as SectionElement, type SectionProps } from '#ui/atoms/Section'
+import {
+  SkeletonTemplate,
+  type SkeletonTemplateProps
+} from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
+import { Table, Th, Tr } from '#ui/atoms/Table'
+import { type ThProps } from '#ui/atoms/Table/Th'
+import { Text } from '#ui/atoms/Text'
 import { InputFeedback } from '#ui/forms/InputFeedback'
 import { type FetcherResponse } from '#ui/resources/ResourceList/infiniteFetcher'
 import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClient'
@@ -15,7 +22,14 @@ import {
   type QueryParamsList,
   type ResourceFields
 } from '@commercelayer/sdk'
-import React, { useCallback, useEffect, useReducer, type FC } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  type FC,
+  type ReactNode
+} from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'
 import { initialState, reducer } from './reducer'
@@ -34,6 +48,10 @@ export interface ResourceListItemTemplateProps<
      */
     remove?: () => void
   }> {}
+
+type TableVariantHeading = Omit<ThProps, 'children'> & {
+  label: React.ReactNode
+}
 
 export interface ResourceListItemTemplate<
   TResource extends ListableResourceType
@@ -72,8 +90,11 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   }
   /**
    * An element to be rendered when the list is empty.
+   * When not provided, a default message will be shown.
+   * When a string is provided, it will be rendered as inline text below title and actionButton.
+   * When a JSX element is provided, it will be rendered as a custom element and no title or actionButton will be shown.
    */
-  emptyState: JSX.Element
+  emptyState?: JSX.Element
   /**
    * Title.
    */
@@ -81,10 +102,20 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
     | ((recordCount: number | undefined) => React.ReactNode)
     | React.ReactNode
   /**
-   *
+   * Force the size of the title, when not defined, title size will be `small` by default or `normal` when variant is `table` or `boxed`.
    */
-  variant?: 'boxed'
+  titleSize?: SectionProps['titleSize']
 } & (
+    | {
+        /** Boxed variant wraps the list in a Card */
+        variant?: 'boxed'
+      }
+    | {
+        variant: 'table'
+        headings: TableVariantHeading[]
+      }
+  ) &
+  (
     | ResourceListItemTemplate<TResource>
     | {
         /**
@@ -114,10 +145,11 @@ export function ResourceList<TResource extends ListableResourceType>({
   type,
   query,
   title,
+  titleSize,
   variant,
   actionButton,
-  emptyState,
   metricsQuery,
+  emptyState: emptyStateProp,
   ...props
 }: ResourceListProps<TResource>): JSX.Element {
   const { sdkClient } = useCoreSdkProvider()
@@ -175,6 +207,66 @@ export function ResourceList<TResource extends ListableResourceType>({
   )
 
   const isApiError = data != null && error != null
+  const isEmptyList = data != null && data.list.length === 0
+  const isFirstLoading = isLoading && data == null
+  const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
+  const tableHeadings = 'headings' in props ? props.headings : undefined
+  const hasMorePages =
+    data == null || data.meta.pageCount > data.meta.currentPage
+
+  const Section = useCallback<FC<{ children: ReactNode }>>(
+    ({ children }) => {
+      return (
+        <SectionElement
+          isLoading={isFirstLoading}
+          delayMs={0}
+          title={
+            typeof title === 'function'
+              ? title(recordCount)
+              : computeTitleWithTotalCount({
+                  title,
+                  recordCount
+                })
+          }
+          border={
+            variant === 'boxed' || variant === 'table' ? 'none' : undefined
+          }
+          actionButton={actionButton}
+          titleSize={
+            titleSize ??
+            (variant === 'boxed' || variant === 'table' ? 'normal' : 'small')
+          }
+          data-testid='resource-list'
+        >
+          <SkeletonTemplate
+            // prevent spreading skeleton internally
+            isLoading={false}
+          >
+            {children}
+          </SkeletonTemplate>
+        </SectionElement>
+      )
+    },
+    [title, isFirstLoading, isLoading, recordCount, variant, actionButton]
+  )
+
+  // Empty state JSX element to render when the list is empty
+  // If not provided, a default message based on the resource name will be shown
+  const emptyState = useMemo(
+    () =>
+      emptyStateProp ?? (
+        <Text variant='info'>
+          No{' '}
+          {formatResourceName({
+            resource: type,
+            count: 'plural'
+          })}
+          .
+        </Text>
+      ),
+    [emptyStateProp]
+  )
+
   if (isApiError) {
     return (
       <EmptyState
@@ -184,36 +276,53 @@ export function ResourceList<TResource extends ListableResourceType>({
     )
   }
 
-  const isEmptyList = data != null && data.list.length === 0
   if (isEmptyList) {
-    return <>{emptyState}</>
+    return variant != null || typeof emptyStateProp === 'string' ? (
+      // inline empty state
+      <Section>
+        <div className='border-t' />
+        <Spacer top='4'>{emptyState}</Spacer>
+      </Section>
+    ) : (
+      // custom JSX element (no title or actionButton)
+      emptyState
+    )
   }
 
-  const isFirstLoading = isLoading && data == null
-  const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
-  const hasMorePages =
-    data == null || data.meta.pageCount > data.meta.currentPage
-
-  const Boxed = variant === 'boxed' ? Card : React.Fragment
-
   return (
-    <Section
-      isLoading={isFirstLoading}
-      delayMs={0}
-      title={
-        typeof title === 'function'
-          ? title(recordCount)
-          : computeTitleWithTotalCount({
-              title,
-              recordCount
-            })
-      }
-      border={variant === 'boxed' ? 'none' : undefined}
-      actionButton={actionButton}
-      titleSize='small'
-      data-testid='resource-list'
-    >
-      <Boxed gap='1' overflow='hidden'>
+    <Section>
+      <Wrapper
+        tableHeadings={tableHeadings}
+        variant={variant}
+        isLoading={isLoading}
+        footer={
+          <>
+            {error != null ? (
+              <ErrorLine
+                message={error.message}
+                onRetry={() => {
+                  void fetchMore({ query })
+                }}
+              />
+            ) : isLoading && 'ItemTemplate' in props ? (
+              Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+                .fill(null)
+                .map((_, idx) => (
+                  <props.ItemTemplate isLoading delayMs={0} key={idx} />
+                ))
+            ) : (
+              <VisibilityTrigger
+                enabled={hasMorePages}
+                callback={(entry) => {
+                  if (entry.isIntersecting) {
+                    void fetchMore({ query })
+                  }
+                }}
+              />
+            )}
+          </>
+        }
+      >
         {'ItemTemplate' in props &&
           data?.list.map((resource) => {
             return (
@@ -246,31 +355,7 @@ export function ResourceList<TResource extends ListableResourceType>({
               })
             }
           })}
-
-        {error != null ? (
-          <ErrorLine
-            message={error.message}
-            onRetry={() => {
-              void fetchMore({ query })
-            }}
-          />
-        ) : isLoading && 'ItemTemplate' in props ? (
-          Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-            .fill(null)
-            .map((_, idx) => (
-              <props.ItemTemplate isLoading delayMs={0} key={idx} />
-            ))
-        ) : (
-          <VisibilityTrigger
-            enabled={hasMorePages}
-            callback={(entry) => {
-              if (entry.isIntersecting) {
-                void fetchMore({ query })
-              }
-            }}
-          />
-        )}
-      </Boxed>
+      </Wrapper>
     </Section>
   )
 }
@@ -300,4 +385,62 @@ function parseApiErrorMessage(error: unknown): string {
   return CommerceLayerStatic.isApiError(error)
     ? (error.errors ?? []).map(({ detail }) => detail).join(', ')
     : 'Could not retrieve data'
+}
+
+/**
+ * Wraps the list in:
+ * - a Card component when variant is boxed,
+ * - a Table component when variant is table
+ * - nothing (Fragment) when there is no variant
+ */
+const Wrapper: FC<{
+  children?: ReactNode
+  variant?: 'boxed' | 'table'
+  tableHeadings?: TableVariantHeading[]
+  isFirstLoading?: boolean
+  isLoading?: boolean
+  footer?: ReactNode
+}> = ({ children, variant, tableHeadings, isLoading, footer }) => {
+  if (variant === 'boxed') {
+    return (
+      <Card gap='1' overflow='hidden'>
+        {children}
+        {footer}
+      </Card>
+    )
+  }
+
+  if (variant === 'table') {
+    return (
+      <Table
+        thead={
+          <Tr>
+            {tableHeadings?.map(({ label, ...thProps }, idx) => (
+              <Th key={label?.toString() ?? idx} {...thProps}>
+                {label}
+              </Th>
+            ))}
+          </Tr>
+        }
+        tbody={children}
+        tfoot={
+          isLoading === true ? (
+            footer
+          ) : (
+            <tr>
+              {/* when not loading, footer elements needs to be wrapped in a <tr> since they are not aware to be part of a table */}
+              <td colSpan={tableHeadings?.length}>{footer}</td>
+            </tr>
+          )
+        }
+      />
+    )
+  }
+
+  return (
+    <>
+      {children}
+      {footer}
+    </>
+  )
 }
