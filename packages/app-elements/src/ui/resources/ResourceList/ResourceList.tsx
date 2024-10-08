@@ -90,6 +90,9 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   }
   /**
    * An element to be rendered when the list is empty.
+   * When not provided, a default message will be shown.
+   * When a string is provided, it will be rendered as inline text below title and actionButton.
+   * When a JSX element is provided, it will be rendered as a custom element and no title or actionButton will be shown.
    */
   emptyState?: JSX.Element
   /**
@@ -98,6 +101,10 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   title?:
     | ((recordCount: number | undefined) => React.ReactNode)
     | React.ReactNode
+  /**
+   * Force the size of the title, when not defined, title size will be `small` by default or `normal` when variant is `table` or `boxed`.
+   */
+  titleSize?: SectionProps['titleSize']
 } & (
     | {
         /** Boxed variant wraps the list in a Card */
@@ -138,6 +145,7 @@ export function ResourceList<TResource extends ListableResourceType>({
   type,
   query,
   title,
+  titleSize,
   variant,
   actionButton,
   metricsQuery,
@@ -224,7 +232,10 @@ export function ResourceList<TResource extends ListableResourceType>({
             variant === 'boxed' || variant === 'table' ? 'none' : undefined
           }
           actionButton={actionButton}
-          titleSize={variant === 'table' ? 'normal' : 'small'}
+          titleSize={
+            titleSize ??
+            (variant === 'boxed' || variant === 'table' ? 'normal' : 'small')
+          }
           data-testid='resource-list'
         >
           <SkeletonTemplate
@@ -266,13 +277,15 @@ export function ResourceList<TResource extends ListableResourceType>({
   }
 
   if (isEmptyList) {
-    return variant === 'table' ? (
+    return variant != null || typeof emptyStateProp === 'string' ? (
+      // inline empty state
       <Section>
         <div className='border-t' />
         <Spacer top='4'>{emptyState}</Spacer>
       </Section>
     ) : (
-      <>{emptyState}</>
+      // custom JSX element (no title or actionButton)
+      emptyState
     )
   }
 
