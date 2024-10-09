@@ -5,6 +5,7 @@ import { HookedInputCheckbox } from '#ui/forms/InputCheckbox'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
 import { useForm } from 'react-hook-form'
 
+import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
@@ -14,14 +15,10 @@ import { ListItem } from '#ui/composite/ListItem'
 import { humanizeString } from '#utils/text'
 import { type Metadata } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Fragment, useMemo } from 'react'
+import { Fragment, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { isUpdatableType, type ResourceMetadataProps } from './ResourceMetadata'
 import { groupMetadataKeys } from './utils'
-
-interface ResourceMetadataFormValues {
-  metadata: Metadata
-}
 
 const metadataForm = z
   .object({
@@ -49,30 +46,46 @@ const metadataForm = z
   })
 
 export const ResourceMetadataForm = withSkeletonTemplate<{
-  resourceId: string
-  defaultValues: ResourceMetadataFormValues
+  resourceId: ResourceMetadataProps['resourceId']
+  resourceType: ResourceMetadataProps['resourceType']
   mode: ResourceMetadataProps['mode']
-  onSubmit: (formValues: ResourceMetadataFormValues) => void
-  isSubmitting: boolean
-  apiError?: any
-}>(({ resourceId, defaultValues, mode, onSubmit, isSubmitting, apiError }) => {
-  const keyedMetadata: KeyedMetadata[] = useMemo(() => {
-    const result = Object.entries(defaultValues.metadata).map(
-      ([metadataKey, metadataValue]) => ({
-        key: metadataKey,
-        value: metadataValue
-      })
-    )
-
-    if (mode === 'advanced' && result.length === 0) {
-      result.push({
-        key: '',
-        value: ''
-      })
+  onSubmitted: () => void
+}>(({ resourceId, resourceType, mode, onSubmitted }) => {
+  const {
+    data: resourceData,
+    isLoading,
+    mutate: mutateResource
+  } = useCoreApi(resourceType, 'retrieve', [
+    resourceId,
+    {
+      fields: ['metadata']
     }
+  ])
 
-    return result
-  }, [defaultValues.metadata, mode])
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [apiError, setApiError] = useState<any>(undefined)
+  const { sdkClient } = useCoreSdkProvider()
+
+  const keyedMetadata: KeyedMetadata[] = useMemo(() => {
+    if (resourceData?.metadata != null) {
+      const result = Object.entries(resourceData.metadata).map(
+        ([metadataKey, metadataValue]) => ({
+          key: metadataKey,
+          value: metadataValue
+        })
+      )
+
+      if (mode === 'advanced' && result.length === 0) {
+        result.push({
+          key: '',
+          value: ''
+        })
+      }
+
+      return result
+    }
+    return []
+  }, [resourceData?.metadata, mode])
 
   const methods = useForm({
     defaultValues: { metadata: keyedMetadata },
@@ -116,6 +129,14 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     }
   }
 
+  if (
+    (mode === 'simple' &&
+      (resourceData?.metadata == null ||
+        Object.keys(resourceData?.metadata).length === 0)) ||
+    isLoading
+  )
+    return <></>
+
   return (
     <HookedForm
       {...methods}
@@ -132,7 +153,34 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
             sdkMetadata[m.key] = m.value
           }
         })
-        onSubmit({ metadata: sdkMetadata })
+
+        setIsSubmitting(true)
+        void sdkClient[resourceType]
+          .update(
+            {
+              id: resourceId,
+              metadata: Object.fromEntries(
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                Object.entries(formValues.metadata).filter(
+                  ([k]) => k.toString().length > 0
+                )
+              )
+            },
+            {
+              // @ts-expect-error "Expression produces a union type that is too complex to represent"
+              fields: ['metadata']
+            }
+          )
+          .then((updatedResource) => {
+            void mutateResource(updatedResource).then(() => {
+              setIsSubmitting(false)
+              onSubmitted()
+            })
+          })
+          .catch((error) => {
+            setApiError(error)
+            setIsSubmitting(false)
+          })
       }}
     >
       <Spacer bottom='12'>
