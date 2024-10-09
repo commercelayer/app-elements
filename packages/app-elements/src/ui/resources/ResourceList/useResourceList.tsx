@@ -14,7 +14,6 @@ import { Table, Th, Tr } from '#ui/atoms/Table'
 import { type ThProps } from '#ui/atoms/Table/Th'
 import { Text } from '#ui/atoms/Text'
 import { InputFeedback } from '#ui/forms/InputFeedback'
-import { type FetcherResponse } from '#ui/resources/ResourceList/infiniteFetcher'
 import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClient'
 import {
   CommerceLayerStatic,
@@ -104,7 +103,8 @@ export type UseResourceListConfig<TResource extends ListableResourceType> =
      * Force the size of the title, when not defined, title size will be `small` by default or `normal` when variant is `table` or `boxed`.
      */
     titleSize?: SectionProps['titleSize']
-  } & (
+  } & ResourceListItemTemplate<TResource> &
+    (
       | {
           /** Boxed variant wraps the list in a Card */
           variant?: 'boxed'
@@ -112,26 +112,6 @@ export type UseResourceListConfig<TResource extends ListableResourceType> =
       | {
           variant: 'table'
           headings: TableVariantHeading[]
-        }
-    ) &
-    (
-      | ResourceListItemTemplate<TResource>
-      | {
-          /**
-           * Children as a function to render a custom element.
-           * @example
-           * ```
-           * <ResourceList type='customers'>
-           *  {({ isLoading, data }) => <ol>{data?.list.map(customer => <li>{customer.email}</li>)}</ol>
-           * </ResourceList>
-           * ```
-           */
-          children: (childrenProps: {
-            isLoading: boolean
-            data?: FetcherResponse<Resource<TResource>>
-            isFirstLoading: boolean
-            removeItem: (resourceId: string) => void
-          }) => React.ReactNode
         }
     )
 
@@ -151,15 +131,24 @@ export function useResourceList<TResource extends ListableResourceType>({
   emptyState: emptyStateProp,
   ...props
 }: UseResourceListConfig<TResource>): {
+  /** The main component to render the list with infinite scrolling */
   ResourceList: FC
+  /** The raw list of fetched resources  */
   list?: Array<Resource<TResource>>
+  /** The pagination info of the fetched resources, as returned from the SDK  */
   meta?: ListMeta
+  /** `true` when the list is loading the next page */
   isLoading: boolean
+  /** `true` when the list is loading the first time, the first page */
   isFirstLoading: boolean
-  removeItem: (resourceId: string) => void
-  refresh: () => void
-  fetchMore?: () => Promise<void>
+  /** Error message (already parsed) returned from the API if a fetch request fails */
   error?: string
+  /** Removes an item from the list. Usually this should be trigger after an API delete action performed directly from the list UI. */
+  removeItem: (resourceId: string) => void
+  /** Refresh the list by emptying all previously fetched data and re-set `isFirstLoading` before re-fetching the first page. */
+  refresh: () => void
+  /** Manually triggers the fetch next page, without having the user to reach the infinite scrolling trigger element */
+  fetchMore?: () => Promise<void>
 } {
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
