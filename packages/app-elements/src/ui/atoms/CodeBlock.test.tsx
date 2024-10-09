@@ -15,7 +15,7 @@ describe('CodeBlock', () => {
     )
     expect(
       container.querySelector('[data-testid="codeblock-content"]')?.textContent
-    ).includes('****')
+    ).toContain('****')
 
     fireEvent.click(getByTestId('toggle-secret'))
     expect(
@@ -25,6 +25,6 @@ describe('CodeBlock', () => {
     fireEvent.click(getByTestId('toggle-secret'))
     expect(
       container.querySelector('[data-testid="codeblock-content"]')?.textContent
-    ).includes('****')
+    ).toContain('****')
   })
 })
