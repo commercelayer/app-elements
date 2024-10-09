@@ -340,7 +340,8 @@ export {
 } from '#ui/resources/useResourceFilters'
 export {
   useResourceList,
-  type ResourceListItemTemplate,
+  type ResourceListItemTemplateProps,
+  type ResourceListProps,
   type UseResourceListConfig
 } from '#ui/resources/useResourceList'
 // Dictionaries

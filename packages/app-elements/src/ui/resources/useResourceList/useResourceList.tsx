@@ -4,7 +4,7 @@ import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { EmptyState } from '#ui/atoms/EmptyState'
-import { Section as SectionElement, type SectionProps } from '#ui/atoms/Section'
+import { Section, type SectionProps } from '#ui/atoms/Section'
 import {
   SkeletonTemplate,
   type SkeletonTemplateProps
@@ -24,7 +24,6 @@ import {
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
   type FC,
   type ReactNode
@@ -53,67 +52,66 @@ type TableVariantHeading = Omit<ThProps, 'children'> & {
   label: React.ReactNode
 }
 
-export interface ResourceListItemTemplate<
-  TResource extends ListableResourceType
-> {
+export type ResourceListProps<TResource extends ListableResourceType> = Pick<
+  SectionProps,
+  'actionButton'
+> & {
   /**
    * A react component to be used to render each item in the list.
    * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
    * In this way the loading state will be handled automatically.
    */
   ItemTemplate: FC<ResourceListItemTemplateProps<TResource>>
-}
-
-export type UseResourceListConfig<TResource extends ListableResourceType> =
-  Pick<SectionProps, 'actionButton'> & {
-    /**
-     * The resource type to be fetched in the list
-     */
-    type: TResource
-    /**
-     * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
-     */
-    query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
-    /**
-     * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
-     */
-    metricsQuery?: {
-      search: {
-        limit?: number
-        sort?: 'asc' | 'desc'
-        sort_by?: string
-        fields?: string[]
+  /**
+   * An element to be rendered when the list is empty.
+   * When not provided, a default message will be shown.
+   * When a string is provided, it will be rendered as inline text below title and actionButton.
+   * When a JSX element is provided, it will be rendered as a custom element and no title or actionButton will be shown.
+   */
+  emptyState?: JSX.Element
+  /**
+   * Title.
+   */
+  title?:
+    | ((recordCount: number | undefined) => React.ReactNode)
+    | React.ReactNode
+  /**
+   * Force the size of the title, when not defined, title size will be `small` by default or `normal` when variant is `table` or `boxed`.
+   */
+  titleSize?: SectionProps['titleSize']
+} & (
+    | {
+        /** Boxed variant wraps the list in a Card */
+        variant?: 'boxed'
       }
-      filter: Record<string, unknown>
+    | {
+        variant: 'table'
+        headings: TableVariantHeading[]
+      }
+  )
+
+export interface UseResourceListConfig<TResource extends ListableResourceType> {
+  /**
+   * The resource type to be fetched in the list
+   */
+  type: TResource
+  /**
+   * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
+   */
+  query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
+  /**
+   * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
+   */
+  metricsQuery?: {
+    search: {
+      limit?: number
+      sort?: 'asc' | 'desc'
+      sort_by?: string
+      fields?: string[]
     }
-    /**
-     * An element to be rendered when the list is empty.
-     * When not provided, a default message will be shown.
-     * When a string is provided, it will be rendered as inline text below title and actionButton.
-     * When a JSX element is provided, it will be rendered as a custom element and no title or actionButton will be shown.
-     */
-    emptyState?: JSX.Element
-    /**
-     * Title.
-     */
-    title?:
-      | ((recordCount: number | undefined) => React.ReactNode)
-      | React.ReactNode
-    /**
-     * Force the size of the title, when not defined, title size will be `small` by default or `normal` when variant is `table` or `boxed`.
-     */
-    titleSize?: SectionProps['titleSize']
-  } & ResourceListItemTemplate<TResource> &
-    (
-      | {
-          /** Boxed variant wraps the list in a Card */
-          variant?: 'boxed'
-        }
-      | {
-          variant: 'table'
-          headings: TableVariantHeading[]
-        }
-    )
+    filter: Record<string, unknown>
+  }
+}
 
 /**
  * Renders a list of resources of a given type with infinite scrolling.
@@ -123,16 +121,11 @@ export type UseResourceListConfig<TResource extends ListableResourceType> =
 export function useResourceList<TResource extends ListableResourceType>({
   type,
   query,
-  title,
-  titleSize,
-  variant,
-  actionButton,
   metricsQuery,
-  emptyState: emptyStateProp,
   ...props
 }: UseResourceListConfig<TResource>): {
   /** The main component to render the list with infinite scrolling */
-  ResourceList: FC
+  ResourceList: FC<ResourceListProps<TResource>>
   /** The raw list of fetched resources  */
   list?: Array<Resource<TResource>>
   /** The pagination info of the fetched resources, as returned from the SDK  */
@@ -149,6 +142,8 @@ export function useResourceList<TResource extends ListableResourceType>({
   refresh: () => void
   /** Manually triggers the fetch next page, without having the user to reach the infinite scrolling trigger element */
   fetchMore?: () => Promise<void>
+  /** True when more pages can be fetched */
+  hasMorePages?: boolean
 } {
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
@@ -208,45 +203,8 @@ export function useResourceList<TResource extends ListableResourceType>({
   const isEmptyList = data != null && data.list.length === 0
   const isFirstLoading = isLoading && data == null
   const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
-  const tableHeadings = 'headings' in props ? props.headings : undefined
   const hasMorePages =
     data == null || data.meta.pageCount > data.meta.currentPage
-
-  const Section = useCallback<FC<{ children: ReactNode }>>(
-    ({ children }) => {
-      return (
-        <SectionElement
-          isLoading={isFirstLoading}
-          delayMs={0}
-          title={
-            typeof title === 'function'
-              ? title(recordCount)
-              : computeTitleWithTotalCount({
-                  title,
-                  recordCount
-                })
-          }
-          border={
-            variant === 'boxed' || variant === 'table' ? 'none' : undefined
-          }
-          actionButton={actionButton}
-          titleSize={
-            titleSize ??
-            (variant === 'boxed' || variant === 'table' ? 'normal' : 'small')
-          }
-          data-testid='resource-list'
-        >
-          <SkeletonTemplate
-            // prevent spreading skeleton internally
-            isLoading={false}
-          >
-            {children}
-          </SkeletonTemplate>
-        </SectionElement>
-      )
-    },
-    [title, isFirstLoading, isLoading, recordCount, variant, actionButton]
-  )
 
   const removeItem = useCallback((resourceId: string) => {
     dispatch({
@@ -262,11 +220,39 @@ export function useResourceList<TResource extends ListableResourceType>({
     void fetchMore({ query })
   }, [])
 
-  // Empty state JSX element to render when the list is empty
-  // If not provided, a default message based on the resource name will be shown
-  const emptyState = useMemo(
-    () =>
-      emptyStateProp ?? (
+  const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
+    ({
+      ItemTemplate,
+      emptyState: emptyStateProp,
+      title,
+      titleSize,
+      variant,
+      actionButton,
+      ...rest
+    }) => {
+      const computedTitle =
+        typeof title === 'function'
+          ? title(recordCount)
+          : computeTitleWithTotalCount({
+              title,
+              recordCount
+            })
+      const sectionBorder =
+        variant === 'boxed' || variant === 'table' ? 'none' : undefined
+      const tableHeadings = 'headings' in rest ? rest.headings : undefined
+
+      if (isApiError) {
+        return (
+          <EmptyState
+            title={`Could not retrieve ${type}`}
+            description='Try to refresh the page or ask for support.'
+          />
+        )
+      }
+
+      // Empty state JSX element to render when the list is empty
+      // If not provided, a default message based on the resource name will be shown
+      const emptyState = emptyStateProp ?? (
         <Text variant='info'>
           No{' '}
           {formatResourceName({
@@ -275,94 +261,97 @@ export function useResourceList<TResource extends ListableResourceType>({
           })}
           .
         </Text>
-      ),
-    [emptyStateProp]
-  )
+      )
 
-  const ResourceList = useCallback<FC>(() => {
-    if (isApiError) {
+      if (isEmptyList) {
+        return variant != null || typeof emptyStateProp === 'string' ? (
+          // inline empty state
+          <Section
+            actionButton={actionButton}
+            title={computedTitle}
+            titleSize={titleSize}
+          >
+            <Spacer top='4'>{emptyState}</Spacer>
+          </Section>
+        ) : (
+          // custom JSX element (no title or actionButton)
+          emptyState
+        )
+      }
+
       return (
-        <EmptyState
-          title={`Could not retrieve ${type}`}
-          description='Try to refresh the page or ask for support.'
-        />
-      )
-    }
-
-    if (isEmptyList) {
-      return variant != null || typeof emptyStateProp === 'string' ? (
-        // inline empty state
-        <Section>
-          <div className='border-t' />
-          <Spacer top='4'>{emptyState}</Spacer>
-        </Section>
-      ) : (
-        // custom JSX element (no title or actionButton)
-        emptyState
-      )
-    }
-
-    return (
-      <Section>
-        <Wrapper
-          tableHeadings={tableHeadings}
-          variant={variant}
-          isLoading={isLoading}
-          footer={
-            <>
-              {error != null ? (
-                <ErrorLine
-                  message={error.message}
-                  onRetry={() => {
-                    void fetchMore({ query })
-                  }}
-                />
-              ) : isLoading && 'ItemTemplate' in props ? (
-                Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-                  .fill(null)
-                  .map((_, idx) => (
-                    <props.ItemTemplate isLoading delayMs={0} key={idx} />
-                  ))
-              ) : (
-                <VisibilityTrigger
-                  enabled={hasMorePages}
-                  callback={(entry) => {
-                    if (entry.isIntersecting) {
-                      void fetchMore({ query })
-                    }
-                  }}
-                />
-              )}
-            </>
-          }
+        <Section
+          isLoading={isFirstLoading}
+          delayMs={0}
+          data-testid='resource-list'
+          actionButton={actionButton}
+          title={computedTitle}
+          titleSize={titleSize}
+          border={sectionBorder}
         >
-          {'ItemTemplate' in props &&
-            data?.list.map((resource) => {
-              return (
-                <props.ItemTemplate
-                  resource={resource}
-                  key={resource.id}
-                  remove={() => {
-                    removeItem(resource.id)
-                  }}
-                />
-              )
-            })}
-        </Wrapper>
-      </Section>
-    )
-  }, [
-    data?.list,
-    hasMorePages,
-    isApiError,
-    isEmptyList,
-    emptyState,
-    type,
-    variant,
-    isLoading,
-    isFirstLoading,
-    error
-  ])
+          <SkeletonTemplate
+            // prevent spreading skeleton internally
+            isLoading={false}
+          >
+            <Wrapper
+              tableHeadings={tableHeadings}
+              variant={variant}
+              isLoading={isLoading}
+              footer={
+                <>
+                  {error != null ? (
+                    <ErrorLine
+                      message={error.message}
+                      onRetry={() => {
+                        void fetchMore({ query })
+                      }}
+                    />
+                  ) : isLoading ? (
+                    Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+                      .fill(null)
+                      .map((_, idx) => (
+                        <ItemTemplate isLoading delayMs={0} key={idx} />
+                      ))
+                  ) : (
+                    <VisibilityTrigger
+                      enabled={hasMorePages}
+                      callback={(entry) => {
+                        if (entry.isIntersecting) {
+                          void fetchMore({ query })
+                        }
+                      }}
+                    />
+                  )}
+                </>
+              }
+            >
+              {data?.list.map((resource) => {
+                return (
+                  <ItemTemplate
+                    resource={resource}
+                    key={resource.id}
+                    remove={() => {
+                      removeItem(resource.id)
+                    }}
+                  />
+                )
+              })}
+            </Wrapper>
+          </SkeletonTemplate>
+        </Section>
+      )
+    },
+    [
+      data?.list,
+      hasMorePages,
+      isApiError,
+      isEmptyList,
+      type,
+      isLoading,
+      isFirstLoading,
+      error
+    ]
+  )
 
   return {
     ResourceList,
@@ -374,8 +363,11 @@ export function useResourceList<TResource extends ListableResourceType>({
     removeItem,
     refresh,
     fetchMore: async () => {
-      await fetchMore({ query })
-    }
+      if (hasMorePages) {
+        await fetchMore({ query })
+      }
+    },
+    hasMorePages
   }
 }
 

@@ -105,54 +105,12 @@ export function FullList({
 
   const { ResourceList } = useResourceList({
     type: resource,
-    title: (totalCount) => (
-      <Text weight='semibold'>
-        {computeLabelWithSelected({
-          label: title,
-          selectedCount: hideSelected
-            ? selectedCount - initialValues.length
-            : selectedCount,
-          totalCount:
-            hideSelected && totalCount != null
-              ? totalCount - initialValues.length
-              : totalCount
-        })}
-      </Text>
-    ),
-    variant: 'boxed',
     query: {
       pageSize: 25,
       filters,
       sort: {
         [sortBy.attribute]: sortBy.direction
       }
-    },
-    ItemTemplate: ({ isLoading, resource }) => {
-      const item = prepareCheckboxItemOrMock({
-        resource,
-        isLoading,
-        fieldForLabel,
-        fieldForValue
-      })
-
-      if (hideSelected && initialValues.includes(item.value)) {
-        return null
-      }
-
-      return (
-        <InputCheckboxGroupItem
-          isLoading={isLoading}
-          checked={values.includes(item.value)}
-          onChange={() => {
-            toggleValue(item.value)
-          }}
-          icon={
-            showCheckboxIcon ? <AvatarLetter text={item.label} /> : undefined
-          }
-          content={<Text weight='semibold'>{item.label}</Text>}
-          value={item.value}
-        />
-      )
     }
   })
 
@@ -195,7 +153,52 @@ export function FullList({
       )}
 
       <SkeletonTemplate>
-        <ResourceList />
+        <ResourceList
+          variant='boxed'
+          title={(totalCount) => (
+            <Text weight='semibold'>
+              {computeLabelWithSelected({
+                label: title,
+                selectedCount: hideSelected
+                  ? selectedCount - initialValues.length
+                  : selectedCount,
+                totalCount:
+                  hideSelected && totalCount != null
+                    ? totalCount - initialValues.length
+                    : totalCount
+              })}
+            </Text>
+          )}
+          ItemTemplate={({ isLoading, resource }) => {
+            const item = prepareCheckboxItemOrMock({
+              resource,
+              isLoading,
+              fieldForLabel,
+              fieldForValue
+            })
+
+            if (hideSelected && initialValues.includes(item.value)) {
+              return null
+            }
+
+            return (
+              <InputCheckboxGroupItem
+                isLoading={isLoading}
+                checked={values.includes(item.value)}
+                onChange={() => {
+                  toggleValue(item.value)
+                }}
+                icon={
+                  showCheckboxIcon ? (
+                    <AvatarLetter text={item.label} />
+                  ) : undefined
+                }
+                content={<Text weight='semibold'>{item.label}</Text>}
+                value={item.value}
+              />
+            )
+          }}
+        />
       </SkeletonTemplate>
     </div>
   )

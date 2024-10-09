@@ -21,24 +21,27 @@ const ResourceListImplementation: FC<
 > = ({ query }) => {
   const { ResourceList } = useResourceList({
     type: 'orders',
-    title: 'All orders',
-    ItemTemplate: ({ resource = mockedOrder }) => {
-      return (
-        <div
-          data-testid={
-            resource.id === 'mock' ? 'orderItem-loading' : 'orderItem-ready'
-          }
-        >
-          <div>Order #{resource.number}</div>
-          <div>Total {resource.formatted_total_amount}</div>
-        </div>
-      )
-    },
-    query,
-    emptyState: <div>No orders found</div>
+    query
   })
 
-  return <ResourceList />
+  return (
+    <ResourceList
+      title='All orders'
+      emptyState={<div>No orders found</div>}
+      ItemTemplate={({ resource = mockedOrder }) => {
+        return (
+          <div
+            data-testid={
+              resource.id === 'mock' ? 'orderItem-loading' : 'orderItem-ready'
+            }
+          >
+            <div>Order #{resource.number}</div>
+            <div>Total {resource.formatted_total_amount}</div>
+          </div>
+        )
+      }}
+    />
+  )
 }
 
 describe('useResourceList', () => {
