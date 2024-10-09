@@ -5,9 +5,9 @@ import { Icon } from '#ui/atoms/Icon'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Td, Tr } from '#ui/atoms/Table'
 import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
-import { useResourceList } from '#ui/resources/ResourceList'
 import { ResourceListItem } from '#ui/resources/ResourceListItem'
 import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
+import { useResourceList } from '#ui/resources/useResourceList'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta = {

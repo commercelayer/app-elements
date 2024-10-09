@@ -1,8 +1,3 @@
-import {
-  isValidMetricsResource,
-  type MetricsApiClient,
-  type MetricsResources
-} from '#ui/resources/ResourceList/metricsApiClient'
 import type {
   CommerceLayerClient,
   ListableResourceType,
@@ -10,6 +5,11 @@ import type {
   ResourceFields
 } from '@commercelayer/sdk'
 import uniqBy from 'lodash/uniqBy'
+import {
+  isValidMetricsResource,
+  type MetricsApiClient,
+  type MetricsResources
+} from './metricsApiClient'
 
 type ListResource<TResource extends ListableResourceType> = Awaited<
   ReturnType<CommerceLayerClient[TResource]['list']>

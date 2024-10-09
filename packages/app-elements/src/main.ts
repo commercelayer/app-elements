@@ -315,11 +315,6 @@ export {
   type ResourceLineItemsProps
 } from '#ui/resources/ResourceLineItems'
 export {
-  useResourceList,
-  type ResourceListItemTemplate,
-  type UseResourceListConfig
-} from '#ui/resources/ResourceList'
-export {
   ResourceListItem,
   type ResourceListItemProps
 } from '#ui/resources/ResourceListItem'
@@ -343,6 +338,11 @@ export {
   useResourceFilters,
   type FiltersInstructions
 } from '#ui/resources/useResourceFilters'
+export {
+  useResourceList,
+  type ResourceListItemTemplate,
+  type UseResourceListConfig
+} from '#ui/resources/useResourceList'
 // Dictionaries
 export {
   getCustomerDisplayStatus,

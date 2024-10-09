@@ -5,7 +5,7 @@ import {
   useResourceList,
   type ResourceListItemTemplate,
   type UseResourceListConfig
-} from '#ui/resources/ResourceList'
+} from '#ui/resources/useResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {

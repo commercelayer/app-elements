@@ -14,7 +14,6 @@ import { Table, Th, Tr } from '#ui/atoms/Table'
 import { type ThProps } from '#ui/atoms/Table/Th'
 import { Text } from '#ui/atoms/Text'
 import { InputFeedback } from '#ui/forms/InputFeedback'
-import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClient'
 import {
   CommerceLayerStatic,
   type ListMeta,
@@ -32,6 +31,7 @@ import React, {
 } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'
+import { useMetricsSdkProvider } from './metricsApiClient'
 import { initialState, reducer } from './reducer'
 import { computeTitleWithTotalCount } from './utils'
 
