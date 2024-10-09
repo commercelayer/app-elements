@@ -1,1 +1,5 @@
-export { ResourceList, type ResourceListProps } from './ResourceList'
+export {
+  useResourceList,
+  type ResourceListItemTemplate,
+  type UseResourceListConfig
+} from './useResourceList'

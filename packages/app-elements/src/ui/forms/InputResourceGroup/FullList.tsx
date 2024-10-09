@@ -5,7 +5,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { SearchBar } from '#ui/composite/SearchBar'
 import { type OverlayProps } from '#ui/internals/Overlay'
-import { ResourceList } from '#ui/resources/ResourceList'
+import { useResourceList } from '#ui/resources/ResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -103,6 +103,59 @@ export function FullList({
 
   const selectedCount = values.length
 
+  const { ResourceList } = useResourceList({
+    type: resource,
+    title: (totalCount) => (
+      <Text weight='semibold'>
+        {computeLabelWithSelected({
+          label: title,
+          selectedCount: hideSelected
+            ? selectedCount - initialValues.length
+            : selectedCount,
+          totalCount:
+            hideSelected && totalCount != null
+              ? totalCount - initialValues.length
+              : totalCount
+        })}
+      </Text>
+    ),
+    variant: 'boxed',
+    query: {
+      pageSize: 25,
+      filters,
+      sort: {
+        [sortBy.attribute]: sortBy.direction
+      }
+    },
+    ItemTemplate: ({ isLoading, resource }) => {
+      const item = prepareCheckboxItemOrMock({
+        resource,
+        isLoading,
+        fieldForLabel,
+        fieldForValue
+      })
+
+      if (hideSelected && initialValues.includes(item.value)) {
+        return null
+      }
+
+      return (
+        <InputCheckboxGroupItem
+          isLoading={isLoading}
+          checked={values.includes(item.value)}
+          onChange={() => {
+            toggleValue(item.value)
+          }}
+          icon={
+            showCheckboxIcon ? <AvatarLetter text={item.label} /> : undefined
+          }
+          content={<Text weight='semibold'>{item.label}</Text>}
+          value={item.value}
+        />
+      )
+    }
+  })
+
   useEffect(() => {
     if (searchBy != null) {
       setFilters(isEmpty(search) ? {} : { [searchBy]: search })
@@ -142,61 +195,7 @@ export function FullList({
       )}
 
       <SkeletonTemplate>
-        <ResourceList
-          type={resource}
-          title={(totalCount) => (
-            <Text weight='semibold'>
-              {computeLabelWithSelected({
-                label: title,
-                selectedCount: hideSelected
-                  ? selectedCount - initialValues.length
-                  : selectedCount,
-                totalCount:
-                  hideSelected && totalCount != null
-                    ? totalCount - initialValues.length
-                    : totalCount
-              })}
-            </Text>
-          )}
-          variant='boxed'
-          emptyState={<div>No items found</div>}
-          query={{
-            pageSize: 25,
-            filters,
-            sort: {
-              [sortBy.attribute]: sortBy.direction
-            }
-          }}
-          ItemTemplate={({ isLoading, resource }) => {
-            const item = prepareCheckboxItemOrMock({
-              resource,
-              isLoading,
-              fieldForLabel,
-              fieldForValue
-            })
-
-            if (hideSelected && initialValues.includes(item.value)) {
-              return null
-            }
-
-            return (
-              <InputCheckboxGroupItem
-                isLoading={isLoading}
-                checked={values.includes(item.value)}
-                onChange={() => {
-                  toggleValue(item.value)
-                }}
-                icon={
-                  showCheckboxIcon ? (
-                    <AvatarLetter text={item.label} />
-                  ) : undefined
-                }
-                content={<Text weight='semibold'>{item.label}</Text>}
-                value={item.value}
-              />
-            )
-          }}
-        />
+        <ResourceList />
       </SkeletonTemplate>
     </div>
   )

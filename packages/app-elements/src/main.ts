@@ -315,8 +315,9 @@ export {
   type ResourceLineItemsProps
 } from '#ui/resources/ResourceLineItems'
 export {
-  ResourceList,
-  type ResourceListProps
+  useResourceList,
+  type ResourceListItemTemplate,
+  type UseResourceListConfig
 } from '#ui/resources/ResourceList'
 export {
   ResourceListItem,

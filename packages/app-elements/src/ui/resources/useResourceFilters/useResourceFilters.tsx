@@ -2,10 +2,10 @@ import { formatResourceName } from '#helpers/resources'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
-  ResourceList,
-  type ResourceListProps
+  useResourceList,
+  type ResourceListItemTemplate,
+  type UseResourceListConfig
 } from '#ui/resources/ResourceList'
-import { type ResourceListItemTemplate } from '#ui/resources/ResourceList/ResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
@@ -74,14 +74,14 @@ interface UseResourceFiltersHook {
    * Filtered ResourceList component based on current active filters
    */
   FilteredList: <TResource extends ListableResourceType>(
-    props: Omit<ResourceListProps<TResource>, 'query' | 'metricsQuery'> &
+    props: Omit<UseResourceListConfig<TResource>, 'query' | 'metricsQuery'> &
       ResourceListItemTemplate<TResource> & {
         query?: Omit<
-          NonNullable<ResourceListProps<TResource>['query']>,
+          NonNullable<UseResourceListConfig<TResource>['query']>,
           'filters'
         >
         metricsQuery?: Omit<
-          NonNullable<ResourceListProps<TResource>['metricsQuery']>,
+          NonNullable<UseResourceListConfig<TResource>['metricsQuery']>,
           'filter'
         > & {
           /** Filters need to be configured within the `useResourceFilters` options. */
@@ -145,10 +145,10 @@ export function useResourceFilters({
         return <></>
       }
       return (
-        <ResourceList
+        <ResourceListComponent
           {
             // could not discriminate on `variant`
-            ...(listProps as ResourceListProps<any>)
+            ...(listProps as UseResourceListConfig<any>)
           }
           title={
             hideTitle === true
@@ -261,4 +261,11 @@ export function useResourceFilters({
     FilteredList,
     viewTitle
   }
+}
+
+function ResourceListComponent<TResource extends ListableResourceType>(
+  props: UseResourceListConfig<TResource>
+): JSX.Element {
+  const { ResourceList } = useResourceList(props)
+  return <ResourceList />
 }

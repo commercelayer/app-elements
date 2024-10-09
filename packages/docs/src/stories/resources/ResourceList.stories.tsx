@@ -3,18 +3,15 @@ import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/Moc
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
 import { Td, Tr } from '#ui/atoms/Table'
-import { Text } from '#ui/atoms/Text'
 import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
-import { ResourceList } from '#ui/resources/ResourceList'
+import { useResourceList } from '#ui/resources/ResourceList'
 import { ResourceListItem } from '#ui/resources/ResourceListItem'
 import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 
-const setup: Meta<typeof ResourceList> = {
-  title: 'Resources/ResourceList',
-  component: ResourceList,
+const setup: Meta = {
+  title: 'Resources/useResourceList',
   parameters: {
     layout: 'padded',
     docs: {
@@ -22,227 +19,182 @@ const setup: Meta<typeof ResourceList> = {
         type: 'code'
       }
     }
-  }
+  },
+  decorators: [
+    (Story) => (
+      <TokenProvider kind='integration' appSlug='orders' devMode>
+        <CoreSdkProvider>
+          <Story />
+        </CoreSdkProvider>
+      </TokenProvider>
+    )
+  ]
 }
 export default setup
 
 const mockedOrder = presetResourceListItem.orderAwaitingApproval
 
-export const WithItem: StoryFn<typeof ResourceList> = () => {
-  return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList
-          title='Orders'
-          emptyState={<div>Empty</div>}
-          type='orders'
-          actionButton={<Button variant='link'>Add new</Button>}
-          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-            return (
-              <SkeletonTemplate isLoading={isLoading}>
-                <ResourceListItem
-                  resource={resource}
-                  onClick={() => {
-                    console.log('click')
-                  }}
-                />
-              </SkeletonTemplate>
-            )
-          }}
-        />
-      </CoreSdkProvider>
-    </TokenProvider>
-  )
+export const WithItem: StoryFn = () => {
+  const { ResourceList } = useResourceList({
+    type: 'orders',
+    title: 'Orders',
+    emptyState: <div>Empty</div>,
+    actionButton: <Button variant='link'>Add new</Button>,
+    ItemTemplate: ({ resource = mockedOrder, isLoading }) => {
+      return (
+        <SkeletonTemplate isLoading={isLoading}>
+          <ResourceListItem
+            resource={resource}
+            onClick={() => {
+              console.log('click')
+            }}
+          />
+        </SkeletonTemplate>
+      )
+    }
+  })
+
+  return <ResourceList />
 }
 
-export const WithNoTitle: StoryFn<typeof ResourceList> = () => {
-  return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList
-          title={undefined}
-          emptyState={<div>Empty</div>}
-          type='orders'
-          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-            return (
-              <SkeletonTemplate isLoading={isLoading}>
-                <ResourceListItem resource={resource} />
-              </SkeletonTemplate>
-            )
-          }}
-        />
-      </CoreSdkProvider>
-    </TokenProvider>
-  )
+export const WithNoTitle: StoryFn = () => {
+  const { ResourceList } = useResourceList({
+    type: 'orders',
+    title: undefined,
+    emptyState: <div>Empty</div>,
+    actionButton: <Button variant='link'>Add new</Button>,
+    ItemTemplate: ({ resource = mockedOrder, isLoading }) => {
+      return (
+        <SkeletonTemplate isLoading={isLoading}>
+          <ResourceListItem resource={resource} />
+        </SkeletonTemplate>
+      )
+    }
+  })
+
+  return <ResourceList />
 }
 
-export const AsTableVariant: StoryFn<typeof ResourceList> = () => {
-  return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList
-          title='Orders'
-          type='orders'
-          variant='table'
-          headings={[
-            { label: 'NUMBER' },
-            { label: 'MARKET' },
-            { label: 'TOTAL', align: 'right' }
-          ]}
-          actionButton={
-            <Button variant='secondary' size='mini' alignItems='center'>
-              <Icon name='plus' /> Order
-            </Button>
-          }
-          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-            return (
-              <Tr>
-                <Td isLoading={isLoading}>#{resource.number}</Td>
-                <Td isLoading={isLoading}>{resource.market?.name}</Td>
-                <Td isLoading={isLoading} align='right'>
-                  {resource.formatted_total_amount}
-                </Td>
-              </Tr>
-            )
-          }}
-        />
-      </CoreSdkProvider>
-    </TokenProvider>
-  )
+export const AsTableVariant: StoryFn = () => {
+  const { ResourceList } = useResourceList({
+    type: 'orders',
+    title: 'Orders',
+    variant: 'table',
+    headings: [
+      { label: 'NUMBER' },
+      { label: 'MARKET' },
+      { label: 'TOTAL', align: 'right' }
+    ],
+    emptyState: <div>Empty</div>,
+    actionButton: (
+      <Button variant='secondary' size='mini' alignItems='center'>
+        <Icon name='plus' /> Order
+      </Button>
+    ),
+    ItemTemplate: ({ resource = mockedOrder, isLoading }) => {
+      return (
+        <Tr>
+          <Td isLoading={isLoading}>#{resource.number}</Td>
+          <Td isLoading={isLoading}>{resource.market?.name}</Td>
+          <Td isLoading={isLoading} align='right'>
+            {resource.formatted_total_amount}
+          </Td>
+        </Tr>
+      )
+    }
+  })
+
+  return <ResourceList />
 }
 
-export const AsTableWithEmptyList: StoryFn<typeof ResourceList> = () => {
+export const AsTableWithEmptyList: StoryFn = () => {
+  const { ResourceList } = useResourceList({
+    type: 'orders',
+    title: 'Orders',
+    variant: 'table',
+    headings: [
+      { label: 'NUMBER' },
+      { label: 'MARKET' },
+      { label: 'TOTAL', align: 'right' }
+    ],
+    emptyState: <div>Empty</div>,
+    actionButton: (
+      <Button variant='secondary' size='mini' alignItems='center'>
+        <Icon name='plus' /> Order
+      </Button>
+    ),
+    ItemTemplate: ({ resource = mockedOrder, isLoading }) => {
+      return (
+        <Tr>
+          <Td isLoading={isLoading}>#{resource.number}</Td>
+          <Td isLoading={isLoading}>{resource.market?.name}</Td>
+          <Td isLoading={isLoading} align='right'>
+            {resource.formatted_total_amount}
+          </Td>
+        </Tr>
+      )
+    },
+    query: {
+      filters: {
+        market_id_eq: 'not-existing-id'
+      }
+    }
+  })
+
+  return <ResourceList />
+}
+
+export const AsInputCheckboxGroup: StoryFn = () => {
+  const { list, isLoading } = useResourceList({
+    type: 'markets',
+    actionButton: <Button variant='link'>Add new</Button>,
+    ItemTemplate: () => null
+  })
+
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList
-          title='Orders'
-          type='orders'
-          variant='table'
-          headings={[
-            { label: 'NUMBER' },
-            { label: 'MARKET' },
-            { label: 'TOTAL', align: 'right' }
-          ]}
-          query={{
-            filters: {
-              market_id_eq: 'not-existing-id'
+    <div>
+      {isLoading || list == null ? (
+        <div>loading</div>
+      ) : (
+        <InputCheckboxGroup
+          title='Select items'
+          options={list.map((market) => ({
+            value: market.id,
+            content: <div>{market.name}</div>,
+            quantity: {
+              max: 10,
+              min: 1
             }
-          }}
-          actionButton={
-            <Button variant='secondary' size='mini' alignItems='center'>
-              <Icon name='plus' /> Order
-            </Button>
-          }
-          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-            return (
-              <Tr>
-                <Td isLoading={isLoading}>#{resource.number}</Td>
-                <Td isLoading={isLoading}>{resource.market?.name}</Td>
-                <Td isLoading={isLoading} align='right'>
-                  {resource.formatted_total_amount}
-                </Td>
-              </Tr>
-            )
-          }}
+          }))}
+          onChange={() => {}}
         />
-      </CoreSdkProvider>
-    </TokenProvider>
-  )
-}
-
-export const AsInputCheckboxGroup: StoryFn<typeof ResourceList> = (args) => {
-  return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList type='markets' emptyState={<div>Empty</div>}>
-          {({ data, isLoading }) => {
-            return (
-              <div>
-                {isLoading || data?.list[0]?.id == null ? (
-                  <div>loading</div>
-                ) : (
-                  <InputCheckboxGroup
-                    title='Select items'
-                    options={data.list.map((market) => ({
-                      value: market.id,
-                      content: <div>{market.name}</div>,
-                      quantity: {
-                        max: 10,
-                        min: 1
-                      }
-                    }))}
-                    onChange={() => {}}
-                  />
-                )}
-              </div>
-            )
-          }}
-        </ResourceList>
-      </CoreSdkProvider>
-    </TokenProvider>
-  )
-}
-
-export const WithFunctionAsChild = (): JSX.Element => {
-  return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList type='markets' emptyState={<div>Empty</div>}>
-          {({ data, isLoading }) => {
-            return (
-              <div>
-                <Spacer bottom='4'>
-                  <Text size='large'>Markets as json</Text>
-                </Spacer>
-                <Spacer bottom='4'>
-                  <Text>
-                    You can use the following <Pre>`data`</Pre> received as
-                    arguments, to build own render. A fetch request to get data
-                    from the next page, will be triggered once the bottom of the
-                    component is visible and <Pre>`data`</Pre> object will be
-                    updated with new content.
-                  </Text>
-                </Spacer>
-                {isLoading || data?.list[0]?.id == null ? (
-                  <div>loading</div>
-                ) : (
-                  <pre>{JSON.stringify(data, null, 2)}</pre>
-                )}
-              </div>
-            )
-          }}
-        </ResourceList>
-      </CoreSdkProvider>
-    </TokenProvider>
+      )}
+    </div>
   )
 }
 
 /**
  * By default, when the list has multiple pages, the component will show more results using an infinite scrolling.
  */
-export const WithInfiniteScrolling: StoryFn<typeof ResourceList> = () => {
-  return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
-      <CoreSdkProvider>
-        <ResourceList
-          title='Orders'
-          type='orders'
-          emptyState={<div>Empty</div>}
-          ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-            return (
-              <SkeletonTemplate isLoading={isLoading}>
-                <ResourceListItem resource={resource} />
-              </SkeletonTemplate>
-            )
-          }}
-          query={{
-            pageSize: 10
-          }}
-        />
-      </CoreSdkProvider>
-    </TokenProvider>
-  )
+export const WithInfiniteScrolling: StoryFn = () => {
+  const { ResourceList } = useResourceList({
+    type: 'orders',
+    title: 'Orders',
+    emptyState: <div>Empty</div>,
+    actionButton: <Button variant='link'>Add new</Button>,
+    ItemTemplate: ({ resource = mockedOrder, isLoading }) => {
+      return (
+        <SkeletonTemplate isLoading={isLoading}>
+          <ResourceListItem resource={resource} />
+        </SkeletonTemplate>
+      )
+    },
+    query: {
+      pageSize: 10
+    }
+  })
+
+  return <ResourceList />
 }
 WithInfiniteScrolling.parameters = {
   docs: {
@@ -251,9 +203,3 @@ WithInfiniteScrolling.parameters = {
     }
   }
 }
-
-const Pre: React.FC<{ children: string }> = ({ children }) => (
-  <pre style={{ display: 'inline-block', background: '#f4f4f4' }}>
-    {children}
-  </pre>
-)
