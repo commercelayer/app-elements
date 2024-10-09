@@ -127,7 +127,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </Spacer>
           )}
         </Section>
-        {canUser('update', resourceType) && (
+        {mode === 'advanced' && canUser('update', resourceType) && (
           <EditMetadataOverlay
             title={overlay?.title}
             resourceId={resourceId}

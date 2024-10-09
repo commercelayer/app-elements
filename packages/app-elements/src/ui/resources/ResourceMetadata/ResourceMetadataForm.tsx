@@ -55,12 +55,19 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     data: resourceData,
     isLoading,
     mutate: mutateResource
-  } = useCoreApi(resourceType, 'retrieve', [
-    resourceId,
+  } = useCoreApi(
+    resourceType,
+    'retrieve',
+    [
+      resourceId,
+      {
+        fields: ['metadata']
+      }
+    ],
     {
-      fields: ['metadata']
+      revalidateOnFocus: false
     }
-  ])
+  )
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [apiError, setApiError] = useState<any>(undefined)
@@ -129,13 +136,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     }
   }
 
-  if (
-    (mode === 'simple' &&
-      (resourceData?.metadata == null ||
-        Object.keys(resourceData?.metadata).length === 0)) ||
-    isLoading
-  )
-    return <></>
+  if (isLoading) return <></>
 
   return (
     <HookedForm
