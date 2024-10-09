@@ -159,12 +159,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           .update(
             {
               id: resourceId,
-              metadata: Object.fromEntries(
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-                Object.entries(formValues.metadata).filter(
-                  ([k]) => k.toString().length > 0
-                )
-              )
+              metadata: sdkMetadata
             },
             {
               // @ts-expect-error "Expression produces a union type that is too complex to represent"
