@@ -21,22 +21,50 @@ const Template: StoryFn<typeof Section> = (args) => (
 export const Default = Template.bind({})
 Default.args = {
   title: 'Addresses',
-  actionButton: <Button variant='link'>Add</Button>
+  actionButton: (
+    <Button size='mini' variant='secondary'>
+      Add
+    </Button>
+  )
 }
 
 export const SmallerTitle = Template.bind({})
 SmallerTitle.args = {
   title: <span>All SKUs</span>,
   titleSize: 'small',
-  actionButton: <Button variant='link'>New SKU</Button>
+  actionButton: (
+    <Button size='mini' variant='secondary'>
+      New SKU
+    </Button>
+  )
 }
 
 /** Title is optional. If you do not set the title, then this component will render as a `<div>` HTML element. */
 export const WithoutTitle = Template.bind({})
 WithoutTitle.args = {
-  actionButton: <Button variant='link'>New export</Button>
+  actionButton: (
+    <Button size='mini' variant='secondary'>
+      New export
+    </Button>
+  )
 }
 
 /** When neither the `title` nor the `actionButton` is defined, the header is not rendered. */
 export const WithoutHeader = Template.bind({})
 WithoutHeader.args = {}
+
+export const MultipleActions = Template.bind({})
+MultipleActions.args = {
+  title: <span>All SKUs</span>,
+  titleSize: 'small',
+  actionButton: (
+    <>
+      <Button size='mini' variant='secondary'>
+        See all
+      </Button>
+      <Button size='mini' variant='secondary'>
+        New SKU
+      </Button>
+    </>
+  )
+}
