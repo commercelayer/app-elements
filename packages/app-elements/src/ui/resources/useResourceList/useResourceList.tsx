@@ -85,6 +85,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
         variant?: 'boxed'
       }
     | {
+        /** Table variant wraps the list in a Table and enables the `headings` prop */
         variant: 'table'
         headings: TableVariantHeading[]
       }
@@ -121,28 +122,30 @@ export interface UseResourceListConfig<TResource extends ListableResourceType> {
 export function useResourceList<TResource extends ListableResourceType>({
   type,
   query,
-  metricsQuery,
-  ...props
+  metricsQuery
 }: UseResourceListConfig<TResource>): {
-  /** The main component to render the list with infinite scrolling */
+  /** The component that renders the list with infinite scrolling functionality */
   ResourceList: FC<ResourceListProps<TResource>>
-  /** The raw list of fetched resources  */
+  /** The raw array of fetched resources, which grows each time a new page is fetched */
   list?: Array<Resource<TResource>>
-  /** The pagination info of the fetched resources, as returned from the SDK  */
+  /** Metadata related to pagination, as returned by the SDK */
   meta?: ListMeta
-  /** `true` when the list is loading the next page */
+  /** Indicates whether the list is currently loading the next page */
   isLoading: boolean
-  /** `true` when the list is loading the first time, the first page */
+  /** Indicates whether the list is loading for the first time (initial page load) */
   isFirstLoading: boolean
-  /** Error message (already parsed) returned from the API if a fetch request fails */
+  /** The error message (already parsed) returned from the API when a fetch request fails */
   error?: string
-  /** Removes an item from the list. Usually this should be trigger after an API delete action performed directly from the list UI. */
+  /** Removes an item from the list, typically can be triggered after a delete action from the UI */
   removeItem: (resourceId: string) => void
-  /** Refresh the list by emptying all previously fetched data and re-set `isFirstLoading` before re-fetching the first page. */
+  /**
+   * Manually triggers data fetching for the next page without requiring the user to reach the infinite scroll trigger.
+   * It does not trigger when last page has been reached.
+   */
+  fetchMore: () => Promise<void>
+  /** Refreshes the list by clearing all previously fetched data and resetting the initial loading state before refetching the first page. */
   refresh: () => void
-  /** Manually triggers the fetch next page, without having the user to reach the infinite scrolling trigger element */
-  fetchMore?: () => Promise<void>
-  /** True when more pages can be fetched */
+  /** Indicates whether there are more pages available for fetching */
   hasMorePages?: boolean
 } {
   const { sdkClient } = useCoreSdkProvider()
