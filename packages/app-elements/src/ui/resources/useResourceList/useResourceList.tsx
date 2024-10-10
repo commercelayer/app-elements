@@ -4,7 +4,7 @@ import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { EmptyState } from '#ui/atoms/EmptyState'
-import { Section as SectionElement, type SectionProps } from '#ui/atoms/Section'
+import { Section, type SectionProps } from '#ui/atoms/Section'
 import {
   SkeletonTemplate,
   type SkeletonTemplateProps
@@ -14,10 +14,9 @@ import { Table, Th, Tr } from '#ui/atoms/Table'
 import { type ThProps } from '#ui/atoms/Table/Th'
 import { Text } from '#ui/atoms/Text'
 import { InputFeedback } from '#ui/forms/InputFeedback'
-import { type FetcherResponse } from '#ui/resources/ResourceList/infiniteFetcher'
-import { useMetricsSdkProvider } from '#ui/resources/ResourceList/metricsApiClient'
 import {
   CommerceLayerStatic,
+  type ListMeta,
   type ListableResourceType,
   type QueryParamsList,
   type ResourceFields
@@ -25,13 +24,13 @@ import {
 import React, {
   useCallback,
   useEffect,
-  useMemo,
   useReducer,
   type FC,
   type ReactNode
 } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
 import { infiniteFetcher, type Resource } from './infiniteFetcher'
+import { useMetricsSdkProvider } from './metricsApiClient'
 import { initialState, reducer } from './reducer'
 import { computeTitleWithTotalCount } from './utils'
 
@@ -53,41 +52,16 @@ type TableVariantHeading = Omit<ThProps, 'children'> & {
   label: React.ReactNode
 }
 
-export interface ResourceListItemTemplate<
-  TResource extends ListableResourceType
-> {
+export type ResourceListProps<TResource extends ListableResourceType> = Pick<
+  SectionProps,
+  'actionButton'
+> & {
   /**
    * A react component to be used to render each item in the list.
    * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
    * In this way the loading state will be handled automatically.
    */
   ItemTemplate: FC<ResourceListItemTemplateProps<TResource>>
-}
-
-export type ResourceListProps<TResource extends ListableResourceType> = Pick<
-  SectionProps,
-  'actionButton'
-> & {
-  /**
-   * The resource type to be fetched in the list
-   */
-  type: TResource
-  /**
-   * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
-   */
-  query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
-  /**
-   * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
-   */
-  metricsQuery?: {
-    search: {
-      limit?: number
-      sort?: 'asc' | 'desc'
-      sort_by?: string
-      fields?: string[]
-    }
-    filter: Record<string, unknown>
-  }
   /**
    * An element to be rendered when the list is empty.
    * When not provided, a default message will be shown.
@@ -111,47 +85,69 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
         variant?: 'boxed'
       }
     | {
+        /** Table variant wraps the list in a Table and enables the `headings` prop */
         variant: 'table'
         headings: TableVariantHeading[]
       }
-  ) &
-  (
-    | ResourceListItemTemplate<TResource>
-    | {
-        /**
-         * Children as a function to render a custom element.
-         * @example
-         * ```
-         * <ResourceList type='customers'>
-         *  {({ isLoading, data }) => <ol>{data?.list.map(customer => <li>{customer.email}</li>)}</ol>
-         * </ResourceList>
-         * ```
-         */
-        children: (childrenProps: {
-          isLoading: boolean
-          data?: FetcherResponse<Resource<TResource>>
-          isFirstLoading: boolean
-          removeItem: (resourceId: string) => void
-        }) => React.ReactNode
-      }
   )
+
+export interface UseResourceListConfig<TResource extends ListableResourceType> {
+  /**
+   * The resource type to be fetched in the list
+   */
+  type: TResource
+  /**
+   * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
+   */
+  query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
+  /**
+   * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
+   */
+  metricsQuery?: {
+    search: {
+      limit?: number
+      sort?: 'asc' | 'desc'
+      sort_by?: string
+      fields?: string[]
+    }
+    filter: Record<string, unknown>
+  }
+}
 
 /**
  * Renders a list of resources of a given type with infinite scrolling.
  * It's possible to specify a query to filter the list and either
  * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
  */
-export function ResourceList<TResource extends ListableResourceType>({
+export function useResourceList<TResource extends ListableResourceType>({
   type,
   query,
-  title,
-  titleSize,
-  variant,
-  actionButton,
-  metricsQuery,
-  emptyState: emptyStateProp,
-  ...props
-}: ResourceListProps<TResource>): JSX.Element {
+  metricsQuery
+}: UseResourceListConfig<TResource>): {
+  /** The component that renders the list with infinite scrolling functionality */
+  ResourceList: FC<ResourceListProps<TResource>>
+  /** The raw array of fetched resources, which grows each time a new page is fetched */
+  list?: Array<Resource<TResource>>
+  /** Metadata related to pagination, as returned by the SDK */
+  meta?: ListMeta
+  /** Indicates whether the list is currently loading the next page */
+  isLoading: boolean
+  /** Indicates whether the list is loading for the first time (initial page load) */
+  isFirstLoading: boolean
+  /** The error message (already parsed) returned from the API when a fetch request fails */
+  error?: string
+  /** Removes an item from the list, typically can be triggered after a delete action from the UI */
+  removeItem: (resourceId: string) => void
+  /**
+   * Manually triggers data fetching for the next page without requiring the user to reach the infinite scroll trigger.
+   * It does not trigger when last page has been reached.
+   */
+  fetchMore: () => Promise<void>
+  /** Refreshes the list by clearing all previously fetched data and resetting the initial loading state before refetching the first page. */
+  refresh: () => void
+  /** Indicates whether there are more pages available for fetching */
+  hasMorePages?: boolean
+} {
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
@@ -210,51 +206,56 @@ export function ResourceList<TResource extends ListableResourceType>({
   const isEmptyList = data != null && data.list.length === 0
   const isFirstLoading = isLoading && data == null
   const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
-  const tableHeadings = 'headings' in props ? props.headings : undefined
   const hasMorePages =
     data == null || data.meta.pageCount > data.meta.currentPage
 
-  const Section = useCallback<FC<{ children: ReactNode }>>(
-    ({ children }) => {
-      return (
-        <SectionElement
-          isLoading={isFirstLoading}
-          delayMs={0}
-          title={
-            typeof title === 'function'
-              ? title(recordCount)
-              : computeTitleWithTotalCount({
-                  title,
-                  recordCount
-                })
-          }
-          border={
-            variant === 'boxed' || variant === 'table' ? 'none' : undefined
-          }
-          actionButton={actionButton}
-          titleSize={
-            titleSize ??
-            (variant === 'boxed' || variant === 'table' ? 'normal' : 'small')
-          }
-          data-testid='resource-list'
-        >
-          <SkeletonTemplate
-            // prevent spreading skeleton internally
-            isLoading={false}
-          >
-            {children}
-          </SkeletonTemplate>
-        </SectionElement>
-      )
-    },
-    [title, isFirstLoading, isLoading, recordCount, variant, actionButton]
-  )
+  const removeItem = useCallback((resourceId: string) => {
+    dispatch({
+      type: 'removeItem',
+      payload: {
+        resourceId
+      }
+    })
+  }, [])
 
-  // Empty state JSX element to render when the list is empty
-  // If not provided, a default message based on the resource name will be shown
-  const emptyState = useMemo(
-    () =>
-      emptyStateProp ?? (
+  const refresh = useCallback(() => {
+    dispatch({ type: 'reset' })
+    void fetchMore({ query })
+  }, [])
+
+  const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
+    ({
+      ItemTemplate,
+      emptyState: emptyStateProp,
+      title,
+      titleSize,
+      variant,
+      actionButton,
+      ...rest
+    }) => {
+      const computedTitle =
+        typeof title === 'function'
+          ? title(recordCount)
+          : computeTitleWithTotalCount({
+              title,
+              recordCount
+            })
+      const sectionBorder =
+        variant === 'boxed' || variant === 'table' ? 'none' : undefined
+      const tableHeadings = 'headings' in rest ? rest.headings : undefined
+
+      if (isApiError) {
+        return (
+          <EmptyState
+            title={`Could not retrieve ${type}`}
+            description='Try to refresh the page or ask for support.'
+          />
+        )
+      }
+
+      // Empty state JSX element to render when the list is empty
+      // If not provided, a default message based on the resource name will be shown
+      const emptyState = emptyStateProp ?? (
         <Text variant='info'>
           No{' '}
           {formatResourceName({
@@ -263,104 +264,115 @@ export function ResourceList<TResource extends ListableResourceType>({
           })}
           .
         </Text>
-      ),
-    [emptyStateProp]
+      )
+
+      if (isEmptyList) {
+        return variant != null || typeof emptyStateProp === 'string' ? (
+          // inline empty state
+          <Section
+            actionButton={actionButton}
+            title={computedTitle}
+            titleSize={titleSize}
+          >
+            <Spacer top='4'>{emptyState}</Spacer>
+          </Section>
+        ) : (
+          // custom JSX element (no title or actionButton)
+          emptyState
+        )
+      }
+
+      return (
+        <Section
+          isLoading={isFirstLoading}
+          delayMs={0}
+          data-testid='resource-list'
+          actionButton={actionButton}
+          title={computedTitle}
+          titleSize={titleSize}
+          border={sectionBorder}
+        >
+          <SkeletonTemplate
+            // prevent spreading skeleton internally
+            isLoading={false}
+          >
+            <Wrapper
+              tableHeadings={tableHeadings}
+              variant={variant}
+              isLoading={isLoading}
+              footer={
+                <>
+                  {error != null ? (
+                    <ErrorLine
+                      message={error.message}
+                      onRetry={() => {
+                        void fetchMore({ query })
+                      }}
+                    />
+                  ) : isLoading ? (
+                    Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+                      .fill(null)
+                      .map((_, idx) => (
+                        <ItemTemplate isLoading delayMs={0} key={idx} />
+                      ))
+                  ) : (
+                    <VisibilityTrigger
+                      enabled={hasMorePages}
+                      callback={(entry) => {
+                        if (entry.isIntersecting) {
+                          void fetchMore({ query })
+                        }
+                      }}
+                    />
+                  )}
+                </>
+              }
+            >
+              {data?.list.map((resource) => {
+                return (
+                  <ItemTemplate
+                    resource={resource}
+                    key={resource.id}
+                    remove={() => {
+                      removeItem(resource.id)
+                    }}
+                  />
+                )
+              })}
+            </Wrapper>
+          </SkeletonTemplate>
+        </Section>
+      )
+    },
+    [
+      data?.list,
+      hasMorePages,
+      isApiError,
+      isEmptyList,
+      type,
+      isLoading,
+      isFirstLoading,
+      error
+    ]
   )
 
-  if (isApiError) {
-    return (
-      <EmptyState
-        title={`Could not retrieve ${type}`}
-        description='Try to refresh the page or ask for support.'
-      />
-    )
+  return {
+    ResourceList,
+    list: data?.list,
+    meta: data?.meta,
+    isLoading,
+    isFirstLoading,
+    error: error?.message,
+    removeItem,
+    refresh,
+    fetchMore: async () => {
+      if (hasMorePages) {
+        await fetchMore({ query })
+      }
+    },
+    hasMorePages
   }
-
-  if (isEmptyList) {
-    return variant != null || typeof emptyStateProp === 'string' ? (
-      // inline empty state
-      <Section>
-        <div className='border-t' />
-        <Spacer top='4'>{emptyState}</Spacer>
-      </Section>
-    ) : (
-      // custom JSX element (no title or actionButton)
-      emptyState
-    )
-  }
-
-  return (
-    <Section>
-      <Wrapper
-        tableHeadings={tableHeadings}
-        variant={variant}
-        isLoading={isLoading}
-        footer={
-          <>
-            {error != null ? (
-              <ErrorLine
-                message={error.message}
-                onRetry={() => {
-                  void fetchMore({ query })
-                }}
-              />
-            ) : isLoading && 'ItemTemplate' in props ? (
-              Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-                .fill(null)
-                .map((_, idx) => (
-                  <props.ItemTemplate isLoading delayMs={0} key={idx} />
-                ))
-            ) : (
-              <VisibilityTrigger
-                enabled={hasMorePages}
-                callback={(entry) => {
-                  if (entry.isIntersecting) {
-                    void fetchMore({ query })
-                  }
-                }}
-              />
-            )}
-          </>
-        }
-      >
-        {'ItemTemplate' in props &&
-          data?.list.map((resource) => {
-            return (
-              <props.ItemTemplate
-                resource={resource}
-                key={resource.id}
-                remove={() => {
-                  dispatch({
-                    type: 'removeItem',
-                    payload: {
-                      resourceId: resource.id
-                    }
-                  })
-                }}
-              />
-            )
-          })}
-
-        {'children' in props &&
-          props.children({
-            isLoading,
-            data,
-            isFirstLoading,
-            removeItem: (resourceId) => {
-              dispatch({
-                type: 'removeItem',
-                payload: {
-                  resourceId
-                }
-              })
-            }
-          })}
-      </Wrapper>
-    </Section>
-  )
 }
-
-ResourceList.displayName = 'ResourceList'
 
 function ErrorLine({
   message,

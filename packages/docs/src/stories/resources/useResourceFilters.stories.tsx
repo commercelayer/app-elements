@@ -169,7 +169,7 @@ export const FiltersFormInOverlay: StoryFn = () => {
 /**
  * The example below shows how to render a filtered list of resources based on the current active filters.
  * <span type="info">
- * This component is a wrapper around `ResourceList` where the `query`  prop is auto-filled with the active filters
+ * This component is a wrapper around `useResourceList` hook where the `query` prop is auto-filled with the active filters
  * and cannot be overwritten.
  * </span>
  **/

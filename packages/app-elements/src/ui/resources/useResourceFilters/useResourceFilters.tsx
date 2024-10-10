@@ -2,10 +2,10 @@ import { formatResourceName } from '#helpers/resources'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
-  ResourceList,
-  type ResourceListProps
-} from '#ui/resources/ResourceList'
-import { type ResourceListItemTemplate } from '#ui/resources/ResourceList/ResourceList'
+  useResourceList,
+  type UseResourceListConfig
+} from '#ui/resources/useResourceList'
+import { type ResourceListProps } from '#ui/resources/useResourceList/useResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
@@ -74,14 +74,14 @@ interface UseResourceFiltersHook {
    * Filtered ResourceList component based on current active filters
    */
   FilteredList: <TResource extends ListableResourceType>(
-    props: Omit<ResourceListProps<TResource>, 'query' | 'metricsQuery'> &
-      ResourceListItemTemplate<TResource> & {
+    props: Omit<UseResourceListConfig<TResource>, 'query' | 'metricsQuery'> &
+      ResourceListProps<TResource> & {
         query?: Omit<
-          NonNullable<ResourceListProps<TResource>['query']>,
+          NonNullable<UseResourceListConfig<TResource>['query']>,
           'filters'
         >
         metricsQuery?: Omit<
-          NonNullable<ResourceListProps<TResource>['metricsQuery']>,
+          NonNullable<UseResourceListConfig<TResource>['metricsQuery']>,
           'filter'
         > & {
           /** Filters need to be configured within the `useResourceFilters` options. */
@@ -137,31 +137,30 @@ export function useResourceFilters({
   )
 
   const FilteredList: UseResourceFiltersHook['FilteredList'] = useCallback(
-    ({ hideTitle, metricsQuery, ...listProps }) => {
-      if (listProps == null) {
-        return <div>listProps not defined</div>
+    ({ type, query, metricsQuery, hideTitle, ...resourceListProps }) => {
+      if (resourceListProps == null) {
+        return <div>resourceListProps not defined</div>
       }
       if (sdkFilters == null) {
         return <></>
       }
+
       return (
-        <ResourceList
-          {
-            // could not discriminate on `variant`
-            ...(listProps as ResourceListProps<any>)
-          }
+        <ResourceListComponent
+          {...resourceListProps}
+          type={type}
           title={
             hideTitle === true
               ? undefined
               : hasActiveFilter
                 ? 'Results'
                 : `All ${formatResourceName({
-                    resource: listProps.type,
+                    resource: type,
                     count: 'plural'
                   })}`
           }
           query={{
-            ...listProps.query,
+            ...query,
             filters: sdkFilters
           }}
           metricsQuery={
@@ -171,7 +170,7 @@ export function useResourceFilters({
                   ...metricsQuery,
                   filter: adapters.adaptSdkToMetrics({
                     sdkFilters,
-                    resourceType: listProps.type
+                    resourceType: type
                   })
                 }
           }
@@ -261,4 +260,22 @@ export function useResourceFilters({
     FilteredList,
     viewTitle
   }
+}
+
+// internal implementation of the ResourceList component exposed from the useResourceList hook
+function ResourceListComponent<TResource extends ListableResourceType>({
+  metricsQuery,
+  type,
+  query,
+  ...listProps
+}: UseResourceListConfig<TResource> &
+  ResourceListProps<TResource>): JSX.Element {
+  const hookConfig: UseResourceListConfig<TResource> = {
+    type,
+    query,
+    metricsQuery
+  }
+  const { ResourceList } = useResourceList(hookConfig)
+
+  return <ResourceList {...listProps} />
 }

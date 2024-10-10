@@ -5,7 +5,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { SearchBar } from '#ui/composite/SearchBar'
 import { type OverlayProps } from '#ui/internals/Overlay'
-import { ResourceList } from '#ui/resources/ResourceList'
+import { useResourceList } from '#ui/resources/useResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -103,6 +103,17 @@ export function FullList({
 
   const selectedCount = values.length
 
+  const { ResourceList } = useResourceList({
+    type: resource,
+    query: {
+      pageSize: 25,
+      filters,
+      sort: {
+        [sortBy.attribute]: sortBy.direction
+      }
+    }
+  })
+
   useEffect(() => {
     if (searchBy != null) {
       setFilters(isEmpty(search) ? {} : { [searchBy]: search })
@@ -143,7 +154,7 @@ export function FullList({
 
       <SkeletonTemplate>
         <ResourceList
-          type={resource}
+          variant='boxed'
           title={(totalCount) => (
             <Text weight='semibold'>
               {computeLabelWithSelected({
@@ -158,15 +169,6 @@ export function FullList({
               })}
             </Text>
           )}
-          variant='boxed'
-          emptyState={<div>No items found</div>}
-          query={{
-            pageSize: 25,
-            filters,
-            sort: {
-              [sortBy.attribute]: sortBy.direction
-            }
-          }}
           ItemTemplate={({ isLoading, resource }) => {
             const item = prepareCheckboxItemOrMock({
               resource,

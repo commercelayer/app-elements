@@ -1,9 +1,4 @@
 import { useTokenProvider } from '#providers/TokenProvider'
-import {
-  adaptMetricsOrderToCore,
-  type MetricsResourceOrder
-} from '#ui/resources/ResourceList/adaptMetricsOrderToCore'
-import { type Resource } from '#ui/resources/ResourceList/infiniteFetcher'
 import { type MetricsFilters } from '#ui/resources/useResourceFilters/adaptSdkToMetrics'
 import {
   type ListableResourceType,
@@ -13,6 +8,11 @@ import {
 import castArray from 'lodash/castArray'
 import { useMemo } from 'react'
 import { type Writable } from 'type-fest'
+import {
+  adaptMetricsOrderToCore,
+  type MetricsResourceOrder
+} from './adaptMetricsOrderToCore'
+import { type Resource } from './infiniteFetcher'
 
 export type MetricsResources = 'orders' | 'returns'
 
