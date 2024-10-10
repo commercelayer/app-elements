@@ -8,7 +8,7 @@ describe('makeStorageKey', () => {
       itemType: 'accessToken'
     })
 
-    expect(key).to.equal('imports:myorg:accessToken')
+    expect(key).toEqual('imports:myorg:accessToken')
   })
 
   test('should return the storage key for extras', () => {
@@ -18,7 +18,7 @@ describe('makeStorageKey', () => {
       itemType: 'extras'
     })
 
-    expect(key).to.equal('imports:myorg:extras')
+    expect(key).toEqual('imports:myorg:extras')
   })
 })
 

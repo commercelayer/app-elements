@@ -34,12 +34,12 @@ describe('useDelayShow', () => {
     const element = getByTestId('delay-show')
 
     expect(element).toBeInTheDocument()
-    expect(element.style).to.have.property('opacity', '0')
+    expect(element.style).toHaveProperty('opacity', '0')
 
     await act(() => vi.advanceTimersByTime(499))
-    expect(element.style).to.have.property('opacity', '0')
+    expect(element.style).toHaveProperty('opacity', '0')
 
     await act(() => vi.advanceTimersByTime(1))
-    expect(element.style).to.have.property('opacity', '1')
+    expect(element.style).toHaveProperty('opacity', '1')
   })
 })
