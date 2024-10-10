@@ -2,7 +2,7 @@ import { useOverlay } from '#hooks/useOverlay'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type ResourceMetadataProps } from '#ui/resources/ResourceMetadata'
 import { ResourceMetadataForm } from '#ui/resources/ResourceMetadata/ResourceMetadataForm'
-import React, { useCallback } from 'react'
+import { type FC, useCallback } from 'react'
 
 export interface EditMetadataOverlayProps {
   /**
@@ -15,13 +15,13 @@ export interface EditMetadataOverlayProps {
 
 interface MetadataOverlayHook {
   show: () => void
-  Overlay: React.FC<EditMetadataOverlayProps>
+  Overlay: FC<EditMetadataOverlayProps>
 }
 
 export function useEditMetadataOverlay(): MetadataOverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
 
-  const OverlayComponent = useCallback<React.FC<EditMetadataOverlayProps>>(
+  const OverlayComponent = useCallback<FC<EditMetadataOverlayProps>>(
     ({ title = 'Back', resourceId, resourceType }) => {
       return (
         <OverlayElement backgroundColor='light'>
