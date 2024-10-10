@@ -1,41 +1,50 @@
 import { formatDate } from '#helpers/date'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
+import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
-import { type Resource } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import { FlexRow } from '#ui/internals/FlexRow'
+import { type ListableResourceType, type Resource } from '@commercelayer/sdk'
+import { useEditDetailsOverlay } from './useEditDetailsOverlay'
 
 export interface ResourceDetailsProps {
   resource: Resource
+  onUpdated: (updatedResource: Resource) => void
 }
 
 /**
  * This component provides a listed visualization of details attributes of a given resource.
  */
 export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
-  ({ resource }) => {
-    const { user } = useTokenProvider()
+  ({ resource, onUpdated }) => {
+    const { user, canUser } = useTokenProvider()
+    const { Overlay: EditDetailsOverlay, show } = useEditDetailsOverlay()
+
+    const reference = `${resource?.reference ?? ''}${resource?.reference != null && resource?.reference_origin != null ? ' · ' : ''}${resource?.reference_origin ?? ''}`
 
     return (
-      <div>
+      <>
         <Section title='Details'>
           <ListDetailsItem label='ID' gutter='none'>
             <CopyToClipboard value={resource?.id} />
           </ListDetailsItem>
-          {resource?.reference != null && !isEmpty(resource?.reference) && (
-            <ListDetailsItem label='Reference' gutter='none'>
-              <CopyToClipboard value={resource?.reference} />
-            </ListDetailsItem>
-          )}
-          {resource?.reference_origin != null &&
-            !isEmpty(resource?.reference_origin) && (
-              <ListDetailsItem label='Reference origin' gutter='none'>
-                <CopyToClipboard value={resource?.reference_origin} />
-              </ListDetailsItem>
-            )}
+          <ListDetailsItem label='Reference' gutter='none'>
+            <FlexRow alignItems='center'>
+              <Text weight='semibold'>{reference}</Text>
+              {canUser('update', resource.type as ListableResourceType) && (
+                <button
+                  onClick={() => {
+                    show()
+                  }}
+                >
+                  <Icon name='pencilSimple' size={16} />
+                </button>
+              )}
+            </FlexRow>
+          </ListDetailsItem>
           <ListDetailsItem label='Updated' gutter='none'>
             <Text weight='semibold'>
               {formatDate({
@@ -57,7 +66,8 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
             </Text>
           </ListDetailsItem>
         </Section>
-      </div>
+        <EditDetailsOverlay resource={resource} onUpdated={onUpdated} />
+      </>
     )
   }
 )
