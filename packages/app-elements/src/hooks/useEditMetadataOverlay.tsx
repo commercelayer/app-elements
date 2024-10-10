@@ -2,6 +2,7 @@ import { useOverlay } from '#hooks/useOverlay'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type ResourceMetadataProps } from '#ui/resources/ResourceMetadata'
 import { ResourceMetadataForm } from '#ui/resources/ResourceMetadata/ResourceMetadataForm'
+import { type FC, useCallback } from 'react'
 
 export interface EditMetadataOverlayProps {
   /**
@@ -10,25 +11,18 @@ export interface EditMetadataOverlayProps {
   title?: string
   resourceId: ResourceMetadataProps['resourceId']
   resourceType: ResourceMetadataProps['resourceType']
-  mode?: ResourceMetadataProps['mode']
 }
 
 interface MetadataOverlayHook {
   show: () => void
-  Overlay: React.FC<EditMetadataOverlayProps>
+  Overlay: FC<EditMetadataOverlayProps>
 }
 
 export function useEditMetadataOverlay(): MetadataOverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
 
-  return {
-    show: open,
-    Overlay: ({
-      title = 'Back',
-      resourceId,
-      resourceType,
-      mode = 'advanced'
-    }) => {
+  const OverlayComponent = useCallback<FC<EditMetadataOverlayProps>>(
+    ({ title = 'Back', resourceId, resourceType }) => {
       return (
         <OverlayElement backgroundColor='light'>
           <PageLayout
@@ -45,7 +39,6 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
             <ResourceMetadataForm
               resourceId={resourceId}
               resourceType={resourceType}
-              mode={mode}
               onSubmitted={() => {
                 close()
               }}
@@ -53,6 +46,12 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
           </PageLayout>
         </OverlayElement>
       )
-    }
+    },
+    [OverlayElement]
+  )
+
+  return {
+    show: open,
+    Overlay: OverlayComponent
   }
 }

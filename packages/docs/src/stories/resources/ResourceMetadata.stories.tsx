@@ -34,19 +34,6 @@ Default.args = {
 }
 
 /**
- * When mode attribute is set to `simple` you'll be able just to edit the metadata values.
- */
-export const Simple = Template.bind({})
-Simple.args = {
-  resourceType: 'customers',
-  resourceId: 'NMWYhbGorj',
-  mode: 'simple',
-  overlay: {
-    title: 'hello@commercelayer.io'
-  }
-}
-
-/**
  * When `metadata` are not defined the component doesn't render at all.
  */
 export const WithoutMetadata = Template.bind({})

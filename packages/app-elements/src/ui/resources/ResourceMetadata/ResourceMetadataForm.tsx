@@ -10,9 +10,7 @@ import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
 import { Spacer } from '#ui/atoms/Spacer'
-import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
-import { humanizeString } from '#utils/text'
 import { type Metadata } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Fragment, useMemo, useState } from 'react'
@@ -48,26 +46,18 @@ const metadataForm = z
 export const ResourceMetadataForm = withSkeletonTemplate<{
   resourceId: ResourceMetadataProps['resourceId']
   resourceType: ResourceMetadataProps['resourceType']
-  mode: ResourceMetadataProps['mode']
   onSubmitted: () => void
-}>(({ resourceId, resourceType, mode, onSubmitted }) => {
+}>(({ resourceId, resourceType, onSubmitted }) => {
   const {
     data: resourceData,
     isLoading,
     mutate: mutateResource
-  } = useCoreApi(
-    resourceType,
-    'retrieve',
-    [
-      resourceId,
-      {
-        fields: ['metadata']
-      }
-    ],
+  } = useCoreApi(resourceType, 'retrieve', [
+    resourceId,
     {
-      revalidateOnFocus: false
+      fields: ['metadata']
     }
-  )
+  ])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [apiError, setApiError] = useState<any>(undefined)
@@ -82,7 +72,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
         })
       )
 
-      if (mode === 'advanced' && result.length === 0) {
+      if (result.length === 0) {
         result.push({
           key: '',
           value: ''
@@ -92,7 +82,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       return result
     }
     return []
-  }, [resourceData?.metadata, mode])
+  }, [resourceData?.metadata])
 
   const methods = useForm({
     defaultValues: { metadata: keyedMetadata },
@@ -190,46 +180,38 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
             return (
               <ListItem key={`metadata.${idx}`} alignItems='center' padding='y'>
                 <div className='flex items-center justify-between gap-4'>
-                  {mode === 'simple' ? (
-                    <Text variant='info'>{humanizeString(metadata.key)}</Text>
-                  ) : (
-                    <HookedInput name={`metadata.${idx}.key`} />
-                  )}
+                  <HookedInput name={`metadata.${idx}.key`} />
                   <div className='md:w-3/5'>
                     {editInputComponent(originalMetadata, idx)}
                   </div>
                 </div>
-                {mode === 'advanced' && (
-                  <button
-                    aria-label='Remove'
-                    type='button'
-                    className='rounded'
-                    onClick={() => {
-                      watchedMetadata.splice(idx, 1)
-                      methods.setValue('metadata', watchedMetadata)
-                    }}
-                  >
-                    <Icon name='minus' size={24} />
-                  </button>
-                )}
+                <button
+                  aria-label='Remove'
+                  type='button'
+                  className='rounded'
+                  onClick={() => {
+                    watchedMetadata.splice(idx, 1)
+                    methods.setValue('metadata', watchedMetadata)
+                  }}
+                >
+                  <Icon name='minus' size={24} />
+                </button>
               </ListItem>
             )
           })}
-          {mode === 'advanced' && (
-            <Spacer top='4'>
-              <Button
-                variant='secondary'
-                type='button'
-                onClick={() => {
-                  addNewRow()
-                }}
-                size='small'
-                alignItems='center'
-              >
-                <Icon name='plus' /> Add another
-              </Button>
-            </Spacer>
-          )}
+          <Spacer top='4'>
+            <Button
+              variant='secondary'
+              type='button'
+              onClick={() => {
+                addNewRow()
+              }}
+              size='small'
+              alignItems='center'
+            >
+              <Icon name='plus' /> Add another
+            </Button>
+          </Spacer>
         </Section>
       </Spacer>
       <Button type='submit' disabled={isSubmitting} className='w-full'>
