@@ -10,7 +10,6 @@ export interface EditMetadataOverlayProps {
   title?: string
   resourceId: ResourceMetadataProps['resourceId']
   resourceType: ResourceMetadataProps['resourceType']
-  mode?: ResourceMetadataProps['mode']
 }
 
 interface MetadataOverlayHook {
@@ -23,12 +22,7 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
 
   return {
     show: open,
-    Overlay: ({
-      title = 'Back',
-      resourceId,
-      resourceType,
-      mode = 'advanced'
-    }) => {
+    Overlay: ({ title = 'Back', resourceId, resourceType }) => {
       return (
         <OverlayElement backgroundColor='light'>
           <PageLayout
@@ -45,7 +39,6 @@ export function useEditMetadataOverlay(): MetadataOverlayHook {
             <ResourceMetadataForm
               resourceId={resourceId}
               resourceType={resourceType}
-              mode={mode}
               onSubmitted={() => {
                 close()
               }}

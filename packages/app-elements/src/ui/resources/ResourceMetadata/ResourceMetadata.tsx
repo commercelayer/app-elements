@@ -10,28 +10,15 @@ import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/composite/ListItem'
-import { humanizeString } from '#utils/text'
+import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { type ListableResourceType } from '@commercelayer/sdk'
 
 interface MetadataOverlay
-  extends Omit<
-    EditMetadataOverlayProps,
-    'resourceId' | 'resourceType' | 'mode'
-  > {}
-
-export type ResourceMetadataMode = 'simple' | 'advanced'
+  extends Omit<EditMetadataOverlayProps, 'resourceId' | 'resourceType'> {}
 
 export interface ResourceMetadataProps {
   resourceType: ListableResourceType
   resourceId: string
-  /**
-   * Metadata management mode:
-   * - If set to `simple` the edit page will permit to edit just the values of the existing items.
-   * - If set to `advanced` the edit page will permit to fully create, edit and remove the items.
-   * @default advanced
-   */
-  mode?: ResourceMetadataMode
   /**
    * Edit overlay configuration
    */
@@ -50,7 +37,7 @@ export const isUpdatableType = (value: any): value is UpdatableType => {
  * More in detail the `metadata` attribute is a JSON object, customizable for several purposes, and this component will allow to show and manage its keys with a simple (string kind) values.
  */
 export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
-  ({ resourceType, resourceId, mode = 'advanced', overlay }) => {
+  ({ resourceType, resourceId, overlay }) => {
     const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
 
     const { canUser } = useTokenProvider()
@@ -78,7 +65,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         <Section
           title='Metadata'
           actionButton={
-            mode === 'advanced' &&
             canUser('update', resourceType) && (
               <Button
                 variant='secondary'
@@ -101,23 +87,19 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 if (!isUpdatableType(metadataValue)) return null
 
                 return (
-                  <ListItem
-                    padding='y'
+                  <ListDetailsItem
                     key={idx}
+                    gutter='none'
+                    label={metadataKey}
                     data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
-                    <Text variant='info'>
-                      {mode === 'advanced'
-                        ? metadataKey
-                        : humanizeString(metadataKey)}
-                    </Text>
                     <Text
                       weight='semibold'
                       data-testid={`ResourceMetadata-value-${metadataKey}`}
                     >
                       {metadataValue.toString()}
                     </Text>
-                  </ListItem>
+                  </ListDetailsItem>
                 )
               }
             )
@@ -127,14 +109,11 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </Spacer>
           )}
         </Section>
-        {mode === 'advanced' && canUser('update', resourceType) && (
-          <EditMetadataOverlay
-            title={overlay?.title}
-            resourceId={resourceId}
-            resourceType={resourceType}
-            mode={mode}
-          />
-        )}
+        <EditMetadataOverlay
+          title={overlay?.title}
+          resourceId={resourceId}
+          resourceType={resourceType}
+        />
       </div>
     )
   }
