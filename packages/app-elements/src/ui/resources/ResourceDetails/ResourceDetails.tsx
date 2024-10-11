@@ -23,7 +23,9 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
     const { user, canUser } = useTokenProvider()
     const { Overlay: EditDetailsOverlay, show } = useEditDetailsOverlay()
 
-    const reference = `${resource?.reference ?? ''}${resource?.reference != null && resource?.reference_origin != null ? ' · ' : ''}${resource?.reference_origin ?? ''}`
+    const reference = [resource?.reference, resource?.reference_origin]
+      .filter(Boolean)
+      .join(' · ')
 
     return (
       <>
