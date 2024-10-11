@@ -31,7 +31,7 @@ export interface CodeEditorProps
    * JSON Schema to be used when writing JSON
    * @default none
    */
-  jsonSchema?: 'none' | 'order-rules' | 'price-rules' | 'organization-config'
+  jsonSchema?: 'none' | 'order-rules' | 'price-rules'
   /**
    * Trigger on every update.
    * @param markers List of markers (errors). `null` when there're no errors.
@@ -110,27 +110,6 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
             case 'none': {
               break
             }
-
-            case 'organization-config': {
-              break
-            }
-
-            // case 'organization-config': {
-            //   console.log('here', jsonSchema, uri)
-            //   schemas.push({
-            //     schema: await fetch(
-            //       'http://localhost:6006/organization_config.json'
-            //     )
-            //       .then<JsonValue>(async (res) => await res.json())
-            //       .then((json) => {
-            //         return clearExamples(json)
-            //       }),
-            //     uri: `file:///json-schema--${jsonSchema}.json`,
-            //     fileMatch: [uri]
-            //   })
-
-            //   break
-            // }
 
             case 'order-rules': {
               schemas.push({
