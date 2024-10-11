@@ -211,6 +211,15 @@ export const presetResourceListItem = {
     status: 'rejected',
     order
   },
+  returnRefunded: {
+    type: 'returns',
+    id: '',
+    number: '123456',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    created_at: '',
+    status: 'refunded',
+    order
+  },
   customerProspect: {
     type: 'customers',
     id: '',

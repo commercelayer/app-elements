@@ -56,6 +56,13 @@ export function getReturnDisplayStatus(returnObj: Return): ReturnDisplayStatus {
         color: 'red'
       }
 
+    case 'refunded':
+      return {
+        label: 'Refunded',
+        icon: 'creditCard',
+        color: 'green'
+      }
+
     default:
       return {
         label: `Not handled: (${returnObj.status})`,
