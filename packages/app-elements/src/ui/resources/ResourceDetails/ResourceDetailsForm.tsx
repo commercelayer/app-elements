@@ -21,7 +21,6 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
   resource: ResourceDetailsProps['resource']
   onUpdated: ResourceDetailsProps['onUpdated']
 }>(({ resource, onUpdated }) => {
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [apiError, setApiError] = useState<any>(undefined)
   const { sdkClient } = useCoreSdkProvider()
 
@@ -37,7 +36,6 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
     <HookedForm
       {...methods}
       onSubmit={(formValues) => {
-        setIsSubmitting(true)
         void sdkClient[resource.type]
           .update({
             id: resource.id,
@@ -45,12 +43,10 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
             reference_origin: formValues.reference_origin
           })
           .then(() => {
-            setIsSubmitting(false)
             void onUpdated()
           })
           .catch((error) => {
             setApiError(error)
-            setIsSubmitting(false)
           })
       }}
     >
@@ -62,7 +58,11 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
           <HookedInput name='reference_origin' label='Reference origin' />
         </Spacer>
       </Spacer>
-      <Button type='submit' disabled={isSubmitting} className='w-full'>
+      <Button
+        type='submit'
+        disabled={methods.formState.isSubmitting}
+        className='w-full'
+      >
         Update
       </Button>
       <Spacer top='2'>
