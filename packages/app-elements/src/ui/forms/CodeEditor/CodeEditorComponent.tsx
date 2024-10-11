@@ -35,7 +35,7 @@ export interface CodeEditorProps
    * JSON Schema to be used when writing JSON
    * @default none
    */
-  jsonSchema?: 'none' | 'order-rules' | 'price-rules'
+  jsonSchema?: 'none' | 'order-rules' | 'price-rules' | 'organization-config'
   /**
    * Trigger on every update.
    * @param markers List of markers (errors). `null` when there're no errors.
@@ -113,6 +113,22 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
 
           switch (jsonSchema) {
             case 'none': {
+              break
+            }
+
+            case 'organization-config': {
+              schemas.push({
+                schema: await fetch(
+                  'https://provisioning.commercelayer.io/api/public/schemas/organization_config'
+                )
+                  .then<JsonValue>(async (res) => await res.json())
+                  .then((json) => {
+                    return clearExamples(json)
+                  }),
+                uri: `file:///json-schema--${jsonSchema}.json`,
+                fileMatch: [uri]
+              })
+
               break
             }
 

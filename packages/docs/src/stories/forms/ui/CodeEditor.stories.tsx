@@ -113,6 +113,24 @@ PriceListRules.args = {
   ).concat('\n')
 }
 
+export const OrganizationConfig = Template.bind({})
+OrganizationConfig.args = {
+  name: 'organization-config',
+  label: 'Configuration',
+  height: '600px',
+  onChange: (value) => {
+    console.log('organization config • Changed to:', value)
+  },
+  onValidate: (markers) => {
+    console.log('organization config • Markers:', markers)
+  },
+  language: 'json',
+  jsonSchema: 'organization-config',
+  defaultValue: JSON.stringify({ mfe: { default: {} } }, undefined, 2).concat(
+    '\n'
+  )
+}
+
 export const WithHint = Template.bind({})
 WithHint.args = {
   name: 'code-editor-hint',
