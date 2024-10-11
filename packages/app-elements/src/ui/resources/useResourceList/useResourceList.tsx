@@ -66,9 +66,9 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    * An element to be rendered when the list is empty.
    * When not provided, a default message will be shown.
    * When a string is provided, it will be rendered as inline text below title and actionButton.
-   * When a JSX element is provided, it will be rendered as a custom element and no title or actionButton will be shown.
+   * When other ReactNode is provided, it will be rendered as a custom element and no title or actionButton will be shown.
    */
-  emptyState?: JSX.Element
+  emptyState?: ReactNode
   /**
    * Title.
    */
