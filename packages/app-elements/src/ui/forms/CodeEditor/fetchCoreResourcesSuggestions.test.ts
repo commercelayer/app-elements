@@ -438,6 +438,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.affiliate_code",
+    },
+    {
+      "type": "field",
       "value": "order.autorefresh",
     },
     {

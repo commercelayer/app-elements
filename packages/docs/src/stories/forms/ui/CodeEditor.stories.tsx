@@ -31,19 +31,19 @@ Default.args = {
   defaultValue: 'This is just a \nmulti-line plaintext.\n'
 }
 
-export const Rules = Template.bind({})
-Rules.args = {
-  name: 'rules',
+export const PromotionRules = Template.bind({})
+PromotionRules.args = {
+  name: 'promotions-rules',
   label: 'Rules',
   height: '450px',
   onChange: (value) => {
-    console.log('rules • Changed to:', value)
+    console.log('promotion rules • Changed to:', value)
   },
   onValidate: (markers) => {
-    console.log('rules • Markers:', markers)
+    console.log('promotion rules • Markers:', markers)
   },
   language: 'json',
-  jsonSchema: 'promotions-rules',
+  jsonSchema: 'order-rules',
   defaultValue: JSON.stringify(
     {
       rules: [
@@ -69,6 +69,65 @@ Rules.args = {
     },
     undefined,
     2
+  ).concat('\n')
+}
+
+export const PriceListRules = Template.bind({})
+PriceListRules.args = {
+  name: 'price_lists-rules',
+  label: 'Rules',
+  height: '600px',
+  onChange: (value) => {
+    console.log('price_list rules • Changed to:', value)
+  },
+  onValidate: (markers) => {
+    console.log('price_list rules • Markers:', markers)
+  },
+  language: 'json',
+  jsonSchema: 'price-rules',
+  defaultValue: JSON.stringify(
+    {
+      rules: [
+        {
+          id: 'ce515b39-c820-46ae-b8e2-11a4e919ee22',
+          name: 'Price with amount_cents greather than equal 200',
+          conditions: [
+            {
+              field: 'price.amount_cents',
+              matcher: 'gteq',
+              value: 200
+            }
+          ],
+          actions: [
+            {
+              type: 'percentage',
+              selector: 'price',
+              value: '20%'
+            }
+          ]
+        }
+      ]
+    },
+    undefined,
+    2
+  ).concat('\n')
+}
+
+export const OrganizationConfig = Template.bind({})
+OrganizationConfig.args = {
+  name: 'organization-config',
+  label: 'Configuration',
+  height: '600px',
+  onChange: (value) => {
+    console.log('organization config • Changed to:', value)
+  },
+  onValidate: (markers) => {
+    console.log('organization config • Markers:', markers)
+  },
+  language: 'json',
+  jsonSchema: 'organization-config',
+  defaultValue: JSON.stringify({ mfe: { default: {} } }, undefined, 2).concat(
+    '\n'
   )
 }
 

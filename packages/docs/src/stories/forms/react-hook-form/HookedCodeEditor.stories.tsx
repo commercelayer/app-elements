@@ -95,7 +95,7 @@ export const TypescriptCode: StoryFn<typeof HookedCodeEditor> = (args) => {
           name='rules'
           label='Rules'
           language='json'
-          jsonSchema='promotions-rules'
+          jsonSchema='order-rules'
           height='470px'
         />
       </Spacer>

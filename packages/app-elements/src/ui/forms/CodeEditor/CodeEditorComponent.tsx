@@ -5,6 +5,7 @@ import {
 import Editor, {
   useMonaco,
   type EditorProps,
+  type Monaco,
   type OnMount,
   type OnValidate
 } from '@monaco-editor/react'
@@ -30,7 +31,7 @@ export interface CodeEditorProps
    * JSON Schema to be used when writing JSON
    * @default none
    */
-  jsonSchema?: 'none' | 'promotions-rules'
+  jsonSchema?: 'none' | 'order-rules' | 'price-rules' | 'organization-config'
   /**
    * Trigger on every update.
    * @param markers List of markers (errors). `null` when there're no errors.
@@ -100,26 +101,41 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
         const uri = editor?.getModel()?.uri.toString()
 
         if (monaco != null && uri != null && jsonSchema != null) {
-          const schemas = (
-            monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
-          ).filter((schema) => {
-            // Remove all previous definitions for that specific `uri`.
-            const fileMatches = schema.fileMatch?.includes(uri) ?? false
-            return !fileMatches
-          })
-
           disposeCompletionItemProvider.current?.()
+
+          const schemas =
+            monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
 
           switch (jsonSchema) {
             case 'none': {
               break
             }
 
-            case 'promotions-rules': {
+            case 'organization-config': {
+              break
+            }
+
+            // case 'organization-config': {
+            //   console.log('here', jsonSchema, uri)
+            //   schemas.push({
+            //     schema: await fetch(
+            //       'http://localhost:6006/organization_config.json'
+            //     )
+            //       .then<JsonValue>(async (res) => await res.json())
+            //       .then((json) => {
+            //         return clearExamples(json)
+            //       }),
+            //     uri: `file:///json-schema--${jsonSchema}.json`,
+            //     fileMatch: [uri]
+            //   })
+
+            //   break
+            // }
+
+            case 'order-rules': {
               schemas.push({
                 schema: await fetch(
-                  // 'http://localhost:6006/rules.json'
-                  'https://core.commercelayer.io/api/public/schemas/rules'
+                  'https://core.commercelayer.io/api/public/schemas/order_rules'
                 )
                   .then<JsonValue>(async (res) => await res.json())
                   .then((json) => {
@@ -130,60 +146,26 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
               })
 
               disposeCompletionItemProvider.current =
-                monaco.languages.registerCompletionItemProvider('json', {
-                  triggerCharacters: ['"', ':', '.'],
-                  provideCompletionItems: async function (model, position) {
-                    if (model.uri.toString() !== uri.toString()) {
-                      return {
-                        suggestions: []
-                      }
-                    }
+                registerJSONCompletionItemProvider(monaco, uri, ['order'])
 
-                    const wordInfo = model.getWordUntilPosition(position)
+              break
+            }
 
-                    // Get the entire line up to the cursor
-                    const lineContent = model
-                      .getLineContent(position.lineNumber)
-                      .substring(0, position.column - 1)
+            case 'price-rules': {
+              schemas.push({
+                schema: await fetch(
+                  'https://core.commercelayer.io/api/public/schemas/price_rules'
+                )
+                  .then<JsonValue>(async (res) => await res.json())
+                  .then((json) => {
+                    return clearExamples(json)
+                  }),
+                uri: `file:///json-schema--${jsonSchema}.json`,
+                fileMatch: [uri]
+              })
 
-                    // Check if we're editing the value of the "field" key
-                    const fieldRegex = /"(field|selector)"\s*:\s*"[^"]*$/
-
-                    if (fieldRegex.test(lineContent)) {
-                      const currentValue = wordInfo.word
-
-                      if (currentValue != null) {
-                        const suggestions = await fetchCoreResourcesSuggestions(
-                          ['order'],
-                          currentValue
-                        )
-
-                        return {
-                          incomplete: false,
-                          suggestions: suggestions.map((suggestion) => ({
-                            kind:
-                              suggestion.type === 'relationship'
-                                ? monaco.languages.CompletionItemKind.Module
-                                : monaco.languages.CompletionItemKind.Value,
-                            label: suggestion.value,
-                            insertText: suggestion.value,
-                            // documentation: `Field: ${suggestion}`,
-                            range: {
-                              startLineNumber: position.lineNumber,
-                              startColumn: wordInfo.startColumn,
-                              endLineNumber: position.lineNumber,
-                              endColumn: wordInfo.endColumn
-                            }
-                          }))
-                        }
-                      }
-                    }
-
-                    return {
-                      suggestions: []
-                    }
-                  }
-                }).dispose = () => {}
+              disposeCompletionItemProvider.current =
+                registerJSONCompletionItemProvider(monaco, uri, ['price'])
 
               break
             }
@@ -263,7 +245,7 @@ function createDeferred(delay: number = 100) {
 /**
  * Remove `examples` attribute when present.
  */
-function clearExamples(json: JsonValue): JsonValue {
+function clearExamples(json: JsonValue, previousKey?: string): JsonValue {
   if (typeof json !== 'object' || json === null) {
     return json
   }
@@ -271,13 +253,78 @@ function clearExamples(json: JsonValue): JsonValue {
   return Array.isArray(json)
     ? json.map((item) => clearExamples(item))
     : Object.entries(json).reduce((acc, [key, value]) => {
-        if (['examples', 'default'].includes(key)) {
+        if (
+          previousKey !== 'properties' &&
+          ['examples', 'default'].includes(key)
+        ) {
           return acc
         }
 
         return {
           ...acc,
-          [key]: clearExamples(value)
+          [key]: clearExamples(value, key)
         }
       }, {})
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function registerJSONCompletionItemProvider(
+  monaco: Monaco,
+  uri: string,
+  mainResourceIds: Parameters<typeof fetchCoreResourcesSuggestions>[0]
+) {
+  return (monaco.languages.registerCompletionItemProvider('json', {
+    triggerCharacters: ['"', ':', '.'],
+    provideCompletionItems: async function (model, position) {
+      if (model.uri.toString() !== uri.toString()) {
+        return {
+          suggestions: []
+        }
+      }
+
+      const wordInfo = model.getWordUntilPosition(position)
+
+      // Get the entire line up to the cursor
+      const lineContent = model
+        .getLineContent(position.lineNumber)
+        .substring(0, position.column - 1)
+
+      // Check if we're editing the value of the "field" key
+      const fieldRegex = /"(field|selector)"\s*:\s*"[^"]*$/
+
+      if (fieldRegex.test(lineContent)) {
+        const currentValue = wordInfo.word
+
+        if (currentValue != null) {
+          const suggestions = await fetchCoreResourcesSuggestions(
+            mainResourceIds,
+            currentValue
+          )
+
+          return {
+            incomplete: false,
+            suggestions: suggestions.map((suggestion) => ({
+              kind:
+                suggestion.type === 'relationship'
+                  ? monaco.languages.CompletionItemKind.Module
+                  : monaco.languages.CompletionItemKind.Value,
+              label: suggestion.value,
+              insertText: suggestion.value,
+              // documentation: `Field: ${suggestion}`,
+              range: {
+                startLineNumber: position.lineNumber,
+                startColumn: wordInfo.startColumn,
+                endLineNumber: position.lineNumber,
+                endColumn: wordInfo.endColumn
+              }
+            }))
+          }
+        }
+      }
+
+      return {
+        suggestions: []
+      }
+    }
+  }).dispose = () => {})
 }

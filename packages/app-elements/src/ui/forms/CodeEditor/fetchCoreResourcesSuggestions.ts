@@ -94,7 +94,7 @@ const fetchResources = (() => {
  * @returns
  */
 export async function fetchCoreResourcesSuggestions(
-  mainResourceIds: Array<'order' | 'price'>,
+  mainResourceIds: Array<'order' | 'price' | 'price_list'>,
   path: string
 ): Promise<Array<{ value: string; type: 'field' | 'relationship' }>> {
   if (!new RegExp(`^(${mainResourceIds.join('|')})(.|$)`).test(path)) {
