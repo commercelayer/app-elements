@@ -38,9 +38,10 @@ export function useEditDetailsOverlay(): DetailsOverlayHook {
           >
             <ResourceDetailsForm
               resource={resource}
-              onUpdated={(updatedResource) => {
-                onUpdated(updatedResource)
-                close()
+              onUpdated={async () => {
+                await onUpdated().then(() => {
+                  close()
+                })
               }}
             />
           </PageLayout>

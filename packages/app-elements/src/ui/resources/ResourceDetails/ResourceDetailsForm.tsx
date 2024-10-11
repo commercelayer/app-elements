@@ -44,9 +44,9 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
             reference: formValues.reference,
             reference_origin: formValues.reference_origin
           })
-          .then((updatedResource) => {
+          .then(() => {
             setIsSubmitting(false)
-            onUpdated(updatedResource)
+            void onUpdated()
           })
           .catch((error) => {
             setApiError(error)

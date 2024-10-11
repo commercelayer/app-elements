@@ -46,7 +46,12 @@ export const ResourceDetailsDefault: StoryFn = () => {
   return (
     <TokenProvider kind='integration' appSlug='customers' devMode>
       <CoreSdkProvider>
-        <ResourceDetails resource={customer} />
+        <ResourceDetails
+          resource={customer}
+          onUpdated={async () => {
+            console.log('updated')
+          }}
+        />
       </CoreSdkProvider>
     </TokenProvider>
   )

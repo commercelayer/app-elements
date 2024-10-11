@@ -12,7 +12,7 @@ import { useEditDetailsOverlay } from './useEditDetailsOverlay'
 
 export interface ResourceDetailsProps {
   resource: Resource
-  onUpdated: (updatedResource: Resource) => void
+  onUpdated: () => Promise<void>
 }
 
 /**
