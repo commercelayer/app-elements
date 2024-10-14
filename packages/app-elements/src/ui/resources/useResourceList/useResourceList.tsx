@@ -228,7 +228,7 @@ export function useResourceList<TResource extends ListableResourceType>({
       ItemTemplate,
       emptyState: emptyStateProp,
       title,
-      titleSize,
+      titleSize: titleSizeProp,
       variant,
       actionButton,
       ...rest
@@ -240,6 +240,10 @@ export function useResourceList<TResource extends ListableResourceType>({
               title,
               recordCount
             })
+      // lists by default have a small title, but table and boxed have a normal title size unless specified
+      const titleSize =
+        titleSizeProp ??
+        (variant === 'table' || variant === 'boxed' ? 'normal' : 'small')
       const sectionBorder =
         variant === 'boxed' || variant === 'table' ? 'none' : undefined
       const tableHeadings = 'headings' in rest ? rest.headings : undefined
