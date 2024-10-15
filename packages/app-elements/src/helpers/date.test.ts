@@ -67,6 +67,16 @@ describe('formatDate', () => {
     ).toBe('Today')
   })
 
+  test('Should return "00:32" as time', () => {
+    expect(
+      formatDate({
+        isoDate: '2023-12-25T00:32:00.000Z',
+        format: 'fullWithSeconds',
+        showCurrentYear: true
+      })
+    ).toContain('00:32')
+  })
+
   test('Should return a date with time', () => {
     // AM
     expect(
