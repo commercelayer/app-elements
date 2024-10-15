@@ -145,7 +145,7 @@ function getPresetFormatTemplate(
           ? 'LLL dd'
           : 'LLL dd, yyyy'
     case 'time':
-      return 'kk:mm'
+      return 'HH:mm'
     case 'timeWithSeconds':
       return `${getPresetFormatTemplate(zonedDate, timezone, 'time', showCurrentYear)}:ss`
     case 'full':
