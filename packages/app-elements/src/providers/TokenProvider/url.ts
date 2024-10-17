@@ -19,12 +19,11 @@ export function makeDashboardUrl({
   return `https://dashboard.${domain}/${mode}/${orgSlug}`
 }
 
-export function isProductionHostname(): boolean {
-  if (typeof window !== 'undefined') {
-    return /^[\w-]+\.commercelayer\.app$|^dashboard\.commercelayer\.io$/.test(
-      window.location.hostname
-    )
+export function extractDomainFromApiBaseEndpoint(
+  apiBaseEndpoint?: string | null
+): string {
+  if (apiBaseEndpoint == null) {
+    return 'commercelayer.io'
   }
-
-  return false
+  return apiBaseEndpoint.replace('https://', '').split('.').slice(1).join('.')
 }

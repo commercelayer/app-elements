@@ -1,8 +1,9 @@
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
 import { decodeExtras, getExtrasFromUrl } from '#providers/TokenProvider/extras'
-import { isProductionHostname } from '#providers/TokenProvider/url'
+import { extractDomainFromApiBaseEndpoint } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { PageSkeleton } from '#ui/composite/PageSkeleton'
+import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
 import type { ListableResourceType, Organization } from '@commercelayer/sdk'
 import {
   createContext,
@@ -69,10 +70,6 @@ export interface TokenProviderProps {
    */
   organizationSlug?: string
   /**
-   * The base domain to be used for Commerce Layer API requests (e.g. `commercelayer.io`)
-   */
-  domain?: string
-  /**
    * The callback invoked when token is not valid.
    * Can be used to manually handle the re-authentication flow when `reauthenticateOnInvalidAuth` is false.
    */
@@ -129,7 +126,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   devMode,
   children,
   organizationSlug,
-  domain = 'commercelayer.io',
   onInvalidAuth,
   loadingElement,
   errorElement,
@@ -139,7 +135,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   extras: extrasFromProp
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
-  domain = isProductionHostname() ? 'commercelayer.io' : domain
 
   const accessToken =
     accessTokenFromProp ??
@@ -150,6 +145,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
     getExtrasFromUrl() ??
     getPersistentJWT({ appSlug, organizationSlug, itemType: 'extras' })
   const extras = extrasFromProp ?? decodeExtras(encodeExtras)
+
+  const apiBaseEndpoint =
+    accessToken != null ? getCoreApiBaseEndpoint(accessToken) : null
+  const domain = extractDomainFromApiBaseEndpoint(apiBaseEndpoint)
 
   const dashboardUrl = makeDashboardUrl({
     domain,
@@ -183,6 +182,11 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   useEffect(
     function validateAndSetToken() {
       void (async (): Promise<void> => {
+        if (apiBaseEndpoint == null) {
+          emitInvalidAuth('apiBaseEndpoint is missing')
+          return
+        }
+
         if (accessToken == null) {
           emitInvalidAuth('accessToken is missing')
           return
@@ -201,7 +205,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
         const tokenInfo = await isValidTokenForCurrentApp({
           accessToken,
           kind,
-          domain,
           isProduction: !devMode,
           currentMode: getCurrentMode({ accessToken }),
           organizationSlug
@@ -217,9 +220,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
           tokenInfo.permissions?.organizations?.read === true &&
           appSlug !== 'dashboard'
             ? await getOrganization({
-                accessToken,
-                domain,
-                organizationSlug: tokenInfo.organizationSlug
+                accessToken
               })
             : null
 
