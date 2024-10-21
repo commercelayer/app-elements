@@ -1,7 +1,7 @@
 import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 
 const token =
-  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJkWGttWkZNcUdSIiwic2x1ZyI6ImdpdXNlcHBlLWltcG9ydHMiLCJlbnRlcnByaXNlIjpmYWxzZX0sImFwcGxpY2F0aW9uIjp7ImlkIjoiYU1hS21pYW5CTiIsImtpbmQiOiJpbnRlZ3JhdGlvbiIsInB1YmxpYyI6ZmFsc2V9LCJ0ZXN0Ijp0cnVlLCJleHAiOjE2NjE4NjA4NzksInJhbmQiOjAuNDIzNzM0OTczNTE3NzY0OH0.1dJs_MjNl8rEa8KOSFNea921LS-PpVOaM65kNqL-yFYy4NJdpZ_HHTNAWCCX2LXV2RQ5cg241CvxPJz3IhFw2g'
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJkWGttWkZNcUdSIiwic2x1ZyI6ImdpdXNlcHBlLWltcG9ydHMiLCJlbnRlcnByaXNlIjpmYWxzZX0sImFwcGxpY2F0aW9uIjp7ImlkIjoiYU1hS21pYW5CTiIsImtpbmQiOiJpbnRlZ3JhdGlvbiIsInB1YmxpYyI6ZmFsc2V9LCJ0ZXN0Ijp0cnVlLCJleHAiOjE2NjE4NjA4NzksInJhbmQiOjAuNDIzNzM0OTczNTE3NzY0OCwiaXNzIjoiaHR0cHM6Ly9hdXRoLmNvbW1lcmNlbGF5ZXIuaW8ifQ.yw9TjnpUDUyqeyJ0xv7AS-Suq0TIh7GIAtLyEDvG0yy8t94XM4HojZ6sTU7o963qGOj9Ni7z4wUT4RihWWRpCw'
 
 describe('isTokenExpired', () => {
   test('should check expired token', () => {
@@ -31,7 +31,6 @@ describe('isValidTokenForCurrentApp', () => {
     const tokenInfo = await isValidTokenForCurrentApp({
       accessToken: token,
       kind: 'integration',
-      domain: 'commercelayer.io',
       isProduction: false,
       currentMode: 'test'
     })

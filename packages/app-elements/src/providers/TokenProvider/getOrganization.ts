@@ -1,23 +1,18 @@
+import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
 import { type Organization } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
 
 export async function getOrganization({
-  accessToken,
-  organizationSlug,
-  domain
+  accessToken
 }: {
   accessToken: string
-  organizationSlug: string
-  domain: string
 }): Promise<Organization | null> {
   try {
-    const response = await fetch(
-      `https://${organizationSlug}.${domain}/api/organization`,
-      {
-        method: 'GET',
-        headers: { authorization: `Bearer ${accessToken}` }
-      }
-    )
+    const apiBaseEndpoint = getCoreApiBaseEndpoint(accessToken)
+    const response = await fetch(`${apiBaseEndpoint}/api/organization`, {
+      method: 'GET',
+      headers: { authorization: `Bearer ${accessToken}` }
+    })
     const organization = await response.json()
     return organization?.data?.attributes ?? null
   } catch {

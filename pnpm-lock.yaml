@@ -23,6 +23,9 @@ importers:
 
   packages/app-elements:
     dependencies:
+      '@commercelayer/js-auth':
+        specifier: ^6.6.2
+        version: 6.6.2
       '@commercelayer/sdk':
         specifier: 6.22.0
         version: 6.22.0
@@ -1092,6 +1095,10 @@ packages:
     peerDependencies:
       eslint: '>=8.0'
       typescript: '>=5.0'
+
+  '@commercelayer/js-auth@6.6.2':
+    resolution: {integrity: sha512-mFfAnoPBHyaH6KrRI7jr3XYxVX0BlnN6pDUUj5HQx3h2iOBzmG8R2B9MQnW/inFTmF0qL4KZx8FZ2hFcb5gZ3w==}
+    engines: {node: '>=18.0.0'}
 
   '@commercelayer/sdk@6.22.0':
     resolution: {integrity: sha512-iaNFlW5QXE/+/4fsAwhGZ1j3H3PVcablNuRnOCXyMZ2keybJsQ/VEfJDeUnpD3FLEjDyUa4Z+HJzlgb+373puw==}
@@ -3780,6 +3787,7 @@ packages:
   follow-redirects@1.15.8:
     resolution: {integrity: sha512-xgrmBhBToVKay1q2Tao5LI26B83UhrB/vM1avwVSDzt8rx3rO6AizBAaF46EgksTVr+rFTQaqZZ9MVBfUe4nig==}
     engines: {node: '>=4.0'}
+    deprecated: Browser detection issues fixed in v1.15.9
     peerDependencies:
       debug: '*'
     peerDependenciesMeta:
@@ -7990,6 +7998,8 @@ snapshots:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
       - supports-color
+
+  '@commercelayer/js-auth@6.6.2': {}
 
   '@commercelayer/sdk@6.22.0': {}
 

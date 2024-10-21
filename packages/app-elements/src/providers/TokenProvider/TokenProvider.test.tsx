@@ -5,9 +5,9 @@ import { TokenProvider, type TokenProviderProps } from './TokenProvider'
 // slug is `giuseppe`
 // kind is `integration`
 const accessToken =
-  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTZ9.fake-signature-test'
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTYsImlzcyI6Imh0dHBzOi8vYXV0aC5jb21tZXJjZWxheWVyLmlvIn0.fake-signature-test'
 const accessTokenLive =
-  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTZ9.fake-signature-live'
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6ZmFsc2UsImV4cCI6MTY3NTY4NDM5OSwicmFuZCI6MC44NTgwOTM4MzkwNzk0NTk2LCJpc3MiOiJodHRwczovL2F1dGguY29tbWVyY2VsYXllci5pbyJ9.fake-signature-live'
 const validDateNow = new Date('2023-02-06T10:00:00.000Z')
 const expiredDateNow = new Date('2023-02-10T10:00:00.000Z')
 
@@ -93,7 +93,7 @@ describe('TokenProvider', () => {
     expect(getByText('can access orders: yes')).toBeVisible()
     expect(getByText('can access exports: no')).toBeVisible()
 
-    expect(onInvalidAuth).toBeCalledTimes(0)
+    expect(onInvalidAuth).toHaveBeenCalledTimes(0)
   })
 
   test('Should return live mode if token comes from live environment', async () => {
