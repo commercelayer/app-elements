@@ -75,7 +75,7 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
               </Label>
             ))}
           <div
-            className={cn('justify-self-end', {
+            className={cn({
               'w-full flex justify-end text-right': inline
             })}
           >
