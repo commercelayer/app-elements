@@ -75,6 +75,15 @@ Editable.args = {
   resource: presetAddresses.withNotes
 }
 
+export const NoAddress: StoryFn = () => {
+  return (
+    <Stack>
+      <ResourceAddress title='Billing address' editable />
+      <ResourceAddress title='Shipping address' editable resource={null} />
+    </Stack>
+  )
+}
+
 export const StackedAddresses: StoryFn = () => {
   return (
     <Stack>

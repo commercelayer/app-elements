@@ -14,7 +14,7 @@ export interface ResourceAddressProps {
   /**
    * Resource of type `Address`
    */
-  resource: Address
+  resource?: Address | null | undefined
   /**
    * Optional address title (if added it will be shown in bold on top of address infos)
    */
@@ -35,6 +35,14 @@ export interface ResourceAddressProps {
    * @default true
    */
   showNotes?: boolean
+  /**
+   * Get triggered as soon as the new address is created.
+   */
+  onCreate?: (createdAddress: Address) => void
+  /**
+   * Get triggered every time the address is updated.
+   */
+  onUpdate?: (updatedAddress: Address) => void
 }
 
 /**
@@ -46,9 +54,11 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     title,
     editable = false,
     showBillingInfo = false,
-    showNotes = true
+    showNotes = true,
+    onCreate,
+    onUpdate
   }) => {
-    const [address, setAddress] = useState<Address>(resource)
+    const [address, setAddress] = useState<Address | null | undefined>(resource)
     const { canUser } = useTokenProvider()
 
     const { ResourceAddressOverlay, openAddressOverlay } =
@@ -56,14 +66,19 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
         address: resource,
         showBillingInfo,
         showNotes,
-        onUpdate: (updatedAddress) => {
-          setAddress(updatedAddress)
+        onCreate: (address) => {
+          onCreate?.(address)
+          setAddress(address)
+        },
+        onUpdate: (address) => {
+          onUpdate?.(address)
+          setAddress(address)
         }
       })
 
     useEffect(() => {
       setAddress(resource)
-    }, [resource.id])
+    }, [resource?.id])
 
     return (
       <>
@@ -76,66 +91,79 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                 </Text>
               </Spacer>
             )}
-            <Text
-              tag='div'
-              data-testid='ResourceAddress-fullName'
-              weight={title == null ? 'bold' : undefined}
-              variant={title != null ? 'info' : undefined}
-            >
-              {address.full_name}
-            </Text>
-            <Text
-              tag='div'
-              variant='info'
-              data-testid='ResourceAddress-address'
-            >
-              {address.line_1} {address.line_2}
-              <br />
-              {address.city} {address.state_code} {address.zip_code} (
-              {address.country_code})
-            </Text>
+            {address != null ? (
+              <>
+                <Text
+                  tag='div'
+                  data-testid='ResourceAddress-fullName'
+                  weight={title == null ? 'bold' : undefined}
+                  variant={title != null ? 'info' : undefined}
+                >
+                  {address.full_name}
+                </Text>
+                <Text
+                  tag='div'
+                  variant='info'
+                  data-testid='ResourceAddress-address'
+                >
+                  {address.line_1} {address.line_2}
+                  <br />
+                  {address.city} {address.state_code} {address.zip_code} (
+                  {address.country_code})
+                </Text>
 
-            {address.billing_info != null && showBillingInfo ? (
+                {address.billing_info != null && showBillingInfo ? (
+                  <Text
+                    tag='div'
+                    variant='info'
+                    data-testid='ResourceAddress-billingInfo'
+                  >
+                    {address.billing_info}
+                  </Text>
+                ) : null}
+
+                {!isEmpty(address.phone) ||
+                (showNotes && !isEmpty(address.notes)) ? (
+                  <>
+                    <Spacer top='4' bottom='4'>
+                      <Hr variant='dashed' />
+                    </Spacer>
+                    <div className='grid gap-1'>
+                      {!isEmpty(address.phone) && (
+                        <div className='flex gap-2 '>
+                          {/* mt-[2px] to keep icon aligned with text  */}
+                          <Text tag='div' variant='info' className='mt-[2px]'>
+                            <Phone weight='bold' />
+                          </Text>
+                          <Text tag='div' size='small' variant='info'>
+                            {address.phone}
+                          </Text>
+                        </div>
+                      )}
+                      {showNotes && !isEmpty(address.notes) && (
+                        <div className='flex gap-2'>
+                          <Text tag='div' variant='info' className='mt-[2px]'>
+                            <Note weight='bold' />
+                          </Text>
+                          <Text tag='div' size='small' variant='info'>
+                            {address.notes}
+                          </Text>
+                        </div>
+                      )}
+                    </div>
+                  </>
+                ) : null}
+              </>
+            ) : (
               <Text
                 tag='div'
-                variant='info'
-                data-testid='ResourceAddress-billingInfo'
+                data-testid='ResourceAddress-noAddress'
+                weight={title == null ? 'bold' : undefined}
+                variant={title != null ? 'info' : undefined}
               >
-                {address.billing_info}
+                no address
               </Text>
-            ) : null}
-
-            {!isEmpty(address.phone) ||
-            (showNotes && !isEmpty(address.notes)) ? (
-              <>
-                <Spacer top='4' bottom='4'>
-                  <Hr variant='dashed' />
-                </Spacer>
-                <div className='grid gap-1'>
-                  {!isEmpty(address.phone) && (
-                    <div className='flex gap-2 '>
-                      {/* mt-[2px] to keep icon aligned with text  */}
-                      <Text tag='div' variant='info' className='mt-[2px]'>
-                        <Phone weight='bold' />
-                      </Text>
-                      <Text tag='div' size='small' variant='info'>
-                        {address.phone}
-                      </Text>
-                    </div>
-                  )}
-                  {showNotes && !isEmpty(address.notes) && (
-                    <div className='flex gap-2'>
-                      <Text tag='div' variant='info' className='mt-[2px]'>
-                        <Note weight='bold' />
-                      </Text>
-                      <Text tag='div' size='small' variant='info'>
-                        {address.notes}
-                      </Text>
-                    </div>
-                  )}
-                </div>
-              </>
-            ) : null}
+            )}
           </div>
           {editable && canUser('update', 'addresses') && (
             <div>
