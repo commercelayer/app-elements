@@ -78,8 +78,21 @@ Editable.args = {
 export const NoAddress: StoryFn = () => {
   return (
     <Stack>
-      <ResourceAddress title='Billing address' editable />
-      <ResourceAddress title='Shipping address' editable resource={null} />
+      <ResourceAddress
+        title='Billing address'
+        editable
+        onCreate={(address) => {
+          console.log('new billing address', address)
+        }}
+      />
+      <ResourceAddress
+        title='Shipping address'
+        editable
+        resource={null}
+        onCreate={(address) => {
+          console.log('new shipping address', address)
+        }}
+      />
     </Stack>
   )
 }

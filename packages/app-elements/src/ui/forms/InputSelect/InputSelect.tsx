@@ -97,6 +97,10 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   name?: string
   /**
+   * The id of the search input
+   */
+  inputId?: string
+  /**
    * When `true` the dropdown menu is always open
    */
   menuIsOpen?: boolean
@@ -208,6 +212,7 @@ export const InputSelect = forwardRef<
           <AsyncCreatableSelectComponent
             {...commonProps}
             ref={ref}
+            inputId={name}
             loadAsyncValues={loadAsyncValues}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
@@ -216,6 +221,7 @@ export const InputSelect = forwardRef<
           <AsyncSelectComponent
             {...commonProps}
             ref={ref}
+            inputId={name}
             loadAsyncValues={loadAsyncValues}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
@@ -224,12 +230,14 @@ export const InputSelect = forwardRef<
           <CreatableComponent
             {...commonProps}
             ref={ref}
+            inputId={name}
             isSearchable={isSearchable}
           />
         ) : (
           <SelectComponent
             {...commonProps}
             ref={ref}
+            inputId={name}
             isSearchable={isSearchable}
           />
         )}

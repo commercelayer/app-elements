@@ -10,6 +10,7 @@ import { ResourceAddress } from './ResourceAddress'
 import { presetAddresses } from './ResourceAddress.mocks'
 
 const addressUpdate = vi.fn().mockResolvedValue({})
+const addressCreate = vi.fn().mockResolvedValue({})
 
 vi.mock('#providers/CoreSdkProvider', async (importOriginal) => {
   return {
@@ -17,11 +18,17 @@ vi.mock('#providers/CoreSdkProvider', async (importOriginal) => {
     useCoreSdkProvider: vi.fn().mockImplementation(() => ({
       sdkClient: {
         addresses: {
-          update: addressUpdate
+          update: addressUpdate,
+          create: addressCreate
         }
       }
     }))
   }
+})
+
+beforeEach(() => {
+  addressUpdate.mockClear()
+  addressCreate.mockClear()
 })
 
 const setup = (): RenderResult => {
@@ -47,6 +54,7 @@ describe('ResourceAddress', () => {
   test('Should not render title', async () => {
     const { queryByTestId } = setup()
     expect(queryByTestId('ResourceAddress-title')).not.toBeInTheDocument()
+    expect(queryByTestId('ResourceAddress-noAddress')).not.toBeInTheDocument()
   })
 
   test('Should render fullName', async () => {
@@ -85,7 +93,7 @@ describe('ResourceAddress', () => {
     expect(queryByTestId('ResourceAddress-editButton')).toBeVisible()
   })
 
-  test('Should open edit Overlay and submit the form', async () => {
+  test('Should open edit Overlay and submit the form editing an existing address', async () => {
     const { getByTestId, getByText } = setup()
     const editButton = getByTestId('ResourceAddress-editButton')
     await waitFor(() => {
@@ -100,5 +108,80 @@ describe('ResourceAddress', () => {
     })
 
     expect(addressUpdate).toHaveBeenCalledTimes(1)
+  })
+
+  test('Should render a default message when resource is not set', async () => {
+    const { queryByTestId } = render(
+      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+        <CoreSdkProvider>
+          <ResourceAddress showBillingInfo editable />
+        </CoreSdkProvider>
+      </MockTokenProvider>
+    )
+
+    expect(queryByTestId('ResourceAddress-noAddress')).toBeVisible()
+  })
+
+  test('Should open create Overlay and submit the form creating a new address', async () => {
+    const { getByTestId, getByText, getByLabelText, queryByText } = render(
+      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+        <CoreSdkProvider>
+          <ResourceAddress showBillingInfo editable />
+        </CoreSdkProvider>
+      </MockTokenProvider>
+    )
+
+    const editButton = getByTestId('ResourceAddress-editButton')
+    await waitFor(() => {
+      fireEvent.click(editButton)
+    })
+
+    expect(getByText('New address')).toBeVisible()
+
+    const createAddressButton = getByText('Create address')
+    expect(createAddressButton).toBeVisible()
+
+    fireEvent.keyDown(getByText('Select...'), {
+      key: 'ArrowDown'
+    })
+    await waitFor(() => queryByText('Angola'))
+    expect(queryByText('Angola')).toBeVisible()
+    fireEvent.click(getByText('Angola'))
+
+    await waitFor(() => {
+      fireEvent.change(getByLabelText('First name'), {
+        target: { value: 'John' }
+      })
+
+      fireEvent.change(getByLabelText('Last name'), {
+        target: { value: 'Doe' }
+      })
+
+      fireEvent.change(getByLabelText('Address'), {
+        target: { value: 'Via tutti' }
+      })
+
+      fireEvent.change(getByLabelText('City'), {
+        target: { value: 'Milan' }
+      })
+
+      fireEvent.change(getByLabelText('State code'), {
+        target: { value: 'FR' }
+      })
+
+      fireEvent.change(getByLabelText('ZIP code'), {
+        target: { value: '20090' }
+      })
+
+      fireEvent.change(getByLabelText('Phone'), {
+        target: { value: '-' }
+      })
+    })
+
+    await waitFor(() => {
+      fireEvent.click(createAddressButton)
+    })
+
+    expect(addressCreate).toHaveBeenCalledTimes(1)
   })
 })
