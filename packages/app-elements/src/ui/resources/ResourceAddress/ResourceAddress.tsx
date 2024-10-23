@@ -63,7 +63,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
 
     const { ResourceAddressOverlay, openAddressOverlay } =
       useResourceAddressOverlay({
-        address: resource,
+        address,
         showBillingInfo,
         showNotes,
         onCreate: (address) => {
