@@ -16,38 +16,52 @@ import {
 
 interface ResourceAddressFormProps
   extends Omit<ResourceAddressFormFieldsProps, 'name'> {
-  address: Address
+  address?: Address | null | undefined
   onChange: (updatedAddress: Address) => void
+  onCreate: (createdAddress: Address) => void
 }
 
 export const ResourceAddressForm =
   withSkeletonTemplate<ResourceAddressFormProps>(
-    ({ address, showBillingInfo = false, showNotes = true, onChange }) => {
+    ({
+      address,
+      showBillingInfo = false,
+      showNotes = true,
+      onChange,
+      onCreate
+    }) => {
       const methods = useForm({
-        defaultValues: address,
+        defaultValues: address ?? undefined,
         resolver: zodResolver(resourceAddressFormFieldsSchema)
       })
 
       const [apiError, setApiError] = useState<any>()
-      const [isSubmitting, setIsSubmitting] = useState(false)
 
       const { sdkClient } = useCoreSdkProvider()
 
       return (
         <HookedForm
           {...methods}
-          onSubmit={(formValues) => {
-            setIsSubmitting(true)
-            void sdkClient.addresses
-              .update({ ...formValues, id: address.id })
-              .then((updatedAddress) => {
-                onChange(updatedAddress)
-                setIsSubmitting(false)
-              })
-              .catch((error) => {
-                setApiError(error)
-                setIsSubmitting(false)
-              })
+          onSubmit={async (formValues) => {
+            if (address != null) {
+              await sdkClient.addresses
+                .update({ ...formValues, id: address.id })
+                .then((address) => {
+                  onChange(address)
+                })
+                .catch((error) => {
+                  setApiError(error)
+                })
+            } else {
+              await sdkClient.addresses
+                .create({ ...formValues })
+                .then((address) => {
+                  onCreate(address)
+                })
+                .catch((error) => {
+                  setApiError(error)
+                })
+            }
           }}
         >
           <ResourceAddressFormFields
@@ -56,8 +70,12 @@ export const ResourceAddressForm =
           />
 
           <Spacer top='14'>
-            <Button type='submit' disabled={isSubmitting} className='w-full'>
-              Update address
+            <Button
+              type='submit'
+              disabled={methods.formState.isSubmitting}
+              className='w-full'
+            >
+              {address == null ? 'Create' : 'Update'} address
             </Button>
             <Spacer top='2'>
               <HookedValidationApiError apiError={apiError} />

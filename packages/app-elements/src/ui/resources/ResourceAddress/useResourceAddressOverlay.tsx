@@ -6,17 +6,19 @@ import { useCallback } from 'react'
 import { ResourceAddressForm } from './ResourceAddressForm'
 
 export const useResourceAddressOverlay = ({
-  title = 'Edit address',
+  title,
   address,
   showBillingInfo,
   showNotes,
-  onUpdate
+  onUpdate,
+  onCreate
 }: {
   title?: string
-  address: Address
+  address?: Address | null | undefined
   showBillingInfo?: boolean
   showNotes?: boolean
   onUpdate?: (updatedAddress: Address) => void
+  onCreate?: (createdAddress: Address) => void
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 }) => {
   const { canUser } = useTokenProvider()
@@ -33,7 +35,7 @@ export const useResourceAddressOverlay = ({
       canUser('update', 'addresses') && (
         <Overlay>
           <PageLayout
-            title={title}
+            title={title ?? `${address == null ? 'New' : 'Edit'} address`}
             minHeight={false}
             navigationButton={{
               label: 'Back',
@@ -48,6 +50,10 @@ export const useResourceAddressOverlay = ({
               showNotes={showNotes}
               onChange={(updatedAddress: Address) => {
                 onUpdate?.(updatedAddress)
+                close()
+              }}
+              onCreate={(updatedAddress: Address) => {
+                onCreate?.(updatedAddress)
                 close()
               }}
             />

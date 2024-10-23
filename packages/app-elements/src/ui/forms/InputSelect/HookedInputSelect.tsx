@@ -81,6 +81,7 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
       render={({ field: { onChange, value, onBlur } }) => (
         <InputSelect
           {...props}
+          name={name}
           ref={ref}
           onBlur={onBlur}
           defaultValue={
