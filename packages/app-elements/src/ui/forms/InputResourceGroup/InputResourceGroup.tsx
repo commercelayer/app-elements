@@ -148,7 +148,12 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 openInputResourceGroupOverlay()
               }}
             >
-              <Text variant='primary' weight='bold'>
+              <Text
+                variant='primary'
+                weight='bold'
+                size='small'
+                className='underline'
+              >
                 See all{' '}
                 {formatResourceName({
                   resource,
