@@ -94,6 +94,7 @@ const Template: StoryFn<typeof InputCheckbox> = (args) => {
                     alt={opt.name}
                   />
                 }
+                hideIconOnDesktop
               >
                 <Text weight='semibold'>{opt.name}</Text>
               </InputCheckbox>

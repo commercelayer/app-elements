@@ -131,6 +131,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                     <AvatarLetter text={item.label} />
                   ) : undefined
                 }
+                hideIconOnDesktop
                 isLoading={isLoading}
                 content={<Text weight='semibold'>{item.label}</Text>}
                 value={item.value}

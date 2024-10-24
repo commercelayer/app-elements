@@ -14,6 +14,7 @@ export interface InputCheckboxProps
    * Example: `<Avatar>`
    */
   icon?: JSX.Element
+  hideIconOnDesktop?: boolean
   /**
    * Additional `Element` to be rendered when the input is checked
    */
@@ -23,7 +24,16 @@ export interface InputCheckboxProps
 
 export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
   (
-    { className, hint, feedback, icon, children, checkedElement, ...rest },
+    {
+      className,
+      hint,
+      feedback,
+      icon,
+      children,
+      checkedElement,
+      hideIconOnDesktop,
+      ...rest
+    },
     ref
   ): JSX.Element => {
     const [checked, setChecked] = useState<boolean>(
@@ -70,7 +80,11 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
 
             {children != null || icon != null ? (
               <div className='flex items-center gap-4 flex-1'>
-                {icon ?? null}
+                {icon != null ? (
+                  <div className={cn({ 'md:hidden': hideIconOnDesktop })}>
+                    {icon}
+                  </div>
+                ) : null}
                 <div className='flex-1'>{children}</div>
               </div>
             ) : null}
