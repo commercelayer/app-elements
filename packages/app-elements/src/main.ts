@@ -333,6 +333,11 @@ export {
   type ResourceOrderTimelineProps
 } from '#ui/resources/ResourceOrderTimeline'
 export {
+  ResourcePaymentMethod,
+  getPaymentMethodLogoSrc,
+  type ResourcePaymentMethodProps
+} from '#ui/resources/ResourcePaymentMethod'
+export {
   ResourceShipmentParcels,
   type ResourceShipmentParcelsProps
 } from '#ui/resources/ResourceShipmentParcels'
