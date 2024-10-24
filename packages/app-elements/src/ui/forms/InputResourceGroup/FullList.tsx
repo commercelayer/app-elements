@@ -193,6 +193,7 @@ export function FullList({
                     <AvatarLetter text={item.label} />
                   ) : undefined
                 }
+                hideIconOnDesktop
                 content={<Text weight='semibold'>{item.label}</Text>}
                 value={item.value}
               />

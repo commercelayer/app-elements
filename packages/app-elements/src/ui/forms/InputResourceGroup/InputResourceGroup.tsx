@@ -131,6 +131,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                     <AvatarLetter text={item.label} />
                   ) : undefined
                 }
+                hideIconOnDesktop
                 isLoading={isLoading}
                 content={<Text weight='semibold'>{item.label}</Text>}
                 value={item.value}
@@ -147,7 +148,12 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 openInputResourceGroupOverlay()
               }}
             >
-              <Text variant='primary' weight='bold'>
+              <Text
+                variant='primary'
+                weight='bold'
+                size='small'
+                className='underline'
+              >
                 See all{' '}
                 {formatResourceName({
                   resource,

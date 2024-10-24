@@ -46,6 +46,29 @@ WithAvatar.args = {
   )
 }
 
+/**
+ * By adding the `hideIconOnDesktop` prop, the icon will be hidden on desktop but only visible on mobile viewports.
+ */
+export const WithAvatarOnlyForMobile = Template.bind({})
+WithAvatarOnlyForMobile.args = {
+  icon: (
+    <Avatar
+      size='small'
+      shape='circle'
+      border='none'
+      src='https://ui-avatars.com/api/NY Store/160/101111/FFFFFF/2/0.33/false/true/true'
+      alt='market'
+      key='avatar'
+    />
+  ),
+  hideIconOnDesktop: true,
+  children: (
+    <Text key='text' weight='semibold'>
+      NY Store
+    </Text>
+  )
+}
+
 export const WithListItem = Template.bind({})
 WithListItem.args = {
   icon: (
