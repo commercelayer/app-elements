@@ -14,7 +14,7 @@ export interface ResourceAddressProps {
   /**
    * Resource of type `Address`
    */
-  resource?: Address | null | undefined
+  address?: Address | null
   /**
    * Optional address title (if added it will be shown in bold on top of address infos)
    */
@@ -50,7 +50,7 @@ export interface ResourceAddressProps {
  */
 export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
   ({
-    resource,
+    address,
     title,
     editable = false,
     showBillingInfo = false,
@@ -58,7 +58,9 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     onCreate,
     onUpdate
   }) => {
-    const [address, setAddress] = useState<Address | null | undefined>(resource)
+    const [stateAddress, setStateAddress] = useState<
+      Address | null | undefined
+    >(address)
     const { canUser } = useTokenProvider()
 
     const handleOnUpdate = useCallback<
@@ -66,9 +68,9 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     >(
       (address) => {
         onUpdate?.(address)
-        setAddress(address)
+        setStateAddress(address)
       },
-      [onUpdate, setAddress]
+      [onUpdate, setStateAddress]
     )
 
     const handleOnCreate = useCallback<
@@ -76,14 +78,14 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     >(
       (address) => {
         onCreate?.(address)
-        setAddress(address)
+        setStateAddress(address)
       },
-      [onUpdate, setAddress]
+      [onUpdate, setStateAddress]
     )
 
     const { ResourceAddressOverlay, openAddressOverlay } =
       useResourceAddressOverlay({
-        address,
+        address: stateAddress,
         showBillingInfo,
         showNotes,
         onCreate: handleOnCreate,
@@ -91,8 +93,8 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
       })
 
     useEffect(() => {
-      setAddress(resource)
-    }, [resource?.id])
+      setStateAddress(address)
+    }, [address?.id])
 
     return (
       <>
@@ -105,7 +107,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                 </Text>
               </Spacer>
             )}
-            {address != null ? (
+            {stateAddress != null ? (
               <>
                 <Text
                   tag='div'
@@ -113,54 +115,54 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                   weight={title == null ? 'bold' : undefined}
                   variant={title != null ? 'info' : undefined}
                 >
-                  {address.full_name}
+                  {stateAddress.full_name}
                 </Text>
                 <Text
                   tag='div'
                   variant='info'
                   data-testid='ResourceAddress-address'
                 >
-                  {address.line_1} {address.line_2}
+                  {stateAddress.line_1} {stateAddress.line_2}
                   <br />
-                  {address.city} {address.state_code} {address.zip_code} (
-                  {address.country_code})
+                  {stateAddress.city} {stateAddress.state_code}{' '}
+                  {stateAddress.zip_code} ({stateAddress.country_code})
                 </Text>
 
-                {address.billing_info != null && showBillingInfo ? (
+                {stateAddress.billing_info != null && showBillingInfo ? (
                   <Text
                     tag='div'
                     variant='info'
                     data-testid='ResourceAddress-billingInfo'
                   >
-                    {address.billing_info}
+                    {stateAddress.billing_info}
                   </Text>
                 ) : null}
 
-                {!isEmpty(address.phone) ||
-                (showNotes && !isEmpty(address.notes)) ? (
+                {!isEmpty(stateAddress.phone) ||
+                (showNotes && !isEmpty(stateAddress.notes)) ? (
                   <>
                     <Spacer top='4' bottom='4'>
                       <Hr variant='dashed' />
                     </Spacer>
                     <div className='grid gap-1'>
-                      {!isEmpty(address.phone) && (
+                      {!isEmpty(stateAddress.phone) && (
                         <div className='flex gap-2 '>
                           {/* mt-[2px] to keep icon aligned with text  */}
                           <Text tag='div' variant='info' className='mt-[2px]'>
                             <Phone weight='bold' />
                           </Text>
                           <Text tag='div' size='small' variant='info'>
-                            {address.phone}
+                            {stateAddress.phone}
                           </Text>
                         </div>
                       )}
-                      {showNotes && !isEmpty(address.notes) && (
+                      {showNotes && !isEmpty(stateAddress.notes) && (
                         <div className='flex gap-2'>
                           <Text tag='div' variant='info' className='mt-[2px]'>
                             <Note weight='bold' />
                           </Text>
                           <Text tag='div' size='small' variant='info'>
-                            {address.notes}
+                            {stateAddress.notes}
                           </Text>
                         </div>
                       )}
