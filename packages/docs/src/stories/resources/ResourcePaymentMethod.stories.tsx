@@ -32,11 +32,13 @@ Default.args = {
 }
 
 /**
- * If the order includes the `payment_source` the component will show more details (expandable) on the transaction.
+ * The component can show more details on the transaction (`payment_source.payment_response`) by enabling `showPaymentResponse` prop.
+ * If the `payment_response` is not available, the show more button will not be present.
  */
 export const WithOrder = Template.bind({})
 WithOrder.args = {
-  resource: orderWithPaymentSourceResponse
+  resource: orderWithPaymentSourceResponse,
+  showPaymentResponse: true
 }
 
 /**
@@ -45,4 +47,13 @@ WithOrder.args = {
 export const WithCustomerPaymentSource = Template.bind({})
 WithCustomerPaymentSource.args = {
   resource: customerPaymentSource
+}
+
+/**
+ * When used in lists or other components, boxed style can be removed using `variant: plain`.
+ */
+export const WithoutSideGap = Template.bind({})
+WithoutSideGap.args = {
+  resource: customerPaymentSource,
+  variant: 'plain'
 }
