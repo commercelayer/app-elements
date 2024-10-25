@@ -12,6 +12,7 @@ export const useResourceAddressOverlay = ({
   title,
   address,
   showBillingInfo,
+  requiresBillingInfo,
   showNotes,
   onUpdate,
   onCreate
@@ -43,6 +44,7 @@ export const useResourceAddressOverlay = ({
             <ResourceAddressForm
               address={address}
               showBillingInfo={showBillingInfo}
+              requiresBillingInfo={requiresBillingInfo}
               showNotes={showNotes}
               onUpdate={(updatedAddress: Address) => {
                 onUpdate?.(updatedAddress)

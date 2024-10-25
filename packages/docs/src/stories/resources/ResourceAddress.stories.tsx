@@ -15,7 +15,7 @@ import {
 import { presetAddresses } from '#ui/resources/ResourceAddress/ResourceAddress.mocks'
 import {
   ResourceAddressFormFields,
-  resourceAddressFormFieldsSchema
+  getResourceAddressFormFieldsSchema
 } from '#ui/resources/ResourceAddress/ResourceAddressFormFields'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -81,6 +81,8 @@ export const NoAddress: StoryFn = () => {
       <ResourceAddress
         title='Billing address'
         editable
+        showBillingInfo
+        requiresBillingInfo
         onCreate={(address) => {
           console.log('new billing address', address)
         }}
@@ -186,7 +188,7 @@ export const ReuseTheAddressForm: StoryFn = () => {
           .min(1, {
             message: 'Required field'
           }),
-        address: resourceAddressFormFieldsSchema
+        address: getResourceAddressFormFieldsSchema()
       })
     )
   })
@@ -234,7 +236,7 @@ export const ShowNameOrCompany: StoryFn = () => {
           .min(1, {
             message: 'Required field'
           }),
-        address: resourceAddressFormFieldsSchema
+        address: getResourceAddressFormFieldsSchema()
       })
     )
   })

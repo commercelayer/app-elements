@@ -31,6 +31,11 @@ export interface ResourceAddressProps {
    */
   showBillingInfo?: boolean
   /**
+   * Optional setting to define if given `Address` `billing_info` data is required.
+   * @default false
+   */
+  requiresBillingInfo?: boolean
+  /**
    * Optional setting to define if given `Address` `billing_info` data is visible.
    * @default true
    */
@@ -54,6 +59,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     title,
     editable = false,
     showBillingInfo = false,
+    requiresBillingInfo = false,
     showNotes = true,
     onCreate,
     onUpdate
@@ -87,6 +93,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
       useResourceAddressOverlay({
         address: stateAddress,
         showBillingInfo,
+        requiresBillingInfo,
         showNotes,
         onCreate: handleOnCreate,
         onUpdate: handleOnUpdate

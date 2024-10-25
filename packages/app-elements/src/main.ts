@@ -307,7 +307,7 @@ export {
 export {
   ResourceAddress,
   ResourceAddressFormFields,
-  resourceAddressFormFieldsSchema,
+  getResourceAddressFormFieldsSchema,
   useResourceAddressOverlay,
   type ResourceAddressFormFieldsProps,
   type ResourceAddressProps

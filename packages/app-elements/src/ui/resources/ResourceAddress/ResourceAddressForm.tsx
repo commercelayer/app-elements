@@ -10,26 +10,32 @@ import { useForm } from 'react-hook-form'
 import { type ResourceAddressProps } from './ResourceAddress'
 import {
   ResourceAddressFormFields,
-  resourceAddressFormFieldsSchema,
+  getResourceAddressFormFieldsSchema,
   type ResourceAddressFormFieldsProps
 } from './ResourceAddressFormFields'
 
 interface ResourceAddressFormProps
   extends Omit<ResourceAddressFormFieldsProps, 'name'>,
-    Pick<ResourceAddressProps, 'address' | 'onCreate' | 'onUpdate'> {}
+    Pick<
+      ResourceAddressProps,
+      'address' | 'onCreate' | 'onUpdate' | 'requiresBillingInfo'
+    > {}
 
 export const ResourceAddressForm =
   withSkeletonTemplate<ResourceAddressFormProps>(
     ({
       address,
       showBillingInfo = false,
+      requiresBillingInfo = false,
       showNotes = true,
       onUpdate,
       onCreate
     }) => {
       const methods = useForm({
         defaultValues: address ?? undefined,
-        resolver: zodResolver(resourceAddressFormFieldsSchema)
+        resolver: zodResolver(
+          getResourceAddressFormFieldsSchema({ requiresBillingInfo })
+        )
       })
 
       const [apiError, setApiError] = useState<any>()
