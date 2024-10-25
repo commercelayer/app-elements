@@ -5,7 +5,7 @@ import { InputSpinner } from '#ui/forms/InputSpinner'
 import { type ComponentProps } from 'react'
 
 export interface InputCheckboxGroupOption
-  extends Pick<InputCheckboxProps, 'icon' | 'checked'> {
+  extends Pick<InputCheckboxProps, 'icon' | 'checked' | 'hideIconOnDesktop'> {
   /**
    * Input name, will be used to set the html name for checkbox and the quantity inputs.
    * If not provided, the value will be used instead.
@@ -53,6 +53,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
     content,
     quantity,
     defaultQuantity,
+    hideIconOnDesktop,
     icon
   }) => {
     return (
@@ -71,6 +72,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
           name={name}
           checked={checked}
           icon={icon}
+          hideIconOnDesktop={hideIconOnDesktop}
           onChange={() => {
             onChange(value)
           }}
