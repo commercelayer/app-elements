@@ -7,7 +7,7 @@ import { Text } from '#ui/atoms/Text'
 import { type Address } from '@commercelayer/sdk'
 import { Note, PencilSimple, Phone } from '@phosphor-icons/react'
 import isEmpty from 'lodash/isEmpty'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useResourceAddressOverlay } from './useResourceAddressOverlay'
 
 export interface ResourceAddressProps {
@@ -61,19 +61,33 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     const [address, setAddress] = useState<Address | null | undefined>(resource)
     const { canUser } = useTokenProvider()
 
+    const handleOnUpdate = useCallback<
+      NonNullable<ResourceAddressProps['onUpdate']>
+    >(
+      (address) => {
+        onUpdate?.(address)
+        setAddress(address)
+      },
+      [onUpdate, setAddress]
+    )
+
+    const handleOnCreate = useCallback<
+      NonNullable<ResourceAddressProps['onCreate']>
+    >(
+      (address) => {
+        onCreate?.(address)
+        setAddress(address)
+      },
+      [onUpdate, setAddress]
+    )
+
     const { ResourceAddressOverlay, openAddressOverlay } =
       useResourceAddressOverlay({
         address,
         showBillingInfo,
         showNotes,
-        onCreate: (address) => {
-          onCreate?.(address)
-          setAddress(address)
-        },
-        onUpdate: (address) => {
-          onUpdate?.(address)
-          setAddress(address)
-        }
+        onCreate: handleOnCreate,
+        onUpdate: handleOnUpdate
       })
 
     useEffect(() => {

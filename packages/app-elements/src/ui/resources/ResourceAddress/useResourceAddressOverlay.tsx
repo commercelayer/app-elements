@@ -61,7 +61,15 @@ export const useResourceAddressOverlay = ({
         </Overlay>
       )
     )
-  }, [Overlay, close, canUser, address, showBillingInfo, showNotes, onUpdate])
-
+  }, [
+    Overlay,
+    close,
+    canUser,
+    address,
+    showBillingInfo,
+    showNotes,
+    onUpdate,
+    onCreate
+  ])
   return { ResourceAddressOverlay, openAddressOverlay }
 }
