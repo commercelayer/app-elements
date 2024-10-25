@@ -6,6 +6,7 @@ import {
   type Order,
   type PaymentMethod
 } from '@commercelayer/sdk'
+import cn from 'classnames'
 import { useState, type FC } from 'react'
 import type { SetNonNullable, SetRequired } from 'type-fest'
 import { z } from 'zod'
@@ -24,13 +25,23 @@ export interface ResourcePaymentMethodProps {
         SetNonNullable<CustomerPaymentSource, 'payment_source'>,
         'payment_source'
       >
+  /**
+   * When true and if `payment_source.payment_response` is present, enables the expandable content to show more details on the transaction.
+   */
+  showPaymentResponse?: boolean
+  /**
+   * Defines the style of the component. Default is `boxed`, with a light gray background and rounded corners.
+   */
+  variant?: 'plain' | 'boxed'
 }
 
 /**
  * Show info about the payment method from the given Order or CustomerPaymentSource.
  */
 export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
-  resource
+  resource,
+  showPaymentResponse = false,
+  variant = 'boxed'
 }) => {
   const [showMore, setShowMore] = useState(false)
   const paymentInstrument = paymentInstrumentType.safeParse(
@@ -60,7 +71,11 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
   }
 
   return (
-    <div className='bg-gray-50 px-4 rounded'>
+    <div
+      className={cn({
+        'bg-gray-50 rounded px-4': variant === 'boxed'
+      })}
+    >
       <div className='flex gap-4 py-4'>
         <img src={avatarSrc} alt={paymentMethodName} className='h-8' />
         <div className='flex gap-4 items-center justify-between w-full'>
@@ -89,7 +104,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
               {paymentMethodName}
             </Text>
           )}
-          {paymentResponse != null && (
+          {paymentResponse != null && showPaymentResponse && (
             <Button
               onClick={() => {
                 setShowMore(!showMore)
@@ -97,6 +112,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
               variant='link'
               size='mini'
               className='text-sm font-bold'
+              type='button'
             >
               {showMore ? 'Show less' : 'Show more'}
             </Button>
@@ -104,7 +120,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
         </div>
       </div>
 
-      {showMore && paymentResponse != null ? (
+      {showMore && paymentResponse != null && showPaymentResponse ? (
         <div className='flex gap-4 pt-4 pb-2 overflow-hidden border-t border-dashed border-gray-200'>
           <img
             src={avatarSrc}

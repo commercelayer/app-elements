@@ -13,9 +13,25 @@ describe('ResourcePaymentMethod', () => {
     expect(getByText('Adyen Payment')).toBeVisible()
   })
 
-  it('should show the expandable show more button', async () => {
+  it('should not show expandable content if payment_source is available but `showPaymentResponse` is falsy', async () => {
     const { getByText, queryByText } = render(
       <ResourcePaymentMethod resource={orderWithPaymentSourceResponse} />
+    )
+    expect(getByText('Adyen Payment')).toBeVisible()
+    expect(getByText('Amex credit card')).toBeVisible()
+    expect(getByText('··4242')).toBeVisible()
+
+    // expandable content is not enabled
+    expect(queryByText('Show more')).not.toBeInTheDocument()
+    expect(queryByText('Show less')).not.toBeInTheDocument()
+  })
+
+  it('should show the expandable content (payment_source) when `showPaymentResponse` is set', async () => {
+    const { getByText, queryByText } = render(
+      <ResourcePaymentMethod
+        resource={orderWithPaymentSourceResponse}
+        showPaymentResponse
+      />
     )
     expect(getByText('Adyen Payment')).toBeVisible()
     expect(getByText('Amex credit card')).toBeVisible()
