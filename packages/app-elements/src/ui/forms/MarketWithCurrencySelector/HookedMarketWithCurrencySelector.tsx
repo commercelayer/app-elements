@@ -151,13 +151,13 @@ export const HookedMarketWithCurrencySelector: FC<
                   .list({
                     pageSize: 25,
                     filters: {
-                      name_cont: hint,
-                      fields: {
-                        markets: ['name', 'price_list'],
-                        price_lists: ['currency_code']
-                      },
-                      include: ['price_list']
-                    }
+                      name_cont: hint
+                    },
+                    fields: {
+                      markets: ['name', 'price_list'],
+                      price_lists: ['currency_code']
+                    },
+                    include: ['price_list']
                   })
                   .then((res) => {
                     return res.map((market) => ({
