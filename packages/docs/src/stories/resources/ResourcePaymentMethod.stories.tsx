@@ -8,7 +8,17 @@ import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ResourcePaymentMethod> = {
   title: 'Resources/ResourcePaymentMethod',
-  component: ResourcePaymentMethod
+  component: ResourcePaymentMethod,
+  parameters: {
+    layout: 'fullscreen'
+  },
+  decorators: [
+    (Story) => (
+      <div style={{ padding: '1rem 2rem' }}>
+        <Story />
+      </div>
+    )
+  ]
 }
 export default setup
 
