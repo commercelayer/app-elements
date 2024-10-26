@@ -6,6 +6,7 @@ import type {
   ExternalPromotion,
   FixedAmountPromotion,
   FixedPricePromotion,
+  FlexPromotion,
   FreeGiftPromotion,
   FreeShippingPromotion,
   Order,
@@ -30,6 +31,7 @@ export type ResourceListItemType =
   | FreeGiftPromotion
   | FreeShippingPromotion
   | PercentageDiscountPromotion
+  | FlexPromotion
 
 export interface ResourceListItemComponentProps {
   name: React.ReactNode

@@ -6,10 +6,30 @@ import {
   ListItemDescription,
   ListItemIcon
 } from '#ui/resources/ResourceListItem/common'
-import type { Promotion } from '@commercelayer/sdk'
+import type {
+  BuyXPayYPromotion,
+  ExternalPromotion,
+  FixedAmountPromotion,
+  FixedPricePromotion,
+  FlexPromotion,
+  FreeGiftPromotion,
+  FreeShippingPromotion,
+  PercentageDiscountPromotion
+} from '@commercelayer/sdk'
 import { type ResourceToProps } from '../types'
 
-export const promotionToProps: ResourceToProps<Omit<Promotion, 'type'>> = ({
+// TODO: this is a temporary fix. We should manage this kind of type directly into the SDK.
+type Promotion =
+  | BuyXPayYPromotion
+  | ExternalPromotion
+  | FixedAmountPromotion
+  | FixedPricePromotion
+  | FlexPromotion
+  | FreeGiftPromotion
+  | FreeShippingPromotion
+  | PercentageDiscountPromotion
+
+export const promotionToProps: ResourceToProps<Promotion> = ({
   resource,
   user
 }) => {
@@ -20,6 +40,11 @@ export const promotionToProps: ResourceToProps<Omit<Promotion, 'type'>> = ({
     name: (
       <>
         {resource.name}{' '}
+        {resource.type === 'flex_promotions' && (
+          <Badge className='ml-1' variant='teal'>
+            flex
+          </Badge>
+        )}{' '}
         {hasCoupons && (
           <Badge className='ml-1' variant='teal'>
             coupons

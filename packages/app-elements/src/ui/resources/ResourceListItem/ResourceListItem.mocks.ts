@@ -1,21 +1,11 @@
 import type {
-  BuyXPayYPromotion,
-  Customer,
-  ExternalPromotion,
-  FixedAmountPromotion,
-  FixedPricePromotion,
-  FreeGiftPromotion,
-  FreeShippingPromotion,
   Market,
   Order,
-  PercentageDiscountPromotion,
-  Return,
-  Shipment,
   Sku,
-  SkuListItem,
   StockLocation,
   StockTransfer
 } from '@commercelayer/sdk'
+import { type ResourceListItemProps } from './ResourceListItem'
 
 const market = {
   type: 'markets',
@@ -457,20 +447,127 @@ export const presetResourceListItem = {
       created_at: '',
       updated_at: '2023-06-10T06:38:44.964Z'
     }
+  },
+  promotionFlex: {
+    type: 'flex_promotions',
+    id: '',
+    created_at: '2024-10-21T17:22:42.054Z',
+    updated_at: '2024-10-22T09:06:14.517Z',
+    name: '20% on the second item',
+    starts_at: '2024-09-28T22:00:00.000Z',
+    expires_at: '2024-11-01T23:00:00.000Z',
+    rules: {
+      rules: [
+        {
+          id: 'feaec315-062e-4542-b400-b9836a80a2f4',
+          name: 'discount',
+          actions: [
+            {
+              type: 'percentage',
+              limit: {
+                type: 'min',
+                input: {
+                  attribute: 'unit_amount_cents'
+                },
+                value: 2
+              },
+              value: '20%',
+              groups: ['discountable_items'],
+              selector: 'order.line_items.sku'
+            }
+          ],
+          priority: 0,
+          conditions: [
+            {
+              field: 'order.line_items.quantity',
+              group: 'discountable_items',
+              value: 2,
+              nested: {
+                conditions: [
+                  {
+                    field: 'order.line_items.unit_amount_cents',
+                    group: 'discountable_items',
+                    value: 13000,
+                    matcher: 'gteq'
+                  }
+                ]
+              },
+              matcher: 'gteq'
+            },
+            {
+              field: 'order.line_items.sku.name',
+              group: '20007a73-173b-487c-a071-91eaccdfc022',
+              value: 'Cap',
+              matcher: 'matches'
+            }
+          ],
+          conditions_logic: 'and'
+        }
+      ]
+    }
+  },
+  promotionFlexWithCoupons: {
+    type: 'flex_promotions',
+    id: '',
+    created_at: '2024-10-21T17:22:42.054Z',
+    updated_at: '2024-10-22T09:06:14.517Z',
+    name: '20% on the second item',
+    starts_at: '2024-09-28T22:00:00.000Z',
+    expires_at: '2024-11-01T23:00:00.000Z',
+    rules: {
+      rules: [
+        {
+          id: 'feaec315-062e-4542-b400-b9836a80a2f4',
+          name: 'discount',
+          actions: [
+            {
+              type: 'percentage',
+              limit: {
+                type: 'min',
+                input: {
+                  attribute: 'unit_amount_cents'
+                },
+                value: 2
+              },
+              value: '20%',
+              groups: ['discountable_items'],
+              selector: 'order.line_items.sku'
+            }
+          ],
+          priority: 0,
+          conditions: [
+            {
+              field: 'order.line_items.quantity',
+              group: 'discountable_items',
+              value: 2,
+              nested: {
+                conditions: [
+                  {
+                    field: 'order.line_items.unit_amount_cents',
+                    group: 'discountable_items',
+                    value: 13000,
+                    matcher: 'gteq'
+                  }
+                ]
+              },
+              matcher: 'gteq'
+            },
+            {
+              field: 'order.line_items.sku.name',
+              group: '20007a73-173b-487c-a071-91eaccdfc022',
+              value: 'Cap',
+              matcher: 'matches'
+            }
+          ],
+          conditions_logic: 'and'
+        }
+      ]
+    },
+    coupon_codes_promotion_rule: {
+      type: 'coupon_codes_promotion_rules',
+      id: '',
+      created_at: '',
+      updated_at: '2023-06-10T06:38:44.964Z'
+    }
   }
-} satisfies Record<
-  string,
-  | Order
-  | Return
-  | Customer
-  | StockTransfer
-  | Shipment
-  | SkuListItem
-  | BuyXPayYPromotion
-  | ExternalPromotion
-  | FixedAmountPromotion
-  | FixedPricePromotion
-  | FreeGiftPromotion
-  | FreeShippingPromotion
-  | PercentageDiscountPromotion
->
+} satisfies Record<string, ResourceListItemProps['resource']>
