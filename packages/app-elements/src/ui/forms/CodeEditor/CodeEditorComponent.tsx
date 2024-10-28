@@ -18,6 +18,10 @@ export interface CodeEditorProps
     SetOptional<Pick<HTMLInputElement, 'id' | 'name'>, 'id' | 'name'>,
     Pick<EditorProps, 'defaultValue' | 'value'> {
   /**
+   * Should the editor be read only.
+   */
+  readOnly?: boolean
+  /**
    * Height of the editor wrapper
    * @default "200px"
    */
@@ -55,6 +59,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       inline,
       label,
       defaultValue,
+      readOnly,
       value,
       language = 'plaintext',
       height = '220px',
@@ -77,7 +82,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
         void editor.getAction('editor.action.formatDocument')?.run()
       })
 
-      editor.onDidChangeModelDecorations(() => {
+      editor.onDidChangeModelContent(() => {
         const model = editor.getModel()
         const markers = monaco.editor.getModelMarkers({
           resource: model?.uri
@@ -184,7 +189,8 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
           onMount={handleEditorDidMount}
           options={{
             quickSuggestions: true,
-            readOnly: false,
+            readOnly,
+            domReadOnly: true,
             automaticLayout: true,
             insertSpaces: true,
             tabSize: 2,
