@@ -36,7 +36,7 @@ const setup = (): RenderResult => {
     <MockTokenProvider kind='integration' appSlug='orders' devMode>
       <CoreSdkProvider>
         <ResourceAddress
-          resource={presetAddresses.withNotes}
+          address={presetAddresses.withNotes}
           showBillingInfo
           editable
         />

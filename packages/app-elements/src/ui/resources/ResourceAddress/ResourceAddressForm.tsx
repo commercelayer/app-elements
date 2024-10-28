@@ -4,35 +4,38 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form/HookedForm'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm/HookedValidationApiError'
-import { type Address } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { type ResourceAddressProps } from './ResourceAddress'
 import {
   ResourceAddressFormFields,
-  resourceAddressFormFieldsSchema,
+  getResourceAddressFormFieldsSchema,
   type ResourceAddressFormFieldsProps
 } from './ResourceAddressFormFields'
 
 interface ResourceAddressFormProps
-  extends Omit<ResourceAddressFormFieldsProps, 'name'> {
-  address?: Address | null | undefined
-  onChange: (updatedAddress: Address) => void
-  onCreate: (createdAddress: Address) => void
-}
+  extends Omit<ResourceAddressFormFieldsProps, 'name'>,
+    Pick<
+      ResourceAddressProps,
+      'address' | 'onCreate' | 'onUpdate' | 'requiresBillingInfo'
+    > {}
 
 export const ResourceAddressForm =
   withSkeletonTemplate<ResourceAddressFormProps>(
     ({
       address,
       showBillingInfo = false,
+      requiresBillingInfo = false,
       showNotes = true,
-      onChange,
+      onUpdate,
       onCreate
     }) => {
       const methods = useForm({
         defaultValues: address ?? undefined,
-        resolver: zodResolver(resourceAddressFormFieldsSchema)
+        resolver: zodResolver(
+          getResourceAddressFormFieldsSchema({ requiresBillingInfo })
+        )
       })
 
       const [apiError, setApiError] = useState<any>()
@@ -47,7 +50,7 @@ export const ResourceAddressForm =
               await sdkClient.addresses
                 .update({ ...formValues, id: address.id })
                 .then((address) => {
-                  onChange(address)
+                  onUpdate?.(address)
                 })
                 .catch((error) => {
                   setApiError(error)
@@ -56,7 +59,7 @@ export const ResourceAddressForm =
               await sdkClient.addresses
                 .create({ ...formValues })
                 .then((address) => {
-                  onCreate(address)
+                  onCreate?.(address)
                 })
                 .catch((error) => {
                   setApiError(error)

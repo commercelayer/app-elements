@@ -3,24 +3,21 @@ import { useTokenProvider } from '#providers/TokenProvider'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
 import { useCallback } from 'react'
+import { type ResourceAddressProps } from './ResourceAddress'
 import { ResourceAddressForm } from './ResourceAddressForm'
+
+type Props = Omit<ResourceAddressProps, 'editable'>
 
 export const useResourceAddressOverlay = ({
   title,
   address,
   showBillingInfo,
+  requiresBillingInfo,
   showNotes,
   onUpdate,
   onCreate
-}: {
-  title?: string
-  address?: Address | null | undefined
-  showBillingInfo?: boolean
-  showNotes?: boolean
-  onUpdate?: (updatedAddress: Address) => void
-  onCreate?: (createdAddress: Address) => void
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-}) => {
+}: Props) => {
   const { canUser } = useTokenProvider()
   const { Overlay, open, close } = useOverlay()
 
@@ -47,8 +44,9 @@ export const useResourceAddressOverlay = ({
             <ResourceAddressForm
               address={address}
               showBillingInfo={showBillingInfo}
+              requiresBillingInfo={requiresBillingInfo}
               showNotes={showNotes}
-              onChange={(updatedAddress: Address) => {
+              onUpdate={(updatedAddress: Address) => {
                 onUpdate?.(updatedAddress)
                 close()
               }}
@@ -61,7 +59,15 @@ export const useResourceAddressOverlay = ({
         </Overlay>
       )
     )
-  }, [Overlay, close, canUser, address, showBillingInfo, showNotes, onUpdate])
-
+  }, [
+    Overlay,
+    close,
+    canUser,
+    address,
+    showBillingInfo,
+    showNotes,
+    onUpdate,
+    onCreate
+  ])
   return { ResourceAddressOverlay, openAddressOverlay }
 }

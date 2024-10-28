@@ -65,8 +65,10 @@ export function useOverlay(options?: OverlayOptions): OverlayHook {
     [search, options?.queryParam]
   )
 
+  const Empty = useCallback(() => null, [])
+
   return {
-    Overlay: show ? Overlay : () => null,
+    Overlay: show ? Overlay : Empty,
     close,
     open
   }

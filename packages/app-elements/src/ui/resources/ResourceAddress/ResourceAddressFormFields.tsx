@@ -8,6 +8,7 @@ import { HookedInputTextArea } from '#ui/forms/InputTextArea'
 import React, { useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
+import { type ResourceAddressProps } from './ResourceAddress'
 
 const zodRequiredField = z
   .string({
@@ -18,49 +19,55 @@ const zodRequiredField = z
     message: 'Required field'
   })
 
-export const resourceAddressFormFieldsSchema = z
-  .object({
-    business: z.boolean().nullish().default(false),
-    first_name: z.string().nullish(),
-    last_name: z.string().nullish(),
-    company: z.string().nullish(),
-    line_1: zodRequiredField,
-    line_2: z.string().nullish(),
-    city: zodRequiredField,
-    zip_code: z.string().nullish(),
-    state_code: zodRequiredField,
-    country_code: zodRequiredField,
-    phone: zodRequiredField,
-    billing_info: z.string().nullish(),
-    notes: z.string().nullish()
-  })
-  .superRefine((data, ctx) => {
-    if (data.business === true) {
-      if (data.company == null || data.company.length === 0) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['company'],
-          message: 'Required field'
-        })
-      }
-    } else {
-      if (data.first_name == null || data.first_name.length === 0) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['first_name'],
-          message: 'Required field'
-        })
-      }
+export const getResourceAddressFormFieldsSchema = ({
+  requiresBillingInfo = false
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+}: Pick<ResourceAddressProps, 'requiresBillingInfo'> = {}) =>
+  z
+    .object({
+      business: z.boolean().nullish().default(false),
+      first_name: z.string().nullish(),
+      last_name: z.string().nullish(),
+      company: z.string().nullish(),
+      line_1: zodRequiredField,
+      line_2: z.string().nullish(),
+      city: zodRequiredField,
+      zip_code: z.string().nullish(),
+      state_code: zodRequiredField,
+      country_code: zodRequiredField,
+      phone: zodRequiredField,
+      billing_info: requiresBillingInfo
+        ? zodRequiredField
+        : z.string().nullish(),
+      notes: z.string().nullish()
+    })
+    .superRefine((data, ctx) => {
+      if (data.business === true) {
+        if (data.company == null || data.company.length === 0) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['company'],
+            message: 'Required field'
+          })
+        }
+      } else {
+        if (data.first_name == null || data.first_name.length === 0) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['first_name'],
+            message: 'Required field'
+          })
+        }
 
-      if (data.last_name == null || data.last_name.length === 0) {
-        ctx.addIssue({
-          code: 'custom',
-          path: ['last_name'],
-          message: 'Required field'
-        })
+        if (data.last_name == null || data.last_name.length === 0) {
+          ctx.addIssue({
+            code: 'custom',
+            path: ['last_name'],
+            message: 'Required field'
+          })
+        }
       }
-    }
-  })
+    })
 
 export interface ResourceAddressFormFieldsProps {
   /**
@@ -223,7 +230,9 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
 const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   const [states, setStates] = useState<InputSelectValue[] | undefined>()
   const { watch, setValue } =
-    useFormContext<z.infer<typeof resourceAddressFormFieldsSchema>>()
+    useFormContext<
+      z.infer<ReturnType<typeof getResourceAddressFormFieldsSchema>>
+    >()
   const [forceTextInput, setForceTextInput] = useState(false)
 
   const countryCode = watch('country_code')
