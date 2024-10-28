@@ -115,6 +115,7 @@ Promotions.args = {
     'fixed_price_promotions',
     'free_gift_promotions',
     'free_shipping_promotions',
-    'percentage_discount_promotions'
+    'percentage_discount_promotions',
+    'flex_promotions'
   ]
 }

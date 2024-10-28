@@ -120,6 +120,7 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
         case 'free_gift_promotions':
         case 'free_shipping_promotions':
         case 'percentage_discount_promotions':
+        case 'flex_promotions':
           return promotionToProps({ resource, user })
       }
     }, [resource])
