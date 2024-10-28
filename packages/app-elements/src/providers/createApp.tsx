@@ -20,11 +20,6 @@ declare global {
   interface Window extends ClApp {
     clAppConfig: {
       /**
-       * Specific domain to use for Commerce Layer API requests.
-       * It must be set as `commercelayer.io`.
-       */
-      domain: string
-      /**
        * Enable Google Tag Manager for the provided GTM ID.
        */
       gtmId?: string
@@ -35,7 +30,7 @@ declare global {
 export interface ClAppProps
   extends Pick<
     TokenProviderProps,
-    'organizationSlug' | 'domain' | 'onAppClose' | 'isInDashboard' | 'extras'
+    'organizationSlug' | 'onAppClose' | 'isInDashboard' | 'extras'
   > {
   /**
    * Base path for internal routing.
@@ -67,7 +62,6 @@ export function createApp(
       root.render(
         children({
           ...props,
-          domain: props?.domain ?? window.clAppConfig?.domain,
           organizationSlug: parseOrganizationSlug(props?.organizationSlug),
           routerBase: parseRouterBase(props?.routerBase)
         })

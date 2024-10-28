@@ -3,6 +3,7 @@ import {
   type TokenProviderAllowedApp,
   type TokenProviderTokenApplicationKind
 } from '#providers/TokenProvider'
+import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
 import isEmpty from 'lodash/isEmpty'
@@ -49,14 +50,12 @@ interface InvalidToken {
 export async function isValidTokenForCurrentApp({
   accessToken,
   kind,
-  domain,
   isProduction,
   currentMode,
   organizationSlug
 }: {
   accessToken: string
   kind: TokenProviderTokenApplicationKind
-  domain: string
   isProduction: boolean
   currentMode: Mode
   /**
@@ -83,9 +82,9 @@ export async function isValidTokenForCurrentApp({
   try {
     const tokenInfo = await fetchTokenInfo({
       accessToken,
-      orgSlug: jwtInfo.orgSlug,
-      domain
+      orgSlug: jwtInfo.orgSlug
     })
+
     const isValidOnCore = Boolean(tokenInfo?.token)
     const isValidKind = jwtInfo.appKind === kind
     const isValidOrganizationSlug = isEmpty(organizationSlug)
@@ -152,16 +151,15 @@ export async function isValidTokenForCurrentApp({
 
 async function fetchTokenInfo({
   accessToken,
-  orgSlug,
-  domain
+  orgSlug
 }: {
   accessToken: string
   orgSlug: string
-  domain: string
 }): Promise<TokenProviderTokenInfo | null> {
   try {
+    const coreApiBaseEndpoint = getCoreApiBaseEndpoint(accessToken)
     const tokenInfoResponse = await fetch(
-      `https://${orgSlug}.${domain}/oauth/tokeninfo`,
+      `${coreApiBaseEndpoint}/oauth/tokeninfo`,
       {
         method: 'GET',
         headers: { authorization: `Bearer ${accessToken}` }
