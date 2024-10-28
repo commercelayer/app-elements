@@ -33,7 +33,7 @@ async function generatePageFromAbilities() {
 
   /** @type Doc */
   // @ts-expect-error doc is `unknown`
-  const doc = yaml.load(plainText)
+  const doc = yaml.load(plainText, { json: true })
 
   const repositories = await getRepositoryNames()
 
