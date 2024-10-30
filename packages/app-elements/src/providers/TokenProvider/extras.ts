@@ -1,5 +1,5 @@
 import isEmpty from 'lodash/isEmpty'
-import type { TokenProviderExtras } from './types'
+import type { TokenProviderAuthUser, TokenProviderExtras } from './types'
 
 /**
  * Encodes the given extras object into a Base64 string.
@@ -71,4 +71,38 @@ const base64URLSafe = {
     }
     return Buffer.from(encodedData, 'base64url').toString('binary')
   }
+}
+
+/**
+ * Validates if the user object received from `extras` is a valid one and can be added to the TokenProvider context.
+ */
+export function isValidUser(
+  user?: TokenProviderAuthUser | null
+): user is TokenProviderAuthUser {
+  const compareKeys = Object.keys({
+    id: '',
+    email: '',
+    firstName: '',
+    lastName: '',
+    displayName: '',
+    fullName: '',
+    timezone: ''
+  } satisfies TokenProviderAuthUser).sort()
+
+  if (user == null || isEmpty(user)) {
+    return false
+  }
+
+  if (isEmpty(user.email) || isEmpty(user.id)) {
+    return false
+  }
+
+  if (isEmpty(user.firstName) && isEmpty(user.lastName)) {
+    // at least one of the them should not be empty string
+    return false
+  }
+
+  return Object.keys(user)
+    .sort()
+    .every((key, index) => key === compareKeys[index])
 }
