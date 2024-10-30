@@ -1,5 +1,9 @@
 import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
-import { decodeExtras, getExtrasFromUrl } from '#providers/TokenProvider/extras'
+import {
+  decodeExtras,
+  getExtrasFromUrl,
+  isValidUser
+} from '#providers/TokenProvider/extras'
 import { extractDomainFromApiBaseEndpoint } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { PageSkeleton } from '#ui/composite/PageSkeleton'
@@ -243,6 +247,11 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
         removeAuthParamsFromUrl()
 
+        const userFromExtras =
+          extrasFromProp?.user != null && isValidUser(extrasFromProp?.user)
+            ? extrasFromProp.user
+            : null
+
         dispatch({
           type: 'validToken',
           payload: {
@@ -258,7 +267,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               scopes: tokenInfo.scopes,
               extras
             },
-            user: tokenInfo.user,
+            user: tokenInfo.user ?? userFromExtras,
             organization,
             rolePermissions: tokenInfo.permissions ?? {},
             accessibleApps: tokenInfo.accessibleApps ?? []

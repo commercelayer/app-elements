@@ -173,4 +173,6 @@ export interface TokenProviderExtras {
     organizations?: number
     skus?: number
   }
+  /** Allow to pass the current user in the app context when using an access token that does not contain an owner. */
+  user?: TokenProviderAuthUser
 }

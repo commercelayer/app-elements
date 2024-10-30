@@ -1,3 +1,4 @@
+import { isValidUser } from '#providers/TokenProvider/extras'
 import { decodeExtras, encodeExtras, getExtrasFromUrl } from './extras'
 import type { TokenProviderExtras } from './types'
 
@@ -114,5 +115,46 @@ describe('Encode object > Add in URL query string > Decode it from URL', () => {
   test('extras does not exists in URL params', () => {
     window.location.search = '?foo=bar'
     expect(decodeExtras(getExtrasFromUrl())).toEqual(undefined)
+  })
+})
+
+describe('isValidUser', () => {
+  test('should return true if user is valid', () => {
+    const user = {
+      id: '1',
+      email: 'john@doe.com',
+      displayName: 'J.Doe',
+      firstName: 'John',
+      lastName: 'Doe',
+      fullName: 'John Doe',
+      timezone: 'UTC'
+    }
+    expect(isValidUser(user)).toBe(true)
+  })
+
+  test('should return false if user is null', () => {
+    expect(isValidUser(null)).toBe(false)
+  })
+
+  test('should return false if user is undefined', () => {
+    expect(isValidUser(undefined)).toBe(false)
+  })
+
+  test('should return false if user is empty', () => {
+    // @ts-expect-error mismatching type for testing invalid user
+    expect(isValidUser({})).toBe(false)
+  })
+
+  test('should return false if user is missing keys', () => {
+    const user = {
+      id: '1',
+      email: 'john@doe.com',
+      firstName: 'John',
+      lastName: 'Doe',
+      fullName: 'John Doe',
+      timezone: 'UTC'
+    }
+    // @ts-expect-error mismatching type for testing invalid user
+    expect(isValidUser(user)).toBe(false)
   })
 })
