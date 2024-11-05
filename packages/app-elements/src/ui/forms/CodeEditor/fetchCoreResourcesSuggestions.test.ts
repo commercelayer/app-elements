@@ -918,6 +918,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "relationship",
+      "value": "order.store",
+    },
+    {
+      "type": "relationship",
       "value": "order.available_payment_methods",
     },
     {
