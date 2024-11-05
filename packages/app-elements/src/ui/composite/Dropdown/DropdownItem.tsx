@@ -6,6 +6,7 @@ import { useMemo, type FC } from 'react'
 
 export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
   label: string
+  info?: string
   icon?: IconProps['name'] | 'keep-space'
 } & (
     | {
@@ -27,7 +28,17 @@ export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
  * When no `href` or `onClick` is provided, the component still renders as `button` tag to prevent the dropdown to be closed when clicked.
  */
 export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
-  ({ label, icon, isLoading, delayMs, href, className, onClick, ...rest }) => {
+  ({
+    label,
+    info,
+    icon,
+    isLoading,
+    delayMs,
+    href,
+    className,
+    onClick,
+    ...rest
+  }) => {
     const JsxTag = useMemo(
       () =>
         enforceAllowedTags({
@@ -50,10 +61,14 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         }}
         href={href}
         className={cn(
-          'w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none',
+          'w-full bg-black !text-white py-2 pl-4 text-sm font-semibold flex items-center focus:!outline-none',
+          {
+            'pr-8': info == null,
+            'min-w-[250px] pr-6': info != null
+          },
           className,
           {
-            'hover:bg-violet cursor-pointer focus:bg-violet':
+            'hover:bg-violet cursor-pointer focus:bg-violet group':
               onClick != null || href != null,
             'cursor-default': onClick == null && href == null,
             'opacity-50 pointer-events-none': isDisabled
@@ -77,6 +92,11 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         >
           {label}
         </span>
+        {info != null && (
+          <span className='ml-auto pl-1 text-xs text-gray-500 font-semibold group-hover:text-white'>
+            {info}
+          </span>
+        )}
       </JsxTag>
     )
   }
