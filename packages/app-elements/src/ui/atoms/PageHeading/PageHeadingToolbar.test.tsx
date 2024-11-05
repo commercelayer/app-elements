@@ -61,6 +61,9 @@ describe('PageHeadingToolbar', () => {
 
     expect(queryAllByTestId('toolbar-button').length).toEqual(2)
     expect(queryAllByTestId('toolbar-dropdown-button').length).toEqual(1)
+    expect(queryByTestId('toolbar-dropdown-button')).not.toHaveClass(
+      'md:hidden'
+    )
     const dropDownButton = queryByTestId('toolbar-dropdown-button')
     if (dropDownButton != null) {
       act(() => {
@@ -72,5 +75,26 @@ describe('PageHeadingToolbar', () => {
         expect(getByText('Delete')).toBeInTheDocument()
       })
     }
+  })
+
+  it('Should not display the dropdown button when empty', async () => {
+    const { queryAllByTestId, queryByTestId } = render(
+      <PageHeadingToolbar
+        buttons={[
+          {
+            label: 'Primary',
+            size: 'small',
+            onClick: () => {
+              console.log('Primary')
+            }
+          }
+        ]}
+        dropdownItems={[[]]}
+      />
+    )
+
+    expect(queryAllByTestId('toolbar-button').length).toEqual(1)
+    expect(queryAllByTestId('toolbar-dropdown-button').length).toEqual(1)
+    expect(queryByTestId('toolbar-dropdown-button')).toHaveClass('md:hidden')
   })
 })

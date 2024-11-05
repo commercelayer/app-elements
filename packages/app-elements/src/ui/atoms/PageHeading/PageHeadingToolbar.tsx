@@ -50,7 +50,7 @@ export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
         icon: 'dotsThree',
         size: 'small',
         variant: 'secondary',
-        className: dropdownItems.length > 0 ? '' : 'flex md:hidden',
+        className: dropdownItems.flat().length > 0 ? '' : 'flex md:hidden',
         dropdownItems: combinedDropdownItems
       })
     }
