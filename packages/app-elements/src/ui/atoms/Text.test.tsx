@@ -49,7 +49,7 @@ describe('Text', () => {
 
   test('Should render a success variant', () => {
     const { element } = setup({ variant: 'success' })
-    expect(element.className).toContain('text-green')
+    expect(element.className).toContain('text-green-600')
   })
 
   test('Should render a primary variant', () => {
