@@ -54,10 +54,13 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
       )}
       <div
         {...rest}
-        className={cn('bg-black text-white rounded overflow-hidden py-2', {
-          'min-w-[150px] md:max-w-[250px]': menuWidth == null, // default width
-          'w-[280px]': menuWidth === 'wide'
-        })}
+        className={cn(
+          'bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2',
+          {
+            'min-w-[150px] md:max-w-[250px]': menuWidth == null, // default width
+            'w-[280px]': menuWidth === 'wide'
+          }
+        )}
       >
         {menuHeader != null && (
           <>

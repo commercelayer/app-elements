@@ -54,6 +54,87 @@ Default.args = {
 }
 
 /**
+ * Each dropdown item can have an `info` prop that will be rendered as a secondary text on the right side of the item.
+ * When the `info` prop is set, the item will have a fixed minimum width to accommodate the text.
+ **/
+export const WithInfo = Template.bind({})
+WithInfo.args = {
+  dropdownItems: (
+    <>
+      <DropdownItem
+        onClick={() => {}}
+        label='Europe'
+        info='€45.230'
+        icon='check'
+      />
+      <DropdownItem
+        onClick={() => {}}
+        label='USA'
+        info='$15.445'
+        icon='keep-space'
+      />
+      <DropdownItem
+        onClick={() => {}}
+        label='Canada'
+        info='$3.890'
+        icon='keep-space'
+      />
+      <DropdownItem
+        onClick={() => {}}
+        label='Japan'
+        info='¥780'
+        icon='keep-space'
+      />
+      <DropdownDivider />
+      <DropdownItem
+        onClick={() => {}}
+        label='Italy'
+        info='€0'
+        icon='keep-space'
+      />
+      <DropdownItem
+        onClick={() => {}}
+        label='France'
+        info='€0'
+        icon='keep-space'
+      />
+      <DropdownItem
+        onClick={() => {}}
+        label='United States of America'
+        info='$1,000'
+        icon='keep-space'
+      />
+    </>
+  )
+}
+
+/**
+ * Dropdown menu has a fixed maximum height. When content exceeds this height, it will be scrollable.
+ **/
+export const WithScrollbar = Template.bind({})
+WithScrollbar.args = {
+  dropdownLabel: 'Long menu list',
+  dropdownItems: (
+    <>
+      {Array.from({ length: 30 }, (_, i) => (
+        <DropdownItem key={i} label={`Item ${i + 1}`} />
+      ))}
+    </>
+  )
+}
+WithScrollbar.decorators = [
+  (Story) => (
+    <div
+      style={{
+        paddingBottom: '320px'
+      }}
+    >
+      <Story />
+    </div>
+  )
+]
+
+/**
  * It is possible to pass a custom `<button>` element as the dropdown label.
  * In this case the Dropdown component will use the provided button instead of creating a new one.
  **/

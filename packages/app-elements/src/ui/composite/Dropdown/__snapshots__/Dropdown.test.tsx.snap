@@ -35,7 +35,7 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
           style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; left: -6px;"
         />
         <div
-          class="bg-black text-white rounded overflow-hidden py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
         >
           <div />
         </div>
@@ -80,7 +80,7 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
           style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; left: -6px;"
         />
         <div
-          class="bg-black text-white rounded overflow-hidden py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
         >
           <div />
         </div>
@@ -125,7 +125,7 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
           style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; right: -6px;"
         />
         <div
-          class="bg-black text-white rounded overflow-hidden py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
         >
           <div />
         </div>
@@ -170,11 +170,11 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; right: -6px;"
         />
         <div
-          class="bg-black text-white rounded overflow-hidden py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
         >
           <button
             aria-label="Payments"
-            class="w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none hover:bg-violet cursor-pointer focus:bg-violet"
+            class="w-full bg-black !text-white py-2 pl-4 text-sm font-semibold flex items-center focus:!outline-none pr-8 hover:bg-violet cursor-pointer focus:bg-violet group"
           >
             <div
               class="mr-2"
@@ -200,7 +200,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </button>
           <button
             aria-label="Items"
-            class="w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none hover:bg-violet cursor-pointer focus:bg-violet"
+            class="w-full bg-black !text-white py-2 pl-4 text-sm font-semibold flex items-center focus:!outline-none pr-8 hover:bg-violet cursor-pointer focus:bg-violet group"
           >
             <div
               class="mr-2"
@@ -225,7 +225,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </div>
           <button
             aria-label="Delete"
-            class="w-full bg-black !text-white py-2 pl-4 pr-8 text-sm font-semibold flex items-center focus:!outline-none hover:bg-violet cursor-pointer focus:bg-violet"
+            class="w-full bg-black !text-white py-2 pl-4 text-sm font-semibold flex items-center focus:!outline-none pr-8 hover:bg-violet cursor-pointer focus:bg-violet group"
           >
             <div
               class="mr-2"
