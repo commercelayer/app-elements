@@ -37,7 +37,7 @@ function Text({
 }: TextProps): JSX.Element {
   const computedClassName = cn(className, {
     // variant
-    'text-green': variant === 'success',
+    'text-green-600': variant === 'success',
     'text-red-500': variant === 'danger',
     'text-primary': variant === 'primary',
     'text-gray-500': variant === 'info',
