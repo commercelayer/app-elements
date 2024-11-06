@@ -60,6 +60,7 @@ export const iconMapping = {
   hourglass: phosphor.Hourglass,
   houseSimple: phosphor.HouseSimple,
   info: phosphor.Info,
+  key: phosphor.Key,
   lifebuoy: phosphor.Lifebuoy,
   lightbulbFilament: phosphor.LightbulbFilament,
   lightning: phosphor.Lightning,
