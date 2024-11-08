@@ -180,6 +180,25 @@ const useTimelineReducer = (order: Order) => {
   )
 
   useEffect(
+    function addCreated() {
+      if (order.created_at != null) {
+        dispatch({
+          type: 'add',
+          payload: {
+            date: order.created_at,
+            message: (
+              <>
+                Order was <Text weight='bold'>created</Text>
+              </>
+            )
+          }
+        })
+      }
+    },
+    [order.created_at]
+  )
+
+  useEffect(
     function addPlaced() {
       if (order.placed_at != null) {
         dispatch({
