@@ -31,6 +31,15 @@ Default.args = {
   description: 'Lorem ipsum dolor sit'
 }
 
+export const WithBadge = Template.bind({})
+WithBadge.args = {
+  title: 'Resources',
+  badge: {
+    label: 'TEST DATA'
+  },
+  description: 'Lorem ipsum dolor sit'
+}
+
 export const WithNavGoBack = Template.bind({})
 WithNavGoBack.args = {
   title: 'Order details',
@@ -56,8 +65,8 @@ WithNavClose.args = {
   }
 }
 
-export const WithBadge = Template.bind({})
-WithBadge.args = {
+export const WithNavAndBadge = Template.bind({})
+WithNavAndBadge.args = {
   title: 'SKUs',
   badge: {
     label: 'TEST DATA'

@@ -83,6 +83,12 @@ WithToolbar.args = {
   }
 }
 
+export const WithoutNavigationButton = Template.bind({})
+WithoutNavigationButton.args = {
+  ...WithToolbar.args,
+  navigationButton: undefined
+}
+
 export const MobileWidthWithLongTitle = Template.bind({})
 MobileWidthWithLongTitle.args = {
   title: 'welcome@commercelayer.io',
