@@ -51,15 +51,19 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </span>
                 </button>
               </div>
-              <h1
-                class="font-semibold text-2xl md:text-title leading-title break-words"
+              <div
+                class="flex items-center justify-between"
               >
-                <span
-                  class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                <h1
+                  class="font-semibold text-2xl md:text-title leading-title break-words"
                 >
-                  Loading
-                </span>
-              </h1>
+                  <span
+                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                  >
+                    Loading
+                  </span>
+                </h1>
+              </div>
               <div
                 class="text-gray-500 leading-6 mt-2"
               />

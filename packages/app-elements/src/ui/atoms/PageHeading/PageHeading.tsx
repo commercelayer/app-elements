@@ -74,20 +74,18 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
         ])}
         {...rest}
       >
-        {(navigationButton != null || toolbar != null) && (
+        {navigationButton != null && (
           <div className={cn('mb-4 flex items-center justify-between')}>
-            {navigationButton != null ? (
-              <button
-                type='button'
-                className='flex items-center gap-1'
-                onClick={() => {
-                  navigationButton.onClick()
-                }}
-              >
-                <Icon name={navigationButton.icon ?? 'arrowLeft'} size={24} />{' '}
-                <Text weight='semibold'>{navigationButton.label}</Text>
-              </button>
-            ) : null}
+            <button
+              type='button'
+              className='flex items-center gap-1'
+              onClick={() => {
+                navigationButton.onClick()
+              }}
+            >
+              <Icon name={navigationButton.icon ?? 'arrowLeft'} size={24} />{' '}
+              <Text weight='semibold'>{navigationButton.label}</Text>
+            </button>
             {toolbar != null ? <PageHeadingToolbar {...toolbar} /> : null}
           </div>
         )}
@@ -98,9 +96,14 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
             </Badge>
           </div>
         )}
-        <h1 className='font-semibold text-2xl md:text-title leading-title break-words'>
-          {title}
-        </h1>
+        <div className='flex items-center justify-between'>
+          <h1 className='font-semibold text-2xl md:text-title leading-title break-words'>
+            {title}
+          </h1>
+          {navigationButton == null && toolbar != null ? (
+            <PageHeadingToolbar {...toolbar} />
+          ) : null}
+        </div>
         {description !== null && (
           <div className='text-gray-500 leading-6 mt-2'>{description}</div>
         )}

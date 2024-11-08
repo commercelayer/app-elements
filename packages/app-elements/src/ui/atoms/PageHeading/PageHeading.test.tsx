@@ -25,12 +25,12 @@ describe('PageHeading', () => {
   })
 
   test('Should also render optional description', () => {
-    const { element } = setup({
+    const { getByText } = setup({
       id: 'heading',
       title: 'My Page Heading',
       description: 'Lorem ipsum...'
     })
-    expect(element.querySelector('div')?.innerHTML).toBe('Lorem ipsum...')
+    expect(getByText('Lorem ipsum...')).toBeVisible()
   })
 
   test('Should also render optional badge', () => {

@@ -11,11 +11,15 @@ exports[`PageLayout > Should be rendered 1`] = `
     <div
       class="w-full pt-10 pb-14"
     >
-      <h1
-        class="font-semibold text-2xl md:text-title leading-title break-words"
+      <div
+        class="flex items-center justify-between"
       >
-        Page title
-      </h1>
+        <h1
+          class="font-semibold text-2xl md:text-title leading-title break-words"
+        >
+          Page title
+        </h1>
+      </div>
       <div
         class="text-gray-500 leading-6 mt-2"
       />
