@@ -9,7 +9,7 @@ exports[`PageLayout > Should be rendered 1`] = `
     class="mb-14"
   >
     <div
-      class="w-full pt-10 pb-14"
+      class="w-full pt-5 md:pt-10 pb-6 md:pb-14"
     >
       <h1
         class="font-semibold text-2xl md:text-title leading-title break-words"
