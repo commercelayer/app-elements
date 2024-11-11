@@ -69,7 +69,7 @@ describe('PageHeading gap', () => {
       id: 'heading',
       title: 'My Page Heading'
     })
-    expect(element).toHaveClass('pt-10 pb-14')
+    expect(element).toHaveClass('pt-5 md:pt-10 pb-6 md:pb-14')
   })
 
   test('Should have gap only on top', () => {
@@ -78,8 +78,8 @@ describe('PageHeading gap', () => {
       title: 'My Page Heading',
       gap: 'only-top'
     })
-    expect(element).toHaveClass('pt-10')
-    expect(element).not.toHaveClass('pb-14')
+    expect(element).toHaveClass('pt-5 md:pt-10')
+    expect(element).not.toHaveClass('pb-6 md:pb-14')
   })
 
   test('Should have no vertical gap', () => {

@@ -67,9 +67,9 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
         className={cn([
           'w-full',
           {
-            'pt-10 pb-14': gap === 'both',
-            'pt-10': gap === 'only-top',
-            'pb-14': gap === 'only-bottom'
+            'pt-5 md:pt-10 pb-6 md:pb-14': gap === 'both',
+            'pt-5 md:pt-10': gap === 'only-top',
+            'pb-6 md:pb-14': gap === 'only-bottom'
           }
         ])}
         {...rest}

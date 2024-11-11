@@ -18,7 +18,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
             class="select-none pointer-events-none inline"
           >
             <div
-              class="w-full pt-10"
+              class="w-full pt-5 md:pt-10"
             >
               <div
                 class="mb-4 flex items-center justify-between"
