@@ -26,4 +26,32 @@ describe('Progress', () => {
       '<progress class="progress" max="20" value="12">20%</progress>'
     )
   })
+
+  test('Should display the completion status as fraction by default', () => {
+    const { getByText } = render(
+      <Progress max={20} value={12}>
+        sample label
+      </Progress>
+    )
+    expect(getByText('12/20')).toBeVisible()
+  })
+
+  test('Should display the completion status as percentage', () => {
+    const { getByText } = render(
+      <Progress max={20} value={12} displayMode='percentage'>
+        sample label
+      </Progress>
+    )
+    expect(getByText('60%')).toBeVisible()
+  })
+
+  test('Should render hidden text `max/max` to keep right space and alignments', () => {
+    const { getByText } = render(
+      <Progress max={20} value={1} displayMode='fraction'>
+        sample label
+      </Progress>
+    )
+    expect(getByText('1/20')).toBeVisible()
+    expect(getByText('20/20')).toHaveClass('invisible')
+  })
 })

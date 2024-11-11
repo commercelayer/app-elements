@@ -15,7 +15,13 @@ export interface ProgressProps
    * this indicates that an activity is ongoing with no indication of how long it is expected to take.
    */
   value?: number
-
+  /**
+   * The display mode of the progress bar.
+   * - `fraction` - Display the completion status as a fraction (default)
+   * - `percentage` - Display the completion status as a percentage
+   * - `none` - Do not display the completion
+   */
+  displayMode?: 'fraction' | 'percentage' | 'none'
   children: React.ReactNode
 }
 
@@ -30,6 +36,7 @@ export const Progress: React.FC<ProgressProps> = ({
   value,
   children,
   className,
+  displayMode = 'fraction',
   ...rest
 }) => {
   return (
@@ -45,12 +52,25 @@ export const Progress: React.FC<ProgressProps> = ({
 
       {value != null && (
         <span className='flex-nowrap text-gray-400 text-xs font-extrabold relative'>
-          <span className='absolute right-0'>
-            {value}/{max}
-          </span>
-          <span className='invisible' aria-hidden='true'>
-            {max}/{max}
-          </span>
+          {displayMode === 'fraction' ? (
+            <>
+              <span className='absolute right-0'>
+                {value}/{max}
+              </span>
+              <span className='invisible' aria-hidden='true'>
+                {max}/{max}
+              </span>
+            </>
+          ) : displayMode === 'percentage' ? (
+            <>
+              <span className='absolute right-0'>
+                {Math.round((value / max) * 100)}%
+              </span>
+              <span className='invisible' aria-hidden='true'>
+                100%
+              </span>
+            </>
+          ) : null}
         </span>
       )}
     </div>
