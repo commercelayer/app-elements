@@ -23,3 +23,23 @@ export const Indeterminate: StoryFn<typeof Progress> = (args) => (
   <Progress {...args}>Loading...</Progress>
 )
 Indeterminate.args = {}
+
+/** Display completion percentage using `displayMode` prop */
+export const WithPercentage: StoryFn<typeof Progress> = (args) => (
+  <Progress {...args}>40%</Progress>
+)
+WithPercentage.args = {
+  max: 100,
+  value: 40,
+  displayMode: 'percentage'
+}
+
+/** Only show the progress bar, without completion details */
+export const OnlyBar: StoryFn<typeof Progress> = (args) => (
+  <Progress {...args}>40%</Progress>
+)
+OnlyBar.args = {
+  max: 100,
+  value: 40,
+  displayMode: 'none'
+}
