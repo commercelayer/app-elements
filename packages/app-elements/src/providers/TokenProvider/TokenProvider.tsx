@@ -68,11 +68,24 @@ export interface TokenProviderProps {
   children: ((props: TokenProviderValue) => ReactNode) | ReactNode
   /**
    * If present, only an access token with the same organization slug will be considered valid.
-   * It will be also used to generate the local storage key when the token is persisted.
+   * It will be also used to generate the local storage key when the token is persisted (unless a custom `storage` methods are provided).
    * When empty, the app will use the organization slug decoded from the token
    * and the token will be persisted using a default key ('commercelayer').
    */
   organizationSlug?: string
+  /**
+   * Optional. Override the internal logic to persist the access token and extra (save and retrieve).
+   */
+  storage?: {
+    /** Custom method to retrieve the access token. It must return a valid and not expired access token */
+    getAccessToken: () => string | null
+    /** Custom method to save the access token in your preferred storage */
+    saveAccessToken: (token: string) => void
+    /** Custom method to retrieve the encoded `extra` data, if provided */
+    getEncodedExtra?: () => string | null
+    /** Custom method to save the encoded `extra` data, if provided, in your preferred storage */
+    saveEncodedExtra?: (encodedExtra: string) => void
+  }
   /**
    * The callback invoked when token is not valid.
    * Can be used to manually handle the re-authentication flow when `reauthenticateOnInvalidAuth` is false.
@@ -130,6 +143,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   devMode,
   children,
   organizationSlug,
+  storage,
   onInvalidAuth,
   loadingElement,
   errorElement,
@@ -139,15 +153,23 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   extras: extrasFromProp
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
-
   const accessToken =
     accessTokenFromProp ??
     getAccessTokenFromUrl() ??
-    getPersistentJWT({ appSlug, organizationSlug, itemType: 'accessToken' })
+    (storage?.getAccessToken != null
+      ? storage?.getAccessToken()
+      : getPersistentJWT({
+          appSlug,
+          organizationSlug,
+          itemType: 'accessToken'
+        }))
 
   const encodeExtras =
     getExtrasFromUrl() ??
-    getPersistentJWT({ appSlug, organizationSlug, itemType: 'extras' })
+    (storage?.getEncodedExtra != null
+      ? storage?.getEncodedExtra()
+      : getPersistentJWT({ appSlug, organizationSlug, itemType: 'extras' }))
+
   const extras = extrasFromProp ?? decodeExtras(encodeExtras)
 
   const apiBaseEndpoint =
@@ -228,21 +250,27 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               })
             : null
 
-        // all good
-        savePersistentJWT({
-          appSlug,
-          jwt: accessToken,
-          organizationSlug,
-          itemType: 'accessToken'
-        })
-
-        if (encodeExtras != null) {
+        // all good - save token using custom storage method (if provided) or fallback to internal method
+        if (storage != null) {
+          storage.saveAccessToken(accessToken)
+        } else {
           savePersistentJWT({
             appSlug,
-            jwt: encodeExtras,
+            jwt: accessToken,
             organizationSlug,
-            itemType: 'extras'
+            itemType: 'accessToken'
           })
+        }
+
+        if (encodeExtras != null) {
+          storage != null
+            ? storage.saveEncodedExtra?.(encodeExtras)
+            : savePersistentJWT({
+                appSlug,
+                jwt: encodeExtras,
+                organizationSlug,
+                itemType: 'extras'
+              })
         }
 
         removeAuthParamsFromUrl()
