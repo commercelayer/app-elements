@@ -28,19 +28,12 @@ declare global {
 }
 
 export interface ClAppProps
-  extends Pick<
-    TokenProviderProps,
-    'organizationSlug' | 'onAppClose' | 'isInDashboard' | 'extras'
-  > {
+  extends Partial<Omit<TokenProviderProps, 'appSlug' | 'children'>> {
   /**
    * Base path for internal routing.
    * Example: `my-app` if you want to serve the app at `https://my-domain.com/my-app/`.
    */
   routerBase?: string
-  /**
-   * Callback to be called when the user is not authenticated or the token is invalid/expired.
-   */
-  onInvalidAuth?: () => void
 }
 
 /**
