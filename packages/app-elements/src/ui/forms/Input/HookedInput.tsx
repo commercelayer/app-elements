@@ -17,7 +17,15 @@ export function HookedInput({ name, ...props }: HookedInputProps): JSX.Element {
   const { register } = useFormContext()
   const feedback = useValidationFeedback(name)
 
-  return <Input {...props} {...register(name)} feedback={feedback} />
+  return (
+    <Input
+      {...props}
+      {...register(name, {
+        valueAsNumber: props.type === 'number'
+      })}
+      feedback={feedback}
+    />
+  )
 }
 
 HookedInput.displayName = 'HookedInput'
