@@ -284,6 +284,10 @@ describe('fetchCoreResourcesSuggestions', () => {
         },
         {
           "type": "relationship",
+          "value": "order.line_items.notifications",
+        },
+        {
+          "type": "relationship",
           "value": "order.line_items.events",
         },
         {
@@ -942,6 +946,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "relationship",
+      "value": "order.discount_engine_item",
+    },
+    {
+      "type": "relationship",
       "value": "order.line_items",
     },
     {
@@ -1015,6 +1023,10 @@ const orderSuggestionsSnapshot = `
     {
       "type": "relationship",
       "value": "order.attachments",
+    },
+    {
+      "type": "relationship",
+      "value": "order.notifications",
     },
     {
       "type": "relationship",
