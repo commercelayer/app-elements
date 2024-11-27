@@ -1,8 +1,11 @@
+import { CoreSdkProvider, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form'
-import { HookedInputSelect } from '#ui/forms/InputSelect'
+import { HookedInputSelect, type InputSelectValue } from '#ui/forms/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputSelect> = {
@@ -10,7 +13,16 @@ const setup: Meta<typeof HookedInputSelect> = {
   component: HookedInputSelect,
   parameters: {
     layout: 'padded'
-  }
+  },
+  decorators: [
+    (Story) => (
+      <TokenProvider kind='integration' appSlug='orders' devMode>
+        <CoreSdkProvider>
+          <Story />
+        </CoreSdkProvider>
+      </TokenProvider>
+    )
+  ]
 }
 export default setup
 
@@ -175,5 +187,80 @@ export const Clear: StoryFn<typeof HookedInputSelect> = () => {
         <Button type='submit'>Submit</Button>
       </Spacer>
     </HookedForm>
+  )
+}
+
+export const AsyncAllIn: StoryFn<typeof HookedInputSelect> = () => {
+  const { sdkClient } = useCoreSdkProvider()
+  const [initialTags, setInitialTags] = useState<InputSelectValue[] | null>(
+    null
+  )
+  const [defaultTags, setDefaultTags] = useState<string[]>([])
+
+  const methods = useForm()
+
+  useEffect(() => {
+    void sdkClient.tags.list().then((tags) => {
+      setInitialTags(
+        tags.slice(0, 5).map((tag: any) => ({
+          value: tag.id,
+          label: tag.name
+        }))
+      )
+
+      setDefaultTags([tags[1]?.id, tags[3]?.id].filter((v) => v != null))
+    })
+  }, [])
+
+  useEffect(() => {
+    methods.reset({
+      tags: defaultTags
+    })
+  }, [defaultTags])
+
+  return (
+    <div
+      style={{
+        paddingBottom: '300px'
+      }}
+    >
+      <HookedForm
+        {...methods}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values))
+        }}
+      >
+        <HookedInputSelect
+          name='tags'
+          isMulti
+          label='Search resource'
+          initialValues={initialTags ?? []}
+          loadAsyncValues={async (input) => {
+            const tags = await sdkClient.tags.list({
+              filters: { name_cont: input }
+            })
+
+            return tags.map((tag: any) => ({
+              value: tag.id,
+              label: tag.name
+            }))
+          }}
+          placeholder='Type to filter list...'
+        />
+        <Spacer top='4'>
+          <Button
+            type='reset'
+            variant='secondary'
+            onClick={() => {
+              methods.reset()
+            }}
+          >
+            Reset
+          </Button>
+          &nbsp;&nbsp;&nbsp;
+          <Button type='submit'>Submit</Button>
+        </Spacer>
+      </HookedForm>
+    </div>
   )
 }

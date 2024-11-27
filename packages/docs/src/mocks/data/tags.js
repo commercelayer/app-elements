@@ -1,3 +1,5 @@
+// @ts-check
+
 import { HttpResponse, http } from 'msw'
 
 const mockedTags = Array(15)
@@ -25,9 +27,14 @@ const customerTags = http.get(
 
 const organizationTags = http.get(
   `https://mock.localhost/api/tags`,
-  async () => {
+  async ({ request }) => {
+    const url = new URL(request.url)
+    const name =
+      url.searchParams.get('filter[q][name_cont]')?.toLowerCase() ?? ''
     return HttpResponse.json({
-      data: mockedTags,
+      data: mockedTags.filter((tag) =>
+        tag.attributes.name.toLowerCase().includes(name)
+      ),
       meta: { record_count: 100, page_count: 10 }
     })
   }

@@ -51,7 +51,7 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
   onSelect,
   ...props
 }: HookedInputSelectProps) => {
-  const { control, watch, getValues } = useFormContext()
+  const { control, watch, getValues, formState } = useFormContext()
   const feedback = useValidationFeedback(name)
   const [prevWatched, setPrevWatched] = useState(getValues(name))
 
@@ -72,8 +72,6 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
     [watched, ref]
   )
 
-  const isAsync = props.loadAsyncValues != null
-
   return (
     <Controller
       name={name}
@@ -84,17 +82,13 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
           name={name}
           ref={ref}
           onBlur={onBlur}
-          defaultValue={
-            isAsync
-              ? getDefaultValueFromFlatten({
-                  initialValues: props.initialValues,
-                  currentValue: value,
-                  pathToValue
-                })
-              : undefined
-          }
+          defaultValue={getDefaultValueFromFlatten({
+            initialValues: props.initialValues,
+            currentValue: value,
+            pathToValue
+          })}
           value={
-            !isAsync
+            formState.dirtyFields[name] !== true
               ? getDefaultValueFromFlatten({
                   initialValues: props.initialValues,
                   currentValue: value,
