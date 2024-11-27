@@ -4,6 +4,7 @@ import { HookedInput } from '#ui/forms/Input'
 import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
 import { useForm } from 'react-hook-form'
 
+import { getResourceEndpoint } from '#helpers/resources'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -36,7 +37,7 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
     <HookedForm
       {...methods}
       onSubmit={(formValues) => {
-        void sdkClient[resource.type]
+        void sdkClient[getResourceEndpoint(resource.type)]
           .update({
             id: resource.id,
             reference: formValues.reference,
@@ -45,7 +46,7 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
           .then(() => {
             void onUpdated()
           })
-          .catch((error) => {
+          .catch((error: any) => {
             setApiError(error)
           })
       }}

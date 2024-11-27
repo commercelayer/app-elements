@@ -1,5 +1,6 @@
+import { type ResourceEndpoint } from '#helpers/resources'
 import { useTokenProvider } from '#providers/TokenProvider'
-import type { CommerceLayerClient, ResourceTypeLock } from '@commercelayer/sdk'
+import type { CommerceLayerClient } from '@commercelayer/sdk'
 import { useCallback } from 'react'
 import useSWR, {
   type Fetcher,
@@ -39,7 +40,7 @@ type ForceToBeMethod<Method> = Method extends GenericMethod
  * @returns SWR response
  */
 export function useCoreApi<
-  Resource extends ResourceTypeLock,
+  Resource extends ResourceEndpoint,
   Action extends ConditionalKeys<CommerceLayerClient[Resource], GenericMethod>,
   Method extends ForceToBeMethod<CommerceLayerClient[Resource][Action]>,
   Args extends Parameters<Method>,
