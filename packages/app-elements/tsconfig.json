@@ -50,6 +50,7 @@
     }
   },
   "include": [
+    "vite.config.js",
     "src",
     "mocks",
     ".eslintrc.cjs"

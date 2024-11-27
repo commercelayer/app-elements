@@ -8,7 +8,7 @@
     "noUncheckedIndexedAccess": true
   },
   "include": [
-    "vite.config.ts",
+    "vite.config.js",
     "package.json"
   ]
 }

@@ -1,3 +1,4 @@
+// @ts-check
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'
 import dts from 'vite-plugin-dts'
@@ -20,7 +21,8 @@ export default defineConfig({
       name: 'Blocks',
       // the proper extensions will be added
       fileName: 'main',
-      formats: ['es']
+      formats: ['es'],
+      cssFileName: 'style'
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled

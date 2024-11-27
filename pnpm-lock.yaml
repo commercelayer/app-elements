@@ -117,9 +117,6 @@ importers:
       '@types/react-gtm-module':
         specifier: ^2.0.4
         version: 2.0.4
-      '@types/testing-library__jest-dom':
-        specifier: ^6.0.0
-        version: 6.0.0
       '@vitejs/plugin-react':
         specifier: ^4.3.4
         version: 4.3.4(vite@6.0.1(@types/node@20.17.8)(jiti@1.21.6)(terser@5.36.0)(yaml@2.6.1))
@@ -1982,10 +1979,6 @@ packages:
 
   '@types/statuses@2.0.5':
     resolution: {integrity: sha512-jmIUGWrAiwu3dZpxntxieC+1n/5c3mjrImkmOSQ2NC5uP6cYO4aAZDdSmRcI5C1oiTmqlZGHC+/NmJrKogbP5A==}
-
-  '@types/testing-library__jest-dom@6.0.0':
-    resolution: {integrity: sha512-bnreXCgus6IIadyHNlN/oI5FfX4dWgvGhOPvpr7zzCYDGAPIfvyIoAozMBINmhmsVuqV0cncejF2y5KC7ScqOg==}
-    deprecated: This is a stub types definition. @testing-library/jest-dom provides its own type definitions, so you do not need this installed.
 
   '@types/tough-cookie@4.0.5':
     resolution: {integrity: sha512-/Ad8+nIOV7Rl++6f1BdKxFSMgmoqEoYbHRpPcx3JEfv8VRsQe9Z4mCXeJBzxs7mbHY/XOZZuXlRNfhpVPbs6ZA==}
@@ -8546,10 +8539,6 @@ snapshots:
   '@types/semver@7.5.8': {}
 
   '@types/statuses@2.0.5': {}
-
-  '@types/testing-library__jest-dom@6.0.0':
-    dependencies:
-      '@testing-library/jest-dom': 6.6.3
 
   '@types/tough-cookie@4.0.5': {}
 
