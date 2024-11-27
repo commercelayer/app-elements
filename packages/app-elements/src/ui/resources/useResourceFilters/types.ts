@@ -1,5 +1,7 @@
 import { type InputCurrencyRangeProps } from '#ui/forms/InputCurrencyRange'
 import { type InputResourceGroupProps } from '#ui/forms/InputResourceGroup'
+import { type QueryFilter } from '@commercelayer/sdk'
+import { type ValueOf } from 'type-fest'
 
 export const filterableTimeRangePreset = [
   'today',
@@ -67,7 +69,7 @@ export interface BaseFilterItem {
     /**
      * Custom function to transform the form value to the SDK value
      */
-    parseFormValue?: (value: unknown) => string | number | boolean | undefined
+    parseFormValue?: (value: unknown) => ValueOf<QueryFilter> | undefined
   }
 }
 
