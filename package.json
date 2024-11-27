@@ -33,11 +33,8 @@
     "packages/*"
   ],
   "devDependencies": {
-    "husky": "^9.1.6",
-    "lerna": "^8.1.8",
+    "husky": "^9.1.7",
+    "lerna": "^8.1.9",
     "lint-staged": "^15.2.10"
-  },
-  "resolutions": {
-    "tar": "^6.2.1"
   }
 }

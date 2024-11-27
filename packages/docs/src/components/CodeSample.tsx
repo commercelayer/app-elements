@@ -1,4 +1,5 @@
 import { Source } from '@storybook/blocks'
+import { type Plugin } from 'prettier'
 import * as prettierEstree from 'prettier/plugins/estree'
 import * as prettierTypescript from 'prettier/plugins/typescript'
 import * as prettier from 'prettier/standalone'
@@ -52,7 +53,7 @@ export function CodeSample({
           trailingComma: 'none',
           parser: 'typescript',
           printWidth: 60,
-          plugins: [prettierTypescript, prettierEstree]
+          plugins: [prettierTypescript, prettierEstree as Plugin<any>]
         })
 
         tmpSanitizedCode = tmpSanitizedCode.replaceAll(';', ';\n')

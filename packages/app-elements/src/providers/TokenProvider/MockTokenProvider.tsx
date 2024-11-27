@@ -33,7 +33,7 @@ export function MockTokenProvider({
       id: '1234',
       name: 'Commerce Layer',
       slug: 'mock',
-      type: 'organization',
+      type: 'organizations',
       created_at: '2021-01-01T00:00:00.000Z',
       updated_at: '2021-01-01T00:00:00.000Z'
     },

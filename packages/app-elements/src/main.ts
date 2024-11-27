@@ -22,7 +22,11 @@ export {
 } from '#helpers/date'
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
 export { computeFullname, formatDisplayName } from '#helpers/name'
-export { formatResourceName, type TriggerAttribute } from '#helpers/resources'
+export {
+  formatResourceName,
+  getResourceEndpoint,
+  type TriggerAttribute
+} from '#helpers/resources'
 export {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,

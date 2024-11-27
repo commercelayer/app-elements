@@ -1,5 +1,6 @@
 import {
   type ListableResourceType,
+  type ResourceTypeLock,
   type ResourceUpdate
 } from '@commercelayer/sdk'
 
@@ -112,6 +113,7 @@ const singularLowercase: Record<ListableResourceType, string> = {
   stock_locations: 'stock location',
   stock_reservations: 'stock reservation',
   stock_transfers: 'stock transfer',
+  stores: 'Store',
   stripe_gateways: 'stripe gateway',
   stripe_payments: 'stripe payment',
   subscription_models: 'subscription model',
@@ -236,6 +238,7 @@ const pluralLowercase: Record<ListableResourceType, string> = {
   stock_locations: 'stock locations',
   stock_reservations: 'stock reservations',
   stock_transfers: 'stock transfers',
+  stores: 'Stores',
   stripe_gateways: 'stripe gateways',
   stripe_payments: 'stripe payments',
   subscription_models: 'subscription models',
@@ -287,3 +290,23 @@ export type TriggerAttribute<Resource extends ResourceUpdate> = Extract<
   keyof Resource,
   `_${string}`
 >
+
+export type ResourceEndpoint =
+  | Exclude<ResourceTypeLock, 'applications' | 'organizations'>
+  | ('organization' | 'application')
+
+/**
+ * Get the resource endpoint for a given resource type.
+ * @param resourceType The resource type
+ * @returns The resource endpoint
+ * @example getResourceEndpoint('organizations') // 'organization'
+ */
+export function getResourceEndpoint(
+  resourceType: ResourceTypeLock
+): ResourceEndpoint {
+  return resourceType === 'organizations'
+    ? 'organization'
+    : resourceType === 'applications'
+      ? 'application'
+      : resourceType
+}
