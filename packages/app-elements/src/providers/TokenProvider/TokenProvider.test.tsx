@@ -91,7 +91,7 @@ describe('TokenProvider', () => {
     expect(getByText('fullName: Ringo Starr')).toBeVisible()
 
     expect(getByText('can access orders: yes')).toBeVisible()
-    expect(getByText('can access exports: no')).toBeVisible()
+    expect(getByText('can access exports: yes')).toBeVisible()
 
     expect(onInvalidAuth).toHaveBeenCalledTimes(0)
   })

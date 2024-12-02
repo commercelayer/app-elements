@@ -200,6 +200,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
   const canAccess = useCallback(
     function (appSlug: TokenProviderAllowedApp): boolean {
+      if (kind === 'integration') {
+        return true
+      }
       return _state.accessibleApps.includes(appSlug)
     },
     [_state.accessibleApps]
