@@ -43,6 +43,7 @@ export {
   getUnitsOfWeightForSelect,
   type UnitOfWeight
 } from '#helpers/unitsOfWeight'
+export { useAppLinking } from '#helpers/useAppLinking'
 // Hooks
 export { useClickAway } from '#hooks/useClickAway'
 export { useDelayShow } from '#hooks/useDelayShow'
