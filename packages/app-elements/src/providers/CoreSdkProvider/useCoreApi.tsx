@@ -57,6 +57,10 @@ export function useCoreApi<
     settings: { mode }
   } = useTokenProvider()
 
+  console.log('sdkClient', sdkClient)
+  console.log('resource', resource)
+  console.log('sdkClient.orders', sdkClient.orders)
+
   const fetcher = useCallback(
     async ([resource, action, args]: [
       resource: Resource,
