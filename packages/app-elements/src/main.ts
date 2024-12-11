@@ -62,7 +62,7 @@ export {
 export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
 export { GTMProvider, useTagManager } from '#providers/GTMProvider'
-export { I18NProvider } from '#providers/I18NProvider'
+export { I18NProvider, useTranslation } from '#providers/I18NProvider'
 export {
   MetaTags,
   TokenProvider,
@@ -387,3 +387,4 @@ export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
 } from '#dictionaries/stockTransfers'
+

@@ -3,6 +3,8 @@ import { type i18n as I18nInstance } from 'i18next'
 import React, { type ReactNode, useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 
+export { useTranslation } from 'react-i18next'
+
 interface I18NProviderProps {
   localeCode?: I18NLocale
   localeUrl?: string
