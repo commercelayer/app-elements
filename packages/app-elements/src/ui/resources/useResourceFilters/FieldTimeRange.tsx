@@ -21,9 +21,7 @@ interface FieldTimeRangeProps {
 
 export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
   const { user } = useTokenProvider()
-  const { Overlay, close, open } = useOverlay({
-    queryParam: `timeRangePickerView`
-  })
+  const { Overlay, close, open } = useOverlay()
 
   const { watch, setValue, trigger } = useFormContext<TimeRangeFormValues>()
   const timePreset = watch('timePreset')
