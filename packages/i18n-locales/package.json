@@ -1,0 +1,5 @@
+{
+  "scripts": {
+    "serve": "pnpm dlx serve --cors public"
+  }
+}
