@@ -21,6 +21,7 @@ export {
   timeSeparator
 } from '#helpers/date'
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
+export { initI18n, languages, type I18NLocale } from '#helpers/i18n'
 export { computeFullname, formatDisplayName } from '#helpers/name'
 export {
   formatResourceName,
@@ -61,6 +62,7 @@ export {
 export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
 export { GTMProvider, useTagManager } from '#providers/GTMProvider'
+export { I18NProvider } from '#providers/I18NProvider'
 export {
   MetaTags,
   TokenProvider,
