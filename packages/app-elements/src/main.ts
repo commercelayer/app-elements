@@ -387,4 +387,3 @@ export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
 } from '#dictionaries/stockTransfers'
-
