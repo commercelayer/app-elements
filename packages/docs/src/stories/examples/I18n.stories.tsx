@@ -19,10 +19,7 @@ const setup: Meta = {
     docs: {
       page: () => (
         <>
-          <I18NProvider
-            localeCode='en'
-            localeUrl='http://localhost:3000/{{lng}}.json'
-          >
+          <I18NProvider localeCode='en' baseUrl='http://localhost:3000/'>
             <Title />
             <Subtitle />
             <Description />

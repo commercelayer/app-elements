@@ -9,8 +9,11 @@ export type I18NLocale = (typeof languages)[number]
 
 export const initI18n = async (
   localeCode: I18NLocale,
-  localeUrl?: string
+  baseUrl?: string
 ): Promise<I18nInstance> => {
+  // TODO: Define the path to the i18n public files
+  const localeUrl = `${baseUrl ?? 'https://cdn.commercelayer.io/i18n/'}{{lng}}.json`
+
   await i18n
     .use(HttpApi)
     .use(LanguageDetector)
@@ -25,9 +28,7 @@ export const initI18n = async (
         useSuspense: true
       },
       backend: {
-        loadPath:
-          // TODO: Define the path to the i18n public files
-          localeUrl ?? 'https://cdn.commercelayer.io/i18n/{{lng}}.json'
+        loadPath: localeUrl
       },
       debug: true
     })
