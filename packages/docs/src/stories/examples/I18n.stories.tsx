@@ -1,4 +1,4 @@
-import { I18NProvider } from '#providers/I18NProvider'
+import { I18NProvider, useTranslation } from '#providers/I18NProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
@@ -11,7 +11,6 @@ import { type PossibleSelectValue } from '#ui/forms/InputSelect/InputSelect'
 import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 const setup: Meta = {
   title: 'Examples/I18N',
