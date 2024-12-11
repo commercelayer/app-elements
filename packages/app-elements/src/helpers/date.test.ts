@@ -597,6 +597,36 @@ describe('formatDateRange should return the proper date format', () => {
       })
     ).toEqual('Dec 01, 2023 - Jan 31, 2025')
   })
+
+  test('with timezone Italy', () => {
+    expect(
+      formatDateRange({
+        rangeFrom: '2024-12-09T22:00:00.000Z',
+        rangeTo: '2024-12-10T21:59:59.999Z',
+        timezone: 'Europe/Rome'
+      })
+    ).toEqual('10-10 Dec')
+  })
+
+  test('with timezone Italy', () => {
+    expect(
+      formatDateRange({
+        rangeFrom: '2024-12-10T00:00:00.000Z',
+        rangeTo: '2024-12-10T23:59:59.999Z',
+        timezone: 'Europe/Rome'
+      })
+    ).toEqual('10-11 Dec')
+  })
+
+  test('with timezone Dublin', () => {
+    expect(
+      formatDateRange({
+        rangeFrom: '2024-12-10T00:00:00.000Z',
+        rangeTo: '2024-12-10T23:59:59.999Z',
+        timezone: 'Europe/Dublin'
+      })
+    ).toEqual('10-10 Dec')
+  })
 })
 
 describe('makeDateYearsRange', () => {

@@ -1,5 +1,7 @@
 import { fromZonedTime } from 'date-fns-tz/fromZonedTime'
+import { getTimezoneOffset } from 'date-fns-tz/getTimezoneOffset'
 import { toZonedTime } from 'date-fns-tz/toZonedTime'
+import { addMilliseconds } from 'date-fns/addMilliseconds'
 import { endOfDay } from 'date-fns/endOfDay'
 import { format } from 'date-fns/format'
 import { formatDistance } from 'date-fns/formatDistance'
@@ -311,8 +313,15 @@ export function formatDateRange({
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
 }): string {
-  const zonedFrom = toZonedTime(new Date(rangeFrom), timezone)
-  const zonedTo = toZonedTime(new Date(rangeTo), timezone)
+  const offsetMilliseconds = getTimezoneOffset(timezone)
+  const zonedFrom = toZonedTime(
+    addMilliseconds(rangeFrom, offsetMilliseconds),
+    timezone
+  )
+  const zonedTo = toZonedTime(
+    addMilliseconds(rangeTo, offsetMilliseconds),
+    timezone
+  )
 
   if (isSameYear(zonedFrom, zonedTo) && isSameMonth(zonedFrom, zonedTo)) {
     const dayOfMonthFrom = format(zonedFrom, 'd')
