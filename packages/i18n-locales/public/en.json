@@ -1,6 +1,121 @@
 {
   "common": {
     "all": "all",
-    "all_female": "all"
+    "all_female": "all",
+    "resources": {
+      "common": {
+        "status": {
+          "not_handled": "Not handled"
+        }
+      },
+      "bundles": {
+        "name": "Bundle",
+        "name_plural": "Bundles",
+        "status": {}
+      },
+      "customers": {
+        "name": "Customer",
+        "name_plural": "Customers",
+        "status": {
+          "prospect": "Prospect",
+          "acquired": "Acquired",
+          "repeat": "Repeat"
+        }
+      },
+      "orders": {
+        "name": "Order",
+        "name_plural": "Orders",
+        "status": {
+          "approved": "Approved",
+          "cancelled": "Cancelled",
+          "draft": "Draft",
+          "editing": "Editing",
+          "pending": "Pending",
+          "placed": "Placed",
+          "placing": "Placing",
+          "in_progress": "In progress",
+          "in_progress_manual": "In progress (Manual)"
+        },
+        "payment_status": {
+          "authorized": "Authorized",
+          "paid": "Paid",
+          "unpaid": "Unpaid",
+          "free": "Free",
+          "voided": "Voided",
+          "refunded": "Refunded",
+          "partially_authorized": "Part. authorized",
+          "partially_paid": "Part. paid",
+          "partially_refunded": "Part. refunded",
+          "partially_voided": "Part. voided"
+        },
+        "fulfillment_status": {
+          "unfulfilled": "Unfulfilled",
+          "in_progress": "In progress",
+          "fulfilled": "Fulfilled",
+          "not_required": "Not required"
+        },
+        "task": {
+          "awaiting_approval": "Awaiting approval",
+          "error_to_cancel": "Error to cancel",
+          "payment_to_capture": "Payment to capture",
+          "fulfillment_in_progress": "Fulfillment in progress"
+        }
+      },
+      "promotions": {
+        "name": "Promotion",
+        "name_plural": "Promotions",
+        "status": {
+          "active": "Active",
+          "disabled": "Disabled",
+          "expired": "Expired",
+          "inactive": "Inactive",
+          "pending": "Pending",
+          "upcoming": "Upcoming"
+        }
+      },
+      "returns": {
+        "name": "Return",
+        "name_plural": "Returns",
+        "status": {
+          "approved": "Approved",
+          "cancelled": "Cancelled",
+          "draft": "Draft",
+          "requested": "Requested",
+          "received": "Received",
+          "rejected": "Rejected",
+          "refunded": "Refunded",
+          "shipped": "Shipped"
+        }
+      },
+      "shipments": {
+        "name": "Shipment",
+        "name_plural": "Shipments",
+        "status": {
+          "awaiting_stock_transfer": "Awaiting stock transfer",
+          "cancelled": "Cancelled",
+          "delivered": "Delivered",
+          "draft": "Draft",
+          "on_hold": "On hold",
+          "packing": "Packing",
+          "picking": "Picking",
+          "ready_to_ship": "Ready to ship",
+          "shipped": "Shipped",
+          "upcoming": "Upcoming"
+        }
+      },
+      "stock_transfers": {
+        "name": "Stock transfer",
+        "name_plural": "Stock transfers",
+        "status": {
+          "cancelled": "Cancelled",
+          "completed": "Completed",
+          "draft": "Draft",
+          "in_transit": "In transit",
+          "on_hold": "On hold",
+          "picking": "Picking",
+          "upcoming": "Upcoming"
+        }
+      }
+    }
   }
 }
