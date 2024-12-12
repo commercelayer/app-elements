@@ -1,6 +1,121 @@
 {
   "common": {
     "all": "tutti",
-    "all_female": "tutte"
+    "all_female": "tutte",
+    "resources": {
+      "common": {
+        "status": {
+          "not_handled": "Non gestito"
+        }
+      },
+      "bundles": {
+        "name": "Bundle",
+        "name_plural": "Bundles",
+        "status": {}
+      },
+      "customers": {
+        "name": "Customer",
+        "name_plural": "Customers",
+        "status": {
+          "prospect": "Potenziale",
+          "acquired": "Acquisito",
+          "repeat": "Abituale"
+        }
+      },
+      "orders": {
+        "name": "Ordine",
+        "name_plural": "Ordini",
+        "status": {
+          "approved": "Approvato",
+          "cancelled": "Cancellato",
+          "draft": "Bozza",
+          "editing": "In modifica",
+          "pending": "In attesa",
+          "placed": "Piazzato",
+          "placing": "In piazzamento",
+          "in_progress": "In corso",
+          "in_progress_manual": "In corso (Manuale)"
+        },
+        "payment_status": {
+          "authorized": "Autorizzato",
+          "paid": "Pagato",
+          "unpaid": "Non pagato",
+          "free": "Gratuito",
+          "voided": "Annullato",
+          "refunded": "Rimborsato",
+          "partially_authorized": "Parz. autorizzato",
+          "partially_paid": "Parz. pagato",
+          "partially_refunded": "Parz. rimborsato",
+          "partially_voided": "Parz. annullato"
+        },
+        "fulfillment_status": {
+          "unfulfilled": "Non evaso",
+          "in_progress": "In corso",
+          "fulfilled": "Evaso",
+          "not_required": "Non richiesto"
+        },
+        "task": {
+          "awaiting_approval": "In attesa di approvazione",
+          "error_to_cancel": "Errore nella cancellazione",
+          "payment_to_capture": "Pagamento da catturare",
+          "fulfillment_in_progress": "Evasione in corso"
+        }
+      },
+      "promotions": {
+        "name": "Promozione",
+        "name_plural": "Promozioni",
+        "status": {
+          "active": "Attiva",
+          "disabled": "Disabilitata",
+          "expired": "Scaduta",
+          "inactive": "Inattiva",
+          "pending": "In attesa",
+          "upcoming": "Imminente"
+        }
+      },
+      "returns": {
+        "name": "Reso",
+        "name_plural": "Resi",
+        "status": {
+          "approved": "Approvato",
+          "cancelled": "Cancellato",
+          "draft": "Bozza",
+          "requested": "Richiesto",
+          "received": "Ricevuto",
+          "refunded": "Rimborsato",
+          "rejected": "Rifiutato",
+          "shipped": "Spedito"
+        }
+      },
+      "shipments": {
+        "name": "Spedizione",
+        "name_plural": "Spedizioni",
+        "status": {
+          "awaiting_stock_transfer": "In attesa di trasferimento di magazzino",
+          "cancelled": "Cancellato",
+          "delivered": "Consegnato",
+          "draft": "Bozza",
+          "on_hold": "In attesa",
+          "packing": "In imballaggio",
+          "picking": "In prelievo",
+          "ready_to_ship": "Pronto per la spedizione",
+          "shipped": "Spedito",
+          "upcoming": "Imminente"
+        }
+      },
+      "stock_transfers": {
+        "name": "Trasferimento di magazzino",
+        "name_plural": "Trasferimenti di magazzino",
+        "status": {
+          "cancelled": "Cancellato",
+          "completed": "Completato",
+          "draft": "Bozza",
+          "in_transit": "In transito",
+          "on_hold": "In attesa",
+          "picking": "In prelievo",
+          "upcoming": "Imminente"
+        }
+      }
+    }
   }
 }
