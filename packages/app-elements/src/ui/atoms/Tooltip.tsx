@@ -61,7 +61,7 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
           // We are using our own styles, by applying tailwind classes
           // https://react-tooltip.com/docs/examples/styling#base-styles
           disableStyleInjection
-          className='rounded bg-black text-white px-4 py-3 text-sm font-semibold w-max'
+          className='rounded bg-black text-white px-4 py-3 text-sm font-semibold w-max max-w-[260px]'
           classNameArrow={cn('w-2 h-2', {
             'rotate-[45deg]': direction.includes('top'),
             'rotate-[225deg]': direction.includes('bottom')
