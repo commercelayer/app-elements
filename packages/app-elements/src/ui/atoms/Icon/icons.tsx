@@ -66,6 +66,7 @@ export const iconMapping = {
   lifebuoy: phosphor.Lifebuoy,
   lightbulbFilament: phosphor.LightbulbFilament,
   lightning: phosphor.Lightning,
+  link: phosphor.Link,
   linkSimple: phosphor.LinkSimple,
   list: phosphor.List,
   lockSimple: phosphor.LockSimple,
