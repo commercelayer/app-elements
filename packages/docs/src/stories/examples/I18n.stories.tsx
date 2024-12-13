@@ -19,7 +19,7 @@ const setup: Meta = {
     docs: {
       page: () => (
         <>
-          <I18NProvider localeCode='en' baseUrl='http://localhost:3000/'>
+          <I18NProvider localeCode='en'>
             <Title />
             <Subtitle />
             <Description />
