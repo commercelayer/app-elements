@@ -1,5 +1,5 @@
-import { useTranslation } from '#providers/I18NProvider'
 import type { Customer } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 export interface CustomerDisplayStatus extends DisplayStatus {}
@@ -7,8 +7,6 @@ export interface CustomerDisplayStatus extends DisplayStatus {}
 export function getCustomerDisplayStatus(
   customerObj: Customer
 ): CustomerDisplayStatus {
-  const { t } = useTranslation()
-
   switch (customerObj.status) {
     case 'prospect':
       return {
@@ -37,8 +35,6 @@ export function getCustomerDisplayStatus(
 }
 
 export function getCustomerStatusName(status: Customer['status']): string {
-  const { t } = useTranslation()
-
   const dictionary: Record<typeof status, string> = {
     prospect: t('common.resources.customers.status.prospect'),
     acquired: t('common.resources.customers.status.acquired'),
