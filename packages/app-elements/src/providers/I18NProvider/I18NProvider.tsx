@@ -1,4 +1,8 @@
-import { type I18NLocale, initI18n, languages } from '#helpers/i18n'
+import {
+  type I18NLocale,
+  initI18n,
+  languages
+} from '#providers/I18NProvider/i18n'
 import { type i18n as I18nInstance } from 'i18next'
 import React, { type ReactNode, useEffect, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
@@ -7,13 +11,11 @@ export { useTranslation } from 'react-i18next'
 
 interface I18NProviderProps {
   localeCode?: I18NLocale
-  baseUrl?: string
   children: ReactNode
 }
 
 export const I18NProvider: React.FC<I18NProviderProps> = ({
   localeCode = languages[0],
-  baseUrl,
   children
 }) => {
   const [i18nInstance, setI18nInstance] = useState<I18nInstance | undefined>()
@@ -21,7 +23,7 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
   useEffect(() => {
     const setupI18n = async (): Promise<void> => {
       try {
-        const instance = await initI18n(localeCode, baseUrl)
+        const instance = await initI18n(localeCode)
         if (instance.isInitialized) {
           setI18nInstance(instance)
         }
@@ -36,7 +38,7 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
     ) {
       void setupI18n()
     }
-  }, [localeCode, baseUrl, i18nInstance])
+  }, [localeCode, i18nInstance])
 
   if (
     i18nInstance == null ||
