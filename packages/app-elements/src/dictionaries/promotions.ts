@@ -1,6 +1,6 @@
 import { getEventDateInfo } from '#helpers/date'
-import { useTranslation } from '#providers/I18NProvider'
 import type { Promotion } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 interface PromotionDisplayStatus extends DisplayStatus {
@@ -10,7 +10,6 @@ interface PromotionDisplayStatus extends DisplayStatus {
 export function getPromotionDisplayStatus(
   promotion: Omit<Promotion, 'type' | 'promotion_rules'>
 ): PromotionDisplayStatus {
-  const { t } = useTranslation()
   if (promotion.disabled_at != null) {
     return {
       status: 'disabled',

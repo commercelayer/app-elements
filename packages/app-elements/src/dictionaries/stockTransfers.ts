@@ -1,6 +1,6 @@
-import { useTranslation } from '#providers/I18NProvider'
 import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { StockTransfer } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 export interface StockTransferDisplayStatus extends DisplayStatus {
@@ -13,8 +13,6 @@ export interface StockTransferDisplayStatus extends DisplayStatus {
 export function getStockTransferDisplayStatus(
   stockTransfer: StockTransfer
 ): StockTransferDisplayStatus {
-  const { t } = useTranslation()
-
   switch (stockTransfer.status) {
     case 'upcoming':
       return {
@@ -74,8 +72,6 @@ export function getStockTransferDisplayStatus(
 export function getStockTransferStatusName(
   status: StockTransfer['status']
 ): string {
-  const { t } = useTranslation()
-
   const dictionary: Record<typeof status, string> = {
     cancelled: t('common.resources.stock_transfers.status.cancelled'),
     completed: t('common.resources.stock_transfers.status.completed'),

@@ -1,6 +1,6 @@
-import { useTranslation } from '#providers/I18NProvider'
 import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { Shipment } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 export interface ShipmentDisplayStatus extends DisplayStatus {
@@ -14,8 +14,6 @@ export function getShipmentDisplayStatus(
   shipment: Shipment,
   awaitingStockTransfer: boolean = false
 ): ShipmentDisplayStatus {
-  const { t } = useTranslation()
-
   const shipmentStatus = awaitingStockTransfer
     ? 'awaiting_stock_transfer'
     : shipment.status
@@ -106,8 +104,6 @@ export function getShipmentDisplayStatus(
 }
 
 export function getShipmentStatusName(status: Shipment['status']): string {
-  const { t } = useTranslation()
-
   const dictionary: Record<typeof status, string> = {
     draft: t('common.resources.shipments.status.draft'),
     on_hold: t('common.resources.shipments.status.on_hold'),

@@ -1,4 +1,3 @@
-import { useTranslation } from '#providers/I18NProvider'
 import type { StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { Order } from '@commercelayer/sdk'
 import { t } from 'i18next'
@@ -11,7 +10,6 @@ export interface OrderDisplayStatus extends DisplayStatus {
 }
 
 export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
-  const { t } = useTranslation()
   const combinedStatus =
     `${order.status}:${order.payment_status}:${order.fulfillment_status}` as const
 
