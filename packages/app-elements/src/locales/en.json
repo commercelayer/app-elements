@@ -1,7 +1,17 @@
 {
   "common": {
-    "all": "all",
-    "all_female": "all",
+    "all": "All {{resource}}",
+    "all_female": "All {{resource}}",
+    "not_handled": "Not handled",
+    "edit": "Edit {{resource}}",
+    "manage": "Manage {{resource}}",
+    "new": "New {{resource}}",
+    "new_female": "New {{resource}}",
+    "metadata": "Metadata",
+    "search": "Search...",
+    "limit_reached": "Limit reached",
+    "add_up_to": "You can add up to {{limit}} {{resource}}.",
+    "update": "Update",
     "resources": {
       "common": {
         "status": {
@@ -115,6 +125,11 @@
           "picking": "Picking",
           "upcoming": "Upcoming"
         }
+      },
+      "tags": {
+        "name": "Tag",
+        "name_other": "Tags",
+        "status": {}
       }
     }
   }
