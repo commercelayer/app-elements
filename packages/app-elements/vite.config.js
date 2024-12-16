@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // @ts-check
 import react from '@vitejs/plugin-react'
-import { resolve } from 'path'
+import fs from 'fs'
+import path, { resolve } from 'path'
 import dts from 'vite-plugin-dts'
 import { defineConfig } from 'vitest/config'
 import pkg from './package.json'
@@ -12,7 +14,8 @@ export default defineConfig({
     dts({
       insertTypesEntry: true,
       include: ['src']
-    })
+    }),
+    i18nTypes()
   ],
   build: {
     lib: {
@@ -60,3 +63,29 @@ export default defineConfig({
     ]
   }
 })
+
+/** @typedef {import("vite").Plugin} Plugin */
+/** @typedef {import("vite").ResolvedConfig} ResolvedConfig */
+
+function i18nTypes() {
+  /** @type {ResolvedConfig} */
+  let config
+
+  /** @type {Plugin} */
+  const plugin = {
+    name: 'i18n-types',
+    apply: 'build',
+    async configResolved(_config) {
+      config = _config
+    },
+    buildEnd() {
+      const origin = path.resolve(config.root, 'i18n.d.ts')
+      const dest = path.resolve(config.build.outDir, 'i18n.d.ts')
+      let content = fs.readFileSync(origin, 'utf-8')
+      content = content.replace('./src/locales/en', './locales/en')
+      fs.writeFileSync(dest, content)
+      console.log('i18n types copied')
+    }
+  }
+  return plugin
+}
