@@ -48,7 +48,7 @@ export function getPromotionDisplayStatus(
     case 'upcoming':
       return {
         status: 'upcoming',
-        label: t('resources.promotions.attributes.status.upcoming'),
+        label: t('apps.promotions.display_status.upcoming'),
         icon: 'calendarBlank',
         color: 'gray'
       }

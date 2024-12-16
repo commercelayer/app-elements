@@ -2,31 +2,157 @@ import {
   type ListableResourceType,
   type ResourceFields
 } from '@commercelayer/sdk'
+import { type Primitive } from 'type-fest'
 
 const resources = {
-  orders: {
-    name: 'Address',
-    name_other: 'Addresses',
-    attributes: {
-      number: 'numero ordine'
-    }
+  adjustments: {
+    name: 'Adjustment',
+    name_other: 'Adjustments',
+    attributes: {}
+  },
+  bundles: {
+    name: 'Bundle',
+    name_other: 'Bundles',
+    attributes: {}
   },
   customers: {
     name: 'Customer',
     name_other: 'Customers',
     attributes: {
-      email: 'indirizzo mail'
+      status: {
+        prospect: 'Prospect',
+        acquired: 'Acquired',
+        repeat: 'Repeat'
+      }
     }
+  },
+  orders: {
+    name: 'Order',
+    name_other: 'Orders',
+    attributes: {
+      status: {
+        approved: 'Approved',
+        cancelled: 'Cancelled',
+        draft: 'Draft',
+        editing: 'Editing',
+        pending: 'Pending',
+        placed: 'Placed',
+        placing: 'Placing'
+      },
+      payment_status: {
+        authorized: 'Authorized',
+        paid: 'Paid',
+        unpaid: 'Unpaid',
+        free: 'Free',
+        voided: 'Voided',
+        refunded: 'Refunded',
+        partially_authorized: 'Part. authorized',
+        partially_paid: 'Part. paid',
+        partially_refunded: 'Part. refunded',
+        partially_voided: 'Part. voided'
+      },
+      fulfillment_status: {
+        unfulfilled: 'Unfulfilled',
+        in_progress: 'In progress',
+        fulfilled: 'Fulfilled',
+        not_required: 'Not required'
+      },
+      billing_address: 'Billing address',
+      shipping_address: 'Shipping address'
+    }
+  },
+  gift_cards: {
+    name: 'Gift card',
+    name_other: 'Gift cards',
+    attributes: {}
+  },
+  promotions: {
+    name: 'Promotion',
+    name_other: 'Promotions',
+    attributes: {
+      status: {
+        active: 'Active',
+        disabled: 'Disabled',
+        expired: 'Expired',
+        inactive: 'Inactive',
+        pending: 'Pending'
+      }
+    }
+  },
+  returns: {
+    name: 'Return',
+    name_other: 'Returns',
+    attributes: {
+      status: {
+        approved: 'Approved',
+        cancelled: 'Cancelled',
+        draft: 'Draft',
+        requested: 'Requested',
+        received: 'Received',
+        rejected: 'Rejected',
+        refunded: 'Refunded',
+        shipped: 'Shipped'
+      }
+    }
+  },
+  shipments: {
+    name: 'Shipment',
+    name_other: 'Shipments',
+    attributes: {
+      status: {
+        cancelled: 'Cancelled',
+        delivered: 'Delivered',
+        draft: 'Draft',
+        on_hold: 'On hold',
+        packing: 'Packing',
+        picking: 'Picking',
+        ready_to_ship: 'Ready to ship',
+        shipped: 'Shipped',
+        upcoming: 'Upcoming'
+      }
+    }
+  },
+  stock_transfers: {
+    name: 'Stock transfer',
+    name_other: 'Stock transfers',
+    attributes: {
+      status: {
+        cancelled: 'Cancelled',
+        completed: 'Completed',
+        draft: 'Draft',
+        in_transit: 'In transit',
+        on_hold: 'On hold',
+        picking: 'Picking',
+        upcoming: 'Upcoming'
+      }
+    }
+  },
+  tags: {
+    name: 'Tag',
+    name_other: 'Tags',
+    attributes: {}
   }
 } satisfies {
   [key in ListableResourceType]?: {
     name: string
     name_other: string
     attributes: {
-      [attr in keyof ResourceFields[key]]?: string
+      [attr in keyof ResourceFields[key]]?: true extends IsStringLiteral<
+        ResourceFields[key][attr]
+      >
+        ? // @ts-expect-error TODO: check if this is fixable
+          { [K in NonNullable<ResourceFields[key][attr]>]?: string }
+        : string
     }
   }
 }
+
+type IsStringLiteral<T> =
+  'I am a literal type' extends NonNullable<T>
+    ? false // Handle `string` specifically
+    : NonNullable<T> extends Exclude<Primitive, string>
+      ? false // Handle `Primitive` specifically
+      : true // It's a string literal
 
 const en = {
   common: {
@@ -47,133 +173,7 @@ const en = {
     update: 'Update',
     updated: 'Updated'
   },
-  resources: {
-    adjustments: {
-      name: 'Adjustment',
-      name_other: 'Adjustments'
-    },
-    bundles: {
-      name: 'Bundle',
-      name_other: 'Bundles'
-    },
-    customers: {
-      name: 'Customer',
-      name_other: 'Customers',
-      attributes: {
-        status: {
-          prospect: 'Prospect',
-          acquired: 'Acquired',
-          repeat: 'Repeat'
-        }
-      }
-    },
-    orders: {
-      name: 'Order',
-      name_other: 'Orders',
-      attributes: {
-        status: {
-          approved: 'Approved',
-          cancelled: 'Cancelled',
-          draft: 'Draft',
-          editing: 'Editing',
-          pending: 'Pending',
-          placed: 'Placed',
-          placing: 'Placing',
-          in_progress: 'In progress'
-        },
-        payment_status: {
-          authorized: 'Authorized',
-          paid: 'Paid',
-          unpaid: 'Unpaid',
-          free: 'Free',
-          voided: 'Voided',
-          refunded: 'Refunded',
-          partially_authorized: 'Part. authorized',
-          partially_paid: 'Part. paid',
-          partially_refunded: 'Part. refunded',
-          partially_voided: 'Part. voided'
-        },
-        fulfillment_status: {
-          unfulfilled: 'Unfulfilled',
-          in_progress: 'In progress',
-          fulfilled: 'Fulfilled',
-          not_required: 'Not required'
-        },
-        billing_address: 'Billing address',
-        shipping_address: 'Shipping address'
-      }
-    },
-    gift_cards: {
-      name: 'Gift card',
-      name_other: 'Gift cards'
-    },
-    promotions: {
-      name: 'Promotion',
-      name_other: 'Promotions',
-      attributes: {
-        status: {
-          active: 'Active',
-          disabled: 'Disabled',
-          expired: 'Expired',
-          inactive: 'Inactive',
-          pending: 'Pending',
-          upcoming: 'Upcoming'
-        }
-      }
-    },
-    returns: {
-      name: 'Return',
-      name_other: 'Returns',
-      attributes: {
-        status: {
-          approved: 'Approved',
-          cancelled: 'Cancelled',
-          draft: 'Draft',
-          requested: 'Requested',
-          received: 'Received',
-          rejected: 'Rejected',
-          refunded: 'Refunded',
-          shipped: 'Shipped'
-        }
-      }
-    },
-    shipments: {
-      name: 'Shipment',
-      name_other: 'Shipments',
-      attributes: {
-        status: {
-          cancelled: 'Cancelled',
-          delivered: 'Delivered',
-          draft: 'Draft',
-          on_hold: 'On hold',
-          packing: 'Packing',
-          picking: 'Picking',
-          ready_to_ship: 'Ready to ship',
-          shipped: 'Shipped',
-          upcoming: 'Upcoming'
-        }
-      }
-    },
-    stock_transfers: {
-      name: 'Stock transfer',
-      name_other: 'Stock transfers',
-      attributes: {
-        status: {
-          cancelled: 'Cancelled',
-          completed: 'Completed',
-          draft: 'Draft',
-          in_transit: 'In transit',
-          on_hold: 'On hold',
-          picking: 'Picking',
-          upcoming: 'Upcoming'
-        }
-      }
-    },
-    tags: {
-      name: 'Tag',
-      name_other: 'Tags'
-    }
-  },
+  resources,
   apps: {
     orders: {
       attributes: {
@@ -228,12 +228,16 @@ const en = {
       details: {
         awaiting_stock_transfer: 'Awaiting stock transfer'
       }
+    },
+    promotions: {
+      display_status: {
+        upcoming: 'Upcoming'
+      }
     }
   },
   validation: {
     select_one_item: 'Please select at least one item'
-  },
-  res: resources
+  }
 }
 
 export default en

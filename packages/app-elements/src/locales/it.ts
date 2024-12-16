@@ -22,11 +22,13 @@ const it: typeof en = {
   resources: {
     adjustments: {
       name: 'Rettifica',
-      name_other: 'Rettifiche'
+      name_other: 'Rettifiche',
+      attributes: {}
     },
     bundles: {
       name: 'Bundle',
-      name_other: 'Bundles'
+      name_other: 'Bundles',
+      attributes: {}
     },
     customers: {
       name: 'Cliente',
@@ -50,8 +52,7 @@ const it: typeof en = {
           editing: 'In modifica',
           pending: 'In attesa',
           placed: 'Piazzato',
-          placing: 'In piazzamento',
-          in_progress: 'In corso'
+          placing: 'In piazzamento'
         },
         payment_status: {
           authorized: 'Autorizzato',
@@ -77,7 +78,8 @@ const it: typeof en = {
     },
     gift_cards: {
       name: 'Carta regalo',
-      name_other: 'Carte regalo'
+      name_other: 'Carte regalo',
+      attributes: {}
     },
     promotions: {
       name: 'Promozione',
@@ -88,8 +90,7 @@ const it: typeof en = {
           disabled: 'Disabilitata',
           expired: 'Scaduta',
           inactive: 'Inattiva',
-          pending: 'In attesa',
-          upcoming: 'Imminente'
+          pending: 'In attesa'
         }
       }
     },
@@ -143,27 +144,12 @@ const it: typeof en = {
     },
     tags: {
       name: 'Tag',
-      name_other: 'Tag'
+      name_other: 'Tag',
+      attributes: {}
     }
   },
   validation: {
     select_one_item: 'Seleziona almeno un elemento'
-  },
-  res: {
-    orders: {
-      name: '',
-      name_other: '',
-      attributes: {
-        number: ''
-      }
-    },
-    customers: {
-      name: '',
-      name_other: '',
-      attributes: {
-        email: ''
-      }
-    }
   },
   apps: {
     orders: {
@@ -218,6 +204,11 @@ const it: typeof en = {
     shipments: {
       details: {
         awaiting_stock_transfer: 'In attesa di trasferimento di magazzino'
+      }
+    },
+    promotions: {
+      display_status: {
+        upcoming: 'Imminente'
       }
     }
   }
