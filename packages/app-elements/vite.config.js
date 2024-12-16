@@ -78,7 +78,7 @@ function i18nTypes() {
     async configResolved(_config) {
       config = _config
     },
-    buildEnd() {
+    closeBundle() {
       const origin = path.resolve(config.root, 'i18n.d.ts')
       const dest = path.resolve(config.build.outDir, 'i18n.d.ts')
       let content = fs.readFileSync(origin, 'utf-8')
