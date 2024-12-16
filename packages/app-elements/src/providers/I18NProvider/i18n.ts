@@ -14,7 +14,7 @@ export const initI18n = async (
     .use(
       resourcesToBackend(
         async (language: I18NLocale) =>
-          await import(`../../locales/${language}.json`)
+          await import(`../../locales/${language}.ts`)
       )
     )
     .use(LanguageDetector)
