@@ -1,4 +1,5 @@
 import { useOverlay } from '#hooks/useOverlay'
+import { useTranslation } from '#providers/I18NProvider'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type ResourceMetadataProps } from '#ui/resources/ResourceMetadata'
 import { ResourceMetadataForm } from '#ui/resources/ResourceMetadata/ResourceMetadataForm'
@@ -20,13 +21,16 @@ interface MetadataOverlayHook {
 
 export function useEditMetadataOverlay(): MetadataOverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
+  const { t } = useTranslation()
 
   const OverlayComponent = useCallback<FC<EditMetadataOverlayProps>>(
     ({ title = 'Back', resourceId, resourceType }) => {
       return (
         <OverlayElement backgroundColor='light'>
           <PageLayout
-            title='Edit metadata'
+            title={t('common.edit', {
+              resource: t('common.metadata').toLowerCase()
+            })}
             minHeight={false}
             navigationButton={{
               label: title,

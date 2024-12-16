@@ -1,7 +1,17 @@
 {
   "common": {
-    "all": "tutti",
-    "all_female": "tutte",
+    "all": "Tutti {{resource}}",
+    "all_female": "Tutte {{resource}}",
+    "not_handled": "Non gestito",
+    "edit": "Modifica {{resource}}",
+    "manage": "Gestisci {{resource}}",
+    "new_resource": "Nuovo {{resource}}",
+    "new_resource_female": "Nuova {{resource}}",
+    "metadata": "Metadati",
+    "search": "Cerca...",
+    "limit_reached": "Limite raggiunto",
+    "add_up_to": "Puoi aggiungere fino a {{limit}} {{resource}}.",
+    "update": "Aggiorna",
     "resources": {
       "common": {
         "status": {
@@ -115,6 +125,11 @@
           "picking": "In prelievo",
           "upcoming": "Imminente"
         }
+      },
+      "tags": {
+        "name": "Tag",
+        "name_other": "Tag",
+        "status": {}
       }
     }
   }

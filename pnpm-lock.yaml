@@ -323,8 +323,6 @@ importers:
         specifier: ^3.23.8
         version: 3.23.8
 
-  packages/i18n-locales: {}
-
 packages:
 
   '@adobe/css-tools@4.4.1':

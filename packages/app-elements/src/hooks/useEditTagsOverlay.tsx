@@ -1,6 +1,7 @@
 import { navigateTo } from '#helpers/appsNavigation'
 import { useOverlay } from '#hooks/useOverlay'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Text } from '#ui/atoms/Text'
@@ -41,6 +42,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
   } = useOverlay({ queryParam: 'edit-tags' })
 
   const { settings } = useTokenProvider()
+  const { t } = useTranslation()
 
   const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
     useState(false)
@@ -51,6 +53,8 @@ export function useEditTagsOverlay(): TagsOverlayHook {
       mode: settings.mode
     }
   })
+
+  const resourceName = t('common.resources.tags.name_other')
 
   return {
     show: open,
@@ -133,12 +137,12 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                   })
               }}
             >
-              Update
+              {t('common.update')}
             </Button>
           }
         >
           <PageLayout
-            title='Edit tags'
+            title={t('common.edit', { resource: resourceName.toLowerCase() })}
             minHeight={false}
             navigationButton={{
               label: title,
@@ -152,7 +156,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                 showManageAction != null && showManageAction
                   ? [
                       {
-                        label: 'Manage tags',
+                        label: t('common.manage', {
+                          resource: resourceName.toLowerCase()
+                        }),
                         variant: 'secondary',
                         size: 'small',
                         onClick: navigateToTagsManagement?.onClick
@@ -162,17 +168,21 @@ export function useEditTagsOverlay(): TagsOverlayHook {
             }}
           >
             <InputSelect
-              label='Tags'
-              placeholder='Search...'
+              label={resourceName}
+              placeholder={t('common.search')}
               hint={{
                 text: (
                   <>
-                    You can add up to 10 tags.
+                    {t('common.add_up_to', {
+                      limit: 10,
+                      resource: resourceName
+                    })}
+                    .
                     {selectedTagsLimitReached && (
                       <>
                         {' '}
                         <Text weight='bold' variant='warning'>
-                          Limit reached
+                          {t('common.limit_reached')}
                         </Text>
                         .
                       </>
