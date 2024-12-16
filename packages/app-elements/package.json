@@ -20,9 +20,6 @@
     },
     "./tailwind.config": {
       "require": "./dist/tailwind.config.js"
-    },
-    "./i18n.d.ts": {
-      "require": "./dist/i18n.d.ts"
     }
   },
   "engines": {

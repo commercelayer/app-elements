@@ -10,35 +10,35 @@ export function getCustomerDisplayStatus(
   switch (customerObj.status) {
     case 'prospect':
       return {
-        label: t('common.resources.customers.status.prospect'),
+        label: t('resources.customers.attributes.status.prospect'),
         icon: 'chatCircle',
         color: 'orange',
-        task: t('common.resources.customers.status.prospect')
+        task: t('resources.customers.attributes.status.prospect')
       }
 
     case 'acquired':
       return {
-        label: t('common.resources.customers.status.acquired'),
+        label: t('resources.customers.attributes.status.acquired'),
         icon: 'check',
         color: 'orange',
-        task: t('common.resources.customers.status.acquired')
+        task: t('resources.customers.attributes.status.acquired')
       }
 
     case 'repeat':
       return {
-        label: t('common.resources.customers.status.repeat'),
+        label: t('resources.customers.attributes.status.repeat'),
         icon: 'arrowUpRight',
         color: 'orange',
-        task: t('common.resources.customers.status.repeat')
+        task: t('resources.customers.attributes.status.repeat')
       }
   }
 }
 
 export function getCustomerStatusName(status: Customer['status']): string {
   const dictionary: Record<typeof status, string> = {
-    prospect: t('common.resources.customers.status.prospect'),
-    acquired: t('common.resources.customers.status.acquired'),
-    repeat: t('common.resources.customers.status.repeat')
+    prospect: t('resources.customers.attributes.status.prospect'),
+    acquired: t('resources.customers.attributes.status.acquired'),
+    repeat: t('resources.customers.attributes.status.repeat')
   }
 
   return dictionary[status]
