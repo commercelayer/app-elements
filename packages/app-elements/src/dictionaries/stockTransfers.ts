@@ -16,53 +16,53 @@ export function getStockTransferDisplayStatus(
   switch (stockTransfer.status) {
     case 'upcoming':
       return {
-        label: t('common.resources.stock_transfers.status.upcoming'),
+        label: t('resources.stock_transfers.attributes.status.upcoming'),
         icon: 'arrowUpRight',
         color: 'orange',
-        task: t('common.resources.stock_transfers.status.upcoming')
+        task: t('resources.stock_transfers.attributes.status.upcoming')
       }
 
     case 'on_hold':
       return {
-        label: t('common.resources.stock_transfers.status.on_hold'),
+        label: t('resources.stock_transfers.attributes.status.on_hold'),
         icon: 'hourglass',
         color: 'orange',
-        task: t('common.resources.stock_transfers.status.on_hold')
+        task: t('resources.stock_transfers.attributes.status.on_hold')
       }
 
     case 'picking':
       return {
-        label: t('common.resources.stock_transfers.status.picking'),
+        label: t('resources.stock_transfers.attributes.status.picking'),
         icon: 'arrowDown',
         color: 'orange',
-        task: t('common.resources.stock_transfers.status.picking')
+        task: t('resources.stock_transfers.attributes.status.picking')
       }
 
     case 'in_transit':
       return {
-        label: t('common.resources.stock_transfers.status.in_transit'),
+        label: t('resources.stock_transfers.attributes.status.in_transit'),
         icon: 'arrowsLeftRight',
         color: 'orange',
-        task: t('common.resources.stock_transfers.status.in_transit')
+        task: t('resources.stock_transfers.attributes.status.in_transit')
       }
 
     case 'completed':
       return {
-        label: t('common.resources.stock_transfers.status.completed'),
+        label: t('resources.stock_transfers.attributes.status.completed'),
         icon: 'check',
         color: 'green'
       }
 
     case 'cancelled':
       return {
-        label: t('common.resources.stock_transfers.status.cancelled'),
+        label: t('resources.stock_transfers.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
 
     default:
       return {
-        label: `${t('common.resources.common.status.not_handled')}: (${stockTransfer.status})`,
+        label: `${t('common.not_handled')}: (${stockTransfer.status})`,
         icon: 'warning',
         color: 'white'
       }
@@ -73,13 +73,13 @@ export function getStockTransferStatusName(
   status: StockTransfer['status']
 ): string {
   const dictionary: Record<typeof status, string> = {
-    cancelled: t('common.resources.stock_transfers.status.cancelled'),
-    completed: t('common.resources.stock_transfers.status.completed'),
-    draft: t('common.resources.stock_transfers.status.draft'),
-    in_transit: t('common.resources.stock_transfers.status.in_transit'),
-    on_hold: t('common.resources.stock_transfers.status.on_hold'),
-    picking: t('common.resources.stock_transfers.status.picking'),
-    upcoming: t('common.resources.stock_transfers.status.upcoming')
+    cancelled: t('resources.stock_transfers.attributes.status.cancelled'),
+    completed: t('resources.stock_transfers.attributes.status.completed'),
+    draft: t('resources.stock_transfers.attributes.status.draft'),
+    in_transit: t('resources.stock_transfers.attributes.status.in_transit'),
+    on_hold: t('resources.stock_transfers.attributes.status.on_hold'),
+    picking: t('resources.stock_transfers.attributes.status.picking'),
+    upcoming: t('resources.stock_transfers.attributes.status.upcoming')
   }
 
   return dictionary[status]

@@ -53,8 +53,7 @@
     "vite.config.js",
     "src",
     "mocks",
-    ".eslintrc.cjs",
-    "i18n.d.ts"
+    ".eslintrc.cjs"
   ],
   "references": [
     {

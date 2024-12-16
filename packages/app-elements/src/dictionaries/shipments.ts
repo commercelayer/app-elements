@@ -21,74 +21,74 @@ export function getShipmentDisplayStatus(
   switch (shipmentStatus) {
     case 'upcoming':
       return {
-        label: t('common.resources.shipments.status.upcoming'),
+        label: t('resources.shipments.attributes.status.upcoming'),
         icon: 'truck',
         color: 'gray'
       }
 
     case 'cancelled':
       return {
-        label: t('common.resources.shipments.status.cancelled'),
+        label: t('resources.shipments.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
 
     case 'draft':
       return {
-        label: t('common.resources.shipments.status.draft'),
+        label: t('resources.shipments.attributes.status.draft'),
         icon: 'minus',
         color: 'gray'
       }
 
     case 'on_hold':
       return {
-        label: t('common.resources.shipments.status.on_hold'),
+        label: t('resources.shipments.attributes.status.on_hold'),
         icon: 'hourglass',
         color: 'orange',
-        task: t('common.resources.shipments.status.on_hold')
+        task: t('resources.shipments.attributes.status.on_hold')
       }
 
     case 'packing':
       return {
-        label: t('common.resources.shipments.status.packing'),
+        label: t('resources.shipments.attributes.status.packing'),
         icon: 'package',
         color: 'orange',
-        task: t('common.resources.shipments.status.packing')
+        task: t('resources.shipments.attributes.status.packing')
       }
 
     case 'picking':
       return {
-        label: t('common.resources.shipments.status.picking'),
+        label: t('resources.shipments.attributes.status.picking'),
         icon: 'arrowDown',
         color: 'orange',
-        task: t('common.resources.shipments.status.picking')
+        task: t('resources.shipments.attributes.status.picking')
       }
 
     case 'ready_to_ship':
       return {
-        label: t('common.resources.shipments.status.ready_to_ship'),
+        label: t('resources.shipments.attributes.status.ready_to_ship'),
         icon: 'arrowUpRight',
         color: 'orange',
-        task: t('common.resources.shipments.status.ready_to_ship')
+        task: t('resources.shipments.attributes.status.ready_to_ship')
       }
 
     case 'shipped':
       return {
-        label: t('common.resources.shipments.status.shipped'),
+        label: t('resources.shipments.attributes.status.shipped'),
         icon: 'arrowUpRight',
         color: 'green'
       }
 
     case 'delivered':
       return {
-        label: t('common.resources.shipments.status.delivered'),
+        label: t('resources.shipments.attributes.status.delivered'),
         icon: 'check',
         color: 'green'
       }
 
     case 'awaiting_stock_transfer':
       return {
-        label: t('common.resources.shipments.status.awaiting_stock_transfer'),
+        label: t('apps.shipments.details.awaiting_stock_transfer'),
         icon: 'hourglass',
         color: 'orange',
         task: 'Awaiting stock transfers'
@@ -96,7 +96,7 @@ export function getShipmentDisplayStatus(
 
     default:
       return {
-        label: `${t('common.resources.common.status.not_handled')}: (${shipment.status})`,
+        label: `${t('common.not_handled')}: (${shipment.status})`,
         icon: 'warning',
         color: 'white'
       }
@@ -105,15 +105,15 @@ export function getShipmentDisplayStatus(
 
 export function getShipmentStatusName(status: Shipment['status']): string {
   const dictionary: Record<typeof status, string> = {
-    draft: t('common.resources.shipments.status.draft'),
-    on_hold: t('common.resources.shipments.status.on_hold'),
-    upcoming: t('common.resources.shipments.status.upcoming'),
-    packing: t('common.resources.shipments.status.packing'),
-    picking: t('common.resources.shipments.status.picking'),
-    ready_to_ship: t('common.resources.shipments.status.ready_to_ship'),
-    shipped: t('common.resources.shipments.status.shipped'),
-    cancelled: t('common.resources.shipments.status.cancelled'),
-    delivered: t('common.resources.shipments.status.delivered')
+    draft: t('resources.shipments.attributes.status.draft'),
+    on_hold: t('resources.shipments.attributes.status.on_hold'),
+    upcoming: t('resources.shipments.attributes.status.upcoming'),
+    packing: t('resources.shipments.attributes.status.packing'),
+    picking: t('resources.shipments.attributes.status.picking'),
+    ready_to_ship: t('resources.shipments.attributes.status.ready_to_ship'),
+    shipped: t('resources.shipments.attributes.status.shipped'),
+    cancelled: t('resources.shipments.attributes.status.cancelled'),
+    delivered: t('resources.shipments.attributes.status.delivered')
   }
 
   return dictionary[status]

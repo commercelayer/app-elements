@@ -61,13 +61,14 @@ export const Default: StoryFn = (): JSX.Element => {
       />
       <Spacer top='4'>
         <Text>
-          Translation of string <strong>common.all</strong>: {t('common.all')}
+          Translation of string <strong>common.all_items</strong>:{' '}
+          {t('common.all_items')}
         </Text>
       </Spacer>
       <Spacer top='4'>
         <Text>
-          Translation of string <strong>common.all_female</strong>:{' '}
-          {t('common.all_female')}
+          Translation of string <strong>common.search</strong>:{' '}
+          {t('common.search')}
         </Text>
       </Spacer>
     </PageLayout>

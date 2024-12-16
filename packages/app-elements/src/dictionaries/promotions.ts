@@ -13,7 +13,7 @@ export function getPromotionDisplayStatus(
   if (promotion.disabled_at != null) {
     return {
       status: 'disabled',
-      label: t('common.resources.promotions.status.disabled'),
+      label: t('resources.promotions.attributes.status.disabled'),
       icon: 'minus',
       color: 'lightGray'
     }
@@ -30,7 +30,7 @@ export function getPromotionDisplayStatus(
   ) {
     return {
       status: 'used',
-      label: t('common.resources.promotions.status.expired'),
+      label: t('resources.promotions.attributes.status.expired'),
       icon: 'flag',
       color: 'gray'
     }
@@ -40,7 +40,7 @@ export function getPromotionDisplayStatus(
     case 'past':
       return {
         status: 'expired',
-        label: t('common.resources.promotions.status.expired'),
+        label: t('resources.promotions.attributes.status.expired'),
         icon: 'flag',
         color: 'gray'
       }
@@ -48,7 +48,7 @@ export function getPromotionDisplayStatus(
     case 'upcoming':
       return {
         status: 'upcoming',
-        label: t('common.resources.promotions.status.upcoming'),
+        label: t('resources.promotions.attributes.status.upcoming'),
         icon: 'calendarBlank',
         color: 'gray'
       }
@@ -56,7 +56,7 @@ export function getPromotionDisplayStatus(
     case 'active':
       return {
         status: 'active',
-        label: t('common.resources.promotions.status.active'),
+        label: t('resources.promotions.attributes.status.active'),
         icon: 'pulse',
         color: 'green'
       }
