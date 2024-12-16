@@ -15,10 +15,10 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
   if (order.status === 'editing') {
     return {
-      label: t('common.resources.orders.status.editing'),
+      label: t('resources.orders.attributes.status.editing'),
       icon: 'pencilSimple',
       color: 'orange',
-      task: t('common.resources.orders.status.editing')
+      task: t('resources.orders.attributes.status.editing')
     }
   }
 
@@ -32,49 +32,49 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case 'placed:free:unfulfilled':
     case 'placed:free:not_required':
       return {
-        label: t('common.resources.orders.status.placed'),
+        label: t('resources.orders.attributes.status.placed'),
         icon: 'arrowDown',
         color: 'orange',
-        task: t('common.resources.orders.task.awaiting_approval')
+        task: t('apps.orders.task.awaiting_approval')
       }
 
     case 'placed:unpaid:unfulfilled':
       return {
-        label: t('common.resources.orders.status.placed'),
+        label: t('resources.orders.attributes.status.placed'),
         icon: 'x',
         color: 'red',
-        task: t('common.resources.orders.task.error_to_cancel')
+        task: t('apps.orders.task.error_to_cancel')
       }
 
     case 'approved:authorized:unfulfilled':
     case 'approved:authorized:not_required':
       return {
-        label: t('common.resources.orders.status.approved'),
+        label: t('resources.orders.attributes.status.approved'),
         icon: 'creditCard',
         color: 'orange',
-        task: t('common.resources.orders.task.payment_to_capture')
+        task: t('apps.orders.task.payment_to_capture')
       }
 
     case 'approved:paid:in_progress':
     case 'approved:partially_refunded:in_progress':
       return {
-        label: t('common.resources.orders.status.in_progress'),
+        label: t('resources.orders.attributes.status.in_progress'),
         icon: 'arrowClockwise',
         color: 'orange',
-        task: t('common.resources.orders.task.fulfillment_in_progress')
+        task: t('apps.orders.task.fulfillment_in_progress')
       }
 
     case 'approved:authorized:in_progress':
       return {
-        label: t('common.resources.orders.status.in_progress_manual'),
+        label: t('apps.orders.display_status.in_progress_manual'),
         icon: 'arrowClockwise',
         color: 'orange',
-        task: t('common.resources.orders.task.fulfillment_in_progress')
+        task: t('apps.orders.task.fulfillment_in_progress')
       }
 
     case 'approved:paid:fulfilled':
       return {
-        label: t('common.resources.orders.fulfillment_status.fulfilled'),
+        label: t('resources.orders.attributes.fulfillment_status.fulfilled'),
         icon: 'check',
         color: 'green'
       }
@@ -82,7 +82,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     // TODO: This could be a gift-card and what If i do return?
     case 'approved:free:fulfilled':
       return {
-        label: t('common.resources.orders.fulfillment_status.fulfilled'),
+        label: t('resources.orders.attributes.fulfillment_status.fulfilled'),
         icon: 'check',
         color: 'green'
       }
@@ -90,21 +90,23 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case 'approved:paid:not_required':
     case 'approved:partially_refunded:not_required':
       return {
-        label: t('common.resources.orders.status.approved'),
+        label: t('resources.orders.attributes.status.approved'),
         icon: 'check',
         color: 'green'
       }
 
     case 'approved:free:not_required':
       return {
-        label: t('common.resources.orders.status.approved'),
+        label: t('resources.orders.attributes.status.approved'),
         icon: 'check',
         color: 'green'
       }
 
     case 'approved:partially_refunded:fulfilled':
       return {
-        label: t('common.resources.orders.payment_status.partially_refunded'),
+        label: t(
+          'resources.orders.attributes.payment_status.partially_refunded'
+        ),
         icon: 'check',
         color: 'green'
       }
@@ -115,14 +117,14 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case 'cancelled:unpaid:unfulfilled':
     case 'cancelled:free:unfulfilled':
       return {
-        label: t('common.resources.orders.status.cancelled'),
+        label: t('resources.orders.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
 
     case 'cancelled:refunded:fulfilled':
       return {
-        label: t('common.resources.orders.status.cancelled'),
+        label: t('resources.orders.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
@@ -131,14 +133,14 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case 'pending:authorized:unfulfilled':
     case 'pending:free:unfulfilled':
       return {
-        label: t('common.resources.orders.status.pending'),
+        label: t('resources.orders.attributes.status.pending'),
         icon: 'shoppingBag',
         color: 'white'
       }
 
     default:
       return {
-        label: `${t('common.resources.common.status.not_handled')}: (${combinedStatus})`,
+        label: `${t('common.not_handled')}: (${combinedStatus})`,
         icon: 'warning',
         color: 'white'
       }
@@ -169,13 +171,13 @@ export function getOrderTransactionName(
 
 export function getOrderStatusName(status: Order['status']): string {
   const dictionary: Record<typeof status, string> = {
-    approved: t('common.resources.orders.status.approved'),
-    cancelled: t('common.resources.orders.status.cancelled'),
-    draft: t('common.resources.orders.status.draft'),
-    editing: t('common.resources.orders.status.editing'),
-    pending: t('common.resources.orders.status.pending'),
-    placed: t('common.resources.orders.status.placed'),
-    placing: t('common.resources.orders.status.placing')
+    approved: t('resources.orders.attributes.status.approved'),
+    cancelled: t('resources.orders.attributes.status.cancelled'),
+    draft: t('resources.orders.attributes.status.draft'),
+    editing: t('resources.orders.attributes.status.editing'),
+    pending: t('resources.orders.attributes.status.pending'),
+    placed: t('resources.orders.attributes.status.placed'),
+    placing: t('resources.orders.attributes.status.placing')
   }
 
   return dictionary[status]
@@ -185,21 +187,23 @@ export function getOrderPaymentStatusName(
   status: Order['payment_status']
 ): string {
   const dictionary: Record<typeof status, string> = {
-    authorized: t('common.resources.orders.payment_status.authorized'),
-    paid: t('common.resources.orders.payment_status.paid'),
-    unpaid: t('common.resources.orders.payment_status.unpaid'),
-    free: t('common.resources.orders.payment_status.free'),
-    voided: t('common.resources.orders.payment_status.voided'),
-    refunded: t('common.resources.orders.payment_status.refunded'),
+    authorized: t('resources.orders.attributes.payment_status.authorized'),
+    paid: t('resources.orders.attributes.payment_status.paid'),
+    unpaid: t('resources.orders.attributes.payment_status.unpaid'),
+    free: t('resources.orders.attributes.payment_status.free'),
+    voided: t('resources.orders.attributes.payment_status.voided'),
+    refunded: t('resources.orders.attributes.payment_status.refunded'),
     partially_authorized: t(
-      'common.resources.orders.payment_status.partially_authorized'
+      'resources.orders.attributes.payment_status.partially_authorized'
     ),
-    partially_paid: t('common.resources.orders.payment_status.partially_paid'),
+    partially_paid: t(
+      'resources.orders.attributes.payment_status.partially_paid'
+    ),
     partially_refunded: t(
-      'common.resources.orders.payment_status.partially_refunded'
+      'resources.orders.attributes.payment_status.partially_refunded'
     ),
     partially_voided: t(
-      'common.resources.orders.payment_status.partially_voided'
+      'resources.orders.attributes.payment_status.partially_voided'
     )
   }
 
@@ -210,10 +214,16 @@ export function getOrderFulfillmentStatusName(
   status: Order['fulfillment_status']
 ): string {
   const dictionary: Record<typeof status, string> = {
-    unfulfilled: t('common.resources.orders.fulfillment_status.unfulfilled'),
-    in_progress: t('common.resources.orders.fulfillment_status.in_progress'),
-    fulfilled: t('common.resources.orders.fulfillment_status.fulfilled'),
-    not_required: t('common.resources.orders.fulfillment_status.not_required')
+    unfulfilled: t(
+      'resources.orders.attributes.fulfillment_status.unfulfilled'
+    ),
+    in_progress: t(
+      'resources.orders.attributes.fulfillment_status.in_progress'
+    ),
+    fulfilled: t('resources.orders.attributes.fulfillment_status.fulfilled'),
+    not_required: t(
+      'resources.orders.attributes.fulfillment_status.not_required'
+    )
   }
 
   return dictionary[status]

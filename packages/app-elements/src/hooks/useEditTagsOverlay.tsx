@@ -54,7 +54,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
     }
   })
 
-  const resourceName = t('common.resources.tags.name_other')
+  const resourceName = t('resources.tags.name_other')
 
   return {
     show: open,
@@ -156,7 +156,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                 showManageAction != null && showManageAction
                   ? [
                       {
-                        label: t('common.manage', {
+                        label: t('common.manage_resource', {
                           resource: resourceName.toLowerCase()
                         }),
                         variant: 'secondary',

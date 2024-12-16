@@ -62,9 +62,8 @@ export { createApp, type ClAppKey, type ClAppProps } from '#providers/createApp'
 export { ErrorBoundary } from '#providers/ErrorBoundary'
 export { GTMProvider, useTagManager } from '#providers/GTMProvider'
 export {
+  i18nLocales,
   I18NProvider,
-  initI18n,
-  languages,
   t,
   useTranslation,
   type I18NLocale
@@ -393,4 +392,3 @@ export {
   getStockTransferDisplayStatus,
   getStockTransferStatusName
 } from '#dictionaries/stockTransfers'
-export type { en as Locale } from './locales/en'

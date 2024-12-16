@@ -1,18 +1,15 @@
-import type { en } from './en'
+import type en from './en'
 
 const it: typeof en = {
   common: {
-    all: 'Tutti {{resource}}',
-    all_female: 'Tutte {{resource}}',
+    all_items: 'Tutti gli elementi',
     not_handled: 'Non gestito',
     back: 'Torna indietro',
     new: 'Nuovo',
-    new_resource: 'Nuovo {{resource}}',
-    new_resource_female: 'Nuova {{resource}}',
     not_authorized: 'Non autorizzato',
     no_items: 'Nessun elemento',
     edit: 'Modifica',
-    manage: 'Gestisci {{resource}}',
+    manage_resource: 'Gestisci {{resource}}',
     updated: 'Aggiornato',
     timeline: 'Storico',
     filters: 'Filtri',
@@ -20,39 +17,33 @@ const it: typeof en = {
     search: 'Cerca...',
     limit_reached: 'Limite raggiunto',
     add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
-    update: 'Aggiorna',
-    resources: {
-      common: {
-        status: {
-          not_handled: 'Non gestito'
-        }
-      },
-      adjustments: {
-        name: 'Rettifica',
-        name_other: 'Rettifiche',
-        task: {
-          adjust_total: 'Rettifica totale'
-        }
-      },
-      bundles: {
-        name: 'Bundle',
-        name_other: 'Bundles',
-        status: {}
-      },
-      customers: {
-        name: 'Cliente',
-        name_other: 'Clienti',
+    update: 'Aggiorna'
+  },
+  resources: {
+    adjustments: {
+      name: 'Rettifica',
+      name_other: 'Rettifiche'
+    },
+    bundles: {
+      name: 'Bundle',
+      name_other: 'Bundles'
+    },
+    customers: {
+      name: 'Cliente',
+      name_other: 'Clienti',
+      attributes: {
         status: {
           prospect: 'Potenziale',
           acquired: 'Acquisito',
           repeat: 'Abituale'
         }
-      },
-      orders: {
-        name: 'Ordine',
-        name_other: 'Ordini',
+      }
+    },
+    orders: {
+      name: 'Ordine',
+      name_other: 'Ordini',
+      attributes: {
         status: {
-          name: 'Stato',
           approved: 'Approvato',
           cancelled: 'Cancellato',
           draft: 'Bozza',
@@ -60,12 +51,9 @@ const it: typeof en = {
           pending: 'In attesa',
           placed: 'Piazzato',
           placing: 'In piazzamento',
-          in_progress: 'In corso',
-          in_progress_manual: 'In corso (Manuale)'
+          in_progress: 'In corso'
         },
         payment_status: {
-          name: 'Stato pagamento',
-          name_short: 'Pagamento',
           authorized: 'Autorizzato',
           paid: 'Pagato',
           unpaid: 'Non pagato',
@@ -78,58 +66,23 @@ const it: typeof en = {
           partially_voided: 'Parz. annullato'
         },
         fulfillment_status: {
-          name: 'Stato evasione',
-          name_short: 'Evasione',
           unfulfilled: 'Non evaso',
           in_progress: 'In corso',
           fulfilled: 'Evaso',
           not_required: 'Non richiesto'
         },
-        task: {
-          open: 'Aperti',
-          browse: 'Sfoglia',
-          awaiting_approval: 'In attesa di approvazione',
-          error_to_cancel: 'Errore nella cancellazione',
-          payment_to_capture: 'Pagamento da catturare',
-          fulfillment_in_progress: 'Evasione in corso',
-          editing: 'In modifica',
-          history: 'Tutti gli ordini',
-          carts: 'Carrelli',
-          archived: 'Archiviati'
-        },
-        details: {
-          summary: 'Riepilogo',
-          to_be_calculated: 'Da calcolare',
-          shipping: 'Spedizione',
-          subtotal: 'Totale parziale',
-          total: 'Totale',
-          payment_method: 'Metodo di pagamento',
-          taxes: 'Tasse',
-          included: 'incluse',
-          discount: 'Sconto',
-          billing_address: 'Indirizzo di fatturazione',
-          shipping_address: 'Indirizzo di spedizione'
-        },
-        actions: {
-          add_item: 'Aggiungi prodotto',
-          approve: 'Approva',
-          archive: 'Archivia',
-          cancel_transactions: 'Annulla pagamento',
-          cancel: 'Annulla ordine',
-          capture: 'Cattura pagamento',
-          place: 'Piazza ordine',
-          refund: 'Rimborsa',
-          unarchive: 'Ripristina',
-          select_address: 'Seleziona indirizzo'
-        }
-      },
-      gift_cards: {
-        name: 'Carta regalo',
-        name_other: 'Carte regalo'
-      },
-      promotions: {
-        name: 'Promozione',
-        name_other: 'Promozioni',
+        billing_address: 'Indirizzo di fatturazione',
+        shipping_address: 'Indirizzo di spedizione'
+      }
+    },
+    gift_cards: {
+      name: 'Carta regalo',
+      name_other: 'Carte regalo'
+    },
+    promotions: {
+      name: 'Promozione',
+      name_other: 'Promozioni',
+      attributes: {
         status: {
           active: 'Attiva',
           disabled: 'Disabilitata',
@@ -138,10 +91,12 @@ const it: typeof en = {
           pending: 'In attesa',
           upcoming: 'Imminente'
         }
-      },
-      returns: {
-        name: 'Reso',
-        name_other: 'Resi',
+      }
+    },
+    returns: {
+      name: 'Reso',
+      name_other: 'Resi',
+      attributes: {
         status: {
           approved: 'Approvato',
           cancelled: 'Cancellato',
@@ -152,12 +107,13 @@ const it: typeof en = {
           rejected: 'Rifiutato',
           shipped: 'Spedito'
         }
-      },
-      shipments: {
-        name: 'Spedizione',
-        name_other: 'Spedizioni',
+      }
+    },
+    shipments: {
+      name: 'Spedizione',
+      name_other: 'Spedizioni',
+      attributes: {
         status: {
-          awaiting_stock_transfer: 'In attesa di trasferimento di magazzino',
           cancelled: 'Cancellato',
           delivered: 'Consegnato',
           draft: 'Bozza',
@@ -168,10 +124,12 @@ const it: typeof en = {
           shipped: 'Spedito',
           upcoming: 'Imminente'
         }
-      },
-      stock_transfers: {
-        name: 'Trasferimento di magazzino',
-        name_other: 'Trasferimenti di magazzino',
+      }
+    },
+    stock_transfers: {
+      name: 'Trasferimento di magazzino',
+      name_other: 'Trasferimenti di magazzino',
+      attributes: {
         status: {
           cancelled: 'Cancellato',
           completed: 'Completato',
@@ -181,15 +139,86 @@ const it: typeof en = {
           picking: 'In prelievo',
           upcoming: 'Imminente'
         }
-      },
-      tags: {
-        name: 'Tag',
-        name_other: 'Tag',
-        status: {}
       }
     },
-    validation: {
-      select_one_item: 'Seleziona almeno un elemento'
+    tags: {
+      name: 'Tag',
+      name_other: 'Tag'
+    }
+  },
+  validation: {
+    select_one_item: 'Seleziona almeno un elemento'
+  },
+  res: {
+    orders: {
+      name: '',
+      name_other: '',
+      attributes: {
+        number: ''
+      }
+    },
+    customers: {
+      name: '',
+      name_other: '',
+      attributes: {
+        email: ''
+      }
+    }
+  },
+  apps: {
+    orders: {
+      attributes: {
+        status: 'Stato',
+        payment_status: 'Stato pagamento',
+        fulfillment_status: 'Stato evasione'
+      },
+      display_status: {
+        in_progress: 'In corso',
+        in_progress_manual: 'In corso (Manuale)'
+      },
+      task: {
+        open: 'Aperti',
+        browse: 'Sfoglia',
+        awaiting_approval: 'In attesa di approvazione',
+        error_to_cancel: 'Errore nella cancellazione',
+        payment_to_capture: 'Pagamento da catturare',
+        fulfillment_in_progress: 'Evasione in corso',
+        editing: 'In modifica',
+        history: 'Tutti gli ordini',
+        carts: 'Carrelli',
+        archived: 'Archiviati'
+      },
+      details: {
+        summary: 'Riepilogo',
+        to_be_calculated: 'Da calcolare',
+        shipping: 'Spedizione',
+        subtotal: 'Totale parziale',
+        total: 'Totale',
+        payment_method: 'Metodo di pagamento',
+        taxes: 'Tasse',
+        included: 'incluse',
+        discount: 'Sconto',
+        fulfillment: 'Evasione',
+        payment: 'Pagamento',
+        adjust_total: 'Aggiusta totale'
+      },
+      actions: {
+        add_item: 'Aggiungi prodotto',
+        approve: 'Approva',
+        archive: 'Archivia',
+        cancel_transactions: 'Annulla pagamento',
+        cancel: 'Annulla ordine',
+        capture: 'Cattura pagamento',
+        place: 'Piazza ordine',
+        refund: 'Rimborsa',
+        unarchive: 'Ripristina',
+        select_address: 'Seleziona indirizzo'
+      }
+    },
+    shipments: {
+      details: {
+        awaiting_stock_transfer: 'In attesa di trasferimento di magazzino'
+      }
     }
   }
 }

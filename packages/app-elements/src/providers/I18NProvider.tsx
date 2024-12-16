@@ -1,14 +1,24 @@
-import {
-  type I18NLocale,
-  initI18n,
-  languages
-} from '#providers/I18NProvider/i18n'
-import { type i18n as I18nInstance } from 'i18next'
+import i18n, { type i18n as I18nInstance } from 'i18next'
+import LanguageDetector from 'i18next-browser-languagedetector'
+import resourcesToBackend from 'i18next-resources-to-backend'
 import React, { type ReactNode, useEffect, useState } from 'react'
-import { I18nextProvider } from 'react-i18next'
+import { I18nextProvider, initReactI18next } from 'react-i18next'
+import type en from '../locales/en'
 
 export { t } from 'i18next'
 export { useTranslation } from 'react-i18next'
+
+export const i18nLocales = ['en', 'it'] as const
+export type I18NLocale = (typeof i18nLocales)[number]
+
+declare module 'i18next' {
+  interface CustomTypeOptions {
+    defaultNS: 'translation'
+    resources: {
+      translation: typeof en
+    }
+  }
+}
 
 interface I18NProviderProps {
   localeCode?: I18NLocale
@@ -16,7 +26,7 @@ interface I18NProviderProps {
 }
 
 export const I18NProvider: React.FC<I18NProviderProps> = ({
-  localeCode = languages[0],
+  localeCode = i18nLocales[0],
   children
 }) => {
   const [i18nInstance, setI18nInstance] = useState<I18nInstance | undefined>()
@@ -49,4 +59,27 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
   }
 
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
+}
+
+const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
+  await i18n
+    .use(
+      resourcesToBackend(
+        async (language: I18NLocale) =>
+          await import(`../../locales/${language}.ts`)
+      )
+    )
+    .use(LanguageDetector)
+    .use(initReactI18next)
+    .init({
+      load: 'languageOnly',
+      supportedLngs: i18nLocales,
+      lng: localeCode,
+      fallbackLng: i18nLocales[0],
+      react: {
+        useSuspense: true
+      },
+      debug: true
+    })
+  return i18n
 }
