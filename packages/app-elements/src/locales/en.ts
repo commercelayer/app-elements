@@ -13,6 +13,13 @@ const resources = {
   bundles: {
     name: 'Bundle',
     name_other: 'Bundles',
+    attributes: {
+      currency_code: 'Currency code'
+    }
+  },
+  coupons: {
+    name: 'Coupon',
+    name_other: 'Coupons',
     attributes: {}
   },
   customers: {
@@ -66,6 +73,11 @@ const resources = {
     name_other: 'Gift cards',
     attributes: {}
   },
+  markets: {
+    name: 'Market',
+    name_other: 'Markets',
+    attributes: {}
+  },
   promotions: {
     name: 'Promotion',
     name_other: 'Promotions',
@@ -112,6 +124,16 @@ const resources = {
       }
     }
   },
+  shipping_methods: {
+    name: 'Shipping method',
+    name_other: 'Shipping methods',
+    attributes: {}
+  },
+  skus: {
+    name: 'SKU',
+    name_other: 'SKUs',
+    attributes: {}
+  },
   stock_transfers: {
     name: 'Stock transfer',
     name_other: 'Stock transfers',
@@ -156,10 +178,13 @@ type IsStringLiteral<T> =
 
 const en = {
   common: {
+    add_resource: 'Add {{resource}}',
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
+    amount: 'Amount',
     back: 'Back',
     close: 'Close',
+    continue: 'Continue',
     edit: 'Edit',
     filters: 'Filters',
     limit_reached: 'Limit reached',
@@ -178,10 +203,16 @@ const en = {
     not_found: 'Not found',
     generic_resource_not_found:
       'We could not find the resource you are looking for.',
+    empty_state_resource_title: 'No {{resource}} found!',
+    empty_state_resource_description:
+      'No {{resource}} found for this organization.',
+    empty_state_resource_filtered:
+      "We didn't find any {{resources}} matching the current filters selection.",
     create_resource: 'Create {{resource}}',
-    generic_select_autocomplete_hint: 'Type to search for more options.'
+    generic_select_autocomplete_hint: 'Type to search for more options.',
+    select_resource: 'Select {{resource}}',
+    edit_resource: 'Edit {{resource}}'
   },
-
   resources,
   apps: {
     orders: {
@@ -219,9 +250,11 @@ const en = {
         discount: 'Discount',
         fulfillment: 'Fulfillment',
         payment: 'Payment',
-        adjust_total: 'Adjust total',
         use_for_shipping: 'Use for shipping',
-        use_for_billing: 'Use for billing'
+        use_for_billing: 'Use for billing',
+        new_total_line1:
+          'The new total is {{new_total}}, {{difference}} more than the original total.',
+        new_total_line2: 'Adjust the total to make it equal or less.'
       },
       form: {
         language: 'Language',
@@ -230,7 +263,10 @@ const en = {
           'Cannot create the order without a valid item. Please select one.',
         email: 'Email',
         email_placeholder: 'Search or add email',
-        email_hint: "The customer's email for this order."
+        email_hint: "The customer's email for this order.",
+        coupon_code: 'Coupon code',
+        select_adjustment_amount:
+          'Select a positive amount type to increase the order total.'
       },
       actions: {
         add_item: 'Add item',
@@ -242,8 +278,9 @@ const en = {
         place: 'Place order',
         refund: 'Refund',
         unarchive: 'Unarchive',
-        select_address: 'Select address',
-        edit_customer: 'Edit customer'
+        continue_editing: 'Continue editing',
+        finish_editing: 'Finish',
+        adjust_total: 'Adjust total'
       }
     },
     shipments: {
@@ -258,7 +295,10 @@ const en = {
     }
   },
   validation: {
-    select_one_item: 'Please select at least one item'
+    select_one_item: 'Please select at least one item',
+    coupon_code_invalid: 'Please enter a valid coupon code.',
+    coupon_code_too_short: 'Coupon code is too short (minimum is 8 characters)',
+    amount_invalid: 'Please enter a valid amount'
   }
 }
 
