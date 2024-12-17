@@ -2,10 +2,13 @@ import type en from './en'
 
 const it: typeof en = {
   common: {
+    add_resource: 'Aggiungi {{resource}}',
     all_items: 'Tutti gli elementi',
+    amount: 'Importo',
     not_handled: 'Non gestito',
     back: 'Torna indietro',
     close: 'Chiudi',
+    continue: 'Continua',
     new: 'Nuovo',
     not_authorized: 'Non autorizzato',
     no_items: 'Nessun elemento',
@@ -23,8 +26,15 @@ const it: typeof en = {
     apply: 'Applica',
     not_found: 'Non trovato',
     generic_resource_not_found: 'La risorsa che cercavi non è esiste.',
+    empty_state_resource_title: 'Nessun {{resource}} trovato!',
+    empty_state_resource_description:
+      'Nessun {{resource}} trovato found per questa organizzazione.',
+    empty_state_resource_filtered:
+      "Non c'è {{resources}} che corrisponde ai filtri selezionati.",
     create_resource: 'Crea {{resource}}',
-    generic_select_autocomplete_hint: 'Digita per cercare più opzioni.'
+    generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
+    select_resource: 'Seleziona {{resource}}',
+    edit_resource: 'Modifica {{resource}}'
   },
   resources: {
     adjustments: {
@@ -35,6 +45,13 @@ const it: typeof en = {
     bundles: {
       name: 'Bundle',
       name_other: 'Bundles',
+      attributes: {
+        currency_code: 'Codice valuta'
+      }
+    },
+    coupons: {
+      name: 'Coupon',
+      name_other: 'Coupon',
       attributes: {}
     },
     customers: {
@@ -88,6 +105,11 @@ const it: typeof en = {
       name_other: 'Carte regalo',
       attributes: {}
     },
+    markets: {
+      name: 'Mercato',
+      name_other: 'Mercati',
+      attributes: {}
+    },
     promotions: {
       name: 'Promozione',
       name_other: 'Promozioni',
@@ -134,6 +156,16 @@ const it: typeof en = {
         }
       }
     },
+    shipping_methods: {
+      name: 'Metodo di spedizione',
+      name_other: 'Metodi di spedizione',
+      attributes: {}
+    },
+    skus: {
+      name: 'SKU',
+      name_other: 'SKU',
+      attributes: {}
+    },
     stock_transfers: {
       name: 'Trasferimento di magazzino',
       name_other: 'Trasferimenti di magazzino',
@@ -156,7 +188,10 @@ const it: typeof en = {
     }
   },
   validation: {
-    select_one_item: 'Seleziona almeno un elemento'
+    select_one_item: 'Seleziona almeno un elemento',
+    coupon_code_invalid: 'Inserisci un codice valido',
+    coupon_code_too_short: 'Il codice è troppo corto (minimo 8 caratteri)',
+    amount_invalid: 'Inserisci un importo valido'
   },
   apps: {
     orders: {
@@ -194,9 +229,11 @@ const it: typeof en = {
         discount: 'Sconto',
         fulfillment: 'Evasione',
         payment: 'Pagamento',
-        adjust_total: 'Aggiusta totale',
         use_for_shipping: 'Usa per la spedizione',
-        use_for_billing: 'Usa per la fatturazione'
+        use_for_billing: 'Usa per la fatturazione',
+        new_total_line1:
+          'Il nuovo totale è {{new_total}}, {{difference}} in più rispetto al totale originale.',
+        new_total_line2: 'Rettifica il totale per renderlo uguale o inferiore.'
       },
       form: {
         language: 'Lingua',
@@ -205,7 +242,10 @@ const it: typeof en = {
           "Non è possibile creare l'ordine senza un prodotto valido. Selezionane uno.",
         email: 'Indirizzo Email',
         email_placeholder: 'Cerca o aggiungi un indirizzo email',
-        email_hint: "L'indirizzo email del cliente per questo ordine."
+        email_hint: "L'indirizzo email del cliente per questo ordine.",
+        coupon_code: 'Codice coupon',
+        select_adjustment_amount:
+          "Seleziona un tipo di importo positivo per aumentare il totale dell'ordine."
       },
       actions: {
         add_item: 'Aggiungi prodotto',
@@ -217,8 +257,9 @@ const it: typeof en = {
         place: 'Piazza ordine',
         refund: 'Rimborsa',
         unarchive: 'Ripristina',
-        select_address: 'Seleziona indirizzo',
-        edit_customer: 'Modifica cliente'
+        continue_editing: 'Continua modifiche',
+        finish_editing: 'Finalizza',
+        adjust_total: 'Rettifica totale'
       }
     },
     shipments: {
