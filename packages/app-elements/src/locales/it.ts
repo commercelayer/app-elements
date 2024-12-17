@@ -5,6 +5,7 @@ const it: typeof en = {
     all_items: 'Tutti gli elementi',
     not_handled: 'Non gestito',
     back: 'Torna indietro',
+    close: 'Chiudi',
     new: 'Nuovo',
     not_authorized: 'Non autorizzato',
     no_items: 'Nessun elemento',
@@ -17,7 +18,13 @@ const it: typeof en = {
     search: 'Cerca...',
     limit_reached: 'Limite raggiunto',
     add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
-    update: 'Aggiorna'
+    update: 'Aggiorna',
+    cancel: 'Annulla',
+    apply: 'Applica',
+    not_found: 'Non trovato',
+    generic_resource_not_found: 'La risorsa che cercavi non è esiste.',
+    create_resource: 'Crea {{resource}}',
+    generic_select_autocomplete_hint: 'Digita per cercare più opzioni.'
   },
   resources: {
     adjustments: {
@@ -171,6 +178,7 @@ const it: typeof en = {
         fulfillment_in_progress: 'Evasione in corso',
         editing: 'In modifica',
         history: 'Tutti gli ordini',
+        cart: 'Carrello',
         carts: 'Carrelli',
         archived: 'Archiviati'
       },
@@ -186,7 +194,18 @@ const it: typeof en = {
         discount: 'Sconto',
         fulfillment: 'Evasione',
         payment: 'Pagamento',
-        adjust_total: 'Aggiusta totale'
+        adjust_total: 'Aggiusta totale',
+        use_for_shipping: 'Usa per la spedizione',
+        use_for_billing: 'Usa per la fatturazione'
+      },
+      form: {
+        language: 'Lingua',
+        language_hint: 'La lingua usata per il checkout',
+        error_create_order:
+          "Non è possibile creare l'ordine senza un prodotto valido. Selezionane uno.",
+        email: 'Indirizzo Email',
+        email_placeholder: 'Cerca o aggiungi un indirizzo email',
+        email_hint: "L'indirizzo email del cliente per questo ordine."
       },
       actions: {
         add_item: 'Aggiungi prodotto',
@@ -198,7 +217,8 @@ const it: typeof en = {
         place: 'Piazza ordine',
         refund: 'Rimborsa',
         unarchive: 'Ripristina',
-        select_address: 'Seleziona indirizzo'
+        select_address: 'Seleziona indirizzo',
+        edit_customer: 'Modifica cliente'
       }
     },
     shipments: {

@@ -159,6 +159,7 @@ const en = {
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
     back: 'Back',
+    close: 'Close',
     edit: 'Edit',
     filters: 'Filters',
     limit_reached: 'Limit reached',
@@ -171,8 +172,16 @@ const en = {
     search: 'Search...',
     timeline: 'Timeline',
     update: 'Update',
-    updated: 'Updated'
+    updated: 'Updated',
+    cancel: 'Cancel',
+    apply: 'Apply',
+    not_found: 'Not found',
+    generic_resource_not_found:
+      'We could not find the resource you are looking for.',
+    create_resource: 'Create {{resource}}',
+    generic_select_autocomplete_hint: 'Type to search for more options.'
   },
+
   resources,
   apps: {
     orders: {
@@ -194,6 +203,7 @@ const en = {
         fulfillment_in_progress: 'Fulfillment in progress',
         editing: 'Editing',
         history: 'Order history',
+        cart: 'Cart',
         carts: 'Carts',
         archived: 'Archived'
       },
@@ -209,7 +219,18 @@ const en = {
         discount: 'Discount',
         fulfillment: 'Fulfillment',
         payment: 'Payment',
-        adjust_total: 'Adjust total'
+        adjust_total: 'Adjust total',
+        use_for_shipping: 'Use for shipping',
+        use_for_billing: 'Use for billing'
+      },
+      form: {
+        language: 'Language',
+        language_hint: 'The language used for checkout',
+        error_create_order:
+          'Cannot create the order without a valid item. Please select one.',
+        email: 'Email',
+        email_placeholder: 'Search or add email',
+        email_hint: "The customer's email for this order."
       },
       actions: {
         add_item: 'Add item',
@@ -221,7 +242,8 @@ const en = {
         place: 'Place order',
         refund: 'Refund',
         unarchive: 'Unarchive',
-        select_address: 'Select address'
+        select_address: 'Select address',
+        edit_customer: 'Edit customer'
       }
     },
     shipments: {
