@@ -66,7 +66,7 @@ const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
     .use(
       resourcesToBackend(
         async (language: I18NLocale) =>
-          await import(`../../locales/${language}.ts`)
+          await import(`../locales/${language}.ts`)
       )
     )
     .use(LanguageDetector)
