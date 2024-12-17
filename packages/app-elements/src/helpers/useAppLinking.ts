@@ -1,6 +1,5 @@
 import { useTokenProvider } from '#providers/TokenProvider'
 import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
-import Cookies from 'js-cookie'
 import isEmpty from 'lodash/isEmpty'
 import { useCallback } from 'react'
 import { useLocation, useRouter, useSearch } from 'wouter'
@@ -24,7 +23,7 @@ const config: { apps: AppsConfig } = {
 interface UseAppLinkingHook {
   /**
    * Navigate to internal app path, to different app (outside router base), or to an external URL.
-   * Current path is saved in a cookie to allow going back to it (when using `goBack`).
+   * Current path is saved in session storage to allow going back to it (when using `goBack`).
    */
   navigateTo: (param: { app: AppsWithConfig; resourceId?: string }) => {
     href: string
@@ -38,7 +37,7 @@ interface UseAppLinkingHook {
 
   /**
    * Go back to the last visited location when `navigateTo` has been used.
-   * If no cookie is found, it will navigate to the default relative
+   * If no saved item is found, it will navigate to the default relative
    */
   goBack: (param: {
     currentResourceId?: string
@@ -79,7 +78,7 @@ export function useAppLinking(): UseAppLinkingHook {
         e.preventDefault()
 
         if (isExternalUrl(to)) {
-          // TODO: we can't set a cookie for the go back from a different domain
+          // TODO: we can't set persistent entry for the go back from a different domain
           // probably in a future we can use a query string param
           window.location.assign(to)
         } else {
@@ -206,9 +205,12 @@ function saveGoBackItem({
   returnToApp: AppsWithConfig
   location: string
 }): void {
-  const cookieName = makeCookieName({ destinationApp, resourceId })
-  Cookies.set(
-    cookieName,
+  if (typeof window === 'undefined') {
+    return
+  }
+  const itemKey = makePersistentKey({ destinationApp, resourceId })
+  sessionStorage.setItem(
+    itemKey,
     JSON.stringify({
       version: currentVersion,
       returnToApp,
@@ -224,9 +226,12 @@ function getGoBackItem({
   destinationApp: AppsWithConfig
   resourceId?: string
 }): GoBackItem | null {
-  const cookieName = makeCookieName({ destinationApp, resourceId })
-  const value = Cookies.get(cookieName)
-  Cookies.remove(cookieName)
+  if (typeof window === 'undefined') {
+    return null
+  }
+  const itemKey = makePersistentKey({ destinationApp, resourceId })
+  const value = sessionStorage.getItem(itemKey)
+  sessionStorage.removeItem(itemKey)
 
   try {
     const item = JSON.parse(value ?? '{}') as GoBackItem
@@ -240,12 +245,12 @@ function getGoBackItem({
   }
 }
 
-function makeCookieName({
+function makePersistentKey({
   destinationApp,
   resourceId
 }: {
   destinationApp: AppsWithConfig
   resourceId?: string
 }): string {
-  return `cl.apps.${destinationApp}_${resourceId ?? 'list'}`
+  return `cl.apps.nav.${destinationApp}_${resourceId ?? 'list'}`
 }
