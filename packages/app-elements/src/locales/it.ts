@@ -37,6 +37,11 @@ const it: typeof en = {
     edit_resource: 'Modifica {{resource}}'
   },
   resources: {
+    addresses: {
+      name: 'Indirizzo',
+      name_other: 'Indirizzi',
+      attributes: {}
+    },
     adjustments: {
       name: 'Rettifica',
       name_other: 'Rettifiche',

@@ -5,6 +5,11 @@ import {
 import { type Primitive } from 'type-fest'
 
 const resources = {
+  addresses: {
+    name: 'Address',
+    name_other: 'Addresses',
+    attributes: {}
+  },
   adjustments: {
     name: 'Adjustment',
     name_other: 'Adjustments',
