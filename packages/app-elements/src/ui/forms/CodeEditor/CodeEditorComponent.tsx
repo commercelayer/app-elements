@@ -1,3 +1,4 @@
+import { useTokenProvider } from '#providers/TokenProvider'
 import {
   InputWrapper,
   type InputWrapperBaseProps
@@ -74,6 +75,9 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
     const monaco = useMonaco()
     const disposeCompletionItemProvider = useRef<() => void>()
     const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
+    const {
+      settings: { domain }
+    } = useTokenProvider()
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
       setEditor(editor)
@@ -119,7 +123,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
             case 'organization-config': {
               schemas.push({
                 schema: await fetch(
-                  'https://provisioning.commercelayer.io/api/public/schemas/organization_config'
+                  `https://provisioning.${domain}/api/public/schemas/organization_config`
                 )
                   .then<JsonValue>(async (res) => await res.json())
                   .then((json) => {
@@ -135,7 +139,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
             case 'order-rules': {
               schemas.push({
                 schema: await fetch(
-                  'https://core.commercelayer.io/api/public/schemas/order_rules'
+                  `https://core.${domain}/api/public/schemas/order_rules`
                 )
                   .then<JsonValue>(async (res) => await res.json())
                   .then((json) => {
@@ -154,7 +158,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
             case 'price-rules': {
               schemas.push({
                 schema: await fetch(
-                  'https://core.commercelayer.io/api/public/schemas/price_rules'
+                  `https://core.${domain}/api/public/schemas/price_rules`
                 )
                   .then<JsonValue>(async (res) => await res.json())
                   .then((json) => {
@@ -184,7 +188,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       return () => {
         disposeCompletionItemProvider.current?.()
       }
-    }, [monaco, editor, jsonSchema])
+    }, [monaco, editor, jsonSchema, domain])
 
     return (
       <InputWrapper
