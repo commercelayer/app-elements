@@ -20,12 +20,6 @@ importers:
 
   packages/app-elements:
     dependencies:
-      '@commercelayer/js-auth':
-        specifier: ^6.7.0
-        version: 6.7.0
-      '@commercelayer/sdk':
-        specifier: 6.25.1
-        version: 6.25.1
       '@monaco-editor/react':
         specifier: 4.6.0
         version: 4.6.0(monaco-editor@0.52.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -56,24 +50,12 @@ importers:
       pluralize:
         specifier: ^8.0.0
         version: 8.0.0
-      query-string:
-        specifier: ^9.1.1
-        version: 9.1.1
-      react:
-        specifier: ^18.3.1
-        version: 18.3.1
       react-currency-input-field:
         specifier: ^3.9.0
         version: 3.9.0(react@18.3.1)
       react-datepicker:
         specifier: ^7.5.0
         version: 7.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      react-dom:
-        specifier: ^18.3.1
-        version: 18.3.1(react@18.3.1)
-      react-hook-form:
-        specifier: ^7.53.2
-        version: 7.53.2(react@18.3.1)
       react-select:
         specifier: ^5.8.3
         version: 5.8.3(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -96,6 +78,12 @@ importers:
       '@commercelayer/eslint-config-ts-react':
         specifier: ^1.4.5
         version: 1.4.5(@types/eslint@9.6.1)(eslint@8.57.1)(react@18.3.1)(typescript@5.7.2)
+      '@commercelayer/js-auth':
+        specifier: ^6.7.0
+        version: 6.7.0
+      '@commercelayer/sdk':
+        specifier: 6.25.1
+        version: 6.25.1
       '@hookform/resolvers':
         specifier: ^3.9.1
         version: 3.9.1(react-hook-form@7.53.2(react@18.3.1))
@@ -150,9 +138,21 @@ importers:
       postcss:
         specifier: ^8.4.49
         version: 8.4.49
+      query-string:
+        specifier: ^9.1.1
+        version: 9.1.1
+      react:
+        specifier: ^18.3.1
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.3.1
+        version: 18.3.1(react@18.3.1)
       react-gtm-module:
         specifier: ^2.0.11
         version: 2.0.11
+      react-hook-form:
+        specifier: ^7.53.2
+        version: 7.53.2(react@18.3.1)
       tailwindcss:
         specifier: ^3.4.15
         version: 3.4.15
