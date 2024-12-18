@@ -200,6 +200,7 @@ const en = {
     close: 'Close',
     continue: 'Continue',
     create_resource: 'Create {{resource}}',
+    currency: 'Currency',
     download_file: 'Download file',
     download_json: 'Download JSON',
     edit: 'Edit',
@@ -240,7 +241,14 @@ const en = {
     generic_select_autocomplete_hint: 'Type to search for more options.',
     forms: {
       currency_code_not_valid: '{{currencyCode}} is not a valid currency code.',
-      cents_not_integer: '`cents` ({{cents}}) is not an integer value'
+      cents_not_integer: '`cents` ({{cents}}) is not an integer value',
+      type_to_search_for_more:
+        'Showing 25 results. Type to search for more options.',
+      all_markets_with_currency: 'All markets with currency',
+      minimum: 'Minimum',
+      maximum: 'Maximum',
+      drag_here_or: 'drag and drop it here or',
+      browse_files: 'browse files'
     },
     routes: {
       missing_configuration:
