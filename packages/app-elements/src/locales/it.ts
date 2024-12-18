@@ -3,38 +3,65 @@ import type en from './en'
 const it: typeof en = {
   common: {
     add_resource: 'Aggiungi {{resource}}',
+    add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
     all_items: 'Tutti gli elementi',
     amount: 'Importo',
-    not_handled: 'Non gestito',
-    back: 'Torna indietro',
-    close: 'Chiudi',
-    continue: 'Continua',
-    new: 'Nuovo',
-    not_authorized: 'Non autorizzato',
-    no_items: 'Nessun elemento',
-    edit: 'Modifica',
-    manage_resource: 'Gestisci {{resource}}',
-    updated: 'Aggiornato',
-    timeline: 'Storico',
-    filters: 'Filtri',
-    metadata: 'Metadati',
-    search: 'Cerca...',
-    limit_reached: 'Limite raggiunto',
-    add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
-    update: 'Aggiorna',
-    cancel: 'Annulla',
     apply: 'Applica',
+    back: 'Torna indietro',
+    cancel: 'Annulla',
+    close: 'Chiudi',
+    clear_text: 'Svuota testo',
+    continue: 'Continua',
+    create_resource: 'Crea {{resource}}',
+    download_file: 'Scarica file',
+    download_json: 'Scarica JSON',
+    edit: 'Modifica',
+    edit_resource: 'Modifica {{resource}}',
+    filters: 'Filtri',
+    limit_reached: 'Limite raggiunto',
+    manage_resource: 'Gestisci {{resource}}',
+    metadata: 'Metadati',
+    new: 'Nuovo',
+    no_items: 'Nessun elemento',
+    not_authorized: 'Non autorizzato',
     not_found: 'Non trovato',
+    not_handled: 'Non gestito',
+    search: 'Cerca...',
+    select_resource: 'Seleziona {{resource}}',
+    update: 'Aggiorna',
+    updated: 'Aggiornato',
+    view_logs: 'Visualizza i log',
     generic_resource_not_found: 'La risorsa che cercavi non è esiste.',
     empty_state_resource_title: 'Nessun {{resource}} trovato!',
     empty_state_resource_description:
       'Nessun {{resource}} trovato found per questa organizzazione.',
     empty_state_resource_filtered:
       "Non c'è {{resources}} che corrisponde ai filtri selezionati.",
-    create_resource: 'Crea {{resource}}',
     generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
-    select_resource: 'Seleziona {{resource}}',
-    edit_resource: 'Modifica {{resource}}'
+    routes: {
+      missing_configuration:
+        'Configurazione mancante durante la definizione di {{component}}',
+      loading_app_page: 'Caricamento pagina app...',
+      page_not_found: 'Pagina non trovata',
+      invalid_resource: '{{resource}} non valida',
+      we_could_not_find_page:
+        'Non abbiamo trovato la pagina che stavi cercando.',
+      we_could_not_find_resource:
+        'Non abbiamo trovato la risorsa {{resource}} che stavi cercando.',
+      go_home: 'Vai alla home'
+    },
+    table: {
+      and_another_record: 'e un altro elemento',
+      and_other_records: 'e altri {{count}} elementi',
+      record: '1 elemento',
+      record_other: '{{count}} elementi'
+    },
+    timeline: {
+      name: 'Storico',
+      leave_a_note: 'Lascia una nota o un commento',
+      only_staff_can_see:
+        'Solo tu e altri membri dello staff possono vedere i commenti'
+    }
   },
   resources: {
     addresses: {
