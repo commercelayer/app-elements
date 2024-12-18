@@ -205,7 +205,7 @@ const en = {
     new: 'New',
     no_items: 'No items',
     not_authorized: 'Not authorized',
-    not_found: 'Not found',
+
     not_handled: 'Not handled',
     search: 'Search...',
     select_resource: 'Select {{resource}}',
@@ -213,13 +213,19 @@ const en = {
     update: 'Update',
     updated: 'Updated',
     view_logs: 'View logs',
-    generic_resource_not_found:
-      'We could not find the resource you are looking for.',
-    empty_state_resource_title: 'No {{resource}} found!',
-    empty_state_resource_description:
-      'No {{resource}} found for this organization.',
-    empty_state_resource_filtered:
-      "We didn't find any {{resources}} matching the current filters selection.",
+    view_api_docs: 'View API reference',
+    empty_states: {
+      not_found: 'Not found',
+      generic_not_found: 'We could not find the resource you are looking for.',
+      no_resource_found: 'No {{resource}} found!',
+      no_resource_yet: 'No {{resource}} yet!',
+      create_the_first_resource:
+        'Add a new {{resource}} with the API, or use the CLI.',
+      no_resource_found_for_organization:
+        'No {{resource}} found for this organization.',
+      no_resource_found_for_filters:
+        "We didn't find any {{resources}} matching the current filters selection."
+    },
     generic_select_autocomplete_hint: 'Type to search for more options.',
     routes: {
       missing_configuration:
@@ -297,7 +303,8 @@ const en = {
         email_hint: "The customer's email for this order.",
         coupon_code: 'Coupon code',
         select_adjustment_amount:
-          'Select a positive amount type to increase the order total.'
+          'Select a positive amount type to increase the order total.',
+        manual_adjustment_name: 'Manual adjustment'
       },
       actions: {
         add_item: 'Add item',
@@ -329,7 +336,8 @@ const en = {
     select_one_item: 'Please select at least one item',
     coupon_code_invalid: 'Please enter a valid coupon code.',
     coupon_code_too_short: 'Coupon code is too short (minimum is 8 characters)',
-    amount_invalid: 'Please enter a valid amount'
+    amount_invalid: 'Please enter a valid amount',
+    required_field: 'Required field'
   }
 }
 
