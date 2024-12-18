@@ -14,6 +14,7 @@ const it: typeof en = {
     clear_text: 'Svuota testo',
     continue: 'Continua',
     create_resource: 'Crea {{resource}}',
+    currency: 'Valuta',
     download_file: 'Scarica file',
     download_json: 'Scarica JSON',
     edit: 'Modifica',
@@ -55,7 +56,14 @@ const it: typeof en = {
     forms: {
       currency_code_not_valid:
         '{{currencyCode}} non è un codice valuta valido.',
-      cents_not_integer: '`centesimi` ({{cents}}) non è un valore intero'
+      cents_not_integer: '`centesimi` ({{cents}}) non è un valore intero',
+      type_to_search_for_more:
+        'Mostrati 25 risultati. Digita per cercare più opzioni.',
+      all_markets_with_currency: 'Tutti i markets provvisti di valuta',
+      minimum: 'Minimo',
+      maximum: 'Massimo',
+      drag_here_or: 'trascina qui o',
+      browse_files: 'seleziona file'
     },
     generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
     routes: {

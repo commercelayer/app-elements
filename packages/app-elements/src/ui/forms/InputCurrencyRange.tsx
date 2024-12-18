@@ -1,4 +1,5 @@
 import type { CurrencyCode } from '#helpers/currencies'
+import { t } from '#providers/I18NProvider'
 import {
   InputCurrency,
   formatCentsToCurrency,
@@ -31,7 +32,7 @@ export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
 export function InputCurrencyRange({
   fromCents,
   toCents,
-  placeholders = ['Minimum', 'Maximum'],
+  placeholders = [t('common.forms.minimum'), t('common.forms.maximum')],
   onChange,
   label,
   hint,
@@ -146,7 +147,7 @@ export function InputCurrencyRange({
           }}
           className='min-w-max'
           data-testid='currency-select'
-          aria-label='currency'
+          aria-label={t('common.currency')}
         />
       </div>
     </InputWrapper>
