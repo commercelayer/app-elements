@@ -224,6 +224,7 @@ const en = {
     updated: 'Updated',
     view_logs: 'View logs',
     view_api_docs: 'View API reference',
+    time_range: 'Time Range',
     empty_states: {
       not_found: 'Not found',
       generic_not_found: 'We could not find the resource you are looking for.',
@@ -267,6 +268,8 @@ const en = {
       checkout_link_status: 'Checkout link is {{status}}!',
       open_checkout: 'Open checkout',
       share_email_subject: 'Checkout your order (#{{number}})',
+      share_email_body:
+        'Dear customer,\nplease follow this link to checkout your order #{{number}: \n{{url}}\nThank you,\nThe {{organization}} team',
       share_whatsapp_text:
         'Please follow this link to checkout your order *#{{number}}*: {{url}}'
     }
@@ -313,7 +316,12 @@ const en = {
         use_for_billing: 'Use for billing',
         new_total_line1:
           'The new total is {{new_total}}, {{difference}} more than the original total.',
-        new_total_line2: 'Adjust the total to make it equal or less.'
+        new_total_line2: 'Adjust the total to make it equal or less.',
+        confirm_order_cancellation:
+          'Confirm that you want to cancel order #{{number}}',
+        confirm_capture: 'Confirm capture',
+        irreversible_action:
+          'This action cannot be undone, proceed with caution.'
       },
       form: {
         language: 'Language',
@@ -334,7 +342,8 @@ const en = {
         archive: 'Archive',
         cancel_transactions: 'Cancel payment',
         cancel: 'Cancel order',
-        capture: 'Capture payment',
+        capture_payment: 'Capture payment',
+        capture: 'Capture',
         place: 'Place order',
         refund: 'Refund',
         unarchive: 'Unarchive',

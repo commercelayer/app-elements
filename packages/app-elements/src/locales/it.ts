@@ -39,6 +39,7 @@ const it: typeof en = {
     updated: 'Aggiornato',
     view_logs: 'Visualizza i log',
     view_api_docs: 'Visualizza la documentazione API',
+    time_range: 'Periodo',
     empty_states: {
       not_found: 'Non trovato',
       generic_not_found: 'La risorsa che cercavi non è esiste.',
@@ -76,7 +77,7 @@ const it: typeof en = {
       record_other: '{{count}} elementi'
     },
     timeline: {
-      name: 'Storico',
+      name: 'Attività',
       leave_a_note: 'Lascia una nota o un commento',
       only_staff_can_see:
         'Solo tu e altri membri dello staff possono vedere i commenti'
@@ -85,6 +86,8 @@ const it: typeof en = {
       checkout_link_status: 'Il link al checkout è {{status}}!',
       open_checkout: 'Apri il checkout',
       share_email_subject: 'Completa il tuo ordine (#{{number}})',
+      share_email_body:
+        'Gentile cliente,\nClicca su questo link per completare il tuo ordine #{{number}}: {{url}}\n\nGrazie,\nIl team di {{organization}}',
       share_whatsapp_text:
         'Apri questo link per completare il tuo ordine *#{{number}}*: {{url}}'
     }
@@ -138,8 +141,8 @@ const it: typeof en = {
           draft: 'Bozza',
           editing: 'In modifica',
           pending: 'In attesa',
-          placed: 'Piazzato',
-          placing: 'In piazzamento'
+          placed: 'Acquistato',
+          placing: 'In acquisto'
         },
         payment_status: {
           authorized: 'Autorizzato',
@@ -154,9 +157,9 @@ const it: typeof en = {
           partially_voided: 'Parz. annullato'
         },
         fulfillment_status: {
-          unfulfilled: 'Non evaso',
+          unfulfilled: 'Non spedito',
           in_progress: 'In corso',
-          fulfilled: 'Evaso',
+          fulfilled: 'Spedito',
           not_required: 'Non richiesto'
         },
         billing_address: 'Indirizzo di fatturazione',
@@ -262,7 +265,7 @@ const it: typeof en = {
       attributes: {
         status: 'Stato',
         payment_status: 'Stato pagamento',
-        fulfillment_status: 'Stato evasione'
+        fulfillment_status: 'Stato spedizione'
       },
       display_status: {
         in_progress: 'In corso',
@@ -270,11 +273,11 @@ const it: typeof en = {
       },
       task: {
         open: 'Aperti',
-        browse: 'Sfoglia',
-        awaiting_approval: 'In attesa di approvazione',
+        browse: 'Altro',
+        awaiting_approval: 'Da approvare',
         error_to_cancel: 'Errore nella cancellazione',
-        payment_to_capture: 'Pagamento da catturare',
-        fulfillment_in_progress: 'Evasione in corso',
+        payment_to_capture: 'Da catturare',
+        fulfillment_in_progress: 'Da spedire',
         editing: 'In modifica',
         history: 'Tutti gli ordini',
         cart: 'Carrello',
@@ -292,13 +295,18 @@ const it: typeof en = {
         taxes: 'Tasse',
         included: 'incluse',
         discount: 'Sconto',
-        fulfillment: 'Evasione',
+        fulfillment: 'Spedizione',
         payment: 'Pagamento',
         use_for_shipping: 'Usa per la spedizione',
         use_for_billing: 'Usa per la fatturazione',
         new_total_line1:
           'Il nuovo totale è {{new_total}}, {{difference}} in più rispetto al totale originale.',
-        new_total_line2: 'Modifica il totale per renderlo uguale o inferiore.'
+        new_total_line2: 'Modifica il totale per renderlo uguale o inferiore.',
+        confirm_order_cancellation:
+          "Sei sicuro di voler cancellare l'ordine #{{number}}",
+        confirm_capture: 'Conferma cattura',
+        irreversible_action:
+          'Questa azione non può essere annullata, procedi con cautela.'
       },
       form: {
         language: 'Lingua',
@@ -319,7 +327,8 @@ const it: typeof en = {
         archive: 'Archivia',
         cancel_transactions: 'Annulla pagamento',
         cancel: 'Annulla ordine',
-        capture: 'Cattura pagamento',
+        capture_payment: 'Cattura pagamento',
+        capture: 'Cattura',
         place: 'Piazza ordine',
         refund: 'Rimborsa',
         unarchive: 'Ripristina',
