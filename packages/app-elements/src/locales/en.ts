@@ -38,6 +38,11 @@ const resources = {
       }
     }
   },
+  links: {
+    name: 'Link',
+    name_other: 'Links',
+    attributes: {}
+  },
   orders: {
     name: 'Order',
     name_other: 'Orders',
@@ -189,6 +194,7 @@ const en = {
     amount: 'Amount',
     apply: 'Apply',
     back: 'Back',
+    go_back: 'Go back',
     cancel: 'Cancel',
     clear_text: 'Clear text',
     close: 'Close',
@@ -199,6 +205,8 @@ const en = {
     edit: 'Edit',
     edit_resource: 'Edit {{resource}}',
     filters: 'Filters',
+    from: 'From',
+    to: 'To',
     limit_reached: 'Limit reached',
     loading: 'Loading...',
     manage_resource: 'Manage {{resource}}',
@@ -207,6 +215,7 @@ const en = {
     no_items: 'No items',
     no_results_found: 'No results found',
     not_authorized: 'Not authorized',
+    not_authorized_description: 'You are not authorized to access this page.',
     not_handled: 'Not handled',
     search: 'Search...',
     see_all: 'See all',
@@ -253,6 +262,13 @@ const en = {
       name: 'Timeline',
       leave_a_note: 'Leave a note or comment',
       only_staff_can_see: 'Only you and other staff can see comments'
+    },
+    links: {
+      checkout_link_status: 'Checkout link is {{status}}!',
+      open_checkout: 'Open checkout',
+      share_email_subject: 'Checkout your order (#{{number}})',
+      share_whatsapp_text:
+        'Please follow this link to checkout your order *#{{number}}*: {{url}}'
     }
   },
   resources,
@@ -278,7 +294,8 @@ const en = {
         history: 'Order history',
         cart: 'Cart',
         carts: 'Carts',
-        archived: 'Archived'
+        archived: 'Archived',
+        request_return: 'Request return'
       },
       details: {
         summary: 'Summary',
@@ -324,6 +341,13 @@ const en = {
         continue_editing: 'Continue editing',
         finish_editing: 'Finish',
         adjust_total: 'Adjust total'
+      }
+    },
+    returns: {
+      details: {
+        origin: 'Origin',
+        destination: 'Destination',
+        to_destination: 'To'
       }
     },
     shipments: {
