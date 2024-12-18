@@ -187,10 +187,17 @@ const en = {
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
     amount: 'Amount',
+    apply: 'Apply',
     back: 'Back',
+    cancel: 'Cancel',
+    clear_text: 'Clear text',
     close: 'Close',
     continue: 'Continue',
+    create_resource: 'Create {{resource}}',
+    download_file: 'Download file',
+    download_json: 'Download JSON',
     edit: 'Edit',
+    edit_resource: 'Edit {{resource}}',
     filters: 'Filters',
     limit_reached: 'Limit reached',
     manage_resource: 'Manage {{resource}}',
@@ -198,14 +205,14 @@ const en = {
     new: 'New',
     no_items: 'No items',
     not_authorized: 'Not authorized',
+    not_found: 'Not found',
     not_handled: 'Not handled',
     search: 'Search...',
-    timeline: 'Timeline',
+    select_resource: 'Select {{resource}}',
+
     update: 'Update',
     updated: 'Updated',
-    cancel: 'Cancel',
-    apply: 'Apply',
-    not_found: 'Not found',
+    view_logs: 'View logs',
     generic_resource_not_found:
       'We could not find the resource you are looking for.',
     empty_state_resource_title: 'No {{resource}} found!',
@@ -213,10 +220,29 @@ const en = {
       'No {{resource}} found for this organization.',
     empty_state_resource_filtered:
       "We didn't find any {{resources}} matching the current filters selection.",
-    create_resource: 'Create {{resource}}',
     generic_select_autocomplete_hint: 'Type to search for more options.',
-    select_resource: 'Select {{resource}}',
-    edit_resource: 'Edit {{resource}}'
+    routes: {
+      missing_configuration:
+        'Missing configuration when defining {{component}}',
+      loading_app_page: 'Loading app page...',
+      page_not_found: 'Page not found',
+      invalid_resource: 'Invalid {{resource}}',
+      we_could_not_find_page: 'We could not find the page you are looking for.',
+      we_could_not_find_resource:
+        'We could not find the {{resource}} you are looking for.',
+      go_home: 'Go home'
+    },
+    table: {
+      and_another_record: 'and another record',
+      and_other_records: 'and {{count}} other records',
+      record: '1 record',
+      record_other: '{{count}} records'
+    },
+    timeline: {
+      name: 'Timeline',
+      leave_a_note: 'Leave a note or comment',
+      only_staff_can_see: 'Only you and other staff can see comments'
+    }
   },
   resources,
   apps: {

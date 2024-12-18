@@ -1,4 +1,5 @@
 import { formatResourceName } from '#helpers/resources'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
@@ -65,7 +66,9 @@ export function Routes<T extends Record<string, { path: string }>>({
 
         if (route?.path == null) {
           throw new Error(
-            'Missing configuration when defining <Routes routes=".." list=".." />'
+            t('common.routes.missing_configuration', {
+              component: '<Routes routes=".." list=".." />'
+            })
           )
         }
 
@@ -114,7 +117,9 @@ function LoadingPage({ overlay = false }: { overlay?: boolean }): JSX.Element {
       <SkeletonTemplate isLoading>
         <PageLayout
           title={
-            <SkeletonTemplate isLoading>Loading app page...</SkeletonTemplate>
+            <SkeletonTemplate isLoading>
+              {t('common.routes.loading_app_page')}
+            </SkeletonTemplate>
           }
           mode={mode}
           gap='only-top'
@@ -141,19 +146,23 @@ export function GenericPageNotFound({
       <EmptyState
         title={
           resource == null
-            ? 'Page Not found'
-            : `Invalid ${formatResourceName({
-                resource,
-                count: 'singular'
-              })}`
+            ? t('common.routes.page_not_found')
+            : t('common.routes.invalid_resource', {
+                resource: formatResourceName({
+                  resource,
+                  count: 'singular'
+                })
+              })
         }
         description={
           resource == null
-            ? 'We could not find the page you are looking for.'
-            : `We could not find the ${formatResourceName({
-                resource,
-                count: 'singular'
-              })} you are looking for.`
+            ? t('common.routes.we_could_not_find_page')
+            : t('common.routes.we_could_not_find_resource', {
+                resource: formatResourceName({
+                  resource,
+                  count: 'singular'
+                })
+              })
         }
         action={
           <Button
@@ -162,7 +171,7 @@ export function GenericPageNotFound({
               setLocation('/')
             }}
           >
-            Go home
+            {t('common.routes.go_home')}
           </Button>
         }
       />

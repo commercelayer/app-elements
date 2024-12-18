@@ -1,4 +1,5 @@
 import { formatDate, sortAndGroupByDate } from '#helpers/date'
+import { t } from '#providers/I18NProvider'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -43,11 +44,11 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
           onKeyDown={onKeyDown}
           onChange={onChange}
           className='relative bg-gray-50'
-          placeholder='Leave a note or comment'
+          placeholder={t('common.timeline.leave_a_note')}
         />
         <div className='border-gray-100 border-l-2 ml-[13px]'>
           <div className='pt-2 pb-4 text-right text-sm text-gray-400'>
-            Only you and other staff can see comments
+            {t('common.timeline.only_staff_can_see')}
           </div>
           {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
             <div key={date}>
