@@ -7,7 +7,8 @@ const it: typeof en = {
     all_items: 'Tutti gli elementi',
     amount: 'Importo',
     apply: 'Applica',
-    back: 'Torna indietro',
+    back: 'Indietro',
+    go_back: 'Torna indietro',
     cancel: 'Annulla',
     close: 'Chiudi',
     clear_text: 'Svuota testo',
@@ -18,6 +19,8 @@ const it: typeof en = {
     edit: 'Modifica',
     edit_resource: 'Modifica {{resource}}',
     filters: 'Filtri',
+    from: 'Dal',
+    to: 'Al',
     limit_reached: 'Limite raggiunto',
     loading: 'Caricamento...',
     manage_resource: 'Gestisci {{resource}}',
@@ -26,6 +29,8 @@ const it: typeof en = {
     no_items: 'Nessun elemento',
     no_results_found: 'Nessun risultato trovato',
     not_authorized: 'Non autorizzato',
+    not_authorized_description:
+      'Non sei autorizzato ad accedere a questa pagina.',
     not_handled: 'Non gestito',
     search: 'Cerca...',
     see_all: 'Vedi tutti',
@@ -75,6 +80,13 @@ const it: typeof en = {
       leave_a_note: 'Lascia una nota o un commento',
       only_staff_can_see:
         'Solo tu e altri membri dello staff possono vedere i commenti'
+    },
+    links: {
+      checkout_link_status: 'Il link al checkout è {{status}}!',
+      open_checkout: 'Apri il checkout',
+      share_email_subject: 'Completa il tuo ordine (#{{number}})',
+      share_whatsapp_text:
+        'Apri questo link per completare il tuo ordine *#{{number}}*: {{url}}'
     }
   },
   resources: {
@@ -110,6 +122,11 @@ const it: typeof en = {
           repeat: 'Abituale'
         }
       }
+    },
+    links: {
+      name: 'Link',
+      name_other: 'Links',
+      attributes: {}
     },
     orders: {
       name: 'Ordine',
@@ -262,7 +279,8 @@ const it: typeof en = {
         history: 'Tutti gli ordini',
         cart: 'Carrello',
         carts: 'Carrelli',
-        archived: 'Archiviati'
+        archived: 'Archiviati',
+        request_return: 'Richiedi reso'
       },
       details: {
         summary: 'Riepilogo',
@@ -308,6 +326,14 @@ const it: typeof en = {
         continue_editing: 'Continua modifiche',
         finish_editing: 'Finalizza',
         adjust_total: 'Modifica il totale'
+      }
+    },
+
+    returns: {
+      details: {
+        origin: 'Origine',
+        destination: 'Destinazione',
+        to_destination: 'Verso'
       }
     },
     shipments: {
