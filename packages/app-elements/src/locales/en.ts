@@ -200,16 +200,17 @@ const en = {
     edit_resource: 'Edit {{resource}}',
     filters: 'Filters',
     limit_reached: 'Limit reached',
+    loading: 'Loading...',
     manage_resource: 'Manage {{resource}}',
     metadata: 'Metadata',
     new: 'New',
     no_items: 'No items',
+    no_results_found: 'No results found',
     not_authorized: 'Not authorized',
-
     not_handled: 'Not handled',
     search: 'Search...',
+    see_all: 'See all',
     select_resource: 'Select {{resource}}',
-
     update: 'Update',
     updated: 'Updated',
     view_logs: 'View logs',
@@ -227,6 +228,10 @@ const en = {
         "We didn't find any {{resources}} matching the current filters selection."
     },
     generic_select_autocomplete_hint: 'Type to search for more options.',
+    forms: {
+      currency_code_not_valid: '{{currencyCode}} is not a valid currency code.',
+      cents_not_integer: '`cents` ({{cents}}) is not an integer value'
+    },
     routes: {
       missing_configuration:
         'Missing configuration when defining {{component}}',

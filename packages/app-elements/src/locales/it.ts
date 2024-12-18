@@ -19,13 +19,16 @@ const it: typeof en = {
     edit_resource: 'Modifica {{resource}}',
     filters: 'Filtri',
     limit_reached: 'Limite raggiunto',
+    loading: 'Caricamento...',
     manage_resource: 'Gestisci {{resource}}',
     metadata: 'Metadati',
     new: 'Nuovo',
     no_items: 'Nessun elemento',
+    no_results_found: 'Nessun risultato trovato',
     not_authorized: 'Non autorizzato',
     not_handled: 'Non gestito',
     search: 'Cerca...',
+    see_all: 'Vedi tutti',
     select_resource: 'Seleziona {{resource}}',
     update: 'Aggiorna',
     updated: 'Aggiornato',
@@ -42,6 +45,11 @@ const it: typeof en = {
         'Nessuna risorsa {{resource}} trovata per questa organizzazione.',
       no_resource_found_for_filters:
         "Non c'è {{resources}} che corrisponde ai filtri selezionati."
+    },
+    forms: {
+      currency_code_not_valid:
+        '{{currencyCode}} non è un codice valuta valido.',
+      cents_not_integer: '`centesimi` ({{cents}}) non è un valore intero'
     },
     generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
     routes: {
