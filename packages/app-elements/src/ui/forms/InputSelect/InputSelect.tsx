@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import {
   InputWrapper,
   type InputWrapperBaseProps
@@ -160,7 +161,7 @@ export const InputSelect = forwardRef<
       value,
       isClearable,
       isLoading,
-      loadingText = 'Loading...',
+      loadingText = t('common.loading'),
       placeholder,
       isDisabled,
       isOptionDisabled,
@@ -172,7 +173,7 @@ export const InputSelect = forwardRef<
       className,
       loadAsyncValues,
       debounceMs,
-      noOptionsMessage = 'No results found',
+      noOptionsMessage = t('common.no_results_found'),
       menuFooterText,
       isCreatable,
       ...rest

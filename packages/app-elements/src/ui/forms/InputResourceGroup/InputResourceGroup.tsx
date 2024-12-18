@@ -1,5 +1,6 @@
 import { formatResourceName } from '#helpers/resources'
 import { useCoreApi } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
@@ -154,7 +155,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 size='small'
                 className='underline'
               >
-                See all{' '}
+                {t('common.see_all')}{' '}
                 {formatResourceName({
                   resource,
                   count: 'plural'
@@ -173,7 +174,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 setSelectedValuesForPreview(values)
               }}
             >
-              Apply
+              <>{t('common.apply')}</>
             </Button>
           }
           defaultValues={values}

@@ -1,4 +1,5 @@
 import type { Currency, CurrencyCode } from '#helpers/currencies'
+import { t } from '#providers/I18NProvider'
 import {
   InputWrapper,
   getFeedbackStyle,
@@ -102,11 +103,13 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
     }, [cents, currency])
 
     if (currency == null) {
-      return <div>{currencyCode} is not a valid currencyCode</div>
+      return (
+        <div>{t('common.forms.currency_code_not_valid', { currencyCode })}</div>
+      )
     }
 
     if (cents != null && cents > 0 && cents % 1 !== 0) {
-      return <div>`cents` ({cents}) is not an integer value</div>
+      return <div>{t('common.forms.cents_not_integer', { cents })}</div>
     }
 
     const allowNegativeValue = sign.includes('-')
