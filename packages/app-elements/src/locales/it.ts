@@ -24,19 +24,25 @@ const it: typeof en = {
     new: 'Nuovo',
     no_items: 'Nessun elemento',
     not_authorized: 'Non autorizzato',
-    not_found: 'Non trovato',
     not_handled: 'Non gestito',
     search: 'Cerca...',
     select_resource: 'Seleziona {{resource}}',
     update: 'Aggiorna',
     updated: 'Aggiornato',
     view_logs: 'Visualizza i log',
-    generic_resource_not_found: 'La risorsa che cercavi non è esiste.',
-    empty_state_resource_title: 'Nessun {{resource}} trovato!',
-    empty_state_resource_description:
-      'Nessun {{resource}} trovato found per questa organizzazione.',
-    empty_state_resource_filtered:
-      "Non c'è {{resources}} che corrisponde ai filtri selezionati.",
+    view_api_docs: 'Visualizza la documentazione API',
+    empty_states: {
+      not_found: 'Non trovato',
+      generic_not_found: 'La risorsa che cercavi non è esiste.',
+      no_resource_found: 'Nessuna risorsa {{resource}} trovata!',
+      no_resource_yet: 'Non esiste ancora nessun risorsa di tipo {{resource}}!',
+      create_the_first_resource:
+        'Aggiungi una nuova risorsa di tipo {{resource}} tramite API, oppure usa la CLI.',
+      no_resource_found_for_organization:
+        'Nessuna risorsa {{resource}} trovata per questa organizzazione.',
+      no_resource_found_for_filters:
+        "Non c'è {{resources}} che corrisponde ai filtri selezionati."
+    },
     generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
     routes: {
       missing_configuration:
@@ -70,8 +76,8 @@ const it: typeof en = {
       attributes: {}
     },
     adjustments: {
-      name: 'Rettifica',
-      name_other: 'Rettifiche',
+      name: 'Modifica',
+      name_other: 'Modifiche',
       attributes: {}
     },
     bundles: {
@@ -223,7 +229,8 @@ const it: typeof en = {
     select_one_item: 'Seleziona almeno un elemento',
     coupon_code_invalid: 'Inserisci un codice valido',
     coupon_code_too_short: 'Il codice è troppo corto (minimo 8 caratteri)',
-    amount_invalid: 'Inserisci un importo valido'
+    amount_invalid: 'Inserisci un importo valido',
+    required_field: 'Campo obbligatorio'
   },
   apps: {
     orders: {
@@ -265,7 +272,7 @@ const it: typeof en = {
         use_for_billing: 'Usa per la fatturazione',
         new_total_line1:
           'Il nuovo totale è {{new_total}}, {{difference}} in più rispetto al totale originale.',
-        new_total_line2: 'Rettifica il totale per renderlo uguale o inferiore.'
+        new_total_line2: 'Modifica il totale per renderlo uguale o inferiore.'
       },
       form: {
         language: 'Lingua',
@@ -277,7 +284,8 @@ const it: typeof en = {
         email_hint: "L'indirizzo email del cliente per questo ordine.",
         coupon_code: 'Codice coupon',
         select_adjustment_amount:
-          "Seleziona un tipo di importo positivo per aumentare il totale dell'ordine."
+          "Seleziona un tipo di importo positivo per aumentare il totale dell'ordine.",
+        manual_adjustment_name: 'Modifica manuale'
       },
       actions: {
         add_item: 'Aggiungi prodotto',
@@ -291,7 +299,7 @@ const it: typeof en = {
         unarchive: 'Ripristina',
         continue_editing: 'Continua modifiche',
         finish_editing: 'Finalizza',
-        adjust_total: 'Rettifica totale'
+        adjust_total: 'Modifica il totale'
       }
     },
     shipments: {
