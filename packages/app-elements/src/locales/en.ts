@@ -43,6 +43,7 @@ const resources = {
     name: 'Customer',
     name_other: 'Customers',
     attributes: {
+      email: 'Email',
       status: {
         prospect: 'Prospect',
         acquired: 'Acquired',
@@ -202,6 +203,7 @@ const en = {
   common: {
     add_another: 'Add another',
     add_resource: 'Add {{resource}}',
+    update_resource: 'Update {{resource}}',
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
     amount: 'Amount',
@@ -225,6 +227,7 @@ const en = {
     filters: 'Filters',
     from: 'From',
     to: 'To',
+    info: 'Info',
     limit_reached: 'Limit reached',
     loading: 'Loading...',
     manage_resource: 'Manage {{resource}}',
@@ -298,7 +301,11 @@ const en = {
     timeline: {
       name: 'Timeline',
       leave_a_note: 'Leave a note or comment',
-      only_staff_can_see: 'Only you and other staff can see comments'
+      only_staff_can_see: 'Only you and other staff can see comments',
+      resource_created: '{{resource}} created',
+      resource_updated: '{{resource}} updated',
+      order_placed: 'Order #{{number}} placed in {{orderMarket}}',
+      left_a_nome: 'left a note'
     },
     links: {
       checkout_link_status: 'Checkout link is {{status}}!',
@@ -325,6 +332,24 @@ const en = {
   },
   resources,
   apps: {
+    customers: {
+      attributes: {
+        status: 'Status'
+      },
+      details: {
+        registered: 'Registered',
+        guest: 'Guest',
+        newsletter: 'Newsletter',
+        subscribed: 'Subscribed',
+        type: 'Type',
+        wallet: 'Wallet'
+      },
+      form: {
+        customer_group_label: 'Group',
+        customer_group_hint: 'The group to which this customer belongs',
+        email_hint: "The customer's email address"
+      }
+    },
     orders: {
       attributes: {
         status: 'Status',
