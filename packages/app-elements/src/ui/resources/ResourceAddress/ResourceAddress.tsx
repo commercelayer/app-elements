@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Hr } from '#ui/atoms/Hr'
@@ -184,7 +185,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                 weight={title == null ? 'bold' : undefined}
                 variant={title != null ? 'info' : undefined}
               >
-                no address
+                {t('common.no_address')}
               </Text>
             )}
           </div>

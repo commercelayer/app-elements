@@ -1,3 +1,4 @@
+import { I18NProvider } from '#providers/I18NProvider'
 import { TableData } from '#ui/composite/TableData'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -11,7 +12,11 @@ const setup: Meta<typeof TableData> = {
 export default setup
 
 const Template: StoryFn<typeof TableData> = (args) => {
-  return <TableData {...args} />
+  return (
+    <I18NProvider localeCode='it'>
+      <TableData {...args} />
+    </I18NProvider>
+  )
 }
 
 export const Default = Template.bind({})
@@ -57,6 +62,15 @@ CompleteExample.args = {
       sku_code: 'C013'
     }
   ]
+}
+
+export const EmptyExample = Template.bind({})
+EmptyExample.args = {
+  limit: 1,
+  showOthers: true,
+  showTotal: true,
+  title: 'Preview',
+  data: []
 }
 
 /**

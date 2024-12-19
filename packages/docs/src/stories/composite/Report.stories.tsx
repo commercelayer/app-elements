@@ -1,3 +1,4 @@
+import { I18NProvider } from '#providers/I18NProvider'
 import { Report } from '#ui/composite/Report'
 
 import { type Meta, type StoryFn } from '@storybook/react'
@@ -11,7 +12,11 @@ const setup: Meta<typeof Report> = {
 }
 export default setup
 
-const Template: StoryFn<typeof Report> = (args) => <Report {...args} />
+const Template: StoryFn<typeof Report> = (args) => (
+  <I18NProvider localeCode='it'>
+    <Report {...args} />
+  </I18NProvider>
+)
 
 export const Default = Template.bind({})
 Default.args = {
