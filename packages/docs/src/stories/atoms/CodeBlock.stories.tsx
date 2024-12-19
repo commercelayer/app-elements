@@ -1,7 +1,9 @@
 import { useOverlay } from '#hooks/useOverlay'
 import { Button } from '#ui/atoms/Button'
+import { Card } from '#ui/atoms/Card'
 import { CodeBlock } from '#ui/atoms/CodeBlock'
 import { PageHeading } from '#ui/atoms/PageHeading'
+import { Spacer } from '#ui/atoms/Spacer'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof CodeBlock> = {
@@ -123,6 +125,22 @@ export const UsageInsideOverlay: StoryFn = () => {
           -o demo-store \\
           -a admin`}
         </CodeBlock>
+
+        <Spacer top='6'>
+          <Card gap='6' overflow='visible'>
+            <CodeBlock
+              label='Login with your admin credentials'
+              showCopyAction
+              showSecretAction
+            >
+              {`commercelayer app:login \\
+            -i asdGvqXsOSsdko6ueiX9 \\
+            -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 \\
+            -o demo-store \\
+            -a admin`}
+            </CodeBlock>
+          </Card>
+        </Spacer>
       </Overlay>
     </div>
   )
