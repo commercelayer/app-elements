@@ -19,6 +19,7 @@ const it: typeof en = {
     create_resource: 'Crea {{resource}}',
     currency: 'Valuta',
     custom_time_range: 'Intervallo di tempo personalizzato',
+    update_resource: 'Aggiorna {{resource}}',
     download_file: 'Scarica file',
     download_json: 'Scarica JSON',
     edit: 'Modifica',
@@ -27,6 +28,7 @@ const it: typeof en = {
     filters: 'Filtri',
     from: 'Dal',
     to: 'Al',
+    info: 'Informazioni',
     limit_reached: 'Limite raggiunto',
     loading: 'Caricamento...',
     manage_resource: 'Gestisci {{resource}}',
@@ -104,7 +106,11 @@ const it: typeof en = {
       name: 'Attività',
       leave_a_note: 'Lascia una nota o un commento',
       only_staff_can_see:
-        'Solo tu e altri membri dello staff possono vedere i commenti'
+        'Solo tu e altri membri dello staff possono vedere i commenti',
+      resource_created: '{{resource}} creato',
+      resource_updated: '{{resource}} aggiornato',
+      order_placed: 'Ordine #{{number}} piazzato su {{orderMarket}}',
+      left_a_nome: 'ha lasciato una nota'
     },
     links: {
       checkout_link_status: 'Il link al checkout è {{status}}!',
@@ -168,6 +174,7 @@ const it: typeof en = {
       name: 'Cliente',
       name_other: 'Clienti',
       attributes: {
+        email: 'Indirizzo Email',
         status: {
           prospect: 'Potenziale',
           acquired: 'Acquisito',
@@ -310,6 +317,24 @@ const it: typeof en = {
     required_field: 'Campo obbligatorio'
   },
   apps: {
+    customers: {
+      attributes: {
+        status: 'Stato'
+      },
+      details: {
+        registered: 'Registrato',
+        guest: 'Ospite',
+        newsletter: 'Newsletter',
+        subscribed: 'Iscritto',
+        type: 'Tipo',
+        wallet: 'Portafoglio'
+      },
+      form: {
+        customer_group_label: 'Gruppo',
+        customer_group_hint: 'Il gruppo di appartenenza del cliente',
+        email_hint: "L'indirizzo email del cliente"
+      }
+    },
     orders: {
       attributes: {
         status: 'Stato',
