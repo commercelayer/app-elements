@@ -4,6 +4,7 @@ const it: typeof en = {
   common: {
     add_another: 'Aggiungi un altro',
     add_resource: 'Aggiungi {{resource}}',
+    new_resource: 'Crea {{resource}}',
     add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
     all_items: 'Tutti gli elementi',
     amount: 'Importo',
@@ -17,6 +18,7 @@ const it: typeof en = {
     continue: 'Continua',
     create: 'Crea',
     create_resource: 'Crea {{resource}}',
+    created: 'Creato',
     currency: 'Valuta',
     custom_time_range: 'Intervallo di tempo personalizzato',
     update_resource: 'Aggiorna {{resource}}',
@@ -25,6 +27,8 @@ const it: typeof en = {
     edit: 'Modifica',
     edit_details: 'Modifica dettagli',
     edit_resource: 'Modifica {{resource}}',
+    delete_resource: 'Elimina {{resource}}',
+    delete: 'Elimina',
     filters: 'Filtri',
     from: 'Dal',
     to: 'Al',
@@ -90,6 +94,8 @@ const it: typeof en = {
       loading_app_page: 'Caricamento pagina app...',
       page_not_found: 'Pagina non trovata',
       invalid_resource: '{{resource}} non valida',
+      invalid_resource_or_not_authorized:
+        '{{resource}} assente oppure non sei autorizzato ad accedere a questa risorsa.',
       we_could_not_find_page:
         'Non abbiamo trovato la pagina che stavi cercando.',
       we_could_not_find_resource:
@@ -327,7 +333,11 @@ const it: typeof en = {
         newsletter: 'Newsletter',
         subscribed: 'Iscritto',
         type: 'Tipo',
-        wallet: 'Portafoglio'
+        wallet: 'Portafoglio',
+        groups: 'Gruppi',
+        confirm_customer_delete: 'Sei sicuro di voler eliminare {{email}}?',
+        customer_cannot_be_deleted:
+          'Il cliente non può essere eliminato tramite la nostra dashboard'
       },
       form: {
         customer_group_label: 'Gruppo',

@@ -203,6 +203,7 @@ const en = {
   common: {
     add_another: 'Add another',
     add_resource: 'Add {{resource}}',
+    new_resource: 'New {{resource}}',
     update_resource: 'Update {{resource}}',
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
@@ -217,6 +218,7 @@ const en = {
     continue: 'Continue',
     create: 'Create',
     create_resource: 'Create {{resource}}',
+    created: 'Created',
     currency: 'Currency',
     custom_time_range: 'Custom Time Range',
     download_file: 'Download file',
@@ -224,6 +226,8 @@ const en = {
     edit: 'Edit',
     edit_details: 'Edit details',
     edit_resource: 'Edit {{resource}}',
+    delete_resource: 'Delete {{resource}}',
+    delete: 'Delete',
     filters: 'Filters',
     from: 'From',
     to: 'To',
@@ -287,6 +291,8 @@ const en = {
       loading_app_page: 'Loading app page...',
       page_not_found: 'Page not found',
       invalid_resource: 'Invalid {{resource}}',
+      invalid_resource_or_not_authorized:
+        '{{resource}} is invalid or you are not authorized to access this page.',
       we_could_not_find_page: 'We could not find the page you are looking for.',
       we_could_not_find_resource:
         'We could not find the {{resource}} you are looking for.',
@@ -342,7 +348,11 @@ const en = {
         newsletter: 'Newsletter',
         subscribed: 'Subscribed',
         type: 'Type',
-        wallet: 'Wallet'
+        wallet: 'Wallet',
+        groups: 'Groups',
+        confirm_customer_delete: 'Confirm that you want to delete {{email}}',
+        customer_cannot_be_deleted:
+          'Customer cannot be deleted from our dashboard'
       },
       form: {
         customer_group_label: 'Group',
