@@ -1,4 +1,5 @@
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -78,7 +79,8 @@ export const ResourceAddressForm =
               disabled={methods.formState.isSubmitting}
               className='w-full'
             >
-              {address == null ? 'Create' : 'Update'} address
+              {address == null ? t('common.create') : t('common.update')}{' '}
+              {t('resources.addresses.name')}
             </Button>
             <Spacer top='2'>
               <HookedValidationApiError apiError={apiError} />
