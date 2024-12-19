@@ -6,6 +6,7 @@ import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
 import { useForm } from 'react-hook-form'
 
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Section } from '#ui/atoms/Section'
@@ -186,7 +187,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
                   </div>
                 </div>
                 <button
-                  aria-label='Remove'
+                  aria-label={t('common.remove')}
                   type='button'
                   className='rounded'
                   onClick={() => {
@@ -209,13 +210,13 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
               size='small'
               alignItems='center'
             >
-              <Icon name='plus' /> Add another
+              <Icon name='plus' /> {t('common.add_another')}
             </Button>
           </Spacer>
         </Section>
       </Spacer>
       <Button type='submit' disabled={isSubmitting} className='w-full'>
-        Update
+        {t('common.update')}
       </Button>
       <Spacer top='2'>
         <HookedValidationApiError apiError={apiError} />

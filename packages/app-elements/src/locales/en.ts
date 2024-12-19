@@ -8,7 +8,19 @@ const resources = {
   addresses: {
     name: 'Address',
     name_other: 'Addresses',
-    attributes: {}
+    attributes: {
+      billing_info: 'Billing info',
+      city: 'City',
+      company: 'Company',
+      country_code: 'Country',
+      first_name: 'First name',
+      last_name: 'Last name',
+      line_1: 'Address',
+      notes: 'Notes',
+      phone: 'Phone',
+      state_code: 'State',
+      zip_code: 'ZIP code'
+    }
   },
   adjustments: {
     name: 'Adjustment',
@@ -188,22 +200,27 @@ type IsStringLiteral<T> =
 
 const en = {
   common: {
+    add_another: 'Add another',
     add_resource: 'Add {{resource}}',
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
     amount: 'Amount',
     apply: 'Apply',
+    apply_filters: 'Apply filters',
     back: 'Back',
     go_back: 'Go back',
     cancel: 'Cancel',
     clear_text: 'Clear text',
     close: 'Close',
     continue: 'Continue',
+    create: 'Create',
     create_resource: 'Create {{resource}}',
     currency: 'Currency',
+    custom_time_range: 'Custom Time Range',
     download_file: 'Download file',
     download_json: 'Download JSON',
     edit: 'Edit',
+    edit_details: 'Edit details',
     edit_resource: 'Edit {{resource}}',
     filters: 'Filters',
     from: 'From',
@@ -213,14 +230,24 @@ const en = {
     manage_resource: 'Manage {{resource}}',
     metadata: 'Metadata',
     new: 'New',
+    no_address: 'No address',
     no_items: 'No items',
+    no_metadata: 'No metadata',
     no_results_found: 'No results found',
+    no_textsearch_filter_set: 'No textSearch filter set',
     not_authorized: 'Not authorized',
     not_authorized_description: 'You are not authorized to access this page.',
     not_handled: 'Not handled',
+    reference: 'Reference',
+    reference_origin: 'Reference origin',
+    remove: 'Remove',
+    restocked: 'Restocked',
     search: 'Search...',
     see_all: 'See all',
+    select: 'Select...',
     select_resource: 'Select {{resource}}',
+    swap: 'Swap',
+    unit_price: 'Unit price',
     update: 'Update',
     updated: 'Updated',
     view_logs: 'View logs',
@@ -248,7 +275,8 @@ const en = {
       minimum: 'Minimum',
       maximum: 'Maximum',
       drag_here_or: 'drag and drop it here or',
-      browse_files: 'browse files'
+      browse_files: 'browse files',
+      required_field: 'Required field'
     },
     routes: {
       missing_configuration:
@@ -280,6 +308,19 @@ const en = {
         'Dear customer,\nplease follow this link to checkout your order #{{number}: \n{{url}}\nThank you,\nThe {{organization}} team',
       share_whatsapp_text:
         'Please follow this link to checkout your order *#{{number}}*: {{url}}'
+    },
+    filters_instructions: {
+      order_status: 'Order status',
+      payment_status: 'Payment status',
+      fulfillment_status: 'Fulfillment status',
+      archived: 'Archived',
+      only_archived: 'Only archived',
+      hide_archived: 'Hide archived',
+      show_all: 'Show all, both archived and not',
+      time_range: 'Time range',
+      search: 'Search',
+      name: 'Name',
+      amount: 'Amount'
     }
   },
   resources,

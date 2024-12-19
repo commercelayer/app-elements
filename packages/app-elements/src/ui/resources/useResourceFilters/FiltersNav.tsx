@@ -1,5 +1,6 @@
 import { formatDateRange } from '#helpers/date'
 import { useCoreApi } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { ButtonFilter } from '#ui/atoms/ButtonFilter'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -236,7 +237,7 @@ export function FiltersNav({
       {/* Main filter button */}
       {activeGroupCount > 0 ? (
         <ButtonFilter
-          label={`Filters · ${activeGroupCount}`}
+          label={`${t('common.filters')} · ${activeGroupCount}`}
           icon='funnelSimple'
           onClick={() => {
             onLabelClickHandler()
@@ -245,7 +246,7 @@ export function FiltersNav({
         />
       ) : (
         <ButtonFilter
-          label='Filters'
+          label={t('common.filters')}
           icon='funnelSimple'
           onClick={() => {
             onLabelClickHandler()

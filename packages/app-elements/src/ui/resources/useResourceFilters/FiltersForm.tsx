@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form'
@@ -109,7 +110,7 @@ function FiltersForm({
       })}
       <div className='w-full sticky bottom-0 bg-gray-50 pb-8'>
         <Button type='submit' fullWidth>
-          Apply filters
+          {t('common.apply_filters')}
         </Button>
       </div>
     </HookedForm>

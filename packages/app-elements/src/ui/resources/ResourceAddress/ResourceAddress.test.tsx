@@ -100,8 +100,10 @@ describe('ResourceAddress', () => {
       fireEvent.click(editButton)
     })
 
-    const saveAddressButton = getByText('Update address')
-    expect(getByText('Edit address')).toBeVisible()
+    const saveAddressButton = getByText(
+      'common.update resources.addresses.name'
+    )
+    expect(getByText('common.edit resources.addresses.name')).toBeVisible()
     expect(saveAddressButton).toBeVisible()
     await waitFor(() => {
       fireEvent.click(saveAddressButton)
@@ -136,9 +138,11 @@ describe('ResourceAddress', () => {
       fireEvent.click(editButton)
     })
 
-    expect(getByText('New address')).toBeVisible()
+    expect(getByText('common.new resources.addresses.name')).toBeVisible()
 
-    const createAddressButton = getByText('Create address')
+    const createAddressButton = getByText(
+      'common.create resources.addresses.name'
+    )
     expect(createAddressButton).toBeVisible()
 
     fireEvent.keyDown(getByText('Select...'), {
@@ -149,31 +153,46 @@ describe('ResourceAddress', () => {
     fireEvent.click(getByText('Angola'))
 
     await waitFor(() => {
-      fireEvent.change(getByLabelText('First name'), {
-        target: { value: 'John' }
-      })
+      fireEvent.change(
+        getByLabelText('resources.addresses.attributes.first_name'),
+        {
+          target: { value: 'John' }
+        }
+      )
 
-      fireEvent.change(getByLabelText('Last name'), {
-        target: { value: 'Doe' }
-      })
+      fireEvent.change(
+        getByLabelText('resources.addresses.attributes.last_name'),
+        {
+          target: { value: 'Doe' }
+        }
+      )
 
-      fireEvent.change(getByLabelText('Address'), {
-        target: { value: 'Via tutti' }
-      })
+      fireEvent.change(
+        getByLabelText('resources.addresses.attributes.line_1'),
+        {
+          target: { value: 'Via tutti' }
+        }
+      )
 
-      fireEvent.change(getByLabelText('City'), {
+      fireEvent.change(getByLabelText('resources.addresses.attributes.city'), {
         target: { value: 'Milan' }
       })
 
-      fireEvent.change(getByLabelText('State code'), {
-        target: { value: 'FR' }
-      })
+      fireEvent.change(
+        getByLabelText('resources.addresses.attributes.state_code'),
+        {
+          target: { value: 'FR' }
+        }
+      )
 
-      fireEvent.change(getByLabelText('ZIP code'), {
-        target: { value: '20090' }
-      })
+      fireEvent.change(
+        getByLabelText('resources.addresses.attributes.zip_code'),
+        {
+          target: { value: '20090' }
+        }
+      )
 
-      fireEvent.change(getByLabelText('Phone'), {
+      fireEvent.change(getByLabelText('resources.addresses.attributes.phone'), {
         target: { value: '-' }
       })
     })

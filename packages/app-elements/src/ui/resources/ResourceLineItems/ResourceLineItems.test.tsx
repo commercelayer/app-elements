@@ -89,7 +89,9 @@ describe('ResourceLineItems', () => {
     expect(within(secondRow).getByText('x 2')).toBeInTheDocument()
     expect(within(secondRow).getByText('x 2')).not.toHaveClass('hidden')
     expect(within(secondRow).getByText('18.00€')).toBeInTheDocument()
-    expect(within(secondRow).getByText('Unit price 9.00€')).toBeInTheDocument()
+    expect(
+      within(secondRow).getByText('common.unit_price 9.00€')
+    ).toBeInTheDocument()
     expect(within(thirdRow).getByRole('cell').children.length).toEqual(0)
     expect(within(fourthRow).getByRole('cell').children.length).toEqual(0)
   })
@@ -210,7 +212,9 @@ describe('ResourceLineItems', () => {
     expect(within(secondRow).getByText('x 1')).toBeInTheDocument()
     expect(within(secondRow).getByText('x 1')).not.toHaveClass('hidden')
     expect(within(secondRow).getByText('$10.00')).toBeInTheDocument()
-    expect(within(secondRow).getByText('Unit price $10.00')).toBeInTheDocument()
+    expect(
+      within(secondRow).getByText('common.unit_price $10.00')
+    ).toBeInTheDocument()
     expect(within(thirdRow).getByRole('cell').children.length).toEqual(1)
     expect(within(thirdRow).getByText('x 1')).toBeInTheDocument()
     expect(
@@ -271,7 +275,7 @@ describe('ResourceLineItems', () => {
     expect(swapButton).not.toBeInTheDocument()
 
     const deleteButton: HTMLButtonElement =
-      within(thirdRow).getByLabelText('Delete')
+      within(thirdRow).getByLabelText('common.remove')
 
     expect(within(secondRow).getByText('x 2')).toHaveClass('hidden')
     expect(within(thirdRow).getByRole('cell').children.length).toEqual(1)
@@ -323,8 +327,8 @@ describe('ResourceLineItems', () => {
     )
     expect(container).toMatchSnapshot()
 
-    const swapButton = getAllByLabelText('Swap')
-    const deleteButton = getAllByLabelText('Delete')
+    const swapButton = getAllByLabelText('common.swap')
+    const deleteButton = getAllByLabelText('common.remove')
 
     expect(swapButton.length).toEqual(2)
     expect(deleteButton.length).toEqual(2)
@@ -357,8 +361,8 @@ describe('ResourceLineItems', () => {
     )
     expect(container).toMatchSnapshot()
 
-    const swapButton = getAllByLabelText('Swap')
-    const deleteButton = getAllByLabelText('Delete')
+    const swapButton = getAllByLabelText('common.swap')
+    const deleteButton = getAllByLabelText('common.remove')
 
     expect(swapButton.length).toEqual(1)
     expect(deleteButton.length).toEqual(1)

@@ -2,6 +2,7 @@ import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import { navigateTo } from '#helpers/appsNavigation'
 import { formatDateWithPredicate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
@@ -58,7 +59,7 @@ const Edit = withSkeletonTemplate<{
 
   const removeButton = (
     <RemoveButton
-      aria-label='Delete'
+      aria-label={t('common.remove')}
       disabled={disabled || removeDisabled}
       onClick={() => {
         if (!disabled) {
@@ -70,7 +71,7 @@ const Edit = withSkeletonTemplate<{
         }
       }}
     >
-      Remove
+      {t('common.remove')}
     </RemoveButton>
   )
 
@@ -102,7 +103,7 @@ const Edit = withSkeletonTemplate<{
           <Button
             variant='link'
             className={cn(['flex items-center'])}
-            aria-label='Swap'
+            aria-label={t('common.swap')}
             disabled={disabled}
             onClick={() => {
               if (!disabled) {
@@ -111,7 +112,7 @@ const Edit = withSkeletonTemplate<{
             }}
           >
             <Swap size={18} weight='bold' />
-            <span className='pl-1'>Swap</span>
+            <span className='pl-1'>{t('common.swap')}</span>
           </Button>
         )}
         {canRemove && (
@@ -316,7 +317,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     {lineItem.type === 'line_items' &&
                       lineItem.formatted_unit_amount != null && (
                         <Spacer top='2'>
-                          <Badge variant='secondary'>{`Unit price ${lineItem.formatted_unit_amount}`}</Badge>
+                          <Badge variant='secondary'>{`${t('common.unit_price')} ${lineItem.formatted_unit_amount}`}</Badge>
                         </Spacer>
                       )}
                     {lineItem.type === 'return_line_items' &&
@@ -326,7 +327,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                             <div className='flex items-center gap-1'>
                               <Checks size={16} className='text-gray-500' />{' '}
                               {formatDateWithPredicate({
-                                predicate: 'Restocked',
+                                predicate: t('common.restocked'),
                                 isoDate: lineItem.restocked_at,
                                 timezone: user?.timezone
                               })}
@@ -337,7 +338,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     {lineItem.type !== 'line_items' &&
                       'bundle_code' in lineItem &&
                       lineItem.bundle_code != null && (
-                        <Badge variant='secondary'>{`BUNDLE ${lineItem.bundle_code}`}</Badge>
+                        <Badge variant='secondary'>{`${t('resources.bundles.name').toUpperCase()} ${lineItem.bundle_code}`}</Badge>
                       )}
                   </td>
                   <td valign='top' align='right'>

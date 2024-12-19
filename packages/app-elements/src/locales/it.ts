@@ -2,22 +2,27 @@ import type en from './en'
 
 const it: typeof en = {
   common: {
+    add_another: 'Aggiungi un altro',
     add_resource: 'Aggiungi {{resource}}',
     add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
     all_items: 'Tutti gli elementi',
     amount: 'Importo',
     apply: 'Applica',
+    apply_filters: 'Applica filtri',
     back: 'Indietro',
     go_back: 'Torna indietro',
     cancel: 'Annulla',
     close: 'Chiudi',
     clear_text: 'Svuota testo',
     continue: 'Continua',
+    create: 'Crea',
     create_resource: 'Crea {{resource}}',
     currency: 'Valuta',
+    custom_time_range: 'Intervallo di tempo personalizzato',
     download_file: 'Scarica file',
     download_json: 'Scarica JSON',
     edit: 'Modifica',
+    edit_details: 'Modifica dettagli',
     edit_resource: 'Modifica {{resource}}',
     filters: 'Filtri',
     from: 'Dal',
@@ -27,15 +32,25 @@ const it: typeof en = {
     manage_resource: 'Gestisci {{resource}}',
     metadata: 'Metadati',
     new: 'Nuovo',
+    no_address: 'Nessun indirizzo',
     no_items: 'Nessun elemento',
+    no_metadata: 'Nessun metadato',
     no_results_found: 'Nessun risultato trovato',
+    no_textsearch_filter_set: 'Nessun filtro di ricerca testuale impostato',
     not_authorized: 'Non autorizzato',
     not_authorized_description:
       'Non sei autorizzato ad accedere a questa pagina.',
     not_handled: 'Non gestito',
+    reference: 'Referenza',
+    reference_origin: 'Origine referenza',
+    remove: 'Rimuovi',
+    restocked: 'Rifornito',
     search: 'Cerca...',
     see_all: 'Vedi tutti',
+    select: 'Seleziona...',
     select_resource: 'Seleziona {{resource}}',
+    swap: 'Scambia',
+    unit_price: 'Prezzo unitario',
     update: 'Aggiorna',
     updated: 'Aggiornato',
     view_logs: 'Visualizza i log',
@@ -63,7 +78,8 @@ const it: typeof en = {
       minimum: 'Minimo',
       maximum: 'Massimo',
       drag_here_or: 'trascina qui o',
-      browse_files: 'seleziona file'
+      browse_files: 'seleziona file',
+      required_field: 'Campo richiesto'
     },
     generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
     routes: {
@@ -98,13 +114,38 @@ const it: typeof en = {
         'Gentile cliente,\nClicca su questo link per completare il tuo ordine #{{number}}: {{url}}\n\nGrazie,\nIl team di {{organization}}',
       share_whatsapp_text:
         'Apri questo link per completare il tuo ordine *#{{number}}*: {{url}}'
+    },
+    filters_instructions: {
+      order_status: 'Stato ordine',
+      payment_status: 'Stato pagamento',
+      fulfillment_status: 'Stato spedizione',
+      archived: 'Archiviati',
+      only_archived: 'Solo archiviati',
+      hide_archived: 'Nascondi archiviati',
+      show_all: 'Mostra tutti, sia archiviati che non',
+      time_range: 'Intervallo di tempo',
+      search: 'Cerca',
+      name: 'Nome',
+      amount: 'Importo'
     }
   },
   resources: {
     addresses: {
       name: 'Indirizzo',
       name_other: 'Indirizzi',
-      attributes: {}
+      attributes: {
+        billing_info: 'Informazione di fatturazione',
+        city: 'Città',
+        company: 'Azienda',
+        country_code: 'Paese',
+        first_name: 'Nome',
+        last_name: 'Cognome',
+        line_1: 'Indirizzo',
+        notes: 'Note',
+        phone: 'Telefono',
+        state_code: 'Provincia',
+        zip_code: 'CAP'
+      }
     },
     adjustments: {
       name: 'Modifica',

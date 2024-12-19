@@ -1,4 +1,5 @@
 import { useOverlay } from '#hooks/useOverlay'
+import { t } from '#providers/I18NProvider'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type FC, useCallback } from 'react'
 import { type ResourceDetailsProps } from './ResourceDetails'
@@ -22,11 +23,11 @@ export function useEditDetailsOverlay(): DetailsOverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
 
   const OverlayComponent = useCallback<FC<EditDetailsOverlayProps>>(
-    ({ title = 'Back', resource, onUpdated }) => {
+    ({ title = t('common.back'), resource, onUpdated }) => {
       return (
         <OverlayElement backgroundColor='light'>
           <PageLayout
-            title='Edit details'
+            title={t('common.edit_details')}
             minHeight={false}
             navigationButton={{
               label: title,

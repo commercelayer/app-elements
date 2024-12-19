@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
 import castArray from 'lodash/castArray'
 import isEmpty from 'lodash/isEmpty'
@@ -75,7 +76,7 @@ function FiltersSearchBar({
   }
 
   if (textPredicate == null) {
-    return <div>No textSearch filter set</div>
+    return <div>{t('common.no_textsearch_filter_set')}</div>
   }
 
   const textPredicateValue = adaptUrlQueryToFormValues({ queryString })[

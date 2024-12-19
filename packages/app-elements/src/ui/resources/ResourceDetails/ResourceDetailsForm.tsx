@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 
 import { getResourceEndpoint } from '#helpers/resources'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -53,10 +54,13 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
     >
       <Spacer bottom='12'>
         <Spacer bottom='8'>
-          <HookedInput name='reference' label='Reference' />
+          <HookedInput name='reference' label={t('common.reference')} />
         </Spacer>
         <Spacer bottom='8'>
-          <HookedInput name='reference_origin' label='Reference origin' />
+          <HookedInput
+            name='reference_origin'
+            label={t('common.reference_origin')}
+          />
         </Spacer>
       </Spacer>
       <Button
@@ -64,7 +68,7 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
         disabled={methods.formState.isSubmitting}
         className='w-full'
       >
-        Update
+        {t('common.update')}
       </Button>
       <Spacer top='2'>
         <HookedValidationApiError apiError={apiError} />
