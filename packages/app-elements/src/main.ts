@@ -183,6 +183,7 @@ export {
   createRoute,
   createTypedRoute,
   GenericPageNotFound,
+  LoadingPage,
   Routes,
   type GetParams,
   type PageProps,

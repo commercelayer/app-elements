@@ -107,7 +107,11 @@ function Route({
   )
 }
 
-function LoadingPage({ overlay = false }: { overlay?: boolean }): JSX.Element {
+export function LoadingPage({
+  overlay = false
+}: {
+  overlay?: boolean
+}): JSX.Element {
   const {
     settings: { mode }
   } = useTokenProvider()

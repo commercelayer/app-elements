@@ -1,3 +1,4 @@
+import { LoadingPage } from '#ui/composite/Routes/Routes'
 import i18n, { type i18n as I18nInstance } from 'i18next'
 import LanguageDetector from 'i18next-browser-languagedetector'
 import resourcesToBackend from 'i18next-resources-to-backend'
@@ -55,7 +56,7 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
     i18nInstance == null ||
     (i18nInstance != null && !i18nInstance.isInitialized)
   ) {
-    return <div>Loading i18n</div>
+    return <LoadingPage />
   }
 
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
