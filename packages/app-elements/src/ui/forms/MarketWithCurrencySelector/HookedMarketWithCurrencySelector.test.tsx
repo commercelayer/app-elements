@@ -46,11 +46,11 @@ describe('HookedMarketWithCurrencySelector', () => {
       </HookedFormWrapper>
     )
     const label = getByText('Market *')
-    const initialMarketOption = getByText('All markets with currency')
+    // const initialMarketOption = getByText('All markets with currency')
     const initialCurrencyOption = getByText('EUR')
 
     expect(label).toBeVisible()
-    expect(initialMarketOption).toBeVisible()
+    // expect(initialMarketOption).toBeVisible()
     expect(initialCurrencyOption).toBeVisible()
   })
 

@@ -22,11 +22,15 @@ describe('FiltersNav', () => {
     expect(container).toBeVisible()
 
     // grouped by status_in
-    expect(getByText('Order status · 2')).toBeVisible()
+    expect(
+      getByText('common.filters_instructions.order_status · 2')
+    ).toBeVisible()
     // payment_status_eq is only one, so it should not be grouped
-    expect(getByText('Authorized')).toBeVisible()
+    expect(
+      getByText('resources.orders.attributes.payment_status.authorized')
+    ).toBeVisible()
     // grouped by market_in, we have 3 markets
-    expect(getByText('Markets · 3')).toBeVisible()
+    expect(getByText('resources.markets.name_other · 3')).toBeVisible()
   })
 
   test('should render single resource name (relationship) when there is only 1 filter for relationship selected (InputResourceGroup component)', async () => {
@@ -64,7 +68,9 @@ describe('FiltersNav', () => {
       />
     )
 
-    fireEvent.click(getByText('Authorized'))
+    fireEvent.click(
+      getByText('resources.orders.attributes.payment_status.authorized')
+    )
     expect(onFilterClick).toHaveBeenCalledWith(
       'payment_status_eq=authorized&status_in=placed&status_in=approved',
       'payment_status_eq'

@@ -1,4 +1,5 @@
 import { useOverlay } from '#hooks/useOverlay'
+import { t } from '#providers/I18NProvider'
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -146,7 +147,7 @@ export function FullList({
               }}
               className='text-primary font-bold rounded px-1 shadow-none !outline-0 !border-0 !ring-0 focus:shadow-focus'
             >
-              Cancel
+              {t('common.cancel')}
             </button>
           </div>
         </Spacer>

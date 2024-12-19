@@ -1,5 +1,6 @@
 import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { StockTransfer } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 export interface StockTransferDisplayStatus extends DisplayStatus {
@@ -15,53 +16,53 @@ export function getStockTransferDisplayStatus(
   switch (stockTransfer.status) {
     case 'upcoming':
       return {
-        label: 'Upcoming',
+        label: t('resources.stock_transfers.attributes.status.upcoming'),
         icon: 'arrowUpRight',
         color: 'orange',
-        task: 'Upcoming'
+        task: t('resources.stock_transfers.attributes.status.upcoming')
       }
 
     case 'on_hold':
       return {
-        label: 'On hold',
+        label: t('resources.stock_transfers.attributes.status.on_hold'),
         icon: 'hourglass',
         color: 'orange',
-        task: 'On hold'
+        task: t('resources.stock_transfers.attributes.status.on_hold')
       }
 
     case 'picking':
       return {
-        label: 'Picking',
+        label: t('resources.stock_transfers.attributes.status.picking'),
         icon: 'arrowDown',
         color: 'orange',
-        task: 'Picking'
+        task: t('resources.stock_transfers.attributes.status.picking')
       }
 
     case 'in_transit':
       return {
-        label: 'In transit',
+        label: t('resources.stock_transfers.attributes.status.in_transit'),
         icon: 'arrowsLeftRight',
         color: 'orange',
-        task: 'In transit'
+        task: t('resources.stock_transfers.attributes.status.in_transit')
       }
 
     case 'completed':
       return {
-        label: 'Completed',
+        label: t('resources.stock_transfers.attributes.status.completed'),
         icon: 'check',
         color: 'green'
       }
 
     case 'cancelled':
       return {
-        label: 'Cancelled',
+        label: t('resources.stock_transfers.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
 
     default:
       return {
-        label: `Not handled: (${stockTransfer.status})`,
+        label: `${t('common.not_handled')}: (${stockTransfer.status})`,
         icon: 'warning',
         color: 'white'
       }
@@ -72,13 +73,13 @@ export function getStockTransferStatusName(
   status: StockTransfer['status']
 ): string {
   const dictionary: Record<typeof status, string> = {
-    draft: 'Draft',
-    upcoming: 'Upcoming',
-    on_hold: 'On hold',
-    picking: 'Picking',
-    in_transit: 'In transit',
-    completed: 'Completed',
-    cancelled: 'Cancelled'
+    cancelled: t('resources.stock_transfers.attributes.status.cancelled'),
+    completed: t('resources.stock_transfers.attributes.status.completed'),
+    draft: t('resources.stock_transfers.attributes.status.draft'),
+    in_transit: t('resources.stock_transfers.attributes.status.in_transit'),
+    on_hold: t('resources.stock_transfers.attributes.status.on_hold'),
+    picking: t('resources.stock_transfers.attributes.status.picking'),
+    upcoming: t('resources.stock_transfers.attributes.status.upcoming')
   }
 
   return dictionary[status]

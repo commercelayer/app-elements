@@ -89,7 +89,7 @@ describe('TableData', () => {
   })
 
   test('Should limit results', () => {
-    const { getAllByTestId, getByText } = setup({
+    const { getAllByTestId } = setup({
       data: [
         {
           first_name: 'George',
@@ -112,6 +112,6 @@ describe('TableData', () => {
       showOthers: true
     })
     expect(getAllByTestId('table-row-content').length).toBe(2)
-    expect(getByText('and others 2 records')).toBeVisible()
+    expect(getAllByTestId('table-others-string-multiple').length).toBe(1)
   })
 })
