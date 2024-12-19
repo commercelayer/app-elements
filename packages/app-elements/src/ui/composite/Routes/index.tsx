@@ -1,4 +1,9 @@
-export { GenericPageNotFound, Routes, type PageProps } from './Routes'
+export {
+  GenericPageNotFound,
+  LoadingPage,
+  Routes,
+  type PageProps
+} from './Routes'
 export {
   createRoute,
   createTypedRoute,
