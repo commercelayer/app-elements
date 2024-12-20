@@ -35,7 +35,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t('resources.orders.attributes.status.placed'),
         icon: 'arrowDown',
         color: 'orange',
-        task: t('apps.orders.task.awaiting_approval')
+        task: t('apps.orders.tasks.awaiting_approval')
       }
 
     case 'placed:unpaid:unfulfilled':
@@ -43,7 +43,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t('resources.orders.attributes.status.placed'),
         icon: 'x',
         color: 'red',
-        task: t('apps.orders.task.error_to_cancel')
+        task: t('apps.orders.tasks.error_to_cancel')
       }
 
     case 'approved:authorized:unfulfilled':
@@ -52,7 +52,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t('resources.orders.attributes.status.approved'),
         icon: 'creditCard',
         color: 'orange',
-        task: t('apps.orders.task.payment_to_capture')
+        task: t('apps.orders.tasks.payment_to_capture')
       }
 
     case 'approved:paid:in_progress':
@@ -61,7 +61,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t('apps.orders.display_status.in_progress'),
         icon: 'arrowClockwise',
         color: 'orange',
-        task: t('apps.orders.task.fulfillment_in_progress')
+        task: t('apps.orders.tasks.fulfillment_in_progress')
       }
 
     case 'approved:authorized:in_progress':
@@ -69,7 +69,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t('apps.orders.display_status.in_progress_manual'),
         icon: 'arrowClockwise',
         color: 'orange',
-        task: t('apps.orders.task.fulfillment_in_progress')
+        task: t('apps.orders.tasks.fulfillment_in_progress')
       }
 
     case 'approved:paid:fulfilled':

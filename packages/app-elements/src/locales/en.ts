@@ -459,7 +459,7 @@ const en = {
         in_progress: 'In progress',
         in_progress_manual: 'In progress (Manual)'
       },
-      task: {
+      tasks: {
         open: 'Open',
         browse: 'Browse',
         awaiting_approval: 'Awaiting approval',
@@ -526,10 +526,42 @@ const en = {
       }
     },
     returns: {
+      attributes: {
+        status: 'Status'
+      },
       details: {
         origin: 'Origin',
         destination: 'Destination',
-        to_destination: 'To'
+        to_destination: 'To',
+        return_locations: 'Return locations',
+        confirm_return_cancellation:
+          'Confirm that you want to cancel return #{{number}}',
+        delete_error: 'Could not cancel this return',
+        info: 'Info'
+      },
+      tasks: {
+        open: 'Open',
+        browse: 'Browse',
+        requested: 'Requested',
+        approved: 'Approved',
+        shipped: 'Shipped',
+        all_returns: 'All returns',
+        archived: 'Archived'
+      },
+      form: {
+        items: 'Items',
+        no_items: 'No items'
+      },
+      actions: {
+        approve: 'Approve',
+        reject: 'Reject',
+        cancel: 'Cancel return',
+        ship: 'Mark shipped',
+        receive: 'Receive',
+        restock: 'Restock',
+        archive: 'Archive',
+        unarchive: 'Unarchive',
+        refund: 'Issue a refund'
       }
     },
     shipments: {
