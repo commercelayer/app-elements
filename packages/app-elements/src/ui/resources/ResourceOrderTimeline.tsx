@@ -2,6 +2,7 @@ import { getOrderTransactionName } from '#dictionaries/orders'
 import { navigateTo } from '#helpers/appsNavigation'
 import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
@@ -188,7 +189,10 @@ const useTimelineReducer = (order: Order) => {
             date: order.created_at,
             message: (
               <>
-                Order was <Text weight='bold'>created</Text>
+                {t('common.timeline.resources.order_was')}{' '}
+                <Text weight='bold'>
+                  {t('common.timeline.resources.order_created')}
+                </Text>
               </>
             )
           }
@@ -207,7 +211,10 @@ const useTimelineReducer = (order: Order) => {
             date: order.placed_at,
             message: (
               <>
-                Order was <Text weight='bold'>placed</Text>
+                {t('common.timeline.resources.order_was')}{' '}
+                <Text weight='bold'>
+                  {t('common.timeline.resources.order_placed')}
+                </Text>
               </>
             )
           }
@@ -226,7 +233,10 @@ const useTimelineReducer = (order: Order) => {
             date: order.cancelled_at,
             message: (
               <>
-                Order was <Text weight='bold'>cancelled</Text>
+                {t('common.timeline.resources.order_was')}{' '}
+                <Text weight='bold'>
+                  {t('common.timeline.resources.order_cancelled')}
+                </Text>
               </>
             )
           }
@@ -245,7 +255,10 @@ const useTimelineReducer = (order: Order) => {
             date: order.archived_at,
             message: (
               <>
-                Order was <Text weight='bold'>archived</Text>
+                {t('common.timeline.resources.order_was')}{' '}
+                <Text weight='bold'>
+                  {t('common.timeline.resources.order_archived')}
+                </Text>
               </>
             )
           }
@@ -264,7 +277,10 @@ const useTimelineReducer = (order: Order) => {
             date: order.approved_at,
             message: (
               <>
-                Order was <Text weight='bold'>approved</Text>
+                {t('common.timeline.resources.order_was')}{' '}
+                <Text weight='bold'>
+                  {t('common.timeline.resources.order_approved')}
+                </Text>
               </>
             )
           }
@@ -283,22 +299,34 @@ const useTimelineReducer = (order: Order) => {
         const messages: Record<Order['fulfillment_status'], React.ReactNode> = {
           fulfilled: (
             <>
-              Order was <Text weight='bold'>fulfilled</Text>
+              {t('common.timeline.resources.order_is')}{' '}
+              <Text weight='bold'>
+                {t('common.timeline.resources.order_fulfilled')}
+              </Text>
             </>
           ),
           in_progress: (
             <>
-              Order fulfillment is <Text weight='bold'>in progress</Text>
+              {t('common.timeline.resources.order_fulfillment_is')}{' '}
+              <Text weight='bold'>
+                {t('common.timeline.resources.order_fulfillment_in_progress')}
+              </Text>
             </>
           ),
           not_required: (
             <>
-              Order fulfillment is <Text weight='bold'>not required</Text>
+              {t('common.timeline.resources.order_fulfillment_is')}{' '}
+              <Text weight='bold'>
+                {t('common.timeline.resources.order_fulfillment_not_required')}
+              </Text>
             </>
           ),
           unfulfilled: (
             <>
-              Order is <Text weight='bold'>unfulfilled</Text>
+              {t('common.timeline.resources.order_is')}{' '}
+              <Text weight='bold'>
+                {t('common.timeline.resources.order_unfulfilled')}
+              </Text>
             </>
           )
         }
@@ -331,14 +359,21 @@ const useTimelineReducer = (order: Order) => {
               date: transaction.created_at,
               message: transaction.succeeded ? (
                 <>
-                  Payment of {transaction.formatted_amount} was{' '}
+                  {t('common.timeline.resources.payment_of_was', {
+                    amount: transaction.formatted_amount
+                  })}{' '}
                   <Text weight='bold'>{name.pastTense}</Text>
                 </>
               ) : (
                 <>
                   {/* `Payment capture of xxxx failed` or `Authorization of xxxx failed`, etc... */}
-                  {name.singular} of {transaction.formatted_amount}{' '}
-                  <Text weight='bold'>failed</Text>
+                  {t('common.timeline.resources.transaction_of', {
+                    transaction: name.singular,
+                    amount: transaction.formatted_amount
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.transaction_failed')}
+                  </Text>
                 </>
               ),
               note:
@@ -375,8 +410,8 @@ const useTimelineReducer = (order: Order) => {
                   <span>
                     {attachment.reference_origin ===
                     referenceOrigins.appOrdersRefundNote
-                      ? 'left a refund note'
-                      : 'left a note'}
+                      ? t('common.timeline.left_a_refund_note')
+                      : t('common.timeline.left_a_note')}
                   </span>
                 ),
                 note: attachment.description
@@ -430,7 +465,9 @@ const useTimelineReducer = (order: Order) => {
                 message: (
                   <>
                     {stockTransferClickableLabel} {stockTransferFrom}
-                    <Text weight='bold'>completed</Text>
+                    <Text weight='bold'>
+                      {t('common.timeline.resources.stock_transfer_completed')}
+                    </Text>
                   </>
                 )
               }
@@ -455,8 +492,12 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.on_hold_at,
               message: (
                 <>
-                  Shipment #{shipment.number} is on{' '}
-                  <Text weight='bold'>hold</Text>
+                  {t('common.timeline.resources.shipment_number_is', {
+                    number: shipment.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.shipment_on_hold')}
+                  </Text>
                 </>
               )
             }
@@ -470,8 +511,12 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.picking_at,
               message: (
                 <>
-                  Shipment #{shipment.number} was{' '}
-                  <Text weight='bold'>picked</Text>
+                  {t('common.timeline.resources.shipment_number_was', {
+                    number: shipment.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.shipment_picked')}
+                  </Text>
                 </>
               )
             }
@@ -485,8 +530,12 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.packing_at,
               message: (
                 <>
-                  Shipment #{shipment.number} is being{' '}
-                  <Text weight='bold'>packed</Text>
+                  {t('common.timeline.resources.shipment_number_isbeing', {
+                    number: shipment.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.shipment_packed')}
+                  </Text>
                 </>
               )
             }
@@ -500,8 +549,12 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.ready_to_ship_at,
               message: (
                 <>
-                  Shipment #{shipment.number} is{' '}
-                  <Text weight='bold'>ready for shipping</Text>
+                  {t('common.timeline.resources.shipment_number_is', {
+                    number: shipment.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.shipment_ready_to_ship')}
+                  </Text>
                 </>
               )
             }
@@ -515,8 +568,12 @@ const useTimelineReducer = (order: Order) => {
               date: shipment.shipped_at,
               message: (
                 <>
-                  Shipment #{shipment.number} was{' '}
-                  <Text weight='bold'>shipped</Text>
+                  {t('common.timeline.resources.shipment_number_was', {
+                    number: shipment.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.shipment_shipped')}
+                  </Text>
                 </>
               )
             }
@@ -539,8 +596,12 @@ const useTimelineReducer = (order: Order) => {
               date: returnObj.approved_at,
               message: (
                 <>
-                  Return #{returnObj.number} was{' '}
-                  <Text weight='bold'>approved</Text>
+                  {t('common.timeline.resources.return_number_was', {
+                    number: returnObj.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.return_approved')}
+                  </Text>
                 </>
               )
             }
@@ -554,8 +615,12 @@ const useTimelineReducer = (order: Order) => {
               date: returnObj.cancelled_at,
               message: (
                 <>
-                  Return #{returnObj.number} was{' '}
-                  <Text weight='bold'>cancelled</Text>
+                  {t('common.timeline.resources.return_number_was', {
+                    number: returnObj.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.return_cancelled')}
+                  </Text>
                 </>
               )
             }
@@ -569,8 +634,12 @@ const useTimelineReducer = (order: Order) => {
               date: returnObj.shipped_at,
               message: (
                 <>
-                  Return #{returnObj.number} was{' '}
-                  <Text weight='bold'>shipped</Text>
+                  {t('common.timeline.resources.return_number_was', {
+                    number: returnObj.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.return_shipped')}
+                  </Text>
                 </>
               )
             }
@@ -584,8 +653,12 @@ const useTimelineReducer = (order: Order) => {
               date: returnObj.rejected_at,
               message: (
                 <>
-                  Return #{returnObj.number} was{' '}
-                  <Text weight='bold'>rejected</Text>
+                  {t('common.timeline.resources.return_number_was', {
+                    number: returnObj.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.return_rejected')}
+                  </Text>
                 </>
               )
             }
@@ -599,8 +672,12 @@ const useTimelineReducer = (order: Order) => {
               date: returnObj.received_at,
               message: (
                 <>
-                  Return #{returnObj.number} was{' '}
-                  <Text weight='bold'>received</Text>
+                  {t('common.timeline.resources.return_number_was', {
+                    number: returnObj.number
+                  })}{' '}
+                  <Text weight='bold'>
+                    {t('common.timeline.resources.return_received')}
+                  </Text>
                 </>
               )
             }

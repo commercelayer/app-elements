@@ -69,20 +69,20 @@ describe('ResourceShipmentParcels', () => {
     expect(parcelBox1).toBeVisible()
 
     expect(carrierBox).toHaveTextContent('€89,01')
-    expect(getValueByDetailName(carrierBox, 'Status')).toHaveTextContent(
+    expect(getValueByDetailName(carrierBox, 'common.status')).toHaveTextContent(
       'delivered'
     )
-    expect(getValueByDetailName(carrierBox, 'Tracking')).toHaveTextContent(
-      '42314321ASD4545'
-    )
     expect(
-      getValueByDetailName(carrierBox, 'Estimated delivery')
+      getValueByDetailName(carrierBox, 'common.tracking')
+    ).toHaveTextContent('42314321ASD4545')
+    expect(
+      getValueByDetailName(carrierBox, 'common.estimated_delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
 
-    expect(() => getValueByDetailName(parcelBox1, 'Status')).toThrow()
-    expect(() => getValueByDetailName(parcelBox1, 'Tracking')).toThrow()
+    expect(() => getValueByDetailName(parcelBox1, 'common.status')).toThrow()
+    expect(() => getValueByDetailName(parcelBox1, 'common.tracking')).toThrow()
     expect(() =>
-      getValueByDetailName(parcelBox1, 'Estimated delivery')
+      getValueByDetailName(parcelBox1, 'common.estimated_delivery')
     ).toThrow()
   })
 
@@ -111,25 +111,25 @@ describe('ResourceShipmentParcels', () => {
     expect(parcelBox2).toBeVisible()
 
     expect(carrierBox).toHaveTextContent('€89,01')
-    expect(getValueByDetailName(carrierBox, 'Status')).toHaveTextContent(
+    expect(getValueByDetailName(carrierBox, 'common.status')).toHaveTextContent(
       'delivered'
     )
-    expect(getValueByDetailName(carrierBox, 'Tracking')).toHaveTextContent(
-      '42314321ASD4545'
-    )
     expect(
-      getValueByDetailName(carrierBox, 'Estimated delivery')
+      getValueByDetailName(carrierBox, 'common.tracking')
+    ).toHaveTextContent('42314321ASD4545')
+    expect(
+      getValueByDetailName(carrierBox, 'common.estimated_delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
 
-    expect(() => getValueByDetailName(parcelBox1, 'Status')).toThrow()
-    expect(() => getValueByDetailName(parcelBox2, 'Status')).toThrow()
-    expect(() => getValueByDetailName(parcelBox1, 'Tracking')).toThrow()
-    expect(() => getValueByDetailName(parcelBox2, 'Tracking')).toThrow()
+    expect(() => getValueByDetailName(parcelBox1, 'common.status')).toThrow()
+    expect(() => getValueByDetailName(parcelBox2, 'common.status')).toThrow()
+    expect(() => getValueByDetailName(parcelBox1, 'common.tracking')).toThrow()
+    expect(() => getValueByDetailName(parcelBox2, 'common.tracking')).toThrow()
     expect(() =>
-      getValueByDetailName(parcelBox1, 'Estimated delivery')
+      getValueByDetailName(parcelBox1, 'common.estimated_delivery')
     ).toThrow()
     expect(() =>
-      getValueByDetailName(parcelBox2, 'Estimated delivery')
+      getValueByDetailName(parcelBox2, 'common.estimated_delivery')
     ).toThrow()
   })
 
@@ -159,29 +159,29 @@ describe('ResourceShipmentParcels', () => {
 
     expect(carrierBox).toHaveTextContent('€12,00')
 
-    expect(() => getValueByDetailName(carrierBox, 'Status')).toThrow()
-    expect(() => getValueByDetailName(carrierBox, 'Tracking')).toThrow()
+    expect(() => getValueByDetailName(carrierBox, 'common.status')).toThrow()
+    expect(() => getValueByDetailName(carrierBox, 'common.tracking')).toThrow()
     expect(() =>
-      getValueByDetailName(carrierBox, 'Estimated delivery')
+      getValueByDetailName(carrierBox, 'common.estimated_delivery')
     ).toThrow()
 
-    expect(getValueByDetailName(parcelBox1, 'Status')).toHaveTextContent(
+    expect(getValueByDetailName(parcelBox1, 'common.status')).toHaveTextContent(
       'delivered'
     )
-    expect(getValueByDetailName(parcelBox2, 'Status')).toHaveTextContent(
+    expect(getValueByDetailName(parcelBox2, 'common.status')).toHaveTextContent(
       'in_transit'
     )
-    expect(getValueByDetailName(parcelBox1, 'Tracking')).toHaveTextContent(
-      '43769811RQC9900'
-    )
-    expect(getValueByDetailName(parcelBox2, 'Tracking')).toHaveTextContent(
-      '65345234RWQ1111'
-    )
     expect(
-      getValueByDetailName(parcelBox1, 'Estimated delivery')
+      getValueByDetailName(parcelBox1, 'common.tracking')
+    ).toHaveTextContent('43769811RQC9900')
+    expect(
+      getValueByDetailName(parcelBox2, 'common.tracking')
+    ).toHaveTextContent('65345234RWQ1111')
+    expect(
+      getValueByDetailName(parcelBox1, 'common.estimated_delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
     expect(
-      getValueByDetailName(parcelBox2, 'Estimated delivery')
+      getValueByDetailName(parcelBox2, 'common.estimated_delivery')
     ).toHaveTextContent('Jun 23, 2023 12:00 AM')
   })
 })

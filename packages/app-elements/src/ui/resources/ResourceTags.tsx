@@ -3,6 +3,7 @@ import {
   useEditTagsOverlay
 } from '#hooks/useEditTagsOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
@@ -86,21 +87,23 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
               variant='secondary'
               size='mini'
               alignItems='center'
-              aria-label='Edit tags'
+              aria-label={t('common.edit_resource', {
+                resource: t('resources.tags.name').toLowerCase()
+              })}
               onClick={(e) => {
                 e.preventDefault()
                 show()
               }}
             >
               <Icon name='pencilSimple' size='16' />
-              Edit
+              {t('common.edit')}
             </Button>
           )
         }
       >
         {resourceTags == null || resourceTags.length === 0 ? (
           <Spacer top='4'>
-            <Text variant='info'>No tags.</Text>
+            <Text variant='info'>{t('common.no_resources.no_tags')}.</Text>
           </Spacer>
         ) : (
           <div className='flex flex-wrap gap-2 mt-4'>

@@ -1,6 +1,7 @@
 import { formatResourceName } from '#helpers/resources'
 import { useIsChanged } from '#hooks/useIsChanged'
 import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Card } from '#ui/atoms/Card'
 import { EmptyState } from '#ui/atoms/EmptyState'
@@ -252,7 +253,7 @@ export function useResourceList<TResource extends ListableResourceType>({
         return (
           <EmptyState
             title={`Could not retrieve ${type}`}
-            description='Try to refresh the page or ask for support.'
+            description={t('common.try_to_refresh_page')}
           />
         )
       }
@@ -391,7 +392,7 @@ function ErrorLine({
         <InputFeedback variant='danger' message={message} />
       </Spacer>
       <Button size='small' onClick={onRetry}>
-        Retry
+        {t('common.retry')}
       </Button>
     </Spacer>
   )
@@ -400,7 +401,7 @@ function ErrorLine({
 function parseApiErrorMessage(error: unknown): string {
   return CommerceLayerStatic.isApiError(error)
     ? (error.errors ?? []).map(({ detail }) => detail).join(', ')
-    : 'Could not retrieve data'
+    : t('common.could_not_retrieve_data')
 }
 
 /**
