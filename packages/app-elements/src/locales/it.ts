@@ -444,7 +444,7 @@ const it: typeof en = {
         in_progress: 'In corso',
         in_progress_manual: 'In corso (Manuale)'
       },
-      task: {
+      tasks: {
         open: 'Aperti',
         browse: 'Altro',
         awaiting_approval: 'Da approvare',
@@ -510,12 +510,43 @@ const it: typeof en = {
         adjust_total: 'Modifica il totale'
       }
     },
-
     returns: {
+      attributes: {
+        status: 'Stato del reso'
+      },
       details: {
         origin: 'Magazzino origine',
         destination: 'Magazzino destinazione',
-        to_destination: 'Verso'
+        to_destination: 'Verso',
+        return_locations: 'Magazzini di reso',
+        confirm_return_cancellation:
+          'Sei sicuro di voler cancellare il reso #{{number}}',
+        delete_error: "Errore durante l'eliminazione del reso",
+        info: 'Informazioni'
+      },
+      tasks: {
+        open: 'Aperti',
+        browse: 'Altro',
+        requested: 'Richiesti',
+        approved: 'Approvati',
+        shipped: 'Inviati',
+        all_returns: 'Tutti i resi',
+        archived: 'Archiviati'
+      },
+      form: {
+        items: 'Prodotti',
+        no_items: 'Nessun prodotto'
+      },
+      actions: {
+        approve: 'Approva',
+        reject: 'Rifiuta',
+        cancel: 'Annulla reso',
+        ship: 'Segna come spedito',
+        receive: 'Ricevuto',
+        restock: 'Rifornisci',
+        archive: 'Archivia',
+        unarchive: 'Ripristina',
+        refund: 'Emetti un rimborso'
       }
     },
     shipments: {
