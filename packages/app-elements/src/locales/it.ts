@@ -82,7 +82,8 @@ const it: typeof en = {
       generic_not_found: 'La risorsa che cercavi non è esiste.',
       all_good_here: 'Niente da fare qui!',
       no_resource_found: 'Nessuna risorsa {{resource}} trovata!',
-      no_resource_yet: 'Non esiste ancora nessun risorsa di tipo {{resource}}!',
+      no_resource_yet:
+        'Non esiste ancora nessuna risorsa di tipo {{resource}}!',
       create_the_first_resource:
         'Aggiungi una nuova risorsa di tipo {{resource}} tramite API, oppure usa la CLI.',
       no_resources_found_for_list:
@@ -111,7 +112,7 @@ const it: typeof en = {
         'Configurazione mancante durante la definizione di {{component}}',
       loading_app_page: 'Caricamento pagina app...',
       page_not_found: 'Pagina non trovata',
-      invalid_resource: '{{resource}} non valida',
+      invalid_resource: 'Risorsa {{resource}} non valida',
       invalid_resource_or_not_authorized:
         '{{resource}} assente oppure non sei autorizzato ad accedere a questa risorsa.',
       we_could_not_find_page:
