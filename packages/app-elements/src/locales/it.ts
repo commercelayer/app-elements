@@ -533,17 +533,17 @@ const it: typeof en = {
           '{{email}} ha richiesto un reso di {{count}} prodotto',
         timeline_requested_return_other:
           '{{email}} ha richiesto un reso di {{count}} prodotti',
-        timeline_shipped: 'Il resto è stato <strong>spedito</strong>.',
-        timeline_received: 'Il resto è stato <strong>ricevuto</strong>.',
-        timeline_cancelled: 'Il resto è stato <strong>cancellato</strong>.',
-        timeline_archived: 'Il resto è stato <strong>archiviato</strong>.',
-        timeline_approved: 'Il resto è stato <strong>approvato</strong>.',
+        timeline_shipped: 'Il resto è stato <strong>spedito</strong>',
+        timeline_received: 'Il resto è stato <strong>ricevuto</strong>',
+        timeline_cancelled: 'Il resto è stato <strong>cancellato</strong>',
+        timeline_archived: 'Il resto è stato <strong>archiviato</strong>',
+        timeline_approved: 'Il resto è stato <strong>approvato</strong>',
         timeline_item_code_restocked:
-          'Il prodotto {{code}} è stato <strong>rifornito</strong>.',
+          'Il prodotto {{code}} è stato <strong>rifornito</strong>',
         timeline_payment_of_amount_was_action:
-          'Il pagamento di {{amount}} è stato <strong>{{action}}</strong>.',
+          'Il pagamento di {{amount}} è stato <strong>{{action}}</strong>',
         timeline_action_of_amount_failed:
-          'Il tentativo di {{action}} di {{amount}} è <strong>fallito</strong>.'
+          'Il tentativo di {{action}} di {{amount}} è <strong>fallito</strong>'
       },
       tasks: {
         open: 'Aperti',
