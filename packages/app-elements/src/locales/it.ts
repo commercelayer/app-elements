@@ -5,6 +5,7 @@ const it: typeof en = {
     add_another: 'Aggiungi un altro',
     add_resource: 'Aggiungi {{resource}}',
     new_resource: 'Crea {{resource}}',
+    missing_resource: '{{resource}} mancante',
     add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
     all_items: 'Tutti gli elementi',
     amount: 'Importo',
@@ -62,6 +63,7 @@ const it: typeof en = {
     view_logs: 'Visualizza i log',
     view_api_docs: 'Visualizza la documentazione API',
     time_range: 'Periodo',
+    saving: 'Salvataggio...',
     empty_states: {
       not_found: 'Non trovato',
       generic_not_found: 'La risorsa che cercavi non è esiste.',
@@ -69,10 +71,12 @@ const it: typeof en = {
       no_resource_yet: 'Non esiste ancora nessun risorsa di tipo {{resource}}!',
       create_the_first_resource:
         'Aggiungi una nuova risorsa di tipo {{resource}} tramite API, oppure usa la CLI.',
+      no_resources_found_for_list:
+        'Non ci sono {{resources}} per questa lista.',
       no_resource_found_for_organization:
         'Nessuna risorsa {{resource}} trovata per questa organizzazione.',
-      no_resource_found_for_filters:
-        "Non c'è {{resources}} che corrisponde ai filtri selezionati."
+      no_resources_found_for_filters:
+        'Non ci sono {{resources}} che corrispondono ai filtri selezionati.'
     },
     forms: {
       currency_code_not_valid:
@@ -238,6 +242,22 @@ const it: typeof en = {
       name_other: 'Mercati',
       attributes: {}
     },
+    packages: {
+      name: 'Imballo',
+      name_other: 'Imballi',
+      attributes: {}
+    },
+    parcels: {
+      name: 'Collo',
+      name_other: 'Colli',
+      attributes: {
+        unit_of_weight: {
+          gr: 'Grammi',
+          lb: 'Libbra',
+          oz: 'Oncia'
+        }
+      }
+    },
     promotions: {
       name: 'Promozione',
       name_other: 'Promozioni',
@@ -292,6 +312,11 @@ const it: typeof en = {
     skus: {
       name: 'SKU',
       name_other: 'SKU',
+      attributes: {}
+    },
+    stock_locations: {
+      name: 'Magazzino',
+      name_other: 'Magazzini',
       attributes: {}
     },
     stock_transfers: {
@@ -424,14 +449,95 @@ const it: typeof en = {
 
     returns: {
       details: {
-        origin: 'Origine',
-        destination: 'Destinazione',
+        origin: 'Magazzino origine',
+        destination: 'Magazzino destinazione',
         to_destination: 'Verso'
       }
     },
     shipments: {
+      attributes: {
+        status: 'Stato spedizione'
+      },
       details: {
-        awaiting_stock_transfer: 'In attesa di trasferimento di magazzino'
+        awaiting_stock_transfer: 'In attesa di trasferimento di magazzino',
+        label_already_purchased: 'Etichetta già acquistata',
+        get_rates_error: 'Errore nel recupero delle tariffe',
+        purchase_label_error:
+          "Errore nell'acquisto dell'etichetta di spedizione. Contatta il tuo corriere.",
+        select_rate: 'Seleziona una tariffa di spedizione',
+        getting_rates: 'Recupero tariffe...',
+        purchasing: 'Acquisto in corso...',
+        not_in_packing: 'La spedizione non è in stato di imballaggio',
+        picking_list: 'Lista di prelievo',
+        awaiting_stock_transfers: 'In attesa di trasferimenti di magazzino',
+        origin: 'Magazzino di partenza',
+        ship_from: 'Partenza da',
+        ship_to: 'Destinazione',
+        weight: 'Peso'
+      },
+      tasks: {
+        pending: 'Aperte',
+        browse: 'Altro',
+        picking: 'Da prelevare',
+        packing: 'Da imballare',
+        ready_to_ship: 'Da spedire',
+        on_hold: 'In sospeso',
+        all_shipments: 'Tutte le spedizioni'
+      },
+      actions: {
+        put_on_hold: 'Metti in sospeso',
+        start_picking: 'Inizia prelievo',
+        start_packing: 'Inizia imballaggio',
+        continue_packing: 'Continua imballaggio',
+        set_back_to_picking: 'Torna in stato prelievo',
+        set_back_to_packing: 'Torna in stato imballaggio',
+        set_ready_to_ship: 'Pronto per la spedizione',
+        set_shipped: 'Segna come spedito',
+        set_delivered: 'Segna come consegnato',
+        purchase_label: 'Acquista etichetta',
+        purchase_labels: 'Acquista etichette'
+      },
+      form: {
+        unit_of_weight: 'Unità di peso',
+        required_package: 'Selezionare un imballo',
+        invalid_weight: 'Selezionare un peso valido',
+        invalid_unit_of_weight: "Selezionare un'unità di peso valida",
+        incoterms_rules: 'Regole Incoterms',
+        select_option: "Seleziona un'opzione",
+        delivery_confirmation: 'Conferma di consegna',
+        require_custom_forms: 'Richiedi moduli doganali',
+        customs_info_type: 'Tipo di merce che stai spedendo',
+        content_explanation_hint: 'Descrivi brevemente il contenuto del pacco',
+        customs_info_failed_delivery_label:
+          'Istruzioni in caso di mancata consegna',
+        customs_info_restriction_type_label: 'Trattamenti speciali richiesti',
+        customs_info_customs_signer_label: 'Firma doganale',
+        customs_info_confirm_checkbox_label:
+          'Confermo che le informazioni sono corrette',
+        required_custom_form_value:
+          'Richiesto quando si specifica un valore del modulo doganale',
+        required_if_other_is_selected: 'Richiesto se "Altro" è selezionato',
+        required_restriction_comments:
+          'Richiesto se si specificano restrizioni doganali',
+        customs_info_customs_signer_signature: 'Firma',
+        customs_info_customs_signer_no_signature: 'Nessuna firma',
+        customs_info_type_merchandise: 'Merce',
+        customs_info_type_gift: 'Regalo',
+        customs_info_type_documents: 'Documenti',
+        customs_info_type_returned_goods: 'Beni restituiti',
+        customs_info_type_sample: 'Campione',
+        customs_info_type_other: 'Altro',
+        customs_info_failed_delivery_return: 'Restituzione',
+        customs_info_failed_delivery_abandon: 'Abbandono',
+        customs_info_restriction_type_none: 'Nessuna restrizione',
+        customs_info_restriction_type_other: 'Altro',
+        customs_info_restriction_type_quarantine: 'Quarantena',
+        customs_info_restriction_type_sanitary_phytosanitary_inspection:
+          'Ispezione sanitaria o fitosanitaria',
+        no_packages_found: 'Nessun imballo trovato in questo magazzino',
+        select_package: 'Seleziona un imballo',
+        packing_items: 'Prodotti',
+        pack_items: 'Imballa elementi · {{items}}'
       }
     },
     promotions: {
