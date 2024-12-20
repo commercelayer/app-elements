@@ -65,6 +65,7 @@ export {
   i18nLocales,
   I18NProvider,
   t,
+  Trans,
   useTranslation,
   type I18NLocale
 } from '#providers/I18NProvider'

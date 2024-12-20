@@ -7,7 +7,7 @@ import { I18nextProvider, initReactI18next } from 'react-i18next'
 import type en from '../locales/en'
 
 export { t } from 'i18next'
-export { useTranslation } from 'react-i18next'
+export { Trans, useTranslation } from 'react-i18next'
 
 export const i18nLocales = ['en', 'it'] as const
 export type I18NLocale = (typeof i18nLocales)[number]
