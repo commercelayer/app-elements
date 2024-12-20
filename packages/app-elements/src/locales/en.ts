@@ -299,6 +299,7 @@ const en = {
     empty_states: {
       not_found: 'Not found',
       generic_not_found: 'We could not find the resource you are looking for.',
+      all_good_here: 'All good here!',
       no_resource_found: 'No {{resource}} found!',
       no_resource_yet: 'No {{resource}} yet!',
       create_the_first_resource:
@@ -494,7 +495,12 @@ const en = {
           'Confirm that you want to cancel order #{{number}}',
         confirm_capture: 'Confirm capture',
         irreversible_action:
-          'This action cannot be undone, proceed with caution.'
+          'This action cannot be undone, proceed with caution.',
+        payment_captured: 'Captured',
+        payment_authorization: 'Payment authorization',
+        payment_capture: 'Payment capture',
+        payment_refund: 'Refund',
+        payment_void: 'Void'
       },
       form: {
         language: 'Language',
@@ -537,7 +543,22 @@ const en = {
         confirm_return_cancellation:
           'Confirm that you want to cancel return #{{number}}',
         delete_error: 'Could not cancel this return',
-        info: 'Info'
+        info: 'Info',
+        timeline_requested_return:
+          '{{email}} requested the return of {{count} item',
+        timeline_requested_return_other:
+          '{{email}} requested the return of {{count} items',
+        timeline_shipped: 'Return was <strong>shipped</strong>.',
+        timeline_received: 'Return was <strong>received</strong>.',
+        timeline_cancelled: 'Return was <strong>cancelled</strong>.',
+        timeline_archived: 'Return was <strong>archived</strong>.',
+        timeline_approved: 'Return was <strong>approved</strong>.',
+        timeline_item_code_restocked:
+          'Item {{code}} was <strong>restocked</strong>.',
+        timeline_payment_of_amount_was_action:
+          'Payment of {{amount}} was <strong>{{action}}</strong>.',
+        timeline_action_of_amount_failed:
+          '{{action}} of {{amount}} <strong>failed</strong>.'
       },
       tasks: {
         open: 'Open',

@@ -80,6 +80,7 @@ const it: typeof en = {
     empty_states: {
       not_found: 'Non trovato',
       generic_not_found: 'La risorsa che cercavi non è esiste.',
+      all_good_here: 'Niente da fare qui!',
       no_resource_found: 'Nessuna risorsa {{resource}} trovata!',
       no_resource_yet: 'Non esiste ancora nessun risorsa di tipo {{resource}}!',
       create_the_first_resource:
@@ -479,7 +480,12 @@ const it: typeof en = {
           "Sei sicuro di voler cancellare l'ordine #{{number}}",
         confirm_capture: 'Conferma cattura',
         irreversible_action:
-          'Questa azione non può essere annullata, procedi con cautela.'
+          'Questa azione non può essere annullata, procedi con cautela.',
+        payment_captured: 'Catturato',
+        payment_authorization: 'Autorizzazione pagamento',
+        payment_capture: 'Cattura pagamento',
+        payment_refund: 'Rimborso',
+        payment_void: 'Annulla'
       },
       form: {
         language: 'Lingua',
@@ -522,7 +528,22 @@ const it: typeof en = {
         confirm_return_cancellation:
           'Sei sicuro di voler cancellare il reso #{{number}}',
         delete_error: "Errore durante l'eliminazione del reso",
-        info: 'Informazioni'
+        info: 'Informazioni',
+        timeline_requested_return:
+          '{{email}} ha richiesto un reso di {{count}} prodotto',
+        timeline_requested_return_other:
+          '{{email}} ha richiesto un reso di {{count}} prodotti',
+        timeline_shipped: 'Il resto è stato <strong>spedito</strong>.',
+        timeline_received: 'Il resto è stato <strong>ricevuto</strong>.',
+        timeline_cancelled: 'Il resto è stato <strong>cancellato</strong>.',
+        timeline_archived: 'Il resto è stato <strong>archiviato</strong>.',
+        timeline_approved: 'Il resto è stato <strong>approvato</strong>.',
+        timeline_item_code_restocked:
+          'Il prodotto {{code}} è stato <strong>rifornito</strong>.',
+        timeline_payment_of_amount_was_action:
+          'Il pagamento di {{amount}} è stato <strong>{{action}}</strong>.',
+        timeline_action_of_amount_failed:
+          'Il tentativo di {{action}} di {{amount}} è <strong>fallito</strong>.'
       },
       tasks: {
         open: 'Aperti',

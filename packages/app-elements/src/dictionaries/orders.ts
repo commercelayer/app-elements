@@ -151,16 +151,20 @@ export function getOrderTransactionName(
   type: NonNullable<Order['transactions']>[number]['type']
 ): { pastTense: string; singular: string } {
   const pastTenseDictionary: Record<typeof type, string> = {
-    authorizations: 'authorized',
-    captures: 'captured',
-    refunds: 'refunded',
-    voids: 'voided'
+    authorizations: t(
+      'resources.orders.attributes.payment_status.authorized'
+    ).toLowerCase(),
+    captures: t('apps.orders.details.payment_captured').toLowerCase(),
+    refunds: t(
+      'resources.orders.attributes.payment_status.refunded'
+    ).toLowerCase(),
+    voids: t('resources.orders.attributes.payment_status.voided').toLowerCase()
   }
   const singularDictionary: Record<typeof type, string> = {
-    authorizations: 'Payment authorization',
-    captures: 'Payment capture',
-    refunds: 'Refund',
-    voids: 'Void'
+    authorizations: t('apps.orders.details.payment_authorization'),
+    captures: t('apps.orders.details.payment_capture'),
+    refunds: t('apps.orders.details.payment_refund'),
+    voids: t('apps.orders.details.payment_void')
   }
 
   return {
