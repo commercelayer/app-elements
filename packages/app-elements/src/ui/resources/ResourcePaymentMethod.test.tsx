@@ -22,8 +22,8 @@ describe('ResourcePaymentMethod', () => {
     expect(getByText('··4242')).toBeVisible()
 
     // expandable content is not enabled
-    expect(queryByText('Show more')).not.toBeInTheDocument()
-    expect(queryByText('Show less')).not.toBeInTheDocument()
+    expect(queryByText('common.show_more')).not.toBeInTheDocument()
+    expect(queryByText('common.show_less')).not.toBeInTheDocument()
   })
 
   it('should show the expandable content (payment_source) when `showPaymentResponse` is set', async () => {
@@ -38,18 +38,18 @@ describe('ResourcePaymentMethod', () => {
     expect(getByText('··4242')).toBeVisible()
 
     // expandable content is enabled
-    expect(getByText('Show more')).toBeVisible()
+    expect(getByText('common.show_more')).toBeVisible()
 
     // show payment response block
-    fireEvent.click(getByText('Show more'))
-    expect(getByText('Show less')).toBeVisible()
+    fireEvent.click(getByText('common.show_more'))
+    expect(getByText('common.show_less')).toBeVisible()
     expect(getByText('resultCode:')).toBeVisible()
     expect(getByText('fraudResult:')).toBeVisible()
 
     // hide payment response block
-    fireEvent.click(getByText('Show less'))
-    expect(queryByText('Show more')).toBeVisible()
-    expect(queryByText('Show less')).not.toBeInTheDocument()
+    fireEvent.click(getByText('common.show_less'))
+    expect(queryByText('common.show_more')).toBeVisible()
+    expect(queryByText('common.show_less')).not.toBeInTheDocument()
     expect(queryByText('resultCode:')).not.toBeInTheDocument()
     expect(queryByText('fraudResult:')).not.toBeInTheDocument()
   })

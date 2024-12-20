@@ -10,6 +10,7 @@ import {
   type TrackingDetail
 } from '#helpers/tracking'
 import { useOverlay } from '#hooks/useOverlay'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
@@ -136,14 +137,14 @@ const Parcel = withSkeletonTemplate<{
       <Spacer top='6'>
         <Text size='small'>
           <FlexRow>
-            <Text variant='info'>Total</Text>
+            <Text variant='info'>{t('common.parcel_total')}</Text>
             <Text weight='semibold'>
               {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
             </Text>
           </FlexRow>
           <Spacer top='4'>
             <FlexRow>
-              <Text variant='info'>Weight</Text>
+              <Text variant='info'>{t('common.parcel_weight')}</Text>
               <Text weight='semibold'>
                 {parcel.weight} {parcel.unit_of_weight}
               </Text>
@@ -229,7 +230,7 @@ const Attachments = withSkeletonTemplate<{
 
   return (
     <FlexRow className='mt-4'>
-      <Text variant='info'>Attachments</Text>
+      <Text variant='info'>{t('common.attachments')}</Text>
       <Text weight='semibold'>
         <div className='flex flex-col gap-2 items-end'>
           {attachmentsWithUrl.map((attachment) => (
@@ -265,18 +266,18 @@ const Tracking = withSkeletonTemplate<{
       <TrackingDetailsOverlay />
       {trackingDetails?.status != null ? (
         <FlexRow className='mt-4'>
-          <Text variant='info'>Status</Text>
+          <Text variant='info'>{t('common.status')}</Text>
           <Text weight='semibold'>{trackingDetails.status}</Text>
         </FlexRow>
       ) : parcel.tracking_status != null ? (
         <FlexRow className='mt-4'>
-          <Text variant='info'>Status</Text>
+          <Text variant='info'>{t('common.status')}</Text>
           <Text weight='semibold'>{parcel.tracking_status}</Text>
         </FlexRow>
       ) : null}
       {parcel.tracking_number != null && (
         <FlexRow className='mt-4'>
-          <Text variant='info'>Tracking</Text>
+          <Text variant='info'>{t('common.tracking')}</Text>
           <Text weight='semibold'>
             {trackingDetails != null ? (
               <Button
@@ -295,7 +296,7 @@ const Tracking = withSkeletonTemplate<{
       )}
       {showEstimatedDelivery && rate?.formatted_delivery_date != null && (
         <FlexRow className='mt-4'>
-          <Text variant='info'>Estimated delivery</Text>
+          <Text variant='info'>{t('common.estimated_delivery')}</Text>
           <Text weight='semibold'>{rate.formatted_delivery_date}</Text>
         </FlexRow>
       )}
@@ -318,7 +319,7 @@ const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
       parcel.tracking_number != null && (
         <Overlay>
           <PageLayout
-            title={`Tracking #${parcel.tracking_number}`}
+            title={`${t('common.tracking')} #${parcel.tracking_number}`}
             navigationButton={{
               label: 'Back',
               onClick: () => {
@@ -372,19 +373,19 @@ const TrackingDetails = withSkeletonTemplate<{
       <Steps
         steps={[
           {
-            label: 'Pre-Transit',
+            label: t('common.tracking_details.tracking_pre_transit'),
             active: lastEvent?.tracking.status === 'pre_transit'
           },
           {
-            label: 'In Transit',
+            label: t('common.tracking_details.tracking_in_transit'),
             active: lastEvent?.tracking.status === 'in_transit'
           },
           {
-            label: 'Out for delivery',
+            label: t('common.tracking_details.tracking_out_for_delivery'),
             active: lastEvent?.tracking.status === 'out_for_delivery'
           },
           {
-            label: 'Delivered',
+            label: t('common.tracking_details.tracking_delivered'),
             active: lastEvent?.tracking.status === 'delivered'
           }
         ]}
@@ -394,7 +395,7 @@ const TrackingDetails = withSkeletonTemplate<{
           <div>
             <Spacer bottom='2'>
               <Text size='small' tag='div' variant='info' weight='semibold'>
-                Courier
+                {t('common.tracking_details.courier')}
               </Text>
             </Spacer>
             {rate != null && (
@@ -414,7 +415,7 @@ const TrackingDetails = withSkeletonTemplate<{
           <div>
             <Spacer bottom='2'>
               <Text size='small' tag='div' variant='info' weight='semibold'>
-                Estimated Delivery Date
+                {t('common.tracking_details.estimated_delivery_date')}
               </Text>
             </Spacer>
             <div className='text-lg font-semibold text-black'>
@@ -434,7 +435,7 @@ const TrackingDetails = withSkeletonTemplate<{
           border='none'
           actionButton={
             <Text size='small' variant='info'>
-              Last update:{' '}
+              {t('common.tracking_details.last_update')}:{' '}
               <Text weight='bold'>
                 {formatDate({
                   isoDate: lastEvent.date,
@@ -509,7 +510,7 @@ const PrintLabel = withSkeletonTemplate<{ href: string }>(({ href }) => {
     <div className='text-center'>
       <A href={href}>
         <StatusIcon gap='small' className='text-2xl mr-1' name='printer' />{' '}
-        <Text size='small'>Print shipping label</Text>
+        <Text size='small'>{t('common.print_shipping_label')}</Text>
       </A>
     </div>
   )
@@ -545,7 +546,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
         {!isEmpty(parcel.incoterm) && (
           <FlexRow>
             <Text variant='info' wrap='nowrap'>
-              Iconterm
+              Incoterm
             </Text>
             <Text weight='semibold'>{parcel.incoterm}</Text>
           </FlexRow>
@@ -555,7 +556,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           <Spacer top='4'>
             <FlexRow>
               <Text variant='info' wrap='nowrap'>
-                Delivery confirmation
+                {t('common.tracking_details.delivery_confirmation')}
               </Text>
               <Text weight='semibold'>{parcel.delivery_confirmation}</Text>
             </FlexRow>
@@ -583,7 +584,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           <Spacer top='4'>
             <FlexRow>
               <Text variant='info' wrap='nowrap'>
-                Contents type
+                {t('common.tracking_details.contents_type')}
               </Text>
               <Text weight='semibold'>
                 {/* `contents_explanation` is optional but if exists it means `contents_type` is set. So if it exists we give it priority */}
@@ -597,7 +598,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           <Spacer top='4'>
             <FlexRow>
               <Text variant='info' wrap='nowrap'>
-                Non delivery option
+                {t('common.tracking_details.non_delivery_option')}
               </Text>
               <Text weight='semibold'>{parcel.non_delivery_option}</Text>
             </FlexRow>
@@ -607,7 +608,9 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
         {!isEmpty(parcel.restriction_type) && (
           <Spacer top='4'>
             <FlexRow>
-              <Text variant='info'>Restriction type</Text>
+              <Text variant='info'>
+                {t('common.tracking_details.restriction_type')}
+              </Text>
               <Text weight='semibold'>
                 {parcel.restriction_type}{' '}
                 {parcel.restriction_comments != null
@@ -622,7 +625,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           <Spacer top='4'>
             <FlexRow>
               <Text variant='info' wrap='nowrap'>
-                Customs signer
+                {t('common.tracking_details.customs_signer')}
               </Text>
               <Text weight='semibold'>{parcel.customs_signer}</Text>
             </FlexRow>
@@ -633,7 +636,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
           <Spacer top='4'>
             <FlexRow>
               <Text variant='info' wrap='nowrap'>
-                Customs certify
+                {t('common.tracking_details.customs_certify')}
               </Text>
               <Text weight='semibold'>
                 {parcel.customs_certify === true ? 'Yes' : 'No'}
