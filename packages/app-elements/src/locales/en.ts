@@ -101,6 +101,22 @@ const resources = {
     name_other: 'Markets',
     attributes: {}
   },
+  packages: {
+    name: 'Package',
+    name_other: 'Packages',
+    attributes: {}
+  },
+  parcels: {
+    name: 'Parcel',
+    name_other: 'Parcels',
+    attributes: {
+      unit_of_weight: {
+        gr: 'grams',
+        lb: 'pound',
+        oz: 'once'
+      }
+    }
+  },
   promotions: {
     name: 'Promotion',
     name_other: 'Promotions',
@@ -157,6 +173,11 @@ const resources = {
     name_other: 'SKUs',
     attributes: {}
   },
+  stock_locations: {
+    name: 'Stock location',
+    name_other: 'Stock locations',
+    attributes: {}
+  },
   stock_transfers: {
     name: 'Stock transfer',
     name_other: 'Stock transfers',
@@ -204,6 +225,7 @@ const en = {
     add_another: 'Add another',
     add_resource: 'Add {{resource}}',
     new_resource: 'New {{resource}}',
+    missing_resource: 'Missing {{resource}}',
     update_resource: 'Update {{resource}}',
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
     all_items: 'All items',
@@ -260,6 +282,7 @@ const en = {
     view_logs: 'View logs',
     view_api_docs: 'View API reference',
     time_range: 'Time Range',
+    saving: 'Saving...',
     empty_states: {
       not_found: 'Not found',
       generic_not_found: 'We could not find the resource you are looking for.',
@@ -267,9 +290,11 @@ const en = {
       no_resource_yet: 'No {{resource}} yet!',
       create_the_first_resource:
         'Add a new {{resource}} with the API, or use the CLI.',
+      no_resources_found_for_list:
+        'There are no {{resources}} for the current list.',
       no_resource_found_for_organization:
         'No {{resource}} found for this organization.',
-      no_resource_found_for_filters:
+      no_resources_found_for_filters:
         "We didn't find any {{resources}} matching the current filters selection."
     },
     generic_select_autocomplete_hint: 'Type to search for more options.',
@@ -444,8 +469,89 @@ const en = {
       }
     },
     shipments: {
+      attributes: {
+        status: 'Status'
+      },
       details: {
-        awaiting_stock_transfer: 'Awaiting stock transfer'
+        awaiting_stock_transfer: 'Awaiting stock transfer',
+        label_already_purchased: 'Shipping label already purchased',
+        get_rates_error: 'Unable to get rates',
+        purchase_label_error:
+          'Could not purchase shipping label, please contact your carrier.',
+        select_rate: 'Select a shipping rate',
+        getting_rates: 'Getting rates...',
+        purchasing: 'Purchasing...',
+        not_in_packing: 'This shipment is not in packing status',
+        picking_list: 'Picking list',
+        awaiting_stock_transfers: 'Awaiting stock transfers',
+        ship_from: 'Ship from',
+        ship_to: 'Ship to',
+        origin: 'Origin',
+        weight: 'Weight'
+      },
+      tasks: {
+        pending: 'Pending',
+        browse: 'Browse',
+        picking: 'Picking',
+        packing: 'Packing',
+        ready_to_ship: 'Ready to ship',
+        on_hold: 'On hold',
+        all_shipments: 'All shipments'
+      },
+      actions: {
+        put_on_hold: 'Put on hold',
+        start_picking: 'Start picking',
+        start_packing: 'Start packing',
+        continue_packing: 'Continue',
+        set_back_to_picking: 'Back to picking',
+        set_back_to_packing: 'Back to packing',
+        set_ready_to_ship: 'Ready to ship',
+        set_shipped: 'Mark as shipped',
+        set_delivered: 'Mark as delivered',
+        purchase_label: 'Purchase label',
+        purchase_labels: 'Purchase labels'
+      },
+      form: {
+        unit_of_weight: 'Unit of weight',
+        required_package: 'Please select a package',
+        invalid_weight: 'Please enter a weight',
+        invalid_unit_of_weight: 'Please select a unit of weight',
+        incoterms_rules: 'Incoterms rules',
+        select_option: 'Select an option',
+        delivery_confirmation: 'Delivery confirmations',
+        require_custom_forms: 'Require custom forms',
+        customs_info_type: 'The type of item you are sending',
+        content_explanation_hint: 'Insert a brief description',
+        customs_info_failed_delivery_label:
+          'In case the shipment cannot be delivered',
+        customs_info_restriction_type_label: 'Requires any special treatment',
+        customs_info_customs_signer_label: 'Customs signer',
+        customs_info_confirm_checkbox_label:
+          'I confirm the provided information is accurate',
+        required_custom_form_value:
+          'Required when specifying a customs form value',
+        required_if_other_is_selected: 'Please specify if "other" is selected',
+        required_restriction_comments:
+          "Please add a comment or select 'none' as restriction type",
+        customs_info_customs_signer_signature: 'Signature',
+        customs_info_customs_signer_no_signature: 'No signature',
+        customs_info_type_merchandise: 'Merchandise',
+        customs_info_type_gift: 'Gift',
+        customs_info_type_documents: 'Documents',
+        customs_info_type_returned_goods: 'Returned goods',
+        customs_info_type_sample: 'Sample',
+        customs_info_type_other: 'Other',
+        customs_info_failed_delivery_return: 'Return',
+        customs_info_failed_delivery_abandon: 'Abandon',
+        customs_info_restriction_type_none: 'None',
+        customs_info_restriction_type_other: 'Other',
+        customs_info_restriction_type_quarantine: 'Quarantine',
+        customs_info_restriction_type_sanitary_phytosanitary_inspection:
+          'Sanitary or Phytosanitary inspection',
+        no_packages_found: 'No packages found for current stock location',
+        select_package: 'Select a package',
+        packing_items: 'items',
+        pack_items: 'Pack · {{items}}'
       }
     },
     promotions: {
