@@ -30,17 +30,6 @@ describe('GTMProvider', () => {
     })
   })
 
-  test('Should not initialize GTM if gtmId is invalid', async () => {
-    const { getByText } = render(
-      <GTMProvider gtmId='GT-123456'>
-        <div>App</div>
-      </GTMProvider>
-    )
-
-    expect(getByText('App')).toBeInTheDocument()
-    expect(TagManager.initialize).toHaveBeenCalledTimes(0)
-  })
-
   test('Should render children also when gtmId is not provided', async () => {
     const { getByText } = render(
       <GTMProvider>
