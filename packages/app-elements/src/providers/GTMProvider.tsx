@@ -37,7 +37,7 @@ export const GTMProvider: React.FC<GTMProviderProps> = ({
   gtmId
 }) => {
   useEffect(() => {
-    if (isValidGtmId(gtmId)) {
+    if (gtmId != null && !isEmpty(gtmId)) {
       TagManager.initialize({ gtmId })
     }
   }, [gtmId])
@@ -57,9 +57,4 @@ export const GTMProvider: React.FC<GTMProviderProps> = ({
   }
 
   return <GTMContext.Provider value={{ push }}>{children}</GTMContext.Provider>
-}
-
-function isValidGtmId(gtmId?: string): gtmId is string {
-  const gtmIdRegex = /^GTM-[A-Z0-9]{1,7}$/
-  return gtmIdRegex.test(gtmId ?? '')
 }
