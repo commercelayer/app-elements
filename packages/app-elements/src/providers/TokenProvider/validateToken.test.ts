@@ -53,7 +53,8 @@ describe('isValidTokenForCurrentApp', () => {
       email: 'user@commercelayer.io',
       timezone: 'Europe/Rome',
       displayName: 'R. Starr',
-      fullName: 'Ringo Starr'
+      fullName: 'Ringo Starr',
+      locale: 'en-US'
     })
   })
 })

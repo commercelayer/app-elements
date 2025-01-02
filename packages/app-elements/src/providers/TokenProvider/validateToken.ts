@@ -137,7 +137,8 @@ export async function isValidTokenForCurrentApp({
               fullName: computeFullname(
                 tokenInfo.owner.first_name,
                 tokenInfo.owner.last_name
-              )
+              ),
+              locale: 'en-US' // setting a default for now, then this will probably arrive from tokenInfo.owner.locale
             }
           : null,
       scopes: jwtInfo.scopes
