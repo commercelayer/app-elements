@@ -5,6 +5,7 @@ import resourcesToBackend from 'i18next-resources-to-backend'
 import React, { type ReactNode, useEffect, useState } from 'react'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import type en from '../locales/en'
+import { useTokenProvider } from './TokenProvider'
 
 export { t } from 'i18next'
 export { Trans, useTranslation } from 'react-i18next'
@@ -22,7 +23,8 @@ declare module 'i18next' {
 }
 
 interface I18NProviderProps {
-  localeCode?: I18NLocale
+  localeCode: I18NLocale
+  enforceLocale?: boolean
   children: ReactNode
 }
 
@@ -30,6 +32,10 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
   localeCode = i18nLocales[0],
   children
 }) => {
+  const { user } = useTokenProvider()
+  const userLocale = user?.locale.split('-')[0]
+  localeCode = isValidLocaleCode(userLocale) ? userLocale : localeCode
+
   const [i18nInstance, setI18nInstance] = useState<I18nInstance | undefined>()
 
   useEffect(() => {
@@ -83,4 +89,8 @@ const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
       debug: true
     })
   return i18n
+}
+
+function isValidLocaleCode(localeCode?: string): localeCode is I18NLocale {
+  return i18nLocales.includes(localeCode as I18NLocale)
 }
