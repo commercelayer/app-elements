@@ -1,5 +1,6 @@
 import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { Return } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 export interface ReturnDisplayStatus extends DisplayStatus {
@@ -13,59 +14,59 @@ export function getReturnDisplayStatus(returnObj: Return): ReturnDisplayStatus {
   switch (returnObj.status) {
     case 'requested':
       return {
-        label: 'Requested',
+        label: t('resources.returns.attributes.status.requested'),
         icon: 'chatCircle',
         color: 'orange',
-        task: 'Requested'
+        task: t('resources.returns.attributes.status.requested')
       }
 
     case 'approved':
       return {
-        label: 'Approved',
+        label: t('resources.returns.attributes.status.approved'),
         icon: 'check',
         color: 'orange',
-        task: 'Approved'
+        task: t('resources.returns.attributes.status.approved')
       }
 
     case 'shipped':
       return {
-        label: 'Shipped',
+        label: t('resources.returns.attributes.status.shipped'),
         icon: 'arrowUpRight',
         color: 'orange',
-        task: 'Shipped'
+        task: t('resources.returns.attributes.status.shipped')
       }
 
     case 'received':
       return {
-        label: 'Received',
+        label: t('resources.returns.attributes.status.received'),
         icon: 'check',
         color: 'green'
       }
 
     case 'cancelled':
       return {
-        label: 'Cancelled',
+        label: t('resources.returns.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
 
     case 'rejected':
       return {
-        label: 'Rejected',
+        label: t('resources.returns.attributes.status.rejected'),
         icon: 'x',
         color: 'red'
       }
 
     case 'refunded':
       return {
-        label: 'Refunded',
+        label: t('resources.returns.attributes.status.refunded'),
         icon: 'creditCard',
         color: 'green'
       }
 
     default:
       return {
-        label: `Not handled: (${returnObj.status})`,
+        label: `${t('common.not_handled')}: (${returnObj.status})`,
         icon: 'warning',
         color: 'white'
       }
@@ -74,14 +75,14 @@ export function getReturnDisplayStatus(returnObj: Return): ReturnDisplayStatus {
 
 export function getReturnStatusName(status: Return['status']): string {
   const dictionary: Record<typeof status, string> = {
-    draft: 'Draft',
-    requested: 'Requested',
-    approved: 'Approved',
-    shipped: 'Shipped',
-    received: 'Received',
-    cancelled: 'Cancelled',
-    rejected: 'Rejected',
-    refunded: 'Refunded'
+    draft: t('resources.returns.attributes.status.draft'),
+    requested: t('resources.returns.attributes.status.requested'),
+    approved: t('resources.returns.attributes.status.approved'),
+    shipped: t('resources.returns.attributes.status.shipped'),
+    received: t('resources.returns.attributes.status.received'),
+    cancelled: t('resources.returns.attributes.status.cancelled'),
+    rejected: t('resources.returns.attributes.status.rejected'),
+    refunded: t('resources.returns.attributes.status.refunded')
   }
 
   return dictionary[status]

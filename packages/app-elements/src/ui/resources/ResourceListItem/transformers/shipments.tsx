@@ -10,7 +10,8 @@ import { type ResourceToProps } from '../types'
 
 export const shipmentToProps: ResourceToProps<Shipment> = ({
   resource,
-  user
+  user,
+  t
 }) => {
   const stockTransfersToBeAwaited =
     resource.stock_transfers?.filter(
@@ -27,12 +28,12 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
   )
   const returnStockLocationName =
     resource.stock_location?.name != null
-      ? `From ${resource.stock_location.name} `
+      ? `${t('common.from')} ${resource.stock_location.name} `
       : ''
   const number = resource.number != null ? `#${resource.number}` : ''
 
   return {
-    name: `Shipment ${number}`,
+    name: `${t('resources.shipments.name')} ${number}`,
     description: (
       <ListItemDescription
         displayStatus={displayStatus}

@@ -1,5 +1,6 @@
 import { getEventDateInfo } from '#helpers/date'
 import type { Promotion } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 interface PromotionDisplayStatus extends DisplayStatus {
@@ -12,7 +13,7 @@ export function getPromotionDisplayStatus(
   if (promotion.disabled_at != null) {
     return {
       status: 'disabled',
-      label: 'Disabled',
+      label: t('resources.promotions.attributes.status.disabled'),
       icon: 'minus',
       color: 'lightGray'
     }
@@ -29,7 +30,7 @@ export function getPromotionDisplayStatus(
   ) {
     return {
       status: 'used',
-      label: 'Expired',
+      label: t('resources.promotions.attributes.status.expired'),
       icon: 'flag',
       color: 'gray'
     }
@@ -39,7 +40,7 @@ export function getPromotionDisplayStatus(
     case 'past':
       return {
         status: 'expired',
-        label: 'Expired',
+        label: t('resources.promotions.attributes.status.expired'),
         icon: 'flag',
         color: 'gray'
       }
@@ -47,7 +48,7 @@ export function getPromotionDisplayStatus(
     case 'upcoming':
       return {
         status: 'upcoming',
-        label: 'Upcoming',
+        label: t('apps.promotions.display_status.upcoming'),
         icon: 'calendarBlank',
         color: 'gray'
       }
@@ -55,7 +56,7 @@ export function getPromotionDisplayStatus(
     case 'active':
       return {
         status: 'active',
-        label: 'Active',
+        label: t('resources.promotions.attributes.status.active'),
         icon: 'pulse',
         color: 'green'
       }

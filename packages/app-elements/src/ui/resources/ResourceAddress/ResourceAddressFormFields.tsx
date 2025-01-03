@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { Grid } from '#ui/atoms/Grid'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -47,7 +48,7 @@ export const getResourceAddressFormFieldsSchema = ({
           ctx.addIssue({
             code: 'custom',
             path: ['company'],
-            message: 'Required field'
+            message: t('common.forms.required_field')
           })
         }
       } else {
@@ -55,7 +56,7 @@ export const getResourceAddressFormFieldsSchema = ({
           ctx.addIssue({
             code: 'custom',
             path: ['first_name'],
-            message: 'Required field'
+            message: t('common.forms.required_field')
           })
         }
 
@@ -63,7 +64,7 @@ export const getResourceAddressFormFieldsSchema = ({
           ctx.addIssue({
             code: 'custom',
             path: ['last_name'],
-            message: 'Required field'
+            message: t('common.forms.required_field')
           })
         }
       }
@@ -120,21 +121,30 @@ export const ResourceAddressFormFields =
             <FieldRow columns='2'>
               <HookedInput
                 name={`${namePrefix}first_name`}
-                label='First name'
+                label={t('resources.addresses.attributes.first_name')}
               />
-              <HookedInput name={`${namePrefix}last_name`} label='Last name' />
+              <HookedInput
+                name={`${namePrefix}last_name`}
+                label={t('resources.addresses.attributes.last_name')}
+              />
             </FieldRow>
           )}
 
           {isCompanyVisible && (
             <FieldRow columns='1'>
-              <HookedInput name={`${namePrefix}company`} label='Company' />
+              <HookedInput
+                name={`${namePrefix}company`}
+                label={t('resources.addresses.attributes.company')}
+              />
             </FieldRow>
           )}
 
           <FieldRow columns='1'>
             <div className='flex flex-col gap-2'>
-              <HookedInput name={`${namePrefix}line_1`} label='Address' />
+              <HookedInput
+                name={`${namePrefix}line_1`}
+                label={t('resources.addresses.attributes.line_1')}
+              />
               <HookedInput name={`${namePrefix}line_2`} />
             </div>
           </FieldRow>
@@ -144,25 +154,34 @@ export const ResourceAddressFormFields =
           </FieldRow>
 
           <FieldRow columns='1'>
-            <HookedInput name={`${namePrefix}city`} label='City' />
+            <HookedInput
+              name={`${namePrefix}city`}
+              label={t('resources.addresses.attributes.city')}
+            />
           </FieldRow>
 
           <FieldRow columns='1'>
             <div className='grid grid-cols-[2fr_1fr] gap-4'>
               <SelectStates namePrefix={namePrefix} />
-              <HookedInput name={`${namePrefix}zip_code`} label='ZIP code' />
+              <HookedInput
+                name={`${namePrefix}zip_code`}
+                label={t('resources.addresses.attributes.zip_code')}
+              />
             </div>
           </FieldRow>
 
           <FieldRow columns='1'>
-            <HookedInput name={`${namePrefix}phone`} label='Phone' />
+            <HookedInput
+              name={`${namePrefix}phone`}
+              label={t('resources.addresses.attributes.phone')}
+            />
           </FieldRow>
 
           {showBillingInfo && (
             <FieldRow columns='1'>
               <HookedInput
                 name={`${namePrefix}billing_info`}
-                label='Billing info'
+                label={t('resources.addresses.attributes.billing_info')}
               />
             </FieldRow>
           )}
@@ -171,7 +190,7 @@ export const ResourceAddressFormFields =
             <FieldRow columns='1'>
               <HookedInputTextArea
                 name={`${namePrefix}notes`}
-                label='Notes'
+                label={t('resources.addresses.attributes.notes')}
                 rows={2}
               />
             </FieldRow>
@@ -212,13 +231,18 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   }, [])
 
   if (forceTextInput) {
-    return <HookedInput name={`${namePrefix}country_code`} label='Country' />
+    return (
+      <HookedInput
+        name={`${namePrefix}country_code`}
+        label={t('resources.addresses.attributes.country_code')}
+      />
+    )
   }
 
   return (
     <HookedInputSelect
       name={`${namePrefix}country_code`}
-      label='Country'
+      label={t('resources.addresses.attributes.country_code')}
       key={countries?.length}
       initialValues={countries ?? []}
       pathToValue='value'
@@ -264,13 +288,18 @@ const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
     states?.length === 0 ||
     forceTextInput
   ) {
-    return <HookedInput name={`${namePrefix}state_code`} label='State code' />
+    return (
+      <HookedInput
+        name={`${namePrefix}state_code`}
+        label={t('resources.addresses.attributes.state_code')}
+      />
+    )
   }
 
   return (
     <HookedInputSelect
       name={`${namePrefix}state_code`}
-      label='State'
+      label={t('resources.addresses.attributes.state_code')}
       key={`${countryCode}_${states?.length}`}
       initialValues={states ?? []}
       pathToValue='value'

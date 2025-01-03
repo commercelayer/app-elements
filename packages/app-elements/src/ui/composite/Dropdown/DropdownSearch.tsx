@@ -2,6 +2,7 @@ import { Icon } from '#ui/atoms/Icon'
 import cn from 'classnames'
 import debounce from 'lodash/debounce'
 import { forwardRef, useCallback, useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 export interface DropdownSearchProps {
   /**
@@ -29,16 +30,11 @@ export interface DropdownSearchProps {
  */
 export const DropdownSearch = forwardRef<HTMLInputElement, DropdownSearchProps>(
   (
-    {
-      onSearch,
-      debounceMs = 500,
-      placeholder = 'Search...',
-      autoFocus,
-      ...rest
-    },
+    { onSearch, debounceMs = 500, placeholder, autoFocus, ...rest },
     ref
   ): JSX.Element => {
     const [searchValue, setSearchValue] = useState('')
+    const { t } = useTranslation()
 
     const debouncedOnSearch = useCallback(debounce(onSearch, debounceMs), [
       onSearch
@@ -64,7 +60,7 @@ export const DropdownSearch = forwardRef<HTMLInputElement, DropdownSearchProps>(
           className={cn(
             'pl-10 pr-8 py-2 bg-transparent min-w-max font-semibold text-sm placeholder:text-gray-400 !ring-0'
           )}
-          placeholder={placeholder}
+          placeholder={placeholder ?? t('common.search')}
           value={searchValue}
           onChange={({ currentTarget: { value } }) => {
             setSearchValue(value)

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 // @ts-check
 import react from '@vitejs/plugin-react'
 import { resolve } from 'path'

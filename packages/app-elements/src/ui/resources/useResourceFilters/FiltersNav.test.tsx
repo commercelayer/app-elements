@@ -22,7 +22,7 @@ describe('FiltersNav', () => {
     expect(container).toBeVisible()
 
     // grouped by status_in
-    expect(getByText('Order status · 2')).toBeVisible()
+    expect(getByText('Status · 2')).toBeVisible()
     // payment_status_eq is only one, so it should not be grouped
     expect(getByText('Authorized')).toBeVisible()
     // grouped by market_in, we have 3 markets

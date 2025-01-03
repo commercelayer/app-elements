@@ -3,6 +3,7 @@ import {
   useEditMetadataOverlay
 } from '#hooks/useEditMetadataOverlay'
 import { useCoreApi } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
@@ -69,13 +70,15 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 variant='secondary'
                 size='mini'
                 alignItems='center'
-                aria-label='Edit metadata'
+                aria-label={t('common.edit_resource', {
+                  resource: t('common.metadata').toLowerCase()
+                })}
                 onClick={() => {
                   show()
                 }}
               >
                 <Icon name='pencilSimple' size='16' />
-                Edit
+                {t('common.edit')}
               </Button>
             )
           }
@@ -104,7 +107,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             )
           ) : (
             <Spacer top='4'>
-              <Text variant='info'>No metadata.</Text>
+              <Text variant='info'>{t('common.no_metadata')}.</Text>
             </Spacer>
           )}
         </Section>

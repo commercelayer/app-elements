@@ -51,7 +51,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               <div
                 class="flex items-center gap-1"
               >
-                Unit price 9.00€
+                common.unit_price 9.00€
               </div>
             </div>
           </div>
@@ -155,7 +155,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 class="flex gap-4 flex-col md:flex-row"
               >
                 <button
-                  aria-label="Swap"
+                  aria-label="common.swap"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
@@ -172,16 +172,16 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                   <span
                     class="pl-1"
                   >
-                    Swap
+                    common.swap
                   </span>
                 </button>
                 <span
                   aria-description="Can't remove the last item"
                   class="cursor-pointer"
-                  data-tooltip-id="remove-cantremovethelastitem-top-end"
+                  data-tooltip-id="commonremove-cantremovethelastitem-top-end"
                 >
                   <button
-                    aria-label="Delete"
+                    aria-label="common.remove"
                     class="flex items-center rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                     disabled=""
                   >
@@ -199,7 +199,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                     <span
                       class="pl-1"
                     >
-                      Remove
+                      common.remove
                     </span>
                   </button>
                 </span>
@@ -272,7 +272,7 @@ exports[`ResourceLineItems > should render 1`] = `
               <div
                 class="flex items-center gap-1"
               >
-                Unit price 9.00€
+                common.unit_price 9.00€
               </div>
             </div>
           </div>
@@ -370,7 +370,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
               <div
                 class="flex items-center gap-1"
               >
-                Unit price 9.00€
+                common.unit_price 9.00€
               </div>
             </div>
           </div>
@@ -489,7 +489,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               <div
                 class="flex items-center gap-1"
               >
-                Unit price 9.00€
+                common.unit_price 9.00€
               </div>
             </div>
           </div>
@@ -593,7 +593,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                 class="flex gap-4 flex-col md:flex-row"
               >
                 <button
-                  aria-label="Delete"
+                  aria-label="common.remove"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
@@ -610,7 +610,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                   <span
                     class="pl-1"
                   >
-                    Remove
+                    common.remove
                   </span>
                 </button>
               </div>
@@ -682,7 +682,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
               <div
                 class="flex items-center gap-1"
               >
-                Unit price $10.00
+                common.unit_price $10.00
               </div>
             </div>
           </div>
@@ -835,7 +835,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
               <div
                 class="flex items-center gap-1"
               >
-                Unit price 27.00€
+                common.unit_price 27.00€
               </div>
             </div>
           </div>
@@ -1163,7 +1163,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               <div
                 class="flex items-center gap-1"
               >
-                Unit price 9.00€
+                common.unit_price 9.00€
               </div>
             </div>
           </div>
@@ -1267,7 +1267,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 class="flex gap-4 flex-col md:flex-row"
               >
                 <button
-                  aria-label="Swap"
+                  aria-label="common.swap"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
@@ -1284,11 +1284,11 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                   <span
                     class="pl-1"
                   >
-                    Swap
+                    common.swap
                   </span>
                 </button>
                 <button
-                  aria-label="Delete"
+                  aria-label="common.remove"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
@@ -1305,7 +1305,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                   <span
                     class="pl-1"
                   >
-                    Remove
+                    common.remove
                   </span>
                 </button>
               </div>
@@ -1366,7 +1366,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               <div
                 class="flex items-center gap-1"
               >
-                Unit price $10.00
+                common.unit_price $10.00
               </div>
             </div>
           </div>
@@ -1526,7 +1526,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 class="flex gap-4 flex-col md:flex-row"
               >
                 <button
-                  aria-label="Swap"
+                  aria-label="common.swap"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
@@ -1543,11 +1543,11 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                   <span
                     class="pl-1"
                   >
-                    Swap
+                    common.swap
                   </span>
                 </button>
                 <button
-                  aria-label="Delete"
+                  aria-label="common.remove"
                   class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
@@ -1564,7 +1564,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                   <span
                     class="pl-1"
                   >
-                    Remove
+                    common.remove
                   </span>
                 </button>
               </div>
