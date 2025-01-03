@@ -149,13 +149,13 @@ const rateSchema = z.object({
   /** currency for the rate */
   currency: z.string(),
   /** delivery days for this service */
-  delivery_days: z.number(),
+  delivery_days: z.number().optional(),
   /** date for delivery */
-  delivery_date: z.string(),
+  delivery_date: z.string().optional(),
   /** *This field is deprecated and should be ignored. @deprecated */
-  est_delivery_days: z.number(),
+  est_delivery_days: z.number().optional(),
   /** formatted date for delivery */
-  formatted_delivery_date: z.string(),
+  formatted_delivery_date: z.string().optional(),
   /** the actual formatted rate quote for this service */
   formatted_rate: z.string()
 })

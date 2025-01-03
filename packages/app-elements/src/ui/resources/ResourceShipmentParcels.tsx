@@ -293,7 +293,7 @@ const Tracking = withSkeletonTemplate<{
           </Text>
         </FlexRow>
       )}
-      {showEstimatedDelivery && rate != null && (
+      {showEstimatedDelivery && rate?.formatted_delivery_date != null && (
         <FlexRow className='mt-4'>
           <Text variant='info'>Estimated delivery</Text>
           <Text weight='semibold'>{rate.formatted_delivery_date}</Text>
