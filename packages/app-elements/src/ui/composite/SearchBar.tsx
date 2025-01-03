@@ -47,7 +47,7 @@ export interface SearchBarProps
  * <span type='info'>In this way the `onSearch` callback will be triggered only when the user stops typing
  * for the specified value of `debounceMs` (default 500ms).</span>
  */
-export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
+const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
   (
     {
       initialValue = '',
@@ -138,3 +138,8 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 )
 
 SearchBar.displayName = 'SearchBar'
+
+// @ts-expect-error - This is a custom property
+SearchBar.isSkeletonTemplate = true
+
+export { SearchBar }

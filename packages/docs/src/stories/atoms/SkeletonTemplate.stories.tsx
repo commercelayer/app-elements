@@ -13,6 +13,8 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
+import { PageLayout } from '#ui/composite/PageLayout'
+import { SearchBar } from '#ui/composite/SearchBar'
 import { type Meta, type StoryFn } from '@storybook/react'
 import {
   cloneElement,
@@ -53,6 +55,35 @@ const WithSkeletonComponentA = withSkeletonTemplate<{ children: ReactNode }>(
 
 const children = (
   <>
+    <PageLayout
+      title='PageLayout component'
+      gap='none'
+      minHeight={false}
+      description='This is the description of the page layout.'
+      navigationButton={{
+        label: 'Back',
+        onClick: () => {
+          console.log('Clicked on Back button')
+        }
+      }}
+      toolbar={{
+        buttons: [
+          {
+            label: 'New item',
+            size: 'small',
+            icon: 'plus',
+            onClick: () => {
+              console.log('Clicked on New item button')
+            }
+          }
+        ]
+      }}
+    >
+      This is the content of the page layout.
+    </PageLayout>
+    <br />
+    <SearchBar onSearch={() => {}} />
+    <br />
     <ForwardRefComponent>
       <a>Simil Wouter</a>
     </ForwardRefComponent>
@@ -80,6 +111,7 @@ const children = (
       <ListItem variant='boxed'>
         <div>
           <Text tag='div'>Ehi there!</Text>
+          <Badge variant='primary'>APPROVED</Badge>
           <Badge variant='primary'>APPROVED</Badge>
         </div>
         <Button

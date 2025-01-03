@@ -1,4 +1,4 @@
-import { isFunctionComponent, isSpecificReactComponent } from '#utils/children'
+import { isSpecificReactComponent } from '#utils/children'
 import cn from 'classnames'
 import {
   Children,
@@ -109,7 +109,9 @@ function isSkeletonTemplate(child: ReactNode): boolean {
   }
 
   return (
-    isFunctionComponent(child) &&
+    typeof child === 'object' &&
+    'type' in child &&
+    (typeof child.type === 'object' || typeof child.type === 'function') &&
     'isSkeletonTemplate' in child.type &&
     (child.type as SkeletonTemplateComponent).isSkeletonTemplate
   )
