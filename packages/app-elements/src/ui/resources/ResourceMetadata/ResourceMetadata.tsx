@@ -10,7 +10,6 @@ import { Section } from '#ui/atoms/Section'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
-import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { type ListableResourceType } from '@commercelayer/sdk'
 
 interface MetadataOverlay
@@ -87,19 +86,19 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 if (!isUpdatableType(metadataValue)) return null
 
                 return (
-                  <ListDetailsItem
+                  <div
                     key={idx}
-                    gutter='none'
-                    label={metadataKey}
+                    className='grid grid-cols-2 p-4 border-b border-gray-100'
                     data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
+                    <Text variant='info'>{metadataKey}</Text>
                     <Text
                       weight='semibold'
                       data-testid={`ResourceMetadata-value-${metadataKey}`}
                     >
                       {metadataValue.toString()}
                     </Text>
-                  </ListDetailsItem>
+                  </div>
                 )
               }
             )
