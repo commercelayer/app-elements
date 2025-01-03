@@ -16,6 +16,7 @@ import type {
   SkuListItem,
   StockTransfer
 } from '@commercelayer/sdk'
+import { type t } from 'i18next'
 
 export type ResourceListItemType =
   | Order
@@ -45,4 +46,5 @@ export interface ResourceListItemComponentProps {
 export type ResourceToProps<Resource> = (options: {
   resource: Resource
   user: TokenProviderAuthUser | null
+  t: typeof t
 }) => ResourceListItemComponentProps
