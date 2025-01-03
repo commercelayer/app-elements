@@ -12,6 +12,7 @@ import {
   stockTransferToProps
 } from '#ui/resources/ResourceListItem/transformers'
 import { useMemo } from 'react'
+import { useTranslation } from 'react-i18next'
 import { promotionToProps } from './transformers/promotions'
 import {
   type ResourceListItemComponentProps,
@@ -99,20 +100,21 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
 export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
   ({ resource, isLoading, delayMs, href, onClick, ...rest }) => {
     const { user } = useTokenProvider()
+    const { t } = useTranslation()
     const listItemProps = useMemo(() => {
       switch (resource.type) {
         case 'customers':
-          return customerToProps({ resource, user })
+          return customerToProps({ resource, user, t })
         case 'orders':
-          return orderToProps({ resource, user })
+          return orderToProps({ resource, user, t })
         case 'returns':
-          return returnToProps({ resource, user })
+          return returnToProps({ resource, user, t })
         case 'stock_transfers':
-          return stockTransferToProps({ resource, user })
+          return stockTransferToProps({ resource, user, t })
         case 'shipments':
-          return shipmentToProps({ resource, user })
+          return shipmentToProps({ resource, user, t })
         case 'sku_list_items':
-          return skuListItemToProps({ resource, user })
+          return skuListItemToProps({ resource, user, t })
         case 'buy_x_pay_y_promotions':
         case 'external_promotions':
         case 'fixed_amount_promotions':
@@ -121,7 +123,7 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
         case 'free_shipping_promotions':
         case 'percentage_discount_promotions':
         case 'flex_promotions':
-          return promotionToProps({ resource, user })
+          return promotionToProps({ resource, user, t })
       }
     }, [resource])
     return (
