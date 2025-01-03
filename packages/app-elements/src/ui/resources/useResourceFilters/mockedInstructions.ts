@@ -1,9 +1,8 @@
-import { t } from '#providers/I18NProvider'
 import { type FiltersInstructions } from './types'
 
 export const instructions: FiltersInstructions = [
   {
-    label: t('resources.markets.name_other'),
+    label: 'Markets',
     type: 'options',
     sdk: {
       predicate: 'market_id_in'
@@ -21,7 +20,7 @@ export const instructions: FiltersInstructions = [
     }
   },
   {
-    label: t('common.filters_instructions.order_status'),
+    label: 'Status',
     type: 'options',
     sdk: {
       predicate: 'status_in',
@@ -34,26 +33,26 @@ export const instructions: FiltersInstructions = [
         options: [
           {
             value: 'pending',
-            label: t('resources.orders.attributes.status.pending')
+            label: 'Pending'
           },
           {
             value: 'placed',
-            label: t('resources.orders.attributes.status.placed')
+            label: 'Placed'
           },
           {
             value: 'approved',
-            label: t('resources.orders.attributes.status.approved')
+            label: 'Approved'
           },
           {
             value: 'cancelled',
-            label: t('resources.orders.attributes.status.cancelled')
+            label: 'Cancelled'
           }
         ]
       }
     }
   },
   {
-    label: t('common.filters_instructions.payment_status'),
+    label: 'Payment status',
     type: 'options',
     sdk: {
       predicate: 'payment_status_eq'
@@ -65,34 +64,34 @@ export const instructions: FiltersInstructions = [
         options: [
           {
             value: 'authorized',
-            label: t('resources.orders.attributes.payment_status.authorized')
+            label: 'Authorized'
           },
           {
             value: 'paid',
-            label: t('resources.orders.attributes.payment_status.paid')
+            label: 'Paid'
           },
           {
             value: 'voided',
-            label: t('resources.orders.attributes.payment_status.voided')
+            label: 'Voided'
           },
           {
             value: 'refunded',
-            label: t('resources.orders.attributes.payment_status.refunded')
+            label: 'Refunded'
           },
           {
             value: 'free',
-            label: t('resources.orders.attributes.payment_status.free')
+            label: 'Free'
           },
           {
             value: 'unpaid',
-            label: t('resources.orders.attributes.payment_status.unpaid')
+            label: 'Unpaid'
           }
         ]
       }
     }
   },
   {
-    label: t('common.filters_instructions.fulfillment_status'),
+    label: 'Fulfillment status',
     type: 'options',
     sdk: {
       predicate: 'fulfillment_status_in'
@@ -104,32 +103,26 @@ export const instructions: FiltersInstructions = [
         options: [
           {
             value: 'unfulfilled',
-            label: t(
-              'resources.orders.attributes.fulfillment_status.unfulfilled'
-            )
+            label: 'Unfulfilled'
           },
           {
             value: 'in_progress',
-            label: t(
-              'resources.orders.attributes.fulfillment_status.in_progress'
-            )
+            label: 'In progress'
           },
           {
             value: 'fulfilled',
-            label: t('resources.orders.attributes.fulfillment_status.fulfilled')
+            label: 'Fulfilled'
           },
           {
             value: 'not_required',
-            label: t(
-              'resources.orders.attributes.fulfillment_status.not_required'
-            )
+            label: 'Not required'
           }
         ]
       }
     }
   },
   {
-    label: t('common.filters_instructions.archived'),
+    label: 'Archived',
     type: 'options',
     sdk: {
       predicate: 'archived_at_null',
@@ -144,19 +137,19 @@ export const instructions: FiltersInstructions = [
         options: [
           {
             value: 'only',
-            label: t('common.filters_instructions.only_archived')
+            label: 'Only archived'
           },
           {
             value: 'hide',
-            label: t('common.filters_instructions.hide_archived')
+            label: 'Hide archived'
           },
-          { value: 'show', label: t('common.filters_instructions.show_all') }
+          { value: 'show', label: 'Show all, both archived and not' }
         ]
       }
     }
   },
   {
-    label: t('common.filters_instructions.time_range'),
+    label: 'Time range',
     type: 'timeRange',
     sdk: {
       predicate: 'updated_at'
@@ -166,7 +159,7 @@ export const instructions: FiltersInstructions = [
     }
   },
   {
-    label: t('common.filters_instructions.search'),
+    label: 'Search',
     type: 'textSearch',
     sdk: {
       predicate: 'number_or_email_cont'
@@ -176,7 +169,7 @@ export const instructions: FiltersInstructions = [
     }
   },
   {
-    label: t('common.filters_instructions.name'),
+    label: 'Name',
     type: 'textSearch',
     sdk: {
       predicate: 'name_eq'
@@ -186,7 +179,7 @@ export const instructions: FiltersInstructions = [
     }
   },
   {
-    label: t('common.filters_instructions.amount'),
+    label: 'Amount',
     type: 'currencyRange',
     sdk: {
       predicate: 'total_amount_cents'
@@ -194,7 +187,7 @@ export const instructions: FiltersInstructions = [
     render: {
       component: 'inputCurrencyRange',
       props: {
-        label: t('common.filters_instructions.amount')
+        label: 'Amount'
       }
     }
   }

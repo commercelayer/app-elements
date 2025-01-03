@@ -1,4 +1,3 @@
-import { formatResourceName } from '#helpers/resources'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import {
@@ -8,6 +7,7 @@ import {
 import { type ResourceListProps } from '#ui/resources/useResourceList/useResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
 import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   FiltersForm as FiltersFormComponent,
   type FiltersFormProps
@@ -110,6 +110,7 @@ export function useResourceFilters({
   predicateWhitelist = []
 }: UseResourceFiltersConfig): UseResourceFiltersHook {
   const { user } = useTokenProvider()
+  const { t } = useTranslation()
   const [sdkFilters, setSdkFilters] = useState<QueryFilter>()
   const queryString = window.location.search
 
@@ -149,16 +150,7 @@ export function useResourceFilters({
         <ResourceListComponent
           {...resourceListProps}
           type={type}
-          title={
-            hideTitle === true
-              ? undefined
-              : hasActiveFilter
-                ? 'Results'
-                : `All ${formatResourceName({
-                    resource: type,
-                    count: 'plural'
-                  })}`
-          }
+          title={hideTitle === true ? undefined : t('common.all')}
           query={{
             ...query,
             filters: sdkFilters
@@ -202,7 +194,7 @@ export function useResourceFilters({
             <Spacer bottom='2'>
               <FiltersSearchBar
                 queryString={queryStringProp}
-                placeholder={searchBarPlaceholder ?? 'Search...'}
+                placeholder={searchBarPlaceholder ?? t('common.search')}
                 debounceMs={searchBarDebounceMs}
                 instructions={validInstructions}
                 onUpdate={onUpdate}

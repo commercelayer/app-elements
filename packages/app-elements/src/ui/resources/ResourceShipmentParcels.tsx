@@ -10,7 +10,7 @@ import {
   type TrackingDetail
 } from '#helpers/tracking'
 import { useOverlay } from '#hooks/useOverlay'
-import { t } from '#providers/I18NProvider'
+import { t, useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
@@ -116,6 +116,7 @@ const Parcel = withSkeletonTemplate<{
   showEstimatedDelivery?: boolean
   onRemove?: () => void
 }>(({ parcel, rate, showEstimatedDelivery = false, onRemove }) => {
+  const { t } = useTranslation()
   const itemsLength =
     parcel.parcel_line_items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
 
@@ -139,7 +140,9 @@ const Parcel = withSkeletonTemplate<{
           <FlexRow>
             <Text variant='info'>{t('common.parcel_total')}</Text>
             <Text weight='semibold'>
-              {itemsLength} {itemsLength > 1 ? 'items' : 'item'}
+              {t('apps.shipments.details.parcel_item', {
+                count: itemsLength
+              })}
             </Text>
           </FlexRow>
           <Spacer top='4'>
