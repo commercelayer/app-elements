@@ -7,6 +7,7 @@ const it: typeof en = {
     new_resource: 'Crea {{resource}}',
     missing_resource: '{{resource}} mancante',
     add_up_to: 'Puoi aggiungere fino a {{limit}} {{resource}}.',
+    all: 'Tutti',
     all_items: 'Tutti gli elementi',
     amount: 'Importo',
     apply: 'Applica',
@@ -37,7 +38,7 @@ const it: typeof en = {
     filters: 'Filtri',
     from: 'Dal',
     to: 'Al',
-    info: 'Informazioni',
+    info: 'Info',
     limit_reached: 'Limite raggiunto',
     loading: 'Caricamento...',
     manage_resource: 'Gestisci {{resource}}',
@@ -58,7 +59,7 @@ const it: typeof en = {
     reference: 'Referenza',
     reference_origin: 'Origine referenza',
     remove: 'Rimuovi',
-    restocked: 'Rifornito',
+    restocked: 'Riassortito',
     retry: 'Riprova',
     saving: 'Salvataggio...',
     search: 'Cerca...',
@@ -139,7 +140,7 @@ const it: typeof en = {
       left_a_refund_note: 'ha lasciato una nota di rimborso',
       resources: {
         order_is: "L'ordine è",
-        order_was: "L'Ordine è stato",
+        order_was: "L'ordine è stato",
         order_created: 'creato',
         order_placed: 'piazzato',
         order_cancelled: 'annullato',
@@ -150,17 +151,17 @@ const it: typeof en = {
         order_fulfillment_is: "L'evasione dell'ordine è",
         order_fulfillment_in_progress: 'in corso',
         order_fulfillment_not_required: 'non richiesto',
-        return_number_was: 'Reso #{{number}} era stato',
+        return_number_was: 'Reso #{{number}} è stato',
         return_approved: 'approvato',
         return_cancelled: 'annullato',
         return_received: 'ricevuto',
         return_rejected: 'rifiutato',
         return_shipped: 'spedito',
-        payment_of_was: 'Il pagamento di {{amount}} era stato',
+        payment_of_was: 'Il pagamento di {{amount}} è stato',
         stock_transfer_completed: 'completato',
         shipment_number_is: 'La spedizione #{{number}} è',
         shipment_number_isbeing: 'La spedizione #{{number}} sta per essere',
-        shipment_number_was: 'La spedizione #{{number}} era',
+        shipment_number_was: 'La spedizione #{{number}} è',
         shipment_on_hold: 'in attesa',
         shipment_picked: 'presa',
         shipment_packed: 'imballata',
@@ -178,19 +179,6 @@ const it: typeof en = {
         'Gentile cliente,\nClicca su questo link per completare il tuo ordine #{{number}}: {{url}}\n\nGrazie,\nIl team di {{organization}}',
       share_whatsapp_text:
         'Apri questo link per completare il tuo ordine *#{{number}}*: {{url}}'
-    },
-    filters_instructions: {
-      order_status: 'Stato ordine',
-      payment_status: 'Stato pagamento',
-      fulfillment_status: 'Stato spedizione',
-      archived: 'Archiviati',
-      only_archived: 'Solo archiviati',
-      hide_archived: 'Nascondi archiviati',
-      show_all: 'Mostra tutti, sia archiviati che non',
-      time_range: 'Intervallo di tempo',
-      search: 'Cerca',
-      name: 'Nome',
-      amount: 'Importo'
     },
     tracking_details: {
       contents_type: 'Tipo di contenuto',
@@ -529,18 +517,18 @@ const it: typeof en = {
         confirm_return_cancellation:
           'Sei sicuro di voler cancellare il reso #{{number}}',
         delete_error: "Errore durante l'eliminazione del reso",
-        info: 'Informazioni',
+        info: 'Info',
         timeline_requested_return:
           '{{email}} ha richiesto un reso di {{count}} prodotto',
         timeline_requested_return_other:
           '{{email}} ha richiesto un reso di {{count}} prodotti',
-        timeline_shipped: 'Il resto è stato <strong>spedito</strong>',
-        timeline_received: 'Il resto è stato <strong>ricevuto</strong>',
-        timeline_cancelled: 'Il resto è stato <strong>cancellato</strong>',
-        timeline_archived: 'Il resto è stato <strong>archiviato</strong>',
-        timeline_approved: 'Il resto è stato <strong>approvato</strong>',
+        timeline_shipped: 'Il reso è stato <strong>spedito</strong>',
+        timeline_received: 'Il reso è stato <strong>ricevuto</strong>',
+        timeline_cancelled: 'Il reso è stato <strong>cancellato</strong>',
+        timeline_archived: 'Il reso è stato <strong>archiviato</strong>',
+        timeline_approved: 'Il reso è stato <strong>approvato</strong>',
         timeline_item_code_restocked:
-          'Il prodotto {{code}} è stato <strong>rifornito</strong>',
+          'Il prodotto {{code}} è stato <strong>riassortito</strong>',
         timeline_payment_of_amount_was_action:
           'Il pagamento di {{amount}} è stato <strong>{{action}}</strong>',
         timeline_action_of_amount_failed:
@@ -549,9 +537,9 @@ const it: typeof en = {
       tasks: {
         open: 'Aperti',
         browse: 'Altro',
-        requested: 'Richiesti',
-        approved: 'Approvati',
-        shipped: 'Inviati',
+        requested: 'Da approvare',
+        approved: 'Da spedire',
+        shipped: 'Da ricevere',
         all_returns: 'Tutti i resi',
         archived: 'Archiviati'
       },
@@ -565,7 +553,7 @@ const it: typeof en = {
         cancel: 'Annulla reso',
         ship: 'Segna come spedito',
         receive: 'Ricevuto',
-        restock: 'Rifornisci',
+        restock: 'Restock',
         archive: 'Archivia',
         unarchive: 'Ripristina',
         refund: 'Emetti un rimborso'
@@ -590,7 +578,9 @@ const it: typeof en = {
         origin: 'Magazzino di partenza',
         ship_from: 'Partenza da',
         ship_to: 'Destinazione',
-        weight: 'Peso'
+        weight: 'Peso',
+        parcel_item: '{{count}} prodotto',
+        parcel_item_other: '{{count}} prodotti'
       },
       tasks: {
         pending: 'Aperte',
@@ -654,7 +644,8 @@ const it: typeof en = {
         no_packages_found: 'Nessun imballo trovato in questo magazzino',
         select_package: 'Seleziona un imballo',
         packing_items: 'Prodotti',
-        pack_items: 'Imballa elementi · {{items}}'
+        pack_items: 'Imballa elementi · {{items}}',
+        more_options: 'Altre opzioni'
       }
     },
     promotions: {

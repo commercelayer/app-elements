@@ -531,7 +531,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.shipment_number_isbeing', {
-                    number: shipment.number
+                    number: shipment.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.shipment_packed')}
@@ -550,7 +551,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.shipment_number_is', {
-                    number: shipment.number
+                    number: shipment.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.shipment_ready_to_ship')}

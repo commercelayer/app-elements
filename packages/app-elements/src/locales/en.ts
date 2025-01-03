@@ -228,6 +228,7 @@ const en = {
     missing_resource: 'Missing {{resource}}',
     update_resource: 'Update {{resource}}',
     add_up_to: 'You can add up to {{limit}} {{resource}}.',
+    all: 'All',
     all_items: 'All items',
     amount: 'Amount',
     apply: 'Apply',
@@ -393,19 +394,6 @@ const en = {
         'Dear customer,\nplease follow this link to checkout your order #{{number}: \n{{url}}\nThank you,\nThe {{organization}} team',
       share_whatsapp_text:
         'Please follow this link to checkout your order *#{{number}}*: {{url}}'
-    },
-    filters_instructions: {
-      order_status: 'Order status',
-      payment_status: 'Payment status',
-      fulfillment_status: 'Fulfillment status',
-      archived: 'Archived',
-      only_archived: 'Only archived',
-      hide_archived: 'Hide archived',
-      show_all: 'Show all, both archived and not',
-      time_range: 'Time range',
-      search: 'Search',
-      name: 'Name',
-      amount: 'Amount'
     },
     tracking_details: {
       contents_type: 'Contents type',
@@ -604,7 +592,9 @@ const en = {
         ship_from: 'Ship from',
         ship_to: 'Ship to',
         origin: 'Origin',
-        weight: 'Weight'
+        weight: 'Weight',
+        parcel_item: '{{count}} item',
+        parcel_item_other: '{{count}} items'
       },
       tasks: {
         pending: 'Pending',
@@ -668,7 +658,8 @@ const en = {
         no_packages_found: 'No packages found for current stock location',
         select_package: 'Select a package',
         packing_items: 'items',
-        pack_items: 'Pack · {{items}}'
+        pack_items: 'Pack · {{items}}',
+        more_options: 'More options'
       }
     },
     promotions: {
