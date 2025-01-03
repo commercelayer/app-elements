@@ -11,6 +11,7 @@ export default [
     age: 35,
     height: 1.8,
     is_vip: true,
+    microstore_i18n_en_reference_name: "Men's T-Shirt with black logo",
     other: { pet: 'cat' }
   }),
   ...mockCustomer('ASEYfdNrwa', {
