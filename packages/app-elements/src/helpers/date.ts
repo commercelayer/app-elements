@@ -199,7 +199,8 @@ function getPresetFormatTemplate(
       )}`
     case 'distanceToNow':
       return `'${formatDistance(zonedDate, toZonedTime(new Date(), timezone), {
-        addSuffix: true
+        addSuffix: true,
+        locale: getLocaleOption(locale)
       })}'`
   }
 }
@@ -350,9 +351,13 @@ export function formatDateRange({
   )
 
   if (isSameYear(zonedFrom, zonedTo) && isSameMonth(zonedFrom, zonedTo)) {
-    const dayOfMonthFrom = format(zonedFrom, 'd')
-    const dayOfMonthTo = format(zonedTo, 'd')
-    const month = format(zonedFrom, 'LLL')
+    const dayOfMonthFrom = format(zonedFrom, 'd', {
+      locale: getLocaleOption(locale)
+    })
+    const dayOfMonthTo = format(zonedTo, 'd', {
+      locale: getLocaleOption(locale)
+    })
+    const month = format(zonedFrom, 'LLL', { locale: getLocaleOption(locale) })
     const year = isThisYear(zonedFrom) ? '' : `, ${format(zonedFrom, 'yyyy')}`
 
     return `${dayOfMonthFrom}-${dayOfMonthTo} ${month}${year}`
@@ -491,9 +496,7 @@ export function makeDateYearsRange({
 /**
  * Get the locale object from date-fns/locale for the given locale code.
  */
-function getLocaleOption(
-  locale: I18NLocale
-): Pick<Locale, 'options' | 'localize' | 'formatLong'> | undefined {
+function getLocaleOption(locale: I18NLocale): Locale | undefined {
   switch (locale) {
     case 'it':
       return it
