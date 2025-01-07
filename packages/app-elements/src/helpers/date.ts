@@ -133,6 +133,7 @@ export function formatDateWithPredicate({
   predicate,
   locale = 'en-US'
 }: FormatDateWithPredicateOptions): string {
+  const todayText = i18n(locale).today
   const formattedDate = formatDate({
     isoDate,
     timezone,
@@ -140,9 +141,9 @@ export function formatDateWithPredicate({
     locale
   })
     // Replace the first occurrence of 'Today' with 'today' in lowercase
-    .replace(i18n(locale).today, i18n(locale).today.toLowerCase())
+    .replace(todayText, todayText.toLowerCase())
 
-  const separator = !formattedDate.includes('today')
+  const separator = !formattedDate.includes(todayText.toLowerCase())
     ? `${getDatePredicateSeparatorByFormat(format, locale)}`
     : ''
 

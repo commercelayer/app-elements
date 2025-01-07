@@ -1,5 +1,4 @@
 import { formatResourceName } from '#helpers/resources'
-import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { EmptyState } from '#ui/atoms/EmptyState'
@@ -7,6 +6,7 @@ import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import { Suspense, lazy } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { SetRequired } from 'type-fest'
 import type {
   RouteComponentProps,
@@ -66,9 +66,7 @@ export function Routes<T extends Record<string, { path: string }>>({
 
         if (route?.path == null) {
           throw new Error(
-            t('common.routes.missing_configuration', {
-              component: '<Routes routes=".." list=".." />'
-            })
+            'Missing configuration when defining <Routes routes=".." list=".." />'
           )
         }
 
@@ -121,9 +119,7 @@ export function LoadingPage({
       <SkeletonTemplate isLoading>
         <PageLayout
           title={
-            <SkeletonTemplate isLoading>
-              {t('common.routes.loading_app_page')}
-            </SkeletonTemplate>
+            <SkeletonTemplate isLoading>Loading app page...</SkeletonTemplate>
           }
           mode={mode}
           gap='only-top'
@@ -145,6 +141,8 @@ export function GenericPageNotFound({
   resource?: ListableResourceType
 }): JSX.Element {
   const [, setLocation] = useLocation()
+  const { t } = useTranslation()
+
   return (
     <PageLayout title=''>
       <EmptyState

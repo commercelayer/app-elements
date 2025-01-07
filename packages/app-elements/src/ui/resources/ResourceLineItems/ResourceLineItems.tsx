@@ -2,7 +2,7 @@ import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import { navigateTo } from '#helpers/appsNavigation'
 import { formatDateWithPredicate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t, type I18NLocale } from '#providers/I18NProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
@@ -174,7 +174,6 @@ export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
 export const ResourceLineItems = withSkeletonTemplate<Props>(
   ({ items, size = 'normal', footer, editable = false, onChange, onSwap }) => {
     const { user } = useTokenProvider()
-    const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
 
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
@@ -331,7 +330,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                                 predicate: t('common.restocked'),
                                 isoDate: lineItem.restocked_at,
                                 timezone: user?.timezone,
-                                locale
+                                locale: user?.locale
                               })}
                             </div>
                           </Badge>

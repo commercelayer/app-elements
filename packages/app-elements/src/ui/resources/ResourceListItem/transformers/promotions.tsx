@@ -1,6 +1,5 @@
 import { getPromotionDisplayStatus } from '#dictionaries/promotions'
 import { formatDateRange } from '#helpers/date'
-import { type I18NLocale } from '#providers/I18NProvider'
 import { Badge } from '#ui/atoms/Badge'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
@@ -35,7 +34,6 @@ export const promotionToProps: ResourceToProps<Promotion> = ({
   user
 }) => {
   const displayStatus = getPromotionDisplayStatus(resource)
-  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
 
   const hasCoupons = resource.coupon_codes_promotion_rule != null
 
@@ -62,7 +60,7 @@ export const promotionToProps: ResourceToProps<Promotion> = ({
           rangeFrom: resource.starts_at,
           rangeTo: resource.expires_at,
           timezone: user?.timezone,
-          locale
+          locale: user?.locale
         })}
       />
     ),

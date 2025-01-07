@@ -1,6 +1,6 @@
 import { formatDateRange } from '#helpers/date'
 import { useCoreApi } from '#providers/CoreSdkProvider'
-import { t, type I18NLocale } from '#providers/I18NProvider'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { ButtonFilter } from '#ui/atoms/ButtonFilter'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -74,7 +74,6 @@ export function FiltersNav({
   predicateWhitelist
 }: FiltersNavProps): JSX.Element {
   const { user } = useTokenProvider()
-  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
 
   const {
     adaptUrlQueryToFormValues,
@@ -345,7 +344,7 @@ export function FiltersNav({
             rangeFrom: selectedTimeFrom.toString(),
             rangeTo: selectedTimeTo.toString(),
             timezone: user?.timezone ?? getDefaultBrowserTimezone(),
-            locale
+            locale: user?.locale
           })}
           onClick={() => {
             onLabelClickHandler('timePreset')

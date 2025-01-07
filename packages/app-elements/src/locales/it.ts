@@ -109,9 +109,6 @@ const it: typeof en = {
     },
     generic_select_autocomplete_hint: 'Digita per cercare più opzioni.',
     routes: {
-      missing_configuration:
-        'Configurazione mancante durante la definizione di {{component}}',
-      loading_app_page: 'Caricamento pagina app...',
       page_not_found: 'Pagina non trovata',
       invalid_resource: 'Risorsa {{resource}} non valida',
       invalid_resource_or_not_authorized:

@@ -326,9 +326,6 @@ const en = {
       required_field: 'Required field'
     },
     routes: {
-      missing_configuration:
-        'Missing configuration when defining {{component}}',
-      loading_app_page: 'Loading app page...',
       page_not_found: 'Page not found',
       invalid_resource: 'Invalid {{resource}}',
       invalid_resource_or_not_authorized:
