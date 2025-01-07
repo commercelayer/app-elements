@@ -417,7 +417,9 @@ const it: typeof en = {
         groups: 'Gruppi',
         confirm_customer_delete: 'Sei sicuro di voler eliminare {{email}}?',
         customer_cannot_be_deleted:
-          'Il cliente non può essere eliminato tramite la nostra dashboard'
+          'Il cliente non può essere eliminato tramite la nostra dashboard',
+        customer_cannot_be_deleted_description:
+          "Inviare una richiesta a <a>{{support_email}}</a> specificando il nome dell'organizzazione e l'email del cliente."
       },
       form: {
         customer_group_label: 'Gruppo',

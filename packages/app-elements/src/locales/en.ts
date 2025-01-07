@@ -431,7 +431,9 @@ const en = {
         groups: 'Groups',
         confirm_customer_delete: 'Confirm that you want to delete {{email}}',
         customer_cannot_be_deleted:
-          'Customer cannot be deleted from our dashboard'
+          'Customer cannot be deleted from our dashboard',
+        customer_cannot_be_deleted_description:
+          "Please send a request to <a>support</a> specifying the organization name and the customer's email."
       },
       form: {
         customer_group_label: 'Group',
