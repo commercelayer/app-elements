@@ -1,4 +1,4 @@
-import { I18NProvider, useTranslation } from '#providers/I18NProvider'
+import { useTranslation } from '#providers/I18NProvider'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { PageLayout } from '#ui/composite/PageLayout'
@@ -8,33 +8,20 @@ import {
   type InputSelectValue
 } from '#ui/forms/InputSelect'
 import { type PossibleSelectValue } from '#ui/forms/InputSelect/InputSelect'
-import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
 const setup: Meta = {
   title: 'Examples/I18N',
   parameters: {
-    layout: 'fullscreen',
-    docs: {
-      page: () => (
-        <>
-          <I18NProvider localeCode='en'>
-            <Title />
-            <Subtitle />
-            <Description />
-            <Primary />
-          </I18NProvider>
-        </>
-      )
-    }
+    layout: 'fullscreen'
   }
 }
 
 export const Default: StoryFn = (): JSX.Element => {
   const languages = [
-    { value: 'en', label: 'English' },
-    { value: 'it', label: 'Italiano' }
+    { value: 'en-US', label: 'English' },
+    { value: 'it-IT', label: 'Italiano' }
   ]
 
   const { t, i18n } = useTranslation()

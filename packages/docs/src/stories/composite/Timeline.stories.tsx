@@ -1,4 +1,3 @@
-import { I18NProvider } from '#providers/I18NProvider'
 import { Text } from '#ui/atoms/Text'
 import { Timeline } from '#ui/composite/Timeline'
 
@@ -14,11 +13,7 @@ const setup: Meta<typeof Timeline> = {
 }
 export default setup
 
-const Template: StoryFn<typeof Timeline> = (args) => (
-  <I18NProvider localeCode='it'>
-    <Timeline {...args} />
-  </I18NProvider>
-)
+const Template: StoryFn<typeof Timeline> = (args) => <Timeline {...args} />
 
 export const Default = Template.bind({})
 Default.args = {

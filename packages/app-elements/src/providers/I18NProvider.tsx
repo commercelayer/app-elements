@@ -1,8 +1,7 @@
 import { LoadingPage } from '#ui/composite/Routes/Routes'
 import i18n, { type i18n as I18nInstance } from 'i18next'
-import LanguageDetector from 'i18next-browser-languagedetector'
 import resourcesToBackend from 'i18next-resources-to-backend'
-import React, { type ReactNode, useEffect, useState } from 'react'
+import React, { useEffect, useState, type ReactNode } from 'react'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
 import type en from '../locales/en'
 import { useTokenProvider } from './TokenProvider'
@@ -10,7 +9,7 @@ import { useTokenProvider } from './TokenProvider'
 export { t } from 'i18next'
 export { Trans, useTranslation } from 'react-i18next'
 
-export const i18nLocales = ['en', 'it'] as const
+export const i18nLocales = ['en-US', 'it-IT'] as const
 export type I18NLocale = (typeof i18nLocales)[number]
 
 declare module 'i18next' {
@@ -23,19 +22,20 @@ declare module 'i18next' {
 }
 
 interface I18NProviderProps {
-  localeCode: I18NLocale
-  enforceLocale?: boolean
+  /** Optional locale to use for i18n translations that will override the locale set in the user's token. */
+  enforcedLocaleCode?: I18NLocale
+  /**
+   * The children to render.
+   */
   children: ReactNode
 }
 
 export const I18NProvider: React.FC<I18NProviderProps> = ({
-  localeCode = i18nLocales[0],
-  children
+  children,
+  enforcedLocaleCode
 }) => {
   const { user } = useTokenProvider()
-  const userLocale = user?.locale.split('-')[0]
-  localeCode = isValidLocaleCode(userLocale) ? userLocale : localeCode
-
+  const localeCode = enforcedLocaleCode ?? user?.locale ?? i18nLocales[0]
   const [i18nInstance, setI18nInstance] = useState<I18nInstance | undefined>()
 
   useEffect(() => {
@@ -58,6 +58,15 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
     }
   }, [localeCode, i18nInstance])
 
+  useEffect(() => {
+    if (
+      i18nInstance?.isInitialized === true &&
+      i18nInstance.language !== enforcedLocaleCode
+    ) {
+      void i18nInstance.changeLanguage(enforcedLocaleCode)
+    }
+  }, [enforcedLocaleCode])
+
   if (
     i18nInstance == null ||
     (i18nInstance != null && !i18nInstance.isInitialized)
@@ -72,15 +81,13 @@ const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
   await i18n
     .use(
       resourcesToBackend(
-        async (language: I18NLocale) =>
-          await import(`../locales/${language}.ts`)
+        async (lang: I18NLocale) =>
+          await import(`../locales/${getLocaleFileName(lang)}.ts`)
       )
     )
-    .use(LanguageDetector)
     .use(initReactI18next)
     .init({
       load: 'languageOnly',
-      supportedLngs: i18nLocales,
       lng: localeCode,
       fallbackLng: i18nLocales[0],
       react: {
@@ -91,6 +98,6 @@ const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
   return i18n
 }
 
-function isValidLocaleCode(localeCode?: string): localeCode is I18NLocale {
-  return i18nLocales.includes(localeCode as I18NLocale)
+function getLocaleFileName(lang?: I18NLocale): string {
+  return lang?.split('-')[0] === 'it' ? 'it' : 'en'
 }

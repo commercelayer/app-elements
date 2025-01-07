@@ -83,8 +83,8 @@ export const withContainer: Decorator = (Story, context) => {
 }
 
 export const withLocale: Decorator = (Story, context) => {
-  const localeCode = 'it'
-  return <I18NProvider localeCode={localeCode}><Story /></I18NProvider>
+  const locale = 'en-US'
+  return <I18NProvider enforcedLocaleCode={locale}><Story /></I18NProvider>
 }
 
 export const decorators: Decorator[] = [

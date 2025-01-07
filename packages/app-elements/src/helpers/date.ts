@@ -115,9 +115,9 @@ function getDatePredicateSeparatorByFormat(
       return ''
     case 'time':
     case 'timeWithSeconds':
-      return `${i18n[locale].at} `
+      return `${i18n(locale).at} `
     default:
-      return `${i18n[locale].on} `
+      return `${i18n(locale).on} `
   }
 }
 
@@ -140,7 +140,7 @@ export function formatDateWithPredicate({
     locale
   })
     // Replace the first occurrence of 'Today' with 'today' in lowercase
-    .replace(i18n[locale].today, i18n[locale].today.toLowerCase())
+    .replace(i18n(locale).today, i18n(locale).today.toLowerCase())
 
   const separator = !formattedDate.includes('today')
     ? `${getDatePredicateSeparatorByFormat(format, locale)}`
@@ -161,7 +161,7 @@ function getPresetFormatTemplate(
   switch (format) {
     case 'date':
       return isToday(zonedDate) && !showCurrentYear
-        ? `'${i18n[locale].today}'`
+        ? `'${i18n(locale).today}'`
         : isThisYear(zonedDate) && !showCurrentYear
           ? 'LLL dd'
           : 'LLL dd, yyyy'
@@ -388,7 +388,7 @@ export function sortAndGroupByDate<T extends Event>(
     locale,
     orders = 'desc'
   }: { timezone?: string; locale: I18NLocale; orders?: 'asc' | 'desc' } = {
-    locale: 'en'
+    locale: 'en-US'
   }
 ): Record<
   string,
@@ -498,23 +498,31 @@ export function makeDateYearsRange({
  */
 function getLocaleOption(locale: I18NLocale): Locale | undefined {
   switch (locale) {
-    case 'it':
+    case 'it-IT':
       return it
-    case 'en':
+    case 'en-US':
     default:
       return undefined
   }
 }
 
-const i18n = {
-  en: {
-    today: 'Today',
-    at: 'at',
-    on: 'on'
-  },
-  it: {
-    today: 'Oggi',
-    at: 'alle',
-    on: 'il'
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function i18n(localeCode: I18NLocale) {
+  const locale = {
+    en: {
+      today: 'Today',
+      at: 'at',
+      on: 'on'
+    },
+    it: {
+      today: 'Oggi',
+      at: 'alle',
+      on: 'il'
+    }
   }
+
+  if (localeCode === 'it-IT') {
+    return locale.it
+  }
+  return locale.en
 }

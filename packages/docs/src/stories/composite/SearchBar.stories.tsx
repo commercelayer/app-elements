@@ -1,25 +1,11 @@
-import { I18NProvider } from '#providers/I18NProvider'
 import { SearchBar } from '#ui/composite/SearchBar'
-import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
 import type { Meta, StoryObj } from '@storybook/react'
 
 const meta: Meta<typeof SearchBar> = {
   title: 'Composite/SearchBar',
   component: SearchBar,
   parameters: {
-    layout: 'padded',
-    docs: {
-      page: () => (
-        <>
-          <I18NProvider localeCode='it'>
-            <Title />
-            <Subtitle />
-            <Description />
-            <Primary />
-          </I18NProvider>
-        </>
-      )
-    }
+    layout: 'padded'
   }
 }
 

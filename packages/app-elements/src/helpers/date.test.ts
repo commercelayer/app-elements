@@ -21,24 +21,24 @@ describe('formatDate', () => {
   })
 
   test('Should not break when date format is wrong', () => {
-    expect(formatDate({ isoDate: '20221T15:35:42.315Z', locale: 'en' })).toBe(
-      'N/A'
-    )
+    expect(
+      formatDate({ isoDate: '20221T15:35:42.315Z', locale: 'en-US' })
+    ).toBe('N/A')
   })
 
   test('Should not break if date is empty string', () => {
-    expect(formatDate({ isoDate: '', locale: 'en' })).toBe('N/A')
+    expect(formatDate({ isoDate: '', locale: 'en-US' })).toBe('N/A')
   })
 
   test('Should not break if no date is passed', () => {
-    expect(formatDate({ isoDate: undefined, locale: 'en' })).toBe('N/A')
+    expect(formatDate({ isoDate: undefined, locale: 'en-US' })).toBe('N/A')
   })
 
   test('Should return a nice date string', () => {
     expect(
       formatDate({
         isoDate: '2022-10-14T14:32:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 14, 2022')
   })
@@ -48,7 +48,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-10-14T14:32:00.000Z',
         format: 'date',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 14')
   })
@@ -58,7 +58,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2022-10-14T14:32:00.000Z',
         format: 'date',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 14, 2022')
   })
@@ -68,7 +68,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-12-25T14:32:00.000Z',
         format: 'date',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Today')
   })
@@ -79,7 +79,7 @@ describe('formatDate', () => {
         isoDate: '2023-12-25T00:32:00.000Z',
         format: 'fullWithSeconds',
         showCurrentYear: true,
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toContain('00:32')
   })
@@ -90,7 +90,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'full',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Feb 22, 10:32')
 
@@ -99,7 +99,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2022-10-26T16:16:31.279Z',
         format: 'full',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 26, 2022, 16:16')
   })
@@ -110,7 +110,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'fullWithSeconds',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Feb 22, 10:32:47')
 
@@ -119,7 +119,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2022-10-26T16:16:31.279Z',
         format: 'fullWithSeconds',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 26, 2022, 16:16:31')
   })
@@ -130,7 +130,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-02-22T05:32:47.284Z',
         format: 'time',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('05:32')
 
@@ -139,7 +139,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2022-10-26T16:16:31.279Z',
         format: 'time',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('16:16')
   })
@@ -150,7 +150,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'timeWithSeconds',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('10:32:47')
 
@@ -159,7 +159,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2022-10-26T16:16:31.279Z',
         format: 'timeWithSeconds',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('16:16:31')
   })
@@ -171,7 +171,7 @@ describe('formatDate', () => {
         isoDate: '2022-10-26T16:16:31.279Z',
         timezone: 'Australia/Sydney',
         format: 'date',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 27, 2022')
 
@@ -181,7 +181,7 @@ describe('formatDate', () => {
         isoDate: '2022-10-26T16:16:31.279Z',
         timezone: 'Europe/Rome',
         format: 'full',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Oct 26, 2022, 18:16')
   })
@@ -192,7 +192,7 @@ describe('formatDate', () => {
         isoDate: '2023-12-25T14:29:40.000Z',
         timezone: 'Australia/Sydney',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('less than a minute ago')
 
@@ -201,7 +201,7 @@ describe('formatDate', () => {
         isoDate: '2023-12-25T14:29:40.000Z',
         timezone: 'Europe/Rome',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('less than a minute ago')
 
@@ -210,7 +210,7 @@ describe('formatDate', () => {
         isoDate: '2023-12-25T14:30:10.000Z',
         timezone: 'Europe/Rome',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('in less than a minute')
 
@@ -219,7 +219,7 @@ describe('formatDate', () => {
         isoDate: '2023-12-25T14:23:00.000Z',
         timezone: 'Europe/Rome',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('7 minutes ago')
 
@@ -228,7 +228,7 @@ describe('formatDate', () => {
         isoDate: '2023-12-25T14:37:00.000Z',
         timezone: 'Europe/Rome',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('in 7 minutes')
 
@@ -236,7 +236,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2023-02-27T16:00:00.000Z',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('10 months ago')
 
@@ -244,7 +244,7 @@ describe('formatDate', () => {
       formatDate({
         isoDate: '2024-10-27T16:00:00.000Z',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('in 10 months')
   })
@@ -264,7 +264,7 @@ describe('formatDateWithPredicate', () => {
       formatDateWithPredicate({
         predicate: 'Created',
         isoDate: '2022-10-14T14:32:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Created on Oct 14, 2022, 14:32')
   })
@@ -275,7 +275,7 @@ describe('formatDateWithPredicate', () => {
         predicate: 'Updated',
         isoDate: '2023-10-14T14:32:00.000Z',
         format: 'date',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Updated on Oct 14')
   })
@@ -286,7 +286,7 @@ describe('formatDateWithPredicate', () => {
         predicate: 'Created',
         isoDate: '2023-12-25T14:32:00.000Z',
         format: 'date',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Created today')
   })
@@ -297,7 +297,7 @@ describe('formatDateWithPredicate', () => {
         predicate: 'Updated',
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'full',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Updated on Feb 22, 10:32')
   })
@@ -308,7 +308,7 @@ describe('formatDateWithPredicate', () => {
         predicate: 'Updated',
         isoDate: '2023-02-22T10:32:47.284Z',
         format: 'fullWithSeconds',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Updated on Feb 22, 10:32:47')
   })
@@ -319,7 +319,7 @@ describe('formatDateWithPredicate', () => {
         predicate: 'Updated',
         isoDate: '2023-02-22T05:32:47.284Z',
         format: 'time',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Updated at 05:32')
   })
@@ -331,7 +331,7 @@ describe('formatDateWithPredicate', () => {
         isoDate: '2023-12-25T14:29:50.000Z',
         timezone: 'Australia/Sydney',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Updated less than a minute ago')
 
@@ -341,7 +341,7 @@ describe('formatDateWithPredicate', () => {
         isoDate: '2023-12-25T14:30:10.000Z',
         timezone: 'Australia/Sydney',
         format: 'distanceToNow',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toBe('Expires in less than a minute')
   })
@@ -563,7 +563,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2024-01-01T14:30:00.000Z',
         rangeTo: '2024-02-29T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('Jan 01 - Feb 29')
   })
@@ -573,7 +573,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2024-01-01T14:30:00.000Z',
         rangeTo: '2024-01-31T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('1-31 Jan')
   })
@@ -583,7 +583,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2023-01-01T14:30:00.000Z',
         rangeTo: '2023-02-28T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('Jan 01, 2023 - Feb 28, 2023')
   })
@@ -593,7 +593,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2023-01-01T14:30:00.000Z',
         rangeTo: '2023-01-31T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('1-31 Jan, 2023')
   })
@@ -603,7 +603,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2023-01-01T14:30:00.000Z',
         rangeTo: '2024-01-31T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('Jan 01, 2023 - Jan 31')
   })
@@ -613,7 +613,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2023-12-01T14:30:00.000Z',
         rangeTo: '2024-01-31T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('Dec 01, 2023 - Jan 31')
   })
@@ -623,7 +623,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2024-12-01T14:30:00.000Z',
         rangeTo: '2025-01-31T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('Dec 01 - Jan 31, 2025')
   })
@@ -633,7 +633,7 @@ describe('formatDateRange should return the proper date format', () => {
       formatDateRange({
         rangeFrom: '2023-12-01T14:30:00.000Z',
         rangeTo: '2025-01-31T14:30:00.000Z',
-        locale: 'en'
+        locale: 'en-US'
       })
     ).toEqual('Dec 01, 2023 - Jan 31, 2025')
   })
