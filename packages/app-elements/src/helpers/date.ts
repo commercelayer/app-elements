@@ -56,7 +56,7 @@ interface FormatDateOptions {
    * Locale to use for formatting the date.
    * @default en
    */
-  locale: I18NLocale
+  locale?: I18NLocale
 }
 
 /**
@@ -67,7 +67,7 @@ interface FormatDateOptions {
 export function formatDate({
   isoDate,
   timezone = 'UTC',
-  locale,
+  locale = 'en-US',
   showCurrentYear = false,
   ...opts
 }: FormatDateOptions): string {
@@ -131,7 +131,7 @@ export function formatDateWithPredicate({
   timezone,
   format = 'full',
   predicate,
-  locale
+  locale = 'en-US'
 }: FormatDateWithPredicateOptions): string {
   const formattedDate = formatDate({
     isoDate,
@@ -329,7 +329,7 @@ export function formatDateRange({
   rangeFrom,
   rangeTo,
   timezone = 'UTC',
-  locale
+  locale = 'en-US'
 }: {
   /** JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z' */
   rangeFrom: DateISOString
@@ -338,7 +338,7 @@ export function formatDateRange({
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
   /** Locale to use for formatting the date. */
-  locale: I18NLocale
+  locale?: I18NLocale
 }): string {
   const offsetMilliseconds = getTimezoneOffset(timezone)
   const zonedFrom = toZonedTime(
@@ -387,9 +387,7 @@ export function sortAndGroupByDate<T extends Event>(
     timezone,
     locale,
     orders = 'desc'
-  }: { timezone?: string; locale: I18NLocale; orders?: 'asc' | 'desc' } = {
-    locale: 'en-US'
-  }
+  }: { timezone?: string; locale?: I18NLocale; orders?: 'asc' | 'desc' } = {}
 ): Record<
   string,
   Array<
