@@ -327,7 +327,7 @@ export function FiltersNav({
       {/* Time range preset */}
       {selectedTimePreset != null && selectedTimePreset !== 'custom' ? (
         <ButtonFilter
-          label={getTimeRangePresetName(selectedTimePreset)}
+          label={getTimeRangePresetName(selectedTimePreset, t)}
           onClick={() => {
             onLabelClickHandler('timePreset')
           }}
