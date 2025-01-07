@@ -10,7 +10,7 @@ import {
   type TrackingDetail
 } from '#helpers/tracking'
 import { useOverlay } from '#hooks/useOverlay'
-import { t, useTranslation } from '#providers/I18NProvider'
+import { t, useTranslation, type I18NLocale } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { A } from '#ui/atoms/A'
 import { Avatar } from '#ui/atoms/Avatar'
@@ -345,6 +345,7 @@ const TrackingDetails = withSkeletonTemplate<{
   rate?: Rate
 }>(({ parcel, rate }) => {
   const { user } = useTokenProvider()
+  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
 
   interface Event {
     date: string
@@ -425,7 +426,8 @@ const TrackingDetails = withSkeletonTemplate<{
               {formatDate({
                 isoDate: rate?.delivery_date,
                 format: 'date',
-                timezone: user?.timezone
+                timezone: user?.timezone,
+                locale
               })}
             </div>
           </div>
@@ -443,7 +445,8 @@ const TrackingDetails = withSkeletonTemplate<{
                 {formatDate({
                   isoDate: lastEvent.date,
                   format: 'full',
-                  timezone: user?.timezone
+                  timezone: user?.timezone,
+                  locale
                 })}
               </Text>
             </Text>
@@ -468,7 +471,8 @@ const TrackingDetails = withSkeletonTemplate<{
                             {formatDate({
                               format: 'time',
                               isoDate: event.date,
-                              timezone: user?.timezone
+                              timezone: user?.timezone,
+                              locale
                             })}
                           </div>
                         </td>

@@ -1,6 +1,6 @@
 import { formatDateRange } from '#helpers/date'
 import { useOverlay } from '#hooks/useOverlay'
-import { t } from '#providers/I18NProvider'
+import { t, type I18NLocale } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
@@ -23,6 +23,7 @@ interface FieldTimeRangeProps {
 export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
   const { user } = useTokenProvider()
   const { Overlay, close, open } = useOverlay()
+  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
 
   const { watch, setValue, trigger } = useFormContext<TimeRangeFormValues>()
   const timePreset = watch('timePreset')
@@ -75,7 +76,8 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
               ? formatDateRange({
                   rangeFrom: timeFrom.toString(),
                   rangeTo: timeTo.toString(),
-                  timezone: user?.timezone ?? getDefaultBrowserTimezone()
+                  timezone: user?.timezone ?? getDefaultBrowserTimezone(),
+                  locale
                 })
               : getTimeRangePresetName(option)
           return {

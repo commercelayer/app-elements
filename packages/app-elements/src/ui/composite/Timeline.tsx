@@ -1,5 +1,6 @@
 import { formatDate, sortAndGroupByDate } from '#helpers/date'
-import { t } from '#providers/I18NProvider'
+import { t, type I18NLocale } from '#providers/I18NProvider'
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Badge } from '#ui/atoms/Badge'
 import { Card } from '#ui/atoms/Card'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
@@ -29,13 +30,19 @@ export interface TimelineProps {
 
 export const Timeline = withSkeletonTemplate<TimelineProps>(
   ({ disabled, events, timezone, onChange, onKeyDown }) => {
+    const { user } = useTokenProvider()
+    const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
+
     const groupedEvents = useMemo(() => {
       const eventsWithIcon: EventWithIcon[] = events.map((event) => ({
         ...event,
         icon: getIcon(event)
       }))
 
-      return sortAndGroupByDate(eventsWithIcon, { timezone })
+      return sortAndGroupByDate(eventsWithIcon, {
+        timezone,
+        locale
+      })
     }, [events, timezone])
     return (
       <div data-testid='timeline'>
@@ -91,7 +98,8 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
                           {formatDate({
                             format: 'timeWithSeconds',
                             isoDate: event.date,
-                            timezone
+                            timezone,
+                            locale
                           })}
                         </Text>
                       </>

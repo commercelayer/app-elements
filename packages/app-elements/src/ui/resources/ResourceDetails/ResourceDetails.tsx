@@ -1,4 +1,5 @@
 import { formatDate } from '#helpers/date'
+import { type I18NLocale } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { Icon } from '#ui/atoms/Icon'
@@ -8,6 +9,7 @@ import { Text } from '#ui/atoms/Text'
 import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { FlexRow } from '#ui/internals/FlexRow'
 import { type ListableResourceType, type Resource } from '@commercelayer/sdk'
+import { useTranslation } from 'react-i18next'
 import { useEditDetailsOverlay } from './useEditDetailsOverlay'
 
 export interface ResourceDetailsProps {
@@ -21,6 +23,8 @@ export interface ResourceDetailsProps {
 export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
   ({ resource, onUpdated }) => {
     const { user, canUser } = useTokenProvider()
+    const { i18n } = useTranslation()
+    const locale = i18n.language as I18NLocale
     const { Overlay: EditDetailsOverlay, show } = useEditDetailsOverlay()
 
     const reference = [resource?.reference, resource?.reference_origin]
@@ -53,7 +57,8 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
                 isoDate: resource?.updated_at,
                 timezone: user?.timezone,
                 format: 'fullWithSeconds',
-                showCurrentYear: true
+                showCurrentYear: true,
+                locale
               })}
             </Text>
           </ListDetailsItem>
@@ -63,7 +68,8 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
                 isoDate: resource?.created_at,
                 timezone: user?.timezone,
                 format: 'fullWithSeconds',
-                showCurrentYear: true
+                showCurrentYear: true,
+                locale
               })}
             </Text>
           </ListDetailsItem>

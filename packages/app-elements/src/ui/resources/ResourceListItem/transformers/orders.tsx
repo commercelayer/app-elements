@@ -4,6 +4,7 @@ import {
 } from '#dictionaries/orders'
 import { formatDate } from '#helpers/date'
 import { formatDisplayName } from '#helpers/name'
+import { type I18NLocale } from '#providers/I18NProvider'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { Text } from '#ui/atoms/Text'
 import {
@@ -16,6 +17,7 @@ import { type ResourceToProps } from '../types'
 
 export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
   const displayStatus = getOrderDisplayStatus(resource)
+  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
 
   const billingAddress = resource.billing_address
   const descriptionAdditionalInfos = !isEmpty(billingAddress?.company)
@@ -33,7 +35,8 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
         date={formatDate({
           format: 'full',
           isoDate: resource.placed_at ?? resource.updated_at,
-          timezone: user?.timezone
+          timezone: user?.timezone,
+          locale
         })}
         additionalInfos={descriptionAdditionalInfos}
       />

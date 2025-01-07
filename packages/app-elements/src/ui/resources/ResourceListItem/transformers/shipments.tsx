@@ -1,5 +1,6 @@
 import { getShipmentDisplayStatus } from '#dictionaries/shipments'
 import { formatDate } from '#helpers/date'
+import { type I18NLocale } from '#providers/I18NProvider'
 import { RadialProgress } from '#ui/atoms/RadialProgress'
 import {
   ListItemDescription,
@@ -13,6 +14,8 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
   user,
   t
 }) => {
+  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
+
   const stockTransfersToBeAwaited =
     resource.stock_transfers?.filter(
       (stockTransfer) =>
@@ -40,7 +43,8 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
         date={formatDate({
           format: 'full',
           isoDate: resource.updated_at,
-          timezone: user?.timezone
+          timezone: user?.timezone,
+          locale
         })}
         additionalInfos={returnStockLocationName}
       />

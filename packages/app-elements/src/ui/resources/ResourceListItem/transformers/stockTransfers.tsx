@@ -1,5 +1,6 @@
 import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import { formatDate } from '#helpers/date'
+import { type I18NLocale } from '#providers/I18NProvider'
 import {
   ListItemDescription,
   ListItemIcon
@@ -13,6 +14,8 @@ export const stockTransferToProps: ResourceToProps<StockTransfer> = ({
   t
 }) => {
   const displayStatus = getStockTransferDisplayStatus(resource)
+  const locale = (user?.locale.split('-')[0] as I18NLocale) ?? 'en'
+
   const originStockLocationName =
     resource.origin_stock_location?.name != null
       ? `${t('common.from')} ${resource.origin_stock_location.name} `
@@ -31,7 +34,8 @@ export const stockTransferToProps: ResourceToProps<StockTransfer> = ({
         date={formatDate({
           format: 'full',
           isoDate: resource.updated_at,
-          timezone: user?.timezone
+          timezone: user?.timezone,
+          locale
         })}
         additionalInfos={`${originStockLocationName} · ${destinationStockLocationName}`}
       />

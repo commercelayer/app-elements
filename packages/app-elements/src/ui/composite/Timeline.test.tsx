@@ -1,5 +1,5 @@
-import { Timeline } from './Timeline'
 import { render } from '@testing-library/react'
+import { Timeline } from './Timeline'
 
 const events = [
   {
