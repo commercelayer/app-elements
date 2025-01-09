@@ -11,14 +11,24 @@ import { type PossibleSelectValue } from '#ui/forms/InputSelect/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
 import { useState } from 'react'
 
-const setup: Meta = {
-  title: 'Examples/I18N',
+const meta: Meta = {
+  title: 'Getting Started/I18N Provider',
   parameters: {
-    layout: 'fullscreen'
+    layout: 'padded',
+    docs: {
+      source: {
+        type: 'code'
+      }
+    }
   }
 }
 
-export const Default: StoryFn = (): JSX.Element => {
+export default meta
+
+/**
+ * Here below a simple example that shows how to use the translations provided by the `I18NProvider`:
+ */
+export const Translations: StoryFn = (): JSX.Element => {
   const languages = [
     { value: 'en-US', label: 'English' },
     { value: 'it-IT', label: 'Italiano' }
@@ -61,5 +71,3 @@ export const Default: StoryFn = (): JSX.Element => {
     </PageLayout>
   )
 }
-
-export default setup
