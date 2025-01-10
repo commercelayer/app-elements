@@ -6,6 +6,7 @@ import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import { Suspense, lazy } from 'react'
+import { useTranslation } from 'react-i18next'
 import type { SetRequired } from 'type-fest'
 import type {
   RouteComponentProps,
@@ -104,7 +105,11 @@ function Route({
   )
 }
 
-function LoadingPage({ overlay = false }: { overlay?: boolean }): JSX.Element {
+export function LoadingPage({
+  overlay = false
+}: {
+  overlay?: boolean
+}): JSX.Element {
   const {
     settings: { mode }
   } = useTokenProvider()
@@ -136,24 +141,30 @@ export function GenericPageNotFound({
   resource?: ListableResourceType
 }): JSX.Element {
   const [, setLocation] = useLocation()
+  const { t } = useTranslation()
+
   return (
     <PageLayout title=''>
       <EmptyState
         title={
           resource == null
-            ? 'Page Not found'
-            : `Invalid ${formatResourceName({
-                resource,
-                count: 'singular'
-              })}`
+            ? t('common.routes.page_not_found')
+            : t('common.routes.invalid_resource', {
+                resource: formatResourceName({
+                  resource,
+                  count: 'singular'
+                })
+              })
         }
         description={
           resource == null
-            ? 'We could not find the page you are looking for.'
-            : `We could not find the ${formatResourceName({
-                resource,
-                count: 'singular'
-              })} you are looking for.`
+            ? t('common.routes.we_could_not_find_page')
+            : t('common.routes.we_could_not_find_resource', {
+                resource: formatResourceName({
+                  resource,
+                  count: 'singular'
+                })
+              })
         }
         action={
           <Button
@@ -162,7 +173,7 @@ export function GenericPageNotFound({
               setLocation('/')
             }}
           >
-            Go home
+            {t('common.routes.go_home')}
           </Button>
         }
       />

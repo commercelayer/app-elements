@@ -17,6 +17,9 @@ export const Default: Story = {
     placeholder: 'Type something here...',
     onSearch(hint) {
       console.log(hint)
+    },
+    onClear() {
+      console.log('clear')
     }
   }
 }

@@ -86,7 +86,8 @@ export function isValidUser(
     lastName: '',
     displayName: '',
     fullName: '',
-    timezone: ''
+    timezone: '',
+    locale: 'en-US'
   } satisfies TokenProviderAuthUser).sort()
 
   if (user == null || isEmpty(user)) {

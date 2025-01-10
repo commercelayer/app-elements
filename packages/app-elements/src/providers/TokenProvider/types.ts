@@ -161,6 +161,7 @@ export interface TokenProviderAuthUser {
   displayName: string
   fullName: string
   timezone: string
+  locale: 'en-US' | 'it-IT'
 }
 
 export interface TokenProviderExtras {

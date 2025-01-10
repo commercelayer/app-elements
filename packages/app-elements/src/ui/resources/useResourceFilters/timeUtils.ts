@@ -1,4 +1,5 @@
 import { getIsoDateAtDayEdge, getIsoDateAtDaysBefore } from '#helpers/date'
+import { type t as tFn } from 'i18next'
 import { z } from 'zod'
 import type { TimeRangeFormValues, TimeRangePreset } from './types'
 import { filterableTimeRangePreset } from './types'
@@ -82,13 +83,14 @@ export function getDefaultBrowserTimezone(): string | undefined {
 }
 
 export function getTimeRangePresetName(
-  timeRangePreset: TimeRangePreset
+  timeRangePreset: TimeRangePreset,
+  t: typeof tFn
 ): string {
   const dictionary: Record<TimeRangePreset, string> = {
-    today: 'Today',
-    last7days: 'Last 7 days',
-    last30days: 'Last 30 days',
-    custom: 'Custom'
+    today: t('common.today'),
+    last7days: t('common.last_7_days'),
+    last30days: t('common.last_30_days'),
+    custom: t('common.custom')
   }
 
   return dictionary[timeRangePreset]

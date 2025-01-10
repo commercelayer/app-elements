@@ -1,5 +1,6 @@
 /// <reference types="vite/client" />
 
+import { I18NProvider } from '#providers/I18NProvider'
 import { Container } from '#ui/atoms/Container'
 import { PARAM_KEY } from '.storybook/addon-container/constants'
 import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/blocks'
@@ -70,11 +71,10 @@ export const parameters: Parameters = {
 
 export const withContainer: Decorator = (Story, context) => {
   const { containerEnabled } = context.globals
-
-  if (containerEnabled === true) {
+   if (containerEnabled === true) {
     return (
       <Container minHeight={false}>
-        <Story />
+        <Story /> 
       </Container>
     )
   }
@@ -82,7 +82,13 @@ export const withContainer: Decorator = (Story, context) => {
   return <Story />
 }
 
+export const withLocale: Decorator = (Story, context) => {
+  const locale = 'en-US'
+  return <I18NProvider enforcedLocaleCode={locale}><Story /></I18NProvider>
+}
+
 export const decorators: Decorator[] = [
+  withLocale,
   withContainer
 ]
 

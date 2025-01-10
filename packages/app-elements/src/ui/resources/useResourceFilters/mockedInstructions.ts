@@ -20,7 +20,7 @@ export const instructions: FiltersInstructions = [
     }
   },
   {
-    label: 'Order status',
+    label: 'Status',
     type: 'options',
     sdk: {
       predicate: 'status_in',
@@ -31,16 +31,28 @@ export const instructions: FiltersInstructions = [
       props: {
         mode: 'multi',
         options: [
-          { value: 'pending', label: 'Pending' },
-          { value: 'placed', label: 'Placed' },
-          { value: 'approved', label: 'Approved' },
-          { value: 'cancelled', label: 'Cancelled' }
+          {
+            value: 'pending',
+            label: 'Pending'
+          },
+          {
+            value: 'placed',
+            label: 'Placed'
+          },
+          {
+            value: 'approved',
+            label: 'Approved'
+          },
+          {
+            value: 'cancelled',
+            label: 'Cancelled'
+          }
         ]
       }
     }
   },
   {
-    label: 'Payment Status',
+    label: 'Payment status',
     type: 'options',
     sdk: {
       predicate: 'payment_status_eq'
@@ -50,18 +62,36 @@ export const instructions: FiltersInstructions = [
       props: {
         mode: 'single',
         options: [
-          { value: 'authorized', label: 'Authorized' },
-          { value: 'paid', label: 'Paid' },
-          { value: 'voided', label: 'Voided' },
-          { value: 'refunded', label: 'Refunded' },
-          { value: 'free', label: 'Free' },
-          { value: 'unpaid', label: 'Unpaid' }
+          {
+            value: 'authorized',
+            label: 'Authorized'
+          },
+          {
+            value: 'paid',
+            label: 'Paid'
+          },
+          {
+            value: 'voided',
+            label: 'Voided'
+          },
+          {
+            value: 'refunded',
+            label: 'Refunded'
+          },
+          {
+            value: 'free',
+            label: 'Free'
+          },
+          {
+            value: 'unpaid',
+            label: 'Unpaid'
+          }
         ]
       }
     }
   },
   {
-    label: 'Fulfillment Status',
+    label: 'Fulfillment status',
     type: 'options',
     sdk: {
       predicate: 'fulfillment_status_in'
@@ -71,10 +101,22 @@ export const instructions: FiltersInstructions = [
       props: {
         mode: 'multi',
         options: [
-          { value: 'unfulfilled', label: 'Unfulfilled' },
-          { value: 'in_progress', label: 'In Progress' },
-          { value: 'fulfilled', label: 'Fulfilled' },
-          { value: 'not_required', label: 'Not Required' }
+          {
+            value: 'unfulfilled',
+            label: 'Unfulfilled'
+          },
+          {
+            value: 'in_progress',
+            label: 'In progress'
+          },
+          {
+            value: 'fulfilled',
+            label: 'Fulfilled'
+          },
+          {
+            value: 'not_required',
+            label: 'Not required'
+          }
         ]
       }
     }
@@ -93,15 +135,21 @@ export const instructions: FiltersInstructions = [
       props: {
         mode: 'single',
         options: [
-          { value: 'only', label: 'Only archived' },
-          { value: 'hide', label: 'Hide archived' },
+          {
+            value: 'only',
+            label: 'Only archived'
+          },
+          {
+            value: 'hide',
+            label: 'Hide archived'
+          },
           { value: 'show', label: 'Show all, both archived and not' }
         ]
       }
     }
   },
   {
-    label: 'Time Range',
+    label: 'Time range',
     type: 'timeRange',
     sdk: {
       predicate: 'updated_at'

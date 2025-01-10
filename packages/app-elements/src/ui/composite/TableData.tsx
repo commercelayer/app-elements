@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { Table, Td, Th, Tr } from '#ui/atoms/Table'
 import { extractHeaders } from '#utils/extractHeaders'
 import { isJsonPrimitive } from '#utils/text'
@@ -40,9 +41,9 @@ export function TableData({
     <div className={cn('', className)} {...rest}>
       <div className='flex justify-between items-center mb-2'>
         {title != null ? <h2 className='font-semibold'>{title}</h2> : <div />}
-        {showTotal === true ? (
+        {showTotal === true && data != null ? (
           <div className='text-sm' data-testid='table-total-string'>
-            {data.length} records
+            {t('common.table.record', { count: data.length })}
           </div>
         ) : null}
       </div>
@@ -81,9 +82,15 @@ export function TableData({
           className='py-1 text-sm text-right'
           data-testid='table-others-string'
         >
-          {othersCount === 1
-            ? 'and another record'
-            : `and others ${othersCount} records`}
+          {othersCount === 1 ? (
+            <span data-testid='table-others-string-single'>
+              {t('common.table.and_another_record')}
+            </span>
+          ) : (
+            <span data-testid='table-others-string-multiple'>
+              {t('common.table.and_other_records', { count: othersCount })}
+            </span>
+          )}
         </div>
       ) : null}
     </div>

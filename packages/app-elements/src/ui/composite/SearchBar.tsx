@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import {
   SkeletonTemplate,
   type SkeletonTemplateProps
@@ -122,7 +123,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
                 'rounded outline-none ring-0 border-0',
                 'focus-within:shadow-focus focus:text-black'
               )}
-              aria-label='Clear text'
+              aria-label={t('common.clear_text')}
               onClick={() => {
                 setSearchValue('')
                 onClear()

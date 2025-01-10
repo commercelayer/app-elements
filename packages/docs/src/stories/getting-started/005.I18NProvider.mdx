@@ -1,0 +1,41 @@
+import { Canvas, Description, Meta, Source } from '@storybook/blocks'
+import * as ComponentStories from './005.I18NProvider.stories'
+
+<Meta of={ComponentStories} />
+
+# I18N Provider
+
+The `<I18NProvider>` is the component that is in charge of providing the i18n context to localize all apps.
+
+It uses the [react-i18next](https://react.i18next.com/) library to manage translations.
+
+This is still to be considered as work in progress, since only a partial list of apps currently support translations, but all apps already need to be wrapped with this provider or shared elements won't be localized.
+
+<span type="warning" title="Dependencies">
+The `<I18NProvider>` component requires access to the `<TokenProvider>` context, so it must be placed as its child and should wrap the entire app.
+</span>
+
+<Source
+  language="tsx"
+  dark
+  code={`
+<TokenProvider
+  kind="orders"
+  appSlug="orders"
+  reauthenticateOnInvalidAuth={!isDev}
+  devMode={isDev}
+>
+  <CoreSdkProvider>
+    <I18NProvider>
+      <div>app content</div>
+    </I18NProvider>
+  </CoreSdkProvider>
+</TokenProvider>
+`}
+/>
+ 
+
+## Example
+
+<Description of={ComponentStories.Translations} />
+<Canvas of={ComponentStories.Translations} />

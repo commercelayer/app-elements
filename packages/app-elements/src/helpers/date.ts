@@ -1,3 +1,4 @@
+import { type I18NLocale } from '#providers/I18NProvider'
 import { fromZonedTime } from 'date-fns-tz/fromZonedTime'
 import { getTimezoneOffset } from 'date-fns-tz/getTimezoneOffset'
 import { toZonedTime } from 'date-fns-tz/toZonedTime'
@@ -12,6 +13,7 @@ import { isSameMonth } from 'date-fns/isSameMonth'
 import { isSameYear } from 'date-fns/isSameYear'
 import { isThisYear } from 'date-fns/isThisYear'
 import { isToday } from 'date-fns/isToday'
+import { it, type Locale } from 'date-fns/locale'
 import { startOfDay } from 'date-fns/startOfDay'
 import { sub } from 'date-fns/sub'
 import groupBy from 'lodash/groupBy'
@@ -50,6 +52,11 @@ interface FormatDateOptions {
    * @default false
    */
   showCurrentYear?: boolean
+  /**
+   * Locale to use for formatting the date.
+   * @default en
+   */
+  locale?: I18NLocale
 }
 
 /**
@@ -60,6 +67,7 @@ interface FormatDateOptions {
 export function formatDate({
   isoDate,
   timezone = 'UTC',
+  locale = 'en-US',
   showCurrentYear = false,
   ...opts
 }: FormatDateOptions): string {
@@ -74,10 +82,13 @@ export function formatDate({
       zonedDate,
       timezone,
       opts.format,
-      showCurrentYear
+      showCurrentYear,
+      locale
     )
 
-    return format(zonedDate, formatTemplate)
+    return format(zonedDate, formatTemplate, {
+      locale: getLocaleOption(locale)
+    })
   } catch {
     return 'N/A'
   }
@@ -95,15 +106,18 @@ interface FormatDateWithPredicateOptions extends FormatDateOptions {
  * @param format a string belonging to `Format` type
  * @returns a string containing the wanted separator. Example: 'on' is valid separator for formats containing a date and 'at' is a valid separator for formats related to time.
  */
-function getDatePredicateSeparatorByFormat(format: Format): string {
+function getDatePredicateSeparatorByFormat(
+  format: Format,
+  locale: I18NLocale
+): string {
   switch (format) {
     case 'distanceToNow':
       return ''
     case 'time':
     case 'timeWithSeconds':
-      return 'at '
+      return `${i18n(locale).at} `
     default:
-      return 'on '
+      return `${i18n(locale).on} `
   }
 }
 
@@ -116,16 +130,21 @@ export function formatDateWithPredicate({
   isoDate,
   timezone,
   format = 'full',
-  predicate
+  predicate,
+  locale = 'en-US'
 }: FormatDateWithPredicateOptions): string {
+  const todayText = i18n(locale).today
   const formattedDate = formatDate({
     isoDate,
     timezone,
-    format
-  }).replace('Today', 'today')
+    format,
+    locale
+  })
+    // Replace the first occurrence of 'Today' with 'today' in lowercase
+    .replace(todayText, todayText.toLowerCase())
 
-  const separator = !formattedDate.includes('today')
-    ? `${getDatePredicateSeparatorByFormat(format)}`
+  const separator = !formattedDate.includes(todayText.toLowerCase())
+    ? `${getDatePredicateSeparatorByFormat(format, locale)}`
     : ''
 
   return `${predicate} ${separator}${formattedDate}`
@@ -137,46 +156,52 @@ function getPresetFormatTemplate(
   zonedDate: Date,
   timezone: string,
   format: Format = 'date',
-  showCurrentYear: boolean
+  showCurrentYear: boolean,
+  locale: I18NLocale
 ): string {
   switch (format) {
     case 'date':
       return isToday(zonedDate) && !showCurrentYear
-        ? "'Today'"
+        ? `'${i18n(locale).today}'`
         : isThisYear(zonedDate) && !showCurrentYear
           ? 'LLL dd'
           : 'LLL dd, yyyy'
     case 'time':
       return 'HH:mm'
     case 'timeWithSeconds':
-      return `${getPresetFormatTemplate(zonedDate, timezone, 'time', showCurrentYear)}:ss`
+      return `${getPresetFormatTemplate(zonedDate, timezone, 'time', showCurrentYear, locale)}:ss`
     case 'full':
       return `${getPresetFormatTemplate(
         zonedDate,
         timezone,
         'date',
-        showCurrentYear
+        showCurrentYear,
+        locale
       )}${timeSeparator}${getPresetFormatTemplate(
         zonedDate,
         timezone,
         'time',
-        showCurrentYear
+        showCurrentYear,
+        locale
       )}`
     case 'fullWithSeconds':
       return `${getPresetFormatTemplate(
         zonedDate,
         timezone,
         'date',
-        showCurrentYear
+        showCurrentYear,
+        locale
       )}${timeSeparator}${getPresetFormatTemplate(
         zonedDate,
         timezone,
         'timeWithSeconds',
-        showCurrentYear
+        showCurrentYear,
+        locale
       )}`
     case 'distanceToNow':
       return `'${formatDistance(zonedDate, toZonedTime(new Date(), timezone), {
-        addSuffix: true
+        addSuffix: true,
+        locale: getLocaleOption(locale)
       })}'`
   }
 }
@@ -304,7 +329,8 @@ export function getEventDateInfo({
 export function formatDateRange({
   rangeFrom,
   rangeTo,
-  timezone = 'UTC'
+  timezone = 'UTC',
+  locale = 'en-US'
 }: {
   /** JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z' */
   rangeFrom: DateISOString
@@ -312,6 +338,8 @@ export function formatDateRange({
   rangeTo: DateISOString
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
+  /** Locale to use for formatting the date. */
+  locale?: I18NLocale
 }): string {
   const offsetMilliseconds = getTimezoneOffset(timezone)
   const zonedFrom = toZonedTime(
@@ -324,16 +352,20 @@ export function formatDateRange({
   )
 
   if (isSameYear(zonedFrom, zonedTo) && isSameMonth(zonedFrom, zonedTo)) {
-    const dayOfMonthFrom = format(zonedFrom, 'd')
-    const dayOfMonthTo = format(zonedTo, 'd')
-    const month = format(zonedFrom, 'LLL')
+    const dayOfMonthFrom = format(zonedFrom, 'd', {
+      locale: getLocaleOption(locale)
+    })
+    const dayOfMonthTo = format(zonedTo, 'd', {
+      locale: getLocaleOption(locale)
+    })
+    const month = format(zonedFrom, 'LLL', { locale: getLocaleOption(locale) })
     const year = isThisYear(zonedFrom) ? '' : `, ${format(zonedFrom, 'yyyy')}`
 
     return `${dayOfMonthFrom}-${dayOfMonthTo} ${month}${year}`
   }
 
-  const formattedFrom = formatDate({ isoDate: rangeFrom, timezone })
-  const formattedTo = formatDate({ isoDate: rangeTo, timezone })
+  const formattedFrom = formatDate({ isoDate: rangeFrom, timezone, locale })
+  const formattedTo = formatDate({ isoDate: rangeTo, timezone, locale })
 
   return `${formattedFrom} - ${formattedTo}`
 }
@@ -354,8 +386,9 @@ export function sortAndGroupByDate<T extends Event>(
   events: T[],
   {
     timezone,
+    locale,
     orders = 'desc'
-  }: { timezone?: string; orders?: 'asc' | 'desc' } = {}
+  }: { timezone?: string; locale?: I18NLocale; orders?: 'asc' | 'desc' } = {}
 ): Record<
   string,
   Array<
@@ -382,7 +415,8 @@ export function sortAndGroupByDate<T extends Event>(
     formatDate({
       isoDate: val.date,
       format: 'date',
-      timezone
+      timezone,
+      locale
     }).toUpperCase()
   )
 }
@@ -456,4 +490,38 @@ export function makeDateYearsRange({
     date_from: showMilliseconds ? from : removeMillisecondsFromIsoDate(from),
     date_to: showMilliseconds ? to : removeMillisecondsFromIsoDate(to)
   }
+}
+
+/**
+ * Get the locale object from date-fns/locale for the given locale code.
+ */
+function getLocaleOption(locale: I18NLocale): Locale | undefined {
+  switch (locale) {
+    case 'it-IT':
+      return it
+    case 'en-US':
+    default:
+      return undefined
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+function i18n(localeCode: I18NLocale) {
+  const locale = {
+    en: {
+      today: 'Today',
+      at: 'at',
+      on: 'on'
+    },
+    it: {
+      today: 'Oggi',
+      at: 'alle',
+      on: 'il'
+    }
+  }
+
+  if (localeCode === 'it-IT') {
+    return locale.it
+  }
+  return locale.en
 }

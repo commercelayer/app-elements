@@ -34,6 +34,7 @@ export const promotionToProps: ResourceToProps<Promotion> = ({
   user
 }) => {
   const displayStatus = getPromotionDisplayStatus(resource)
+
   const hasCoupons = resource.coupon_codes_promotion_rule != null
 
   return {
@@ -58,7 +59,8 @@ export const promotionToProps: ResourceToProps<Promotion> = ({
         date={formatDateRange({
           rangeFrom: resource.starts_at,
           rangeTo: resource.expires_at,
-          timezone: user?.timezone
+          timezone: user?.timezone,
+          locale: user?.locale
         })}
       />
     ),

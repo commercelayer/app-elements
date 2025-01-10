@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -114,7 +115,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
               className='text-sm font-bold'
               type='button'
             >
-              {showMore ? 'Show less' : 'Show more'}
+              {showMore ? t('common.show_less') : t('common.show_more')}
             </Button>
           )}
         </div>

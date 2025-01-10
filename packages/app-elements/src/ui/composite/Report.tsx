@@ -1,4 +1,5 @@
 import { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
+import { t } from '#providers/I18NProvider'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
@@ -38,7 +39,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
           className='text-sm font-bold text-primary hover:underline'
           data-testid={`report-item-${item.label}-link`}
         >
-          {item.linkLabel ?? 'Download file'}
+          {item.linkLabel ?? t('common.download_file')}
         </a>
       ) : item.downloadJsonAsFile != null ? (
         <button
@@ -51,7 +52,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
           }}
           data-testid={`report-item-${item.label}-button`}
         >
-          {item.linkLabel ?? 'Download JSON'}
+          {item.linkLabel ?? t('common.download_json')}
         </button>
       ) : null}
     </div>
@@ -69,7 +70,7 @@ export function Report({
       count: 500,
       label: 'Record imported',
       linkUrl: 'https://example.com',
-      linkLabel: 'View logs'
+      linkLabel: t('common.view_logs')
     })
     .map(renderItem)
 

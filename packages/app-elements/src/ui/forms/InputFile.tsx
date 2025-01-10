@@ -1,3 +1,4 @@
+import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import {
   getFeedbackStyle,
@@ -54,8 +55,8 @@ export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
           <UploadSimple className='mb-2' size={32} />
           <div className='font-semibold text-sm text-gray-800'>{title}</div>
           <div className='text-sm'>
-            drag and drop it here or{' '}
-            <Button variant='link'>browse files</Button>
+            {t('common.forms.drag_here_or')}{' '}
+            <Button variant='link'>{t('common.forms.browse_files')}</Button>
           </div>
           {progress != null ? (
             <div

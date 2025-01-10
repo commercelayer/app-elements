@@ -27,7 +27,8 @@ export function MockTokenProvider({
       fullName: 'John Doe',
       id: '1234',
       lastName: 'Doe',
-      timezone: 'Europe/Rome'
+      timezone: 'Europe/Rome',
+      locale: 'en-US'
     },
     organization: {
       id: '1234',

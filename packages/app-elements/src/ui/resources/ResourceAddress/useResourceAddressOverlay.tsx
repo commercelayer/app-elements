@@ -1,4 +1,5 @@
 import { useOverlay } from '#hooks/useOverlay'
+import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type Address } from '@commercelayer/sdk'
@@ -32,10 +33,13 @@ export const useResourceAddressOverlay = ({
       canUser('update', 'addresses') && (
         <Overlay>
           <PageLayout
-            title={title ?? `${address == null ? 'New' : 'Edit'} address`}
+            title={
+              title ??
+              `${address == null ? t('common.new') : t('common.edit')} ${t('resources.addresses.name').toLowerCase()}`
+            }
             minHeight={false}
             navigationButton={{
-              label: 'Back',
+              label: t('common.back'),
               onClick: () => {
                 close()
               }

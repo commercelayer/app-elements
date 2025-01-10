@@ -127,8 +127,9 @@ describe('isValidUser', () => {
       firstName: 'John',
       lastName: 'Doe',
       fullName: 'John Doe',
-      timezone: 'UTC'
-    }
+      timezone: 'UTC',
+      locale: 'en-US'
+    } as const
     expect(isValidUser(user)).toBe(true)
   })
 

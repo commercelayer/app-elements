@@ -1,5 +1,6 @@
 import { currencyInputSelectOptions } from '#helpers/currencies'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
+import { t } from '#providers/I18NProvider'
 import {
   flatSelectValues,
   HookedInputSelect,
@@ -99,7 +100,7 @@ export const HookedMarketWithCurrencySelector: FC<
 
   const initialValues = [
     {
-      label: 'All markets with currency',
+      label: t('common.forms.all_markets_with_currency'),
       value: ''
     },
     ...makeSelectInitialValuesWithDefault<Market>({
@@ -140,9 +141,7 @@ export const HookedMarketWithCurrencySelector: FC<
           }
         }}
         menuFooterText={
-          hasMorePages
-            ? 'Showing 25 results. Type to search for more options.'
-            : undefined
+          hasMorePages ? t('common.forms.type_to_search_for_more') : undefined
         }
         loadAsyncValues={
           hasMorePages
@@ -175,7 +174,7 @@ export const HookedMarketWithCurrencySelector: FC<
         <HookedInputSelect
           name={fieldNameCurrencyCode}
           label='&nbsp;'
-          aria-label='Currency'
+          aria-label={t('common.currency')}
           initialValues={currencyInputSelectOptions}
           key={defaultCurrencyCode}
           isDisabled={isDisabled}

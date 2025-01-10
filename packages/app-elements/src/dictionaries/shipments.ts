@@ -1,5 +1,6 @@
 import { type StatusIconProps } from '#ui/atoms/StatusIcon'
 import type { Shipment } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import type { DisplayStatus } from './types'
 
 export interface ShipmentDisplayStatus extends DisplayStatus {
@@ -20,74 +21,74 @@ export function getShipmentDisplayStatus(
   switch (shipmentStatus) {
     case 'upcoming':
       return {
-        label: 'Upcoming',
+        label: t('resources.shipments.attributes.status.upcoming'),
         icon: 'truck',
         color: 'gray'
       }
 
     case 'cancelled':
       return {
-        label: 'Cancelled',
+        label: t('resources.shipments.attributes.status.cancelled'),
         icon: 'x',
         color: 'gray'
       }
 
     case 'draft':
       return {
-        label: 'Draft',
+        label: t('resources.shipments.attributes.status.draft'),
         icon: 'minus',
         color: 'gray'
       }
 
     case 'on_hold':
       return {
-        label: 'On hold',
+        label: t('resources.shipments.attributes.status.on_hold'),
         icon: 'hourglass',
         color: 'orange',
-        task: 'On hold'
+        task: t('resources.shipments.attributes.status.on_hold')
       }
 
     case 'packing':
       return {
-        label: 'Packing',
+        label: t('resources.shipments.attributes.status.packing'),
         icon: 'package',
         color: 'orange',
-        task: 'Packing'
+        task: t('resources.shipments.attributes.status.packing')
       }
 
     case 'picking':
       return {
-        label: 'Picking',
+        label: t('resources.shipments.attributes.status.picking'),
         icon: 'arrowDown',
         color: 'orange',
-        task: 'Picking'
+        task: t('resources.shipments.attributes.status.picking')
       }
 
     case 'ready_to_ship':
       return {
-        label: 'Ready to ship',
+        label: t('resources.shipments.attributes.status.ready_to_ship'),
         icon: 'arrowUpRight',
         color: 'orange',
-        task: 'Ready to ship'
+        task: t('resources.shipments.attributes.status.ready_to_ship')
       }
 
     case 'shipped':
       return {
-        label: 'Shipped',
+        label: t('resources.shipments.attributes.status.shipped'),
         icon: 'arrowUpRight',
         color: 'green'
       }
 
     case 'delivered':
       return {
-        label: 'Delivered',
+        label: t('resources.shipments.attributes.status.delivered'),
         icon: 'check',
         color: 'green'
       }
 
     case 'awaiting_stock_transfer':
       return {
-        label: 'Awaiting stock transfers',
+        label: t('apps.shipments.details.awaiting_stock_transfer'),
         icon: 'hourglass',
         color: 'orange',
         task: 'Awaiting stock transfers'
@@ -95,7 +96,7 @@ export function getShipmentDisplayStatus(
 
     default:
       return {
-        label: `Not handled: (${shipment.status})`,
+        label: `${t('common.not_handled')}: (${shipment.status})`,
         icon: 'warning',
         color: 'white'
       }
@@ -104,15 +105,15 @@ export function getShipmentDisplayStatus(
 
 export function getShipmentStatusName(status: Shipment['status']): string {
   const dictionary: Record<typeof status, string> = {
-    draft: 'Draft',
-    on_hold: 'On hold',
-    upcoming: 'Upcoming',
-    packing: 'Packing',
-    picking: 'Picking',
-    ready_to_ship: 'Ready to ship',
-    shipped: 'Shipped',
-    cancelled: 'Cancelled',
-    delivered: 'Delivered'
+    draft: t('resources.shipments.attributes.status.draft'),
+    on_hold: t('resources.shipments.attributes.status.on_hold'),
+    upcoming: t('resources.shipments.attributes.status.upcoming'),
+    packing: t('resources.shipments.attributes.status.packing'),
+    picking: t('resources.shipments.attributes.status.picking'),
+    ready_to_ship: t('resources.shipments.attributes.status.ready_to_ship'),
+    shipped: t('resources.shipments.attributes.status.shipped'),
+    cancelled: t('resources.shipments.attributes.status.cancelled'),
+    delivered: t('resources.shipments.attributes.status.delivered')
   }
 
   return dictionary[status]

@@ -59,6 +59,15 @@ CompleteExample.args = {
   ]
 }
 
+export const EmptyExample = Template.bind({})
+EmptyExample.args = {
+  limit: 1,
+  showOthers: true,
+  showTotal: true,
+  title: 'Preview',
+  data: []
+}
+
 /**
  * All the keys from each object will be displayed even if the `data` prop contains object with different shapes.
  */

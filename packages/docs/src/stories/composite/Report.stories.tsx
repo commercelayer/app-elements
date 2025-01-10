@@ -11,7 +11,9 @@ const setup: Meta<typeof Report> = {
 }
 export default setup
 
-const Template: StoryFn<typeof Report> = (args) => <Report {...args} />
+const Template: StoryFn<typeof Report> = (args) => {
+  return <Report {...args} />
+}
 
 export const Default = Template.bind({})
 Default.args = {

@@ -33,7 +33,8 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
         date={formatDate({
           format: 'full',
           isoDate: resource.placed_at ?? resource.updated_at,
-          timezone: user?.timezone
+          timezone: user?.timezone,
+          locale: user?.locale
         })}
         additionalInfos={descriptionAdditionalInfos}
       />

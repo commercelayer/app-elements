@@ -7,23 +7,29 @@ import {
 import type { Return } from '@commercelayer/sdk'
 import { type ResourceToProps } from '../types'
 
-export const returnToProps: ResourceToProps<Return> = ({ resource, user }) => {
+export const returnToProps: ResourceToProps<Return> = ({
+  resource,
+  user,
+  t
+}) => {
   const displayStatus = getReturnDisplayStatus(resource)
+
   const returnStockLocationName =
     resource.stock_location?.name != null
-      ? `To ${resource.stock_location.name} `
+      ? `${t('common.to')} ${resource.stock_location.name} `
       : ''
   const number = resource.number != null ? `#${resource.number}` : ''
 
   return {
-    name: `Return ${number}`,
+    name: `${t('resources.returns.name')} ${number}`,
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
         date={formatDate({
           format: 'full',
           isoDate: resource.updated_at,
-          timezone: user?.timezone
+          timezone: user?.timezone,
+          locale: user?.locale
         })}
         additionalInfos={returnStockLocationName}
       />
