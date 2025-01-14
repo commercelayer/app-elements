@@ -57,11 +57,16 @@ describe('ResourceAddress', () => {
     expect(queryByTestId('ResourceAddress-noAddress')).not.toBeInTheDocument()
   })
 
-  test('Should render fullName', async () => {
+  test('Should render firstLastName', async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress-fullName')).toContainHTML(
+    expect(getByTestId('ResourceAddress-firstLastName')).toContainHTML(
       'Luke Skywalker'
     )
+  })
+
+  test('Should render company', async () => {
+    const { getByTestId } = setup()
+    expect(getByTestId('ResourceAddress-company')).toContainHTML('Rebellion')
   })
 
   test('Should render address', async () => {

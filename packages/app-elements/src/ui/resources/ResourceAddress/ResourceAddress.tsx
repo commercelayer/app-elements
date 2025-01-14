@@ -117,14 +117,27 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
             )}
             {stateAddress != null ? (
               <>
-                <Text
-                  tag='div'
-                  data-testid='ResourceAddress-fullName'
-                  weight={title == null ? 'bold' : undefined}
-                  variant={title != null ? 'info' : undefined}
-                >
-                  {stateAddress.full_name}
-                </Text>
+                {stateAddress.first_name != null &&
+                  stateAddress.last_name != null && (
+                    <Text
+                      tag='div'
+                      data-testid='ResourceAddress-firstLastName'
+                      weight={title == null ? 'bold' : undefined}
+                      variant={title != null ? 'info' : undefined}
+                    >
+                      {stateAddress.first_name} {stateAddress.last_name}
+                    </Text>
+                  )}
+                {stateAddress.company != null && (
+                  <Text
+                    tag='div'
+                    data-testid='ResourceAddress-company'
+                    weight={title == null ? 'bold' : undefined}
+                    variant={title != null ? 'info' : undefined}
+                  >
+                    {stateAddress.company}
+                  </Text>
+                )}
                 <Text
                   tag='div'
                   variant='info'
