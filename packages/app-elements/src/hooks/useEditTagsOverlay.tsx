@@ -41,7 +41,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
     close
   } = useOverlay({ queryParam: 'edit-tags' })
 
-  const { settings } = useTokenProvider()
+  const { settings, organization } = useTokenProvider()
   const { t } = useTranslation()
 
   const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
@@ -110,6 +110,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
 
       if (isLoading || resourceTags == null) return <></>
 
+      // @ts-expect-error - missing tags_max_allowed_number key in organization because of old SDK version
+      const maxAllowedTags = organization?.tags_max_allowed_number ?? 10
+
       return (
         <OverlayElement
           footer={
@@ -174,10 +177,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                 text: (
                   <>
                     {t('common.add_up_to', {
-                      limit: 10,
-                      resource: resourceName
+                      limit: maxAllowedTags,
+                      resource: resourceName.toLowerCase()
                     })}
-                    .
                     {selectedTagsLimitReached && (
                       <>
                         {' '}
@@ -193,7 +195,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
               isMulti
               isSearchable
               isClearable={false}
-              isOptionDisabled={() => selectedTags.length >= 10}
+              isOptionDisabled={() => selectedTags.length >= maxAllowedTags}
               loadAsyncValues={async (hint) => {
                 if (hint.length > 0) {
                   return await sdkClient.tags
@@ -212,7 +214,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
               defaultValue={tagsToSelectOptions(resourceTags)}
               onSelect={(selectedTags) => {
                 if (isMultiValueSelected(selectedTags)) {
-                  setSelectedTagsLimitReached(selectedTags.length >= 10)
+                  setSelectedTagsLimitReached(
+                    selectedTags.length >= maxAllowedTags
+                  )
                   setSelectedTags(selectedTags)
                   return
                 }
