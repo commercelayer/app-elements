@@ -42,7 +42,7 @@ export const presetAddresses = {
   withNotes: {
     type: 'addresses',
     id: 'ccZYuDJVXW',
-    company: '',
+    company: 'Rebellion',
     first_name: 'Luke',
     last_name: 'Skywalker',
     full_name: 'Luke Skywalker',
