@@ -1,6 +1,7 @@
 import type {
   Market,
   Order,
+  ShippingMethod,
   Sku,
   StockLocation,
   StockTransfer
@@ -53,6 +54,15 @@ const stockTransfer = {
   created_at: '',
   updated_at: ''
 } as const satisfies StockTransfer
+
+const shippingMethod = {
+  type: 'shipping_methods',
+  id: '',
+  name: 'Standard Shipping',
+  price_amount_cents: 0,
+  created_at: '',
+  updated_at: ''
+} as const satisfies ShippingMethod
 
 const order = {
   type: 'orders',
@@ -292,7 +302,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'upcoming',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentPicking: {
     type: 'shipments',
@@ -301,7 +312,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'picking',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentPacking: {
     type: 'shipments',
@@ -310,7 +322,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'packing',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentReadyToShip: {
     type: 'shipments',
@@ -319,7 +332,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'ready_to_ship',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentOnHold: {
     type: 'shipments',
@@ -328,7 +342,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'on_hold',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentShipped: {
     type: 'shipments',
@@ -337,7 +352,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'shipped',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentDelivered: {
     type: 'shipments',
@@ -346,7 +362,8 @@ export const presetResourceListItem = {
     updated_at: '2023-06-10T06:38:44.964Z',
     number: '30817130/S/0001',
     status: 'delivered',
-    stock_location: originStockLocation
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
   },
   shipmentWithStockTransfer: {
     type: 'shipments',
@@ -356,6 +373,7 @@ export const presetResourceListItem = {
     number: '30817130/S/0001',
     status: 'upcoming',
     stock_location: originStockLocation,
+    shipping_method: shippingMethod,
     stock_transfers: [stockTransfer]
   },
   promotionActive: {
