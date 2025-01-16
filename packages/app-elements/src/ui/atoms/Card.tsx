@@ -61,6 +61,7 @@ export const Card = withSkeletonTemplate<CardProps>(
         className={cn([
           'boxed-container',
           className,
+          'boxed-container',
           'border border-solid rounded-md',
           'text-left', // reset <button>
           'text-inherit active:text-inherit hover:text-inherit font-inherit', // reset <a>
