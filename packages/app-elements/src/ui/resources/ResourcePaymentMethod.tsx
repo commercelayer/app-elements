@@ -8,6 +8,7 @@ import {
   type PaymentMethod
 } from '@commercelayer/sdk'
 import cn from 'classnames'
+import isEmpty from 'lodash/isEmpty'
 import { useState, type FC } from 'react'
 import type { SetNonNullable, SetRequired } from 'type-fest'
 import { z } from 'zod'
@@ -63,7 +64,8 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
 
   const paymentResponse =
     resource.payment_source != null &&
-    'payment_response' in resource.payment_source
+    'payment_response' in resource.payment_source &&
+    !isEmpty(resource.payment_source.payment_response)
       ? resource.payment_source.payment_response
       : null
 

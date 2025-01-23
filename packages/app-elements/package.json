@@ -29,7 +29,7 @@
   "scripts": {
     "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
     "build:tailwind-cfg": "cp ./tailwind.config.cjs ./dist/tailwind.config.js",
-    "build:css-vendor": "pnpm dlx tailwindcss -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
+    "build:css-vendor": "pnpm exec tailwindcss -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "lint": "eslint src --ext .ts,.tsx",
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "test": "vitest run",
