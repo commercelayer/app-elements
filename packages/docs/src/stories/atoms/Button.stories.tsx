@@ -1,6 +1,7 @@
 import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
+import { Input as InputElement } from '#ui/forms/Input'
 import { type Meta, type StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof Button> = {
@@ -88,3 +89,17 @@ Circle.args = {
   variant: 'circle',
   children: <Icon name='dotsThree' size={24} />
 }
+
+/** A `<Button>` with `variant="input"` can be used to simulate an input/select that opens an overlay with a more complex design.  */
+export const Input: StoryFn = (_args) => (
+  <div>
+    A button:
+    <Button type='button' variant='input'>
+      Search products...
+    </Button>
+    <br />
+    <br />
+    An input:
+    <InputElement placeholder='Search products...' />
+  </div>
+)

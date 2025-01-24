@@ -15,7 +15,9 @@ body {
 
 input,
 textarea,
-div[role="textbox"] {
+div[role="textbox"],
+.form-input,
+.form-textarea {
   border: none !important;
   box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
   -webkit-box-shadow: inset 0 0 0 1px var(--tw-shadow-color) !important;
@@ -25,8 +27,12 @@ div[role="textbox"] {
 input:focus-visible,
 textarea:focus-visible,
 div[role="textbox"]:focus,
+.form-input:focus,
+.form-textarea:focus,
 .group:focus-within input,
-.group:focus-within div[role="textbox"] {
+.group:focus-within div[role="textbox"],
+.group:focus-within .form-input,
+.group:focus-within .form-textarea {
   ring: none;
   outline: none !important;
   box-shadow: inset 0 0 0 2px theme(colors.primary.DEFAULT) !important;
