@@ -124,7 +124,7 @@ function getVariantCss(
     link: 'text-primary hover:text-primary-light border-primary-light cursor-pointer',
     relationship: 'font-bold text-primary border border-gray-300 border-dashed',
     input:
-      'form-input block w-full !px-4 !py-2.5 font-medium rounded outline-0 !text-left text-gray-500'
+      'form-input block w-full !px-4 !py-2.5 font-medium rounded outline-0 !text-left !leading-6 text-gray-500'
   } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
 
   return mapping[variant]
