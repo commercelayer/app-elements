@@ -108,6 +108,7 @@ export const iconMapping = {
   ticket: phosphor.Ticket,
   trash: phosphor.Trash,
   treeStructure: phosphor.TreeStructure,
+  trendUp: phosphor.TrendUp,
   truck: phosphor.Truck,
   tShirt: phosphor.TShirt,
   upload: phosphor.Upload,
