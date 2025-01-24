@@ -10,6 +10,7 @@ type Variant =
   | 'link'
   | 'circle'
   | 'relationship'
+  | 'input'
 type Size = 'mini' | 'small' | 'regular' | 'large'
 
 export interface InteractiveElementProps {
@@ -121,7 +122,9 @@ function getVariantCss(
       'font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full',
     danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
     link: 'text-primary hover:text-primary-light border-primary-light cursor-pointer',
-    relationship: 'font-bold text-primary border border-gray-300 border-dashed'
+    relationship: 'font-bold text-primary border border-gray-300 border-dashed',
+    input:
+      'form-input block w-full !px-4 !py-2.5 font-medium rounded outline-0 !text-left text-gray-500'
   } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
 
   return mapping[variant]
