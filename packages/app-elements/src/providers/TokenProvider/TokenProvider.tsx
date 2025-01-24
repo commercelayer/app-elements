@@ -43,6 +43,9 @@ export interface TokenProviderValue {
     action: TokenProviderRoleActions,
     resource: ListableResourceType
   ) => boolean
+  shouldRender: (
+    block: 'metadata' | 'tags' | 'details' | 'markets' | 'customer_groups'
+  ) => boolean
   canAccess: (appSlug: Exclude<TokenProviderAllowedApp, 'dashboard'>) => boolean
   emitInvalidAuth: (reason: string) => void
 }
@@ -127,6 +130,7 @@ export interface TokenProviderProps {
 export const AuthContext = createContext<TokenProviderValue>({
   canUser: () => false,
   canAccess: () => false,
+  shouldRender: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
   user: null,
@@ -309,12 +313,21 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
     [accessToken]
   )
 
+  const shouldRender = useCallback<TokenProviderValue['shouldRender']>(
+    (block) => {
+      // const appsConfig = getAppsConfig(_state.organization?.config)
+      return false
+    },
+    [_state.organization?.config, appSlug]
+  )
+
   const value: TokenProviderValue = {
     settings: _state.settings,
     user: _state.user,
     organization: _state.organization,
     canUser,
     canAccess,
+    shouldRender,
     emitInvalidAuth
   }
 
