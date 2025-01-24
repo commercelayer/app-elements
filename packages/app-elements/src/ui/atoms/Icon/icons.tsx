@@ -42,6 +42,7 @@ export const iconMapping = {
   copy: phosphor.Copy,
   creditCard: phosphor.CreditCard,
   currencyEur: phosphor.CurrencyEur,
+  diamondsFour: phosphor.DiamondsFour,
   discord: phosphor.DiscordLogo,
   dotsSixVertical: phosphor.DotsSixVertical,
   dotsThree: phosphor.DotsThree,
