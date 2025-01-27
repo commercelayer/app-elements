@@ -154,6 +154,7 @@ export {
   ActionButtons,
   type ActionButtonsProps
 } from '#ui/composite/ActionButtons'
+export { Address, type AddressProps } from '#ui/composite/Address'
 export { CardDialog, type CardDialogProps } from '#ui/composite/CardDialog'
 export {
   Dropdown,
