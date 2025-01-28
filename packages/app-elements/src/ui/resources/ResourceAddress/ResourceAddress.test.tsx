@@ -48,32 +48,28 @@ const setup = (): RenderResult => {
 describe('ResourceAddress', () => {
   test('Should render', async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress')).toBeInTheDocument()
+    expect(getByTestId('Address')).toBeInTheDocument()
   })
 
   test('Should not render title', async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('ResourceAddress-title')).not.toBeInTheDocument()
-    expect(queryByTestId('ResourceAddress-noAddress')).not.toBeInTheDocument()
+    expect(queryByTestId('Address-title')).not.toBeInTheDocument()
+    expect(queryByTestId('Address-noAddress')).not.toBeInTheDocument()
   })
 
   test('Should render firstLastName', async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress-firstLastName')).toContainHTML(
-      'Luke Skywalker'
-    )
+    expect(getByTestId('Address-firstLastName')).toContainHTML('Luke Skywalker')
   })
 
   test('Should render company', async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress-company')).toContainHTML('Rebellion')
+    expect(getByTestId('Address-company')).toContainHTML('Rebellion')
   })
 
   test('Should render address', async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('ResourceAddress-address')).toContainHTML(
-      'Via Polis Massa, 42'
-    )
+    expect(getByTestId('Address-address')).toContainHTML('Via Polis Massa, 42')
   })
 
   test('Should render phone', async () => {
@@ -90,17 +86,17 @@ describe('ResourceAddress', () => {
 
   test('Should render billingInfo', async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('ResourceAddress-billingInfo')).toBeVisible()
+    expect(queryByTestId('Address-billingInfo')).toBeVisible()
   })
 
   test('Should render edit button', async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('ResourceAddress-editButton')).toBeVisible()
+    expect(queryByTestId('Address-editButton')).toBeVisible()
   })
 
   test('Should open edit Overlay and submit the form editing an existing address', async () => {
     const { getByTestId, getByText } = setup()
-    const editButton = getByTestId('ResourceAddress-editButton')
+    const editButton = getByTestId('Address-editButton')
     await waitFor(() => {
       fireEvent.click(editButton)
     })
@@ -126,7 +122,7 @@ describe('ResourceAddress', () => {
       </MockTokenProvider>
     )
 
-    expect(queryByTestId('ResourceAddress-noAddress')).toBeVisible()
+    expect(queryByTestId('Address-noAddress')).toBeVisible()
   })
 
   test('Should open create Overlay and submit the form creating a new address', async () => {
@@ -138,7 +134,7 @@ describe('ResourceAddress', () => {
       </MockTokenProvider>
     )
 
-    const editButton = getByTestId('ResourceAddress-editButton')
+    const editButton = getByTestId('Address-editButton')
     await waitFor(() => {
       fireEvent.click(editButton)
     })
