@@ -122,6 +122,7 @@ export const iconMapping = {
   warningCircle: phosphor.WarningCircle,
   webhooksLogo: phosphor.WebhooksLogo,
   whatsappLogo: phosphor.WhatsappLogo,
+  wrench: phosphor.Wrench,
   x: phosphor.X,
   xCircle: phosphor.XCircle
 } as const
