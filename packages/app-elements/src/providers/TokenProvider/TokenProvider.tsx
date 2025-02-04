@@ -331,7 +331,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       })
 
       return appsConfig[appSlug].hide != null
-        ? appsConfig[appSlug].hide
+        ? !appsConfig[appSlug].hide
             // @ts-expect-error TS is not able to infer the type from the union of tuples
             .includes(block)
         : true
