@@ -38,6 +38,7 @@
   },
   "dependencies": {
     "@commercelayer/js-auth": "^6.7.0",
+    "@commercelayer/organization-config": "^2.0.2",
     "@commercelayer/sdk": "6.25.1",
     "@monaco-editor/react": "4.6.0",
     "@types/lodash": "^4.17.13",

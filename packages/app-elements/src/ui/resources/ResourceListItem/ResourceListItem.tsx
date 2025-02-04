@@ -1,3 +1,4 @@
+import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
@@ -101,12 +102,42 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
   ({ resource, isLoading, delayMs, href, onClick, ...rest }) => {
     const { user } = useTokenProvider()
     const { t } = useTranslation()
+
+    const { data: markets, isLoading: isLoadingMarkets } = useCoreApi(
+      'markets',
+      'list',
+      resource.type === 'orders'
+        ? [
+            {
+              fields: ['id'],
+              filters: {
+                disabled_at_null: true
+              },
+              pageSize: 1
+            }
+          ]
+        : null,
+      {
+        revalidateIfStale: false
+      }
+    )
+
     const listItemProps = useMemo(() => {
       switch (resource.type) {
         case 'customers':
           return customerToProps({ resource, user, t })
         case 'orders':
-          return orderToProps({ resource, user, t })
+          return orderToProps({
+            resource: {
+              ...resource,
+              market:
+                (markets?.meta.recordCount ?? 0) > 1
+                  ? resource.market
+                  : undefined
+            },
+            user,
+            t
+          })
         case 'returns':
           return returnToProps({ resource, user, t })
         case 'stock_transfers':
@@ -129,6 +160,7 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     return (
       <ResourceListItemComponent
         {...listItemProps}
+        isLoading={isLoadingMarkets || isLoading}
         href={href}
         onClick={onClick}
         {...rest}

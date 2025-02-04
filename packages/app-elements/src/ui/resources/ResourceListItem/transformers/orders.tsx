@@ -26,7 +26,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
       )
 
   return {
-    name: `${resource.market?.name ?? ''} #${resource.number ?? ''}`,
+    name: `${resource.market?.name ?? ''} #${resource.number ?? ''}`.trim(),
     description: (
       <ListItemDescription
         displayStatus={displayStatus}

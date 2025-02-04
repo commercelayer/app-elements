@@ -40,6 +40,7 @@ export function MockTokenProvider({
     },
     canUser: (action, resource) => true,
     canAccess: () => true,
+    shouldRender: () => true,
     emitInvalidAuth: () => {}
   }
 
