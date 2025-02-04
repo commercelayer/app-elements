@@ -8,6 +8,10 @@ import { extractDomainFromApiBaseEndpoint } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { PageSkeleton } from '#ui/composite/PageSkeleton'
 import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
+import {
+  getAppsConfig,
+  type FullAppsConfig
+} from '@commercelayer/organization-config'
 import type { ListableResourceType, Organization } from '@commercelayer/sdk'
 import {
   createContext,
@@ -44,7 +48,7 @@ export interface TokenProviderValue {
     resource: ListableResourceType
   ) => boolean
   shouldRender: (
-    block: 'metadata' | 'tags' | 'details' | 'markets' | 'customer_groups'
+    block: NonNullable<FullAppsConfig[keyof FullAppsConfig]['hide']>[number]
   ) => boolean
   canAccess: (appSlug: Exclude<TokenProviderAllowedApp, 'dashboard'>) => boolean
   emitInvalidAuth: (reason: string) => void
@@ -130,7 +134,7 @@ export interface TokenProviderProps {
 export const AuthContext = createContext<TokenProviderValue>({
   canUser: () => false,
   canAccess: () => false,
-  shouldRender: () => false,
+  shouldRender: () => true,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
   user: null,
@@ -315,8 +319,22 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
   const shouldRender = useCallback<TokenProviderValue['shouldRender']>(
     (block) => {
-      // const appsConfig = getAppsConfig(_state.organization?.config)
-      return false
+      // apps config does not support `dashboard` app
+      if (appSlug === 'dashboard') {
+        return true
+      }
+
+      const appsConfig = getAppsConfig({
+        jsonConfig: {
+          apps: _state.organization?.config?.apps
+        }
+      })
+
+      return appsConfig[appSlug].hide != null
+        ? appsConfig[appSlug].hide
+            // @ts-expect-error TS is not able to infer the type from the union of tuples
+            .includes(block)
+        : true
     },
     [_state.organization?.config, appSlug]
   )
@@ -336,9 +354,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       <>
         {errorElement ?? (
           <PageError
-            pageTitle='Commerce Layer'
-            errorName='Invalid token'
-            errorDescription='The provided authorization token is not valid'
+            pageTitle='Invalid token'
+            errorName='401'
+            errorDescription='The provided authorization token is not valid. Please try to re-authenticate.'
           />
         )}
       </>
