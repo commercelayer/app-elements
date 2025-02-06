@@ -1,8 +1,7 @@
 import { type I18NLocale } from '#providers/I18NProvider'
+import { formatInTimeZone } from 'date-fns-tz/formatInTimeZone'
 import { fromZonedTime } from 'date-fns-tz/fromZonedTime'
-import { getTimezoneOffset } from 'date-fns-tz/getTimezoneOffset'
 import { toZonedTime } from 'date-fns-tz/toZonedTime'
-import { addMilliseconds } from 'date-fns/addMilliseconds'
 import { endOfDay } from 'date-fns/endOfDay'
 import { format } from 'date-fns/format'
 import { formatDistance } from 'date-fns/formatDistance'
@@ -332,34 +331,30 @@ export function formatDateRange({
   timezone = 'UTC',
   locale = 'en-US'
 }: {
-  /** JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z' */
-  rangeFrom: DateISOString
-  /** JavaScript ISO date string. Example '2022-11-06T11:59:30.371Z' */
-  rangeTo: DateISOString
+  /** JavaScript Date or ISO string. Example '2022-10-06T11:59:30.371Z' */
+  rangeFrom: DateISOString | Date
+  /** JavaScript Date or ISO string. Example '2022-11-06T11:59:30.371Z' */
+  rangeTo: DateISOString | Date
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
   /** Locale to use for formatting the date. */
   locale?: I18NLocale
+  zonedAlready?: boolean
 }): string {
-  const offsetMilliseconds = getTimezoneOffset(timezone)
-  const zonedFrom = toZonedTime(
-    addMilliseconds(rangeFrom, offsetMilliseconds),
-    timezone
-  )
-  const zonedTo = toZonedTime(
-    addMilliseconds(rangeTo, offsetMilliseconds),
-    timezone
-  )
+  rangeFrom = new Date(rangeFrom).toISOString()
+  rangeTo = new Date(rangeTo).toISOString()
 
-  if (isSameYear(zonedFrom, zonedTo) && isSameMonth(zonedFrom, zonedTo)) {
-    const dayOfMonthFrom = format(zonedFrom, 'd', {
+  if (isSameYear(rangeFrom, rangeTo) && isSameMonth(rangeFrom, rangeTo)) {
+    const dayOfMonthFrom = formatInTimeZone(rangeFrom, timezone, 'd', {
       locale: getLocaleOption(locale)
     })
-    const dayOfMonthTo = format(zonedTo, 'd', {
+    const dayOfMonthTo = formatInTimeZone(rangeTo, timezone, 'd', {
       locale: getLocaleOption(locale)
     })
-    const month = format(zonedFrom, 'LLL', { locale: getLocaleOption(locale) })
-    const year = isThisYear(zonedFrom) ? '' : `, ${format(zonedFrom, 'yyyy')}`
+    const month = formatInTimeZone(rangeFrom, timezone, 'LLL', {
+      locale: getLocaleOption(locale)
+    })
+    const year = isThisYear(rangeFrom) ? '' : `, ${format(rangeFrom, 'yyyy')}`
 
     return `${dayOfMonthFrom}-${dayOfMonthTo} ${month}${year}`
   }
