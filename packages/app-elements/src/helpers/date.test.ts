@@ -638,17 +638,28 @@ describe('formatDateRange should return the proper date format', () => {
     ).toEqual('Dec 01, 2023 - Jan 31, 2025')
   })
 
-  test('with timezone Italy', () => {
+  test('with timezone Italy in winter', () => {
     expect(
       formatDateRange({
-        rangeFrom: '2024-12-09T22:00:00.000Z',
-        rangeTo: '2024-12-10T21:59:59.999Z',
-        timezone: 'Europe/Rome'
+        rangeFrom: '2024-02-04T23:00:00.000Z',
+        rangeTo: '2024-02-05T22:59:59.000Z',
+        timezone: 'Europe/Rome',
+        zonedAlready: true
       })
-    ).toEqual('10-10 Dec')
+    ).toEqual('5-5 Feb')
   })
 
-  test('with timezone Italy', () => {
+  test('with timezone Italy in summer', () => {
+    expect(
+      formatDateRange({
+        rangeFrom: '2024-05-04T22:00:00.000Z',
+        rangeTo: '2024-05-05T21:59:59.000Z',
+        timezone: 'Europe/Rome'
+      })
+    ).toEqual('5-5 May')
+  })
+
+  test('with timezone Italy in winter (more than 1 day)', () => {
     expect(
       formatDateRange({
         rangeFrom: '2024-12-10T00:00:00.000Z',

@@ -4,6 +4,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import { ArrowRight } from '@phosphor-icons/react'
 import classNames from 'classnames'
+import { endOfDay } from 'date-fns/endOfDay'
 import { forwardRef, useEffect } from 'react'
 import { InputDate } from '../InputDate'
 import {
@@ -74,7 +75,10 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
         }
 
         if (fromDate > toDate) {
-          onChange([fromDate, fromDate])
+          onChange([
+            fromDate,
+            showTimeSelect === true ? fromDate : toEndOfDay(fromDate)
+          ])
         }
       },
       [fromDate]
@@ -111,7 +115,10 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
           <InputDate
             value={toDate}
             onChange={(newDate) => {
-              onChange([fromDate, newDate])
+              onChange([
+                fromDate,
+                showTimeSelect === true ? newDate : toEndOfDay(newDate)
+              ])
             }}
             placeholder={toPlaceholder}
             minDate={fromDate ?? undefined}
@@ -129,5 +136,13 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
     )
   }
 )
+
+// quick helper to set the time to the end of the day compatible with nullable date
+function toEndOfDay(date: Date | null): Date | null {
+  if (date == null) {
+    return null
+  }
+  return endOfDay(date)
+}
 
 InputDateRange.displayName = 'InputDateRange'
