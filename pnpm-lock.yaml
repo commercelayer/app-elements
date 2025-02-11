@@ -23,9 +23,6 @@ importers:
       '@commercelayer/js-auth':
         specifier: ^6.7.0
         version: 6.7.0
-      '@commercelayer/organization-config':
-        specifier: ^2.0.2
-        version: 2.0.2
       '@commercelayer/sdk':
         specifier: 6.25.1
         version: 6.25.1
@@ -914,10 +911,6 @@ packages:
   '@commercelayer/js-auth@6.7.0':
     resolution: {integrity: sha512-Eh4v00OVvz0w1iYqz6PTVptNl/ipVs6nBG9NUzYKRSI/8Nnd+qU0MYfiogQYjm4sSoX5+4j0BsJW+9N/6s9Jjw==}
     engines: {node: '>=18.0.0'}
-
-  '@commercelayer/organization-config@2.0.2':
-    resolution: {integrity: sha512-MAVc21ySdfIbredKX1Ut7X//euZ8Wbu+iDoJmnjmQTp+3yJJi2DZwUeJOBbtrEfH1LnDdJUIrUZYB4LappZztw==}
-    engines: {node: '>=18', pnpm: '>=7'}
 
   '@commercelayer/sdk@6.25.1':
     resolution: {integrity: sha512-tIgybw2l5sOCdCsWoGBkHbBbkWcQfiCg7/ZjZ4SPJUMIFHOBMc3q9YvHrLNyMsYxMirB0TvqIAx8reaEmh7MRw==}
@@ -4038,10 +4031,6 @@ packages:
     resolution: {integrity: sha512-LvIm3/KWzS9oRFHugab7d+M/GcBXuXX5xZkzPmN+NxihdQlZUQ4dWuSV1xR/sq6upL1TJEDrfBgRepHFdBtSNQ==}
     engines: {node: '>= 0.4'}
 
-  is-what@4.1.16:
-    resolution: {integrity: sha512-ZhMwEosbFJkA0YhFnNDgTM4ZxDRsS6HqTo7qsZM08fehyRYIYa0yHu5R6mgo1n/8MgaPBXiPimPD77baVFYg+A==}
-    engines: {node: '>=12.13'}
-
   is-wsl@2.2.0:
     resolution: {integrity: sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww==}
     engines: {node: '>=8'}
@@ -4417,10 +4406,6 @@ packages:
   meow@8.1.2:
     resolution: {integrity: sha512-r85E3NdZ+mpYk1C6RjPFEMSE+s1iZMuHtsHAqY0DT3jZczl0diWUZ8g6oU7h0M9cD2EL+PzaYghhCLzR0ZNn5Q==}
     engines: {node: '>=10'}
-
-  merge-anything@5.1.7:
-    resolution: {integrity: sha512-eRtbOb1N5iyH0tkQDAoQ4Ipsp/5qSR79Dzrz8hEPxRX10RWWR/iQXdoKmBSRCThY1Fh5EhISDtpSc93fpxUniQ==}
-    engines: {node: '>=12.13'}
 
   merge-stream@2.0.0:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
@@ -7286,10 +7271,6 @@ snapshots:
       - supports-color
 
   '@commercelayer/js-auth@6.7.0': {}
-
-  '@commercelayer/organization-config@2.0.2':
-    dependencies:
-      merge-anything: 5.1.7
 
   '@commercelayer/sdk@6.25.1': {}
 
@@ -10907,8 +10888,6 @@ snapshots:
       call-bind: 1.0.7
       get-intrinsic: 1.2.4
 
-  is-what@4.1.16: {}
-
   is-wsl@2.2.0:
     dependencies:
       is-docker: 2.2.1
@@ -11496,10 +11475,6 @@ snapshots:
       trim-newlines: 3.0.1
       type-fest: 0.18.1
       yargs-parser: 20.2.9
-
-  merge-anything@5.1.7:
-    dependencies:
-      is-what: 4.1.16
 
   merge-stream@2.0.0: {}
 
