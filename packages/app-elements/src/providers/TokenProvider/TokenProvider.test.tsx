@@ -4,10 +4,12 @@ import { TokenProvider, type TokenProviderProps } from './TokenProvider'
 // token expires at Monday, 6 February 2023 11:53:19
 // slug is `giuseppe`
 // kind is `integration`
-const accessToken =
+const accessTokenKindIntegration =
   'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6dHJ1ZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTYsImlzcyI6Imh0dHBzOi8vYXV0aC5jb21tZXJjZWxheWVyLmlvIn0.fake-signature-test'
+const accessTokenKindImports =
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW1wb3J0cyIsInB1YmxpYyI6ZmFsc2V9LCJ0ZXN0Ijp0cnVlLCJleHAiOjE2NzU2ODQzOTksInJhbmQiOjAuODU4MDkzODM5MDc5NDU5NiwiaXNzIjoiaHR0cHM6Ly9hdXRoLmNvbW1lcmNlbGF5ZXIuaW8ifQ.fake-signature-test'
 const accessTokenLive =
-  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW50ZWdyYXRpb24iLCJwdWJsaWMiOmZhbHNlfSwidGVzdCI6ZmFsc2UsImV4cCI6MTY3NTY4NDM5OSwicmFuZCI6MC44NTgwOTM4MzkwNzk0NTk2LCJpc3MiOiJodHRwczovL2F1dGguY29tbWVyY2VsYXllci5pbyJ9.fake-signature-live'
+  'eyJhbGciOiJIUzUxMiJ9.eyJvcmdhbml6YXRpb24iOnsiaWQiOiJrUk1lakZXalpSIiwic2x1ZyI6ImdpdXNlcHBlIiwiZW50ZXJwcmlzZSI6ZmFsc2V9LCJhcHBsaWNhdGlvbiI6eyJpZCI6IkFwUGtaaWxWQk0iLCJraW5kIjoiaW1wb3J0cyIsInB1YmxpYyI6ZmFsc2V9LCJ0ZXN0IjpmYWxzZSwiZXhwIjoxNjc1Njg0Mzk5LCJyYW5kIjowLjg1ODA5MzgzOTA3OTQ1OTYsImlzcyI6Imh0dHBzOi8vYXV0aC5jb21tZXJjZWxheWVyLmlvIn0.fake-signature-live'
 const validDateNow = new Date('2023-02-06T10:00:00.000Z')
 const expiredDateNow = new Date('2023-02-10T10:00:00.000Z')
 
@@ -34,6 +36,7 @@ const setup = ({ id, ...props }: SetupProps): SetupResult => {
             <p>fullName: {user?.fullName}</p>
             <p>can access orders: {canAccess('orders') ? 'yes' : 'no'}</p>
             <p>can access exports: {canAccess('exports') ? 'yes' : 'no'}</p>
+            <p>can access imports: {canAccess('imports') ? 'yes' : 'no'}</p>
             <p>content</p>
           </div>
         )}
@@ -63,17 +66,17 @@ describe('TokenProvider', () => {
     window.location = location
   })
 
-  test('Should read token from props', async () => {
+  test('Should read token from props (kind: imports)', async () => {
     vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     window.location.hostname = 'giuseppe.commercelayer.app'
     const onInvalidAuth = vi.fn()
 
     const { element, getByText } = setup({
       id: 'token-provider',
-      kind: 'integration',
+      kind: 'imports',
       appSlug: 'imports',
       devMode: false,
-      accessToken,
+      accessToken: accessTokenKindImports,
       onInvalidAuth,
       loadingElement: <div>Loading...</div>
     })
@@ -91,7 +94,35 @@ describe('TokenProvider', () => {
     expect(getByText('fullName: Ringo Starr')).toBeVisible()
 
     expect(getByText('can access orders: yes')).toBeVisible()
+    expect(getByText('can access exports: no')).toBeVisible()
+    expect(getByText('can access imports: yes')).toBeVisible()
+
+    expect(onInvalidAuth).toHaveBeenCalledTimes(0)
+  })
+
+  test('Should read token from props (kind: integration)', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
+    window.location.hostname = 'giuseppe.commercelayer.app'
+    const onInvalidAuth = vi.fn()
+
+    const { element, getByText } = setup({
+      id: 'token-provider',
+      kind: 'integration',
+      appSlug: 'imports',
+      devMode: false,
+      accessToken: accessTokenKindIntegration,
+      onInvalidAuth,
+      loadingElement: <div>Loading...</div>
+    })
+    expect(element).toBeVisible()
+    expect(getByText('Loading...')).toBeVisible()
+    await waitFor(() => {
+      expect(getByText('content')).toBeVisible()
+    })
+    expect(getByText('mode: test')).toBeVisible()
+    expect(getByText('can access orders: yes')).toBeVisible()
     expect(getByText('can access exports: yes')).toBeVisible()
+    expect(getByText('can access imports: yes')).toBeVisible()
 
     expect(onInvalidAuth).toHaveBeenCalledTimes(0)
   })
@@ -103,7 +134,7 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      kind: 'integration',
+      kind: 'imports',
       appSlug: 'imports',
       devMode: false,
       accessToken: accessTokenLive,
@@ -117,12 +148,12 @@ describe('TokenProvider', () => {
   test('Should read token from url', async () => {
     vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     window.location.hostname = 'giuseppe.commercelayer.app'
-    window.location.search = `?accessToken=${accessToken}`
+    window.location.search = `?accessToken=${accessTokenKindImports}`
     const onInvalidAuth = vi.fn()
 
     const { element, getByText } = setup({
       id: 'token-provider',
-      kind: 'integration',
+      kind: 'imports',
       appSlug: 'imports',
       devMode: false,
       onInvalidAuth,
@@ -143,10 +174,10 @@ describe('TokenProvider', () => {
 
     const { getByText } = setup({
       id: 'token-provider',
-      kind: 'integration',
+      kind: 'imports',
       appSlug: 'imports',
       devMode: false,
-      accessToken,
+      accessToken: accessTokenKindImports,
       onInvalidAuth
     })
     await waitFor(() => {
@@ -170,7 +201,7 @@ describe('TokenProvider', () => {
       devMode: false,
       loadingElement: <div>fetching token info</div>,
       errorElement: <div>custom error element</div>,
-      accessToken,
+      accessToken: accessTokenKindImports,
       onInvalidAuth
     })
     expect(getByText('fetching token info')).toBeVisible()
@@ -190,10 +221,10 @@ describe('TokenProvider', () => {
     const { getByTestId, getByText } = render(
       <div data-testid='token-provider'>
         <TokenProvider
-          kind='integration'
+          kind='imports'
           appSlug='imports'
           devMode
-          accessToken={accessToken}
+          accessToken={accessTokenKindImports}
           onInvalidAuth={onInvalidAuth}
           loadingElement={<div>Loading...</div>}
         >
@@ -237,10 +268,10 @@ describe('TokenProvider and localStorage', () => {
     vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
-      kind: 'integration',
+      kind: 'imports',
       appSlug: 'imports',
       devMode: true,
-      accessToken,
+      accessToken: accessTokenKindImports,
       onInvalidAuth: () => {}
     })
     await waitFor(() => {
@@ -252,7 +283,7 @@ describe('TokenProvider and localStorage', () => {
     vi.useFakeTimers({ toFake: ['Date'] }).setSystemTime(validDateNow)
     const { getByText } = setup({
       id: 'token-provider',
-      kind: 'integration',
+      kind: 'imports',
       appSlug: 'imports',
       devMode: true,
       onInvalidAuth: () => {}

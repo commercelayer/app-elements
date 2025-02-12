@@ -84,10 +84,9 @@ export interface TokenProviderTokenInfo {
   /**
    * List of resources with specific permissions for current token.
    */
-  permissions: Record<
-    ListableResourceType,
-    { actions: TokenProviderRoleActions[] }
-  >
+  permissions: {
+    [key in ListableResourceType]?: { actions: TokenProviderRoleActions[] }
+  }
   /**
    * Owner is only present when the token is generated with a logged-in user
    */

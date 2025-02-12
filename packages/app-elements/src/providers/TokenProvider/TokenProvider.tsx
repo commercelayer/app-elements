@@ -190,6 +190,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       action: TokenProviderRoleActions,
       resource: ListableResourceType | 'organizations'
     ): boolean {
+      if (kind === 'integration') {
+        return true
+      }
+
       return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
     [_state.rolePermissions]

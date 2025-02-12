@@ -46,6 +46,28 @@ describe('isValidTokenForCurrentApp', () => {
 
     expect(tokenInfo.organizationSlug).toBe('giuseppe-imports')
 
+    expect(tokenInfo.user).toBeNull()
+  })
+
+  test('should extract proper data from `tokeninfo` endpoint for any other kind (other than "integration")', async () => {
+    const tokenInfo = await isValidTokenForCurrentApp({
+      accessToken: token,
+      kind: 'skus',
+      isProduction: false,
+      currentMode: 'test'
+    })
+
+    expect(tokenInfo.isValidToken).toBe(true)
+
+    if (!tokenInfo.isValidToken) {
+      // type guard to make TS happy and be considered as `ValidToken` type
+      throw new Error('Token is not valid')
+    }
+
+    expect(tokenInfo.mode).toBe('test')
+
+    expect(tokenInfo.organizationSlug).toBe('giuseppe-imports')
+
     expect(tokenInfo.user).toStrictEqual({
       id: 'kdRvPYzXfy',
       firstName: 'Ringo',
