@@ -41,7 +41,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
     close
   } = useOverlay({ queryParam: 'edit-tags' })
 
-  const { settings, organization } = useTokenProvider()
+  const { settings } = useTokenProvider()
   const { t } = useTranslation()
 
   const [selectedTagsLimitReached, setSelectedTagsLimitReached] =
@@ -65,6 +65,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
       resourceType
     }) => {
       const { sdkClient } = useCoreSdkProvider()
+
+      const { data: organization, isLoading: isOrganizationLoading } =
+        useCoreApi('organization', 'retrieve', [])
 
       const {
         data: resourceTags,
@@ -108,7 +111,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
         tagsToSelectOptions(resourceTags ?? [])
       )
 
-      if (isLoading || resourceTags == null) return <></>
+      if (isLoading || isOrganizationLoading || resourceTags == null) {
+        return <></>
+      }
 
       // @ts-expect-error - missing tags_max_allowed_number key in organization because of old SDK version
       const maxAllowedTags = organization?.tags_max_allowed_number ?? 10

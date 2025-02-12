@@ -30,14 +30,6 @@ export function MockTokenProvider({
       timezone: 'Europe/Rome',
       locale: 'en-US'
     },
-    organization: {
-      id: '1234',
-      name: 'Commerce Layer',
-      slug: 'mock',
-      type: 'organizations',
-      created_at: '2021-01-01T00:00:00.000Z',
-      updated_at: '2021-01-01T00:00:00.000Z'
-    },
     canUser: (action, resource) => true,
     canAccess: () => true,
     emitInvalidAuth: () => {}

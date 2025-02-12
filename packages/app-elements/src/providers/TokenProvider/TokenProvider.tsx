@@ -8,7 +8,7 @@ import { extractDomainFromApiBaseEndpoint } from '#providers/TokenProvider/url'
 import { PageError } from '#ui/composite/PageError'
 import { PageSkeleton } from '#ui/composite/PageSkeleton'
 import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
-import type { ListableResourceType, Organization } from '@commercelayer/sdk'
+import type { ListableResourceType } from '@commercelayer/sdk'
 import {
   createContext,
   useCallback,
@@ -22,7 +22,6 @@ import {
   getCurrentMode,
   removeAuthParamsFromUrl
 } from './getAccessTokenFromUrl'
-import { getOrganization } from './getOrganization'
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentJWT, savePersistentJWT } from './storage'
 import type {
@@ -38,7 +37,6 @@ import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
 export interface TokenProviderValue {
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
-  organization: Organization | null
   canUser: (
     action: TokenProviderRoleActions,
     resource: ListableResourceType
@@ -129,8 +127,7 @@ export const AuthContext = createContext<TokenProviderValue>({
   canAccess: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
-  user: null,
-  organization: null
+  user: null
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -193,6 +190,10 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       action: TokenProviderRoleActions,
       resource: ListableResourceType | 'organizations'
     ): boolean {
+      if (kind === 'integration') {
+        return true
+      }
+
       return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
     [_state.rolePermissions]
@@ -244,15 +245,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
           return
         }
 
-        // fetching organization details if user has read permission and app is not dashboard
-        const organization =
-          tokenInfo.permissions?.organizations?.read === true &&
-          appSlug !== 'dashboard'
-            ? await getOrganization({
-                accessToken
-              })
-            : null
-
         // all good - save token using custom storage method (if provided) or fallback to internal method
         if (storage != null) {
           storage.saveAccessToken(accessToken)
@@ -299,7 +291,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               extras
             },
             user: tokenInfo.user ?? userFromExtras,
-            organization,
             rolePermissions: tokenInfo.permissions ?? {},
             accessibleApps: tokenInfo.accessibleApps ?? []
           }
@@ -312,7 +303,6 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   const value: TokenProviderValue = {
     settings: _state.settings,
     user: _state.user,
-    organization: _state.organization,
     canUser,
     canAccess,
     emitInvalidAuth

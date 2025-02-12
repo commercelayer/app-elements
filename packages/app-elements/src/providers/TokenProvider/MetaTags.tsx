@@ -1,13 +1,15 @@
 import { formatResourceName } from '#helpers/resources'
+import { useCoreApi } from '#providers/CoreSdkProvider'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import { useEffect } from 'react'
 import { useTokenProvider } from './index'
 
 function MetaTags(): null {
   const {
-    organization,
     settings: { appSlug }
   } = useTokenProvider()
+
+  const { data: organization } = useCoreApi('organization', 'retrieve', [])
 
   const organizationName = organization?.name
 

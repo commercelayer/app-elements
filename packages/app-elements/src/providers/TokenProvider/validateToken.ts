@@ -80,10 +80,22 @@ export async function isValidTokenForCurrentApp({
   }
 
   try {
-    const tokenInfo = await fetchTokenInfo({
-      accessToken,
-      orgSlug: jwtInfo.orgSlug
-    })
+    const tokenInfo:
+      | (Omit<TokenProviderTokenInfo, 'application' | 'role' | 'token'> & {
+          token: { test: boolean }
+        })
+      | null =
+      kind === 'integration'
+        ? {
+            permissions: {},
+            token: {
+              test: jwtInfo.mode !== 'live'
+            }
+          }
+        : await fetchTokenInfo({
+            accessToken,
+            orgSlug: jwtInfo.orgSlug
+          })
 
     const isValidOnCore = Boolean(tokenInfo?.token)
     const isValidKind = jwtInfo.appKind === kind
@@ -180,10 +192,10 @@ function preparePermissions(
   return resourceList.reduce<TokenProviderRolePermissions>(
     (permissions, resource) => {
       const permissionItem: TokenProviderPermissionItem = {
-        create: apiPermissions[resource].actions.includes('create'),
-        destroy: apiPermissions[resource].actions.includes('destroy'),
-        read: apiPermissions[resource].actions.includes('read'),
-        update: apiPermissions[resource].actions.includes('update')
+        create: apiPermissions[resource]?.actions.includes('create') ?? false,
+        destroy: apiPermissions[resource]?.actions.includes('destroy') ?? false,
+        read: apiPermissions[resource]?.actions.includes('read') ?? false,
+        update: apiPermissions[resource]?.actions.includes('update') ?? false
       }
       return {
         ...permissions,
