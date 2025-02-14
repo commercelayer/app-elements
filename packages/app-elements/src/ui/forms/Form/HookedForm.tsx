@@ -48,6 +48,8 @@ export const HookedForm = <T extends FieldValues>({
     <FormProvider handleSubmit={handleSubmit} {...rest}>
       <form
         onSubmit={(e) => {
+          e.preventDefault()
+          e.stopPropagation()
           void doSubmit(e)
         }}
       >
