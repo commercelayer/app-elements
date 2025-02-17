@@ -1,5 +1,4 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { act } from 'react-dom/test-utils'
+import { act, render, type RenderResult } from '@testing-library/react'
 import { ListItem, type ListItemProps } from './ListItem'
 
 type SetupResult = RenderResult & {

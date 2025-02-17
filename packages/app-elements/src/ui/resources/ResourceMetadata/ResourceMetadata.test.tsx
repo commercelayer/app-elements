@@ -1,7 +1,6 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { render, type RenderResult } from '@testing-library/react'
-import { act } from 'react-dom/test-utils'
+import { act, render, type RenderResult } from '@testing-library/react'
 import { ResourceMetadata } from './ResourceMetadata'
 
 const setup = async (): Promise<RenderResult> => {

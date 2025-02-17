@@ -1,6 +1,10 @@
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  type RenderResult
+} from '@testing-library/react'
 import { useState } from 'react'
-import { act } from 'react-dom/test-utils'
 import {
   InputToggleButton,
   type InputToggleButtonProps

@@ -72,6 +72,6 @@ export function useCoreApi<
   return useSWR(
     args !== null ? [resource, action, args, mode] : null,
     fetcher,
-    config
+    config ?? {}
   )
 }

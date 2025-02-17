@@ -19,6 +19,7 @@ const MockIntersectionObserver = vi.fn(
 )
 
 vi.stubGlobal(`IntersectionObserver`, MockIntersectionObserver)
+vi.stubGlobal(`scrollTo`, vi.fn())
 
 const intersectionEntry = {
   isIntersecting: true

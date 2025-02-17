@@ -115,7 +115,6 @@ export function useEditTagsOverlay(): TagsOverlayHook {
         return <></>
       }
 
-      // @ts-expect-error - missing tags_max_allowed_number key in organization because of old SDK version
       const maxAllowedTags = organization?.tags_max_allowed_number ?? 10
 
       return (
