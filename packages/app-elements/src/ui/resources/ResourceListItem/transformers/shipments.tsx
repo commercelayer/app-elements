@@ -26,9 +26,9 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
     resource,
     awaitingStockTransfer
   )
-  const shipmentShippingMethodName =
-    resource.shipping_method?.name != null
-      ? `${resource.shipping_method.name} `
+  const stockLocationName =
+    resource.stock_location?.name != null
+      ? `${t('common.from')} ${resource.stock_location.name} `
       : ''
   const number = resource.number != null ? `#${resource.number}` : ''
 
@@ -43,7 +43,7 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
           timezone: user?.timezone,
           locale: user?.locale
         })}
-        additionalInfos={shipmentShippingMethodName}
+        additionalInfos={stockLocationName}
       />
     ),
     icon:
