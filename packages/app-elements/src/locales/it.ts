@@ -262,7 +262,7 @@ const it: typeof en = {
           draft: 'Bozza',
           editing: 'In modifica',
           pending: 'In attesa',
-          placed: 'Acquistato',
+          placed: 'Ricevuto',
           placing: 'In acquisto'
         },
         payment_status: {
