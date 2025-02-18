@@ -1,5 +1,5 @@
-import capitalize from 'lodash/capitalize'
-import startCase from 'lodash/startCase'
+import capitalize from 'lodash-es/capitalize'
+import startCase from 'lodash-es/startCase'
 import type { JsonPrimitive } from 'type-fest'
 
 /**

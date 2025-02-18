@@ -3,7 +3,7 @@ import { t } from '#providers/I18NProvider'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Stack } from '#ui/atoms/Stack'
 import { Label } from '#ui/forms/Label'
-import { type Key, type ReactNode } from 'react'
+import { type JSX, type Key, type ReactNode } from 'react'
 
 interface ReportItem {
   label: string

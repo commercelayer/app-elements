@@ -4,6 +4,7 @@ import {
   useContext,
   useEffect,
   useState,
+  type JSX,
   type ReactNode
 } from 'react'
 import { type SetOptional } from 'type-fest'

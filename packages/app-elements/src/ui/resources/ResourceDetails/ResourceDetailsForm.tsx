@@ -15,8 +15,8 @@ import { z } from 'zod'
 import { type ResourceDetailsProps } from './ResourceDetails'
 
 const metadataForm = z.object({
-  reference: z.string().nullable(),
-  reference_origin: z.string().nullable()
+  reference: z.string().nullish(),
+  reference_origin: z.string().nullish()
 })
 
 export const ResourceDetailsForm = withSkeletonTemplate<{

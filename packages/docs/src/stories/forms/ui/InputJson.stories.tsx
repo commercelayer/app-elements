@@ -1,6 +1,6 @@
 import { InputJson } from '#ui/forms/InputJson'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { useState } from 'react'
+import { type JSX, useState } from 'react'
 
 const setup: Meta<typeof InputJson> = {
   title: 'Forms/ui/InputJson',

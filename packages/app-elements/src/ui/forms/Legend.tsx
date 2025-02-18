@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { type JSX } from 'react'
 
 export interface LegendProps extends React.HTMLAttributes<HTMLLegendElement> {
   gap?: boolean

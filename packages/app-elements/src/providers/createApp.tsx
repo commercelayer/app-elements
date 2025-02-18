@@ -1,5 +1,5 @@
-import isEmpty from 'lodash/isEmpty'
-import { type FC } from 'react'
+import isEmpty from 'lodash-es/isEmpty'
+import { type ReactNode } from 'react'
 import ReactDOM, { type Root } from 'react-dom/client'
 import { type TokenProviderAllowedApp } from './TokenProvider'
 import { type TokenProviderProps } from './TokenProvider/TokenProvider'
@@ -42,7 +42,7 @@ export interface ClAppProps
  * @param children - The root component of the app.
  **/
 export function createApp(
-  children: FC<ClAppProps>,
+  children: (props: ClAppProps) => ReactNode,
   appSlug: TokenProviderAllowedApp
 ): void {
   window[`clApp_${appSlug}`] = {

@@ -1,4 +1,5 @@
-import omit from 'lodash/omit'
+import omit from 'lodash-es/omit'
+import { type JSX } from 'react'
 
 export function enforceAllowedTags<
   AllowedTags extends ReadonlyArray<keyof JSX.IntrinsicElements>,

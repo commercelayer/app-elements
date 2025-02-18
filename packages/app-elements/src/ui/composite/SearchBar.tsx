@@ -5,8 +5,8 @@ import {
 } from '#ui/atoms/SkeletonTemplate'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import cn from 'classnames'
-import debounce from 'lodash/debounce'
-import isEmpty from 'lodash/isEmpty'
+import debounce from 'lodash-es/debounce'
+import isEmpty from 'lodash-es/isEmpty'
 import { forwardRef, useCallback, useEffect, useState } from 'react'
 
 export interface SearchBarProps

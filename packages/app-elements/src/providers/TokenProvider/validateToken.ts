@@ -6,7 +6,7 @@ import {
 import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { getInfoFromJwt, type ParsedScopes } from './getInfoFromJwt'
 import {
   type Mode,

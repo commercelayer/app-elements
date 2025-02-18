@@ -23,7 +23,13 @@ import type {
 } from '@commercelayer/sdk'
 import { Checks, Swap } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { Fragment, useMemo, useState, type ComponentProps } from 'react'
+import {
+  Fragment,
+  useMemo,
+  useState,
+  type ComponentProps,
+  type JSX
+} from 'react'
 import { type StockLineItemWithStockTransfer } from './types'
 
 interface LineItemSettings {

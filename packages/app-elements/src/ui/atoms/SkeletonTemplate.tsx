@@ -4,15 +4,15 @@ import {
   Children,
   cloneElement,
   isValidElement,
-  type FC,
   type FunctionComponent,
+  type JSX,
   type ReactNode,
   type ReactPortal
 } from 'react'
 import { type Simplify } from 'type-fest'
 import { useDelayShow } from '../../hooks/useDelayShow'
 
-type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
+type ReactNodeNoPortal = Exclude<Awaited<ReactNode>, ReactPortal>
 
 export type SkeletonTemplateProps<P = Record<string, unknown>> = Simplify<
   P & {
@@ -38,9 +38,13 @@ function childrenRecursiveMap(
     return childRecursiveMap(children, options, fn)
   }
 
-  return Children.map(children, (child) =>
-    childRecursiveMap(child, options, fn)
-  )
+  return Children.map(children, (child) => {
+    if (child instanceof Promise) {
+      throw new Error('async/await is not yet supported in SkeletonTemplate')
+    }
+
+    return childRecursiveMap(child, options, fn)
+  })
 }
 
 function childRecursiveMap(
@@ -48,7 +52,13 @@ function childRecursiveMap(
   options: SkeletonTemplateProps,
   fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
 ): ReactNodeNoPortal {
-  if (isValidElement<any>(child)) {
+  if (
+    isValidElement<{
+      isLoading?: boolean
+      delayMs?: number
+      children?: ReactNode
+    }>(child)
+  ) {
     if (isSkeletonTemplate(child)) {
       return cloneElement(child, {
         isLoading: child.props.isLoading ?? options.isLoading,
@@ -78,13 +88,19 @@ export interface SkeletonTemplateComponent<P = Record<string, unknown>>
 }
 
 export function withSkeletonTemplate<P>(
-  Element: FC<SkeletonTemplateProps<P>>
+  Element: (props: SkeletonTemplateProps<P>) => ReactNode
 ): SkeletonTemplateComponent<SkeletonTemplateProps<P>> {
   const withSkeletonTemplate: SkeletonTemplateComponent<
     SkeletonTemplateProps<P>
   > = (props) => {
     const { isLoading, delayMs } = props
     const element = Element({ ...props, isLoading, delayMs })
+
+    if (element instanceof Promise) {
+      throw new Error(
+        'async/await is not yet supported in withSkeletonTemplate'
+      )
+    }
 
     if (element != null) {
       return (
@@ -184,6 +200,7 @@ const SkeletonTemplate: SkeletonTemplateComponent<
           ) {
             return cloneElement(child, {
               ...props,
+              // @ts-expect-error className is a valid component props
               className: cn(props.className as string, skeletonClass)
             })
           }

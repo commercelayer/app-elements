@@ -11,7 +11,7 @@ import {
   ListItemIcon
 } from '#ui/resources/ResourceListItem/common'
 import type { Order } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { type ResourceToProps } from '../types'
 
 export const orderToProps: ResourceToProps<Order> = ({ resource, user, t }) => {

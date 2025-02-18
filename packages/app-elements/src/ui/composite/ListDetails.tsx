@@ -1,7 +1,7 @@
 import { Section } from '#ui/atoms/Section'
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import cn from 'classnames'
-import { type ReactNode } from 'react'
+import { type JSX, type ReactNode } from 'react'
 
 export interface ListDetailsProps {
   /**

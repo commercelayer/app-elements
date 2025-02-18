@@ -1,7 +1,7 @@
 import { FlexRow, type FlexRowProps } from '#ui/internals/FlexRow'
 import { removeUnwantedProps } from '#utils/htmltags'
 import cn from 'classnames'
-import { type FC } from 'react'
+import { type FC, type JSX } from 'react'
 
 type ListItemVariant = 'list' | 'boxed'
 

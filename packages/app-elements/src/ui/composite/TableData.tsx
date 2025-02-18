@@ -3,7 +3,8 @@ import { Table, Td, Th, Tr } from '#ui/atoms/Table'
 import { extractHeaders } from '#utils/extractHeaders'
 import { isJsonPrimitive } from '#utils/text'
 import cn from 'classnames'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
+import { type JSX } from 'react'
 import type { JsonObject } from 'type-fest'
 
 export interface TableDataProps {

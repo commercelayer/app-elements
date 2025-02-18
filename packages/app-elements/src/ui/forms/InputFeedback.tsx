@@ -1,5 +1,6 @@
 import { CheckCircle, WarningCircle } from '@phosphor-icons/react'
 import cn from 'classnames'
+import { type JSX } from 'react'
 
 type FeedbackVariant = 'danger' | 'success' | 'warning'
 

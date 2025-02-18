@@ -13,7 +13,7 @@ import {
 } from '#ui/forms/InputSelect'
 import { type ResourceTagsProps } from '#ui/resources/ResourceTags'
 import { type ListResponse, type Tag } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { useCallback, useState } from 'react'
 
 export interface EditTagsOverlayProps {

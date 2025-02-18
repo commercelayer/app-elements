@@ -33,6 +33,11 @@ export const useClickAway = (
       }
     }, [])
 
+    if (ref.current == null) {
+      return undefined
+    }
+
+    // @ts-expect-error ref.current is never null
     return ref
   }
 }

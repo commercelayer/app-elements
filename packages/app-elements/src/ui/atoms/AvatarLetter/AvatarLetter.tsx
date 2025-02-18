@@ -1,6 +1,6 @@
 import { getDeterministicValue, getInitials } from '#utils/text'
 import classNames from 'classnames'
-import { useMemo } from 'react'
+import { useMemo, type JSX } from 'react'
 import { BG_COLORS, getTextColorForBackground } from './colors'
 
 export interface AvatarLetterProps {

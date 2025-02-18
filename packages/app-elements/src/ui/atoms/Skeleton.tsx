@@ -1,6 +1,6 @@
 import { useDelayShow } from '#hooks/useDelayShow'
 import cn from 'classnames'
-import { type ReactNode } from 'react'
+import { type JSX, type ReactNode } from 'react'
 
 export interface SkeletonProps {
   /**

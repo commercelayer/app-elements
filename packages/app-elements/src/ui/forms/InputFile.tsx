@@ -7,7 +7,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import { UploadSimple } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { forwardRef } from 'react'
+import { forwardRef, type JSX } from 'react'
 import invariant from 'ts-invariant'
 
 export interface InputFileProps

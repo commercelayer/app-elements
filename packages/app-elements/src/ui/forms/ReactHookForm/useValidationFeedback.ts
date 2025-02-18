@@ -1,5 +1,5 @@
 import { type InputFeedbackProps } from '#ui/forms/InputFeedback'
-import get from 'lodash/get'
+import get from 'lodash-es/get'
 import { useFormContext } from 'react-hook-form'
 
 type MaybeFeedback = Omit<InputFeedbackProps, 'className'> | undefined

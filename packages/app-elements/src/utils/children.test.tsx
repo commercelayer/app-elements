@@ -1,4 +1,5 @@
 import { isSpecificJsxTag } from '#utils/children'
+import { type JSX } from 'react'
 import {
   filterByDisplayName,
   getInnerText,

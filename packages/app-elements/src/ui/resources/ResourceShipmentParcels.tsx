@@ -33,7 +33,7 @@ import {
 } from '@commercelayer/sdk'
 import { File, Package } from '@phosphor-icons/react'
 import cn from 'classnames'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { useCallback, useMemo } from 'react'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 import { ResourceLineItems } from './ResourceLineItems'

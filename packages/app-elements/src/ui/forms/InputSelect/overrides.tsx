@@ -2,7 +2,8 @@ import { Hr } from '#ui/atoms/Hr'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Tag } from '#ui/atoms/Tag'
 import { X } from '@phosphor-icons/react'
-import { castArray } from 'lodash'
+import { castArray } from 'lodash-es'
+import { type JSX } from 'react'
 import {
   components,
   type ClearIndicatorProps,

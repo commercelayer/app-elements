@@ -1,5 +1,5 @@
 import { type Attachment } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { type SetNonNullable, type SetRequired } from 'type-fest'
 
 export const referenceOrigins = {

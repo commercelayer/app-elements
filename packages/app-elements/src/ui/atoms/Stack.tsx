@@ -1,4 +1,4 @@
-import { Children, type ReactNode } from 'react'
+import { Children, type JSX, type ReactNode } from 'react'
 
 export interface StackProps {
   children: ReactNode
