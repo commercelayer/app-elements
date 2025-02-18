@@ -14,7 +14,7 @@ import type { Order } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import { type ResourceToProps } from '../types'
 
-export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
+export const orderToProps: ResourceToProps<Order> = ({ resource, user, t }) => {
   const displayStatus = getOrderDisplayStatus(resource)
 
   const billingAddress = resource.billing_address
@@ -26,7 +26,7 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user }) => {
       )
 
   return {
-    name: `${resource.market?.name ?? ''} #${resource.number ?? ''}`.trim(),
+    name: `${resource.market?.name ?? t('resources.orders.name')} #${resource.number ?? ''}`.trim(),
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
