@@ -65,7 +65,11 @@ function FiltersForm({
       onSubmit={(formValues) => {
         onSubmit(
           adaptFormValuesToUrlQuery({
-            formValues
+            formValues: {
+              timeFrom: formValues.timeFrom ?? undefined,
+              timePreset: formValues.timePreset ?? undefined,
+              timeTo: formValues.timeTo ?? undefined
+            }
           })
         )
       }}

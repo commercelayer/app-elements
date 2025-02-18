@@ -89,8 +89,13 @@ export function getInnerText(reactNode: ReactNode): string {
       if (Array.isArray(reactNode)) {
         children = reactNode
       } else {
-        if ('props' in reactNode && reactNode.props != null) {
-          children = reactNode.props.children
+        if (
+          'props' in reactNode &&
+          reactNode.props != null &&
+          typeof reactNode.props === 'object' &&
+          'children' in reactNode.props
+        ) {
+          children = reactNode.props.children as ReactNode
         }
       }
       if (children != null) {

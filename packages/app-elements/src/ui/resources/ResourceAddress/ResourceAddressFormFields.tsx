@@ -26,7 +26,7 @@ export const getResourceAddressFormFieldsSchema = ({
 }: Pick<ResourceAddressProps, 'requiresBillingInfo'> = {}) =>
   z
     .object({
-      business: z.boolean().nullish().default(false),
+      business: z.boolean().nullish(),
       first_name: z.string().nullish(),
       last_name: z.string().nullish(),
       company: z.string().nullish(),

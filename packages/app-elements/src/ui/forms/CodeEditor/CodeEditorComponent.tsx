@@ -73,7 +73,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
     ref
   ): JSX.Element => {
     const monaco = useMonaco()
-    const disposeCompletionItemProvider = useRef<() => void>()
+    const disposeCompletionItemProvider = useRef<() => void>(null)
     const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
     const {
       settings: { domain }

@@ -225,7 +225,4 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
   )
 })
 
-interface KeyedMetadata {
-  key: string
-  value: unknown
-}
+type KeyedMetadata = z.infer<typeof metadataForm>['metadata'][number]
