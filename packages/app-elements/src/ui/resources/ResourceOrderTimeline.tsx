@@ -493,7 +493,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.shipment_number_is', {
-                    number: shipment.number
+                    number: shipment.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.shipment_on_hold')}
@@ -512,7 +513,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.shipment_number_was', {
-                    number: shipment.number
+                    number: shipment.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.shipment_picked')}
@@ -571,7 +573,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.shipment_number_was', {
-                    number: shipment.number
+                    number: shipment.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.shipment_shipped')}
@@ -599,7 +602,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.return_number_was', {
-                    number: returnObj.number
+                    number: returnObj.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.return_approved')}
@@ -618,7 +622,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.return_number_was', {
-                    number: returnObj.number
+                    number: returnObj.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.return_cancelled')}
@@ -637,7 +642,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.return_number_was', {
-                    number: returnObj.number
+                    number: returnObj.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.return_shipped')}
@@ -656,7 +662,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.return_number_was', {
-                    number: returnObj.number
+                    number: returnObj.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.return_rejected')}
@@ -675,7 +682,8 @@ const useTimelineReducer = (order: Order) => {
               message: (
                 <>
                   {t('common.timeline.resources.return_number_was', {
-                    number: returnObj.number
+                    number: returnObj.number,
+                    interpolation: { escapeValue: false }
                   })}{' '}
                   <Text weight='bold'>
                     {t('common.timeline.resources.return_received')}
