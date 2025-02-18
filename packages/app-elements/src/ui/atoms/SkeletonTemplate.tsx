@@ -12,7 +12,7 @@ import {
 import { type Simplify } from 'type-fest'
 import { useDelayShow } from '../../hooks/useDelayShow'
 
-type ReactNodeNoPortal = Exclude<ReactNode, ReactPortal>
+type ReactNodeNoPortal = Exclude<Awaited<ReactNode>, ReactPortal>
 
 export type SkeletonTemplateProps<P = Record<string, unknown>> = Simplify<
   P & {
@@ -38,10 +38,13 @@ function childrenRecursiveMap(
     return childRecursiveMap(children, options, fn)
   }
 
-  return Children.map(
-    children,
-    async (child) => await childRecursiveMap(child, options, fn)
-  )
+  return Children.map(children, (child) => {
+    if (child instanceof Promise) {
+      throw new Error('async/await is not yet supported in SkeletonTemplate')
+    }
+
+    return childRecursiveMap(child, options, fn)
+  })
 }
 
 function childRecursiveMap(
@@ -92,6 +95,12 @@ export function withSkeletonTemplate<P>(
   > = (props) => {
     const { isLoading, delayMs } = props
     const element = Element({ ...props, isLoading, delayMs })
+
+    if (element instanceof Promise) {
+      throw new Error(
+        'async/await is not yet supported in withSkeletonTemplate'
+      )
+    }
 
     if (element != null) {
       return (

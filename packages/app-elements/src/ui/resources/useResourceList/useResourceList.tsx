@@ -70,7 +70,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
    * When a string is provided, it will be rendered as inline text below title and actionButton.
    * When other ReactNode is provided, it will be rendered as a custom element and no title or actionButton will be shown.
    */
-  emptyState?: ReactNode
+  emptyState?: Awaited<ReactNode>
   /**
    * Title.
    */
@@ -226,7 +226,7 @@ export function useResourceList<TResource extends ListableResourceType>({
   }, [])
 
   const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
-    async ({
+    ({
       ItemTemplate,
       emptyState: emptyStateProp,
       title,
@@ -284,7 +284,7 @@ export function useResourceList<TResource extends ListableResourceType>({
           </Section>
         ) : (
           // custom JSX element (no title or actionButton)
-          await emptyState
+          emptyState
         )
       }
 
