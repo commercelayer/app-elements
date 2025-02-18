@@ -4,7 +4,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { forwardRef, useState } from 'react'
+import { forwardRef, type JSX, useState } from 'react'
 
 export interface InputCheckboxProps
   extends Omit<InputWrapperBaseProps, 'label' | 'inline'>,

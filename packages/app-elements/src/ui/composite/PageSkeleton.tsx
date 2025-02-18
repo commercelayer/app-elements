@@ -7,6 +7,7 @@ import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { SearchBar } from '#ui/composite/SearchBar'
+import { type JSX } from 'react'
 
 /**
  * This component renders a skeleton page layout simulating the presence of the common elements of an initial app page:

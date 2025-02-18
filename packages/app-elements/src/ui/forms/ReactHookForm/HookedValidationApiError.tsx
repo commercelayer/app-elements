@@ -1,7 +1,7 @@
 import isObject from 'lodash/isObject'
 import merge from 'lodash/merge'
 import reduce from 'lodash/reduce'
-import { useEffect } from 'react'
+import { type JSX, useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { HookedValidationError } from './HookedValidationError'
 import { setApiFormErrors } from './setApiFormErrors'

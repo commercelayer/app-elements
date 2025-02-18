@@ -1,4 +1,5 @@
 import { InputFeedback } from '#ui/forms/InputFeedback'
+import { type JSX } from 'react'
 import { useValidationFeedback } from './useValidationFeedback'
 
 interface Props {

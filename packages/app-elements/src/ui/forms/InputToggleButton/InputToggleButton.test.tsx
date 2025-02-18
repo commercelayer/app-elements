@@ -4,7 +4,7 @@ import {
   render,
   type RenderResult
 } from '@testing-library/react'
-import { useState } from 'react'
+import { type JSX, useState } from 'react'
 import {
   InputToggleButton,
   type InputToggleButtonProps

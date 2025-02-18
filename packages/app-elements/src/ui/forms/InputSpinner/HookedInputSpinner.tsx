@@ -1,3 +1,4 @@
+import { type JSX } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
 import { InputSpinner, type InputSpinnerProps } from './InputSpinner'

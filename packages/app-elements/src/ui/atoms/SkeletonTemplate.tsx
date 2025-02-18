@@ -6,6 +6,7 @@ import {
   isValidElement,
   type FC,
   type FunctionComponent,
+  type JSX,
   type ReactNode,
   type ReactPortal
 } from 'react'
@@ -38,8 +39,9 @@ function childrenRecursiveMap(
     return childRecursiveMap(children, options, fn)
   }
 
-  return Children.map(children, (child) =>
-    childRecursiveMap(child, options, fn)
+  return Children.map(
+    children,
+    async (child) => await childRecursiveMap(child, options, fn)
   )
 }
 

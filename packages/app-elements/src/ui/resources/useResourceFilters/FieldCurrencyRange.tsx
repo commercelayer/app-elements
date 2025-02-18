@@ -10,7 +10,7 @@ import {
 } from '@commercelayer/sdk'
 import isEmpty from 'lodash/isEmpty'
 import uniq from 'lodash/uniq'
-import { useEffect, useState } from 'react'
+import { type JSX, useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import {
   type CurrencyRangeFormValues,

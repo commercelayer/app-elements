@@ -2,6 +2,7 @@ import { isDefined } from '#utils/array'
 import {
   Children,
   isValidElement,
+  type JSX,
   type ReactElement,
   type ReactNode
 } from 'react'

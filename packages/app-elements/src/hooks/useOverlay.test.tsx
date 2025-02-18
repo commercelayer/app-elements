@@ -1,4 +1,5 @@
 import { act, fireEvent, render } from '@testing-library/react'
+import { type JSX } from 'react'
 import { useOverlay } from './useOverlay'
 
 function OverlayScreen({ queryParam }: { queryParam?: string }): JSX.Element {

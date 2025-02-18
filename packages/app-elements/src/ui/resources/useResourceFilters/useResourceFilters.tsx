@@ -6,7 +6,7 @@ import {
 } from '#ui/resources/useResourceList'
 import { type ResourceListProps } from '#ui/resources/useResourceList/useResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState, type JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import {
   FiltersForm as FiltersFormComponent,

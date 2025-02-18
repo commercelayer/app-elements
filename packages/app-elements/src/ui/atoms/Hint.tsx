@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { type ReactNode } from 'react'
+import { type JSX, type ReactNode } from 'react'
 import { Icon, type IconProps } from './Icon'
 
 export interface HintProps {

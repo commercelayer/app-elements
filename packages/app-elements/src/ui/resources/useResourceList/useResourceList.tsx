@@ -27,6 +27,7 @@ import React, {
   useEffect,
   useReducer,
   type FC,
+  type JSX,
   type ReactNode
 } from 'react'
 import { VisibilityTrigger } from './VisibilityTrigger'
@@ -225,7 +226,7 @@ export function useResourceList<TResource extends ListableResourceType>({
   }, [])
 
   const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
-    ({
+    async ({
       ItemTemplate,
       emptyState: emptyStateProp,
       title,
@@ -283,7 +284,7 @@ export function useResourceList<TResource extends ListableResourceType>({
           </Section>
         ) : (
           // custom JSX element (no title or actionButton)
-          emptyState
+          await emptyState
         )
       }
 

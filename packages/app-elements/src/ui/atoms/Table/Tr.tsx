@@ -1,3 +1,5 @@
+import { type JSX } from 'react'
+
 export interface TrProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
 }

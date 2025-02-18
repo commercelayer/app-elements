@@ -7,7 +7,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import { X } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { forwardRef, useEffect, useMemo, useState } from 'react'
+import { forwardRef, useEffect, useMemo, useState, type JSX } from 'react'
 import ReactCurrencyInputField, {
   type CurrencyInputProps as ReactCurrencyInputFieldProps
 } from 'react-currency-input-field'

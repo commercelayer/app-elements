@@ -10,7 +10,7 @@ import Editor, {
   type OnMount,
   type OnValidate
 } from '@monaco-editor/react'
-import { forwardRef, useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState, type JSX } from 'react'
 import { type JsonValue, type SetOptional } from 'type-fest'
 import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
 

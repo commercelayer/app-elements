@@ -1,6 +1,6 @@
 import { getInnerText } from '#utils/children'
 import cn from 'classnames'
-import { forwardRef, type ReactNode } from 'react'
+import { forwardRef, type JSX, type ReactNode } from 'react'
 import {
   Tooltip as ReactTooltip,
   type PlacesType,

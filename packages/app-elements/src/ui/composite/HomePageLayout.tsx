@@ -1,7 +1,7 @@
 import { useTokenProvider } from '#providers/TokenProvider'
 import { type PageHeadingProps } from '#ui/atoms/PageHeading'
 import { type PageHeadingToolbarProps } from '#ui/atoms/PageHeading/PageHeadingToolbar'
-import { type ReactNode } from 'react'
+import { type JSX, type ReactNode } from 'react'
 import { PageLayout } from './PageLayout'
 
 export interface HomePageLayoutProps extends Pick<PageHeadingProps, 'title'> {

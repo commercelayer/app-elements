@@ -2,7 +2,7 @@ import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Text } from '#ui/atoms/Text'
 import { isSpecificReactComponent } from '#utils/children'
 import classNames from 'classnames'
-import { Children, type ReactNode } from 'react'
+import { Children, type JSX, type ReactNode } from 'react'
 
 export interface ListDetailsItemProps {
   /**

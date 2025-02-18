@@ -7,6 +7,7 @@ import {
   DropdownItem,
   type DropdownItemProps
 } from '#ui/composite/Dropdown'
+import { type JSX } from 'react'
 
 export interface ToolbarItem {
   label?: string

@@ -12,7 +12,7 @@ import { type ListableResourceType } from '@commercelayer/sdk'
 import castArray from 'lodash/castArray'
 import isDate from 'lodash/isDate'
 import isEmpty from 'lodash/isEmpty'
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, type JSX } from 'react'
 import { makeFilterAdapters } from './adapters'
 import {
   getDefaultBrowserTimezone,
