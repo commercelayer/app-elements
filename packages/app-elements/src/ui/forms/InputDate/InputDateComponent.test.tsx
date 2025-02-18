@@ -1,4 +1,9 @@
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
+import {
+  act,
+  fireEvent,
+  render,
+  type RenderResult
+} from '@testing-library/react'
 import { InputDateComponent, type InputDateProps } from './InputDateComponent'
 
 interface SetupProps extends InputDateProps {
@@ -19,6 +24,16 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
 }
 
 describe('InputDateComponent', () => {
+  beforeEach(() => {
+    // tell vitest we use mocked time
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    // restoring date after each test run
+    vi.useRealTimers()
+  })
+
   test('Should be rendered', () => {
     const { element } = setup({
       id: 'date-picker',
@@ -46,9 +61,12 @@ describe('InputDateComponent', () => {
   })
 
   test('Should update value', () => {
+    const date = new Date(2022, 0, 1)
+    vi.setSystemTime(date)
+
     const setDate = vi.fn()
 
-    const { element } = setup({
+    const { element, getByRole } = setup({
       id: 'date-picker',
       placeholder: 'select a date',
       format: 'dd-MM-yyyy',
@@ -56,11 +74,21 @@ describe('InputDateComponent', () => {
         setDate(date?.toISOString())
       }
     })
+
     const [input] = element.getElementsByTagName('input')
     assertToBeDefined(input)
 
-    fireEvent.change(input, { target: { value: '2022-12-19T23:00:00.000Z' } })
+    act(() => {
+      fireEvent.click(input)
+    })
+
+    act(() => {
+      fireEvent.click(
+        getByRole('option', { name: 'Choose Wednesday, January 5th, 2022' })
+      )
+    })
+
     expect(setDate).toBeCalledTimes(1)
-    expect(setDate).toHaveBeenCalledWith('2022-12-19T23:00:00.000Z')
+    expect(setDate).toHaveBeenCalledWith('2022-01-05T00:00:00.000Z')
   })
 })
