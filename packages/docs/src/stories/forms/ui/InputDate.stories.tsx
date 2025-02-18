@@ -25,7 +25,16 @@ export default setup
 
 const Template: StoryFn<typeof InputDate> = (args) => {
   const [date, setDate] = useState<Date | null>(null)
-  return <InputDate {...args} value={date} onChange={setDate} />
+  return (
+    <InputDate
+      {...args}
+      value={date}
+      onChange={(date) => {
+        console.log(date)
+        setDate(date)
+      }}
+    />
+  )
 }
 
 export const Default = Template.bind({})

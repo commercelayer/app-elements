@@ -65,12 +65,12 @@ describe('SearchBar', () => {
   })
 
   it('should trigger onClear', () => {
-    const mockedConsoleLog = vi.spyOn(console, 'log')
+    const handleClear = vi.fn()
     const { getByTestId, queryByTestId } = render(
       <SearchBar
         onSearch={() => {}}
         onClear={() => {
-          console.log('cleared')
+          handleClear('cleared')
         }}
       />
     )
@@ -84,7 +84,8 @@ describe('SearchBar', () => {
     act(() => {
       fireEvent.click(getByTestId('SearchBar-clear'))
     })
-    expect(mockedConsoleLog).toHaveBeenNthCalledWith(1, 'cleared')
+
+    expect(handleClear).toHaveBeenNthCalledWith(1, 'cleared')
     expect(input.value).toBe('')
   })
 })
