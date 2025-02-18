@@ -5,6 +5,7 @@ import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
 import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
+import { type JSX } from 'react'
 
 const setup: Meta = {
   title: 'Examples/Order History',
