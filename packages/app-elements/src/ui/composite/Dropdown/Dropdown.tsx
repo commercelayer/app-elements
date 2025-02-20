@@ -14,6 +14,8 @@ export interface DropdownProps
   dropdownLabel?: React.ReactNode
   /** List of links and actions. You can use a combination of `DropdownItem` and `DropdownDivider` components. */
   dropdownItems: React.ReactNode
+  /** Additional class name for the dropdown container. */
+  className?: string
 }
 
 /**
@@ -28,7 +30,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   menuHeader,
   dropdownItems,
   menuPosition = 'bottom-right',
-  menuWidth
+  menuWidth,
+  className
 }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -95,7 +98,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
     <div
       ref={isExpanded ? clickAwayRef : undefined}
       onBlur={handleBlur}
-      className='relative'
+      className={cn('relative', className)}
     >
       {dropdownButton}
       {isExpanded && (
