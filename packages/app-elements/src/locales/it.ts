@@ -223,6 +223,11 @@ const it: typeof en = {
       name_other: 'Modifiche',
       attributes: {}
     },
+    attachments: {
+      name: 'Allegato',
+      name_other: 'Allegati',
+      attributes: {}
+    },
     bundles: {
       name: 'Bundle',
       name_other: 'Bundles',

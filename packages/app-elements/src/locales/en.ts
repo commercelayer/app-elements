@@ -27,6 +27,11 @@ const resources = {
     name_other: 'Adjustments',
     attributes: {}
   },
+  attachments: {
+    name: 'Attachment',
+    name_other: 'Attachments',
+    attributes: {}
+  },
   bundles: {
     name: 'Bundle',
     name_other: 'Bundles',
