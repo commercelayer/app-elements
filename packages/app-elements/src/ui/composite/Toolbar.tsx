@@ -87,6 +87,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
               </Button>
             }
             dropdownItems={dropdownItemsHtml}
+            className={item.className}
             data-testid='toolbar-dropdown'
           />
         )

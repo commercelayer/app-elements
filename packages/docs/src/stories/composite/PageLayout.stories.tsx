@@ -1,4 +1,5 @@
 import { PageLayout } from '#ui/composite/PageLayout'
+import { SearchBar } from '#ui/composite/SearchBar'
 
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -12,7 +13,7 @@ const setup: Meta<typeof PageLayout> = {
 export default setup
 
 const Template: StoryFn<typeof PageLayout> = (args) => (
-  <PageLayout {...args}>Page content here...</PageLayout>
+  <PageLayout {...args}>{args.children ?? 'Page content here...'}</PageLayout>
 )
 
 export const Default = Template.bind({})
@@ -24,6 +25,53 @@ Default.args = {
     onClick: () => undefined
   },
   mode: 'test'
+}
+
+export const WithSimpleToolbar = Template.bind({})
+WithSimpleToolbar.args = {
+  title: 'Resources',
+  gap: 'none',
+  toolbar: {
+    buttons: [
+      {
+        label: 'Add new',
+        icon: 'plus',
+        size: 'small',
+        variant: 'primary',
+        onClick: () => {
+          alert('Add new clicked!')
+        }
+      },
+      {
+        label: 'Search',
+        icon: 'plus',
+        size: 'small',
+        variant: 'primary',
+        onClick: () => {
+          alert('Search clicked!')
+        }
+      },
+      {
+        label: 'Delete',
+        icon: 'trash',
+        size: 'small',
+        variant: 'secondary',
+        onClick: () => {
+          alert('Add new clicked!')
+        }
+      }
+    ]
+  },
+  children: (
+    <div className='mt-4 mb-14'>
+      <SearchBar
+        placeholder='Cerca...'
+        isLoading={false}
+        initialValue=''
+        onSearch={() => {}}
+      />
+    </div>
+  )
 }
 
 export const WithToolbar = Template.bind({})

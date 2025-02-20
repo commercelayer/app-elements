@@ -26,25 +26,37 @@ export interface PageHeadingToolbarProps {
  */
 export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
   ({ buttons = [], dropdownItems = [] }) => {
-    const dropdownMobileButtons: DropdownItemProps[] = buttons.map(
-      (button) => ({
+    // Initialize the toolbar items list with the buttons
+    const toolbarItems: ToolbarProps['items'] = buttons.map((button, idx) => {
+      const isShown =
+        (button.variant == null || button.variant === 'primary') && idx === 0
+      return {
         ...button,
-        label: button.label ?? '',
-        className: 'flex md:hidden'
+        // On mobile devices only the first primary button is shown outside the dropdown
+        className: !isShown ? 'hidden md:flex' : ''
+      }
+    })
+
+    // Calculate the list of buttons that will be shown as dropdown items in the dropdown
+    const buttonsForDropdown: DropdownItemProps[] = buttons
+      .filter(
+        (button, idx) =>
+          (button.variant != null && button.variant !== 'primary') || idx > 0
+      )
+      .map((button) => {
+        return {
+          ...button,
+          label: button.label ?? '',
+          className: 'md:hidden'
+        }
       })
-    )
-
     const [firstDropdownItemsGroup = [], ...otherDropdownItems] = dropdownItems
-
+    // Calculate the flat array of all dropdown items made of buttons and dropdown items
     const combinedDropdownItems = [
-      dropdownMobileButtons.concat(firstDropdownItemsGroup)
+      buttonsForDropdown.concat(firstDropdownItemsGroup)
     ].concat(otherDropdownItems)
 
-    const toolbarItems: ToolbarProps['items'] = buttons.map((button) => ({
-      ...button,
-      className: 'hidden md:flex'
-    }))
-
+    // Add dropdown to toolbar items
     if (combinedDropdownItems.flat().length > 0) {
       toolbarItems.push({
         icon: 'dotsThree',

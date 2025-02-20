@@ -78,7 +78,7 @@ describe('PageHeadingToolbar', () => {
   })
 
   it('Should not display the dropdown button when empty', async () => {
-    const { queryAllByTestId, queryByTestId } = render(
+    const { queryAllByTestId } = render(
       <PageHeadingToolbar
         buttons={[
           {
@@ -94,7 +94,6 @@ describe('PageHeadingToolbar', () => {
     )
 
     expect(queryAllByTestId('toolbar-button').length).toEqual(1)
-    expect(queryAllByTestId('toolbar-dropdown-button').length).toEqual(1)
-    expect(queryByTestId('toolbar-dropdown-button')).toHaveClass('md:hidden')
+    expect(queryAllByTestId('toolbar-dropdown-button').length).toEqual(0)
   })
 })
