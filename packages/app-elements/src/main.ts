@@ -328,6 +328,10 @@ export {
   type ResourceAddressProps
 } from '#ui/resources/ResourceAddress'
 export {
+  ResourceAttachments,
+  type ResourceAttachmentsProps
+} from '#ui/resources/ResourceAttachments'
+export {
   ResourceDetails,
   type ResourceDetailsProps
 } from '#ui/resources/ResourceDetails'

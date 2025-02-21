@@ -301,7 +301,10 @@ const order = {
         self: 'https://mock.localhost/api/orders/NMWYhbGorj/relationships/attachments',
         related: 'https://mock.localhost/api/orders/NMWYhbGorj/attachments'
       },
-      data: [{ type: 'attachments', id: 'EqGrksxWNW' }]
+      data: [
+        { type: 'attachments', id: 'EqGrksxWNW' },
+        { type: 'attachments', id: 'WXlEOFrjnr' }
+      ]
     },
     events: {
       links: {
@@ -1950,6 +1953,33 @@ const orderDetail = http.get(
                 self: 'https://mock.localhost/api/attachments/EqGrksxWNW/relationships/attachable',
                 related:
                   'https://mock.localhost/api/attachments/EqGrksxWNW/attachable'
+              }
+            }
+          },
+          meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+        },
+        {
+          id: 'WXlEOFrjnr',
+          type: 'attachments',
+          links: {
+            self: 'https://mock.localhost/api/attachments/WXlEOFrjnr'
+          },
+          attributes: {
+            name: 'Documento di vendita web',
+            description: 'Descrizione',
+            url: 'https://commercelayer.io',
+            created_at: '2023-07-20T13:58:52.184Z',
+            updated_at: '2023-07-20T13:58:52.184Z',
+            reference: null,
+            reference_origin: null,
+            metadata: {}
+          },
+          relationships: {
+            attachable: {
+              links: {
+                self: 'https://mock.localhost/api/attachments/WXlEOFrjnr/relationships/attachable',
+                related:
+                  'https://mock.localhost/api/attachments/WXlEOFrjnr/attachable'
               }
             }
           },
