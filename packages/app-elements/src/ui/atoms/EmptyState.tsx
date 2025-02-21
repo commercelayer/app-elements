@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { type ReactNode } from 'react'
+import { type JSX, type ReactNode } from 'react'
 import { StatusIcon, type StatusIconProps } from './StatusIcon'
 
 export interface EmptyStateProps {

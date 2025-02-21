@@ -8,7 +8,7 @@ import { ListItem } from '#ui/composite/ListItem'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { useState } from 'react'
+import { type JSX, useState } from 'react'
 
 const setup: Meta = {
   title: 'Examples/List Imports',

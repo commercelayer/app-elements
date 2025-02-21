@@ -1,6 +1,6 @@
-import isEmpty from 'lodash/isEmpty'
-import isNumber from 'lodash/isNumber'
-import omitBy from 'lodash/omitBy'
+import isEmpty from 'lodash-es/isEmpty'
+import isNumber from 'lodash-es/isNumber'
+import omitBy from 'lodash-es/omitBy'
 import queryString from 'query-string'
 import {
   isCurrencyRange,

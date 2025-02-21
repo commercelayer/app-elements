@@ -1,5 +1,5 @@
-import debounce from 'lodash/debounce'
-import isEmpty from 'lodash/isEmpty'
+import debounce from 'lodash-es/debounce'
+import isEmpty from 'lodash-es/isEmpty'
 import { type AsyncAdditionalProps } from 'node_modules/react-select/dist/declarations/src/useAsync'
 import { forwardRef, useCallback, useEffect } from 'react'
 import {

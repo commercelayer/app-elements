@@ -5,7 +5,7 @@ import {
   type ListMeta,
   type ListResponse
 } from '@commercelayer/sdk'
-import castArray from 'lodash/castArray'
+import castArray from 'lodash-es/castArray'
 import { useMemo } from 'react'
 import { type Writable } from 'type-fest'
 import {

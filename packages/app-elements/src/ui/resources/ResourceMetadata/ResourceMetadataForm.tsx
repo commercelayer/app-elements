@@ -14,7 +14,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { ListItem } from '#ui/composite/ListItem'
 import { type Metadata } from '@commercelayer/sdk'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Fragment, useMemo, useState } from 'react'
+import { Fragment, type JSX, useMemo, useState } from 'react'
 import { z } from 'zod'
 import { isUpdatableType, type ResourceMetadataProps } from './ResourceMetadata'
 import { groupMetadataKeys } from './utils'
@@ -225,7 +225,4 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
   )
 })
 
-interface KeyedMetadata {
-  key: string
-  value: unknown
-}
+type KeyedMetadata = z.infer<typeof metadataForm>['metadata'][number]

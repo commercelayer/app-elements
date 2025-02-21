@@ -10,7 +10,7 @@ import Editor, {
   type OnMount,
   type OnValidate
 } from '@monaco-editor/react'
-import { forwardRef, useEffect, useRef, useState } from 'react'
+import { forwardRef, useEffect, useRef, useState, type JSX } from 'react'
 import { type JsonValue, type SetOptional } from 'type-fest'
 import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
 
@@ -73,7 +73,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
     ref
   ): JSX.Element => {
     const monaco = useMonaco()
-    const disposeCompletionItemProvider = useRef<() => void>()
+    const disposeCompletionItemProvider = useRef<() => void>(null)
     const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
     const {
       settings: { domain }

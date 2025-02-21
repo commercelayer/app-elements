@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { type JSX } from 'react'
 
 export interface ThProps extends React.ThHTMLAttributes<HTMLElement> {
   children?: React.ReactNode

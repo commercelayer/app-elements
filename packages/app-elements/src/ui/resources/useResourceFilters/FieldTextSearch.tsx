@@ -1,4 +1,5 @@
 import { HookedInput } from '#ui/forms/Input'
+import { type JSX } from 'react'
 import { type FilterItemTextSearch } from './types'
 
 interface FieldProps {

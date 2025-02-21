@@ -1,5 +1,5 @@
-import castArray from 'lodash/castArray'
-import compact from 'lodash/compact'
+import castArray from 'lodash-es/castArray'
+import compact from 'lodash-es/compact'
 import qs, { type ParsedQuery } from 'query-string'
 import {
   filterableTimeRangePreset,

@@ -5,7 +5,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
-import { forwardRef } from 'react'
+import { forwardRef, type JSX } from 'react'
 
 export interface InputProps
   extends InputWrapperBaseProps,

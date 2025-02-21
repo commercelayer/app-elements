@@ -1,7 +1,8 @@
 import { t } from '#providers/I18NProvider'
 import { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
-import castArray from 'lodash/castArray'
-import isEmpty from 'lodash/isEmpty'
+import castArray from 'lodash-es/castArray'
+import isEmpty from 'lodash-es/isEmpty'
+import { type JSX } from 'react'
 import { makeFilterAdapters } from './adapters'
 import { type FiltersInstructions } from './types'
 

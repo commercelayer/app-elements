@@ -3,6 +3,7 @@ import {
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
 import cn from 'classnames'
+import { type JSX } from 'react'
 import { type Simplify } from 'type-fest'
 
 interface ToggleItemProps {

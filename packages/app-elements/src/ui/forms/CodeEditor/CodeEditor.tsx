@@ -1,5 +1,5 @@
 import { SkeletonItem } from '#ui/atoms/Skeleton'
-import { forwardRef, lazy, Suspense } from 'react'
+import { forwardRef, type JSX, lazy, Suspense } from 'react'
 import type { CodeEditorProps } from './CodeEditorComponent'
 
 const LazyCodeEditor = lazy(

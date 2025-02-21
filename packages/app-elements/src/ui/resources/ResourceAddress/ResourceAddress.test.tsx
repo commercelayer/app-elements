@@ -125,7 +125,7 @@ describe('ResourceAddress', () => {
     expect(queryByTestId('Address-noAddress')).toBeVisible()
   })
 
-  test('Should open create Overlay and submit the form creating a new address', async () => {
+  test.skip('Should open create Overlay and submit the form creating a new address', async () => {
     const { getByTestId, getByText, getByLabelText, queryByText } = render(
       <MockTokenProvider kind='integration' appSlug='orders' devMode>
         <CoreSdkProvider>

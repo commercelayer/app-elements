@@ -6,7 +6,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { type Address as AddressType } from '@commercelayer/sdk'
 import { Note, PencilSimple, Phone } from '@phosphor-icons/react'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 
 export interface AddressProps {
   /**

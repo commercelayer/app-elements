@@ -9,7 +9,7 @@ import {
 } from '#ui/forms/InputSelect'
 import { type PossibleSelectValue } from '#ui/forms/InputSelect/InputSelect'
 import { type Meta, type StoryFn } from '@storybook/react'
-import { useState } from 'react'
+import { useState, type JSX } from 'react'
 
 const meta: Meta = {
   title: 'Getting Started/I18N Provider',

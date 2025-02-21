@@ -1,4 +1,5 @@
-import get from 'lodash/get'
+import get from 'lodash-es/get'
+import { type JSX } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { type InputFeedbackProps } from '../InputFeedback'
 import { InputDateRange, type InputDateRangeProps } from './InputDateRange'

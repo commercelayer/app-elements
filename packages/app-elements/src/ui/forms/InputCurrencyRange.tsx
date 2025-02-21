@@ -10,7 +10,7 @@ import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type JSX } from 'react'
 import { InputSelect } from './InputSelect'
 
 type Cents = InputCurrencyProps['cents']

@@ -1,6 +1,6 @@
 import { Trash } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { Children } from 'react'
+import { Children, type JSX } from 'react'
 import { Button } from './Button'
 
 export interface RemoveButtonProps

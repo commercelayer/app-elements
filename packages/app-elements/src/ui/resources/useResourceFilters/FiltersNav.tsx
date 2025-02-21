@@ -9,10 +9,10 @@ import {
   type InputCurrencyProps
 } from '#ui/forms/InputCurrency'
 import { type ListableResourceType } from '@commercelayer/sdk'
-import castArray from 'lodash/castArray'
-import isDate from 'lodash/isDate'
-import isEmpty from 'lodash/isEmpty'
-import { useCallback, useMemo } from 'react'
+import castArray from 'lodash-es/castArray'
+import isDate from 'lodash-es/isDate'
+import isEmpty from 'lodash-es/isEmpty'
+import { useCallback, useMemo, type JSX } from 'react'
 import { makeFilterAdapters } from './adapters'
 import {
   getDefaultBrowserTimezone,

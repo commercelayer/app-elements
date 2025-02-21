@@ -7,7 +7,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { HookedInputDate } from '#ui/forms/InputDate'
 import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
-import { useEffect } from 'react'
+import { type JSX, useEffect } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { getDefaultBrowserTimezone, getTimeRangePresetName } from './timeUtils'
 import {

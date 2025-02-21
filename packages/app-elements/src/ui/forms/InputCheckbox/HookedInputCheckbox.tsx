@@ -1,7 +1,7 @@
 import { useValidationFeedback } from '#ui/forms/ReactHookForm'
 import { isDefined } from '#utils/array'
 import { filterByDisplayName } from '#utils/children'
-import { useEffect, useMemo } from 'react'
+import { type JSX, useEffect, useMemo } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { InputCheckbox, type InputCheckboxProps } from './InputCheckbox'
 

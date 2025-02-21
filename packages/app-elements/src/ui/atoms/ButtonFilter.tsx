@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { type JSX } from 'react'
 import { StatusIcon, type StatusIconProps } from './StatusIcon'
 
 export interface ButtonFilterProps

@@ -2,7 +2,7 @@ import CommerceLayer, {
   type CommerceLayerClient,
   type ErrorObj
 } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 
 interface ApiReasonError {
   code: string

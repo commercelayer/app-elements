@@ -7,7 +7,7 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { Input } from '#ui/forms/Input'
-import { Fragment, useMemo, type ReactNode } from 'react'
+import { Fragment, useMemo, type JSX, type ReactNode } from 'react'
 
 export interface TimelineEvent {
   date: string

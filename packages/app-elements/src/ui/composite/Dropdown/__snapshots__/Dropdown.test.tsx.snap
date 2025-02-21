@@ -32,7 +32,7 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
       >
         <span
           class="relative border-black border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; left: -6px;"
+          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; left: 10px;"
         />
         <div
           class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
@@ -77,7 +77,7 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
       >
         <span
           class="relative border-black border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; left: -6px;"
+          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; left: 10px;"
         />
         <div
           class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
@@ -122,7 +122,7 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
       >
         <span
           class="relative border-black border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; right: -6px;"
+          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; right: 10px;"
         />
         <div
           class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
@@ -167,7 +167,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
       >
         <span
           class="relative border-black border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; right: -6px;"
+          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; right: 10px;"
         />
         <div
           class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"

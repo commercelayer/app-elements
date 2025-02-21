@@ -8,9 +8,9 @@ import {
   type ListResponse,
   type PriceList
 } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
-import uniq from 'lodash/uniq'
-import { useEffect, useState } from 'react'
+import isEmpty from 'lodash-es/isEmpty'
+import uniq from 'lodash-es/uniq'
+import { type JSX, useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import {
   type CurrencyRangeFormValues,

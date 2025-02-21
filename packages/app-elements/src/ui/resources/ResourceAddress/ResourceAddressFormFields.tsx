@@ -6,7 +6,7 @@ import { HookedInput } from '#ui/forms/Input/HookedInput'
 import { type InputSelectValue } from '#ui/forms/InputSelect'
 import { HookedInputSelect } from '#ui/forms/InputSelect/HookedInputSelect'
 import { HookedInputTextArea } from '#ui/forms/InputTextArea'
-import React, { useEffect, useState } from 'react'
+import React, { type JSX, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
 import { type ResourceAddressProps } from './ResourceAddress'
@@ -26,7 +26,7 @@ export const getResourceAddressFormFieldsSchema = ({
 }: Pick<ResourceAddressProps, 'requiresBillingInfo'> = {}) =>
   z
     .object({
-      business: z.boolean().nullish().default(false),
+      business: z.boolean().nullish(),
       first_name: z.string().nullish(),
       last_name: z.string().nullish(),
       company: z.string().nullish(),

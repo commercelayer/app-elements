@@ -4,7 +4,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import { Minus, Plus } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { forwardRef, useCallback, useState } from 'react'
+import { forwardRef, type JSX, useCallback, useState } from 'react'
 
 export interface InputSpinnerProps
   extends InputWrapperBaseProps,

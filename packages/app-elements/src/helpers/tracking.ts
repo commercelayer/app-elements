@@ -1,6 +1,6 @@
 import { type AvatarProps } from '#ui/atoms/Avatar'
 import { type Parcel, type Shipment } from '@commercelayer/sdk'
-import orderBy from 'lodash/orderBy'
+import orderBy from 'lodash-es/orderBy'
 import { type SetNonNullable } from 'type-fest'
 import { z } from 'zod'
 

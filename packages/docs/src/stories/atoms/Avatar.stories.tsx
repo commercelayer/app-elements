@@ -2,6 +2,7 @@ import { Avatar } from '#ui/atoms/Avatar'
 import { presets } from '#ui/atoms/Avatar.utils'
 import { humanizeString } from '#utils/text'
 import { type Meta, type StoryFn } from '@storybook/react'
+import { type JSX } from 'react'
 
 const setup: Meta<typeof Avatar> = {
   title: 'Atoms/Avatar',

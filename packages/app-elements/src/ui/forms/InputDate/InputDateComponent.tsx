@@ -7,7 +7,7 @@ import {
 } from '#ui/internals/InputWrapper'
 import { CalendarBlank, X } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { forwardRef } from 'react'
+import { forwardRef, type JSX } from 'react'
 
 export type MaybeDate = Date | null
 

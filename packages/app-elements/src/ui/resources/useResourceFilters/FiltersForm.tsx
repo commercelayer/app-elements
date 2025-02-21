@@ -3,6 +3,7 @@ import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { type JSX } from 'react'
 import { useForm } from 'react-hook-form'
 import { FieldCurrencyRange } from './FieldCurrencyRange'
 import { FieldOptions } from './FieldOptions'
@@ -64,7 +65,11 @@ function FiltersForm({
       onSubmit={(formValues) => {
         onSubmit(
           adaptFormValuesToUrlQuery({
-            formValues
+            formValues: {
+              timeFrom: formValues.timeFrom ?? undefined,
+              timePreset: formValues.timePreset ?? undefined,
+              timeTo: formValues.timeTo ?? undefined
+            }
           })
         )
       }}

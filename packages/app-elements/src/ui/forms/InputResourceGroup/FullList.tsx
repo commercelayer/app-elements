@@ -8,8 +8,8 @@ import { SearchBar } from '#ui/composite/SearchBar'
 import { type OverlayProps } from '#ui/internals/Overlay'
 import { useResourceList } from '#ui/resources/useResourceList'
 import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import isEmpty from 'lodash-es/isEmpty'
+import { type JSX, useCallback, useEffect, useMemo, useState } from 'react'
 import { InputCheckboxGroupItem } from '../InputCheckboxGroup/InputCheckboxGroupItem'
 import {
   computeLabelWithSelected,

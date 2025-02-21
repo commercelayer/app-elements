@@ -4,7 +4,7 @@ import type {
   QueryParamsList,
   ResourceFields
 } from '@commercelayer/sdk'
-import uniqBy from 'lodash/uniqBy'
+import uniqBy from 'lodash-es/uniqBy'
 import {
   isValidMetricsResource,
   type MetricsApiClient,
