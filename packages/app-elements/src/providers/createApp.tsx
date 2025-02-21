@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { type ReactNode } from 'react'
 import ReactDOM, { type Root } from 'react-dom/client'
 import { type TokenProviderAllowedApp } from './TokenProvider'

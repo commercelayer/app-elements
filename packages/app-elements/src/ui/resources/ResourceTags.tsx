@@ -13,7 +13,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Tag as TagUi } from '#ui/atoms/Tag'
 import { Text } from '#ui/atoms/Text'
 import type { ListableResourceType } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 
 type TaggableResource = Extract<
   ListableResourceType,

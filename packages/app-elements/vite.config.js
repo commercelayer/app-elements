@@ -28,7 +28,7 @@ export default defineConfig({
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
       // into your library
-      external: Object.keys(pkg.peerDependencies),
+      external: [...Object.keys(pkg.peerDependencies), 'react-dom/client'],
       output: {
         banner: `'use client';`,
         // Provide global variables to use in the UMD build

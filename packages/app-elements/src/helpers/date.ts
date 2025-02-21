@@ -15,8 +15,8 @@ import { isToday } from 'date-fns/isToday'
 import { it, type Locale } from 'date-fns/locale'
 import { startOfDay } from 'date-fns/startOfDay'
 import { sub } from 'date-fns/sub'
-import groupBy from 'lodash/groupBy'
-import orderBy from 'lodash/orderBy'
+import groupBy from 'lodash-es/groupBy'
+import orderBy from 'lodash-es/orderBy'
 import { type Simplify } from 'type-fest'
 
 type Format =

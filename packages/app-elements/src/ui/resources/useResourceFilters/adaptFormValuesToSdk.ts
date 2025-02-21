@@ -1,9 +1,9 @@
 import { type QueryFilter } from '@commercelayer/sdk'
-import castArray from 'lodash/castArray'
-import isBoolean from 'lodash/isBoolean'
-import isEmpty from 'lodash/isEmpty'
-import isNumber from 'lodash/isNumber'
-import omitBy from 'lodash/omitBy'
+import castArray from 'lodash-es/castArray'
+import isBoolean from 'lodash-es/isBoolean'
+import isEmpty from 'lodash-es/isEmpty'
+import isNumber from 'lodash-es/isNumber'
+import omitBy from 'lodash-es/omitBy'
 import { makeSdkFilterTime } from './timeUtils'
 import {
   isCurrencyRange,

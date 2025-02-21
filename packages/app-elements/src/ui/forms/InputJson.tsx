@@ -2,7 +2,7 @@ import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { type JSX, useEffect, useState } from 'react'
 
 export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {

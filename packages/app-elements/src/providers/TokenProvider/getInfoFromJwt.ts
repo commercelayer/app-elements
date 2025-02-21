@@ -1,5 +1,5 @@
 import { jwtDecode } from 'jwt-decode'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { type Mode } from './types'
 
 interface JWTProps {

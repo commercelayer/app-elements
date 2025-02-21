@@ -8,7 +8,7 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
 import { Timeline, type TimelineEvent } from '#ui/composite/Timeline'
 import type { Attachment, Order, StockTransfer } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { useCallback, useEffect, useReducer, useState } from 'react'
 
 export interface ResourceOrderTimelineProps {

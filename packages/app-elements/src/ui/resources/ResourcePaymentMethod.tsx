@@ -8,7 +8,7 @@ import {
   type PaymentMethod
 } from '@commercelayer/sdk'
 import cn from 'classnames'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { useState, type FC } from 'react'
 import type { SetNonNullable, SetRequired } from 'type-fest'
 import { z } from 'zod'
