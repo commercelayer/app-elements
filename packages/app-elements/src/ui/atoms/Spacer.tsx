@@ -93,6 +93,8 @@ function Spacer({
   const valueLeft = left ?? 'none'
   const valueRight = right ?? 'none'
 
+  if (children == null) return <></>
+
   return (
     <div
       className={cn([
