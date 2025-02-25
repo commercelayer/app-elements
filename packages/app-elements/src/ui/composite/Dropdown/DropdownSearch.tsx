@@ -1,7 +1,7 @@
 import { Icon } from '#ui/atoms/Icon'
 import cn from 'classnames'
-import debounce from 'lodash/debounce'
-import { forwardRef, useCallback, useEffect, useState } from 'react'
+import debounce from 'lodash-es/debounce'
+import { forwardRef, type JSX, useCallback, useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 
 export interface DropdownSearchProps {

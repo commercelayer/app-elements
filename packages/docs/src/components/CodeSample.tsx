@@ -3,7 +3,7 @@ import { type Plugin } from 'prettier'
 import * as prettierEstree from 'prettier/plugins/estree'
 import * as prettierTypescript from 'prettier/plugins/typescript'
 import * as prettier from 'prettier/standalone'
-import { useEffect, useState } from 'react'
+import { type JSX, useEffect, useState } from 'react'
 
 export interface CodeSampleProps {
   fn: () => any

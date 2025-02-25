@@ -1,4 +1,5 @@
 import cn from 'classnames'
+import { type JSX } from 'react'
 import { presets } from './Avatar.utils'
 
 type SrcPreset = keyof typeof presets

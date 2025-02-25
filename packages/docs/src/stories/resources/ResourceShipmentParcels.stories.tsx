@@ -12,6 +12,7 @@ import {
   shipmentWithoutTrackingDetails
 } from '#ui/resources/ResourceShipmentParcels.mocks'
 import { type Meta, type StoryFn } from '@storybook/react'
+import { type JSX } from 'react'
 
 const setup: Meta = {
   title: 'Resources/ResourceShipmentParcels',

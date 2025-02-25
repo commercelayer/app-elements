@@ -1,5 +1,5 @@
 import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 
 const currentVersion = 0.2
 

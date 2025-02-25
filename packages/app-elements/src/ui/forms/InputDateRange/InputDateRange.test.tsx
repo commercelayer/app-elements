@@ -4,7 +4,7 @@ import {
   waitFor,
   type RenderResult
 } from '@testing-library/react'
-import { useState } from 'react'
+import { useState, type JSX } from 'react'
 import { type MaybeDate } from '../InputDate/InputDateComponent'
 import { InputDateRange, type InputDateRangeProps } from './InputDateRange'
 

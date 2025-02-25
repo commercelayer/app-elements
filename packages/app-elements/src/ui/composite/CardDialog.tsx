@@ -4,7 +4,7 @@ import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { X } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { Children } from 'react'
+import { Children, type JSX } from 'react'
 
 export interface CardDialogProps {
   /**

@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { createContext, useContext, useEffect, useMemo } from 'react'
 import TagManager, { type DataLayerArgs } from 'react-gtm-module'
 

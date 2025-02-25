@@ -1,5 +1,5 @@
 import { TokenProvider } from '#providers/TokenProvider'
-import { ArgTypes, Controls, Meta, Source } from '@storybook/blocks'
+import { Meta, Source } from '@storybook/blocks'
 
 <Meta title="Getting Started/Token provider" />
 
@@ -32,11 +32,7 @@ When this component is mounted, it does the following:
 `}
 />
 
-### Props
-
-<ArgTypes of={TokenProvider} />
-
-## How to configure the token provider with a custom app
+# How to configure the token provider with a custom app
 
 During the token validation, the component reads the organization slug from the current URL subdomain. This only works for all Commerce Layer hosted apps since they share the same URL structure.
 

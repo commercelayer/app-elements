@@ -14,7 +14,7 @@ import {
   type QueryFilter,
   type QueryParamsList
 } from '@commercelayer/sdk'
-import uniqBy from 'lodash/uniqBy'
+import uniqBy from 'lodash-es/uniqBy'
 import { useEffect, useState } from 'react'
 import {
   useInputResourceGroupOverlay,

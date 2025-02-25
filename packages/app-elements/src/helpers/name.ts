@@ -1,4 +1,4 @@
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 
 /**
  * Make a display name from first and last name in the format of

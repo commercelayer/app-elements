@@ -1,6 +1,6 @@
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import type { Customer } from '@commercelayer/sdk'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { type ResourceToProps } from '../types'
 
 export const customerToProps: ResourceToProps<Customer> = ({ resource, t }) => {

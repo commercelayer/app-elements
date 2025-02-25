@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { type SVGAttributes } from 'react'
+import { type JSX, type SVGAttributes } from 'react'
 import { StatusIcon, type StatusIconProps } from './StatusIcon'
 
 export interface RadialProgressProps extends SVGAttributes<SVGElement> {

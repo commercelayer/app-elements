@@ -5,7 +5,7 @@ import { EmptyState } from '#ui/atoms/EmptyState'
 import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { PageLayout } from '#ui/composite/PageLayout'
 import { type ListableResourceType } from '@commercelayer/sdk'
-import { Suspense, lazy } from 'react'
+import { type JSX, Suspense, lazy } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { SetRequired } from 'type-fest'
 import type {

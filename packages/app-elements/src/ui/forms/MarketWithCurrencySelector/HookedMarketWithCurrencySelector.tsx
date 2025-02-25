@@ -13,8 +13,8 @@ import {
   type Resource
 } from '@commercelayer/sdk'
 import cn from 'classnames'
-import isEmpty from 'lodash/isEmpty'
-import isString from 'lodash/isString'
+import isEmpty from 'lodash-es/isEmpty'
+import isString from 'lodash-es/isString'
 import type { FC } from 'react'
 import { useFormContext } from 'react-hook-form'
 

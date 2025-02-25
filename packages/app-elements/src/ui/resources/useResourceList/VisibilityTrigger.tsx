@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { type JSX, useEffect, useRef } from 'react'
 
 interface VisibilityTriggerProps extends React.HTMLAttributes<HTMLDivElement> {
   rootMargin?: string

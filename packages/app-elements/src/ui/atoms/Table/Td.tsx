@@ -8,7 +8,7 @@ import {
 export interface TdProps
   extends React.TdHTMLAttributes<HTMLElement>,
     SkeletonTemplateProps {
-  children?: React.ReactNode
+  children?: Awaited<React.ReactNode>
   textEllipsis?: number
 }
 

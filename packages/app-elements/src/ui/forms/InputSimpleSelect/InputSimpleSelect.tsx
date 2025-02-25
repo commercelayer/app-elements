@@ -2,7 +2,7 @@ import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
-import { forwardRef, type ForwardedRef } from 'react'
+import { forwardRef, type ForwardedRef, type JSX } from 'react'
 
 interface InputSimpleSelectOption {
   value: string

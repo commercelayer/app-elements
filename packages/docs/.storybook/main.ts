@@ -59,7 +59,7 @@ const storybookConfig: StorybookConfig = {
   }
 }
 
-module.exports = storybookConfig
+export default storybookConfig
 
 function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')));

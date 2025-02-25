@@ -23,6 +23,8 @@ afterEach(() => {
   server.resetHandlers()
 })
 
+process.env.TZ = 'UTC'
+
 declare global {
   export function assertToBeDefined<T>(val: T): asserts val is NonNullable<T>
 }

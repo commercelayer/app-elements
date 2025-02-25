@@ -7,6 +7,7 @@ import { CardDialog } from '#ui/composite/CardDialog'
 import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { ListItem } from '#ui/composite/ListItem'
 import { type Meta, type StoryFn } from '@storybook/react'
+import { type JSX } from 'react'
 
 const setup: Meta = {
   title: 'Composite/CardDialog',

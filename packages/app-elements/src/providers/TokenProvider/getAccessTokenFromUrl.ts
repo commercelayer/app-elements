@@ -1,5 +1,5 @@
 import { type Mode } from '#providers/TokenProvider/types'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { getInfoFromJwt } from './getInfoFromJwt'
 
 export const getAccessTokenFromUrl = (): string | null => {

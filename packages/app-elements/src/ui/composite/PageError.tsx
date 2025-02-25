@@ -1,6 +1,7 @@
 import { Container } from '#ui/atoms/Container'
 import { EmptyState } from '#ui/atoms/EmptyState'
 import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
+import { type JSX } from 'react'
 
 export interface PageErrorProps
   extends Pick<PageHeadingProps, 'navigationButton'> {

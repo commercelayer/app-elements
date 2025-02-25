@@ -5,7 +5,7 @@ import {
 import { ArrowRight } from '@phosphor-icons/react'
 import classNames from 'classnames'
 import { endOfDay } from 'date-fns/endOfDay'
-import { forwardRef, useEffect } from 'react'
+import { forwardRef, type JSX, useEffect } from 'react'
 import { InputDate } from '../InputDate'
 import {
   type InputDateProps,

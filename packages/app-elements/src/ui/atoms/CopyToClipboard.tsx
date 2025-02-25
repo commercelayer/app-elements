@@ -1,7 +1,7 @@
 import { Text } from '#ui/atoms/Text'
 import { Check, Copy } from '@phosphor-icons/react'
 import cn from 'classnames'
-import isEmpty from 'lodash/isEmpty'
+import isEmpty from 'lodash-es/isEmpty'
 import { useCallback, useEffect, useState } from 'react'
 import invariant from 'ts-invariant'
 
