@@ -95,11 +95,11 @@
   },
   "peerDependencies": {
     "@commercelayer/sdk": "^6.x",
-    "query-string": "^8.2.x",
-    "react": "^18.2.x",
-    "react-dom": "^18.2.x",
+    "query-string": "^9.x",
+    "react": "^19.x",
+    "react-dom": "^19.x",
     "react-gtm-module": "^2.x",
-    "react-hook-form": "^7.50.x",
+    "react-hook-form": "^7.x",
     "wouter": "^3.x"
   }
 }

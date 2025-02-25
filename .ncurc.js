@@ -1,4 +1,5 @@
 module.exports = {
+  dep: ['prod', 'dev', 'optional', 'packageManager', 'peer'],
   reject: [
     'pnpm'
   ],
