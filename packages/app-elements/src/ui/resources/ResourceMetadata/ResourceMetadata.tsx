@@ -91,7 +91,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 return (
                   <div
                     key={idx}
-                    className='grid grid-cols-2 p-4 border-b border-gray-100'
+                    className='grid grid-cols-2 py-4 border-b border-gray-100'
                     data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
                     <Text variant='info'>{metadataKey}</Text>
