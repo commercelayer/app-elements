@@ -25,6 +25,11 @@ interface I18NProviderProps {
   /** Optional locale to use for i18n translations that will override the locale set in the user's token. */
   enforcedLocaleCode?: I18NLocale
   /**
+   * Whether to enable debug mode for i18n.
+   * @default false
+   */
+  debug?: boolean
+  /**
    * The children to render.
    */
   children: ReactNode
@@ -32,6 +37,7 @@ interface I18NProviderProps {
 
 export const I18NProvider: React.FC<I18NProviderProps> = ({
   children,
+  debug = false,
   enforcedLocaleCode
 }) => {
   const { user } = useTokenProvider()
@@ -41,7 +47,7 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
   useEffect(() => {
     const setupI18n = async (): Promise<void> => {
       try {
-        const instance = await initI18n(localeCode)
+        const instance = await initI18n(localeCode, debug)
         if (instance.isInitialized) {
           setI18nInstance(instance)
         }
@@ -77,7 +83,10 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
 }
 
-const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
+const initI18n = async (
+  localeCode: I18NLocale,
+  debug: I18NProviderProps['debug']
+): Promise<I18nInstance> => {
   await i18n
     .use(
       resourcesToBackend(
@@ -93,7 +102,7 @@ const initI18n = async (localeCode: I18NLocale): Promise<I18nInstance> => {
       react: {
         useSuspense: true
       },
-      debug: true
+      debug
     })
   return i18n
 }
