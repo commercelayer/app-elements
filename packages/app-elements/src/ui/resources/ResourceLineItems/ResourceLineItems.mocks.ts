@@ -227,6 +227,9 @@ export const presetLineItems = {
     reference: null,
     reference_origin: null,
     metadata: {},
+    name: 'Gray Men T-Shirt with Black Logo (L)',
+    image_url:
+      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/TSHIRTMSB0B0B2000000LXXX_FLAT.png',
     sku: {
       id: 'bnRwRSJQlZ',
       type: 'skus',
@@ -259,6 +262,9 @@ export const presetLineItems = {
     reference: null,
     reference_origin: null,
     metadata: {},
+    name: 'White Men T-Shirt with Black Logo (XL)',
+    image_url:
+      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/TSHIRTMSFFFFFF000000LXXX_FLAT.png',
     sku: {
       id: 'bnRwRSJQlZ',
       type: 'skus',
