@@ -243,17 +243,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                   : lineItem.bundle_code
                 : lineItem.sku_code
 
-            const name =
-              lineItem.type === 'stock_line_items'
-                ? lineItem.sku?.name
-                : lineItem.name
+            const name = lineItem.name
 
-            const imageUrl =
-              lineItem.type === 'stock_line_items'
-                ? lineItem.sku?.image_url
-                : isGiftCard(lineItem)
-                  ? 'gift_card'
-                  : lineItem.image_url
+            const imageUrl = isGiftCard(lineItem)
+              ? 'gift_card'
+              : lineItem.image_url
 
             const hasLineItemOptions =
               lineItem.type === 'line_items' &&
