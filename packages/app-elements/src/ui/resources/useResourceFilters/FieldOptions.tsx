@@ -21,7 +21,9 @@ export function FieldOptions({ item }: FieldProps): JSX.Element | null {
               ? computeFilterLabel({
                   label: item.label,
                   selectedCount: watch(item.sdk.predicate)?.length,
-                  totalCount: item.render.props.options.length
+                  totalCount: item.render.props.options.filter(
+                    (o) => o.isHidden !== true
+                  ).length
                 })
               : item.label
           }
