@@ -3,7 +3,6 @@ import i18n, { type i18n as I18nInstance } from 'i18next'
 import resourcesToBackend from 'i18next-resources-to-backend'
 import React, { useEffect, useState, type ReactNode } from 'react'
 import { I18nextProvider, initReactI18next } from 'react-i18next'
-import type en from '../locales/en'
 import { useTokenProvider } from './TokenProvider'
 
 export { t } from 'i18next'
@@ -11,15 +10,6 @@ export { Trans, useTranslation } from 'react-i18next'
 
 export const i18nLocales = ['en-US', 'it-IT'] as const
 export type I18NLocale = (typeof i18nLocales)[number]
-
-declare module 'i18next' {
-  interface CustomTypeOptions {
-    defaultNS: 'translation'
-    resources: {
-      translation: typeof en
-    }
-  }
-}
 
 interface I18NProviderProps {
   /** Optional locale to use for i18n translations that will override the locale set in the user's token. */
