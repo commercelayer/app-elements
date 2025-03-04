@@ -69,7 +69,8 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
         : [
             resourceId,
             {
-              fields: ['id', 'name']
+              fields: ['id', 'name'],
+              pageSize: 25
             }
           ]
     )
