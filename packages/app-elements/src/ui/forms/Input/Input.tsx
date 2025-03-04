@@ -13,7 +13,7 @@ export interface InputProps
   /**
    * Controlled type
    */
-  type?: 'text' | 'number' | 'password' | 'tel' | 'url' | 'email'
+  type?: 'text' | 'number' | 'password' | 'tel' | 'url' | 'email' | 'hidden'
   /**
    * Optional CSS class names used for the input element
    */
@@ -38,6 +38,33 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref
   ): JSX.Element => {
+    const input = (
+      <input
+        {...rest}
+        data-lpignore={rest.autoComplete === 'off' && 'true'}
+        data-1p-ignore={rest.autoComplete === 'off' && true}
+        data-form-type={rest.autoComplete === 'off' && 'other'}
+        id={rest.id ?? rest.name}
+        className={cn(
+          className,
+          'block w-full px-4 py-2.5 font-medium',
+          'rounded outline-0',
+          {
+            '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-12':
+              suffix != null,
+            '!bg-white': rest.autoComplete === 'off'
+          },
+          getFeedbackStyle(feedback)
+        )}
+        type={type}
+        ref={ref}
+      />
+    )
+
+    if (type === 'hidden') {
+      return input
+    }
+
     return (
       <InputWrapper
         label={label}
@@ -47,26 +74,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         inline={inline}
       >
         <div className='relative'>
-          <input
-            {...rest}
-            data-lpignore={rest.autoComplete === 'off' && 'true'}
-            data-1p-ignore={rest.autoComplete === 'off' && true}
-            data-form-type={rest.autoComplete === 'off' && 'other'}
-            id={rest.id ?? rest.name}
-            className={cn(
-              className,
-              'block w-full px-4 py-2.5 font-medium',
-              'rounded outline-0',
-              {
-                '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-12':
-                  suffix != null,
-                '!bg-white': rest.autoComplete === 'off'
-              },
-              getFeedbackStyle(feedback)
-            )}
-            type={type}
-            ref={ref}
-          />
+          {input}
           {suffix != null && (
             <Text
               size='small'
