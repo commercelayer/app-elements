@@ -54,6 +54,7 @@ export const iconMapping = {
   flag: phosphor.Flag,
   folderOpen: phosphor.FolderOpen,
   funnelSimple: phosphor.FunnelSimple,
+  gear: phosphor.Gear,
   gearFine: phosphor.GearFine,
   gift: phosphor.Gift,
   gitFork: phosphor.GitFork,
