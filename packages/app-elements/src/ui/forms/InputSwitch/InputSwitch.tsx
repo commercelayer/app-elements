@@ -38,7 +38,7 @@ export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
             />
             <span
               className={cn(
-                'w-8 h-5 flex items-center flex-shrink-0 p-[1px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-4 after:h-4 after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-3',
+                'w-[29px] h-[18px] flex items-center flex-shrink-0 p-[2.5px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-[14px] after:h-[14px] after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-[9.5px]',
                 getFeedbackStyle(feedback)
               )}
             />
