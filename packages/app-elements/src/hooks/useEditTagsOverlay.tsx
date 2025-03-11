@@ -81,7 +81,8 @@ export function useEditTagsOverlay(): TagsOverlayHook {
           : [
               resourceId,
               {
-                fields: ['id', 'name']
+                fields: ['id', 'name'],
+                pageSize: 25
               }
             ]
       )
