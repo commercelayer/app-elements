@@ -52,13 +52,7 @@ function childRecursiveMap(
   options: SkeletonTemplateProps,
   fn: (child: ReactNodeNoPortal) => ReactNodeNoPortal
 ): ReactNodeNoPortal {
-  if (
-    isValidElement<{
-      isLoading?: boolean
-      delayMs?: number
-      children?: ReactNode
-    }>(child)
-  ) {
+  if (isValidElement<React.PropsWithChildren>(child)) {
     if (isSkeletonTemplate(child)) {
       return cloneElement(child, {
         isLoading: child.props.isLoading ?? options.isLoading,
@@ -119,7 +113,11 @@ export function withSkeletonTemplate<P>(
   return withSkeletonTemplate
 }
 
-function isSkeletonTemplate(child: ReactNode): boolean {
+function isSkeletonTemplate(
+  child: ReactNode
+): child is React.ReactElement<
+  Pick<SkeletonTemplateProps, 'delayMs' | 'isLoading'>
+> {
   if (child == null) {
     return false
   }
@@ -162,7 +160,11 @@ const SkeletonTemplate: SkeletonTemplateComponent<
             return child
           }
 
-          if (!isValidElement<any>(child)) {
+          if (
+            !isValidElement<React.PropsWithChildren<{ className?: string }>>(
+              child
+            )
+          ) {
             return <span className={skeletonClass}>{child}</span>
           }
 
@@ -200,7 +202,6 @@ const SkeletonTemplate: SkeletonTemplateComponent<
           ) {
             return cloneElement(child, {
               ...props,
-              // @ts-expect-error className is a valid component props
               className: cn(props.className as string, skeletonClass)
             })
           }
