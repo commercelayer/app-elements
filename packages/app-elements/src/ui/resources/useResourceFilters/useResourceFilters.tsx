@@ -189,7 +189,7 @@ export function useResourceFilters({
       }
 
       return (
-        <Spacer top='4' bottom='14'>
+        <Spacer top='6' bottom='14'>
           {hideSearchBar === true ? null : (
             <Spacer bottom='2'>
               <FiltersSearchBar
