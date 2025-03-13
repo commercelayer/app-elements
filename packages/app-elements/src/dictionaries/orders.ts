@@ -57,6 +57,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case 'approved:paid:in_progress':
     case 'approved:partially_refunded:in_progress':
+    case 'approved:free:in_progress':
       return {
         label: t('apps.orders.display_status.in_progress'),
         icon: 'arrowClockwise',
