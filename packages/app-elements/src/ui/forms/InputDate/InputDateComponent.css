@@ -16,6 +16,7 @@
 .react-datepicker-popper {
   min-width: 370px;
   text-align: center;
+  z-index: 30;
 }
 
 .react-datepicker-popper .react-datepicker__triangle {
