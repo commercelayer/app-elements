@@ -403,7 +403,8 @@ const it: typeof en = {
   validation: {
     select_one_item: 'Seleziona almeno un elemento',
     coupon_code_invalid: 'Inserisci un codice valido',
-    coupon_code_too_short: 'Il codice è troppo corto (minimo 8 caratteri)',
+    coupon_code_too_short:
+      'Il codice è troppo corto (minimo {{min}} caratteri)',
     amount_invalid: 'Inserisci un importo valido',
     required_field: 'Campo obbligatorio'
   },
