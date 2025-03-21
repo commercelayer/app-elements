@@ -679,7 +679,8 @@ const en = {
   validation: {
     select_one_item: 'Please select at least one item',
     coupon_code_invalid: 'Please enter a valid coupon code.',
-    coupon_code_too_short: 'Coupon code is too short (minimum is 8 characters)',
+    coupon_code_too_short:
+      'Coupon code is too short (minimum is {{min}} characters)',
     amount_invalid: 'Please enter a valid amount',
     required_field: 'Required field'
   }
