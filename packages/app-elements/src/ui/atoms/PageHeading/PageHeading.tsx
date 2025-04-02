@@ -97,7 +97,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
           </div>
         )}
         <div className='flex items-center justify-between'>
-          <h1 className='font-semibold text-2xl md:text-title leading-title break-words'>
+          <h1 className='font-semibold text-2xl md:text-title leading-title break-all'>
             {title}
           </h1>
           {navigationButton == null && toolbar != null ? (
