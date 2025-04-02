@@ -421,11 +421,22 @@ const it: typeof en = {
         type: 'Tipo',
         wallet: 'Portafoglio',
         groups: 'Gruppi',
-        confirm_customer_delete: 'Sei sicuro di voler eliminare {{email}}?',
-        customer_cannot_be_deleted:
-          'Il cliente non può essere eliminato tramite la nostra dashboard',
-        customer_cannot_be_deleted_description:
-          "Inviare una richiesta a <a>{{support_email}}</a> specificando il nome dell'organizzazione e l'email del cliente."
+        confirm_customer_delete: 'Sei sicuro di voler eliminare {{email}}?'
+      },
+      anonymize: {
+        title: 'Il cliente non può essere eliminato',
+        description:
+          "Il cliente non può essere eliminato. Invece, puoi richiederne l'anonimizzazione. I suoi dati personali saranno sostituiti in tutte le risorse correlate, compresi gli ordini. Puoi annullare la richiesta di anonimizzazione finché non viene elaborata.",
+        request_button: 'Richiedi anonimizzazione'
+      },
+      anonymization_info: {
+        alert_requested:
+          'Anonimizzazione del cliente richiesta da {{requestedby}} il {{requestedat}}. È possibile annullare questa richiesta finché non è processata.',
+        alert_in_progress:
+          'Anonimizzazione del cliente in corso. Richiesta da {{requestedby}} il {{requestedat}}.',
+        alert_completed:
+          'Anonimizzazione del cliente completata il {{completedat}}. Richiesta da {{requestedby}} il {{requestedat}}.',
+        cancel_button: 'Annulla richiesta'
       },
       form: {
         customer_group_label: 'Gruppo',

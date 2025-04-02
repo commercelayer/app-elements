@@ -434,11 +434,22 @@ const en = {
         type: 'Type',
         wallet: 'Wallet',
         groups: 'Groups',
-        confirm_customer_delete: 'Confirm that you want to delete {{email}}',
-        customer_cannot_be_deleted:
-          'Customer cannot be deleted from our dashboard',
-        customer_cannot_be_deleted_description:
-          "Please send a request to <a>support</a> specifying the organization name and the customer's email."
+        confirm_customer_delete: 'Confirm that you want to delete {{email}}'
+      },
+      anonymize: {
+        title: 'Customer cannot be deleted',
+        description:
+          'The customer cannot be deleted. Instead, you can request the anonymization. Their personal data will be replaced in all the related resources, including orders. You can cancel the anonymization request until it is not in progress.',
+        request_button: 'Request anonymization'
+      },
+      anonymization_info: {
+        alert_requested:
+          'Customer anonymization requested by {{requestedby}} on {{requestedat}}. You can cancel this request until it is processed.',
+        alert_in_progress:
+          'Customer anonymization in progress. Requested by {{requestedby}} on {{requestedat}}.',
+        alert_completed:
+          'Customer anonymization completed on {{completedat}}. Requested by {{requestedby}} on {{requestedat}}.',
+        cancel_button: 'Cancel request'
       },
       form: {
         customer_group_label: 'Group',
