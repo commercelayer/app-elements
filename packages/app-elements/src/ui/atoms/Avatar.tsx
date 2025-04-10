@@ -1,5 +1,5 @@
 import cn from 'classnames'
-import { type JSX } from 'react'
+import { useState, type JSX } from 'react'
 import { presets } from './Avatar.utils'
 
 type SrcPreset = keyof typeof presets
@@ -47,13 +47,20 @@ export function Avatar({
   className,
   ...rest
 }: AvatarProps): JSX.Element {
+  const [hasOnLoadError, setHasOnLoadError] = useState<boolean>(false)
+  const hasError =
+    hasOnLoadError || (!srcIsValidUrl(src) && !srcIsValidPreset(src))
+
   return (
     <img
       {...rest}
+      onError={() => {
+        setHasOnLoadError(true)
+      }}
       src={
         srcIsValidPreset(src)
           ? presets[src]
-          : srcIsValidUrl(src)
+          : srcIsValidUrl(src) && !hasOnLoadError
             ? src
             : placeholderSvg
       }
@@ -73,12 +80,8 @@ export function Avatar({
           'border-gray-100': border == null,
           'border-transparent': border === 'none' || srcIsValidPreset(src),
           // placeholder
-          'p-1':
-            !srcIsValidPreset(src) &&
-            !srcIsValidUrl(src) &&
-            (size === 'normal' || size === 'large'),
-          'p-0.5':
-            !srcIsValidPreset(src) && !srcIsValidUrl(src) && size !== 'normal'
+          'p-1': hasError && (size === 'normal' || size === 'large'),
+          'p-0.5': hasError && size !== 'normal'
         },
         className
       )}

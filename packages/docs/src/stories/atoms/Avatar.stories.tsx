@@ -39,13 +39,20 @@ UndefinedSource.args = {
   alt: 'The image is not present'
 }
 
+/** When `src` prop is set to an non-existing image source, then a placeholder will be shown. */
+export const OnLoadError = Template.bind({})
+OnLoadError.args = {
+  alt: 'The image is not present',
+  src: 'https://commercelayer.io/non-existing.svg'
+}
+
 /** The image is scaled to maintain its aspect ratio while fitting within the element's content box. */
 export const AspectRatio: StoryFn = (_args) => {
   return (
     <>
-      <Avatar src='https://via.placeholder.com/50x80' alt='Portrait' />
-      <Avatar src='https://via.placeholder.com/80x50' alt='Landscape' />
-      <Avatar src='https://via.placeholder.com/40x40' alt='Small' />
+      <Avatar src='https://placehold.co/50x80' alt='Portrait' />
+      <Avatar src='https://placehold.co/80x50' alt='Landscape' />
+      <Avatar src='https://placehold.co/40x40' alt='Small' />
     </>
   )
 }
