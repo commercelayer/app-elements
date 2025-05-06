@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "private": true,
-  "version": "5.1.7",
+  "version": "5.1.8",
   "license": "MIT",
   "scripts": {
     "lint": "eslint src --ext .ts,.tsx",
