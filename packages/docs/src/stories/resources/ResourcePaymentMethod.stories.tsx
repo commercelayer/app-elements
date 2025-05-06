@@ -1,3 +1,4 @@
+import { Icon } from '#ui/atoms/Icon'
 import { ResourcePaymentMethod } from '#ui/resources/ResourcePaymentMethod'
 import {
   customerPaymentSource,
@@ -56,4 +57,22 @@ export const WithoutSideGap = Template.bind({})
 WithoutSideGap.args = {
   resource: customerPaymentSource,
   variant: 'plain'
+}
+
+/**
+ * The component can show a custom action button on the right side of the row.
+ * This can be used to remove a payment source or other actions.
+ */
+export const WithActionButton = Template.bind({})
+WithActionButton.args = {
+  resource: customerPaymentSource,
+  actionButton: (
+    <button
+      onClick={() => {
+        alert('Remove!')
+      }}
+    >
+      <Icon name='trash' size={18} />
+    </button>
+  )
 }
