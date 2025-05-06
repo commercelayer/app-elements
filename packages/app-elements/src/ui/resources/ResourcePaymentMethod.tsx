@@ -9,7 +9,7 @@ import {
 } from '@commercelayer/sdk'
 import cn from 'classnames'
 import isEmpty from 'lodash-es/isEmpty'
-import { useState, type FC } from 'react'
+import { useState, type FC, type ReactNode } from 'react'
 import type { SetNonNullable, SetRequired } from 'type-fest'
 import { z } from 'zod'
 
@@ -35,6 +35,10 @@ export interface ResourcePaymentMethodProps {
    * Defines the style of the component. Default is `boxed`, with a light gray background and rounded corners.
    */
   variant?: 'plain' | 'boxed'
+  /**
+   * This will render a button on the right side of the row.
+   */
+  actionButton?: ReactNode
 }
 
 /**
@@ -43,7 +47,8 @@ export interface ResourcePaymentMethodProps {
 export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
   resource,
   showPaymentResponse = false,
-  variant = 'boxed'
+  variant = 'boxed',
+  actionButton
 }) => {
   const [showMore, setShowMore] = useState(false)
   const paymentInstrument = paymentInstrumentType.safeParse(
@@ -120,6 +125,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
               {showMore ? t('common.show_less') : t('common.show_more')}
             </Button>
           )}
+          {actionButton != null && !showPaymentResponse && <>{actionButton}</>}
         </div>
       </div>
 
