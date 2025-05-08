@@ -520,3 +520,12 @@ function i18n(localeCode: I18NLocale) {
   }
   return locale.en
 }
+
+/**
+ * Check if the given date is valid.
+ * @param date The date to check.
+ * @returns True if the date is valid, false otherwise.
+ */
+export function isDateValid(date: Date): boolean {
+  return date instanceof Date && !isNaN(date.getTime())
+}
