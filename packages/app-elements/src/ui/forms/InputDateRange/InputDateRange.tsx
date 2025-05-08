@@ -5,7 +5,7 @@ import {
 import { ArrowRight } from '@phosphor-icons/react'
 import classNames from 'classnames'
 import { endOfDay } from 'date-fns/endOfDay'
-import { forwardRef, type JSX, useEffect } from 'react'
+import { forwardRef, type JSX, useEffect, useState } from 'react'
 import { InputDate } from '../InputDate'
 import {
   type InputDateProps,
@@ -15,7 +15,11 @@ import {
 export interface InputDateRangeProps
   extends Pick<
       InputDateProps,
-      'isClearable' | 'format' | 'autoPlaceholder' | 'showTimeSelect'
+      | 'isClearable'
+      | 'format'
+      | 'timezone'
+      | 'autoPlaceholder'
+      | 'showTimeSelect'
     >,
     InputWrapperBaseProps {
   /** a tuple that represents the [from, to] dates */
@@ -50,6 +54,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       toPlaceholder,
       label,
       format,
+      timezone,
       autoPlaceholder,
       isClearable,
       onChange,
@@ -67,21 +72,30 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
     ref
   ): JSX.Element => {
     const [fromDate, toDate] = value
+    const [selectedFromDate, setSelectedFromDate] = useState<MaybeDate>(
+      new Date(fromDate ?? Date.now())
+    )
+    const [selectedToDate, setSelectedToDate] = useState<MaybeDate>(
+      new Date(toDate ?? Date.now())
+    )
 
     useEffect(
       function syncToDateWhenFromIsFuture() {
-        if (fromDate == null || toDate == null) {
+        if (selectedFromDate == null || selectedToDate == null) {
           return
         }
 
-        if (fromDate > toDate) {
+        if (selectedFromDate > selectedToDate) {
+          setSelectedToDate(selectedFromDate)
           onChange([
-            fromDate,
-            showTimeSelect === true ? fromDate : toEndOfDay(fromDate)
+            selectedFromDate,
+            showTimeSelect === true
+              ? selectedFromDate
+              : toEndOfDay(selectedFromDate)
           ])
         }
       },
-      [fromDate]
+      [selectedFromDate, selectedToDate]
     )
 
     const hasSingleLabels = fromLabel != null || toLabel != null
@@ -95,12 +109,14 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
           })}
         >
           <InputDate
-            value={fromDate}
+            value={selectedFromDate}
             onChange={(newDate) => {
-              onChange([newDate, toDate])
+              setSelectedFromDate(newDate)
+              onChange([newDate, selectedToDate])
             }}
             placeholder={fromPlaceholder}
             format={format}
+            timezone={timezone}
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
@@ -113,16 +129,18 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             {hasSingleLabels ? null : <ArrowRight size={24} />}
           </div>
           <InputDate
-            value={toDate}
+            value={selectedToDate}
             onChange={(newDate) => {
+              setSelectedToDate(newDate)
               onChange([
-                fromDate,
+                selectedFromDate,
                 showTimeSelect === true ? newDate : toEndOfDay(newDate)
               ])
             }}
             placeholder={toPlaceholder}
-            minDate={fromDate ?? undefined}
+            minDate={selectedFromDate ?? undefined}
             format={format}
+            timezone={timezone}
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
