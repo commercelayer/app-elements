@@ -15,6 +15,7 @@ export {
   getEventDateInfo,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
+  isDateValid,
   makeDateYearsRange,
   removeMillisecondsFromIsoDate,
   sortAndGroupByDate,

@@ -1,13 +1,15 @@
 import DatePicker from 'react-datepicker'
 
+import { isDateValid } from '#helpers/date'
 import {
   InputWrapper,
   getFeedbackStyle,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
+import { TZDateMini as TZDate } from '@date-fns/tz'
 import { CalendarBlank, X } from '@phosphor-icons/react'
 import cn from 'classnames'
-import { forwardRef, type JSX } from 'react'
+import { forwardRef, useMemo, type JSX } from 'react'
 
 export type MaybeDate = Date | null
 
@@ -38,9 +40,15 @@ export interface InputDateProps extends InputWrapperBaseProps {
   showTimeSelect?: boolean | undefined
   /**
    * String to be parsed as formatter (eg. MM/dd/yyyy, dd-MM-yy, ect...).
-   * When undefined, will autodetect format from user's browser
+   * When undefined, will autodetect format from user's browser.
    */
   format?: string
+  /**
+   * Timezone string to be used for date formatting.
+   * (eg. `Africa/Nairobi`, `America/New_York`, `Etc/UTC`, ect...).
+   * When undefined or not valid, will autodetect user's browser timezone.
+   */
+  timezone?: string
   /**
    * Disable selection of previous dates
    */
@@ -70,6 +78,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       inputClassName,
       showTimeSelect = false,
       format,
+      timezone,
       placeholder,
       minDate,
       label,
@@ -82,6 +91,12 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
     },
     ref
   ): JSX.Element => {
+    const selectedDateInTimezone = useMemo(() => {
+      if (value == null) return null
+      const tzDate = new TZDate(value, timezone)
+      return isDateValid(tzDate) ? tzDate : value
+    }, [value, timezone])
+
     const dateFormat = format ?? detectDateTimeFormat(showTimeSelect)
     return (
       <InputWrapper
@@ -94,7 +109,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
         <div className='relative w-full'>
           <DatePicker
             ref={ref}
-            selected={value}
+            selected={selectedDateInTimezone}
             onChange={onChange}
             dateFormat={dateFormat}
             showTimeSelect={showTimeSelect}
@@ -102,7 +117,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
               autoPlaceholder === true ? dateFormat.toLowerCase() : placeholder
             }
             minDate={minDate}
-            openToDate={value ?? minDate}
+            openToDate={selectedDateInTimezone ?? minDate}
             className={cn(
               'block w-full px-4 py-2.5 placeholder:text-gray-400 font-medium',
               'rounded outline-0',
@@ -115,7 +130,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
           <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
             <CalendarBlank />
           </div>
-          {value != null && isClearable === true ? (
+          {selectedDateInTimezone != null && isClearable === true ? (
             <button
               className='absolute top-0 bottom-0 right-11 flex items-center'
               onClick={() => {

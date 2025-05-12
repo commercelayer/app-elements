@@ -15,7 +15,11 @@ import {
 export interface InputDateRangeProps
   extends Pick<
       InputDateProps,
-      'isClearable' | 'format' | 'autoPlaceholder' | 'showTimeSelect'
+      | 'isClearable'
+      | 'format'
+      | 'timezone'
+      | 'autoPlaceholder'
+      | 'showTimeSelect'
     >,
     InputWrapperBaseProps {
   /** a tuple that represents the [from, to] dates */
@@ -50,6 +54,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       toPlaceholder,
       label,
       format,
+      timezone,
       autoPlaceholder,
       isClearable,
       onChange,
@@ -81,7 +86,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
           ])
         }
       },
-      [fromDate]
+      [fromDate, toDate]
     )
 
     const hasSingleLabels = fromLabel != null || toLabel != null
@@ -101,6 +106,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             }}
             placeholder={fromPlaceholder}
             format={format}
+            timezone={timezone}
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
@@ -123,6 +129,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             placeholder={toPlaceholder}
             minDate={fromDate ?? undefined}
             format={format}
+            timezone={timezone}
             wrapperClassName='flex-1'
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
