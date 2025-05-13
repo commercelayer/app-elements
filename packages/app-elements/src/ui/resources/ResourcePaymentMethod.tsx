@@ -1,4 +1,4 @@
-import { t } from '#providers/I18NProvider'
+import { useTranslation } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
@@ -51,6 +51,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
   actionButton
 }) => {
   const [showMore, setShowMore] = useState(false)
+  const { t } = useTranslation()
   const paymentInstrument = paymentInstrumentType.safeParse(
     resource.payment_source?.payment_instrument
   )
@@ -84,47 +85,57 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
         'bg-gray-50 rounded px-4': variant === 'boxed'
       })}
     >
-      <div className='flex gap-4 py-4'>
+      <div className='flex gap-4 py-[14px] items-center'>
         <img src={avatarSrc} alt={paymentMethodName} className='h-8' />
         <div className='flex gap-4 items-center justify-between w-full'>
-          {paymentInstrument.success ? (
-            <div>
-              <Text weight='semibold'>{paymentMethodName}</Text>
-              <Text>{' · '}</Text>
-              <Text weight='medium' variant='info'>
-                {paymentInstrument.data.card_type != null ? (
-                  <span>
-                    {paymentInstrument.data.card_type}{' '}
-                    {paymentInstrument.data.issuer_type}
-                    {paymentInstrument.data.card_last_digits != null && (
-                      <Spacer left='2' style={{ display: 'inline-block' }}>
-                        ··{paymentInstrument.data.card_last_digits}
-                      </Spacer>
-                    )}
-                  </span>
-                ) : (
-                  paymentInstrument.data.issuer_type
-                )}
+          <div className='flex flex-col gap-0'>
+            {paymentInstrument.success ? (
+              <div>
+                <Text weight='semibold'>{paymentMethodName}</Text>
+                <Text>{' · '}</Text>
+                <Text weight='medium' variant='info'>
+                  {paymentInstrument.data.card_type != null ? (
+                    <span>
+                      {paymentInstrument.data.card_type}{' '}
+                      {paymentInstrument.data.issuer_type}
+                      {paymentInstrument.data.card_last_digits != null && (
+                        <Spacer left='2' style={{ display: 'inline-block' }}>
+                          ··{paymentInstrument.data.card_last_digits}
+                        </Spacer>
+                      )}
+                      {paymentInstrument.data.card_expiry_month != null &&
+                        paymentInstrument.data.card_expiry_year != null && (
+                          <Spacer left='1' style={{ display: 'inline-block' }}>
+                            {`${t('common.card_expires')} `}
+                            {paymentInstrument.data.card_expiry_month}/
+                            {paymentInstrument.data.card_expiry_year.slice(2)}
+                          </Spacer>
+                        )}
+                    </span>
+                  ) : (
+                    paymentInstrument.data.issuer_type
+                  )}
+                </Text>
+              </div>
+            ) : (
+              <Text tag='div' weight='semibold'>
+                {paymentMethodName}
               </Text>
-            </div>
-          ) : (
-            <Text tag='div' weight='semibold'>
-              {paymentMethodName}
-            </Text>
-          )}
-          {paymentResponse != null && showPaymentResponse && (
-            <Button
-              onClick={() => {
-                setShowMore(!showMore)
-              }}
-              variant='link'
-              size='mini'
-              className='text-sm font-bold'
-              type='button'
-            >
-              {showMore ? t('common.show_less') : t('common.show_more')}
-            </Button>
-          )}
+            )}
+            {paymentResponse != null && showPaymentResponse && (
+              <Button
+                onClick={() => {
+                  setShowMore(!showMore)
+                }}
+                variant='link'
+                size='mini'
+                className='text-xs font-bold !text-gray-700'
+                type='button'
+              >
+                {showMore ? t('common.show_less') : t('common.show_more')}
+              </Button>
+            )}
+          </div>
           {actionButton != null && !showPaymentResponse && <>{actionButton}</>}
         </div>
       </div>

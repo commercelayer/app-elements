@@ -72,6 +72,7 @@ const it: typeof en = {
     select_resource: 'Seleziona {{resource}}',
     show_less: 'Mostra meno',
     show_more: 'Mostra di più',
+    card_expires: 'scade',
     status: 'Stato',
     swap: 'Scambia',
     time_range: 'Periodo',
