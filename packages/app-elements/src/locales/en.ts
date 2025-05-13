@@ -295,6 +295,7 @@ const en = {
     select_resource: 'Select {{resource}}',
     show_less: 'Show less',
     show_more: 'Show more',
+    card_expires: 'expires',
     saving: 'Saving...',
     status: 'Status',
     swap: 'Swap',
