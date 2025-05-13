@@ -552,9 +552,9 @@ const en = {
         delete_error: 'Could not cancel this return',
         info: 'Info',
         timeline_requested_return:
-          '{{email}} requested the return of {{count} item',
+          '{{email}} requested the return of {{count}} item',
         timeline_requested_return_other:
-          '{{email}} requested the return of {{count} items',
+          '{{email}} requested the return of {{count}} items',
         timeline_shipped: 'Return was <strong>shipped</strong>',
         timeline_received: 'Return was <strong>received</strong>',
         timeline_cancelled: 'Return was <strong>cancelled</strong>',
