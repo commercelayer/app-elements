@@ -21,6 +21,7 @@ export type TokenProviderAllowedApp =
   | 'webhooks'
   | 'dashboard'
   | 'resources'
+  | 'generic'
 
 export type TokenProviderTokenApplicationKind =
   | 'integration'
