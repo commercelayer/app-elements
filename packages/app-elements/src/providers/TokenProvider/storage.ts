@@ -1,4 +1,4 @@
-import { type TokenProviderAllowedApp } from './types'
+import { type TokenProviderAllowedAppSlug } from './types'
 
 type ItemType = 'accessToken' | 'extras'
 
@@ -7,7 +7,7 @@ export function makeStorageKey({
   organizationSlug,
   itemType
 }: {
-  appSlug: TokenProviderAllowedApp
+  appSlug: TokenProviderAllowedAppSlug
   organizationSlug: string
   itemType: ItemType
 }): string {
@@ -20,7 +20,7 @@ export function getPersistentJWT({
   itemType
 }: {
   /** The app for which to get the token. */
-  appSlug: TokenProviderAllowedApp
+  appSlug: TokenProviderAllowedAppSlug
   /** The organization slug for the token we want to retrieve. */
   organizationSlug?: string
   /** The JWT item type you want to retrieve. */
@@ -47,7 +47,7 @@ export function savePersistentJWT({
   itemType
 }: {
   /** The app for which to get the token. */
-  appSlug: TokenProviderAllowedApp
+  appSlug: TokenProviderAllowedAppSlug
   /** The token to save. */
   jwt: string
   /** The organization slug for the token we want to store. */

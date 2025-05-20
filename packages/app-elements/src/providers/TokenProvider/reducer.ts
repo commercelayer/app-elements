@@ -1,4 +1,4 @@
-import { type TokenProviderAllowedApp } from '#providers/TokenProvider'
+import { type TokenProviderClAppSlug } from '#providers/TokenProvider'
 import {
   type TokenProviderAuthSettings,
   type TokenProviderAuthUser,
@@ -10,7 +10,7 @@ interface TokenProviderInternalState {
   isLoading: boolean
   isTokenError: boolean
   rolePermissions: TokenProviderRolePermissions
-  accessibleApps: TokenProviderAllowedApp[]
+  accessibleApps: TokenProviderClAppSlug[]
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
 }
@@ -41,7 +41,7 @@ type Action =
         settings: TokenProviderAuthSettings
         user: TokenProviderAuthUser | null
         rolePermissions: TokenProviderRolePermissions
-        accessibleApps: TokenProviderAllowedApp[]
+        accessibleApps: TokenProviderClAppSlug[]
       }
     }
 
