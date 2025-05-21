@@ -39,6 +39,7 @@ export {
   type Rate,
   type TrackingDetail
 } from '#helpers/tracking'
+export { orderTransactionIsAnAsyncCapture } from '#helpers/transactions'
 export {
   getUnitOfWeightName,
   getUnitsOfWeightForSelect,

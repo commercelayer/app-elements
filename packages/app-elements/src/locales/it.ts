@@ -495,7 +495,8 @@ const it: typeof en = {
         payment_authorization: 'Autorizzazione pagamento',
         payment_capture: 'Cattura pagamento',
         payment_refund: 'Rimborso',
-        payment_void: 'Annulla'
+        payment_void: 'Annulla',
+        waiting_for_success_capture: 'In attesa di cattura riuscita'
       },
       form: {
         language: 'Lingua',
