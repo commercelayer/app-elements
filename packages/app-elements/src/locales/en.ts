@@ -508,7 +508,8 @@ const en = {
         payment_authorization: 'Payment authorization',
         payment_capture: 'Payment capture',
         payment_refund: 'Refund',
-        payment_void: 'Void'
+        payment_void: 'Void',
+        waiting_for_success_capture: 'Waiting for success capture'
       },
       form: {
         language: 'Language',

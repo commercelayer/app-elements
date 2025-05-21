@@ -1,6 +1,7 @@
 import { getOrderTransactionName } from '#dictionaries/orders'
 import { navigateTo } from '#helpers/appsNavigation'
 import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
+import { orderTransactionIsAnAsyncCapture } from '#helpers/transactions'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { t } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
@@ -350,6 +351,11 @@ const useTimelineReducer = (order: Order) => {
             transaction.type === 'captures' && !transaction.succeeded
           const isFailedAuthorization =
             transaction.type === 'authorizations' && !transaction.succeeded
+
+          if (orderTransactionIsAnAsyncCapture(transaction)) {
+            // skipping timeline event when the capture is pending async
+            return
+          }
 
           dispatch({
             type: 'add',
