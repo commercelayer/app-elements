@@ -25,9 +25,10 @@ import {
 import { initialTokenProviderState, reducer } from './reducer'
 import { getPersistentJWT, savePersistentJWT } from './storage'
 import type {
-  TokenProviderAllowedApp,
+  TokenProviderAllowedAppSlug,
   TokenProviderAuthSettings,
   TokenProviderAuthUser,
+  TokenProviderClAppSlug,
   TokenProviderExtras,
   TokenProviderRoleActions
 } from './types'
@@ -41,7 +42,7 @@ export interface TokenProviderValue {
     action: TokenProviderRoleActions,
     resource: ListableResourceType
   ) => boolean
-  canAccess: (appSlug: Exclude<TokenProviderAllowedApp, 'dashboard'>) => boolean
+  canAccess: (appSlug: TokenProviderClAppSlug) => boolean
   emitInvalidAuth: (reason: string) => void
 }
 
@@ -52,10 +53,10 @@ export interface TokenProviderProps {
    */
   kind: TokenProviderTokenApplicationKind
   /**
-   * The slug of the current app. It needs to match one of the allowed app slugs enabled in the dashboard.
-   * It is used to persist token for current app only.
+   * The slug of the current app. It could match one of the allowed apps or a custom string.
+   * It is used as the app identifier (e.g. storage key).
    */
-  appSlug: TokenProviderAllowedApp
+  appSlug: TokenProviderAllowedAppSlug
   /**
    * Set this to `true` to skip domain slug validation in dev mode.
    */
@@ -200,7 +201,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   )
 
   const canAccess = useCallback(
-    function (appSlug: TokenProviderAllowedApp): boolean {
+    function (appSlug: TokenProviderClAppSlug): boolean {
       if (kind === 'integration') {
         return true
       }

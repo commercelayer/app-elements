@@ -1,7 +1,7 @@
 import type { ParsedScopes } from '#providers/TokenProvider/getInfoFromJwt'
 import type { ListableResourceType } from '@commercelayer/sdk'
 
-export type TokenProviderAllowedApp =
+export type TokenProviderClAppSlug =
   | 'bundles'
   | 'customers'
   | 'exports'
@@ -19,16 +19,41 @@ export type TokenProviderAllowedApp =
   | 'subscriptions'
   | 'tags'
   | 'webhooks'
-  | 'dashboard'
-  | 'resources'
-  | 'generic'
 
+/**
+ * TokenProviderAllowedApp is a type that contains all the possible kinds of the app that you can create inside the dashboard.
+ * As a convention Commerce Layer official apps have a slug that matches the kind of the app.
+ */
+export type TokenProviderAllowedAppKind = TokenProviderClAppSlug | 'generic'
+
+/**
+ * @deprecated Use `TokenProviderAllowedAppKind` instead.
+ */
+export type TokenProviderAllowedApp = TokenProviderAllowedAppKind
+
+/**
+ * The application slug. It could match one of the allowed apps or a custom string.
+ * It is used as the app identifier (e.g. storage key).
+ */
+export type TokenProviderAllowedAppSlug =
+  | TokenProviderClAppSlug
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  | (string & {})
+
+/**
+ * TokenProviderTokenApplicationKind is a type that contains all the suitable api credential kinds.
+ * Depending on the kind, it could be used to identify:
+ * - an authentication api credential (eg. `integration`, `sales_channel`, `webapp`)
+ * - a particular feature in the dashboard (eg. `resources`, `links`)
+ * - an app with its dedicated set of permissions (eg. `order`, `customers`, etc...)
+ */
 export type TokenProviderTokenApplicationKind =
   | 'integration'
   | 'sales_channel'
   | 'webapp'
   | 'resources'
-  | TokenProviderAllowedApp
+  | 'links'
+  | TokenProviderAllowedAppKind
 
 export type TokenProviderRoleActions = 'create' | 'destroy' | 'read' | 'update'
 
@@ -101,7 +126,7 @@ export interface TokenProviderTokenInfo {
    */
   accessible_apps?: Array<{
     name: string
-    kind: TokenProviderAllowedApp
+    kind: TokenProviderAllowedAppKind
     core: boolean
   }>
 }

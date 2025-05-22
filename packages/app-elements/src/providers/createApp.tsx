@@ -1,10 +1,10 @@
 import isEmpty from 'lodash-es/isEmpty'
 import { type ReactNode } from 'react'
 import ReactDOM, { type Root } from 'react-dom/client'
-import { type TokenProviderAllowedApp } from './TokenProvider'
 import { type TokenProviderProps } from './TokenProvider/TokenProvider'
+import { type TokenProviderAllowedAppSlug } from './TokenProvider/types'
 
-export type ClAppKey = `clApp_${TokenProviderAllowedApp}`
+export type ClAppKey = `clApp_${TokenProviderAllowedAppSlug}`
 
 /**
  * Method to mount the React application in the provider `node` with the set of options passed as `props`.
@@ -43,7 +43,7 @@ export interface ClAppProps
  **/
 export function createApp(
   children: (props: ClAppProps) => ReactNode,
-  appSlug: TokenProviderAllowedApp
+  appSlug: TokenProviderAllowedAppSlug
 ): void {
   window[`clApp_${appSlug}`] = {
     init: (node, props) => {

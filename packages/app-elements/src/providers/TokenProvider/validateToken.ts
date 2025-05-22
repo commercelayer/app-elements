@@ -1,8 +1,5 @@
 import { computeFullname, formatDisplayName } from '#helpers/name'
-import {
-  type TokenProviderAllowedApp,
-  type TokenProviderTokenApplicationKind
-} from '#providers/TokenProvider'
+import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
 import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
 import { type ListableResourceType } from '@commercelayer/sdk'
 import fetch from 'cross-fetch'
@@ -11,6 +8,7 @@ import { getInfoFromJwt, type ParsedScopes } from './getInfoFromJwt'
 import {
   type Mode,
   type TokenProviderAuthUser,
+  type TokenProviderClAppSlug,
   type TokenProviderPermissionItem,
   type TokenProviderRolePermissions,
   type TokenProviderTokenInfo
@@ -39,7 +37,7 @@ interface ValidToken {
   mode: Mode
   organizationSlug: string
   permissions?: TokenProviderRolePermissions
-  accessibleApps?: TokenProviderAllowedApp[]
+  accessibleApps?: TokenProviderClAppSlug[]
   user: TokenProviderAuthUser | null
   scopes?: ParsedScopes
 }
@@ -132,7 +130,9 @@ export async function isValidTokenForCurrentApp({
           : undefined,
       accessibleApps:
         tokenInfo?.accessible_apps != null
-          ? tokenInfo?.accessible_apps.map((app) => app.kind)
+          ? tokenInfo?.accessible_apps
+              .map((app) => app.kind)
+              .filter((kind) => kind !== 'generic')
           : undefined,
       user:
         tokenInfo?.owner != null && tokenInfo.owner.type === 'User'

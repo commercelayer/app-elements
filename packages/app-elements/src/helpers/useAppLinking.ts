@@ -1,18 +1,13 @@
 import { useTokenProvider } from '#providers/TokenProvider'
-import { type TokenProviderAllowedApp } from '#providers/TokenProvider/types'
+import { type TokenProviderClAppSlug } from '#providers/TokenProvider/types'
 import isEmpty from 'lodash-es/isEmpty'
 import { useCallback } from 'react'
 import { useLocation, useRouter, useSearch } from 'wouter'
 
-type AppsWithConfig = Exclude<
-  TokenProviderAllowedApp,
-  'dashboard' | 'resources'
->
-
-type Layout = Record<AppsWithConfig, object | undefined>
+type Layout = Record<TokenProviderClAppSlug, object | undefined>
 interface AppsConfig {
   layout?: Layout
-  navigation?: Record<AppsWithConfig, string | null | undefined>
+  navigation?: Record<TokenProviderClAppSlug, string | null | undefined>
 }
 
 // TODO: replace empty config with fetched config from TokenProvider
@@ -25,7 +20,7 @@ interface UseAppLinkingHook {
    * Navigate to internal app path, to different app (outside router base), or to an external URL.
    * Current path is saved in session storage to allow going back to it (when using `goBack`).
    */
-  navigateTo: (param: { app: AppsWithConfig; resourceId?: string }) => {
+  navigateTo: (param: { app: TokenProviderClAppSlug; resourceId?: string }) => {
     href: string
     onClick: (
       e: React.MouseEvent<
@@ -85,7 +80,7 @@ export function useAppLinking(): UseAppLinkingHook {
           saveGoBackItem({
             destinationApp: app,
             resourceId,
-            returnToApp: currentAppSlug as AppsWithConfig,
+            returnToApp: currentAppSlug as TokenProviderClAppSlug,
             location: `${location}${!isEmpty(search) ? `?${search}` : ''}`
           })
           setLocation(to)
@@ -148,7 +143,7 @@ export function useAppLinking(): UseAppLinkingHook {
       defaultRelativePath: string
     }) => {
       const goBackItem = getGoBackItem({
-        destinationApp: currentAppSlug as AppsWithConfig,
+        destinationApp: currentAppSlug as TokenProviderClAppSlug,
         resourceId: currentResourceId
       })
       if (goBackItem == null) {
@@ -188,7 +183,7 @@ function clearConfigPath(path?: string | null): string | null {
 
 interface GoBackItem {
   version: number
-  returnToApp: AppsWithConfig
+  returnToApp: TokenProviderClAppSlug
   location: string
 }
 
@@ -200,9 +195,9 @@ function saveGoBackItem({
   returnToApp,
   location
 }: {
-  destinationApp: AppsWithConfig
+  destinationApp: TokenProviderClAppSlug
   resourceId?: string
-  returnToApp: AppsWithConfig
+  returnToApp: TokenProviderClAppSlug
   location: string
 }): void {
   if (typeof window === 'undefined') {
@@ -223,7 +218,7 @@ function getGoBackItem({
   destinationApp,
   resourceId
 }: {
-  destinationApp: AppsWithConfig
+  destinationApp: TokenProviderClAppSlug
   resourceId?: string
 }): GoBackItem | null {
   if (typeof window === 'undefined') {
@@ -249,7 +244,7 @@ function makePersistentKey({
   destinationApp,
   resourceId
 }: {
-  destinationApp: AppsWithConfig
+  destinationApp: TokenProviderClAppSlug
   resourceId?: string
 }): string {
   return `cl.apps.nav.${destinationApp}_${resourceId ?? 'list'}`
