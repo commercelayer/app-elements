@@ -41,13 +41,18 @@ export type TokenProviderAllowedAppSlug =
   | (string & {})
 
 /**
- * TokenProviderTokenApplicationKind is a type that contains all the suitable api credential kinds of the app to match a wanted set of permissions.
+ * TokenProviderTokenApplicationKind is a type that contains all the suitable api credential kinds.
+ * Depending on the kind, it could be used to identify:
+ * - an authentication api credential (eg. `integration`, `sales_channel`, `webapp`)
+ * - a particular feature in the dashboard (eg. `resources`, `links`)
+ * - an app with its dedicated set of permissions (eg. `order`, `customers`, etc...)
  */
 export type TokenProviderTokenApplicationKind =
   | 'integration'
   | 'sales_channel'
   | 'webapp'
   | 'resources'
+  | 'links'
   | TokenProviderAllowedAppKind
 
 export type TokenProviderRoleActions = 'create' | 'destroy' | 'read' | 'update'
