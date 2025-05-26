@@ -509,7 +509,7 @@ const en = {
         payment_capture: 'Payment capture',
         payment_refund: 'Refund',
         payment_void: 'Void',
-        waiting_for_success_capture: 'Waiting for success capture'
+        waiting_for_successful_capture: 'Waiting for successful capture'
       },
       form: {
         language: 'Language',
