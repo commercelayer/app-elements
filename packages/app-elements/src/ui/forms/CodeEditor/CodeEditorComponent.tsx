@@ -74,6 +74,7 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       onValidate,
       onValid,
       onChange,
+      noRounding = false,
       ...rest
     },
     ref
@@ -209,7 +210,11 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       >
         <Editor
           defaultPath={rest.id ?? rest.name}
-          className={rest.noRounding ? '' : '[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'}
+          className={
+            noRounding
+              ? undefined
+              : '[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'
+          }
           theme='vs-dark'
           language={language}
           height={height}
