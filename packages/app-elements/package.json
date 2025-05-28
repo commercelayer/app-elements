@@ -34,7 +34,9 @@
     "lint:fix": "eslint src --ext .ts,.tsx --fix",
     "test": "vitest run",
     "test:watch": "vitest",
-    "ts:check": "tsc --noEmit"
+    "ts:check": "tsc --noEmit",
+    "generate:schema.order_rules": "curl -s https://core.commercelayer.io/api/public/schemas/order_rules | pnpx json-schema-to-typescript > ./src/ui/forms/RuleEngine/schema.order_rules.ts",
+    "generate:schema.price_rules": "curl -s https://core.commercelayer.io/api/public/schemas/price_rules | pnpx json-schema-to-typescript > ./src/ui/forms/RuleEngine/schema.price_rules.ts"
   },
   "dependencies": {
     "@commercelayer/js-auth": "^6.7.1",
