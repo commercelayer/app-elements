@@ -48,6 +48,12 @@ export interface CodeEditorProps
    */
   onValid?: (value: string) => void
   onChange?: (value: string) => void
+
+  /**
+   * Whether to show rounded corners on the editor.
+   * @default false
+   */
+  noRounding?: boolean
 }
 
 const defer = createDeferred(500)
@@ -81,6 +87,8 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
       setEditor(editor)
+
+      editor.layout()
 
       editor.onDidPaste(() => {
         void editor.getAction('editor.action.formatDocument')?.run()
@@ -197,10 +205,11 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
         feedback={feedback}
         name={rest.id ?? rest.name}
         inline={inline}
+        className='h-full [&>div:first-of-type]:h-full'
       >
         <Editor
           defaultPath={rest.id ?? rest.name}
-          className='[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'
+          className={rest.noRounding ? '' : '[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'}
           theme='vs-dark'
           language={language}
           height={height}
