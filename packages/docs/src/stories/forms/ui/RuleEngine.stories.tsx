@@ -9,8 +9,12 @@ const setup: Meta<typeof RuleEngine> = {
   },
   decorators: [
     (Story) => (
-      <div>
-        <style dangerouslySetInnerHTML={{ __html: `.sbdocs.sbdocs-content { max-width: 95%; }` }} />
+      <div style={{ height: '600px' }}>
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `.sbdocs.sbdocs-content { max-width: 95%; }`
+          }}
+        />
         <Story />
       </div>
     )
@@ -53,127 +57,118 @@ Default.args = {
     //   ]
     // },
     {
-      "rules": [
+      rules: [
         {
-          "id": "unique-rule-id-allowanceFT-USD",
-          "name": "Staff allowance",
-          "actions": [
+          id: 'bff-eur',
+          name: 'Bonus-for-Friends Angebot eur',
+          actions: [
             {
-              "type": "percentage",
-              "value": 1,
-              "groups": [
-                "shipment"
-              ],
-              "selector": "order.line_items.shipment",
-              "discount_mode": "distributed"
+              type: 'fixed_amount',
+              value: 2500,
+              groups: ['singlevision'],
+              selector: 'order'
             },
             {
-              "type": "fixed_amount",
-              "value": 77000,
-              "groups": [
-                "discountable_items"
-              ],
-              "selector": "order.line_items.sku",
-              "discount_mode": "distributed"
+              type: 'fixed_amount',
+              value: 5500,
+              groups: ['progressive'],
+              selector: 'order'
             }
           ],
-          "conditions": [
+          priority: 0,
+          conditions: [
             {
-              "field": "order.line_items.sku.tags.name",
-              "group": "discountable_items",
-              "value": {
-                "not_in_and": [
-                  "product:staffcoderestrictiongroup",
-                  "product:archive",
-                  "product:sale"
-                ]
+              field: 'order.line_items.line_item_options.sku_option.tags.name',
+              group: 'progressive',
+              value: {
+                in_and: ['progressive']
               },
-            },
-            {
-              "field": "order.line_items.sku.tags.name",
-              "group": "discountable_items",
-              "value": {
-                "not_in_and": [
-                  "product:staffcoderestrictiongroup",
-                  "product:archive",
-                  "product:sale"
-                ]
-              },
-              "nested": {
-                "conditions": [
+              nested: {
+                conditions: [
                   {
-                    "field": "order.customer.tags.name",
-                    "value": {
-                      "in_or": [
-                        "customer:staff"
-                      ]
-                    },
-                    "matcher": "array_match"
+                    field: 'order.currency_code',
+                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+                    value: 'EUR',
+                    matcher: 'eq'
                   },
                   {
-                    "field": "order.market.code",
-                    "group": "eligible_group",
-                    "value": {
-                      "in_or": [
-                        "US",
-                        "USDREST",
-                        "RCCUSD",
-                        "USDRESTRCC"
-                      ]
-                    },
-                    "matcher": "array_match"
+                    field: 'order.customer.status',
+                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+                    value: 'prospect',
+                    matcher: 'eq'
                   }
                 ]
               },
-              "matcher": "array_match"
+              matcher: 'array_match'
             },
             {
-              "field": "order.line_items.shipment.shipping_method.reference",
-              "group": "shipment",
-              "value": "standard",
-              "nested": {
-                "conditions": [
+              field: 'order.line_items.line_item_options.sku_option.tags.name',
+              group: 'singlevision',
+              value: {
+                in_or: ['singlevision']
+              },
+              nested: {
+                conditions: [
                   {
-                    "field": "order.customer.tags.name",
-                    "value": {
-                      "in_or": [
-                        "customer:staff"
-                      ]
-                    },
-                    "matcher": "array_match",
-                    "nested": {
-                      "conditions": [
-                        {
-                          "field": "order.customer.tags.name",
-                          "value": {
-                            "in_or": [
-                              "customer:staff"
-                            ]
-                          },
-                          "matcher": "array_match"
-                        },
-                        {
-                          "field": "order.market.code",
-                          "group": "eligible_group",
-                          "value": {
-                            "in_or": [
-                              "US",
-                              "USDREST",
-                              "RCCUSD",
-                              "USDRESTRCC"
-                            ]
-                          },
-                          "matcher": "array_match"
-                        }
-                      ]
-                    },
+                    field: 'order.currency_code',
+                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+                    value: 'EUR',
+                    matcher: 'eq'
+                  },
+                  {
+                    field: 'order.customer.status',
+                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+                    value: 'prospect',
+                    matcher: 'eq'
                   }
                 ]
               },
-              "matcher": "eq"
+              matcher: 'array_match'
             }
           ],
-          "conditions_logic": "or"
+          conditions_logic: 'or'
+        },
+        {
+          id: 'bff-chf',
+          name: 'Bonus-for-Friends Angebot',
+          actions: [
+            {
+              type: 'fixed_amount',
+              value: 3000,
+              groups: ['singlevision'],
+              selector: 'order'
+            }
+          ],
+          priority: 1,
+          conditions: [
+            {
+              field: 'order.line_items.line_item_options.sku_option.tags.name',
+              group: 'progressive',
+              value: {
+                in_and: ['progressive']
+              },
+              matcher: 'array_match'
+            },
+            {
+              field: 'order.line_items.line_item_options.sku_option.tags.name',
+              group: 'singlevision',
+              value: {
+                in_or: ['singlevision']
+              },
+              nested: {
+                conditions: [
+                  {
+                    field: 'order.currency_code',
+                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+                    value: 'CHF',
+                    matcher: 'eq'
+                  }
+                ]
+              },
+              matcher: 'array_match'
+            }
+          ],
+          conditions_logic: 'or'
         }
       ]
     },

@@ -324,6 +324,7 @@ export {
   setApiFormErrors,
   useValidationFeedback
 } from '#ui/forms/ReactHookForm'
+export { RuleEngine, type RuleEngineProps } from '#ui/forms/RuleEngine'
 // Resources
 export {
   getResourceAddressFormFieldsSchema,
