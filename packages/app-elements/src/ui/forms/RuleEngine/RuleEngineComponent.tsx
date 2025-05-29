@@ -65,11 +65,35 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
           </header>
 
           <Canvas>
-            <div className='mb-8'>{selectedRule?.name.toString()}</div>
+            <div className='mb-8 flex items-center gap-2'>
+              <div
+                contentEditable='plaintext-only'
+                onInput={(event) => {
+                  const target = event.currentTarget
+                  const value = target.innerText.replace(/[\n\s]+/g, ' ').trim()
+                  console.log('New value is:', value)
+                }}
+                onKeyDown={(event) => {
+                  if (event.key === 'Enter') {
+                    event.preventDefault()
+                    event.currentTarget.blur()
+                  }
+                }}
+                onBlur={(event) => {
+                  const target = event.currentTarget
+                  target.innerText = target.innerText
+                    .replace(/[\n\s]+/g, ' ')
+                    .trim()
+                }}
+              >
+                {selectedRule?.name}
+              </div>
+              <Icon name='pencilSimple' size={16} className='shrink-0' />
+            </div>
             <Card title='Apply' icon='lightning'>
               {selectedRule?.actions.map((action, index) => (
                 <div key={index} className='mb-6 last:mb-0 das'>
-                  <ActionItem />
+                  <ActionItem item={action} />
                 </div>
               ))}
             </Card>
@@ -101,6 +125,8 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
 
 type SchemaRule = NonNullable<RulesForOrderContext['rules']>[number]
 type SchemaCondition = NonNullable<SchemaRule['conditions'][number]['nested']>
+type SchemaActionItem = NonNullable<SchemaRule['actions']>[number]
+type SchemaConditionItem = NonNullable<SchemaCondition['conditions']>[number]
 
 function Condition({
   item,
@@ -146,7 +172,7 @@ function Condition({
                           'mb-4': condition.nested != null
                         })}
                       >
-                        <ConditionItem />
+                        <ConditionItem item={condition} />
                       </div>
                     </Condition>
                   </div>
@@ -191,38 +217,148 @@ function CardConnector({ children }: { children: string }): React.JSX.Element {
   )
 }
 
-function ActionItem(): React.JSX.Element {
-  return <ConditionItem />
+/**
+ * This function is used to ensure that a value of type `never` is never reached.
+ * @param _value - The value that is expected to be of type `never`.
+ */
+function expectNever(_value: never): null {
+  return null
 }
 
-function ConditionItem(): React.JSX.Element {
+function ActionItem({ item }: { item: SchemaActionItem }): React.ReactNode {
+  const typeDictionary: Record<typeof item.type, string> = {
+    buy_x_pay_y: 'Buy X, Pay Y',
+    every_x_discount_y: 'Every X, Discount Y',
+    fixed_amount: 'Fixed amount',
+    fixed_price: 'Fixed price',
+    percentage: 'Percentage discount'
+  }
+
+  switch (item.type) {
+    case 'buy_x_pay_y':
+    case 'every_x_discount_y':
+    case 'fixed_amount':
+    case 'fixed_price':
+    case 'percentage':
+      return (
+        <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
+          {/* Action type */}
+          <div className='flex-1'>
+            <InputSelect
+              defaultValue={{
+                label: typeDictionary[item.type],
+                value: item.type
+              }}
+              initialValues={Object.entries(typeDictionary).map(
+                ([value, label]) => ({ value, label })
+              )}
+              onSelect={() => {}}
+            />
+          </div>
+
+          {/* Action value */}
+          {/* TODO: we need an ActionValue component that auto-adapts based on the `type` */}
+          <div className='w-24'>
+            <Input type='number' value={JSON.stringify(item.value)} />
+          </div>
+
+          {/* ON */}
+          <div className='text-black font-bold text-sm'>ON</div>
+
+          {/* Action target */}
+          <div className='flex-1'>
+            {/* <InputSelect
+              defaultValue={{ label: 'Line items', value: 'Line items' }}
+              initialValues={[{ value: 'Line items', label: 'Line items' }]}
+              onSelect={() => { }}
+            /> */}
+            <Input type='text' defaultValue={item.selector} />
+          </div>
+        </div>
+      )
+    default:
+      return expectNever(item)
+  }
+}
+
+function ConditionItem({
+  item
+}: {
+  item: SchemaConditionItem
+}): React.JSX.Element {
+  const matcherDictionary: Record<typeof item.matcher, string> = {
+    array_match: 'is one of',
+    blank: 'is blank',
+    does_not_match: 'does not match',
+    end_with: 'ends with',
+    eq: 'is',
+    gt_lt: 'is greater than or less than',
+    gt_lteq: 'is greater than or less than or equal',
+    gt: 'is greater than',
+    gteq_lt: 'is greater than or equal or less than',
+    gteq_lteq: 'is greater than or equal or less than or equal',
+    gteq: 'is greater than or equal',
+    is_in: 'is in',
+    is_not_in: 'is not in',
+    lt: 'is less than',
+    lteq: 'is less than or equal',
+    matches: 'matches',
+    multiple: 'is one of',
+    not_end_with: 'does not end with',
+    not_eq: 'is not',
+    not_null: 'is not null',
+    not_start_with: 'does not start with',
+    null: 'is null',
+    present: 'is present',
+    start_with: 'starts with'
+  }
+
   return (
     <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
+      {/* Condition target */}
       <div className='flex-1'>
-        <InputSelect
+        {/* <InputSelect
           defaultValue={{
-            label: 'Percentage discount',
-            value: 'Percentage discount'
+            label: 'Customer',
+            value: 'Customer'
           }}
           initialValues={[
-            { value: 'Percentage discount', label: 'Percentage discount' }
+            { value: 'Customer', label: 'Customer' }
           ]}
-          onSelect={() => {}}
-        />
+          onSelect={() => { }}
+        /> */}
+        <Input type='text' defaultValue={item.field} />
       </div>
 
-      <div className='w-24'>
-        <Input type='number' value='3' />
-      </div>
-
-      <div className='text-black font-bold text-sm'>ON</div>
-
-      <div className='flex-1'>
+      {/* Condition operator */}
+      <div className='flex-14'>
         <InputSelect
-          defaultValue={{ label: 'Line items', value: 'Line items' }}
-          initialValues={[{ value: 'Line items', label: 'Line items' }]}
+          defaultValue={{
+            label: matcherDictionary[item.matcher],
+            value: item.matcher
+          }}
+          initialValues={Object.entries(matcherDictionary).map(
+            ([value, label]) => ({ value, label })
+          )}
           onSelect={() => {}}
         />
+      </div>
+
+      {/* Condition value */}
+      {/* TODO: we need a ConditionValue component that auto-adapts based on the `matcher` */}
+      <div className='flex-1'>
+        {/* <InputSelect
+          defaultValue={{ label: 'Acquired', value: 'Acquired' }}
+          initialValues={[{ value: 'Acquired', label: 'Acquired' }]}
+          onSelect={() => { }}
+        /> */}
+        {'value' in item ? (
+          <Input
+            type='text'
+            defaultValue={JSON.stringify(item.value)}
+            placeholder='Enter value'
+          />
+        ) : null}
       </div>
     </div>
   )
@@ -238,9 +374,9 @@ function Card({
   children?: React.ReactNode
 }): React.JSX.Element {
   return (
-    <div className='rounded-md bg-white drop-shadow-sm'>
+    <div className='rounded-md bg-white shadow-sm'>
       <div className='flex items-center space-x-4 py-4 border-b border-gray-100'>
-        <div className='w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center drop-shadow-sm shadow-primary-200'>
+        <div className='w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm shadow-primary-200'>
           <Icon name={icon} />
         </div>
         <h2 className='text-lg font-semibold'>{title}</h2>

@@ -29,11 +29,6 @@ module.exports = {
       md: '0.625rem',
       full: '9999px'
     },
-    boxShadow: {
-      hover: '0 0 0 1px #101111',
-      focus: '0 0 0 2px #101111',
-      inputfocus: 'inset 0 0 0 2px #101111'
-    },
     colors: {
       inherit: 'inherit',
       primary: {
@@ -179,6 +174,11 @@ module.exports = {
       title: '2rem'
     },
     extend: {
+      boxShadow: {
+        hover: '0 0 0 1px #101111',
+        focus: '0 0 0 2px #101111',
+        inputfocus: 'inset 0 0 0 2px #101111'
+      },
       lineHeight: {
         title: '2.375rem'
       },
