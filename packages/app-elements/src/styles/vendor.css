@@ -32,7 +32,8 @@ div[role="textbox"]:focus,
 .group:focus-within input,
 .group:focus-within div[role="textbox"],
 .group:focus-within .form-input,
-.group:focus-within .form-textarea {
+.group:focus-within .form-textarea,
+*[contenteditable]:focus-visible {
   ring: none;
   outline: none !important;
   box-shadow: inset 0 0 0 2px theme(colors.primary.DEFAULT) !important;
@@ -48,6 +49,10 @@ select:focus-visible {
   border-radius: 2px;
   outline: 2px solid theme(colors.primary.DEFAULT) !important;
   outline-offset: 4px;
+}
+
+*[contenteditable] {
+  @apply rounded-md p-2;
 }
 
 /** Style all simple links. Useful with <Link ...> */

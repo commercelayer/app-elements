@@ -164,9 +164,10 @@ export interface RulesForOrderContext {
      * Identifier of the rule, recommended to use UUID.
      */
     id?: string;
-    name: {
-      [k: string]: unknown;
-    };
+    /**
+     * Name of the rule
+     */
+    name: string;
     /**
      * The priority order of the rule evaluation.
      */
@@ -227,7 +228,7 @@ export interface RulesForOrderContext {
           /**
            * The type of distribution of the discount over the items.
            */
-          discount_mode?: ["distributed", "default"];
+          discount_mode?: "distributed" | "default";
         }
       | {
           /**
@@ -247,7 +248,7 @@ export interface RulesForOrderContext {
           /**
            * The type of distribution of the discount over the items.
            */
-          discount_mode?: ["distributed", "default"];
+          discount_mode?: "distributed" | "default";
         }
       | {
           /**
