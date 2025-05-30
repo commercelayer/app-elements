@@ -195,6 +195,12 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
                   )}
                 />
               ))}
+              {(selectedRule?.actions ?? []).length === 0 && (
+                <ActionItem
+                  item={null}
+                  setPath={setPath(`rules.${selectedRuleIndex}.actions.${0}`)}
+                />
+              )}
             </Card>
 
             <CardConnector>when</CardConnector>
@@ -306,6 +312,26 @@ function Condition({
                 </div>
               )
             })}
+
+            {(item.conditions ?? []).length === 0 && (
+              <div className='flex items-center mb-4 last:mb-0 relative'>
+                <Connector rounded />
+                <div className='ml-4 w-full'>
+                  <Condition
+                    item={undefined}
+                    isNested={false}
+                    setPath={setPath(`conditions.${0}.nested`)}
+                  >
+                    <div>
+                      <ConditionItem
+                        item={null}
+                        setPath={setPath(`conditions.${0}`)}
+                      />
+                    </div>
+                  </Condition>
+                </div>
+              </div>
+            )}
           </div>
         </>
       )}
@@ -356,9 +382,13 @@ function ActionValue({
   item,
   setPath
 }: {
-  item: SchemaActionItem
+  item: SchemaActionItem | null
   setPath: SetPath
 }): React.ReactNode {
+  if (item == null) {
+    return null
+  }
+
   switch (item.type) {
     case 'buy_x_pay_y':
       return (
@@ -417,9 +447,13 @@ function ConditionValue({
   item,
   setPath
 }: {
-  item: SchemaConditionItem
+  item: SchemaConditionItem | null
   setPath: SetPath
 }): React.ReactNode {
+  if (item == null) {
+    return null
+  }
+
   if (
     conditionMatchersWithoutValue.includes(
       item.matcher as ConditionMatchersWithoutValue
@@ -500,10 +534,11 @@ function ActionItem({
   item,
   setPath
 }: {
-  item: SchemaActionItem
+  item: SchemaActionItem | null
   setPath: SetPath
 }): React.ReactNode {
-  const typeDictionary: Record<typeof item.type, string> = {
+  type Item = NonNullable<typeof item>
+  const typeDictionary: Record<Item['type'], string> = {
     buy_x_pay_y: 'Buy X, Pay Y',
     every_x_discount_y: 'Every X, Discount Y',
     fixed_amount: 'Fixed amount',
@@ -517,10 +552,14 @@ function ActionItem({
         {/* Action type */}
         <div className='flex-1'>
           <InputSelect
-            defaultValue={{
-              label: typeDictionary[item.type],
-              value: item.type
-            }}
+            defaultValue={
+              item != null
+                ? {
+                    label: typeDictionary[item.type],
+                    value: item.type
+                  }
+                : undefined
+            }
             initialValues={Object.entries(typeDictionary).map(
               ([value, label]) => ({ value, label })
             )}
@@ -547,7 +586,7 @@ function ActionItem({
           /> */}
           <Input
             type='text'
-            defaultValue={item.selector}
+            defaultValue={item != null ? item.selector : undefined}
             onChange={(event) => {
               setPath('selector', event.currentTarget.value)
             }}
@@ -562,10 +601,11 @@ function ConditionItem({
   item,
   setPath
 }: {
-  item: SchemaConditionItem
+  item: SchemaConditionItem | null
   setPath: SetPath
 }): React.JSX.Element {
-  const matcherDictionary: Record<typeof item.matcher, string> = {
+  type Item = NonNullable<typeof item>
+  const matcherDictionary: Record<Item['matcher'], string> = {
     array_match: 'is one of',
     blank: 'is blank',
     does_not_match: 'does not match',
@@ -608,7 +648,7 @@ function ConditionItem({
         /> */}
         <Input
           type='text'
-          defaultValue={item.field}
+          defaultValue={item != null ? item.field : undefined}
           onChange={(event) => {
             setPath('field', event.currentTarget.value)
           }}
@@ -618,10 +658,14 @@ function ConditionItem({
       {/* Condition matcher */}
       <div className='flex-14'>
         <InputSelect
-          defaultValue={{
-            label: matcherDictionary[item.matcher],
-            value: item.matcher
-          }}
+          defaultValue={
+            item != null
+              ? {
+                  label: matcherDictionary[item.matcher],
+                  value: item.matcher
+                }
+              : undefined
+          }
           initialValues={Object.entries(matcherDictionary).map(
             ([value, label]) => ({ value, label })
           )}
