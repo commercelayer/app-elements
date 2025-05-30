@@ -47,6 +47,9 @@ export interface CodeEditorProps
    * Trigger on every update only when there are **no** errors.
    */
   onValid?: (value: string) => void
+  /**
+   * Trigger on every update.
+   */
   onChange?: (value: string) => void
 
   /**
@@ -56,9 +59,11 @@ export interface CodeEditorProps
   noRounding?: boolean
 }
 
+export type IStandaloneCodeEditor = Parameters<OnMount>[0]
+
 const defer = createDeferred(500)
 
-export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
+export const CodeEditor = forwardRef<IStandaloneCodeEditor, CodeEditorProps>(
   (
     {
       feedback,
@@ -81,12 +86,16 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
   ): JSX.Element => {
     const monaco = useMonaco()
     const disposeCompletionItemProvider = useRef<() => void>(null)
-    const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
+    const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null)
     const {
       settings: { domain }
     } = useTokenProvider()
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
+      if (editor != null && ref != null && typeof ref === 'object') {
+        ;(ref as React.RefObject<IStandaloneCodeEditor>).current = editor
+      }
+
       setEditor(editor)
 
       editor.layout()

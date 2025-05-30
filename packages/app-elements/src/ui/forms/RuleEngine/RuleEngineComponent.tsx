@@ -1,28 +1,120 @@
 import { Icon, type IconProps } from '#ui/atoms/Icon'
 import { CodeEditor, type CodeEditorProps } from '#ui/forms/CodeEditor'
 import { Input } from '#ui/forms/Input'
-import { InputSelect } from '#ui/forms/InputSelect'
+import { InputSelect, isSingleValueSelected } from '#ui/forms/InputSelect'
 import {
   InputWrapper,
   type InputWrapperBaseProps
 } from '#ui/internals/InputWrapper'
+import { asUniqueArray } from '#utils/array'
+import { type OnMount } from '@monaco-editor/react'
 import classNames from 'classnames'
-import React, { useState } from 'react'
-import { type SetOptional } from 'type-fest'
+import { isEqual, set, unset } from 'lodash-es'
+import React, { useEffect, useRef, useState } from 'react'
+import type { SetOptional, SetRequired } from 'type-fest'
 import { type RulesForOrderContext } from './schema.order_rules'
+
+type Schema = SetRequired<RulesForOrderContext, 'rules'>
+
+type ConditionMatchersWithoutValue = Exclude<
+  SchemaConditionItem,
+  { value: any }
+>['matcher']
+
+const conditionMatchersWithoutValue = asUniqueArray([
+  'blank',
+  'present',
+  'null',
+  'not_null'
+]) satisfies ConditionMatchersWithoutValue[]
 
 export interface RuleEngineProps
   extends Omit<InputWrapperBaseProps, 'label' | 'inline'>,
     SetOptional<Pick<HTMLInputElement, 'id' | 'name'>, 'id' | 'name'>,
     Pick<CodeEditorProps, 'defaultValue' | 'value'> {}
 
+const emptyRule: Schema = {
+  rules: []
+}
+
+const parseValue = (value: string | undefined): Schema => {
+  try {
+    return JSON.parse(value ?? JSON.stringify(emptyRule)) as Schema
+  } catch (error) {
+    return emptyRule
+  }
+}
+
+const isParsable = (value: string | undefined): boolean => {
+  try {
+    JSON.parse(value ?? '{}')
+    return true
+  } catch (error) {
+    return false
+  }
+}
+
+interface SetPath {
+  (path: string): SetPath
+  (path: string, pathValue: unknown, shouldForceUpdate?: boolean): Schema
+}
+
 export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
+  const [value, setValue] = useState<Schema>(
+    parseValue(props.value ?? props.defaultValue)
+  )
   const [editorVisible, setEditorVisible] = useState(false)
-  const { rules } = (JSON.parse(
-    props.defaultValue ?? JSON.stringify({ rules: [] })
-  ) as unknown as RulesForOrderContext) ?? { rules: [] }
   const [selectedRuleIndex, setSelectedRuleIndex] = useState<number>(0)
-  const selectedRule = rules?.[selectedRuleIndex]
+  const selectedRule = value.rules[selectedRuleIndex]
+  const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
+
+  console.log('re-render')
+
+  useEffect(
+    function updateValue() {
+      if (value.rules.length === 0) {
+        setValue(parseValue(props.value))
+      }
+    },
+    [props.value]
+  )
+
+  function setPath(path: string): SetPath
+  function setPath(
+    path: string,
+    pathValue: unknown,
+    shouldForceUpdate?: boolean
+  ): Schema
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  function setPath(
+    path: string,
+    pathValue?: unknown,
+    shouldForceUpdate: boolean = false
+  ) {
+    const pathPrefix = path
+    if (pathValue === undefined) {
+      return (
+        path: string,
+        pathValue?: unknown,
+        shouldForceUpdate: boolean = false
+      ) => setPath(`${pathPrefix}.${path}`, pathValue, shouldForceUpdate)
+    }
+
+    const newValue = shouldForceUpdate ? { ...value } : value
+
+    if (pathValue == null) {
+      unset(newValue, path)
+      console.log('unset', path, pathValue, shouldForceUpdate, newValue)
+    } else {
+      set(newValue, path, pathValue)
+    }
+
+    setValue(newValue)
+    codeEditorRef.current?.setValue(JSON.stringify(newValue, null, 2))
+
+    return newValue
+  }
 
   return (
     <InputWrapper
@@ -35,16 +127,16 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
           className={`shrink-0 basis-1/2 overflow-x-auto relative flex flex-col ${editorVisible ? '' : 'grow'}`}
         >
           <header className='w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center'>
-            {rules?.map((rule, index) => {
-              const label = `Rule #${(index + 1).toString().padStart(2, '0')}`
+            {value.rules.map((rule, ruleIndex) => {
+              const label = `Rule #${(ruleIndex + 1).toString().padStart(2, '0')}`
               return (
                 <button
                   key={rule.id}
                   className={classNames('font-bold', {
-                    'text-black': selectedRuleIndex === index
+                    'text-black': selectedRuleIndex === ruleIndex
                   })}
                   onClick={() => {
-                    setSelectedRuleIndex(index)
+                    setSelectedRuleIndex(ruleIndex)
                   }}
                 >
                   {label}
@@ -68,10 +160,11 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
             <div className='mb-8 flex items-center gap-2'>
               <div
                 contentEditable='plaintext-only'
+                suppressContentEditableWarning
                 onInput={(event) => {
                   const target = event.currentTarget
                   const value = target.innerText.replace(/[\n\s]+/g, ' ').trim()
-                  console.log('New value is:', value)
+                  setPath(`rules.${selectedRuleIndex}.name`, value)
                 }}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter') {
@@ -91,30 +184,51 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
               <Icon name='pencilSimple' size={16} className='shrink-0' />
             </div>
             <Card title='Apply' icon='lightning'>
-              {selectedRule?.actions.map((action, index) => (
-                <div key={index} className='mb-6 last:mb-0 das'>
-                  <ActionItem item={action} />
-                </div>
+              {selectedRule?.actions.map((action, actionIndex) => (
+                <ActionItem
+                  key={JSON.stringify(action)}
+                  item={action}
+                  setPath={setPath(
+                    `rules.${selectedRuleIndex}.actions.${actionIndex}`
+                  )}
+                />
               ))}
             </Card>
 
             <CardConnector>when</CardConnector>
 
             <Card title='Conditions' icon='treeView'>
-              <Condition item={selectedRule} />
+              <Condition
+                item={selectedRule}
+                setPath={setPath(`rules.${selectedRuleIndex}`)}
+              />
             </Card>
           </Canvas>
         </div>
         {editorVisible && (
           <div className='shrink-0 basis-1/2'>
             <CodeEditor
+              ref={codeEditorRef}
               name={props.id ?? props.name}
               height='100%'
               language='json'
               jsonSchema='order-rules'
-              defaultValue={props.defaultValue}
-              value={props.value}
+              defaultValue={JSON.stringify(value, null, 2)}
               noRounding
+              onChange={(newValueAsString) => {
+                setValue((value) => {
+                  const newValue = parseValue(newValueAsString)
+
+                  if (
+                    isParsable(newValueAsString) &&
+                    !isEqual(newValue, value)
+                  ) {
+                    return newValue
+                  }
+
+                  return value
+                })
+              }}
             />
           </div>
         )}
@@ -123,7 +237,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
   )
 }
 
-type SchemaRule = NonNullable<RulesForOrderContext['rules']>[number]
+type SchemaRule = Schema['rules'][number]
 type SchemaCondition = NonNullable<SchemaRule['conditions'][number]['nested']>
 type SchemaActionItem = NonNullable<SchemaRule['actions']>[number]
 type SchemaConditionItem = NonNullable<SchemaCondition['conditions']>[number]
@@ -131,11 +245,13 @@ type SchemaConditionItem = NonNullable<SchemaCondition['conditions']>[number]
 function Condition({
   item,
   children,
-  isNested = false
+  isNested = false,
+  setPath
 }: {
   item?: SchemaCondition
   isNested?: boolean
   children?: React.JSX.Element
+  setPath: SetPath
 }): React.JSX.Element {
   const conditionsLogin = item?.conditions_logic?.toLowerCase() ?? 'and'
 
@@ -148,31 +264,40 @@ function Condition({
       {children}
       {item != null && (
         <>
-          <select className='pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-none appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4'>
-            <option value='and' selected={conditionsLogin === 'and'}>
-              AND
-            </option>
-            <option value='or' selected={conditionsLogin === 'or'}>
-              OR
-            </option>
+          <select
+            onChange={(event) => {
+              setPath('conditions_logic', event.currentTarget.value)
+            }}
+            defaultValue={conditionsLogin}
+            className='pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-none appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4'
+          >
+            <option value='and'>AND</option>
+            <option value='or'>OR</option>
           </select>
           <div className='border-l border-gray-200 ml-3 pt-3'>
-            {item?.conditions?.map((condition, index, arr) => {
-              const isLast = index === arr.length - 1
+            {item?.conditions?.map((condition, conditionIndex, arr) => {
+              const isLast = conditionIndex === arr.length - 1
               return (
                 <div
-                  key={index}
+                  key={JSON.stringify(condition)}
                   className='flex items-center mb-4 last:mb-0 relative'
                 >
                   <Connector rounded={isLast} />
                   <div className='ml-4 w-full'>
-                    <Condition item={condition.nested ?? undefined} isNested>
+                    <Condition
+                      item={condition.nested ?? undefined}
+                      isNested={condition.nested != null}
+                      setPath={setPath(`conditions.${conditionIndex}.nested`)}
+                    >
                       <div
                         className={classNames({
                           'mb-4': condition.nested != null
                         })}
                       >
-                        <ConditionItem item={condition} />
+                        <ConditionItem
+                          item={condition}
+                          setPath={setPath(`conditions.${conditionIndex}`)}
+                        />
                       </div>
                     </Condition>
                   </div>
@@ -225,7 +350,157 @@ function expectNever(_value: never): null {
   return null
 }
 
-function ActionItem({ item }: { item: SchemaActionItem }): React.ReactNode {
+function ActionValue({
+  item,
+  setPath
+}: {
+  item: SchemaActionItem
+  setPath: SetPath
+}): React.ReactNode {
+  switch (item.type) {
+    case 'buy_x_pay_y':
+      return (
+        <div className='w-36'>
+          <Input type='number' defaultValue={JSON.stringify(item.value)} />
+        </div>
+      )
+    case 'every_x_discount_y':
+      return (
+        <div className='w-36'>
+          <Input type='number' defaultValue={JSON.stringify(item.value)} />
+        </div>
+      )
+    case 'fixed_amount':
+    case 'fixed_price':
+      return (
+        <div className='w-36'>
+          <Input
+            type='number'
+            defaultValue={item.value}
+            min={0}
+            suffix='cents'
+            onChange={(event) => {
+              setPath('value', parseInt(event.currentTarget.value, 10))
+            }}
+          />
+        </div>
+      )
+    case 'percentage':
+      return (
+        <div className='w-20'>
+          <Input
+            type='number'
+            defaultValue={item.value}
+            min={0}
+            max={100}
+            suffix='%'
+            onChange={(event) => {
+              setPath('value', parseInt(event.currentTarget.value, 10))
+            }}
+          />
+        </div>
+      )
+    default:
+      return expectNever(item)
+  }
+}
+
+/**
+ * This function renders the value input for a condition item based on its matcher and its field.
+ *
+ * > // TODO: **NOTE** the kind of Component depends on the matcher used and the field used. For example, if the matcher is `eq` and the field is `email`, then it should be an email input. Or if the matcher is `gt` and the field is `created_at`, then it should be a date input.
+ * > https://docs.commercelayer.io/rules-engine/matchers#value-required
+ */
+function ConditionValue({
+  item,
+  setPath
+}: {
+  item: SchemaConditionItem
+  setPath: SetPath
+}): React.ReactNode {
+  if (
+    conditionMatchersWithoutValue.includes(
+      item.matcher as ConditionMatchersWithoutValue
+    )
+  ) {
+    return null
+  }
+
+  const itemWithValue = item as Exclude<
+    SchemaConditionItem,
+    { matcher: ConditionMatchersWithoutValue }
+  >
+
+  switch (itemWithValue.matcher) {
+    case 'gt':
+    case 'lt':
+    case 'gteq':
+    case 'lteq':
+    case 'gt_lt':
+    case 'gteq_lt':
+    case 'gt_lteq':
+    case 'gteq_lteq':
+      return (
+        <Input
+          type='number'
+          defaultValue={
+            typeof itemWithValue.value === 'number' ? itemWithValue.value : ''
+          }
+          placeholder='Enter value'
+          onChange={(event) => {
+            setPath('value', parseInt(event.currentTarget.value, 10))
+          }}
+        />
+      )
+
+    case 'eq':
+    case 'end_with':
+    case 'not_end_with':
+    case 'not_eq':
+    case 'start_with':
+    case 'not_start_with':
+      return (
+        <Input
+          type='text'
+          defaultValue={
+            typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
+          }
+          placeholder='Enter value'
+          onChange={(event) => {
+            setPath('value', event.currentTarget.value)
+          }}
+        />
+      )
+
+    case 'array_match':
+    case 'does_not_match':
+    case 'is_in':
+    case 'is_not_in':
+    case 'matches':
+    case 'multiple':
+      return (
+        <Input
+          type='text'
+          defaultValue={JSON.stringify(itemWithValue.value)}
+          placeholder='Enter value'
+          onChange={(event) => {
+            setPath('value', event.currentTarget.value)
+          }}
+        />
+      )
+
+    default:
+      return expectNever(itemWithValue.matcher)
+  }
+}
+
+function ActionItem({
+  item,
+  setPath
+}: {
+  item: SchemaActionItem
+  setPath: SetPath
+}): React.ReactNode {
   const typeDictionary: Record<typeof item.type, string> = {
     buy_x_pay_y: 'Buy X, Pay Y',
     every_x_discount_y: 'Every X, Discount Y',
@@ -234,57 +509,59 @@ function ActionItem({ item }: { item: SchemaActionItem }): React.ReactNode {
     percentage: 'Percentage discount'
   }
 
-  switch (item.type) {
-    case 'buy_x_pay_y':
-    case 'every_x_discount_y':
-    case 'fixed_amount':
-    case 'fixed_price':
-    case 'percentage':
-      return (
-        <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
-          {/* Action type */}
-          <div className='flex-1'>
-            <InputSelect
-              defaultValue={{
-                label: typeDictionary[item.type],
-                value: item.type
-              }}
-              initialValues={Object.entries(typeDictionary).map(
-                ([value, label]) => ({ value, label })
-              )}
-              onSelect={() => {}}
-            />
-          </div>
-
-          {/* Action value */}
-          {/* TODO: we need an ActionValue component that auto-adapts based on the `type` */}
-          <div className='w-24'>
-            <Input type='number' value={JSON.stringify(item.value)} />
-          </div>
-
-          {/* ON */}
-          <div className='text-black font-bold text-sm'>ON</div>
-
-          {/* Action target */}
-          <div className='flex-1'>
-            {/* <InputSelect
-              defaultValue={{ label: 'Line items', value: 'Line items' }}
-              initialValues={[{ value: 'Line items', label: 'Line items' }]}
-              onSelect={() => { }}
-            /> */}
-            <Input type='text' defaultValue={item.selector} />
-          </div>
+  return (
+    <div className='mb-6 last:mb-0'>
+      <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
+        {/* Action type */}
+        <div className='flex-1'>
+          <InputSelect
+            defaultValue={{
+              label: typeDictionary[item.type],
+              value: item.type
+            }}
+            initialValues={Object.entries(typeDictionary).map(
+              ([value, label]) => ({ value, label })
+            )}
+            onSelect={(selected) => {
+              if (isSingleValueSelected(selected)) {
+                setPath('type', selected.value, true)
+              }
+            }}
+          />
         </div>
-      )
-    default:
-      return expectNever(item)
-  }
+
+        {/* Action value */}
+        <ActionValue item={item} setPath={setPath} />
+
+        {/* ON */}
+        <div className='text-black font-bold text-sm'>ON</div>
+
+        {/* Action target */}
+        <div className='flex-1'>
+          {/* <InputSelect
+            defaultValue={{ label: 'Line items', value: 'Line items' }}
+            initialValues={[{ value: 'Line items', label: 'Line items' }]}
+            onSelect={() => { }}
+          /> */}
+          <Input
+            type='text'
+            defaultValue={item.selector}
+            onChange={(event) => {
+              setPath('selector', event.currentTarget.value)
+            }}
+          />
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function ConditionItem({
-  item
+  item,
+  setPath
 }: {
   item: SchemaConditionItem
+  setPath: SetPath
 }): React.JSX.Element {
   const matcherDictionary: Record<typeof item.matcher, string> = {
     array_match: 'is one of',
@@ -327,10 +604,16 @@ function ConditionItem({
           ]}
           onSelect={() => { }}
         /> */}
-        <Input type='text' defaultValue={item.field} />
+        <Input
+          type='text'
+          defaultValue={item.field}
+          onChange={(event) => {
+            setPath('field', event.currentTarget.value)
+          }}
+        />
       </div>
 
-      {/* Condition operator */}
+      {/* Condition matcher */}
       <div className='flex-14'>
         <InputSelect
           defaultValue={{
@@ -340,25 +623,25 @@ function ConditionItem({
           initialValues={Object.entries(matcherDictionary).map(
             ([value, label]) => ({ value, label })
           )}
-          onSelect={() => {}}
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath('matcher', selected.value, true)
+
+              if (
+                conditionMatchersWithoutValue.includes(
+                  selected.value as ConditionMatchersWithoutValue
+                )
+              ) {
+                setPath('value', null, true)
+              }
+            }
+          }}
         />
       </div>
 
       {/* Condition value */}
-      {/* TODO: we need a ConditionValue component that auto-adapts based on the `matcher` */}
       <div className='flex-1'>
-        {/* <InputSelect
-          defaultValue={{ label: 'Acquired', value: 'Acquired' }}
-          initialValues={[{ value: 'Acquired', label: 'Acquired' }]}
-          onSelect={() => { }}
-        /> */}
-        {'value' in item ? (
-          <Input
-            type='text'
-            defaultValue={JSON.stringify(item.value)}
-            placeholder='Enter value'
-          />
-        ) : null}
+        <ConditionValue item={item} setPath={setPath} />
       </div>
     </div>
   )
