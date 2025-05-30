@@ -63,8 +63,8 @@ Default.args = {
           name: 'Bonus-for-Friends Angebot eur',
           actions: [
             {
-              type: 'fixed_amount',
-              value: 2500,
+              type: 'percentage',
+              value: 25,
               groups: ['singlevision'],
               selector: 'order'
             },
@@ -73,10 +73,22 @@ Default.args = {
               value: 5500,
               groups: ['progressive'],
               selector: 'order'
+            },
+            {
+              type: 'fixed_price',
+              value: 2500,
+              groups: ['progressive'],
+              selector: 'order'
             }
           ],
           priority: 0,
           conditions: [
+            {
+              field: 'order.currency_code',
+              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+              value: 'EUR',
+              matcher: 'eq'
+            },
             {
               field: 'order.line_items.line_item_options.sku_option.tags.name',
               group: 'progressive',
