@@ -164,7 +164,9 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
                 onInput={(event) => {
                   const target = event.currentTarget
                   const value = target.innerText.replace(/[\n\s]+/g, ' ').trim()
+                  const id = `${window.crypto.randomUUID()}--${value.replace(/\s+/g, '-').toLowerCase()}`
                   setPath(`rules.${selectedRuleIndex}.name`, value)
+                  setPath(`rules.${selectedRuleIndex}.id`, id)
                 }}
                 onKeyDown={(event) => {
                   if (event.key === 'Enter') {
@@ -184,7 +186,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
               <Icon name='pencilSimple' size={16} className='shrink-0' />
             </div>
             <Card title='Apply' icon='lightning'>
-              {selectedRule?.actions.map((action, actionIndex) => (
+              {selectedRule?.actions?.map((action, actionIndex) => (
                 <ActionItem
                   key={JSON.stringify(action)}
                   item={action}
