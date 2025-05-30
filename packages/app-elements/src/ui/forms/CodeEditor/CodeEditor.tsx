@@ -1,6 +1,9 @@
 import { SkeletonItem } from '#ui/atoms/Skeleton'
 import { forwardRef, type JSX, lazy, Suspense } from 'react'
-import type { CodeEditorProps } from './CodeEditorComponent'
+import type {
+  CodeEditorProps,
+  IStandaloneCodeEditor
+} from './CodeEditorComponent'
 
 const LazyCodeEditor = lazy(
   async () =>
@@ -9,7 +12,7 @@ const LazyCodeEditor = lazy(
     }))
 )
 
-export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
+export const CodeEditor = forwardRef<IStandaloneCodeEditor, CodeEditorProps>(
   (props, ref): JSX.Element => {
     return (
       <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
