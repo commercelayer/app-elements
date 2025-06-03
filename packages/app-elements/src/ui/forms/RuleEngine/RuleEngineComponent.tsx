@@ -6,13 +6,14 @@ import {
 } from '#ui/internals/InputWrapper'
 import { type OnMount } from '@monaco-editor/react'
 import classNames from 'classnames'
-import { isEqual, set, unset } from 'lodash-es'
-import React, { useEffect, useRef, useState } from 'react'
+import { isEqual } from 'lodash-es'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type { SetOptional, SetRequired } from 'type-fest'
 import { Action } from './Action'
 import { Condition } from './Condition'
+import { RuleEngineProvider, useRuleEngine } from './RuleEngineContext'
+import { RuleName } from './RuleName'
 import { type RulesForOrderContext } from './schema.order_rules'
-import { type SetPath } from './utils'
 
 type Schema = SetRequired<RulesForOrderContext, 'rules'>
 
@@ -46,12 +47,6 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
   const [value, setValue] = useState<Schema>(
     parseValue(props.value ?? props.defaultValue)
   )
-  const [editorVisible, setEditorVisible] = useState(false)
-  const [selectedRuleIndex, setSelectedRuleIndex] = useState<number>(0)
-  const selectedRule = value.rules[selectedRuleIndex]
-  const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
-
-  console.log('re-render')
 
   useEffect(
     function updateValue() {
@@ -62,42 +57,57 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
     [props.value]
   )
 
-  function setPath(path: string): SetPath
-  function setPath(
-    path: string,
-    pathValue: unknown,
-    shouldForceUpdate?: boolean
-  ): Schema
+  return (
+    <RuleEngineProvider initialValue={{ rules: value.rules }}>
+      <RuleEditorComponent {...props} />
+    </RuleEngineProvider>
+  )
+}
 
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-  function setPath(
-    path: string,
-    pathValue?: unknown,
-    shouldForceUpdate: boolean = false
-  ) {
-    const pathPrefix = path
-    if (pathValue === undefined) {
-      return (
-        path: string,
-        pathValue?: unknown,
-        shouldForceUpdate: boolean = false
-      ) => setPath(`${pathPrefix}.${path}`, pathValue, shouldForceUpdate)
-    }
+function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
+  const {
+    state: { value, selectedRuleIndex },
+    setSelectedRuleIndex,
+    setValue
+  } = useRuleEngine()
 
-    const newValue = shouldForceUpdate ? { ...value } : value
+  const [editorVisible, setEditorVisible] = useState(false)
+  const selectedRule = value.rules[selectedRuleIndex]
+  const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
+  const [forcedRender, setForcedRender] = useState(0)
 
-    if (pathValue == null) {
-      unset(newValue, path)
-      console.log('unset', path, pathValue, shouldForceUpdate, newValue)
-    } else {
-      set(newValue, path, pathValue)
-    }
+  console.log('re-render', value)
 
-    setValue(newValue)
-    codeEditorRef.current?.setValue(JSON.stringify(newValue, null, 2))
+  useEffect(
+    function updateCodeEditor() {
+      if (!isEqual(parseValue(codeEditorRef.current?.getValue()), value)) {
+        codeEditorRef.current?.setValue(JSON.stringify(value, null, 2))
+      }
+    },
+    [value]
+  )
 
-    return newValue
-  }
+  const handleCodeEditorChange = useCallback(
+    (newValueAsString: string) => {
+      const newValue = parseValue(newValueAsString)
+      console.log(
+        newValue,
+        value,
+        isParsable(newValueAsString),
+        isEqual(newValue, value)
+      )
+      if (
+        codeEditorRef.current != null &&
+        codeEditorRef.current.hasTextFocus() &&
+        isParsable(newValueAsString) &&
+        !isEqual(newValue, value)
+      ) {
+        setValue(newValue)
+        setForcedRender((prev) => prev + 1)
+      }
+    },
+    [value]
+  )
 
   return (
     <InputWrapper
@@ -107,6 +117,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
     >
       <section className='flex h-full'>
         <div
+          key={forcedRender}
           className={`shrink-0 basis-1/2 overflow-x-auto relative flex flex-col ${editorVisible ? '' : 'grow'}`}
         >
           <header className='w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center'>
@@ -141,39 +152,11 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
 
           <Canvas>
             <div className='mb-8 flex items-center gap-2'>
-              <div
-                contentEditable='plaintext-only'
-                suppressContentEditableWarning
-                onInput={(event) => {
-                  const target = event.currentTarget
-                  const value = target.innerText.replace(/[\n\s]+/g, ' ').trim()
-                  const id = `${window.crypto.randomUUID()}--${value.replace(/\s+/g, '-').toLowerCase()}`
-                  setPath(`rules.${selectedRuleIndex}.name`, value)
-                  setPath(`rules.${selectedRuleIndex}.id`, id)
-                }}
-                onKeyDown={(event) => {
-                  if (event.key === 'Enter') {
-                    event.preventDefault()
-                    event.currentTarget.blur()
-                  }
-                }}
-                onBlur={(event) => {
-                  const target = event.currentTarget
-                  target.innerText = target.innerText
-                    .replace(/[\n\s]+/g, ' ')
-                    .trim()
-                }}
-              >
-                {selectedRule?.name}
-              </div>
+              <RuleName />
               <Icon name='pencilSimple' size={16} className='shrink-0' />
             </div>
             <Card title='Apply' icon='lightning'>
-              <Action
-                actions={selectedRule?.actions}
-                selectedRuleIndex={selectedRuleIndex}
-                setPath={setPath}
-              />
+              <Action actions={selectedRule?.actions} />
             </Card>
 
             <CardConnector>when</CardConnector>
@@ -181,7 +164,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
             <Card title='Conditions' icon='treeView'>
               <Condition
                 item={selectedRule}
-                setPath={setPath(`rules.${selectedRuleIndex}`)}
+                pathPrefix={`rules.${selectedRuleIndex}`}
               />
             </Card>
           </Canvas>
@@ -196,20 +179,19 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
               jsonSchema='order-rules'
               defaultValue={JSON.stringify(value, null, 2)}
               noRounding
-              onChange={(newValueAsString) => {
-                setValue((value) => {
-                  const newValue = parseValue(newValueAsString)
-
-                  if (
-                    isParsable(newValueAsString) &&
-                    !isEqual(newValue, value)
-                  ) {
-                    return newValue
-                  }
-
-                  return value
-                })
-              }}
+              onChange={handleCodeEditorChange}
+              // onChange={(newValueAsString) => {
+              //   const newValue = parseValue(newValueAsString)
+              //   console.log(
+              //     newValue,
+              //     value,
+              //     isParsable(newValueAsString),
+              //     isEqual(newValue, value))
+              //   if (isParsable(newValueAsString) && !isEqual(newValue, value)) {
+              //     setValue({ ...newValue })
+              //     setForcedRender((prev) => prev + 1)
+              //   }
+              // }}
             />
           </div>
         )}
