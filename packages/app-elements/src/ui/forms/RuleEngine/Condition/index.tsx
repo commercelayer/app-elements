@@ -3,28 +3,33 @@ import { Input } from '#ui/forms/Input'
 import { InputDate } from '#ui/forms/InputDate'
 import { InputSelect, isSingleValueSelected } from '#ui/forms/InputSelect'
 import classNames from 'classnames'
+import { isValid, parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
+import { useRuleEngine } from '../RuleEngineContext'
 import {
   type ConditionMatchersWithoutValue,
   conditionMatchersWithoutValue,
   expectNever,
   type SchemaCondition,
-  type SchemaConditionItem,
-  type SetPath
+  type SchemaConditionItem
 } from '../utils'
 
 export function Condition({
   item,
   children,
   isNested = false,
-  setPath
+  pathPrefix
 }: {
   item?: SchemaCondition
   isNested?: boolean
   children?: React.JSX.Element
-  setPath: SetPath
+  pathPrefix: string
 }): React.JSX.Element {
+  const {
+    state: { selectedRuleIndex }
+  } = useRuleEngine()
   const conditionsLogin = item?.conditions_logic?.toLowerCase() ?? 'and'
+  const { setPath } = useRuleEngine()
 
   return (
     <div
@@ -37,7 +42,10 @@ export function Condition({
         <>
           <select
             onChange={(event) => {
-              setPath('conditions_logic', event.currentTarget.value)
+              setPath(
+                `${pathPrefix}.conditions_logic`,
+                event.currentTarget.value
+              )
             }}
             defaultValue={conditionsLogin}
             className='pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-none appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4'
@@ -50,7 +58,7 @@ export function Condition({
               const isLast = conditionIndex === arr.length - 1
               return (
                 <div
-                  key={JSON.stringify(condition)}
+                  key={`${selectedRuleIndex}-${conditionIndex}`}
                   className='flex items-center mb-4 last:mb-0 relative'
                 >
                   <Connector rounded={isLast} />
@@ -58,7 +66,7 @@ export function Condition({
                     <Condition
                       item={condition.nested ?? undefined}
                       isNested={condition.nested != null}
-                      setPath={setPath(`conditions.${conditionIndex}.nested`)}
+                      pathPrefix={`${pathPrefix}.conditions.${conditionIndex}.nested`}
                     >
                       <div
                         className={classNames({
@@ -67,7 +75,7 @@ export function Condition({
                       >
                         <ConditionItem
                           item={condition}
-                          setPath={setPath(`conditions.${conditionIndex}`)}
+                          pathPrefix={`${pathPrefix}.conditions.${conditionIndex}`}
                         />
                       </div>
                     </Condition>
@@ -83,12 +91,12 @@ export function Condition({
                   <Condition
                     item={undefined}
                     isNested={false}
-                    setPath={setPath(`conditions.${0}.nested`)}
+                    pathPrefix={`${pathPrefix}.conditions.${0}.nested`}
                   >
                     <div>
                       <ConditionItem
                         item={null}
-                        setPath={setPath(`conditions.${0}`)}
+                        pathPrefix={`${pathPrefix}.conditions.${0}`}
                       />
                     </div>
                   </Condition>
@@ -102,138 +110,15 @@ export function Condition({
   )
 }
 
-/**
- * This function renders the value input for a condition item based on its matcher and its field.
- *
- * > // TODO: **NOTE** the kind of Component depends on the matcher used and the field used. For example, if the matcher is `eq` and the field is `email`, then it should be an email input. Or if the matcher is `gt` and the field is `created_at`, then it should be a date input.
- * > https://docs.commercelayer.io/rules-engine/matchers#value-required
- */
-function ConditionValue({
-  item,
-  setPath
-}: {
-  item: SchemaConditionItem | null
-  setPath: SetPath
-}): React.ReactNode {
-  const [fieldInfos, setFieldInfos] =
-    useState<Awaited<ReturnType<typeof atPath>>['field']>(undefined)
-
-  if (item == null) {
-    return null
-  }
-
-  useEffect(() => {
-    atPath(item.field)
-      .then((result) => {
-        setFieldInfos(result.field)
-        console.log('result', result)
-      })
-      .catch((error) => {
-        console.error('Error fetching field info:', error)
-      })
-  }, [item.field])
-
-  if (
-    conditionMatchersWithoutValue.includes(
-      item.matcher as ConditionMatchersWithoutValue
-    )
-  ) {
-    return null
-  }
-
-  const itemWithValue = item as Exclude<
-    SchemaConditionItem,
-    { matcher: ConditionMatchersWithoutValue }
-  >
-
-  switch (itemWithValue.matcher) {
-    case 'gt':
-    case 'lt':
-    case 'gteq':
-    case 'lteq':
-    case 'gt_lt':
-    case 'gteq_lt':
-    case 'gt_lteq':
-    case 'gteq_lteq': {
-      if (fieldInfos?.type === 'datetime') {
-        return (
-          <InputDate
-            value={
-              typeof itemWithValue.value === 'string'
-                ? new Date(itemWithValue.value)
-                : new Date()
-            }
-            placeholder='Enter value'
-            onChange={(date) => {
-              setPath('value', date?.toJSON(), true)
-            }}
-          />
-        )
-      }
-
-      return (
-        <Input
-          type='number'
-          defaultValue={
-            typeof itemWithValue.value === 'number' ? itemWithValue.value : ''
-          }
-          placeholder='Enter value'
-          onChange={(event) => {
-            setPath('value', parseInt(event.currentTarget.value, 10))
-          }}
-        />
-      )
-    }
-
-    case 'eq':
-    case 'end_with':
-    case 'not_end_with':
-    case 'not_eq':
-    case 'start_with':
-    case 'not_start_with':
-      return (
-        <Input
-          type='text'
-          defaultValue={
-            typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
-          }
-          placeholder='Enter value'
-          onChange={(event) => {
-            setPath('value', event.currentTarget.value)
-          }}
-        />
-      )
-
-    case 'array_match':
-    case 'does_not_match':
-    case 'is_in':
-    case 'is_not_in':
-    case 'matches':
-    case 'multiple':
-      return (
-        <Input
-          type='text'
-          defaultValue={JSON.stringify(itemWithValue.value)}
-          placeholder='Enter value'
-          onChange={(event) => {
-            setPath('value', event.currentTarget.value)
-          }}
-        />
-      )
-
-    default:
-      return expectNever(itemWithValue.matcher)
-  }
-}
-
 function ConditionItem({
   item,
-  setPath
+  pathPrefix
 }: {
   item: SchemaConditionItem | null
-  setPath: SetPath
+  pathPrefix: string
 }): React.JSX.Element {
   type Item = NonNullable<typeof item>
+  const { setPath } = useRuleEngine()
   const matcherDictionary: Record<Item['matcher'], string> = {
     array_match: 'is one of',
     blank: 'is blank',
@@ -279,10 +164,10 @@ function ConditionItem({
           type='text'
           defaultValue={item != null ? item.field : undefined}
           onChange={(event) => {
-            setPath('field', event.currentTarget.value)
+            setPath(`${pathPrefix}.field`, event.currentTarget.value)
           }}
           onBlur={(event) => {
-            setPath('field', event.currentTarget.value, true)
+            setPath(`${pathPrefix}.field`, event.currentTarget.value)
           }}
         />
       </div>
@@ -303,14 +188,14 @@ function ConditionItem({
           )}
           onSelect={(selected) => {
             if (isSingleValueSelected(selected)) {
-              setPath('matcher', selected.value, true)
+              setPath(`${pathPrefix}.matcher`, selected.value)
 
               if (
                 conditionMatchersWithoutValue.includes(
                   selected.value as ConditionMatchersWithoutValue
                 )
               ) {
-                setPath('value', null, true)
+                setPath(`${pathPrefix}.value`, null)
               }
             }
           }}
@@ -319,7 +204,7 @@ function ConditionItem({
 
       {/* Condition value */}
       <div className='flex-1'>
-        <ConditionValue item={item} setPath={setPath} />
+        <ConditionValue item={item} pathPrefix={pathPrefix} />
       </div>
     </div>
   )
@@ -342,4 +227,131 @@ function Connector({
       <div className='absolute -left-[1px] top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-l border-b rounded-es-sm bg-white border-gray-200' />
     </>
   )
+}
+
+/**
+ * This function renders the value input for a condition item based on its matcher and its field.
+ *
+ * > // TODO: **NOTE** the kind of Component depends on the matcher used and the field used. For example, if the matcher is `eq` and the field is `email`, then it should be an email input. Or if the matcher is `gt` and the field is `created_at`, then it should be a date input.
+ * > https://docs.commercelayer.io/rules-engine/matchers#value-required
+ */
+function ConditionValue({
+  item,
+  pathPrefix
+}: {
+  item: SchemaConditionItem | null
+  pathPrefix: string
+}): React.ReactNode {
+  const { setPath } = useRuleEngine()
+  const [fieldInfos, setFieldInfos] =
+    useState<Awaited<ReturnType<typeof atPath>>['field']>(undefined)
+
+  if (item == null) {
+    return null
+  }
+
+  useEffect(() => {
+    atPath(item.field)
+      .then((result) => {
+        setFieldInfos(result.field)
+        console.log('result', result)
+      })
+      .catch((error) => {
+        console.error('Error fetching field info:', error)
+      })
+  }, [item.field])
+
+  if (
+    conditionMatchersWithoutValue.includes(
+      item.matcher as ConditionMatchersWithoutValue
+    )
+  ) {
+    return null
+  }
+
+  const itemWithValue = item as Exclude<
+    SchemaConditionItem,
+    { matcher: ConditionMatchersWithoutValue }
+  >
+
+  if (fieldInfos?.type === 'datetime') {
+    const date = parseISO(
+      typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
+    )
+    return (
+      <InputDate
+        value={isValid(date) ? date : undefined}
+        placeholder='Enter value'
+        onChange={(date) => {
+          setPath(`${pathPrefix}.value`, date?.toJSON())
+        }}
+      />
+    )
+  }
+
+  switch (itemWithValue.matcher) {
+    case 'gt':
+    case 'lt':
+    case 'gteq':
+    case 'lteq':
+    case 'gt_lt':
+    case 'gteq_lt':
+    case 'gt_lteq':
+    case 'gteq_lteq': {
+      return (
+        <Input
+          type='number'
+          defaultValue={
+            typeof itemWithValue.value === 'number' ? itemWithValue.value : ''
+          }
+          placeholder='Enter value'
+          onChange={(event) => {
+            setPath(
+              `${pathPrefix}.value`,
+              parseInt(event.currentTarget.value, 10)
+            )
+          }}
+        />
+      )
+    }
+
+    case 'eq':
+    case 'end_with':
+    case 'not_end_with':
+    case 'not_eq':
+    case 'start_with':
+    case 'not_start_with':
+      return (
+        <Input
+          type='text'
+          defaultValue={
+            typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
+          }
+          placeholder='Enter value'
+          onChange={(event) => {
+            setPath('value', event.currentTarget.value)
+          }}
+        />
+      )
+
+    case 'array_match':
+    case 'does_not_match':
+    case 'is_in':
+    case 'is_not_in':
+    case 'matches':
+    case 'multiple':
+      return (
+        <Input
+          type='text'
+          defaultValue={JSON.stringify(itemWithValue.value)}
+          placeholder='Enter value'
+          onChange={(event) => {
+            setPath('value', event.currentTarget.value)
+          }}
+        />
+      )
+
+    default:
+      return expectNever(itemWithValue.matcher)
+  }
 }

@@ -1,42 +1,112 @@
 import { Input } from '#ui/forms/Input'
 import { InputSelect, isSingleValueSelected } from '#ui/forms/InputSelect'
-import { expectNever, type SchemaActionItem, type SetPath } from '../utils'
+import { useRuleEngine } from '../RuleEngineContext'
+import { expectNever, type SchemaActionItem } from '../utils'
 
 export function Action({
-  actions,
-  selectedRuleIndex,
-  setPath
+  actions
 }: {
   actions?: SchemaActionItem[]
-  selectedRuleIndex: number
-  setPath: SetPath
 }): React.JSX.Element {
+  const {
+    state: { selectedRuleIndex }
+  } = useRuleEngine()
   return (
     <>
       {actions?.map((action, actionIndex) => (
         <ActionItem
-          key={JSON.stringify(action)}
+          key={`${selectedRuleIndex}-${actionIndex}`}
           item={action}
-          setPath={setPath(`rules.${selectedRuleIndex}.actions.${actionIndex}`)}
+          index={actionIndex}
         />
       ))}
-      {(actions ?? []).length === 0 && (
-        <ActionItem
-          item={null}
-          setPath={setPath(`rules.${selectedRuleIndex}.actions.${0}`)}
-        />
-      )}
+      {(actions ?? []).length === 0 && <ActionItem item={null} index={0} />}
     </>
+  )
+}
+
+function ActionItem({
+  item,
+  index
+}: {
+  item: SchemaActionItem | null
+  index: number
+}): React.ReactNode {
+  const {
+    setPath,
+    state: { selectedRuleIndex }
+  } = useRuleEngine()
+
+  type Item = NonNullable<typeof item>
+  const typeDictionary: Record<Item['type'], string> = {
+    buy_x_pay_y: 'Buy X, Pay Y',
+    every_x_discount_y: 'Every X, Discount Y',
+    fixed_amount: 'Fixed amount',
+    fixed_price: 'Fixed price',
+    percentage: 'Percentage discount'
+  }
+
+  const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
+
+  return (
+    <div className='mb-6 last:mb-0'>
+      <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
+        {/* Action type */}
+        <div className='flex-1'>
+          <InputSelect
+            defaultValue={
+              item != null
+                ? {
+                    label: typeDictionary[item.type],
+                    value: item.type
+                  }
+                : undefined
+            }
+            initialValues={Object.entries(typeDictionary).map(
+              ([value, label]) => ({ value, label })
+            )}
+            onSelect={(selected) => {
+              if (isSingleValueSelected(selected)) {
+                setPath(`${pathPrefix}.type`, selected.value)
+              }
+            }}
+          />
+        </div>
+
+        {/* Action value */}
+        <ActionValue item={item} pathPrefix={pathPrefix} />
+
+        {/* ON */}
+        <div className='text-black font-bold text-sm'>ON</div>
+
+        {/* Action target */}
+        <div className='flex-1'>
+          {/* <InputSelect
+            defaultValue={{ label: 'Line items', value: 'Line items' }}
+            initialValues={[{ value: 'Line items', label: 'Line items' }]}
+            onSelect={() => { }}
+          /> */}
+          <Input
+            type='text'
+            defaultValue={item != null ? item.selector : undefined}
+            onChange={(event) => {
+              setPath(`${pathPrefix}.selector`, event.currentTarget.value)
+            }}
+          />
+        </div>
+      </div>
+    </div>
   )
 }
 
 function ActionValue({
   item,
-  setPath
+  pathPrefix
 }: {
   item: SchemaActionItem | null
-  setPath: SetPath
+  pathPrefix: string
 }): React.ReactNode {
+  const { setPath } = useRuleEngine()
   if (item == null) {
     return null
   }
@@ -64,7 +134,10 @@ function ActionValue({
             min={0}
             suffix='cents'
             onChange={(event) => {
-              setPath('value', parseInt(event.currentTarget.value, 10))
+              setPath(
+                `${pathPrefix}.value`,
+                parseInt(event.currentTarget.value, 10)
+              )
             }}
           />
         </div>
@@ -79,7 +152,10 @@ function ActionValue({
             max={100}
             suffix='%'
             onChange={(event) => {
-              setPath('value', parseInt(event.currentTarget.value, 10))
+              setPath(
+                `${pathPrefix}.value`,
+                parseInt(event.currentTarget.value, 10)
+              )
             }}
           />
         </div>
@@ -87,71 +163,4 @@ function ActionValue({
     default:
       return expectNever(item)
   }
-}
-
-function ActionItem({
-  item,
-  setPath
-}: {
-  item: SchemaActionItem | null
-  setPath: SetPath
-}): React.ReactNode {
-  type Item = NonNullable<typeof item>
-  const typeDictionary: Record<Item['type'], string> = {
-    buy_x_pay_y: 'Buy X, Pay Y',
-    every_x_discount_y: 'Every X, Discount Y',
-    fixed_amount: 'Fixed amount',
-    fixed_price: 'Fixed price',
-    percentage: 'Percentage discount'
-  }
-
-  return (
-    <div className='mb-6 last:mb-0'>
-      <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
-        {/* Action type */}
-        <div className='flex-1'>
-          <InputSelect
-            defaultValue={
-              item != null
-                ? {
-                    label: typeDictionary[item.type],
-                    value: item.type
-                  }
-                : undefined
-            }
-            initialValues={Object.entries(typeDictionary).map(
-              ([value, label]) => ({ value, label })
-            )}
-            onSelect={(selected) => {
-              if (isSingleValueSelected(selected)) {
-                setPath('type', selected.value, true)
-              }
-            }}
-          />
-        </div>
-
-        {/* Action value */}
-        <ActionValue item={item} setPath={setPath} />
-
-        {/* ON */}
-        <div className='text-black font-bold text-sm'>ON</div>
-
-        {/* Action target */}
-        <div className='flex-1'>
-          {/* <InputSelect
-            defaultValue={{ label: 'Line items', value: 'Line items' }}
-            initialValues={[{ value: 'Line items', label: 'Line items' }]}
-            onSelect={() => { }}
-          /> */}
-          <Input
-            type='text'
-            defaultValue={item != null ? item.selector : undefined}
-            onChange={(event) => {
-              setPath('selector', event.currentTarget.value)
-            }}
-          />
-        </div>
-      </div>
-    </div>
-  )
 }
