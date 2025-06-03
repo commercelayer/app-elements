@@ -84,10 +84,10 @@ Default.args = {
           priority: 0,
           conditions: [
             {
-              field: 'order.currency_code',
+              field: 'order.placed_at',
               group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-              value: 'EUR',
-              matcher: 'eq'
+              value: '2025-05-05T15:17:40.977Z',
+              matcher: 'gteq'
             },
             {
               field: 'order.line_items.line_item_options.sku_option.tags.name',
