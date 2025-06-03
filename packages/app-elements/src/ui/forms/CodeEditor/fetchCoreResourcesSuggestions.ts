@@ -1,29 +1,65 @@
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-const fetchResources = (() => {
-  let cache: Record<
-    string,
-    {
-      fields: ReadonlyArray<
-        readonly [
-          string,
-          {
-            desc: string
-          }
-        ]
+/** Response type from https://core.commercelayer.io/api/public/resources */
+interface PublicResourcesResponse {
+  data: Array<{
+    id: string
+    type: string
+    attributes: {
+      fields: Record<
+        string,
+        {
+          type: string
+          desc: string
+        }
       >
-      relationships: ReadonlyArray<
-        readonly [
-          string,
-          {
-            desc: string
-            class_name: string
-          }
-        ]
+      relationships: Record<
+        string,
+        {
+          type: string
+          desc: string
+          class_name: string
+        }
       >
     }
-  >
+  }>
+}
 
-  return async () => {
+type FetchResourceResponse = Record<
+  string,
+  PublicResourcesResponse['data'][number] & {
+    fields: ReadonlyArray<
+      readonly [
+        string,
+        {
+          type: string
+          desc: string
+        }
+      ]
+    >
+    relationships: ReadonlyArray<
+      readonly [
+        string,
+        {
+          desc: string
+          class_name: string
+        }
+      ]
+    >
+  }
+>
+
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const fetchResources = (() => {
+  let cache: FetchResourceResponse
+
+  return async (waitCache = true) => {
+    if (waitCache) {
+      // eslint-disable-next-line no-unmodified-loop-condition
+      while (cache == null) {
+        await new Promise((resolve) => setTimeout(resolve, 100))
+      }
+      return cache
+    }
+
     if (cache != null) {
       return cache
     }
@@ -32,16 +68,19 @@ const fetchResources = (() => {
       .then<{
         data: Array<{
           id: string
+          type: string
           attributes: {
             fields: Record<
               string,
               {
+                type: string
                 desc: string
               }
             >
             relationships: Record<
               string,
               {
+                type: string
                 desc: string
                 class_name: string
               }
@@ -49,21 +88,12 @@ const fetchResources = (() => {
           }
         }>
       }>(async (res) => await res.json())
-      .then<
-        Record<
-          string,
-          {
-            fields: ReadonlyArray<readonly [string, { desc: string }]>
-            relationships: ReadonlyArray<
-              readonly [string, { desc: string; class_name: string }]
-            >
-          }
-        >
-      >(({ data: resources }) =>
+      .then<FetchResourceResponse>(({ data: resources }) =>
         resources.reduce((acc, cv, index, list) => {
           return {
             ...acc,
             [cv.id]: {
+              ...cv,
               fields: Object.entries(cv.attributes.fields)
                 // remove trigger attributes
                 .filter(([attr]) => !attr.startsWith('_')),
@@ -89,6 +119,9 @@ const fetchResources = (() => {
   }
 })()
 
+// Immediately fetch resources to populate the cache
+void fetchResources(false)
+
 /**
  *
  * @returns
@@ -110,14 +143,14 @@ export async function fetchCoreResourcesSuggestions(
     [] as Array<{ value: string; type: 'field' | 'relationship' }>
   )
     .concat(
-      pathResolved.obj?.fields.map(([key]) => ({
-        value: `${pathResolved.path}.${key}`,
+      pathResolved.resource?.fields.map(([key]) => ({
+        value: `${pathResolved.resourcePath}.${key}`,
         type: 'field'
       })) ?? []
     )
     .concat(
-      pathResolved.obj?.relationships.map(([key]) => ({
-        value: `${pathResolved.path}.${key}`,
+      pathResolved.resource?.relationships.map(([key]) => ({
+        value: `${pathResolved.resourcePath}.${key}`,
         type: 'relationship'
       })) ?? []
     )
@@ -127,20 +160,18 @@ export async function fetchCoreResourcesSuggestions(
 
 export async function atPath(
   path: string,
-  obj?: {
-    fields: ReadonlyArray<readonly [string, { desc: string }]>
-    relationships: ReadonlyArray<
-      readonly [string, { desc: string; class_name: string }]
-    >
-  }
+  obj?: FetchResourceResponse[string]
 ): Promise<{
   path: string
-  obj?: {
-    fields: ReadonlyArray<readonly [string, { desc: string }]>
-    relationships: ReadonlyArray<
-      readonly [string, { desc: string; class_name: string }]
-    >
-  }
+  field?: { name: string; desc: string; type: string }
+  resourcePath: string
+  resource?: FetchResourceResponse[string]
+  // resource?: {
+  //   fields: ReadonlyArray<readonly [string, { desc: string }]>
+  //   relationships: ReadonlyArray<
+  //     readonly [string, { desc: string; class_name: string }]
+  //   >
+  // }
 }> {
   const resources = await fetchResources()
   const splittedPath = path.replace(/\.$/, '').split('.')
@@ -149,14 +180,25 @@ export async function atPath(
 
   obj ??= resources[mainResourceId ?? '']
 
-  return splittedPath.reduce(
+  return splittedPath.reduce<Awaited<ReturnType<typeof atPath>>>(
     (acc, attr) => {
-      const className = acc.obj?.relationships.find(
+      const className = acc.resource?.relationships.find(
         ([key]) => key === attr
       )?.[1].class_name
 
       if (className == null) {
-        return acc
+        const field = acc.resource?.fields.find(([key]) => key === attr)?.[1]
+
+        return {
+          ...acc,
+          field:
+            field != null
+              ? {
+                  ...field,
+                  name: attr
+                }
+              : undefined
+        }
       }
 
       const obj = resources[toSnakeCase(className)]
@@ -166,11 +208,16 @@ export async function atPath(
       }
 
       return {
-        path: `${acc.path == null ? '' : `${acc.path}.`}${attr}`,
-        obj
+        path: acc.path,
+        resourcePath: `${acc.resourcePath == null ? '' : `${acc.resourcePath}.`}${attr}`,
+        resource: obj
       }
     },
-    { path: obj != null ? (mainResourceId ?? '') : '', obj }
+    {
+      path,
+      resourcePath: obj != null ? (mainResourceId ?? '') : '',
+      resource: obj
+    }
   )
 }
 

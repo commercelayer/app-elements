@@ -12,6 +12,8 @@ import classNames from 'classnames'
 import { isEqual, set, unset } from 'lodash-es'
 import React, { useEffect, useRef, useState } from 'react'
 import type { SetOptional, SetRequired } from 'type-fest'
+import { atPath } from '../CodeEditor/fetchCoreResourcesSuggestions'
+import { InputDate } from '../InputDate'
 import { type RulesForOrderContext } from './schema.order_rules'
 
 type Schema = SetRequired<RulesForOrderContext, 'rules'>
@@ -279,8 +281,8 @@ function Condition({
             defaultValue={conditionsLogin}
             className='pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-none appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4'
           >
-            <option value='and'>AND</option>
-            <option value='or'>OR</option>
+            <option value='and'>{isNested ? 'Nested in ' : ''}AND</option>
+            <option value='or'>{isNested ? 'Nested in ' : ''}OR</option>
           </select>
           <div className='border-l border-gray-200 ml-3 pt-3'>
             {item?.conditions?.map((condition, conditionIndex, arr) => {
@@ -450,9 +452,23 @@ function ConditionValue({
   item: SchemaConditionItem | null
   setPath: SetPath
 }): React.ReactNode {
+  const [fieldInfos, setFieldInfos] =
+    useState<Awaited<ReturnType<typeof atPath>>['field']>(undefined)
+
   if (item == null) {
     return null
   }
+
+  useEffect(() => {
+    atPath(item.field)
+      .then((result) => {
+        setFieldInfos(result.field)
+        console.log('result', result)
+      })
+      .catch((error) => {
+        console.error('Error fetching field info:', error)
+      })
+  }, [item.field])
 
   if (
     conditionMatchersWithoutValue.includes(
@@ -475,7 +491,23 @@ function ConditionValue({
     case 'gt_lt':
     case 'gteq_lt':
     case 'gt_lteq':
-    case 'gteq_lteq':
+    case 'gteq_lteq': {
+      if (fieldInfos?.type === 'datetime') {
+        return (
+          <InputDate
+            value={
+              typeof itemWithValue.value === 'string'
+                ? new Date(itemWithValue.value)
+                : new Date()
+            }
+            placeholder='Enter value'
+            onChange={(date) => {
+              setPath('value', date?.toJSON(), true)
+            }}
+          />
+        )
+      }
+
       return (
         <Input
           type='number'
@@ -488,6 +520,7 @@ function ConditionValue({
           }}
         />
       )
+    }
 
     case 'eq':
     case 'end_with':
@@ -651,6 +684,9 @@ function ConditionItem({
           defaultValue={item != null ? item.field : undefined}
           onChange={(event) => {
             setPath('field', event.currentTarget.value)
+          }}
+          onBlur={(event) => {
+            setPath('field', event.currentTarget.value, true)
           }}
         />
       </div>
