@@ -1,7 +1,13 @@
 import { atPath } from '#ui/forms/CodeEditor/fetchCoreResourcesSuggestions'
 import { Input } from '#ui/forms/Input'
 import { InputDate } from '#ui/forms/InputDate'
-import { InputSelect, isSingleValueSelected } from '#ui/forms/InputSelect'
+import { InputDateRange } from '#ui/forms/InputDateRange'
+import {
+  InputSelect,
+  isMultiValueSelected,
+  isSingleValueSelected
+} from '#ui/forms/InputSelect'
+import { InputSwitch } from '#ui/forms/InputSwitch'
 import classNames from 'classnames'
 import { isValid, parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
@@ -117,94 +123,44 @@ function ConditionItem({
   item: SchemaConditionItem | null
   pathPrefix: string
 }): React.JSX.Element {
-  type Item = NonNullable<typeof item>
   const { setPath } = useRuleEngine()
-  const matcherDictionary: Record<Item['matcher'], string> = {
-    array_match: 'is one of',
-    blank: 'is blank',
-    does_not_match: 'does not match',
-    end_with: 'ends with',
-    eq: 'is',
-    gt_lt: 'is greater than or less than',
-    gt_lteq: 'is greater than or less than or equal',
-    gt: 'is greater than',
-    gteq_lt: 'is greater than or equal or less than',
-    gteq_lteq: 'is greater than or equal or less than or equal',
-    gteq: 'is greater than or equal',
-    is_in: 'is in',
-    is_not_in: 'is not in',
-    lt: 'is less than',
-    lteq: 'is less than or equal',
-    matches: 'matches',
-    multiple: 'is one of',
-    not_end_with: 'does not end with',
-    not_eq: 'is not',
-    not_null: 'is not null',
-    not_start_with: 'does not start with',
-    null: 'is null',
-    present: 'is present',
-    start_with: 'starts with'
-  }
 
   return (
-    <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
-      {/* Condition target */}
-      <div className='flex-1'>
-        {/* <InputSelect
-          defaultValue={{
-            label: 'Customer',
-            value: 'Customer'
-          }}
-          initialValues={[
-            { value: 'Customer', label: 'Customer' }
-          ]}
-          onSelect={() => { }}
-        /> */}
-        <Input
-          type='text'
-          defaultValue={item != null ? item.field : undefined}
-          onChange={(event) => {
-            setPath(`${pathPrefix}.field`, event.currentTarget.value)
-          }}
-          onBlur={(event) => {
-            setPath(`${pathPrefix}.field`, event.currentTarget.value)
-          }}
-        />
-      </div>
+    <div className='bg-gray-50 rounded-md p-2'>
+      <div className='flex items-center justify-between gap-4'>
+        {/* Condition target */}
+        <div className='flex-1'>
+          {/* <InputSelect
+            defaultValue={{
+              label: 'Customer',
+              value: 'Customer'
+            }}
+            initialValues={[
+              { value: 'Customer', label: 'Customer' }
+            ]}
+            onSelect={() => { }}
+          /> */}
+          <Input
+            type='text'
+            defaultValue={item != null ? item.field : undefined}
+            onChange={(event) => {
+              setPath(`${pathPrefix}.field`, event.currentTarget.value)
+            }}
+            onBlur={(event) => {
+              setPath(`${pathPrefix}.field`, event.currentTarget.value)
+            }}
+          />
+        </div>
 
-      {/* Condition matcher */}
-      <div className='flex-14'>
-        <InputSelect
-          defaultValue={
-            item != null
-              ? {
-                  label: matcherDictionary[item.matcher],
-                  value: item.matcher
-                }
-              : undefined
-          }
-          initialValues={Object.entries(matcherDictionary).map(
-            ([value, label]) => ({ value, label })
-          )}
-          onSelect={(selected) => {
-            if (isSingleValueSelected(selected)) {
-              setPath(`${pathPrefix}.matcher`, selected.value)
+        {/* Condition matcher */}
+        <div className='flex-14'>
+          <ConditionMatcher item={item} pathPrefix={pathPrefix} />
+        </div>
 
-              if (
-                conditionMatchersWithoutValue.includes(
-                  selected.value as ConditionMatchersWithoutValue
-                )
-              ) {
-                setPath(`${pathPrefix}.value`, null)
-              }
-            }
-          }}
-        />
-      </div>
-
-      {/* Condition value */}
-      <div className='flex-1'>
-        <ConditionValue item={item} pathPrefix={pathPrefix} />
+        {/* Condition value */}
+        <div className='flex-1'>
+          <ConditionValue item={item} pathPrefix={pathPrefix} />
+        </div>
       </div>
     </div>
   )
@@ -229,6 +185,79 @@ function Connector({
   )
 }
 
+type ItemWithValue = Exclude<
+  SchemaConditionItem,
+  { matcher: ConditionMatchersWithoutValue }
+>
+
+function ConditionMatcher({
+  item,
+  pathPrefix
+}: {
+  item: SchemaConditionItem | null
+  pathPrefix: string
+}): React.JSX.Element {
+  const { setPath } = useRuleEngine()
+  const { infos } = useResourcePathInfos(item)
+
+  console.log('fieldInfos !!!! from matcher', infos)
+
+  return (
+    <InputSelect
+      defaultValue={
+        item != null
+          ? {
+              label: matcherDictionary[item.matcher]?.label,
+              value: item.matcher
+            }
+          : undefined
+      }
+      initialValues={Object.entries(matcherDictionary)
+        .filter(([_value, { fieldTypes }]) => {
+          return (
+            infos?.field?.type != null && fieldTypes.includes(infos.field.type)
+          )
+        })
+        .map(([value, { label }]) => ({ value, label }))}
+      onSelect={(selected) => {
+        if (isSingleValueSelected(selected)) {
+          setPath(`${pathPrefix}.matcher`, selected.value)
+
+          if (
+            conditionMatchersWithoutValue.includes(
+              selected.value as ConditionMatchersWithoutValue
+            )
+          ) {
+            setPath(`${pathPrefix}.value`, null)
+          }
+        }
+      }}
+    />
+  )
+}
+
+function useResourcePathInfos(item: SchemaConditionItem | null): {
+  infos: Awaited<ReturnType<typeof atPath>> | undefined
+} {
+  const [infos, setInfos] = useState<
+    Awaited<ReturnType<typeof atPath>> | undefined
+  >(undefined)
+
+  useEffect(() => {
+    if (item?.field != null) {
+      atPath(item.field)
+        .then((result) => {
+          setInfos(result)
+        })
+        .catch((error) => {
+          console.error('Error fetching field info:', error)
+        })
+    }
+  }, [item?.field])
+
+  return { infos }
+}
+
 /**
  * This function renders the value input for a condition item based on its matcher and its field.
  *
@@ -243,23 +272,11 @@ function ConditionValue({
   pathPrefix: string
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
-  const [fieldInfos, setFieldInfos] =
-    useState<Awaited<ReturnType<typeof atPath>>['field']>(undefined)
+  const { infos } = useResourcePathInfos(item)
 
   if (item == null) {
     return null
   }
-
-  useEffect(() => {
-    atPath(item.field)
-      .then((result) => {
-        setFieldInfos(result.field)
-        console.log('result', result)
-      })
-      .catch((error) => {
-        console.error('Error fetching field info:', error)
-      })
-  }, [item.field])
 
   if (
     conditionMatchersWithoutValue.includes(
@@ -269,35 +286,198 @@ function ConditionValue({
     return null
   }
 
-  const itemWithValue = item as Exclude<
-    SchemaConditionItem,
-    { matcher: ConditionMatchersWithoutValue }
-  >
+  const itemWithValue = item as ItemWithValue
 
-  if (fieldInfos?.type === 'datetime') {
-    const date = parseISO(
-      typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
-    )
-    return (
-      <InputDate
-        value={isValid(date) ? date : undefined}
-        placeholder='Enter value'
-        onChange={(date) => {
-          setPath(`${pathPrefix}.value`, date?.toJSON())
-        }}
-      />
-    )
+  let componentType:
+    | 'boolean'
+    | 'date'
+    | 'dateRange'
+    | 'number'
+    | 'numberRange'
+    | 'tag'
+    | 'text'
+    | null = null
+
+  switch (infos?.field?.type) {
+    case 'datetime': {
+      componentType = 'date'
+      break
+    }
+
+    case 'boolean': {
+      componentType = 'boolean'
+      break
+    }
+
+    case 'string': {
+      componentType = 'text'
+      break
+    }
+
+    case 'integer':
+    case 'float': {
+      componentType = 'number'
+      break
+    }
+
+    case 'array':
+    case 'json':
+    case 'object': {
+      break
+    }
+
+    default: {
+      componentType = 'text'
+      break
+    }
   }
 
   switch (itemWithValue.matcher) {
-    case 'gt':
+    case 'eq':
+    case 'not_eq':
     case 'lt':
-    case 'gteq':
     case 'lteq':
+    case 'gt':
+    case 'gteq':
+    case 'multiple':
+    case 'start_with':
+    case 'not_start_with':
+    case 'end_with':
+    case 'not_end_with': {
+      // pass through to the default case
+      break
+    }
+
+    case 'matches':
+    case 'does_not_match': {
+      // need to handle regex input
+      break
+    }
+
     case 'gt_lt':
     case 'gteq_lt':
     case 'gt_lteq':
     case 'gteq_lteq': {
+      // these matchers expect an array of two values (only for date and number)
+      if (componentType === 'number') {
+        componentType = 'numberRange'
+      }
+
+      if (componentType === 'date') {
+        componentType = 'dateRange'
+      }
+
+      break
+    }
+
+    case 'is_in':
+    case 'is_not_in': {
+      // these matchers expect an array of values
+      componentType = 'tag'
+      break
+    }
+
+    case 'array_match': {
+      // this matcher expects an object with conditions
+      break
+    }
+
+    default: {
+      expectNever(itemWithValue.matcher)
+      break
+    }
+  }
+
+  switch (componentType) {
+    case 'date': {
+      const date = parseISO(
+        typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
+      )
+
+      return (
+        <InputDate
+          value={isValid(date) ? date : undefined}
+          showTimeSelect
+          placeholder='Enter value'
+          onChange={(date) => {
+            setPath(`${pathPrefix}.value`, date?.toJSON())
+          }}
+        />
+      )
+    }
+
+    case 'dateRange': {
+      const value = Array.isArray(itemWithValue.value)
+        ? (itemWithValue.value.map((v) => {
+            const date = parseISO(typeof v === 'string' ? v : '')
+
+            return isValid(date) ? date : null
+          }) as [Date, Date])
+        : ([null, null] as [null, null])
+
+      return (
+        <InputDateRange
+          value={value}
+          onChange={(dates) => {
+            setPath(
+              `${pathPrefix}.value`,
+              dates.map((date) => date?.toJSON() ?? null)
+            )
+          }}
+        />
+      )
+    }
+
+    case 'numberRange': {
+      return (
+        <NumberRange
+          value={itemWithValue.value}
+          onChange={(value) => {
+            setPath(`${pathPrefix}.value`, value)
+          }}
+        />
+      )
+    }
+
+    case 'tag': {
+      return (
+        <InputSelect
+          isMulti
+          isCreatable
+          defaultValue={
+            Array.isArray(itemWithValue.value)
+              ? itemWithValue.value.map((v) => ({
+                  label: v.toString(),
+                  value: v
+                }))
+              : []
+          }
+          initialValues={[]}
+          onSelect={(selected) => {
+            if (isMultiValueSelected(selected)) {
+              setPath(
+                `${pathPrefix}.value`,
+                selected
+                  .map((s) => {
+                    if (infos?.field?.type === 'integer') {
+                      const intValue = parseInt(s.value.toString(), 10)
+                      if (isNaN(intValue)) {
+                        return null
+                      }
+                      return intValue
+                    }
+
+                    return s.value
+                  })
+                  .filter((s) => s != null)
+              )
+            }
+          }}
+        />
+      )
+    }
+
+    case 'number': {
       return (
         <Input
           type='number'
@@ -315,17 +495,30 @@ function ConditionValue({
       )
     }
 
-    case 'eq':
-    case 'end_with':
-    case 'not_end_with':
-    case 'not_eq':
-    case 'start_with':
-    case 'not_start_with':
+    case 'boolean': {
+      return (
+        <InputSwitch
+          defaultChecked={
+            typeof itemWithValue.value === 'boolean'
+              ? itemWithValue.value
+              : false
+          }
+          onChange={(event) => {
+            setPath(`${pathPrefix}.value`, event.currentTarget.checked)
+          }}
+        />
+      )
+    }
+
+    case 'text':
+    case null: {
       return (
         <Input
           type='text'
           defaultValue={
-            typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
+            typeof itemWithValue.value === 'string'
+              ? itemWithValue.value
+              : JSON.stringify(itemWithValue.value)
           }
           placeholder='Enter value'
           onChange={(event) => {
@@ -333,25 +526,214 @@ function ConditionValue({
           }}
         />
       )
+    }
 
-    case 'array_match':
-    case 'does_not_match':
-    case 'is_in':
-    case 'is_not_in':
-    case 'matches':
-    case 'multiple':
-      return (
-        <Input
-          type='text'
-          defaultValue={JSON.stringify(itemWithValue.value)}
-          placeholder='Enter value'
-          onChange={(event) => {
-            setPath('value', event.currentTarget.value)
-          }}
-        />
-      )
+    default: {
+      return expectNever(componentType)
+    }
+  }
+}
 
-    default:
-      return expectNever(itemWithValue.matcher)
+function NumberRange({
+  value,
+  onChange
+}: {
+  value: ItemWithValue['value']
+  onChange: (value: [number | null, number | null]) => void
+}): React.JSX.Element {
+  const [min, setMin] = useState<number | null>(
+    Array.isArray(value) && typeof value[0] === 'number' ? value[0] : null
+  )
+  const [max, setMax] = useState<number | null>(
+    Array.isArray(value) && typeof value[1] === 'number' ? value[1] : null
+  )
+
+  return (
+    <div className='flex items-center gap-2'>
+      <Input
+        type='number'
+        placeholder='Min'
+        value={min ?? ''}
+        onChange={(event) => {
+          const newValue = parseInt(event.currentTarget.value, 10)
+          setMin(isNaN(newValue) ? null : newValue)
+          onChange([isNaN(newValue) ? null : newValue, max])
+        }}
+      />
+      <span className='text-gray-500'>to</span>
+      <Input
+        type='number'
+        placeholder='Max'
+        value={max ?? ''}
+        onChange={(event) => {
+          const newValue = parseInt(event.currentTarget.value, 10)
+          setMax(isNaN(newValue) ? null : newValue)
+          onChange([min, isNaN(newValue) ? null : newValue])
+        }}
+      />
+    </div>
+  )
+}
+
+type MatcherDictionary = Record<
+  SchemaConditionItem['matcher'],
+  {
+    label: string
+    fieldTypes: Array<
+      NonNullable<Awaited<ReturnType<typeof atPath>>['field']>['type']
+    >
+  }
+>
+
+const matcherDictionary: MatcherDictionary = {
+  /** Matches if field value equals provided value
+   * @field Integer, String, Datetime, Boolean
+   * @value Integer, String, Datetime, Boolean
+   */
+  eq: {
+    label: 'equals',
+    fieldTypes: ['integer', 'string', 'datetime', 'boolean']
+  },
+  /** Matches if field value is not equal to provided value
+   * @field Integer, String, Datetime, Boolean
+   * @value Integer, String, Datetime, Boolean
+   */
+  not_eq: {
+    label: 'not equals',
+    fieldTypes: ['integer', 'string', 'datetime', 'boolean']
+  },
+  /** Matches if field value is less than provided value
+   * @field Integer, Datetime
+   * @value Integer, Datetime
+   */
+  lt: { label: 'less than', fieldTypes: ['integer', 'datetime'] },
+  /** Matches if field value is less than or equal to provided value
+   * @field Integer, Datetime
+   * @value Integer, Datetime
+   */
+  lteq: { label: 'less than or equal to', fieldTypes: ['integer', 'datetime'] },
+  /** Matches if field value is greater than provided value
+   * @field Integer, Datetime
+   * @value Integer, Datetime
+   */
+  gt: { label: 'greater than', fieldTypes: ['integer', 'datetime'] },
+  /** Matches if field value is greater than or equal to provided value
+   * @field Integer, Datetime
+   * @value Integer, Datetime
+   */
+  gteq: {
+    label: 'greater than or equal to',
+    fieldTypes: ['integer', 'datetime']
+  },
+  /** Matches if field value is a multiple of provided value
+   * @field Integer
+   * @value Integer
+   */
+  multiple: { label: 'is a multiple of', fieldTypes: ['integer'] },
+  /** Matches if field value matches regex pattern
+   * @field String
+   * @value String
+   */
+  matches: { label: 'matches', fieldTypes: ['string'] },
+  /** Matches if field value does not match regex pattern
+   * @field String
+   * @value String
+   */
+  does_not_match: { label: 'does not match', fieldTypes: ['string'] },
+  /** Matches if field value starts with provided string
+   * @field String
+   * @value String
+   */
+  start_with: { label: 'starts with', fieldTypes: ['string'] },
+  /** Matches if field value does not start with provided string
+   * @field String
+   * @value String
+   */
+  not_start_with: { label: 'does not start with', fieldTypes: ['string'] },
+  /** Matches if field value ends with provided string
+   * @field String
+   * @value String
+   */
+  end_with: { label: 'ends with', fieldTypes: ['string'] },
+  /** Matches if field value does not end with provided string
+   * @field String
+   * @value String
+   */
+  not_end_with: { label: 'does not end with', fieldTypes: ['string'] },
+  /** Matches if field value is between two values (exclusive)
+   * @field Integer, Datetime
+   * @value Array
+   */
+  gt_lt: {
+    label: 'greater than and less than',
+    fieldTypes: ['integer', 'datetime']
+  },
+  /** Matches if field value is between two values (inclusive start, exclusive end)
+   * @field Integer, Datetime
+   * @value Array
+   */
+  gteq_lt: {
+    label: 'greater than or equal to and less than',
+    fieldTypes: ['integer', 'datetime']
+  },
+  /** Matches if field value is greater than first and less than or equal to second
+   * @field Integer, Datetime
+   * @value Array
+   */
+  gt_lteq: {
+    label: 'greater than and less than or equal to',
+    fieldTypes: ['integer', 'datetime']
+  },
+  /** Matches if field value is between two values (inclusive)
+   * @field Integer, Datetime
+   * @value Array
+   */
+  gteq_lteq: {
+    label: 'greater than or equal to and less than or equal to',
+    fieldTypes: ['integer', 'datetime']
+  },
+  /** Matches if field value is in provided array
+   * @field Integer, String, Datetime
+   * @value Array
+   */
+  is_in: {
+    label: 'included in',
+    fieldTypes: ['integer', 'string', 'datetime']
+  },
+  /** Matches if field value is not in provided array
+   * @field Integer, String, Datetime
+   * @value Array
+   */
+  is_not_in: {
+    label: 'not included in',
+    fieldTypes: ['integer', 'string', 'datetime']
+  },
+  /** Matches objects within arrays that meet specified requirements
+   * @field Array
+   * @value Object
+   */
+  array_match: {
+    label: 'array matches',
+    fieldTypes: ['integer', 'string', 'datetime']
+  },
+  /** Matches if field value is null or empty string */
+  blank: {
+    label: 'is blank',
+    fieldTypes: ['integer', 'string', 'datetime', 'boolean']
+  },
+  /** Matches if field value is null */
+  null: {
+    label: 'is null',
+    fieldTypes: ['integer', 'string', 'datetime', 'boolean']
+  },
+  /** Matches if field value is not null */
+  not_null: {
+    label: 'is not null',
+    fieldTypes: ['integer', 'string', 'datetime', 'boolean']
+  },
+  /** Matches if field value is not null */
+  present: {
+    label: 'is present',
+    fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   }
 }

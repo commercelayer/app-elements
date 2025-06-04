@@ -7,7 +7,15 @@ interface PublicResourcesResponse {
       fields: Record<
         string,
         {
-          type: string
+          type:
+            | 'boolean'
+            | 'string'
+            | 'float'
+            | 'datetime'
+            | 'object'
+            | 'integer'
+            | 'array'
+            | 'json'
           desc: string
         }
       >
@@ -29,19 +37,13 @@ type FetchResourceResponse = Record<
     fields: ReadonlyArray<
       readonly [
         string,
-        {
-          type: string
-          desc: string
-        }
+        PublicResourcesResponse['data'][number]['attributes']['fields'][string]
       ]
     >
     relationships: ReadonlyArray<
       readonly [
         string,
-        {
-          desc: string
-          class_name: string
-        }
+        PublicResourcesResponse['data'][number]['attributes']['relationships'][string]
       ]
     >
   }
@@ -163,7 +165,7 @@ export async function atPath(
   obj?: FetchResourceResponse[string]
 ): Promise<{
   path: string
-  field?: { name: string; desc: string; type: string }
+  field?: FetchResourceResponse[string]['fields'][number][1]
   resourcePath: string
   resource?: FetchResourceResponse[string]
   // resource?: {

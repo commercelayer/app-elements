@@ -87,7 +87,25 @@ Default.args = {
               field: 'order.placed_at',
               group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
               value: '2025-05-05T15:17:40.977Z',
-              matcher: 'gteq'
+              matcher: 'eq'
+            },
+            {
+              field: 'order.created_at',
+              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+              value: ['2025-05-05T15:17:40.977Z', '2025-07-05T15:17:40.977Z'],
+              matcher: 'gt_lt'
+            },
+            {
+              field: 'order.total_amount_cents',
+              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+              matcher: 'gt',
+              value: 50
+            },
+            {
+              field: 'order.tax_included',
+              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
+              matcher: 'eq',
+              value: true
             },
             {
               field: 'order.line_items.line_item_options.sku_option.tags.name',
