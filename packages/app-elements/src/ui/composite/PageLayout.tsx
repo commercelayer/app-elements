@@ -5,33 +5,42 @@ import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
 import { ScrollToTop } from '#ui/atoms/ScrollToTop'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
-import { Overlay } from '#ui/internals/Overlay'
+import { Overlay, type OverlayProps } from '#ui/internals/Overlay'
 import { type ReactNode } from 'react'
 
-export interface PageLayoutProps
-  extends Pick<
-      PageHeadingProps,
-      'title' | 'description' | 'navigationButton' | 'toolbar' | 'gap'
-    >,
-    Pick<ContainerProps, 'minHeight'> {
-  /**
-   * Page content
-   */
-  children: ReactNode
-  /**
-   * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
-   * Only if app is standalone mode.
-   */
-  mode?: 'test' | 'live'
-  /**
-   * Renders as overlay
-   */
-  overlay?: boolean
-  /**
-   * Optional prop to enable scroll to top behavior on location change
-   */
-  scrollToTop?: boolean
-}
+export type PageLayoutProps = Pick<
+  PageHeadingProps,
+  'title' | 'description' | 'navigationButton' | 'toolbar' | 'gap'
+> &
+  Pick<ContainerProps, 'minHeight'> & {
+    /**
+     * Page content
+     */
+    children: ReactNode
+    /**
+     * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
+     * Only if app is standalone mode.
+     */
+    mode?: 'test' | 'live'
+    /**
+     * Optional prop to enable scroll to top behavior on location change
+     */
+    scrollToTop?: boolean
+  } & (
+    | {
+        overlay?: false
+      }
+    | {
+        /**
+         * Renders as overlay
+         */
+        overlay: true
+        /**
+         * Footer element to be rendered at the bottom of the overlay.
+         **/
+        overlayFooter?: OverlayProps['footer']
+      }
+  )
 
 export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
   ({
@@ -47,11 +56,14 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     overlay = false,
     isLoading,
     delayMs,
-    ...rest
+    ...props
   }) => {
     const {
       settings: { isInDashboard }
     } = useTokenProvider()
+
+    const { overlayFooter, ...rest } =
+      'overlayFooter' in props ? props : { ...props, overlayFooter: undefined }
 
     const component = (
       <>
@@ -78,7 +90,11 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     )
 
     if (overlay) {
-      return <Overlay backgroundColor='light'>{component}</Overlay>
+      return (
+        <Overlay backgroundColor='light' footer={overlayFooter}>
+          {component}
+        </Overlay>
+      )
     }
 
     return (
