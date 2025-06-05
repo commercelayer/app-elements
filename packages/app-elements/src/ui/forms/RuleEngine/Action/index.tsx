@@ -144,7 +144,7 @@ function ActionValue({
       )
     case 'percentage':
       return (
-        <div className='w-20'>
+        <div className='w-24'>
           <Input
             type='number'
             defaultValue={item.value}
@@ -154,7 +154,7 @@ function ActionValue({
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value`,
-                parseInt(event.currentTarget.value, 10)
+                parseFloat(event.currentTarget.value)
               )
             }}
           />
