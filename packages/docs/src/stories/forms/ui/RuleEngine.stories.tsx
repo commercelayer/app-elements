@@ -32,30 +32,11 @@ const Template: StoryFn<typeof RuleEngine> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'plaintext',
+  name: 'rules',
+  onChange(value) {
+    console.log('onChange', value)
+  },
   defaultValue: JSON.stringify(
-    // {
-    //   rules: [
-    //     {
-    //       id: 'b569f656-8bc2-4253-a19b-56062e7653ab',
-    //       name: 'Discount 3% if paid by credit card',
-    //       conditions: [
-    //         {
-    //           field: 'order.payment_method.payment_source_type',
-    //           matcher: 'eq',
-    //           value: 'credit_cards'
-    //         }
-    //       ],
-    //       actions: [
-    //         {
-    //           type: 'percentage',
-    //           selector: 'order',
-    //           value: 3
-    //         }
-    //       ]
-    //     }
-    //   ]
-    // },
     {
       rules: [
         {

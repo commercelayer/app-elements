@@ -201,8 +201,6 @@ function ConditionMatcher({
   const { setPath } = useRuleEngine()
   const { infos } = useResourcePathInfos(item)
 
-  console.log('fieldInfos !!!! from matcher', infos)
-
   return (
     <InputSelect
       defaultValue={
