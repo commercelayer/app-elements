@@ -45,7 +45,7 @@ Default.args = {
           actions: [
             {
               type: 'percentage',
-              value: 25,
+              value: 25 / 100,
               groups: ['singlevision'],
               selector: 'order'
             },
