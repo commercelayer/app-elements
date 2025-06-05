@@ -40,25 +40,22 @@ Default.args = {
     {
       rules: [
         {
-          id: 'bff-eur',
-          name: 'Bonus-for-Friends Angebot eur',
+          id: 'rule-for-eur-1234',
+          name: 'Rule for EUR',
           actions: [
             {
               type: 'percentage',
               value: 25 / 100,
-              groups: ['singlevision'],
               selector: 'order'
             },
             {
               type: 'fixed_amount',
               value: 5500,
-              groups: ['progressive'],
               selector: 'order'
             },
             {
               type: 'fixed_price',
               value: 2500,
-              groups: ['progressive'],
               selector: 'order'
             }
           ],
@@ -66,120 +63,97 @@ Default.args = {
           conditions: [
             {
               field: 'order.placed_at',
-              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
               value: '2025-05-05T15:17:40.977Z',
-              matcher: 'eq'
-            },
-            {
-              field: 'order.created_at',
-              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-              value: ['2025-05-05T15:17:40.977Z', '2025-07-05T15:17:40.977Z'],
-              matcher: 'gt_lt'
-            },
-            {
-              field: 'order.total_amount_cents',
-              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-              matcher: 'gt',
-              value: 50
+              matcher: 'eq',
+              nested: {
+                condition_logic: 'and',
+                conditions: [
+                  {
+                    field: 'order.created_at',
+                    value: [
+                      '2025-05-05T15:17:40.977Z',
+                      '2025-07-05T15:17:40.977Z'
+                    ],
+                    matcher: 'gt_lt'
+                  },
+                  {
+                    field: 'order.total_amount_cents',
+                    matcher: 'gt',
+                    value: 50
+                  }
+                ]
+              }
             },
             {
               field: 'order.tax_included',
-              group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
               matcher: 'eq',
               value: true
-            },
-            {
-              field: 'order.line_items.line_item_options.sku_option.tags.name',
-              group: 'progressive',
-              value: {
-                in_and: ['progressive']
-              },
-              nested: {
-                conditions: [
-                  {
-                    field: 'order.currency_code',
-                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-                    value: 'EUR',
-                    matcher: 'eq'
-                  },
-                  {
-                    field: 'order.customer.status',
-                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-                    value: 'prospect',
-                    matcher: 'eq'
-                  }
-                ]
-              },
-              matcher: 'array_match'
-            },
-            {
-              field: 'order.line_items.line_item_options.sku_option.tags.name',
-              group: 'singlevision',
-              value: {
-                in_or: ['singlevision']
-              },
-              nested: {
-                conditions: [
-                  {
-                    field: 'order.currency_code',
-                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-                    value: 'EUR',
-                    matcher: 'eq'
-                  },
-                  {
-                    field: 'order.customer.status',
-                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-                    value: 'prospect',
-                    matcher: 'eq'
-                  }
-                ]
-              },
-              matcher: 'array_match'
             }
           ],
           conditions_logic: 'or'
         },
         {
-          id: 'bff-chf',
-          name: 'Bonus-for-Friends Angebot',
-          actions: [
-            {
-              type: 'fixed_amount',
-              value: 3000,
-              groups: ['singlevision'],
-              selector: 'order'
-            }
-          ],
-          priority: 1,
+          id: '6dbbe544-e191-4506-aed5-9d0ca1d25cby',
+          name: 'Free gift some skus',
+          conditions_logic: 'or',
           conditions: [
             {
-              field: 'order.line_items.line_item_options.sku_option.tags.name',
-              group: 'progressive',
-              value: {
-                in_and: ['progressive']
-              },
-              matcher: 'array_match'
-            },
-            {
-              field: 'order.line_items.line_item_options.sku_option.tags.name',
-              group: 'singlevision',
-              value: {
-                in_or: ['singlevision']
-              },
+              field: 'order.line_items.sku.id',
+              matcher: 'eq',
+              value: 'lNdLCKWxlm',
+              group: '1000_2000',
               nested: {
                 conditions: [
                   {
-                    field: 'order.currency_code',
-                    group: 'd539ce1e-096f-4747-a2c1-c2a7794ed5fa',
-                    value: 'CHF',
-                    matcher: 'eq'
+                    field: 'order.subtotal_amount_cents',
+                    matcher: 'gteq_lteq',
+                    group: '1000_2000',
+                    value: [1000, 2000]
                   }
                 ]
-              },
-              matcher: 'array_match'
+              }
+            },
+            {
+              field: 'order.line_items.sku.id',
+              matcher: 'eq',
+              value: 'eNdLCKWxly',
+              group: '2100_3000',
+              nested: {
+                conditions: [
+                  {
+                    field: 'order.subtotal_amount_cents',
+                    matcher: 'gteq_lteq',
+                    group: '2100_3000',
+                    value: [2100, 3000]
+                  }
+                ]
+              }
+            },
+            {
+              field: 'order.line_items.sku.id',
+              matcher: 'eq',
+              value: 'oNdLCKWxlq',
+              group: '3100',
+              nested: {
+                conditions: [
+                  {
+                    field: 'order.subtotal_amount_cents',
+                    matcher: 'gt',
+                    group: '3100',
+                    value: 3100
+                  }
+                ]
+              }
             }
           ],
-          conditions_logic: 'or'
+          actions: [
+            {
+              type: 'percentage',
+              selector: 'order.line_items',
+              value: 1.0,
+              groups: ['1000_2000', '2100_3000', '3100']
+            }
+          ]
         }
       ]
     },
