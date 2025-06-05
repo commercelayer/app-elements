@@ -17,12 +17,31 @@ export interface OverlayProps {
    * Set a gray background color
    */
   backgroundColor?: 'light'
+
+  /**
+   * Set the overlay to full width
+   * @default false
+   */
+  fullWidth?: boolean
+
+  /**
+   * Class name for the overlay container
+   */
+  contentClassName?: string
+
+  /**
+   * Style object for the overlay container
+   */
+  contentStyle?: React.CSSProperties
 }
 
 export const Overlay: React.FC<OverlayProps> = ({
   footer,
   children,
   backgroundColor,
+  contentClassName,
+  contentStyle,
+  fullWidth = false,
   ...rest
 }) => {
   const element = useRef<HTMLDivElement | null>(null)
@@ -45,6 +64,23 @@ export const Overlay: React.FC<OverlayProps> = ({
     [element]
   )
 
+  const content = (
+    <div className={contentClassName} style={contentStyle}>
+      <Spacer bottom={fullWidth ? undefined : '14'}>{children}</Spacer>
+      {footer != null && (
+        <div
+          className={cn('w-full sticky bottom-0 pb-8', {
+            'bg-gray-50': backgroundColor === 'light',
+            'bg-white': backgroundColor == null
+          })}
+          data-testid='overlay-buttonContainer'
+        >
+          {footer}
+        </div>
+      )}
+    </div>
+  )
+
   return createPortal(
     <div
       ref={element}
@@ -61,20 +97,7 @@ export const Overlay: React.FC<OverlayProps> = ({
       data-testid='overlay'
       {...rest}
     >
-      <Container minHeight={false}>
-        <Spacer bottom='14'>{children}</Spacer>
-        {footer != null && (
-          <div
-            className={cn('w-full sticky bottom-0 pb-8', {
-              'bg-gray-50': backgroundColor === 'light',
-              'bg-white': backgroundColor == null
-            })}
-            data-testid='overlay-buttonContainer'
-          >
-            {footer}
-          </div>
-        )}
-      </Container>
+      {fullWidth ? content : <Container minHeight={false}>{content}</Container>}
     </div>,
     document.body
   )
