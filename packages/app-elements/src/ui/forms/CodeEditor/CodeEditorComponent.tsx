@@ -10,6 +10,7 @@ import Editor, {
   type OnMount,
   type OnValidate
 } from '@monaco-editor/react'
+import type { editor } from 'monaco-editor'
 import { forwardRef, useEffect, useRef, useState, type JSX } from 'react'
 import { type JsonValue, type SetOptional } from 'type-fest'
 import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
@@ -59,11 +60,12 @@ export interface CodeEditorProps
   noRounding?: boolean
 }
 
-export type IStandaloneCodeEditor = Parameters<OnMount>[0]
-
 const defer = createDeferred(500)
 
-export const CodeEditor = forwardRef<IStandaloneCodeEditor, CodeEditorProps>(
+export const CodeEditor = forwardRef<
+  editor.IStandaloneCodeEditor,
+  CodeEditorProps
+>(
   (
     {
       feedback,
@@ -86,14 +88,16 @@ export const CodeEditor = forwardRef<IStandaloneCodeEditor, CodeEditorProps>(
   ): JSX.Element => {
     const monaco = useMonaco()
     const disposeCompletionItemProvider = useRef<() => void>(null)
-    const [editor, setEditor] = useState<IStandaloneCodeEditor | null>(null)
+    const [editor, setEditor] = useState<editor.IStandaloneCodeEditor | null>(
+      null
+    )
     const {
       settings: { domain }
     } = useTokenProvider()
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
       if (editor != null && ref != null && typeof ref === 'object') {
-        ;(ref as React.RefObject<IStandaloneCodeEditor>).current = editor
+        ;(ref as React.RefObject<editor.IStandaloneCodeEditor>).current = editor
       }
 
       setEditor(editor)
