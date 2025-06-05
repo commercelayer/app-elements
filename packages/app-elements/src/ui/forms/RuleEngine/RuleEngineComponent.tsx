@@ -27,6 +27,13 @@ export interface RuleEngineProps
    * @default false
    */
   defaultCodeEditorVisible?: boolean
+
+  /**
+   * Triggered when the editor value changes.
+   * @param value The new editor value.
+   * @returns
+   */
+  onChange?: (value: Schema) => void
 }
 
 const emptyRule: Schema = {
@@ -85,13 +92,13 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
   const [forcedRender, setForcedRender] = useState(0)
 
-  console.log('re-render', value)
-
   useEffect(
     function updateCodeEditor() {
       if (!isEqual(parseValue(codeEditorRef.current?.getValue()), value)) {
         codeEditorRef.current?.setValue(JSON.stringify(value, null, 2))
       }
+
+      props.onChange?.(value)
     },
     [value]
   )
@@ -99,12 +106,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const handleCodeEditorChange = useCallback(
     (newValueAsString: string) => {
       const newValue = parseValue(newValueAsString)
-      console.log(
-        newValue,
-        value,
-        isParsable(newValueAsString),
-        isEqual(newValue, value)
-      )
+
       if (
         codeEditorRef.current != null &&
         codeEditorRef.current.hasTextFocus() &&
