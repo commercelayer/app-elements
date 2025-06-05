@@ -112,20 +112,24 @@ function ActionValue({
   }
 
   switch (item.type) {
-    case 'buy_x_pay_y':
+    case 'buy_x_pay_y': {
       return (
         <div className='w-36'>
           <Input type='number' defaultValue={JSON.stringify(item.value)} />
         </div>
       )
-    case 'every_x_discount_y':
+    }
+
+    case 'every_x_discount_y': {
       return (
         <div className='w-36'>
           <Input type='number' defaultValue={JSON.stringify(item.value)} />
         </div>
       )
+    }
+
     case 'fixed_amount':
-    case 'fixed_price':
+    case 'fixed_price': {
       return (
         <div className='w-36'>
           <Input
@@ -142,12 +146,19 @@ function ActionValue({
           />
         </div>
       )
-    case 'percentage':
+    }
+
+    case 'percentage': {
+      const percentageValue = (item.value * 100).toFixed(2)
       return (
         <div className='w-24'>
           <Input
             type='number'
-            defaultValue={item.value * 100}
+            defaultValue={
+              percentageValue.endsWith('.00')
+                ? percentageValue.slice(0, -3)
+                : percentageValue
+            }
             min={0}
             max={100}
             suffix='%'
@@ -160,7 +171,10 @@ function ActionValue({
           />
         </div>
       )
-    default:
+    }
+
+    default: {
       return expectNever(item)
+    }
   }
 }
