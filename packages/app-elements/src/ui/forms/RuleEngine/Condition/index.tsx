@@ -156,7 +156,8 @@ function ConditionItem({
         <div className='flex-14'>
           <ConditionMatcher item={item} pathPrefix={pathPrefix} />
         </div>
-
+      </div>
+      <div className='flex items-center justify-between gap-4 pt-2'>
         {/* Condition value */}
         <div className='flex-1'>
           <ConditionValue item={item} pathPrefix={pathPrefix} />
@@ -289,6 +290,7 @@ function ConditionValue({
   const itemWithValue = item as ItemWithValue
 
   let componentType:
+    | 'arrayMatch'
     | 'boolean'
     | 'date'
     | 'dateRange'
@@ -379,6 +381,7 @@ function ConditionValue({
 
     case 'array_match': {
       // this matcher expects an object with conditions
+      componentType = 'arrayMatch'
       break
     }
 
@@ -435,6 +438,18 @@ function ConditionValue({
           onChange={(value) => {
             setPath(`${pathPrefix}.value`, value)
           }}
+        />
+      )
+    }
+
+    case 'arrayMatch': {
+      return (
+        <ArrayMatch
+          value={itemWithValue.value}
+          pathPrefix={`${pathPrefix}.value`}
+          // onChange={(value) => {
+          //   setPath(`${pathPrefix}.value`, value)
+          // }}
         />
       )
     }
@@ -736,4 +751,125 @@ const matcherDictionary: MatcherDictionary = {
     label: 'is present',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   }
+}
+
+type ArrayMatcherDictionary = Record<
+  keyof Extract<ItemWithValue['value'], Record<string, unknown>>,
+  {
+    label: string
+  }
+>
+
+const arrayMatcherDictionary: ArrayMatcherDictionary = {
+  in_and: {
+    label: 'and'
+  },
+  in_or: {
+    label: 'or'
+  },
+  not_in_and: {
+    label: 'not and'
+  },
+  not_in_or: {
+    label: 'not or'
+  }
+}
+
+function ArrayMatch({
+  value,
+  pathPrefix
+}: {
+  value: ItemWithValue['value']
+  pathPrefix: string
+}): React.JSX.Element {
+  if (typeof value !== 'object' || Array.isArray(value) || value === null) {
+    value = {
+      in_and: []
+    }
+  }
+
+  return (
+    <div>
+      {Object.entries(value).map(([operation, operationValue], index) => {
+        return (
+          <ArrayMatchItem
+            pathPrefix={pathPrefix}
+            defaultValue={operationValue}
+            initialMatcher={operation as keyof ArrayMatcherDictionary}
+            key={`${pathPrefix}.${index}`}
+          />
+        )
+      })}
+    </div>
+  )
+}
+
+function ArrayMatchItem({
+  initialMatcher,
+  defaultValue,
+  pathPrefix
+}: {
+  initialMatcher: keyof ArrayMatcherDictionary
+  defaultValue: Extract<ItemWithValue['value'], any[]>
+  pathPrefix: string
+}): React.JSX.Element {
+  const [prevMatcher, setPrevMatcher] =
+    useState<keyof ArrayMatcherDictionary>(initialMatcher)
+  const [matcher, setMatcher] =
+    useState<keyof ArrayMatcherDictionary>(initialMatcher)
+  const [value, setValue] =
+    useState<Extract<ItemWithValue['value'], any[]>>(defaultValue)
+  const { setPath } = useRuleEngine()
+
+  useEffect(() => {
+    if (prevMatcher !== matcher) {
+      setPath(`${pathPrefix}.${prevMatcher}`, null)
+      setPrevMatcher(matcher)
+    }
+
+    setPath(`${pathPrefix}.${matcher}`, value)
+  }, [matcher, value, setPath])
+
+  return (
+    <div className='flex gap-2 last-of-type:mt-2'>
+      <div className='flex-shrink-0'>
+        <InputSelect
+          defaultValue={[
+            { value: matcher, label: arrayMatcherDictionary[matcher].label }
+          ]}
+          initialValues={Object.entries(arrayMatcherDictionary).map(
+            ([value, { label }]) => ({
+              value,
+              label
+            })
+          )}
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setMatcher(selected.value as keyof ArrayMatcherDictionary)
+            }
+          }}
+        />
+      </div>
+      <div className='flex-grow'>
+        <InputSelect
+          isMulti
+          isCreatable
+          defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
+            value: v,
+            label: v.toString()
+          }))}
+          initialValues={[]}
+          onSelect={(selected) => {
+            if (isMultiValueSelected(selected)) {
+              setValue(
+                selected.map((s) =>
+                  typeof s.value === 'boolean' ? s.value.toString() : s.value
+                )
+              )
+            }
+          }}
+        />
+      </div>
+    </div>
+  )
 }
