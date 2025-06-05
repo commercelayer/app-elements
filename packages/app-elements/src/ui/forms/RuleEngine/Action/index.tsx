@@ -147,14 +147,14 @@ function ActionValue({
         <div className='w-24'>
           <Input
             type='number'
-            defaultValue={item.value}
+            defaultValue={item.value * 100}
             min={0}
             max={100}
             suffix='%'
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value`,
-                parseFloat(event.currentTarget.value)
+                parseFloat(event.currentTarget.value) / 100
               )
             }}
           />
