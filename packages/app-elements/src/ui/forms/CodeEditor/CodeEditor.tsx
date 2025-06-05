@@ -1,9 +1,7 @@
 import { SkeletonItem } from '#ui/atoms/Skeleton'
+import type { editor } from 'monaco-editor'
 import { forwardRef, type JSX, lazy, Suspense } from 'react'
-import type {
-  CodeEditorProps,
-  IStandaloneCodeEditor
-} from './CodeEditorComponent'
+import type { CodeEditorProps } from './CodeEditorComponent'
 
 const LazyCodeEditor = lazy(
   async () =>
@@ -12,14 +10,15 @@ const LazyCodeEditor = lazy(
     }))
 )
 
-export const CodeEditor = forwardRef<IStandaloneCodeEditor, CodeEditorProps>(
-  (props, ref): JSX.Element => {
-    return (
-      <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
-        <LazyCodeEditor {...props} ref={ref} />
-      </Suspense>
-    )
-  }
-)
+export const CodeEditor = forwardRef<
+  editor.IStandaloneCodeEditor,
+  CodeEditorProps
+>((props, ref): JSX.Element => {
+  return (
+    <Suspense fallback={<SkeletonItem className='h-11 w-full' />}>
+      <LazyCodeEditor {...props} ref={ref} />
+    </Suspense>
+  )
+})
 
 CodeEditor.displayName = 'CodeEditor'
