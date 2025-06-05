@@ -20,7 +20,14 @@ type Schema = SetRequired<RulesForOrderContext, 'rules'>
 export interface RuleEngineProps
   extends Omit<InputWrapperBaseProps, 'label' | 'inline'>,
     SetOptional<Pick<HTMLInputElement, 'id' | 'name'>, 'id' | 'name'>,
-    Pick<CodeEditorProps, 'defaultValue' | 'value'> {}
+    Pick<CodeEditorProps, 'defaultValue' | 'value'> {
+  /**
+   * Default value for the CodeEditor visibility.
+   * If not provided, the CodeEditor will be hidden by default.
+   * @default false
+   */
+  defaultCodeEditorVisible?: boolean
+}
 
 const emptyRule: Schema = {
   rules: []
@@ -71,7 +78,9 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
     setValue
   } = useRuleEngine()
 
-  const [editorVisible, setEditorVisible] = useState(false)
+  const [editorVisible, setEditorVisible] = useState(
+    props.defaultCodeEditorVisible ?? false
+  )
   const selectedRule = value.rules[selectedRuleIndex]
   const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
   const [forcedRender, setForcedRender] = useState(0)
