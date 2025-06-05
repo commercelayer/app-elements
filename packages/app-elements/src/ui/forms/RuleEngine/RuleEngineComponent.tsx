@@ -98,7 +98,13 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
         codeEditorRef.current?.setValue(JSON.stringify(value, null, 2))
       }
 
-      props.onChange?.(value)
+      props.onChange?.({
+        ...value,
+        rules: value.rules.map((rule) => ({
+          ...rule,
+          id: `${rule.name.replace(/\s+/g, '-').toLowerCase()}-${window.crypto.randomUUID()}`
+        }))
+      })
     },
     [value]
   )
@@ -191,18 +197,6 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               defaultValue={JSON.stringify(value, null, 2)}
               noRounding
               onChange={handleCodeEditorChange}
-              // onChange={(newValueAsString) => {
-              //   const newValue = parseValue(newValueAsString)
-              //   console.log(
-              //     newValue,
-              //     value,
-              //     isParsable(newValueAsString),
-              //     isEqual(newValue, value))
-              //   if (isParsable(newValueAsString) && !isEqual(newValue, value)) {
-              //     setValue({ ...newValue })
-              //     setForcedRender((prev) => prev + 1)
-              //   }
-              // }}
             />
           </div>
         )}

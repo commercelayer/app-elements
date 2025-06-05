@@ -38,21 +38,36 @@ function ruleEngineReducer(state: State, action: Action): State {
       } else {
         set(newValue, action.path, action.value)
       }
+
       return {
         ...state,
-        value: newValue
+        value: {
+          ...newValue,
+          rules: newValue.rules.map((rule) => {
+            const { id, ...ruleWithoutId } = rule
+            return ruleWithoutId
+          })
+        }
       }
     }
+
     case 'SET_SELECTED_RULE_INDEX':
       return {
         ...state,
         selectedRuleIndex: action.index
       }
+
     case 'SET_VALUE':
       if (!isEqual(state.value, action.value)) {
         return {
           ...state,
-          value: action.value
+          value: {
+            ...action.value,
+            rules: action.value.rules.map((rule) => {
+              const { id, ...ruleWithoutId } = rule
+              return ruleWithoutId
+            })
+          }
         }
       }
       return state
