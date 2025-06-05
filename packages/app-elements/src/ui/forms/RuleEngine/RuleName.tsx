@@ -22,9 +22,7 @@ export function RuleName(): React.JSX.Element {
       onInput={(event) => {
         const target = event.currentTarget
         const value = target.innerText.replace(/[\n\s]+/g, ' ').trim()
-        const id = `${window.crypto.randomUUID()}--${value.replace(/\s+/g, '-').toLowerCase()}`
         setPath(`rules.${selectedRuleIndex}.name`, value)
-        setPath(`rules.${selectedRuleIndex}.id`, id)
       }}
       onKeyDown={(event) => {
         if (event.key === 'Enter') {
