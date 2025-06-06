@@ -272,6 +272,7 @@ function ConditionValue({
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { infos } = useResourcePathInfos(item)
+  const pathKey = `${pathPrefix}.value`
 
   if (item == null) {
     return null
@@ -401,7 +402,7 @@ function ConditionValue({
           showTimeSelect
           placeholder='Enter value'
           onChange={(date) => {
-            setPath(`${pathPrefix}.value`, date?.toJSON())
+            setPath(pathKey, date?.toJSON())
           }}
         />
       )
@@ -434,7 +435,7 @@ function ConditionValue({
         <NumberRange
           value={itemWithValue.value}
           onChange={(value) => {
-            setPath(`${pathPrefix}.value`, value)
+            setPath(pathKey, value)
           }}
         />
       )
@@ -446,7 +447,7 @@ function ConditionValue({
           value={itemWithValue.value}
           pathPrefix={`${pathPrefix}.value`}
           // onChange={(value) => {
-          //   setPath(`${pathPrefix}.value`, value)
+          //   setPath(pathKey, value)
           // }}
         />
       )
@@ -517,7 +518,7 @@ function ConditionValue({
               : false
           }
           onChange={(event) => {
-            setPath(`${pathPrefix}.value`, event.currentTarget.checked)
+            setPath(pathKey, event.currentTarget.checked)
           }}
         />
       )
@@ -535,7 +536,7 @@ function ConditionValue({
           }
           placeholder='Enter value'
           onChange={(event) => {
-            setPath('value', event.currentTarget.value)
+            setPath(pathKey, event.currentTarget.value)
           }}
         />
       )
@@ -562,28 +563,32 @@ function NumberRange({
   )
 
   return (
-    <div className='flex items-center gap-2'>
-      <Input
-        type='number'
-        placeholder='Min'
-        value={min ?? ''}
-        onChange={(event) => {
-          const newValue = parseInt(event.currentTarget.value, 10)
-          setMin(isNaN(newValue) ? null : newValue)
-          onChange([isNaN(newValue) ? null : newValue, max])
-        }}
-      />
+    <div className='flex items-center gap-4'>
+      <div className='flex-grow'>
+        <Input
+          type='number'
+          placeholder='Min'
+          value={min ?? ''}
+          onChange={(event) => {
+            const newValue = parseInt(event.currentTarget.value, 10)
+            setMin(isNaN(newValue) ? null : newValue)
+            onChange([isNaN(newValue) ? null : newValue, max])
+          }}
+        />
+      </div>
       <span className='text-gray-500'>to</span>
-      <Input
-        type='number'
-        placeholder='Max'
-        value={max ?? ''}
-        onChange={(event) => {
-          const newValue = parseInt(event.currentTarget.value, 10)
-          setMax(isNaN(newValue) ? null : newValue)
-          onChange([min, isNaN(newValue) ? null : newValue])
-        }}
-      />
+      <div className='flex-grow'>
+        <Input
+          type='number'
+          placeholder='Max'
+          value={max ?? ''}
+          onChange={(event) => {
+            const newValue = parseInt(event.currentTarget.value, 10)
+            setMax(isNaN(newValue) ? null : newValue)
+            onChange([min, isNaN(newValue) ? null : newValue])
+          }}
+        />
+      </div>
     </div>
   )
 }
