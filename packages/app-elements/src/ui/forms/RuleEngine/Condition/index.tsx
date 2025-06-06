@@ -7,7 +7,6 @@ import {
   isMultiValueSelected,
   isSingleValueSelected
 } from '#ui/forms/InputSelect'
-import { InputSwitch } from '#ui/forms/InputSwitch'
 import classNames from 'classnames'
 import { isValid, parseISO } from 'date-fns'
 import { useEffect, useState } from 'react'
@@ -127,7 +126,7 @@ function ConditionItem({
 
   return (
     <div className='bg-gray-50 rounded-md p-2'>
-      <div className='flex items-center justify-between gap-4'>
+      <div className='flex items-center justify-between gap-2'>
         {/* Condition target */}
         <div className='flex-1'>
           {/* <InputSelect
@@ -157,7 +156,7 @@ function ConditionItem({
           <ConditionMatcher item={item} pathPrefix={pathPrefix} />
         </div>
       </div>
-      <div className='flex items-center justify-between gap-4 pt-2'>
+      <div className='pt-2'>
         {/* Condition value */}
         <div className='flex-1'>
           <ConditionValue item={item} pathPrefix={pathPrefix} />
@@ -457,6 +456,7 @@ function ConditionValue({
       return (
         <InputSelect
           isMulti
+          isClearable={false}
           isCreatable
           defaultValue={
             Array.isArray(itemWithValue.value)
@@ -511,14 +511,23 @@ function ConditionValue({
 
     case 'boolean': {
       return (
-        <InputSwitch
-          defaultChecked={
+        <InputSelect
+          defaultValue={
             typeof itemWithValue.value === 'boolean'
-              ? itemWithValue.value
-              : false
+              ? {
+                  label: itemWithValue.value ? 'Yes' : 'No',
+                  value: itemWithValue.value
+                }
+              : undefined
           }
-          onChange={(event) => {
-            setPath(pathKey, event.currentTarget.checked)
+          initialValues={[
+            { label: 'Yes', value: true },
+            { label: 'No', value: false }
+          ]}
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath(pathKey, selected.value)
+            }
           }}
         />
       )
@@ -576,7 +585,7 @@ function NumberRange({
           }}
         />
       </div>
-      <span className='text-gray-500'>to</span>
+      <span className='text-gray-300'>to</span>
       <div className='flex-grow'>
         <Input
           type='number'
@@ -652,12 +661,12 @@ const matcherDictionary: MatcherDictionary = {
    * @field String
    * @value String
    */
-  matches: { label: 'matches', fieldTypes: ['string'] },
+  matches: { label: 'matches regex', fieldTypes: ['string'] },
   /** Matches if field value does not match regex pattern
    * @field String
    * @value String
    */
-  does_not_match: { label: 'does not match', fieldTypes: ['string'] },
+  does_not_match: { label: 'does not match regex', fieldTypes: ['string'] },
   /** Matches if field value starts with provided string
    * @field String
    * @value String
@@ -755,6 +764,15 @@ const matcherDictionary: MatcherDictionary = {
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   }
 }
+
+console.log(
+  Object.fromEntries(
+    Object.entries(matcherDictionary).map(([value, { label }]) => [
+      value,
+      label
+    ])
+  )
+)
 
 type ArrayMatcherDictionary = Record<
   keyof Extract<ItemWithValue['value'], Record<string, unknown>>,

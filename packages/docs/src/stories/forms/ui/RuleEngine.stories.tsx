@@ -129,6 +129,11 @@ Default.args = {
               value: 'draft'
             },
             {
+              field: 'order.customer_email',
+              matcher: 'matches',
+              value: '.*@example.com'
+            },
+            {
               field: 'order.currency_code',
               value: 'EUR',
               matcher: 'eq',
