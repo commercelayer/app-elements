@@ -50,49 +50,46 @@ function ActionItem({
 
   return (
     <div className='mb-4 last:mb-0'>
-      <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
-        {/* Action type */}
-        <div className='flex-1'>
-          <InputSelect
-            defaultValue={
-              item != null
-                ? {
-                    label: typeDictionary[item.type],
-                    value: item.type
-                  }
-                : undefined
-            }
-            initialValues={Object.entries(typeDictionary).map(
-              ([value, label]) => ({ value, label })
-            )}
-            onSelect={(selected) => {
-              if (isSingleValueSelected(selected)) {
-                setPath(`${pathPrefix}.type`, selected.value)
+      <div className='bg-gray-50 rounded-md p-2'>
+        <div className='flex items-center justify-between gap-2'>
+          {/* Action type */}
+          <div className='flex-1'>
+            <InputSelect
+              defaultValue={
+                item != null
+                  ? {
+                      label: typeDictionary[item.type],
+                      value: item.type
+                    }
+                  : undefined
               }
-            }}
-          />
-        </div>
+              initialValues={Object.entries(typeDictionary).map(
+                ([value, label]) => ({ value, label })
+              )}
+              onSelect={(selected) => {
+                if (isSingleValueSelected(selected)) {
+                  setPath(`${pathPrefix}.type`, selected.value)
+                }
+              }}
+            />
+          </div>
 
-        {/* Action value */}
-        <ActionValue item={item} pathPrefix={pathPrefix} />
+          {/* Action value */}
+          <ActionValue item={item} pathPrefix={pathPrefix} />
 
-        {/* ON */}
-        <div className='text-black font-bold text-sm'>ON</div>
+          {/* ON */}
+          <div className='text-black font-bold text-sm'>ON</div>
 
-        {/* Action target */}
-        <div className='flex-1'>
-          {/* <InputSelect
-            defaultValue={{ label: 'Line items', value: 'Line items' }}
-            initialValues={[{ value: 'Line items', label: 'Line items' }]}
-            onSelect={() => { }}
-          /> */}
-          <Input
-            type='text'
-            defaultValue={item != null ? item.selector : undefined}
-            onChange={(event) => {
-              setPath(`${pathPrefix}.selector`, event.currentTarget.value)
-            }}
-          />
+          {/* Action target */}
+          <div className='flex-1'>
+            <Input
+              type='text'
+              defaultValue={item != null ? item.selector : undefined}
+              onChange={(event) => {
+                setPath(`${pathPrefix}.selector`, event.currentTarget.value)
+              }}
+            />
+          </div>
         </div>
       </div>
     </div>
