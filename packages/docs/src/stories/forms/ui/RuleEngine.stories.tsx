@@ -40,22 +40,46 @@ Default.args = {
     {
       rules: [
         {
-          id: 'rule-for-eur-1234',
           name: 'Rule for EUR',
           actions: [
             {
               type: 'percentage',
-              value: 25 / 100,
+              value: 0.23,
               selector: 'order'
             },
             {
               type: 'fixed_amount',
               value: 5500,
-              selector: 'order'
+              selector: 'order',
+              limit: {
+                sort: {
+                  attribute: 'order.line_items',
+                  direction: 'asc'
+                },
+                value: 4
+              }
             },
             {
               type: 'fixed_price',
               value: 2500,
+              selector: 'order'
+            },
+            {
+              type: 'buy_x_pay_y',
+              value: {
+                x: 3,
+                y: 2,
+                result_item_limit: 3
+              },
+              selector: 'order'
+            },
+            {
+              type: 'every_x_discount_y',
+              value: {
+                x: 3,
+                y: 2,
+                attribute: 'sku_count'
+              },
               selector: 'order'
             }
           ],
@@ -64,36 +88,65 @@ Default.args = {
             {
               field: 'order.placed_at',
               value: '2025-05-05T15:17:40.977Z',
-              matcher: 'eq',
-              nested: {
-                condition_logic: 'and',
-                conditions: [
-                  {
-                    field: 'order.created_at',
-                    value: [
-                      '2025-05-05T15:17:40.977Z',
-                      '2025-07-05T15:17:40.977Z'
-                    ],
-                    matcher: 'gt_lt'
-                  },
-                  {
-                    field: 'order.total_amount_cents',
-                    matcher: 'gt',
-                    value: 50
-                  }
-                ]
-              }
+              matcher: 'eq'
+            },
+            {
+              field: 'order.created_at',
+              value: ['2025-05-05T15:17:40.977Z', '2025-07-05T15:17:40.977Z'],
+              matcher: 'gt_lt'
+            },
+            {
+              field: 'order.total_amount_cents',
+              value: [5000, 7000],
+              matcher: 'gt_lt'
+            },
+            {
+              field: 'order.total_amount_cents',
+              matcher: 'gt',
+              value: 50
             },
             {
               field: 'order.tax_included',
               matcher: 'eq',
               value: true
+            },
+            {
+              field: 'order.tags.name',
+              matcher: 'array_match',
+              value: {
+                in_and: ['discount', 'summer'],
+                not_in_or: ['accessories']
+              }
+            },
+            {
+              field: 'order.tags.name',
+              matcher: 'is_in',
+              value: ['discount', 'summer']
+            },
+            {
+              field: 'order.status',
+              matcher: 'eq',
+              value: 'draft'
+            },
+            {
+              field: 'order.currency_code',
+              value: 'EUR',
+              matcher: 'eq',
+              nested: {
+                conditions_logic: 'and',
+                conditions: [
+                  {
+                    field: 'order.status',
+                    matcher: 'eq',
+                    value: 'draft'
+                  }
+                ]
+              }
             }
           ],
           conditions_logic: 'or'
         },
         {
-          id: '6dbbe544-e191-4506-aed5-9d0ca1d25cby',
           name: 'Free gift some skus',
           conditions_logic: 'or',
           conditions: [
@@ -150,7 +203,7 @@ Default.args = {
             {
               type: 'percentage',
               selector: 'order.line_items',
-              value: 1.0,
+              value: 1,
               groups: ['1000_2000', '2100_3000', '3100']
             }
           ]
