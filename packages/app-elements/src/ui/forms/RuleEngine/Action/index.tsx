@@ -49,7 +49,7 @@ function ActionItem({
   const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
 
   return (
-    <div className='mb-6 last:mb-0'>
+    <div className='mb-4 last:mb-0'>
       <div className='bg-gray-50 rounded-md p-2 flex items-center justify-between gap-4'>
         {/* Action type */}
         <div className='flex-1'>
