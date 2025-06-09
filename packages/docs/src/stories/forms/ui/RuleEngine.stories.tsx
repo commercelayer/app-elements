@@ -152,6 +152,83 @@ Default.args = {
           conditions_logic: 'or'
         },
         {
+          name: 'Rule for EUR',
+          actions: [
+            {
+              type: 'percentage',
+              value: 0.2,
+              selector: 'order'
+            }
+          ],
+          priority: 0,
+          conditions: [
+            {
+              field: 'order.customer.metadata.date_of_birth',
+              value: '2025-05-05T15:17:40.977Z',
+              matcher: 'eq'
+            },
+            {
+              field: 'order.customer.metadata.date_between',
+              value: ['2025-05-05T15:17:40.977Z', '2025-07-05T15:17:40.977Z'],
+              matcher: 'gt_lt'
+            },
+            {
+              field: 'order.customer.metadata.number_range',
+              value: [5000, 7000],
+              matcher: 'gt_lt'
+            },
+            {
+              field: 'order.customer.metadata.number',
+              matcher: 'gt',
+              value: 50
+            },
+            {
+              field: 'order.customer.metadata.boolean',
+              matcher: 'eq',
+              value: true
+            },
+            {
+              field: 'order.customer.metadata.tags',
+              matcher: 'array_match',
+              value: {
+                in_and: ['discount', 'summer'],
+                not_in_or: ['accessories']
+              }
+            },
+            {
+              field: 'order.customer.metadata.tags',
+              matcher: 'is_in',
+              value: ['discount', 'summer']
+            },
+            {
+              field: 'order.customer.metadata.status',
+              matcher: 'eq',
+              value: 'draft'
+            },
+            {
+              field: 'order.customer.metadata.email',
+              matcher: 'matches',
+              value: '.*@example.com'
+            },
+            {
+              field: 'order.customer.metadata.currency_code',
+              value: 'EUR',
+              matcher: 'eq',
+              nested: {
+                conditions_logic: 'and',
+                conditions: [
+                  {
+                    field: 'order.customer.metadata.status',
+                    matcher: 'eq',
+                    value: 'draft'
+                  }
+                ]
+              }
+            }
+          ],
+          conditions_logic: 'or'
+        },
+        {
           name: 'Free gift some skus',
           conditions_logic: 'or',
           conditions: [
@@ -210,6 +287,25 @@ Default.args = {
               selector: 'order.line_items',
               value: 1,
               groups: ['1000_2000', '2100_3000', '3100']
+            }
+          ]
+        },
+        {
+          name: 'Discount 5% on items that have a big stock',
+          actions: [
+            {
+              type: 'percentage',
+              value: 0.05,
+              groups: ['discountable-items'],
+              selector: 'order.line_items'
+            }
+          ],
+          conditions: [
+            {
+              field: 'order.line_items.sku.inventory.quantity',
+              group: 'discountable-items',
+              value: 100,
+              matcher: 'gteq'
             }
           ]
         }

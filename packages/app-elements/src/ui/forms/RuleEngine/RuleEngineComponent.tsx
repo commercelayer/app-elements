@@ -138,22 +138,24 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
           className={`shrink-0 basis-1/2 overflow-x-auto relative flex flex-col ${editorVisible ? '' : 'grow'}`}
         >
           <header className='w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center'>
-            {value.rules.map((rule, ruleIndex) => {
-              const label = `Rule #${(ruleIndex + 1).toString().padStart(2, '0')}`
-              return (
-                <button
-                  key={rule.id}
-                  className={classNames('font-bold', {
-                    'text-black': selectedRuleIndex === ruleIndex
-                  })}
-                  onClick={() => {
-                    setSelectedRuleIndex(ruleIndex)
-                  }}
-                >
-                  {label}
-                </button>
-              )
-            })}
+            <div className='flex items-center gap-4 flex-wrap'>
+              {value.rules.map((rule, ruleIndex) => {
+                const label = `#${(ruleIndex + 1).toString().padStart(2, '0')}`
+                return (
+                  <button
+                    key={rule.id}
+                    className={classNames('font-bold', {
+                      'text-black': selectedRuleIndex === ruleIndex
+                    })}
+                    onClick={() => {
+                      setSelectedRuleIndex(ruleIndex)
+                    }}
+                  >
+                    {label}
+                  </button>
+                )
+              })}
+            </div>
 
             <div className='flex-grow flex justify-end'>
               <button
