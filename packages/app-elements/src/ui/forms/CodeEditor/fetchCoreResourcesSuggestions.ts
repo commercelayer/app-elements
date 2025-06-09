@@ -67,29 +67,59 @@ export const fetchResources = (() => {
     }
 
     cache = await fetch('https://core.commercelayer.io/api/public/resources')
-      .then<{
-        data: Array<{
-          id: string
-          type: string
-          attributes: {
-            fields: Record<
-              string,
+      .then<PublicResourcesResponse>(async (res) => await res.json())
+      .then<PublicResourcesResponse>((json) => {
+        return {
+          data: json.data
+            .concat([
               {
-                type: string
-                desc: string
+                id: 'inventory',
+                type: 'resources',
+                attributes: {
+                  fields: {
+                    available: {
+                      type: 'boolean',
+                      desc: 'Indicates if the sku is available.'
+                    },
+                    quantity: {
+                      type: 'integer',
+                      desc: 'The available stock quantity.'
+                    }
+                  },
+                  relationships: {}
+                }
               }
-            >
-            relationships: Record<
-              string,
-              {
-                type: string
-                desc: string
-                class_name: string
+            ])
+            .map((item) => {
+              if (item.id === 'sku') {
+                delete item.attributes.fields.inventory
+
+                return {
+                  ...item,
+                  attributes: {
+                    ...item.attributes,
+                    relationships: {
+                      ...item.attributes.relationships,
+                      inventory: {
+                        type: 'has_one',
+                        desc: 'The associated inventory.',
+                        required: 'required',
+                        creatable: true,
+                        updatable: true,
+                        filterable: true,
+                        sortable: true,
+                        parent_resource: 'Api::SkuResource',
+                        class_name: 'Inventory'
+                      }
+                    }
+                  }
+                }
               }
-            >
-          }
-        }>
-      }>(async (res) => await res.json())
+
+              return item
+            })
+        }
+      })
       .then<FetchResourceResponse>(({ data: resources }) =>
         resources.reduce((acc, cv, index, list) => {
           return {

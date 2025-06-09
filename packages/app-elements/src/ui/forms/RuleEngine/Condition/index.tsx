@@ -196,27 +196,41 @@ function ConditionMatcher({
 }: {
   item: SchemaConditionItem | null
   pathPrefix: string
-}): React.JSX.Element {
+}): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { infos } = useResourcePathInfos(item)
+
+  if (item == null || infos == null) {
+    return null
+  }
 
   return (
     <InputSelect
       defaultValue={
-        item != null
+        item != null && infos != null
           ? {
-              label: matcherDictionary[item.matcher]?.label,
+              label:
+                matcherDictionary.find((dict) => {
+                  return (
+                    dict.matcher === item.matcher &&
+                    ((infos?.field?.type != null &&
+                      dict.fieldTypes.includes(infos.field.type)) ||
+                      infos.field?.type == null)
+                  )
+                })?.label ?? item.matcher,
               value: item.matcher
             }
           : undefined
       }
-      initialValues={Object.entries(matcherDictionary)
-        .filter(([_value, { fieldTypes }]) => {
+      initialValues={matcherDictionary
+        .filter(({ fieldTypes, visible }) => {
           return (
-            infos?.field?.type != null && fieldTypes.includes(infos.field.type)
+            infos?.field?.type != null &&
+            fieldTypes.includes(infos.field.type) &&
+            visible !== false
           )
         })
-        .map(([value, { label }]) => ({ value, label }))}
+        .map(({ matcher, label }) => ({ value: matcher, label }))}
       onSelect={(selected) => {
         if (isSingleValueSelected(selected)) {
           setPath(`${pathPrefix}.matcher`, selected.value)
@@ -419,6 +433,7 @@ function ConditionValue({
       return (
         <InputDateRange
           value={value}
+          showTimeSelect
           onChange={(dates) => {
             setPath(
               `${pathPrefix}.value`,
@@ -602,177 +617,261 @@ function NumberRange({
   )
 }
 
-type MatcherDictionary = Record<
-  SchemaConditionItem['matcher'],
-  {
-    label: string
-    fieldTypes: Array<
-      NonNullable<Awaited<ReturnType<typeof atPath>>['field']>['type']
-    >
-  }
->
+type MatcherDictionary = Array<{
+  matcher: SchemaConditionItem['matcher']
+  visible?: boolean
+  label: string
+  fieldTypes: Array<
+    NonNullable<Awaited<ReturnType<typeof atPath>>['field']>['type']
+  >
+}>
 
-const matcherDictionary: MatcherDictionary = {
-  /** Matches if field value equals provided value
-   * @field Integer, String, Datetime, Boolean
-   * @value Integer, String, Datetime, Boolean
-   */
-  eq: {
+const matcherDictionary: MatcherDictionary = [
+  {
+    /** Matches if field value equals provided value
+     * @field Integer, String, Datetime, Boolean
+     * @value Integer, String, Datetime, Boolean
+     */
+    matcher: 'eq',
     label: 'equals',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   },
-  /** Matches if field value is not equal to provided value
-   * @field Integer, String, Datetime, Boolean
-   * @value Integer, String, Datetime, Boolean
-   */
-  not_eq: {
+  {
+    /** Matches if field value is not equal to provided value
+     * @field Integer, String, Datetime, Boolean
+     * @value Integer, String, Datetime, Boolean
+     */
+    matcher: 'not_eq',
     label: 'not equals',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   },
-  /** Matches if field value is less than provided value
-   * @field Integer, Datetime
-   * @value Integer, Datetime
-   */
-  lt: { label: 'less than', fieldTypes: ['integer', 'datetime'] },
-  /** Matches if field value is less than or equal to provided value
-   * @field Integer, Datetime
-   * @value Integer, Datetime
-   */
-  lteq: { label: 'less than or equal to', fieldTypes: ['integer', 'datetime'] },
-  /** Matches if field value is greater than provided value
-   * @field Integer, Datetime
-   * @value Integer, Datetime
-   */
-  gt: { label: 'greater than', fieldTypes: ['integer', 'datetime'] },
-  /** Matches if field value is greater than or equal to provided value
-   * @field Integer, Datetime
-   * @value Integer, Datetime
-   */
-  gteq: {
+  {
+    /** Matches if field value is less than provided value
+     * @field Integer, Datetime
+     * @value Integer, Datetime
+     */
+    matcher: 'lt',
+    label: 'less than',
+    fieldTypes: ['integer', 'datetime']
+  },
+  {
+    /** Matches if field value is less than or equal to provided value
+     * @field Integer, Datetime
+     * @value Integer, Datetime
+     */
+    matcher: 'lteq',
+    label: 'less than or equal to',
+    fieldTypes: ['integer', 'datetime']
+  },
+  {
+    /** Matches if field value is greater than provided value
+     * @field Integer, Datetime
+     * @value Integer, Datetime
+     */
+    matcher: 'gt',
+    label: 'greater than',
+    fieldTypes: ['integer', 'datetime']
+  },
+  {
+    /** Matches if field value is greater than or equal to provided value
+     * @field Integer, Datetime
+     * @value Integer, Datetime
+     */
+    matcher: 'gteq',
     label: 'greater than or equal to',
     fieldTypes: ['integer', 'datetime']
   },
-  /** Matches if field value is a multiple of provided value
-   * @field Integer
-   * @value Integer
-   */
-  multiple: { label: 'is a multiple of', fieldTypes: ['integer'] },
-  /** Matches if field value matches regex pattern
-   * @field String
-   * @value String
-   */
-  matches: { label: 'matches regex', fieldTypes: ['string'] },
-  /** Matches if field value does not match regex pattern
-   * @field String
-   * @value String
-   */
-  does_not_match: { label: 'does not match regex', fieldTypes: ['string'] },
-  /** Matches if field value starts with provided string
-   * @field String
-   * @value String
-   */
-  start_with: { label: 'starts with', fieldTypes: ['string'] },
-  /** Matches if field value does not start with provided string
-   * @field String
-   * @value String
-   */
-  not_start_with: { label: 'does not start with', fieldTypes: ['string'] },
-  /** Matches if field value ends with provided string
-   * @field String
-   * @value String
-   */
-  end_with: { label: 'ends with', fieldTypes: ['string'] },
-  /** Matches if field value does not end with provided string
-   * @field String
-   * @value String
-   */
-  not_end_with: { label: 'does not end with', fieldTypes: ['string'] },
-  /** Matches if field value is between two values (exclusive)
-   * @field Integer, Datetime
-   * @value Array
-   */
-  gt_lt: {
-    label: 'greater than and less than',
-    fieldTypes: ['integer', 'datetime']
+  {
+    /** Matches if field value is a multiple of provided value
+     * @field Integer
+     * @value Integer
+     */
+    matcher: 'multiple',
+    label: 'is a multiple of',
+    fieldTypes: ['integer']
   },
-  /** Matches if field value is between two values (inclusive start, exclusive end)
-   * @field Integer, Datetime
-   * @value Array
-   */
-  gteq_lt: {
-    label: 'greater than or equal to and less than',
-    fieldTypes: ['integer', 'datetime']
+  {
+    /** Matches if field value matches regex pattern
+     * @field String
+     * @value String
+     */
+    matcher: 'matches',
+    label: 'matches regex',
+    fieldTypes: ['string']
   },
-  /** Matches if field value is greater than first and less than or equal to second
-   * @field Integer, Datetime
-   * @value Array
-   */
-  gt_lteq: {
-    label: 'greater than and less than or equal to',
-    fieldTypes: ['integer', 'datetime']
+  {
+    /** Matches if field value does not match regex pattern
+     * @field String
+     * @value String
+     */
+    matcher: 'does_not_match',
+    label: 'does not match regex',
+    fieldTypes: ['string']
   },
-  /** Matches if field value is between two values (inclusive)
-   * @field Integer, Datetime
-   * @value Array
-   */
-  gteq_lteq: {
-    label: 'greater than or equal to and less than or equal to',
-    fieldTypes: ['integer', 'datetime']
+  {
+    /** Matches if field value starts with provided string
+     * @field String
+     * @value String
+     */
+    matcher: 'start_with',
+    label: 'starts with',
+    fieldTypes: ['string']
   },
-  /** Matches if field value is in provided array
-   * @field Integer, String, Datetime
-   * @value Array
-   */
-  is_in: {
+  {
+    /** Matches if field value does not start with provided string
+     * @field String
+     * @value String
+     */
+    matcher: 'not_start_with',
+    label: 'does not start with',
+    fieldTypes: ['string']
+  },
+  {
+    /** Matches if field value ends with provided string
+     * @field String
+     * @value String
+     */
+    matcher: 'end_with',
+    label: 'ends with',
+    fieldTypes: ['string']
+  },
+  {
+    /** Matches if field value does not end with provided string
+     * @field String
+     * @value String
+     */
+    matcher: 'not_end_with',
+    label: 'does not end with',
+    fieldTypes: ['string']
+  },
+  {
+    /** Matches if field value is between two values (exclusive)
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gt_lt',
+    label: '> and <',
+    fieldTypes: ['integer']
+  },
+  {
+    /** Matches if field value is between two values (inclusive start, exclusive end)
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gteq_lt',
+    label: '≥ and <',
+    fieldTypes: ['integer']
+  },
+  {
+    /** Matches if field value is greater than first and less than or equal to second
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gt_lteq',
+    label: '> and ≤',
+    fieldTypes: ['integer']
+  },
+  {
+    /** Matches if field value is between two values (inclusive)
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gteq_lteq',
+    label: '≥ and ≤',
+    fieldTypes: ['integer']
+  },
+  {
+    /** Matches if field value is between two values (exclusive)
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gt_lt',
+    label: 'in time range',
+    visible: false,
+    fieldTypes: ['datetime']
+  },
+  {
+    /** Matches if field value is between two values (inclusive start, exclusive end)
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gteq_lt',
+    label: 'in time range',
+    visible: false,
+    fieldTypes: ['datetime']
+  },
+  {
+    /** Matches if field value is greater than first and less than or equal to second
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gt_lteq',
+    label: 'in time range',
+    visible: false,
+    fieldTypes: ['datetime']
+  },
+  {
+    /** Matches if field value is between two values (inclusive)
+     * @field Integer, Datetime
+     * @value Array
+     */
+    matcher: 'gteq_lteq',
+    label: 'in time range',
+    visible: true,
+    fieldTypes: ['datetime']
+  },
+  {
+    /** Matches if field value is in provided array
+     * @field Integer, String, Datetime
+     * @value Array
+     */
+    matcher: 'is_in',
     label: 'included in',
     fieldTypes: ['integer', 'string', 'datetime']
   },
-  /** Matches if field value is not in provided array
-   * @field Integer, String, Datetime
-   * @value Array
-   */
-  is_not_in: {
+  {
+    /** Matches if field value is not in provided array
+     * @field Integer, String, Datetime
+     * @value Array
+     */
+    matcher: 'is_not_in',
     label: 'not included in',
     fieldTypes: ['integer', 'string', 'datetime']
   },
-  /** Matches objects within arrays that meet specified requirements
-   * @field Array
-   * @value Object
-   */
-  array_match: {
+  {
+    /** Matches objects within arrays that meet specified requirements
+     * @field Array
+     * @value Object
+     */
+    matcher: 'array_match',
     label: 'array matches',
     fieldTypes: ['integer', 'string', 'datetime']
   },
-  /** Matches if field value is null or empty string */
-  blank: {
+  {
+    /** Matches if field value is null or empty string */
+    matcher: 'blank',
     label: 'is blank',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   },
-  /** Matches if field value is null */
-  null: {
+  {
+    /** Matches if field value is null */
+    matcher: 'null',
     label: 'is null',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   },
-  /** Matches if field value is not null */
-  not_null: {
+  {
+    /** Matches if field value is not null */
+    matcher: 'not_null',
     label: 'is not null',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   },
-  /** Matches if field value is not null */
-  present: {
+  {
+    /** Matches if field value is not null */
+    matcher: 'present',
     label: 'is present',
     fieldTypes: ['integer', 'string', 'datetime', 'boolean']
   }
-}
-
-console.log(
-  Object.fromEntries(
-    Object.entries(matcherDictionary).map(([value, { label }]) => [
-      value,
-      label
-    ])
-  )
-)
+]
 
 type ArrayMatcherDictionary = Record<
   keyof Extract<ItemWithValue['value'], Record<string, unknown>>,
