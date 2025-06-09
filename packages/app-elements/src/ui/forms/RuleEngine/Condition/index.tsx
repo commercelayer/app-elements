@@ -651,7 +651,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Integer, Datetime
      */
     matcher: 'lt',
-    label: 'less than',
+    label: '<',
     fieldTypes: ['integer', 'datetime']
   },
   {
@@ -660,7 +660,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Integer, Datetime
      */
     matcher: 'lteq',
-    label: 'less than or equal to',
+    label: '≤',
     fieldTypes: ['integer', 'datetime']
   },
   {
@@ -669,7 +669,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Integer, Datetime
      */
     matcher: 'gt',
-    label: 'greater than',
+    label: '>',
     fieldTypes: ['integer', 'datetime']
   },
   {
@@ -678,7 +678,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Integer, Datetime
      */
     matcher: 'gteq',
-    label: 'greater than or equal to',
+    label: '≥',
     fieldTypes: ['integer', 'datetime']
   },
   {
@@ -705,7 +705,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value String
      */
     matcher: 'does_not_match',
-    label: 'does not match regex',
+    label: "doesn't match regex",
     fieldTypes: ['string']
   },
   {
@@ -723,7 +723,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value String
      */
     matcher: 'not_start_with',
-    label: 'does not start with',
+    label: "doesn't start with",
     fieldTypes: ['string']
   },
   {
@@ -741,7 +741,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value String
      */
     matcher: 'not_end_with',
-    label: 'does not end with',
+    label: "doesn't end with",
     fieldTypes: ['string']
   },
   {
@@ -786,7 +786,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gt_lt',
-    label: 'in time range',
+    label: 'time range',
     visible: false,
     fieldTypes: ['datetime']
   },
@@ -796,7 +796,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gteq_lt',
-    label: 'in time range',
+    label: 'time range',
     visible: false,
     fieldTypes: ['datetime']
   },
@@ -806,7 +806,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gt_lteq',
-    label: 'in time range',
+    label: 'time range',
     visible: false,
     fieldTypes: ['datetime']
   },
@@ -816,7 +816,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gteq_lteq',
-    label: 'in time range',
+    label: 'time range',
     visible: true,
     fieldTypes: ['datetime']
   },
@@ -826,7 +826,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'is_in',
-    label: 'included in',
+    label: 'is one of',
     fieldTypes: ['integer', 'string', 'datetime']
   },
   {
@@ -835,7 +835,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'is_not_in',
-    label: 'not included in',
+    label: 'is not one of',
     fieldTypes: ['integer', 'string', 'datetime']
   },
   {
@@ -844,7 +844,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Object
      */
     matcher: 'array_match',
-    label: 'array matches',
+    label: 'is',
     fieldTypes: ['integer', 'string', 'datetime']
   },
   {
@@ -882,16 +882,16 @@ type ArrayMatcherDictionary = Record<
 
 const arrayMatcherDictionary: ArrayMatcherDictionary = {
   in_and: {
-    label: 'and'
+    label: 'matching all of'
   },
   in_or: {
-    label: 'or'
+    label: 'matching at least one of'
   },
   not_in_and: {
-    label: 'not and'
+    label: 'not matching any of'
   },
   not_in_or: {
-    label: 'not or'
+    label: 'not matching at least one of'
   }
 }
 
