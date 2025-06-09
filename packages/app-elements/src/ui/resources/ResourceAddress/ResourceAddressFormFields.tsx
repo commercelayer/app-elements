@@ -6,6 +6,7 @@ import { HookedInput } from '#ui/forms/Input/HookedInput'
 import { type InputSelectValue } from '#ui/forms/InputSelect'
 import { HookedInputSelect } from '#ui/forms/InputSelect/HookedInputSelect'
 import { HookedInputTextArea } from '#ui/forms/InputTextArea'
+import { useCountryList } from '#ui/internals/useCountryList'
 import React, { type JSX, useEffect, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { z } from 'zod'
@@ -215,20 +216,15 @@ const FieldRow = ({
 }
 
 const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
-  const [countries, setCountries] = useState<InputSelectValue[] | undefined>()
   const [forceTextInput, setForceTextInput] = useState(false)
+  const { countries, isLoading, error } = useCountryList()
 
   useEffect(() => {
-    void fetch('https://data.commercelayer.app/assets/lists/countries.json')
-      .then<InputSelectValue[]>(async (res) => await res.json())
-      .then((data) => {
-        setCountries(data)
-      })
-      .catch(() => {
-        // error fetching states, fallback to text input
-        setForceTextInput(true)
-      })
-  }, [])
+    if (error != null) {
+      // error fetching countries, fallback to text input
+      setForceTextInput(true)
+    }
+  }, [error])
 
   if (forceTextInput) {
     return (
@@ -246,7 +242,7 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
       key={countries?.length}
       initialValues={countries ?? []}
       pathToValue='value'
-      isLoading={countries == null}
+      isLoading={isLoading || countries == null}
     />
   )
 }
