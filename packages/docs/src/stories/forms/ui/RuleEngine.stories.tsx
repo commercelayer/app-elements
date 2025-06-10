@@ -40,6 +40,7 @@ Default.args = {
     {
       rules: [
         {
+          id: 'd386c750-d8df-494e-b28e-cbce22a449fb',
           name: 'Rule for EUR',
           actions: [
             {
@@ -169,6 +170,7 @@ Default.args = {
           conditions_logic: 'or'
         },
         {
+          id: 'b2c8f1d0-3a4e-4b5c-9f6d-7e8f9a0b1c2d',
           name: 'Rule for EUR',
           actions: [
             {
@@ -263,6 +265,7 @@ Default.args = {
           conditions_logic: 'or'
         },
         {
+          id: 'c3d4e5f6-7a8b-9c0d-e1f2-3a4b5c6d7e8f',
           name: 'Free gift some skus',
           conditions_logic: 'or',
           conditions: [
@@ -325,6 +328,7 @@ Default.args = {
           ]
         },
         {
+          id: 'd4e5f6a7-b8c9-0d1e-2f3g-4h5i6j7k8l9m',
           name: 'Discount 5% on items that have a big stock',
           actions: [
             {

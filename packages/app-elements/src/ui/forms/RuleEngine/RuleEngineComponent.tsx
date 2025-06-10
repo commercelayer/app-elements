@@ -98,13 +98,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
         codeEditorRef.current?.setValue(JSON.stringify(value, null, 2))
       }
 
-      props.onChange?.({
-        ...value,
-        rules: value.rules.map((rule) => ({
-          ...rule,
-          id: `${rule.name.replace(/\s+/g, '-').toLowerCase()}-${window.crypto.randomUUID()}`
-        }))
-      })
+      props.onChange?.(value)
     },
     [value]
   )

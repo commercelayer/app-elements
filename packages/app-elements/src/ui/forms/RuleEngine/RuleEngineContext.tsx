@@ -41,13 +41,7 @@ function ruleEngineReducer(state: State, action: Action): State {
 
       return {
         ...state,
-        value: {
-          ...newValue,
-          rules: newValue.rules.map((rule) => {
-            const { id, ...ruleWithoutId } = rule
-            return ruleWithoutId
-          })
-        }
+        value: newValue
       }
     }
 
@@ -61,13 +55,7 @@ function ruleEngineReducer(state: State, action: Action): State {
       if (!isEqual(state.value, action.value)) {
         return {
           ...state,
-          value: {
-            ...action.value,
-            rules: action.value.rules.map((rule) => {
-              const { id, ...ruleWithoutId } = rule
-              return ruleWithoutId
-            })
-          }
+          value: action.value
         }
       }
       return state
