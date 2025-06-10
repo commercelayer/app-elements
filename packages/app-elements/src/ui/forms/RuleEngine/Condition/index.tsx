@@ -8,7 +8,7 @@ import {
   isSingleValueSelected
 } from '#ui/forms/InputSelect'
 import classNames from 'classnames'
-import { isValid, parseISO } from 'date-fns'
+import { isValid, parseISO, parseJSON } from 'date-fns'
 import { useEffect, useState } from 'react'
 import { useRuleEngine } from '../RuleEngineContext'
 import {
@@ -125,22 +125,25 @@ function ConditionItem({
   const { setPath } = useRuleEngine()
 
   return (
-    <div className='bg-gray-50 rounded-md p-2'>
+    <div className='bg-gray-50 rounded-md p-2 flex flex-col gap-2'>
       <div className='flex items-center justify-between gap-2'>
         {/* Condition target */}
         <div className='flex-1'>
-          {/* <InputSelect
-            defaultValue={{
-              label: 'Customer',
-              value: 'Customer'
-            }}
-            initialValues={[
-              { value: 'Customer', label: 'Customer' }
-            ]}
-            onSelect={() => { }}
-          /> */}
           <Input
             type='text'
+            // suffix={
+            //   infos?.field?.type ? (
+            //     <InputSimpleSelect
+            //       defaultValue={infos.field?.type ?? 'string'}
+            //       options={[
+            //         { label: 'datetime', value: 'datetime' },
+            //         { label: 'string', value: 'string' },
+            //         { label: 'number', value: 'number' },
+            //         { label: 'boolean', value: 'boolean' }
+            //       ]}
+            //     />
+            //   ) : undefined
+            // }
             defaultValue={item != null ? item.field : undefined}
             onChange={(event) => {
               setPath(`${pathPrefix}.field`, event.currentTarget.value)
@@ -156,12 +159,7 @@ function ConditionItem({
           <ConditionMatcher item={item} pathPrefix={pathPrefix} />
         </div>
       </div>
-      <div className='pt-2'>
-        {/* Condition value */}
-        <div className='flex-1'>
-          <ConditionValue item={item} pathPrefix={pathPrefix} />
-        </div>
-      </div>
+      <ConditionValue item={item} pathPrefix={pathPrefix} />
     </div>
   )
 }
@@ -200,14 +198,16 @@ function ConditionMatcher({
   const { setPath } = useRuleEngine()
   const { infos } = useResourcePathInfos(item)
 
-  if (item == null || infos == null) {
-    return null
+  let fieldType = infos?.field?.type
+
+  if (fieldType == null) {
+    fieldType = guessFieldType((item as ItemWithValue).value)
   }
 
   return (
     <InputSelect
       defaultValue={
-        item != null && infos != null
+        item != null
           ? {
               label:
                 matcherDictionary.find((dict) => {
@@ -215,7 +215,7 @@ function ConditionMatcher({
                     dict.matcher === item.matcher &&
                     ((infos?.field?.type != null &&
                       dict.fieldTypes.includes(infos.field.type)) ||
-                      infos.field?.type == null)
+                      infos?.field?.type == null)
                   )
                 })?.label ?? item.matcher,
               value: item.matcher
@@ -224,11 +224,7 @@ function ConditionMatcher({
       }
       initialValues={matcherDictionary
         .filter(({ fieldTypes, visible }) => {
-          return (
-            infos?.field?.type != null &&
-            fieldTypes.includes(infos.field.type) &&
-            visible !== false
-          )
+          return visible !== false && fieldTypes.includes(fieldType)
         })
         .map(({ matcher, label }) => ({ value: matcher, label }))}
       onSelect={(selected) => {
@@ -270,6 +266,42 @@ function useResourcePathInfos(item: SchemaConditionItem | null): {
   return { infos }
 }
 
+function guessFieldType(
+  value: ItemWithValue['value']
+): NonNullable<Awaited<ReturnType<typeof atPath>>['field']>['type'] {
+  if (typeof value === 'string') {
+    if (isValid(parseJSON(value))) {
+      return 'datetime'
+    } else {
+      return 'string'
+    }
+  }
+
+  if (typeof value === 'number') {
+    return 'integer'
+  }
+
+  if (typeof value === 'boolean') {
+    return 'boolean'
+  }
+
+  if (Array.isArray(value)) {
+    if (typeof value[0] === 'string') {
+      if (isValid(parseJSON(value[0]))) {
+        return 'datetime'
+      } else {
+        return 'string'
+      }
+    }
+
+    if (typeof value[0] === 'number') {
+      return 'integer'
+    }
+  }
+
+  return 'string' // default fallback
+}
+
 /**
  * This function renders the value input for a condition item based on its matcher and its field.
  *
@@ -301,6 +333,23 @@ function ConditionValue({
 
   const itemWithValue = item as ItemWithValue
 
+  let fieldType = infos?.field?.type
+
+  if (fieldType == null) {
+    fieldType = guessFieldType(itemWithValue.value)
+  }
+
+  if (
+    (typeof itemWithValue.value === 'string' &&
+      /^{{.*}}$/.test(itemWithValue.value)) ||
+    (Array.isArray(itemWithValue.value) &&
+      itemWithValue.value.some(
+        (v) => typeof v === 'string' && /^{{.*}}$/.test(v)
+      ))
+  ) {
+    fieldType = 'string'
+  }
+
   let componentType:
     | 'arrayMatch'
     | 'boolean'
@@ -310,9 +359,10 @@ function ConditionValue({
     | 'numberRange'
     | 'tag'
     | 'text'
+    | 'textRange'
     | null = null
 
-  switch (infos?.field?.type) {
+  switch (fieldType) {
     case 'datetime': {
       componentType = 'date'
       break
@@ -375,6 +425,10 @@ function ConditionValue({
       // these matchers expect an array of two values (only for date and number)
       if (componentType === 'number') {
         componentType = 'numberRange'
+      }
+
+      if (componentType === 'text') {
+        componentType = 'textRange'
       }
 
       if (componentType === 'date') {
@@ -455,6 +509,17 @@ function ConditionValue({
       )
     }
 
+    case 'textRange': {
+      return (
+        <TextRange
+          value={itemWithValue.value}
+          onChange={(value) => {
+            setPath(pathKey, value)
+          }}
+        />
+      )
+    }
+
     case 'arrayMatch': {
       return (
         <ArrayMatch
@@ -488,7 +553,7 @@ function ConditionValue({
                 `${pathPrefix}.value`,
                 selected
                   .map((s) => {
-                    if (infos?.field?.type === 'integer') {
+                    if (fieldType === 'integer') {
                       const intValue = parseInt(s.value.toString(), 10)
                       if (isNaN(intValue)) {
                         return null
@@ -610,6 +675,51 @@ function NumberRange({
             const newValue = parseInt(event.currentTarget.value, 10)
             setMax(isNaN(newValue) ? null : newValue)
             onChange([min, isNaN(newValue) ? null : newValue])
+          }}
+        />
+      </div>
+    </div>
+  )
+}
+
+function TextRange({
+  value,
+  onChange
+}: {
+  value: ItemWithValue['value']
+  onChange: (value: [string | null, string | null]) => void
+}): React.JSX.Element {
+  const [min, setMin] = useState<string | null>(
+    Array.isArray(value) && typeof value[0] === 'string' ? value[0] : null
+  )
+  const [max, setMax] = useState<string | null>(
+    Array.isArray(value) && typeof value[1] === 'string' ? value[1] : null
+  )
+
+  return (
+    <div className='flex items-center gap-4'>
+      <div className='flex-grow'>
+        <Input
+          type='text'
+          placeholder='Min'
+          value={min ?? ''}
+          onChange={(event) => {
+            const newValue = event.currentTarget.value
+            setMin(newValue)
+            onChange([newValue, max])
+          }}
+        />
+      </div>
+      <span className='text-gray-300'>to</span>
+      <div className='flex-grow'>
+        <Input
+          type='text'
+          placeholder='Max'
+          value={max ?? ''}
+          onChange={(event) => {
+            const newValue = event.currentTarget.value
+            setMax(newValue)
+            onChange([min, newValue])
           }}
         />
       </div>
@@ -844,7 +954,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Object
      */
     matcher: 'array_match',
-    label: 'is',
+    label: 'array matches',
     fieldTypes: ['integer', 'string', 'datetime']
   },
   {
@@ -882,16 +992,16 @@ type ArrayMatcherDictionary = Record<
 
 const arrayMatcherDictionary: ArrayMatcherDictionary = {
   in_and: {
-    label: 'matching all of'
+    label: 'in and'
   },
   in_or: {
-    label: 'matching at least one of'
+    label: 'in or'
   },
   not_in_and: {
-    label: 'not matching any of'
+    label: 'not in and'
   },
   not_in_or: {
-    label: 'not matching at least one of'
+    label: 'not in or'
   }
 }
 
