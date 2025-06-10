@@ -1,12 +1,17 @@
 import { t } from '#providers/I18NProvider'
 import { Button } from '#ui/atoms/Button'
 import { Hr } from '#ui/atoms/Hr'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import {
+  SkeletonTemplate,
+  withSkeletonTemplate
+} from '#ui/atoms/SkeletonTemplate'
 import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
+import { useCountryList } from '#ui/internals/useCountryList'
 import { type Address as AddressType } from '@commercelayer/sdk'
 import { Note, PencilSimple, Phone } from '@phosphor-icons/react'
 import isEmpty from 'lodash-es/isEmpty'
+import { useMemo } from 'react'
 
 export interface AddressProps {
   /**
@@ -53,6 +58,13 @@ export interface AddressProps {
  */
 export const Address = withSkeletonTemplate<AddressProps>(
   ({ address, title, showBillingInfo = false, showNotes = true, onEdit }) => {
+    const { countries, isLoading } = useCountryList()
+    const countryCode = address?.country_code
+    const countryName = useMemo(
+      () => countries?.find((c) => c.value === countryCode)?.label,
+      [countries, countryCode]
+    )
+
     return (
       <>
         <div className='w-full flex gap-4 space-between'>
@@ -90,7 +102,10 @@ export const Address = withSkeletonTemplate<AddressProps>(
                   {address.line_1} {address.line_2}
                   <br />
                   {address.city} {address.state_code} {address.zip_code} (
-                  {address.country_code})
+                  <SkeletonTemplate isLoading={isLoading}>
+                    {countryName ?? countryCode}
+                  </SkeletonTemplate>
+                  )
                 </Text>
 
                 {address.billing_info != null && showBillingInfo ? (
