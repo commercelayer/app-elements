@@ -111,16 +111,58 @@ function ActionValue({
   switch (item.type) {
     case 'buy_x_pay_y': {
       return (
-        <div className='w-36'>
-          <Input type='number' defaultValue={JSON.stringify(item.value)} />
+        <div className='w-36 flex items-center gap-0.5'>
+          <Input
+            type='number'
+            suffix='x'
+            defaultValue={item.value?.x}
+            onChange={(event) => {
+              setPath(
+                `${pathPrefix}.value.x`,
+                parseInt(event.currentTarget.value, 10)
+              )
+            }}
+          />
+          <Input
+            type='number'
+            suffix='y'
+            defaultValue={item.value?.y}
+            onChange={(event) => {
+              setPath(
+                `${pathPrefix}.value.y`,
+                parseInt(event.currentTarget.value, 10)
+              )
+            }}
+          />
         </div>
       )
     }
 
     case 'every_x_discount_y': {
       return (
-        <div className='w-36'>
-          <Input type='number' defaultValue={JSON.stringify(item.value)} />
+        <div className='w-36 flex items-center gap-0.5'>
+          <Input
+            type='number'
+            suffix='x'
+            defaultValue={item.value?.x}
+            onChange={(event) => {
+              setPath(
+                `${pathPrefix}.value.x`,
+                parseInt(event.currentTarget.value, 10)
+              )
+            }}
+          />
+          <Input
+            type='number'
+            suffix='y'
+            defaultValue={item.value?.y}
+            onChange={(event) => {
+              setPath(
+                `${pathPrefix}.value.y`,
+                parseInt(event.currentTarget.value, 10)
+              )
+            }}
+          />
         </div>
       )
     }
