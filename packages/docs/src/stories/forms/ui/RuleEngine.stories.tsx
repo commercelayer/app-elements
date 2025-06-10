@@ -134,6 +134,23 @@ Default.args = {
               value: '.*@example.com'
             },
             {
+              field: 'order.status',
+              matcher: 'blank'
+            },
+            {
+              field: 'order.line_items.unit_amount_cents',
+              matcher: 'eq',
+              value: '{{order.line_items.compare_at_amount_cents}}'
+            },
+            {
+              field: 'order.line_items.unit_amount_cents',
+              matcher: 'gt_lt',
+              value: [
+                '{{order.line_items.metadata.min_value}}',
+                '{{order.line_items.metadata.max_value}}'
+              ]
+            },
+            {
               field: 'order.currency_code',
               value: 'EUR',
               matcher: 'eq',
@@ -209,6 +226,23 @@ Default.args = {
               field: 'order.customer.metadata.email',
               matcher: 'matches',
               value: '.*@example.com'
+            },
+            {
+              field: 'order.status',
+              matcher: 'blank'
+            },
+            {
+              field: 'order.metadata.line_items.unit_amount_cents',
+              matcher: 'eq',
+              value: '{{order.line_items.compare_at_amount_cents}}'
+            },
+            {
+              field: 'order.metadata.line_items.unit_amount_cents',
+              matcher: 'gt_lt',
+              value: [
+                '{{order.line_items.metadata.min_value}}',
+                '{{order.line_items.metadata.max_value}}'
+              ]
             },
             {
               field: 'order.customer.metadata.currency_code',
