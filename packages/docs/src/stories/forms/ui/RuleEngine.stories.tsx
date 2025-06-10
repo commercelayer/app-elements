@@ -76,8 +76,8 @@ Default.args = {
             {
               type: 'every_x_discount_y',
               value: {
-                x: 3,
-                y: 2,
+                x: 5,
+                y: 3,
                 attribute: 'sku_count'
               },
               selector: 'order'
