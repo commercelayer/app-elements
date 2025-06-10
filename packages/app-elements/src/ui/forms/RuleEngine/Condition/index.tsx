@@ -206,18 +206,21 @@ function ConditionMatcher({
 
   return (
     <InputSelect
-      defaultValue={
+      value={
         item != null
           ? {
               label:
                 matcherDictionary.find((dict) => {
-                  return (
+                  const found =
                     dict.matcher === item.matcher &&
-                    ((infos?.field?.type != null &&
-                      dict.fieldTypes.includes(infos.field.type)) ||
-                      infos?.field?.type == null)
-                  )
-                })?.label ?? item.matcher,
+                    ((fieldType != null &&
+                      dict.fieldTypes.includes(fieldType)) ||
+                      fieldType == null)
+
+                  return found
+                })?.label ??
+                // eslint-disable-next-line no-irregular-whitespace
+                (item.matcher != null ? `⚠️   ${item.matcher}` : ''),
               value: item.matcher
             }
           : undefined
@@ -896,7 +899,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gt_lt',
-    label: 'time range',
+    label: 'date range',
     visible: false,
     fieldTypes: ['datetime']
   },
@@ -906,7 +909,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gteq_lt',
-    label: 'time range',
+    label: 'date range',
     visible: false,
     fieldTypes: ['datetime']
   },
@@ -916,7 +919,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gt_lteq',
-    label: 'time range',
+    label: 'date range',
     visible: false,
     fieldTypes: ['datetime']
   },
@@ -926,7 +929,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Array
      */
     matcher: 'gteq_lteq',
-    label: 'time range',
+    label: 'date range',
     visible: true,
     fieldTypes: ['datetime']
   },
