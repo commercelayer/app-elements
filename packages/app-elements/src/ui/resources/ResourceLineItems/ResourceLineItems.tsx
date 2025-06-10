@@ -1,8 +1,9 @@
 import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import { navigateTo } from '#helpers/appsNavigation'
+import { type CurrencyCode } from '#helpers/currencies'
 import { formatDateWithPredicate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
+import { useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
@@ -13,6 +14,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { Tooltip } from '#ui/atoms/Tooltip'
+import { formatCentsToCurrency } from '#ui/forms/InputCurrency'
 import { InputSpinner } from '#ui/forms/InputSpinner'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type {
@@ -30,6 +32,7 @@ import {
   type ComponentProps,
   type JSX
 } from 'react'
+import { z } from 'zod'
 import { type StockLineItemWithStockTransfer } from './types'
 
 interface LineItemSettings {
@@ -51,6 +54,7 @@ const Edit = withSkeletonTemplate<{
   const { canUser } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
   const [disabled, setDisabled] = useState<boolean>(false)
+  const { t } = useTranslation()
 
   const canUpdate =
     item.type === 'line_items' && canUser('update', 'line_items')
@@ -170,6 +174,12 @@ interface Props {
    * Get triggered when a line item swaps (a line item can be swapped when it is the only editable item in the order).
    */
   onSwap?: (item: LineItem) => void
+  /**
+   * Indicates whether line item totals include tax.
+   * This flag is not available on the line item itself and should be provided via props,
+   * typically sourced from the parent `order` object.
+   */
+  isTaxIncluded?: boolean
 }
 
 export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
@@ -178,8 +188,17 @@ export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
 export const ResourceLineItems = withSkeletonTemplate<Props>(
-  ({ items, size = 'normal', footer, editable = false, onChange, onSwap }) => {
+  ({
+    items,
+    size = 'normal',
+    footer,
+    editable = false,
+    onChange,
+    onSwap,
+    isTaxIncluded = false
+  }) => {
     const { user } = useTokenProvider()
+    const { t } = useTranslation()
 
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
@@ -265,6 +284,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
               lineItem.type === 'line_items' &&
               lineItem.item_type === 'bundles' &&
               lineItem.bundle_code != null
+
+            const hasPriceTooltip =
+              lineItem.type === 'line_items' &&
+              (lineItem.discount_breakdown != null ||
+                lineItem.formatted_tax_amount != null)
 
             return (
               <Fragment key={lineItem.id}>
@@ -367,7 +391,14 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                             'text-sm font-bold': size === 'small'
                           })}
                         >
-                          {lineItem.formatted_total_amount}
+                          {hasPriceTooltip ? (
+                            <LineItemPriceTooltip
+                              lineItem={lineItem}
+                              isTaxIncluded={isTaxIncluded}
+                            />
+                          ) : (
+                            lineItem.formatted_total_amount
+                          )}
                         </Text>
                       )}
                     </td>
@@ -659,4 +690,85 @@ function normalizeLineItemOptionValue(value: any): string {
   } catch {
     return 'Could not render option value'
   }
+}
+
+const LineItemPriceTooltip = withSkeletonTemplate<{
+  lineItem: LineItem
+  isTaxIncluded: boolean
+}>(({ lineItem, isTaxIncluded }) => {
+  const { t } = useTranslation()
+  const discountBreakdown = useMemo(
+    () => getDiscountBreakdown(lineItem),
+    [lineItem.id]
+  )
+
+  return (
+    <Tooltip
+      label={
+        <span className='underline'>{lineItem.formatted_total_amount}</span>
+      }
+      direction='bottom-end'
+      content={
+        <div className='grid justify-between grid-cols-2 gap-4 gap-y-2'>
+          {discountBreakdown?.map((discountItem) => (
+            <Fragment key={discountItem.id}>
+              <Text size='small' weight='semibold' className='text-left'>
+                {discountItem.name}{' '}
+                {discountItem.coupon_code != null && (
+                  <div>({discountItem.coupon_code})</div>
+                )}
+              </Text>
+              <Text size='small' weight='semibold' className='text-right'>
+                {formatCentsToCurrency(
+                  discountItem.cents,
+                  lineItem.currency_code as CurrencyCode
+                )}
+              </Text>
+            </Fragment>
+          ))}
+
+          {lineItem.formatted_tax_amount != null &&
+            lineItem.tax_rate != null && (
+              <>
+                <Text size='small' weight='semibold' className='text-left'>
+                  {t('common.taxes')} {lineItem.tax_rate * 100}%{' '}
+                  {isTaxIncluded ? `(${t('common.included')})` : ''}
+                </Text>
+                <Text size='small' weight='semibold' className='text-right'>
+                  {lineItem.formatted_tax_amount}
+                </Text>
+              </>
+            )}
+        </div>
+      }
+    />
+  )
+})
+
+const discountBreakdownType = z
+  .array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      coupon_code: z.string().optional(),
+      cents: z.number(),
+      weight: z.number().optional().default(0)
+    })
+  )
+  .optional()
+
+function getDiscountBreakdown(
+  lineItem: LineItem
+): z.infer<typeof discountBreakdownType> {
+  const discountBreakdownAttribute =
+    lineItem.type === 'line_items' && lineItem.discount_breakdown != null
+      ? Object.entries(lineItem.discount_breakdown).map(([key, val]) => ({
+          id: key,
+          ...val
+        }))
+      : undefined
+
+  return discountBreakdownType
+    .safeParse(discountBreakdownAttribute)
+    ?.data?.sort((a, b) => b.weight - a.weight)
 }

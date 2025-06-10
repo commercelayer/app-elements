@@ -104,6 +104,17 @@ Simple.args = {
   preset: ['oneLine']
 }
 
+export const WithDiscountBreakdown = Template.bind({})
+WithDiscountBreakdown.args = {
+  preset: ['withDiscountBreakdown']
+}
+
+export const WithTaxes = Template.bind({})
+WithTaxes.args = {
+  preset: ['withTaxes'],
+  isTaxIncluded: true
+}
+
 export const WithLineItemOptions = Template.bind({})
 WithLineItemOptions.args = {
   preset: ['withOptions']
