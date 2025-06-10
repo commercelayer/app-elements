@@ -727,7 +727,8 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
             </Fragment>
           ))}
 
-          {lineItem.formatted_tax_amount != null &&
+          {lineItem.tax_amount_cents != null &&
+            lineItem.tax_amount_cents > 0 &&
             lineItem.tax_rate != null && (
               <>
                 <Text size='small' weight='semibold' className='text-left'>
