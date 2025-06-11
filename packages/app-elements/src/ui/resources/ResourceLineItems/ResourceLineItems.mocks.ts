@@ -145,6 +145,7 @@ export const presetLineItems = {
     total_amount_float: 3290,
     formatted_tax_amount: '€7,24',
     tax_amount_float: 7.24,
+    tax_amount_cents: 724,
     tax_rate: 0.22,
     compare_at_amount_cents: 4590,
     compare_at_amount_float: 45.9,
