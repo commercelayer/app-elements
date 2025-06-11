@@ -695,10 +695,7 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
           {discountBreakdown?.map((discountItem) => (
             <Fragment key={discountItem.id}>
               <Text size='small' weight='semibold' className='text-left'>
-                {discountItem.name}{' '}
-                {discountItem.coupon_code != null && (
-                  <div>({discountItem.coupon_code})</div>
-                )}
+                {discountItem.name}
               </Text>
               <Text size='small' weight='semibold' className='text-right'>
                 {formatCentsToCurrency(
