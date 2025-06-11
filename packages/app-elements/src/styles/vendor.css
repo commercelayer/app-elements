@@ -80,3 +80,10 @@ progress.progress::-webkit-progress-value {
 progress.progress[value]::-moz-progress-bar {
   @apply rounded bg-primary;
 }
+
+.underline-dotted {
+  text-decoration-line: underline;
+  text-underline-position: under;
+  text-decoration-thickness: 5%;
+  text-decoration-style: dotted;
+}

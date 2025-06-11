@@ -687,7 +687,9 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
   return (
     <Tooltip
       label={
-        <span className='underline'>{lineItem.formatted_total_amount}</span>
+        <span className='underline-dotted'>
+          {lineItem.formatted_total_amount}
+        </span>
       }
       direction='bottom-end'
       content={
