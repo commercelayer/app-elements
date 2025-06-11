@@ -25,6 +25,7 @@ import type {
 } from '@commercelayer/sdk'
 import { Checks, Swap } from '@phosphor-icons/react'
 import cn from 'classnames'
+import isEmpty from 'lodash-es/isEmpty'
 import {
   Fragment,
   useMemo,
@@ -271,10 +272,14 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
               lineItem.item_type === 'bundles' &&
               lineItem.bundle_code != null
 
+            const hasTaxes =
+              'tax_amount_cents' in lineItem &&
+              lineItem.tax_amount_cents != null &&
+              lineItem.tax_amount_cents > 0
+
             const hasPriceTooltip =
               lineItem.type === 'line_items' &&
-              (lineItem.discount_breakdown != null ||
-                lineItem.formatted_tax_amount != null)
+              (!isEmpty(lineItem.discount_breakdown) || hasTaxes)
 
             return (
               <Fragment key={lineItem.id}>
@@ -373,7 +378,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           tag='div'
                           wrap='nowrap'
                           className={cn({
-                            'font-bold': size === 'normal',
+                            'font-semibold': size === 'normal',
                             'text-sm font-bold': size === 'small'
                           })}
                         >
@@ -692,8 +697,9 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
         </span>
       }
       direction='bottom-end'
+      minWidth
       content={
-        <div className='grid justify-between grid-cols-2 gap-4 gap-y-2'>
+        <div className='grid justify-between grid-cols-2 gap-4 gap-y-2 w-auto'>
           {discountBreakdown?.map((discountItem) => (
             <Fragment key={discountItem.id}>
               <Text size='small' weight='semibold' className='text-left'>

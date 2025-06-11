@@ -25,6 +25,11 @@ export interface TooltipProps {
     PlacesType,
     'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end'
   >
+  /**
+   * If true, the tooltip will have a fixed width of 280px.
+   * If false or undefined, the tooltip will have a max-width of 280px and no minimum width.
+   */
+  minWidth?: boolean
 }
 
 /**
@@ -39,6 +44,7 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
       label,
       content,
       direction = 'top',
+      minWidth = false,
       id = `${getSanitizedInnerText(label)}-${getSanitizedInnerText(content)}-${direction}`
     },
     ref
@@ -61,7 +67,13 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
           // We are using our own styles, by applying tailwind classes
           // https://react-tooltip.com/docs/examples/styling#base-styles
           disableStyleInjection
-          className='rounded bg-black text-white px-4 py-3 text-sm font-semibold w-max max-w-[260px]'
+          className={cn(
+            'rounded bg-black text-white px-4 py-3 text-sm font-semibold w-max',
+            {
+              'max-w-[280px]': !minWidth,
+              'min-w-[280px]': minWidth
+            }
+          )}
           classNameArrow={cn('w-2 h-2', {
             'rotate-[45deg]': direction.includes('top'),
             'rotate-[225deg]': direction.includes('bottom')
