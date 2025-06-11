@@ -268,7 +268,6 @@ const en = {
     last_30_days: 'Last 30 days',
     custom: 'Custom',
     info: 'Info',
-    included: 'Included',
     limit_reached: 'Limit reached',
     loading: 'Loading...',
     manage_resource: 'Manage {{resource}}',

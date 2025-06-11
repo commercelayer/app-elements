@@ -43,7 +43,6 @@ const it: typeof en = {
     last_30_days: 'Ultimi 30 giorni',
     custom: 'Personalizza',
     info: 'Info',
-    included: 'Incluse',
     limit_reached: 'Limite raggiunto',
     loading: 'Caricamento...',
     manage_resource: 'Gestisci {{resource}}',

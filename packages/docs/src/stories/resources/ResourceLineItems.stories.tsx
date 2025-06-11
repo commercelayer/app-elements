@@ -111,8 +111,7 @@ WithDiscountBreakdown.args = {
 
 export const WithTaxes = Template.bind({})
 WithTaxes.args = {
-  preset: ['withTaxes'],
-  isTaxIncluded: true
+  preset: ['withTaxes']
 }
 
 export const WithLineItemOptions = Template.bind({})

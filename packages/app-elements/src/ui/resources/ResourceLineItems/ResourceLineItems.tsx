@@ -174,12 +174,6 @@ interface Props {
    * Get triggered when a line item swaps (a line item can be swapped when it is the only editable item in the order).
    */
   onSwap?: (item: LineItem) => void
-  /**
-   * Indicates whether line item totals include tax.
-   * This flag is not available on the line item itself and should be provided via props,
-   * typically sourced from the parent `order` object.
-   */
-  isTaxIncluded?: boolean
 }
 
 export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
@@ -188,15 +182,7 @@ export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
 export const ResourceLineItems = withSkeletonTemplate<Props>(
-  ({
-    items,
-    size = 'normal',
-    footer,
-    editable = false,
-    onChange,
-    onSwap,
-    isTaxIncluded = false
-  }) => {
+  ({ items, size = 'normal', footer, editable = false, onChange, onSwap }) => {
     const { user } = useTokenProvider()
     const { t } = useTranslation()
 
@@ -392,10 +378,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           })}
                         >
                           {hasPriceTooltip ? (
-                            <LineItemPriceTooltip
-                              lineItem={lineItem}
-                              isTaxIncluded={isTaxIncluded}
-                            />
+                            <LineItemPriceTooltip lineItem={lineItem} />
                           ) : (
                             lineItem.formatted_total_amount
                           )}
@@ -694,8 +677,7 @@ function normalizeLineItemOptionValue(value: any): string {
 
 const LineItemPriceTooltip = withSkeletonTemplate<{
   lineItem: LineItem
-  isTaxIncluded: boolean
-}>(({ lineItem, isTaxIncluded }) => {
+}>(({ lineItem }) => {
   const { t } = useTranslation()
   const discountBreakdown = useMemo(
     () => getDiscountBreakdown(lineItem),
@@ -728,12 +710,10 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
           ))}
 
           {lineItem.tax_amount_cents != null &&
-            lineItem.tax_amount_cents > 0 &&
-            lineItem.tax_rate != null && (
+            lineItem.tax_amount_cents > 0 && (
               <>
                 <Text size='small' weight='semibold' className='text-left'>
-                  {t('common.taxes')} {lineItem.tax_rate * 100}%{' '}
-                  {isTaxIncluded ? `(${t('common.included')})` : ''}
+                  {t('common.taxes')}
                 </Text>
                 <Text size='small' weight='semibold' className='text-right'>
                   {lineItem.formatted_tax_amount}
