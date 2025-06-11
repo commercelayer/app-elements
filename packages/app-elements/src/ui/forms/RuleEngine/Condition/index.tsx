@@ -957,7 +957,7 @@ const matcherDictionary: MatcherDictionary = [
      * @value Object
      */
     matcher: 'array_match',
-    label: 'array matches',
+    label: 'is',
     fieldTypes: ['integer', 'string', 'datetime']
   },
   {
@@ -995,16 +995,16 @@ type ArrayMatcherDictionary = Record<
 
 const arrayMatcherDictionary: ArrayMatcherDictionary = {
   in_and: {
-    label: 'in and'
+    label: 'all of'
   },
   in_or: {
-    label: 'in or'
+    label: 'at least one of'
   },
   not_in_and: {
-    label: 'not in and'
+    label: 'not any of'
   },
   not_in_or: {
-    label: 'not in or'
+    label: 'not at least one of'
   }
 }
 
