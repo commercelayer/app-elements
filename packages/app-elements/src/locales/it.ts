@@ -75,6 +75,7 @@ const it: typeof en = {
     card_expires: 'scade',
     status: 'Stato',
     swap: 'Scambia',
+    taxes: 'Tasse',
     time_range: 'Periodo',
     tracking: 'Tracciamento',
     try_to_refresh_page: 'Prova a ricaricare la pagina o richiedi supporto.',

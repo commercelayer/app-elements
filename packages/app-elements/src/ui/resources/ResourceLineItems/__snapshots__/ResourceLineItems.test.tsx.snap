@@ -73,7 +73,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             18.00€
           </div>
@@ -294,7 +294,7 @@ exports[`ResourceLineItems > should render 1`] = `
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             18.00€
           </div>
@@ -392,7 +392,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             18.00€
           </div>
@@ -511,7 +511,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             18.00€
           </div>
@@ -704,7 +704,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             $10.00
           </div>
@@ -857,7 +857,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             243.00€
           </div>
@@ -1185,7 +1185,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             18.00€
           </div>
@@ -1388,7 +1388,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-bold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
           >
             $10.00
           </div>

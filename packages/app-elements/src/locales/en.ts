@@ -299,6 +299,7 @@ const en = {
     saving: 'Saving...',
     status: 'Status',
     swap: 'Swap',
+    taxes: 'Taxes',
     time_range: 'Time Range',
     tracking: 'Tracking',
     try_to_refresh_page: 'Try to refresh the page or ask for support.',

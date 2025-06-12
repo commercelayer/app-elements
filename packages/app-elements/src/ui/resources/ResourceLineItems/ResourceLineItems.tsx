@@ -1,8 +1,9 @@
 import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import { navigateTo } from '#helpers/appsNavigation'
+import { type CurrencyCode } from '#helpers/currencies'
 import { formatDateWithPredicate } from '#helpers/date'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
+import { useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { Avatar } from '#ui/atoms/Avatar'
 import { Badge } from '#ui/atoms/Badge'
@@ -13,6 +14,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { Tooltip } from '#ui/atoms/Tooltip'
+import { formatCentsToCurrency } from '#ui/forms/InputCurrency'
 import { InputSpinner } from '#ui/forms/InputSpinner'
 import { FlexRow } from '#ui/internals/FlexRow'
 import type {
@@ -23,6 +25,7 @@ import type {
 } from '@commercelayer/sdk'
 import { Checks, Swap } from '@phosphor-icons/react'
 import cn from 'classnames'
+import isEmpty from 'lodash-es/isEmpty'
 import {
   Fragment,
   useMemo,
@@ -30,6 +33,7 @@ import {
   type ComponentProps,
   type JSX
 } from 'react'
+import { z } from 'zod'
 import { type StockLineItemWithStockTransfer } from './types'
 
 interface LineItemSettings {
@@ -51,6 +55,7 @@ const Edit = withSkeletonTemplate<{
   const { canUser } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
   const [disabled, setDisabled] = useState<boolean>(false)
+  const { t } = useTranslation()
 
   const canUpdate =
     item.type === 'line_items' && canUser('update', 'line_items')
@@ -180,6 +185,7 @@ export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
 export const ResourceLineItems = withSkeletonTemplate<Props>(
   ({ items, size = 'normal', footer, editable = false, onChange, onSwap }) => {
     const { user } = useTokenProvider()
+    const { t } = useTranslation()
 
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
@@ -265,6 +271,15 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
               lineItem.type === 'line_items' &&
               lineItem.item_type === 'bundles' &&
               lineItem.bundle_code != null
+
+            const hasTaxes =
+              'tax_amount_cents' in lineItem &&
+              lineItem.tax_amount_cents != null &&
+              lineItem.tax_amount_cents > 0
+
+            const hasPriceTooltip =
+              lineItem.type === 'line_items' &&
+              (!isEmpty(lineItem.discount_breakdown) || hasTaxes)
 
             return (
               <Fragment key={lineItem.id}>
@@ -363,11 +378,15 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           tag='div'
                           wrap='nowrap'
                           className={cn({
-                            'font-bold': size === 'normal',
+                            'font-semibold': size === 'normal',
                             'text-sm font-bold': size === 'small'
                           })}
                         >
-                          {lineItem.formatted_total_amount}
+                          {hasPriceTooltip ? (
+                            <LineItemPriceTooltip lineItem={lineItem} />
+                          ) : (
+                            lineItem.formatted_total_amount
+                          )}
                         </Text>
                       )}
                     </td>
@@ -659,4 +678,83 @@ function normalizeLineItemOptionValue(value: any): string {
   } catch {
     return 'Could not render option value'
   }
+}
+
+const LineItemPriceTooltip = withSkeletonTemplate<{
+  lineItem: LineItem
+}>(({ lineItem }) => {
+  const { t } = useTranslation()
+  const discountBreakdown = useMemo(
+    () => getDiscountBreakdown(lineItem),
+    [lineItem.id]
+  )
+
+  return (
+    <Tooltip
+      label={
+        <span className='underline-dotted'>
+          {lineItem.formatted_total_amount}
+        </span>
+      }
+      direction='bottom-end'
+      minWidth
+      content={
+        <div className='grid justify-between grid-cols-2 gap-4 gap-y-2 w-auto'>
+          {discountBreakdown?.map((discountItem) => (
+            <Fragment key={discountItem.id}>
+              <Text size='small' weight='semibold' className='text-left'>
+                {discountItem.name}
+              </Text>
+              <Text size='small' weight='semibold' className='text-right'>
+                {formatCentsToCurrency(
+                  discountItem.cents,
+                  lineItem.currency_code as CurrencyCode
+                )}
+              </Text>
+            </Fragment>
+          ))}
+
+          {lineItem.tax_amount_cents != null &&
+            lineItem.tax_amount_cents > 0 && (
+              <>
+                <Text size='small' weight='semibold' className='text-left'>
+                  {t('common.taxes')}
+                </Text>
+                <Text size='small' weight='semibold' className='text-right'>
+                  {lineItem.formatted_tax_amount}
+                </Text>
+              </>
+            )}
+        </div>
+      }
+    />
+  )
+})
+
+const discountBreakdownType = z
+  .array(
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      coupon_code: z.string().optional(),
+      cents: z.number(),
+      weight: z.number().optional().default(0)
+    })
+  )
+  .optional()
+
+function getDiscountBreakdown(
+  lineItem: LineItem
+): z.infer<typeof discountBreakdownType> {
+  const discountBreakdownAttribute =
+    lineItem.type === 'line_items' && lineItem.discount_breakdown != null
+      ? Object.entries(lineItem.discount_breakdown).map(([key, val]) => ({
+          id: key,
+          ...val
+        }))
+      : undefined
+
+  return discountBreakdownType
+    .safeParse(discountBreakdownAttribute)
+    ?.data?.sort((a, b) => b.weight - a.weight)
 }

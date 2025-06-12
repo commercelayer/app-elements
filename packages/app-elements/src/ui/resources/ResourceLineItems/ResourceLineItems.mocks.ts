@@ -92,6 +92,66 @@ export const presetLineItems = {
     compare_at_amount_float: 0,
     formatted_compare_at_amount: '€0,00'
   },
+  withDiscountBreakdown: {
+    type: 'line_items',
+    item_type: 'skus',
+    id: 'Rew3423fwr',
+    created_at: '',
+    updated_at: '',
+    sku_code: 'BASEBHAT000000FFFFFFXXXX',
+    image_url:
+      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
+    name: 'Black Baseball Hat with White Logo',
+    quantity: 1,
+    formatted_unit_amount: '€37,10',
+    formatted_total_amount: '€37,10',
+    total_amount_float: 37.1,
+    tax_amount_float: 0,
+    compare_at_amount_cents: 4590,
+    compare_at_amount_float: 45.9,
+    formatted_compare_at_amount: '€45,90',
+    currency_code: 'EUR',
+    discount_breakdown: {
+      vGeZtEexGy: {
+        name: 'Coupon first order',
+        cents: -1000,
+        coupon_code: 'PROMO-10-NL'
+      },
+      kAjVtEVdwv: {
+        name: 'Birthday discount',
+        cents: -100,
+        weight: 3
+      },
+      dLgaDaskOa: {
+        name: 'Another discount',
+        cents: -200,
+        weight: 2
+      }
+    }
+  },
+  withTaxes: {
+    type: 'line_items',
+    item_type: 'skus',
+    id: 'Rew3423fwr',
+    created_at: '',
+    updated_at: '',
+    sku_code: 'BASEBHAT000000FFFFFFXXXX',
+    image_url:
+      'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
+    name: 'Black Baseball Hat with White Logo',
+    quantity: 1,
+    formatted_unit_amount: '€32,90',
+    formatted_total_amount: '€32,90',
+    total_amount_float: 3290,
+    formatted_tax_amount: '€7,24',
+    tax_amount_float: 7.24,
+    tax_amount_cents: 724,
+    tax_rate: 0.22,
+    compare_at_amount_cents: 4590,
+    compare_at_amount_float: 45.9,
+    formatted_compare_at_amount: '€45,90',
+    currency_code: 'EUR'
+  },
   withOptions: {
     type: 'line_items',
     item_type: 'skus',
