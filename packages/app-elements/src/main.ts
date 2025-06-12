@@ -204,6 +204,7 @@ export {
   type TimelineEvent,
   type TimelineProps
 } from '#ui/composite/Timeline'
+export { toast, ToastContainer } from '#ui/composite/Toast'
 export { Toolbar, type ToolbarProps } from '#ui/composite/Toolbar'
 // Forms
 export {

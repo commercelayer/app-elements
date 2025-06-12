@@ -1,0 +1,35 @@
+import { Canvas, Description, Meta, Source } from '@storybook/blocks'
+import * as ComponentStories from './Toast.stories'
+
+<Meta of={ComponentStories} />
+
+# Toast
+
+This consists of two main parts: the `<ToastContainer>` component and the `toast` method.
+
+The `<ToastContainer>` is responsible for rendering toast notifications whenever the `toast` method is invoked.
+
+<Source
+  language="tsx"
+  dark
+  code={`
+import { ToastContainer, toast } from '@commercelayer/react-components'
+
+export default function App() {
+  const notify = () => toast('Hi there!');
+
+  return (
+    <div>
+      <ToastContainer />
+      <button onClick={notify}>Greet</button>
+    </div>
+  );
+}
+`}
+/>
+
+<span type="info">
+Remember to render the `ToastContainer` once in your application tree. If you can't figure out where to put it, rendering it in the application root would be the best bet.
+</span>
+
+<Canvas of={ComponentStories.Default} />
