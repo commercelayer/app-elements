@@ -1,9 +1,10 @@
 import { Icon } from '#ui/atoms/Icon'
+import classNames from 'classnames'
 import React from 'react'
 import {
   type Id,
   ToastContainer as OriginalToastContainer,
-  type ToastContent,
+  type ToastContentProps,
   type ToastOptions,
   toast as originalToast
 } from 'react-toastify'
@@ -13,39 +14,54 @@ export const ToastContainer = (): React.JSX.Element => {
     <OriginalToastContainer
       newestOnTop
       position='bottom-right'
-      hideProgressBar={false}
+      hideProgressBar
       autoClose={5000}
       closeOnClick={false}
       pauseOnHover
-      closeButton={({ closeToast }) => {
-        return (
-          <Icon
-            name='x'
-            className='absolute top-2 right-2 cursor-pointer'
-            onClick={() => {
-              closeToast()
-            }}
-          />
-        )
-      }}
+      closeButton={false}
     />
   )
 }
 
 export function toast<TData = unknown>(
-  content: ToastContent<TData>,
-  options?: Options<TData>
+  content: string,
+  { type }: Options<TData> = { type: 'default' }
 ): Id {
-  return originalToast(content, {
-    icon: options?.icon ?? false,
-    type: options?.type ?? 'info',
-    ...options
+  interface ToastData {
+    content: string
+  }
+
+  const Msg = ({
+    closeToast,
+    data
+  }: ToastContentProps<ToastData>): React.JSX.Element => {
+    return (
+      <div className='border border-white/10 min-h-max p-0 text-white flex w-full'>
+        <div className='flex-grow py-3 px-4'>{data.content}</div>
+        <button
+          className={classNames('border-l border-white/10 p-3 self-stretch')}
+          onClick={() => {
+            closeToast()
+          }}
+        >
+          <Icon size={16} name='x' className='flex-grow cursor-pointer' />
+        </button>
+      </div>
+    )
+  }
+
+  return originalToast<ToastData>(Msg, {
+    className: classNames('border-0 p-0 min-h-max', {
+      'bg-black': type === 'default',
+      'bg-green-600': type === 'success',
+      'bg-red-700': type === 'error'
+    }),
+    data: { content },
+    icon: false,
+    type
   })
 }
 
-type Options<Data = unknown> = Pick<ToastOptions<Data>, 'icon'> & {
-  type?: Exclude<
-    Pick<ToastOptions<Data>, 'type'>['type'],
-    'default' | 'warning'
-  >
+interface Options<Data = unknown> {
+  type: Exclude<NonNullable<ToastOptions<Data>['type']>, 'info' | 'warning'>
 }
