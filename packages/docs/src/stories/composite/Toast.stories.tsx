@@ -1,5 +1,4 @@
 import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
 import { ToastContainer, toast } from '#ui/composite/Toast'
 import { type Meta, type StoryFn } from '@storybook/react'
 
@@ -33,9 +32,9 @@ export const Default: StoryFn = () => {
           alignItems='center'
           size='regular'
           variant='secondary'
-          onClick={() => toast('Hi there!', { type: 'info' })}
+          onClick={() => toast('Hi there!')}
         >
-          Info (default)
+          default
         </Button>
         <Button
           className='w-fit'
@@ -68,20 +67,6 @@ export const Default: StoryFn = () => {
           }
         >
           Long message
-        </Button>
-        <Button
-          className='w-fit'
-          alignItems='center'
-          size='regular'
-          variant='secondary'
-          onClick={() =>
-            toast('You have a new message!', {
-              icon: <Icon name='envelopeSimple' />
-            })
-          }
-        >
-          <Icon name='envelopeSimple' />
-          Icon
         </Button>
       </div>
     </>
