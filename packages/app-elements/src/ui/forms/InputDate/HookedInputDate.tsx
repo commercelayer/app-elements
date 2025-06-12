@@ -1,3 +1,4 @@
+import { type MaybeDate } from '#ui/forms/InputDate/InputDateComponent'
 import { type JSX } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useValidationFeedback } from '../ReactHookForm'
@@ -9,6 +10,14 @@ export interface HookedInputDateProps extends Omit<InputDateProps, 'onChange'> {
    * field name to match hook-form state
    */
   name: string
+
+  /**
+   * Optional callback executed after the date value changes.
+   * Useful for running custom logic in response to user interaction, independent of form state updates.
+   * Note: This does not update the form state and should not be used to set the value.
+   * It is triggered immediately after the form state has been updated.
+   */
+  onChanged?: (value: MaybeDate) => void
 }
 
 /**
@@ -18,6 +27,7 @@ export interface HookedInputDateProps extends Omit<InputDateProps, 'onChange'> {
  */
 export function HookedInputDate({
   name,
+  onChanged,
   ...props
 }: HookedInputDateProps): JSX.Element {
   const { control } = useFormContext()
@@ -36,6 +46,10 @@ export function HookedInputDate({
             field.ref({
               focus: ref?.setFocus
             })
+          }}
+          onChange={(date) => {
+            field.onChange(date)
+            onChanged?.(date)
           }}
         />
       )}

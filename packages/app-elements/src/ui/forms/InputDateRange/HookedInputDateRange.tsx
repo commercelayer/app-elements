@@ -1,3 +1,4 @@
+import { type MaybeDate } from '#ui/forms/InputDate/InputDateComponent'
 import get from 'lodash-es/get'
 import { type JSX } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -10,6 +11,13 @@ export interface HookedInputDateRangeProps
    * field name to match hook-form state
    */
   name: string
+  /**
+   * Optional callback executed after the dates value change.
+   * Useful for running custom logic in response to user interaction, independent of form state updates.
+   * Note: This does not update the form state and should not be used to set the value.
+   * It is triggered immediately after the form state has been updated.
+   */
+  onChanged?: (value: [MaybeDate, MaybeDate]) => void
 }
 
 /**
@@ -20,6 +28,7 @@ export interface HookedInputDateRangeProps
  */
 export function HookedInputDateRange({
   name,
+  onChanged,
   ...props
 }: HookedInputDateRangeProps): JSX.Element {
   const { control, formState } = useFormContext()
@@ -61,7 +70,10 @@ export function HookedInputDateRange({
       render={({ field: { onChange, value, ref } }) => (
         <InputDateRange
           {...props}
-          onChange={onChange}
+          onChange={(dates) => {
+            onChange(dates)
+            onChanged?.(dates) // Call the optional onChanged callback if provided
+          }}
           value={value}
           ref={ref}
           fromFeedback={errorMessageFrom}
