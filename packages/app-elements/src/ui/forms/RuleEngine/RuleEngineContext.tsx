@@ -1,4 +1,4 @@
-import { isEqual, set, unset } from 'lodash-es'
+import { get, isEqual, set, unset } from 'lodash-es'
 import React, {
   createContext,
   useCallback,
@@ -33,11 +33,35 @@ function ruleEngineReducer(state: State, action: Action): State {
   switch (action.type) {
     case 'SET_PATH': {
       const newValue = { ...state.value }
-      if (action.value == null) {
-        unset(newValue, action.path)
+
+      if (action.value === null) {
+        if (/\.\d+$/.test(action.path)) {
+          // If the path ends with a number, we assume it's an array index
+          const arrayPath = action.path.replace(/\.\d+$/, '')
+          const arrayIndex = parseInt(action.path.match(/\d+$/)?.[0] ?? '0', 10)
+
+          const arrayValue = get(newValue, arrayPath) as unknown[]
+
+          if (Array.isArray(arrayValue)) {
+            arrayValue.splice(arrayIndex, 1)
+            set(newValue, arrayPath, arrayValue)
+
+            if (arrayValue.length === 0) {
+              // If the array is empty, we unset the entire path when it is a "nested condition"
+              if (arrayPath.endsWith('.nested.conditions')) {
+                unset(newValue, arrayPath.replace(/\.conditions$/, ''))
+              }
+            }
+          }
+        } else {
+          // If the path does not end with a number, we unset the value
+          unset(newValue, action.path)
+        }
       } else {
         set(newValue, action.path, action.value)
       }
+
+      // Remove empty nested.conditions array
 
       return {
         ...state,

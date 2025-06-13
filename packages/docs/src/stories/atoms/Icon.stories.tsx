@@ -46,8 +46,10 @@ AvailableNames.parameters = {
     layout: 'padded'
   },
   docs: {
-    source: {
-      code: null
+    canvas: {
+      // This will remove the "show code" button
+      // https://storybook.js.org/docs/api/doc-blocks/doc-block-canvas#sourcestate
+      sourceState: 'none'
     }
   }
 }
