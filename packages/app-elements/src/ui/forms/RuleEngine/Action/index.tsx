@@ -1,5 +1,9 @@
+import { Button } from '#ui/atoms/Button'
+import { Icon } from '#ui/atoms/Icon'
+import { Dropdown, DropdownItem } from '#ui/composite/Dropdown'
 import { Input } from '#ui/forms/Input'
 import { InputSelect, isSingleValueSelected } from '#ui/forms/InputSelect'
+import { useState } from 'react'
 import { useRuleEngine } from '../RuleEngineContext'
 import { expectNever, type SchemaActionItem } from '../utils'
 
@@ -8,29 +12,58 @@ export function Action({
 }: {
   actions?: SchemaActionItem[]
 }): React.JSX.Element {
+  const [rerenderKey, setRerenderKey] = useState(0)
   const {
+    setPath,
     state: { selectedRuleIndex }
   } = useRuleEngine()
+
   return (
     <>
-      {actions?.map((action, actionIndex) => (
-        <ActionItem
-          key={`${selectedRuleIndex}-${actionIndex}`}
-          item={action}
-          index={actionIndex}
-        />
-      ))}
-      {(actions ?? []).length === 0 && <ActionItem item={null} index={0} />}
+      <div>
+        {actions?.map((action, actionIndex, actionArray) => (
+          <ActionItem
+            key={`${selectedRuleIndex}-${actionIndex}-${rerenderKey}`}
+            item={action}
+            index={actionIndex}
+            onDelete={
+              actionArray.length > 1
+                ? () => {
+                    setRerenderKey((prevKey) => prevKey + 1)
+                  }
+                : undefined
+            }
+          />
+        ))}
+        {/* {(actions ?? []).length === 0 && <ActionItem item={null} index={0} />} */}
+      </div>
+      <div className='mt-6'>
+        <Button
+          size='small'
+          variant='secondary'
+          alignItems='center'
+          onClick={() => {
+            setPath(
+              `rules.${selectedRuleIndex}.actions.${actions?.length ?? 0}`,
+              undefined
+            )
+          }}
+        >
+          <Icon name='plusCircle' /> Add action
+        </Button>
+      </div>
     </>
   )
 }
 
 function ActionItem({
   item,
-  index
+  index,
+  onDelete
 }: {
   item: SchemaActionItem | null
   index: number
+  onDelete?: () => void
 }): React.ReactNode {
   const {
     setPath,
@@ -39,19 +72,19 @@ function ActionItem({
 
   type Item = NonNullable<typeof item>
   const typeDictionary: Record<Item['type'], string> = {
-    buy_x_pay_y: 'Buy X, Pay Y',
-    every_x_discount_y: 'Every X, Discount Y',
+    percentage: 'Percentage discount',
     fixed_amount: 'Fixed amount',
     fixed_price: 'Fixed price',
-    percentage: 'Percentage discount'
+    buy_x_pay_y: 'Buy X, Pay Y',
+    every_x_discount_y: 'Every X, Discount Y'
   }
 
   const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
 
   return (
     <div className='mb-4 last:mb-0'>
-      <div className='bg-gray-50 rounded-md p-2'>
-        <div className='flex items-center justify-between gap-2'>
+      <div className='bg-gray-50 rounded-md flex items-center'>
+        <div className='flex items-center justify-between gap-2 flex-grow p-2'>
           {/* Action type */}
           <div className='flex-1'>
             <InputSelect
@@ -91,6 +124,27 @@ function ActionItem({
             />
           </div>
         </div>
+        {onDelete != null && (
+          <Dropdown
+            className='w-8 border-l border-gray-100 flex items-center justify-center self-stretch'
+            dropdownLabel={
+              <button className='flex items-center justify-center self-stretch flex-grow'>
+                <Icon name='dotsThreeVertical' size={16} weight='bold' />
+              </button>
+            }
+            dropdownItems={
+              <>
+                <DropdownItem
+                  label='Delete'
+                  onClick={() => {
+                    setPath(`${pathPrefix}`, null)
+                    onDelete()
+                  }}
+                />
+              </>
+            }
+          />
+        )}
       </div>
     </div>
   )

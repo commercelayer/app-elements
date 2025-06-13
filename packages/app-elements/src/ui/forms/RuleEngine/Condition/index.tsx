@@ -1,3 +1,5 @@
+import { Icon } from '#ui/atoms/Icon'
+import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
 import { atPath } from '#ui/forms/CodeEditor/fetchCoreResourcesSuggestions'
 import { Input } from '#ui/forms/Input'
 import { InputDate } from '#ui/forms/InputDate'
@@ -22,11 +24,11 @@ import {
 export function Condition({
   item,
   children,
-  isNested = false,
+  nestingLevel = 0,
   pathPrefix
 }: {
   item?: SchemaCondition
-  isNested?: boolean
+  nestingLevel?: number
   children?: React.JSX.Element
   pathPrefix: string
 }): React.JSX.Element {
@@ -35,6 +37,8 @@ export function Condition({
   } = useRuleEngine()
   const conditionsLogin = item?.conditions_logic?.toLowerCase() ?? 'and'
   const { setPath } = useRuleEngine()
+  const [rerenderKey, setRerenderKey] = useState(0)
+  const isNested = nestingLevel > 0
 
   return (
     <div
@@ -43,7 +47,7 @@ export function Condition({
       })}
     >
       {children}
-      {item != null && (
+      {item != null && (item.conditions ?? []).length > 0 && (
         <>
           <select
             onChange={(event) => {
@@ -63,24 +67,34 @@ export function Condition({
               const isLast = conditionIndex === arr.length - 1
               return (
                 <div
-                  key={`${selectedRuleIndex}-${conditionIndex}`}
+                  key={`${selectedRuleIndex}-${conditionIndex}-${rerenderKey}`}
                   className='flex items-center mb-4 last:mb-0 relative'
                 >
                   <Connector rounded={isLast} />
                   <div className='ml-4 w-full'>
                     <Condition
-                      item={condition.nested ?? undefined}
-                      isNested={condition.nested != null}
+                      item={condition?.nested ?? undefined}
+                      nestingLevel={
+                        condition?.nested != null ? nestingLevel + 1 : 0
+                      }
                       pathPrefix={`${pathPrefix}.conditions.${conditionIndex}.nested`}
                     >
                       <div
                         className={classNames({
-                          'mb-4': condition.nested != null
+                          'mb-4': condition?.nested != null
                         })}
                       >
                         <ConditionItem
                           item={condition}
+                          nestingLevel={nestingLevel}
                           pathPrefix={`${pathPrefix}.conditions.${conditionIndex}`}
+                          onDelete={
+                            arr.length > 1
+                              ? () => {
+                                  setRerenderKey((prevKey) => prevKey + 1)
+                                }
+                              : undefined
+                          }
                         />
                       </div>
                     </Condition>
@@ -89,7 +103,7 @@ export function Condition({
               )
             })}
 
-            {(item.conditions ?? []).length === 0 && (
+            {/* {(item.conditions ?? []).length === 0 && (
               <div className='flex items-center mb-4 last:mb-0 relative'>
                 <Connector rounded />
                 <div className='ml-4 w-full'>
@@ -107,7 +121,7 @@ export function Condition({
                   </Condition>
                 </div>
               </div>
-            )}
+            )} */}
           </div>
         </>
       )}
@@ -117,49 +131,91 @@ export function Condition({
 
 function ConditionItem({
   item,
-  pathPrefix
+  nestingLevel,
+  pathPrefix,
+  onDelete
 }: {
   item: SchemaConditionItem | null
+  nestingLevel: number
   pathPrefix: string
+  onDelete?: () => void
 }): React.JSX.Element {
   const { setPath } = useRuleEngine()
-
   return (
-    <div className='bg-gray-50 rounded-md p-2 flex flex-col gap-2'>
-      <div className='flex items-center justify-between gap-2'>
-        {/* Condition target */}
-        <div className='flex-1'>
-          <Input
-            type='text'
-            // suffix={
-            //   infos?.field?.type ? (
-            //     <InputSimpleSelect
-            //       defaultValue={infos.field?.type ?? 'string'}
-            //       options={[
-            //         { label: 'datetime', value: 'datetime' },
-            //         { label: 'string', value: 'string' },
-            //         { label: 'number', value: 'number' },
-            //         { label: 'boolean', value: 'boolean' }
-            //       ]}
-            //     />
-            //   ) : undefined
-            // }
-            defaultValue={item != null ? item.field : undefined}
-            onChange={(event) => {
-              setPath(`${pathPrefix}.field`, event.currentTarget.value)
-            }}
-            onBlur={(event) => {
-              setPath(`${pathPrefix}.field`, event.currentTarget.value)
-            }}
-          />
-        </div>
+    <div className='bg-gray-50 rounded-md flex items-center'>
+      <div className='flex items-center justify-between gap-2 flex-grow p-2'>
+        <div className='flex flex-col gap-2 flex-grow'>
+          <div className='flex items-center justify-between gap-2'>
+            {/* Condition target */}
+            <div className='flex-1'>
+              <Input
+                type='text'
+                // suffix={
+                //   infos?.field?.type ? (
+                //     <InputSimpleSelect
+                //       defaultValue={infos.field?.type ?? 'string'}
+                //       options={[
+                //         { label: 'datetime', value: 'datetime' },
+                //         { label: 'string', value: 'string' },
+                //         { label: 'number', value: 'number' },
+                //         { label: 'boolean', value: 'boolean' }
+                //       ]}
+                //     />
+                //   ) : undefined
+                // }
+                defaultValue={item != null ? item.field : undefined}
+                onChange={(event) => {
+                  setPath(`${pathPrefix}.field`, event.currentTarget.value)
+                }}
+                onBlur={(event) => {
+                  setPath(`${pathPrefix}.field`, event.currentTarget.value)
+                }}
+              />
+            </div>
 
-        {/* Condition matcher */}
-        <div className='flex-14'>
-          <ConditionMatcher item={item} pathPrefix={pathPrefix} />
+            {/* Condition matcher */}
+            <div className='flex-14'>
+              <ConditionMatcher item={item} pathPrefix={pathPrefix} />
+            </div>
+          </div>
+          <ConditionValue item={item} pathPrefix={pathPrefix} />
         </div>
       </div>
-      <ConditionValue item={item} pathPrefix={pathPrefix} />
+      {onDelete != null && (
+        <Dropdown
+          className='w-8 border-l border-gray-100 flex items-center justify-center self-stretch'
+          dropdownLabel={
+            <button className='flex items-center justify-center self-stretch flex-grow'>
+              <Icon name='dotsThreeVertical' size={16} weight='bold' />
+            </button>
+          }
+          dropdownItems={
+            <>
+              {nestingLevel < 2 && (
+                <>
+                  <DropdownItem
+                    label='Nest conditions'
+                    onClick={() => {
+                      setPath(
+                        `${pathPrefix}.nested.conditions.${(item?.nested?.conditions ?? []).length}`,
+                        undefined
+                      )
+                    }}
+                  />
+                  <DropdownDivider />
+                </>
+              )}
+              <DropdownItem
+                label='Delete'
+                onClick={() => {
+                  setPath(`${pathPrefix}`, null)
+                  onDelete()
+                }}
+              />
+            </>
+          }
+        />
+      )}
     </div>
   )
 }
@@ -201,7 +257,7 @@ function ConditionMatcher({
   let fieldType = infos?.field?.type
 
   if (fieldType == null) {
-    fieldType = guessFieldType((item as ItemWithValue).value)
+    fieldType = guessFieldType((item as ItemWithValue | null)?.value)
   }
 
   return (
@@ -270,7 +326,7 @@ function useResourcePathInfos(item: SchemaConditionItem | null): {
 }
 
 function guessFieldType(
-  value: ItemWithValue['value']
+  value: ItemWithValue['value'] | undefined
 ): NonNullable<Awaited<ReturnType<typeof atPath>>['field']>['type'] {
   if (typeof value === 'string') {
     if (isValid(parseJSON(value))) {

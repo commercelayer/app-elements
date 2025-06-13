@@ -1,3 +1,4 @@
+import { Button } from '#ui/atoms/Button'
 import { Icon, type IconProps } from '#ui/atoms/Icon'
 import { CodeEditor, type CodeEditorProps } from '#ui/forms/CodeEditor'
 import {
@@ -82,7 +83,8 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const {
     state: { value, selectedRuleIndex },
     setSelectedRuleIndex,
-    setValue
+    setValue,
+    setPath
   } = useRuleEngine()
 
   const [editorVisible, setEditorVisible] = useState(
@@ -129,7 +131,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
       <section className='flex h-full'>
         <div
           key={forcedRender}
-          className={`shrink-0 basis-1/2 overflow-x-auto relative flex flex-col ${editorVisible ? '' : 'grow'}`}
+          className={`shrink-0 basis-3/5 overflow-x-auto relative flex flex-col ${editorVisible ? '' : 'grow'}`}
         >
           <header className='w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center'>
             <div className='flex items-center gap-4 flex-wrap'>
@@ -149,6 +151,21 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                   </button>
                 )
               })}
+              <button
+                className={classNames('font-bold', {
+                  'text-black': true
+                })}
+                onClick={() => {
+                  setPath(`rules.${value.rules.length}`, {
+                    name: 'New rule',
+                    actions: [null],
+                    conditions: [null]
+                  })
+                  setSelectedRuleIndex(value.rules.length)
+                }}
+              >
+                <Icon name='plus' size={16} className='shrink-0' />
+              </button>
             </div>
 
             <div className='flex-grow flex justify-end'>
@@ -168,7 +185,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               <RuleName />
               <Icon name='pencilSimple' size={16} className='shrink-0' />
             </div>
-            <Card title='Apply' icon='lightning'>
+            <Card title='Actions' icon='lightning'>
               <Action actions={selectedRule?.actions} />
             </Card>
 
@@ -179,11 +196,26 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                 item={selectedRule}
                 pathPrefix={`rules.${selectedRuleIndex}`}
               />
+              <div className='mt-6'>
+                <Button
+                  size='small'
+                  variant='secondary'
+                  alignItems='center'
+                  onClick={() => {
+                    setPath(
+                      `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
+                      undefined
+                    )
+                  }}
+                >
+                  <Icon name='plusCircle' /> Add condition
+                </Button>
+              </div>
             </Card>
           </Canvas>
         </div>
         {editorVisible && (
-          <div className='shrink-0 basis-1/2'>
+          <div className='shrink-0 basis-2/5'>
             <CodeEditor
               ref={codeEditorRef}
               name={props.id ?? props.name}

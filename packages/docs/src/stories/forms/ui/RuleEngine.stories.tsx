@@ -9,7 +9,7 @@ const setup: Meta<typeof RuleEngine> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ height: '600px' }}>
+      <div style={{ height: '700px' }}>
         <style
           dangerouslySetInnerHTML={{
             __html: `.sbdocs.sbdocs-content { max-width: 95%; }`
@@ -39,6 +39,26 @@ Default.args = {
   defaultValue: JSON.stringify(
     {
       rules: [
+        {
+          id: 'd4e5f6a7-b8c9-0d1e-2f3g-4h5i6j7k8l9m',
+          name: 'Discount 5% on items that have a big stock',
+          actions: [
+            {
+              type: 'percentage',
+              value: 0.05,
+              groups: ['discountable-items'],
+              selector: 'order.line_items'
+            }
+          ],
+          conditions: [
+            {
+              field: 'order.line_items.sku.inventory.quantity',
+              group: 'discountable-items',
+              value: 100,
+              matcher: 'gteq'
+            }
+          ]
+        },
         {
           id: 'd386c750-d8df-494e-b28e-cbce22a449fb',
           name: 'Rule for EUR',
@@ -326,30 +346,19 @@ Default.args = {
               groups: ['1000_2000', '2100_3000', '3100']
             }
           ]
-        },
-        {
-          id: 'd4e5f6a7-b8c9-0d1e-2f3g-4h5i6j7k8l9m',
-          name: 'Discount 5% on items that have a big stock',
-          actions: [
-            {
-              type: 'percentage',
-              value: 0.05,
-              groups: ['discountable-items'],
-              selector: 'order.line_items'
-            }
-          ],
-          conditions: [
-            {
-              field: 'order.line_items.sku.inventory.quantity',
-              group: 'discountable-items',
-              value: 100,
-              matcher: 'gteq'
-            }
-          ]
         }
       ]
     },
     undefined,
     2
   ).concat('\n')
+}
+Default.parameters = {
+  docs: {
+    canvas: {
+      // This will remove the "show code" button
+      // https://storybook.js.org/docs/api/doc-blocks/doc-block-canvas#sourcestate
+      sourceState: 'none'
+    }
+  }
 }
