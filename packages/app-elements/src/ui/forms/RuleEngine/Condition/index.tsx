@@ -11,7 +11,7 @@ import {
 } from '#ui/forms/InputSelect'
 import classNames from 'classnames'
 import { isValid, parseISO, parseJSON } from 'date-fns'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useRuleEngine } from '../RuleEngineContext'
 import {
   type ConditionMatchersWithoutValue,
@@ -89,7 +89,7 @@ export function Condition({
                           nestingLevel={nestingLevel}
                           pathPrefix={`${pathPrefix}.conditions.${conditionIndex}`}
                           onDelete={
-                            arr.length > 1
+                            arr.length > 1 || nestingLevel > 0
                               ? () => {
                                   setRerenderKey((prevKey) => prevKey + 1)
                                 }
@@ -141,6 +141,37 @@ function ConditionItem({
   onDelete?: () => void
 }): React.JSX.Element {
   const { setPath } = useRuleEngine()
+
+  const dropdownItems: React.ReactNode[][] = []
+
+  if (nestingLevel < 2) {
+    dropdownItems[0] ??= []
+    dropdownItems[0].push(
+      <DropdownItem
+        label='Nest conditions'
+        onClick={() => {
+          setPath(
+            `${pathPrefix}.nested.conditions.${(item?.nested?.conditions ?? []).length}`,
+            undefined
+          )
+        }}
+      />
+    )
+  }
+
+  if (onDelete != null) {
+    dropdownItems[1] ??= []
+    dropdownItems[1].push(
+      <DropdownItem
+        label='Delete'
+        onClick={() => {
+          setPath(`${pathPrefix}`, null)
+          onDelete()
+        }}
+      />
+    )
+  }
+
   return (
     <div className='bg-gray-50 rounded-md flex items-center'>
       <div className='flex items-center justify-between gap-2 flex-grow p-2'>
@@ -181,7 +212,7 @@ function ConditionItem({
           <ConditionValue item={item} pathPrefix={pathPrefix} />
         </div>
       </div>
-      {onDelete != null && (
+      {dropdownItems.length > 0 && (
         <Dropdown
           className='w-8 border-l border-gray-100 flex items-center justify-center self-stretch'
           dropdownLabel={
@@ -189,31 +220,14 @@ function ConditionItem({
               <Icon name='dotsThreeVertical' size={16} weight='bold' />
             </button>
           }
-          dropdownItems={
-            <>
-              {nestingLevel < 2 && (
-                <>
-                  <DropdownItem
-                    label='Nest conditions'
-                    onClick={() => {
-                      setPath(
-                        `${pathPrefix}.nested.conditions.${(item?.nested?.conditions ?? []).length}`,
-                        undefined
-                      )
-                    }}
-                  />
-                  <DropdownDivider />
-                </>
-              )}
-              <DropdownItem
-                label='Delete'
-                onClick={() => {
-                  setPath(`${pathPrefix}`, null)
-                  onDelete()
-                }}
-              />
-            </>
-          }
+          dropdownItems={dropdownItems.map((items, index, arr) => (
+            <React.Fragment key={index}>
+              {items.map((item, itemIndex) => (
+                <React.Fragment key={itemIndex}>{item}</React.Fragment>
+              ))}
+              {index < arr.length - 1 && <DropdownDivider />}
+            </React.Fragment>
+          ))}
         />
       )}
     </div>
