@@ -157,7 +157,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                 })}
                 onClick={() => {
                   setPath(`rules.${value.rules.length}`, {
-                    name: 'New rule',
+                    name: 'Rule name',
                     actions: [null],
                     conditions: [null]
                   })

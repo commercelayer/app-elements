@@ -77,6 +77,23 @@ function ruleEngineReducer(state: State, action: Action): State {
 
     case 'SET_VALUE':
       if (!isEqual(state.value, action.value)) {
+        if (action.value.rules.length === 0) {
+          return {
+            selectedRuleIndex: 0,
+            value: {
+              rules: [
+                {
+                  name: 'Rule name',
+                  // @ts-expect-error Setting `null` is intentional for rendering an empty action
+                  actions: [null],
+                  // @ts-expect-error Setting `null` is intentional for rendering an empty condition
+                  conditions: [null]
+                }
+              ]
+            }
+          }
+        }
+
         return {
           ...state,
           value: action.value
