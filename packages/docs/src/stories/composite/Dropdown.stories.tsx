@@ -117,7 +117,7 @@ WithScrollbar.args = {
   dropdownItems: (
     <>
       {Array.from({ length: 30 }, (_, i) => (
-        <DropdownItem key={i} label={`Item ${i + 1}`} />
+        <DropdownItem key={i} label={`Item ${i + 1}`} onClick={() => {}} />
       ))}
     </>
   )
