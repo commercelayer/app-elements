@@ -1,3 +1,4 @@
+import { isMockedId } from '#helpers/mocks'
 import {
   type EditMetadataOverlayProps,
   useEditMetadataOverlay
@@ -45,12 +46,14 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
     const { data: resourceData, isLoading } = useCoreApi(
       resourceType,
       'retrieve',
-      [
-        resourceId,
-        {
-          fields: ['metadata']
-        }
-      ]
+      isMockedId(resourceId)
+        ? null
+        : [
+            resourceId,
+            {
+              fields: ['metadata']
+            }
+          ]
     )
 
     const isUpdatable =
