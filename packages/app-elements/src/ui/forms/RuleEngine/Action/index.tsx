@@ -168,7 +168,7 @@ function ActionValue({
         <div className='w-36 flex items-center gap-0.5'>
           <Input
             type='number'
-            suffix='x'
+            suffix='X'
             defaultValue={item.value?.x}
             onChange={(event) => {
               setPath(
@@ -179,7 +179,7 @@ function ActionValue({
           />
           <Input
             type='number'
-            suffix='y'
+            suffix='Y'
             defaultValue={item.value?.y}
             onChange={(event) => {
               setPath(
@@ -197,7 +197,7 @@ function ActionValue({
         <div className='w-36 flex items-center gap-0.5'>
           <Input
             type='number'
-            suffix='x'
+            suffix='X'
             defaultValue={item.value?.x}
             onChange={(event) => {
               setPath(
@@ -208,7 +208,7 @@ function ActionValue({
           />
           <Input
             type='number'
-            suffix='y'
+            suffix='Y'
             defaultValue={item.value?.y}
             onChange={(event) => {
               setPath(

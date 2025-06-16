@@ -109,6 +109,7 @@ export const iconMapping = {
   storefront: phosphor.Storefront,
   suitcaseSimple: phosphor.SuitcaseSimple,
   tag: phosphor.Tag,
+  target: phosphor.Target,
   ticket: phosphor.Ticket,
   trash: phosphor.Trash,
   treeStructure: phosphor.TreeStructure,

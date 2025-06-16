@@ -200,6 +200,10 @@ describe('fetchCoreResourcesSuggestions', () => {
         },
         {
           "type": "field",
+          "value": "order.line_items.rule_outcomes",
+        },
+        {
+          "type": "field",
           "value": "order.line_items.id",
         },
         {
