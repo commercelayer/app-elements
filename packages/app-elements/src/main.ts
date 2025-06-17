@@ -22,6 +22,7 @@ export {
   timeSeparator
 } from '#helpers/date'
 export { downloadJsonAsFile } from '#helpers/downloadJsonAsFile'
+export { isMock, isMockedId } from '#helpers/mocks'
 export { computeFullname, formatDisplayName } from '#helpers/name'
 export {
   formatResourceName,

@@ -1,4 +1,5 @@
 import { formatDateWithPredicate } from '#helpers/date'
+import { isMockedId } from '#helpers/mocks'
 import { useCoreApi } from '#providers/CoreSdkProvider'
 import { useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
@@ -25,7 +26,7 @@ export const ResourceAttachments =
       const { data: resource } = useCoreApi(
         resourceType,
         'retrieve',
-        resourceId == null || isEmpty(resourceId)
+        resourceId == null || isEmpty(resourceId) || isMockedId(resourceId)
           ? null
           : [
               resourceId,

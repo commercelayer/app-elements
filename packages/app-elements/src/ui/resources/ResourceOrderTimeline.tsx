@@ -1,6 +1,7 @@
 import { getOrderTransactionName } from '#dictionaries/orders'
 import { navigateTo } from '#helpers/appsNavigation'
 import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
+import { isMockedId } from '#helpers/mocks'
 import { orderTransactionIsAnAsyncCapture } from '#helpers/transactions'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { t } from '#providers/I18NProvider'
@@ -34,7 +35,7 @@ export const ResourceOrderTimeline =
       } = useCoreApi(
         'orders',
         'retrieve',
-        orderId == null || isEmpty(orderId)
+        orderId == null || isEmpty(orderId) || isMockedId(orderId)
           ? null
           : [
               orderId,

@@ -1,3 +1,4 @@
+import { isMockedId } from '#helpers/mocks'
 import {
   type EditTagsOverlayProps,
   useEditTagsOverlay
@@ -64,7 +65,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
     const { data: resourceTags } = useCoreApi(
       resourceType,
       'tags',
-      resourceId == null || isEmpty(resourceId)
+      resourceId == null || isEmpty(resourceId) || isMockedId(resourceId)
         ? null
         : [
             resourceId,
