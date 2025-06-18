@@ -37,7 +37,9 @@ export function toast<TData = unknown>(
   }: ToastContentProps<ToastData>): React.JSX.Element => {
     return (
       <div className='border border-white/10 min-h-max p-0 text-white flex w-full'>
-        <div className='flex-grow py-3 px-4'>{data.content}</div>
+        <div className='flex-grow py-3 px-4 text-sm leading-5 font-semibold'>
+          {data.content}
+        </div>
         <button
           className={classNames('border-l border-white/10 p-3 self-stretch')}
           onClick={() => {
