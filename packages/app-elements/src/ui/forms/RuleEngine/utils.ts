@@ -29,6 +29,11 @@ export const conditionMatchersWithoutValue = asUniqueArray([
   'not_null'
 ]) satisfies ConditionMatchersWithoutValue[]
 
+export type ItemWithValue = Exclude<
+  SchemaConditionItem,
+  { matcher: ConditionMatchersWithoutValue }
+>
+
 /**
  * This function is used to ensure that a value of type `never` is never reached.
  * @param _value - The value that is expected to be of type `never`.
