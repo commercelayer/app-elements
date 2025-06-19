@@ -457,7 +457,24 @@ export const presetLineItems = {
     updated_at: '2023-08-24T12:27:02.252Z',
     reference: null,
     reference_origin: null,
-    metadata: {}
+    metadata: {},
+    gift_card: {
+      id: 'FpRgeTkwQy',
+      type: 'gift_cards',
+      created_at: '',
+      updated_at: '',
+      status: 'active',
+      code: '8f21c2a7-4d3b-402e-9c98-1b4c7f2fcb55',
+      currency_code: 'EUR',
+      initial_balance_cents: 10000,
+      initial_balance_float: 100,
+      formatted_initial_balance: '€100,00',
+      balance_cents: 10000,
+      balance_float: 100,
+      formatted_balance: '€100,00',
+      balance_log: [],
+      usage_log: {}
+    }
   },
   percentageDiscountPromotionOver100: {
     type: 'line_items',

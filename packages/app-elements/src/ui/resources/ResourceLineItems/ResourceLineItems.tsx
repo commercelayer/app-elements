@@ -2,6 +2,7 @@ import { getStockTransferDisplayStatus } from '#dictionaries/stockTransfers'
 import { navigateTo } from '#helpers/appsNavigation'
 import { type CurrencyCode } from '#helpers/currencies'
 import { formatDateWithPredicate } from '#helpers/date'
+import { maskGiftCardCode } from '#helpers/giftCards'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
@@ -244,9 +245,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
 
             const code =
               lineItem.type === 'line_items'
-                ? lineItem.item_type === 'skus'
-                  ? lineItem.sku_code
-                  : lineItem.bundle_code
+                ? isGiftCard(lineItem) && lineItem.gift_card?.code != null
+                  ? maskGiftCardCode(lineItem.gift_card.code)
+                  : lineItem.item_type === 'skus'
+                    ? lineItem.sku_code
+                    : lineItem.bundle_code
                 : lineItem.sku_code
 
             const name = lineItem.name
