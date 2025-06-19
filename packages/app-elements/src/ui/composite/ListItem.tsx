@@ -1,7 +1,7 @@
 import { FlexRow, type FlexRowProps } from '#ui/internals/FlexRow'
 import { removeUnwantedProps } from '#utils/htmltags'
 import cn from 'classnames'
-import { type FC, type JSX } from 'react'
+import type { FC, JSX } from 'react'
 
 type ListItemVariant = 'list' | 'boxed'
 
@@ -21,6 +21,8 @@ export type ListItemProps = React.HTMLAttributes<HTMLElement> &
     /**
      * Control the horizontal padding (`x`) or vertical padding (`y`).
      * You can specify `none` to remove the padding.
+     *
+     * By default, the padding is set to `y` when the ListItem is a **not** clickable list, `xy` otherwise.
      * @default 'xy'
      */
     padding?: 'xy' | 'x' | 'y' | 'none'
@@ -33,7 +35,7 @@ export type ListItemProps = React.HTMLAttributes<HTMLElement> &
      * Border style to render
      * @default 'solid'
      */
-    borderStyle?: 'solid' | 'none'
+    borderStyle?: 'solid' | 'dashed' | 'none'
     /**
      * ListItem variant: 'list' or 'boxed' with rounded borders
      * @default 'list'
@@ -50,7 +52,7 @@ export const ListItem: FC<ListItemProps> = ({
   icon,
   children,
   className,
-  padding = 'xy',
+  padding,
   paddingSize = '4',
   alignItems = 'center',
   alignIcon = 'top',
@@ -64,6 +66,17 @@ export const ListItem: FC<ListItemProps> = ({
   const JsxTag =
     rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
   const isClickable = !disabled && (rest.href != null || rest.onClick != null)
+
+  if (padding == null) {
+    const isNonClickableList =
+      variant === 'list' && rest.href == null && rest.onClick == null
+
+    if (isNonClickableList) {
+      padding = 'y'
+    } else {
+      padding = 'xy'
+    }
+  }
 
   const pySize = cn({
     'py-6': paddingSize === '6',
@@ -88,10 +101,11 @@ export const ListItem: FC<ListItemProps> = ({
         'flex gap-4 w-full',
         'text-gray-800 hover:text-gray-800', // keep default text color also when used as `<a>` tag
         {
-          [overlayPxSize]: padding === 'y',
+          [overlayPxSize]: padding !== 'none' && padding !== 'y',
           [pySize]: padding !== 'none' && padding !== 'x',
           [pxSize]: padding !== 'none' && padding !== 'y',
-          'border-b': borderStyle !== 'none',
+          relative: borderStyle === 'dashed',
+          'border-b': borderStyle === 'solid',
           'rounded border': variant === 'boxed',
           'hover:bg-gray-50 focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none':
             isClickable,
@@ -124,6 +138,9 @@ export const ListItem: FC<ListItemProps> = ({
         )}
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
+      {borderStyle === 'dashed' && (
+        <div className='absolute bottom-0 left-0 w-full h-[1px] bg-[linear-gradient(to_right,transparent_50%,rgba(230,231,231,1)_50%)] bg-[length:10px_100%]' />
+      )}
     </JsxTag>
   )
 }

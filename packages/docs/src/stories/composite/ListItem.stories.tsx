@@ -5,7 +5,7 @@ import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
-import { type Meta, type StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react'
 
 const setup: Meta<typeof ListItem> = {
   title: 'Composite/ListItem',
@@ -55,6 +55,12 @@ const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
 export const WithIcon = WithIconTemplate.bind({})
 WithIcon.args = {
   icon: <StatusIcon name='arrowDown' background='orange' gap='large' />
+}
+
+export const BorderDashed = WithIconTemplate.bind({})
+BorderDashed.args = {
+  icon: <StatusIcon name='arrowDown' background='orange' gap='large' />,
+  borderStyle: 'dashed'
 }
 
 export const Boxed = WithIconTemplate.bind({})
