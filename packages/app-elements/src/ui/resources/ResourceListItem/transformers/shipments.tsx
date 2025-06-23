@@ -6,6 +6,7 @@ import {
   ListItemIcon
 } from '#ui/resources/ResourceListItem/common'
 import type { Shipment } from '@commercelayer/sdk'
+import { isEmpty } from 'lodash-es'
 import { type ResourceToProps } from '../types'
 
 export const shipmentToProps: ResourceToProps<Shipment> = ({
@@ -26,7 +27,10 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
     resource,
     awaitingStockTransfer
   )
-  const additionalInfos =
+  const reference = isEmpty(resource.reference)
+    ? ''
+    : `Ref. ${resource.reference} · `
+  const info =
     resource.stock_location?.name != null
       ? `${t('common.from')} ${resource.stock_location.name} `
       : resource.shipping_method?.name != null
@@ -45,7 +49,7 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
           timezone: user?.timezone,
           locale: user?.locale
         })}
-        additionalInfos={additionalInfos}
+        additionalInfos={`${reference}${info}`}
       />
     ),
     icon:

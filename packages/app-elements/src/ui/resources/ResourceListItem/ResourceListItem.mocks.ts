@@ -365,6 +365,17 @@ export const presetResourceListItem = {
     stock_location: originStockLocation,
     shipping_method: shippingMethod
   },
+  shipmentWithReference: {
+    type: 'shipments',
+    id: '',
+    created_at: '',
+    updated_at: '2023-06-10T06:38:44.964Z',
+    number: '30817130/S/0001',
+    status: 'picking',
+    reference: '34692GA',
+    stock_location: originStockLocation,
+    shipping_method: shippingMethod
+  },
   shipmentWithStockTransfer: {
     type: 'shipments',
     id: '',
