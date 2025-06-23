@@ -20,18 +20,18 @@ export const getSelectStyles = (
   }),
   option: (style, { isSelected, isFocused, isDisabled }) => ({
     ...style,
-    padding: '0.625rem 1rem',
+    padding: '0.375rem 1rem',
     backgroundColor: isSelected
-      ? '#404141'
+      ? '#EDEEEE'
       : isFocused
         ? '#F8F8F8'
         : 'transparent',
-    color: isSelected ? '#fff' : isDisabled ? '#BBBEBE' : 'rgb(40 41 41)',
-    fontSize: 16,
-    fontWeight: 500,
+    color: isDisabled ? '#BBBEBE' : 'rgb(40 41 41)',
+    fontSize: 15,
+    fontWeight: isSelected ? 700 : 500,
     cursor: 'pointer',
     '&:active': {
-      backgroundColor: isSelected ? '#101111' : 'rgb(248 248 248)'
+      backgroundColor: isSelected ? '#EDEEEE' : 'rgb(248 248 248)'
     },
     '&:first-of-type': {
       borderTopLeftRadius: 5,
