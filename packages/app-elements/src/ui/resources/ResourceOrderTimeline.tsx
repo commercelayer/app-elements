@@ -4,7 +4,7 @@ import { isAttachmentValidNote, referenceOrigins } from '#helpers/attachments'
 import { isMockedId } from '#helpers/mocks'
 import { orderTransactionIsAnAsyncCapture } from '#helpers/transactions'
 import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
+import { useTranslation } from '#providers/I18NProvider'
 import { useTokenProvider } from '#providers/TokenProvider'
 import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { Text } from '#ui/atoms/Text'
@@ -134,6 +134,7 @@ export const ResourceOrderTimeline =
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useTimelineReducer = (order: Order) => {
+  const { t } = useTranslation()
   const [orderId, setOrderId] = useState<string>(order.id)
   const {
     canAccess,
@@ -362,6 +363,10 @@ const useTimelineReducer = (order: Order) => {
             type: 'add',
             payload: {
               date: transaction.created_at,
+              variant:
+                isFailedCapture || isFailedAuthorization
+                  ? 'warning'
+                  : undefined,
               message: transaction.succeeded ? (
                 <>
                   {t('common.timeline.resources.payment_of_was', {

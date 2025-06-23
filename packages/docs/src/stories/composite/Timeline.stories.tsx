@@ -90,6 +90,17 @@ Default.args = {
         month: 0,
         date: 1,
         hours: 12,
+        minutes: 15,
+        seconds: 0
+      }).toJSON(),
+      message: 'Capture failed',
+      variant: 'warning'
+    },
+    {
+      date: set(new Date(), {
+        month: 0,
+        date: 1,
+        hours: 12,
         minutes: 23,
         seconds: 28
       }).toJSON(),

@@ -7,13 +7,15 @@ import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { Input } from '#ui/forms/Input'
+import cn from 'classnames'
+import { isEmpty } from 'lodash-es'
 import { Fragment, useMemo, type JSX, type ReactNode } from 'react'
-
 export interface TimelineEvent {
   date: string
   author?: string
   message: ReactNode
   note?: string
+  variant?: 'warning'
 }
 
 type EventWithIcon = TimelineEvent & {
@@ -92,8 +94,17 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
                             {event.author}{' '}
                           </Text>
                         )}
-                        <Text variant='info'>
-                          {event.message} ·{' '}
+                        <Text>
+                          <span
+                            className={cn({
+                              'text-orange-700':
+                                event.variant === 'warning' &&
+                                isEmpty(event.note)
+                            })}
+                          >
+                            {event.message}
+                          </span>{' '}
+                          ·{' '}
                           {formatDate({
                             format: 'timeWithSeconds',
                             isoDate: event.date,
@@ -114,7 +125,14 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
                         data-testid='timeline-event-note'
                         className='w-full mt-1'
                       >
-                        {event.note}
+                        <div
+                          className={cn('text-sm', {
+                            'text-orange-700 font-semibold':
+                              event.variant === 'warning'
+                          })}
+                        >
+                          {event.note}
+                        </div>
                       </Card>
                     </div>
                   )}
@@ -129,6 +147,10 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
 )
 
 function getIcon(event: TimelineEvent): JSX.Element {
+  if (event.variant === 'warning') {
+    return <StatusIcon name='warning' background='orange' gap='small' />
+  }
+
   if (event.note != null) {
     return <StatusIcon name='chatCircle' background='black' gap='small' />
   }
