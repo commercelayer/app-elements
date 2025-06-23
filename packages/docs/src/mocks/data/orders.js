@@ -236,8 +236,10 @@ const order = {
         related: 'https://mock.localhost/api/orders/NMWYhbGorj/transactions'
       },
       data: [
-        { type: 'authorizations', id: 'nKZkPUDBVj' },
-        { type: 'captures', id: 'kyAnxUgegE' }
+        { type: 'authorizations', id: 'nKZkPUDBVj' }, // success
+        { type: 'authorizations', id: 'authFailed' }, // failed
+        { type: 'captures', id: 'kyAnxUgegE' }, // success
+        { type: 'captures', id: 'vcAnxfaiLc' } // failed
       ]
     },
     authorizations: {
@@ -1773,6 +1775,7 @@ const orderDetail = http.get(
           },
           meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
         },
+        // success authorization
         {
           id: 'nKZkPUDBVj',
           type: 'authorizations',
@@ -1857,6 +1860,93 @@ const orderDetail = http.get(
           },
           meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
         },
+        // failed authorization
+        {
+          id: 'authFailed',
+          type: 'authorizations',
+          links: {
+            self: 'https://mock.localhost/api/authorizations/authFailed'
+          },
+          attributes: {
+            number: '2485862/T/001',
+            currency_code: 'EUR',
+            amount_cents: 15400,
+            amount_float: 154.0,
+            formatted_amount: '€154,00',
+            succeeded: false,
+            message: null,
+            error_code: 'Error',
+            error_detail:
+              'Could not process the authorization due to unknown error',
+            token: 'pi_3N8LhsK5j6INEBBI0JicoLOo',
+            gateway_transaction_id: 'pi_3N8LhsK5j6INEBBI0JicoLOo',
+            created_at: '2023-05-16T11:06:20.964Z',
+            updated_at: '2023-05-16T11:06:20.964Z',
+            reference: null,
+            reference_origin: null,
+            metadata: {},
+            cvv_code: null,
+            cvv_message: null,
+            avs_code: null,
+            avs_message: null,
+            fraud_review: null,
+            capture_amount_cents: 0,
+            capture_amount_float: 0.0,
+            formatted_capture_amount: '€0,00',
+            capture_balance_cents: 0,
+            capture_balance_float: 0.0,
+            formatted_capture_balance: '€0,00',
+            void_balance_cents: 15400,
+            void_balance_float: 154.0,
+            formatted_void_balance: '€154,00'
+          },
+          relationships: {
+            order: {
+              links: {
+                self: 'https://mock.localhost/api/authorizations/authFailed/relationships/order',
+                related:
+                  'https://mock.localhost/api/authorizations/authFailed/order'
+              }
+            },
+            attachments: {
+              links: {
+                self: 'https://mock.localhost/api/authorizations/authFailed/relationships/attachments',
+                related:
+                  'https://mock.localhost/api/authorizations/authFailed/attachments'
+              }
+            },
+            versions: {
+              links: {
+                self: 'https://mock.localhost/api/authorizations/authFailed/relationships/versions',
+                related:
+                  'https://mock.localhost/api/authorizations/authFailed/versions'
+              }
+            },
+            captures: {
+              links: {
+                self: 'https://mock.localhost/api/authorizations/authFailed/relationships/captures',
+                related:
+                  'https://mock.localhost/api/authorizations/authFailed/captures'
+              }
+            },
+            voids: {
+              links: {
+                self: 'https://mock.localhost/api/authorizations/authFailed/relationships/voids',
+                related:
+                  'https://mock.localhost/api/authorizations/authFailed/voids'
+              }
+            },
+            events: {
+              links: {
+                self: 'https://mock.localhost/api/authorizations/authFailed/relationships/events',
+                related:
+                  'https://mock.localhost/api/authorizations/authFailed/events'
+              }
+            }
+          },
+          meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+        },
+        // success capture
         {
           id: 'kyAnxUgegE',
           type: 'captures',
@@ -1926,6 +2016,82 @@ const orderDetail = http.get(
               links: {
                 self: 'https://mock.localhost/api/captures/kyAnxUgegE/relationships/events',
                 related: 'https://mock.localhost/api/captures/kyAnxUgegE/events'
+              }
+            }
+          },
+          meta: { mode: 'test', organization_id: 'WXlEOFrjnr' }
+        },
+        // failed capture
+        {
+          id: 'vcAnxfaiLc',
+          type: 'captures',
+          links: {
+            self: 'https://mock.localhost/api/captures/vcAnxfaiLc'
+          },
+          attributes: {
+            number: '2485862/T/002',
+            currency_code: 'EUR',
+            amount_cents: 15400,
+            amount_float: 154.0,
+            formatted_amount: '€154,00',
+            succeeded: false,
+            message:
+              'This PaymentIntent could not be captured because it has a status of canceled. Only a PaymentIntent with one of the following statuses may be captured: requires_capture.',
+            error_code: null,
+            error_detail: null,
+            token: 'pi_3N8LhsK5j6INEBBsaI0JicoLOo',
+            gateway_transaction_id: 'pi_3N8LhsK5asdj6INEBBI0JicoLOo',
+            created_at: '2023-05-16T14:18:20.368Z',
+            updated_at: '2023-05-16T14:18:20.368Z',
+            reference: null,
+            reference_origin: null,
+            metadata: {},
+            refund_amount_cents: 15400,
+            refund_amount_float: 154.0,
+            formatted_refund_amount: '€154,00',
+            refund_balance_cents: 15400,
+            refund_balance_float: 154.0,
+            formatted_refund_balance: '€154,00'
+          },
+          relationships: {
+            order: {
+              links: {
+                self: 'https://mock.localhost/api/captures/vcAnxfaiLc/relationships/order',
+                related: 'https://mock.localhost/api/captures/vcAnxfaiLc/order'
+              }
+            },
+            attachments: {
+              links: {
+                self: 'https://mock.localhost/api/captures/vcAnxfaiLc/relationships/attachments',
+                related:
+                  'https://mock.localhost/api/captures/vcAnxfaiLc/attachments'
+              }
+            },
+            versions: {
+              links: {
+                self: 'https://mock.localhost/api/captures/vcAnxfaiLc/relationships/versions',
+                related:
+                  'https://mock.localhost/api/captures/vcAnxfaiLc/versions'
+              }
+            },
+            reference_authorization: {
+              links: {
+                self: 'https://mock.localhost/api/captures/vcAnxfaiLc/relationships/reference_authorization',
+                related:
+                  'https://mock.localhost/api/captures/vcAnxfaiLc/reference_authorization'
+              }
+            },
+            refunds: {
+              links: {
+                self: 'https://mock.localhost/api/captures/vcAnxfaiLc/relationships/refunds',
+                related:
+                  'https://mock.localhost/api/captures/vcAnxfaiLc/refunds'
+              }
+            },
+            events: {
+              links: {
+                self: 'https://mock.localhost/api/captures/vcAnxfaiLc/relationships/events',
+                related: 'https://mock.localhost/api/captures/vcAnxfaiLc/events'
               }
             }
           },
