@@ -50,7 +50,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           'block w-full px-4 py-2.5 font-medium',
           'rounded outline-0',
           {
-            '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-12':
+            '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-1':
               suffix != null,
             '!bg-white': rest.autoComplete === 'off'
           },
@@ -73,13 +73,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         name={rest.id ?? rest.name}
         inline={inline}
       >
-        <div className='relative'>
+        <div className='relative flex items-center'>
           {input}
           {suffix != null && (
             <Text
               size='small'
               weight='semibold'
-              className='absolute right-4 top-1/2 -translate-y-1/2'
+              className='suffix shrink-0 !border-l-0 border-y border-r h-[44px] border-gray-200 -left-[4px] pl-2 pr-3 flex items-center bg-white relative rounded-e'
             >
               {suffix}
             </Text>

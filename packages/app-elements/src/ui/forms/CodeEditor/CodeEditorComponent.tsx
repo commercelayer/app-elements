@@ -10,6 +10,7 @@ import Editor, {
   type OnMount,
   type OnValidate
 } from '@monaco-editor/react'
+import type { editor } from 'monaco-editor'
 import { forwardRef, useEffect, useRef, useState, type JSX } from 'react'
 import { type JsonValue, type SetOptional } from 'type-fest'
 import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
@@ -47,12 +48,24 @@ export interface CodeEditorProps
    * Trigger on every update only when there are **no** errors.
    */
   onValid?: (value: string) => void
+  /**
+   * Trigger on every update.
+   */
   onChange?: (value: string) => void
+
+  /**
+   * Whether to show rounded corners on the editor.
+   * @default false
+   */
+  noRounding?: boolean
 }
 
 const defer = createDeferred(500)
 
-export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
+export const CodeEditor = forwardRef<
+  editor.IStandaloneCodeEditor,
+  CodeEditorProps
+>(
   (
     {
       feedback,
@@ -68,19 +81,28 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
       onValidate,
       onValid,
       onChange,
+      noRounding = false,
       ...rest
     },
     ref
   ): JSX.Element => {
     const monaco = useMonaco()
     const disposeCompletionItemProvider = useRef<() => void>(null)
-    const [editor, setEditor] = useState<Parameters<OnMount>[0] | null>(null)
+    const [editor, setEditor] = useState<editor.IStandaloneCodeEditor | null>(
+      null
+    )
     const {
       settings: { domain }
     } = useTokenProvider()
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
+      if (editor != null && ref != null && typeof ref === 'object') {
+        ;(ref as React.RefObject<editor.IStandaloneCodeEditor>).current = editor
+      }
+
       setEditor(editor)
+
+      editor.layout()
 
       editor.onDidPaste(() => {
         void editor.getAction('editor.action.formatDocument')?.run()
@@ -197,10 +219,15 @@ export const CodeEditor = forwardRef<HTMLInputElement, CodeEditorProps>(
         feedback={feedback}
         name={rest.id ?? rest.name}
         inline={inline}
+        className='h-full [&>div:first-of-type]:h-full'
       >
         <Editor
           defaultPath={rest.id ?? rest.name}
-          className='[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'
+          className={
+            noRounding
+              ? undefined
+              : '[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'
+          }
           theme='vs-dark'
           language={language}
           height={height}

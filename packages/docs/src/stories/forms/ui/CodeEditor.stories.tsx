@@ -61,7 +61,7 @@ PromotionRules.args = {
             {
               type: 'percentage',
               selector: 'order',
-              value: '3%'
+              value: 3
             }
           ]
         }

@@ -200,6 +200,10 @@ describe('fetchCoreResourcesSuggestions', () => {
         },
         {
           "type": "field",
+          "value": "order.line_items.rule_outcomes",
+        },
+        {
+          "type": "field",
           "value": "order.line_items.id",
         },
         {
@@ -354,7 +358,7 @@ describe('atPath', () => {
   it('should handle known resourceId', async () => {
     expect(await atPath('order')).toEqual(
       expect.objectContaining({
-        obj: expect.objectContaining({
+        resource: expect.objectContaining({
           fields: expect.arrayContaining([
             expect.arrayContaining(['id']),
             expect.arrayContaining(['number'])
@@ -364,7 +368,7 @@ describe('atPath', () => {
             expect.arrayContaining(['line_items'])
           ])
         }),
-        path: 'order'
+        resourcePath: 'order'
       })
     )
   })
@@ -372,8 +376,8 @@ describe('atPath', () => {
   it('should handle unknown resourceId', async () => {
     expect(await atPath('ore')).toEqual(
       expect.objectContaining({
-        obj: undefined,
-        path: ''
+        resource: undefined,
+        resourcePath: ''
       })
     )
   })
@@ -381,7 +385,7 @@ describe('atPath', () => {
   it('should handle fields', async () => {
     expect(await atPath('order.number')).toEqual(
       expect.objectContaining({
-        obj: expect.objectContaining({
+        resource: expect.objectContaining({
           fields: expect.arrayContaining([
             expect.arrayContaining(['id']),
             expect.arrayContaining(['number'])
@@ -391,7 +395,7 @@ describe('atPath', () => {
             expect.arrayContaining(['line_items'])
           ])
         }),
-        path: 'order'
+        resourcePath: 'order'
       })
     )
   })
@@ -401,7 +405,7 @@ describe('atPath', () => {
       await atPath('price.jwt_markets.price_list.prices.currency_code')
     ).toEqual(
       expect.objectContaining({
-        obj: expect.objectContaining({
+        resource: expect.objectContaining({
           fields: expect.arrayContaining([
             expect.arrayContaining(['currency_code']),
             expect.arrayContaining(['sku_code']),
@@ -412,7 +416,7 @@ describe('atPath', () => {
             expect.arrayContaining(['sku'])
           ])
         }),
-        path: 'price.jwt_markets.price_list.prices'
+        resourcePath: 'price.jwt_markets.price_list.prices'
       })
     )
   })
@@ -420,7 +424,7 @@ describe('atPath', () => {
   it('should hide polymorphic relationships', async () => {
     expect(await atPath('order.attachments.attachable')).toEqual(
       expect.objectContaining({
-        obj: expect.objectContaining({
+        resource: expect.objectContaining({
           fields: expect.arrayContaining([
             expect.arrayContaining(['name']),
             expect.arrayContaining(['description']),
@@ -428,7 +432,7 @@ describe('atPath', () => {
           ]),
           relationships: []
         }),
-        path: 'order.attachments'
+        resourcePath: 'order.attachments'
       })
     )
   })
@@ -923,6 +927,14 @@ const orderSuggestionsSnapshot = `
     {
       "type": "relationship",
       "value": "order.store",
+    },
+    {
+      "type": "relationship",
+      "value": "order.default_shipping_method",
+    },
+    {
+      "type": "relationship",
+      "value": "order.default_payment_method",
     },
     {
       "type": "relationship",

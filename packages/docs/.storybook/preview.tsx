@@ -71,7 +71,7 @@ export const parameters: Parameters = {
 
 export const withContainer: Decorator = (Story, context) => {
   const { containerEnabled } = context.globals
-   if (containerEnabled === true) {
+   if (containerEnabled === true && context.parameters.layout !== 'fullscreen') {
     return (
       <Container minHeight={false}>
         <Story /> 
