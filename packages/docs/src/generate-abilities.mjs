@@ -41,6 +41,14 @@ async function generatePageFromAbilities() {
     Object.keys(repositories).includes(appSlug)
   )
 
+  entries.push([
+    'generic',
+    {
+      admin: [],
+      read_only: []
+    }
+  ])
+
   console.group('Available applications:')
   console.log(entries.map(([appSlug]) => `- ${appSlug}`).join('\n'))
   console.groupEnd()
@@ -144,6 +152,18 @@ async function generateToc(repositories, entries) {
 async function generateAppTable(repositories, entries) {
   return entries
     .map(([appSlug, app]) => {
+      if (appSlug === 'generic') {
+        return `
+        ## Generic
+
+        Generic apps are a special kind of [custom apps](/docs/getting-started-custom-apps--docs) that can have Full access (read and write)
+        or Read-only permissions on all the [Commerce Layer Core resources](https://docs.commercelayer.io/core/api-reference/), thus enabling
+        you to create the most flexible custom Dashboard applications tailored to your needs
+        (e.g. mixing features of multiple original Commerce Layer Dashboard apps in one single app,
+        specifying a dedicated slug, icon, etc. — check [this basic example](https://github.com/commercelayer/dashboard-apps/tree/main/apps/my_sample_app) as a starter).
+        `
+      }
+
       const repo = repositories[appSlug]
 
       return `
