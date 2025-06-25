@@ -38,6 +38,7 @@ export function ActionListItem({
           {/* Action type */}
           <div className='flex-1'>
             <InputSelect
+              name={`${pathPrefix}.type`}
               defaultValue={
                 item != null
                   ? {
@@ -66,6 +67,7 @@ export function ActionListItem({
           {/* Action target */}
           <div className='flex-1'>
             <Input
+              name={`${pathPrefix}.selector`}
               type='text'
               defaultValue={item != null ? item.selector : undefined}
               onChange={(event) => {

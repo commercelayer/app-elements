@@ -58,6 +58,7 @@ export function ConditionListItem({
             {/* Condition target */}
             <div className='flex-1'>
               <Input
+                name={`${pathPrefix}.field`}
                 type='text'
                 // suffix={
                 //   infos?.field?.type ? (
