@@ -139,7 +139,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                 const label = `#${(ruleIndex + 1).toString().padStart(2, '0')}`
                 return (
                   <button
-                    key={rule.id}
+                    key={`${selectedRuleIndex}-${rule.id}`}
                     className={classNames('font-bold', {
                       'text-black': selectedRuleIndex === ruleIndex
                     })}

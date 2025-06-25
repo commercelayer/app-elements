@@ -19,6 +19,7 @@ export function ActionValue({
       return (
         <div className='w-36 flex items-center gap-0.5'>
           <Input
+            name={`${pathPrefix}.value.x`}
             type='number'
             suffix='X'
             defaultValue={item.value?.x}
@@ -30,6 +31,7 @@ export function ActionValue({
             }}
           />
           <Input
+            name={`${pathPrefix}.value.y`}
             type='number'
             suffix='Y'
             defaultValue={item.value?.y}
@@ -48,6 +50,7 @@ export function ActionValue({
       return (
         <div className='w-36 flex items-center gap-0.5'>
           <Input
+            name={`${pathPrefix}.value.x`}
             type='number'
             suffix='X'
             defaultValue={item.value?.x}
@@ -59,6 +62,7 @@ export function ActionValue({
             }}
           />
           <Input
+            name={`${pathPrefix}.value.y`}
             type='number'
             suffix='Y'
             defaultValue={item.value?.y}
@@ -78,6 +82,7 @@ export function ActionValue({
       return (
         <div className='w-36'>
           <Input
+            name={`${pathPrefix}.value`}
             type='number'
             defaultValue={item.value}
             min={0}
@@ -98,6 +103,7 @@ export function ActionValue({
       return (
         <div className='w-24'>
           <Input
+            name={`${pathPrefix}.value`}
             type='number'
             defaultValue={
               percentageValue.endsWith('.00')

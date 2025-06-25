@@ -29,6 +29,7 @@ export function ConditionMatcher({
 
   return (
     <InputSelect
+      name={`${pathPrefix}.matcher`}
       value={
         item != null
           ? {

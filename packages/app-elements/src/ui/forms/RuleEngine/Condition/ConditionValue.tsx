@@ -291,6 +291,7 @@ export function ConditionValue({
     case 'number': {
       return (
         <Input
+          name={`${pathPrefix}.value`}
           type='number'
           defaultValue={
             typeof itemWithValue.value === 'number' ? itemWithValue.value : ''
@@ -309,6 +310,7 @@ export function ConditionValue({
     case 'boolean': {
       return (
         <InputSelect
+          name={`${pathPrefix}.value`}
           defaultValue={
             typeof itemWithValue.value === 'boolean'
               ? {
@@ -334,6 +336,7 @@ export function ConditionValue({
     case null: {
       return (
         <Input
+          name={`${pathPrefix}.value`}
           type='text'
           defaultValue={
             typeof itemWithValue.value === 'string'
