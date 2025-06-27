@@ -324,6 +324,8 @@ const it: typeof en = {
       name: 'Promozione',
       name_other: 'Promozioni',
       attributes: {
+        priority: 'Priorità',
+        exclusive: 'Esclusiva',
         status: {
           active: 'Attiva',
           disabled: 'Disabilitata',

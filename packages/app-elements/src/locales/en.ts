@@ -126,6 +126,8 @@ const resources = {
     name: 'Promotion',
     name_other: 'Promotions',
     attributes: {
+      priority: 'Priority',
+      exclusive: 'Exclusive',
       status: {
         active: 'Active',
         disabled: 'Disabled',
