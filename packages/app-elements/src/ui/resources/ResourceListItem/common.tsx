@@ -7,11 +7,12 @@ interface ListItemDescriptionConfig {
   displayStatus: DisplayStatus
   date: string
   additionalInfos?: string
+  additionalSuffix?: string
 }
 
 export const ListItemDescription =
   withSkeletonTemplate<ListItemDescriptionConfig>(
-    ({ displayStatus, date, additionalInfos }) => {
+    ({ displayStatus, date, additionalInfos, additionalSuffix }) => {
       return (
         <>
           {date}
@@ -24,6 +25,7 @@ export const ListItemDescription =
           ) : (
             displayStatus.label
           )}
+          {additionalSuffix != null ? ` · ${additionalSuffix}` : undefined}
         </>
       )
     }

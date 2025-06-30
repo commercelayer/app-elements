@@ -16,6 +16,7 @@ import type {
   FreeShippingPromotion,
   PercentageDiscountPromotion
 } from '@commercelayer/sdk'
+import { t } from 'i18next'
 import { type ResourceToProps } from '../types'
 
 // TODO: this is a temporary fix. We should manage this kind of type directly into the SDK.
@@ -37,6 +38,18 @@ export const promotionToProps: ResourceToProps<Promotion> = ({
 
   const hasCoupons = resource.coupon_codes_promotion_rule != null
 
+  const labelSuffix = [
+    resource.exclusive === true
+      ? t('resources.promotions.attributes.exclusive')
+      : undefined,
+    resource.priority != null
+      ? `${t('resources.promotions.attributes.priority')}: ${resource.priority}`
+      : undefined
+  ].filter((v): v is string => v != null)
+
+  const labelSuffixText =
+    labelSuffix.length > 0 ? labelSuffix.join(' · ') : undefined
+
   return {
     name: (
       <>
@@ -56,6 +69,7 @@ export const promotionToProps: ResourceToProps<Promotion> = ({
     description: (
       <ListItemDescription
         displayStatus={displayStatus}
+        additionalSuffix={labelSuffixText}
         date={formatDateRange({
           rangeFrom: resource.starts_at,
           rangeTo: resource.expires_at,
