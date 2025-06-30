@@ -10,22 +10,10 @@ interface PromotionDisplayStatus extends DisplayStatus {
 export function getPromotionDisplayStatus(
   promotion: Omit<Promotion, 'type' | 'promotion_rules'>
 ): PromotionDisplayStatus {
-  const labelSuffix = [
-    promotion.exclusive === true
-      ? t('resources.promotions.attributes.exclusive')
-      : undefined,
-    promotion.priority != null
-      ? `${t('resources.promotions.attributes.priority')}: ${promotion.priority}`
-      : undefined
-  ].filter((v): v is string => v != null)
-
-  const labelSuffixText =
-    labelSuffix.length > 0 ? ` · ${labelSuffix.join(' · ')}` : ''
-
   if (promotion.disabled_at != null) {
     return {
       status: 'disabled',
-      label: `${t('resources.promotions.attributes.status.disabled')}${labelSuffixText}`,
+      label: t('resources.promotions.attributes.status.disabled'),
       icon: 'minus',
       color: 'lightGray'
     }
@@ -42,7 +30,7 @@ export function getPromotionDisplayStatus(
   ) {
     return {
       status: 'used',
-      label: `${t('resources.promotions.attributes.status.expired')}${labelSuffixText}`,
+      label: t('resources.promotions.attributes.status.expired'),
       icon: 'flag',
       color: 'gray'
     }
@@ -52,7 +40,7 @@ export function getPromotionDisplayStatus(
     case 'past':
       return {
         status: 'expired',
-        label: `${t('resources.promotions.attributes.status.expired')}${labelSuffixText}`,
+        label: t('resources.promotions.attributes.status.expired'),
         icon: 'flag',
         color: 'gray'
       }
@@ -60,7 +48,7 @@ export function getPromotionDisplayStatus(
     case 'upcoming':
       return {
         status: 'upcoming',
-        label: `${t('apps.promotions.display_status.upcoming')}${labelSuffixText}`,
+        label: t('apps.promotions.display_status.upcoming'),
         icon: 'calendarBlank',
         color: 'gray'
       }
@@ -68,7 +56,7 @@ export function getPromotionDisplayStatus(
     case 'active':
       return {
         status: 'active',
-        label: `${t('resources.promotions.attributes.status.active')}${labelSuffixText}`,
+        label: t('resources.promotions.attributes.status.active'),
         icon: 'pulse',
         color: 'green'
       }
