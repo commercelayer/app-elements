@@ -598,5 +598,39 @@ export const presetResourceListItem = {
       created_at: '',
       updated_at: '2023-06-10T06:38:44.964Z'
     }
+  },
+  promotionWithPriority: {
+    type: 'percentage_discount_promotions',
+    id: '',
+    created_at: '2024-10-21T17:22:42.054Z',
+    updated_at: '2024-10-22T09:06:14.517Z',
+    name: '12% on the second item',
+    starts_at: '2024-09-28T22:00:00.000Z',
+    expires_at: '2024-11-01T23:00:00.000Z',
+    percentage: 12,
+    priority: 1
+  },
+  promotionWithExclusive: {
+    type: 'percentage_discount_promotions',
+    id: '',
+    created_at: '2024-10-21T17:22:42.054Z',
+    updated_at: '2024-10-22T09:06:14.517Z',
+    name: '12% on the second item',
+    starts_at: '2024-09-28T22:00:00.000Z',
+    expires_at: '2024-11-01T23:00:00.000Z',
+    percentage: 12,
+    exclusive: true
+  },
+  promotionWithPriorityAndExclusive: {
+    type: 'percentage_discount_promotions',
+    id: '',
+    created_at: '2024-10-21T17:22:42.054Z',
+    updated_at: '2024-10-22T09:06:14.517Z',
+    name: '12% on the second item',
+    starts_at: '2024-09-28T22:00:00.000Z',
+    expires_at: '2024-11-01T23:00:00.000Z',
+    percentage: 12,
+    exclusive: true,
+    priority: 3
   }
 } satisfies Record<string, ResourceListItemProps['resource']>
