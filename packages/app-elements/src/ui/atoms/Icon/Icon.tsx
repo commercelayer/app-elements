@@ -1,7 +1,7 @@
 import { useMemo, type ComponentPropsWithRef } from 'react'
 import { iconMapping } from './icons'
 
-type IconWeight = 'regular' | 'bold' | 'light'
+type IconWeight = 'regular' | 'bold' | 'light' | 'fill'
 
 export interface IconProps extends ComponentPropsWithRef<'svg'> {
   /**

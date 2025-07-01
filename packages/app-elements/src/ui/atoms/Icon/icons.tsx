@@ -106,6 +106,7 @@ export const iconMapping = {
   sliders: phosphor.Sliders,
   squaresFour: phosphor.SquaresFour,
   stack: phosphor.Stack,
+  star: phosphor.Star,
   storefront: phosphor.Storefront,
   suitcaseSimple: phosphor.SuitcaseSimple,
   tag: phosphor.Tag,
