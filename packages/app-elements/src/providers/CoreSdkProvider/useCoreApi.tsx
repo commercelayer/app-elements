@@ -1,6 +1,8 @@
+import { isMockedId } from '#helpers/mocks'
 import { type ResourceEndpoint } from '#helpers/resources'
 import { useTokenProvider } from '#providers/TokenProvider'
 import type { CommerceLayerClient } from '@commercelayer/sdk'
+import { isString } from 'lodash-es'
 import { useCallback } from 'react'
 import useSWR, {
   type Fetcher,
@@ -70,8 +72,24 @@ export function useCoreApi<
   )
 
   return useSWR(
-    args !== null ? [resource, action, args, mode] : null,
+    args == null || isArgsForMockedId(args)
+      ? null
+      : [resource, action, args, mode],
     fetcher,
     config ?? {}
+  )
+}
+
+/**
+ * Check if the useCoreApi args contain a request for a mocked resource id.
+ * This is used to determine if the request should be ignored (when is for a mocked id).
+ */
+function isArgsForMockedId(args: any): boolean {
+  return (
+    args != null &&
+    Array.isArray(args) &&
+    args.length > 0 &&
+    isString(args[0]) &&
+    isMockedId(args[0])
   )
 }
