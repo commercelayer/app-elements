@@ -71,10 +71,10 @@ export function useCoreApi<
     [sdkClient]
   )
 
-  const isMock = action === 'retrieve' && isArgsForMockedId(args)
-
   return useSWR(
-    args !== null && !isMock ? [resource, action, args, mode] : null,
+    args == null || isArgsForMockedId(args)
+      ? null
+      : [resource, action, args, mode],
     fetcher,
     config ?? {}
   )
