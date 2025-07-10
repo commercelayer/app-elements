@@ -78,7 +78,8 @@ export function Avatar({
           'rounded-full': shape === 'circle',
           // border
           'border-gray-100': border == null,
-          'border-transparent': border === 'none' || srcIsValidPreset(src),
+          'border-transparent':
+            border === 'none' || (srcIsValidPreset(src) && src !== 'gift_card'),
           // placeholder
           'p-1': hasError && (size === 'normal' || size === 'large'),
           'p-0.5': hasError && size !== 'normal'
