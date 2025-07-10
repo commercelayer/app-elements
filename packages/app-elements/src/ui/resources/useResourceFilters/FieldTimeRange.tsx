@@ -121,6 +121,7 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
               label={t('common.from')}
               isClearable
               preventOpenOnFocus
+              timezone={user?.timezone}
             />
           </Spacer>
           <Spacer bottom='14'>
@@ -130,6 +131,7 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
               minDate={timeFrom ?? undefined}
               isClearable
               preventOpenOnFocus
+              timezone={user?.timezone}
             />
           </Spacer>
         </PageLayout>
