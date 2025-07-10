@@ -1,3 +1,4 @@
+import { useTokenProvider } from '#providers/TokenProvider'
 import { Input } from '#ui/forms/Input'
 import { InputDate } from '#ui/forms/InputDate'
 import { InputDateRange } from '#ui/forms/InputDateRange'
@@ -37,6 +38,7 @@ export function ConditionValue({
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { infos } = useResourcePathInfos(item)
+  const { user } = useTokenProvider()
   const pathKey = `${pathPrefix}.value`
 
   if (item == null) {
@@ -191,6 +193,7 @@ export function ConditionValue({
           onChange={(date) => {
             setPath(pathKey, date?.toJSON())
           }}
+          timezone={user?.timezone}
         />
       )
     }
