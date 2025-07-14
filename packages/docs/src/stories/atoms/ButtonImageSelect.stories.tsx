@@ -1,5 +1,5 @@
 import { ButtonImageSelect } from '#ui/atoms/ButtonImageSelect'
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof ButtonImageSelect> = {
   title: 'Atoms/ButtonImageSelect',

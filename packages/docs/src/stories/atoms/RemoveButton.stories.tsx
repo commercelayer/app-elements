@@ -1,5 +1,5 @@
 import { RemoveButton } from '#ui/atoms/RemoveButton'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof RemoveButton> = {
   title: 'Atoms/RemoveButton',

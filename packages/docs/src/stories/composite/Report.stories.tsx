@@ -1,6 +1,6 @@
 import { Report } from '#ui/composite/Report'
 
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Report> = {
   title: 'Composite/Report',

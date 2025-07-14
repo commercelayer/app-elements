@@ -1,4 +1,4 @@
-import { Source } from '@storybook/blocks'
+import { Source } from '@storybook/addon-docs/blocks'
 import { type Plugin } from 'prettier'
 import * as prettierEstree from 'prettier/plugins/estree'
 import * as prettierTypescript from 'prettier/plugins/typescript'

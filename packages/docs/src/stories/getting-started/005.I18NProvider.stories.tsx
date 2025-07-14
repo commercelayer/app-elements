@@ -8,7 +8,7 @@ import {
   type InputSelectValue
 } from '#ui/forms/InputSelect'
 import { type PossibleSelectValue } from '#ui/forms/InputSelect/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState, type JSX } from 'react'
 
 const meta: Meta = {

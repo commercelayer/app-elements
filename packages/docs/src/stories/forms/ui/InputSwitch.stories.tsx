@@ -1,7 +1,7 @@
 import { Section } from '#ui/atoms/Section'
 import { ListItem } from '#ui/composite/ListItem'
 import { InputSwitch } from '#ui/forms/InputSwitch'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof InputSwitch> = {
   title: 'Forms/ui/InputSwitch',

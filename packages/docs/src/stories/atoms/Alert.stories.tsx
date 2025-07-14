@@ -1,5 +1,5 @@
 import { Alert } from '#ui/atoms/Alert'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Alert> = {
   title: 'Atoms/Alert',

@@ -1,5 +1,5 @@
 import { createRoute, createTypedRoute } from '#ui/composite/Routes'
-import { type StoryFn } from '@storybook/react'
+import { type StoryFn } from '@storybook/react-vite'
 import { CodeSample, type CodeSampleProps } from 'src/components/CodeSample'
 
 export const createRouteExamples: CodeSampleProps[] = [

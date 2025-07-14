@@ -1,6 +1,6 @@
 import { Grid } from '#ui/atoms/Grid'
 import { InputDate } from '#ui/forms/InputDate'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 
 const setup: Meta<typeof InputDate> = {

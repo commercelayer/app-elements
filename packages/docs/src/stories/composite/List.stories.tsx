@@ -1,7 +1,7 @@
 import { A } from '#ui/atoms/A'
 import { Icon } from '#ui/atoms/Icon'
 import { List } from '#ui/composite/List'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof List> = {
   title: 'Composite/List',

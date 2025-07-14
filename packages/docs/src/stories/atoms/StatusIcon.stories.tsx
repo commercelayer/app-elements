@@ -2,7 +2,7 @@ import { CopyToClipboard } from '#ui/atoms/CopyToClipboard'
 import { iconMapping } from '#ui/atoms/Icon/icons'
 import { StatusIcon, type StatusIconProps } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof StatusIcon> = {
   title: 'Atoms/StatusIcon',

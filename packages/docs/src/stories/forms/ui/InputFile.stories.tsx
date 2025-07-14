@@ -1,5 +1,5 @@
 import { InputFile } from '#ui/forms/InputFile'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 
 const setup: Meta<typeof InputFile> = {

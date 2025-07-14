@@ -1,5 +1,5 @@
 import { InputFeedback } from '#ui/forms/InputFeedback'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof InputFeedback> = {
   title: 'Forms/ui/InputFeedback',

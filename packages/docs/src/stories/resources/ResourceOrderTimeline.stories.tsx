@@ -1,7 +1,7 @@
 import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { ResourceOrderTimeline } from '#ui/resources/ResourceOrderTimeline'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof ResourceOrderTimeline> = {
   title: 'Resources/ResourceOrderTimeline',

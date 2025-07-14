@@ -1,6 +1,11 @@
 import { Hr } from '#ui/atoms/Hr'
-import { Description, Stories, Subtitle, Title } from '@storybook/blocks'
-import { type Meta, type StoryFn } from '@storybook/react'
+import {
+  Description,
+  Stories,
+  Subtitle,
+  Title
+} from '@storybook/addon-docs/blocks'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Hr> = {
   title: 'Atoms/Hr',

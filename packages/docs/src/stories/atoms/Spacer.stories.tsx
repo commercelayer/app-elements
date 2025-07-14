@@ -1,5 +1,5 @@
 import { Spacer } from '#ui/atoms/Spacer'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Spacer> = {
   title: 'Atoms/Spacer',

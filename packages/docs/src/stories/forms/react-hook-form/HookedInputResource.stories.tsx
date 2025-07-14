@@ -4,7 +4,7 @@ import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputResourceGroup } from '#ui/forms/InputResourceGroup'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputResourceGroup> = {

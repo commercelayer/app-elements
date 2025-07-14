@@ -1,6 +1,6 @@
-import { IconButton } from '@storybook/components'
+import { IconButton } from 'storybook/internal/components'
 import { BoxIcon } from '@storybook/icons'
-import { useGlobals, useStorybookApi } from '@storybook/manager-api'
+import { useGlobals, useStorybookApi } from 'storybook/manager-api'
 import React, { useCallback, useEffect } from 'react'
 import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from './constants'
 

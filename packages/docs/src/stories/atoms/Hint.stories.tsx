@@ -1,6 +1,6 @@
 import { A } from '#ui/atoms/A'
 import { Hint } from '#ui/atoms/Hint'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Hint> = {
   title: 'Atoms/Hint',

@@ -7,7 +7,7 @@ import { Text } from '#ui/atoms/Text'
 import { Dropdown, DropdownItem } from '#ui/composite/Dropdown'
 import { ListDetailsItem } from '#ui/composite/ListDetailsItem'
 import { ListItem } from '#ui/composite/ListItem'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof ListDetailsItem> = {
   title: 'Composite/ListDetailsItem',

@@ -2,7 +2,7 @@ import { Button } from '#ui/atoms/Button'
 import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputTextArea } from '#ui/forms/InputTextArea'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputTextArea> = {

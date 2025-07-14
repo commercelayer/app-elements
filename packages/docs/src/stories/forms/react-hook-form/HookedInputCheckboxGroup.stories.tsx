@@ -4,7 +4,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { Text } from '#ui/atoms/Text'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputCheckboxGroup> = {

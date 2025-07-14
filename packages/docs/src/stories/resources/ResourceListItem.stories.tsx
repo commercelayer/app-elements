@@ -1,7 +1,7 @@
 import { ResourceListItem } from '#ui/resources/ResourceListItem'
 import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
 import { type ResourceListItemType } from '#ui/resources/ResourceListItem/types'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 type Props = Parameters<typeof ResourceListItem>[0] & {
   preset: Array<keyof typeof presetResourceListItem | 'custom'>

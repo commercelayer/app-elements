@@ -1,7 +1,7 @@
 import { Icon } from '#ui/atoms/Icon'
 import { Text } from '#ui/atoms/Text'
 import { Tooltip, type TooltipRefProps } from '#ui/atoms/Tooltip'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useRef } from 'react'
 
 const setup: Meta<typeof Tooltip> = {

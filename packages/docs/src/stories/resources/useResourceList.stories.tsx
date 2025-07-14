@@ -8,7 +8,7 @@ import { InputCheckboxGroup } from '#ui/forms/InputCheckboxGroup'
 import { ResourceListItem } from '#ui/resources/ResourceListItem'
 import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
 import { useResourceList } from '#ui/resources/useResourceList'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta = {
   title: 'Resources/useResourceList',

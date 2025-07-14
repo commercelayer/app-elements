@@ -1,6 +1,6 @@
 import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
 import { Spacer } from '#ui/atoms/Spacer'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Skeleton> = {
   title: 'Atoms/Skeleton',

@@ -4,7 +4,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { ListItem } from '#ui/composite/ListItem'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputSwitch } from '#ui/forms/InputSwitch'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputSwitch> = {

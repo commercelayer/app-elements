@@ -22,21 +22,16 @@ const storybookConfig: StorybookConfig = {
     '../src/stories/**/*.mdx',
     '../src/stories/**/*.stories.@(js|jsx|ts|tsx)'
   ],
-  addons: [
-    getAbsolutePath('@storybook/addon-links'),
-    getAbsolutePath('@storybook/addon-essentials'),
-    getAbsolutePath('@storybook/addon-interactions'),
-    {
-      name: '@storybook/addon-docs',
-      options: {
-        mdxPluginOptions: {
-          mdxCompileOptions: {
-            remarkPlugins: [remarkGfm],
-          },
+  addons: [getAbsolutePath('@storybook/addon-links'), {
+    name: getAbsolutePath("@storybook/addon-docs"),
+    options: {
+      mdxPluginOptions: {
+        mdxCompileOptions: {
+          remarkPlugins: [remarkGfm],
         },
       },
     },
-  ],
+  }],
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [
     require.resolve('./addon-container/manager.tsx'),
@@ -51,7 +46,6 @@ const storybookConfig: StorybookConfig = {
     disableTelemetry: true
   },
   docs: {
-    autodocs: true,
     docsMode: true
   },
   typescript: {

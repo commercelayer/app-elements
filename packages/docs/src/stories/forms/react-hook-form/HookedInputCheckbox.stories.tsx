@@ -3,7 +3,7 @@ import { Spacer } from '#ui/atoms/Spacer'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputCheckbox } from '#ui/forms/InputCheckbox'
 import { HookedInputSelect } from '#ui/forms/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm, type FieldErrors } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputCheckbox> = {

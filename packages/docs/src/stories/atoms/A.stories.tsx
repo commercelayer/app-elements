@@ -2,7 +2,7 @@ import { A } from '#ui/atoms/A'
 import { Button } from '#ui/atoms/Button'
 import { Icon } from '#ui/atoms/Icon'
 import { Spacer } from '#ui/atoms/Spacer'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof A> = {
   title: 'Atoms/A',
