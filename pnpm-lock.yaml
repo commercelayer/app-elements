@@ -84,8 +84,8 @@ importers:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
       react-hook-form:
-        specifier: ^7.54.2
-        version: 7.54.2(react@19.0.0)
+        specifier: ^7.60.0
+        version: 7.60.0(react@19.0.0)
       react-i18next:
         specifier: ^15.6.0
         version: 15.6.0(i18next@25.3.2(typescript@5.7.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.7.3)
@@ -116,7 +116,7 @@ importers:
         version: 2.2.0(@types/eslint@9.6.1)(eslint@8.57.1)(react@19.0.0)(typescript@5.7.3)
       '@hookform/resolvers':
         specifier: ^3.10.0
-        version: 3.10.0(react-hook-form@7.54.2(react@19.0.0))
+        version: 3.10.0(react-hook-form@7.60.0(react@19.0.0))
       '@phosphor-icons/react':
         specifier: v2.1.10
         version: 2.1.10(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -5231,12 +5231,6 @@ packages:
   react-gtm-module@2.0.11:
     resolution: {integrity: sha512-8gyj4TTxeP7eEyc2QKawEuQoAZdjKvMY4pgWfycGmqGByhs17fR+zEBs0JUDq4US/l+vbTl+6zvUIx27iDo/Vw==}
 
-  react-hook-form@7.54.2:
-    resolution: {integrity: sha512-eHpAUgUjWbZocoQYUHposymRb4ZP6d0uwUnooL2uOybA9/3tPUvoAKqEWK1WaSiTxxOfTpffNZP7QwlnM3/gEg==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      react: ^16.8.0 || ^17 || ^18 || ^19
-
   react-hook-form@7.60.0:
     resolution: {integrity: sha512-SBrYOvMbDB7cV8ZfNpaiLcgjH/a1c7aK0lK+aNigpf4xWLO8q+o4tcvVurv3c4EOyzn/3dCsYt4GKD42VvJ/+A==}
     engines: {node: '>=18.0.0'}
@@ -7666,10 +7660,6 @@ snapshots:
       tabbable: 6.2.0
 
   '@floating-ui/utils@0.2.9': {}
-
-  '@hookform/resolvers@3.10.0(react-hook-form@7.54.2(react@19.0.0))':
-    dependencies:
-      react-hook-form: 7.54.2(react@19.0.0)
 
   '@hookform/resolvers@3.10.0(react-hook-form@7.60.0(react@19.0.0))':
     dependencies:
@@ -12424,10 +12414,6 @@ snapshots:
       scheduler: 0.25.0
 
   react-gtm-module@2.0.11: {}
-
-  react-hook-form@7.54.2(react@19.0.0):
-    dependencies:
-      react: 19.0.0
 
   react-hook-form@7.60.0(react@19.0.0):
     dependencies:
