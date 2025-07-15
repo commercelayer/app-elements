@@ -1,5 +1,8 @@
 module.exports = {
-  dep: ['prod', 'dev', 'optional', 'packageManager', 'peer'],
+  dep: ['prod', 'dev', 'optional', 'packageManager'],
+  deep: true,
+  upgrade: true,
+  target: 'latest',
   reject: [
     'pnpm'
   ],

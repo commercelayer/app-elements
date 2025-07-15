@@ -69,8 +69,8 @@ importers:
         specifier: ^8.0.0
         version: 8.0.0
       query-string:
-        specifier: ^9.1.1
-        version: 9.1.1
+        specifier: ^9.2.2
+        version: 9.2.2
       react:
         specifier: ^19.0.0
         version: 19.0.0
@@ -187,8 +187,8 @@ importers:
         specifier: ^3.2.4
         version: 3.2.4(@types/debug@4.1.12)(@types/node@20.19.7)(jiti@1.21.7)(jsdom@26.1.0)(msw@2.10.4(@types/node@20.19.7)(typescript@5.7.3))(terser@5.39.0)(yaml@2.8.0)
       wouter:
-        specifier: ^3.6.0
-        version: 3.6.0(react@19.0.0)
+        specifier: ^3.7.1
+        version: 3.7.1(react@19.0.0)
 
   packages/docs:
     dependencies:
@@ -5186,8 +5186,8 @@ packages:
   quansync@0.2.8:
     resolution: {integrity: sha512-4+saucphJMazjt7iOM27mbFCk+D9dd/zmgMDCzRZ8MEoBfYp7lAvoN38et/phRQF6wOPMy/OROBGgoWeSKyluA==}
 
-  query-string@9.1.1:
-    resolution: {integrity: sha512-MWkCOVIcJP9QSKU52Ngow6bsAWAPlPK2MludXvcrS2bGZSl+T1qX9MZvRIkqUIkGLJquMJHWfsT6eRqUpp4aWg==}
+  query-string@9.2.2:
+    resolution: {integrity: sha512-pDSIZJ9sFuOp6VnD+5IkakSVf+rICAuuU88Hcsr6AKL0QtxSIfVuKiVP2oahFI7tk3CRSexwV+Ya6MOoTxzg9g==}
     engines: {node: '>=18'}
 
   querystringify@2.2.0:
@@ -6368,8 +6368,8 @@ packages:
   wordwrap@1.0.0:
     resolution: {integrity: sha512-gvVzJFlPycKc5dZN4yPkP8w7Dc37BtP1yczEneOb4uq34pXZcvrtRTmWV8W+Ume+XCxKgbjM+nevkyFPMybd4Q==}
 
-  wouter@3.6.0:
-    resolution: {integrity: sha512-l11eR4urCc+CbY8+pV8HKFHxEqMgffss9aVB1XwiSkLDtH3cI6XpCa50cOzREzL0KwQqrwCVE5dCyeNcCgFpPg==}
+  wouter@3.7.1:
+    resolution: {integrity: sha512-od5LGmndSUzntZkE2R5CHhoiJ7YMuTIbiXsa0Anytc2RATekgv4sfWRAxLEULBrp7ADzinWQw8g470lkT8+fOw==}
     peerDependencies:
       react: '>=16.8.0'
 
@@ -12361,7 +12361,7 @@ snapshots:
 
   quansync@0.2.8: {}
 
-  query-string@9.1.1:
+  query-string@9.2.2:
     dependencies:
       decode-uri-component: 0.4.1
       filter-obj: 5.1.0
@@ -13717,7 +13717,7 @@ snapshots:
 
   wordwrap@1.0.0: {}
 
-  wouter@3.6.0(react@19.0.0):
+  wouter@3.7.1(react@19.0.0):
     dependencies:
       mitt: 3.0.1
       react: 19.0.0
