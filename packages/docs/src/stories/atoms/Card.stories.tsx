@@ -7,7 +7,7 @@ import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
 import { Input } from '#ui/forms/Input'
 import { InputSelect } from '#ui/forms/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Card> = {
   title: 'Atoms/Card',

@@ -13,7 +13,7 @@ function getSessionStorageItem(key: string): BackToItem {
 
 const originalLocationObj = window.location
 function allowLocationMocks(): void {
-  window.location = {
+  ;(window as typeof globalThis).location = {
     ...originalLocationObj,
     origin: 'https://demo-store.commercelayer.app'
   }

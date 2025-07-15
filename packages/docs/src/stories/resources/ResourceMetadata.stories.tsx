@@ -3,7 +3,7 @@ import { CoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { Dropdown, DropdownItem } from '#ui/composite/Dropdown'
 import { ResourceMetadata } from '#ui/resources/ResourceMetadata'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta = {
   title: 'Resources/ResourceMetadata',

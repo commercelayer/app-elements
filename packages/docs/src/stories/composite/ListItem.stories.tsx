@@ -5,7 +5,7 @@ import { RadialProgress } from '#ui/atoms/RadialProgress'
 import { StatusIcon } from '#ui/atoms/StatusIcon'
 import { Text } from '#ui/atoms/Text'
 import { ListItem } from '#ui/composite/ListItem'
-import type { Meta, StoryFn } from '@storybook/react'
+import type { Meta, StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof ListItem> = {
   title: 'Composite/ListItem',

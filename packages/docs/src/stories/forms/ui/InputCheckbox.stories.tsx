@@ -4,7 +4,7 @@ import { ListItem } from '#ui/composite/ListItem'
 import { Input } from '#ui/forms/Input'
 import { InputCheckbox } from '#ui/forms/InputCheckbox'
 import { InputSelect } from '#ui/forms/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof InputCheckbox> = {
   title: 'Forms/ui/InputCheckbox',

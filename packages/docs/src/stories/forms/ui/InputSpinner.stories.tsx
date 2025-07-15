@@ -1,5 +1,5 @@
 import { InputSpinner } from '#ui/forms/InputSpinner'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof InputSpinner> = {
   title: 'Forms/ui/InputSpinner',

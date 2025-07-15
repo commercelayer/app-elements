@@ -1,6 +1,6 @@
 import { currencyInputSelectOptions } from '#helpers/currencies'
 import { InputSelect, type InputSelectValue } from '#ui/forms/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const fullList: InputSelectValue[] = [
   { value: 'customers', label: 'Customers' },

@@ -14,8 +14,8 @@ import {
   Stories,
   Subtitle,
   Title
-} from '@storybook/blocks'
-import { type Meta, type StoryFn } from '@storybook/react'
+} from '@storybook/addon-docs/blocks'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 
 const mockedOrder = presetResourceListItem.orderAwaitingApproval

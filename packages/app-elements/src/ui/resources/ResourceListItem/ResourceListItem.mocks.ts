@@ -61,7 +61,8 @@ const shippingMethod = {
   name: 'Standard Shipping',
   price_amount_cents: 0,
   created_at: '',
-  updated_at: ''
+  updated_at: '',
+  shared_secret: ''
 } as const satisfies ShippingMethod
 
 const order = {

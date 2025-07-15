@@ -1,5 +1,5 @@
 import { RadialProgress } from '#ui/atoms/RadialProgress'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof RadialProgress> = {
   title: 'Atoms/RadialProgress',

@@ -18,7 +18,7 @@ import {
   getResourceAddressFormFieldsSchema
 } from '#ui/resources/ResourceAddress/ResourceAddressFormFields'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'

@@ -10,7 +10,7 @@ import {
   type ResourceLineItemsProps
 } from '#ui/resources/ResourceLineItems'
 import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 type Props = ResourceLineItemsProps & {
   preset: Array<keyof typeof presetLineItems | 'custom'>

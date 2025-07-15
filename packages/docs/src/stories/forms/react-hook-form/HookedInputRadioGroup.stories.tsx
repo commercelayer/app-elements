@@ -6,7 +6,7 @@ import { ListItem } from '#ui/composite/ListItem'
 import { HookedForm } from '#ui/forms/Form'
 import { HookedInputRadioGroup } from '#ui/forms/InputRadioGroup'
 import { HookedInputSelect } from '#ui/forms/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedInputRadioGroup> = {

@@ -1,6 +1,6 @@
 import { AvatarLetter } from '#ui/atoms/AvatarLetter'
 import { BG_COLORS } from '#ui/atoms/AvatarLetter/colors'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof AvatarLetter> = {
   title: 'Atoms/AvatarLetter',

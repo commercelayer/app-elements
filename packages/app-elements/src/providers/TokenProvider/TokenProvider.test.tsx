@@ -63,7 +63,7 @@ describe('TokenProvider', () => {
     }
   })
   afterAll(function resetLocation() {
-    window.location = location
+    ;(window as typeof globalThis).location = location
   })
 
   test('Should read token from props (kind: imports)', async () => {

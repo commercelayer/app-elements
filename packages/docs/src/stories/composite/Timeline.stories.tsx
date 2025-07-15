@@ -1,7 +1,7 @@
 import { Text } from '#ui/atoms/Text'
 import { Timeline } from '#ui/composite/Timeline'
 
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { set, sub } from 'date-fns'
 
 const setup: Meta<typeof Timeline> = {

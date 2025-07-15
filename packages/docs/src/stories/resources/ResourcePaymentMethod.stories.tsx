@@ -5,7 +5,7 @@ import {
   orderWithPaymentSourceResponse,
   orderWithoutPaymentSourceResponse
 } from '#ui/resources/ResourcePaymentMethod.mocks'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof ResourcePaymentMethod> = {
   title: 'Resources/ResourcePaymentMethod',

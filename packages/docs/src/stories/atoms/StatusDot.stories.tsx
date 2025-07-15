@@ -1,5 +1,5 @@
 import { StatusDot } from '#ui/atoms/StatusDot'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof StatusDot> = {
   title: 'Atoms/StatusDot',

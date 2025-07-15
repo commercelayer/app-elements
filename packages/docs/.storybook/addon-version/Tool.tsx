@@ -1,4 +1,4 @@
-import { IconButton, Separator } from '@storybook/components'
+import { IconButton, Separator } from 'storybook/internal/components'
 import React from 'react'
 import { ADDON_NAME, LINK_URL, TOOL_ID, VERSION } from './constants'
 

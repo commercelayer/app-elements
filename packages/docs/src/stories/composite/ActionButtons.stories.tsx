@@ -1,5 +1,5 @@
 import { ActionButtons } from '#ui/composite/ActionButtons'
-import type { Meta, StoryObj } from '@storybook/react'
+import type { Meta, StoryObj } from '@storybook/react-vite'
 
 const meta: Meta<typeof ActionButtons> = {
   title: 'Composite/ActionButtons',

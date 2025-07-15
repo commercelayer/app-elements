@@ -4,7 +4,7 @@ import { HookedForm } from '#ui/forms/Form'
 import { HookedInput } from '#ui/forms/Input'
 import { HookedInputCheckbox } from '#ui/forms/InputCheckbox'
 import { HookedInputDate } from '#ui/forms/InputDate'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useForm } from 'react-hook-form'
 
 const setup: Meta<typeof HookedForm> = {

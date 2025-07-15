@@ -1,5 +1,5 @@
 import { Tab, Tabs } from '#ui/atoms/Tabs'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Tabs> = {
   title: 'Atoms/Tabs',

@@ -4,8 +4,13 @@ import { Text } from '#ui/atoms/Text'
 import { List } from '#ui/composite/List'
 import { ListItem } from '#ui/composite/ListItem'
 import { PageLayout } from '#ui/composite/PageLayout'
-import { Description, Primary, Subtitle, Title } from '@storybook/blocks'
-import { type Meta, type StoryFn } from '@storybook/react'
+import {
+  Description,
+  Primary,
+  Subtitle,
+  Title
+} from '@storybook/addon-docs/blocks'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta = {
   title: 'Examples/List Resources',

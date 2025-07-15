@@ -2,7 +2,7 @@ import {
   InputToggleButton,
   type InputToggleButtonProps
 } from '#ui/forms/InputToggleButton'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 
 const options: InputToggleButtonProps['options'] = [

@@ -1,5 +1,5 @@
 import { Grid } from '#ui/atoms/Grid'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const meta: Meta<typeof Grid> = {
   title: 'Atoms/Grid',

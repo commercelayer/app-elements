@@ -1,7 +1,7 @@
 import { Section } from '#ui/atoms/Section'
 import { ListItem } from '#ui/composite/ListItem'
 import { InputSimpleSelect } from '#ui/forms/InputSimpleSelect'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 
 const setup: Meta<typeof InputSimpleSelect> = {

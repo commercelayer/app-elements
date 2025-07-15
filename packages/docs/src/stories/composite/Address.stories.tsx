@@ -4,7 +4,7 @@ import { Stack } from '#ui/atoms/Stack'
 import { Address } from '#ui/composite/Address'
 import { ListItem } from '#ui/composite/ListItem'
 import { presetAddresses } from '#ui/resources/ResourceAddress/ResourceAddress.mocks'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 type Props = Parameters<typeof Address>[0] & {
   preset: Array<keyof typeof presetAddresses | 'custom'>

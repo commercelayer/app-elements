@@ -3,8 +3,8 @@
 import { I18NProvider } from '#providers/I18NProvider'
 import { Container } from '#ui/atoms/Container'
 import { PARAM_KEY } from '.storybook/addon-container/constants'
-import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/blocks'
-import type { Decorator, Parameters } from '@storybook/react'
+import { Controls, Description, Primary, Stories, Subtitle, Title } from '@storybook/addon-docs/blocks'
+import type { Decorator, Parameters } from '@storybook/react-vite'
 import React from 'react'
 import { worker } from '../src/mocks/browser'
 
@@ -92,10 +92,6 @@ export const decorators: Decorator[] = [
   withContainer
 ]
 
-export const globals = {
-  [PARAM_KEY]: true,
-}
-
 // Storybook executes this module in both bootstap phase (Node)
 // and a story's runtime (browser). However, we cannot call `setupWorker`
 // in Node environment, so need to check if we're in a browser.
@@ -116,3 +112,8 @@ if (typeof global.process === 'undefined') {
     } : () => {}
   })
 }
+
+export const initialGlobals = {
+  [PARAM_KEY]: true,
+};
+export const tags = ['autodocs'];

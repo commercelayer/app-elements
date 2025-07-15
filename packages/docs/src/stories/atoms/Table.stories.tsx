@@ -1,7 +1,7 @@
 import { Icon } from '#ui/atoms/Icon'
 import { Table, Td, Th, Tr, type TableProps } from '#ui/atoms/Table'
 import { Dropdown, DropdownItem } from '#ui/composite/Dropdown'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof Table> = {
   title: 'Atoms/Table',

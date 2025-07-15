@@ -1,5 +1,5 @@
 import { InputTextArea } from '#ui/forms/InputTextArea'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof InputTextArea> = {
   title: 'Forms/ui/InputTextArea',

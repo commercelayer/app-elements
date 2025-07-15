@@ -1,7 +1,7 @@
 import { CoreSdkProvider, useCoreSdkProvider } from '#providers/CoreSdkProvider'
 import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import { ResourceDetails } from '#ui/resources/ResourceDetails'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useEffect, useState } from 'react'
 
 const setup: Meta<typeof ResourceDetails> = {

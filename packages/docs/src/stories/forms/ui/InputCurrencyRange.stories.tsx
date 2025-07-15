@@ -1,5 +1,5 @@
 import { InputCurrencyRange } from '#ui/forms/InputCurrencyRange'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 
 const setup: Meta<typeof InputCurrencyRange> = {
   title: 'Forms/ui/InputCurrencyRange',

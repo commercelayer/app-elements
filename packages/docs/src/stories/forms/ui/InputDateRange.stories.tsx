@@ -1,5 +1,5 @@
 import { InputDateRange } from '#ui/forms/InputDateRange'
-import { type Meta, type StoryFn } from '@storybook/react'
+import { type Meta, type StoryFn } from '@storybook/react-vite'
 import { useState } from 'react'
 
 const setup: Meta<typeof InputDateRange> = {
