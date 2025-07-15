@@ -11,7 +11,7 @@ describe('Read JWT from URL', () => {
     }
   })
   afterAll(function resetLocation() {
-    window.location = location
+    ;(window as typeof globalThis).location = location
   })
 
   test('accessToken exists in URL params', () => {
@@ -39,13 +39,13 @@ describe('Read JWT from URL', () => {
 describe('getCurrentMode', () => {
   const originalLocationObj = window.location
   beforeEach(() => {
-    window.location = {
+    ;(window as typeof globalThis).location = {
       ...originalLocationObj
     }
   })
 
   afterEach(() => {
-    window.location = originalLocationObj
+    ;(window as typeof globalThis).location = originalLocationObj
   })
 
   test('should return the mode from the access token', () => {

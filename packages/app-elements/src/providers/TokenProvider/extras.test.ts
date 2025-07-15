@@ -69,7 +69,7 @@ describe('getExtrasFromUrl', () => {
     }
   })
   afterAll(function resetLocation() {
-    window.location = location
+    ;(window as typeof globalThis).location = location
   })
 
   test('accessToken exists in URL params', () => {
@@ -89,7 +89,7 @@ describe('Encode object > Add in URL query string > Decode it from URL', () => {
     }
   })
   afterAll(function resetLocation() {
-    window.location = location
+    ;(window as typeof globalThis).location = location
   })
 
   test('extras exists in URL params', () => {

@@ -57,7 +57,7 @@ describe('useOverlay in `queryParam` mode', () => {
   const originalLocationObj = window.location
   const originalHistoryObj = window.history
   function allowLocationMocks(): void {
-    window.location = {
+    ;(window as typeof globalThis).location = {
       ...originalLocationObj
     }
     window.history = {
@@ -70,7 +70,7 @@ describe('useOverlay in `queryParam` mode', () => {
   })
 
   afterEach(() => {
-    window.location = originalLocationObj
+    ;(window as typeof globalThis).location = originalLocationObj
     window.history = originalHistoryObj
   })
 
