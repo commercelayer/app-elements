@@ -1,30 +1,30 @@
-import type { ParsedScopes } from '#providers/TokenProvider/getInfoFromJwt'
-import type { ListableResourceType } from '@commercelayer/sdk'
+import type { ListableResourceType } from "@commercelayer/sdk"
+import type { ParsedScopes } from "#providers/TokenProvider/getInfoFromJwt"
 
 export type TokenProviderClAppSlug =
-  | 'bundles'
-  | 'customers'
-  | 'exports'
-  | 'gift_cards'
-  | 'imports'
-  | 'inventory'
-  | 'orders'
-  | 'price_lists'
-  | 'promotions'
-  | 'returns'
-  | 'shipments'
-  | 'sku_lists'
-  | 'skus'
-  | 'stock_transfers'
-  | 'subscriptions'
-  | 'tags'
-  | 'webhooks'
+  | "bundles"
+  | "customers"
+  | "exports"
+  | "gift_cards"
+  | "imports"
+  | "inventory"
+  | "orders"
+  | "price_lists"
+  | "promotions"
+  | "returns"
+  | "shipments"
+  | "sku_lists"
+  | "skus"
+  | "stock_transfers"
+  | "subscriptions"
+  | "tags"
+  | "webhooks"
 
 /**
  * TokenProviderAllowedApp is a type that contains all the possible kinds of the app that you can create inside the dashboard.
  * As a convention Commerce Layer official apps have a slug that matches the kind of the app.
  */
-export type TokenProviderAllowedAppKind = TokenProviderClAppSlug | 'generic'
+export type TokenProviderAllowedAppKind = TokenProviderClAppSlug | "generic"
 
 /**
  * @deprecated Use `TokenProviderAllowedAppKind` instead.
@@ -35,10 +35,7 @@ export type TokenProviderAllowedApp = TokenProviderAllowedAppKind
  * The application slug. It could match one of the allowed apps or a custom string.
  * It is used as the app identifier (e.g. storage key).
  */
-export type TokenProviderAllowedAppSlug =
-  | TokenProviderClAppSlug
-  // eslint-disable-next-line @typescript-eslint/ban-types
-  | (string & {})
+export type TokenProviderAllowedAppSlug = TokenProviderClAppSlug | (string & {})
 
 /**
  * TokenProviderTokenApplicationKind is a type that contains all the suitable api credential kinds.
@@ -48,25 +45,25 @@ export type TokenProviderAllowedAppSlug =
  * - an app with its dedicated set of permissions (eg. `order`, `customers`, etc...)
  */
 export type TokenProviderTokenApplicationKind =
-  | 'integration'
-  | 'sales_channel'
-  | 'webapp'
-  | 'resources'
-  | 'links'
+  | "integration"
+  | "sales_channel"
+  | "webapp"
+  | "resources"
+  | "links"
   | TokenProviderAllowedAppKind
 
-export type TokenProviderRoleActions = 'create' | 'destroy' | 'read' | 'update'
+export type TokenProviderRoleActions = "create" | "destroy" | "read" | "update"
 
 export type TokenProviderPermissionItem = Record<
   TokenProviderRoleActions,
   boolean
 >
 export type TokenProviderRolePermissions = Partial<
-  Record<ListableResourceType | 'organizations', TokenProviderPermissionItem>
+  Record<ListableResourceType | "organizations", TokenProviderPermissionItem>
 >
 
 interface CoreApiOwnerUser {
-  type: 'User'
+  type: "User"
   id: string
   first_name: string
   last_name: string
@@ -76,7 +73,7 @@ interface CoreApiOwnerUser {
 }
 
 interface CoreApiOwnerCustomer {
-  type: 'Customer'
+  type: "Customer"
   id: string
   email: string
 }
@@ -131,7 +128,7 @@ export interface TokenProviderTokenInfo {
   }>
 }
 
-export type Mode = 'live' | 'test'
+export type Mode = "live" | "test"
 
 export interface TokenProviderAuthSettings {
   /**
@@ -186,7 +183,7 @@ export interface TokenProviderAuthUser {
   displayName: string
   fullName: string
   timezone: string
-  locale: 'en-US' | 'it-IT'
+  locale: "en-US" | "it-IT"
 }
 
 export interface TokenProviderExtras {

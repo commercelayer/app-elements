@@ -1,26 +1,26 @@
-import type { Currency, CurrencyCode } from '#helpers/currencies'
-import { t } from '#providers/I18NProvider'
-import {
-  InputWrapper,
-  getFeedbackStyle,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import { X } from '@phosphor-icons/react'
-import cn from 'classnames'
-import { forwardRef, useEffect, useMemo, useState, type JSX } from 'react'
+import { XIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import { forwardRef, type JSX, useEffect, useMemo, useState } from "react"
 import ReactCurrencyInputField, {
-  type CurrencyInputProps as ReactCurrencyInputFieldProps
-} from 'react-currency-input-field'
+  type CurrencyInputProps as ReactCurrencyInputFieldProps,
+} from "react-currency-input-field"
+import type { Currency, CurrencyCode } from "#helpers/currencies"
+import { t } from "#providers/I18NProvider"
+import {
+  getFeedbackStyle,
+  InputWrapper,
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 import {
   formatCentsToCurrency,
   getCurrency,
   getDecimalLength,
-  makePlaceholder
-} from './utils'
+  makePlaceholder,
+} from "./utils"
 
 export interface InputCurrencyProps
   extends InputWrapperBaseProps,
-    Pick<ReactCurrencyInputFieldProps, 'onBlur' | 'onClick' | 'disabled'> {
+    Pick<ReactCurrencyInputFieldProps, "onBlur" | "onClick" | "disabled"> {
   /**
    * HTML input id
    */
@@ -61,7 +61,7 @@ export interface InputCurrencyProps
    * The signs `+-` and `-+` can accept both positive and negative numbers (first sign is the default).
    * @default +
    */
-  sign?: '+' | '-' | '+-' | '-+'
+  sign?: "+" | "-" | "+-" | "-+"
   /**
    * Show (X) button to clear the input
    */
@@ -80,22 +80,22 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       currencyCode,
       placeholder,
       hideCurrencySymbol,
-      sign = '+',
+      sign = "+",
       isClearable,
       inline,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const currency = useMemo(() => getCurrency(currencyCode), [currencyCode])
 
     const [_value, setValue] = useState<string | number | undefined>(
-      makeInitialValue({ cents, currency })
+      makeInitialValue({ cents, currency }),
     )
 
     const decimalLength = useMemo(
       () => (currency != null ? getDecimalLength(currency) : 0),
-      [currency]
+      [currency],
     )
 
     useEffect(() => {
@@ -104,16 +104,16 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
 
     if (currency == null) {
       return (
-        <div>{t('common.forms.currency_code_not_valid', { currencyCode })}</div>
+        <div>{t("common.forms.currency_code_not_valid", { currencyCode })}</div>
       )
     }
 
     if (cents != null && cents > 0 && cents % 1 !== 0) {
-      return <div>{t('common.forms.cents_not_integer', { cents })}</div>
+      return <div>{t("common.forms.cents_not_integer", { cents })}</div>
     }
 
-    const allowNegativeValue = sign.includes('-')
-    const defaultSign = sign.startsWith('+') ? '+' : '-'
+    const allowNegativeValue = sign.includes("-")
+    const defaultSign = sign.startsWith("+") ? "+" : "-"
 
     return (
       <InputWrapper
@@ -123,28 +123,28 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
         inline={inline}
         name={rest.id ?? rest.name}
       >
-        <div className='relative w-full'>
+        <div className="relative w-full">
           {hideCurrencySymbol === true ? null : (
             <div
-              data-testid='inputCurrency-symbol'
-              className='absolute left-4 top-1/2 transform -translate-y-1/2 font-bold'
+              data-testid="inputCurrency-symbol"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 font-bold"
             >
               {currency.symbol}
             </div>
           )}
           <ReactCurrencyInputField
             ref={ref}
-            data-testid='inputCurrency-input'
+            data-testid="inputCurrency-input"
             id={rest.id ?? rest.name}
             className={cn(
               className,
-              'block w-full pr-4 py-2.5 font-medium',
+              "block w-full pr-4 py-2.5 font-medium",
               {
-                'pl-4': hideCurrencySymbol === true,
-                'pl-12': hideCurrencySymbol !== true
+                "pl-4": hideCurrencySymbol === true,
+                "pl-12": hideCurrencySymbol !== true,
               },
-              'rounded outline-0',
-              getFeedbackStyle(feedback)
+              "rounded outline-0",
+              getFeedbackStyle(feedback),
             )}
             disableAbbreviations
             allowNegativeValue={allowNegativeValue}
@@ -154,22 +154,22 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             groupSeparator={currency.thousands_separator}
             placeholder={
               placeholder ??
-              makePlaceholder(currency, defaultSign === '-' ? '-' : '')
+              makePlaceholder(currency, defaultSign === "-" ? "-" : "")
             }
-            value={_value ?? ''}
+            value={_value ?? ""}
             transformRawValue={(rawValue) => {
-              const noMinus = rawValue.replaceAll('-', '')
-              const notEmpty = rawValue != null && rawValue !== ''
+              const noMinus = rawValue.replaceAll("-", "")
+              const notEmpty = rawValue != null && rawValue !== ""
 
               const newValue =
-                sign === '+'
+                sign === "+"
                   ? noMinus
-                  : sign === '-' && notEmpty
+                  : sign === "-" && notEmpty
                     ? `-${noMinus}`
                     : rawValue
 
               if (newValue.length === 1 && _value == null) {
-                return `${defaultSign === '-' ? '-' : ''}${newValue}`
+                return `${defaultSign === "-" ? "-" : ""}${newValue}`
               }
 
               return newValue
@@ -177,11 +177,11 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             onValueChange={(val, __, values) => {
               setValue(val)
               if (values?.float == null) {
-                onChange(null, '')
+                onChange(null, "")
                 return
               }
               const newValue = Math.round(
-                values.float * currency.subunit_to_unit
+                values.float * currency.subunit_to_unit,
               )
               const newFormatted = formatCentsToCurrency(newValue, currencyCode)
               onChange(newValue, newFormatted)
@@ -190,30 +190,30 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
           />
           {isClearable === true && _value != null ? (
             <button
-              type='button'
+              type="button"
               onClick={() => {
-                setValue('')
-                onChange(null, '')
+                setValue("")
+                onChange(null, "")
               }}
-              className='bg-gray-100 text-gray-400 rounded-full p-1.5 absolute right-4 top-1/2 transform -translate-y-1/2'
+              className="bg-gray-100 text-gray-400 rounded-full p-1.5 absolute right-4 top-1/2 transform -translate-y-1/2"
             >
-              <X size={12} />
+              <XIcon size={12} />
             </button>
           ) : null}
         </div>
       </InputWrapper>
     )
-  }
+  },
 )
 
-InputCurrency.displayName = 'InputCurrency'
+InputCurrency.displayName = "InputCurrency"
 
 /**
  * Prepare the initial value for the component internal state.
  **/
 function makeInitialValue({
   cents,
-  currency
+  currency,
 }: {
   cents?: number | null
   currency?: Currency

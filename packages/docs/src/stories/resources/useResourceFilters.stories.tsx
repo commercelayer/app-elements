@@ -1,22 +1,22 @@
-import { useOverlay } from '#hooks/useOverlay'
-import { CoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { ResourceListItem } from '#ui/resources/ResourceListItem'
-import { presetResourceListItem } from '#ui/resources/ResourceListItem/ResourceListItem.mocks'
-import { useResourceFilters } from '#ui/resources/useResourceFilters'
-import { instructions } from '#ui/resources/useResourceFilters/mockedInstructions'
-import { type FiltersInstructions } from '#ui/resources/useResourceFilters/types'
 import {
   Description,
   Source,
   Stories,
   Subtitle,
-  Title
-} from '@storybook/addon-docs/blocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useState } from 'react'
+  Title,
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
+import { useOverlay } from "#hooks/useOverlay"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { ResourceListItem } from "#ui/resources/ResourceListItem"
+import { presetResourceListItem } from "#ui/resources/ResourceListItem/ResourceListItem.mocks"
+import { useResourceFilters } from "#ui/resources/useResourceFilters"
+import { instructions } from "#ui/resources/useResourceFilters/mockedInstructions"
+import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
 
 const mockedOrder = presetResourceListItem.orderAwaitingApproval
 const navigate = (qs: string): void => {
@@ -30,7 +30,7 @@ const ToggleInstructions: React.FC<{
   return (
     <div>
       <p>
-        Click on the button below to see a full example of{' '}
+        Click on the button below to see a full example of{" "}
         <code>FiltersInstruction</code> array, as it has been defined inside the
         Orders app.
       </p>
@@ -39,13 +39,13 @@ const ToggleInstructions: React.FC<{
           setShow(!show)
         }}
       >
-        {show ? 'Hide' : 'Show'} FilterInstruction array
+        {show ? "Hide" : "Show"} FilterInstruction array
       </Button>
       {show && (
         <Source
           dark
           code={JSON.stringify(instructions, null, 2)}
-          language='json'
+          language="json"
         />
       )}
     </div>
@@ -85,19 +85,19 @@ const ToggleInstructions: React.FC<{
  *
  **/
 const setup: Meta = {
-  title: 'Resources/useResourceFilters',
+  title: "Resources/useResourceFilters",
   args: {},
   argTypes: {
     children: {
       table: {
-        disable: true
-      }
-    }
+        disable: true,
+      },
+    },
   },
   parameters: {
     docs: {
       source: {
-        type: 'code'
+        type: "code",
       },
       page: () => (
         <>
@@ -107,9 +107,9 @@ const setup: Meta = {
           <ToggleInstructions instructions={instructions} />
           <Stories />
         </>
-      )
-    }
-  }
+      ),
+    },
+  },
 }
 export default setup
 
@@ -122,11 +122,11 @@ export default setup
  **/
 export const FiltersForm: StoryFn = () => {
   const { FiltersForm } = useResourceFilters({
-    instructions
+    instructions,
   })
 
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <FiltersForm
           onSubmit={(queryString) => {
@@ -143,24 +143,22 @@ export const FiltersForm: StoryFn = () => {
  **/
 export const FiltersFormInOverlay: StoryFn = () => {
   const { FiltersForm } = useResourceFilters({
-    instructions
+    instructions,
   })
 
   const { Overlay, open } = useOverlay()
 
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
-        <>
-          <Button onClick={open}>Filters</Button>
-          <Overlay backgroundColor='light'>
-            <FiltersForm
-              onSubmit={(queryString) => {
-                alert(`Redirect to /list?${queryString}`)
-              }}
-            />
-          </Overlay>
-        </>
+        <Button onClick={open}>Filters</Button>
+        <Overlay backgroundColor="light">
+          <FiltersForm
+            onSubmit={(queryString) => {
+              alert(`Redirect to /list?${queryString}`)
+            }}
+          />
+        </Overlay>
       </CoreSdkProvider>
     </TokenProvider>
   )
@@ -175,14 +173,14 @@ export const FiltersFormInOverlay: StoryFn = () => {
  **/
 export const FilteredList: StoryFn = () => {
   const { FilteredList } = useResourceFilters({
-    instructions
+    instructions,
   })
 
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <FilteredList
-          type='orders'
+          type="orders"
           ItemTemplate={({ resource = mockedOrder, isLoading }) => {
             return (
               <SkeletonTemplate isLoading={isLoading}>
@@ -208,21 +206,21 @@ export const FilteredList: StoryFn = () => {
  **/
 export const SearchWithNav: StoryFn = () => {
   const { SearchWithNav } = useResourceFilters({
-    instructions
+    instructions,
   })
 
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <SearchWithNav
-          onFilterClick={(qs, filterPredicate) => {
-            alert(`Filter ${filterPredicate ?? ''} button clicked`)
+          onFilterClick={(_qs, filterPredicate) => {
+            alert(`Filter ${filterPredicate ?? ""} button clicked`)
           }}
           onUpdate={(qs) => {
             navigate(`?${qs}`)
           }}
-          searchBarPlaceholder='Type to search...'
-          queryString='?name_eq=Ehi there&status_in=placed&status_in=approved&payment_status_eq=authorized&fulfillment_status_in=unfulfilled&timeFrom=2023-09-03T22%3A00%3A00.000Z&timePreset=custom&timeTo=2023-09-05T22%3A00%3A00.000Z'
+          searchBarPlaceholder="Type to search..."
+          queryString="?name_eq=Ehi there&status_in=placed&status_in=approved&payment_status_eq=authorized&fulfillment_status_in=unfulfilled&timeFrom=2023-09-03T22%3A00%3A00.000Z&timePreset=custom&timeTo=2023-09-05T22%3A00%3A00.000Z"
         />
       </CoreSdkProvider>
     </TokenProvider>
@@ -246,17 +244,17 @@ export const SearchWithNav: StoryFn = () => {
  **/
 export const FiltersAdapters: StoryFn = () => {
   const { adapters } = useResourceFilters({
-    instructions
+    instructions,
   })
 
   const { adaptFormValuesToSdk } = adapters
 
   const sdkFilters = adaptFormValuesToSdk({
     formValues: {
-      status_in: ['placed', 'approved'],
-      timePreset: 'last7days'
+      status_in: ["placed", "approved"],
+      timePreset: "last7days",
     },
-    timezone: 'Europe/Rome'
+    timezone: "Europe/Rome",
   })
 
   return <pre>{JSON.stringify(sdkFilters, null, 2)}</pre>

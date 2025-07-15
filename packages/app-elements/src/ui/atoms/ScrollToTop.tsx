@@ -1,4 +1,4 @@
-import { useEffect, type FC } from 'react'
+import { type FC, useEffect } from "react"
 
 /**
  * This component lets the window scrolls back to top once the window.location.pathname is changed

@@ -1,6 +1,6 @@
-import { adaptFormValuesToUrlQuery } from './adaptFormValuesToUrlQuery'
-import { adaptUrlQueryToFormValues } from './adaptUrlQueryToFormValues'
-import { type FiltersInstructions } from './types'
+import { adaptFormValuesToUrlQuery } from "./adaptFormValuesToUrlQuery"
+import { adaptUrlQueryToFormValues } from "./adaptUrlQueryToFormValues"
+import type { FiltersInstructions } from "./types"
 
 export interface AdaptUrlQueryToUrlQueryParams {
   queryString: string
@@ -16,15 +16,15 @@ export interface AdaptUrlQueryToUrlQueryParams {
 export function adaptUrlQueryToUrlQuery({
   queryString,
   instructions,
-  predicateWhitelist = []
+  predicateWhitelist = [],
 }: AdaptUrlQueryToUrlQueryParams): string {
   const formValues = adaptUrlQueryToFormValues({
     queryString,
     instructions,
-    predicateWhitelist
+    predicateWhitelist,
   })
   return adaptFormValuesToUrlQuery({
     formValues,
-    instructions
+    instructions,
   })
 }

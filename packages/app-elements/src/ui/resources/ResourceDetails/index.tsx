@@ -1,1 +1,1 @@
-export { ResourceDetails, type ResourceDetailsProps } from './ResourceDetails'
+export { ResourceDetails, type ResourceDetailsProps } from "./ResourceDetails"

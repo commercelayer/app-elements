@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cn from "classnames"
 
 export interface ContainerProps {
   /**
@@ -25,9 +25,9 @@ export const Container: React.FC<ContainerProps> = ({
   return (
     <div
       className={cn(
-        'container mx-auto flex flex-col px-4 md:px-0',
-        { 'min-h-screen': minHeight },
-        className
+        "container mx-auto flex flex-col px-4 md:px-0",
+        { "min-h-screen": minHeight },
+        className,
       )}
       {...rest}
     >
@@ -36,4 +36,4 @@ export const Container: React.FC<ContainerProps> = ({
   )
 }
 
-Container.displayName = 'Container'
+Container.displayName = "Container"

@@ -1,4 +1,4 @@
 export {
   HookedMarketWithCurrencySelector,
-  type HookedMarketWithCurrencySelectorProps
-} from './HookedMarketWithCurrencySelector'
+  type HookedMarketWithCurrencySelectorProps,
+} from "./HookedMarketWithCurrencySelector"

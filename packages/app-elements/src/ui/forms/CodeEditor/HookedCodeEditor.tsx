@@ -1,12 +1,12 @@
-import { type JSX } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
-import { CodeEditor } from './CodeEditor'
-import { type CodeEditorProps } from './CodeEditorComponent'
+import type { JSX } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
+import { CodeEditor } from "./CodeEditor"
+import type { CodeEditorProps } from "./CodeEditorComponent"
 
 export interface HookedCodeEditorProps
-  extends Omit<CodeEditorProps, 'name'>,
-    Required<Pick<CodeEditorProps, 'name'>> {}
+  extends Omit<CodeEditorProps, "name">,
+    Required<Pick<CodeEditorProps, "name">> {}
 
 /**
  * `Input` component ready to be used with the `react-hook-form` context.

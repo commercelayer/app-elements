@@ -1,24 +1,24 @@
-import { useCoreApi } from '#providers/CoreSdkProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-import { Text } from '#ui/atoms/Text'
-import { ListItem, type ListItemProps } from '#ui/composite/ListItem'
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { ListItem, type ListItemProps } from "#ui/composite/ListItem"
 import {
   customerToProps,
   orderToProps,
   returnToProps,
   shipmentToProps,
   skuListItemToProps,
-  stockTransferToProps
-} from '#ui/resources/ResourceListItem/transformers'
-import { useMemo } from 'react'
-import { useTranslation } from 'react-i18next'
-import { promotionToProps } from './transformers/promotions'
-import {
-  type ResourceListItemComponentProps,
-  type ResourceListItemType
-} from './types'
+  stockTransferToProps,
+} from "#ui/resources/ResourceListItem/transformers"
+import { promotionToProps } from "./transformers/promotions"
+import type {
+  ResourceListItemComponentProps,
+  ResourceListItemType,
+} from "./types"
 
 export interface ResourceListItemProps {
   /**
@@ -28,18 +28,18 @@ export interface ResourceListItemProps {
   /**
    * Optional href
    */
-  href?: ListItemProps['href']
+  href?: ListItemProps["href"]
   /**
    * Optional onClick function
    */
-  onClick?: ListItemProps['onClick']
+  onClick?: ListItemProps["onClick"]
   /**
    * Optional setting to show right content, if available, instead of right arrow
    */
   showRightContent?: boolean
 }
 
-type ResourceListItemConfig = Omit<ResourceListItemProps, 'resource'> &
+type ResourceListItemConfig = Omit<ResourceListItemProps, "resource"> &
   ResourceListItemComponentProps
 
 const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
@@ -52,35 +52,35 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     onClick,
     alignItems,
     showRightContent = false,
-    invertNameDescription = false
+    invertNameDescription = false,
   }) => {
     const isClickable = href != null || onClick != null
 
     return (
       <ListItem
         icon={icon}
-        alignItems={alignItems ?? (showRightContent ? 'top' : 'center')}
-        data-testid='ResourceListItem'
+        alignItems={alignItems ?? (showRightContent ? "top" : "center")}
+        data-testid="ResourceListItem"
         href={href}
         onClick={onClick}
-        padding={isClickable ? 'xy' : 'y'}
+        padding={isClickable ? "xy" : "y"}
       >
         <div
-          className={`flex  ${invertNameDescription ? 'flex-col-reverse' : 'flex-col'}`}
+          className={`flex  ${invertNameDescription ? "flex-col-reverse" : "flex-col"}`}
         >
           <Text
-            tag='div'
-            weight='semibold'
-            data-testid='ResourceListItem-number'
+            tag="div"
+            weight="semibold"
+            data-testid="ResourceListItem-number"
           >
             {name}
           </Text>
           <Text
-            tag='div'
-            weight='medium'
-            size='small'
-            variant='info'
-            data-testid='ResourceListItem-content'
+            tag="div"
+            weight="medium"
+            size="small"
+            variant="info"
+            data-testid="ResourceListItem-content"
           >
             {description}
           </Text>
@@ -88,11 +88,11 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         <div>
           {showRightContent
             ? rightContent
-            : isClickable && <StatusIcon name='caretRight' />}
+            : isClickable && <StatusIcon name="caretRight" />}
         </div>
       </ListItem>
     )
-  }
+  },
 )
 
 /**
@@ -104,56 +104,56 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     const { t } = useTranslation()
 
     const { data: markets, isLoading: isLoadingMarkets } = useCoreApi(
-      'markets',
-      'list',
-      resource.type === 'orders'
+      "markets",
+      "list",
+      resource.type === "orders"
         ? [
             {
-              fields: ['id'],
+              fields: ["id"],
               filters: {
-                disabled_at_null: true
+                disabled_at_null: true,
               },
-              pageSize: 1
-            }
+              pageSize: 1,
+            },
           ]
         : null,
       {
-        revalidateIfStale: false
-      }
+        revalidateIfStale: false,
+      },
     )
 
     const listItemProps = useMemo(() => {
       switch (resource.type) {
-        case 'customers':
+        case "customers":
           return customerToProps({ resource, user, t })
-        case 'orders':
+        case "orders":
           return orderToProps({
             resource: {
               ...resource,
               market:
                 (markets?.meta.recordCount ?? 0) > 1
                   ? resource.market
-                  : undefined
+                  : undefined,
             },
             user,
-            t
+            t,
           })
-        case 'returns':
+        case "returns":
           return returnToProps({ resource, user, t })
-        case 'stock_transfers':
+        case "stock_transfers":
           return stockTransferToProps({ resource, user, t })
-        case 'shipments':
+        case "shipments":
           return shipmentToProps({ resource, user, t })
-        case 'sku_list_items':
+        case "sku_list_items":
           return skuListItemToProps({ resource, user, t })
-        case 'buy_x_pay_y_promotions':
-        case 'external_promotions':
-        case 'fixed_amount_promotions':
-        case 'fixed_price_promotions':
-        case 'free_gift_promotions':
-        case 'free_shipping_promotions':
-        case 'percentage_discount_promotions':
-        case 'flex_promotions':
+        case "buy_x_pay_y_promotions":
+        case "external_promotions":
+        case "fixed_amount_promotions":
+        case "fixed_price_promotions":
+        case "free_gift_promotions":
+        case "free_shipping_promotions":
+        case "percentage_discount_promotions":
+        case "flex_promotions":
           return promotionToProps({ resource, user, t })
       }
     }, [resource])
@@ -166,5 +166,5 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
         {...rest}
       />
     )
-  }
+  },
 )

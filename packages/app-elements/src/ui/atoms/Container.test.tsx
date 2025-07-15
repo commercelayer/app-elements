@@ -1,5 +1,5 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { Container } from './Container'
+import { type RenderResult, render } from "@testing-library/react"
+import { Container } from "./Container"
 
 interface SetupProps {
   id: string
@@ -13,19 +13,19 @@ const setup = ({ id }: SetupProps): SetupResult => {
   const utils = render(
     <Container data-testid={id}>
       <div>my app</div>
-    </Container>
+    </Container>,
   )
   const element = utils.getByTestId(id)
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('Container', () => {
-  test('Should be rendered', () => {
-    const { element } = setup({ id: 'my-container' })
-    expect(element.tagName).toBe('DIV')
-    expect(element.className).toContain('container')
+describe("Container", () => {
+  test("Should be rendered", () => {
+    const { element } = setup({ id: "my-container" })
+    expect(element.tagName).toBe("DIV")
+    expect(element.className).toContain("container")
   })
 })

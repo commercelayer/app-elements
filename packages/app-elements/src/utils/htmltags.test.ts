@@ -1,18 +1,18 @@
-import { removeUnwantedProps } from './htmltags'
+import { removeUnwantedProps } from "./htmltags"
 
-describe('removeUnwantedProps', () => {
+describe("removeUnwantedProps", () => {
   const props = {
-    a: '',
-    b: '',
-    c: ''
+    a: "",
+    b: "",
+    c: "",
   }
 
-  const cleanedProps = removeUnwantedProps(props, ['c'])
+  const cleanedProps = removeUnwantedProps(props, ["c"])
 
   it("should return the original set of props without the prop 'c'", () => {
     expect(cleanedProps).toEqual({
-      a: '',
-      b: ''
+      a: "",
+      b: "",
     })
   })
 })

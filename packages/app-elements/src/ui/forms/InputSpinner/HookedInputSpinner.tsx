@@ -1,10 +1,10 @@
-import { type JSX } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
-import { InputSpinner, type InputSpinnerProps } from './InputSpinner'
+import type { JSX } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
+import { InputSpinner, type InputSpinnerProps } from "./InputSpinner"
 
 export interface HookedInputSpinnerProps
-  extends Omit<InputSpinnerProps, 'onChange' | 'defaultValues'> {
+  extends Omit<InputSpinnerProps, "onChange" | "defaultValues"> {
   /**
    * field name to match hook-form state
    */
@@ -40,4 +40,4 @@ export function HookedInputSpinner({
   )
 }
 
-HookedInputSpinner.displayName = 'HookedInputSpinner'
+HookedInputSpinner.displayName = "HookedInputSpinner"

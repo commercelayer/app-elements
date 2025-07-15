@@ -1,13 +1,13 @@
-import { t } from '#providers/I18NProvider'
-import { SearchBar, type SearchBarProps } from '#ui/composite/SearchBar'
-import castArray from 'lodash-es/castArray'
-import isEmpty from 'lodash-es/isEmpty'
-import { type JSX } from 'react'
-import { makeFilterAdapters } from './adapters'
-import { type FiltersInstructions } from './types'
+import castArray from "lodash-es/castArray"
+import isEmpty from "lodash-es/isEmpty"
+import type { JSX } from "react"
+import { t } from "#providers/I18NProvider"
+import { SearchBar, type SearchBarProps } from "#ui/composite/SearchBar"
+import { makeFilterAdapters } from "./adapters"
+import type { FiltersInstructions } from "./types"
 
 export interface FilterSearchBarProps
-  extends Pick<SearchBarProps, 'placeholder' | 'debounceMs'> {
+  extends Pick<SearchBarProps, "placeholder" | "debounceMs"> {
   /**
    * Array of instruction items to build the filters behaviors
    */
@@ -44,17 +44,17 @@ function FiltersSearchBar({
   onUpdate,
   queryString,
   predicateWhitelist,
-  debounceMs
+  debounceMs,
 }: FilterSearchBarProps): JSX.Element {
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
     makeFilterAdapters({
       instructions,
-      predicateWhitelist
+      predicateWhitelist,
     })
 
   const textPredicate = instructions.find(
     (item) =>
-      item.type === 'textSearch' && item.render.component === 'searchBar'
+      item.type === "textSearch" && item.render.component === "searchBar",
   )?.sdk.predicate
 
   const updateTextFilter = (hint?: string): void => {
@@ -63,21 +63,21 @@ function FiltersSearchBar({
     }
 
     const currentFilters = adaptUrlQueryToFormValues({
-      queryString
+      queryString,
     })
 
     const newQueryString = adaptFormValuesToUrlQuery({
       formValues: {
         ...currentFilters,
-        [textPredicate]: isEmpty(hint?.trim()) ? undefined : hint
-      }
+        [textPredicate]: isEmpty(hint?.trim()) ? undefined : hint,
+      },
     })
 
     onUpdate(newQueryString)
   }
 
   if (textPredicate == null) {
-    return <div>{t('common.no_textsearch_filter_set')}</div>
+    return <div>{t("common.no_textsearch_filter_set")}</div>
   }
 
   const textPredicateValue = adaptUrlQueryToFormValues({ queryString })[
@@ -97,5 +97,5 @@ function FiltersSearchBar({
   )
 }
 
-FiltersSearchBar.displayName = 'FiltersSearchBar'
+FiltersSearchBar.displayName = "FiltersSearchBar"
 export { FiltersSearchBar }

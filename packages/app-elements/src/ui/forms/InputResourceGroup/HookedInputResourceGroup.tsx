@@ -1,11 +1,11 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext } from "react-hook-form"
 import {
   InputResourceGroup,
-  type InputResourceGroupProps
-} from './InputResourceGroup'
+  type InputResourceGroupProps,
+} from "./InputResourceGroup"
 
 export interface HookedInputResourceGroupProps
-  extends Omit<InputResourceGroupProps, 'onChange' | 'defaultValues'> {
+  extends Omit<InputResourceGroupProps, "onChange" | "defaultValues"> {
   /**
    * field name to match hook-form state
    */
@@ -39,4 +39,4 @@ export const HookedInputResourceGroup: React.FC<
   )
 }
 
-HookedInputResourceGroup.displayName = 'HookedInputResourceGroup'
+HookedInputResourceGroup.displayName = "HookedInputResourceGroup"

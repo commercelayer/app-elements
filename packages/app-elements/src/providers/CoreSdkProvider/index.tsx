@@ -1,3 +1,3 @@
-export { CoreSdkProvider, useCoreSdkProvider } from './CoreSdkProvider'
-export { useCoreApi } from './useCoreApi'
+export { CoreSdkProvider, useCoreSdkProvider } from "./CoreSdkProvider"
+export { useCoreApi } from "./useCoreApi"
 //

@@ -1,4 +1,4 @@
-import type { JsonObject } from 'type-fest'
+import type { JsonObject } from "type-fest"
 
 /**
  * Extract all keys from an array of objects of different shapes,

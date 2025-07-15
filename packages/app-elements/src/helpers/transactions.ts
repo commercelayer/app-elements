@@ -1,5 +1,5 @@
-import type { Authorization, Capture, Refund, Void } from '@commercelayer/sdk'
-import isEmpty from 'lodash-es/isEmpty'
+import type { Authorization, Capture, Refund, Void } from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
 
 /**
  * Check if the transaction is an async capture
@@ -7,10 +7,10 @@ import isEmpty from 'lodash-es/isEmpty'
  * that are not succeeded and have no message or error code.
  */
 export function orderTransactionIsAnAsyncCapture(
-  transaction: Authorization | Void | Capture | Refund
+  transaction: Authorization | Void | Capture | Refund,
 ): boolean {
   return (
-    transaction.type === 'captures' &&
+    transaction.type === "captures" &&
     !transaction.succeeded &&
     isEmpty(transaction.message) &&
     isEmpty(transaction.error_code)

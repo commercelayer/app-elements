@@ -1,9 +1,9 @@
-import cn from 'classnames'
-import { type JSX } from 'react'
+import cn from "classnames"
+import type { JSX } from "react"
 import {
   getInteractiveElementClassName,
-  type InteractiveElementProps
-} from '../internals/InteractiveElement.className'
+  type InteractiveElementProps,
+} from "../internals/InteractiveElement.className"
 
 export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> &
   InteractiveElementProps
@@ -19,8 +19,8 @@ export function Button({
   className,
   disabled,
   fullWidth,
-  size = 'regular',
-  variant = 'primary',
+  size = "regular",
+  variant = "primary",
   ...rest
 }: ButtonProps): JSX.Element {
   return (
@@ -33,8 +33,8 @@ export function Button({
           disabled,
           fullWidth,
           size,
-          variant
-        })
+          variant,
+        }),
       )}
       disabled={disabled}
       {...rest}
@@ -44,4 +44,4 @@ export function Button({
   )
 }
 
-Button.displayName = 'Button'
+Button.displayName = "Button"

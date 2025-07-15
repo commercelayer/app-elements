@@ -1,9 +1,9 @@
-import { isJsonPrimitive } from '#utils/text'
-import cn from 'classnames'
+import cn from "classnames"
+import { isJsonPrimitive } from "#utils/text"
 import {
   SkeletonTemplate,
-  type SkeletonTemplateProps
-} from '../SkeletonTemplate'
+  type SkeletonTemplateProps,
+} from "../SkeletonTemplate"
 
 export interface TdProps
   extends React.TdHTMLAttributes<HTMLElement>,
@@ -22,7 +22,7 @@ export const Td: React.FC<TdProps> = ({
 }) => {
   return (
     <td
-      className={cn('p-4 text-sm border-b border-gray-100 bg-white', className)}
+      className={cn("p-4 text-sm border-b border-gray-100 bg-white", className)}
       {...rest}
     >
       <SkeletonTemplate isLoading={isLoading} delayMs={delayMs}>
@@ -35,7 +35,7 @@ export const Td: React.FC<TdProps> = ({
                 ? children.toString()
                 : undefined
             }
-            className='overflow-hidden text-ellipsis whitespace-nowrap'
+            className="overflow-hidden text-ellipsis whitespace-nowrap"
             style={{ maxWidth: `${textEllipsis}ch` }}
           >
             {children}
@@ -48,4 +48,4 @@ export const Td: React.FC<TdProps> = ({
   )
 }
 
-Td.displayName = 'Td'
+Td.displayName = "Td"

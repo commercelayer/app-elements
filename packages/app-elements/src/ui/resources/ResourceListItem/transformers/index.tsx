@@ -1,6 +1,6 @@
-export { customerToProps } from './customers'
-export { orderToProps } from './orders'
-export { returnToProps } from './returns'
-export { shipmentToProps } from './shipments'
-export { skuListItemToProps } from './skuListItem'
-export { stockTransferToProps } from './stockTransfers'
+export { customerToProps } from "./customers"
+export { orderToProps } from "./orders"
+export { returnToProps } from "./returns"
+export { shipmentToProps } from "./shipments"
+export { skuListItemToProps } from "./skuListItem"
+export { stockTransferToProps } from "./stockTransfers"

@@ -1,11 +1,11 @@
-import { type TokenProviderAllowedAppSlug } from './types'
+import type { TokenProviderAllowedAppSlug } from "./types"
 
-type ItemType = 'accessToken' | 'extras'
+type ItemType = "accessToken" | "extras"
 
 export function makeStorageKey({
   appSlug,
   organizationSlug,
-  itemType
+  itemType,
 }: {
   appSlug: TokenProviderAllowedAppSlug
   organizationSlug: string
@@ -16,8 +16,8 @@ export function makeStorageKey({
 
 export function getPersistentJWT({
   appSlug,
-  organizationSlug = 'commercelayer',
-  itemType
+  organizationSlug = "commercelayer",
+  itemType,
 }: {
   /** The app for which to get the token. */
   appSlug: TokenProviderAllowedAppSlug
@@ -26,7 +26,7 @@ export function getPersistentJWT({
   /** The JWT item type you want to retrieve. */
   itemType: ItemType
 }): string | null {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return null
   }
 
@@ -34,8 +34,8 @@ export function getPersistentJWT({
     makeStorageKey({
       appSlug,
       organizationSlug,
-      itemType
-    })
+      itemType,
+    }),
   )
   return storedAccessToken
 }
@@ -43,8 +43,8 @@ export function getPersistentJWT({
 export function savePersistentJWT({
   appSlug,
   jwt,
-  organizationSlug = 'commercelayer',
-  itemType
+  organizationSlug = "commercelayer",
+  itemType,
 }: {
   /** The app for which to get the token. */
   appSlug: TokenProviderAllowedAppSlug
@@ -55,7 +55,7 @@ export function savePersistentJWT({
   /** The JWT item type you want to store. */
   itemType: ItemType
 }): void {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return
   }
 
@@ -63,8 +63,8 @@ export function savePersistentJWT({
     makeStorageKey({
       appSlug,
       organizationSlug,
-      itemType
+      itemType,
     }),
-    jwt
+    jwt,
   )
 }

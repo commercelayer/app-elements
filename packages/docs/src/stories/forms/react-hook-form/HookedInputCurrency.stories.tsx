@@ -1,21 +1,21 @@
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInputCurrency } from '#ui/forms/InputCurrency'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useForm } from "react-hook-form"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInputCurrency } from "#ui/forms/InputCurrency"
 
 const setup: Meta<typeof HookedInputCurrency> = {
-  title: 'Forms/react-hook-form/HookedInputCurrency',
+  title: "Forms/react-hook-form/HookedInputCurrency",
   component: HookedInputCurrency,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
@@ -30,8 +30,8 @@ const Template: StoryFn<typeof HookedInputCurrency> = (args) => {
       }}
     >
       <HookedInputCurrency {...args} />
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -39,7 +39,7 @@ const Template: StoryFn<typeof HookedInputCurrency> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Enter an amount',
-  name: 'amount',
-  currencyCode: 'USD'
+  label: "Enter an amount",
+  name: "amount",
+  currencyCode: "USD",
 }

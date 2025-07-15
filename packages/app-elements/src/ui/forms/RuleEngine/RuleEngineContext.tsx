@@ -1,12 +1,13 @@
-import { get, isEqual, set, unset } from 'lodash-es'
-import React, {
+import { get, isEqual, set, unset } from "lodash-es"
+import type React from "react"
+import {
   createContext,
   useCallback,
   useContext,
   useMemo,
-  useReducer
-} from 'react'
-import { type Schema } from './utils'
+  useReducer,
+} from "react"
+import type { Schema } from "./utils"
 
 interface State {
   value: Schema
@@ -14,9 +15,9 @@ interface State {
 }
 
 type Action =
-  | { type: 'SET_PATH'; path: string; value: unknown }
-  | { type: 'SET_SELECTED_RULE_INDEX'; index: number }
-  | { type: 'SET_VALUE'; value: Schema }
+  | { type: "SET_PATH"; path: string; value: unknown }
+  | { type: "SET_SELECTED_RULE_INDEX"; index: number }
+  | { type: "SET_VALUE"; value: Schema }
 
 interface RuleEngineContextType {
   state: State
@@ -26,19 +27,19 @@ interface RuleEngineContextType {
 }
 
 const RuleEngineContext = createContext<RuleEngineContextType | undefined>(
-  undefined
+  undefined,
 )
 
 function ruleEngineReducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'SET_PATH': {
+    case "SET_PATH": {
       const newValue = { ...state.value }
 
       if (action.value === null) {
         if (/\.\d+$/.test(action.path)) {
           // If the path ends with a number, we assume it's an array index
-          const arrayPath = action.path.replace(/\.\d+$/, '')
-          const arrayIndex = parseInt(action.path.match(/\d+$/)?.[0] ?? '0', 10)
+          const arrayPath = action.path.replace(/\.\d+$/, "")
+          const arrayIndex = parseInt(action.path.match(/\d+$/)?.[0] ?? "0", 10)
 
           const arrayValue = get(newValue, arrayPath) as unknown[]
 
@@ -48,8 +49,8 @@ function ruleEngineReducer(state: State, action: Action): State {
 
             if (arrayValue.length === 0) {
               // If the array is empty, we unset the entire path when it is a "nested condition"
-              if (arrayPath.endsWith('.nested.conditions')) {
-                unset(newValue, arrayPath.replace(/\.conditions$/, ''))
+              if (arrayPath.endsWith(".nested.conditions")) {
+                unset(newValue, arrayPath.replace(/\.conditions$/, ""))
               }
             }
           }
@@ -65,17 +66,17 @@ function ruleEngineReducer(state: State, action: Action): State {
 
       return {
         ...state,
-        value: newValue
+        value: newValue,
       }
     }
 
-    case 'SET_SELECTED_RULE_INDEX':
+    case "SET_SELECTED_RULE_INDEX":
       return {
         ...state,
-        selectedRuleIndex: action.index
+        selectedRuleIndex: action.index,
       }
 
-    case 'SET_VALUE':
+    case "SET_VALUE":
       if (!isEqual(state.value, action.value)) {
         if (action.value.rules.length === 0) {
           return {
@@ -83,20 +84,20 @@ function ruleEngineReducer(state: State, action: Action): State {
             value: {
               rules: [
                 {
-                  name: 'Rule name',
+                  name: "Rule name",
                   // @ts-expect-error Setting `null` is intentional for rendering an empty action
                   actions: [null],
                   // @ts-expect-error Setting `null` is intentional for rendering an empty condition
-                  conditions: [null]
-                }
-              ]
-            }
+                  conditions: [null],
+                },
+              ],
+            },
           }
         }
 
         return {
           ...state,
-          value: action.value
+          value: action.value,
         }
       }
       return state
@@ -107,26 +108,26 @@ function ruleEngineReducer(state: State, action: Action): State {
 
 export function RuleEngineProvider({
   children,
-  initialValue
+  initialValue,
 }: {
   children: React.ReactNode
   initialValue: Schema
 }): React.JSX.Element {
   const [state, dispatch] = useReducer(ruleEngineReducer, {
     value: initialValue,
-    selectedRuleIndex: 0
+    selectedRuleIndex: 0,
   })
 
   const setPath = useCallback((path: string, value: unknown) => {
-    dispatch({ type: 'SET_PATH', path, value })
+    dispatch({ type: "SET_PATH", path, value })
   }, [])
 
   const setSelectedRuleIndex = useCallback((index: number) => {
-    dispatch({ type: 'SET_SELECTED_RULE_INDEX', index })
+    dispatch({ type: "SET_SELECTED_RULE_INDEX", index })
   }, [])
 
   const setValue = useCallback((value: Schema) => {
-    dispatch({ type: 'SET_VALUE', value })
+    dispatch({ type: "SET_VALUE", value })
   }, [])
 
   const contextValue = useMemo(
@@ -134,9 +135,9 @@ export function RuleEngineProvider({
       state,
       setPath,
       setSelectedRuleIndex,
-      setValue
+      setValue,
     }),
-    [state, setPath, setSelectedRuleIndex, setValue]
+    [state, setPath, setSelectedRuleIndex, setValue],
   )
 
   return (
@@ -149,7 +150,7 @@ export function RuleEngineProvider({
 export function useRuleEngine(): RuleEngineContextType {
   const context = useContext(RuleEngineContext)
   if (context === undefined) {
-    throw new Error('useRuleEngine must be used within a RuleEngineProvider')
+    throw new Error("useRuleEngine must be used within a RuleEngineProvider")
   }
   return context
 }

@@ -1,12 +1,12 @@
-import { ActionButtons } from '#ui/composite/ActionButtons'
-import type { Meta, StoryObj } from '@storybook/react-vite'
+import type { Meta, StoryObj } from "@storybook/react-vite"
+import { ActionButtons } from "#ui/composite/ActionButtons"
 
 const meta: Meta<typeof ActionButtons> = {
-  title: 'Composite/ActionButtons',
+  title: "Composite/ActionButtons",
   component: ActionButtons,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 
 export default meta
@@ -15,31 +15,31 @@ export const Default: StoryObj<typeof ActionButtons> = {
   args: {
     actions: [
       {
-        label: 'Approve',
+        label: "Approve",
         onClick: () => {
-          alert('Approved!')
-        }
+          alert("Approved!")
+        },
       },
       {
-        label: 'Cancel',
-        variant: 'secondary',
+        label: "Cancel",
+        variant: "secondary",
         onClick: () => {
-          alert('Cancelled!')
-        }
-      }
-    ]
-  }
+          alert("Cancelled!")
+        },
+      },
+    ],
+  },
 }
 
 export const OneAction: StoryObj<typeof ActionButtons> = {
   args: {
     actions: [
       {
-        label: 'Approve',
+        label: "Approve",
         onClick: () => {
-          alert('Approved!')
-        }
-      }
-    ]
-  }
+          alert("Approved!")
+        },
+      },
+    ],
+  },
 }

@@ -1,47 +1,47 @@
-import { computeTitleWithTotalCount } from './utils'
+import { computeTitleWithTotalCount } from "./utils"
 
-describe('computeTitleWithTotalCount', () => {
-  test('Should display count formatted as US', () => {
+describe("computeTitleWithTotalCount", () => {
+  test("Should display count formatted as US", () => {
     expect(
       computeTitleWithTotalCount({
-        title: 'Total',
+        title: "Total",
         recordCount: 10200,
-        locale: 'en-US'
-      })
-    ).toBe('Total · 10,200')
+        locale: "en-US",
+      }),
+    ).toBe("Total · 10,200")
   })
 
-  test('Should display count formatted as IT', () => {
+  test("Should display count formatted as IT", () => {
     expect(
       computeTitleWithTotalCount({
-        title: 'Total',
+        title: "Total",
         recordCount: 10200,
-        locale: 'it-IT'
-      })
-    ).toBe('Total · 10.200')
+        locale: "it-IT",
+      }),
+    ).toBe("Total · 10.200")
   })
 
-  test('should ignore interpolation when title is not a string', () => {
+  test("should ignore interpolation when title is not a string", () => {
     const component = <div>Total</div>
     expect(
       computeTitleWithTotalCount({
         title: component,
-        recordCount: 10200
-      })
+        recordCount: 10200,
+      }),
     ).toBe(component)
   })
 
-  test('should ignore interpolation when recordCount is zero or undefined', () => {
+  test("should ignore interpolation when recordCount is zero or undefined", () => {
     expect(
       computeTitleWithTotalCount({
-        title: 'Records',
-        recordCount: 0
-      })
-    ).toBe('Records')
+        title: "Records",
+        recordCount: 0,
+      }),
+    ).toBe("Records")
     expect(
       computeTitleWithTotalCount({
-        title: 'Records'
-      })
-    ).toBe('Records')
+        title: "Records",
+      }),
+    ).toBe("Records")
   })
 })

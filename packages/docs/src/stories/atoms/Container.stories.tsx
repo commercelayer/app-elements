@@ -1,12 +1,12 @@
-import { Container } from '#ui/atoms/Container'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Container } from "#ui/atoms/Container"
 
 const setup: Meta<typeof Container> = {
-  title: 'Atoms/Container',
+  title: "Atoms/Container",
   component: Container,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 

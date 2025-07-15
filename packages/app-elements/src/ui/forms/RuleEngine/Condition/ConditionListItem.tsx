@@ -1,17 +1,17 @@
-import { Icon } from '#ui/atoms/Icon'
-import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
-import { Input } from '#ui/forms/Input'
-import React from 'react'
-import { useRuleEngine } from '../RuleEngineContext'
-import { type SchemaConditionItem } from '../utils'
-import { ConditionMatcher } from './ConditionMatcher'
-import { ConditionValue } from './ConditionValue'
+import React from "react"
+import { Icon } from "#ui/atoms/Icon"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
+import { Input } from "#ui/forms/Input"
+import { useRuleEngine } from "../RuleEngineContext"
+import type { SchemaConditionItem } from "../utils"
+import { ConditionMatcher } from "./ConditionMatcher"
+import { ConditionValue } from "./ConditionValue"
 
 export function ConditionListItem({
   item,
   nestingLevel,
   pathPrefix,
-  onDelete
+  onDelete,
 }: {
   item: SchemaConditionItem | null
   nestingLevel: number
@@ -26,14 +26,14 @@ export function ConditionListItem({
     dropdownItems[0] ??= []
     dropdownItems[0].push(
       <DropdownItem
-        label='Nest conditions'
+        label="Nest conditions"
         onClick={() => {
           setPath(
             `${pathPrefix}.nested.conditions.${(item?.nested?.conditions ?? []).length}`,
-            undefined
+            undefined,
           )
         }}
-      />
+      />,
     )
   }
 
@@ -41,25 +41,25 @@ export function ConditionListItem({
     dropdownItems[1] ??= []
     dropdownItems[1].push(
       <DropdownItem
-        label='Delete'
+        label="Delete"
         onClick={() => {
           setPath(`${pathPrefix}`, null)
           onDelete()
         }}
-      />
+      />,
     )
   }
 
   return (
-    <div className='bg-gray-50 rounded-md flex items-center'>
-      <div className='flex items-center justify-between gap-2 flex-grow p-2'>
-        <div className='flex flex-col gap-2 flex-grow'>
-          <div className='flex items-center justify-between gap-2'>
+    <div className="bg-gray-50 rounded-md flex items-center">
+      <div className="flex items-center justify-between gap-2 flex-grow p-2">
+        <div className="flex flex-col gap-2 flex-grow">
+          <div className="flex items-center justify-between gap-2">
             {/* Condition target */}
-            <div className='flex-1'>
+            <div className="flex-1">
               <Input
                 name={`${pathPrefix}.field`}
-                type='text'
+                type="text"
                 // suffix={
                 //   infos?.field?.type ? (
                 //     <InputSimpleSelect
@@ -84,7 +84,7 @@ export function ConditionListItem({
             </div>
 
             {/* Condition matcher */}
-            <div className='flex-14'>
+            <div className="flex-14">
               <ConditionMatcher item={item} pathPrefix={pathPrefix} />
             </div>
           </div>
@@ -93,15 +93,20 @@ export function ConditionListItem({
       </div>
       {dropdownItems.length > 0 && (
         <Dropdown
-          className='w-8 border-l border-gray-100 flex items-center justify-center self-stretch'
+          className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch"
           dropdownLabel={
-            <button className='flex items-center justify-center self-stretch flex-grow'>
-              <Icon name='dotsThreeVertical' size={16} weight='bold' />
+            <button
+              type="button"
+              className="flex items-center justify-center self-stretch flex-grow"
+            >
+              <Icon name="dotsThreeVertical" size={16} weight="bold" />
             </button>
           }
           dropdownItems={dropdownItems.map((items, index, arr) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
             <React.Fragment key={index}>
               {items.map((item, itemIndex) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
                 <React.Fragment key={itemIndex}>{item}</React.Fragment>
               ))}
               {index < arr.length - 1 && <DropdownDivider />}

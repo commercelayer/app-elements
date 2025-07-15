@@ -1,13 +1,13 @@
-import cn from 'classnames'
-import { type SetRequired } from 'type-fest'
+import cn from "classnames"
+import type { SetRequired } from "type-fest"
 import {
   getInteractiveElementClassName,
-  type InteractiveElementProps
-} from '../internals/InteractiveElement.className'
+  type InteractiveElementProps,
+} from "../internals/InteractiveElement.className"
 
 export type AProps = SetRequired<
   React.AnchorHTMLAttributes<HTMLAnchorElement>,
-  'href'
+  "href"
 > &
   InteractiveElementProps
 
@@ -22,8 +22,8 @@ export const A: React.FC<AProps> = ({
   disabled,
   fullWidth,
   href,
-  size = 'regular',
-  variant = 'link',
+  size = "regular",
+  variant = "link",
   ...rest
 }) => {
   return (
@@ -36,8 +36,8 @@ export const A: React.FC<AProps> = ({
           disabled,
           fullWidth,
           size,
-          variant
-        })
+          variant,
+        }),
       )}
       aria-disabled={disabled}
       href={href}
@@ -48,4 +48,4 @@ export const A: React.FC<AProps> = ({
   )
 }
 
-A.displayName = 'A'
+A.displayName = "A"

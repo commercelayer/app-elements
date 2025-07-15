@@ -1,16 +1,16 @@
-import { adaptFormValuesToSdk as adaptFormValuesToSdkFn } from './adaptFormValuesToSdk'
-import { adaptFormValuesToUrlQuery as adaptFormValuesToUrlQueryFn } from './adaptFormValuesToUrlQuery'
-import { adaptSdkToMetrics as adaptSdkToMetricsFn } from './adaptSdkToMetrics'
-import { adaptSdkToUrlQuery as adaptSdkToUrlQueryFn } from './adaptSdkToUrlQuery'
-import { adaptUrlQueryToFormValues as adaptUrlQueryToFormValuesFn } from './adaptUrlQueryToFormValues'
-import { adaptUrlQueryToSdk as adaptUrlQueryToSdkFn } from './adaptUrlQueryToSdk'
-import { adaptUrlQueryToUrlQuery as adaptUrlQueryToUrlQueryFn } from './adaptUrlQueryToUrlQuery'
-import type { MakeFiltersAdapters } from './adapters.types'
-import { type FiltersInstructions } from './types'
+import type { MakeFiltersAdapters } from "./adapters.types"
+import { adaptFormValuesToSdk as adaptFormValuesToSdkFn } from "./adaptFormValuesToSdk"
+import { adaptFormValuesToUrlQuery as adaptFormValuesToUrlQueryFn } from "./adaptFormValuesToUrlQuery"
+import { adaptSdkToMetrics as adaptSdkToMetricsFn } from "./adaptSdkToMetrics"
+import { adaptSdkToUrlQuery as adaptSdkToUrlQueryFn } from "./adaptSdkToUrlQuery"
+import { adaptUrlQueryToFormValues as adaptUrlQueryToFormValuesFn } from "./adaptUrlQueryToFormValues"
+import { adaptUrlQueryToSdk as adaptUrlQueryToSdkFn } from "./adaptUrlQueryToSdk"
+import { adaptUrlQueryToUrlQuery as adaptUrlQueryToUrlQueryFn } from "./adaptUrlQueryToUrlQuery"
+import type { FiltersInstructions } from "./types"
 
 export const makeFilterAdapters: MakeFiltersAdapters = ({
   instructions,
-  predicateWhitelist
+  predicateWhitelist,
 }) => {
   const validInstructions = isValidInstructions(instructions)
     ? instructions
@@ -20,52 +20,52 @@ export const makeFilterAdapters: MakeFiltersAdapters = ({
     adaptFormValuesToUrlQuery: (params) =>
       adaptFormValuesToUrlQueryFn({
         ...params,
-        instructions: validInstructions
+        instructions: validInstructions,
       }),
 
     adaptFormValuesToSdk: (params) =>
       adaptFormValuesToSdkFn({
         ...params,
         instructions: validInstructions,
-        predicateWhitelist
+        predicateWhitelist,
       }),
 
     adaptUrlQueryToFormValues: (params) =>
       adaptUrlQueryToFormValuesFn({
         ...params,
         instructions: validInstructions,
-        predicateWhitelist
+        predicateWhitelist,
       }),
 
     adaptUrlQueryToSdk: (params) =>
       adaptUrlQueryToSdkFn({
         ...params,
         instructions: validInstructions,
-        predicateWhitelist
+        predicateWhitelist,
       }),
 
     adaptUrlQueryToUrlQuery: (params) =>
       adaptUrlQueryToUrlQueryFn({
         ...params,
         instructions: validInstructions,
-        predicateWhitelist
+        predicateWhitelist,
       }),
 
     adaptSdkToMetrics: (params) =>
       adaptSdkToMetricsFn({
         ...params,
         instructions: validInstructions,
-        predicateWhitelist
+        predicateWhitelist,
       }),
 
     adaptSdkToUrlQuery: (params) =>
       adaptSdkToUrlQueryFn({
         ...params,
         instructions: validInstructions,
-        predicateWhitelist
+        predicateWhitelist,
       }),
 
-    validInstructions
+    validInstructions,
   }
 }
 
@@ -78,18 +78,18 @@ function isValidInstructions(instructions: FiltersInstructions): boolean {
   const hasMultipleText =
     instructions.filter(
       (item) =>
-        item.type === 'textSearch' && item.render.component === 'searchBar'
+        item.type === "textSearch" && item.render.component === "searchBar",
     )?.length > 1
 
   const hasMultipleTimePreset =
-    instructions.filter((item) => item.type === 'timeRange')?.length > 1
+    instructions.filter((item) => item.type === "timeRange")?.length > 1
 
   const hasReservedTimePresetUiFilterName =
     instructions.filter(
       (item) =>
-        (item.sdk.predicate === 'timePreset' && item.type !== 'timeRange') ||
-        item.sdk.predicate === 'timeFrom' ||
-        item.sdk.predicate === 'timeTo'
+        (item.sdk.predicate === "timePreset" && item.type !== "timeRange") ||
+        item.sdk.predicate === "timeFrom" ||
+        item.sdk.predicate === "timeTo",
     )?.length > 0
 
   const isInvalid =
@@ -98,10 +98,10 @@ function isValidInstructions(instructions: FiltersInstructions): boolean {
     hasReservedTimePresetUiFilterName
 
   if (isInvalid) {
-    console.error('Invalid instructions: ', {
+    console.error("Invalid instructions: ", {
       hasMultipleText,
       hasMultipleTimePreset,
-      hasReservedTimePresetUiFilterName
+      hasReservedTimePresetUiFilterName,
     })
   }
 

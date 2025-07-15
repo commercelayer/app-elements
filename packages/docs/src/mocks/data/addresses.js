@@ -1,24 +1,24 @@
-import { HttpResponse, http } from 'msw'
+import { HttpResponse, http } from "msw"
 
 const mockedAddress = {
-  type: 'addresses',
+  type: "addresses",
   attributes: {
     business: true,
     first_name: null,
     last_name: null,
-    company: 'The Brand SRL',
-    full_name: 'The Brand SRL',
-    line_1: 'Via Morte Nera 123',
+    company: "The Brand SRL",
+    full_name: "The Brand SRL",
+    line_1: "Via Morte Nera 123",
     line_2: null,
-    city: 'Firenze',
-    zip_code: '50123',
-    state_code: 'FI',
-    country_code: 'IT',
-    phone: '+39 055 1234567890',
+    city: "Firenze",
+    zip_code: "50123",
+    state_code: "FI",
+    country_code: "IT",
+    phone: "+39 055 1234567890",
     full_address:
-      'Via Morte Nera 123, 50123 Firenze FI (IT) +39 055 1234567890',
-    name: 'The Brand SRL, Via Morte Nera 123, 50123 Firenze FI (IT) +39 055 1234567890',
-    email: 'touch@example.com',
+      "Via Morte Nera 123, 50123 Firenze FI (IT) +39 055 1234567890",
+    name: "The Brand SRL, Via Morte Nera 123, 50123 Firenze FI (IT) +39 055 1234567890",
+    email: "touch@example.com",
     notes: null,
     lat: null,
     lng: null,
@@ -28,36 +28,36 @@ const mockedAddress = {
     map_url: null,
     static_map_url: null,
     billing_info: null,
-    created_at: '2022-02-24T14:08:14.712Z',
-    updated_at: '2022-02-24T14:08:14.712Z',
-    reference: 'address_1',
-    reference_origin: 'CLI',
-    metadata: {}
+    created_at: "2022-02-24T14:08:14.712Z",
+    updated_at: "2022-02-24T14:08:14.712Z",
+    reference: "address_1",
+    reference_origin: "CLI",
+    metadata: {},
   },
   meta: {
-    mode: 'test',
-    organization_id: 'WXlEOFrjnr'
-  }
+    mode: "test",
+    organization_id: "WXlEOFrjnr",
+  },
 }
 
-const restPost = http.post('https://mock.localhost/api/addresses', async () => {
+const restPost = http.post("https://mock.localhost/api/addresses", async () => {
   return HttpResponse.json({
     data: {
       ...mockedAddress,
-      id: 'zzZYuDJVXW'
-    }
+      id: "zzZYuDJVXW",
+    },
   })
 })
 
-const restPatch = ['aaZYuDJVXW', 'bbZYuDJVXW', 'ccZYuDJVXW'].map((id) =>
+const restPatch = ["aaZYuDJVXW", "bbZYuDJVXW", "ccZYuDJVXW"].map((id) =>
   http.patch(`https://mock.localhost/api/addresses/${id}`, async () => {
     return HttpResponse.json({
       data: {
         ...mockedAddress,
-        id
-      }
+        id,
+      },
     })
-  })
+  }),
 )
 
 const apiErrorPatch = http.patch(
@@ -69,32 +69,32 @@ const apiErrorPatch = http.patch(
           {
             title: "can't be blank",
             detail: "first_name - can't be blank",
-            code: 'VALIDATION_ERROR',
+            code: "VALIDATION_ERROR",
             source: {
-              pointer: '/data/attributes/first_name'
+              pointer: "/data/attributes/first_name",
             },
-            status: '422',
+            status: "422",
             meta: {
-              error: 'blank'
-            }
+              error: "blank",
+            },
           },
           {
             title: "can't be blank",
             detail: "last_name - can't be blank",
-            code: 'VALIDATION_ERROR',
+            code: "VALIDATION_ERROR",
             source: {
-              pointer: '/data/attributes/last_name'
+              pointer: "/data/attributes/last_name",
             },
-            status: '422',
+            status: "422",
             meta: {
-              error: 'blank'
-            }
-          }
-        ]
+              error: "blank",
+            },
+          },
+        ],
       },
-      { status: 422 }
+      { status: 422 },
     )
-  }
+  },
 )
 
 // const restPatch = ['aaZYuDJVXW', 'bbZYuDJVXW', 'ccZYuDJVXW'].map((id) =>

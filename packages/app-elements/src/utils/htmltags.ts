@@ -1,14 +1,14 @@
-import omit from 'lodash-es/omit'
-import { type JSX } from 'react'
+import omit from "lodash-es/omit"
+import type { JSX } from "react"
 
 export function enforceAllowedTags<
   AllowedTags extends ReadonlyArray<keyof JSX.IntrinsicElements>,
   Tag extends AllowedTags[number],
-  DefaultTag extends AllowedTags[number]
+  DefaultTag extends AllowedTags[number],
 >({
   tag,
   allowedTags,
-  defaultTag
+  defaultTag,
 }: {
   tag?: Tag
   allowedTags: AllowedTags
@@ -19,7 +19,7 @@ export function enforceAllowedTags<
 
 export function removeUnwantedProps<P extends object, U extends keyof P>(
   props: P,
-  unwantedProps: U[]
+  unwantedProps: U[],
 ): Omit<P, (typeof unwantedProps)[number]> {
   return omit(props, unwantedProps) as Omit<P, (typeof unwantedProps)[number]>
 }

@@ -1,6 +1,6 @@
-import capitalize from 'lodash-es/capitalize'
-import startCase from 'lodash-es/startCase'
-import type { JsonPrimitive } from 'type-fest'
+import capitalize from "lodash-es/capitalize"
+import startCase from "lodash-es/startCase"
+import type { JsonPrimitive } from "type-fest"
 
 /**
  * Given a `text` and a list of `values` it returns always the same value given the same `text`.
@@ -11,7 +11,7 @@ import type { JsonPrimitive } from 'type-fest'
  */
 export function getDeterministicValue(
   text: string,
-  values: readonly string[]
+  values: readonly string[],
 ): string | undefined {
   const utf8Encode = new TextEncoder()
   const hashCode = utf8Encode.encode(text).reduce((sum, v) => sum + v, 0)
@@ -24,11 +24,11 @@ export function getDeterministicValue(
  * @example getInitials('Ringo Starr') -> 'RS'
  */
 export function getInitials(text: string): string {
-  const textParts = text.toUpperCase().split(' ')
+  const textParts = text.toUpperCase().split(" ")
   const [firstName, lastName] = textParts
 
   if (firstName === undefined) {
-    return ''
+    return ""
   }
 
   if (lastName !== undefined && lastName.length > 0) {
@@ -53,9 +53,9 @@ export function humanizeString(str: string): string {
  */
 export function isJsonPrimitive(value: any): value is JsonPrimitive {
   return (
-    typeof value === 'string' ||
-    typeof value === 'number' ||
-    typeof value === 'boolean' ||
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean" ||
     value === null
   )
 }

@@ -1,7 +1,7 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { Hint, type HintProps } from './Hint'
+import { type RenderResult, render } from "@testing-library/react"
+import { Hint, type HintProps } from "./Hint"
 
-interface SetupProps extends Omit<HintProps, 'children'> {
+interface SetupProps extends Omit<HintProps, "children"> {
   id: string
 }
 
@@ -13,27 +13,27 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const utils = render(
     <Hint data-testid={id} {...rest}>
       This is an helper text.
-    </Hint>
+    </Hint>,
   )
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('Hint', () => {
-  test('Should be rendered', () => {
-    const { element } = setup({ id: 'my-helper-text' })
+describe("Hint", () => {
+  test("Should be rendered", () => {
+    const { element } = setup({ id: "my-helper-text" })
     expect(element).toBeInTheDocument()
   })
 
-  test('Should show an icon', () => {
+  test("Should show an icon", () => {
     const { element } = setup({
-      id: 'my-helper-text-with-bulb',
-      icon: 'lightbulbFilament'
+      id: "my-helper-text-with-bulb",
+      icon: "lightbulbFilament",
     })
     expect(element).toBeInTheDocument()
-    expect(element.querySelector('svg')).toBeInTheDocument()
+    expect(element.querySelector("svg")).toBeInTheDocument()
   })
 })

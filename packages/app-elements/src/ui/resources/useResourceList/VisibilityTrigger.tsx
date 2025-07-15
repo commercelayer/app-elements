@@ -1,4 +1,4 @@
-import React, { type JSX, useEffect, useRef } from 'react'
+import React, { type JSX, useEffect, useRef } from "react"
 
 interface VisibilityTriggerProps extends React.HTMLAttributes<HTMLDivElement> {
   rootMargin?: string
@@ -21,8 +21,8 @@ export function VisibilityTrigger({
         }
       },
       {
-        rootMargin
-      }
+        rootMargin,
+      },
     )
 
     if (triggerEl?.current != null) {
@@ -38,7 +38,7 @@ export function VisibilityTrigger({
 
   return (
     <div
-      data-testid='visibility-trigger'
+      data-testid="visibility-trigger"
       ref={enabled ? triggerEl : undefined}
       {...rest}
     />

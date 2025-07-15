@@ -1,13 +1,13 @@
-import { Section } from '#ui/atoms/Section'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-import { Text } from '#ui/atoms/Text'
-import { List } from '#ui/composite/List'
-import { ListItem } from '#ui/composite/ListItem'
-import { PageLayout } from '#ui/composite/PageLayout'
-import { SearchBar } from '#ui/composite/SearchBar'
-import { type JSX } from 'react'
+import type { JSX } from "react"
+import { Section } from "#ui/atoms/Section"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { List } from "#ui/composite/List"
+import { ListItem } from "#ui/composite/ListItem"
+import { PageLayout } from "#ui/composite/PageLayout"
+import { SearchBar } from "#ui/composite/SearchBar"
 
 /**
  * This component renders a skeleton page layout simulating the presence of the common elements of an initial app page:
@@ -22,36 +22,37 @@ function PageSkeleton(): JSX.Element {
   return (
     <SkeletonTemplate isLoading delayMs={0}>
       <PageLayout
-        title='Loading'
+        title="Loading"
         navigationButton={{
-          label: 'Back',
-          onClick: () => {}
+          label: "Back",
+          onClick: () => {},
         }}
-        gap='only-top'
+        gap="only-top"
         scrollToTop
       >
-        <Spacer bottom='14'>
+        <Spacer bottom="14">
           <SearchBar onSearch={() => {}} isLoading delayMs={0} />
         </Spacer>
 
-        <Section title='Loading' border='none'>
+        <Section title="Loading" border="none">
           <List>
             {Array.from({ length: 2 }).map((_, index) => (
               <ListItem
+                // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since the list is static and does not change.
                 key={index}
                 icon={
-                  <StatusIcon name='arrowDown' background='gray' gap='large' />
+                  <StatusIcon name="arrowDown" background="gray" gap="large" />
                 }
               >
                 <div>
-                  <Text tag='div' weight='semibold'>
+                  <Text tag="div" weight="semibold">
                     Loading item number {index}
                   </Text>
-                  <Text tag='div' weight='medium' size='small' variant='info'>
+                  <Text tag="div" weight="medium" size="small" variant="info">
                     please wait a moment
                   </Text>
                 </div>
-                <StatusIcon name='caretRight' />
+                <StatusIcon name="caretRight" />
               </ListItem>
             ))}
           </List>
@@ -61,5 +62,5 @@ function PageSkeleton(): JSX.Element {
   )
 }
 
-PageSkeleton.displayName = 'PageSkeleton'
+PageSkeleton.displayName = "PageSkeleton"
 export { PageSkeleton }

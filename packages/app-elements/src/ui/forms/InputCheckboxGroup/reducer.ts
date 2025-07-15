@@ -1,5 +1,5 @@
-import { type SelectedItem } from './InputCheckboxGroup'
-import { type InputCheckboxGroupOption } from './InputCheckboxGroupItem'
+import type { SelectedItem } from "./InputCheckboxGroup"
+import type { InputCheckboxGroupOption } from "./InputCheckboxGroupItem"
 
 export type InternalState = Array<{
   value: string
@@ -9,14 +9,14 @@ export type InternalState = Array<{
 
 type Action =
   | {
-      type: 'updateQuantity'
+      type: "updateQuantity"
       payload: {
         value: string
         quantity: number
       }
     }
   | {
-      type: 'toggleSelection'
+      type: "toggleSelection"
       payload: {
         value: string
       }
@@ -24,25 +24,25 @@ type Action =
 
 export const reducer = (
   state: InternalState,
-  action: Action
+  action: Action,
 ): InternalState => {
   switch (action.type) {
-    case 'updateQuantity':
+    case "updateQuantity":
       return state.map((item) => ({
         ...item,
         quantity:
           item.value === action.payload.value
             ? action.payload.quantity
-            : item.quantity
+            : item.quantity,
       }))
-    case 'toggleSelection':
+    case "toggleSelection":
       return state.find((item) => item.value === action.payload.value) != null
         ? state.map((item) => ({
             ...item,
             isSelected:
               item.value === action.payload.value
                 ? !item.isSelected
-                : item.isSelected
+                : item.isSelected,
           }))
         : [...state, { value: action.payload.value, isSelected: true }]
   }
@@ -50,7 +50,7 @@ export const reducer = (
 
 export function makeInitialState({
   options,
-  defaultValues
+  defaultValues,
 }: {
   options: InputCheckboxGroupOption[]
   defaultValues: SelectedItem[]
@@ -63,8 +63,8 @@ export function makeInitialState({
       {
         value: item.value,
         quantity: defaultItem?.quantity ?? item.quantity?.max,
-        isSelected: Boolean(defaultItem != null)
-      }
+        isSelected: Boolean(defaultItem != null),
+      },
     ]
   }, [])
 }

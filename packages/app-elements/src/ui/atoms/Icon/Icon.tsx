@@ -1,9 +1,9 @@
-import { useMemo, type ComponentPropsWithRef } from 'react'
-import { iconMapping } from './icons'
+import { type ComponentPropsWithRef, useMemo } from "react"
+import { iconMapping } from "./icons"
 
-type IconWeight = 'regular' | 'bold' | 'light' | 'fill'
+type IconWeight = "regular" | "bold" | "light" | "fill"
 
-export interface IconProps extends ComponentPropsWithRef<'svg'> {
+export interface IconProps extends ComponentPropsWithRef<"svg"> {
   /**
    * Name of the icon to display
    */
@@ -25,4 +25,4 @@ export const Icon: React.FC<IconProps> = ({ name, ...rest }) => {
   return <IconSvg {...rest} />
 }
 
-Icon.displayName = 'Icon'
+Icon.displayName = "Icon"

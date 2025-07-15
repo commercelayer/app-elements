@@ -1,11 +1,11 @@
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { ListItem } from '#ui/composite/ListItem'
-import { InputCheckbox, type InputCheckboxProps } from '#ui/forms/InputCheckbox'
-import { InputSpinner } from '#ui/forms/InputSpinner'
-import { type ComponentProps } from 'react'
+import type { ComponentProps } from "react"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { ListItem } from "#ui/composite/ListItem"
+import { InputCheckbox, type InputCheckboxProps } from "#ui/forms/InputCheckbox"
+import { InputSpinner } from "#ui/forms/InputSpinner"
 
 export interface InputCheckboxGroupOption
-  extends Pick<InputCheckboxProps, 'icon' | 'checked' | 'hideIconOnDesktop'> {
+  extends Pick<InputCheckboxProps, "icon" | "checked" | "hideIconOnDesktop"> {
   /**
    * Input name, will be used to set the html name for checkbox and the quantity inputs.
    * If not provided, the value will be used instead.
@@ -54,19 +54,19 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
     quantity,
     defaultQuantity,
     hideIconOnDesktop,
-    icon
+    icon,
   }) => {
     return (
       <ListItem
-        alignItems='center'
-        alignIcon='center'
-        borderStyle='none'
-        padding='none'
-        className='rounded flex items-center gap-3 p-3'
+        alignItems="center"
+        alignIcon="center"
+        borderStyle="none"
+        padding="none"
+        className="rounded flex items-center gap-3 p-3"
         onClick={() => {
           onChange(value)
         }}
-        data-testid='InputCheckboxGroupItem'
+        data-testid="InputCheckboxGroupItem"
       >
         <InputCheckbox
           name={name}
@@ -81,6 +81,8 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
         </InputCheckbox>
 
         {quantity != null && (
+          // biome-ignore lint/a11y/noStaticElementInteractions: I need to prevent the click event from propagating to the ListItem.
+          // biome-ignore lint/a11y/useKeyWithClickEvents: I need to prevent the click event from propagating to the ListItem.
           <div
             onClick={(e) => {
               e.stopPropagation()
@@ -101,7 +103,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
         )}
       </ListItem>
     )
-  }
+  },
 )
 
 export type InputCheckboxGroupItemProps = ComponentProps<

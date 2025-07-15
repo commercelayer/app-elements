@@ -1,4 +1,4 @@
-import isEmpty from 'lodash-es/isEmpty'
+import isEmpty from "lodash-es/isEmpty"
 
 /**
  * Make a display name from first and last name in the format of
@@ -6,18 +6,18 @@ import isEmpty from 'lodash-es/isEmpty'
  */
 export function formatDisplayName(
   firstName: string,
-  lastName?: string
+  lastName?: string,
 ): string {
   if (isEmpty(firstName) && isEmpty(lastName)) {
-    return ''
+    return ""
   }
 
   if (firstName == null || isEmpty(firstName)) {
-    return lastName ?? ''
+    return lastName ?? ""
   }
 
   if (lastName == null || isEmpty(lastName)) {
-    return firstName ?? ''
+    return firstName ?? ""
   }
 
   if (firstName.length === 1) {
@@ -31,5 +31,5 @@ export function formatDisplayName(
  * Make a full name from first and last name in the format
  */
 export function computeFullname(firstName: string, lastName?: string): string {
-  return `${firstName ?? ''} ${lastName ?? ''}`.trim()
+  return `${firstName ?? ""} ${lastName ?? ""}`.trim()
 }

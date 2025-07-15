@@ -1,5 +1,5 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { EmptyState } from './EmptyState'
+import { type RenderResult, render } from "@testing-library/react"
+import { EmptyState } from "./EmptyState"
 
 interface SetupProps {
   id: string
@@ -16,28 +16,28 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const element = utils.getByTestId(id)
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('EmptyState', () => {
-  test('Should be rendered', () => {
+describe("EmptyState", () => {
+  test("Should be rendered", () => {
     const { element, getByText } = setup({
-      id: 'my-element',
-      title: 'Your list is empty'
+      id: "my-element",
+      title: "Your list is empty",
     })
     expect(element).toBeInTheDocument()
-    expect(getByText('Your list is empty')).toBeInTheDocument()
+    expect(getByText("Your list is empty")).toBeInTheDocument()
   })
 
-  test('Should render optional description ', () => {
+  test("Should render optional description ", () => {
     const { element, getByText } = setup({
-      id: 'my-element',
-      title: 'Your list is empty',
-      description: 'Lorem impsum'
+      id: "my-element",
+      title: "Your list is empty",
+      description: "Lorem impsum",
     })
     expect(element).toBeInTheDocument()
-    expect(getByText('Your list is empty')).toBeInTheDocument()
-    expect(getByText('Lorem impsum')).toBeInTheDocument()
+    expect(getByText("Your list is empty")).toBeInTheDocument()
+    expect(getByText("Lorem impsum")).toBeInTheDocument()
   })
 })

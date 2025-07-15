@@ -1,6 +1,6 @@
-import { jwtDecode } from 'jwt-decode'
-import isEmpty from 'lodash-es/isEmpty'
-import { type Mode } from './types'
+import { jwtDecode } from "jwt-decode"
+import isEmpty from "lodash-es/isEmpty"
+import type { Mode } from "./types"
 
 interface JWTProps {
   organization: {
@@ -17,7 +17,7 @@ interface JWTProps {
 }
 
 export const getInfoFromJwt = (
-  accessToken: string
+  accessToken: string,
 ): {
   orgSlug?: string
   appKind?: string
@@ -34,11 +34,11 @@ export const getInfoFromJwt = (
       orgSlug: organization.slug,
       appKind: application.kind,
       appId: application.id,
-      mode: test ? 'test' : 'live',
+      mode: test ? "test" : "live",
       scopes: parseScope(scope),
-      exp
+      exp,
     }
-  } catch (e) {
+  } catch (_e) {
     return {}
   }
 }
@@ -57,27 +57,27 @@ export interface ParsedScopes {
 const parseScope = (scope?: string): ParsedScopes => {
   const defaultData: ParsedScopes = {
     market: {},
-    stock_location: {}
+    stock_location: {},
   }
 
   if (isEmpty(scope) || scope == null) {
     return defaultData
   }
 
-  const scopeParts = scope.split(' ')
+  const scopeParts = scope.split(" ")
 
   const data = scopeParts.reduce((acc, part) => {
-    const [type, attribute, id] = part.split(':')
+    const [type, attribute, id] = part.split(":")
 
-    if (type !== 'market' && type !== 'stock_location') {
+    if (type !== "market" && type !== "stock_location") {
       return acc
     }
 
     const key:
-      | keyof ParsedScopes['market']
-      | keyof ParsedScopes['stock_location']
+      | keyof ParsedScopes["market"]
+      | keyof ParsedScopes["stock_location"]
       | null =
-      attribute === 'id' ? 'ids' : attribute === 'code' ? 'codes' : null
+      attribute === "id" ? "ids" : attribute === "code" ? "codes" : null
     if (key == null) {
       return acc
     }
@@ -88,8 +88,8 @@ const parseScope = (scope?: string): ParsedScopes => {
       ...acc,
       [type]: {
         ...acc[type],
-        [key]: [...existingValues, id]
-      }
+        [key]: [...existingValues, id],
+      },
     }
   }, defaultData)
 

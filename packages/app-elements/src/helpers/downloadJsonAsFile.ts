@@ -1,4 +1,4 @@
-import isEmpty from 'lodash-es/isEmpty'
+import isEmpty from "lodash-es/isEmpty"
 
 /**
  * Trigger the download of requested JSON object as user defined file
@@ -7,7 +7,7 @@ import isEmpty from 'lodash-es/isEmpty'
  */
 export function downloadJsonAsFile({
   json,
-  filename
+  filename,
 }: {
   json?: object
   filename: string
@@ -15,11 +15,10 @@ export function downloadJsonAsFile({
   if (isEmpty(json)) {
     json = {}
   }
-  const dataUri =
-    'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(json))
-  const tag = document.createElement('a')
-  tag.setAttribute('href', dataUri)
-  tag.setAttribute('download', filename)
+  const dataUri = `data:text/json;charset=utf-8,${encodeURIComponent(JSON.stringify(json))}`
+  const tag = document.createElement("a")
+  tag.setAttribute("href", dataUri)
+  tag.setAttribute("download", filename)
   document.body.appendChild(tag)
   tag.click()
   tag.remove()

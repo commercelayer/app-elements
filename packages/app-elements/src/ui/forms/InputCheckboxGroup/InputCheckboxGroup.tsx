@@ -1,24 +1,24 @@
-import { Card } from '#ui/atoms/Card'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import cn from "classnames"
 import {
-  InputWrapper,
-  getFeedbackStyle,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import cn from 'classnames'
-import {
+  type ComponentProps,
   useCallback,
   useEffect,
   useMemo,
   useReducer,
   useRef,
-  type ComponentProps
-} from 'react'
+} from "react"
+import { Card } from "#ui/atoms/Card"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import {
+  getFeedbackStyle,
+  InputWrapper,
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 import {
   InputCheckboxGroupItem,
-  type InputCheckboxGroupOption
-} from './InputCheckboxGroupItem'
-import { makeInitialState, reducer, type InternalState } from './reducer'
+  type InputCheckboxGroupOption,
+} from "./InputCheckboxGroupItem"
+import { type InternalState, makeInitialState, reducer } from "./reducer"
 
 export interface SelectedItem {
   /**
@@ -31,7 +31,7 @@ export interface SelectedItem {
   quantity?: number
 }
 
-interface Props extends Pick<InputWrapperBaseProps, 'feedback'> {
+interface Props extends Pick<InputWrapperBaseProps, "feedback"> {
   /**
    * Text to be displayed on top of the list
    */
@@ -63,7 +63,7 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
   ({ options, defaultValues = [], onChange, title, isLoading, feedback }) => {
     const [_state, dispatch] = useReducer(
       reducer,
-      makeInitialState({ options, defaultValues })
+      makeInitialState({ options, defaultValues }),
     )
 
     const prepareSelected = useCallback(
@@ -71,18 +71,18 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
         state
           .filter(({ isSelected }) => isSelected)
           .map(({ value, quantity }) =>
-            quantity != null ? { value, quantity } : { value }
+            quantity != null ? { value, quantity } : { value },
           ),
-      []
+      [],
     )
 
     const totalSelected = useMemo(
       () =>
         prepareSelected(_state).reduce(
           (total, item) => total + (item.quantity ?? 1),
-          0
+          0,
         ),
-      [_state]
+      [_state],
     )
 
     const isFirstRender = useRef(true)
@@ -95,7 +95,7 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
 
         onChange(prepareSelected(_state))
       },
-      [_state, isFirstRender]
+      [_state, isFirstRender],
     )
 
     return (
@@ -105,13 +105,13 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
         feedback={feedback}
       >
         <Card
-          gap='1'
-          overflow='hidden'
+          gap="1"
+          overflow="hidden"
           className={cn(getFeedbackStyle(feedback))}
         >
           {options.map((optionItem) => {
             const currentItem = _state.find(
-              ({ value }) => value === optionItem.value
+              ({ value }) => value === optionItem.value,
             )
 
             return (
@@ -124,13 +124,13 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
                 onChange={(value, newQty) => {
                   if (newQty != null) {
                     dispatch({
-                      type: 'updateQuantity',
-                      payload: { value, quantity: newQty }
+                      type: "updateQuantity",
+                      payload: { value, quantity: newQty },
                     })
                   } else {
                     dispatch({
-                      type: 'toggleSelection',
-                      payload: { value }
+                      type: "toggleSelection",
+                      payload: { value },
                     })
                   }
                 }}
@@ -140,9 +140,9 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
         </Card>
       </InputWrapper>
     )
-  }
+  },
 )
 
-InputCheckboxGroup.displayName = 'InputCheckboxGroup'
+InputCheckboxGroup.displayName = "InputCheckboxGroup"
 
 export type InputCheckboxGroupProps = ComponentProps<typeof InputCheckboxGroup>

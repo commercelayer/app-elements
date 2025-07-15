@@ -1,42 +1,43 @@
-import { Hr } from '#ui/atoms/Hr'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Tag } from '#ui/atoms/Tag'
-import { X } from '@phosphor-icons/react'
-import { castArray } from 'lodash-es'
-import { type JSX } from 'react'
+import { XIcon } from "@phosphor-icons/react"
+import { castArray } from "lodash-es"
+import type { JSX } from "react"
 import {
-  components,
   type ClearIndicatorProps,
+  components,
   type DropdownIndicatorProps,
   type GroupBase,
   type GroupHeadingProps,
   type MenuListProps,
-  type MultiValueGenericProps
-} from 'react-select'
-import { type InputSelectValue } from '.'
+  type MultiValueGenericProps,
+} from "react-select"
+import { Hr } from "#ui/atoms/Hr"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Tag } from "#ui/atoms/Tag"
+import type { InputSelectValue } from "."
 
 function DropdownIndicator(
-  props: DropdownIndicatorProps<InputSelectValue>
+  props: DropdownIndicatorProps<InputSelectValue>,
 ): JSX.Element {
   return (
-    <components.DropdownIndicator {...props} className='p-0'>
-      <button type='button' className='px-2 cursor-pointer'>
+    <components.DropdownIndicator {...props} className="p-0">
+      <button type="button" className="px-2 cursor-pointer">
+        {/** biome-ignore lint/a11y/noSvgWithoutTitle: Don't need to add a title */}
         <svg
-          width='12'
-          height='auto'
-          viewBox='0 0 16 14'
-          fill='none'
-          xmlns='http://www.w3.org/2000/svg'
+          width="12"
+          height="auto"
+          viewBox="0 0 16 14"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
         >
           <path
-            fillRule='evenodd'
-            clipRule='evenodd'
-            d='M4.107 4.902a.314.314 0 0 1 0-.471l3.636-3.333a.387.387 0 0 1 .514 0l3.636 3.333a.314.314 0 0 1 0 .471.387.387 0 0 1-.514 0L8 1.805 4.62 4.902a.387.387 0 0 1-.513 0ZM11.893 9.098a.314.314 0 0 1 0 .471l-3.636 3.333a.388.388 0 0 1-.514 0L4.107 9.57a.314.314 0 0 1 0-.471.387.387 0 0 1 .514 0L8 12.195l3.38-3.097a.387.387 0 0 1 .513 0Z'
-            fill={props.isDisabled ? '#DBDCDC' : '#101111'}
-            stroke={props.isDisabled ? '#DBDCDC' : '#101111'}
-            strokeWidth='.8'
-            strokeLinecap='round'
-            strokeLinejoin='round'
+            fillRule="evenodd"
+            clipRule="evenodd"
+            d="M4.107 4.902a.314.314 0 0 1 0-.471l3.636-3.333a.387.387 0 0 1 .514 0l3.636 3.333a.314.314 0 0 1 0 .471.387.387 0 0 1-.514 0L8 1.805 4.62 4.902a.387.387 0 0 1-.513 0ZM11.893 9.098a.314.314 0 0 1 0 .471l-3.636 3.333a.388.388 0 0 1-.514 0L4.107 9.57a.314.314 0 0 1 0-.471.387.387 0 0 1 .514 0L8 12.195l3.38-3.097a.387.387 0 0 1 .513 0Z"
+            fill={props.isDisabled ? "#DBDCDC" : "#101111"}
+            stroke={props.isDisabled ? "#DBDCDC" : "#101111"}
+            strokeWidth=".8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </button>
@@ -45,12 +46,12 @@ function DropdownIndicator(
 }
 
 function ClearIndicator(
-  props: ClearIndicatorProps<InputSelectValue>
+  props: ClearIndicatorProps<InputSelectValue>,
 ): JSX.Element {
   return (
-    <components.ClearIndicator {...props} className='p-0'>
-      <button type='button' className='px-2 cursor-pointer'>
-        <X />
+    <components.ClearIndicator {...props} className="p-0">
+      <button type="button" className="px-2 cursor-pointer">
+        <XIcon />
       </button>
     </components.ClearIndicator>
   )
@@ -63,7 +64,7 @@ function MultiValueContainer(
       boolean,
       GroupBase<InputSelectValue>
     >
-  >
+  >,
 ): JSX.Element {
   return <Tag>{props.children}</Tag>
 }
@@ -75,31 +76,31 @@ function MultiValueLabel(
       boolean,
       GroupBase<InputSelectValue>
     >
-  >
+  >,
 ): string {
   return props.data.label
 }
 
 function MultiValueRemove(props: any): JSX.Element {
   return (
-    <button {...props.innerProps} className='cursor-pointer -mr-2 rounded'>
-      <X weight='bold' />
+    <button {...props.innerProps} className="cursor-pointer -mr-2 rounded">
+      <XIcon weight="bold" />
     </button>
   )
 }
 
 function GroupHeading(
-  props: GroupHeadingProps<InputSelectValue>
+  props: GroupHeadingProps<InputSelectValue>,
 ): JSX.Element | null {
   // Since is not exposed in the props, we need to get the index of the current group
   // by finding  options of the current group (props.data.options) with the options of the selectProps
   const idx = props.selectProps.options.findIndex(
     (group) =>
-      'options' in group &&
+      "options" in group &&
       group.options.every((option) => {
         const currentGroupValues = props.data.options.map((o) => o.value)
         return currentGroupValues.includes(option.value)
-      })
+      }),
   )
 
   // checking if all values in the previous group are selected,
@@ -107,9 +108,9 @@ function GroupHeading(
   const prevGroup = props.selectProps.options[idx - 1]
   const prevGroupIsEmpty =
     prevGroup != null &&
-    'options' in prevGroup &&
+    "options" in prevGroup &&
     prevGroup.options.every((o) =>
-      castArray(props.selectProps.value).includes(o)
+      castArray(props.selectProps.value).includes(o),
     )
 
   // no separator for the first group
@@ -119,7 +120,7 @@ function GroupHeading(
 
   if (props.data.label == null) {
     return (
-      <Spacer bottom='4'>
+      <Spacer bottom="4">
         <Hr />
       </Spacer>
     )
@@ -139,7 +140,7 @@ function MenuList(props: MenuListProps<InputSelectValue>): JSX.Element {
     <components.MenuList {...props}>
       {props.children}
       {menuFooterText != null && !isLoading && props.options.length > 0 ? (
-        <div className='px-4 py-2 text-sm text-gray-500'>{menuFooterText}</div>
+        <div className="px-4 py-2 text-sm text-gray-500">{menuFooterText}</div>
       ) : null}
     </components.MenuList>
   )
@@ -153,7 +154,7 @@ const selectComponentOverrides = {
   MultiValueLabel,
   MultiValueRemove,
   GroupHeading,
-  MenuList
+  MenuList,
 }
 
 export default selectComponentOverrides

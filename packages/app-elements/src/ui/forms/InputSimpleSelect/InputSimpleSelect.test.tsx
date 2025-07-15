@@ -1,16 +1,16 @@
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
-import { type JSX, useState } from 'react'
+import { fireEvent, type RenderResult, render } from "@testing-library/react"
+import { type JSX, useState } from "react"
 import {
   InputSimpleSelect,
-  type InputSimpleSelectProps
-} from './InputSimpleSelect'
+  type InputSimpleSelectProps,
+} from "./InputSimpleSelect"
 
 interface SetupProps {
   id: string
   label: string
   description?: React.ReactNode
   value: string
-  options: InputSimpleSelectProps['options']
+  options: InputSimpleSelectProps["options"]
 }
 
 type SetupResult = RenderResult & {
@@ -21,7 +21,7 @@ function ToggleImplementation({
   id,
   label,
   value,
-  options
+  options,
 }: SetupProps): JSX.Element {
   const [selected, setSelected] = useState(value)
   return (
@@ -43,38 +43,38 @@ const setup = (props: SetupProps): SetupResult => {
   const element = utils.getByTestId(props.id) as HTMLInputElement
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('InputSimpleSelect', () => {
+describe("InputSimpleSelect", () => {
   const options = [
-    { label: 'Item 1', value: 'item-1' },
-    { label: 'Item 2', value: 'item-2' },
-    { label: 'Item 3', value: 'item-3' }
+    { label: "Item 1", value: "item-1" },
+    { label: "Item 2", value: "item-2" },
+    { label: "Item 3", value: "item-3" },
   ]
 
-  test('Should be rendered', () => {
+  test("Should be rendered", () => {
     const { element, getByLabelText } = setup({
-      id: 'toggle-list-box',
-      label: 'Select an item',
-      value: 'item-1',
-      options
+      id: "toggle-list-box",
+      label: "Select an item",
+      value: "item-1",
+      options,
     })
     expect(element).toBeInTheDocument()
-    expect(element.value).toBe('item-1')
-    expect(getByLabelText('Select an item')).toBeInTheDocument()
+    expect(element.value).toBe("item-1")
+    expect(getByLabelText("Select an item")).toBeInTheDocument()
   })
 
-  test('Should be able to switch between values', () => {
+  test("Should be able to switch between values", () => {
     const { element } = setup({
-      id: 'my-toggle',
-      label: 'Cleanup records?',
-      value: 'item-1',
-      options
+      id: "my-toggle",
+      label: "Cleanup records?",
+      value: "item-1",
+      options,
     })
     expect(element).toBeInTheDocument()
-    fireEvent.change(element, { target: { value: 'item-3' } })
-    expect(element.value).toBe('item-3')
+    fireEvent.change(element, { target: { value: "item-3" } })
+    expect(element.value).toBe("item-3")
   })
 })

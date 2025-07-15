@@ -1,15 +1,15 @@
-import { formatDateWithPredicate } from '#helpers/date'
-import { isMockedId } from '#helpers/mocks'
-import { useCoreApi } from '#providers/CoreSdkProvider'
-import { useTranslation } from '#providers/I18NProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { Section } from '#ui/atoms/Section'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/composite/ListItem'
-import { type ListableResourceType } from '@commercelayer/sdk'
-import isEmpty from 'lodash-es/isEmpty'
+import type { ListableResourceType } from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
+import { formatDateWithPredicate } from "#helpers/date"
+import { isMockedId } from "#helpers/mocks"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { useTranslation } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Section } from "#ui/atoms/Section"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { ListItem } from "#ui/composite/ListItem"
 
 type ResourceType = ListableResourceType
 
@@ -25,23 +25,23 @@ export const ResourceAttachments =
       const { user } = useTokenProvider()
       const { data: resource } = useCoreApi(
         resourceType,
-        'retrieve',
+        "retrieve",
         resourceId == null || isEmpty(resourceId) || isMockedId(resourceId)
           ? null
           : [
               resourceId,
               {
-                include: ['attachments']
-              }
-            ]
+                include: ["attachments"],
+              },
+            ],
       )
 
       const attachments =
-        resource != null && 'attachments' in resource
+        resource != null && "attachments" in resource
           ? resource.attachments
           : []
       const attachmentsWithUrl = attachments?.filter(
-        (attachment) => attachment.url != null
+        (attachment) => attachment.url != null,
       )
 
       if (isEmpty(attachmentsWithUrl)) {
@@ -50,41 +50,41 @@ export const ResourceAttachments =
 
       return (
         <div>
-          <Section title={t('resources.attachments.name_other')}>
+          <Section title={t("resources.attachments.name_other")}>
             {attachmentsWithUrl?.map((attachment) => (
               <ListItem
                 key={attachment.id}
                 icon={
-                  <StatusIcon name='download' background='black' gap='large' />
+                  <StatusIcon name="download" background="black" gap="large" />
                 }
-                alignIcon='center'
+                alignIcon="center"
               >
-                <a href={attachment.url ?? ''} target='_blank' rel='noreferrer'>
-                  <div className='flex flex-col'>
+                <a href={attachment.url ?? ""} target="_blank" rel="noreferrer">
+                  <div className="flex flex-col">
                     <Text
-                      tag='div'
-                      weight='semibold'
-                      data-testid='ResourceListItem-number'
+                      tag="div"
+                      weight="semibold"
+                      data-testid="ResourceListItem-number"
                     >
                       {attachment.name}
                     </Text>
                     <Text
-                      tag='div'
-                      weight='medium'
-                      size='small'
-                      variant='info'
-                      data-testid='ResourceListItem-content'
+                      tag="div"
+                      weight="medium"
+                      size="small"
+                      variant="info"
+                      data-testid="ResourceListItem-content"
                     >
                       {formatDateWithPredicate({
-                        predicate: t('common.updated'),
-                        format: 'full',
+                        predicate: t("common.updated"),
+                        format: "full",
                         isoDate: attachment.updated_at,
                         timezone: user?.timezone,
-                        locale: user?.locale
+                        locale: user?.locale,
                       })}
                       {attachment.description != null
                         ? ` · ${attachment.description}`
-                        : ''}
+                        : ""}
                     </Text>
                   </div>
                 </a>
@@ -93,5 +93,5 @@ export const ResourceAttachments =
           </Section>
         </div>
       )
-    }
+    },
   )

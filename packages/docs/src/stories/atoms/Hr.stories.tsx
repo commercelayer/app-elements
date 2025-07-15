@@ -1,17 +1,17 @@
-import { Hr } from '#ui/atoms/Hr'
 import {
   Description,
   Stories,
   Subtitle,
-  Title
-} from '@storybook/addon-docs/blocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+  Title,
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Hr } from "#ui/atoms/Hr"
 
 const setup: Meta<typeof Hr> = {
-  title: 'Atoms/Hr',
+  title: "Atoms/Hr",
   component: Hr,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       page: () => (
         <>
@@ -20,9 +20,9 @@ const setup: Meta<typeof Hr> = {
           <Description />
           <Stories />
         </>
-      )
-    }
-  }
+      ),
+    },
+  },
 }
 export default setup
 
@@ -33,5 +33,5 @@ Default.args = {}
 
 export const Dashed = Template.bind({})
 Dashed.args = {
-  variant: 'dashed'
+  variant: "dashed",
 }

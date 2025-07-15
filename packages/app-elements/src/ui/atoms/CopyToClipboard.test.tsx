@@ -1,10 +1,10 @@
 import {
   fireEvent,
+  type RenderResult,
   render,
   waitFor,
-  type RenderResult
-} from '@testing-library/react'
-import { CopyToClipboard } from './CopyToClipboard'
+} from "@testing-library/react"
+import { CopyToClipboard } from "./CopyToClipboard"
 
 interface SetupProps {
   id: string
@@ -20,46 +20,46 @@ const setup = ({ id, value }: SetupProps): SetupResult => {
   const element = utils.getByTestId(id)
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('CopyToClipboard', () => {
-  test('Should be rendered with copy button', () => {
+describe("CopyToClipboard", () => {
+  test("Should be rendered with copy button", () => {
     const { element, getByText, getByTestId } = setup({
-      id: 'my-value',
-      value: 'ABCD1234'
+      id: "my-value",
+      value: "ABCD1234",
     })
     expect(element).toBeInTheDocument()
-    expect(getByText('ABCD1234')).toBeInTheDocument()
-    expect(getByTestId('copy-value-button')).toBeInTheDocument()
+    expect(getByText("ABCD1234")).toBeInTheDocument()
+    expect(getByTestId("copy-value-button")).toBeInTheDocument()
   })
 
-  test('Should display a dash and no button when value is empty or undefined', () => {
+  test("Should display a dash and no button when value is empty or undefined", () => {
     const { element, getByTestId } = setup({
-      id: 'my-value',
-      value: ''
+      id: "my-value",
+      value: "",
     })
     expect(element).toBeInTheDocument()
-    expect(getByTestId('empty-string')).toBeInTheDocument()
+    expect(getByTestId("empty-string")).toBeInTheDocument()
     expect(element.querySelector('[data-testid="copy-value-button"]')).toBe(
-      null
+      null,
     )
   })
 })
 
-describe('CopyToClipboard click', () => {
+describe("CopyToClipboard click", () => {
   // mocking clipboard
   const initialClipboard = { ...global.navigator.clipboard }
   beforeEach(() => {
-    let clipboardValue = ''
+    let clipboardValue = ""
     ;(global.navigator as any).clipboard = {
       writeText: vi.fn((text: string) => {
         clipboardValue = text
       }),
       readText: vi.fn(() => {
         return clipboardValue
-      })
+      }),
     }
   })
 
@@ -68,21 +68,19 @@ describe('CopyToClipboard click', () => {
     ;(global.navigator as any) = initialClipboard
   })
 
-  test('Should copy text into clipboard', async () => {
-    const value = 'BEANIEXXFFFFFF000000XXXX'
+  test("Should copy text into clipboard", async () => {
+    const value = "BEANIEXXFFFFFF000000XXXX"
 
     const { container, getByTestId } = render(
-      <CopyToClipboard data-testid='my-value' value={value} />
+      <CopyToClipboard data-testid="my-value" value={value} />,
     )
 
     expect(container).toBeInTheDocument()
-    expect(navigator.clipboard.readText()).toBe('')
+    expect(navigator.clipboard.readText()).toBe("")
 
-    fireEvent.click(getByTestId('copy-value-button'))
+    fireEvent.click(getByTestId("copy-value-button"))
     await waitFor(() => {
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(navigator.clipboard.writeText).toBeCalledTimes(1)
-      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(navigator.clipboard.writeText).toHaveBeenCalledWith(value)
       expect(navigator.clipboard.readText()).toBe(value)
     })

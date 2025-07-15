@@ -1,23 +1,23 @@
-import { Button } from '#ui/atoms/Button'
-import { Section } from '#ui/atoms/Section'
-import { Spacer } from '#ui/atoms/Spacer'
-import { ListItem } from '#ui/composite/ListItem'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInputSimpleSelect } from '#ui/forms/InputSimpleSelect'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useForm } from "react-hook-form"
+import { Button } from "#ui/atoms/Button"
+import { Section } from "#ui/atoms/Section"
+import { Spacer } from "#ui/atoms/Spacer"
+import { ListItem } from "#ui/composite/ListItem"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInputSimpleSelect } from "#ui/forms/InputSimpleSelect"
 
 const setup: Meta<typeof HookedInputSimpleSelect> = {
-  title: 'Forms/react-hook-form/HookedInputSimpleSelect',
+  title: "Forms/react-hook-form/HookedInputSimpleSelect",
   component: HookedInputSimpleSelect,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
@@ -32,8 +32,8 @@ const Template: StoryFn<typeof HookedInputSimpleSelect> = (args) => {
       }}
     >
       <HookedInputSimpleSelect {...args} />
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -41,22 +41,22 @@ const Template: StoryFn<typeof HookedInputSimpleSelect> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'ext',
-  label: 'Extension',
+  name: "ext",
+  label: "Extension",
   options: [
-    { label: 'JSON', value: 'json' },
+    { label: "JSON", value: "json" },
     {
-      label: 'CSV',
-      value: 'csv'
-    }
-  ]
+      label: "CSV",
+      value: "csv",
+    },
+  ],
 }
 
 export const WithinAListItem: StoryFn = () => {
   const methods = useForm({
     defaultValues: {
-      format: 'csv'
-    }
+      format: "csv",
+    },
   })
 
   return (
@@ -66,39 +66,39 @@ export const WithinAListItem: StoryFn = () => {
         alert(JSON.stringify(values))
       }}
     >
-      <Section title='More options' titleSize='small'>
+      <Section title="More options" titleSize="small">
         <ListItem>
           <HookedInputSimpleSelect
             options={[
-              { label: 'JSON', value: 'json' },
+              { label: "JSON", value: "json" },
               {
-                label: 'CSV',
-                value: 'csv'
-              }
+                label: "CSV",
+                value: "csv",
+              },
             ]}
-            name='format'
-            label='Export format'
+            name="format"
+            label="Export format"
             inline
-            hint={{ text: 'Select a format' }}
+            hint={{ text: "Select a format" }}
           />
         </ListItem>
         <ListItem>
           <HookedInputSimpleSelect
             options={[
-              { label: 'Black', value: '#000' },
-              { label: 'White', value: '#FFF' },
-              { label: 'Green', value: '#F00' },
-              { label: 'Red', value: '#0F0' },
-              { label: 'Blue', value: '#00F' }
+              { label: "Black", value: "#000" },
+              { label: "White", value: "#FFF" },
+              { label: "Green", value: "#F00" },
+              { label: "Red", value: "#0F0" },
+              { label: "Blue", value: "#00F" },
             ]}
-            name='color'
-            label='Color'
+            name="color"
+            label="Color"
             inline
           />
         </ListItem>
       </Section>
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )

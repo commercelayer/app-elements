@@ -1,5 +1,5 @@
-import isEqual from 'lodash-es/isEqual'
-import { useEffect, useRef } from 'react'
+import isEqual from "lodash-es/isEqual"
+import { useEffect, useRef } from "react"
 
 /**
  * This hook is used to detect when a value has changed during new rendering.
@@ -10,7 +10,7 @@ import { useEffect, useRef } from 'react'
  */
 export function useIsChanged<T>({
   value,
-  onChange
+  onChange,
 }: {
   value: T
   onChange?: () => void

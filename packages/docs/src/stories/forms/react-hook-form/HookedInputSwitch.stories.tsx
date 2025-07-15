@@ -1,31 +1,31 @@
-import { Button } from '#ui/atoms/Button'
-import { Section } from '#ui/atoms/Section'
-import { Spacer } from '#ui/atoms/Spacer'
-import { ListItem } from '#ui/composite/ListItem'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInputSwitch } from '#ui/forms/InputSwitch'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useForm } from "react-hook-form"
+import { Button } from "#ui/atoms/Button"
+import { Section } from "#ui/atoms/Section"
+import { Spacer } from "#ui/atoms/Spacer"
+import { ListItem } from "#ui/composite/ListItem"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInputSwitch } from "#ui/forms/InputSwitch"
 
 const setup: Meta<typeof HookedInputSwitch> = {
-  title: 'Forms/react-hook-form/HookedInputSwitch',
+  title: "Forms/react-hook-form/HookedInputSwitch",
   component: HookedInputSwitch,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
 const Template: StoryFn<typeof HookedInputSwitch> = (args) => {
   const methods = useForm({
     defaultValues: {
-      [args.name]: true
-    }
+      [args.name]: true,
+    },
   })
 
   return (
@@ -36,8 +36,8 @@ const Template: StoryFn<typeof HookedInputSwitch> = (args) => {
       }}
     >
       <HookedInputSwitch {...args} />
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -45,15 +45,15 @@ const Template: StoryFn<typeof HookedInputSwitch> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'soundon',
-  label: 'Sound on'
+  name: "soundon",
+  label: "Sound on",
 }
 
 export const WithinAListItem: StoryFn = () => {
   const methods = useForm({
     defaultValues: {
-      'exclude-last': true
-    }
+      "exclude-last": true,
+    },
   })
 
   return (
@@ -63,21 +63,21 @@ export const WithinAListItem: StoryFn = () => {
         alert(JSON.stringify(values))
       }}
     >
-      <Section title='More options' titleSize='small'>
+      <Section title="More options" titleSize="small">
         <ListItem>
-          <HookedInputSwitch name='export-all' label='Export all' inline />
+          <HookedInputSwitch name="export-all" label="Export all" inline />
         </ListItem>
         <ListItem>
           <HookedInputSwitch
-            name='exclude-last'
-            label='Exclude last'
+            name="exclude-last"
+            label="Exclude last"
             inline
-            hint={{ text: 'Exclude the last item from the export' }}
+            hint={{ text: "Exclude the last item from the export" }}
           />
         </ListItem>
       </Section>
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )

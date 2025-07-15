@@ -1,12 +1,12 @@
-import { useValidationFeedback } from '#ui/forms/ReactHookForm'
-import { isDefined } from '#utils/array'
-import { filterByDisplayName } from '#utils/children'
-import { useEffect } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { InputRadioGroup, type InputRadioGroupProps } from './InputRadioGroup'
+import { useEffect } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "#ui/forms/ReactHookForm"
+import { isDefined } from "#utils/array"
+import { filterByDisplayName } from "#utils/children"
+import { InputRadioGroup, type InputRadioGroupProps } from "./InputRadioGroup"
 
 export interface HookedInputRadioGroupProps
-  extends Omit<InputRadioGroupProps, 'onChange' | 'defaultValues'> {
+  extends Omit<InputRadioGroupProps, "onChange" | "defaultValues"> {
   /**
    * field name to match hook-form state
    */
@@ -27,16 +27,16 @@ export const HookedInputRadioGroup: React.FC<HookedInputRadioGroupProps> = ({
 
   useEffect(() => {
     const options = props.options.flatMap((option) =>
-      filterByDisplayName(option.checkedElement ?? <></>, /^Hooked/)
+      filterByDisplayName(option.checkedElement ?? null, /^Hooked/)
         .map((child) =>
-          typeof child.props.name === 'string'
+          typeof child.props.name === "string"
             ? {
                 isChecked: option.value === selectedValue,
-                fieldName: child.props.name as string
+                fieldName: child.props.name as string,
               }
-            : undefined
+            : undefined,
         )
-        .filter(isDefined)
+        .filter(isDefined),
     )
 
     options.forEach(({ fieldName, isChecked }) => {
@@ -67,4 +67,4 @@ export const HookedInputRadioGroup: React.FC<HookedInputRadioGroupProps> = ({
   )
 }
 
-HookedInputRadioGroup.displayName = 'HookedInputRadioGroup'
+HookedInputRadioGroup.displayName = "HookedInputRadioGroup"

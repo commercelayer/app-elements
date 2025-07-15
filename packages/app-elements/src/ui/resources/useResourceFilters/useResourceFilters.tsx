@@ -1,22 +1,22 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import { Spacer } from '#ui/atoms/Spacer'
+import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk"
+import { type JSX, useCallback, useEffect, useMemo, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Spacer } from "#ui/atoms/Spacer"
 import {
+  type UseResourceListConfig,
   useResourceList,
-  type UseResourceListConfig
-} from '#ui/resources/useResourceList'
-import { type ResourceListProps } from '#ui/resources/useResourceList/useResourceList'
-import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
-import { useCallback, useEffect, useMemo, useState, type JSX } from 'react'
-import { useTranslation } from 'react-i18next'
+} from "#ui/resources/useResourceList"
+import type { ResourceListProps } from "#ui/resources/useResourceList/useResourceList"
+import { makeFilterAdapters } from "./adapters"
 import {
   FiltersForm as FiltersFormComponent,
-  type FiltersFormProps
-} from './FiltersForm'
-import { FiltersNav, type FiltersNavProps } from './FiltersNav'
-import { FiltersSearchBar } from './FiltersSearchBar'
-import { makeFilterAdapters } from './adapters'
-import { type FiltersInstructions } from './types'
-import { getActiveFilterCountFromUrl } from './utils'
+  type FiltersFormProps,
+} from "./FiltersForm"
+import { FiltersNav, type FiltersNavProps } from "./FiltersNav"
+import { FiltersSearchBar } from "./FiltersSearchBar"
+import type { FiltersInstructions } from "./types"
+import { getActiveFilterCountFromUrl } from "./utils"
 
 interface UseResourceFiltersConfig {
   /**
@@ -47,7 +47,7 @@ interface UseResourceFiltersHook {
    * Search bar component with filters navigation buttons
    */
   SearchWithNav: (
-    props: Pick<FiltersNavProps, 'onFilterClick' | 'queryString'> & {
+    props: Pick<FiltersNavProps, "onFilterClick" | "queryString"> & {
       /**
        * Callback triggered when user interact with search bar or remove a filter from the buttons
        */
@@ -64,32 +64,32 @@ interface UseResourceFiltersHook {
        * @default 500
        */
       searchBarDebounceMs?: number
-    }
-  ) => JSX.Element
+    },
+  ) => React.ReactNode
   /**
    * Form component with filters fields based on provided instructions
    */
-  FiltersForm: (props: Pick<FiltersFormProps, 'onSubmit'>) => JSX.Element
+  FiltersForm: (props: Pick<FiltersFormProps, "onSubmit">) => React.ReactNode
   /**
    * Filtered ResourceList component based on current active filters
    */
   FilteredList: <TResource extends ListableResourceType>(
-    props: Omit<UseResourceListConfig<TResource>, 'query' | 'metricsQuery'> &
+    props: Omit<UseResourceListConfig<TResource>, "query" | "metricsQuery"> &
       ResourceListProps<TResource> & {
         query?: Omit<
-          NonNullable<UseResourceListConfig<TResource>['query']>,
-          'filters'
+          NonNullable<UseResourceListConfig<TResource>["query"]>,
+          "filters"
         >
         metricsQuery?: Omit<
-          NonNullable<UseResourceListConfig<TResource>['metricsQuery']>,
-          'filter'
+          NonNullable<UseResourceListConfig<TResource>["metricsQuery"]>,
+          "filter"
         > & {
           /** Filters need to be configured within the `useResourceFilters` options. */
           filters?: never
         }
         hideTitle?: boolean
-      }
-  ) => JSX.Element
+      },
+  ) => React.ReactNode
   /**
    * SDK filters object to be used in the sdk query
    */
@@ -107,7 +107,7 @@ interface UseResourceFiltersHook {
 
 export function useResourceFilters({
   instructions,
-  predicateWhitelist = []
+  predicateWhitelist = [],
 }: UseResourceFiltersConfig): UseResourceFiltersHook {
   const { user } = useTokenProvider()
   const { t } = useTranslation()
@@ -116,14 +116,14 @@ export function useResourceFilters({
 
   const adapters = makeFilterAdapters({
     instructions,
-    predicateWhitelist
+    predicateWhitelist,
   })
   const { validInstructions } = adapters
 
   // url query string can contain a viewTitle to be used in the page
   const viewTitle = useMemo<string | undefined>(() => {
     return adapters.adaptUrlQueryToFormValues({
-      queryString
+      queryString,
     }).viewTitle
   }, [queryString])
 
@@ -132,28 +132,28 @@ export function useResourceFilters({
       getActiveFilterCountFromUrl({
         includeTextSearch: true,
         instructions: validInstructions,
-        queryString
+        queryString,
       }) > 0,
-    [validInstructions, queryString]
+    [validInstructions, queryString],
   )
 
-  const FilteredList: UseResourceFiltersHook['FilteredList'] = useCallback(
+  const FilteredList: UseResourceFiltersHook["FilteredList"] = useCallback(
     ({ type, query, metricsQuery, hideTitle, ...resourceListProps }) => {
       if (resourceListProps == null) {
         return <div>resourceListProps not defined</div>
       }
       if (sdkFilters == null) {
-        return <></>
+        return null
       }
 
       return (
         <ResourceListComponent
           {...resourceListProps}
           type={type}
-          title={hideTitle === true ? undefined : t('common.all')}
+          title={hideTitle === true ? undefined : t("common.all")}
           query={{
             ...query,
-            filters: sdkFilters
+            filters: sdkFilters,
           }}
           metricsQuery={
             metricsQuery == null
@@ -162,17 +162,17 @@ export function useResourceFilters({
                   ...metricsQuery,
                   filter: adapters.adaptSdkToMetrics({
                     sdkFilters,
-                    resourceType: type
-                  })
+                    resourceType: type,
+                  }),
                 }
           }
         />
       )
     },
-    [sdkFilters]
+    [sdkFilters],
   )
 
-  const SearchWithNav: UseResourceFiltersHook['SearchWithNav'] = useCallback(
+  const SearchWithNav: UseResourceFiltersHook["SearchWithNav"] = useCallback(
     ({
       onFilterClick,
       onUpdate,
@@ -182,19 +182,19 @@ export function useResourceFilters({
       hideFiltersNav,
       // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
       // so we can't reuse the `queryString` variable we have in the hook scope
-      queryString: queryStringProp
-    }): JSX.Element => {
+      queryString: queryStringProp,
+    }): React.ReactNode => {
       if (hideSearchBar === true && hideFiltersNav === true) {
-        return <></>
+        return null
       }
 
       return (
-        <Spacer top='6' bottom='14'>
+        <Spacer top="6" bottom="14">
           {hideSearchBar === true ? null : (
-            <Spacer bottom='2'>
+            <Spacer bottom="2">
               <FiltersSearchBar
                 queryString={queryStringProp}
-                placeholder={searchBarPlaceholder ?? t('common.search')}
+                placeholder={searchBarPlaceholder ?? t("common.search")}
                 debounceMs={searchBarDebounceMs}
                 instructions={validInstructions}
                 onUpdate={onUpdate}
@@ -215,10 +215,10 @@ export function useResourceFilters({
         </Spacer>
       )
     },
-    [JSON.stringify(validInstructions)]
+    [JSON.stringify(validInstructions)],
   )
 
-  const FiltersForm: UseResourceFiltersHook['FiltersForm'] = useCallback(
+  const FiltersForm: UseResourceFiltersHook["FiltersForm"] = useCallback(
     ({ onSubmit }): JSX.Element => {
       return (
         <FiltersFormComponent
@@ -228,7 +228,7 @@ export function useResourceFilters({
         />
       )
     },
-    [instructions]
+    [instructions],
   )
 
   useEffect(
@@ -236,11 +236,11 @@ export function useResourceFilters({
       setSdkFilters(
         adapters.adaptUrlQueryToSdk({
           queryString,
-          timezone: user?.timezone
-        })
+          timezone: user?.timezone,
+        }),
       )
     },
-    [queryString]
+    [queryString],
   )
 
   return {
@@ -250,7 +250,7 @@ export function useResourceFilters({
     SearchWithNav,
     FiltersForm,
     FilteredList,
-    viewTitle
+    viewTitle,
   }
 }
 
@@ -265,7 +265,7 @@ function ResourceListComponent<TResource extends ListableResourceType>({
   const hookConfig: UseResourceListConfig<TResource> = {
     type,
     query,
-    metricsQuery
+    metricsQuery,
   }
   const { ResourceList } = useResourceList(hookConfig)
 

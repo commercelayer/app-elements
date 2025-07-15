@@ -1,24 +1,24 @@
-import { InputDateRange } from '#ui/forms/InputDateRange'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useState } from 'react'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
+import { InputDateRange } from "#ui/forms/InputDateRange"
 
 const setup: Meta<typeof InputDateRange> = {
-  title: 'Forms/ui/InputDateRange',
+  title: "Forms/ui/InputDateRange",
   component: InputDateRange,
   parameters: {
-    layout: 'padded'
+    layout: "padded",
   },
   decorators: [
     (Story) => (
       <div
         style={{
-          paddingBottom: '300px'
+          paddingBottom: "300px",
         }}
       >
         <Story />
       </div>
-    )
-  ]
+    ),
+  ],
 }
 export default setup
 
@@ -40,16 +40,16 @@ const Template: StoryFn<typeof InputDateRange> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Date range',
-  fromPlaceholder: 'Start date...',
-  toPlaceholder: 'End date...'
+  label: "Date range",
+  fromPlaceholder: "Start date...",
+  toPlaceholder: "End date...",
 }
 
 export const WithHint = Template.bind({})
 WithHint.args = {
-  label: 'Date range',
-  fromPlaceholder: 'Start date...',
-  hint: { text: 'Please enter a valid date range' }
+  label: "Date range",
+  fromPlaceholder: "Start date...",
+  hint: { text: "Please enter a valid date range" },
 }
 
 /**
@@ -58,16 +58,16 @@ WithHint.args = {
  */
 export const WithIndividualLabels = Template.bind({})
 WithIndividualLabels.args = {
-  fromLabel: 'Start date',
-  fromHint: { text: 'Please enter the start date' },
-  toLabel: 'End date',
-  toHint: { text: 'Please enter the end date' }
+  fromLabel: "Start date",
+  fromHint: { text: "Please enter the start date" },
+  toLabel: "End date",
+  toHint: { text: "Please enter the end date" },
 }
 
 export const WithIndividualErrors = Template.bind({})
 WithIndividualErrors.args = {
-  fromLabel: 'Start date',
-  toLabel: 'End date',
-  fromFeedback: { message: 'Invalid start date', variant: 'danger' },
-  toFeedback: { message: 'Invalid end date', variant: 'danger' }
+  fromLabel: "Start date",
+  toLabel: "End date",
+  fromFeedback: { message: "Invalid start date", variant: "danger" },
+  toFeedback: { message: "Invalid end date", variant: "danger" },
 }

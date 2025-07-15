@@ -1,19 +1,19 @@
-import { Text } from '#ui/atoms/Text'
+import cn from "classnames"
+import { forwardRef, type JSX } from "react"
+import { Text } from "#ui/atoms/Text"
 import {
-  InputWrapper,
   getFeedbackStyle,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import cn from 'classnames'
-import { forwardRef, type JSX } from 'react'
+  InputWrapper,
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 
 export interface InputProps
   extends InputWrapperBaseProps,
-    Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type'> {
+    Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
   /**
    * Controlled type
    */
-  type?: 'text' | 'number' | 'password' | 'tel' | 'url' | 'email' | 'hidden'
+  type?: "text" | "number" | "password" | "tel" | "url" | "email" | "hidden"
   /**
    * Optional CSS class names used for the input element
    */
@@ -27,7 +27,7 @@ export interface InputProps
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
-      type = 'text',
+      type = "text",
       className,
       label,
       hint,
@@ -36,32 +36,32 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       suffix,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const input = (
       <input
         {...rest}
-        data-lpignore={rest.autoComplete === 'off' && 'true'}
-        data-1p-ignore={rest.autoComplete === 'off' && true}
-        data-form-type={rest.autoComplete === 'off' && 'other'}
+        data-lpignore={rest.autoComplete === "off" && "true"}
+        data-1p-ignore={rest.autoComplete === "off" && true}
+        data-form-type={rest.autoComplete === "off" && "other"}
         id={rest.id ?? rest.name}
         className={cn(
           className,
-          'block w-full px-4 py-2.5 font-medium',
-          'rounded outline-0',
+          "block w-full px-4 py-2.5 font-medium",
+          "rounded outline-0",
           {
-            '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-1':
+            "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-1":
               suffix != null,
-            '!bg-white': rest.autoComplete === 'off'
+            "!bg-white": rest.autoComplete === "off",
           },
-          getFeedbackStyle(feedback)
+          getFeedbackStyle(feedback),
         )}
         type={type}
         ref={ref}
       />
     )
 
-    if (type === 'hidden') {
+    if (type === "hidden") {
       return input
     }
 
@@ -73,13 +73,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         name={rest.id ?? rest.name}
         inline={inline}
       >
-        <div className='relative flex items-center'>
+        <div className="relative flex items-center">
           {input}
           {suffix != null && (
             <Text
-              size='small'
-              weight='semibold'
-              className='suffix shrink-0 !border-l-0 border-y border-r h-[44px] border-gray-200 -left-[4px] pl-2 pr-3 flex items-center bg-white relative rounded-e'
+              size="small"
+              weight="semibold"
+              className="suffix shrink-0 !border-l-0 border-y border-r h-[44px] border-gray-200 -left-[4px] pl-2 pr-3 flex items-center bg-white relative rounded-e"
             >
               {suffix}
             </Text>
@@ -87,7 +87,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         </div>
       </InputWrapper>
     )
-  }
+  },
 )
 
-Input.displayName = 'Input'
+Input.displayName = "Input"

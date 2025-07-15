@@ -1,21 +1,21 @@
-import { isMockedId } from '#helpers/mocks'
+import type { ListableResourceType } from "@commercelayer/sdk"
+import { isMockedId } from "#helpers/mocks"
 import {
   type EditMetadataOverlayProps,
-  useEditMetadataOverlay
-} from '#hooks/useEditMetadataOverlay'
-import { useCoreApi } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
-import { Section } from '#ui/atoms/Section'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Text } from '#ui/atoms/Text'
-import { type ListableResourceType } from '@commercelayer/sdk'
+  useEditMetadataOverlay,
+} from "#hooks/useEditMetadataOverlay"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { Icon } from "#ui/atoms/Icon"
+import { Section } from "#ui/atoms/Section"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
 
 interface MetadataOverlay
-  extends Omit<EditMetadataOverlayProps, 'resourceId' | 'resourceType'> {}
+  extends Omit<EditMetadataOverlayProps, "resourceId" | "resourceType"> {}
 
 export interface ResourceMetadataProps {
   resourceType: ListableResourceType
@@ -26,7 +26,7 @@ export interface ResourceMetadataProps {
   overlay?: MetadataOverlay
 }
 
-export const updatableTypes = ['string', 'number', 'boolean'] as const
+export const updatableTypes = ["string", "number", "boolean"] as const
 export type UpdatableType = (typeof updatableTypes)[number]
 
 export const isUpdatableType = (value: any): value is UpdatableType => {
@@ -45,43 +45,45 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
 
     const { data: resourceData, isLoading } = useCoreApi(
       resourceType,
-      'retrieve',
+      "retrieve",
       isMockedId(resourceId)
         ? null
         : [
             resourceId,
             {
-              fields: ['metadata']
-            }
-          ]
+              fields: ["metadata"],
+            },
+          ],
     )
 
     const isUpdatable =
       Object.entries(resourceData?.metadata ?? []).filter(([, metadataValue]) =>
-        isUpdatableType(metadataValue)
+        isUpdatableType(metadataValue),
       ).length > 0
 
-    if (isLoading) return <></>
+    if (isLoading) {
+      return null
+    }
 
     return (
       <div>
         <Section
-          title='Metadata'
+          title="Metadata"
           actionButton={
-            canUser('update', resourceType) && (
+            canUser("update", resourceType) && (
               <Button
-                variant='secondary'
-                size='mini'
-                alignItems='center'
-                aria-label={t('common.edit_resource', {
-                  resource: t('common.metadata').toLowerCase()
+                variant="secondary"
+                size="mini"
+                alignItems="center"
+                aria-label={t("common.edit_resource", {
+                  resource: t("common.metadata").toLowerCase(),
                 })}
                 onClick={() => {
                   show()
                 }}
               >
-                <Icon name='pencilSimple' size='16' />
-                {t('common.edit')}
+                <Icon name="pencilSimple" size="16" />
+                {t("common.edit")}
               </Button>
             )
           }
@@ -93,24 +95,25 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
 
                 return (
                   <div
+                    // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
                     key={idx}
-                    className='grid grid-cols-2 py-4 border-b border-gray-100'
+                    className="grid grid-cols-2 py-4 border-b border-gray-100"
                     data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
-                    <Text variant='info'>{metadataKey}</Text>
+                    <Text variant="info">{metadataKey}</Text>
                     <Text
-                      weight='semibold'
+                      weight="semibold"
                       data-testid={`ResourceMetadata-value-${metadataKey}`}
                     >
                       {metadataValue.toString()}
                     </Text>
                   </div>
                 )
-              }
+              },
             )
           ) : (
-            <Spacer top='4'>
-              <Text variant='info'>{t('common.no_metadata')}.</Text>
+            <Spacer top="4">
+              <Text variant="info">{t("common.no_metadata")}.</Text>
             </Spacer>
           )}
         </Section>
@@ -121,5 +124,5 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         />
       </div>
     )
-  }
+  },
 )

@@ -1,11 +1,11 @@
-import { forwardRef } from 'react'
-import { type GroupBase, type SelectInstance } from 'react-select'
-import AsyncCreatableSelect from 'react-select/async-creatable'
+import { forwardRef } from "react"
+import type { GroupBase, SelectInstance } from "react-select"
+import AsyncCreatableSelect from "react-select/async-creatable"
 import {
   GenericAsyncSelectComponent,
-  type GenericAsyncSelectComponentProps
-} from './GenericAsyncComponent'
-import { type InputSelectValue } from './InputSelect'
+  type GenericAsyncSelectComponentProps,
+} from "./GenericAsyncComponent"
+import type { InputSelectValue } from "./InputSelect"
 
 export const AsyncCreatableSelectComponent = forwardRef<
   SelectInstance<InputSelectValue, boolean, GroupBase<InputSelectValue>>,
@@ -20,4 +20,4 @@ export const AsyncCreatableSelectComponent = forwardRef<
   )
 })
 
-AsyncCreatableSelectComponent.displayName = 'AsyncCreatableSelectComponent'
+AsyncCreatableSelectComponent.displayName = "AsyncCreatableSelectComponent"

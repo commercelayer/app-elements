@@ -1,10 +1,10 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { Badge, type BadgeProps } from './Badge'
+import { type RenderResult, render } from "@testing-library/react"
+import { Badge, type BadgeProps } from "./Badge"
 
 interface SetupProps {
   id: string
   children: string
-  variant: BadgeProps['variant']
+  variant: BadgeProps["variant"]
 }
 
 type SetupResult = RenderResult & {
@@ -16,19 +16,19 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const element = utils.getByTestId(id)
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('Badge', () => {
-  test('Should be rendered', () => {
+describe("Badge", () => {
+  test("Should be rendered", () => {
     const { element } = setup({
-      id: 'my-badge',
-      children: 'Completed',
-      variant: 'success'
+      id: "my-badge",
+      children: "Completed",
+      variant: "success",
     })
     expect(element).toBeInTheDocument()
-    expect(element.tagName).toBe('DIV')
-    expect(element.innerHTML).toContain('Completed')
+    expect(element.tagName).toBe("DIV")
+    expect(element.innerHTML).toContain("Completed")
   })
 })

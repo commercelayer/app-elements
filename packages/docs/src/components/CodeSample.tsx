@@ -1,9 +1,9 @@
-import { Source } from '@storybook/addon-docs/blocks'
-import { type Plugin } from 'prettier'
-import * as prettierEstree from 'prettier/plugins/estree'
-import * as prettierTypescript from 'prettier/plugins/typescript'
-import * as prettier from 'prettier/standalone'
-import { type JSX, useEffect, useState } from 'react'
+import { Source } from "@storybook/addon-docs/blocks"
+import type { Plugin } from "prettier"
+import * as prettierEstree from "prettier/plugins/estree"
+import * as prettierTypescript from "prettier/plugins/typescript"
+import * as prettier from "prettier/standalone"
+import { type JSX, useEffect, useState } from "react"
 
 export interface CodeSampleProps {
   fn: () => any
@@ -14,7 +14,7 @@ export interface CodeSampleProps {
 export function CodeSample({
   fn,
   code,
-  description
+  description,
 }: CodeSampleProps): JSX.Element {
   const [sanitizedCode, setSanitizedCode] = useState<string>()
   const [rawCode, setRawCode] = useState<string | undefined>(code)
@@ -22,8 +22,8 @@ export function CodeSample({
   const result = fn()
 
   // This is to avoid name mangling.
-  // eslint-disable-next-line no-eval
-  eval('')
+  // biome-ignore lint/security/noGlobalEval: This is a controlled example.
+  eval("")
 
   useEffect(
     function UpdateRawCode() {
@@ -31,32 +31,32 @@ export function CodeSample({
         setRawCode(fn.toString())
       }
     },
-    [rawCode]
+    [rawCode],
   )
 
   useEffect(() => {
     void (async () => {
       if (rawCode !== undefined) {
         let tmpSanitizedCode = rawCode
-          .replaceAll('\n', '')
-          .replace(/^\(\) => {(.*)}/, '$1')
-          .replace(/^\(\)=>{(.*)}$/, '$1')
-          .replaceAll('() =>', '')
-          .replaceAll('()=>', '')
-          .replaceAll('return ', '')
-          .replaceAll("eval('')", '')
-          .replaceAll('eval("")', '')
-          .replaceAll('/* @__PURE__ */ ', '')
+          .replaceAll("\n", "")
+          .replace(/^\(\) => {(.*)}/, "$1")
+          .replace(/^\(\)=>{(.*)}$/, "$1")
+          .replaceAll("() =>", "")
+          .replaceAll("()=>", "")
+          .replaceAll("return ", "")
+          .replaceAll("eval('')", "")
+          .replaceAll('eval("")', "")
+          .replaceAll("/* @__PURE__ */ ", "")
 
         tmpSanitizedCode = await prettier.format(tmpSanitizedCode, {
           singleQuote: true,
-          trailingComma: 'none',
-          parser: 'typescript',
+          trailingComma: "none",
+          parser: "typescript",
           printWidth: 60,
-          plugins: [prettierTypescript, prettierEstree as Plugin<any>]
+          plugins: [prettierTypescript, prettierEstree as Plugin<any>],
         })
 
-        tmpSanitizedCode = tmpSanitizedCode.replaceAll(';', ';\n')
+        tmpSanitizedCode = tmpSanitizedCode.replaceAll(";", ";\n")
 
         setSanitizedCode(tmpSanitizedCode)
       }
@@ -68,8 +68,8 @@ export function CodeSample({
       {description}
       <Source
         dark
-        language='jsx'
-        code={`${sanitizedCode}//=  ${typeof result === 'object' ? JSON.stringify(result) : result}`}
+        language="jsx"
+        code={`${sanitizedCode}//=  ${typeof result === "object" ? JSON.stringify(result) : result}`}
       />
     </>
   )

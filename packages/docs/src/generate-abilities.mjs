@@ -1,34 +1,30 @@
 // @ts-check
 
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-/* eslint-disable @typescript-eslint/naming-convention */
-
 await generatePageFromAbilities()
 
 async function generatePageFromAbilities() {
-  const { writeFileSync } = await import('fs')
-  const yaml = await import('js-yaml')
-  const path = await import('path')
-  const urlModule = await import('url')
+  const { writeFileSync } = await import("node:fs")
+  const yaml = await import("js-yaml")
+  const path = await import("node:path")
+  const urlModule = await import("node:url")
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const __dirname = urlModule.fileURLToPath(new URL('.', import.meta.url))
+  const __dirname = urlModule.fileURLToPath(new URL(".", import.meta.url))
 
   const { GITHUB_TOKEN, ABILITIES_YAML } = process.env
 
   if (ABILITIES_YAML == null) {
-    throw new Error('ABILITIES_YAML is not defined.')
+    throw new Error("ABILITIES_YAML is not defined.")
   }
 
   const plainText = await fetch(ABILITIES_YAML, {
     headers: {
       Authorization: `token ${GITHUB_TOKEN}`,
-      Accept: 'application/vnd.github.v3.raw'
-    }
+      Accept: "application/vnd.github.v3.raw",
+    },
   }).then(async (res) => await res.text())
 
-  if (GITHUB_TOKEN == null || plainText === '404: Not Found') {
-    throw new Error('Token is not valid.')
+  if (GITHUB_TOKEN == null || plainText === "404: Not Found") {
+    throw new Error("Token is not valid.")
   }
 
   /** @type Doc */
@@ -38,19 +34,19 @@ async function generatePageFromAbilities() {
   const repositories = await getRepositoryNames()
 
   const entries = Object.entries(sortObj(doc)).filter(([appSlug]) =>
-    Object.keys(repositories).includes(appSlug)
+    Object.keys(repositories).includes(appSlug),
   )
 
   entries.push([
-    'generic',
+    "generic",
     {
       admin: [],
-      read_only: []
-    }
+      read_only: [],
+    },
   ])
 
-  console.group('Available applications:')
-  console.log(entries.map(([appSlug]) => `- ${appSlug}`).join('\n'))
+  console.group("Available applications:")
+  console.log(entries.map(([appSlug]) => `- ${appSlug}`).join("\n"))
   console.groupEnd()
 
   const content = `
@@ -73,11 +69,11 @@ ${await generateAppTable(repositories, entries)}
   writeFileSync(
     path.resolve(
       __dirname,
-      'stories',
-      'getting-started',
-      '001a.applications.mdx'
+      "stories",
+      "getting-started",
+      "001a.applications.mdx",
     ),
-    content
+    content,
   )
 }
 
@@ -87,7 +83,7 @@ ${await generateAppTable(repositories, entries)}
  * @returns {string}
  */
 function toAppName(appSlug) {
-  return appSlug.toLowerCase().replaceAll('_', ' ').replaceAll('sku', 'SKU')
+  return appSlug.toLowerCase().replaceAll("_", " ").replaceAll("sku", "SKU")
 }
 
 /**
@@ -99,10 +95,10 @@ async function getRepositoryNames() {
 
   const result = await fetch(queryUrl, {
     headers: {
-      Accept: 'application/vnd.github+json',
+      Accept: "application/vnd.github+json",
       Authorization: `token ${process.env.GITHUB_TOKEN}`,
-      'X-GitHub-Api-Version': '2022-11-28'
-    }
+      "X-GitHub-Api-Version": "2022-11-28",
+    },
   })
     .then(async (res) => await res.json())
     .then(async (/** @type GitHubRepositoryContent[] */ json) =>
@@ -119,11 +115,11 @@ async function getRepositoryNames() {
               displayName: capitalizeFirstLetter(toAppName(appSlug)),
               description: `Commerce Layer application for managing ${toAppName(appSlug)}.`,
               repositoryUrl: appFolders.html_url,
-              visibility: /** @type {const} */ ('public')
-            }
+              visibility: /** @type {const} */ ("public"),
+            },
           ]
-        })
-      )
+        }),
+      ),
     )
 
   return result
@@ -131,16 +127,16 @@ async function getRepositoryNames() {
 
 /**
  * Convert the `abilities.yml` to a TOC
- * @param {Object.<string, Repository>} repositories GitHub repositories
+ * @param {Object.<string, Repository>} _repositories GitHub repositories
  * @param {(readonly [appSlug: string, App])[]} entries Entries from `abilities.yml`
  * @returns {Promise<string>}
  */
-async function generateToc(repositories, entries) {
+async function generateToc(_repositories, entries) {
   return `<ul>${entries
     .map(([appSlug]) => {
-      return `<li>${createLink(`#${appSlug.toLowerCase().replaceAll('_', '-')}`, capitalizeFirstLetter(toAppName(appSlug)))}</li>`
+      return `<li>${createLink(`#${appSlug.toLowerCase().replaceAll("_", "-")}`, capitalizeFirstLetter(toAppName(appSlug)))}</li>`
     })
-    .join('\n')}</ul>`
+    .join("\n")}</ul>`
 }
 
 /**
@@ -152,7 +148,7 @@ async function generateToc(repositories, entries) {
 async function generateAppTable(repositories, entries) {
   return entries
     .map(([appSlug, app]) => {
-      if (appSlug === 'generic') {
+      if (appSlug === "generic") {
         return `
         ## Generic
 
@@ -174,18 +170,18 @@ async function generateAppTable(repositories, entries) {
         <Tabs style={{ marginTop: '24px' }}>
           <Tab name="Can manage">
             <div>
-              ${generateRole(app, 'admin')}
+              ${generateRole(app, "admin")}
             </div>
           </Tab>
           <Tab name="Can view">
             <div>
-              ${generateRole(app, 'read_only')}
+              ${generateRole(app, "read_only")}
             </div>
           </Tab>
         </Tabs>
       `
     })
-    .join('\n')
+    .join("\n")
 }
 
 /**
@@ -198,7 +194,7 @@ function generateRole(app, kind) {
   return `
     |Resource|\`create\`|\`read\`|\`update\`|\`destroy\`|Restrictions|
     |:---|:---:|:---:|:---:|:---:|:---|
-    ${sortByKey(app[kind], 'subject').map(roleToTable).join('\n')}
+    ${sortByKey(app[kind], "subject").map(roleToTable).join("\n")}
   `
 }
 
@@ -212,20 +208,20 @@ function roleToTable({
   can_read = false,
   can_update = false,
   restrictions,
-  subject
+  subject,
 }) {
   return `|${[
     createLink(
       `https://docs.commercelayer.io/core/v/api-reference/${checkSubject(subject)}/object`,
       checkSubject(subject),
-      '_blank'
+      "_blank",
     ),
     booleanToIcon(can_create),
     booleanToIcon(can_read),
     booleanToIcon(can_update),
     booleanToIcon(can_destroy),
-    restrictions != null ? `\`${JSON.stringify(restrictions)}\`` : ''
-  ].join('|')}`
+    restrictions != null ? `\`${JSON.stringify(restrictions)}\`` : "",
+  ].join("|")}`
 }
 
 /**
@@ -233,7 +229,7 @@ function roleToTable({
  * @returns {string}
  */
 function checkSubject(subject) {
-  return subject === 'organizations' ? 'organization' : subject
+  return subject === "organizations" ? "organization" : subject
 }
 
 // ------------------------------------------------------------
@@ -309,7 +305,7 @@ function booleanToIcon(canI) {
  * @param {'_self' | '_blank'} target
  * @returns {string}
  */
-function createLink(url, text, target = '_self') {
+function createLink(url, text, target = "_self") {
   return `<a style={{ fontWeight: 'normal', display: 'inline-block' }} target="${target}" href="${url}">${text}</a>`
 }
 
@@ -322,12 +318,15 @@ function createLink(url, text, target = '_self') {
 function sortObj(obj) {
   return Object.keys(obj)
     .sort()
-    .reduce((accumulator, key) => {
-      // @ts-expect-error I'm not able to type the initialValue
-      accumulator[key] = obj[key]
+    .reduce(
+      (accumulator, key) => {
+        // @ts-expect-error I'm not able to type the initialValue
+        accumulator[key] = obj[key]
 
-      return accumulator
-    }, /** @type {T} */ ({}))
+        return accumulator
+      },
+      /** @type {T} */ ({}),
+    )
 }
 
 /**
@@ -338,7 +337,7 @@ function sortObj(obj) {
  * @returns {T}
  */
 function sortByKey(array, key) {
-  return array.sort(function (a, b) {
+  return array.sort((a, b) => {
     const x = a[key]
     const y = b[key]
     return x < y ? -1 : x > y ? 1 : 0
@@ -351,5 +350,5 @@ function sortByKey(array, key) {
  * @returns {string}
  */
 function capitalizeFirstLetter(str) {
-  return str.replace(/^./, str[0]?.toUpperCase() ?? '')
+  return str.replace(/^./, str[0]?.toUpperCase() ?? "")
 }

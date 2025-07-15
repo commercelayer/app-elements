@@ -1,22 +1,22 @@
-import { formatResourceName } from '#helpers/resources'
-import { useCoreApi } from '#providers/CoreSdkProvider'
-import { type ListableResourceType } from '@commercelayer/sdk'
-import { useEffect } from 'react'
-import { useTokenProvider } from './index'
+import type { ListableResourceType } from "@commercelayer/sdk"
+import { useEffect } from "react"
+import { formatResourceName } from "#helpers/resources"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { useTokenProvider } from "./index"
 
 function MetaTags(): null {
   const {
-    settings: { appSlug }
+    settings: { appSlug },
   } = useTokenProvider()
 
-  const { data: organization } = useCoreApi('organization', 'retrieve', [])
+  const { data: organization } = useCoreApi("organization", "retrieve", [])
 
   const organizationName = organization?.name
 
   const appName = formatResourceName({
     resource: appSlug as ListableResourceType,
-    count: 'plural',
-    format: 'title'
+    count: "plural",
+    format: "title",
   })
 
   const title =
@@ -33,5 +33,5 @@ function MetaTags(): null {
   return null
 }
 
-MetaTags.displayName = 'MetaTags'
+MetaTags.displayName = "MetaTags"
 export { MetaTags }

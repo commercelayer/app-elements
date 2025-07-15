@@ -1,17 +1,17 @@
-import { useOverlay } from '#hooks/useOverlay'
-import { t } from '#providers/I18NProvider'
-import { PageLayout } from '#ui/composite/PageLayout'
-import { type FC, useCallback } from 'react'
-import { type ResourceDetailsProps } from './ResourceDetails'
-import { ResourceDetailsForm } from './ResourceDetailsForm'
+import { type FC, useCallback } from "react"
+import { useOverlay } from "#hooks/useOverlay"
+import { t } from "#providers/I18NProvider"
+import { PageLayout } from "#ui/composite/PageLayout"
+import type { ResourceDetailsProps } from "./ResourceDetails"
+import { ResourceDetailsForm } from "./ResourceDetailsForm"
 
 export interface EditDetailsOverlayProps {
   /**
    * Optional title shown as first line in edit overlay heading
    */
   title?: string
-  resource: ResourceDetailsProps['resource']
-  onUpdated: ResourceDetailsProps['onUpdated']
+  resource: ResourceDetailsProps["resource"]
+  onUpdated: ResourceDetailsProps["onUpdated"]
 }
 
 interface DetailsOverlayHook {
@@ -23,18 +23,18 @@ export function useEditDetailsOverlay(): DetailsOverlayHook {
   const { Overlay: OverlayElement, open, close } = useOverlay()
 
   const OverlayComponent = useCallback<FC<EditDetailsOverlayProps>>(
-    ({ title = t('common.back'), resource, onUpdated }) => {
+    ({ title = t("common.back"), resource, onUpdated }) => {
       return (
-        <OverlayElement backgroundColor='light'>
+        <OverlayElement backgroundColor="light">
           <PageLayout
-            title={t('common.edit_details')}
+            title={t("common.edit_details")}
             minHeight={false}
             navigationButton={{
               label: title,
-              icon: 'arrowLeft',
+              icon: "arrowLeft",
               onClick: () => {
                 close()
-              }
+              },
             }}
           >
             <ResourceDetailsForm
@@ -49,11 +49,11 @@ export function useEditDetailsOverlay(): DetailsOverlayHook {
         </OverlayElement>
       )
     },
-    [OverlayElement]
+    [OverlayElement],
   )
 
   return {
     show: open,
-    Overlay: OverlayComponent
+    Overlay: OverlayComponent,
   }
 }

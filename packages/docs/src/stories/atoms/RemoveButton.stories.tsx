@@ -1,12 +1,12 @@
-import { RemoveButton } from '#ui/atoms/RemoveButton'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { RemoveButton } from "#ui/atoms/RemoveButton"
 
 const setup: Meta<typeof RemoveButton> = {
-  title: 'Atoms/RemoveButton',
+  title: "Atoms/RemoveButton",
   component: RemoveButton,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -18,11 +18,11 @@ const Template: StoryFn<typeof RemoveButton> = (args) => (
 
 export const Primary = Template.bind({})
 Primary.args = {
-  children: 'Remove item',
+  children: "Remove item",
   onClick: () => {
-    alert('You just clicked!')
+    alert("You just clicked!")
   },
-  disabled: false
+  disabled: false,
 }
 
 /** You can also use the `<RemoveButton>` without specifying any children. */

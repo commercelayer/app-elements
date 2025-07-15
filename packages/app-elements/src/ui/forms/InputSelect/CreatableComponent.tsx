@@ -1,15 +1,11 @@
-import { forwardRef } from 'react'
-import {
-  type GroupBase,
-  type SelectInstance,
-  type StylesConfig
-} from 'react-select'
-import CreatableSelect from 'react-select/creatable'
-import { type InputSelectProps, type InputSelectValue } from './InputSelect'
-import components from './overrides'
+import { forwardRef } from "react"
+import type { GroupBase, SelectInstance, StylesConfig } from "react-select"
+import CreatableSelect from "react-select/creatable"
+import type { InputSelectProps, InputSelectValue } from "./InputSelect"
+import components from "./overrides"
 
 export interface CreatableComponentProps
-  extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'hint'> {
+  extends Omit<InputSelectProps, "loadAsyncValues" | "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
 }
 
@@ -19,7 +15,7 @@ export const CreatableComponent = forwardRef<
 >(
   (
     { onSelect, noOptionsMessage, isOptionDisabled, initialValues, ...rest },
-    ref
+    ref,
   ) => {
     return (
       <CreatableSelect
@@ -34,7 +30,7 @@ export const CreatableComponent = forwardRef<
         formatCreateLabel={(v) => v} // to override default `Create "${value}"`
       />
     )
-  }
+  },
 )
 
-CreatableComponent.displayName = 'CreatableComponent'
+CreatableComponent.displayName = "CreatableComponent"

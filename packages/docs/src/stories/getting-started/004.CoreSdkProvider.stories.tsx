@@ -1,32 +1,32 @@
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useEffect, useState } from "react"
 import {
   CoreSdkProvider,
   useCoreApi,
-  useCoreSdkProvider
-} from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useEffect, useState } from 'react'
+  useCoreSdkProvider,
+} from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { Button } from "#ui/atoms/Button"
 
 const meta: Meta = {
-  title: 'Getting Started/Core SDK provider',
+  title: "Getting Started/Core SDK provider",
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
+        type: "code",
+      },
+    },
   },
   decorators: [
     (Story) => (
-      <TokenProvider kind='integration' appSlug='orders' devMode>
+      <TokenProvider kind="integration" appSlug="orders" devMode>
         <CoreSdkProvider>
           <Story />
         </CoreSdkProvider>
       </TokenProvider>
-    )
-  ]
+    ),
+  ],
 }
 
 export default meta
@@ -34,8 +34,8 @@ export default meta
 type Order = Awaited<
   ReturnType<
     Awaited<
-      ReturnType<typeof useCoreSdkProvider>['sdkClient']
-    >['orders']['retrieve']
+      ReturnType<typeof useCoreSdkProvider>["sdkClient"]
+    >["orders"]["retrieve"]
   >
 >
 
@@ -47,7 +47,7 @@ export const UseCoreSdkProviderDefault: StoryFn = () => {
   const [order, setOrder] = useState<Order>()
 
   useEffect(() => {
-    void sdkClient.orders.retrieve('NMWYhbGorj').then((order) => {
+    void sdkClient.orders.retrieve("NMWYhbGorj").then((order) => {
       setOrder(order)
     })
   }, [sdkClient])
@@ -77,20 +77,20 @@ export const UseCoreApiData: StoryFn = () => {
     data: orders,
     isLoading,
     isValidating,
-    error
-  } = useCoreApi('orders', 'list', [
+    error,
+  } = useCoreApi("orders", "list", [
     {
       include: [
-        'market',
-        'customer',
-        'line_items',
-        'shipping_address',
-        'billing_address',
-        'shipments',
-        'payment_method',
-        'payment_source'
-      ]
-    }
+        "market",
+        "customer",
+        "line_items",
+        "shipping_address",
+        "billing_address",
+        "shipments",
+        "payment_method",
+        "payment_source",
+      ],
+    },
   ])
   return (
     <div>
@@ -100,12 +100,12 @@ export const UseCoreApiData: StoryFn = () => {
       <br />
       error: <b>{error?.message}</b>
       <br />
-      Order IDs:{' '}
+      Order IDs:{" "}
       <pre>
         {JSON.stringify(
           orders?.map((o) => o.id),
           undefined,
-          2
+          2,
         )}
       </pre>
     </div>
@@ -121,21 +121,21 @@ export const UseCoreApiMutate: StoryFn = () => {
     isLoading,
     isValidating,
     error,
-    mutate: mutateOrder
-  } = useCoreApi('orders', 'retrieve', [
-    'NMWYhbGorj',
+    mutate: mutateOrder,
+  } = useCoreApi("orders", "retrieve", [
+    "NMWYhbGorj",
     {
       include: [
-        'market',
-        'customer',
-        'line_items',
-        'shipping_address',
-        'billing_address',
-        'shipments',
-        'payment_method',
-        'payment_source'
-      ]
-    }
+        "market",
+        "customer",
+        "line_items",
+        "shipping_address",
+        "billing_address",
+        "shipments",
+        "payment_method",
+        "payment_source",
+      ],
+    },
   ])
   return (
     <div>
@@ -149,7 +149,7 @@ export const UseCoreApiMutate: StoryFn = () => {
       <br />
       <br />
       <Button
-        onClick={function () {
+        onClick={() => {
           void mutateOrder()
         }}
       >
@@ -157,16 +157,16 @@ export const UseCoreApiMutate: StoryFn = () => {
       </Button>
       &nbsp;
       <Button
-        onClick={function () {
+        onClick={() => {
           if (order != null) {
             void mutateOrder(
               {
                 ...order,
-                customer_email: 'ringostarr@commercelayer.io'
+                customer_email: "ringostarr@commercelayer.io",
               },
               {
-                revalidate: false
-              }
+                revalidate: false,
+              },
             )
           }
         }}
@@ -185,8 +185,8 @@ export const UseCoreApiError: StoryFn = () => {
     data: order,
     isLoading,
     isValidating,
-    error
-  } = useCoreApi('orders', 'retrieve', ['non-existing'])
+    error,
+  } = useCoreApi("orders", "retrieve", ["non-existing"])
   return (
     <div>
       isLoading: <b>{String(isLoading)}</b>

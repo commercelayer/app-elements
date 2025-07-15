@@ -1,7 +1,7 @@
-import { type FiltersInstructions } from '#ui/resources/useResourceFilters/types'
-import { type QueryFilter } from '@commercelayer/sdk'
-import queryString from 'query-string'
-import { adaptUrlQueryToUrlQuery } from './adaptUrlQueryToUrlQuery'
+import type { QueryFilter } from "@commercelayer/sdk"
+import queryString from "query-string"
+import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
+import { adaptUrlQueryToUrlQuery } from "./adaptUrlQueryToUrlQuery"
 
 export interface AdaptSdkToUrlQueryParams {
   sdkFilters: QueryFilter
@@ -12,19 +12,19 @@ export interface AdaptSdkToUrlQueryParams {
 export function adaptSdkToUrlQuery({
   sdkFilters,
   predicateWhitelist,
-  instructions
+  instructions,
 }: AdaptSdkToUrlQueryParams): string {
   const sdkFiltersWithArrayValues = Object.entries(sdkFilters).reduce(
     (acc, [key, value]) => {
       return {
         ...acc,
         [key]:
-          key.includes('_in') && typeof value === 'string'
-            ? value.split(',')
-            : value
+          key.includes("_in") && typeof value === "string"
+            ? value.split(",")
+            : value,
       }
     },
-    {}
+    {},
   )
 
   const query = queryString.stringify(sdkFiltersWithArrayValues)
@@ -32,6 +32,6 @@ export function adaptSdkToUrlQuery({
   return adaptUrlQueryToUrlQuery({
     queryString: query,
     predicateWhitelist,
-    instructions
+    instructions,
   })
 }

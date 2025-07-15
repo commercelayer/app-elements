@@ -1,10 +1,10 @@
-import { Card } from '#ui/atoms/Card'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/composite/ListItem'
-import { X } from '@phosphor-icons/react'
-import cn from 'classnames'
-import { Children, type JSX } from 'react'
+import { XIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import { Children, type JSX } from "react"
+import { Card } from "#ui/atoms/Card"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Text } from "#ui/atoms/Text"
+import { ListItem } from "#ui/composite/ListItem"
 
 export interface CardDialogProps {
   /**
@@ -41,10 +41,11 @@ const CloseButton: React.FC<{
   onClick: React.EventHandler<any>
 }> = ({ onClick }) => (
   <button
+    type="button"
     onClick={onClick}
-    className='bg-gray-100 text-gray-400 rounded-full p-1.5'
+    className="bg-gray-100 text-gray-400 rounded-full p-1.5"
   >
-    <X size={12} />
+    <XIcon size={12} />
   </button>
 )
 
@@ -61,27 +62,27 @@ export const CardDialog = withSkeletonTemplate<CardDialogProps>(
   }) => {
     const hasChildren = Children.toArray(children).length > 0
     return (
-      <Card {...rest} overflow='visible' footer={footer}>
+      <Card {...rest} overflow="visible" footer={footer}>
         <ListItem
-          alignItems='top'
-          padding='y'
-          borderStyle='none'
-          className='!py-0'
+          alignItems="top"
+          padding="y"
+          borderStyle="none"
+          className="!py-0"
           icon={icon}
         >
           <div>
             <ListItem
-              borderStyle={hasChildren ? undefined : 'none'}
-              padding='y'
-              className={cn('pt-0', { 'pb-0': !hasChildren })}
-              alignItems='top'
+              borderStyle={hasChildren ? undefined : "none"}
+              padding="y"
+              className={cn("pt-0", { "pb-0": !hasChildren })}
+              alignItems="top"
             >
               <div>
-                <Text size='regular' weight='bold'>
+                <Text size="regular" weight="bold">
                   {title}
                 </Text>
                 {subtitle != null && (
-                  <Text size='small' tag='div' variant='info' weight='medium'>
+                  <Text size="small" tag="div" variant="info" weight="medium">
                     {subtitle}
                   </Text>
                 )}
@@ -94,7 +95,7 @@ export const CardDialog = withSkeletonTemplate<CardDialogProps>(
         </ListItem>
       </Card>
     )
-  }
+  },
 )
 
-CardDialog.displayName = 'CardDialog'
+CardDialog.displayName = "CardDialog"

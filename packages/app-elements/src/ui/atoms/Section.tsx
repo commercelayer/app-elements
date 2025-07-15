@@ -1,7 +1,8 @@
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { getInnerText } from '#utils/children'
-import cn from 'classnames'
-import React, { type ReactNode } from 'react'
+import cn from "classnames"
+import type React from "react"
+import type { ReactNode } from "react"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { getInnerText } from "#utils/children"
 
 export interface SectionProps {
   /** The content of the section. */
@@ -12,9 +13,9 @@ export interface SectionProps {
    */
   title?: ReactNode
   /** Size for the title prop. */
-  titleSize?: 'normal' | 'small'
+  titleSize?: "normal" | "small"
   /** Specify `none` to remove border. */
-  border?: 'none'
+  border?: "none"
   /** This will render a button on the right side of the row. */
   actionButton?: ReactNode
   /** CSS classes. */
@@ -28,14 +29,14 @@ export const Section = withSkeletonTemplate<SectionProps>(
   ({
     children,
     title,
-    titleSize = 'normal',
+    titleSize = "normal",
     actionButton,
     border,
     isLoading,
     delayMs,
     ...rest
   }) => {
-    const Tag = title != null ? 'section' : 'div'
+    const Tag = title != null ? "section" : "div"
     return (
       <Tag
         {...rest}
@@ -43,24 +44,24 @@ export const Section = withSkeletonTemplate<SectionProps>(
       >
         {(title != null || actionButton != null) && (
           <header
-            className={cn('border-b pb-4 flex justify-between items-center', {
-              'border-gray-100': border == null,
-              'border-transparent': border === 'none'
+            className={cn("border-b pb-4 flex justify-between items-center", {
+              "border-gray-100": border == null,
+              "border-transparent": border === "none",
             })}
           >
             {title != null && (
               <h2
                 className={cn({
                   // titleSize
-                  'text-gray-600 font-medium': titleSize === 'small',
-                  'text-lg font-semibold': titleSize === 'normal'
+                  "text-gray-600 font-medium": titleSize === "small",
+                  "text-lg font-semibold": titleSize === "normal",
                 })}
               >
                 {title}
               </h2>
             )}
             {actionButton != null && (
-              <nav className='flex-grow text-right flex justify-end gap-2'>
+              <nav className="flex-grow text-right flex justify-end gap-2">
                 {actionButton}
               </nav>
             )}
@@ -69,7 +70,7 @@ export const Section = withSkeletonTemplate<SectionProps>(
         <div>{children}</div>
       </Tag>
     )
-  }
+  },
 )
 
-Section.displayName = 'Section'
+Section.displayName = "Section"

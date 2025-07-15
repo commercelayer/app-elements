@@ -1,29 +1,29 @@
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInputSpinner } from '#ui/forms/InputSpinner'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useForm } from "react-hook-form"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInputSpinner } from "#ui/forms/InputSpinner"
 
 const setup: Meta<typeof HookedInputSpinner> = {
-  title: 'Forms/react-hook-form/HookedInputSpinner',
+  title: "Forms/react-hook-form/HookedInputSpinner",
   component: HookedInputSpinner,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
 const Template: StoryFn<typeof HookedInputSpinner> = (args) => {
   const methods = useForm({
     defaultValues: {
-      [args.name]: 4
-    }
+      [args.name]: 4,
+    },
   })
 
   return (
@@ -34,8 +34,8 @@ const Template: StoryFn<typeof HookedInputSpinner> = (args) => {
       }}
     >
       <HookedInputSpinner {...args} />
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -43,8 +43,8 @@ const Template: StoryFn<typeof HookedInputSpinner> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Quantity',
-  name: 'quantity',
+  label: "Quantity",
+  name: "quantity",
   max: 10,
-  min: 0
+  min: 0,
 }

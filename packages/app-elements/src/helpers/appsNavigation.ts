@@ -1,5 +1,5 @@
-import { type TokenProviderClAppSlug } from '#providers/TokenProvider/types'
-import isEmpty from 'lodash-es/isEmpty'
+import isEmpty from "lodash-es/isEmpty"
+import type { TokenProviderClAppSlug } from "#providers/TokenProvider/types"
 
 const currentVersion = 0.2
 
@@ -21,7 +21,7 @@ function getPersistentItem(): BackToItem | undefined {
   const itemName = location.href
   try {
     const item = JSON.parse(
-      sessionStorage.getItem(itemName) ?? '{}'
+      sessionStorage.getItem(itemName) ?? "{}",
     ) as BackToItem
     if (item.version === currentVersion) {
       return item
@@ -42,8 +42,8 @@ function setPersistentItem({ destination }: { destination: string }): void {
     destination,
     JSON.stringify({
       url: window.location.href,
-      version: currentVersion
-    })
+      version: currentVersion,
+    }),
   )
 }
 
@@ -51,7 +51,7 @@ function setPersistentItem({ destination }: { destination: string }): void {
  *  Returns `true` if we are running apps within the Commerce Layer dashboard.
  */
 function isInDashboard(): boolean {
-  return window.location.origin.includes('https://dashboard.commercelayer.')
+  return window.location.origin.includes("https://dashboard.commercelayer.")
 }
 
 /**
@@ -63,7 +63,7 @@ function urlIsForSameApp(url: string): boolean {
     const urlObj = new URL(url)
 
     const [appSlug] = urlObj.pathname
-      .split('/')
+      .split("/")
       .filter((p) => !isEmpty(p))
       // when isInDashboard pathname is `/test/demo-store/hub/orders/list/xbSzDaQsAZ`
       // when is standalone we have only `/orders/list/xbSzDaQsAZ `
@@ -71,7 +71,7 @@ function urlIsForSameApp(url: string): boolean {
       .slice(isInDashboard() ? 3 : 0)
 
     if (appSlug === undefined) {
-      throw new Error('Cannot access to the application slug.')
+      throw new Error("Cannot access to the application slug.")
     }
 
     return `${urlObj.hostname}/${appSlug}`
@@ -96,10 +96,10 @@ function getRelativePath(url: string): string {
   // when in dashboard pathname is `/test/demo-store/hub/orders/list/qfgDgXszab`, so we need to to remove 4 parts to reach `/list/qfgDgXszab`
   // when is standalone pathname is `/orders/list/qfgDgXszab?foo=bar` so we need to remove 1 part to reach `/list/qfgDgXszab?foo=bar`
   const relativePath = urlObj.pathname
-    .split('/')
+    .split("/")
     .filter((p) => !isEmpty(p))
     .slice(isInDashboard() ? 4 : 1)
-    .join('/')
+    .join("/")
 
   return isEmpty(urlObj.search)
     ? `/${relativePath}`
@@ -111,7 +111,7 @@ function getRelativePath(url: string): string {
  */
 export function goBack({
   setLocation,
-  defaultRelativePath
+  defaultRelativePath,
 }: {
   /**
    * React router's history.push method, this is used when linking internal app pages.
@@ -173,7 +173,7 @@ interface NavigateToExternalParams {
     /**
      * required when linking to another app, it indicates if the destination app should be opened in test or live mode
      */
-    mode: 'test' | 'live'
+    mode: "test" | "live"
   }
 }
 
@@ -182,33 +182,33 @@ interface NavigateToExternalParams {
  * to be able to navigate back to it with the `goBack` function.
  */
 export function navigateTo(
-  params: NavigateToInternalParams | NavigateToExternalParams
+  params: NavigateToInternalParams | NavigateToExternalParams,
 ): {
   href: string
   onClick: (
     e: React.MouseEvent<
       HTMLAnchorElement | HTMLDivElement | HTMLButtonElement,
       MouseEvent
-    >
+    >,
   ) => void
 } | null {
   const pathname = isInDashboard()
     ? `/${location.pathname
-        .split('/')
+        .split("/")
         .filter((p) => !isEmpty(p))
         .slice(0, 3)
-        .join('/')}/`
-    : '/'
+        .join("/")}/`
+    : "/"
 
   const destinationFullUrl = `${window.location.origin}${pathname}${
     params.destination.app
-  }/list/${params.destination.resourceId ?? ''}`
+  }/list/${params.destination.resourceId ?? ""}`
 
   // cross linking is allowed only for Commerce Layer hosted apps. It's disabled for custom (self-hosted) apps.
   const isClHostedApp =
     isInDashboard() ||
-    window.location.origin.includes('commercelayer.app') ||
-    window.location.origin.includes('//localhost:')
+    window.location.origin.includes("commercelayer.app") ||
+    window.location.origin.includes("//localhost:")
   if (!isNavigateToInternalParams(params) && !isClHostedApp) {
     return null
   }
@@ -221,7 +221,7 @@ export function navigateTo(
       e: React.MouseEvent<
         HTMLAnchorElement | HTMLDivElement | HTMLButtonElement,
         MouseEvent
-      >
+      >,
     ) => {
       if (e.ctrlKey || e.metaKey) {
         // allow to open link in a new tab with ctrl+click or cmd+click
@@ -234,14 +234,14 @@ export function navigateTo(
         return
       }
       window.location.assign(
-        `${destinationFullUrl}?mode=${params.destination.mode}`
+        `${destinationFullUrl}?mode=${params.destination.mode}`,
       )
-    }
+    },
   }
 }
 
 function isNavigateToInternalParams(
-  params: NavigateToInternalParams | NavigateToExternalParams
+  params: NavigateToInternalParams | NavigateToExternalParams,
 ): params is NavigateToInternalParams {
-  return 'setLocation' in params
+  return "setLocation" in params
 }

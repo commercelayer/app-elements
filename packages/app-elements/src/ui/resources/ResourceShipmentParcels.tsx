@@ -1,4 +1,13 @@
-import { formatDate, sortAndGroupByDate } from '#helpers/date'
+import type {
+  Parcel as ParcelResource,
+  Shipment as ShipmentResource,
+} from "@commercelayer/sdk"
+import { FileIcon, PackageIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import isEmpty from "lodash-es/isEmpty"
+import { useCallback, useMemo } from "react"
+import type { SetNonNullable, SetRequired } from "type-fest"
+import { formatDate, sortAndGroupByDate } from "#helpers/date"
 import {
   getAvatarSrcFromRate,
   getParcelTrackingDetail,
@@ -7,45 +16,36 @@ import {
   hasBeenPurchased,
   hasSingleTracking,
   type Rate,
-  type TrackingDetail
-} from '#helpers/tracking'
-import { useOverlay } from '#hooks/useOverlay'
-import { t, useTranslation } from '#providers/I18NProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { A } from '#ui/atoms/A'
-import { Avatar } from '#ui/atoms/Avatar'
-import { Badge } from '#ui/atoms/Badge'
-import { Button } from '#ui/atoms/Button'
-import { Hr } from '#ui/atoms/Hr'
-import { Section } from '#ui/atoms/Section'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Stack } from '#ui/atoms/Stack'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-import { Steps } from '#ui/atoms/Steps'
-import { Text } from '#ui/atoms/Text'
-import { CardDialog } from '#ui/composite/CardDialog'
-import { PageLayout } from '#ui/composite/PageLayout'
-import { FlexRow } from '#ui/internals/FlexRow'
-import {
-  type Parcel as ParcelResource,
-  type Shipment as ShipmentResource
-} from '@commercelayer/sdk'
-import { File, Package } from '@phosphor-icons/react'
-import cn from 'classnames'
-import isEmpty from 'lodash-es/isEmpty'
-import { useCallback, useMemo } from 'react'
-import { type SetNonNullable, type SetRequired } from 'type-fest'
-import { ResourceLineItems } from './ResourceLineItems'
+  type TrackingDetail,
+} from "#helpers/tracking"
+import { useOverlay } from "#hooks/useOverlay"
+import { t, useTranslation } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { A } from "#ui/atoms/A"
+import { Avatar } from "#ui/atoms/Avatar"
+import { Badge } from "#ui/atoms/Badge"
+import { Button } from "#ui/atoms/Button"
+import { Hr } from "#ui/atoms/Hr"
+import { Section } from "#ui/atoms/Section"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Stack } from "#ui/atoms/Stack"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Steps } from "#ui/atoms/Steps"
+import { Text } from "#ui/atoms/Text"
+import { CardDialog } from "#ui/composite/CardDialog"
+import { PageLayout } from "#ui/composite/PageLayout"
+import { FlexRow } from "#ui/internals/FlexRow"
+import { ResourceLineItems } from "./ResourceLineItems"
 
 type SetNonNullableRequired<
   BaseType,
-  Keys extends keyof BaseType
+  Keys extends keyof BaseType,
 > = SetRequired<SetNonNullable<BaseType, Keys>, Keys>
 
 function hasPackage(
-  parcel: ParcelResource
-): parcel is SetNonNullableRequired<ParcelResource, 'package'> {
+  parcel: ParcelResource,
+): parcel is SetNonNullableRequired<ParcelResource, "package"> {
   return parcel.package != null
 }
 
@@ -64,7 +64,7 @@ export const ResourceShipmentParcels =
       return (
         <div
           data-testid={`shipment-parcels-${shipment.id}`}
-          className='flex flex-col gap-2'
+          className="flex flex-col gap-2"
         >
           {hasCarrier && <Carrier shipment={shipment} />}
           {shipment.parcels?.map((parcel) => {
@@ -89,12 +89,12 @@ export const ResourceShipmentParcels =
                         shipping_label_file_type: undefined,
                         shipping_label_resolution: undefined,
                         shipping_label_size: undefined,
-                        shipping_label_url: undefined
+                        shipping_label_url: undefined,
                       }
                     : parcel
                 }
                 onRemove={
-                  hasBeenPurchased(shipment) || shipment.status !== 'packing'
+                  hasBeenPurchased(shipment) || shipment.status !== "packing"
                     ? undefined
                     : () => {
                         onRemoveParcel?.(parcel.id)
@@ -105,13 +105,13 @@ export const ResourceShipmentParcels =
           })}
         </div>
       )
-    }
+    },
   )
 
-ResourceShipmentParcels.displayName = 'ResourceShipmentParcels'
+ResourceShipmentParcels.displayName = "ResourceShipmentParcels"
 
 const Parcel = withSkeletonTemplate<{
-  parcel: SetNonNullableRequired<ParcelResource, 'package'>
+  parcel: SetNonNullableRequired<ParcelResource, "package">
   rate?: Rate
   showEstimatedDelivery?: boolean
   onRemove?: () => void
@@ -125,7 +125,7 @@ const Parcel = withSkeletonTemplate<{
       data-testid={`parcel-box-${parcel.id}`}
       onClose={onRemove}
       title={parcel.package.name}
-      icon={<Package size={42} className='text-gray-300' weight='thin' />}
+      icon={<PackageIcon size={42} className="text-gray-300" weight="thin" />}
       footer={
         parcel.shipping_label_url == null ? undefined : (
           <PrintLabel href={parcel.shipping_label_url} />
@@ -133,22 +133,22 @@ const Parcel = withSkeletonTemplate<{
       }
     >
       {parcel.parcel_line_items != null && (
-        <ResourceLineItems items={parcel.parcel_line_items} size='small' />
+        <ResourceLineItems items={parcel.parcel_line_items} size="small" />
       )}
-      <Spacer top='6'>
-        <Text size='small'>
+      <Spacer top="6">
+        <Text size="small">
           <FlexRow>
-            <Text variant='info'>{t('common.parcel_total')}</Text>
-            <Text weight='semibold'>
-              {t('apps.shipments.details.parcel_item', {
-                count: itemsLength
+            <Text variant="info">{t("common.parcel_total")}</Text>
+            <Text weight="semibold">
+              {t("apps.shipments.details.parcel_item", {
+                count: itemsLength,
               })}
             </Text>
           </FlexRow>
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info'>{t('common.parcel_weight')}</Text>
-              <Text weight='semibold'>
+              <Text variant="info">{t("common.parcel_weight")}</Text>
+              <Text weight="semibold">
                 {parcel.weight} {parcel.unit_of_weight}
               </Text>
             </FlexRow>
@@ -185,17 +185,17 @@ const Carrier = withSkeletonTemplate<{
       icon={
         <Avatar
           className={cn({
-            'mt-0.5': !singleTracking
+            "mt-0.5": !singleTracking,
           })}
           src={getAvatarSrcFromRate(rate)}
-          alt='Adyen'
-          border='none'
-          shape='circle'
-          size='small'
+          alt="Adyen"
+          border="none"
+          shape="circle"
+          size="small"
         />
       }
       rightContent={
-        <Text size='regular' weight='bold'>
+        <Text size="regular" weight="bold">
           {rate.formatted_rate}
         </Text>
       }
@@ -206,8 +206,8 @@ const Carrier = withSkeletonTemplate<{
       }
     >
       {singleTracking && (
-        <Spacer top='6'>
-          <Text size='small'>
+        <Spacer top="6">
+          <Text size="small">
             <Tracking parcel={parcel} rate={rate} showEstimatedDelivery />
           </Text>
         </Spacer>
@@ -232,19 +232,19 @@ const Attachments = withSkeletonTemplate<{
   }
 
   return (
-    <FlexRow className='mt-4'>
-      <Text variant='info'>{t('common.attachments')}</Text>
-      <Text weight='semibold'>
-        <div className='flex flex-col gap-2 items-end'>
+    <FlexRow className="mt-4">
+      <Text variant="info">{t("common.attachments")}</Text>
+      <Text weight="semibold">
+        <div className="flex flex-col gap-2 items-end">
           {attachmentsWithUrl.map((attachment) => (
             <A
               key={attachment.id}
-              href={attachment.url ?? ''}
-              target='_blank'
-              rel='noopener'
-              className='flex items-center gap-1'
+              href={attachment.url ?? ""}
+              target="_blank"
+              rel="noopener"
+              className="flex items-center gap-1"
             >
-              <File weight='bold' /> {attachment.name}
+              <FileIcon weight="bold" /> {attachment.name}
             </A>
           ))}
         </div>
@@ -261,30 +261,30 @@ const Tracking = withSkeletonTemplate<{
   const trackingDetails = getParcelTrackingDetail(parcel)
   const { TrackingDetailsOverlay, openTrackingDetails } = useTrackingDetails(
     parcel,
-    rate
+    rate,
   )
 
   return (
     <>
       <TrackingDetailsOverlay />
       {trackingDetails?.status != null ? (
-        <FlexRow className='mt-4'>
-          <Text variant='info'>{t('common.status')}</Text>
-          <Text weight='semibold'>{trackingDetails.status}</Text>
+        <FlexRow className="mt-4">
+          <Text variant="info">{t("common.status")}</Text>
+          <Text weight="semibold">{trackingDetails.status}</Text>
         </FlexRow>
       ) : parcel.tracking_status != null ? (
-        <FlexRow className='mt-4'>
-          <Text variant='info'>{t('common.status')}</Text>
-          <Text weight='semibold'>{parcel.tracking_status}</Text>
+        <FlexRow className="mt-4">
+          <Text variant="info">{t("common.status")}</Text>
+          <Text weight="semibold">{parcel.tracking_status}</Text>
         </FlexRow>
       ) : null}
       {parcel.tracking_number != null && (
-        <FlexRow className='mt-4'>
-          <Text variant='info'>{t('common.tracking')}</Text>
-          <Text weight='semibold'>
+        <FlexRow className="mt-4">
+          <Text variant="info">{t("common.tracking")}</Text>
+          <Text weight="semibold">
             {trackingDetails != null ? (
               <Button
-                variant='link'
+                variant="link"
                 onClick={() => {
                   openTrackingDetails()
                 }}
@@ -298,23 +298,22 @@ const Tracking = withSkeletonTemplate<{
         </FlexRow>
       )}
       {showEstimatedDelivery && rate?.formatted_delivery_date != null && (
-        <FlexRow className='mt-4'>
-          <Text variant='info'>{t('common.estimated_delivery')}</Text>
-          <Text weight='semibold'>{rate.formatted_delivery_date}</Text>
+        <FlexRow className="mt-4">
+          <Text variant="info">{t("common.estimated_delivery")}</Text>
+          <Text weight="semibold">{rate.formatted_delivery_date}</Text>
         </FlexRow>
       )}
     </>
   )
 })
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
   const {
     Overlay,
     open: openTrackingDetails,
-    close
+    close,
   } = useOverlay({
-    queryParam: `tracking-${parcel.tracking_number ?? ''}`
+    queryParam: `tracking-${parcel.tracking_number ?? ""}`,
   })
 
   const TrackingDetailsOverlay = useCallback(() => {
@@ -322,12 +321,12 @@ const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
       parcel.tracking_number != null && (
         <Overlay>
           <PageLayout
-            title={`${t('common.tracking')} #${parcel.tracking_number}`}
+            title={`${t("common.tracking")} #${parcel.tracking_number}`}
             navigationButton={{
-              label: 'Back',
+              label: "Back",
               onClick: () => {
                 close()
-              }
+              },
             }}
           >
             <TrackingDetails parcel={parcel} rate={rate} />
@@ -355,15 +354,15 @@ const TrackingDetails = withSkeletonTemplate<{
     const events: Event[] = getParcelTrackingDetails(parcel)
       .filter(
         (
-          tracking
+          tracking,
         ): tracking is SetNonNullableRequired<
           typeof tracking,
-          'datetime' | 'message'
-        > => tracking.datetime != null && tracking.message != null
+          "datetime" | "message"
+        > => tracking.datetime != null && tracking.message != null,
       )
       .map((tracking) => ({
         date: tracking.datetime,
-        tracking
+        tracking,
       }))
 
     return sortAndGroupByDate(events)
@@ -376,57 +375,57 @@ const TrackingDetails = withSkeletonTemplate<{
       <Steps
         steps={[
           {
-            label: t('common.tracking_details.tracking_pre_transit'),
-            active: lastEvent?.tracking.status === 'pre_transit'
+            label: t("common.tracking_details.tracking_pre_transit"),
+            active: lastEvent?.tracking.status === "pre_transit",
           },
           {
-            label: t('common.tracking_details.tracking_in_transit'),
-            active: lastEvent?.tracking.status === 'in_transit'
+            label: t("common.tracking_details.tracking_in_transit"),
+            active: lastEvent?.tracking.status === "in_transit",
           },
           {
-            label: t('common.tracking_details.tracking_out_for_delivery'),
-            active: lastEvent?.tracking.status === 'out_for_delivery'
+            label: t("common.tracking_details.tracking_out_for_delivery"),
+            active: lastEvent?.tracking.status === "out_for_delivery",
           },
           {
-            label: t('common.tracking_details.tracking_delivered'),
-            active: lastEvent?.tracking.status === 'delivered'
-          }
+            label: t("common.tracking_details.tracking_delivered"),
+            active: lastEvent?.tracking.status === "delivered",
+          },
         ]}
       />
-      <Spacer top='12' bottom='14'>
+      <Spacer top="12" bottom="14">
         <Stack>
           <div>
-            <Spacer bottom='2'>
-              <Text size='small' tag='div' variant='info' weight='semibold'>
-                {t('common.tracking_details.courier')}
+            <Spacer bottom="2">
+              <Text size="small" tag="div" variant="info" weight="semibold">
+                {t("common.tracking_details.courier")}
               </Text>
             </Spacer>
             {rate != null && (
               <Avatar
                 src={getAvatarSrcFromRate(rate)}
-                alt='Adyen'
-                border='none'
-                shape='circle'
-                size='x-small'
-                className='inline-block align-middle'
+                alt="Adyen"
+                border="none"
+                shape="circle"
+                size="x-small"
+                className="inline-block align-middle"
               />
-            )}{' '}
-            <span className='text-lg font-semibold text-black pl-1.5'>
+            )}{" "}
+            <span className="text-lg font-semibold text-black pl-1.5">
               {rate?.carrier}
             </span>
           </div>
           <div>
-            <Spacer bottom='2'>
-              <Text size='small' tag='div' variant='info' weight='semibold'>
-                {t('common.tracking_details.estimated_delivery_date')}
+            <Spacer bottom="2">
+              <Text size="small" tag="div" variant="info" weight="semibold">
+                {t("common.tracking_details.estimated_delivery_date")}
               </Text>
             </Spacer>
-            <div className='text-lg font-semibold text-black'>
+            <div className="text-lg font-semibold text-black">
               {formatDate({
                 isoDate: rate?.delivery_date,
-                format: 'date',
+                format: "date",
                 timezone: user?.timezone,
-                locale: user?.locale
+                locale: user?.locale,
               })}
             </div>
           </div>
@@ -435,67 +434,67 @@ const TrackingDetails = withSkeletonTemplate<{
 
       {lastEvent != null && (
         <Section
-          title='Detailed view'
-          border='none'
+          title="Detailed view"
+          border="none"
           actionButton={
-            <Text size='small' variant='info'>
-              {t('common.tracking_details.last_update')}:{' '}
-              <Text weight='bold'>
+            <Text size="small" variant="info">
+              {t("common.tracking_details.last_update")}:{" "}
+              <Text weight="bold">
                 {formatDate({
                   isoDate: lastEvent.date,
-                  format: 'full',
+                  format: "full",
                   timezone: user?.timezone,
-                  locale: user?.locale
+                  locale: user?.locale,
                 })}
               </Text>
             </Text>
           }
         >
-          <div className='rounded-md bg-gray-50 p-6 pb-2'>
+          <div className="rounded-md bg-gray-50 p-6 pb-2">
             {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
               <div key={date}>
                 <Badge
-                  data-testid='timeline-date-group'
-                  className='rounded-full bg-gray-200 py-1 px-3 font-bold'
-                  variant='secondary'
+                  data-testid="timeline-date-group"
+                  className="rounded-full bg-gray-200 py-1 px-3 font-bold"
+                  variant="secondary"
                 >
                   {date}
                 </Badge>
-                <table className='mt-4 mb-6 ml-1 w-full h-full'>
+                <table className="mt-4 mb-6 ml-1 w-full h-full">
                   <tbody>
                     {eventsByDate.map((event) => (
                       <tr key={event.date}>
-                        <td valign='top' align='right' className='pt-4'>
-                          <div className='text-gray-400 text-xs font-bold'>
+                        <td valign="top" align="right" className="pt-4">
+                          <div className="text-gray-400 text-xs font-bold">
                             {formatDate({
-                              format: 'time',
+                              format: "time",
                               isoDate: event.date,
                               timezone: user?.timezone,
-                              locale: user?.locale
+                              locale: user?.locale,
                             })}
                           </div>
                         </td>
-                        <td valign='top' className='pt-4 px-4'>
-                          <div className='flex flex-col items-center gap-1.5 pt-[3px] h-full'>
-                            <div className='rounded-full bg-gray-300 w-3 h-3' />
-                            {event.position !== 'first' && (
-                              <div className='bg-[#E6E7E7] w-[1px] grow' />
+                        <td valign="top" className="pt-4 px-4">
+                          <div className="flex flex-col items-center gap-1.5 pt-[3px] h-full">
+                            <div className="rounded-full bg-gray-300 w-3 h-3" />
+                            {event.position !== "first" && (
+                              <div className="bg-[#E6E7E7] w-[1px] grow" />
                             )}
                           </div>
                         </td>
-                        <td valign='top' className='pt-4 w-full pb-6'>
-                          <div className='text-black font-semibold -mt-[3px]'>
+                        <td valign="top" className="pt-4 w-full pb-6">
+                          <div className="text-black font-semibold -mt-[3px]">
                             {event.tracking.message}
                           </div>
-                          <div className='text-gray-500 text-sm font-semibold'>
+                          <div className="text-gray-500 text-sm font-semibold">
                             {event.tracking.tracking_location != null
                               ? `${event.tracking.tracking_location.city}${
                                   event.tracking.tracking_location.country !=
                                   null
                                     ? `, ${event.tracking.tracking_location.country}`
-                                    : ''
+                                    : ""
                                 }`
-                              : ''}
+                              : ""}
                           </div>
                         </td>
                       </tr>
@@ -513,10 +512,10 @@ const TrackingDetails = withSkeletonTemplate<{
 
 const PrintLabel = withSkeletonTemplate<{ href: string }>(({ href }) => {
   return (
-    <div className='text-center'>
+    <div className="text-center">
       <A href={href}>
-        <StatusIcon gap='small' className='text-2xl mr-1' name='printer' />{' '}
-        <Text size='small'>{t('common.print_shipping_label')}</Text>
+        <StatusIcon gap="small" className="text-2xl mr-1" name="printer" />{" "}
+        <Text size="small">{t("common.print_shipping_label")}</Text>
       </A>
     </div>
   )
@@ -536,7 +535,7 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
         !isEmpty(parcel.restriction_comments) ||
         !isEmpty(parcel.customs_signer) ||
         !isEmpty(parcel.customs_certify),
-      [parcel]
+      [parcel],
     )
 
     if (!hasCustomsInfo) {
@@ -545,54 +544,54 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
 
     return (
       <div>
-        <Spacer top='4' bottom='4'>
-          <Hr variant='dashed' />
+        <Spacer top="4" bottom="4">
+          <Hr variant="dashed" />
         </Spacer>
 
         {!isEmpty(parcel.incoterm) && (
           <FlexRow>
-            <Text variant='info' wrap='nowrap'>
+            <Text variant="info" wrap="nowrap">
               Incoterm
             </Text>
-            <Text weight='semibold'>{parcel.incoterm}</Text>
+            <Text weight="semibold">{parcel.incoterm}</Text>
           </FlexRow>
         )}
 
         {!isEmpty(parcel.delivery_confirmation) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info' wrap='nowrap'>
-                {t('common.tracking_details.delivery_confirmation')}
+              <Text variant="info" wrap="nowrap">
+                {t("common.tracking_details.delivery_confirmation")}
               </Text>
-              <Text weight='semibold'>{parcel.delivery_confirmation}</Text>
+              <Text weight="semibold">{parcel.delivery_confirmation}</Text>
             </FlexRow>
           </Spacer>
         )}
 
         {parcel.customs_info_required === true && (
-          <Spacer top='4' bottom='4'>
-            <Hr variant='dashed' />
+          <Spacer top="4" bottom="4">
+            <Hr variant="dashed" />
           </Spacer>
         )}
 
         {!isEmpty(parcel.eel_pfc) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info' wrap='nowrap'>
+              <Text variant="info" wrap="nowrap">
                 EEL/PFC
               </Text>
-              <Text weight='semibold'>{parcel.eel_pfc}</Text>
+              <Text weight="semibold">{parcel.eel_pfc}</Text>
             </FlexRow>
           </Spacer>
         )}
 
         {!isEmpty(parcel.contents_type) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info' wrap='nowrap'>
-                {t('common.tracking_details.contents_type')}
+              <Text variant="info" wrap="nowrap">
+                {t("common.tracking_details.contents_type")}
               </Text>
-              <Text weight='semibold'>
+              <Text weight="semibold">
                 {/* `contents_explanation` is optional but if exists it means `contents_type` is set. So if it exists we give it priority */}
                 {parcel.contents_explanation ?? parcel.contents_type}
               </Text>
@@ -601,56 +600,56 @@ const CustomsInfo = withSkeletonTemplate<{ parcel: ParcelResource }>(
         )}
 
         {!isEmpty(parcel.non_delivery_option) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info' wrap='nowrap'>
-                {t('common.tracking_details.non_delivery_option')}
+              <Text variant="info" wrap="nowrap">
+                {t("common.tracking_details.non_delivery_option")}
               </Text>
-              <Text weight='semibold'>{parcel.non_delivery_option}</Text>
+              <Text weight="semibold">{parcel.non_delivery_option}</Text>
             </FlexRow>
           </Spacer>
         )}
 
         {!isEmpty(parcel.restriction_type) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info'>
-                {t('common.tracking_details.restriction_type')}
+              <Text variant="info">
+                {t("common.tracking_details.restriction_type")}
               </Text>
-              <Text weight='semibold'>
-                {parcel.restriction_type}{' '}
+              <Text weight="semibold">
+                {parcel.restriction_type}{" "}
                 {parcel.restriction_comments != null
                   ? ` - ${parcel.restriction_comments}`
-                  : ''}
+                  : ""}
               </Text>
             </FlexRow>
           </Spacer>
         )}
 
         {!isEmpty(parcel.customs_signer) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info' wrap='nowrap'>
-                {t('common.tracking_details.customs_signer')}
+              <Text variant="info" wrap="nowrap">
+                {t("common.tracking_details.customs_signer")}
               </Text>
-              <Text weight='semibold'>{parcel.customs_signer}</Text>
+              <Text weight="semibold">{parcel.customs_signer}</Text>
             </FlexRow>
           </Spacer>
         )}
 
         {!isEmpty(parcel.customs_certify) && (
-          <Spacer top='4'>
+          <Spacer top="4">
             <FlexRow>
-              <Text variant='info' wrap='nowrap'>
-                {t('common.tracking_details.customs_certify')}
+              <Text variant="info" wrap="nowrap">
+                {t("common.tracking_details.customs_certify")}
               </Text>
-              <Text weight='semibold'>
-                {parcel.customs_certify === true ? 'Yes' : 'No'}
+              <Text weight="semibold">
+                {parcel.customs_certify === true ? "Yes" : "No"}
               </Text>
             </FlexRow>
           </Spacer>
         )}
       </div>
     )
-  }
+  },
 )

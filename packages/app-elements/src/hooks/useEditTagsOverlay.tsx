@@ -1,20 +1,20 @@
-import { navigateTo } from '#helpers/appsNavigation'
-import { useOverlay } from '#hooks/useOverlay'
-import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { useTranslation } from '#providers/I18NProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { Text } from '#ui/atoms/Text'
-import { PageLayout } from '#ui/composite/PageLayout'
+import type { ListResponse, Tag } from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
+import { useCallback, useState } from "react"
+import { navigateTo } from "#helpers/appsNavigation"
+import { useOverlay } from "#hooks/useOverlay"
+import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { useTranslation } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { Text } from "#ui/atoms/Text"
+import { PageLayout } from "#ui/composite/PageLayout"
 import {
   InputSelect,
   type InputSelectValue,
-  isMultiValueSelected
-} from '#ui/forms/InputSelect'
-import { type ResourceTagsProps } from '#ui/resources/ResourceTags'
-import { type ListResponse, type Tag } from '@commercelayer/sdk'
-import isEmpty from 'lodash-es/isEmpty'
-import { useCallback, useState } from 'react'
+  isMultiValueSelected,
+} from "#ui/forms/InputSelect"
+import type { ResourceTagsProps } from "#ui/resources/ResourceTags"
 
 export interface EditTagsOverlayProps {
   /**
@@ -25,8 +25,8 @@ export interface EditTagsOverlayProps {
    * Optional setting to define if tags app management link is to be shown in edit overlay heading
    */
   showManageAction?: boolean
-  resourceId: ResourceTagsProps['resourceId']
-  resourceType: ResourceTagsProps['resourceType']
+  resourceId: ResourceTagsProps["resourceId"]
+  resourceType: ResourceTagsProps["resourceType"]
 }
 
 interface TagsOverlayHook {
@@ -38,8 +38,8 @@ export function useEditTagsOverlay(): TagsOverlayHook {
   const {
     Overlay: OverlayElement,
     open,
-    close
-  } = useOverlay({ queryParam: 'edit-tags' })
+    close,
+  } = useOverlay({ queryParam: "edit-tags" })
 
   const { settings } = useTokenProvider()
   const { t } = useTranslation()
@@ -49,42 +49,42 @@ export function useEditTagsOverlay(): TagsOverlayHook {
 
   const navigateToTagsManagement = navigateTo({
     destination: {
-      app: 'tags',
-      mode: settings.mode
-    }
+      app: "tags",
+      mode: settings.mode,
+    },
   })
 
-  const resourceName = t('resources.tags.name_other')
+  const resourceName = t("resources.tags.name_other")
 
   return {
     show: open,
     Overlay: ({
-      title = 'Back',
+      title = "Back",
       showManageAction = false,
       resourceId,
-      resourceType
+      resourceType,
     }) => {
       const { sdkClient } = useCoreSdkProvider()
 
       const { data: organization, isLoading: isOrganizationLoading } =
-        useCoreApi('organization', 'retrieve', [])
+        useCoreApi("organization", "retrieve", [])
 
       const {
         data: resourceTags,
         isLoading,
-        mutate: mutateResourceTags
+        mutate: mutateResourceTags,
       } = useCoreApi(
         resourceType,
-        'tags',
+        "tags",
         resourceId == null || isEmpty(resourceId)
           ? null
           : [
               resourceId,
               {
-                fields: ['id', 'name'],
-                pageSize: 25
-              }
-            ]
+                fields: ["id", "name"],
+                pageSize: 25,
+              },
+            ],
       )
 
       const tagsToSelectOptions = useCallback(
@@ -92,9 +92,9 @@ export function useEditTagsOverlay(): TagsOverlayHook {
           tags.map((item) => ({
             value: item.id,
             label: `${item.name}`,
-            meta: item
+            meta: item,
           })),
-        []
+        [],
       )
 
       const selectedOptionsToTags = useCallback(
@@ -103,17 +103,17 @@ export function useEditTagsOverlay(): TagsOverlayHook {
             return selectedOptions.map((item) => item.meta as Tag)
           }
           // We need to set this particular empty value because at the moment SDK expects always at least an empty tag object while updating the relationship
-          return [{ id: null, type: 'tags' } as unknown as Tag]
+          return [{ id: null, type: "tags" } as unknown as Tag]
         },
-        []
+        [],
       )
 
       const [selectedTags, setSelectedTags] = useState(
-        tagsToSelectOptions(resourceTags ?? [])
+        tagsToSelectOptions(resourceTags ?? []),
       )
 
       if (isLoading || isOrganizationLoading || resourceTags == null) {
-        return <></>
+        return null
       }
 
       const maxAllowedTags = organization?.tags_max_allowed_number ?? 10
@@ -122,80 +122,80 @@ export function useEditTagsOverlay(): TagsOverlayHook {
         <OverlayElement
           footer={
             <Button
-              type='button'
+              type="button"
               fullWidth
               onClick={() => {
                 void sdkClient[resourceType]
                   .update(
                     {
                       id: resourceId,
-                      tags: selectedOptionsToTags(selectedTags)
+                      tags: selectedOptionsToTags(selectedTags),
                     },
                     {
-                      include: ['tags']
-                    }
+                      include: ["tags"],
+                    },
                   )
                   .then((updatedResource) => {
                     const newTags = updatedResource.tags ?? []
                     void mutateResourceTags(newTags as ListResponse<Tag>, {
-                      revalidate: false
+                      revalidate: false,
                     }).then(() => {
                       close()
                     })
                   })
               }}
             >
-              {t('common.update')}
+              {t("common.update")}
             </Button>
           }
         >
           <PageLayout
-            title={t('common.edit', { resource: resourceName.toLowerCase() })}
+            title={t("common.edit", { resource: resourceName.toLowerCase() })}
             minHeight={false}
             navigationButton={{
               label: title,
-              icon: 'arrowLeft',
+              icon: "arrowLeft",
               onClick: () => {
                 close()
-              }
+              },
             }}
             toolbar={{
               buttons:
                 showManageAction != null && showManageAction
                   ? [
                       {
-                        label: t('common.manage_resource', {
-                          resource: resourceName.toLowerCase()
+                        label: t("common.manage_resource", {
+                          resource: resourceName.toLowerCase(),
                         }),
-                        variant: 'secondary',
-                        size: 'small',
-                        onClick: navigateToTagsManagement?.onClick
-                      }
+                        variant: "secondary",
+                        size: "small",
+                        onClick: navigateToTagsManagement?.onClick,
+                      },
                     ]
-                  : []
+                  : [],
             }}
           >
             <InputSelect
               label={resourceName}
-              placeholder={t('common.search')}
+              placeholder={t("common.search")}
               hint={{
                 text: (
                   <>
-                    {t('common.add_up_to', {
+                    {t("common.add_up_to", {
                       limit: maxAllowedTags,
-                      resource: resourceName.toLowerCase()
+                      resource: resourceName.toLowerCase(),
                     })}
                     {selectedTagsLimitReached && (
                       <>
-                        {' '}
-                        <Text weight='bold' variant='warning'>
-                          {t('common.limit_reached')}
+                        {" "}
+                        <Text weight="bold" variant="warning">
+                          {t("common.limit_reached")}
                         </Text>
                         .
                       </>
                     )}
                   </>
-                )
+                ),
               }}
               isMulti
               isSearchable
@@ -205,11 +205,11 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                 if (hint.length > 0) {
                   return await sdkClient.tags
                     .list({
-                      fields: ['id', 'name'],
+                      fields: ["id", "name"],
                       filters: {
-                        ...(!isEmpty(hint) && { name_cont: hint })
+                        ...(!isEmpty(hint) && { name_cont: hint }),
                       },
-                      pageSize: 25
+                      pageSize: 25,
                     })
                     .then(tagsToSelectOptions)
                 }
@@ -220,7 +220,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
               onSelect={(selectedTags) => {
                 if (isMultiValueSelected(selectedTags)) {
                   setSelectedTagsLimitReached(
-                    selectedTags.length >= maxAllowedTags
+                    selectedTags.length >= maxAllowedTags,
                   )
                   setSelectedTags(selectedTags)
                   return
@@ -231,6 +231,6 @@ export function useEditTagsOverlay(): TagsOverlayHook {
           </PageLayout>
         </OverlayElement>
       )
-    }
+    },
   }
 }

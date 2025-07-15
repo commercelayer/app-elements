@@ -1,9 +1,9 @@
-import { Tag } from '#ui/atoms/Tag'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Tag } from "#ui/atoms/Tag"
 
 const setup: Meta<typeof Tag> = {
-  title: 'Atoms/Tag',
-  component: Tag
+  title: "Atoms/Tag",
+  component: Tag,
 }
 export default setup
 

@@ -1,2 +1,2 @@
-export type { FiltersInstructions } from './types'
-export { useResourceFilters } from './useResourceFilters'
+export type { FiltersInstructions } from "./types"
+export { useResourceFilters } from "./useResourceFilters"

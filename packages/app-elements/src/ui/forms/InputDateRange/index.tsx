@@ -1,5 +1,5 @@
 export {
   HookedInputDateRange,
-  type HookedInputDateRangeProps
-} from './HookedInputDateRange'
-export { InputDateRange, type InputDateRangeProps } from './InputDateRange'
+  type HookedInputDateRangeProps,
+} from "./HookedInputDateRange"
+export { InputDateRange, type InputDateRangeProps } from "./InputDateRange"

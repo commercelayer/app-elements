@@ -1,7 +1,7 @@
-import { type JSX } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { HookedValidationError } from '../ReactHookForm'
-import { InputSwitch, type InputSwitchProps } from './InputSwitch'
+import type { JSX } from "react"
+import { useFormContext } from "react-hook-form"
+import { HookedValidationError } from "../ReactHookForm"
+import { InputSwitch, type InputSwitchProps } from "./InputSwitch"
 
 export interface HookedInputSwitchProps extends InputSwitchProps {
   /**
@@ -33,4 +33,4 @@ export function HookedInputSwitch({
   )
 }
 
-HookedInputSwitch.displayName = 'HookedInputSwitch'
+HookedInputSwitch.displayName = "HookedInputSwitch"
