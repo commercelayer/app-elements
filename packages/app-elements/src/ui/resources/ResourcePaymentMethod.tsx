@@ -207,7 +207,6 @@ export function getPaymentMethodLogoSrc(
     axerve_payments: `${assetsUrl}/axerve.svg`,
     braintree_payments: `${assetsUrl}/braintree.svg`,
     checkout_com_payments: `${assetsUrl}/checkout_com.svg`,
-    credit_cards: `${assetsUrl}/credit-card.svg`,
     external_payments: `${assetsUrl}/external.svg`,
     klarna_payments: `${assetsUrl}/klarna.svg`,
     paypal_payments: `${assetsUrl}/paypal.svg`,

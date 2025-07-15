@@ -24,8 +24,8 @@ importers:
         specifier: ^6.7.2
         version: 6.7.2
       '@commercelayer/sdk':
-        specifier: 6.33.0
-        version: 6.33.0
+        specifier: 6.45.0
+        version: 6.45.0
       '@date-fns/tz':
         specifier: ^1.2.0
         version: 1.2.0
@@ -1006,8 +1006,8 @@ packages:
     resolution: {integrity: sha512-kk4VqN2iEOreXFq76YqTP83KhBs09Z5Ez9nZNlikXWf5DXzkrOfShqqEwq8ezHjSOlqs4xVyxgQzsEdPP35CeQ==}
     engines: {node: '>=18.0.0'}
 
-  '@commercelayer/sdk@6.33.0':
-    resolution: {integrity: sha512-QkwruUIUilS80Y0aB0r5Y/jTDNySHlplqNle8vKaFIfH/BzWosM3BKedfJkFF+vlvPRak/Lf+ye/A+wxN9U2sQ==}
+  '@commercelayer/sdk@6.45.0':
+    resolution: {integrity: sha512-pze9enuGcTDLigN7ZbaHa+WYWWcaBXdcG3mI9K4Z9ngZVweVH7s1C5FwVUsnp8UZORATkBgb0u9Yjd1u2f66PA==}
     engines: {node: '>=20'}
 
   '@csstools/color-helpers@5.0.2':
@@ -7437,7 +7437,7 @@ snapshots:
 
   '@commercelayer/js-auth@6.7.2': {}
 
-  '@commercelayer/sdk@6.33.0': {}
+  '@commercelayer/sdk@6.45.0': {}
 
   '@csstools/color-helpers@5.0.2': {}
 
