@@ -7,7 +7,6 @@ module.exports = {
     if (
       (name === "@types/node" &&
         parseInt(upgradedVersionSemver?.major, 10) >= 22) ||
-      (name === "zod" && parseInt(upgradedVersionSemver?.major, 10) >= 4) ||
       (name === "@hookform/resolvers" &&
         parseInt(upgradedVersionSemver?.major, 10) >= 4)
     ) {
