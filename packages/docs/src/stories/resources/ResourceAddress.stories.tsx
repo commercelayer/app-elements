@@ -182,8 +182,8 @@ export const ReuseTheAddressForm: StoryFn = () => {
       z.object({
         name: z
           .string({
-            required_error: "Required field",
-            invalid_type_error: "Invalid format",
+            error: (iss) =>
+              iss.input === undefined ? "Required field" : "Invalid format",
           })
           .min(1, {
             message: "Required field",
@@ -228,8 +228,8 @@ export const ShowNameOrCompany: StoryFn = () => {
       z.object({
         name: z
           .string({
-            required_error: "Required field",
-            invalid_type_error: "Invalid format",
+            error: (iss) =>
+              iss.input === undefined ? "Required field" : "Invalid format",
           })
           .min(1, {
             message: "Required field",

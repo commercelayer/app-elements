@@ -66,7 +66,7 @@ export function adaptFormValuesToSdk<
         if (predicateWhitelist.includes(key)) {
           return {
             ...acc,
-            [key]: formValues[key],
+            [key]: formValues[key] ?? undefined,
           }
         }
 
@@ -80,7 +80,8 @@ export function adaptFormValuesToSdk<
       ) {
         return {
           ...acc,
-          [key]: instructionItem.sdk.parseFormValue(formValues[key]),
+          [key]:
+            instructionItem.sdk.parseFormValue(formValues[key]) ?? undefined,
         }
       }
 
@@ -90,7 +91,7 @@ export function adaptFormValuesToSdk<
       ) {
         return {
           ...acc,
-          [key]: castArray(formValues[key]).join(","),
+          [key]: castArray(formValues[key]).join(",") ?? undefined,
         }
       }
 

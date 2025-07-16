@@ -14,8 +14,8 @@ import type { ResourceAddressProps } from "./ResourceAddress"
 
 const zodRequiredField = z
   .string({
-    required_error: "Required field",
-    invalid_type_error: "Invalid format",
+    error: (iss) =>
+      iss.input === undefined ? "Required field" : "Invalid format",
   })
   .min(1, {
     message: "Required field",
@@ -37,12 +37,19 @@ export const getResourceAddressFormFieldsSchema = ({
       state_code: zodRequiredField,
       country_code: zodRequiredField,
       phone: zodRequiredField,
-      billing_info: requiresBillingInfo
-        ? zodRequiredField
-        : z.string().nullish(),
+      billing_info: z.string().nullish(),
       notes: z.string().nullish(),
     })
     .superRefine((data, ctx) => {
+      if (requiresBillingInfo) {
+        if (data.billing_info == null || data.billing_info.length === 0) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["billing_info"],
+            message: t("common.forms.required_field"),
+          })
+        }
+      }
       if (data.business === true) {
         if (data.company == null || data.company.length === 0) {
           ctx.addIssue({

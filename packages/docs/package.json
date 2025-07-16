@@ -23,7 +23,7 @@
   "devDependencies": {
     "@babel/core": "^7.28.0",
     "@babel/preset-env": "^7.28.0",
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^5.1.1",
     "@mdx-js/react": "^3.1.0",
     "@storybook/addon-docs": "^9.0.17",
     "@storybook/addon-links": "^9.0.17",
@@ -46,7 +46,7 @@
     "typescript": "~5.8.3",
     "vite": "^7.0.4",
     "vite-tsconfig-paths": "^5.1.4",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   },
   "msw": {
     "workerDirectory": "public"
