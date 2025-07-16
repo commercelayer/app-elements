@@ -1,25 +1,25 @@
-import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { Button } from '#ui/atoms/Button'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form/HookedForm'
-import { HookedValidationApiError } from '#ui/forms/ReactHookForm/HookedValidationApiError'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { type ResourceAddressProps } from './ResourceAddress'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form/HookedForm"
+import { HookedValidationApiError } from "#ui/forms/ReactHookForm/HookedValidationApiError"
+import type { ResourceAddressProps } from "./ResourceAddress"
 import {
-  ResourceAddressFormFields,
   getResourceAddressFormFieldsSchema,
-  type ResourceAddressFormFieldsProps
-} from './ResourceAddressFormFields'
+  ResourceAddressFormFields,
+  type ResourceAddressFormFieldsProps,
+} from "./ResourceAddressFormFields"
 
 interface ResourceAddressFormProps
-  extends Omit<ResourceAddressFormFieldsProps, 'name'>,
+  extends Omit<ResourceAddressFormFieldsProps, "name">,
     Pick<
       ResourceAddressProps,
-      'address' | 'onCreate' | 'onUpdate' | 'requiresBillingInfo'
+      "address" | "onCreate" | "onUpdate" | "requiresBillingInfo"
     > {}
 
 export const ResourceAddressForm =
@@ -30,13 +30,13 @@ export const ResourceAddressForm =
       requiresBillingInfo = false,
       showNotes = true,
       onUpdate,
-      onCreate
+      onCreate,
     }) => {
       const methods = useForm({
         defaultValues: address ?? undefined,
         resolver: zodResolver(
-          getResourceAddressFormFieldsSchema({ requiresBillingInfo })
-        )
+          getResourceAddressFormFieldsSchema({ requiresBillingInfo }),
+        ),
       })
 
       const [apiError, setApiError] = useState<any>()
@@ -73,20 +73,20 @@ export const ResourceAddressForm =
             showNotes={showNotes}
           />
 
-          <Spacer top='14'>
+          <Spacer top="14">
             <Button
-              type='submit'
+              type="submit"
               disabled={methods.formState.isSubmitting}
-              className='w-full'
+              className="w-full"
             >
-              {address == null ? t('common.create') : t('common.update')}{' '}
-              {t('resources.addresses.name')}
+              {address == null ? t("common.create") : t("common.update")}{" "}
+              {t("resources.addresses.name")}
             </Button>
-            <Spacer top='2'>
+            <Spacer top="2">
               <HookedValidationApiError apiError={apiError} />
             </Spacer>
           </Spacer>
         </HookedForm>
       )
-    }
+    },
   )

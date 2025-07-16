@@ -1,15 +1,15 @@
-import { type CommerceLayerClient } from '@commercelayer/sdk'
+import type { CommerceLayerClient } from "@commercelayer/sdk"
 import {
   createContext,
+  type JSX,
+  type ReactNode,
   useContext,
   useEffect,
   useState,
-  type JSX,
-  type ReactNode
-} from 'react'
-import { type SetOptional } from 'type-fest'
-import { useTokenProvider } from '../TokenProvider'
-import { makeSdkClient } from './makeSdkClient'
+} from "react"
+import type { SetOptional } from "type-fest"
+import { useTokenProvider } from "../TokenProvider"
+import { makeSdkClient } from "./makeSdkClient"
 
 interface CoreSdkProviderValue {
   /**
@@ -25,8 +25,8 @@ interface CoreSdkProviderProps {
   children: ((props: CoreSdkProviderValue) => ReactNode) | ReactNode
 }
 
-const Context = createContext<SetOptional<CoreSdkProviderValue, 'sdkClient'>>(
-  {}
+const Context = createContext<SetOptional<CoreSdkProviderValue, "sdkClient">>(
+  {},
 )
 
 export const useCoreSdkProvider = (): CoreSdkProviderValue => {
@@ -35,15 +35,15 @@ export const useCoreSdkProvider = (): CoreSdkProviderValue => {
 }
 
 export function CoreSdkProvider({
-  children
+  children,
 }: CoreSdkProviderProps): JSX.Element | null {
   const {
     emitInvalidAuth,
-    settings: { accessToken, domain, organizationSlug }
+    settings: { accessToken, domain, organizationSlug },
   } = useTokenProvider()
 
   const [sdkClient, setSdkClient] = useState<CommerceLayerClient | undefined>(
-    undefined
+    undefined,
   )
 
   useEffect(
@@ -57,27 +57,27 @@ export function CoreSdkProvider({
           organization: organizationSlug,
           domain,
           onInvalidToken: () => {
-            emitInvalidAuth('got 401 invalid token from sdk')
-          }
-        })
+            emitInvalidAuth("got 401 invalid token from sdk")
+          },
+        }),
       )
     },
-    [accessToken, organizationSlug]
+    [accessToken, organizationSlug],
   )
 
   if (sdkClient == null) {
-    return <></>
+    return null
   }
 
   const value: CoreSdkProviderValue = {
-    sdkClient
+    sdkClient,
   }
 
   return (
     <Context.Provider value={value}>
-      {typeof children === 'function' ? children(value) : children}
+      {typeof children === "function" ? children(value) : children}
     </Context.Provider>
   )
 }
 
-CoreSdkProvider.displayName = 'CoreSdkProvider'
+CoreSdkProvider.displayName = "CoreSdkProvider"

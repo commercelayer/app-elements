@@ -1,32 +1,31 @@
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInput } from '#ui/forms/Input'
-import { HookedInputCheckbox } from '#ui/forms/InputCheckbox'
-import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
-import { useForm } from 'react-hook-form'
-
-import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
-import { Section } from '#ui/atoms/Section'
-import { Spacer } from '#ui/atoms/Spacer'
-import { ListItem } from '#ui/composite/ListItem'
-import { type Metadata } from '@commercelayer/sdk'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Fragment, type JSX, useMemo, useState } from 'react'
-import { z } from 'zod'
-import { isUpdatableType, type ResourceMetadataProps } from './ResourceMetadata'
-import { groupMetadataKeys } from './utils'
+import type { Metadata } from "@commercelayer/sdk"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { Fragment, type JSX, useMemo, useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
+import { Icon } from "#ui/atoms/Icon"
+import { Section } from "#ui/atoms/Section"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { ListItem } from "#ui/composite/ListItem"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInput } from "#ui/forms/Input"
+import { HookedInputCheckbox } from "#ui/forms/InputCheckbox"
+import { HookedValidationApiError } from "#ui/forms/ReactHookForm"
+import { isUpdatableType, type ResourceMetadataProps } from "./ResourceMetadata"
+import { groupMetadataKeys } from "./utils"
 
 const metadataForm = z
   .object({
     metadata: z
       .object({
         key: z.string(),
-        value: z.unknown()
+        value: z.unknown(),
       })
-      .array()
+      .array(),
   })
   .superRefine((data, ctx) => {
     const grouped = groupMetadataKeys(data.metadata)
@@ -37,7 +36,7 @@ const metadataForm = z
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
             path: [`metadata.${index}.key`],
-            message: 'Key already used'
+            message: "Key already used",
           })
         })
       }
@@ -45,19 +44,19 @@ const metadataForm = z
   })
 
 export const ResourceMetadataForm = withSkeletonTemplate<{
-  resourceId: ResourceMetadataProps['resourceId']
-  resourceType: ResourceMetadataProps['resourceType']
+  resourceId: ResourceMetadataProps["resourceId"]
+  resourceType: ResourceMetadataProps["resourceType"]
   onSubmitted: () => void
 }>(({ resourceId, resourceType, onSubmitted }) => {
   const {
     data: resourceData,
     isLoading,
-    mutate: mutateResource
-  } = useCoreApi(resourceType, 'retrieve', [
+    mutate: mutateResource,
+  } = useCoreApi(resourceType, "retrieve", [
     resourceId,
     {
-      fields: ['metadata']
-    }
+      fields: ["metadata"],
+    },
   ])
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -69,14 +68,14 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
       const result = Object.entries(resourceData.metadata).map(
         ([metadataKey, metadataValue]) => ({
           key: metadataKey,
-          value: metadataValue
-        })
+          value: metadataValue,
+        }),
       )
 
       if (result.length === 0) {
         result.push({
-          key: '',
-          value: ''
+          key: "",
+          value: "",
         })
       }
 
@@ -87,47 +86,49 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
 
   const methods = useForm({
     defaultValues: { metadata: keyedMetadata },
-    resolver: zodResolver(metadataForm)
+    resolver: zodResolver(metadataForm),
   })
 
-  const watchedMetadata = methods.watch('metadata')
+  const watchedMetadata = methods.watch("metadata")
 
   const addNewRow = (): void => {
     watchedMetadata.push({
-      key: '',
-      value: ''
+      key: "",
+      value: "",
     })
-    methods.setValue('metadata', watchedMetadata)
+    methods.setValue("metadata", watchedMetadata)
     setTimeout(() => {
       methods.setFocus(`metadata.${watchedMetadata.length - 1}.key`, {
-        shouldSelect: true
+        shouldSelect: true,
       })
     }, 200)
   }
 
   const editInputComponent = (
     metadata: KeyedMetadata,
-    idx: number
+    idx: number,
   ): JSX.Element | undefined => {
     switch (typeof metadata.value) {
-      case 'string':
+      case "string":
         return <HookedInput name={`metadata.${idx}.value`} />
-      case 'number':
+      case "number":
         return (
           <HookedInput
-            type='number'
+            type="number"
             name={`metadata.${idx}.value`}
-            step='any'
+            step="any"
           />
         )
-      case 'boolean':
+      case "boolean":
         return <HookedInputCheckbox name={`metadata.${idx}.value`} />
       default:
         return undefined
     }
   }
 
-  if (isLoading) return <></>
+  if (isLoading) {
+    return null
+  }
 
   return (
     <HookedForm
@@ -138,7 +139,7 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           // I need to check if the original value of a metadata entry was `number` to force it to be parsed as `float` because input field behavior will change it to `string` by default
           if (
             keyedMetadata[idx] != null &&
-            typeof keyedMetadata[idx]?.value === 'number'
+            typeof keyedMetadata[idx]?.value === "number"
           ) {
             sdkMetadata[m.key] = parseFloat(m.value as string)
           } else {
@@ -151,12 +152,12 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           .update(
             {
               id: resourceId,
-              metadata: sdkMetadata
+              metadata: sdkMetadata,
             },
             {
               // @ts-expect-error "Expression produces a union type that is too complex to represent"
-              fields: ['metadata']
-            }
+              fields: ["metadata"],
+            },
           )
           .then((updatedResource) => {
             void mutateResource(updatedResource).then(() => {
@@ -170,59 +171,61 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           })
       }}
     >
-      <Spacer bottom='12'>
-        <Section title='Metadata'>
+      <Spacer bottom="12">
+        <Section title="Metadata">
           {watchedMetadata.map((metadata, idx) => {
             const originalMetadata = keyedMetadata[idx] ?? metadata
             if (!isUpdatableType(originalMetadata.value)) {
+              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
               return <Fragment key={idx} />
             }
 
             return (
-              <ListItem key={`metadata.${idx}`} alignItems='center' padding='y'>
-                <div className='flex items-center justify-between gap-4'>
+              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+              <ListItem key={`metadata.${idx}`} alignItems="center" padding="y">
+                <div className="flex items-center justify-between gap-4">
                   <HookedInput name={`metadata.${idx}.key`} />
-                  <div className='md:w-3/5'>
+                  <div className="md:w-3/5">
                     {editInputComponent(originalMetadata, idx)}
                   </div>
                 </div>
                 <button
-                  aria-label={t('common.remove')}
-                  type='button'
-                  className='rounded'
+                  aria-label={t("common.remove")}
+                  type="button"
+                  className="rounded"
                   onClick={() => {
                     watchedMetadata.splice(idx, 1)
-                    methods.setValue('metadata', watchedMetadata)
+                    methods.setValue("metadata", watchedMetadata)
                   }}
                 >
-                  <Icon name='minus' size={24} />
+                  <Icon name="minus" size={24} />
                 </button>
               </ListItem>
             )
           })}
-          <Spacer top='4'>
+          <Spacer top="4">
             <Button
-              variant='secondary'
-              type='button'
+              variant="secondary"
+              type="button"
               onClick={() => {
                 addNewRow()
               }}
-              size='small'
-              alignItems='center'
+              size="small"
+              alignItems="center"
             >
-              <Icon name='plus' /> {t('common.add_another')}
+              <Icon name="plus" /> {t("common.add_another")}
             </Button>
           </Spacer>
         </Section>
       </Spacer>
-      <Button type='submit' disabled={isSubmitting} className='w-full'>
-        {t('common.update')}
+      <Button type="submit" disabled={isSubmitting} className="w-full">
+        {t("common.update")}
       </Button>
-      <Spacer top='2'>
+      <Spacer top="2">
         <HookedValidationApiError apiError={apiError} />
       </Spacer>
     </HookedForm>
   )
 })
 
-type KeyedMetadata = z.infer<typeof metadataForm>['metadata'][number]
+type KeyedMetadata = z.infer<typeof metadataForm>["metadata"][number]

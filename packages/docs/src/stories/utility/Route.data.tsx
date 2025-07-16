@@ -1,50 +1,50 @@
-import { createRoute, createTypedRoute } from '#ui/composite/Routes'
-import { type StoryFn } from '@storybook/react-vite'
-import { CodeSample, type CodeSampleProps } from 'src/components/CodeSample'
+import type { StoryFn } from "@storybook/react-vite"
+import { CodeSample, type CodeSampleProps } from "src/components/CodeSample"
+import { createRoute, createTypedRoute } from "#ui/composite/Routes"
 
 export const createRouteExamples: CodeSampleProps[] = [
   {
     fn: () => {
-      // eslint-disable-next-line no-eval
-      eval('')
+      // biome-ignore lint/security/noGlobalEval: This is a controlled example.
+      eval("")
 
-      const route = createRoute('/orders/:id/:opt?/')
+      const route = createRoute("/orders/:id/:opt?/")
 
       return route.path
-    }
+    },
   },
   {
     fn: () => {
-      // eslint-disable-next-line no-eval
-      eval('')
+      // biome-ignore lint/security/noGlobalEval: This is a controlled example.
+      eval("")
 
-      const route = createRoute('/orders/:id/:opt?/')
+      const route = createRoute("/orders/:id/:opt?/")
 
       return route.makePath({
-        id: 'ABC123'
+        id: "ABC123",
       })
-    }
+    },
   },
   {
     fn: () => {
-      // eslint-disable-next-line no-eval
-      eval('')
+      // biome-ignore lint/security/noGlobalEval: This is a controlled example.
+      eval("")
 
-      const route = createRoute('/orders/:id/:opt?/')
+      const route = createRoute("/orders/:id/:opt?/")
 
       return route.makePath({
-        id: 'ABC123',
-        opt: 'yes'
+        id: "ABC123",
+        opt: "yes",
       })
-    }
-  }
+    },
+  },
 ]
 
 export const createTypedRouteExamples: CodeSampleProps[] = [
   {
     fn: () => {
-      const route = createTypedRoute<{ status: 'open' | 'close' }>()(
-        '/statues/:status/'
+      const route = createTypedRoute<{ status: "open" | "close" }>()(
+        "/statues/:status/",
       )
 
       return route.path
@@ -55,16 +55,16 @@ export const createTypedRouteExamples: CodeSampleProps[] = [
       );
 
       return route.path;
-    `
+    `,
   },
   {
     fn: () => {
-      const route = createTypedRoute<{ status: 'open' | 'close' }>()(
-        '/statues/:status/'
+      const route = createTypedRoute<{ status: "open" | "close" }>()(
+        "/statues/:status/",
       )
 
       return route.makePath({
-        status: 'close'
+        status: "close",
       })
     },
     code: `
@@ -75,15 +75,14 @@ export const createTypedRouteExamples: CodeSampleProps[] = [
       return route.makePath({
         status: 'close'
       });
-    `
-  }
+    `,
+  },
 ]
 
 export const CreateTypedRoute: StoryFn = () => {
   return (
-    <>
-      <CodeSample
-        code={`
+    <CodeSample
+      code={`
           const route = createTypedRoute<{ status: 'open' | 'close' }>()(
             '/statues/:status/'
           );
@@ -92,16 +91,15 @@ export const CreateTypedRoute: StoryFn = () => {
             status: 'close'
           })
         `}
-        fn={() => {
-          const route = createTypedRoute<{ status: 'open' | 'close' }>()(
-            '/statues/:status/'
-          )
+      fn={() => {
+        const route = createTypedRoute<{ status: "open" | "close" }>()(
+          "/statues/:status/",
+        )
 
-          return route.makePath({
-            status: 'close'
-          })
-        }}
-      />
-    </>
+        return route.makePath({
+          status: "close",
+        })
+      }}
+    />
   )
 }

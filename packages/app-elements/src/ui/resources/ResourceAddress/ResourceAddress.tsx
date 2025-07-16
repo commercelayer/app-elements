@@ -1,13 +1,13 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Address, type AddressProps } from '#ui/composite/Address'
-import { type Address as AddressType } from '@commercelayer/sdk'
-import { useCallback, useEffect, useState } from 'react'
-import { useResourceAddressOverlay } from './useResourceAddressOverlay'
+import type { Address as AddressType } from "@commercelayer/sdk"
+import { useCallback, useEffect, useState } from "react"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Address, type AddressProps } from "#ui/composite/Address"
+import { useResourceAddressOverlay } from "./useResourceAddressOverlay"
 
 export type ResourceAddressProps = Pick<
   AddressProps,
-  'showBillingInfo' | 'showNotes' | 'title'
+  "showBillingInfo" | "showNotes" | "title"
 > & {
   /**
    * Resource of type `Address`
@@ -46,32 +46,32 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     requiresBillingInfo = false,
     showNotes = true,
     onCreate,
-    onUpdate
+    onUpdate,
   }) => {
     const [stateAddress, setStateAddress] = useState<
       AddressType | null | undefined
     >(address)
     const { canUser } = useTokenProvider()
-    const canEdit = editable && canUser('update', 'addresses')
+    const canEdit = editable && canUser("update", "addresses")
 
     const handleOnUpdate = useCallback<
-      NonNullable<ResourceAddressProps['onUpdate']>
+      NonNullable<ResourceAddressProps["onUpdate"]>
     >(
       (address) => {
         onUpdate?.(address)
         setStateAddress(address)
       },
-      [onUpdate, setStateAddress]
+      [onUpdate, setStateAddress],
     )
 
     const handleOnCreate = useCallback<
-      NonNullable<ResourceAddressProps['onCreate']>
+      NonNullable<ResourceAddressProps["onCreate"]>
     >(
       (address) => {
         onCreate?.(address)
         setStateAddress(address)
       },
-      [onUpdate, setStateAddress]
+      [onUpdate, setStateAddress],
     )
 
     const { ResourceAddressOverlay, openAddressOverlay } =
@@ -81,7 +81,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
         requiresBillingInfo,
         showNotes,
         onCreate: handleOnCreate,
-        onUpdate: handleOnUpdate
+        onUpdate: handleOnUpdate,
       })
 
     useEffect(() => {
@@ -106,7 +106,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
         {canEdit && <ResourceAddressOverlay />}
       </>
     )
-  }
+  },
 )
 
-ResourceAddress.displayName = 'ResourceAddress'
+ResourceAddress.displayName = "ResourceAddress"

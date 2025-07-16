@@ -1,27 +1,27 @@
-import { getEventDateInfo } from '#helpers/date'
-import type { Promotion } from '@commercelayer/sdk'
-import { t } from 'i18next'
-import type { DisplayStatus } from './types'
+import type { Promotion } from "@commercelayer/sdk"
+import { t } from "i18next"
+import { getEventDateInfo } from "#helpers/date"
+import type { DisplayStatus } from "./types"
 
 interface PromotionDisplayStatus extends DisplayStatus {
-  status: 'disabled' | 'active' | 'upcoming' | 'expired' | 'used'
+  status: "disabled" | "active" | "upcoming" | "expired" | "used"
 }
 
 export function getPromotionDisplayStatus(
-  promotion: Omit<Promotion, 'type' | 'promotion_rules'>
+  promotion: Omit<Promotion, "type" | "promotion_rules">,
 ): PromotionDisplayStatus {
   if (promotion.disabled_at != null) {
     return {
-      status: 'disabled',
-      label: t('resources.promotions.attributes.status.disabled'),
-      icon: 'minus',
-      color: 'lightGray'
+      status: "disabled",
+      label: t("resources.promotions.attributes.status.disabled"),
+      icon: "minus",
+      color: "lightGray",
     }
   }
 
   const eventDateInfo = getEventDateInfo({
     startsAt: promotion.starts_at,
-    expiresAt: promotion.expires_at
+    expiresAt: promotion.expires_at,
   })
 
   if (
@@ -29,36 +29,36 @@ export function getPromotionDisplayStatus(
     promotion.total_usage_count === promotion.total_usage_limit
   ) {
     return {
-      status: 'used',
-      label: t('resources.promotions.attributes.status.expired'),
-      icon: 'flag',
-      color: 'gray'
+      status: "used",
+      label: t("resources.promotions.attributes.status.expired"),
+      icon: "flag",
+      color: "gray",
     }
   }
 
   switch (eventDateInfo) {
-    case 'past':
+    case "past":
       return {
-        status: 'expired',
-        label: t('resources.promotions.attributes.status.expired'),
-        icon: 'flag',
-        color: 'gray'
+        status: "expired",
+        label: t("resources.promotions.attributes.status.expired"),
+        icon: "flag",
+        color: "gray",
       }
 
-    case 'upcoming':
+    case "upcoming":
       return {
-        status: 'upcoming',
-        label: t('apps.promotions.display_status.upcoming'),
-        icon: 'calendarBlank',
-        color: 'gray'
+        status: "upcoming",
+        label: t("apps.promotions.display_status.upcoming"),
+        icon: "calendarBlank",
+        color: "gray",
       }
 
-    case 'active':
+    case "active":
       return {
-        status: 'active',
-        label: t('resources.promotions.attributes.status.active'),
-        icon: 'pulse',
-        color: 'green'
+        status: "active",
+        label: t("resources.promotions.attributes.status.active"),
+        icon: "pulse",
+        color: "green",
       }
   }
 }

@@ -1,22 +1,22 @@
-import { computeFullname, formatDisplayName } from '#helpers/name'
-import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
-import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
-import { type ListableResourceType } from '@commercelayer/sdk'
-import fetch from 'cross-fetch'
-import isEmpty from 'lodash-es/isEmpty'
-import { getInfoFromJwt, type ParsedScopes } from './getInfoFromJwt'
-import {
-  type Mode,
-  type TokenProviderAuthUser,
-  type TokenProviderClAppSlug,
-  type TokenProviderPermissionItem,
-  type TokenProviderRolePermissions,
-  type TokenProviderTokenInfo
-} from './types'
+import { getCoreApiBaseEndpoint } from "@commercelayer/js-auth"
+import type { ListableResourceType } from "@commercelayer/sdk"
+import fetch from "cross-fetch"
+import isEmpty from "lodash-es/isEmpty"
+import { computeFullname, formatDisplayName } from "#helpers/name"
+import type { TokenProviderTokenApplicationKind } from "#providers/TokenProvider"
+import { getInfoFromJwt, type ParsedScopes } from "./getInfoFromJwt"
+import type {
+  Mode,
+  TokenProviderAuthUser,
+  TokenProviderClAppSlug,
+  TokenProviderPermissionItem,
+  TokenProviderRolePermissions,
+  TokenProviderTokenInfo,
+} from "./types"
 
 export function isTokenExpired({
   accessToken,
-  compareTo
+  compareTo,
 }: {
   accessToken: string
   compareTo: Date
@@ -50,7 +50,7 @@ export async function isValidTokenForCurrentApp({
   kind,
   isProduction,
   currentMode,
-  organizationSlug
+  organizationSlug,
 }: {
   accessToken: string
   kind: TokenProviderTokenApplicationKind
@@ -66,33 +66,33 @@ export async function isValidTokenForCurrentApp({
 
   if (jwtInfo.orgSlug == null) {
     return {
-      isValidToken: false
+      isValidToken: false,
     }
   }
 
   // this means we are trying to use a token for a different mode (live|test) the app is running on
   if (jwtInfo.mode !== currentMode) {
     return {
-      isValidToken: false
+      isValidToken: false,
     }
   }
 
   try {
     const tokenInfo:
-      | (Omit<TokenProviderTokenInfo, 'application' | 'role' | 'token'> & {
+      | (Omit<TokenProviderTokenInfo, "application" | "role" | "token"> & {
           token: { test: boolean }
         })
       | null =
-      kind === 'integration'
+      kind === "integration"
         ? {
             permissions: {},
             token: {
-              test: jwtInfo.mode !== 'live'
-            }
+              test: jwtInfo.mode !== "live",
+            },
           }
         : await fetchTokenInfo({
             accessToken,
-            orgSlug: jwtInfo.orgSlug
+            orgSlug: jwtInfo.orgSlug,
           })
 
     const isValidOnCore = Boolean(tokenInfo?.token)
@@ -106,23 +106,23 @@ export async function isValidTokenForCurrentApp({
     // running validation only in production
     if (isProduction && !isAllValid) {
       console.error(
-        'Invalid token. Please check if token is valid and if you have properly set your organization slug.',
+        "Invalid token. Please check if token is valid and if you have properly set your organization slug.",
         {
           tokenInfo,
           isValidKind,
           isValidOrganizationSlug,
-          isValidOnCore
-        }
+          isValidOnCore,
+        },
       )
       return {
-        isValidToken: false
+        isValidToken: false,
       }
     }
 
     return {
       isValidToken: true,
       accessToken,
-      mode: tokenInfo?.token.test === true ? 'test' : 'live',
+      mode: tokenInfo?.token.test === true ? "test" : "live",
       organizationSlug: jwtInfo.orgSlug,
       permissions:
         tokenInfo?.permissions != null
@@ -132,10 +132,10 @@ export async function isValidTokenForCurrentApp({
         tokenInfo?.accessible_apps != null
           ? tokenInfo?.accessible_apps
               .map((app) => app.kind)
-              .filter((kind) => kind !== 'generic')
+              .filter((kind) => kind !== "generic")
           : undefined,
       user:
-        tokenInfo?.owner != null && tokenInfo.owner.type === 'User'
+        tokenInfo?.owner != null && tokenInfo.owner.type === "User"
           ? {
               id: tokenInfo.owner.id,
               email: tokenInfo.owner.email,
@@ -144,27 +144,26 @@ export async function isValidTokenForCurrentApp({
               timezone: tokenInfo.owner.time_zone,
               displayName: formatDisplayName(
                 tokenInfo.owner.first_name,
-                tokenInfo.owner.last_name
+                tokenInfo.owner.last_name,
               ),
               fullName: computeFullname(
                 tokenInfo.owner.first_name,
-                tokenInfo.owner.last_name
+                tokenInfo.owner.last_name,
               ),
-              locale: 'en-US' // setting a default for now, then this will probably arrive from tokenInfo.owner.locale
+              locale: "en-US", // setting a default for now, then this will probably arrive from tokenInfo.owner.locale
             }
           : null,
-      scopes: jwtInfo.scopes
+      scopes: jwtInfo.scopes,
     }
   } catch {
     return {
-      isValidToken: false
+      isValidToken: false,
     }
   }
 }
 
 async function fetchTokenInfo({
   accessToken,
-  orgSlug
 }: {
   accessToken: string
   orgSlug: string
@@ -174,9 +173,9 @@ async function fetchTokenInfo({
     const tokenInfoResponse = await fetch(
       `${coreApiBaseEndpoint}/oauth/tokeninfo`,
       {
-        method: 'GET',
-        headers: { authorization: `Bearer ${accessToken}` }
-      }
+        method: "GET",
+        headers: { authorization: `Bearer ${accessToken}` },
+      },
     )
     return await tokenInfoResponse.json()
   } catch {
@@ -185,23 +184,24 @@ async function fetchTokenInfo({
 }
 
 function preparePermissions(
-  apiPermissions: TokenProviderTokenInfo['permissions']
+  apiPermissions: TokenProviderTokenInfo["permissions"],
 ): TokenProviderRolePermissions {
   const resourceList = Object.keys(apiPermissions) as ListableResourceType[]
 
   return resourceList.reduce<TokenProviderRolePermissions>(
     (permissions, resource) => {
       const permissionItem: TokenProviderPermissionItem = {
-        create: apiPermissions[resource]?.actions.includes('create') ?? false,
-        destroy: apiPermissions[resource]?.actions.includes('destroy') ?? false,
-        read: apiPermissions[resource]?.actions.includes('read') ?? false,
-        update: apiPermissions[resource]?.actions.includes('update') ?? false
+        create: apiPermissions[resource]?.actions.includes("create") ?? false,
+        destroy: apiPermissions[resource]?.actions.includes("destroy") ?? false,
+        read: apiPermissions[resource]?.actions.includes("read") ?? false,
+        update: apiPermissions[resource]?.actions.includes("update") ?? false,
       }
+
       return {
         ...permissions,
-        [resource]: permissionItem
+        [resource]: permissionItem,
       }
     },
-    {}
+    {},
   )
 }

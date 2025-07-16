@@ -1,42 +1,42 @@
-import { CoreSdkProvider, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInputSelect, type InputSelectValue } from '#ui/forms/InputSelect'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useEffect, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useEffect, useState } from "react"
+import { useForm } from "react-hook-form"
+import { CoreSdkProvider, useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInputSelect, type InputSelectValue } from "#ui/forms/InputSelect"
 
 const setup: Meta<typeof HookedInputSelect> = {
-  title: 'Forms/react-hook-form/HookedInputSelect',
+  title: "Forms/react-hook-form/HookedInputSelect",
   component: HookedInputSelect,
   parameters: {
-    layout: 'padded'
+    layout: "padded",
   },
   decorators: [
     (Story) => (
-      <TokenProvider kind='integration' appSlug='orders' devMode>
+      <TokenProvider kind="integration" appSlug="orders" devMode>
         <CoreSdkProvider>
           <Story />
         </CoreSdkProvider>
       </TokenProvider>
-    )
-  ]
+    ),
+  ],
 }
 export default setup
 
 const Template: StoryFn<typeof HookedInputSelect> = (args) => {
   const methods = useForm({
-    resolver: async (data, context) => {
+    resolver: async (data, _context) => {
       return {
         errors:
           data.city == null || data.city.length === 0
-            ? { city: { type: 'required', message: 'City is required' } }
+            ? { city: { type: "required", message: "City is required" } }
             : {},
-        values: data
+        values: data,
       }
-    }
+    },
   })
 
   return (
@@ -47,10 +47,10 @@ const Template: StoryFn<typeof HookedInputSelect> = (args) => {
       }}
     >
       <HookedInputSelect {...args} />
-      <Spacer top='4'>
+      <Spacer top="4">
         <Button
-          type='reset'
-          variant='secondary'
+          type="reset"
+          variant="secondary"
           onClick={() => {
             methods.reset()
           }}
@@ -58,7 +58,7 @@ const Template: StoryFn<typeof HookedInputSelect> = (args) => {
           Reset
         </Button>
         &nbsp;&nbsp;&nbsp;
-        <Button type='submit'>Submit</Button>
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -68,28 +68,28 @@ export const Default = Template.bind({})
 Default.parameters = {
   docs: {
     source: {
-      type: 'code'
-    }
-  }
+      type: "code",
+    },
+  },
 }
 Default.args = {
-  label: 'City',
-  name: 'city',
+  label: "City",
+  name: "city",
   initialValues: [
     {
-      value: 'paris',
-      label: 'Paris'
+      value: "paris",
+      label: "Paris",
     },
     {
-      value: 'rome',
-      label: 'Rome'
+      value: "rome",
+      label: "Rome",
     },
     {
-      value: 'london',
-      label: 'London',
-      isDisabled: true
-    }
-  ]
+      value: "london",
+      label: "London",
+      isDisabled: true,
+    },
+  ],
 }
 
 /**
@@ -99,37 +99,37 @@ Default.args = {
  */
 export const MultiSelect = Template.bind({})
 MultiSelect.args = {
-  label: 'City',
-  name: 'city',
+  label: "City",
+  name: "city",
   isMulti: true,
-  pathToValue: 'meta.cityCode',
+  pathToValue: "meta.cityCode",
   initialValues: [
     {
-      value: 'paris',
-      label: 'Paris',
+      value: "paris",
+      label: "Paris",
       meta: {
-        cityCode: 'EU_PARIS'
-      }
-    },
-    {
-      value: 'rome',
-      label: 'Rome',
-      meta: {
-        cityCode: 'EU_ROME'
+        cityCode: "EU_PARIS",
       },
-      isDisabled: true
     },
     {
-      value: 'new york',
-      label: 'New York',
+      value: "rome",
+      label: "Rome",
       meta: {
-        cityCode: 'US_NY'
-      }
-    }
+        cityCode: "EU_ROME",
+      },
+      isDisabled: true,
+    },
+    {
+      value: "new york",
+      label: "New York",
+      meta: {
+        cityCode: "US_NY",
+      },
+    },
   ],
   onSelect: (value) => {
     alert(JSON.stringify(value))
-  }
+  },
 }
 
 /**
@@ -137,26 +137,26 @@ MultiSelect.args = {
  */
 export const MultiSelectCreatable = Template.bind({})
 MultiSelectCreatable.args = {
-  label: 'City',
-  name: 'city',
+  label: "City",
+  name: "city",
   isMulti: true,
   isCreatable: true,
-  placeholder: 'Type to create a new city that is not in the list...',
+  placeholder: "Type to create a new city that is not in the list...",
   initialValues: [
     {
-      value: 'paris',
-      label: 'Paris'
+      value: "paris",
+      label: "Paris",
     },
     {
-      value: 'new york',
-      label: 'New York'
-    }
-  ]
+      value: "new york",
+      label: "New York",
+    },
+  ],
 }
 
 export const Clear: StoryFn<typeof HookedInputSelect> = () => {
   const methods = useForm({
-    defaultValues: { city: ['paris'] }
+    defaultValues: { city: ["paris"] },
   })
 
   return (
@@ -167,16 +167,16 @@ export const Clear: StoryFn<typeof HookedInputSelect> = () => {
       }}
     >
       <HookedInputSelect
-        name='city'
+        name="city"
         isMulti
-        label='Search resource'
+        label="Search resource"
         initialValues={MultiSelect.args?.initialValues ?? []}
-        placeholder='Type to filter list...'
+        placeholder="Type to filter list..."
       />
-      <Spacer top='4'>
+      <Spacer top="4">
         <Button
-          type='reset'
-          variant='secondary'
+          type="reset"
+          variant="secondary"
           onClick={() => {
             methods.reset()
           }}
@@ -184,7 +184,7 @@ export const Clear: StoryFn<typeof HookedInputSelect> = () => {
           Reset
         </Button>
         &nbsp;&nbsp;&nbsp;
-        <Button type='submit'>Submit</Button>
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -193,7 +193,7 @@ export const Clear: StoryFn<typeof HookedInputSelect> = () => {
 export const AsyncAllIn: StoryFn<typeof HookedInputSelect> = () => {
   const { sdkClient } = useCoreSdkProvider()
   const [initialTags, setInitialTags] = useState<InputSelectValue[] | null>(
-    null
+    null,
   )
   const [defaultTags, setDefaultTags] = useState<string[]>([])
 
@@ -204,8 +204,8 @@ export const AsyncAllIn: StoryFn<typeof HookedInputSelect> = () => {
       setInitialTags(
         tags.slice(0, 5).map((tag: any) => ({
           value: tag.id,
-          label: tag.name
-        }))
+          label: tag.name,
+        })),
       )
 
       setDefaultTags([tags[1]?.id, tags[3]?.id].filter((v) => v != null))
@@ -214,14 +214,14 @@ export const AsyncAllIn: StoryFn<typeof HookedInputSelect> = () => {
 
   useEffect(() => {
     methods.reset({
-      tags: defaultTags
+      tags: defaultTags,
     })
   }, [defaultTags])
 
   return (
     <div
       style={{
-        paddingBottom: '300px'
+        paddingBottom: "300px",
       }}
     >
       <HookedForm
@@ -231,26 +231,26 @@ export const AsyncAllIn: StoryFn<typeof HookedInputSelect> = () => {
         }}
       >
         <HookedInputSelect
-          name='tags'
+          name="tags"
           isMulti
-          label='Search resource'
+          label="Search resource"
           initialValues={initialTags ?? []}
           loadAsyncValues={async (input) => {
             const tags = await sdkClient.tags.list({
-              filters: { name_cont: input }
+              filters: { name_cont: input },
             })
 
             return tags.map((tag: any) => ({
               value: tag.id,
-              label: tag.name
+              label: tag.name,
             }))
           }}
-          placeholder='Type to filter list...'
+          placeholder="Type to filter list..."
         />
-        <Spacer top='4'>
+        <Spacer top="4">
           <Button
-            type='reset'
-            variant='secondary'
+            type="reset"
+            variant="secondary"
             onClick={() => {
               methods.reset()
             }}
@@ -258,7 +258,7 @@ export const AsyncAllIn: StoryFn<typeof HookedInputSelect> = () => {
             Reset
           </Button>
           &nbsp;&nbsp;&nbsp;
-          <Button type='submit'>Submit</Button>
+          <Button type="submit">Submit</Button>
         </Spacer>
       </HookedForm>
     </div>

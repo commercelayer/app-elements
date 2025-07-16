@@ -1,15 +1,21 @@
 module.exports = {
-  extends: ['stylelint-config-standard'],
-  plugins: ['stylelint-prettier'],
+  extends: ["stylelint-config-standard"],
+  plugins: ["stylelint-prettier"],
   rules: {
-    'prettier/prettier': true,
-    'at-rule-no-unknown': [
+    "prettier/prettier": true,
+    "at-rule-no-unknown": [
       true,
       {
-        ignoreAtRules: ['tailwind', 'apply', 'variants', 'responsive', 'screen']
-      }
+        ignoreAtRules: [
+          "tailwind",
+          "apply",
+          "variants",
+          "responsive",
+          "screen",
+        ],
+      },
     ],
-    'declaration-block-trailing-semicolon': null,
-    'no-descending-specificity': null
-  }
+    "declaration-block-trailing-semicolon": null,
+    "no-descending-specificity": null,
+  },
 }

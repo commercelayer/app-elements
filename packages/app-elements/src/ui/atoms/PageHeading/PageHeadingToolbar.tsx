@@ -1,13 +1,12 @@
+import type { DropdownItemProps } from "#ui/composite/Dropdown/DropdownItem"
 import {
   Toolbar,
   type ToolbarItem,
-  type ToolbarProps
-} from '#ui/composite/Toolbar'
-import { withSkeletonTemplate } from '../SkeletonTemplate'
+  type ToolbarProps,
+} from "#ui/composite/Toolbar"
+import { withSkeletonTemplate } from "../SkeletonTemplate"
 
-import { type DropdownItemProps } from '#ui/composite/Dropdown/DropdownItem'
-
-type ToolbarButton = Omit<ToolbarItem, 'dropdownItems'>
+type ToolbarButton = Omit<ToolbarItem, "dropdownItems">
 
 export interface PageHeadingToolbarProps {
   /**
@@ -27,13 +26,13 @@ export interface PageHeadingToolbarProps {
 export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
   ({ buttons = [], dropdownItems = [] }) => {
     // Initialize the toolbar items list with the buttons
-    const toolbarItems: ToolbarProps['items'] = buttons.map((button, idx) => {
+    const toolbarItems: ToolbarProps["items"] = buttons.map((button, idx) => {
       const isShown =
-        (button.variant == null || button.variant === 'primary') && idx === 0
+        (button.variant == null || button.variant === "primary") && idx === 0
       return {
         ...button,
         // On mobile devices only the first primary button is shown outside the dropdown
-        className: !isShown ? 'hidden md:flex' : ''
+        className: !isShown ? "hidden md:flex" : "",
       }
     })
 
@@ -41,34 +40,34 @@ export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
     const buttonsForDropdown: DropdownItemProps[] = buttons
       .filter(
         (button, idx) =>
-          (button.variant != null && button.variant !== 'primary') || idx > 0
+          (button.variant != null && button.variant !== "primary") || idx > 0,
       )
       .map((button) => {
         return {
           ...button,
-          label: button.label ?? '',
-          className: 'md:hidden'
+          label: button.label ?? "",
+          className: "md:hidden",
         }
       })
     const [firstDropdownItemsGroup = [], ...otherDropdownItems] = dropdownItems
     // Calculate the flat array of all dropdown items made of buttons and dropdown items
     const combinedDropdownItems = [
-      buttonsForDropdown.concat(firstDropdownItemsGroup)
+      buttonsForDropdown.concat(firstDropdownItemsGroup),
     ].concat(otherDropdownItems)
 
     // Add dropdown to toolbar items
     if (combinedDropdownItems.flat().length > 0) {
       toolbarItems.push({
-        icon: 'dotsThree',
-        size: 'small',
-        variant: 'secondary',
-        className: dropdownItems.flat().length > 0 ? '' : 'flex md:hidden',
-        dropdownItems: combinedDropdownItems
+        icon: "dotsThree",
+        size: "small",
+        variant: "secondary",
+        className: dropdownItems.flat().length > 0 ? "" : "flex md:hidden",
+        dropdownItems: combinedDropdownItems,
       })
     }
 
     if (toolbarItems.length > 0) {
       return <Toolbar items={toolbarItems} />
     }
-  }
+  },
 )

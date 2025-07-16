@@ -1,7 +1,7 @@
-import { type JSX } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
-import { Input, type InputProps } from './Input'
+import type { JSX } from "react"
+import { useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
+import { Input, type InputProps } from "./Input"
 
 export interface HookedInputProps extends InputProps {
   /**
@@ -22,11 +22,11 @@ export function HookedInput({ name, ...props }: HookedInputProps): JSX.Element {
     <Input
       {...props}
       {...register(name, {
-        valueAsNumber: props.type === 'number'
+        valueAsNumber: props.type === "number",
       })}
       feedback={feedback}
     />
   )
 }
 
-HookedInput.displayName = 'HookedInput'
+HookedInput.displayName = "HookedInput"

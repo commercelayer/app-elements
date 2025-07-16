@@ -1,31 +1,31 @@
-import { type I18NLocale } from '#providers/I18NProvider'
-import { formatInTimeZone } from 'date-fns-tz/formatInTimeZone'
-import { fromZonedTime } from 'date-fns-tz/fromZonedTime'
-import { toZonedTime } from 'date-fns-tz/toZonedTime'
-import { endOfDay } from 'date-fns/endOfDay'
-import { format } from 'date-fns/format'
-import { formatDistance } from 'date-fns/formatDistance'
-import { isBefore } from 'date-fns/isBefore'
-import { isFuture } from 'date-fns/isFuture'
-import { isPast } from 'date-fns/isPast'
-import { isSameMonth } from 'date-fns/isSameMonth'
-import { isSameYear } from 'date-fns/isSameYear'
-import { isThisYear } from 'date-fns/isThisYear'
-import { isToday } from 'date-fns/isToday'
-import { it, type Locale } from 'date-fns/locale'
-import { startOfDay } from 'date-fns/startOfDay'
-import { sub } from 'date-fns/sub'
-import groupBy from 'lodash-es/groupBy'
-import orderBy from 'lodash-es/orderBy'
-import { type Simplify } from 'type-fest'
+import { endOfDay } from "date-fns/endOfDay"
+import { format } from "date-fns/format"
+import { formatDistance } from "date-fns/formatDistance"
+import { isBefore } from "date-fns/isBefore"
+import { isFuture } from "date-fns/isFuture"
+import { isPast } from "date-fns/isPast"
+import { isSameMonth } from "date-fns/isSameMonth"
+import { isSameYear } from "date-fns/isSameYear"
+import { isThisYear } from "date-fns/isThisYear"
+import { isToday } from "date-fns/isToday"
+import { it, type Locale } from "date-fns/locale"
+import { startOfDay } from "date-fns/startOfDay"
+import { sub } from "date-fns/sub"
+import { formatInTimeZone } from "date-fns-tz/formatInTimeZone"
+import { fromZonedTime } from "date-fns-tz/fromZonedTime"
+import { toZonedTime } from "date-fns-tz/toZonedTime"
+import groupBy from "lodash-es/groupBy"
+import orderBy from "lodash-es/orderBy"
+import type { Simplify } from "type-fest"
+import type { I18NLocale } from "#providers/I18NProvider"
 
 type Format =
-  | 'date'
-  | 'time'
-  | 'timeWithSeconds'
-  | 'full'
-  | 'fullWithSeconds'
-  | 'distanceToNow'
+  | "date"
+  | "time"
+  | "timeWithSeconds"
+  | "full"
+  | "fullWithSeconds"
+  | "distanceToNow"
 interface FormatDateOptions {
   /**
    * JavaScript ISO date string. Example '2022-10-06T11:59:30.371Z'
@@ -65,13 +65,13 @@ interface FormatDateOptions {
  */
 export function formatDate({
   isoDate,
-  timezone = 'UTC',
-  locale = 'en-US',
+  timezone = "UTC",
+  locale = "en-US",
   showCurrentYear = false,
   ...opts
 }: FormatDateOptions): string {
   if (isoDate == null) {
-    return 'N/A'
+    return "N/A"
   }
 
   try {
@@ -82,14 +82,14 @@ export function formatDate({
       timezone,
       opts.format,
       showCurrentYear,
-      locale
+      locale,
     )
 
     return format(zonedDate, formatTemplate, {
-      locale: getLocaleOption(locale)
+      locale: getLocaleOption(locale),
     })
   } catch {
-    return 'N/A'
+    return "N/A"
   }
 }
 
@@ -107,13 +107,13 @@ interface FormatDateWithPredicateOptions extends FormatDateOptions {
  */
 function getDatePredicateSeparatorByFormat(
   format: Format,
-  locale: I18NLocale
+  locale: I18NLocale,
 ): string {
   switch (format) {
-    case 'distanceToNow':
-      return ''
-    case 'time':
-    case 'timeWithSeconds':
+    case "distanceToNow":
+      return ""
+    case "time":
+    case "timeWithSeconds":
       return `${i18n(locale).at} `
     default:
       return `${i18n(locale).on} `
@@ -128,79 +128,79 @@ function getDatePredicateSeparatorByFormat(
 export function formatDateWithPredicate({
   isoDate,
   timezone,
-  format = 'full',
+  format = "full",
   predicate,
-  locale = 'en-US'
+  locale = "en-US",
 }: FormatDateWithPredicateOptions): string {
   const todayText = i18n(locale).today
   const formattedDate = formatDate({
     isoDate,
     timezone,
     format,
-    locale
+    locale,
   })
     // Replace the first occurrence of 'Today' with 'today' in lowercase
     .replace(todayText, todayText.toLowerCase())
 
   const separator = !formattedDate.includes(todayText.toLowerCase())
     ? `${getDatePredicateSeparatorByFormat(format, locale)}`
-    : ''
+    : ""
 
   return `${predicate} ${separator}${formattedDate}`
 }
 
-export const timeSeparator = ', '
+export const timeSeparator = ", "
 
 function getPresetFormatTemplate(
   zonedDate: Date,
   timezone: string,
-  format: Format = 'date',
+  format: Format = "date",
   showCurrentYear: boolean,
-  locale: I18NLocale
+  locale: I18NLocale,
 ): string {
   switch (format) {
-    case 'date':
+    case "date":
       return isToday(zonedDate) && !showCurrentYear
         ? `'${i18n(locale).today}'`
         : isThisYear(zonedDate) && !showCurrentYear
-          ? 'LLL dd'
-          : 'LLL dd, yyyy'
-    case 'time':
-      return 'HH:mm'
-    case 'timeWithSeconds':
-      return `${getPresetFormatTemplate(zonedDate, timezone, 'time', showCurrentYear, locale)}:ss`
-    case 'full':
+          ? "LLL dd"
+          : "LLL dd, yyyy"
+    case "time":
+      return "HH:mm"
+    case "timeWithSeconds":
+      return `${getPresetFormatTemplate(zonedDate, timezone, "time", showCurrentYear, locale)}:ss`
+    case "full":
       return `${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'date',
+        "date",
         showCurrentYear,
-        locale
+        locale,
       )}${timeSeparator}${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'time',
+        "time",
         showCurrentYear,
-        locale
+        locale,
       )}`
-    case 'fullWithSeconds':
+    case "fullWithSeconds":
       return `${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'date',
+        "date",
         showCurrentYear,
-        locale
+        locale,
       )}${timeSeparator}${getPresetFormatTemplate(
         zonedDate,
         timezone,
-        'timeWithSeconds',
+        "timeWithSeconds",
         showCurrentYear,
-        locale
+        locale,
       )}`
-    case 'distanceToNow':
+    case "distanceToNow":
       return `'${formatDistance(zonedDate, toZonedTime(new Date(), timezone), {
         addSuffix: true,
-        locale: getLocaleOption(locale)
+        locale: getLocaleOption(locale),
       })}'`
   }
 }
@@ -218,10 +218,10 @@ type DateISOString = string
 export function getIsoDateAtDayEdge({
   isoString,
   edge,
-  timezone = 'UTC'
+  timezone = "UTC",
 }: {
   isoString: DateISOString
-  edge: 'startOfTheDay' | 'endOfTheDay'
+  edge: "startOfTheDay" | "endOfTheDay"
   timezone?: string
 }): string | undefined {
   try {
@@ -232,11 +232,11 @@ export function getIsoDateAtDayEdge({
 
     const zonedDate = toZonedTime(date, timezone)
 
-    if (edge === 'startOfTheDay') {
+    if (edge === "startOfTheDay") {
       return fromZonedTime(startOfDay(zonedDate), timezone).toISOString()
     }
 
-    if (edge === 'endOfTheDay') {
+    if (edge === "endOfTheDay") {
       return fromZonedTime(endOfDay(zonedDate), timezone).toISOString()
     }
 
@@ -263,7 +263,7 @@ export function getIsoDateAtDayEdge({
 export function getIsoDateAtDaysBefore({
   isoString,
   days,
-  timezone = 'UTC'
+  timezone = "UTC",
 }: {
   isoString: DateISOString
   days: number
@@ -275,8 +275,8 @@ export function getIsoDateAtDaysBefore({
 
   const startOfDay = getIsoDateAtDayEdge({
     isoString,
-    edge: 'startOfTheDay',
-    timezone
+    edge: "startOfTheDay",
+    timezone,
   })
 
   if (startOfDay == null) {
@@ -292,7 +292,7 @@ export function getIsoDateAtDaysBefore({
 export function getEventDateInfo({
   startsAt,
   expiresAt,
-  timezone = 'UTC'
+  timezone = "UTC",
 }: {
   /** The activation date/time of the event (ISO date string. Example '2022-10-06T11:59:30.371Z'). */
   startsAt: DateISOString
@@ -300,25 +300,25 @@ export function getEventDateInfo({
   expiresAt: DateISOString
   /** Set a specific timezone, when not passed default value is 'UTC' */
   timezone?: string
-}): 'active' | 'past' | 'upcoming' {
+}): "active" | "past" | "upcoming" {
   const zonedStartsAt = toZonedTime(new Date(startsAt), timezone)
   const zonedExpiresAt = toZonedTime(new Date(expiresAt), timezone)
 
   if (isBefore(zonedExpiresAt, zonedStartsAt)) {
     throw new Error(
-      'The expiration date/time of the event must be after the activation (startsAt).'
+      "The expiration date/time of the event must be after the activation (startsAt).",
     )
   }
 
   if (isFuture(zonedStartsAt)) {
-    return 'upcoming'
+    return "upcoming"
   }
 
   if (isPast(zonedExpiresAt)) {
-    return 'past'
+    return "past"
   }
 
-  return 'active'
+  return "active"
 }
 
 /**
@@ -328,8 +328,8 @@ export function getEventDateInfo({
 export function formatDateRange({
   rangeFrom,
   rangeTo,
-  timezone = 'UTC',
-  locale = 'en-US'
+  timezone = "UTC",
+  locale = "en-US",
 }: {
   /** JavaScript Date or ISO string. Example '2022-10-06T11:59:30.371Z' */
   rangeFrom: DateISOString | Date
@@ -345,16 +345,16 @@ export function formatDateRange({
   rangeTo = new Date(rangeTo).toISOString()
 
   if (isSameYear(rangeFrom, rangeTo) && isSameMonth(rangeFrom, rangeTo)) {
-    const dayOfMonthFrom = formatInTimeZone(rangeFrom, timezone, 'd', {
-      locale: getLocaleOption(locale)
+    const dayOfMonthFrom = formatInTimeZone(rangeFrom, timezone, "d", {
+      locale: getLocaleOption(locale),
     })
-    const dayOfMonthTo = formatInTimeZone(rangeTo, timezone, 'd', {
-      locale: getLocaleOption(locale)
+    const dayOfMonthTo = formatInTimeZone(rangeTo, timezone, "d", {
+      locale: getLocaleOption(locale),
     })
-    const month = formatInTimeZone(rangeFrom, timezone, 'LLL', {
-      locale: getLocaleOption(locale)
+    const month = formatInTimeZone(rangeFrom, timezone, "LLL", {
+      locale: getLocaleOption(locale),
     })
-    const year = isThisYear(rangeFrom) ? '' : `, ${format(rangeFrom, 'yyyy')}`
+    const year = isThisYear(rangeFrom) ? "" : `, ${format(rangeFrom, "yyyy")}`
 
     return `${dayOfMonthFrom}-${dayOfMonthTo} ${month}${year}`
   }
@@ -369,7 +369,7 @@ export interface Event {
   date: string
 }
 
-type Position = 'first' | 'other'
+type Position = "first" | "other"
 
 /**
  *
@@ -382,8 +382,8 @@ export function sortAndGroupByDate<T extends Event>(
   {
     timezone,
     locale,
-    orders = 'desc'
-  }: { timezone?: string; locale?: I18NLocale; orders?: 'asc' | 'desc' } = {}
+    orders = "desc",
+  }: { timezone?: string; locale?: I18NLocale; orders?: "asc" | "desc" } = {},
 ): Record<
   string,
   Array<
@@ -396,23 +396,23 @@ export function sortAndGroupByDate<T extends Event>(
 > {
   const ordered: Array<T & { position: Position }> = orderBy(
     events,
-    'date',
-    orders
+    "date",
+    orders,
   ).map((event, index) => {
-    const position: Position = index === events.length - 1 ? 'first' : 'other'
+    const position: Position = index === events.length - 1 ? "first" : "other"
     return {
       ...event,
-      position
+      position,
     }
   })
 
   return groupBy(ordered, (val) =>
     formatDate({
       isoDate: val.date,
-      format: 'date',
+      format: "date",
       timezone,
-      locale
-    }).toUpperCase()
+      locale,
+    }).toUpperCase(),
   )
 }
 
@@ -427,8 +427,8 @@ export function sortAndGroupByDate<T extends Event>(
 export function removeMillisecondsFromIsoDate(isoDate: string): string {
   try {
     const validDate = new Date(isoDate)
-    return (validDate.toISOString().split('.')[0] ?? '') + 'Z'
-  } catch (e) {
+    return `${validDate.toISOString().split(".")[0] ?? ""}Z`
+  } catch (_e) {
     return isoDate
   }
 }
@@ -458,7 +458,7 @@ export function removeMillisecondsFromIsoDate(isoDate: string): string {
 export function makeDateYearsRange({
   now,
   yearsAgo,
-  showMilliseconds = true
+  showMilliseconds = true,
 }: {
   now: Date
   yearsAgo: number
@@ -468,14 +468,14 @@ export function makeDateYearsRange({
   date_to: string
 } {
   if (yearsAgo < 1) {
-    throw new Error('Years ago must be greater than 0')
+    throw new Error("Years ago must be greater than 0")
   }
 
   const to = now.toISOString()
 
   // same day, one year ago
   const lastYearDate = new Date(
-    new Date(now).setFullYear(now.getFullYear() - yearsAgo)
+    new Date(now).setFullYear(now.getFullYear() - yearsAgo),
   )
   // remove 1 second to avoid overlapping with the current year
   lastYearDate.setSeconds(lastYearDate.getSeconds() + 1)
@@ -483,7 +483,7 @@ export function makeDateYearsRange({
 
   return {
     date_from: showMilliseconds ? from : removeMillisecondsFromIsoDate(from),
-    date_to: showMilliseconds ? to : removeMillisecondsFromIsoDate(to)
+    date_to: showMilliseconds ? to : removeMillisecondsFromIsoDate(to),
   }
 }
 
@@ -492,30 +492,28 @@ export function makeDateYearsRange({
  */
 function getLocaleOption(locale: I18NLocale): Locale | undefined {
   switch (locale) {
-    case 'it-IT':
+    case "it-IT":
       return it
-    case 'en-US':
     default:
       return undefined
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function i18n(localeCode: I18NLocale) {
   const locale = {
     en: {
-      today: 'Today',
-      at: 'at',
-      on: 'on'
+      today: "Today",
+      at: "at",
+      on: "on",
     },
     it: {
-      today: 'Oggi',
-      at: 'alle',
-      on: 'il'
-    }
+      today: "Oggi",
+      at: "alle",
+      on: "il",
+    },
   }
 
-  if (localeCode === 'it-IT') {
+  if (localeCode === "it-IT") {
     return locale.it
   }
   return locale.en
@@ -527,5 +525,5 @@ function i18n(localeCode: I18NLocale) {
  * @returns True if the date is valid, false otherwise.
  */
 export function isDateValid(date: Date): boolean {
-  return date instanceof Date && !isNaN(date.getTime())
+  return date instanceof Date && !Number.isNaN(date.getTime())
 }

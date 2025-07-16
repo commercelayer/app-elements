@@ -1,12 +1,12 @@
-import { TableData } from '#ui/composite/TableData'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { TableData } from "#ui/composite/TableData"
 
 const setup: Meta<typeof TableData> = {
-  title: 'Composite/TableData',
+  title: "Composite/TableData",
   component: TableData,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -18,20 +18,20 @@ export const Default = Template.bind({})
 Default.args = {
   data: [
     {
-      id: 'pwQe',
+      id: "pwQe",
       amount: 10000,
       compare_amount: 13000,
-      price_list_id: 'wBZrvCQvvBwBZrvCQvvB0',
-      sku_code: 'C012'
+      price_list_id: "wBZrvCQvvBwBZrvCQvvB0",
+      sku_code: "C012",
     },
     {
-      id: 'fQrq',
+      id: "fQrq",
       amount: 900,
       compare_amount: 900,
-      price_list_id: 'wBZrvCQvvBwBZrvCQvvB0',
-      sku_code: 'C013'
-    }
-  ]
+      price_list_id: "wBZrvCQvvBwBZrvCQvvB0",
+      sku_code: "C013",
+    },
+  ],
 }
 
 /** This is an example using all the props. */
@@ -40,23 +40,23 @@ CompleteExample.args = {
   limit: 1,
   showOthers: true,
   showTotal: true,
-  title: 'Preview',
+  title: "Preview",
   data: [
     {
-      id: 'pwQe',
+      id: "pwQe",
       amount: 10000,
       compare_amount: 13000,
-      price_list_id: 'wBZrvCQvvBwBZrvCQvvB0',
-      sku_code: 'C012'
+      price_list_id: "wBZrvCQvvBwBZrvCQvvB0",
+      sku_code: "C012",
     },
     {
-      id: 'fQrq',
+      id: "fQrq",
       amount: 900,
       compare_amount: 900,
-      price_list_id: 'wBZrvCQvvBwBZrvCQvvB0',
-      sku_code: 'C013'
-    }
-  ]
+      price_list_id: "wBZrvCQvvBwBZrvCQvvB0",
+      sku_code: "C013",
+    },
+  ],
 }
 
 export const EmptyExample = Template.bind({})
@@ -64,8 +64,8 @@ EmptyExample.args = {
   limit: 1,
   showOthers: true,
   showTotal: true,
-  title: 'Preview',
-  data: []
+  title: "Preview",
+  data: [],
 }
 
 /**
@@ -75,13 +75,13 @@ export const DifferentShapes = Template.bind({})
 DifferentShapes.args = {
   data: [
     {
-      code: 'C012'
+      code: "C012",
     },
     {
-      id: 'fQrq',
-      code: 'C013'
-    }
-  ]
+      id: "fQrq",
+      code: "C013",
+    },
+  ],
 }
 
 /**
@@ -91,29 +91,29 @@ export const NoHorizontalScroll = Template.bind({})
 NoHorizontalScroll.args = {
   data: [
     {
-      id: 'pwQe',
-      code: 'C012'
+      id: "pwQe",
+      code: "C012",
     },
     {
-      id: 'fQrq',
-      code: 'C013'
-    }
-  ]
+      id: "fQrq",
+      code: "C013",
+    },
+  ],
 }
 
 /**
  * `data` prop can accept any JSON-like object.
  */
-export const JSON = Template.bind({})
-JSON.args = {
+export const JSONLine = Template.bind({})
+JSONLine.args = {
   data: [
     {
-      id: 'pwQe',
+      id: "pwQe",
       n: 12,
-      codes: ['C012'],
-      obj: { firstName: 'John' },
+      codes: ["C012"],
+      obj: { firstName: "John" },
       null: null,
-      checked: true
-    }
-  ]
+      checked: true,
+    },
+  ],
 }

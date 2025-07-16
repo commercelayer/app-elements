@@ -1,7 +1,7 @@
-import { type JSX } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
-import { InputTextArea, type InputTextAreaProps } from './InputTextArea'
+import type { JSX } from "react"
+import { useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
+import { InputTextArea, type InputTextAreaProps } from "./InputTextArea"
 
 export interface HookedInputTextAreaProps extends InputTextAreaProps {
   /**
@@ -24,4 +24,4 @@ export function HookedInputTextArea({
   return <InputTextArea {...props} {...register(name)} feedback={feedback} />
 }
 
-HookedInputTextArea.displayName = 'HookedInputTextArea'
+HookedInputTextArea.displayName = "HookedInputTextArea"

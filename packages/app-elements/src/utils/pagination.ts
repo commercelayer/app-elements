@@ -10,7 +10,7 @@
 export function makeCurrentPageOffsets({
   currentPage,
   recordsPerPage,
-  recordCount
+  recordCount,
 }: {
   currentPage: number
   recordsPerPage: number
@@ -24,7 +24,7 @@ export function makeCurrentPageOffsets({
 
   return {
     firstOfPage,
-    lastOfPage: lastOffset >= recordCount ? recordCount : lastOffset
+    lastOfPage: lastOffset >= recordCount ? recordCount : lastOffset,
   }
 }
 
@@ -44,13 +44,13 @@ export function makeSomeAdjacentPages({
   currentPage,
   pageCount,
   adjacentPagesCount,
-  direction = 'forward',
-  excludeCurrentPage = false
+  direction = "forward",
+  excludeCurrentPage = false,
 }: {
   currentPage: number
   pageCount: number
   adjacentPagesCount: number
-  direction?: 'backward' | 'forward'
+  direction?: "backward" | "forward"
   excludeCurrentPage?: boolean
 }): number[] {
   if (
@@ -64,21 +64,21 @@ export function makeSomeAdjacentPages({
   }
 
   const initialPage = excludeCurrentPage
-    ? direction === 'forward'
+    ? direction === "forward"
       ? currentPage + 1
       : currentPage - 1
     : currentPage
 
   const pages = Array.from({ length: adjacentPagesCount }, (_, i) => {
     const computedIndex =
-      direction === 'forward' ? initialPage + i : initialPage - i
+      direction === "forward" ? initialPage + i : initialPage - i
 
     return computedIndex <= pageCount && computedIndex >= 1
       ? computedIndex
       : null
   }).filter(notNull)
 
-  return direction === 'forward' ? pages : pages.reverse()
+  return direction === "forward" ? pages : pages.reverse()
 }
 
 function notNull<T>(value: T | null): value is T {
@@ -90,7 +90,7 @@ export function computeTitleWithPagination({
   firstOfPage,
   lastOfPage,
   recordCount,
-  currentPage
+  currentPage,
 }: {
   title: string
   firstOfPage: number

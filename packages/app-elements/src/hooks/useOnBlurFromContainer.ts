@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback } from "react"
 
 type OnBlur = (event: React.FocusEvent<HTMLElement, Element>) => void
 
@@ -18,6 +18,6 @@ export const useOnBlurFromContainer = (onBlur: () => void): OnBlur => {
         }
       })
     },
-    [onBlur]
+    [onBlur],
   )
 }

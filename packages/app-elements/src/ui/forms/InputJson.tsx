@@ -1,9 +1,9 @@
+import isEmpty from "lodash-es/isEmpty"
+import { type JSX, useEffect, useState } from "react"
 import {
   InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import isEmpty from 'lodash-es/isEmpty'
-import { type JSX, useEffect, useState } from 'react'
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 
 export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
   placeholder: object
@@ -19,16 +19,16 @@ export function InputJson<JsonType extends object>({
   validateFn,
   onDataReady,
   onDataResetRequest,
-  errorMessageText = 'Invalid JSON',
+  errorMessageText = "Invalid JSON",
   className,
   label,
   feedback,
   hint,
   ...rest
 }: InputJsonProps<JsonType>): JSX.Element {
-  const [value, setValue] = useState('')
+  const [value, setValue] = useState("")
   const [internalFeedback, setInternalFeedback] =
-    useState<InputWrapperBaseProps['feedback']>(feedback)
+    useState<InputWrapperBaseProps["feedback"]>(feedback)
 
   useEffect(
     function parseValueAsJson() {
@@ -44,12 +44,12 @@ export function InputJson<JsonType extends object>({
       } catch {
         onDataResetRequest()
         setInternalFeedback({
-          variant: 'danger',
-          message: errorMessageText
+          variant: "danger",
+          message: errorMessageText,
         })
       }
     },
-    [value]
+    [value],
   )
 
   return (
@@ -61,7 +61,7 @@ export function InputJson<JsonType extends object>({
       {...rest}
     >
       <textarea
-        data-gramm='false'
+        data-gramm="false"
         placeholder={preparePlaceholder(placeholder)}
         value={value}
         onChange={(e) => {
@@ -70,13 +70,13 @@ export function InputJson<JsonType extends object>({
         onBlur={() => {
           setValue(prettifyJson)
         }}
-        className='bg-black text-white font-semibold text-xs font-mono h-72 p-3 w-full rounded-md outline-none'
+        className="bg-black text-white font-semibold text-xs font-mono h-72 p-3 w-full rounded-md outline-none"
       />
     </InputWrapper>
   )
 }
 
-InputJson.displayName = 'InputJson'
+InputJson.displayName = "InputJson"
 
 function preparePlaceholder(obj: object): string {
   const content = JSON.stringify(obj, null, 2)

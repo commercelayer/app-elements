@@ -1,8 +1,8 @@
-import isEmpty from 'lodash-es/isEmpty'
-import { type ReactNode } from 'react'
-import ReactDOM, { type Root } from 'react-dom/client'
-import { type TokenProviderProps } from './TokenProvider/TokenProvider'
-import { type TokenProviderAllowedAppSlug } from './TokenProvider/types'
+import isEmpty from "lodash-es/isEmpty"
+import type { ReactNode } from "react"
+import ReactDOM, { type Root } from "react-dom/client"
+import type { TokenProviderProps } from "./TokenProvider/TokenProvider"
+import type { TokenProviderAllowedAppSlug } from "./TokenProvider/types"
 
 export type ClAppKey = `clApp_${TokenProviderAllowedAppSlug}`
 
@@ -28,7 +28,7 @@ declare global {
 }
 
 export interface ClAppProps
-  extends Partial<Omit<TokenProviderProps, 'appSlug' | 'children'>> {
+  extends Partial<Omit<TokenProviderProps, "appSlug" | "children">> {
   /**
    * Base path for internal routing.
    * Example: `my-app` if you want to serve the app at `https://my-domain.com/my-app/`.
@@ -43,7 +43,7 @@ export interface ClAppProps
  **/
 export function createApp(
   children: (props: ClAppProps) => ReactNode,
-  appSlug: TokenProviderAllowedAppSlug
+  appSlug: TokenProviderAllowedAppSlug,
 ): void {
   window[`clApp_${appSlug}`] = {
     init: (node, props) => {
@@ -56,12 +56,12 @@ export function createApp(
         children({
           ...props,
           organizationSlug: parseOrganizationSlug(props?.organizationSlug),
-          routerBase: parseRouterBase(props?.routerBase)
-        })
+          routerBase: parseRouterBase(props?.routerBase),
+        }),
       )
 
       return root
-    }
+    },
   }
 }
 
@@ -76,7 +76,7 @@ function parseRouterBase(path?: string): string | undefined {
     return
   }
 
-  if (path.startsWith('/')) {
+  if (path.startsWith("/")) {
     return path
   } else {
     return `/${path}`

@@ -1,12 +1,12 @@
-import { Steps } from '#ui/atoms/Steps'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Steps } from "#ui/atoms/Steps"
 
 const setup: Meta<typeof Steps> = {
-  title: 'Atoms/Steps',
+  title: "Atoms/Steps",
   component: Steps,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -16,115 +16,115 @@ export const Default = Template.bind({})
 Default.args = {
   steps: [
     {
-      label: 'Pre-Transit'
+      label: "Pre-Transit",
     },
     {
-      label: 'In Transit'
+      label: "In Transit",
     },
     {
-      label: 'Out for delivery',
-      active: true
+      label: "Out for delivery",
+      active: true,
     },
     {
-      label: 'Delivered'
-    }
-  ]
+      label: "Delivered",
+    },
+  ],
 }
 
 export const NoActive = Template.bind({})
 NoActive.args = {
   steps: [
     {
-      label: 'Pre-Transit'
+      label: "Pre-Transit",
     },
     {
-      label: 'In Transit'
+      label: "In Transit",
     },
     {
-      label: 'Out for delivery'
+      label: "Out for delivery",
     },
     {
-      label: 'Delivered'
-    }
-  ]
+      label: "Delivered",
+    },
+  ],
 }
 
 export const FirstActive = Template.bind({})
 FirstActive.args = {
   steps: [
     {
-      label: 'Pre-Transit',
-      active: true
+      label: "Pre-Transit",
+      active: true,
     },
     {
-      label: 'In Transit'
+      label: "In Transit",
     },
     {
-      label: 'Out for delivery'
+      label: "Out for delivery",
     },
     {
-      label: 'Delivered'
-    }
-  ]
+      label: "Delivered",
+    },
+  ],
 }
 
 export const LastActive = Template.bind({})
 LastActive.args = {
   steps: [
     {
-      label: 'Pre-Transit'
+      label: "Pre-Transit",
     },
     {
-      label: 'In Transit'
+      label: "In Transit",
     },
     {
-      label: 'Out for delivery'
+      label: "Out for delivery",
     },
     {
-      label: 'Delivered',
-      active: true
-    }
-  ]
+      label: "Delivered",
+      active: true,
+    },
+  ],
 }
 
 export const With2Steps = Template.bind({})
 With2Steps.args = {
   steps: [
     {
-      label: 'Step 1',
-      active: true
+      label: "Step 1",
+      active: true,
     },
     {
-      label: 'Step 2',
-      active: true
-    }
-  ]
+      label: "Step 2",
+      active: true,
+    },
+  ],
 }
 
 export const With7Steps = Template.bind({})
 With7Steps.args = {
   steps: [
     {
-      label: 'Step 1'
+      label: "Step 1",
     },
     {
-      label: 'Step 2'
+      label: "Step 2",
     },
     {
-      label: 'Step 3'
+      label: "Step 3",
     },
     {
-      label: 'Step 4'
+      label: "Step 4",
     },
     {
-      label: 'Step 5',
-      active: true
+      label: "Step 5",
+      active: true,
     },
     {
-      label: 'Step 6'
+      label: "Step 6",
     },
     {
-      label: 'Step 7'
-    }
-  ]
+      label: "Step 7",
+    },
+  ],
 }

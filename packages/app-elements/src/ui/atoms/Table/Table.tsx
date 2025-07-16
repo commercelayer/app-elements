@@ -1,10 +1,10 @@
-import cn from 'classnames'
-import React from 'react'
+import cn from "classnames"
+import type React from "react"
 
 export interface TableProps {
   thead?: React.ReactNode
   className?: string
-  variant?: 'boxed'
+  variant?: "boxed"
   tbody?: React.ReactNode
   tfoot?: React.ReactNode
 }
@@ -28,17 +28,17 @@ export const Table: React.FC<TableProps> = ({
   className,
   variant,
   tbody,
-  tfoot
+  tfoot,
 }) => {
   return (
     <table
       className={cn([
-        'w-full',
+        "w-full",
         {
-          'border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 [&>tbody>tr:last-of-type>td]:first-of-type:rounded-es [&>tbody>tr:last-of-type>td]:last-of-type:rounded-ee':
-            variant === 'boxed'
+          "border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 [&>tbody>tr:last-of-type>td]:first-of-type:rounded-es [&>tbody>tr:last-of-type>td]:last-of-type:rounded-ee":
+            variant === "boxed",
         },
-        className
+        className,
       ])}
     >
       {thead != null && <thead>{thead}</thead>}
@@ -48,4 +48,4 @@ export const Table: React.FC<TableProps> = ({
   )
 }
 
-Table.displayName = 'Table'
+Table.displayName = "Table"

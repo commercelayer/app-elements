@@ -1,28 +1,28 @@
-import { type AvatarProps } from '#ui/atoms/Avatar'
-import { type Parcel, type Shipment } from '@commercelayer/sdk'
-import orderBy from 'lodash-es/orderBy'
-import { type SetNonNullable } from 'type-fest'
-import { z } from 'zod'
+import type { Parcel, Shipment } from "@commercelayer/sdk"
+import orderBy from "lodash-es/orderBy"
+import type { SetNonNullable } from "type-fest"
+import { z } from "zod"
+import type { AvatarProps } from "#ui/atoms/Avatar"
 
-export function getAvatarSrcFromRate(rate: Rate): AvatarProps['src'] {
+export function getAvatarSrcFromRate(rate: Rate): AvatarProps["src"] {
   switch (rate.carrier) {
-    case 'DHLEcommerceAsia':
-    case 'DhlEcs':
-    case 'DHLExpress':
-    case 'DHLPaket':
-    case 'DHLSmartmail':
-      return 'carriers:dhl'
-    case 'FedEx':
-    case 'FedExCrossBorder':
-    case 'FedExMailview':
-    case 'FedexSmartPost':
-      return 'carriers:fedex'
-    case 'UPS':
-    case 'UPSIparcel':
-    case 'UPSMailInnovations':
-      return 'carriers:ups'
+    case "DHLEcommerceAsia":
+    case "DhlEcs":
+    case "DHLExpress":
+    case "DHLPaket":
+    case "DHLSmartmail":
+      return "carriers:dhl"
+    case "FedEx":
+    case "FedExCrossBorder":
+    case "FedExMailview":
+    case "FedexSmartPost":
+      return "carriers:fedex"
+    case "UPS":
+    case "UPSIparcel":
+    case "UPSMailInnovations":
+      return "carriers:ups"
     default:
-      return 'carriers:generic'
+      return "carriers:generic"
   }
 }
 
@@ -31,21 +31,21 @@ export function getAvatarSrcFromRate(rate: Rate): AvatarProps['src'] {
  */
 export function getParcelTrackingDetails(parcel?: Parcel): TrackingDetail[] {
   const details = parcelTrackingDetailsSchema.safeParse(
-    parcel?.tracking_details
+    parcel?.tracking_details,
   )
 
   if (!details.success) {
     return []
   }
 
-  return orderBy(details.data, ['datetime'], ['desc'])
+  return orderBy(details.data, ["datetime"], ["desc"])
 }
 
 /**
  * Get latest tracking details from a parcel.
  */
 export function getParcelTrackingDetail(
-  parcel?: Parcel
+  parcel?: Parcel,
 ): TrackingDetail | undefined {
   return getParcelTrackingDetails(parcel)[0]
 }
@@ -96,7 +96,7 @@ export function hasBeenPurchased(shipment: Shipment): boolean {
  */
 const trackingDetailSchema = z.object({
   /** "TrackingDetail" */
-  object: z.literal('TrackingDetail'),
+  object: z.literal("TrackingDetail"),
   /** Description of the scan event */
   message: z.string().nullable(),
   /** Status of the package at the time of the scan event, possible values are "unknown", "pre_transit", "in_transit", "out_for_delivery", "delivered", "available_for_pickup", "return_to_sender", "failure", "cancelled" or "error" */
@@ -111,7 +111,7 @@ const trackingDetailSchema = z.object({
   tracking_location: z
     .object({
       /** "TrackingLocation" */
-      object: z.literal('TrackingLocation'),
+      object: z.literal("TrackingLocation"),
       /** The city where the scan event occurred (if available) */
       city: z.string().nullable(),
       /** The state where the scan event occurred (if available) */
@@ -119,13 +119,13 @@ const trackingDetailSchema = z.object({
       /** The country where the scan event occurred (if available) */
       country: z.string().nullable(),
       /** The postal code where the scan event occurred (if available) */
-      zip: z.string().nullable()
+      zip: z.string().nullable(),
     })
     .transform((loc) =>
-      loc.city != null ? (loc as SetNonNullable<typeof loc, 'city'>) : null
+      loc.city != null ? (loc as SetNonNullable<typeof loc, "city">) : null,
     ),
   description: z.string().nullable(),
-  carrier_code: z.string().nullable()
+  carrier_code: z.string().nullable(),
 })
 
 /**
@@ -135,7 +135,7 @@ const rateSchema = z.object({
   /** unique, begins with 'rate_' */
   id: z.string(),
   /** "test" or "production" */
-  mode: z.literal('test').or(z.literal('production')),
+  mode: z.literal("test").or(z.literal("production")),
   /** service level/name @docs https://www.easypost.com/docs/api#service-levels */
   service: z.string(),
   /** name of carrier */
@@ -157,7 +157,7 @@ const rateSchema = z.object({
   /** formatted date for delivery */
   formatted_delivery_date: z.string().optional(),
   /** the actual formatted rate quote for this service */
-  formatted_rate: z.string()
+  formatted_rate: z.string(),
 })
 
 const parcelTrackingDetailsSchema = z.array(trackingDetailSchema)

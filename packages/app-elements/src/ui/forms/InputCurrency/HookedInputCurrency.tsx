@@ -1,10 +1,10 @@
-import { type JSX } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
-import { InputCurrency, type InputCurrencyProps } from './InputCurrency'
+import type { JSX } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
+import { InputCurrency, type InputCurrencyProps } from "./InputCurrency"
 
 export interface HookedInputCurrencyProps
-  extends Omit<InputCurrencyProps, 'onChange' | 'onBlur' | 'cents'> {
+  extends Omit<InputCurrencyProps, "onChange" | "onBlur" | "cents"> {
   /**
    * field name to match hook-form state
    */
@@ -42,4 +42,4 @@ export function HookedInputCurrency({
   )
 }
 
-HookedInputCurrency.displayName = 'HookedInputCurrency'
+HookedInputCurrency.displayName = "HookedInputCurrency"

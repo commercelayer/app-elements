@@ -1,11 +1,11 @@
-import { type Mode } from '#providers/TokenProvider/types'
-import isEmpty from 'lodash-es/isEmpty'
-import { getInfoFromJwt } from './getInfoFromJwt'
+import isEmpty from "lodash-es/isEmpty"
+import type { Mode } from "#providers/TokenProvider/types"
+import { getInfoFromJwt } from "./getInfoFromJwt"
 
 export const getAccessTokenFromUrl = (): string | null => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const params = new URLSearchParams(window.location.search)
-    const accessToken = params.get('accessToken')
+    const accessToken = params.get("accessToken")
     return isEmpty(accessToken) ? null : accessToken
   }
 
@@ -17,18 +17,18 @@ export const getAccessTokenFromUrl = (): string | null => {
  * If no mode is found, return 'live' as optimistic default.
  */
 export const getCurrentMode = ({
-  accessToken
+  accessToken,
 }: {
   accessToken?: string | null
 }): Mode => {
-  if (typeof window === 'undefined') {
-    return 'live'
+  if (typeof window === "undefined") {
+    return "live"
   }
 
-  const defaultMode = 'live'
-  const modeParam = new URLSearchParams(window.location.search).get('mode')
+  const defaultMode = "live"
+  const modeParam = new URLSearchParams(window.location.search).get("mode")
 
-  if (modeParam === 'test' || modeParam === 'live') {
+  if (modeParam === "test" || modeParam === "live") {
     return modeParam
   }
 
@@ -41,11 +41,11 @@ export const getCurrentMode = ({
 }
 
 export const removeAuthParamsFromUrl = (): void => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const url = new URL(window.location.href)
-    url.searchParams.delete('accessToken')
-    url.searchParams.delete('extras')
-    url.searchParams.delete('mode')
-    window.history.replaceState({}, '', url.toString())
+    url.searchParams.delete("accessToken")
+    url.searchParams.delete("extras")
+    url.searchParams.delete("mode")
+    window.history.replaceState({}, "", url.toString())
   }
 }

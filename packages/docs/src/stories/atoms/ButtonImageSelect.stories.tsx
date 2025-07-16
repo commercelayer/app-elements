@@ -1,12 +1,12 @@
-import { ButtonImageSelect } from '#ui/atoms/ButtonImageSelect'
-import type { Meta, StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { ButtonImageSelect } from "#ui/atoms/ButtonImageSelect"
 
 const setup: Meta<typeof ButtonImageSelect> = {
-  title: 'Atoms/ButtonImageSelect',
+  title: "Atoms/ButtonImageSelect",
   parameters: {
-    layout: 'padded'
+    layout: "padded",
   },
-  component: ButtonImageSelect
+  component: ButtonImageSelect,
 }
 
 export default setup
@@ -23,7 +23,7 @@ Primary.args = {}
 export const WithImage = Template.bind({})
 WithImage.args = {
   img: {
-    src: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
-    alt: ''
-  }
+    src: "https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png",
+    alt: "",
+  },
 }

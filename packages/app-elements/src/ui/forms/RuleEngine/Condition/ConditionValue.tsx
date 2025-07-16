@@ -1,27 +1,27 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import { Input } from '#ui/forms/Input'
-import { InputDate } from '#ui/forms/InputDate'
-import { InputDateRange } from '#ui/forms/InputDateRange'
+import { isValid, parseISO } from "date-fns"
+import type React from "react"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Input } from "#ui/forms/Input"
+import { InputDate } from "#ui/forms/InputDate"
+import { InputDateRange } from "#ui/forms/InputDateRange"
 import {
   InputSelect,
   isMultiValueSelected,
-  isSingleValueSelected
-} from '#ui/forms/InputSelect'
-import { isValid, parseISO } from 'date-fns'
-import React from 'react'
-import { useRuleEngine } from '../RuleEngineContext'
+  isSingleValueSelected,
+} from "#ui/forms/InputSelect"
+import { useRuleEngine } from "../RuleEngineContext"
 import {
   type ConditionMatchersWithoutValue,
   conditionMatchersWithoutValue,
   expectNever,
   type ItemWithValue,
-  type SchemaConditionItem
-} from '../utils'
-import { useResourcePathInfos } from './hooks'
-import { guessFieldType } from './utils'
-import { InputArrayMatch } from './ValueComponents/InputArrayMatch'
-import { InputNumberRange } from './ValueComponents/InputNumberRange'
-import { InputTextRange } from './ValueComponents/InputTextRange'
+  type SchemaConditionItem,
+} from "../utils"
+import { useResourcePathInfos } from "./hooks"
+import { guessFieldType } from "./utils"
+import { InputArrayMatch } from "./ValueComponents/InputArrayMatch"
+import { InputNumberRange } from "./ValueComponents/InputNumberRange"
+import { InputTextRange } from "./ValueComponents/InputTextRange"
 
 /**
  * This function renders the value input for a condition item based on its matcher and its field.
@@ -31,7 +31,7 @@ import { InputTextRange } from './ValueComponents/InputTextRange'
  */
 export function ConditionValue({
   item,
-  pathPrefix
+  pathPrefix,
 }: {
   item: SchemaConditionItem | null
   pathPrefix: string
@@ -47,7 +47,7 @@ export function ConditionValue({
 
   if (
     conditionMatchersWithoutValue.includes(
-      item.matcher as ConditionMatchersWithoutValue
+      item.matcher as ConditionMatchersWithoutValue,
     )
   ) {
     return null
@@ -62,114 +62,114 @@ export function ConditionValue({
   }
 
   if (
-    (typeof itemWithValue.value === 'string' &&
+    (typeof itemWithValue.value === "string" &&
       /^{{.*}}$/.test(itemWithValue.value)) ||
     (Array.isArray(itemWithValue.value) &&
       itemWithValue.value.some(
-        (v) => typeof v === 'string' && /^{{.*}}$/.test(v)
+        (v) => typeof v === "string" && /^{{.*}}$/.test(v),
       ))
   ) {
-    fieldType = 'string'
+    fieldType = "string"
   }
 
   let componentType:
-    | 'arrayMatch'
-    | 'boolean'
-    | 'date'
-    | 'dateRange'
-    | 'number'
-    | 'numberRange'
-    | 'tag'
-    | 'text'
-    | 'textRange'
+    | "arrayMatch"
+    | "boolean"
+    | "date"
+    | "dateRange"
+    | "number"
+    | "numberRange"
+    | "tag"
+    | "text"
+    | "textRange"
     | null = null
 
   switch (fieldType) {
-    case 'datetime': {
-      componentType = 'date'
+    case "datetime": {
+      componentType = "date"
       break
     }
 
-    case 'boolean': {
-      componentType = 'boolean'
+    case "boolean": {
+      componentType = "boolean"
       break
     }
 
-    case 'string': {
-      componentType = 'text'
+    case "string": {
+      componentType = "text"
       break
     }
 
-    case 'integer':
-    case 'float': {
-      componentType = 'number'
+    case "integer":
+    case "float": {
+      componentType = "number"
       break
     }
 
-    case 'array':
-    case 'json':
-    case 'object': {
+    case "array":
+    case "json":
+    case "object": {
       break
     }
 
     default: {
-      componentType = 'text'
+      componentType = "text"
       break
     }
   }
 
   switch (itemWithValue.matcher) {
-    case 'eq':
-    case 'not_eq':
-    case 'lt':
-    case 'lteq':
-    case 'gt':
-    case 'gteq':
-    case 'multiple':
-    case 'start_with':
-    case 'not_start_with':
-    case 'end_with':
-    case 'not_end_with': {
+    case "eq":
+    case "not_eq":
+    case "lt":
+    case "lteq":
+    case "gt":
+    case "gteq":
+    case "multiple":
+    case "start_with":
+    case "not_start_with":
+    case "end_with":
+    case "not_end_with": {
       // pass through to the default case
       break
     }
 
-    case 'matches':
-    case 'does_not_match': {
+    case "matches":
+    case "does_not_match": {
       // need to handle regex input
       break
     }
 
-    case 'gt_lt':
-    case 'gteq_lt':
-    case 'gt_lteq':
-    case 'gteq_lteq': {
+    case "gt_lt":
+    case "gteq_lt":
+    case "gt_lteq":
+    case "gteq_lteq": {
       // these matchers expect an array of two values (only for date and number)
-      if (componentType === 'number') {
-        componentType = 'numberRange'
+      if (componentType === "number") {
+        componentType = "numberRange"
       }
 
-      if (componentType === 'text') {
-        componentType = 'textRange'
+      if (componentType === "text") {
+        componentType = "textRange"
       }
 
-      if (componentType === 'date') {
-        componentType = 'dateRange'
+      if (componentType === "date") {
+        componentType = "dateRange"
       }
 
       break
     }
 
-    case 'is_in':
-    case 'is_not_in': {
+    case "is_in":
+    case "is_not_in": {
       // these matchers expect an array of values
-      componentType = 'tag'
+      componentType = "tag"
       break
     }
 
-    case 'array_match': {
+    case "array_match": {
       // this matcher expects an object with conditions
-      componentType = 'arrayMatch'
+      componentType = "arrayMatch"
       break
     }
 
@@ -180,16 +180,16 @@ export function ConditionValue({
   }
 
   switch (componentType) {
-    case 'date': {
+    case "date": {
       const date = parseISO(
-        typeof itemWithValue.value === 'string' ? itemWithValue.value : ''
+        typeof itemWithValue.value === "string" ? itemWithValue.value : "",
       )
 
       return (
         <InputDate
           value={isValid(date) ? date : undefined}
           showTimeSelect
-          placeholder='Enter value'
+          placeholder="Enter value"
           onChange={(date) => {
             setPath(pathKey, date?.toJSON())
           }}
@@ -198,10 +198,10 @@ export function ConditionValue({
       )
     }
 
-    case 'dateRange': {
+    case "dateRange": {
       const value = Array.isArray(itemWithValue.value)
         ? (itemWithValue.value.map((v) => {
-            const date = parseISO(typeof v === 'string' ? v : '')
+            const date = parseISO(typeof v === "string" ? v : "")
 
             return isValid(date) ? date : null
           }) as [Date, Date])
@@ -214,14 +214,14 @@ export function ConditionValue({
           onChange={(dates) => {
             setPath(
               `${pathPrefix}.value`,
-              dates.map((date) => date?.toJSON() ?? null)
+              dates.map((date) => date?.toJSON() ?? null),
             )
           }}
         />
       )
     }
 
-    case 'numberRange': {
+    case "numberRange": {
       return (
         <InputNumberRange
           value={itemWithValue.value}
@@ -232,7 +232,7 @@ export function ConditionValue({
       )
     }
 
-    case 'textRange': {
+    case "textRange": {
       return (
         <InputTextRange
           value={itemWithValue.value}
@@ -243,7 +243,7 @@ export function ConditionValue({
       )
     }
 
-    case 'arrayMatch': {
+    case "arrayMatch": {
       return (
         <InputArrayMatch
           value={itemWithValue.value}
@@ -252,7 +252,7 @@ export function ConditionValue({
       )
     }
 
-    case 'tag': {
+    case "tag": {
       return (
         <InputSelect
           isMulti
@@ -262,7 +262,7 @@ export function ConditionValue({
             Array.isArray(itemWithValue.value)
               ? itemWithValue.value.map((v) => ({
                   label: v.toString(),
-                  value: v
+                  value: v,
                 }))
               : []
           }
@@ -273,9 +273,9 @@ export function ConditionValue({
                 `${pathPrefix}.value`,
                 selected
                   .map((s) => {
-                    if (fieldType === 'integer') {
+                    if (fieldType === "integer") {
                       const intValue = parseInt(s.value.toString(), 10)
-                      if (isNaN(intValue)) {
+                      if (Number.isNaN(intValue)) {
                         return null
                       }
                       return intValue
@@ -283,7 +283,7 @@ export function ConditionValue({
 
                     return s.value
                   })
-                  .filter((s) => s != null)
+                  .filter((s) => s != null),
               )
             }
           }}
@@ -291,40 +291,40 @@ export function ConditionValue({
       )
     }
 
-    case 'number': {
+    case "number": {
       return (
         <Input
           name={`${pathPrefix}.value`}
-          type='number'
+          type="number"
           defaultValue={
-            typeof itemWithValue.value === 'number' ? itemWithValue.value : ''
+            typeof itemWithValue.value === "number" ? itemWithValue.value : ""
           }
-          placeholder='Enter value'
+          placeholder="Enter value"
           onChange={(event) => {
             setPath(
               `${pathPrefix}.value`,
-              parseInt(event.currentTarget.value, 10)
+              parseInt(event.currentTarget.value, 10),
             )
           }}
         />
       )
     }
 
-    case 'boolean': {
+    case "boolean": {
       return (
         <InputSelect
           name={`${pathPrefix}.value`}
           defaultValue={
-            typeof itemWithValue.value === 'boolean'
+            typeof itemWithValue.value === "boolean"
               ? {
-                  label: itemWithValue.value ? 'Yes' : 'No',
-                  value: itemWithValue.value
+                  label: itemWithValue.value ? "Yes" : "No",
+                  value: itemWithValue.value,
                 }
               : undefined
           }
           initialValues={[
-            { label: 'Yes', value: true },
-            { label: 'No', value: false }
+            { label: "Yes", value: true },
+            { label: "No", value: false },
           ]}
           onSelect={(selected) => {
             if (isSingleValueSelected(selected)) {
@@ -335,18 +335,18 @@ export function ConditionValue({
       )
     }
 
-    case 'text':
+    case "text":
     case null: {
       return (
         <Input
           name={`${pathPrefix}.value`}
-          type='text'
+          type="text"
           defaultValue={
-            typeof itemWithValue.value === 'string'
+            typeof itemWithValue.value === "string"
               ? itemWithValue.value
               : JSON.stringify(itemWithValue.value)
           }
-          placeholder='Enter value'
+          placeholder="Enter value"
           onChange={(event) => {
             setPath(pathKey, event.currentTarget.value)
           }}

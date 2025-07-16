@@ -22,6 +22,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
             >
               <button
                 class="font-bold text-black"
+                type="button"
               >
                 <svg
                   class="shrink-0"
@@ -42,6 +43,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
             >
               <button
                 class="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                type="button"
               >
                 <svg
                   fill="#101111"

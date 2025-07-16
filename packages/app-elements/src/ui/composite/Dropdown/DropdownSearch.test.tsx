@@ -1,7 +1,7 @@
-import { fireEvent, render } from '@testing-library/react'
-import { DropdownSearch } from './DropdownSearch'
+import { fireEvent, render } from "@testing-library/react"
+import { DropdownSearch } from "./DropdownSearch"
 
-describe('DropdownSearch', () => {
+describe("DropdownSearch", () => {
   beforeAll(() => {
     vi.useFakeTimers()
   })
@@ -10,28 +10,28 @@ describe('DropdownSearch', () => {
     vi.useRealTimers()
   })
 
-  it('should render', () => {
+  it("should render", () => {
     const { container, getByPlaceholderText } = render(
-      <DropdownSearch onSearch={() => {}} placeholder='type to search' />
+      <DropdownSearch onSearch={() => {}} placeholder="type to search" />,
     )
     expect(container).toBeVisible()
-    expect(getByPlaceholderText('type to search')).toBeVisible()
+    expect(getByPlaceholderText("type to search")).toBeVisible()
   })
 
-  it('should update input value', () => {
+  it("should update input value", () => {
     const { getByPlaceholderText } = render(
-      <DropdownSearch onSearch={() => {}} placeholder='search' />
+      <DropdownSearch onSearch={() => {}} placeholder="search" />,
     )
-    const input = getByPlaceholderText('search') as HTMLInputElement
-    expect(input.value).toBe('')
-    fireEvent.change(input, { target: { value: 'foobar' } })
+    const input = getByPlaceholderText("search") as HTMLInputElement
+    expect(input.value).toBe("")
+    fireEvent.change(input, { target: { value: "foobar" } })
 
-    expect(input.value).toBe('foobar')
+    expect(input.value).toBe("foobar")
   })
 
-  it('should trigger debounced onSearch callback', () => {
+  it("should trigger debounced onSearch callback", () => {
     const mockedConsoleLog = vi
-      .spyOn(console, 'log')
+      .spyOn(console, "log")
       .mockImplementation(() => {})
     const { getByPlaceholderText } = render(
       <DropdownSearch
@@ -39,16 +39,16 @@ describe('DropdownSearch', () => {
           console.log(hint)
         }}
         debounceMs={100}
-        placeholder='search'
-      />
+        placeholder="search"
+      />,
     )
-    const input = getByPlaceholderText('search') as HTMLInputElement
-    fireEvent.change(input, { target: { value: 'he' } })
-    fireEvent.change(input, { target: { value: 'hello' } })
-    fireEvent.change(input, { target: { value: 'hello wo' } })
-    fireEvent.change(input, { target: { value: 'hello world' } })
+    const input = getByPlaceholderText("search") as HTMLInputElement
+    fireEvent.change(input, { target: { value: "he" } })
+    fireEvent.change(input, { target: { value: "hello" } })
+    fireEvent.change(input, { target: { value: "hello wo" } })
+    fireEvent.change(input, { target: { value: "hello world" } })
     expect(mockedConsoleLog).toHaveBeenCalledTimes(0)
     vi.advanceTimersByTime(110)
-    expect(mockedConsoleLog).toHaveBeenNthCalledWith(1, 'hello world')
+    expect(mockedConsoleLog).toHaveBeenNthCalledWith(1, "hello world")
   })
 })

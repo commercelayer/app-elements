@@ -1,19 +1,19 @@
-import type { CurrencyCode } from '#helpers/currencies'
-import { t } from '#providers/I18NProvider'
+import { type JSX, useEffect, useRef, useState } from "react"
+import type { CurrencyCode } from "#helpers/currencies"
+import { t } from "#providers/I18NProvider"
 import {
-  InputCurrency,
   formatCentsToCurrency,
-  type InputCurrencyProps
-} from '#ui/forms/InputCurrency'
-import { isSingleValueSelected } from '#ui/forms/InputSelect/index'
+  InputCurrency,
+  type InputCurrencyProps,
+} from "#ui/forms/InputCurrency"
+import { isSingleValueSelected } from "#ui/forms/InputSelect/index"
 import {
   InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import { useEffect, useRef, useState, type JSX } from 'react'
-import { InputSelect } from './InputSelect'
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
+import { InputSelect } from "./InputSelect"
 
-type Cents = InputCurrencyProps['cents']
+type Cents = InputCurrencyProps["cents"]
 
 export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
   fromCents?: Cents
@@ -21,7 +21,7 @@ export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
   onChange: (
     from: { cents: Cents; formatted: string },
     to: { cents: Cents; formatted: string },
-    currency: CurrencyCode
+    currency: CurrencyCode,
   ) => void
   placeholders?: [string, string]
   currencyList: readonly [CurrencyCode, ...CurrencyCode[]]
@@ -32,23 +32,22 @@ export interface InputCurrencyRangeProps extends InputWrapperBaseProps {
 export function InputCurrencyRange({
   fromCents,
   toCents,
-  placeholders = [t('common.forms.minimum'), t('common.forms.maximum')],
+  placeholders = [t("common.forms.minimum"), t("common.forms.maximum")],
   onChange,
   label,
   hint,
   currencyList,
   inline,
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   defaultCurrency = currencyList[0],
   className,
-  feedback
+  feedback,
 }: InputCurrencyRangeProps): JSX.Element {
   const [activeCurrency, setActiveCurrency] =
     useState<CurrencyCode>(defaultCurrency)
 
   const [internalCents, setInternalCents] = useState<[Cents, Cents]>([
     fromCents,
-    toCents
+    toCents,
   ])
   const internalFromCents = internalCents[0]
   const internalToCents = internalCents[1]
@@ -65,16 +64,16 @@ export function InputCurrencyRange({
         formatted:
           internalFromCents != null
             ? formatCentsToCurrency(internalFromCents, activeCurrency)
-            : ''
+            : "",
       },
       {
         cents: internalToCents,
         formatted:
           internalToCents != null
             ? formatCentsToCurrency(internalToCents, activeCurrency)
-            : ''
+            : "",
       },
-      activeCurrency
+      activeCurrency,
     )
   }, [activeCurrency])
 
@@ -87,7 +86,7 @@ export function InputCurrencyRange({
       inline={inline}
       fieldset
     >
-      <div className='flex gap-4'>
+      <div className="flex gap-4">
         <InputCurrency
           currencyCode={activeCurrency}
           cents={internalFromCents}
@@ -100,9 +99,9 @@ export function InputCurrencyRange({
                 formatted:
                   internalToCents != null
                     ? formatCentsToCurrency(internalToCents, activeCurrency)
-                    : ''
+                    : "",
               },
-              activeCurrency
+              activeCurrency,
             )
           }}
           placeholder={placeholders[0]}
@@ -122,10 +121,10 @@ export function InputCurrencyRange({
                 formatted:
                   internalFromCents != null
                     ? formatCentsToCurrency(internalFromCents, activeCurrency)
-                    : ''
+                    : "",
               },
               { cents: newCents, formatted },
-              activeCurrency
+              activeCurrency,
             )
           }}
           placeholder={placeholders[1]}
@@ -137,7 +136,7 @@ export function InputCurrencyRange({
         <InputSelect
           initialValues={currencyList.map((currency) => ({
             value: currency,
-            label: currency
+            label: currency,
           }))}
           defaultValue={{ value: defaultCurrency, label: defaultCurrency }}
           onSelect={(currency) => {
@@ -145,13 +144,13 @@ export function InputCurrencyRange({
               setActiveCurrency(currency.value as CurrencyCode)
             }
           }}
-          className='min-w-max'
-          data-testid='currency-select'
-          aria-label={t('common.currency')}
+          className="min-w-max"
+          data-testid="currency-select"
+          aria-label={t("common.currency")}
         />
       </div>
     </InputWrapper>
   )
 }
 
-InputCurrencyRange.displayName = 'InputCurrencyRange'
+InputCurrencyRange.displayName = "InputCurrencyRange"

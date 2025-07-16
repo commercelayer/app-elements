@@ -1,10 +1,10 @@
-import { Container } from '#ui/atoms/Container'
-import { EmptyState } from '#ui/atoms/EmptyState'
-import { PageHeading, type PageHeadingProps } from '#ui/atoms/PageHeading'
-import { type JSX } from 'react'
+import type { JSX } from "react"
+import { Container } from "#ui/atoms/Container"
+import { EmptyState } from "#ui/atoms/EmptyState"
+import { PageHeading, type PageHeadingProps } from "#ui/atoms/PageHeading"
 
 export interface PageErrorProps
-  extends Pick<PageHeadingProps, 'navigationButton'> {
+  extends Pick<PageHeadingProps, "navigationButton"> {
   /**
    * Main page title wrapped in a h1 element
    */
@@ -27,7 +27,7 @@ export interface PageErrorProps
 }
 
 export function PageError({
-  pageTitle = 'Commerce Layer',
+  pageTitle = "Commerce Layer",
   navigationButton,
   errorName,
   errorDescription,
@@ -46,4 +46,4 @@ export function PageError({
   )
 }
 
-PageError.displayName = 'PageError'
+PageError.displayName = "PageError"

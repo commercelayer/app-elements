@@ -1,15 +1,15 @@
-import { RadialProgress } from '#ui/atoms/RadialProgress'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { RadialProgress } from "#ui/atoms/RadialProgress"
 
 const setup: Meta<typeof RadialProgress> = {
-  title: 'Atoms/RadialProgress',
+  title: "Atoms/RadialProgress",
   component: RadialProgress,
 
   argTypes: {
     percentage: {
-      control: { type: 'range', min: 0, max: 100, step: 1 }
-    }
-  }
+      control: { type: "range", min: 0, max: 100, step: 1 },
+    },
+  },
 }
 export default setup
 
@@ -34,13 +34,13 @@ Pending.args = {}
  */
 export const Percentage = Template.bind({})
 Percentage.args = {
-  percentage: 42
+  percentage: 42,
 }
 Percentage.parameters = {
   backgrounds: {
-    default: 'custom',
-    values: [{ name: 'custom', value: '#d9d9d9' }]
-  }
+    default: "custom",
+    values: [{ name: "custom", value: "#d9d9d9" }],
+  },
 }
 
 /**
@@ -52,13 +52,13 @@ Percentage.parameters = {
 export const WithIcon = Template.bind({})
 WithIcon.args = {
   percentage: undefined,
-  icon: 'shoppingBag'
+  icon: "shoppingBag",
 }
 WithIcon.parameters = {
   backgrounds: {
-    default: 'custom',
-    values: [{ name: 'custom', value: '#d9d9d9' }]
-  }
+    default: "custom",
+    values: [{ name: "custom", value: "#d9d9d9" }],
+  },
 }
 
 /**
@@ -67,5 +67,5 @@ WithIcon.parameters = {
 export const PendingSmall = Template.bind({})
 PendingSmall.args = {
   percentage: undefined,
-  size: 'small'
+  size: "small",
 }

@@ -1,28 +1,28 @@
-import { CoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider } from '#providers/TokenProvider/MockTokenProvider'
 import {
   fireEvent,
+  type RenderResult,
   render,
   waitFor,
-  type RenderResult
-} from '@testing-library/react'
-import { ResourceAddress } from './ResourceAddress'
-import { presetAddresses } from './ResourceAddress.mocks'
+} from "@testing-library/react"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { ResourceAddress } from "./ResourceAddress"
+import { presetAddresses } from "./ResourceAddress.mocks"
 
 const addressUpdate = vi.fn().mockResolvedValue({})
 const addressCreate = vi.fn().mockResolvedValue({})
 
-vi.mock('#providers/CoreSdkProvider', async (importOriginal) => {
+vi.mock("#providers/CoreSdkProvider", async (importOriginal) => {
   return {
     ...(await importOriginal<Record<string, unknown>>()),
     useCoreSdkProvider: vi.fn().mockImplementation(() => ({
       sdkClient: {
         addresses: {
           update: addressUpdate,
-          create: addressCreate
-        }
-      }
-    }))
+          create: addressCreate,
+        },
+      },
+    })),
   }
 })
 
@@ -33,7 +33,7 @@ beforeEach(() => {
 
 const setup = (): RenderResult => {
   return render(
-    <MockTokenProvider kind='integration' appSlug='orders' devMode>
+    <MockTokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <ResourceAddress
           address={presetAddresses.withNotes}
@@ -41,70 +41,70 @@ const setup = (): RenderResult => {
           editable
         />
       </CoreSdkProvider>
-    </MockTokenProvider>
+    </MockTokenProvider>,
   )
 }
 
-describe('ResourceAddress', () => {
-  test('Should render', async () => {
+describe("ResourceAddress", () => {
+  test("Should render", async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('Address')).toBeInTheDocument()
+    expect(getByTestId("Address")).toBeInTheDocument()
   })
 
-  test('Should not render title', async () => {
+  test("Should not render title", async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('Address-title')).not.toBeInTheDocument()
-    expect(queryByTestId('Address-noAddress')).not.toBeInTheDocument()
+    expect(queryByTestId("Address-title")).not.toBeInTheDocument()
+    expect(queryByTestId("Address-noAddress")).not.toBeInTheDocument()
   })
 
-  test('Should render firstLastName', async () => {
+  test("Should render firstLastName", async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('Address-firstLastName')).toContainHTML('Luke Skywalker')
+    expect(getByTestId("Address-firstLastName")).toContainHTML("Luke Skywalker")
   })
 
-  test('Should render company', async () => {
+  test("Should render company", async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('Address-company')).toContainHTML('Rebellion')
+    expect(getByTestId("Address-company")).toContainHTML("Rebellion")
   })
 
-  test('Should render address', async () => {
+  test("Should render address", async () => {
     const { getByTestId } = setup()
-    expect(getByTestId('Address-address')).toContainHTML('Via Polis Massa, 42')
+    expect(getByTestId("Address-address")).toContainHTML("Via Polis Massa, 42")
   })
 
-  test('Should render phone', async () => {
+  test("Should render phone", async () => {
     const { getByText } = setup()
-    expect(getByText('+39 055 1234567890')).toBeVisible()
+    expect(getByText("+39 055 1234567890")).toBeVisible()
   })
 
-  test('Should render notes', async () => {
+  test("Should render notes", async () => {
     const { getByText } = setup()
     expect(
-      getByText('Kindly leave the package to my neighbor, Adam Sandler.')
+      getByText("Kindly leave the package to my neighbor, Adam Sandler."),
     ).toBeVisible()
   })
 
-  test('Should render billingInfo', async () => {
+  test("Should render billingInfo", async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('Address-billingInfo')).toBeVisible()
+    expect(queryByTestId("Address-billingInfo")).toBeVisible()
   })
 
-  test('Should render edit button', async () => {
+  test("Should render edit button", async () => {
     const { queryByTestId } = setup()
-    expect(queryByTestId('Address-editButton')).toBeVisible()
+    expect(queryByTestId("Address-editButton")).toBeVisible()
   })
 
-  test('Should open edit Overlay and submit the form editing an existing address', async () => {
+  test("Should open edit Overlay and submit the form editing an existing address", async () => {
     const { getByTestId, getByText } = setup()
-    const editButton = getByTestId('Address-editButton')
+    const editButton = getByTestId("Address-editButton")
     await waitFor(() => {
       fireEvent.click(editButton)
     })
 
     const saveAddressButton = getByText(
-      'common.update resources.addresses.name'
+      "common.update resources.addresses.name",
     )
-    expect(getByText('common.edit resources.addresses.name')).toBeVisible()
+    expect(getByText("common.edit resources.addresses.name")).toBeVisible()
     expect(saveAddressButton).toBeVisible()
     await waitFor(() => {
       fireEvent.click(saveAddressButton)
@@ -113,88 +113,88 @@ describe('ResourceAddress', () => {
     expect(addressUpdate).toHaveBeenCalledTimes(1)
   })
 
-  test('Should render a default message when resource is not set', async () => {
+  test("Should render a default message when resource is not set", async () => {
     const { queryByTestId } = render(
-      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+      <MockTokenProvider kind="integration" appSlug="orders" devMode>
         <CoreSdkProvider>
           <ResourceAddress showBillingInfo editable />
         </CoreSdkProvider>
-      </MockTokenProvider>
+      </MockTokenProvider>,
     )
 
-    expect(queryByTestId('Address-noAddress')).toBeVisible()
+    expect(queryByTestId("Address-noAddress")).toBeVisible()
   })
 
-  test.skip('Should open create Overlay and submit the form creating a new address', async () => {
+  test.skip("Should open create Overlay and submit the form creating a new address", async () => {
     const { getByTestId, getByText, getByLabelText, queryByText } = render(
-      <MockTokenProvider kind='integration' appSlug='orders' devMode>
+      <MockTokenProvider kind="integration" appSlug="orders" devMode>
         <CoreSdkProvider>
           <ResourceAddress showBillingInfo editable />
         </CoreSdkProvider>
-      </MockTokenProvider>
+      </MockTokenProvider>,
     )
 
-    const editButton = getByTestId('Address-editButton')
+    const editButton = getByTestId("Address-editButton")
     await waitFor(() => {
       fireEvent.click(editButton)
     })
 
-    expect(getByText('common.new resources.addresses.name')).toBeVisible()
+    expect(getByText("common.new resources.addresses.name")).toBeVisible()
 
     const createAddressButton = getByText(
-      'common.create resources.addresses.name'
+      "common.create resources.addresses.name",
     )
     expect(createAddressButton).toBeVisible()
 
-    fireEvent.keyDown(getByText('Select...'), {
-      key: 'ArrowDown'
+    fireEvent.keyDown(getByText("Select..."), {
+      key: "ArrowDown",
     })
-    await waitFor(() => queryByText('Angola'))
-    expect(queryByText('Angola')).toBeVisible()
-    fireEvent.click(getByText('Angola'))
+    await waitFor(() => queryByText("Angola"))
+    expect(queryByText("Angola")).toBeVisible()
+    fireEvent.click(getByText("Angola"))
 
     await waitFor(() => {
       fireEvent.change(
-        getByLabelText('resources.addresses.attributes.first_name'),
+        getByLabelText("resources.addresses.attributes.first_name"),
         {
-          target: { value: 'John' }
-        }
+          target: { value: "John" },
+        },
       )
 
       fireEvent.change(
-        getByLabelText('resources.addresses.attributes.last_name'),
+        getByLabelText("resources.addresses.attributes.last_name"),
         {
-          target: { value: 'Doe' }
-        }
+          target: { value: "Doe" },
+        },
       )
 
       fireEvent.change(
-        getByLabelText('resources.addresses.attributes.line_1'),
+        getByLabelText("resources.addresses.attributes.line_1"),
         {
-          target: { value: 'Via tutti' }
-        }
+          target: { value: "Via tutti" },
+        },
       )
 
-      fireEvent.change(getByLabelText('resources.addresses.attributes.city'), {
-        target: { value: 'Milan' }
+      fireEvent.change(getByLabelText("resources.addresses.attributes.city"), {
+        target: { value: "Milan" },
       })
 
       fireEvent.change(
-        getByLabelText('resources.addresses.attributes.state_code'),
+        getByLabelText("resources.addresses.attributes.state_code"),
         {
-          target: { value: 'FR' }
-        }
+          target: { value: "FR" },
+        },
       )
 
       fireEvent.change(
-        getByLabelText('resources.addresses.attributes.zip_code'),
+        getByLabelText("resources.addresses.attributes.zip_code"),
         {
-          target: { value: '20090' }
-        }
+          target: { value: "20090" },
+        },
       )
 
-      fireEvent.change(getByLabelText('resources.addresses.attributes.phone'), {
-        target: { value: '-' }
+      fireEvent.change(getByLabelText("resources.addresses.attributes.phone"), {
+        target: { value: "-" },
       })
     })
 

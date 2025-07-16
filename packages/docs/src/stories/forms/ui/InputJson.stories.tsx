@@ -1,13 +1,13 @@
-import { InputJson } from '#ui/forms/InputJson'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { type JSX, useState } from 'react'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { type JSX, useState } from "react"
+import { InputJson } from "#ui/forms/InputJson"
 
 const setup: Meta<typeof InputJson> = {
-  title: 'Forms/ui/InputJson',
+  title: "Forms/ui/InputJson",
   component: InputJson,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -38,20 +38,20 @@ const Template: StoryFn<typeof InputJson> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Configuration',
+  label: "Configuration",
   onDataReady: () => undefined,
   onDataResetRequest: () => undefined,
-  placeholder: { foo: 'bar' },
-  validateFn: (v) => v
+  placeholder: { foo: "bar" },
+  validateFn: (v) => v,
 }
 
 const SamplePreviewData = ({
-  jsonValue
+  jsonValue,
 }: {
   jsonValue: object | null
 }): JSX.Element => {
   return (
-    <div style={{ marginTop: '1rem' }}>
+    <div style={{ marginTop: "1rem" }}>
       <p>Valid JSON:</p>
       <pre>{JSON.stringify(jsonValue)}</pre>
     </div>

@@ -1,10 +1,10 @@
-import { type JSX } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
-import { InputDate } from './InputDate'
-import { type InputDateProps } from './InputDateComponent'
+import type { JSX } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
+import { InputDate } from "./InputDate"
+import type { InputDateProps } from "./InputDateComponent"
 
-export interface HookedInputDateProps extends Omit<InputDateProps, 'onChange'> {
+export interface HookedInputDateProps extends Omit<InputDateProps, "onChange"> {
   /**
    * field name to match hook-form state
    */
@@ -34,7 +34,7 @@ export function HookedInputDate({
           feedback={feedback}
           ref={(ref) => {
             field.ref({
-              focus: ref?.setFocus
+              focus: ref?.setFocus,
             })
           }}
         />
@@ -43,4 +43,4 @@ export function HookedInputDate({
   )
 }
 
-HookedInputDate.displayName = 'HookedInputDate'
+HookedInputDate.displayName = "HookedInputDate"

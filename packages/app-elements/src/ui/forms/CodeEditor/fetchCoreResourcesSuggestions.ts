@@ -8,14 +8,14 @@ interface PublicResourcesResponse {
         string,
         {
           type:
-            | 'boolean'
-            | 'string'
-            | 'float'
-            | 'datetime'
-            | 'object'
-            | 'integer'
-            | 'array'
-            | 'json'
+            | "boolean"
+            | "string"
+            | "float"
+            | "datetime"
+            | "object"
+            | "integer"
+            | "array"
+            | "json"
           desc: string
         }
       >
@@ -33,29 +33,27 @@ interface PublicResourcesResponse {
 
 type FetchResourceResponse = Record<
   string,
-  PublicResourcesResponse['data'][number] & {
+  PublicResourcesResponse["data"][number] & {
     fields: ReadonlyArray<
       readonly [
         string,
-        PublicResourcesResponse['data'][number]['attributes']['fields'][string]
+        PublicResourcesResponse["data"][number]["attributes"]["fields"][string],
       ]
     >
     relationships: ReadonlyArray<
       readonly [
         string,
-        PublicResourcesResponse['data'][number]['attributes']['relationships'][string]
+        PublicResourcesResponse["data"][number]["attributes"]["relationships"][string],
       ]
     >
   }
 >
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const fetchResources = (() => {
   let cache: FetchResourceResponse
 
   return async (waitCache = true) => {
     if (waitCache) {
-      // eslint-disable-next-line no-unmodified-loop-condition
       while (cache == null) {
         await new Promise((resolve) => setTimeout(resolve, 100))
       }
@@ -66,32 +64,32 @@ export const fetchResources = (() => {
       return cache
     }
 
-    cache = await fetch('https://core.commercelayer.io/api/public/resources')
+    cache = await fetch("https://core.commercelayer.io/api/public/resources")
       .then<PublicResourcesResponse>(async (res) => await res.json())
       .then<PublicResourcesResponse>((json) => {
         return {
           data: json.data
             .concat([
               {
-                id: 'inventory',
-                type: 'resources',
+                id: "inventory",
+                type: "resources",
                 attributes: {
                   fields: {
                     available: {
-                      type: 'boolean',
-                      desc: 'Indicates if the sku is available.'
+                      type: "boolean",
+                      desc: "Indicates if the sku is available.",
                     },
                     quantity: {
-                      type: 'integer',
-                      desc: 'The available stock quantity.'
-                    }
+                      type: "integer",
+                      desc: "The available stock quantity.",
+                    },
                   },
-                  relationships: {}
-                }
-              }
+                  relationships: {},
+                },
+              },
             ])
             .map((item) => {
-              if (item.id === 'sku') {
+              if (item.id === "sku") {
                 delete item.attributes.fields.inventory
 
                 return {
@@ -101,47 +99,47 @@ export const fetchResources = (() => {
                     relationships: {
                       ...item.attributes.relationships,
                       inventory: {
-                        type: 'has_one',
-                        desc: 'The associated inventory.',
-                        required: 'required',
+                        type: "has_one",
+                        desc: "The associated inventory.",
+                        required: "required",
                         creatable: true,
                         updatable: true,
                         filterable: true,
                         sortable: true,
-                        parent_resource: 'Api::SkuResource',
-                        class_name: 'Inventory'
-                      }
-                    }
-                  }
+                        parent_resource: "Api::SkuResource",
+                        class_name: "Inventory",
+                      },
+                    },
+                  },
                 }
               }
 
               return item
-            })
+            }),
         }
       })
       .then<FetchResourceResponse>(({ data: resources }) =>
-        resources.reduce((acc, cv, index, list) => {
+        resources.reduce((acc, cv, _index, _list) => {
           return {
             ...acc,
             [cv.id]: {
               ...cv,
               fields: Object.entries(cv.attributes.fields)
                 // remove trigger attributes
-                .filter(([attr]) => !attr.startsWith('_')),
+                .filter(([attr]) => !attr.startsWith("_")),
               relationships: Object.entries(cv.attributes.relationships)
                 // remove trigger attributes
-                .filter(([attr]) => !attr.startsWith('_'))
+                .filter(([attr]) => !attr.startsWith("_"))
                 // remove polymorphic relationships
                 .filter(
                   ([, value]) =>
                     resources.find(
-                      (res) => res.id === toSnakeCase(value.class_name)
-                    ) != null
-                )
-            }
+                      (res) => res.id === toSnakeCase(value.class_name),
+                    ) != null,
+                ),
+            },
           }
-        }, {})
+        }, {}),
       )
       .catch((error) => {
         throw error
@@ -159,32 +157,32 @@ void fetchResources(false)
  * @returns
  */
 export async function fetchCoreResourcesSuggestions(
-  mainResourceIds: Array<'order' | 'price' | 'price_list'>,
-  path: string
-): Promise<Array<{ value: string; type: 'field' | 'relationship' }>> {
-  if (!new RegExp(`^(${mainResourceIds.join('|')})(.|$)`).test(path)) {
+  mainResourceIds: Array<"order" | "price" | "price_list">,
+  path: string,
+): Promise<Array<{ value: string; type: "field" | "relationship" }>> {
+  if (!new RegExp(`^(${mainResourceIds.join("|")})(.|$)`).test(path)) {
     return mainResourceIds.map((res) => ({
       value: res,
-      type: 'relationship'
+      type: "relationship",
     }))
   }
 
   const pathResolved = await atPath(path)
 
   const suggestions = (
-    [] as Array<{ value: string; type: 'field' | 'relationship' }>
+    [] as Array<{ value: string; type: "field" | "relationship" }>
   )
     .concat(
       pathResolved.resource?.fields.map(([key]) => ({
         value: `${pathResolved.resourcePath}.${key}`,
-        type: 'field'
-      })) ?? []
+        type: "field",
+      })) ?? [],
     )
     .concat(
       pathResolved.resource?.relationships.map(([key]) => ({
         value: `${pathResolved.resourcePath}.${key}`,
-        type: 'relationship'
-      })) ?? []
+        type: "relationship",
+      })) ?? [],
     )
 
   return suggestions
@@ -192,10 +190,10 @@ export async function fetchCoreResourcesSuggestions(
 
 export async function atPath(
   path: string,
-  obj?: FetchResourceResponse[string]
+  obj?: FetchResourceResponse[string],
 ): Promise<{
   path: string
-  field?: FetchResourceResponse[string]['fields'][number][1]
+  field?: FetchResourceResponse[string]["fields"][number][1]
   resourcePath: string
   resource?: FetchResourceResponse[string]
   // resource?: {
@@ -206,16 +204,16 @@ export async function atPath(
   // }
 }> {
   const resources = await fetchResources()
-  const splittedPath = path.replace(/\.$/, '').split('.')
+  const splittedPath = path.replace(/\.$/, "").split(".")
 
   const mainResourceId = splittedPath.shift()
 
-  obj ??= resources[mainResourceId ?? '']
+  obj ??= resources[mainResourceId ?? ""]
 
   return splittedPath.reduce<Awaited<ReturnType<typeof atPath>>>(
     (acc, attr) => {
       const className = acc.resource?.relationships.find(
-        ([key]) => key === attr
+        ([key]) => key === attr,
       )?.[1].class_name
 
       if (className == null) {
@@ -227,9 +225,9 @@ export async function atPath(
             field != null
               ? {
                   ...field,
-                  name: attr
+                  name: attr,
                 }
-              : undefined
+              : undefined,
         }
       }
 
@@ -241,21 +239,21 @@ export async function atPath(
 
       return {
         path: acc.path,
-        resourcePath: `${acc.resourcePath == null ? '' : `${acc.resourcePath}.`}${attr}`,
-        resource: obj
+        resourcePath: `${acc.resourcePath == null ? "" : `${acc.resourcePath}.`}${attr}`,
+        resource: obj,
       }
     },
     {
       path,
-      resourcePath: obj != null ? (mainResourceId ?? '') : '',
-      resource: obj
-    }
+      resourcePath: obj != null ? (mainResourceId ?? "") : "",
+      resource: obj,
+    },
   )
 }
 
 function toSnakeCase(str: string): string {
   return str
-    .replace(/([A-Z])/g, '_$1')
-    .replace(/^_/, '')
+    .replace(/([A-Z])/g, "_$1")
+    .replace(/^_/, "")
     .toLowerCase()
 }

@@ -1,9 +1,9 @@
-import { removeUnwantedProps } from '#utils/htmltags'
-import cn from 'classnames'
-import { withSkeletonTemplate } from './SkeletonTemplate'
+import cn from "classnames"
+import { removeUnwantedProps } from "#utils/htmltags"
+import { withSkeletonTemplate } from "./SkeletonTemplate"
 
 export type CardProps = React.HTMLAttributes<HTMLElement> &
-  Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'onClick' | 'href'> & {
+  Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "onClick" | "href"> & {
     /**
      * Footer will render in a dedicated section below the main content.
      */
@@ -11,7 +11,7 @@ export type CardProps = React.HTMLAttributes<HTMLElement> &
     /**
      * Set a gray background color
      */
-    backgroundColor?: 'light'
+    backgroundColor?: "light"
   } & (
     | {
         /**
@@ -22,19 +22,19 @@ export type CardProps = React.HTMLAttributes<HTMLElement> &
          *
          * @default 6
          */
-        gap?: '1' | '4' | '6'
+        gap?: "1" | "4" | "6"
         /**
          * Set the overflow behavior. In most of the cases you might want to keep overflow visible,
          * but when you have inner content with hover effects you might want to set overflow to hidden.
          */
-        overflow: 'visible' | 'hidden'
+        overflow: "visible" | "hidden"
       }
     | {
         /**
          * When card is rendered with no gap, overflow is always intended as hidden and cannot be controlled via props,
          * otherwise inner content will overlap the rounded corners of the card.
          */
-        gap: 'none'
+        gap: "none"
       }
   )
 
@@ -43,44 +43,44 @@ export const Card = withSkeletonTemplate<CardProps>(
   ({
     className,
     children,
-    gap = '6',
+    gap = "6",
     isLoading,
     delayMs,
     footer,
     backgroundColor,
     ...rest
   }) => {
-    const overflow = 'overflow' in rest ? rest.overflow : 'hidden'
+    const overflow = "overflow" in rest ? rest.overflow : "hidden"
     const divProps =
-      'overflow' in rest ? removeUnwantedProps(rest, ['overflow']) : rest
+      "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest
     const JsxTag =
-      rest.href != null ? 'a' : rest.onClick != null ? 'button' : 'div'
+      rest.href != null ? "a" : rest.onClick != null ? "button" : "div"
 
     return (
       <JsxTag
         className={cn([
-          'boxed-container',
+          "boxed-container",
           className,
-          'border border-solid rounded-md',
-          'text-left', // reset <button>
-          'text-inherit active:text-inherit hover:text-inherit font-inherit', // reset <a>
+          "border border-solid rounded-md",
+          "text-left", // reset <button>
+          "text-inherit active:text-inherit hover:text-inherit font-inherit", // reset <a>
           {
-            'overflow-hidden': overflow === 'hidden',
-            'border-gray-200 bg-white': backgroundColor == null,
-            'bg-gray-50 border-gray-50': backgroundColor === 'light',
-            'p-1': gap === '1',
-            'p-4': gap === '4',
-            'p-6': gap === '6',
-            [`hover:border-black hover:shadow-hover`]:
-              JsxTag === 'a' || JsxTag === 'button'
-          }
+            "overflow-hidden": overflow === "hidden",
+            "border-gray-200 bg-white": backgroundColor == null,
+            "bg-gray-50 border-gray-50": backgroundColor === "light",
+            "p-1": gap === "1",
+            "p-4": gap === "4",
+            "p-6": gap === "6",
+            "hover:border-black hover:shadow-hover":
+              JsxTag === "a" || JsxTag === "button",
+          },
         ])}
-        type={JsxTag === 'button' ? 'button' : undefined}
+        type={JsxTag === "button" ? "button" : undefined}
         {...divProps}
       >
         <div
-          className={cn('rounded h-full', {
-            'overflow-hidden': overflow === 'hidden'
+          className={cn("rounded h-full", {
+            "overflow-hidden": overflow === "hidden",
           })}
         >
           {children}
@@ -88,13 +88,13 @@ export const Card = withSkeletonTemplate<CardProps>(
         {footer != null && (
           <div
             className={cn([
-              'py-4 border-t',
+              "py-4 border-t",
               {
-                '-mt-[1px]': gap === 'none',
-                'mt-8': gap !== 'none',
-                '-m-4 px-4': gap === '4',
-                '-m-6 px-6': gap === '6'
-              }
+                "-mt-[1px]": gap === "none",
+                "mt-8": gap !== "none",
+                "-m-4 px-4": gap === "4",
+                "-m-6 px-6": gap === "6",
+              },
             ])}
           >
             {footer}
@@ -102,7 +102,7 @@ export const Card = withSkeletonTemplate<CardProps>(
         )}
       </JsxTag>
     )
-  }
+  },
 )
 
-Card.displayName = 'Card'
+Card.displayName = "Card"

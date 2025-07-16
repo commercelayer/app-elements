@@ -1,21 +1,21 @@
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInput } from '#ui/forms/Input'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useForm } from "react-hook-form"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInput } from "#ui/forms/Input"
 
 const setup: Meta<typeof HookedInput> = {
-  title: 'Forms/react-hook-form/HookedInput',
+  title: "Forms/react-hook-form/HookedInput",
   component: HookedInput,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
@@ -30,8 +30,8 @@ const Template: StoryFn<typeof HookedInput> = (args) => {
       }}
     >
       <HookedInput {...args} />
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -39,14 +39,14 @@ const Template: StoryFn<typeof HookedInput> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'First name',
-  name: 'firstname'
+  label: "First name",
+  name: "firstname",
 }
 
 export const WithSuffix = Template.bind({})
 WithSuffix.args = {
-  type: 'number',
-  label: 'Assign a priority',
-  name: 'priority',
-  suffix: 'index'
+  type: "number",
+  label: "Assign a priority",
+  name: "priority",
+  suffix: "index",
 }

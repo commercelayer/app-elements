@@ -1,22 +1,22 @@
-import { useOverlay } from '#hooks/useOverlay'
-import { Button } from '#ui/atoms/Button'
-import { CodeBlock } from '#ui/atoms/CodeBlock'
-import { PageHeading } from '#ui/atoms/PageHeading'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useOverlay } from "#hooks/useOverlay"
+import { Button } from "#ui/atoms/Button"
+import { CodeBlock } from "#ui/atoms/CodeBlock"
+import { PageHeading } from "#ui/atoms/PageHeading"
 
 const setup: Meta<typeof CodeBlock> = {
-  title: 'Atoms/CodeBlock',
+  title: "Atoms/CodeBlock",
   component: CodeBlock,
   parameters: {
-    layout: 'padded'
+    layout: "padded",
   },
   args: {
-    children: '',
-    label: '',
+    children: "",
+    label: "",
     hint: undefined,
     showCopyAction: false,
-    showSecretAction: false
-  }
+    showSecretAction: false,
+  },
 }
 export default setup
 
@@ -31,7 +31,7 @@ Default.args = {
       -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 \\
       -o demo-store \\
       -a admin`,
-  showCopyAction: true
+  showCopyAction: true,
 }
 
 /**
@@ -39,10 +39,10 @@ Default.args = {
  */
 export const LongSingleLine = Template.bind({})
 LongSingleLine.args = {
-  label: 'Login with your admin credentials',
+  label: "Login with your admin credentials",
   children:
-    'commercelayer app:login -i asdGvqXsOSsdko6ueiX9 -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 -o demo-store -a admin',
-  showCopyAction: true
+    "commercelayer app:login -i asdGvqXsOSsdko6ueiX9 -s elyFpGvqXsOSss2Ua4No1_HxaKH_0rUsFuYiX9 -o demo-store -a admin",
+  showCopyAction: true,
 }
 
 /**
@@ -50,10 +50,10 @@ LongSingleLine.args = {
  */
 export const Secret = Template.bind({})
 Secret.args = {
-  label: 'Secret',
-  children: 'elyFpGvqXsOSsvEko6ues2Ua4No1_HxaKH_0rUaFuYiX9',
+  label: "Secret",
+  children: "elyFpGvqXsOSsvEko6ues2Ua4No1_HxaKH_0rUaFuYiX9",
   showCopyAction: true,
-  showSecretAction: true
+  showSecretAction: true,
 }
 
 /**
@@ -64,7 +64,7 @@ Secret.args = {
 export const MultiLineSecret: StoryFn = () => {
   return (
     <CodeBlock
-      label='Login with your admin credentials'
+      label="Login with your admin credentials"
       showCopyAction
       showSecretAction
     >
@@ -79,17 +79,17 @@ export const MultiLineSecret: StoryFn = () => {
 
 export const WithHint = Template.bind({})
 WithHint.args = {
-  label: 'Secret',
-  children: 'asd6as78d6asds',
-  hint: { text: 'Do not share this secret with others' }
+  label: "Secret",
+  children: "asd6as78d6asds",
+  hint: { text: "Do not share this secret with others" },
 }
 
 export const Loading = Template.bind({})
 Loading.args = {
-  label: 'Secret',
-  children: 'asd6as78d6asds',
+  label: "Secret",
+  children: "asd6as78d6asds",
   isLoading: true,
-  hint: { text: 'Do not share this secret with others' }
+  hint: { text: "Do not share this secret with others" },
 }
 
 /**
@@ -101,19 +101,19 @@ export const UsageInsideOverlay: StoryFn = () => {
   return (
     <div>
       <Button onClick={open}>Open overlay</Button>
-      <Overlay backgroundColor='light'>
+      <Overlay backgroundColor="light">
         <PageHeading
-          title='Your credentials'
+          title="Your credentials"
           navigationButton={{
-            label: 'Close',
-            icon: 'x',
+            label: "Close",
+            icon: "x",
             onClick: () => {
               close()
-            }
+            },
           }}
         />
         <CodeBlock
-          label='Login with your admin credentials'
+          label="Login with your admin credentials"
           showCopyAction
           showSecretAction
         >

@@ -1,12 +1,12 @@
-import { useValidationFeedback } from '#ui/forms/ReactHookForm'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "#ui/forms/ReactHookForm"
 import {
   InputCheckboxGroup,
-  type InputCheckboxGroupProps
-} from './InputCheckboxGroup'
+  type InputCheckboxGroupProps,
+} from "./InputCheckboxGroup"
 
 export interface HookedInputCheckboxGroupProps
-  extends Omit<InputCheckboxGroupProps, 'onChange' | 'defaultValues'> {
+  extends Omit<InputCheckboxGroupProps, "onChange" | "defaultValues"> {
   /**
    * field name to match hook-form state
    */
@@ -41,4 +41,4 @@ export const HookedInputCheckboxGroup: React.FC<
   )
 }
 
-HookedInputCheckboxGroup.displayName = 'HookedInputCheckboxGroup'
+HookedInputCheckboxGroup.displayName = "HookedInputCheckboxGroup"

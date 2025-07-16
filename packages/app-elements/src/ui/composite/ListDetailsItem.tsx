@@ -1,8 +1,8 @@
-import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
-import { Text } from '#ui/atoms/Text'
-import { isSpecificReactComponent } from '#utils/children'
-import classNames from 'classnames'
-import { Children, type JSX, type ReactNode } from 'react'
+import classNames from "classnames"
+import { Children, type JSX, type ReactNode } from "react"
+import { Skeleton, SkeletonItem } from "#ui/atoms/Skeleton"
+import { Text } from "#ui/atoms/Text"
+import { isSpecificReactComponent } from "#utils/children"
 
 export interface ListDetailsItemProps {
   /**
@@ -22,15 +22,15 @@ export interface ListDetailsItemProps {
   /**
    * Specify `none` to remove border
    */
-  border?: 'none'
+  border?: "none"
   /**
    * Text alignment for children on the right side.
    */
-  childrenAlign?: 'left' | 'right'
+  childrenAlign?: "left" | "right"
   /**
    * Specify `none` to remove side gutter
    */
-  gutter?: 'none'
+  gutter?: "none"
 }
 
 export function ListDetailsItem({
@@ -39,12 +39,12 @@ export function ListDetailsItem({
   isLoading,
   border,
   gutter,
-  childrenAlign = 'left',
+  childrenAlign = "left",
   ...rest
 }: ListDetailsItemProps): JSX.Element {
   const childrenHaveInternalPadding = (
     Children.map(children, (child) =>
-      isSpecificReactComponent(child, [/^CopyToClipboard$/])
+      isSpecificReactComponent(child, [/^CopyToClipboard$/]),
     ) ?? []
   ).some(Boolean)
 
@@ -52,36 +52,36 @@ export function ListDetailsItem({
     <div
       data-testid={`list-details-item-${label}`}
       className={classNames(
-        'border-gray-100 md:!gap-4 py-2 md:py-0 grid md:!grid-cols-[1fr,1.4fr]',
+        "border-gray-100 md:!gap-4 py-2 md:py-0 grid md:!grid-cols-[1fr,1.4fr]",
         {
-          'px-4': gutter !== 'none',
-          'border-b py-4 md:!py-2': border !== 'none'
-        }
+          "px-4": gutter !== "none",
+          "border-b py-4 md:!py-2": border !== "none",
+        },
       )}
       {...rest}
     >
-      <div className='text-gray-500 font-medium flex-none w-full md:!py-2 min-w-0'>
+      <div className="text-gray-500 font-medium flex-none w-full md:!py-2 min-w-0">
         {label}
       </div>
       <div
         data-testid={`list-details-item-${label}-value`}
         // keep `min-w-0` to avoid grid overflow when grid-item content is too long
-        className={classNames('font-semibold min-w-0', {
-          'py-2': !childrenHaveInternalPadding,
-          'md:text-right': childrenAlign === 'right',
-          truncate: typeof children === 'string'
+        className={classNames("font-semibold min-w-0", {
+          "py-2": !childrenHaveInternalPadding,
+          "md:text-right": childrenAlign === "right",
+          truncate: typeof children === "string",
         })}
       >
         {isLoading === true ? (
           <Skeleton>
-            <SkeletonItem className='w-28 h-6' />
+            <SkeletonItem className="w-28 h-6" />
           </Skeleton>
         ) : (
-          (children ?? <Text variant='disabled'>&#8212;</Text>)
+          (children ?? <Text variant="disabled">&#8212;</Text>)
         )}
       </div>
     </div>
   )
 }
 
-ListDetailsItem.displayName = 'ListDetailsItem'
+ListDetailsItem.displayName = "ListDetailsItem"

@@ -1,10 +1,10 @@
-import { type JSX } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { HookedValidationError } from '../ReactHookForm'
+import type { JSX } from "react"
+import { useFormContext } from "react-hook-form"
+import { HookedValidationError } from "../ReactHookForm"
 import {
   InputSimpleSelect,
-  type InputSimpleSelectProps
-} from './InputSimpleSelect'
+  type InputSimpleSelectProps,
+} from "./InputSimpleSelect"
 
 export interface HookedInputSimpleSelectProps extends InputSimpleSelectProps {
   /**
@@ -36,4 +36,4 @@ export function HookedInputSimpleSelect({
   )
 }
 
-HookedInputSimpleSelect.displayName = 'HookedInputSimpleSelect'
+HookedInputSimpleSelect.displayName = "HookedInputSimpleSelect"

@@ -1,15 +1,15 @@
+import { formatValue } from "react-currency-input-field"
 import {
-  currencies,
   type Currency,
-  type CurrencyCode
-} from '#helpers/currencies'
-import { formatValue } from 'react-currency-input-field'
+  type CurrencyCode,
+  currencies,
+} from "#helpers/currencies"
 
 /**
  *  Returns a currency object for a given currency code
  */
 export function getCurrency(
-  currencyCode: CurrencyCode | Lowercase<CurrencyCode>
+  currencyCode: CurrencyCode | Lowercase<CurrencyCode>,
 ): Currency | undefined {
   return currencies[currencyCode.toLowerCase() as Lowercase<CurrencyCode>]
 }
@@ -30,13 +30,13 @@ export function getDecimalLength(currency: Currency): number {
  */
 export function addCurrencySymbol({
   formattedValue,
-  currency
+  currency,
 }: {
   formattedValue: string
   currency: Currency
 }): string {
   if (formattedValue == null) {
-    return ''
+    return ""
   }
 
   if (currency.symbol_first) {
@@ -53,13 +53,13 @@ export function addCurrencySymbol({
  */
 export function makePlaceholder(
   currency: Currency,
-  prefix: string = ''
+  prefix: string = "",
 ): string {
   const decimalLength = getDecimalLength(currency)
   if (decimalLength === 0) {
-    return '0'
+    return "0"
   }
-  const decimals = ''.padEnd(decimalLength, '0')
+  const decimals = "".padEnd(decimalLength, "0")
   return `${prefix}0${currency.decimal_mark}${decimals}`
 }
 
@@ -75,7 +75,7 @@ export function makePlaceholder(
 export function formatCentsToCurrency(
   cents: number,
   currencyCode: CurrencyCode,
-  stripZeroDecimals = false
+  stripZeroDecimals = false,
 ): string {
   const currency = getCurrency(currencyCode)
   if (currency == null) {
@@ -88,12 +88,12 @@ export function formatCentsToCurrency(
     stripZeroDecimals && unit % 1 === 0
       ? unit.toFixed(0)
       : unit.toFixed(decimalLength)
-  const value = `${fixedDecimals}`.replace('.', currency.decimal_mark)
+  const value = `${fixedDecimals}`.replace(".", currency.decimal_mark)
 
   const formattedValue = formatValue({
     value,
     decimalSeparator: currency.decimal_mark,
-    groupSeparator: currency.thousands_separator
+    groupSeparator: currency.thousands_separator,
   })
 
   return addCurrencySymbol({ formattedValue, currency })

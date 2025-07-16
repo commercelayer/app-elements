@@ -8,15 +8,15 @@
 /**
  * The logic to determine an overall match of the conditions.
  */
-export type ConditionsLogic = "and" | "or";
+export type ConditionsLogic = "and" | "or"
 /**
  * Policy to determine if a condition is a match. If value is any (default), it will match as long as one fact it's a match, if value is all, it will match if all facts are a match.
  */
-export type Scope = "any" | "all";
+export type Scope = "any" | "all"
 /**
  * Identifier of the group to assign the matches of the condition invoked.
  */
-export type Group = string;
+export type Group = string
 /**
  * An array who contains all conditions to be evaluated by the engine within the rule.
  */
@@ -25,7 +25,7 @@ export type Conditions = (
       /**
        * Field to apply the condition.
        */
-      field: string;
+      field: string
       /**
        * Matcher to be used against the field and value.
        */
@@ -49,9 +49,9 @@ export type Conditions = (
         | "gteq_lteq"
         | "is_in"
         | "is_not_in"
-        | "array_match";
-      scope?: Scope;
-      group?: Group;
+        | "array_match"
+      scope?: Scope
+      group?: Group
       value:
         | number
         | string
@@ -61,74 +61,74 @@ export type Conditions = (
             /**
              * Items that are in to match in AND logic.
              */
-            in_and?: (string | number)[];
+            in_and?: (string | number)[]
             /**
              * Items that are in to match in OR logic.
              */
-            in_or?: (string | number)[];
+            in_or?: (string | number)[]
             /**
              * Items that are not in to match in AND logic.
              */
-            not_in_and?: (string | number)[];
+            not_in_and?: (string | number)[]
             /**
              * Items that are not to match in OR logic.
              */
-            not_in_or?: (string | number)[];
-          };
+            not_in_or?: (string | number)[]
+          }
       /**
        * Aggregation conditions to execute within the result of the existing condition.
        */
-      aggregations?: Aggregation[];
+      aggregations?: Aggregation[]
       /**
        * Nested conditions to be evaluated within the context of the main condition.
        */
       nested?: {
-        conditions_logic?: ConditionsLogic;
-        conditions?: Conditions;
-        [k: string]: unknown;
-      };
+        conditions_logic?: ConditionsLogic
+        conditions?: Conditions
+        [k: string]: unknown
+      }
     }
   | {
       /**
        * Field to apply the condition.
        */
-      field: string;
+      field: string
       /**
        * Matcher to be used against the field.
        */
-      matcher: "blank" | "present" | "null" | "not_null";
-      scope?: Scope;
-      group?: Group;
+      matcher: "blank" | "present" | "null" | "not_null"
+      scope?: Scope
+      group?: Group
       /**
        * Aggregation conditions to execute within the result of the existing condition.
        */
-      aggregations?: Aggregation[];
+      aggregations?: Aggregation[]
       /**
        * Nested conditions to be evaluated within the context of the main condition.
        */
       nested?: {
-        conditions_logic?: ConditionsLogic;
-        conditions?: Conditions;
-        [k: string]: unknown;
-      };
+        conditions_logic?: ConditionsLogic
+        conditions?: Conditions
+        [k: string]: unknown
+      }
     }
-)[];
+)[]
 /**
  * The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.
  */
-export type Selector = string;
+export type Selector = string
 /**
  * An identifier value to address one or more specific instances based on the attribute defined in the selector key (if any). Cannot be used if the selector is a resource.
  */
-export type Identifier = string;
+export type Identifier = string
 /**
  * The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).
  */
-export type Groups = string[];
+export type Groups = string[]
 /**
  * If provided, applies the action to a specific attribute instead of the default one.
  */
-export type ApplyOn = string;
+export type ApplyOn = string
 /**
  * Creates bundles based on the groups provided.
  */
@@ -137,20 +137,20 @@ export type Bundle =
       /**
        * The criteria to be used to select the matches and create the bundles across groups.
        */
-      type?: "balanced";
-      sort: Sort;
+      type?: "balanced"
+      sort: Sort
     }
   | {
       /**
        * The criteria to be used to select the matches and create the bundles across groups.
        */
-      type?: "every";
-      sort: Sort;
+      type?: "every"
+      sort: Sort
       /**
        * Value to be used to do the bundle every calculation.
        */
-      value: number;
-    };
+      value: number
+    }
 
 /**
  * Rules payload within price context for the rules engine of Commerce Layer.
@@ -163,16 +163,16 @@ export interface RulesForPriceContext {
     /**
      * Identifier of the rule, recommended to use UUID.
      */
-    id?: string;
+    id?: string
     name: {
-      [k: string]: unknown;
-    };
+      [k: string]: unknown
+    }
     /**
      * The priority order of the rule evaluation.
      */
-    priority?: number;
-    conditions_logic?: ConditionsLogic;
-    conditions: Conditions;
+    priority?: number
+    conditions_logic?: ConditionsLogic
+    conditions: Conditions
     /**
      * Array of actions that will be executed if the rule it's a match.
      */
@@ -181,124 +181,124 @@ export interface RulesForPriceContext {
           /**
            * The type of action you want to apply.
            */
-          type: "percentage";
-          selector: Selector;
-          identifier?: Identifier;
-          groups: Groups;
-          aggregation?: Aggregation;
+          type: "percentage"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
           /**
            * Percentage to be discounted,
            */
-          value: number;
-          apply_on?: ApplyOn;
-          bundle?: Bundle;
+          value: number
+          apply_on?: ApplyOn
+          bundle?: Bundle
         }
       | {
           /**
            * The type of action you want to apply.
            */
-          type: "percentage";
-          selector: Selector;
-          identifier?: Identifier;
-          groups?: Groups;
-          aggregation?: Aggregation;
+          type: "percentage"
+          selector: Selector
+          identifier?: Identifier
+          groups?: Groups
+          aggregation?: Aggregation
           /**
            * Percentage to be discounted,
            */
-          value: number;
-          apply_on?: ApplyOn;
-          limit?: Limit;
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
         }
       | {
           /**
            * The type of action you want to apply.
            */
-          type: "fixed_amount";
-          selector: Selector;
-          identifier?: Identifier;
-          groups: Groups;
-          aggregation?: Aggregation;
+          type: "fixed_amount"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
            */
-          value: number;
-          bundle?: Bundle;
-          apply_on?: ApplyOn;
+          value: number
+          bundle?: Bundle
+          apply_on?: ApplyOn
           /**
            * The type of distribution of the discount over the items.
            */
-          discount_mode?: ["distributed", "default"];
+          discount_mode?: ["distributed", "default"]
         }
       | {
           /**
            * The type of action you want to apply.
            */
-          type: "fixed_amount";
-          selector: Selector;
-          identifier?: Identifier;
-          groups?: Groups;
-          aggregation?: Aggregation;
+          type: "fixed_amount"
+          selector: Selector
+          identifier?: Identifier
+          groups?: Groups
+          aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
            */
-          value: number;
-          apply_on?: ApplyOn;
-          limit?: Limit;
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
           /**
            * The type of distribution of the discount over the items.
            */
-          discount_mode?: ["distributed", "default"];
+          discount_mode?: ["distributed", "default"]
         }
       | {
           /**
            * The type of action you want to apply.
            */
-          type: "fixed_price";
-          selector: Selector;
-          identifier?: Identifier;
-          groups: Groups;
-          aggregation?: Aggregation;
+          type: "fixed_price"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
            */
-          value: number;
-          bundle?: Bundle;
-          apply_on?: ApplyOn;
+          value: number
+          bundle?: Bundle
+          apply_on?: ApplyOn
         }
       | {
           /**
            * The type of action you want to apply.
            */
-          type: "fixed_price";
-          selector: Selector;
-          identifier?: Identifier;
-          groups?: Groups;
-          aggregation?: Aggregation;
+          type: "fixed_price"
+          selector: Selector
+          identifier?: Identifier
+          groups?: Groups
+          aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
            */
-          value: number;
-          apply_on?: ApplyOn;
-          limit?: Limit;
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
         }
-    )[];
-  }[];
-  [k: string]: unknown;
+    )[]
+  }[]
+  [k: string]: unknown
 }
 export interface Aggregation {
   /**
    * Field to apply the condition.
    */
-  field: string;
+  field: string
   /**
    * Matcher to be used against the field and value.
    */
-  matcher: "multiple" | "eq" | "not_eq" | "lt" | "lteq" | "gt" | "gteq";
-  value: number;
+  matcher: "multiple" | "eq" | "not_eq" | "lt" | "lteq" | "gt" | "gteq"
+  value: number
   /**
    * Operator to aggregate over previous results.
    */
-  operator: "sum" | "min" | "max" | "count" | "count_uniq";
+  operator: "sum" | "min" | "max" | "count" | "count_uniq"
 }
 /**
  * Sorting configuration for the given function
@@ -307,12 +307,12 @@ export interface Sort {
   /**
    * The field to apply the sorting.
    */
-  attribute: string;
+  attribute: string
   /**
    * The sort criteria to be used.
    */
-  direction: "asc" | "desc";
-  [k: string]: unknown;
+  direction: "asc" | "desc"
+  [k: string]: unknown
 }
 /**
  * Restriction on how many resources will be affected by the action.
@@ -321,6 +321,6 @@ export interface Limit {
   /**
    * The number of items to return based on the limit type.
    */
-  value: number;
-  sort: Sort;
+  value: number
+  sort: Sort
 }

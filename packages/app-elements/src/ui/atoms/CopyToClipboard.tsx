@@ -1,9 +1,9 @@
-import { Text } from '#ui/atoms/Text'
-import { Check, Copy } from '@phosphor-icons/react'
-import cn from 'classnames'
-import isEmpty from 'lodash-es/isEmpty'
-import { useCallback, useEffect, useState } from 'react'
-import invariant from 'ts-invariant'
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import isEmpty from "lodash-es/isEmpty"
+import { useCallback, useEffect, useState } from "react"
+import invariant from "ts-invariant"
+import { Text } from "#ui/atoms/Text"
 
 export interface CopyToClipboardProps {
   /**
@@ -34,7 +34,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
 
   invariant(
     feedbackDurationMs > transitionMs,
-    'feedbackDurationMs must be greater than transitionMs'
+    "feedbackDurationMs must be greater than transitionMs",
   )
 
   const handleCopy = useCallback(
@@ -42,7 +42,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       await navigator.clipboard.writeText(v)
       setCopied(true)
     },
-    [value]
+    [value],
   )
 
   useEffect(
@@ -55,19 +55,19 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
         setCopied(false)
       }, feedbackDurationMs + transitionMs)
     },
-    [copied]
+    [copied],
   )
 
   if (value == null || isEmpty(value)) {
     return (
       <div
         className={cn(
-          'border-b border-gray-500 last:border-b-0 py-2',
-          className
+          "border-b border-gray-500 last:border-b-0 py-2",
+          className,
         )}
         {...rest}
       >
-        <Text data-testid='empty-string' variant='disabled'>
+        <Text data-testid="empty-string" variant="disabled">
           &#8212;
         </Text>
       </div>
@@ -77,15 +77,15 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   return (
     <div
       className={cn(
-        'break-normal overflow-hidden font-semibold flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0',
-        className
+        "break-normal overflow-hidden font-semibold flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0",
+        className,
       )}
       {...rest}
     >
       {showValue && (
-        <div className='overflow-x-auto py-2'>
+        <div className="overflow-x-auto py-2">
           {isJsonString(value) ? (
-            <div className='whitespace-pre max-h-[200px] font-mono font-medium'>
+            <div className="whitespace-pre max-h-[200px] font-mono font-medium">
               {JSON.stringify(JSON.parse(value), null, 2)}
             </div>
           ) : (
@@ -94,52 +94,52 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
         </div>
       )}
       <button
-        type='button'
+        type="button"
         onClick={() => {
           void handleCopy(value)
         }}
-        className='flex items-center text-xl cursor-pointer text-gray-500 hover:text-gray-300 relative'
-        data-testid='copy-value-button'
+        className="flex items-center text-xl cursor-pointer text-gray-500 hover:text-gray-300 relative"
+        data-testid="copy-value-button"
       >
         {!copied ? (
-          <Copy />
+          <CopyIcon />
         ) : (
-          <span className='block w-5 h-5'>
-            <Copy className='absolute'>
+          <span className="block w-5 h-5">
+            <CopyIcon className="absolute">
               <animate
-                attributeName='opacity'
-                values='1;0'
+                attributeName="opacity"
+                values="1;0"
                 dur={`${transitionMs}ms`}
-                fill='freeze'
-                repeatCount='1'
+                fill="freeze"
+                repeatCount="1"
               />
               <animate
-                attributeName='opacity'
-                values='0;1'
+                attributeName="opacity"
+                values="0;1"
                 begin={`${feedbackDurationMs}ms`}
                 dur={`${transitionMs}ms`}
-                fill='freeze'
-                repeatCount='1'
+                fill="freeze"
+                repeatCount="1"
               />
-            </Copy>
-            <Check className='text-green opacity-0 absolute'>
+            </CopyIcon>
+            <CheckIcon className="text-green opacity-0 absolute">
               <animate
-                attributeName='opacity'
-                values='0;1'
+                attributeName="opacity"
+                values="0;1"
                 begin={`${transitionMs}ms`}
                 dur={`${transitionMs}ms`}
-                fill='freeze'
-                repeatCount='1'
+                fill="freeze"
+                repeatCount="1"
               />
               <animate
-                attributeName='opacity'
-                values='1;0'
+                attributeName="opacity"
+                values="1;0"
                 begin={`${feedbackDurationMs - transitionMs}ms`}
                 dur={`${transitionMs}ms`}
-                fill='freeze'
-                repeatCount='1'
+                fill="freeze"
+                repeatCount="1"
               />
-            </Check>
+            </CheckIcon>
           </span>
         )}
       </button>
@@ -151,10 +151,10 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
 function isJsonString(str: string): boolean {
   try {
     JSON.parse(str)
-  } catch (e) {
+  } catch (_e) {
     return false
   }
   return true
 }
 
-CopyToClipboard.displayName = 'CopyToClipboard'
+CopyToClipboard.displayName = "CopyToClipboard"

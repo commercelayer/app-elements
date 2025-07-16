@@ -1,169 +1,168 @@
-import { PageLayout } from '#ui/composite/PageLayout'
-import { SearchBar } from '#ui/composite/SearchBar'
-
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { PageLayout } from "#ui/composite/PageLayout"
+import { SearchBar } from "#ui/composite/SearchBar"
 
 const setup: Meta<typeof PageLayout> = {
-  title: 'Composite/PageLayout',
+  title: "Composite/PageLayout",
   component: PageLayout,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
 const Template: StoryFn<typeof PageLayout> = (args) => (
-  <PageLayout {...args}>{args.children ?? 'Page content here...'}</PageLayout>
+  <PageLayout {...args}>{args.children ?? "Page content here..."}</PageLayout>
 )
 
 export const Default = Template.bind({})
 Default.args = {
-  title: 'Resources',
-  description: 'View all resources',
+  title: "Resources",
+  description: "View all resources",
   navigationButton: {
-    label: 'Back to dashboard',
-    onClick: () => undefined
+    label: "Back to dashboard",
+    onClick: () => undefined,
   },
-  mode: 'test'
+  mode: "test",
 }
 
 export const WithSimpleToolbar = Template.bind({})
 WithSimpleToolbar.args = {
-  title: 'Resources',
-  gap: 'none',
+  title: "Resources",
+  gap: "none",
   toolbar: {
     buttons: [
       {
-        label: 'Add new',
-        icon: 'plus',
-        size: 'small',
-        variant: 'primary',
+        label: "Add new",
+        icon: "plus",
+        size: "small",
+        variant: "primary",
         onClick: () => {
-          alert('Add new clicked!')
-        }
+          alert("Add new clicked!")
+        },
       },
       {
-        label: 'Search',
-        icon: 'plus',
-        size: 'small',
-        variant: 'primary',
+        label: "Search",
+        icon: "plus",
+        size: "small",
+        variant: "primary",
         onClick: () => {
-          alert('Search clicked!')
-        }
+          alert("Search clicked!")
+        },
       },
       {
-        label: 'Delete',
-        icon: 'trash',
-        size: 'small',
-        variant: 'secondary',
+        label: "Delete",
+        icon: "trash",
+        size: "small",
+        variant: "secondary",
         onClick: () => {
-          alert('Add new clicked!')
-        }
-      }
-    ]
+          alert("Add new clicked!")
+        },
+      },
+    ],
   },
   children: (
-    <div className='mt-4 mb-14'>
+    <div className="mt-4 mb-14">
       <SearchBar
-        placeholder='Cerca...'
+        placeholder="Cerca..."
         isLoading={false}
-        initialValue=''
+        initialValue=""
         onSearch={() => {}}
       />
     </div>
-  )
+  ),
 }
 
 export const WithToolbar = Template.bind({})
 WithToolbar.args = {
-  title: 'Resources',
-  description: 'View all resources',
+  title: "Resources",
+  description: "View all resources",
   navigationButton: {
-    label: 'Close',
+    label: "Close",
     onClick: () => undefined,
-    icon: 'x'
+    icon: "x",
   },
-  mode: 'live',
+  mode: "live",
   toolbar: {
     buttons: [
       {
-        label: 'Add new',
-        icon: 'plus',
-        size: 'small',
+        label: "Add new",
+        icon: "plus",
+        size: "small",
         onClick: () => {
-          alert('Add new clicked!')
-        }
+          alert("Add new clicked!")
+        },
       },
       {
-        label: 'Secondary',
-        icon: 'pulse',
-        variant: 'secondary',
-        size: 'small',
+        label: "Secondary",
+        icon: "pulse",
+        variant: "secondary",
+        size: "small",
         onClick: () => {
-          alert('Secondary clicked!')
-        }
-      }
+          alert("Secondary clicked!")
+        },
+      },
     ],
     dropdownItems: [
       [
         {
-          label: 'Edit',
+          label: "Edit",
           onClick: () => {
-            alert('Edit clicked!')
-          }
+            alert("Edit clicked!")
+          },
         },
         {
-          label: 'Set metadata',
+          label: "Set metadata",
           onClick: () => {
-            alert('Set metadata clicked!')
-          }
-        }
+            alert("Set metadata clicked!")
+          },
+        },
       ],
       [
         {
-          label: 'Delete',
+          label: "Delete",
           onClick: () => {
-            alert('Delete clicked!')
-          }
-        }
-      ]
-    ]
-  }
+            alert("Delete clicked!")
+          },
+        },
+      ],
+    ],
+  },
 }
 
 export const WithoutNavigationButton = Template.bind({})
 WithoutNavigationButton.args = {
   ...WithToolbar.args,
-  navigationButton: undefined
+  navigationButton: undefined,
 }
 
 export const MobileWidthWithLongTitle = Template.bind({})
 MobileWidthWithLongTitle.args = {
-  title: 'welcome@commercelayer.io',
-  description: 'This long title should break thanks to `break-words` className',
+  title: "welcome@commercelayer.io",
+  description: "This long title should break thanks to `break-words` className",
   navigationButton: {
-    label: 'Close',
+    label: "Close",
     onClick: () => undefined,
-    icon: 'x'
+    icon: "x",
   },
-  mode: 'live',
+  mode: "live",
   toolbar: {
     buttons: [
       {
-        label: 'Edit',
-        size: 'small'
-      }
-    ]
-  }
+        label: "Edit",
+        size: "small",
+      },
+    ],
+  },
 }
 MobileWidthWithLongTitle.decorators = [
   (Story) => (
     <div
       style={{
-        maxWidth: '320px'
+        maxWidth: "320px",
       }}
     >
       <Story />
     </div>
-  )
+  ),
 ]

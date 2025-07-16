@@ -1,27 +1,27 @@
-import { render } from '@testing-library/react'
-import { ActionButtons } from './ActionButtons'
+import { render } from "@testing-library/react"
+import { ActionButtons } from "./ActionButtons"
 
-describe('ActionButtons', () => {
-  it('Should not render when no actions', () => {
+describe("ActionButtons", () => {
+  it("Should not render when no actions", () => {
     const { getByTestId } = render(<ActionButtons actions={[]} />)
-    expect(() => getByTestId('action-buttons')).toThrow()
+    expect(() => getByTestId("action-buttons")).toThrow()
   })
 
-  it('Should render', () => {
+  it("Should render", () => {
     const { getByTestId } = render(
-      <ActionButtons actions={[{ label: 'Save', onClick: () => {} }]} />
+      <ActionButtons actions={[{ label: "Save", onClick: () => {} }]} />,
     )
-    expect(getByTestId('action-buttons')).toBeVisible()
+    expect(getByTestId("action-buttons")).toBeVisible()
   })
 
-  it('Should render one primary action', () => {
+  it("Should render one primary action", () => {
     const onSaveClick = vi.fn()
     const { getByTestId } = render(
-      <ActionButtons actions={[{ label: 'Save', onClick: onSaveClick }]} />
+      <ActionButtons actions={[{ label: "Save", onClick: onSaveClick }]} />,
     )
 
-    const actionButtons = getByTestId('action-buttons')
-    const buttons = actionButtons.querySelectorAll('button')
+    const actionButtons = getByTestId("action-buttons")
+    const buttons = actionButtons.querySelectorAll("button")
     const [saveButton] = buttons
     assertToBeDefined(saveButton)
 
@@ -29,26 +29,26 @@ describe('ActionButtons', () => {
 
     saveButton.click()
     expect(onSaveClick).toBeCalled()
-    expect(saveButton.textContent).toEqual('Save')
-    expect(saveButton.parentElement?.className).toContain('flex')
-    expect(saveButton.parentElement?.className).not.toContain('md:basis-1/2')
+    expect(saveButton.textContent).toEqual("Save")
+    expect(saveButton.parentElement?.className).toContain("flex")
+    expect(saveButton.parentElement?.className).not.toContain("md:basis-1/2")
   })
 
-  it('Should render one primary action and one secondary action', () => {
+  it("Should render one primary action and one secondary action", () => {
     const onSaveClick = vi.fn()
     const onCancelClick = vi.fn()
 
     const { getByTestId } = render(
       <ActionButtons
         actions={[
-          { label: 'Save', onClick: onSaveClick },
-          { label: 'Cancel', onClick: onCancelClick, variant: 'secondary' }
+          { label: "Save", onClick: onSaveClick },
+          { label: "Cancel", onClick: onCancelClick, variant: "secondary" },
         ]}
-      />
+      />,
     )
 
-    const actionButtons = getByTestId('action-buttons')
-    const buttons = actionButtons.querySelectorAll('button')
+    const actionButtons = getByTestId("action-buttons")
+    const buttons = actionButtons.querySelectorAll("button")
     const [cancelButton, saveButton] = buttons
     assertToBeDefined(cancelButton)
     assertToBeDefined(saveButton)
@@ -57,14 +57,14 @@ describe('ActionButtons', () => {
 
     saveButton.click()
     expect(onSaveClick).toBeCalled()
-    expect(saveButton.textContent).toEqual('Save')
-    expect(saveButton.parentElement?.className).toContain('flex')
-    expect(saveButton.parentElement?.className).toContain('md:basis-1/2')
+    expect(saveButton.textContent).toEqual("Save")
+    expect(saveButton.parentElement?.className).toContain("flex")
+    expect(saveButton.parentElement?.className).toContain("md:basis-1/2")
 
     cancelButton.click()
     expect(onCancelClick).toBeCalled()
-    expect(cancelButton.textContent).toEqual('Cancel')
-    expect(cancelButton.parentElement?.className).toContain('flex')
-    expect(cancelButton.parentElement?.className).toContain('md:basis-1/2')
+    expect(cancelButton.textContent).toEqual("Cancel")
+    expect(cancelButton.parentElement?.className).toContain("flex")
+    expect(cancelButton.parentElement?.className).toContain("md:basis-1/2")
   })
 })

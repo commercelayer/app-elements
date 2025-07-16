@@ -1,14 +1,14 @@
-import { type JSX } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { useValidationFeedback } from '../ReactHookForm'
+import type { JSX } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "../ReactHookForm"
 import {
   InputToggleButton,
-  type InputToggleButtonProps
-} from './InputToggleButton'
+  type InputToggleButtonProps,
+} from "./InputToggleButton"
 
 export type HookedInputToggleButtonProps = Omit<
   InputToggleButtonProps,
-  'value' | 'onChange'
+  "value" | "onChange"
 > & {
   /**
    * field name to match hook-form state
@@ -44,4 +44,4 @@ export function HookedInputToggleButton({
   )
 }
 
-HookedInputToggleButton.displayName = 'HookedInputToggleButton'
+HookedInputToggleButton.displayName = "HookedInputToggleButton"

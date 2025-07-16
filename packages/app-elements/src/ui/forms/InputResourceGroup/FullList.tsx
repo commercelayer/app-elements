@@ -1,25 +1,25 @@
-import { useOverlay } from '#hooks/useOverlay'
-import { t } from '#providers/I18NProvider'
-import { AvatarLetter } from '#ui/atoms/AvatarLetter'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Text } from '#ui/atoms/Text'
-import { SearchBar } from '#ui/composite/SearchBar'
-import { type OverlayProps } from '#ui/internals/Overlay'
-import { useResourceList } from '#ui/resources/useResourceList'
-import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
-import isEmpty from 'lodash-es/isEmpty'
-import { type JSX, useCallback, useEffect, useMemo, useState } from 'react'
-import { InputCheckboxGroupItem } from '../InputCheckboxGroup/InputCheckboxGroupItem'
+import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
+import { type JSX, useCallback, useEffect, useMemo, useState } from "react"
+import { useOverlay } from "#hooks/useOverlay"
+import { t } from "#providers/I18NProvider"
+import { AvatarLetter } from "#ui/atoms/AvatarLetter"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
+import { SearchBar } from "#ui/composite/SearchBar"
+import type { OverlayProps } from "#ui/internals/Overlay"
+import { useResourceList } from "#ui/resources/useResourceList"
+import { InputCheckboxGroupItem } from "../InputCheckboxGroup/InputCheckboxGroupItem"
 import {
   computeLabelWithSelected,
   prepareCheckboxItemOrMock,
-  useToggleCheckboxValues
-} from './utils'
+  useToggleCheckboxValues,
+} from "./utils"
 
 export interface SortBy {
   attribute: string
-  direction: 'asc' | 'desc'
+  direction: "asc" | "desc"
 }
 
 export interface FullListProps {
@@ -94,11 +94,11 @@ export function FullList({
   sortBy,
   title,
   showCheckboxIcon = true,
-  hideSelected = false
+  hideSelected = false,
 }: FullListProps): JSX.Element {
   const { values, toggleValue } = useToggleCheckboxValues(defaultValues)
   const [filters, setFilters] = useState<QueryFilter>({})
-  const [search, setSearch] = useState<string>('')
+  const [search, setSearch] = useState<string>("")
 
   const initialValues = useMemo(() => defaultValues, [])
 
@@ -110,9 +110,9 @@ export function FullList({
       pageSize: 25,
       filters,
       sort: {
-        [sortBy.attribute]: sortBy.direction
-      }
-    }
+        [sortBy.attribute]: sortBy.direction,
+      },
+    },
   })
 
   useEffect(() => {
@@ -128,16 +128,16 @@ export function FullList({
   return (
     <div>
       {searchBy != null && (
-        <Spacer bottom='8'>
-          <div className='flex gap-4'>
+        <Spacer bottom="8">
+          <div className="flex gap-4">
             <SearchBar
               onSearch={setSearch}
               onClear={() => {
-                setSearch('')
+                setSearch("")
               }}
             />
             <button
-              type='button'
+              type="button"
               onClick={() => {
                 if (onCancel != null) {
                   onCancel()
@@ -145,9 +145,9 @@ export function FullList({
                   history.back()
                 }
               }}
-              className='text-primary font-bold rounded px-1 shadow-none !outline-0 !border-0 !ring-0 focus:shadow-focus'
+              className="text-primary font-bold rounded px-1 shadow-none !outline-0 !border-0 !ring-0 focus:shadow-focus"
             >
-              {t('common.cancel')}
+              {t("common.cancel")}
             </button>
           </div>
         </Spacer>
@@ -155,9 +155,9 @@ export function FullList({
 
       <SkeletonTemplate>
         <ResourceList
-          variant='boxed'
+          variant="boxed"
           title={(totalCount) => (
-            <Text weight='semibold'>
+            <Text weight="semibold">
               {computeLabelWithSelected({
                 label: title,
                 selectedCount: hideSelected
@@ -166,7 +166,7 @@ export function FullList({
                 totalCount:
                   hideSelected && totalCount != null
                     ? totalCount - initialValues.length
-                    : totalCount
+                    : totalCount,
               })}
             </Text>
           )}
@@ -175,7 +175,7 @@ export function FullList({
               resource,
               isLoading,
               fieldForLabel,
-              fieldForValue
+              fieldForValue,
             })
 
             if (hideSelected && initialValues.includes(item.value)) {
@@ -195,7 +195,7 @@ export function FullList({
                   ) : undefined
                 }
                 hideIconOnDesktop
-                content={<Text weight='semibold'>{item.label}</Text>}
+                content={<Text weight="semibold">{item.label}</Text>}
                 value={item.value}
               />
             )
@@ -206,7 +206,6 @@ export function FullList({
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export const useInputResourceGroupOverlay = () => {
   const { Overlay, close, open } = useOverlay()
 
@@ -215,19 +214,19 @@ export const useInputResourceGroupOverlay = () => {
       footer,
       backgroundColor,
       ...props
-    }: FullListProps & Omit<OverlayProps, 'children'>) => (
+    }: FullListProps & Omit<OverlayProps, "children">) => (
       <Overlay backgroundColor={backgroundColor} footer={footer}>
-        <div className='pt-5'>
+        <div className="pt-5">
           <FullList {...props} />
         </div>
       </Overlay>
     ),
-    [Overlay]
+    [Overlay],
   )
 
   return {
     InputResourceGroupOverlay,
     openInputResourceGroupOverlay: open,
-    closeInputResourceGroupOverlay: close
+    closeInputResourceGroupOverlay: close,
   }
 }

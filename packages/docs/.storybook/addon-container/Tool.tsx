@@ -1,12 +1,13 @@
-import { IconButton } from 'storybook/internal/components'
-import { BoxIcon } from '@storybook/icons'
-import { useGlobals, useStorybookApi } from 'storybook/manager-api'
-import React, { useCallback, useEffect } from 'react'
-import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from './constants'
+import { BoxIcon } from "@storybook/icons"
+// biome-ignore lint/correctness/noUnusedImports: React is used in the render method
+import React, { useCallback, useEffect } from "react"
+import { IconButton } from "storybook/internal/components"
+import { useGlobals, useStorybookApi } from "storybook/manager-api"
+import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from "./constants"
 
 export const Tool = () => {
   const [globals, updateGlobals] = useGlobals()
-  const active = globals[PARAM_KEY] === true || globals[PARAM_KEY] === 'true'
+  const active = globals[PARAM_KEY] === true || globals[PARAM_KEY] === "true"
   const api = useStorybookApi()
 
   const toggleContainer = useCallback(
@@ -14,14 +15,14 @@ export const Tool = () => {
       updateGlobals({
         [PARAM_KEY]: !active,
       }),
-    [updateGlobals, active]
+    [updateGlobals, active],
   )
 
   useEffect(() => {
     api.setAddonShortcut(ADDON_ID, {
-      label: 'Toggle Container [C]',
-      defaultShortcut: ['C'],
-      actionName: 'container',
+      label: "Toggle Container [C]",
+      defaultShortcut: ["C"],
+      actionName: "container",
       showInMenu: false,
       action: toggleContainer,
     })

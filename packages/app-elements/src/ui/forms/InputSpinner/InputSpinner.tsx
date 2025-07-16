@@ -1,16 +1,16 @@
+import { MinusIcon, PlusIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import { forwardRef, type JSX, useCallback, useState } from "react"
 import {
   InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import { Minus, Plus } from '@phosphor-icons/react'
-import cn from 'classnames'
-import { forwardRef, type JSX, useCallback, useState } from 'react'
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 
 export interface InputSpinnerProps
   extends InputWrapperBaseProps,
     Omit<
       React.InputHTMLAttributes<HTMLInputElement>,
-      'type' | 'value' | 'onChange'
+      "type" | "value" | "onChange"
     > {
   min?: number
   max?: number
@@ -43,7 +43,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
       inline,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const [value, setValue] = useState(defaultValue)
     const maxReached = max != null ? value >= max : false
@@ -52,7 +52,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
     const handleUpdateValue = useCallback(
       (newValue: number) => {
         if (
-          isNaN(newValue) ||
+          Number.isNaN(newValue) ||
           (min != null && newValue < min) ||
           (max != null && newValue > max)
         ) {
@@ -61,7 +61,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
         setValue(newValue)
         onChange(newValue)
       },
-      [min, max, onChange]
+      [min, max, onChange],
     )
 
     return (
@@ -75,32 +75,32 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
         <div
           className={cn(
             className,
-            'flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white',
-            'shadow-[0_0_0_1px_#e6e7e7_inset]',
-            'focus-within:shadow-[0_0_0_2px_#101111_inset]'
+            "flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white",
+            "shadow-[0_0_0_1px_#e6e7e7_inset]",
+            "focus-within:shadow-[0_0_0_2px_#101111_inset]",
           )}
         >
           <ButtonSpin
-            action='decrement'
+            action="decrement"
             onClick={() => {
               handleUpdateValue(value - 1)
             }}
             disabled={minReached || disabled === true}
-            data-testid='InputSpinner-decrement'
+            data-testid="InputSpinner-decrement"
           />
           <input
-            type='number'
+            type="number"
             ref={ref}
-            data-testid='InputSpinner-input'
+            data-testid="InputSpinner-input"
             className={cn(
-              'py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded',
+              "py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded",
               // reset browser default styles for number input
-              '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none',
+              "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
               // reset global style of input standard shadow color to remove it
-              'shadow-transparent',
+              "shadow-transparent",
               {
-                'text-gray-300': disabled
-              }
+                "text-gray-300": disabled,
+              },
             )}
             value={value}
             onChange={({ currentTarget }) => {
@@ -116,20 +116,20 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             {...rest}
           />
           <ButtonSpin
-            action='increment'
+            action="increment"
             onClick={() => {
               handleUpdateValue(value + 1)
             }}
             disabled={maxReached || disabled === true}
-            data-testid='InputSpinner-increment'
+            data-testid="InputSpinner-increment"
           />
         </div>
       </InputWrapper>
     )
-  }
+  },
 )
 
-InputSpinner.displayName = 'InputSpinner'
+InputSpinner.displayName = "InputSpinner"
 
 function ButtonSpin({
   onClick,
@@ -139,24 +139,24 @@ function ButtonSpin({
 }: {
   onClick: () => void
   disabled: boolean
-  action: 'increment' | 'decrement'
+  action: "increment" | "decrement"
 }): JSX.Element {
   return (
     <button
-      type='button'
+      type="button"
       className={cn(
-        'p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0',
+        "p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0",
         {
-          'text-gray-300': disabled,
-          'active:top-[1px]': !disabled
-        }
+          "text-gray-300": disabled,
+          "active:top-[1px]": !disabled,
+        },
       )}
       onClick={onClick}
       disabled={disabled}
       tabIndex={disabled ? -1 : undefined}
       {...rest}
     >
-      {action === 'decrement' ? <Minus /> : <Plus />}
+      {action === "decrement" ? <MinusIcon /> : <PlusIcon />}
     </button>
   )
 }

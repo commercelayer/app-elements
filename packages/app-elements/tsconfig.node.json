@@ -7,8 +7,5 @@
     "allowSyntheticDefaultImports": true,
     "noUncheckedIndexedAccess": true
   },
-  "include": [
-    "vite.config.js",
-    "package.json"
-  ]
+  "include": ["vite.config.js", "package.json"]
 }

@@ -1,7 +1,7 @@
-import cn from 'classnames'
-import { Children, type JSX, type ReactNode } from 'react'
+import cn from "classnames"
+import { Children, type JSX, type ReactNode } from "react"
 
-export type FlexRowAlignItems = 'top' | 'bottom' | 'center'
+export type FlexRowAlignItems = "top" | "bottom" | "center"
 export interface FlexRowProps extends React.HTMLAttributes<HTMLDivElement> {
   children: ReactNode
   /**
@@ -13,28 +13,28 @@ export interface FlexRowProps extends React.HTMLAttributes<HTMLDivElement> {
 function FlexRow({
   children,
   className,
-  alignItems = 'top',
+  alignItems = "top",
   ...rest
 }: FlexRowProps): JSX.Element {
   const childrenCount = Children.count(children)
   return (
     <div
       className={cn(
-        'flex justify-between w-full gap-4',
+        "flex justify-between w-full gap-4",
         {
-          'items-center': alignItems === 'center',
-          'items-start': alignItems === 'top',
-          'items-end': alignItems === 'bottom'
+          "items-center": alignItems === "center",
+          "items-start": alignItems === "top",
+          "items-end": alignItems === "bottom",
         },
-        className
+        className,
       )}
       {...rest}
     >
       {Children.map(children, (child, index) => (
         <div
           className={cn({
-            'flex-grow': !isLastOfMultipleChildren(index, childrenCount),
-            'text-right': isLastOfMultipleChildren(index, childrenCount)
+            "flex-grow": !isLastOfMultipleChildren(index, childrenCount),
+            "text-right": isLastOfMultipleChildren(index, childrenCount),
           })}
         >
           {child}
@@ -44,7 +44,7 @@ function FlexRow({
   )
 }
 
-FlexRow.displayName = 'FlexRow'
+FlexRow.displayName = "FlexRow"
 export { FlexRow }
 
 function isLastOfMultipleChildren(index: number, count: number): boolean {

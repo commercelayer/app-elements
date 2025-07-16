@@ -1,9 +1,9 @@
-import { Alert } from '#ui/atoms/Alert'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Alert } from "#ui/atoms/Alert"
 
 const setup: Meta<typeof Alert> = {
-  title: 'Atoms/Alert',
-  component: Alert
+  title: "Atoms/Alert",
+  component: Alert,
 }
 export default setup
 
@@ -17,5 +17,5 @@ const Template: StoryFn<typeof Alert> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  status: 'warning'
+  status: "warning",
 }

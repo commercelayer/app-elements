@@ -1,15 +1,15 @@
-import { type CurrencyCode } from '#helpers/currencies'
-import { formatCentsToCurrency } from '#ui/forms/InputCurrency'
-import { type CodeSampleProps } from 'src/components/CodeSample'
+import type { CodeSampleProps } from "src/components/CodeSample"
+import type { CurrencyCode } from "#helpers/currencies"
+import { formatCentsToCurrency } from "#ui/forms/InputCurrency"
 
 export const currencyCodeTypeExamples: CodeSampleProps[] = [
   {
     fn: () => {
       // This is to avoid name mangling.
-      // eslint-disable-next-line no-eval
-      eval('')
+      // biome-ignore lint/security/noGlobalEval: This is a controlled example.
+      eval("")
 
-      const currencyCode: CurrencyCode = 'USD'
+      const currencyCode: CurrencyCode = "USD"
 
       return currencyCode
     },
@@ -17,24 +17,24 @@ export const currencyCodeTypeExamples: CodeSampleProps[] = [
       const currencyCode: CurrencyCode = 'USD';
 
       return currencyCode;
-    `
-  }
+    `,
+  },
 ]
 
 export const formatCentsToCurrencyExamples: CodeSampleProps[] = [
   {
     fn: () => {
-      return formatCentsToCurrency(10250, 'EUR')
-    }
+      return formatCentsToCurrency(10250, "EUR")
+    },
   },
   {
     fn: () => {
-      return formatCentsToCurrency(10250, 'USD')
-    }
+      return formatCentsToCurrency(10250, "USD")
+    },
   },
   {
     fn: () => {
-      return formatCentsToCurrency(10250, 'JPY')
-    }
-  }
+      return formatCentsToCurrency(10250, "JPY")
+    },
+  },
 ]

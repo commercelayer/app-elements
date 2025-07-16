@@ -1,21 +1,17 @@
 module.exports = {
-  dep: ['prod', 'dev', 'optional', 'packageManager'],
+  dep: ["prod", "dev", "optional", "packageManager"],
   deep: true,
   upgrade: true,
-  reject: [
-    'pnpm'
-  ],
+  reject: ["pnpm"],
   filterResults: (name, { upgradedVersionSemver }) => {
     if (
-      name === '@types/node' && parseInt(upgradedVersionSemver?.major) >= 22 ||
-      name === 'eslint' && parseInt(upgradedVersionSemver?.major) >= 9 ||
-      name === 'tailwindcss' && parseInt(upgradedVersionSemver?.major) >= 4 ||
-      name === 'zod' && parseInt(upgradedVersionSemver?.major) >= 4 ||
-      name === '@hookform/resolvers' && parseInt(upgradedVersionSemver?.major) >= 4
+      (name === "@types/node" &&
+        parseInt(upgradedVersionSemver?.major) >= 22) ||
+      (name === "tailwindcss" && parseInt(upgradedVersionSemver?.major) >= 4)
     ) {
       return false
     }
 
     return true
-  }
+  },
 }

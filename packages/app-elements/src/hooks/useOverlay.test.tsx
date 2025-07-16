@@ -1,15 +1,16 @@
-import { act, fireEvent, render } from '@testing-library/react'
-import { type JSX } from 'react'
-import { useOverlay } from './useOverlay'
+import { act, fireEvent, render } from "@testing-library/react"
+import type { JSX } from "react"
+import { useOverlay } from "./useOverlay"
 
 function OverlayScreen({ queryParam }: { queryParam?: string }): JSX.Element {
   const { Overlay, close, open } = useOverlay(
-    queryParam != null ? { queryParam } : undefined
+    queryParam != null ? { queryParam } : undefined,
   )
 
   return (
     <div>
       <button
+        type="button"
         onClick={() => {
           open()
         }}
@@ -19,6 +20,7 @@ function OverlayScreen({ queryParam }: { queryParam?: string }): JSX.Element {
       <Overlay
         footer={
           <button
+            type="button"
             onClick={() => {
               close()
             }}
@@ -33,35 +35,35 @@ function OverlayScreen({ queryParam }: { queryParam?: string }): JSX.Element {
   )
 }
 
-describe('useOverlay', () => {
-  test('Should be rendered closed', () => {
+describe("useOverlay", () => {
+  test("Should be rendered closed", () => {
     const { queryByText } = render(<OverlayScreen />)
-    expect(queryByText('Overlay content')).toBe(null)
+    expect(queryByText("Overlay content")).toBe(null)
   })
 
-  test('Should open and close on click', () => {
+  test("Should open and close on click", () => {
     const { queryByText, getByText } = render(<OverlayScreen />)
     act(() => {
-      fireEvent.click(getByText('open overlay'))
+      fireEvent.click(getByText("open overlay"))
     })
-    expect(queryByText('open overlay')).toBeVisible()
+    expect(queryByText("open overlay")).toBeVisible()
 
     act(() => {
-      fireEvent.click(getByText('close overlay'))
+      fireEvent.click(getByText("close overlay"))
     })
-    expect(queryByText('Overlay content')).toBe(null)
+    expect(queryByText("Overlay content")).toBe(null)
   })
 })
 
-describe('useOverlay in `queryParam` mode', () => {
+describe("useOverlay in `queryParam` mode", () => {
   const originalLocationObj = window.location
   const originalHistoryObj = window.history
   function allowLocationMocks(): void {
     ;(window as typeof globalThis).location = {
-      ...originalLocationObj
+      ...originalLocationObj,
     }
     window.history = {
-      ...originalHistoryObj
+      ...originalHistoryObj,
     }
   }
 
@@ -74,23 +76,22 @@ describe('useOverlay in `queryParam` mode', () => {
     window.history = originalHistoryObj
   })
 
-  test('Should be rendered open when query param is in URL and can be closed with history back', () => {
-    window.location.search = '?myOverlay=true'
+  test("Should be rendered open when query param is in URL and can be closed with history back", () => {
+    window.location.search = "?myOverlay=true"
     window.history.back = vi.fn()
 
     const { queryByText, getByText } = render(
-      <OverlayScreen queryParam='myOverlay' />
+      <OverlayScreen queryParam="myOverlay" />,
     )
 
     // start as open
-    expect(queryByText('open overlay')).toBeVisible()
+    expect(queryByText("open overlay")).toBeVisible()
 
     // firing click to trigger history back
     act(() => {
-      fireEvent.click(getByText('close overlay'))
+      fireEvent.click(getByText("close overlay"))
     })
 
-    // eslint-disable-next-line @typescript-eslint/unbound-method
     expect(window.history.back).toBeCalledTimes(1)
   })
 })

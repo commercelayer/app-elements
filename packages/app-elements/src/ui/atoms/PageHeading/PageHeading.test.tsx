@@ -1,5 +1,5 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { PageHeading, type PageHeadingProps } from './PageHeading'
+import { type RenderResult, render } from "@testing-library/react"
+import { PageHeading, type PageHeadingProps } from "./PageHeading"
 
 interface SetupProps extends PageHeadingProps {
   id: string
@@ -14,80 +14,80 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const element = utils.getByTestId(id)
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('PageHeading', () => {
-  test('Should be rendered', () => {
-    const { element } = setup({ id: 'heading', title: 'My Page Heading' })
-    expect(element.querySelector('h1')?.innerHTML).toBe('My Page Heading')
+describe("PageHeading", () => {
+  test("Should be rendered", () => {
+    const { element } = setup({ id: "heading", title: "My Page Heading" })
+    expect(element.querySelector("h1")?.innerHTML).toBe("My Page Heading")
   })
 
-  test('Should also render optional description', () => {
+  test("Should also render optional description", () => {
     const { getByText } = setup({
-      id: 'heading',
-      title: 'My Page Heading',
-      description: 'Lorem ipsum...'
+      id: "heading",
+      title: "My Page Heading",
+      description: "Lorem ipsum...",
     })
-    expect(getByText('Lorem ipsum...')).toBeVisible()
+    expect(getByText("Lorem ipsum...")).toBeVisible()
   })
 
-  test('Should also render optional badge', () => {
+  test("Should also render optional badge", () => {
     const { getByTestId } = setup({
-      id: 'heading-w-badge',
-      title: 'My Page Heading',
-      badge: { label: 'TEST DATA', variant: 'success' }
+      id: "heading-w-badge",
+      title: "My Page Heading",
+      badge: { label: "TEST DATA", variant: "success" },
     })
-    const badgeElement = getByTestId('page-heading-badge')
+    const badgeElement = getByTestId("page-heading-badge")
     expect(badgeElement).toBeInTheDocument()
     expect(
-      badgeElement.querySelector('.text-green-600.bg-green-50')
+      badgeElement.querySelector(".text-green-600.bg-green-50"),
     ).toBeInTheDocument()
   })
 
-  test('Should also have a button when navigationButton is set', () => {
+  test("Should also have a button when navigationButton is set", () => {
     const foo: string[] = []
     const { element } = setup({
-      id: 'heading',
-      title: 'My Page Heading',
-      description: 'Lorem ipsum...',
+      id: "heading",
+      title: "My Page Heading",
+      description: "Lorem ipsum...",
       navigationButton: {
-        label: 'Go back',
-        onClick: () => foo.push('bar')
-      }
+        label: "Go back",
+        onClick: () => foo.push("bar"),
+      },
     })
-    expect(element.querySelector('button')).toBeVisible()
-    element.querySelector('button')?.click()
-    expect(foo.includes('bar')).toBe(true)
+    expect(element.querySelector("button")).toBeVisible()
+    element.querySelector("button")?.click()
+    expect(foo.includes("bar")).toBe(true)
   })
 })
 
-describe('PageHeading gap', () => {
-  test('Should have gap top and bottom', () => {
+describe("PageHeading gap", () => {
+  test("Should have gap top and bottom", () => {
     const { element } = setup({
-      id: 'heading',
-      title: 'My Page Heading'
+      id: "heading",
+      title: "My Page Heading",
     })
-    expect(element).toHaveClass('pt-5 md:pt-10 pb-6 md:pb-14')
+    expect(element).toHaveClass("pt-5 md:pt-10 pb-6 md:pb-14")
   })
 
-  test('Should have gap only on top', () => {
+  test("Should have gap only on top", () => {
     const { element } = setup({
-      id: 'heading',
-      title: 'My Page Heading',
-      gap: 'only-top'
+      id: "heading",
+      title: "My Page Heading",
+      gap: "only-top",
     })
-    expect(element).toHaveClass('pt-5 md:pt-10')
-    expect(element).not.toHaveClass('pb-6 md:pb-14')
+    expect(element).toHaveClass("pt-5 md:pt-10")
+    expect(element).not.toHaveClass("pb-6 md:pb-14")
   })
 
-  test('Should have no vertical gap', () => {
+  test("Should have no vertical gap", () => {
     const { element } = setup({
-      id: 'heading',
-      title: 'My Page Heading',
-      gap: 'none'
+      id: "heading",
+      title: "My Page Heading",
+      gap: "none",
     })
-    expect(element.classList.toString()).toBe('w-full')
+    expect(element.classList.toString()).toBe("w-full")
   })
 })

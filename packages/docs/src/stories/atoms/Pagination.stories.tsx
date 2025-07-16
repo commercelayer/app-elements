@@ -1,10 +1,10 @@
-import { Pagination } from '#ui/atoms/Pagination'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useState } from 'react'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
+import { Pagination } from "#ui/atoms/Pagination"
 
 const setup: Meta<typeof Pagination> = {
-  title: 'Atoms/Pagination',
-  component: Pagination
+  title: "Atoms/Pagination",
+  component: Pagination,
 }
 export default setup
 
@@ -15,7 +15,7 @@ Default.args = {
   isDisabled: false,
   currentPage: 1,
   onChangePageRequest: () => {},
-  pageCount: 10
+  pageCount: 10,
 }
 
 const TemplateWithFullPageChange: StoryFn<typeof Pagination> = (args) => {
@@ -32,5 +32,5 @@ const TemplateWithFullPageChange: StoryFn<typeof Pagination> = (args) => {
 
 export const WithFullPageChange = TemplateWithFullPageChange.bind({})
 WithFullPageChange.args = {
-  isDisabled: false
+  isDisabled: false,
 }

@@ -1,21 +1,21 @@
-import cn from 'classnames'
-import React, { type JSX, type ReactNode } from 'react'
+import cn from "classnames"
+import type React from "react"
 
 export interface GridProps
-  extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   /**
    * Grid items
    */
-  children: ReactNode
+  children: React.ReactNode
   /**
    * Number of columns
    */
-  columns?: '1' | '2' | 'auto'
+  columns?: "1" | "2" | "auto"
   /**
    * Items alignment.
    * When not set all items will hame same height (items-stretch)
    */
-  alignItems?: 'center' | 'start' | 'end'
+  alignItems?: "center" | "start" | "end"
 }
 
 /**
@@ -29,15 +29,15 @@ function Grid({
   className,
   alignItems,
   ...rest
-}: GridProps): JSX.Element {
+}: GridProps): React.JSX.Element {
   return (
     <div
-      className={cn('grid grid-cols-1 gap-4', className, {
-        'grid-flow-col': columns === 'auto',
-        'md:grid-cols-2': columns === '2',
-        'items-center': alignItems === 'center',
-        'items-start': alignItems === 'start',
-        'items-end': alignItems === 'end'
+      className={cn("grid grid-cols-1 gap-4", className, {
+        "grid-flow-col": columns === "auto",
+        "md:grid-cols-2": columns === "2",
+        "items-center": alignItems === "center",
+        "items-start": alignItems === "start",
+        "items-end": alignItems === "end",
       })}
       {...rest}
     >
@@ -46,5 +46,5 @@ function Grid({
   )
 }
 
-Grid.displayName = 'Grid'
+Grid.displayName = "Grid"
 export { Grid }

@@ -1,25 +1,25 @@
-import { Icon } from '#ui/atoms/Icon'
-import { ResourcePaymentMethod } from '#ui/resources/ResourcePaymentMethod'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Icon } from "#ui/atoms/Icon"
+import { ResourcePaymentMethod } from "#ui/resources/ResourcePaymentMethod"
 import {
   customerPaymentSource,
+  orderWithoutPaymentSourceResponse,
   orderWithPaymentSourceResponse,
-  orderWithoutPaymentSourceResponse
-} from '#ui/resources/ResourcePaymentMethod.mocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+} from "#ui/resources/ResourcePaymentMethod.mocks"
 
 const setup: Meta<typeof ResourcePaymentMethod> = {
-  title: 'Resources/ResourcePaymentMethod',
+  title: "Resources/ResourcePaymentMethod",
   component: ResourcePaymentMethod,
   parameters: {
-    layout: 'fullscreen'
+    layout: "fullscreen",
   },
   decorators: [
     (Story) => (
-      <div style={{ padding: '1rem 2rem' }}>
+      <div style={{ padding: "1rem 2rem" }}>
         <Story />
       </div>
-    )
-  ]
+    ),
+  ],
 }
 export default setup
 
@@ -29,7 +29,7 @@ const Template: StoryFn<typeof ResourcePaymentMethod> = (args) => (
 
 export const Default = Template.bind({})
 Default.args = {
-  resource: orderWithoutPaymentSourceResponse
+  resource: orderWithoutPaymentSourceResponse,
 }
 
 /**
@@ -39,7 +39,7 @@ Default.args = {
 export const WithOrder = Template.bind({})
 WithOrder.args = {
   resource: orderWithPaymentSourceResponse,
-  showPaymentResponse: true
+  showPaymentResponse: true,
 }
 
 /**
@@ -47,7 +47,7 @@ WithOrder.args = {
  */
 export const WithCustomerPaymentSource = Template.bind({})
 WithCustomerPaymentSource.args = {
-  resource: customerPaymentSource
+  resource: customerPaymentSource,
 }
 
 /**
@@ -56,7 +56,7 @@ WithCustomerPaymentSource.args = {
 export const WithoutSideGap = Template.bind({})
 WithoutSideGap.args = {
   resource: customerPaymentSource,
-  variant: 'plain'
+  variant: "plain",
 }
 
 /**
@@ -68,11 +68,12 @@ WithActionButton.args = {
   resource: customerPaymentSource,
   actionButton: (
     <button
+      type="button"
       onClick={() => {
-        alert('Remove!')
+        alert("Remove!")
       }}
     >
-      <Icon name='trash' size={18} />
+      <Icon name="trash" size={18} />
     </button>
-  )
+  ),
 }

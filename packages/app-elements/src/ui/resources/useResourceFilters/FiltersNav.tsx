@@ -1,34 +1,34 @@
-import { formatDateRange } from '#helpers/date'
-import { useCoreApi } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { ButtonFilter } from '#ui/atoms/ButtonFilter'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
+import type { ListableResourceType } from "@commercelayer/sdk"
+import castArray from "lodash-es/castArray"
+import isDate from "lodash-es/isDate"
+import isEmpty from "lodash-es/isEmpty"
+import { type JSX, useCallback, useMemo } from "react"
+import { formatDateRange } from "#helpers/date"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { ButtonFilter } from "#ui/atoms/ButtonFilter"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import {
   formatCentsToCurrency,
-  type InputCurrencyProps
-} from '#ui/forms/InputCurrency'
-import { type ListableResourceType } from '@commercelayer/sdk'
-import castArray from 'lodash-es/castArray'
-import isDate from 'lodash-es/isDate'
-import isEmpty from 'lodash-es/isEmpty'
-import { useCallback, useMemo, type JSX } from 'react'
-import { makeFilterAdapters } from './adapters'
+  type InputCurrencyProps,
+} from "#ui/forms/InputCurrency"
+import { makeFilterAdapters } from "./adapters"
 import {
   getDefaultBrowserTimezone,
   getTimeRangePresetName,
-  isTimeRangeFilterUiName
-} from './timeUtils'
+  isTimeRangeFilterUiName,
+} from "./timeUtils"
 import {
-  isTextSearch,
   type CurrencyRangeFieldValue,
   type FiltersInstructionItem,
   type FiltersInstructions,
   type FormFullValues,
+  isTextSearch,
   type UiFilterName,
-  type UiFilterValue
-} from './types'
-import { getActiveFilterCountFromUrl } from './utils'
+  type UiFilterValue,
+} from "./types"
+import { getActiveFilterCountFromUrl } from "./utils"
 
 export interface FiltersNavProps {
   /**
@@ -71,25 +71,25 @@ export function FiltersNav({
   onFilterClick: onBtnLabelClick,
   onUpdate,
   queryString,
-  predicateWhitelist
-}: FiltersNavProps): JSX.Element {
+  predicateWhitelist,
+}: FiltersNavProps): React.ReactNode {
   const { user } = useTokenProvider()
 
   const {
     adaptUrlQueryToFormValues,
     adaptFormValuesToUrlQuery,
-    adaptUrlQueryToUrlQuery
+    adaptUrlQueryToUrlQuery,
   } = makeFilterAdapters({
     instructions,
-    predicateWhitelist
+    predicateWhitelist,
   })
 
   const filters = useMemo(
     () =>
       adaptUrlQueryToFormValues({
-        queryString
+        queryString,
       }),
-    [queryString]
+    [queryString],
   )
 
   const activeGroupCount = useMemo(
@@ -97,16 +97,16 @@ export function FiltersNav({
       getActiveFilterCountFromUrl({
         includeTextSearch: false,
         instructions,
-        queryString
+        queryString,
       }),
-    [instructions, queryString]
+    [instructions, queryString],
   )
 
   const updateQueryString = useCallback(
     (queryString: string): void => {
       onUpdate(queryString)
     },
-    [onUpdate]
+    [onUpdate],
   )
 
   const removeSingleFilterGroup = useCallback(
@@ -115,12 +115,12 @@ export function FiltersNav({
         adaptFormValuesToUrlQuery({
           formValues: {
             ...filters,
-            [filterPredicate]: []
-          }
-        })
+            [filterPredicate]: [],
+          },
+        }),
       )
     },
-    [filters]
+    [filters],
   )
 
   const removeTimeRangeFilter = useCallback((): void => {
@@ -130,9 +130,9 @@ export function FiltersNav({
           ...filters,
           timePreset: undefined,
           timeFrom: undefined,
-          timeTo: undefined
-        }
-      })
+          timeTo: undefined,
+        },
+      }),
     )
   }, [filters])
 
@@ -141,14 +141,14 @@ export function FiltersNav({
       instructions
         .filter((item) => item.hidden === true)
         .map((item) => item.sdk.predicate),
-    [instructions]
+    [instructions],
   )
 
   const removeAllFilters = useCallback((): void => {
-    const emptyFilters = adaptUrlQueryToFormValues({ queryString: '' })
+    const emptyFilters = adaptUrlQueryToFormValues({ queryString: "" })
 
     const currentFilters = adaptUrlQueryToFormValues({
-      queryString
+      queryString,
     })
     // we need to keep all filters hidden in UI, the viewTitle and the text filter
     const filtersToKeep = Object.entries(currentFilters).reduce<FormFullValues>(
@@ -157,27 +157,27 @@ export function FiltersNav({
 
         const isToKeep =
           hiddenFilters.includes(filterName) ||
-          filterName === 'viewTitle' ||
+          filterName === "viewTitle" ||
           filterName === textPredicate
 
         if (isToKeep) {
           return {
             ...toKeep,
-            [filterName]: value
+            [filterName]: value,
           }
         }
         return toKeep
       },
-      {}
+      {},
     )
 
     updateQueryString(
       adaptFormValuesToUrlQuery({
         formValues: {
           ...emptyFilters,
-          ...filtersToKeep
-        }
-      })
+          ...filtersToKeep,
+        },
+      }),
     )
   }, [queryString, instructions, hiddenFilters])
 
@@ -185,12 +185,12 @@ export function FiltersNav({
     (filterPredicate?: string): void => {
       onBtnLabelClick(
         adaptUrlQueryToUrlQuery({
-          queryString
+          queryString,
         }),
-        filterPredicate
+        filterPredicate,
       )
     },
-    [queryString]
+    [queryString],
   )
 
   const activeFilters: Array<[UiFilterName, UiFilterValue]> = useMemo(
@@ -198,8 +198,8 @@ export function FiltersNav({
       Object.entries(filters)
         .filter(([, value]) => isDate(value) || !isEmpty(value))
         .filter(([filterName]) => !hiddenFilters.includes(filterName))
-        .filter(([filterName]) => filterName !== 'viewTitle'),
-    [filters]
+        .filter(([filterName]) => filterName !== "viewTitle"),
+    [filters],
   )
 
   // remove special filters that have custom UI logics
@@ -211,16 +211,16 @@ export function FiltersNav({
           !isTimeRangeFilterUiName(filterPredicate) &&
           !predicateBelongsToCurrencyRange({
             filterPredicate,
-            instructions
-          })
+            instructions,
+          }),
       ) as Array<[string, string | string[]]>,
-    [activeFilters]
+    [activeFilters],
   )
 
   // getting currency range filters separately
   const currencyRangeFilters = useMemo(
     () => extractCurrencyRangeFilterValues({ activeFilters, instructions }),
-    [activeFilters]
+    [activeFilters],
   )
 
   // getting time range filters separately
@@ -229,16 +229,16 @@ export function FiltersNav({
   const selectedTimeTo = filters?.timeTo
 
   if (filters == null) {
-    return <></>
+    return null
   }
 
   return (
-    <div className='flex gap-2 flex-wrap'>
+    <div className="flex gap-2 flex-wrap">
       {/* Main filter button */}
       {activeGroupCount > 0 ? (
         <ButtonFilter
-          label={`${t('common.filters')} · ${activeGroupCount}`}
-          icon='funnelSimple'
+          label={`${t("common.filters")} · ${activeGroupCount}`}
+          icon="funnelSimple"
           onClick={() => {
             onLabelClickHandler()
           }}
@@ -246,8 +246,8 @@ export function FiltersNav({
         />
       ) : (
         <ButtonFilter
-          label={t('common.filters')}
-          icon='funnelSimple'
+          label={t("common.filters")}
+          icon="funnelSimple"
           onClick={() => {
             onLabelClickHandler()
           }}
@@ -257,13 +257,13 @@ export function FiltersNav({
       {userDefinedFilters.map(([filterPredicate, value]) => {
         const instructionItem = getInstructionItemByFilterPredicate({
           instructions,
-          filterPredicate
+          filterPredicate,
         })
 
         if (
           instructionItem == null ||
-          (instructionItem.type === 'textSearch' &&
-            instructionItem.render.component === 'searchBar')
+          (instructionItem.type === "textSearch" &&
+            instructionItem.render.component === "searchBar")
         ) {
           return null
         }
@@ -271,7 +271,7 @@ export function FiltersNav({
         const arrValue = castArray(value)
 
         if (
-          instructionItem.render.component === 'inputResourceGroup' &&
+          instructionItem.render.component === "inputResourceGroup" &&
           arrValue[0] !== undefined &&
           arrValue.length === 1
         ) {
@@ -296,7 +296,7 @@ export function FiltersNav({
             key={filterPredicate}
             label={getButtonFilterLabel({
               values: value,
-              instructionItem
+              instructionItem,
             })}
             onClick={() => {
               onLabelClickHandler(filterPredicate)
@@ -314,7 +314,7 @@ export function FiltersNav({
           <ButtonFilter
             key={filterPredicate}
             onClick={() => {
-              onLabelClickHandler('timePreset')
+              onLabelClickHandler("timePreset")
             }}
             onRemoveRequest={() => {
               removeSingleFilterGroup(filterPredicate)
@@ -325,18 +325,18 @@ export function FiltersNav({
       })}
 
       {/* Time range preset */}
-      {selectedTimePreset != null && selectedTimePreset !== 'custom' ? (
+      {selectedTimePreset != null && selectedTimePreset !== "custom" ? (
         <ButtonFilter
           label={getTimeRangePresetName(selectedTimePreset, t)}
           onClick={() => {
-            onLabelClickHandler('timePreset')
+            onLabelClickHandler("timePreset")
           }}
           onRemoveRequest={removeTimeRangeFilter}
         />
       ) : null}
 
       {/* Time range custom */}
-      {selectedTimePreset === 'custom' &&
+      {selectedTimePreset === "custom" &&
       selectedTimeTo != null &&
       selectedTimeFrom != null ? (
         <ButtonFilter
@@ -344,10 +344,10 @@ export function FiltersNav({
             rangeFrom: selectedTimeFrom.toString(),
             rangeTo: selectedTimeTo.toString(),
             timezone: user?.timezone ?? getDefaultBrowserTimezone(),
-            locale: user?.locale
+            locale: user?.locale,
           })}
           onClick={() => {
-            onLabelClickHandler('timePreset')
+            onLabelClickHandler("timePreset")
           }}
           onRemoveRequest={removeTimeRangeFilter}
         />
@@ -358,13 +358,13 @@ export function FiltersNav({
 
 function getInstructionItemByFilterPredicate({
   instructions,
-  filterPredicate
+  filterPredicate,
 }: {
   instructions: FiltersInstructions
   filterPredicate: string
 }): FiltersInstructionItem | undefined {
   if (isTimeRangeFilterUiName(filterPredicate)) {
-    return instructions.find(({ type }) => type === 'timeRange')
+    return instructions.find(({ type }) => type === "timeRange")
   }
   return instructions.find((item) => item.sdk.predicate === filterPredicate)
 }
@@ -378,7 +378,7 @@ function ButtonFilterFetchResource({
   id,
   fieldForLabel,
   onClick,
-  onRemoveRequest
+  onRemoveRequest,
 }: {
   resource: ListableResourceType
   id: string
@@ -386,11 +386,11 @@ function ButtonFilterFetchResource({
   onClick?: () => void
   onRemoveRequest?: () => void
 }): JSX.Element {
-  const { data, isLoading } = useCoreApi(resource, 'retrieve', [
+  const { data, isLoading } = useCoreApi(resource, "retrieve", [
     id,
     {
-      fields: { [resource]: [fieldForLabel] }
-    }
+      fields: { [resource]: [fieldForLabel] },
+    },
   ])
 
   const label =
@@ -401,7 +401,7 @@ function ButtonFilterFetchResource({
   return (
     <SkeletonTemplate isLoading={isLoading} delayMs={0}>
       <ButtonFilter
-        label={typeof label === 'string' ? label : id}
+        label={typeof label === "string" ? label : id}
         onClick={onClick}
         onRemoveRequest={onRemoveRequest}
       />
@@ -416,30 +416,30 @@ function ButtonFilterFetchResource({
  */
 function getButtonFilterLabel({
   values,
-  instructionItem
+  instructionItem,
 }: {
   values: string | string[]
   instructionItem: FiltersInstructionItem
 }): string {
   const isSingleElementArray = Array.isArray(values) && values.length === 1
-  const isString = typeof values === 'string'
+  const isString = typeof values === "string"
   const optionValue = Array.isArray(values) ? values[0] : values
 
   if (
-    instructionItem.type === 'options' &&
-    'options' in instructionItem.render.props &&
+    instructionItem.type === "options" &&
+    "options" in instructionItem.render.props &&
     instructionItem.render.props.options != null &&
     instructionItem.render.props.options.length > 0 &&
     (isSingleElementArray || isString)
   ) {
     return (
       instructionItem.render.props.options.find(
-        ({ value }) => value === optionValue
+        ({ value }) => value === optionValue,
       )?.label ?? instructionItem.label
     )
   }
 
-  if (instructionItem.type === 'textSearch') {
+  if (instructionItem.type === "textSearch") {
     return `${instructionItem.label} · ${optionValue}`
   }
 
@@ -448,7 +448,7 @@ function getButtonFilterLabel({
 
 function extractCurrencyRangeFilterValues({
   activeFilters,
-  instructions
+  instructions,
 }: {
   activeFilters: Array<[string, UiFilterValue]>
   instructions: FiltersInstructions
@@ -456,12 +456,12 @@ function extractCurrencyRangeFilterValues({
   const rangeFilters = activeFilters.filter(([filterPredicate]) => {
     return predicateBelongsToCurrencyRange({
       filterPredicate,
-      instructions
+      instructions,
     })
   }) as Array<[string, CurrencyRangeFieldValue]>
 
   return rangeFilters.filter(
-    ([, value]) => value.from != null || value.to != null
+    ([, value]) => value.from != null || value.to != null,
   )
 }
 
@@ -471,36 +471,36 @@ function extractCurrencyRangeFilterValues({
  */
 function predicateBelongsToCurrencyRange({
   filterPredicate,
-  instructions
+  instructions,
 }: {
   filterPredicate: string
   instructions: FiltersInstructions
 }): boolean {
   const instructionItem = instructions.find(
-    (item) => item.sdk.predicate === filterPredicate
+    (item) => item.sdk.predicate === filterPredicate,
   )
 
-  return instructionItem?.type === 'currencyRange'
+  return instructionItem?.type === "currencyRange"
 }
 
 function makeCurrencyRangeFilterButtonLabel(
-  value: CurrencyRangeFieldValue
+  value: CurrencyRangeFieldValue,
 ): string {
-  const currencyCode = value.currencyCode as InputCurrencyProps['currencyCode']
+  const currencyCode = value.currencyCode as InputCurrencyProps["currencyCode"]
   if (value.from == null && value.to == null) {
-    return ''
+    return ""
   }
 
   const formattedFrom = formatCentsToCurrency(
     value.from ?? 0,
     currencyCode,
-    true
+    true,
   )
 
   const formattedTo =
     value.to != null
       ? formatCentsToCurrency(value.to, currencyCode, true)
-      : 'Max'
+      : "Max"
 
   return `${formattedFrom} - ${formattedTo}`
 }

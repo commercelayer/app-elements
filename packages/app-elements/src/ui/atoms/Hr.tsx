@@ -1,11 +1,11 @@
-import cn from 'classnames'
+import cn from "classnames"
 
-export type HrProps = Omit<React.HTMLProps<HTMLHRElement>, 'children'> & {
+export type HrProps = Omit<React.HTMLProps<HTMLHRElement>, "children"> & {
   /**
    * The variant of the horizontal rule.
    * @default solid
    */
-  variant?: 'solid' | 'dashed'
+  variant?: "solid" | "dashed"
 }
 
 /**
@@ -16,15 +16,15 @@ export const Hr: React.FC<HrProps> = ({ className, variant, ...rest }) => {
   return (
     <hr
       className={cn([
-        'border-t border-gray-100',
+        "border-t border-gray-100",
         className,
         {
-          'border-dashed': variant === 'dashed'
-        }
+          "border-dashed": variant === "dashed",
+        },
       ])}
       {...rest}
     />
   )
 }
 
-Hr.displayName = 'Hr'
+Hr.displayName = "Hr"

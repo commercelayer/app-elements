@@ -1,7 +1,7 @@
-import { act, fireEvent, render } from '@testing-library/react'
-import { SearchBar } from './SearchBar'
+import { act, fireEvent, render } from "@testing-library/react"
+import { SearchBar } from "./SearchBar"
 
-describe('SearchBar', () => {
+describe("SearchBar", () => {
   beforeAll(() => {
     vi.useFakeTimers()
   })
@@ -10,41 +10,41 @@ describe('SearchBar', () => {
     vi.useRealTimers()
   })
 
-  it('should render', () => {
+  it("should render", () => {
     const { container } = render(<SearchBar onSearch={() => {}} />)
     expect(container).toBeVisible()
   })
 
-  it('should render with initial value', () => {
+  it("should render with initial value", () => {
     const { getByPlaceholderText } = render(
       <SearchBar
         onSearch={() => {}}
-        placeholder='search'
-        initialValue='commerce layer'
-      />
+        placeholder="search"
+        initialValue="commerce layer"
+      />,
     )
-    const input = getByPlaceholderText('search') as HTMLInputElement
-    expect(input.value).toBe('commerce layer')
+    const input = getByPlaceholderText("search") as HTMLInputElement
+    expect(input.value).toBe("commerce layer")
   })
 
-  it('should update input value', () => {
+  it("should update input value", () => {
     const { getByTestId } = render(
       <SearchBar
         onSearch={() => {}}
-        placeholder='search'
-        initialValue='commerce layer'
-      />
+        placeholder="search"
+        initialValue="commerce layer"
+      />,
     )
-    const input = getByTestId('SearchBar-input') as HTMLInputElement
-    expect(input.value).toBe('commerce layer')
-    fireEvent.change(input, { target: { value: 'foobar' } })
+    const input = getByTestId("SearchBar-input") as HTMLInputElement
+    expect(input.value).toBe("commerce layer")
+    fireEvent.change(input, { target: { value: "foobar" } })
 
-    expect(input.value).toBe('foobar')
+    expect(input.value).toBe("foobar")
   })
 
-  it('should trigger debounced onSearch callback', () => {
+  it("should trigger debounced onSearch callback", () => {
     const mockedConsoleLog = vi
-      .spyOn(console, 'log')
+      .spyOn(console, "log")
       .mockImplementation(() => {})
     const { getByTestId } = render(
       <SearchBar
@@ -52,40 +52,40 @@ describe('SearchBar', () => {
           console.log(hint)
         }}
         debounceMs={100}
-      />
+      />,
     )
-    const input = getByTestId('SearchBar-input') as HTMLInputElement
-    fireEvent.change(input, { target: { value: 'he' } })
-    fireEvent.change(input, { target: { value: 'hello' } })
-    fireEvent.change(input, { target: { value: 'hello wo' } })
-    fireEvent.change(input, { target: { value: 'hello world' } })
+    const input = getByTestId("SearchBar-input") as HTMLInputElement
+    fireEvent.change(input, { target: { value: "he" } })
+    fireEvent.change(input, { target: { value: "hello" } })
+    fireEvent.change(input, { target: { value: "hello wo" } })
+    fireEvent.change(input, { target: { value: "hello world" } })
     expect(mockedConsoleLog).toHaveBeenCalledTimes(0)
     vi.advanceTimersByTime(110)
-    expect(mockedConsoleLog).toHaveBeenNthCalledWith(1, 'hello world')
+    expect(mockedConsoleLog).toHaveBeenNthCalledWith(1, "hello world")
   })
 
-  it('should trigger onClear', () => {
+  it("should trigger onClear", () => {
     const handleClear = vi.fn()
     const { getByTestId, queryByTestId } = render(
       <SearchBar
         onSearch={() => {}}
         onClear={() => {
-          handleClear('cleared')
+          handleClear("cleared")
         }}
-      />
+      />,
     )
-    expect(queryByTestId('SearchBar-clear')).not.toBeInTheDocument()
+    expect(queryByTestId("SearchBar-clear")).not.toBeInTheDocument()
 
     // typing something
-    const input = getByTestId('SearchBar-input') as HTMLInputElement
-    fireEvent.change(input, { target: { value: 'foobar' } })
-    expect(queryByTestId('SearchBar-clear')).toBeVisible()
+    const input = getByTestId("SearchBar-input") as HTMLInputElement
+    fireEvent.change(input, { target: { value: "foobar" } })
+    expect(queryByTestId("SearchBar-clear")).toBeVisible()
 
     act(() => {
-      fireEvent.click(getByTestId('SearchBar-clear'))
+      fireEvent.click(getByTestId("SearchBar-clear"))
     })
 
-    expect(handleClear).toHaveBeenNthCalledWith(1, 'cleared')
-    expect(input.value).toBe('')
+    expect(handleClear).toHaveBeenNthCalledWith(1, "cleared")
+    expect(input.value).toBe("")
   })
 })

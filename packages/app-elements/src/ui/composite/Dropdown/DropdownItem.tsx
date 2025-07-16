@@ -1,13 +1,13 @@
-import { Icon, type IconProps } from '#ui/atoms/Icon/Icon'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { enforceAllowedTags } from '#utils/htmltags'
-import cn from 'classnames'
-import { useMemo, type FC } from 'react'
+import cn from "classnames"
+import { type FC, useMemo } from "react"
+import { Icon, type IconProps } from "#ui/atoms/Icon/Icon"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { enforceAllowedTags } from "#utils/htmltags"
 
 export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
   label: string
   info?: string
-  icon?: IconProps['name'] | 'keep-space'
+  icon?: IconProps["name"] | "keep-space"
 } & (
     | {
         /**
@@ -42,14 +42,14 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
     const JsxTag = useMemo(
       () =>
         enforceAllowedTags({
-          tag: href != null ? 'a' : 'button',
-          allowedTags: ['a', 'button'],
-          defaultTag: 'button'
+          tag: href != null ? "a" : "button",
+          allowedTags: ["a", "button"],
+          defaultTag: "button",
         }),
-      [href, onClick]
+      [href, onClick],
     )
 
-    const isDisabled = Boolean('disabled' in rest && rest.disabled)
+    const isDisabled = Boolean("disabled" in rest && rest.disabled)
 
     return (
       <JsxTag
@@ -61,48 +61,48 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         }}
         href={href}
         className={cn(
-          'w-full bg-black !text-white py-1.5 pl-4 text-[15px] font-semibold flex items-center focus:!outline-none',
+          "w-full bg-black !text-white py-1.5 pl-4 text-[15px] font-semibold flex items-center focus:!outline-none",
           {
-            'pr-8': info == null,
-            'min-w-[250px] pr-6': info != null
+            "pr-8": info == null,
+            "min-w-[250px] pr-6": info != null,
           },
           className,
           {
-            'hover:bg-gray-600 cursor-pointer focus:bg-gray-600 group':
+            "hover:bg-gray-600 cursor-pointer focus:bg-gray-600 group":
               onClick != null || href != null,
-            'cursor-default': onClick == null && href == null,
-            'opacity-50 pointer-events-none': isDisabled
-          }
+            "cursor-default": onClick == null && href == null,
+            "opacity-50 pointer-events-none": isDisabled,
+          },
         )}
         aria-label={label}
       >
         {icon != null ? (
-          <div className='mr-2'>
-            {icon === 'keep-space' ? (
+          <div className="mr-2">
+            {icon === "keep-space" ? (
               <FakeIcon /> // keep the gap as if there was an icon
             ) : (
-              <Icon name={icon} size={16} weight='regular' />
+              <Icon name={icon} size={16} weight="regular" />
             )}
           </div>
         ) : null}
 
         <span
-          className='text-ellipsis overflow-hidden whitespace-nowrap'
+          className="text-ellipsis overflow-hidden whitespace-nowrap"
           title={label}
         >
           {label}
         </span>
         {info != null && (
-          <span className='ml-auto pl-1 text-xs text-gray-500 font-semibold group-hover:text-white'>
+          <span className="ml-auto pl-1 text-xs text-gray-500 font-semibold group-hover:text-white">
             {info}
           </span>
         )}
       </JsxTag>
     )
-  }
+  },
 )
-DropdownItem.displayName = 'DropdownItem'
+DropdownItem.displayName = "DropdownItem"
 
 const FakeIcon: FC = () => {
-  return <div className='w-[16px]' />
+  return <div className="w-[16px]" />
 }

@@ -1,6 +1,6 @@
-import { Overlay, type OverlayProps } from '#ui/internals/Overlay'
-import { useCallback, useEffect, useState } from 'react'
-import { useSearch } from 'wouter/use-browser-location'
+import { useCallback, useEffect, useState } from "react"
+import { useSearch } from "wouter/use-browser-location"
+import { Overlay, type OverlayProps } from "#ui/internals/Overlay"
 
 interface OverlayOptions {
   /**
@@ -47,8 +47,8 @@ export function useOverlay(options?: OverlayOptions): OverlayHook {
   const open = useCallback((): void => {
     if (isInQueryParamMode) {
       const url = new URL(window.location.href)
-      url.searchParams.append(options.queryParam, 'true')
-      window.history.pushState({}, '', url.toString())
+      url.searchParams.append(options.queryParam, "true")
+      window.history.pushState({}, "", url.toString())
     } else {
       setShow(true)
     }
@@ -59,10 +59,10 @@ export function useOverlay(options?: OverlayOptions): OverlayHook {
     function restoreVisibilityOnPageLoad() {
       if (options?.queryParam != null) {
         const params = new URLSearchParams(search)
-        setShow(params.get(options.queryParam) === 'true')
+        setShow(params.get(options.queryParam) === "true")
       }
     },
-    [search, options?.queryParam]
+    [search, options?.queryParam],
   )
 
   const Empty = useCallback(() => null, [])
@@ -70,6 +70,6 @@ export function useOverlay(options?: OverlayOptions): OverlayHook {
   return {
     Overlay: show ? Overlay : Empty,
     close,
-    open
+    open,
   }
 }

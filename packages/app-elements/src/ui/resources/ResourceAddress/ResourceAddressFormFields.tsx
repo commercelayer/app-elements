@@ -1,30 +1,29 @@
-import { t } from '#providers/I18NProvider'
-import { Grid } from '#ui/atoms/Grid'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedInput } from '#ui/forms/Input/HookedInput'
-import { type InputSelectValue } from '#ui/forms/InputSelect'
-import { HookedInputSelect } from '#ui/forms/InputSelect/HookedInputSelect'
-import { HookedInputTextArea } from '#ui/forms/InputTextArea'
-import { useCountryList } from '#ui/internals/useCountryList'
-import React, { type JSX, useEffect, useState } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { z } from 'zod'
-import { type ResourceAddressProps } from './ResourceAddress'
+import React, { type JSX, useEffect, useState } from "react"
+import { useFormContext } from "react-hook-form"
+import { z } from "zod"
+import { t } from "#providers/I18NProvider"
+import { Grid } from "#ui/atoms/Grid"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedInput } from "#ui/forms/Input/HookedInput"
+import type { InputSelectValue } from "#ui/forms/InputSelect"
+import { HookedInputSelect } from "#ui/forms/InputSelect/HookedInputSelect"
+import { HookedInputTextArea } from "#ui/forms/InputTextArea"
+import { useCountryList } from "#ui/internals/useCountryList"
+import type { ResourceAddressProps } from "./ResourceAddress"
 
 const zodRequiredField = z
   .string({
-    required_error: 'Required field',
-    invalid_type_error: 'Invalid format'
+    error: (iss) =>
+      iss.input === undefined ? "Required field" : "Invalid format",
   })
   .min(1, {
-    message: 'Required field'
+    message: "Required field",
   })
 
 export const getResourceAddressFormFieldsSchema = ({
-  requiresBillingInfo = false
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-}: Pick<ResourceAddressProps, 'requiresBillingInfo'> = {}) =>
+  requiresBillingInfo = false,
+}: Pick<ResourceAddressProps, "requiresBillingInfo"> = {}) =>
   z
     .object({
       business: z.boolean().nullish().default(false),
@@ -38,34 +37,41 @@ export const getResourceAddressFormFieldsSchema = ({
       state_code: zodRequiredField,
       country_code: zodRequiredField,
       phone: zodRequiredField,
-      billing_info: requiresBillingInfo
-        ? zodRequiredField
-        : z.string().nullish(),
-      notes: z.string().nullish()
+      billing_info: z.string().nullish(),
+      notes: z.string().nullish(),
     })
     .superRefine((data, ctx) => {
+      if (requiresBillingInfo) {
+        if (data.billing_info == null || data.billing_info.length === 0) {
+          ctx.addIssue({
+            code: "custom",
+            path: ["billing_info"],
+            message: t("common.forms.required_field"),
+          })
+        }
+      }
       if (data.business === true) {
         if (data.company == null || data.company.length === 0) {
           ctx.addIssue({
-            code: 'custom',
-            path: ['company'],
-            message: t('common.forms.required_field')
+            code: "custom",
+            path: ["company"],
+            message: t("common.forms.required_field"),
           })
         }
       } else {
         if (data.first_name == null || data.first_name.length === 0) {
           ctx.addIssue({
-            code: 'custom',
-            path: ['first_name'],
-            message: t('common.forms.required_field')
+            code: "custom",
+            path: ["first_name"],
+            message: t("common.forms.required_field"),
           })
         }
 
         if (data.last_name == null || data.last_name.length === 0) {
           ctx.addIssue({
-            code: 'custom',
-            path: ['last_name'],
-            message: t('common.forms.required_field')
+            code: "custom",
+            path: ["last_name"],
+            message: t("common.forms.required_field"),
           })
         }
       }
@@ -104,9 +110,9 @@ export const ResourceAddressFormFields =
       name,
       showBillingInfo = false,
       showNotes = true,
-      showNameOrCompany = false
+      showNameOrCompany = false,
     }) => {
-      const namePrefix = name == null ? '' : `${name}.`
+      const namePrefix = name == null ? "" : `${name}.`
       const { watch } = useFormContext()
 
       const business = watch(`${namePrefix}business`) ?? false
@@ -119,97 +125,97 @@ export const ResourceAddressFormFields =
       return (
         <>
           {isNameVisible && (
-            <FieldRow columns='2'>
+            <FieldRow columns="2">
               <HookedInput
                 name={`${namePrefix}first_name`}
-                label={t('resources.addresses.attributes.first_name')}
+                label={t("resources.addresses.attributes.first_name")}
               />
               <HookedInput
                 name={`${namePrefix}last_name`}
-                label={t('resources.addresses.attributes.last_name')}
+                label={t("resources.addresses.attributes.last_name")}
               />
             </FieldRow>
           )}
 
           {isCompanyVisible && (
-            <FieldRow columns='1'>
+            <FieldRow columns="1">
               <HookedInput
                 name={`${namePrefix}company`}
-                label={t('resources.addresses.attributes.company')}
+                label={t("resources.addresses.attributes.company")}
               />
             </FieldRow>
           )}
 
-          <FieldRow columns='1'>
-            <div className='flex flex-col gap-2'>
+          <FieldRow columns="1">
+            <div className="flex flex-col gap-2">
               <HookedInput
                 name={`${namePrefix}line_1`}
-                label={t('resources.addresses.attributes.line_1')}
+                label={t("resources.addresses.attributes.line_1")}
               />
               <HookedInput name={`${namePrefix}line_2`} />
             </div>
           </FieldRow>
 
-          <FieldRow columns='1'>
+          <FieldRow columns="1">
             <SelectCountry namePrefix={namePrefix} />
           </FieldRow>
 
-          <FieldRow columns='1'>
+          <FieldRow columns="1">
             <HookedInput
               name={`${namePrefix}city`}
-              label={t('resources.addresses.attributes.city')}
+              label={t("resources.addresses.attributes.city")}
             />
           </FieldRow>
 
-          <FieldRow columns='1'>
-            <div className='grid grid-cols-[2fr_1fr] gap-4'>
+          <FieldRow columns="1">
+            <div className="grid grid-cols-[2fr_1fr] gap-4">
               <SelectStates namePrefix={namePrefix} />
               <HookedInput
                 name={`${namePrefix}zip_code`}
-                label={t('resources.addresses.attributes.zip_code')}
+                label={t("resources.addresses.attributes.zip_code")}
               />
             </div>
           </FieldRow>
 
-          <FieldRow columns='1'>
+          <FieldRow columns="1">
             <HookedInput
               name={`${namePrefix}phone`}
-              label={t('resources.addresses.attributes.phone')}
+              label={t("resources.addresses.attributes.phone")}
             />
           </FieldRow>
 
           {showBillingInfo && (
-            <FieldRow columns='1'>
+            <FieldRow columns="1">
               <HookedInput
                 name={`${namePrefix}billing_info`}
-                label={t('resources.addresses.attributes.billing_info')}
+                label={t("resources.addresses.attributes.billing_info")}
               />
             </FieldRow>
           )}
 
           {showNotes && (
-            <FieldRow columns='1'>
+            <FieldRow columns="1">
               <HookedInputTextArea
                 name={`${namePrefix}notes`}
-                label={t('resources.addresses.attributes.notes')}
+                label={t("resources.addresses.attributes.notes")}
                 rows={2}
               />
             </FieldRow>
           )}
         </>
       )
-    }
+    },
   )
 
 const FieldRow = ({
   children,
-  columns
+  columns,
 }: {
   children: React.ReactNode
-  columns: '1' | '2'
+  columns: "1" | "2"
 }): JSX.Element => {
   return (
-    <Spacer bottom='8'>
+    <Spacer bottom="8">
       <Grid columns={columns}>{children}</Grid>
     </Spacer>
   )
@@ -230,7 +236,7 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
     return (
       <HookedInput
         name={`${namePrefix}country_code`}
-        label={t('resources.addresses.attributes.country_code')}
+        label={t("resources.addresses.attributes.country_code")}
       />
     )
   }
@@ -238,10 +244,10 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   return (
     <HookedInputSelect
       name={`${namePrefix}country_code`}
-      label={t('resources.addresses.attributes.country_code')}
+      label={t("resources.addresses.attributes.country_code")}
       key={countries?.length}
       initialValues={countries ?? []}
-      pathToValue='value'
+      pathToValue="value"
       isLoading={isLoading || countries == null}
     />
   )
@@ -255,21 +261,21 @@ const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
     >()
   const [forceTextInput, setForceTextInput] = useState(false)
 
-  const countryCode = watch('country_code')
-  const stateCode = watch('state_code')
-  const countryWithStates = ['US', 'IT']
+  const countryCode = watch("country_code")
+  const stateCode = watch("state_code")
+  const countryWithStates = ["US", "IT"]
 
   useEffect(() => {
     if (countryCode != null && countryWithStates.includes(countryCode)) {
       void fetch(
-        `https://data.commercelayer.app/assets/lists/states/${countryCode}.json`
+        `https://data.commercelayer.app/assets/lists/states/${countryCode}.json`,
       )
         .then<InputSelectValue[]>(async (res) => await res.json())
         .then((data) => {
           setStates(data)
           if (data.find(({ value }) => value === stateCode) == null) {
             // reset state_code if not found in the list
-            setValue('state_code', '')
+            setValue("state_code", "")
           }
         })
         .catch(() => {
@@ -287,7 +293,7 @@ const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
     return (
       <HookedInput
         name={`${namePrefix}state_code`}
-        label={t('resources.addresses.attributes.state_code')}
+        label={t("resources.addresses.attributes.state_code")}
       />
     )
   }
@@ -295,10 +301,10 @@ const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   return (
     <HookedInputSelect
       name={`${namePrefix}state_code`}
-      label={t('resources.addresses.attributes.state_code')}
+      label={t("resources.addresses.attributes.state_code")}
       key={`${countryCode}_${states?.length}`}
       initialValues={states ?? []}
-      pathToValue='value'
+      pathToValue="value"
       isLoading={states == null}
     />
   )

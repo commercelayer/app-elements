@@ -1,14 +1,15 @@
+import type React from "react"
+import { useEffect, useState } from "react"
 import {
   InputSelect,
   isMultiValueSelected,
-  isSingleValueSelected
-} from '#ui/forms/InputSelect'
-import React, { useEffect, useState } from 'react'
-import { useRuleEngine } from '../../RuleEngineContext'
-import { type ItemWithValue } from '../../utils'
+  isSingleValueSelected,
+} from "#ui/forms/InputSelect"
+import { useRuleEngine } from "../../RuleEngineContext"
+import type { ItemWithValue } from "../../utils"
 
 type ArrayMatcherDictionary = Record<
-  keyof Extract<ItemWithValue['value'], Record<string, unknown>>,
+  keyof Extract<ItemWithValue["value"], Record<string, unknown>>,
   {
     label: string
   }
@@ -16,29 +17,29 @@ type ArrayMatcherDictionary = Record<
 
 const arrayMatcherDictionary: ArrayMatcherDictionary = {
   in_and: {
-    label: 'all of'
+    label: "all of",
   },
   in_or: {
-    label: 'at least one of'
+    label: "at least one of",
   },
   not_in_and: {
-    label: 'not any of'
+    label: "not any of",
   },
   not_in_or: {
-    label: 'not at least one of'
-  }
+    label: "not at least one of",
+  },
 }
 
 export function InputArrayMatch({
   value,
-  pathPrefix
+  pathPrefix,
 }: {
-  value: ItemWithValue['value']
+  value: ItemWithValue["value"]
   pathPrefix: string
 }): React.JSX.Element {
-  if (typeof value !== 'object' || Array.isArray(value) || value === null) {
+  if (typeof value !== "object" || Array.isArray(value) || value === null) {
     value = {
-      in_and: []
+      in_and: [],
     }
   }
 
@@ -50,7 +51,10 @@ export function InputArrayMatch({
             pathPrefix={pathPrefix}
             defaultValue={operationValue}
             initialMatcher={operation as keyof ArrayMatcherDictionary}
-            key={`${pathPrefix}.${index}`}
+            key={`${pathPrefix}.${
+              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+              index
+            }`}
           />
         )
       })}
@@ -61,10 +65,10 @@ export function InputArrayMatch({
 function InputArrayMatchItem({
   initialMatcher,
   defaultValue,
-  pathPrefix
+  pathPrefix,
 }: {
   initialMatcher: keyof ArrayMatcherDictionary
-  defaultValue: Extract<ItemWithValue['value'], any[]>
+  defaultValue: Extract<ItemWithValue["value"], any[]>
   pathPrefix: string
 }): React.JSX.Element {
   const [prevMatcher, setPrevMatcher] =
@@ -72,7 +76,7 @@ function InputArrayMatchItem({
   const [matcher, setMatcher] =
     useState<keyof ArrayMatcherDictionary>(initialMatcher)
   const [value, setValue] =
-    useState<Extract<ItemWithValue['value'], any[]>>(defaultValue)
+    useState<Extract<ItemWithValue["value"], any[]>>(defaultValue)
   const { setPath } = useRuleEngine()
 
   useEffect(() => {
@@ -85,17 +89,17 @@ function InputArrayMatchItem({
   }, [matcher, value, setPath])
 
   return (
-    <div className='flex gap-2 last-of-type:mt-2'>
-      <div className='flex-shrink-0'>
+    <div className="flex gap-2 last-of-type:mt-2">
+      <div className="flex-shrink-0">
         <InputSelect
           defaultValue={[
-            { value: matcher, label: arrayMatcherDictionary[matcher].label }
+            { value: matcher, label: arrayMatcherDictionary[matcher].label },
           ]}
           initialValues={Object.entries(arrayMatcherDictionary).map(
             ([value, { label }]) => ({
               value,
-              label
-            })
+              label,
+            }),
           )}
           onSelect={(selected) => {
             if (isSingleValueSelected(selected)) {
@@ -104,21 +108,21 @@ function InputArrayMatchItem({
           }}
         />
       </div>
-      <div className='flex-grow'>
+      <div className="flex-grow">
         <InputSelect
           isMulti
           isCreatable
           defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
             value: v,
-            label: v.toString()
+            label: v.toString(),
           }))}
           initialValues={[]}
           onSelect={(selected) => {
             if (isMultiValueSelected(selected)) {
               setValue(
                 selected.map((s) =>
-                  typeof s.value === 'boolean' ? s.value.toString() : s.value
-                )
+                  typeof s.value === "boolean" ? s.value.toString() : s.value,
+                ),
               )
             }
           }}

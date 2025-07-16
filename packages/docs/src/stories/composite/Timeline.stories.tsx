@@ -1,15 +1,14 @@
-import { Text } from '#ui/atoms/Text'
-import { Timeline } from '#ui/composite/Timeline'
-
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { set, sub } from 'date-fns'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { set, sub } from "date-fns"
+import { Text } from "#ui/atoms/Text"
+import { Timeline } from "#ui/composite/Timeline"
 
 const setup: Meta<typeof Timeline> = {
-  title: 'Composite/Timeline',
+  title: "Composite/Timeline",
   component: Timeline,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -19,12 +18,12 @@ export const Default = Template.bind({})
 Default.args = {
   isLoading: false,
   onKeyDown: (e) => {
-    if (e.code === 'Enter') {
+    if (e.code === "Enter") {
       alert(e.currentTarget.value)
-      e.currentTarget.value = ''
+      e.currentTarget.value = ""
     }
   },
-  timezone: 'Europe/Rome',
+  timezone: "Europe/Rome",
   events: [
     {
       date: sub(
@@ -33,16 +32,16 @@ Default.args = {
           date: 29,
           hours: 10,
           minutes: 23,
-          seconds: 10
+          seconds: 10,
         }),
-        { years: 1 }
+        { years: 1 },
       ).toJSON(),
       message: (
         <span>
           Text in two lines.
           <br />I should not see the border on my left
         </span>
-      )
+      ),
     },
     {
       date: sub(
@@ -51,16 +50,16 @@ Default.args = {
           date: 29,
           hours: 20,
           minutes: 23,
-          seconds: 11
+          seconds: 11,
         }),
-        { years: 1 }
+        { years: 1 },
       ).toJSON(),
       message: (
         <span>
           Text in two lines.
           <br />I should see the border on my left
         </span>
-      )
+      ),
     },
     {
       date: sub(
@@ -69,11 +68,11 @@ Default.args = {
           date: 29,
           hours: 20,
           minutes: 24,
-          seconds: 12
+          seconds: 12,
         }),
-        { years: 1 }
+        { years: 1 },
       ).toJSON(),
-      message: `Placed`
+      message: `Placed`,
     },
     {
       date: set(new Date(), {
@@ -81,9 +80,9 @@ Default.args = {
         date: 1,
         hours: 12,
         minutes: 6,
-        seconds: 27
+        seconds: 27,
       }).toJSON(),
-      message: '$250,5 authorized on stripe'
+      message: "$250,5 authorized on stripe",
     },
     {
       date: set(new Date(), {
@@ -91,10 +90,10 @@ Default.args = {
         date: 1,
         hours: 12,
         minutes: 15,
-        seconds: 0
+        seconds: 0,
       }).toJSON(),
-      message: 'Capture failed',
-      variant: 'warning'
+      message: "Capture failed",
+      variant: "warning",
     },
     {
       date: set(new Date(), {
@@ -102,9 +101,9 @@ Default.args = {
         date: 1,
         hours: 12,
         minutes: 23,
-        seconds: 28
+        seconds: 28,
       }).toJSON(),
-      message: 'Approved'
+      message: "Approved",
     },
     {
       date: set(new Date(), {
@@ -112,9 +111,9 @@ Default.args = {
         date: 1,
         hours: 12,
         minutes: 24,
-        seconds: 29
+        seconds: 29,
       }).toJSON(),
-      message: '$250,50 captured on stripe'
+      message: "$250,50 captured on stripe",
     },
     {
       date: set(new Date(), {
@@ -122,9 +121,9 @@ Default.args = {
         date: 3,
         hours: 6,
         minutes: 6,
-        seconds: 20
+        seconds: 20,
       }).toJSON(),
-      message: 'Fulfillment in progress'
+      message: "Fulfillment in progress",
     },
     {
       date: set(new Date(), {
@@ -132,11 +131,11 @@ Default.args = {
         date: 3,
         hours: 8,
         minutes: 8,
-        seconds: 35
+        seconds: 35,
       }).toJSON(),
-      author: 'S. Jennigs',
-      message: 'left a note',
-      note: 'Customer would like to receive parcel sooner, please request the customer phone number.'
+      author: "S. Jennigs",
+      message: "left a note",
+      note: "Customer would like to receive parcel sooner, please request the customer phone number.",
     },
     {
       date: set(new Date(), {
@@ -144,22 +143,22 @@ Default.args = {
         date: 3,
         hours: 7,
         minutes: 8,
-        seconds: 36
+        seconds: 36,
       }).toJSON(),
-      author: 'S. Jennigs',
-      message: 'left a note',
-      note: 'Short text.'
+      author: "S. Jennigs",
+      message: "left a note",
+      note: "Short text.",
     },
     {
       date: new Date().toJSON(),
-      message: 'Fullfilled'
-    }
-  ]
+      message: "Fullfilled",
+    },
+  ],
 }
 
 export const Empty = Template.bind({})
 Empty.args = {
-  events: []
+  events: [],
 }
 
 export const Loading = Template.bind({})
@@ -173,15 +172,15 @@ Loading.args = {
           date: 29,
           hours: 20,
           minutes: 23,
-          seconds: 12
+          seconds: 12,
         }),
-        { years: 1 }
+        { years: 1 },
       ).toJSON(),
       message: (
         <span>
-          <Text weight='bold'>M. Jordan</Text> placed this order · 23:12
+          <Text weight="bold">M. Jordan</Text> placed this order · 23:12
         </span>
-      )
-    }
-  ]
+      ),
+    },
+  ],
 }

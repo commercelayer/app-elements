@@ -1,8 +1,8 @@
-import { CheckCircle, WarningCircle } from '@phosphor-icons/react'
-import cn from 'classnames'
-import { type JSX } from 'react'
+import { CheckCircleIcon, WarningCircleIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import type { JSX } from "react"
 
-type FeedbackVariant = 'danger' | 'success' | 'warning'
+type FeedbackVariant = "danger" | "success" | "warning"
 
 export interface InputFeedbackProps {
   message: string
@@ -13,34 +13,38 @@ export interface InputFeedbackProps {
 export function InputFeedback({
   className,
   message,
-  variant = 'danger',
+  variant = "danger",
   ...rest
 }: InputFeedbackProps): JSX.Element {
   const icons: Record<FeedbackVariant, JSX.Element> = {
-    danger: <WarningCircle size={20} weight='bold' data-testid='icon-danger' />,
-    success: <CheckCircle size={20} weight='bold' data-testid='icon-success' />,
+    danger: (
+      <WarningCircleIcon size={20} weight="bold" data-testid="icon-danger" />
+    ),
+    success: (
+      <CheckCircleIcon size={20} weight="bold" data-testid="icon-success" />
+    ),
     warning: (
-      <WarningCircle size={20} weight='bold' data-testid='icon-warning' />
-    )
+      <WarningCircleIcon size={20} weight="bold" data-testid="icon-warning" />
+    ),
   }
 
   return (
     <div
       className={cn([
         className,
-        'flex items-center gap-1',
+        "flex items-center gap-1",
         {
-          'text-red': variant === 'danger',
-          'text-green': variant === 'success',
-          'text-orange': variant === 'warning'
-        }
+          "text-red": variant === "danger",
+          "text-green": variant === "success",
+          "text-orange": variant === "warning",
+        },
       ])}
       {...rest}
     >
       {icons[variant]}
-      <div className='text-sm font-bold'>{message}</div>
+      <div className="text-sm font-bold">{message}</div>
     </div>
   )
 }
 
-InputFeedback.displayName = 'InputFeedback'
+InputFeedback.displayName = "InputFeedback"

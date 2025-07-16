@@ -1,48 +1,48 @@
-import { act, renderHook } from '@testing-library/react'
-import { useIsChanged } from './useIsChanged'
+import { act, renderHook } from "@testing-library/react"
+import { useIsChanged } from "./useIsChanged"
 
-describe('useIsChanged', () => {
-  test('Should detect changes of value', () => {
-    let value: Record<string, string> = { foo: 'bar' }
+describe("useIsChanged", () => {
+  test("Should detect changes of value", () => {
+    let value: Record<string, string> = { foo: "bar" }
     const { result, rerender } = renderHook(() =>
       useIsChanged({
-        value
-      })
+        value,
+      }),
     )
 
     // changing value
     act(() => {
-      value = { foo: 'baz' }
+      value = { foo: "baz" }
       rerender()
     })
     expect(result.current).toBe(true)
 
     // re-rendering with the same value
     act(() => {
-      value = { foo: 'baz' }
+      value = { foo: "baz" }
       rerender()
     })
     expect(result.current).toBe(false)
   })
 
-  test('Should trigger onChange callback every time value is changed', () => {
+  test("Should trigger onChange callback every time value is changed", () => {
     const mockedConsoleLog = vi
-      .spyOn(console, 'log')
+      .spyOn(console, "log")
       .mockImplementation(() => {})
-    let value: Record<string, string> = { foo: 'bar' }
+    let value: Record<string, string> = { foo: "bar" }
 
     const { result, rerender } = renderHook(() =>
       useIsChanged({
         value,
         onChange: () => {
-          console.log('value is changed')
-        }
-      })
+          console.log("value is changed")
+        },
+      }),
     )
 
     // changing value
     act(() => {
-      value = { foo: 'baz' }
+      value = { foo: "baz" }
       rerender()
     })
     expect(result.current).toBe(true)
@@ -50,7 +50,7 @@ describe('useIsChanged', () => {
 
     // re-rendering with the same value
     act(() => {
-      value = { foo: 'baz' }
+      value = { foo: "baz" }
       rerender()
     })
     expect(result.current).toBe(false)
@@ -58,7 +58,7 @@ describe('useIsChanged', () => {
 
     // changing value again
     act(() => {
-      value = { foo: 'baz', bar: 'foo' }
+      value = { foo: "baz", bar: "foo" }
       rerender()
     })
     expect(result.current).toBe(true)

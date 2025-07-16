@@ -1,17 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
-import { type GroupBase, type SelectInstance } from 'react-select'
-import { useValidationFeedback } from '../ReactHookForm'
+import { useEffect, useRef, useState } from "react"
+import { Controller, useFormContext } from "react-hook-form"
+import type { GroupBase, SelectInstance } from "react-select"
+import { useValidationFeedback } from "../ReactHookForm"
 import {
   InputSelect,
   type InputSelectProps,
   type InputSelectValue,
-  type PossibleSelectValue
-} from './InputSelect'
-import { flatSelectValues, getDefaultValueFromFlatten } from './utils'
+  type PossibleSelectValue,
+} from "./InputSelect"
+import { flatSelectValues, getDefaultValueFromFlatten } from "./utils"
 
 export interface HookedInputSelectProps
-  extends Omit<InputSelectProps, 'onSelect' | 'defaultValue'> {
+  extends Omit<InputSelectProps, "onSelect" | "defaultValue"> {
   /**
    * field name to match hook-form state
    */
@@ -47,7 +47,7 @@ export interface HookedInputSelectProps
  */
 export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
   name,
-  pathToValue = 'value',
+  pathToValue = "value",
   onSelect,
   ...props
 }: HookedInputSelectProps) => {
@@ -69,7 +69,7 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
       }
       setPrevWatched(watched)
     },
-    [watched, ref]
+    [watched, ref],
   )
 
   return (
@@ -85,14 +85,14 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
           defaultValue={getDefaultValueFromFlatten({
             initialValues: props.initialValues,
             currentValue: value,
-            pathToValue
+            pathToValue,
           })}
           value={
             formState.dirtyFields[name] !== true
               ? getDefaultValueFromFlatten({
                   initialValues: props.initialValues,
                   currentValue: value,
-                  pathToValue
+                  pathToValue,
                 })
               : undefined
           }
@@ -107,4 +107,4 @@ export const HookedInputSelect: React.FC<HookedInputSelectProps> = ({
   )
 }
 
-HookedInputSelect.displayName = 'HookedInputSelect'
+HookedInputSelect.displayName = "HookedInputSelect"

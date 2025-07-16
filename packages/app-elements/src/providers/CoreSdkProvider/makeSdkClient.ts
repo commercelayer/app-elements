@@ -1,8 +1,8 @@
 import CommerceLayer, {
   type CommerceLayerClient,
-  type ErrorObj
-} from '@commercelayer/sdk'
-import isEmpty from 'lodash-es/isEmpty'
+  type ErrorObj,
+} from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
 
 interface ApiReasonError {
   code: string
@@ -14,7 +14,7 @@ interface ApiReasonError {
 function isSdk401Error(error: ErrorObj): boolean {
   const errors = error.errors as ApiReasonError[] | undefined
   return !isEmpty(errors) && Array.isArray(errors) && errors.length > 0
-    ? errors.some((err) => err.code === 'INVALID_TOKEN')
+    ? errors.some((err) => err.code === "INVALID_TOKEN")
     : false
 }
 
@@ -22,7 +22,7 @@ export function makeSdkClient({
   accessToken,
   organization,
   domain,
-  onInvalidToken
+  onInvalidToken,
 }: {
   accessToken: string
   organization: string
@@ -32,7 +32,7 @@ export function makeSdkClient({
   const client = CommerceLayer({
     accessToken,
     organization,
-    domain
+    domain,
   })
 
   client.addResponseInterceptor(
@@ -42,7 +42,7 @@ export function makeSdkClient({
         onInvalidToken()
       }
       throw error
-    }
+    },
   )
 
   return client

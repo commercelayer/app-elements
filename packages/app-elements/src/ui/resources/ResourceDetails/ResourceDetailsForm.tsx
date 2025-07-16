@@ -1,27 +1,26 @@
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInput } from '#ui/forms/Input'
-import { HookedValidationApiError } from '#ui/forms/ReactHookForm'
-import { useForm } from 'react-hook-form'
-
-import { getResourceEndpoint } from '#helpers/resources'
-import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useState } from 'react'
-import { z } from 'zod'
-import { type ResourceDetailsProps } from './ResourceDetails'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useState } from "react"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
+import { getResourceEndpoint } from "#helpers/resources"
+import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInput } from "#ui/forms/Input"
+import { HookedValidationApiError } from "#ui/forms/ReactHookForm"
+import type { ResourceDetailsProps } from "./ResourceDetails"
 
 const metadataForm = z.object({
   reference: z.string().nullish(),
-  reference_origin: z.string().nullish()
+  reference_origin: z.string().nullish(),
 })
 
 export const ResourceDetailsForm = withSkeletonTemplate<{
-  resource: ResourceDetailsProps['resource']
-  onUpdated: ResourceDetailsProps['onUpdated']
+  resource: ResourceDetailsProps["resource"]
+  onUpdated: ResourceDetailsProps["onUpdated"]
 }>(({ resource, onUpdated }) => {
   const [apiError, setApiError] = useState<any>(undefined)
   const { sdkClient } = useCoreSdkProvider()
@@ -29,9 +28,9 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
   const methods = useForm({
     defaultValues: {
       reference: resource.reference,
-      reference_origin: resource.reference_origin
+      reference_origin: resource.reference_origin,
     },
-    resolver: zodResolver(metadataForm)
+    resolver: zodResolver(metadataForm),
   })
 
   return (
@@ -42,7 +41,7 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
           .update({
             id: resource.id,
             reference: formValues.reference,
-            reference_origin: formValues.reference_origin
+            reference_origin: formValues.reference_origin,
           })
           .then(() => {
             void onUpdated()
@@ -52,25 +51,25 @@ export const ResourceDetailsForm = withSkeletonTemplate<{
           })
       }}
     >
-      <Spacer bottom='12'>
-        <Spacer bottom='8'>
-          <HookedInput name='reference' label={t('common.reference')} />
+      <Spacer bottom="12">
+        <Spacer bottom="8">
+          <HookedInput name="reference" label={t("common.reference")} />
         </Spacer>
-        <Spacer bottom='8'>
+        <Spacer bottom="8">
           <HookedInput
-            name='reference_origin'
-            label={t('common.reference_origin')}
+            name="reference_origin"
+            label={t("common.reference_origin")}
           />
         </Spacer>
       </Spacer>
       <Button
-        type='submit'
+        type="submit"
         disabled={methods.formState.isSubmitting}
-        className='w-full'
+        className="w-full"
       >
-        {t('common.update')}
+        {t("common.update")}
       </Button>
-      <Spacer top='2'>
+      <Spacer top="2">
         <HookedValidationApiError apiError={apiError} />
       </Spacer>
     </HookedForm>

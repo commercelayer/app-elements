@@ -1,4 +1,4 @@
-import type { Simplify } from 'type-fest'
+import type { Simplify } from "type-fest"
 
 /**
  * Create a `Route` given a path. Route has the provided `path` and a `makePath` method that helps making a path.
@@ -7,21 +7,21 @@ import type { Simplify } from 'type-fest'
  */
 export function createRoute<
   Path extends `/${string}/` | `/`,
-  Parameters extends Record<string, unknown> = ExtractParameters<Path>
+  Parameters extends Record<string, unknown> = ExtractParameters<Path>,
 >(path: ValidPath<Parameters, Path>): Route<Path, Parameters> {
   return {
-    path: ('/' +
+    path: ("/" +
       path
-        .replace(/\/+$/g, '')
-        .replace(/^\/+/g, '')) as Path extends `/${infer P}/` ? `/${P}` : '/',
+        .replace(/\/+$/g, "")
+        .replace(/^\/+/g, "")) as Path extends `/${infer P}/` ? `/${P}` : "/",
     makePath: (
       parameters: Parameters,
-      searchParams?: string | URLSearchParams
+      searchParams?: string | URLSearchParams,
     ) => {
       const placeholderRegex = /:(\w+)[?]?/g
 
       const newPath =
-        '/' +
+        "/" +
         path
           .replace(placeholderRegex, (match, placeholder) => {
             const value =
@@ -30,14 +30,14 @@ export function createRoute<
                 : null
             return value ?? match
           })
-          .replace(placeholderRegex, '')
-          .replace(/\/+$/g, '')
-          .replace(/^\/+/g, '')
+          .replace(placeholderRegex, "")
+          .replace(/\/+$/g, "")
+          .replace(/^\/+/g, "")
 
       return `${newPath}${
-        hasSearchParameters(searchParams) ? `?${searchParams.toString()}` : ''
+        hasSearchParameters(searchParams) ? `?${searchParams.toString()}` : ""
       }`
-    }
+    },
   }
 }
 
@@ -92,9 +92,9 @@ export const createTypedRoute =
  * ```
  */
 export type GetParams<R extends { makePath: (...arg: any[]) => string }> = {
-  [K in keyof Parameters<R['makePath']>[0]]: Exclude<
-    ToLiteral<Parameters<R['makePath']>[0][K]>,
-    'undefined' | 'null'
+  [K in keyof Parameters<R["makePath"]>[0]]: Exclude<
+    ToLiteral<Parameters<R["makePath"]>[0][K]>,
+    "undefined" | "null"
   >
 }
 
@@ -108,22 +108,22 @@ export type GetParams<R extends { makePath: (...arg: any[]) => string }> = {
  * ```
  */
 type ToLiteral<
-  V extends string | number | bigint | boolean | null | undefined
+  V extends string | number | bigint | boolean | null | undefined,
 > = `${V}`
 
 export interface Route<
   Path extends `/${string}/` | `/`,
-  Parameters extends Record<string, unknown> = ExtractParameters<Path>
+  Parameters extends Record<string, unknown> = ExtractParameters<Path>,
 > {
-  path: Path extends `/${infer P}/` ? `/${P}` : '/'
+  path: Path extends `/${infer P}/` ? `/${P}` : "/"
   makePath: (
     parameters: Parameters,
-    searchParams?: string | URLSearchParams
+    searchParams?: string | URLSearchParams,
   ) => string
 }
 
 function hasSearchParameters(
-  searchParams?: string | URLSearchParams
+  searchParams?: string | URLSearchParams,
 ): searchParams is string {
   return Array.from(new URLSearchParams(searchParams)).length > 0
 }
@@ -134,7 +134,7 @@ type ExtractParameters<Path extends string> =
         FixOptional<{ [key in Var]: string | number | boolean }> &
           ExtractParameters<Rest>
       >
-    : // eslint-disable-next-line @typescript-eslint/ban-types
+    : // biome-ignore lint/complexity/noBannedTypes: We want to allow empty paths
       {}
 
 type FixOptional<T extends Record<string, any>> = Omit<T, `${string}?`> & {
@@ -145,7 +145,7 @@ type FixOptional<T extends Record<string, any>> = Omit<T, `${string}?`> & {
 
 type ErrorParameters<
   Parameters extends Record<string, any>,
-  Path extends string
+  Path extends string,
 > = keyof ({
   [key in keyof ExtractParameters<Path> as key extends keyof Parameters
     ? never
@@ -153,22 +153,24 @@ type ErrorParameters<
       ? key extends string
         ? `${key}?`
         : key
-      : key]-?: 'Is not properly set.'
+      : key]-?: "Is not properly set."
 } & {
   [key in keyof Parameters as key extends string
     ? Path extends `${string}/:${key}${undefined extends Parameters[key]
-        ? '?'
-        : ''}/${string}`
+        ? "?"
+        : ""}/${string}`
       ? never
       : undefined extends Parameters[key]
         ? `${key}?`
         : key
-    : never]-?: 'Is not properly set.'
+    : never]-?: "Is not properly set."
 })
 
-type ValidPath<Parameters extends Record<string, any>, Path extends string> =
-  ErrorParameters<Parameters, Path> extends never
-    ? Path
-    : `Missing variable '${ErrorParameters<Parameters, Path> extends string
-        ? ErrorParameters<Parameters, Path>
-        : 'unknown'}'`
+type ValidPath<
+  Parameters extends Record<string, any>,
+  Path extends string,
+> = ErrorParameters<Parameters, Path> extends never
+  ? Path
+  : `Missing variable '${ErrorParameters<Parameters, Path> extends string
+      ? ErrorParameters<Parameters, Path>
+      : "unknown"}'`

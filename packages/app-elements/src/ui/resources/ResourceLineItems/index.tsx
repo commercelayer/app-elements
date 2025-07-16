@@ -1,4 +1,4 @@
 export {
   ResourceLineItems,
-  type ResourceLineItemsProps
-} from './ResourceLineItems'
+  type ResourceLineItemsProps,
+} from "./ResourceLineItems"

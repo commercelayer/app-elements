@@ -1,15 +1,15 @@
-import { asUniqueArray } from '#utils/array'
-import { type SetRequired } from 'type-fest'
-import { type RulesForOrderContext } from './schema.order_rules'
+import type { SetRequired } from "type-fest"
+import { asUniqueArray } from "#utils/array"
+import type { RulesForOrderContext } from "./schema.order_rules"
 
-export type Schema = SetRequired<RulesForOrderContext, 'rules'>
-type SchemaRule = Schema['rules'][number]
+export type Schema = SetRequired<RulesForOrderContext, "rules">
+type SchemaRule = Schema["rules"][number]
 export type SchemaCondition = NonNullable<
-  SchemaRule['conditions'][number]['nested']
+  SchemaRule["conditions"][number]["nested"]
 >
-export type SchemaActionItem = NonNullable<SchemaRule['actions']>[number]
+export type SchemaActionItem = NonNullable<SchemaRule["actions"]>[number]
 export type SchemaConditionItem = NonNullable<
-  SchemaCondition['conditions']
+  SchemaCondition["conditions"]
 >[number]
 
 export interface SetPath {
@@ -20,13 +20,13 @@ export interface SetPath {
 export type ConditionMatchersWithoutValue = Exclude<
   SchemaConditionItem,
   { value: any }
->['matcher']
+>["matcher"]
 
 export const conditionMatchersWithoutValue = asUniqueArray([
-  'blank',
-  'present',
-  'null',
-  'not_null'
+  "blank",
+  "present",
+  "null",
+  "not_null",
 ]) satisfies ConditionMatchersWithoutValue[]
 
 export type ItemWithValue = Exclude<

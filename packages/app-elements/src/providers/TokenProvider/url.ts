@@ -1,9 +1,9 @@
-import { getCurrentMode } from './getAccessTokenFromUrl'
-import { getInfoFromJwt } from './getInfoFromJwt'
+import { getCurrentMode } from "./getAccessTokenFromUrl"
+import { getInfoFromJwt } from "./getInfoFromJwt"
 
 export function makeDashboardUrl({
-  domain = 'commercelayer.io',
-  accessToken
+  domain = "commercelayer.io",
+  accessToken,
 }: {
   domain?: string
   accessToken?: string | null
@@ -20,10 +20,10 @@ export function makeDashboardUrl({
 }
 
 export function extractDomainFromApiBaseEndpoint(
-  apiBaseEndpoint?: string | null
+  apiBaseEndpoint?: string | null,
 ): string {
   if (apiBaseEndpoint == null) {
-    return 'commercelayer.io'
+    return "commercelayer.io"
   }
-  return apiBaseEndpoint.replace('https://', '').split('.').slice(1).join('.')
+  return apiBaseEndpoint.replace("https://", "").split(".").slice(1).join(".")
 }

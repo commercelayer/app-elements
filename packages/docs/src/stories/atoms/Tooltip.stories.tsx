@@ -1,26 +1,26 @@
-import { Icon } from '#ui/atoms/Icon'
-import { Text } from '#ui/atoms/Text'
-import { Tooltip, type TooltipRefProps } from '#ui/atoms/Tooltip'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useRef } from 'react'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useRef } from "react"
+import { Icon } from "#ui/atoms/Icon"
+import { Text } from "#ui/atoms/Text"
+import { Tooltip, type TooltipRefProps } from "#ui/atoms/Tooltip"
 
 const setup: Meta<typeof Tooltip> = {
-  title: 'Atoms/Tooltip',
+  title: "Atoms/Tooltip",
   component: Tooltip,
   parameters: {
-    layout: 'padded'
+    layout: "padded",
   },
   decorators: [
     (Story) => (
       <div
         style={{
-          padding: '50px'
+          padding: "50px",
         }}
       >
         <Story />
       </div>
-    )
-  ]
+    ),
+  ],
 }
 export default setup
 
@@ -28,8 +28,8 @@ const Template: StoryFn<typeof Tooltip> = (args) => <Tooltip {...args} />
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Hover me',
-  content: 'This is a tooltip.'
+  label: "Hover me",
+  content: "This is a tooltip.",
 }
 
 /**
@@ -37,33 +37,34 @@ Default.args = {
  **/
 export const WithCustomElements = Template.bind({})
 WithCustomElements.args = {
-  label: <Icon name='info' className='inline' weight='bold' size={20} />,
+  label: <Icon name="info" className="inline" weight="bold" size={20} />,
   content: (
     <div>
-      <Text variant='warning' tag='div' weight='bold'>
+      <Text variant="warning" tag="div" weight="bold">
         <Icon
-          name='folderOpen'
+          name="folderOpen"
           style={{
-            display: 'inline-block'
+            display: "inline-block",
           }}
-        />{' '}
+        />{" "}
         I'm a JSX element
       </Text>
     </div>
-  )
+  ),
 }
 
 /**
  * Tooltip works by default as inline element, so it can be part of a sentence.
  **/
-export const Inline: StoryFn<typeof Tooltip> = (args) => (
+export const Inline: StoryFn<typeof Tooltip> = (_args) => (
   <div>
-    We can have an{' '}
+    We can have an{" "}
     <Tooltip
+      // biome-ignore lint/a11y/useValidAnchor: Just for testing purpose
       label={<a>inline tooltip</a>}
-      content='Lorem ipsum is a placeholder text commonly used.'
-      direction='top'
-    />{' '}
+      content="Lorem ipsum is a placeholder text commonly used."
+      direction="top"
+    />{" "}
     as part of a sentence.
   </div>
 )
@@ -79,14 +80,15 @@ export const ControlledRef: StoryFn<typeof Tooltip> = () => {
   const close = (): void => ref.current?.close()
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: Just for testing purpose
     <div onMouseEnter={open} onMouseLeave={close}>
-      Hover me{' '}
+      Hover me{" "}
       <Tooltip
-        label={<Icon name='info' className='inline' weight='bold' size={20} />}
+        label={<Icon name="info" className="inline" weight="bold" size={20} />}
         content='Tooltip arrow centered on the icon, but triggered from the entire parent "div".'
-        direction='bottom-start'
+        direction="bottom-start"
         ref={ref}
-      />{' '}
+      />{" "}
       to discover more.
     </div>
   )
