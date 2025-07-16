@@ -110,7 +110,6 @@ export function useResourceFilters({
   predicateWhitelist = [],
 }: UseResourceFiltersConfig): UseResourceFiltersHook {
   const { user } = useTokenProvider()
-  const { t } = useTranslation()
   const [sdkFilters, setSdkFilters] = useState<QueryFilter>()
   const queryString = window.location.search
 
@@ -137,86 +136,21 @@ export function useResourceFilters({
     [validInstructions, queryString],
   )
 
-  const FilteredList: UseResourceFiltersHook["FilteredList"] = useCallback(
-    ({ type, query, metricsQuery, hideTitle, ...resourceListProps }) => {
-      if (resourceListProps == null) {
-        return <div>resourceListProps not defined</div>
-      }
-      if (sdkFilters == null) {
-        return null
-      }
-
-      return (
-        <ResourceListComponent
-          {...resourceListProps}
-          type={type}
-          title={hideTitle === true ? undefined : t("common.all")}
-          query={{
-            ...query,
-            filters: sdkFilters,
-          }}
-          metricsQuery={
-            metricsQuery == null
-              ? undefined
-              : {
-                  ...metricsQuery,
-                  filter: adapters.adaptSdkToMetrics({
-                    sdkFilters,
-                    resourceType: type,
-                  }),
-                }
-          }
-        />
-      )
-    },
+  const FilteredList = useMemo(
+    () =>
+      makeFilteredList({
+        sdkFilters,
+        adapters,
+      }),
     [sdkFilters],
   )
 
-  const SearchWithNav: UseResourceFiltersHook["SearchWithNav"] = useCallback(
-    ({
-      onFilterClick,
-      onUpdate,
-      searchBarPlaceholder,
-      searchBarDebounceMs,
-      hideSearchBar,
-      hideFiltersNav,
-      // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
-      // so we can't reuse the `queryString` variable we have in the hook scope
-      queryString: queryStringProp,
-    }): React.ReactNode => {
-      if (hideSearchBar === true && hideFiltersNav === true) {
-        return null
-      }
-
-      return (
-        <Spacer top="6" bottom="14">
-          {hideSearchBar === true ? null : (
-            <Spacer bottom="2">
-              <FiltersSearchBar
-                queryString={queryStringProp}
-                placeholder={searchBarPlaceholder ?? t("common.search")}
-                debounceMs={searchBarDebounceMs}
-                instructions={validInstructions}
-                onUpdate={onUpdate}
-                predicateWhitelist={predicateWhitelist}
-              />
-            </Spacer>
-          )}
-
-          {hideFiltersNav === true ? null : (
-            <FiltersNav
-              queryString={queryStringProp}
-              instructions={validInstructions}
-              onFilterClick={onFilterClick}
-              onUpdate={onUpdate}
-              predicateWhitelist={predicateWhitelist}
-            />
-          )}
-        </Spacer>
-      )
-    },
-    [JSON.stringify(validInstructions)],
-  )
+  const SearchWithNav = useMemo(() => {
+    return makeSearchWithNav({
+      validInstructions,
+      predicateWhitelist,
+    })
+  }, [JSON.stringify(validInstructions)])
 
   const FiltersForm: UseResourceFiltersHook["FiltersForm"] = useCallback(
     ({ onSubmit }): JSX.Element => {
@@ -271,3 +205,92 @@ function ResourceListComponent<TResource extends ListableResourceType>({
 
   return <ResourceList {...listProps} />
 }
+
+const makeFilteredList: (options: {
+  sdkFilters: QueryFilter | undefined
+  adapters: ReturnType<typeof makeFilterAdapters>
+}) => UseResourceFiltersHook["FilteredList"] =
+  ({ sdkFilters, adapters }) =>
+  ({ type, query, metricsQuery, hideTitle, ...resourceListProps }) => {
+    const { t } = useTranslation()
+
+    if (resourceListProps == null) {
+      return <div>resourceListProps not defined</div>
+    }
+    if (sdkFilters == null) {
+      return null
+    }
+
+    return (
+      <ResourceListComponent
+        {...resourceListProps}
+        type={type}
+        title={hideTitle === true ? undefined : t("common.all")}
+        query={{
+          ...query,
+          filters: sdkFilters,
+        }}
+        metricsQuery={
+          metricsQuery == null
+            ? undefined
+            : {
+                ...metricsQuery,
+                filter: adapters.adaptSdkToMetrics({
+                  sdkFilters,
+                  resourceType: type,
+                }),
+              }
+        }
+      />
+    )
+  }
+
+const makeSearchWithNav: (_options: {
+  validInstructions: FiltersInstructions
+  predicateWhitelist: string[]
+}) => UseResourceFiltersHook["SearchWithNav"] =
+  ({ validInstructions, predicateWhitelist }) =>
+  ({
+    onFilterClick,
+    onUpdate,
+    searchBarPlaceholder,
+    searchBarDebounceMs,
+    hideSearchBar,
+    hideFiltersNav,
+    // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
+    // so we can't reuse the `queryString` variable we have in the hook scope
+    queryString: queryStringProp,
+  }) => {
+    const { t } = useTranslation()
+
+    if (hideSearchBar === true && hideFiltersNav === true) {
+      return null
+    }
+
+    return (
+      <Spacer top="6" bottom="14">
+        {hideSearchBar === true ? null : (
+          <Spacer bottom="2">
+            <FiltersSearchBar
+              queryString={queryStringProp}
+              placeholder={searchBarPlaceholder ?? t("common.search")}
+              debounceMs={searchBarDebounceMs}
+              instructions={validInstructions}
+              onUpdate={onUpdate}
+              predicateWhitelist={predicateWhitelist}
+            />
+          </Spacer>
+        )}
+
+        {hideFiltersNav === true ? null : (
+          <FiltersNav
+            queryString={queryStringProp}
+            instructions={validInstructions}
+            onFilterClick={onFilterClick}
+            onUpdate={onUpdate}
+            predicateWhitelist={predicateWhitelist}
+          />
+        )}
+      </Spacer>
+    )
+  }
