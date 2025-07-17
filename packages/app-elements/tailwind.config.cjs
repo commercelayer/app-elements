@@ -190,6 +190,22 @@ module.exports = {
       fontWeight: {
         inherit: "inherit",
       },
+      keyframes: {
+        "slide-in-right": {
+          "0%": { transform: "translateX(100%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        "backdrop-fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "0.3" },
+        },
+      },
+      animation: {
+        "slide-in-right":
+          "slide-in-right 0.2s cubic-bezier(0.4, 0, 0.2, 1) both",
+        "backdrop-fade-in":
+          "backdrop-fade-in 0.2s cubic-bezier(0.4, 0, 0.2, 1) both",
+      },
     },
   },
   plugins: [require("@tailwindcss/forms")],

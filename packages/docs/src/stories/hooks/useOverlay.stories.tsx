@@ -204,6 +204,44 @@ export const OverlayWithBackgroundVariant: StoryFn = () => {
 }
 
 /**
+ * Overlay can be used as a drawer opening from the right side of the screen.
+ * It can be closed by clicking on the backdrop.
+ **/
+export const OverlayAsDrawer: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open overlay</Button>
+      <Overlay
+        drawer
+        onBackdropClick={close}
+        footer={
+          <Button onClick={close} fullWidth>
+            close
+          </Button>
+        }
+      >
+        <div style={{ padding: "16px" }}>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            fringilla, leo vel blandit consequat, arcu tellus tristique ipsum,
+            vel accumsan risus urna in ante. Morbi iaculis elit mattis dolor
+            laoreet rhoncus. Aliquam interdum vel dui nec dapibus.
+          </p>
+          <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
+            fringilla, leo vel blandit consequat, arcu tellus tristique ipsum,
+            vel accumsan risus urna in ante. Morbi iaculis elit mattis dolor
+            laoreet rhoncus. Aliquam interdum vel dui nec dapibus.
+          </p>
+        </div>
+      </Overlay>
+    </div>
+  )
+}
+
+/**
  * Sometimes you may want to use the Overlay in full width mode.
  * In this case, you'll need to manage internal padding and margins
  * to ensure the content is displayed correctly.
