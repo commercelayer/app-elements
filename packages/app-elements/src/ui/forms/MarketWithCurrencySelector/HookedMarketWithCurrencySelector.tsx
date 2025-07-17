@@ -1,25 +1,21 @@
-import { currencyInputSelectOptions } from '#helpers/currencies'
-import { useCoreApi, useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
+import type { ListResponse, Market, Resource } from "@commercelayer/sdk"
+import cn from "classnames"
+import isEmpty from "lodash-es/isEmpty"
+import isString from "lodash-es/isString"
+import type { FC } from "react"
+import { useFormContext } from "react-hook-form"
+import { currencyInputSelectOptions } from "#helpers/currencies"
+import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
 import {
   flatSelectValues,
   HookedInputSelect,
   type InputSelectProps,
-  type InputSelectValue
-} from '#ui/forms/InputSelect'
-import {
-  type ListResponse,
-  type Market,
-  type Resource
-} from '@commercelayer/sdk'
-import cn from 'classnames'
-import isEmpty from 'lodash-es/isEmpty'
-import isString from 'lodash-es/isString'
-import type { FC } from 'react'
-import { useFormContext } from 'react-hook-form'
+  type InputSelectValue,
+} from "#ui/forms/InputSelect"
 
 export interface HookedMarketWithCurrencySelectorProps
-  extends Pick<InputSelectProps, 'hint' | 'label' | 'isDisabled'> {
+  extends Pick<InputSelectProps, "hint" | "label" | "isDisabled"> {
   /**
    * Market input name where market ID is stored.
    * Must match the field name in your form state/schema.
@@ -41,40 +37,40 @@ export const HookedMarketWithCurrencySelector: FC<
 > = ({
   fieldNameMarket,
   fieldNameCurrencyCode,
-  label = 'Market *',
+  label = "Market *",
   hint,
-  isDisabled
+  isDisabled,
 }) => {
   const { sdkClient } = useCoreSdkProvider()
   const {
     watch,
     setValue,
-    formState: { defaultValues }
+    formState: { defaultValues },
   } = useFormContext()
   const defaultMarketId = defaultValues?.[fieldNameMarket]
   const defaultCurrencyCode = defaultValues?.[fieldNameCurrencyCode]
 
   const { data, isLoading: isLoadingInitialValues } = useCoreApi(
-    'markets',
-    'list',
+    "markets",
+    "list",
     [
       {
         fields: {
-          markets: ['name', 'price_list'],
-          price_lists: ['currency_code']
+          markets: ["name", "price_list"],
+          price_lists: ["currency_code"],
         },
-        include: ['price_list'],
+        include: ["price_list"],
         pageSize: 25,
         filters: isEmpty(defaultMarketId)
           ? undefined
           : {
-              id_not_eq: defaultMarketId
+              id_not_eq: defaultMarketId,
             },
         sort: {
-          name: 'asc'
-        }
-      }
-    ]
+          name: "asc",
+        },
+      },
+    ],
   )
 
   const hasMorePages =
@@ -82,40 +78,40 @@ export const HookedMarketWithCurrencySelector: FC<
 
   const { data: defaultResource, isLoading: isLoadingDefaultResource } =
     useCoreApi(
-      'markets',
-      'retrieve',
+      "markets",
+      "retrieve",
       isEmpty(defaultMarketId)
         ? null
         : [
             defaultMarketId,
             {
               fields: {
-                markets: ['name', 'price_list'],
-                price_lists: ['currency_code']
+                markets: ["name", "price_list"],
+                price_lists: ["currency_code"],
               },
-              include: ['price_list']
-            }
-          ]
+              include: ["price_list"],
+            },
+          ],
     )
 
   const initialValues = [
     {
-      label: t('common.forms.all_markets_with_currency'),
-      value: ''
+      label: t("common.forms.all_markets_with_currency"),
+      value: "",
     },
     ...makeSelectInitialValuesWithDefault<Market>({
       resourceList: data,
       defaultResource,
-      fieldForLabel: 'name'
-    })
+      fieldForLabel: "name",
+    }),
   ]
 
   const selectedMarket = watch(fieldNameMarket)
 
   return (
     <div
-      className={cn('grid gap-4 ', {
-        'grid-cols-[4fr_1fr]': isEmpty(selectedMarket)
+      className={cn("grid gap-4 ", {
+        "grid-cols-[4fr_1fr]": isEmpty(selectedMarket),
       })}
     >
       <HookedInputSelect
@@ -131,17 +127,17 @@ export const HookedMarketWithCurrencySelector: FC<
         onSelect={(selected) => {
           const relatedCurrencyCode = flatSelectValues(
             selected,
-            'meta.price_list.currency_code'
+            "meta.price_list.currency_code",
           )
           if (isString(relatedCurrencyCode) && !isEmpty(relatedCurrencyCode)) {
             setValue(
               fieldNameCurrencyCode,
-              relatedCurrencyCode ?? defaultCurrencyCode
+              relatedCurrencyCode ?? defaultCurrencyCode,
             )
           }
         }}
         menuFooterText={
-          hasMorePages ? t('common.forms.type_to_search_for_more') : undefined
+          hasMorePages ? t("common.forms.type_to_search_for_more") : undefined
         }
         loadAsyncValues={
           hasMorePages
@@ -150,19 +146,19 @@ export const HookedMarketWithCurrencySelector: FC<
                   .list({
                     pageSize: 25,
                     filters: {
-                      name_cont: hint
+                      name_cont: hint,
                     },
                     fields: {
-                      markets: ['name', 'price_list'],
-                      price_lists: ['currency_code']
+                      markets: ["name", "price_list"],
+                      price_lists: ["currency_code"],
                     },
-                    include: ['price_list']
+                    include: ["price_list"],
                   })
                   .then((res) => {
                     return res.map((market) => ({
                       label: market.name,
                       value: market.id,
-                      meta: market
+                      meta: market,
                     }))
                   })
               }
@@ -173,8 +169,8 @@ export const HookedMarketWithCurrencySelector: FC<
       {isEmpty(selectedMarket) && (
         <HookedInputSelect
           name={fieldNameCurrencyCode}
-          label='&nbsp;'
-          aria-label={t('common.currency')}
+          label="&nbsp;"
+          aria-label={t("common.currency")}
           initialValues={currencyInputSelectOptions}
           key={defaultCurrencyCode}
           isDisabled={isDisabled}
@@ -187,7 +183,7 @@ export const HookedMarketWithCurrencySelector: FC<
 function makeSelectInitialValuesWithDefault<R extends Resource>({
   resourceList,
   defaultResource,
-  fieldForLabel
+  fieldForLabel,
 }: {
   resourceList?: ListResponse<R>
   defaultResource?: R
@@ -199,18 +195,18 @@ function makeSelectInitialValuesWithDefault<R extends Resource>({
           label: (
             defaultResource[fieldForLabel] ?? defaultResource.id
           ).toString(),
-          value: defaultResource.id
+          value: defaultResource.id,
         }
       : undefined,
     ...(resourceList ?? []).map((item) => ({
       label: (item[fieldForLabel] ?? item.id).toString(),
       value: item.id,
-      meta: item
-    }))
+      meta: item,
+    })),
   ].filter((v) => !isEmpty(v)) as InputSelectValue[]
 
   return options.sort((a, b) => a.label.localeCompare(b.label))
 }
 
 HookedMarketWithCurrencySelector.displayName =
-  'HookedMarketWithCurrencySelector'
+  "HookedMarketWithCurrencySelector"

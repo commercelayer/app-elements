@@ -1,17 +1,17 @@
-import { t } from '#providers/I18NProvider'
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { type JSX } from 'react'
-import { useForm } from 'react-hook-form'
-import { FieldCurrencyRange } from './FieldCurrencyRange'
-import { FieldOptions } from './FieldOptions'
-import { FieldTextSearch } from './FieldTextSearch'
-import { FieldTimeRange } from './FieldTimeRange'
-import { makeFilterAdapters } from './adapters'
-import { timeRangeValidationSchema } from './timeUtils'
-import type { FiltersInstructions } from './types'
+import { zodResolver } from "@hookform/resolvers/zod"
+import type { JSX } from "react"
+import { useForm } from "react-hook-form"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { makeFilterAdapters } from "./adapters"
+import { FieldCurrencyRange } from "./FieldCurrencyRange"
+import { FieldOptions } from "./FieldOptions"
+import { FieldTextSearch } from "./FieldTextSearch"
+import { FieldTimeRange } from "./FieldTimeRange"
+import { timeRangeValidationSchema } from "./timeUtils"
+import type { FiltersInstructions } from "./types"
 
 export interface FiltersFormProps {
   /**
@@ -40,23 +40,23 @@ export interface FiltersFormProps {
 function FiltersForm({
   instructions,
   predicateWhitelist,
-  onSubmit
+  onSubmit,
 }: FiltersFormProps): JSX.Element {
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
     makeFilterAdapters({
       instructions,
-      predicateWhitelist
+      predicateWhitelist,
     })
 
   const hasTimeRangeFilter = instructions.some(
-    (item) => item.type === 'timeRange'
+    (item) => item.type === "timeRange",
   )
 
   const methods = useForm({
     defaultValues: adaptUrlQueryToFormValues({ queryString: location.search }),
     resolver: hasTimeRangeFilter
       ? zodResolver(timeRangeValidationSchema)
-      : undefined
+      : undefined,
   })
 
   return (
@@ -65,8 +65,8 @@ function FiltersForm({
       onSubmit={(formValues) => {
         onSubmit(
           adaptFormValuesToUrlQuery({
-            formValues
-          })
+            formValues,
+          }),
         )
       }}
     >
@@ -75,33 +75,33 @@ function FiltersForm({
           return null
         }
 
-        if (item.type === 'textSearch') {
+        if (item.type === "textSearch") {
           return (
-            <Spacer bottom='10' key={item.label}>
+            <Spacer bottom="10" key={item.label}>
               <FieldTextSearch item={item} />
             </Spacer>
           )
         }
 
-        if (item.type === 'options') {
+        if (item.type === "options") {
           return (
-            <Spacer bottom='10' key={item.label}>
+            <Spacer bottom="10" key={item.label}>
               <FieldOptions item={item} />
             </Spacer>
           )
         }
 
-        if (item.type === 'timeRange') {
+        if (item.type === "timeRange") {
           return (
-            <Spacer bottom='10' key={item.label}>
+            <Spacer bottom="10" key={item.label}>
               <FieldTimeRange item={item} />
             </Spacer>
           )
         }
 
-        if (item.type === 'currencyRange') {
+        if (item.type === "currencyRange") {
           return (
-            <Spacer bottom='10' key={item.label}>
+            <Spacer bottom="10" key={item.label}>
               <FieldCurrencyRange item={item} />
             </Spacer>
           )
@@ -109,14 +109,14 @@ function FiltersForm({
 
         return null
       })}
-      <div className='w-full sticky bottom-0 bg-gray-50 pb-8'>
-        <Button type='submit' fullWidth>
-          {t('common.apply_filters')}
+      <div className="w-full sticky bottom-0 bg-gray-50 pb-8">
+        <Button type="submit" fullWidth>
+          {t("common.apply_filters")}
         </Button>
       </div>
     </HookedForm>
   )
 }
 
-FiltersForm.displayName = 'FiltersForm'
+FiltersForm.displayName = "FiltersForm"
 export { FiltersForm }

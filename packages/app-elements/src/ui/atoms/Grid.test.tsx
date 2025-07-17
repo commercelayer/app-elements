@@ -1,15 +1,15 @@
-import { render } from '@testing-library/react'
-import { Grid } from './Grid'
+import { render } from "@testing-library/react"
+import { Grid } from "./Grid"
 
-describe('Grid', () => {
-  test('renders', () => {
+describe("Grid", () => {
+  test("renders", () => {
     const { container } = render(
-      <Grid columns='2'>
+      <Grid columns="2">
         <div>item1</div>
         <div>item2</div>
         <div>item3</div>
         <div>item4</div>
-      </Grid>
+      </Grid>,
     )
 
     expect(container).toBeVisible()

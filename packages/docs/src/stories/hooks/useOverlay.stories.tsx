@@ -1,14 +1,14 @@
-import { useOverlay } from '#hooks/useOverlay'
-import { Button } from '#ui/atoms/Button'
-import { Card } from '#ui/atoms/Card'
 import {
   Description,
   Primary,
   Stories,
   Subtitle,
-  Title
-} from '@storybook/addon-docs/blocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+  Title,
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useOverlay } from "#hooks/useOverlay"
+import { Button } from "#ui/atoms/Button"
+import { Card } from "#ui/atoms/Card"
 
 /**
  * Simple hook that return an `Overlay` component along with `open` and `close` methods to control its visibility.
@@ -17,14 +17,14 @@ import { type Meta, type StoryFn } from '@storybook/react-vite'
  * Example: `useOverlay({queryParam: 'myOverlay'})`
  **/
 const setup: Meta = {
-  title: 'Hooks/useOverlay',
+  title: "Hooks/useOverlay",
   args: {},
   argTypes: {
     children: {
       table: {
-        disable: true
-      }
-    }
+        disable: true,
+      },
+    },
   },
   parameters: {
     docs: {
@@ -38,10 +38,10 @@ const setup: Meta = {
         </>
       ),
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
@@ -168,7 +168,7 @@ export const OverlayWithBackgroundVariant: StoryFn = () => {
     <div>
       <Button onClick={open}>Open overlay</Button>
       <Overlay
-        backgroundColor='light'
+        backgroundColor="light"
         footer={
           <Button onClick={close} fullWidth>
             close
@@ -182,7 +182,7 @@ export const OverlayWithBackgroundVariant: StoryFn = () => {
           rhoncus. Aliquam interdum vel dui nec dapibus.
         </p>
         <br />
-        <Card overflow='visible'>
+        <Card overflow="visible">
           Praesent id justo ultricies quam finibus sollicitudin eu nec magna.
           Pellentesque habitant morbi tristique senectus et netus et malesuada
           fames ac turpis egestas. Nunc eget luctus nisi. Orci varius natoque
@@ -215,7 +215,7 @@ export const OverlayFullWitdh: StoryFn = () => {
     <div>
       <Button onClick={open}>Open overlay</Button>
       <Overlay
-        contentStyle={{ width: '90%', margin: '0 auto' }}
+        contentStyle={{ width: "90%", margin: "0 auto" }}
         fullWidth
         footer={
           <Button onClick={close} fullWidth>
@@ -225,6 +225,7 @@ export const OverlayFullWitdh: StoryFn = () => {
       >
         <div>
           {Array.from({ length: 20 }, (_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since the list is static and does not change.
             <div key={i}>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.

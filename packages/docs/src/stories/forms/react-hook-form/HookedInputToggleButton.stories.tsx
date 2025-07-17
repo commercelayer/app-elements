@@ -1,21 +1,21 @@
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { HookedForm } from '#ui/forms/Form'
-import { HookedInputToggleButton } from '#ui/forms/InputToggleButton'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useForm } from 'react-hook-form'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useForm } from "react-hook-form"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedInputToggleButton } from "#ui/forms/InputToggleButton"
 
 const setup: Meta<typeof HookedInputToggleButton> = {
-  title: 'Forms/react-hook-form/HookedInputToggleButton',
+  title: "Forms/react-hook-form/HookedInputToggleButton",
   component: HookedInputToggleButton,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       source: {
-        type: 'code'
-      }
-    }
-  }
+        type: "code",
+      },
+    },
+  },
 }
 export default setup
 
@@ -30,8 +30,8 @@ const Template: StoryFn<typeof HookedInputToggleButton> = (args) => {
       }}
     >
       <HookedInputToggleButton {...args} />
-      <Spacer top='4'>
-        <Button type='submit'>Submit</Button>
+      <Spacer top="4">
+        <Button type="submit">Submit</Button>
       </Spacer>
     </HookedForm>
   )
@@ -39,21 +39,21 @@ const Template: StoryFn<typeof HookedInputToggleButton> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  name: 'myOptions',
+  name: "myOptions",
   options: [
     {
-      value: 'authorized',
-      label: 'Authorized'
+      value: "authorized",
+      label: "Authorized",
     },
     {
-      value: 'paid',
-      label: 'Paid'
+      value: "paid",
+      label: "Paid",
     },
     {
-      value: 'voided',
-      label: 'Voided'
-    }
+      value: "voided",
+      label: "Voided",
+    },
   ],
-  label: 'Select an option',
-  mode: 'multi'
+  label: "Select an option",
+  mode: "multi",
 }

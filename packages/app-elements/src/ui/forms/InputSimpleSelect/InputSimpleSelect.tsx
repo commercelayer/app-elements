@@ -1,8 +1,8 @@
+import { type ForwardedRef, forwardRef, type JSX } from "react"
 import {
   InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import { forwardRef, type ForwardedRef, type JSX } from 'react'
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 
 interface InputSimpleSelectOption {
   value: string
@@ -11,7 +11,7 @@ interface InputSimpleSelectOption {
 
 export interface InputSimpleSelectProps
   extends InputWrapperBaseProps,
-    Omit<React.SelectHTMLAttributes<HTMLSelectElement>, 'value' | 'onSelect'> {
+    Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "value" | "onSelect"> {
   value?: string
   options: InputSimpleSelectOption[]
   className?: string
@@ -32,7 +32,7 @@ export const InputSimpleSelect = forwardRef<
       inline,
       ...rest
     }: InputSimpleSelectProps,
-    ref: ForwardedRef<HTMLSelectElement>
+    ref: ForwardedRef<HTMLSelectElement>,
   ): JSX.Element => {
     return (
       <InputWrapper
@@ -45,7 +45,7 @@ export const InputSimpleSelect = forwardRef<
         <select
           id={rest.id ?? rest.name}
           value={value}
-          className='appearance-none cursor-pointer border-0 py-0 pl-0 pr-9 font-medium text-gray-500 align-[inherit] focus:outline-none focus:ring-0 focus:shadow-none'
+          className="appearance-none cursor-pointer border-0 py-0 pl-0 pr-9 font-medium text-gray-500 align-[inherit] focus:outline-none focus:ring-0 focus:shadow-none"
           {...rest}
           ref={ref}
         >
@@ -57,7 +57,7 @@ export const InputSimpleSelect = forwardRef<
         </select>
       </InputWrapper>
     )
-  }
+  },
 )
 
-InputSimpleSelect.displayName = 'InputSimpleSelect'
+InputSimpleSelect.displayName = "InputSimpleSelect"

@@ -1,34 +1,34 @@
-import { render } from '@testing-library/react'
-import { ButtonImageSelect } from './ButtonImageSelect'
+import { render } from "@testing-library/react"
+import { ButtonImageSelect } from "./ButtonImageSelect"
 
-describe('ButtonImageSelect', () => {
-  const mockedConsoleLog = vi.spyOn(console, 'log').mockImplementation(() => {})
+describe("ButtonImageSelect", () => {
+  const mockedConsoleLog = vi.spyOn(console, "log").mockImplementation(() => {})
 
   afterEach(() => {
     vi.clearAllMocks()
   })
 
-  test('Should be rendered', () => {
+  test("Should be rendered", () => {
     const { container } = render(<ButtonImageSelect />)
     expect(container).toBeVisible()
   })
 
-  test('Should render with image', () => {
+  test("Should render with image", () => {
     const { getByTestId } = render(
       <ButtonImageSelect
         img={{
-          src: 'https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png',
-          alt: ''
+          src: "https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png",
+          alt: "",
         }}
         onClick={() => {
-          console.log('main-button-clicked')
+          console.log("main-button-clicked")
         }}
-      />
+      />,
     )
-    expect(getByTestId('ButtonImageSelect-main')).toContainElement(
-      getByTestId('ButtonImageSelect-image')
+    expect(getByTestId("ButtonImageSelect-main")).toContainElement(
+      getByTestId("ButtonImageSelect-image"),
     )
-    getByTestId('ButtonImageSelect-main').click()
-    expect(mockedConsoleLog).toHaveBeenCalledWith('main-button-clicked')
+    getByTestId("ButtonImageSelect-main").click()
+    expect(mockedConsoleLog).toHaveBeenCalledWith("main-button-clicked")
   })
 })

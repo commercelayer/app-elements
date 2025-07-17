@@ -1,14 +1,14 @@
-import { useValidationFeedback } from '#ui/forms/ReactHookForm'
-import { isDefined } from '#utils/array'
-import { filterByDisplayName } from '#utils/children'
-import { type JSX, useEffect, useMemo } from 'react'
-import { useFormContext } from 'react-hook-form'
-import { InputCheckbox, type InputCheckboxProps } from './InputCheckbox'
+import { type JSX, useEffect, useMemo } from "react"
+import { useFormContext } from "react-hook-form"
+import { useValidationFeedback } from "#ui/forms/ReactHookForm"
+import { isDefined } from "#utils/array"
+import { filterByDisplayName } from "#utils/children"
+import { InputCheckbox, type InputCheckboxProps } from "./InputCheckbox"
 
 export interface HookedInputCheckboxProps
   extends Omit<
     InputCheckboxProps,
-    'onChange' | 'checked' | 'feedback' | 'defaultValue' | 'defaultChecked'
+    "onChange" | "checked" | "feedback" | "defaultValue" | "defaultChecked"
   > {
   /**
    * field name to match hook-form state
@@ -60,4 +60,4 @@ export function HookedInputCheckbox({
   )
 }
 
-HookedInputCheckbox.displayName = 'HookedInputCheckbox'
+HookedInputCheckbox.displayName = "HookedInputCheckbox"

@@ -1,6 +1,6 @@
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
-import { type JSX, useState } from 'react'
-import { InputSwitch } from './InputSwitch'
+import { fireEvent, type RenderResult, render } from "@testing-library/react"
+import { type JSX, useState } from "react"
+import { InputSwitch } from "./InputSwitch"
 
 interface SetupProps {
   id: string
@@ -17,7 +17,7 @@ type SetupResult = RenderResult & {
 function ToggleImplementation({
   id,
   label,
-  isChecked = false
+  isChecked = false,
 }: SetupProps): JSX.Element {
   const [state, setState] = useState(isChecked)
   return (
@@ -38,36 +38,36 @@ const setup = (props: SetupProps): SetupResult => {
   const element = utils.getByTestId(props.id) as HTMLInputElement
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('InputSwitch', () => {
-  test('Should be rendered', () => {
+describe("InputSwitch", () => {
+  test("Should be rendered", () => {
     const { element, getByLabelText } = setup({
-      id: 'my-toggle',
-      label: 'Cleanup records?'
+      id: "my-toggle",
+      label: "Cleanup records?",
     })
     expect(element).toBeInTheDocument()
     expect(element.checked).toBe(false)
-    expect(getByLabelText('Cleanup records?')).toBeInTheDocument()
+    expect(getByLabelText("Cleanup records?")).toBeInTheDocument()
   })
 
-  test('Should be rendered with a pre-set checked value', () => {
+  test("Should be rendered with a pre-set checked value", () => {
     const { element } = setup({
-      id: 'my-toggle',
-      label: 'Cleanup records?',
-      isChecked: true
+      id: "my-toggle",
+      label: "Cleanup records?",
+      isChecked: true,
     })
     expect(element).toBeInTheDocument()
     expect(element.checked).toBe(true)
   })
 
-  test('Should be able to switch between true and false', () => {
+  test("Should be able to switch between true and false", () => {
     const { element } = setup({
-      id: 'my-toggle',
-      label: 'Cleanup records?',
-      isChecked: false
+      id: "my-toggle",
+      label: "Cleanup records?",
+      isChecked: false,
     })
     expect(element).toBeInTheDocument()
     expect(element.checked).toBe(false)

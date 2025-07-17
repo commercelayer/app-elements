@@ -1,9 +1,9 @@
-import get from 'lodash-es/get'
-import {
-  type GroupedSelectValues,
-  type InputSelectValue,
-  type PossibleSelectValue
-} from './InputSelect'
+import get from "lodash-es/get"
+import type {
+  GroupedSelectValues,
+  InputSelectValue,
+  PossibleSelectValue,
+} from "./InputSelect"
 
 /**
  * Helper function to understand and refine type of a single selected value
@@ -11,7 +11,7 @@ import {
  * @returns true if selected value is single, from this point TypeScript will treat this as `SelectValue` type
  */
 export function isSingleValueSelected(
-  selectedValue: PossibleSelectValue
+  selectedValue: PossibleSelectValue,
 ): selectedValue is InputSelectValue {
   return selectedValue != null && !Array.isArray(selectedValue)
 }
@@ -22,7 +22,7 @@ export function isSingleValueSelected(
  * @returns true if selected value is an array of selected values, from this point TypeScript will treat this as `SelectValue[]` type
  */
 export function isMultiValueSelected(
-  selectedValue: PossibleSelectValue
+  selectedValue: PossibleSelectValue,
 ): selectedValue is InputSelectValue[] {
   return selectedValue != null && Array.isArray(selectedValue)
 }
@@ -31,12 +31,12 @@ export function isMultiValueSelected(
  * Type-guard to check if prop `initialValues` is a GroupedSelectValues or SelectValue
  */
 export function isGroupedSelectValues(
-  initialValues?: GroupedSelectValues | InputSelectValue[]
+  initialValues?: GroupedSelectValues | InputSelectValue[],
 ): initialValues is GroupedSelectValues {
   if (initialValues == null || initialValues.length === 0) {
     return false
   }
-  return (initialValues as []).every((v) => 'options' in v)
+  return (initialValues as []).every((v) => "options" in v)
 }
 
 /**
@@ -58,7 +58,7 @@ export function isGroupedSelectValues(
  */
 export function flatSelectValues(
   selectedValue: PossibleSelectValue,
-  pathToValue = 'value'
+  pathToValue = "value",
 ): null | string | Array<string | number> {
   if (selectedValue == null) {
     return selectedValue
@@ -80,7 +80,7 @@ export function flatSelectValues(
 export function getDefaultValueFromFlatten({
   currentValue,
   initialValues = [],
-  pathToValue = 'value'
+  pathToValue = "value",
 }: {
   currentValue?: string | Array<string | number> | null
   initialValues?: GroupedSelectValues | InputSelectValue[]
@@ -112,7 +112,7 @@ export function getDefaultValueFromFlatten({
     }) ?? {
       // in case of creatable the value is not in the options list
       value: currentValue,
-      label: currentValue.toString()
+      label: currentValue.toString(),
     }
   )
 }

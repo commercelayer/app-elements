@@ -1,5 +1,5 @@
-import isEmpty from 'lodash-es/isEmpty'
-import type { TokenProviderAuthUser, TokenProviderExtras } from './types'
+import isEmpty from "lodash-es/isEmpty"
+import type { TokenProviderAuthUser, TokenProviderExtras } from "./types"
 
 /**
  * Encodes the given extras object into a Base64 string.
@@ -20,7 +20,7 @@ export function encodeExtras(extras: TokenProviderExtras): string {
  * @returns The decoded extras object.
  */
 export function decodeExtras(
-  encodedExtras?: string | null
+  encodedExtras?: string | null,
 ): TokenProviderExtras | undefined {
   if (encodedExtras == null) {
     return undefined
@@ -33,9 +33,9 @@ export function decodeExtras(
  * Try to get the extras value from the URL params.
  */
 export const getExtrasFromUrl = (): string | undefined => {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const params = new URLSearchParams(window.location.search)
-    const extras = params.get('extras')
+    const extras = params.get("extras")
     return isEmpty(extras) || extras == null ? undefined : extras
   }
 }
@@ -47,47 +47,47 @@ export const getExtrasFromUrl = (): string | undefined => {
  */
 const base64URLSafe = {
   encode: (stringToEncode: string): string => {
-    if (typeof btoa !== 'undefined') {
+    if (typeof btoa !== "undefined") {
       return (
         btoa(stringToEncode)
           // Remove padding equal characters
-          .replaceAll('=', '')
+          .replaceAll("=", "")
           // Replace characters according to base64url specifications
-          .replaceAll('+', '-')
-          .replaceAll('/', '_')
+          .replaceAll("+", "-")
+          .replaceAll("/", "_")
       )
     }
-    return Buffer.from(stringToEncode, 'binary').toString('base64url')
+    return Buffer.from(stringToEncode, "binary").toString("base64url")
   },
 
   decode: (encodedData: string): string => {
-    if (typeof atob !== 'undefined') {
+    if (typeof atob !== "undefined") {
       return atob(
         encodedData
           // Replace characters according to base64url specifications
-          .replaceAll('-', '+')
-          .replaceAll('_', '/')
+          .replaceAll("-", "+")
+          .replaceAll("_", "/"),
       )
     }
-    return Buffer.from(encodedData, 'base64url').toString('binary')
-  }
+    return Buffer.from(encodedData, "base64url").toString("binary")
+  },
 }
 
 /**
  * Validates if the user object received from `extras` is a valid one and can be added to the TokenProvider context.
  */
 export function isValidUser(
-  user?: TokenProviderAuthUser | null
+  user?: TokenProviderAuthUser | null,
 ): user is TokenProviderAuthUser {
   const compareKeys = Object.keys({
-    id: '',
-    email: '',
-    firstName: '',
-    lastName: '',
-    displayName: '',
-    fullName: '',
-    timezone: '',
-    locale: 'en-US'
+    id: "",
+    email: "",
+    firstName: "",
+    lastName: "",
+    displayName: "",
+    fullName: "",
+    timezone: "",
+    locale: "en-US",
   } satisfies TokenProviderAuthUser).sort()
 
   if (user == null || isEmpty(user)) {

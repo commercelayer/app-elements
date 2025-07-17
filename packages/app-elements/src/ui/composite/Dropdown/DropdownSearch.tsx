@@ -1,8 +1,8 @@
-import { Icon } from '#ui/atoms/Icon'
-import cn from 'classnames'
-import debounce from 'lodash-es/debounce'
-import { forwardRef, type JSX, useCallback, useEffect, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import cn from "classnames"
+import debounce from "lodash-es/debounce"
+import { forwardRef, type JSX, useCallback, useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
+import { Icon } from "#ui/atoms/Icon"
 
 export interface DropdownSearchProps {
   /**
@@ -31,13 +31,13 @@ export interface DropdownSearchProps {
 export const DropdownSearch = forwardRef<HTMLInputElement, DropdownSearchProps>(
   (
     { onSearch, debounceMs = 500, placeholder, autoFocus, ...rest },
-    ref
+    ref,
   ): JSX.Element => {
-    const [searchValue, setSearchValue] = useState('')
+    const [searchValue, setSearchValue] = useState("")
     const { t } = useTranslation()
 
     const debouncedOnSearch = useCallback(debounce(onSearch, debounceMs), [
-      onSearch
+      onSearch,
     ])
 
     useEffect(
@@ -46,32 +46,33 @@ export const DropdownSearch = forwardRef<HTMLInputElement, DropdownSearchProps>(
           debouncedOnSearch?.cancel()
         }
       },
-      [debouncedOnSearch]
+      [debouncedOnSearch],
     )
 
     return (
-      <div className='relative w-full' {...rest}>
+      <div className="relative w-full" {...rest}>
         <Icon
-          name='magnifyingGlass'
-          weight='bold'
-          className='absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-sm '
+          name="magnifyingGlass"
+          weight="bold"
+          className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-sm "
         />
         <input
           className={cn(
-            'pl-10 pr-8 py-2 bg-transparent min-w-max font-semibold text-sm placeholder:text-gray-400 !ring-0'
+            "pl-10 pr-8 py-2 bg-transparent min-w-max font-semibold text-sm placeholder:text-gray-400 !ring-0",
           )}
-          placeholder={placeholder ?? t('common.search')}
+          placeholder={placeholder ?? t("common.search")}
           value={searchValue}
           onChange={({ currentTarget: { value } }) => {
             setSearchValue(value)
             debouncedOnSearch(value)
           }}
           ref={ref}
+          // biome-ignore lint/a11y/noAutofocus: Autofocus is necessary for better user experience
           autoFocus={autoFocus}
         />
       </div>
     )
-  }
+  },
 )
 
-DropdownSearch.displayName = 'DropdownSearch'
+DropdownSearch.displayName = "DropdownSearch"

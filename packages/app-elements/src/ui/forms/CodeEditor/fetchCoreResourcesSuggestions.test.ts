@@ -1,14 +1,15 @@
-import { describe } from 'vitest'
+import { describe } from "vitest"
 import {
   atPath,
-  fetchCoreResourcesSuggestions
-} from './fetchCoreResourcesSuggestions'
+  fetchCoreResourcesSuggestions,
+} from "./fetchCoreResourcesSuggestions"
 
-describe('fetchCoreResourcesSuggestions', () => {
+describe("fetchCoreResourcesSuggestions", () => {
   describe('should return the provided "mainResourceIds" list', () => {
-    it('when the path is empty', async () => {
-      expect(await fetchCoreResourcesSuggestions(['order'], ''))
-        .toMatchInlineSnapshot(`
+    it("when the path is empty", async () => {
+      expect(
+        await fetchCoreResourcesSuggestions(["order"], ""),
+      ).toMatchInlineSnapshot(`
         [
           {
             "type": "relationship",
@@ -17,8 +18,9 @@ describe('fetchCoreResourcesSuggestions', () => {
         ]
       `)
 
-      expect(await fetchCoreResourcesSuggestions(['order', 'price'], ''))
-        .toMatchInlineSnapshot(`
+      expect(
+        await fetchCoreResourcesSuggestions(["order", "price"], ""),
+      ).toMatchInlineSnapshot(`
         [
           {
             "type": "relationship",
@@ -32,9 +34,10 @@ describe('fetchCoreResourcesSuggestions', () => {
       `)
     })
 
-    it('when the first resource in the path is not well-defined', async () => {
-      expect(await fetchCoreResourcesSuggestions(['order'], 'ore'))
-        .toMatchInlineSnapshot(`
+    it("when the first resource in the path is not well-defined", async () => {
+      expect(
+        await fetchCoreResourcesSuggestions(["order"], "ore"),
+      ).toMatchInlineSnapshot(`
         [
           {
             "type": "relationship",
@@ -43,8 +46,9 @@ describe('fetchCoreResourcesSuggestions', () => {
         ]
       `)
 
-      expect(await fetchCoreResourcesSuggestions(['order'], 'ore.rew'))
-        .toMatchInlineSnapshot(`
+      expect(
+        await fetchCoreResourcesSuggestions(["order"], "ore.rew"),
+      ).toMatchInlineSnapshot(`
         [
           {
             "type": "relationship",
@@ -54,29 +58,30 @@ describe('fetchCoreResourcesSuggestions', () => {
       `)
     })
 
-    it('when the first resource in the path is well-defined but a last dot (.) is missing', async () => {
+    it("when the first resource in the path is well-defined but a last dot (.) is missing", async () => {
       expect(
-        await fetchCoreResourcesSuggestions(['order', 'price'], 'order')
+        await fetchCoreResourcesSuggestions(["order", "price"], "order"),
       ).toMatchInlineSnapshot(orderSuggestionsSnapshot)
     })
   })
 
-  it('it should return the 2nd level for autocompletion', async () => {
+  it("it should return the 2nd level for autocompletion", async () => {
     expect(
-      await fetchCoreResourcesSuggestions(['order', 'price'], 'order.')
+      await fetchCoreResourcesSuggestions(["order", "price"], "order."),
     ).toMatchInlineSnapshot(orderSuggestionsSnapshot)
 
     expect(
       await fetchCoreResourcesSuggestions(
-        ['order', 'price'],
-        'order.something.else'
-      )
+        ["order", "price"],
+        "order.something.else",
+      ),
     ).toMatchInlineSnapshot(orderSuggestionsSnapshot)
   })
 
-  it('it should return the 3rd level for autocompletion', async () => {
-    expect(await fetchCoreResourcesSuggestions(['order'], 'order.line_items.'))
-      .toMatchInlineSnapshot(`
+  it("it should return the 3rd level for autocompletion", async () => {
+    expect(
+      await fetchCoreResourcesSuggestions(["order"], "order.line_items."),
+    ).toMatchInlineSnapshot(`
       [
         {
           "type": "field",
@@ -302,9 +307,12 @@ describe('fetchCoreResourcesSuggestions', () => {
     `)
   })
 
-  it('it should return the 4th level for autocompletion', async () => {
+  it("it should return the 4th level for autocompletion", async () => {
     expect(
-      await fetchCoreResourcesSuggestions(['order'], 'order.line_items.events.')
+      await fetchCoreResourcesSuggestions(
+        ["order"],
+        "order.line_items.events.",
+      ),
     ).toMatchInlineSnapshot(`
       [
         {
@@ -347,93 +355,93 @@ describe('fetchCoreResourcesSuggestions', () => {
     `)
   })
 
-  it('it should stop generating autocompletion when a field is reached', async () => {
+  it("it should stop generating autocompletion when a field is reached", async () => {
     expect(
-      await fetchCoreResourcesSuggestions(['order'], 'order.number.')
+      await fetchCoreResourcesSuggestions(["order"], "order.number."),
     ).toMatchInlineSnapshot(orderSuggestionsSnapshot)
   })
 })
 
-describe('atPath', () => {
-  it('should handle known resourceId', async () => {
-    expect(await atPath('order')).toEqual(
+describe("atPath", () => {
+  it("should handle known resourceId", async () => {
+    expect(await atPath("order")).toEqual(
       expect.objectContaining({
         resource: expect.objectContaining({
           fields: expect.arrayContaining([
-            expect.arrayContaining(['id']),
-            expect.arrayContaining(['number'])
+            expect.arrayContaining(["id"]),
+            expect.arrayContaining(["number"]),
           ]),
           relationships: expect.arrayContaining([
-            expect.arrayContaining(['versions']),
-            expect.arrayContaining(['line_items'])
-          ])
+            expect.arrayContaining(["versions"]),
+            expect.arrayContaining(["line_items"]),
+          ]),
         }),
-        resourcePath: 'order'
-      })
+        resourcePath: "order",
+      }),
     )
   })
 
-  it('should handle unknown resourceId', async () => {
-    expect(await atPath('ore')).toEqual(
+  it("should handle unknown resourceId", async () => {
+    expect(await atPath("ore")).toEqual(
       expect.objectContaining({
         resource: undefined,
-        resourcePath: ''
-      })
+        resourcePath: "",
+      }),
     )
   })
 
-  it('should handle fields', async () => {
-    expect(await atPath('order.number')).toEqual(
+  it("should handle fields", async () => {
+    expect(await atPath("order.number")).toEqual(
       expect.objectContaining({
         resource: expect.objectContaining({
           fields: expect.arrayContaining([
-            expect.arrayContaining(['id']),
-            expect.arrayContaining(['number'])
+            expect.arrayContaining(["id"]),
+            expect.arrayContaining(["number"]),
           ]),
           relationships: expect.arrayContaining([
-            expect.arrayContaining(['versions']),
-            expect.arrayContaining(['line_items'])
-          ])
+            expect.arrayContaining(["versions"]),
+            expect.arrayContaining(["line_items"]),
+          ]),
         }),
-        resourcePath: 'order'
-      })
+        resourcePath: "order",
+      }),
     )
   })
 
-  it('should handle nested relationships', async () => {
+  it("should handle nested relationships", async () => {
     expect(
-      await atPath('price.jwt_markets.price_list.prices.currency_code')
+      await atPath("price.jwt_markets.price_list.prices.currency_code"),
     ).toEqual(
       expect.objectContaining({
         resource: expect.objectContaining({
           fields: expect.arrayContaining([
-            expect.arrayContaining(['currency_code']),
-            expect.arrayContaining(['sku_code']),
-            expect.arrayContaining(['amount_cents'])
+            expect.arrayContaining(["currency_code"]),
+            expect.arrayContaining(["sku_code"]),
+            expect.arrayContaining(["amount_cents"]),
           ]),
           relationships: expect.arrayContaining([
-            expect.arrayContaining(['price_list']),
-            expect.arrayContaining(['sku'])
-          ])
+            expect.arrayContaining(["price_list"]),
+            expect.arrayContaining(["sku"]),
+          ]),
         }),
-        resourcePath: 'price.jwt_markets.price_list.prices'
-      })
+        resourcePath: "price.jwt_markets.price_list.prices",
+      }),
     )
   })
 
-  it('should hide polymorphic relationships', async () => {
-    expect(await atPath('order.attachments.attachable')).toEqual(
+  it("should hide polymorphic relationships", async () => {
+    expect(await atPath("order.attachments.attachable")).toEqual(
       expect.objectContaining({
         resource: expect.objectContaining({
           fields: expect.arrayContaining([
-            expect.arrayContaining(['name']),
-            expect.arrayContaining(['description']),
-            expect.arrayContaining(['url'])
+            expect.arrayContaining(["name"]),
+            expect.arrayContaining(["description"]),
+            expect.arrayContaining(["url"]),
           ]),
-          relationships: []
+          relationships: [],
         }),
-        resourcePath: 'order.attachments'
-      })
+        resourcePath: "order.attachments",
+      }),
     )
   })
 })

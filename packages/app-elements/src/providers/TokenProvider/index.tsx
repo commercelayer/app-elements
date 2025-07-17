@@ -1,6 +1,6 @@
-export { encodeExtras } from './extras'
-export { MetaTags } from './MetaTags'
-export { TokenProvider, useTokenProvider } from './TokenProvider'
+export { encodeExtras } from "./extras"
+export { MetaTags } from "./MetaTags"
+export { TokenProvider, useTokenProvider } from "./TokenProvider"
 export type {
   TokenProviderAllowedApp,
   TokenProviderAllowedAppKind,
@@ -10,6 +10,6 @@ export type {
   TokenProviderPermissionItem,
   TokenProviderRoleActions,
   TokenProviderRolePermissions,
-  TokenProviderTokenApplicationKind
-} from './types'
+  TokenProviderTokenApplicationKind,
+} from "./types"
 //

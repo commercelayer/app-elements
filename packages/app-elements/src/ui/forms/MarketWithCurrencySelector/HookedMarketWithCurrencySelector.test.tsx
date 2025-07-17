@@ -1,20 +1,20 @@
-import { CoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { HookedForm } from '#ui/forms/Form'
-import { render, waitFor } from '@testing-library/react'
-import { type FC, type ReactNode } from 'react'
-import { useForm } from 'react-hook-form'
-import { HookedMarketWithCurrencySelector } from './HookedMarketWithCurrencySelector'
+import { render, waitFor } from "@testing-library/react"
+import type { FC, ReactNode } from "react"
+import { useForm } from "react-hook-form"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { HookedForm } from "#ui/forms/Form"
+import { HookedMarketWithCurrencySelector } from "./HookedMarketWithCurrencySelector"
 
 const HookedFormWrapper: FC<{
   children: ReactNode
   defaultValues: Record<string, string>
 }> = ({ children, defaultValues }) => {
   const methods = useForm({
-    defaultValues
+    defaultValues,
   })
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <HookedForm
           {...methods}
@@ -29,56 +29,56 @@ const HookedFormWrapper: FC<{
   )
 }
 
-describe('HookedMarketWithCurrencySelector', () => {
-  test('renders with default values and both inputs visible', async () => {
+describe("HookedMarketWithCurrencySelector", () => {
+  test("renders with default values and both inputs visible", async () => {
     const { getByText } = render(
       <HookedFormWrapper
         defaultValues={{
-          market: '',
-          currency_code: 'EUR'
+          market: "",
+          currency_code: "EUR",
         }}
       >
         <HookedMarketWithCurrencySelector
-          fieldNameMarket='market'
-          fieldNameCurrencyCode='currency_code'
-          label='Market *'
+          fieldNameMarket="market"
+          fieldNameCurrencyCode="currency_code"
+          label="Market *"
         />
-      </HookedFormWrapper>
+      </HookedFormWrapper>,
     )
-    const label = getByText('Market *')
+    const label = getByText("Market *")
     // const initialMarketOption = getByText('All markets with currency')
-    const initialCurrencyOption = getByText('EUR')
+    const initialCurrencyOption = getByText("EUR")
 
     expect(label).toBeVisible()
     // expect(initialMarketOption).toBeVisible()
     expect(initialCurrencyOption).toBeVisible()
   })
 
-  test('renders the component with an existing market', async () => {
+  test("renders the component with an existing market", async () => {
     const { getByText, queryByText } = render(
       <HookedFormWrapper
         defaultValues={{
-          market: 'USA',
-          currency_code: 'USD'
+          market: "USA",
+          currency_code: "USD",
         }}
       >
         <HookedMarketWithCurrencySelector
-          fieldNameMarket='market'
-          fieldNameCurrencyCode='currency_code'
-          label='Market *'
+          fieldNameMarket="market"
+          fieldNameCurrencyCode="currency_code"
+          label="Market *"
         />
-      </HookedFormWrapper>
+      </HookedFormWrapper>,
     )
 
     await waitFor(() => {
       // Market fetched from the API should be visible
-      expect(getByText('USA')).toBeVisible()
+      expect(getByText("USA")).toBeVisible()
     })
     // initial empty option should not be visible
-    expect(queryByText('All markets with currency')).toBeNull()
+    expect(queryByText("All markets with currency")).toBeNull()
 
     // Currency input should not be visible when a market is selected
-    expect(queryByText('EUR')).toBeNull()
-    expect(queryByText('USD')).toBeNull()
+    expect(queryByText("EUR")).toBeNull()
+    expect(queryByText("USD")).toBeNull()
   })
 })

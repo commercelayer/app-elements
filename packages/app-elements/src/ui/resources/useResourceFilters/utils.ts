@@ -1,11 +1,11 @@
-import isEmpty from 'lodash-es/isEmpty'
-import { adaptUrlQueryToFormValues } from './adaptUrlQueryToFormValues'
-import {
-  type FilterItemOptions,
-  type FiltersInstructions,
-  type UiFilterName,
-  type UiFilterValue
-} from './types'
+import isEmpty from "lodash-es/isEmpty"
+import { adaptUrlQueryToFormValues } from "./adaptUrlQueryToFormValues"
+import type {
+  FilterItemOptions,
+  FiltersInstructions,
+  UiFilterName,
+  UiFilterValue,
+} from "./types"
 
 /**
  * Show the filter label with the counter for selected options
@@ -20,7 +20,7 @@ import {
 export function computeFilterLabel({
   label,
   totalCount,
-  selectedCount
+  selectedCount,
 }: {
   label: string
   totalCount: number
@@ -41,7 +41,7 @@ export function computeFilterLabel({
 export function getActiveFilterCountFromUrl({
   includeTextSearch = false,
   instructions,
-  queryString
+  queryString,
 }: {
   includeTextSearch?: boolean
   instructions: FiltersInstructions
@@ -51,7 +51,7 @@ export function getActiveFilterCountFromUrl({
     Record<UiFilterName, UiFilterValue>
   >({
     queryString,
-    instructions
+    instructions,
   })
 
   return instructions.reduce((total, instructionItem) => {
@@ -63,7 +63,7 @@ export function getActiveFilterCountFromUrl({
 
     // count textSearch only if explicitly asked
     if (
-      instructionItem.type === 'textSearch' &&
+      instructionItem.type === "textSearch" &&
       predicate in formValues &&
       !isEmpty(formValues[predicate])
     ) {
@@ -72,8 +72,8 @@ export function getActiveFilterCountFromUrl({
 
     // count user custom defied
     if (
-      instructionItem.type !== 'timeRange' &&
-      instructionItem.type !== 'currencyRange' &&
+      instructionItem.type !== "timeRange" &&
+      instructionItem.type !== "currencyRange" &&
       predicate in formValues &&
       !isEmpty(formValues[predicate])
     ) {
@@ -82,7 +82,7 @@ export function getActiveFilterCountFromUrl({
 
     // count timePreset if set
     if (
-      instructionItem.type === 'timeRange' &&
+      instructionItem.type === "timeRange" &&
       !isEmpty(formValues.timePreset)
     ) {
       return total + 1
@@ -93,9 +93,9 @@ export function getActiveFilterCountFromUrl({
 }
 
 export function getAllowedValuesFromItemOptions(
-  instructionItem: FilterItemOptions
+  instructionItem: FilterItemOptions,
 ): string[] | undefined {
-  return 'options' in instructionItem.render.props &&
+  return "options" in instructionItem.render.props &&
     instructionItem.render.props.options != null
     ? instructionItem.render.props.options.map((o) => o.value)
     : undefined

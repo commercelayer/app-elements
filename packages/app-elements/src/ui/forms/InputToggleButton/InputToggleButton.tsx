@@ -1,10 +1,10 @@
+import cn from "classnames"
+import type { JSX } from "react"
+import type { Simplify } from "type-fest"
 import {
   InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import cn from 'classnames'
-import { type JSX } from 'react'
-import { type Simplify } from 'type-fest'
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 
 interface ToggleItemProps {
   label: string
@@ -17,27 +17,27 @@ function ToggleItem({
   label,
   isChecked,
   isDisabled = false,
-  onToggle
+  onToggle,
 }: ToggleItemProps): JSX.Element {
   return (
     <label
       className={cn(
-        'border-none rounded px-4 py-2 leading-6 cursor-pointer font-bold text-sm select-none hover:opacity-80',
+        "border-none rounded px-4 py-2 leading-6 cursor-pointer font-bold text-sm select-none hover:opacity-80",
         {
-          'opacity-50 pointer-events-none touch-none': isDisabled,
-          'focus-within:ring-0 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary':
+          "opacity-50 pointer-events-none touch-none": isDisabled,
+          "focus-within:ring-0 focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary":
             !isDisabled,
-          'bg-gray-100 text-gray-500': isChecked !== true,
-          'bg-primary text-white': isChecked === true
-        }
+          "bg-gray-100 text-gray-500": isChecked !== true,
+          "bg-primary text-white": isChecked === true,
+        },
       )}
     >
       <input
-        type='checkbox'
+        type="checkbox"
         checked={isChecked}
         disabled={isDisabled}
         onChange={onToggle}
-        className='absolute opacity-0 cursor-pointer'
+        className="absolute opacity-0 cursor-pointer"
       />
       {label}
     </label>
@@ -54,17 +54,17 @@ interface ToggleButtonOption {
 
 interface BaseProps
   extends InputWrapperBaseProps,
-    Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
+    Omit<React.HTMLAttributes<HTMLDivElement>, "onChange"> {
   options: ToggleButtonOption[]
 }
 
 interface SingleValueProps {
-  mode: 'single'
+  mode: "single"
   value?: ToggleButtonValue
   onChange: (value: ToggleButtonValue | null) => void
 }
 interface MultiValuesProps {
-  mode: 'multi'
+  mode: "multi"
   value?: ToggleButtonValue[]
   onChange: (values: ToggleButtonValue[]) => void
 }
@@ -88,17 +88,17 @@ export function InputToggleButton({
     <InputWrapper
       hint={hint}
       feedback={feedback}
-      data-testid='toggle-buttons'
+      data-testid="toggle-buttons"
       label={label}
       {...rest}
     >
-      <div className='flex gap-2 flex-wrap'>
+      <div className="flex gap-2 flex-wrap">
         {options.map((opt) => {
           const isChecked = Boolean(
-            mode === 'multi' ? value?.includes(opt.value) : opt.value === value
+            mode === "multi" ? value?.includes(opt.value) : opt.value === value,
           )
           const handleToggle = (): void => {
-            if (mode === 'multi') {
+            if (mode === "multi") {
               // when is multi values mode, we need to add or remove from current values
               const currentValues = value ?? []
               const newValues = isChecked
@@ -125,4 +125,4 @@ export function InputToggleButton({
   )
 }
 
-InputToggleButton.displayName = 'InputToggleButton'
+InputToggleButton.displayName = "InputToggleButton"

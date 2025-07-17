@@ -1,6 +1,6 @@
-import { useDelayShow } from '#hooks/useDelayShow'
-import cn from 'classnames'
-import { type JSX, type ReactNode } from 'react'
+import cn from "classnames"
+import type { JSX, ReactNode } from "react"
+import { useDelayShow } from "#hooks/useDelayShow"
 
 export interface SkeletonProps {
   /**
@@ -22,7 +22,7 @@ function Skeleton({
 }: SkeletonProps): JSX.Element {
   const [show] = useDelayShow(delayMs)
   return (
-    <div data-testid='skeleton' className='animate-pulse' {...rest}>
+    <div data-testid="skeleton" className="animate-pulse" {...rest}>
       <div style={{ opacity: show ? 1 : 0 }}>{children}</div>
     </div>
   )
@@ -36,7 +36,7 @@ export interface SkeletonItemProps {
   /**
    * Can be `box` (default) to render a rectangular shape or `circle`
    */
-  type?: 'box' | 'circle'
+  type?: "box" | "circle"
   /**
    * CSS dimension for width. It can be number if expressed in pixels or string.
    * Example: `16`, `1rem` or '100%'.
@@ -53,26 +53,26 @@ export interface SkeletonItemProps {
 
 export function SkeletonItem({
   className,
-  type = 'box',
+  type = "box",
   width,
   height,
   ...rest
 }: SkeletonItemProps): JSX.Element {
   return (
     <div
-      data-testid='skeleton-item'
-      className={cn(className, 'bg-gray-50', {
-        'rounded-full': type === 'circle',
-        rounded: type === 'box'
+      data-testid="skeleton-item"
+      className={cn(className, "bg-gray-50", {
+        "rounded-full": type === "circle",
+        rounded: type === "box",
       })}
       style={{
-        width: className == null ? (width ?? '100%') : undefined,
-        height: className == null ? (height ?? '1em') : undefined
+        width: className == null ? (width ?? "100%") : undefined,
+        height: className == null ? (height ?? "1em") : undefined,
       }}
       {...rest}
     />
   )
 }
 
-Skeleton.displayName = 'Skeleton'
+Skeleton.displayName = "Skeleton"
 export { Skeleton }

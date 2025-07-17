@@ -1,4 +1,4 @@
 export {
   ResourceAttachments,
-  type ResourceAttachmentsProps
-} from './ResourceAttachments'
+  type ResourceAttachmentsProps,
+} from "./ResourceAttachments"

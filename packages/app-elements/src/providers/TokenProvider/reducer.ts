@@ -1,9 +1,9 @@
-import { type TokenProviderClAppSlug } from '#providers/TokenProvider'
-import {
-  type TokenProviderAuthSettings,
-  type TokenProviderAuthUser,
-  type TokenProviderRolePermissions
-} from './types'
+import type { TokenProviderClAppSlug } from "#providers/TokenProvider"
+import type {
+  TokenProviderAuthSettings,
+  TokenProviderAuthUser,
+  TokenProviderRolePermissions,
+} from "./types"
 
 interface TokenProviderInternalState {
   validAuthToken?: string
@@ -22,21 +22,21 @@ export const initialTokenProviderState: TokenProviderInternalState = {
   rolePermissions: {},
   accessibleApps: [],
   settings: {
-    mode: 'test',
-    accessToken: '',
-    domain: 'commercelayer.io',
-    organizationSlug: '',
-    appSlug: '',
+    mode: "test",
+    accessToken: "",
+    domain: "commercelayer.io",
+    organizationSlug: "",
+    appSlug: "",
     isInDashboard: false,
-    dashboardUrl: 'https://dashboard.commercelayer.io/'
+    dashboardUrl: "https://dashboard.commercelayer.io/",
   },
-  user: null
+  user: null,
 }
 
 type Action =
-  | { type: 'invalidAuth' }
+  | { type: "invalidAuth" }
   | {
-      type: 'validToken'
+      type: "validToken"
       payload: {
         settings: TokenProviderAuthSettings
         user: TokenProviderAuthUser | null
@@ -47,20 +47,20 @@ type Action =
 
 export const reducer = (
   state: TokenProviderInternalState,
-  action: Action
+  action: Action,
 ): TokenProviderInternalState => {
   switch (action.type) {
-    case 'invalidAuth':
+    case "invalidAuth":
       return {
         ...state,
         isLoading: false,
-        isTokenError: true
+        isTokenError: true,
       }
-    case 'validToken':
+    case "validToken":
       return {
         ...state,
         ...action.payload,
-        isLoading: false
+        isLoading: false,
       }
     default:
       return state

@@ -1,10 +1,10 @@
-import { Input } from '#ui/forms/Input'
-import { useRuleEngine } from '../RuleEngineContext'
-import { expectNever, type SchemaActionItem } from '../utils'
+import { Input } from "#ui/forms/Input"
+import { useRuleEngine } from "../RuleEngineContext"
+import { expectNever, type SchemaActionItem } from "../utils"
 
 export function ActionValue({
   item,
-  pathPrefix
+  pathPrefix,
 }: {
   item: SchemaActionItem | null
   pathPrefix: string
@@ -15,30 +15,30 @@ export function ActionValue({
   }
 
   switch (item.type) {
-    case 'buy_x_pay_y': {
+    case "buy_x_pay_y": {
       return (
-        <div className='w-36 flex items-center gap-0.5'>
+        <div className="w-36 flex items-center gap-0.5">
           <Input
             name={`${pathPrefix}.value.x`}
-            type='number'
-            suffix='X'
+            type="number"
+            suffix="X"
             defaultValue={item.value?.x}
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value.x`,
-                parseInt(event.currentTarget.value, 10)
+                parseInt(event.currentTarget.value, 10),
               )
             }}
           />
           <Input
             name={`${pathPrefix}.value.y`}
-            type='number'
-            suffix='Y'
+            type="number"
+            suffix="Y"
             defaultValue={item.value?.y}
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value.y`,
-                parseInt(event.currentTarget.value, 10)
+                parseInt(event.currentTarget.value, 10),
               )
             }}
           />
@@ -46,30 +46,30 @@ export function ActionValue({
       )
     }
 
-    case 'every_x_discount_y': {
+    case "every_x_discount_y": {
       return (
-        <div className='w-36 flex items-center gap-0.5'>
+        <div className="w-36 flex items-center gap-0.5">
           <Input
             name={`${pathPrefix}.value.x`}
-            type='number'
-            suffix='X'
+            type="number"
+            suffix="X"
             defaultValue={item.value?.x}
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value.x`,
-                parseInt(event.currentTarget.value, 10)
+                parseInt(event.currentTarget.value, 10),
               )
             }}
           />
           <Input
             name={`${pathPrefix}.value.y`}
-            type='number'
-            suffix='Y'
+            type="number"
+            suffix="Y"
             defaultValue={item.value?.y}
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value.y`,
-                parseInt(event.currentTarget.value, 10)
+                parseInt(event.currentTarget.value, 10),
               )
             }}
           />
@@ -77,20 +77,20 @@ export function ActionValue({
       )
     }
 
-    case 'fixed_amount':
-    case 'fixed_price': {
+    case "fixed_amount":
+    case "fixed_price": {
       return (
-        <div className='w-36'>
+        <div className="w-36">
           <Input
             name={`${pathPrefix}.value`}
-            type='number'
+            type="number"
             defaultValue={item.value}
             min={0}
-            suffix='cents'
+            suffix="cents"
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value`,
-                parseInt(event.currentTarget.value, 10)
+                parseInt(event.currentTarget.value, 10),
               )
             }}
           />
@@ -98,25 +98,25 @@ export function ActionValue({
       )
     }
 
-    case 'percentage': {
+    case "percentage": {
       const percentageValue = (item.value * 100).toFixed(2)
       return (
-        <div className='w-24'>
+        <div className="w-24">
           <Input
             name={`${pathPrefix}.value`}
-            type='number'
+            type="number"
             defaultValue={
-              percentageValue.endsWith('.00')
+              percentageValue.endsWith(".00")
                 ? percentageValue.slice(0, -3)
                 : percentageValue
             }
             min={0}
             max={100}
-            suffix='%'
+            suffix="%"
             onChange={(event) => {
               setPath(
                 `${pathPrefix}.value`,
-                parseFloat(event.currentTarget.value) / 100
+                parseFloat(event.currentTarget.value) / 100,
               )
             }}
           />

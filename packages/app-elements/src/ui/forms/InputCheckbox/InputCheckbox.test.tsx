@@ -1,6 +1,6 @@
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
-import { type JSX, useState } from 'react'
-import { InputCheckbox } from './InputCheckbox'
+import { fireEvent, type RenderResult, render } from "@testing-library/react"
+import { type JSX, useState } from "react"
+import { InputCheckbox } from "./InputCheckbox"
 
 interface SetupProps {
   checked?: boolean
@@ -28,43 +28,43 @@ const Component = ({ checked }: SetupProps): JSX.Element => {
 
 const setup = ({ checked }: SetupProps): SetupResult => {
   const utils = render(<Component checked={checked} />)
-  const wrapper = utils.getByTestId('checkbox-wrapper')
-  const input = utils.getByTestId('checkbox-input') as HTMLInputElement
-  const label = utils.getByTestId('checkbox-label') as HTMLLabelElement
+  const wrapper = utils.getByTestId("checkbox-wrapper")
+  const input = utils.getByTestId("checkbox-input") as HTMLInputElement
+  const label = utils.getByTestId("checkbox-label") as HTMLLabelElement
   return {
     wrapper,
     input,
     label,
-    ...utils
+    ...utils,
   }
 }
 
-describe('InputCheckbox', () => {
-  test('Should be rendered', () => {
+describe("InputCheckbox", () => {
+  test("Should be rendered", () => {
     const { wrapper, input } = setup({})
     expect(wrapper).toBeInTheDocument()
     expect(input).toBeInTheDocument()
   })
 
-  test('Should update checked value', () => {
+  test("Should update checked value", () => {
     const { input } = setup({
-      checked: false
+      checked: false,
     })
     expect(input.checked).toBe(false)
     fireEvent.click(input)
     expect(input.checked).toBe(true)
   })
 
-  test('Should accept initial checked value', () => {
+  test("Should accept initial checked value", () => {
     const { input } = setup({ checked: true })
     expect(input.checked).toBe(true)
     fireEvent.click(input)
     expect(input.checked).toBe(false)
   })
 
-  test('Should be controlled on label', () => {
+  test("Should be controlled on label", () => {
     const { label, input } = setup({
-      checked: false
+      checked: false,
     })
     fireEvent.click(label)
     expect(input.checked).toBe(true)

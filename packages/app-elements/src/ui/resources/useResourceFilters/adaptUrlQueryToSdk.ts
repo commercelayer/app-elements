@@ -1,7 +1,7 @@
-import { type QueryFilter } from '@commercelayer/sdk'
-import { adaptFormValuesToSdk } from './adaptFormValuesToSdk'
-import { adaptUrlQueryToFormValues } from './adaptUrlQueryToFormValues'
-import { type FiltersInstructions } from './types'
+import type { QueryFilter } from "@commercelayer/sdk"
+import { adaptFormValuesToSdk } from "./adaptFormValuesToSdk"
+import { adaptUrlQueryToFormValues } from "./adaptUrlQueryToFormValues"
+import type { FiltersInstructions } from "./types"
 
 export interface AdaptUrlQueryToSdkParams {
   queryString: string
@@ -20,18 +20,18 @@ export function adaptUrlQueryToSdk({
   queryString,
   instructions,
   predicateWhitelist = [],
-  timezone
+  timezone,
 }: AdaptUrlQueryToSdkParams): QueryFilter {
   const formValues = adaptUrlQueryToFormValues({
     queryString,
     predicateWhitelist,
-    instructions
+    instructions,
   })
 
   return adaptFormValuesToSdk({
     formValues,
     instructions,
     predicateWhitelist,
-    timezone
+    timezone,
   })
 }

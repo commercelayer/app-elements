@@ -1,14 +1,14 @@
-import { LoadingPage } from '#ui/composite/Routes/Routes'
-import i18n, { type i18n as I18nInstance } from 'i18next'
-import resourcesToBackend from 'i18next-resources-to-backend'
-import React, { useEffect, useState, type ReactNode } from 'react'
-import { I18nextProvider, initReactI18next } from 'react-i18next'
-import { useTokenProvider } from './TokenProvider'
+import i18n, { type i18n as I18nInstance } from "i18next"
+import resourcesToBackend from "i18next-resources-to-backend"
+import React, { type ReactNode, useEffect, useState } from "react"
+import { I18nextProvider, initReactI18next } from "react-i18next"
+import { LoadingPage } from "#ui/composite/Routes/Routes"
+import { useTokenProvider } from "./TokenProvider"
 
-export { t } from 'i18next'
-export { Trans, useTranslation } from 'react-i18next'
+export { t } from "i18next"
+export { Trans, useTranslation } from "react-i18next"
 
-export const i18nLocales = ['en-US', 'it-IT'] as const
+export const i18nLocales = ["en-US", "it-IT"] as const
 export type I18NLocale = (typeof i18nLocales)[number]
 
 interface I18NProviderProps {
@@ -28,7 +28,7 @@ interface I18NProviderProps {
 export const I18NProvider: React.FC<I18NProviderProps> = ({
   children,
   debug = false,
-  enforcedLocaleCode
+  enforcedLocaleCode,
 }) => {
   const { user } = useTokenProvider()
   const localeCode = enforcedLocaleCode ?? user?.locale ?? i18nLocales[0]
@@ -42,7 +42,7 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
           setI18nInstance(instance)
         }
       } catch (error) {
-        console.error('Error initializing i18n:', error)
+        console.error("Error initializing i18n:", error)
       }
     }
 
@@ -75,28 +75,28 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
 
 const initI18n = async (
   localeCode: I18NLocale,
-  debug: I18NProviderProps['debug']
+  debug: I18NProviderProps["debug"],
 ): Promise<I18nInstance> => {
   await i18n
     .use(
       resourcesToBackend(
         async (lang: I18NLocale) =>
-          await import(`../locales/${getLocaleFileName(lang)}.ts`)
-      )
+          await import(`../locales/${getLocaleFileName(lang)}.ts`),
+      ),
     )
     .use(initReactI18next)
     .init({
-      load: 'languageOnly',
+      load: "languageOnly",
       lng: localeCode,
       fallbackLng: i18nLocales[0],
       react: {
-        useSuspense: true
+        useSuspense: true,
       },
-      debug
+      debug,
     })
   return i18n
 }
 
 function getLocaleFileName(lang?: I18NLocale): string {
-  return lang?.split('-')[0] === 'it' ? 'it' : 'en'
+  return lang?.split("-")[0] === "it" ? "it" : "en"
 }

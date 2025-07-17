@@ -1,15 +1,15 @@
-import castArray from 'lodash-es/castArray'
-import compact from 'lodash-es/compact'
-import qs, { type ParsedQuery } from 'query-string'
+import castArray from "lodash-es/castArray"
+import compact from "lodash-es/compact"
+import qs, { type ParsedQuery } from "query-string"
 import {
-  filterableTimeRangePreset,
-  isCurrencyRange,
   type FiltersInstructions,
   type FormFullValues,
+  filterableTimeRangePreset,
+  isCurrencyRange,
   type UiFilterName,
-  type UiFilterValue
-} from './types'
-import { getAllowedValuesFromItemOptions } from './utils'
+  type UiFilterValue,
+} from "./types"
+import { getAllowedValuesFromItemOptions } from "./utils"
 
 export interface AdaptUrlQueryToFormValuesParams {
   queryString: string
@@ -23,11 +23,11 @@ export interface AdaptUrlQueryToFormValuesParams {
  * @returns an object containing FilterFormValues
  */
 export function adaptUrlQueryToFormValues<
-  FilterFormValues extends Record<UiFilterName, UiFilterValue>
+  FilterFormValues extends Record<UiFilterName, UiFilterValue>,
 >({
   queryString,
   instructions,
-  predicateWhitelist = []
+  predicateWhitelist = [],
 }: AdaptUrlQueryToFormValuesParams): FilterFormValues & FormFullValues {
   const parsedQuery = qs.parse(queryString)
 
@@ -35,7 +35,7 @@ export function adaptUrlQueryToFormValues<
     ...instructions
       .filter((item) => !isCurrencyRange(item))
       .map((item) => item.sdk.predicate),
-    ...predicateWhitelist
+    ...predicateWhitelist,
     // ...currencyRangeFieldKeys
   ]
 
@@ -43,7 +43,7 @@ export function adaptUrlQueryToFormValues<
   // an array of valid values or an empty array
   const parseQueryStringValueAsArray = <TFilterableValue extends string>(
     value?: ParsedQuery[string],
-    acceptedValues?: readonly TFilterableValue[]
+    acceptedValues?: readonly TFilterableValue[],
   ): TFilterableValue[] => {
     if (value == null) {
       return []
@@ -57,7 +57,7 @@ export function adaptUrlQueryToFormValues<
 
   const parseQueryStringValueAsDate = (value: unknown): Date | undefined => {
     const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{1,3})?Z$/
-    if (typeof value !== 'string' || !isoRegex.test(value)) {
+    if (typeof value !== "string" || !isoRegex.test(value)) {
       return undefined
     }
     try {
@@ -68,9 +68,9 @@ export function adaptUrlQueryToFormValues<
   }
 
   const parseQueryStringValueAsInteger = (
-    value: unknown
+    value: unknown,
   ): number | undefined => {
-    if (typeof value !== 'string') {
+    if (typeof value !== "string") {
       return undefined
     }
     try {
@@ -91,24 +91,24 @@ export function adaptUrlQueryToFormValues<
         [curr]: {
           from: parseQueryStringValueAsInteger(parsedQuery[`${curr}_gteq`]),
           to: parseQueryStringValueAsInteger(parsedQuery[`${curr}_lteq`]),
-          currencyCode: parsedQuery.currency_code_eq
-        }
+          currencyCode: parsedQuery.currency_code_eq,
+        },
       }
     },
-    {}
+    {},
   )
 
   const formValues = allowedQueryParams.reduce(
     (formValues, key) => {
       const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key
+        (item) => item.sdk.predicate === key,
       )
 
       if (instructionItem == null) {
         if (predicateWhitelist.includes(key)) {
           return {
             ...formValues,
-            [key]: parsedQuery[key]
+            [key]: parsedQuery[key],
           }
         }
 
@@ -117,49 +117,49 @@ export function adaptUrlQueryToFormValues<
 
       // single option, return first value only
       if (
-        instructionItem.type === 'options' &&
-        instructionItem.render.component === 'inputToggleButton' &&
-        instructionItem.render.props.mode === 'single'
+        instructionItem.type === "options" &&
+        instructionItem.render.component === "inputToggleButton" &&
+        instructionItem.render.props.mode === "single"
       ) {
         return parsedQuery[key] != null
           ? {
               ...formValues,
               [key]: parseQueryStringValueAsArray(
                 parsedQuery[key],
-                getAllowedValuesFromItemOptions(instructionItem)
-              )[0]
+                getAllowedValuesFromItemOptions(instructionItem),
+              )[0],
             }
           : {
               ...formValues,
-              [key]: undefined
+              [key]: undefined,
             }
       }
 
       // multi options
-      if (instructionItem.type === 'options') {
+      if (instructionItem.type === "options") {
         return parsedQuery[key] != null
           ? {
               ...formValues,
               [key]: parseQueryStringValueAsArray(
                 parsedQuery[key],
-                getAllowedValuesFromItemOptions(instructionItem)
-              )
+                getAllowedValuesFromItemOptions(instructionItem),
+              ),
             }
           : {
               ...formValues,
-              [key]: []
+              [key]: [],
             }
       }
 
-      if (instructionItem.type === 'textSearch') {
+      if (instructionItem.type === "textSearch") {
         return parsedQuery[key] != null
           ? {
               ...formValues,
-              [key]: parseQueryStringValueAsArray(parsedQuery[key])[0]
+              [key]: parseQueryStringValueAsArray(parsedQuery[key])[0],
             }
           : {
               ...formValues,
-              [key]: undefined
+              [key]: undefined,
             }
       }
 
@@ -168,13 +168,13 @@ export function adaptUrlQueryToFormValues<
     {
       timePreset: parseQueryStringValueAsArray(
         parsedQuery.timePreset,
-        filterableTimeRangePreset
+        filterableTimeRangePreset,
       )[0],
       timeFrom: parseQueryStringValueAsDate(parsedQuery.timeFrom),
       timeTo: parseQueryStringValueAsDate(parsedQuery.timeTo),
       ...currencyRangeFormValues,
-      viewTitle: parseQueryStringValueAsArray(parsedQuery.viewTitle)[0]
-    }
+      viewTitle: parseQueryStringValueAsArray(parsedQuery.viewTitle)[0],
+    },
   ) as FilterFormValues & FormFullValues
 
   return formValues

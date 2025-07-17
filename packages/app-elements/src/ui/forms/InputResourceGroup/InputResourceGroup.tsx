@@ -1,34 +1,34 @@
-import { formatResourceName } from '#helpers/resources'
-import { useCoreApi } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { AvatarLetter } from '#ui/atoms/AvatarLetter'
-import { Button } from '#ui/atoms/Button'
-import { Card } from '#ui/atoms/Card'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Text } from '#ui/atoms/Text'
-import { InputCheckboxGroupItem } from '#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem'
-import { InputWrapper } from '#ui/internals/InputWrapper'
+import type {
+  ListableResourceType,
+  QueryFilter,
+  QueryParamsList,
+} from "@commercelayer/sdk"
+import uniqBy from "lodash-es/uniqBy"
+import { useEffect, useState } from "react"
+import { formatResourceName } from "#helpers/resources"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { AvatarLetter } from "#ui/atoms/AvatarLetter"
+import { Button } from "#ui/atoms/Button"
+import { Card } from "#ui/atoms/Card"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
+import { InputCheckboxGroupItem } from "#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem"
+import { InputWrapper } from "#ui/internals/InputWrapper"
 import {
-  type ListableResourceType,
-  type QueryFilter,
-  type QueryParamsList
-} from '@commercelayer/sdk'
-import uniqBy from 'lodash-es/uniqBy'
-import { useEffect, useState } from 'react'
-import {
-  useInputResourceGroupOverlay,
   type FullListProps,
-  type SortBy
-} from './FullList'
+  type SortBy,
+  useInputResourceGroupOverlay,
+} from "./FullList"
 import {
   computeLabelWithSelected,
   prepareCheckboxItemOrMock,
-  useToggleCheckboxValues
-} from './utils'
+  useToggleCheckboxValues,
+} from "./utils"
 
 export interface InputResourceGroupProps
-  extends Omit<FullListProps, 'totalCount'> {
+  extends Omit<FullListProps, "totalCount"> {
   /**
    * Number of item to be shown in the preview list
    * @default 5
@@ -66,7 +66,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   hideWhenSingleItem,
   showCheckboxIcon = true,
   hideSelected = false,
-  title
+  title,
 }) => {
   const { values, toggleValue, setValues } =
     useToggleCheckboxValues(defaultValues)
@@ -83,20 +83,20 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
     fieldForLabel,
     sortBy,
     selectedValues: selectedValuesForPreviews.slice(0, previewLimit),
-    filters
+    filters,
   })
 
   useEffect(
     function syncChangesToParent() {
       onChange(values)
     },
-    [values]
+    [values],
   )
 
   const {
     InputResourceGroupOverlay,
     closeInputResourceGroupOverlay,
-    openInputResourceGroupOverlay
+    openInputResourceGroupOverlay,
   } = useInputResourceGroupOverlay()
 
   const isEmptyList = !isLoading && list.length === 0
@@ -105,7 +105,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
     totalCount === 1 &&
     defaultValues.length === 0
   if (isEmptyList || isHidden) {
-    return <></>
+    return null
   }
 
   return (
@@ -115,10 +115,10 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
         label={computeLabelWithSelected({
           label: title,
           selectedCount,
-          totalCount
+          totalCount,
         })}
       >
-        <Card gap='1' overflow='hidden'>
+        <Card gap="1" overflow="hidden">
           {list.map((item, idx) => {
             return (
               <InputCheckboxGroupItem
@@ -134,7 +134,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 }
                 hideIconOnDesktop
                 isLoading={isLoading}
-                content={<Text weight='semibold'>{item.label}</Text>}
+                content={<Text weight="semibold">{item.label}</Text>}
                 value={item.value}
               />
             )
@@ -142,23 +142,23 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
         </Card>
 
         {totalCount != null && totalCount > previewLimit ? (
-          <Spacer top='4'>
+          <Spacer top="4">
             <button
-              type='button'
+              type="button"
               onClick={() => {
                 openInputResourceGroupOverlay()
               }}
             >
               <Text
-                variant='primary'
-                weight='bold'
-                size='small'
-                className='underline'
+                variant="primary"
+                weight="bold"
+                size="small"
+                className="underline"
               >
-                {t('common.see_all')}{' '}
+                {t("common.see_all")}{" "}
                 {formatResourceName({
                   resource,
-                  count: 'plural'
+                  count: "plural",
                 })}
               </Text>
             </button>
@@ -168,13 +168,13 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
           footer={
             <Button
               fullWidth
-              type='button'
+              type="button"
               onClick={() => {
                 closeInputResourceGroupOverlay()
                 setSelectedValuesForPreview(values)
               }}
             >
-              <>{t('common.apply')}</>
+              {t("common.apply")}
             </Button>
           }
           defaultValues={values}
@@ -192,7 +192,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
     </SkeletonTemplate>
   )
 }
-InputResourceGroup.displayName = 'InputResourceGroup'
+InputResourceGroup.displayName = "InputResourceGroup"
 
 /**
  * Fetches the list of resources and merges it with the list of selected resources
@@ -205,7 +205,7 @@ function useList({
   fieldForLabel,
   sortBy,
   selectedValues,
-  filters
+  filters,
 }: {
   resource: ListableResourceType
   limit: number
@@ -221,51 +221,51 @@ function useList({
 } {
   const queryParam: QueryParamsList = {
     fields: {
-      [resource]: [fieldForValue, fieldForLabel]
+      [resource]: [fieldForValue, fieldForLabel],
     },
-    pageSize: limit as QueryParamsList['pageSize'],
+    pageSize: limit as QueryParamsList["pageSize"],
     sort: {
-      [sortBy.attribute]: sortBy.direction
+      [sortBy.attribute]: sortBy.direction,
     },
-    filters
+    filters,
   }
 
   const filtersSelected: QueryParamsList =
     selectedValues.length === 0
       ? {
-          filters
+          filters,
         }
       : {
           filters: {
             ...filters,
-            [`${fieldForValue}_in`]: selectedValues.join(',')
-          }
+            [`${fieldForValue}_in`]: selectedValues.join(","),
+          },
         }
 
   // list of selected resources to be shown on top of the list, even if they are on different pages
   const { data: selectedResources, isLoading: isLoadingSelectedResources } =
     useCoreApi(
       resource,
-      'list',
+      "list",
       [
         {
           ...queryParam,
-          ...filtersSelected
-        }
+          ...filtersSelected,
+        },
       ],
       {
-        revalidateOnFocus: false
-      }
+        revalidateOnFocus: false,
+      },
     )
 
   // list of all resources, no need to exclude the selected ones since we can leverage both api and swr caches
   const { data: allResources, isLoading: isLoadingAllResources } = useCoreApi(
     resource,
-    'list',
+    "list",
     [queryParam],
     {
-      revalidateOnFocus: false
-    }
+      revalidateOnFocus: false,
+    },
   )
 
   const isLoading = isLoadingSelectedResources || isLoadingAllResources
@@ -280,23 +280,23 @@ function useList({
           prepareCheckboxItemOrMock({
             isLoading: true,
             fieldForLabel,
-            fieldForValue
-          })
+            fieldForValue,
+          }),
         )
     : uniqBy(
         jointList.map((item) =>
           prepareCheckboxItemOrMock({
             resource: item,
             fieldForLabel,
-            fieldForValue
-          })
+            fieldForValue,
+          }),
         ),
-        'value'
+        "value",
       ).slice(0, limit)
 
   return {
     list,
     totalCount,
-    isLoading
+    isLoading,
   }
 }

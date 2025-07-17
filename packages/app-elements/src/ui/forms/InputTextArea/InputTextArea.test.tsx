@@ -1,5 +1,5 @@
-import { fireEvent, render, type RenderResult } from '@testing-library/react'
-import { InputTextArea } from './InputTextArea'
+import { fireEvent, type RenderResult, render } from "@testing-library/react"
+import { InputTextArea } from "./InputTextArea"
 
 interface SetupProps {
   id: string
@@ -14,19 +14,19 @@ const setup = ({ id }: SetupProps): SetupResult => {
   const element = utils.getByTestId(id) as HTMLInputElement
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('InputTextArea', () => {
-  test('Should be rendered', () => {
-    const { element } = setup({ id: 'my-textarea' })
+describe("InputTextArea", () => {
+  test("Should be rendered", () => {
+    const { element } = setup({ id: "my-textarea" })
     expect(element).toBeInTheDocument()
   })
-  test('Should update value', () => {
-    const { element } = setup({ id: 'my-textarea' })
-    expect(element.value).toBe('')
-    fireEvent.change(element, { target: { value: 'I love Commerce Layer' } })
-    expect(element.value).toBe('I love Commerce Layer')
+  test("Should update value", () => {
+    const { element } = setup({ id: "my-textarea" })
+    expect(element.value).toBe("")
+    fireEvent.change(element, { target: { value: "I love Commerce Layer" } })
+    expect(element.value).toBe("I love Commerce Layer")
   })
 })

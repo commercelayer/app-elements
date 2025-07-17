@@ -1,19 +1,19 @@
-import { isDefined } from '#utils/array'
 import {
   Children,
   isValidElement,
   type JSX,
   type ReactElement,
-  type ReactNode
-} from 'react'
+  type ReactNode,
+} from "react"
+import { isDefined } from "#utils/array"
 
 export function isFunctionComponent(
-  reactNode: ReactNode
+  reactNode: ReactNode,
 ): reactNode is ReactElement<any, React.FunctionComponent<any>> {
   return (
     isValidElement(reactNode) &&
-    typeof reactNode.type === 'function' &&
-    'displayName' in reactNode.type
+    typeof reactNode.type === "function" &&
+    "displayName" in reactNode.type
   )
 }
 
@@ -33,7 +33,7 @@ export function isFunctionComponent(
  */
 export function isSpecificReactComponent(
   reactNode: ReactNode,
-  displayNames: RegExp[]
+  displayNames: RegExp[],
 ): reactNode is JSX.Element {
   if (reactNode == null) {
     return false
@@ -45,7 +45,7 @@ export function isSpecificReactComponent(
     displayNames.find(
       (rx) =>
         reactNode.type.displayName != null &&
-        rx.test(reactNode.type.displayName)
+        rx.test(reactNode.type.displayName),
     ) != null
   )
 }
@@ -66,7 +66,7 @@ export function isSpecificReactComponent(
  */
 export function isSpecificJsxTag(
   reactNode: ReactNode,
-  tagNames: string[]
+  tagNames: string[],
 ): reactNode is JSX.Element {
   if (reactNode == null) {
     return false
@@ -74,33 +74,33 @@ export function isSpecificJsxTag(
 
   return (
     isValidElement(reactNode) &&
-    typeof reactNode.type === 'string' &&
+    typeof reactNode.type === "string" &&
     tagNames.includes(reactNode.type)
   )
 }
 
 export function getInnerText(reactNode: ReactNode): string {
-  let buf = ''
+  let buf = ""
   if (reactNode != null) {
-    if (typeof reactNode === 'string' || typeof reactNode === 'number') {
+    if (typeof reactNode === "string" || typeof reactNode === "number") {
       buf += reactNode.toString()
-    } else if (typeof reactNode === 'object') {
+    } else if (typeof reactNode === "object") {
       let children: ReactNode = null
       if (Array.isArray(reactNode)) {
         children = reactNode
       } else {
         if (
-          'props' in reactNode &&
+          "props" in reactNode &&
           reactNode.props != null &&
-          typeof reactNode.props === 'object' &&
-          'children' in reactNode.props
+          typeof reactNode.props === "object" &&
+          "children" in reactNode.props
         ) {
           children = reactNode.props.children as ReactNode
         }
       }
       if (children != null) {
         if (Array.isArray(children)) {
-          children.forEach(function (o: ReactNode) {
+          children.forEach((o: ReactNode) => {
             buf += getInnerText(o)
           })
         } else {
@@ -124,7 +124,7 @@ export function getInnerText(reactNode: ReactNode): string {
  */
 export function filterByDisplayName(
   children: React.ReactNode,
-  displayName: RegExp
+  displayName: RegExp,
 ): JSX.Element[] {
   return Children.toArray(children)
     .flatMap((child) => {
@@ -139,7 +139,7 @@ export function filterByDisplayName(
         if (child.props.children != null) {
           return filterByDisplayName(
             child.props.children as JSX.Element,
-            displayName
+            displayName,
           )
         }
       }

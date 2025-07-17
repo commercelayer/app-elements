@@ -1,21 +1,21 @@
-import { Spacer } from '#ui/atoms/Spacer'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-import { Text } from '#ui/atoms/Text'
-import { List } from '#ui/composite/List'
-import { ListItem } from '#ui/composite/ListItem'
-import { PageLayout } from '#ui/composite/PageLayout'
 import {
   Description,
   Primary,
   Subtitle,
-  Title
-} from '@storybook/addon-docs/blocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+  Title,
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Spacer } from "#ui/atoms/Spacer"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { List } from "#ui/composite/List"
+import { ListItem } from "#ui/composite/ListItem"
+import { PageLayout } from "#ui/composite/PageLayout"
 
 const setup: Meta = {
-  title: 'Examples/List SKUs',
+  title: "Examples/List SKUs",
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     docs: {
       page: () => (
         <>
@@ -24,40 +24,41 @@ const setup: Meta = {
           <Description />
           <Primary />
         </>
-      )
-    }
-  }
+      ),
+    },
+  },
 }
 export default setup
 
-const Template: StoryFn<typeof List> = (args) => (
+const Template: StoryFn<typeof List> = (_args) => (
   <PageLayout
-    title='SKUs'
+    title="SKUs"
     navigationButton={{
-      label: 'Home',
-      onClick: () => {}
+      label: "Home",
+      onClick: () => {},
     }}
   >
-    <Spacer bottom='14'>
+    <Spacer bottom="14">
       <List
-        title='All resources'
+        title="All resources"
         pagination={{
           recordsPerPage: 25,
           recordCount: 104,
           currentPage: 1,
-          onChangePageRequest: (newPage: number) => {},
-          pageCount: 5
+          onChangePageRequest: (_newPage: number) => {},
+          pageCount: 5,
         }}
       >
         {[...Array(10).keys()].map((_, idx) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
           <ListItem key={idx} onClick={() => {}}>
             <div>
-              <Text weight='semibold' tag='div'>
+              <Text weight="semibold" tag="div">
                 WGDMSMNOwJ
               </Text>
-              <Text size='small'>Feb 20, 2023 · 4:23 AM</Text>
+              <Text size="small">Feb 20, 2023 · 4:23 AM</Text>
             </div>
-            <StatusIcon name='caretRight' />
+            <StatusIcon name="caretRight" />
           </ListItem>
         ))}
       </List>

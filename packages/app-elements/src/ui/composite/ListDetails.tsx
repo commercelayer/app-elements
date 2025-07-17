@@ -1,7 +1,7 @@
-import { Section } from '#ui/atoms/Section'
-import { Skeleton, SkeletonItem } from '#ui/atoms/Skeleton'
-import cn from 'classnames'
-import { type JSX, type ReactNode } from 'react'
+import cn from "classnames"
+import type { JSX, ReactNode } from "react"
+import { Section } from "#ui/atoms/Section"
+import { Skeleton, SkeletonItem } from "#ui/atoms/Skeleton"
 
 export interface ListDetailsProps {
   /**
@@ -19,7 +19,7 @@ export interface ListDetailsProps {
   /**
    * Font size
    */
-  fontSize?: 'normal' | 'small'
+  fontSize?: "normal" | "small"
   /**
    * Show skeleton when this is `true`
    */
@@ -33,23 +33,24 @@ export interface ListDetailsProps {
 function ListDetails({
   title,
   children,
-  fontSize = 'normal',
+  fontSize = "normal",
   isLoading,
   loadingLines = 3,
-  className
+  className,
 }: ListDetailsProps): JSX.Element {
   if (isLoading === true) {
     return (
-      <section aria-label='Loading ...' className={className}>
+      <section aria-label="Loading ..." className={className}>
         <Skeleton>
-          <h4 className='text-[18px] font-semibold mb-4'>
-            <SkeletonItem className='h-7 w-32' />
+          <h4 className="text-[18px] font-semibold mb-4">
+            <SkeletonItem className="h-7 w-32" />
           </h4>
-          <div data-testid='details-list-loading-rows'>
+          <div data-testid="details-list-loading-rows">
             {[...Array(loadingLines).keys()].map((_, idx) => (
               <SkeletonItem
+                // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since the list is static and does not change.
                 key={`details-loading-${idx}`}
-                className='h-[53px] w-full mb-1 last:mb-0'
+                className="h-[53px] w-full mb-1 last:mb-0"
               />
             ))}
           </div>
@@ -60,14 +61,14 @@ function ListDetails({
 
   return (
     <Section
-      data-testid='details-list-title'
+      data-testid="details-list-title"
       title={title}
-      className={cn([{ 'text-sm': fontSize === 'small' }, className])}
+      className={cn([{ "text-sm": fontSize === "small" }, className])}
     >
-      <div data-testid='details-list-rows'>{children}</div>
+      <div data-testid="details-list-rows">{children}</div>
     </Section>
   )
 }
 
-ListDetails.displayName = 'ListDetails'
+ListDetails.displayName = "ListDetails"
 export { ListDetails }

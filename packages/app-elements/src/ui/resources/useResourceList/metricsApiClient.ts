@@ -1,20 +1,20 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import { type MetricsFilters } from '#ui/resources/useResourceFilters/adaptSdkToMetrics'
-import {
-  type ListableResourceType,
-  type ListMeta,
-  type ListResponse
-} from '@commercelayer/sdk'
-import castArray from 'lodash-es/castArray'
-import { useMemo } from 'react'
-import { type Writable } from 'type-fest'
+import type {
+  ListableResourceType,
+  ListMeta,
+  ListResponse,
+} from "@commercelayer/sdk"
+import castArray from "lodash-es/castArray"
+import { useMemo } from "react"
+import type { Writable } from "type-fest"
+import { useTokenProvider } from "#providers/TokenProvider"
+import type { MetricsFilters } from "#ui/resources/useResourceFilters/adaptSdkToMetrics"
 import {
   adaptMetricsOrderToCore,
-  type MetricsResourceOrder
-} from './adaptMetricsOrderToCore'
-import { type Resource } from './infiniteFetcher'
+  type MetricsResourceOrder,
+} from "./adaptMetricsOrderToCore"
+import type { Resource } from "./infiniteFetcher"
 
-export type MetricsResources = 'orders' | 'returns'
+export type MetricsResources = "orders" | "returns"
 
 interface OpenApiResponse<ResourceType extends MetricsResources> {
   data: Array<Resource<ResourceType>>
@@ -28,7 +28,7 @@ interface OpenApiResponse<ResourceType extends MetricsResources> {
 
 type ListResponseWithoutMeta<ResourceType extends MetricsResources> = Omit<
   ListResponse<Resource<ResourceType>>,
-  'meta'
+  "meta"
 >
 type ListMetaWithCursor = Writable<ListMeta> & {
   cursor: string | null
@@ -43,13 +43,13 @@ type MetricsList = <Resource extends MetricsResources>(
   query: {
     search?: {
       limit?: number
-      sort?: 'asc' | 'desc'
+      sort?: "asc" | "desc"
       sort_by?: string
       fields?: string[]
       cursor?: string | null
     }
     filter?: MetricsFilters
-  }
+  },
 ) => Promise<ListResponseMetrics<Resource>>
 
 export interface MetricsApiClient {
@@ -67,32 +67,32 @@ type MakeMetricsApiClient = (opts: {
 const makeMetricsApiClient: MakeMetricsApiClient = ({
   accessToken,
   slug,
-  domain
+  domain,
 }) => {
   const baseUrl = `https://${slug}.${domain}/metrics`
 
   const list: MetricsList = async (resourceType, query) => {
     // when searching pending orders we need to call `/carts` endpoint, not `/orders`
     const orderFilterStatus = castArray(
-      query.filter?.order?.statuses?.in ?? query.filter?.order?.status?.eq
+      query.filter?.order?.statuses?.in ?? query.filter?.order?.status?.eq,
     )
-    const endpoint = orderFilterStatus.includes('pending')
-      ? 'carts'
+    const endpoint = orderFilterStatus.includes("pending")
+      ? "carts"
       : resourceType
 
     const response = await fetch(`${baseUrl}/${endpoint}/search`, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        accept: 'application/vnd.api.v1+json',
-        'content-type': 'application/vnd.api+json',
-        authorization: `Bearer ${accessToken}`
+        accept: "application/vnd.api.v1+json",
+        "content-type": "application/vnd.api+json",
+        authorization: `Bearer ${accessToken}`,
       },
-      body: JSON.stringify(query)
+      body: JSON.stringify(query),
     })
 
     const json: OpenApiResponse<typeof resourceType> = await response.json()
     const data =
-      endpoint === 'carts'
+      endpoint === "carts"
         ? await removePlacedOrdersFromCarts({
             resourceType,
             accessToken,
@@ -100,20 +100,20 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
             metricsData: json.data,
             dateField: query.filter?.order?.date_field,
             dateFrom: query.filter?.order?.date_from,
-            dateTo: query.filter?.order?.date_to
+            dateTo: query.filter?.order?.date_to,
           })
         : json.data
 
     const list = [
       ...data.map((item) =>
-        resourceType === 'orders'
+        resourceType === "orders"
           ? adaptMetricsOrderToCore(item as MetricsResourceOrder)
           : {
               // We only convert orders at this stage (`returns` are not supported and are sent back 1:1 from the metrics API)
               ...item,
-              type: resourceType
-            }
-      )
+              type: resourceType,
+            },
+      ),
     ] as unknown as ListResponseMetrics<typeof resourceType>
 
     // fake meta just to make the list compatible with core sdk ListResponse
@@ -123,14 +123,14 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
       recordCount: json.meta.pagination.record_count,
       currentPage: 1,
       recordsPerPage: 25,
-      cursor: json.meta.pagination.cursor
+      cursor: json.meta.pagination.cursor,
     }
 
     return list
   }
 
   return {
-    client: { list }
+    client: { list },
   }
 }
 
@@ -138,7 +138,7 @@ export function useMetricsSdkProvider(): {
   metricsClient: MetricsApiClient
 } {
   const {
-    settings: { accessToken, organizationSlug, domain }
+    settings: { accessToken, organizationSlug, domain },
   } = useTokenProvider()
 
   const metricsClient = useMemo(
@@ -146,20 +146,20 @@ export function useMetricsSdkProvider(): {
       makeMetricsApiClient({
         accessToken,
         slug: organizationSlug,
-        domain
+        domain,
       }).client,
-    [accessToken, organizationSlug, domain]
+    [accessToken, organizationSlug, domain],
   )
 
   return {
-    metricsClient
+    metricsClient,
   }
 }
 
 export function isValidMetricsResource(
-  resourceType: ListableResourceType
+  resourceType: ListableResourceType,
 ): resourceType is MetricsResources {
-  return ['orders', 'returns'].includes(resourceType)
+  return ["orders", "returns"].includes(resourceType)
 }
 
 /**
@@ -173,30 +173,30 @@ async function removePlacedOrdersFromCarts<Resource extends MetricsResources>({
   metricsData,
   baseUrl,
   accessToken,
-  resourceType
+  resourceType,
 }: {
-  metricsData: OpenApiResponse<typeof resourceType>['data']
+  metricsData: OpenApiResponse<typeof resourceType>["data"]
   dateFrom?: string
   dateTo?: string
   dateField?: string
   baseUrl: string
   accessToken: string
   resourceType: Resource
-}): Promise<OpenApiResponse<typeof resourceType>['data']> {
+}): Promise<OpenApiResponse<typeof resourceType>["data"]> {
   if (metricsData.length === 0) {
     return metricsData
   }
   const placedOrdersResponse = await fetch(`${baseUrl}/orders/search`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      accept: 'application/vnd.api.v1+json',
-      'content-type': 'application/vnd.api+json',
-      authorization: `Bearer ${accessToken}`
+      accept: "application/vnd.api.v1+json",
+      "content-type": "application/vnd.api+json",
+      authorization: `Bearer ${accessToken}`,
     },
     body: JSON.stringify({
       search: {
         limit: 25,
-        fields: ['order.id']
+        fields: ["order.id"],
       },
       filter: {
         order: {
@@ -204,18 +204,18 @@ async function removePlacedOrdersFromCarts<Resource extends MetricsResources>({
           date_to: dateTo,
           date_field: dateField,
           ids: {
-            in: metricsData.map((item) => item.id)
-          }
-        }
-      }
-    })
+            in: metricsData.map((item) => item.id),
+          },
+        },
+      },
+    }),
   })
-  const placedOrders: OpenApiResponse<'orders'> =
+  const placedOrders: OpenApiResponse<"orders"> =
     await placedOrdersResponse.json()
 
   const placedOrdersIds = placedOrders.data.map((item) => item.id)
   const filteredList = metricsData.filter(
-    (item) => !placedOrdersIds.includes(item.id)
+    (item) => !placedOrdersIds.includes(item.id),
   )
 
   return filteredList

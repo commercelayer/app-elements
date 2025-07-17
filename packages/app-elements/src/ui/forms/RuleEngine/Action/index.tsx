@@ -1,19 +1,19 @@
-import { Button } from '#ui/atoms/Button'
-import { Icon } from '#ui/atoms/Icon'
-import { useState } from 'react'
-import { useRuleEngine } from '../RuleEngineContext'
-import { type SchemaActionItem } from '../utils'
-import { ActionListItem } from './ActionListItem'
+import { useState } from "react"
+import { Button } from "#ui/atoms/Button"
+import { Icon } from "#ui/atoms/Icon"
+import { useRuleEngine } from "../RuleEngineContext"
+import type { SchemaActionItem } from "../utils"
+import { ActionListItem } from "./ActionListItem"
 
 export function Action({
-  actions
+  actions,
 }: {
   actions?: SchemaActionItem[]
 }): React.JSX.Element {
   const [rerenderKey, setRerenderKey] = useState(0)
   const {
     setPath,
-    state: { selectedRuleIndex }
+    state: { selectedRuleIndex },
   } = useRuleEngine()
 
   return (
@@ -34,19 +34,19 @@ export function Action({
           />
         ))}
       </div>
-      <div className='mt-6'>
+      <div className="mt-6">
         <Button
-          size='small'
-          variant='secondary'
-          alignItems='center'
+          size="small"
+          variant="secondary"
+          alignItems="center"
           onClick={() => {
             setPath(
               `rules.${selectedRuleIndex}.actions.${actions?.length ?? 0}`,
-              undefined
+              undefined,
             )
           }}
         >
-          <Icon name='plusCircle' /> Add action
+          <Icon name="plusCircle" /> Add action
         </Button>
       </div>
     </>

@@ -1,22 +1,22 @@
-import { Badge } from '#ui/atoms/Badge'
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Stack } from '#ui/atoms/Stack'
-import { Text } from '#ui/atoms/Text'
 import {
   Description,
   Primary,
   Stories,
   Subtitle,
-  Title
-} from '@storybook/addon-docs/blocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+  Title,
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Badge } from "#ui/atoms/Badge"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Stack } from "#ui/atoms/Stack"
+import { Text } from "#ui/atoms/Text"
 
 const setup: Meta<typeof Stack> = {
-  title: 'Atoms/Stack',
+  title: "Atoms/Stack",
   component: Stack,
   parameters: {
-    layout: 'padded',
+    layout: "padded",
     docs: {
       page: () => (
         <>
@@ -26,9 +26,9 @@ const setup: Meta<typeof Stack> = {
           <Primary />
           <Stories includePrimary={false} />
         </>
-      )
-    }
-  }
+      ),
+    },
+  },
 }
 export default setup
 
@@ -44,28 +44,28 @@ Default.args = {}
 export const Steps: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
     <div>
-      <Spacer bottom='2'>
-        <Text tag='div' variant='info' size='small' weight='semibold'>
+      <Spacer bottom="2">
+        <Text tag="div" variant="info" size="small" weight="semibold">
           Order
         </Text>
       </Spacer>
-      <Badge variant='success-solid'>APPROVED</Badge>
+      <Badge variant="success-solid">APPROVED</Badge>
     </div>
     <div>
-      <Spacer bottom='2'>
-        <Text tag='div' variant='info' size='small' weight='semibold'>
+      <Spacer bottom="2">
+        <Text tag="div" variant="info" size="small" weight="semibold">
           Payment
         </Text>
       </Spacer>
-      <Badge variant='secondary'>AUTHORIZED</Badge>
+      <Badge variant="secondary">AUTHORIZED</Badge>
     </div>
     <div>
-      <Spacer bottom='2'>
-        <Text tag='div' variant='info' size='small' weight='semibold'>
+      <Spacer bottom="2">
+        <Text tag="div" variant="info" size="small" weight="semibold">
           Fulfillment
         </Text>
       </Spacer>
-      <Badge variant='secondary'>UNFULFILLED</Badge>
+      <Badge variant="secondary">UNFULFILLED</Badge>
     </div>
   </Stack>
 )
@@ -74,37 +74,37 @@ Steps.args = {}
 export const Addresses: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
     <div>
-      <Spacer bottom='2'>
-        <Text tag='div' weight='bold'>
+      <Spacer bottom="2">
+        <Text tag="div" weight="bold">
           Shipping address
         </Text>
       </Spacer>
-      <Text tag='div' variant='info'>
+      <Text tag="div" variant="info">
         Jack Kein
         <br />
         1209 Orange Street
         <br />
         Wilmington DE 19801 (US)
       </Text>
-      <Spacer top='4'>
-        <Button variant='link'>Edit</Button>
+      <Spacer top="4">
+        <Button variant="link">Edit</Button>
       </Spacer>
     </div>
     <div>
-      <Spacer bottom='2'>
-        <Text tag='div' weight='bold'>
+      <Spacer bottom="2">
+        <Text tag="div" weight="bold">
           Billing address
         </Text>
       </Spacer>
-      <Text tag='div' variant='info'>
+      <Text tag="div" variant="info">
         Jack Kein
         <br />
         1209 Orange Street
         <br />
         Wilmington DE 19801 (US)
       </Text>
-      <Spacer top='4'>
-        <Button variant='link'>Edit</Button>
+      <Spacer top="4">
+        <Button variant="link">Edit</Button>
       </Spacer>
     </div>
   </Stack>
@@ -116,7 +116,7 @@ Addresses.args = {}
  *
  * However it's always suggested, but not required, to group them in a parent `div` since the `nth+1` sibling will have a negative `1px` margin-top.
  */
-export const MultipleStacks: StoryFn<typeof Stack> = (args) => (
+export const MultipleStacks: StoryFn<typeof Stack> = (_args) => (
   <>
     <div>first sibling</div>
     <Stack>

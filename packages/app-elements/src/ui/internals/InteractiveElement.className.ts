@@ -1,17 +1,17 @@
-import { isSpecificReactComponent } from '#utils/children'
-import cn from 'classnames'
-import { Children } from 'react'
+import cn from "classnames"
+import { Children } from "react"
+import { isSpecificReactComponent } from "#utils/children"
 
 // The `relationship` variant is temporary to cover the old dashed `ButtonCard` behavior until there will be an updated design proof solution
 type Variant =
-  | 'primary'
-  | 'secondary'
-  | 'danger'
-  | 'link'
-  | 'circle'
-  | 'relationship'
-  | 'input'
-type Size = 'mini' | 'small' | 'regular' | 'large'
+  | "primary"
+  | "secondary"
+  | "danger"
+  | "link"
+  | "circle"
+  | "relationship"
+  | "input"
+type Size = "mini" | "small" | "regular" | "large"
 
 export interface InteractiveElementProps {
   children: React.ReactNode
@@ -30,21 +30,20 @@ export interface InteractiveElementProps {
   /**
    * Flex content alignment with a standard gap
    */
-  alignItems?: 'center'
+  alignItems?: "center"
   /**
    * When element is disabled, the user cannot interact with it
    */
   disabled?: boolean | undefined
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function getInteractiveElementClassName({
   alignItems,
   children,
   disabled,
   fullWidth,
   size,
-  variant
+  variant,
 }: InteractiveElementProps) {
   /*
    * Prop `children` could be an array of elements with just one element inside.
@@ -58,56 +57,56 @@ export function getInteractiveElementClassName({
   return cn([
     `rounded whitespace-nowrap leading-5`,
     {
-      'opacity-50 pointer-events-none touch-none': disabled,
-      'w-full': fullWidth === true && variant !== 'link',
-      'inline-flex gap-1': alignItems != null,
-      'items-center justify-center': alignItems === 'center',
-      'inline w-fit underline': variant === 'link',
+      "opacity-50 pointer-events-none touch-none": disabled,
+      "w-full": fullWidth === true && variant !== "link",
+      "inline-flex gap-1": alignItems != null,
+      "items-center justify-center": alignItems === "center",
+      "inline w-fit underline": variant === "link",
       [`inline-block text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
-        variant !== 'link',
-      '!p-2.5': isIcon && variant !== 'circle',
-      '!p-1': isIcon && variant === 'circle',
-      [`${getFontSizeCss(size)}`]: variant !== 'link',
-      button: variant !== 'link'
+        variant !== "link",
+      "!p-2.5": isIcon && variant !== "circle",
+      "!p-1": isIcon && variant === "circle",
+      [`${getFontSizeCss(size)}`]: variant !== "link",
+      button: variant !== "link",
     },
-    getVariantCss(variant)
+    getVariantCss(variant),
   ])
 }
 
-function getSizeCss(size: InteractiveElementProps['size']): string | undefined {
+function getSizeCss(size: InteractiveElementProps["size"]): string | undefined {
   if (size == null) {
     return undefined
   }
 
   const mapping = {
-    mini: 'px-2.5 py-1',
-    small: 'px-4 py-2',
-    regular: 'px-6 py-3',
-    large: 'px-8 py-4'
-  } satisfies Record<NonNullable<InteractiveElementProps['size']>, string>
+    mini: "px-2.5 py-1",
+    small: "px-4 py-2",
+    regular: "px-6 py-3",
+    large: "px-8 py-4",
+  } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]
 }
 
 function getFontSizeCss(
-  size: InteractiveElementProps['size']
+  size: InteractiveElementProps["size"],
 ): string | undefined {
   if (size == null) {
     return undefined
   }
 
   const mapping = {
-    mini: 'text-sm',
-    small: 'text-sm',
-    regular: 'text-base',
-    large: 'text-base'
-  } satisfies Record<NonNullable<InteractiveElementProps['size']>, string>
+    mini: "text-sm",
+    small: "text-sm",
+    regular: "text-base",
+    large: "text-base",
+  } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]
 }
 
 function getVariantCss(
-  variant: InteractiveElementProps['variant']
+  variant: InteractiveElementProps["variant"],
 ): string | undefined {
   if (variant == null) {
     return undefined
@@ -115,17 +114,17 @@ function getVariantCss(
 
   const mapping = {
     primary:
-      'font-bold bg-black border border-black text-white hover:opacity-80',
+      "font-bold bg-black border border-black text-white hover:opacity-80",
     secondary:
-      'font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50',
+      "font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50",
     circle:
-      'font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full',
-    danger: 'font-bold bg-white border border-red text-red hover:bg-red/10',
-    link: 'text-primary hover:text-primary-light border-primary-light cursor-pointer',
-    relationship: 'font-bold text-primary border border-gray-300 border-dashed',
+      "font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full",
+    danger: "font-bold bg-white border border-red text-red hover:bg-red/10",
+    link: "text-primary hover:text-primary-light border-primary-light cursor-pointer",
+    relationship: "font-bold text-primary border border-gray-300 border-dashed",
     input:
-      'form-input block w-full !px-4 !py-2.5 font-medium rounded outline-0 !text-left !leading-6 text-gray-500'
-  } satisfies Record<NonNullable<InteractiveElementProps['variant']>, string>
+      "form-input block w-full !px-4 !py-2.5 font-medium rounded outline-0 !text-left !leading-6 text-gray-500",
+  } satisfies Record<NonNullable<InteractiveElementProps["variant"]>, string>
 
   return mapping[variant]
 }

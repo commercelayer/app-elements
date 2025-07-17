@@ -1,13 +1,13 @@
-import { type InputCurrencyRangeProps } from '#ui/forms/InputCurrencyRange'
-import { type InputResourceGroupProps } from '#ui/forms/InputResourceGroup'
-import { type QueryFilter } from '@commercelayer/sdk'
-import { type ValueOf } from 'type-fest'
+import type { QueryFilter } from "@commercelayer/sdk"
+import type { ValueOf } from "type-fest"
+import type { InputCurrencyRangeProps } from "#ui/forms/InputCurrencyRange"
+import type { InputResourceGroupProps } from "#ui/forms/InputResourceGroup"
 
 export const filterableTimeRangePreset = [
-  'today',
-  'last7days',
-  'last30days',
-  'custom'
+  "today",
+  "last7days",
+  "last30days",
+  "custom",
 ] as const
 
 export type UiFilterName = string
@@ -74,18 +74,18 @@ export interface BaseFilterItem {
 }
 
 export type FilterItemOptions = BaseFilterItem & {
-  type: 'options'
+  type: "options"
   render:
     | {
         /**
          * UI component to render
          */
-        component: 'inputToggleButton'
+        component: "inputToggleButton"
         /**
          * props required for the UI component
          */
         props: {
-          mode: 'multi' | 'single'
+          mode: "multi" | "single"
           /**
            * an option can be hidden from the UI but still be used in the query
            * Example: we wont show the button to filter `pending` status in the UI, but we still want to accept it for a predefined list)
@@ -97,32 +97,32 @@ export type FilterItemOptions = BaseFilterItem & {
         /**
          * UI component to render
          */
-        component: 'inputResourceGroup'
+        component: "inputResourceGroup"
         /**
          * props required for the UI component
          */
         props: Omit<
           InputResourceGroupProps,
-          'onChange' | 'defaultValues' | 'title'
+          "onChange" | "defaultValues" | "title"
         >
       }
 }
 
-export interface FilterItemTextSearch extends Omit<BaseFilterItem, 'sdk'> {
-  type: 'textSearch'
+export interface FilterItemTextSearch extends Omit<BaseFilterItem, "sdk"> {
+  type: "textSearch"
   render: {
     /**
      * UI component to render.
      *
      * ⚠️ You can have only one `searchBar` component.
      */
-    component: 'searchBar' | 'input'
+    component: "searchBar" | "input"
   }
-  sdk: Pick<BaseFilterItem['sdk'], 'predicate' | 'parseFormValue'>
+  sdk: Pick<BaseFilterItem["sdk"], "predicate" | "parseFormValue">
 }
 
-export interface FilterItemTime extends Omit<BaseFilterItem, 'sdk'> {
-  type: 'timeRange'
+export interface FilterItemTime extends Omit<BaseFilterItem, "sdk"> {
+  type: "timeRange"
   sdk: {
     /**
      * SDK predicate to use in the query (example: `updated_at` or `updated_at`).
@@ -132,12 +132,12 @@ export interface FilterItemTime extends Omit<BaseFilterItem, 'sdk'> {
     predicate: string
   }
   render: {
-    component: 'dateRangePicker'
+    component: "dateRangePicker"
   }
 }
 
-export interface FilterItemCurrencyRange extends Omit<BaseFilterItem, 'sdk'> {
-  type: 'currencyRange'
+export interface FilterItemCurrencyRange extends Omit<BaseFilterItem, "sdk"> {
+  type: "currencyRange"
   sdk: {
     /**
      * SDK predicate to use in the query (example: `total_amount_cents` or `subtotal_amount_cents`).
@@ -148,10 +148,10 @@ export interface FilterItemCurrencyRange extends Omit<BaseFilterItem, 'sdk'> {
     predicate: string
   }
   render: {
-    component: 'inputCurrencyRange'
+    component: "inputCurrencyRange"
     props: Omit<
       InputCurrencyRangeProps,
-      'onChange' | 'fromCents' | 'toCents' | 'defaultCurrency' | 'currencyList'
+      "onChange" | "fromCents" | "toCents" | "defaultCurrency" | "currencyList"
     >
   }
 }
@@ -165,19 +165,19 @@ export type FiltersInstructionItem =
 export type FiltersInstructions = FiltersInstructionItem[]
 
 export function isItemOptions(
-  item: FiltersInstructionItem
+  item: FiltersInstructionItem,
 ): item is FilterItemOptions {
-  return item.type === 'options'
+  return item.type === "options"
 }
 
 export function isTextSearch(
-  item: FiltersInstructionItem
+  item: FiltersInstructionItem,
 ): item is FilterItemTextSearch {
-  return item.type === 'textSearch'
+  return item.type === "textSearch"
 }
 
 export function isCurrencyRange(
-  item: FiltersInstructionItem
+  item: FiltersInstructionItem,
 ): item is FilterItemCurrencyRange {
-  return item.type === 'currencyRange'
+  return item.type === "currencyRange"
 }

@@ -1,8 +1,8 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import { type TokenProviderClAppSlug } from '#providers/TokenProvider/types'
-import isEmpty from 'lodash-es/isEmpty'
-import { useCallback } from 'react'
-import { useLocation, useRouter, useSearch } from 'wouter'
+import isEmpty from "lodash-es/isEmpty"
+import { useCallback } from "react"
+import { useLocation, useRouter, useSearch } from "wouter"
+import { useTokenProvider } from "#providers/TokenProvider"
+import type { TokenProviderClAppSlug } from "#providers/TokenProvider/types"
 
 type Layout = Record<TokenProviderClAppSlug, object | undefined>
 interface AppsConfig {
@@ -12,7 +12,7 @@ interface AppsConfig {
 
 // TODO: replace empty config with fetched config from TokenProvider
 const config: { apps: AppsConfig } = {
-  apps: {}
+  apps: {},
 }
 
 interface UseAppLinkingHook {
@@ -26,7 +26,7 @@ interface UseAppLinkingHook {
       e: React.MouseEvent<
         HTMLAnchorElement | HTMLDivElement | HTMLButtonElement,
         MouseEvent
-      >
+      >,
     ) => void
   } | null
 
@@ -45,13 +45,13 @@ interface UseAppLinkingHook {
  */
 export function useAppLinking(): UseAppLinkingHook {
   const {
-    settings: { isInDashboard, appSlug: currentAppSlug }
+    settings: { isInDashboard, appSlug: currentAppSlug },
   } = useTokenProvider()
   const { base } = useRouter()
   const [location, setLocation] = useLocation()
   const search = useSearch()
 
-  const navigateTo: UseAppLinkingHook['navigateTo'] = useCallback(
+  const navigateTo: UseAppLinkingHook["navigateTo"] = useCallback(
     ({ app, resourceId }) => {
       const path = resourceId != null ? `/list/${resourceId}` : `/list`
 
@@ -62,9 +62,9 @@ export function useAppLinking(): UseAppLinkingHook {
 
       const handleOnClick = (
         e: Parameters<
-          NonNullable<ReturnType<UseAppLinkingHook['navigateTo']>>['onClick']
+          NonNullable<ReturnType<UseAppLinkingHook["navigateTo"]>>["onClick"]
         >[0],
-        to: string
+        to: string,
       ): void => {
         if (e.ctrlKey || e.metaKey) {
           // allow to open link in a new tab with ctrl+click or cmd+click
@@ -81,7 +81,7 @@ export function useAppLinking(): UseAppLinkingHook {
             destinationApp: app,
             resourceId,
             returnToApp: currentAppSlug as TokenProviderClAppSlug,
-            location: `${location}${!isEmpty(search) ? `?${search}` : ''}`
+            location: `${location}${!isEmpty(search) ? `?${search}` : ""}`,
           })
           setLocation(to)
         }
@@ -93,7 +93,7 @@ export function useAppLinking(): UseAppLinkingHook {
           href: `${base}${path}`,
           onClick: (e) => {
             handleOnClick(e, path)
-          }
+          },
         }
       }
 
@@ -114,9 +114,9 @@ export function useAppLinking(): UseAppLinkingHook {
           onClick: (event) => {
             handleOnClick(
               event,
-              `${isExternalUrl(customInstruction) ? '' : '~'}${customInstruction}${path}`
+              `${isExternalUrl(customInstruction) ? "" : "~"}${customInstruction}${path}`,
             )
-          }
+          },
         }
       }
 
@@ -128,23 +128,23 @@ export function useAppLinking(): UseAppLinkingHook {
         href: `${newBase}${path}`,
         onClick: (e) => {
           handleOnClick(e, `~${newBase}${path}`)
-        }
+        },
       }
     },
-    [base, currentAppSlug, isInDashboard]
+    [base, currentAppSlug, isInDashboard],
   )
 
   const goBack = useCallback(
     ({
       currentResourceId,
-      defaultRelativePath
+      defaultRelativePath,
     }: {
       currentResourceId?: string
       defaultRelativePath: string
     }) => {
       const goBackItem = getGoBackItem({
         destinationApp: currentAppSlug as TokenProviderClAppSlug,
-        resourceId: currentResourceId
+        resourceId: currentResourceId,
       })
       if (goBackItem == null) {
         setLocation(defaultRelativePath)
@@ -153,20 +153,20 @@ export function useAppLinking(): UseAppLinkingHook {
       setLocation(
         goBackItem.returnToApp === currentAppSlug
           ? goBackItem.location // is same app
-          : `~${base.replace(`/${currentAppSlug}`, `/${goBackItem.returnToApp}`)}${goBackItem.location ?? ''}` // is new router base
+          : `~${base.replace(`/${currentAppSlug}`, `/${goBackItem.returnToApp}`)}${goBackItem.location ?? ""}`, // is new router base
       )
     },
-    [base, currentAppSlug]
+    [base, currentAppSlug],
   )
 
   return {
     navigateTo,
-    goBack
+    goBack,
   }
 }
 
 function isExternalUrl(url: string): boolean {
-  return url.startsWith('http://') || url.startsWith('https://')
+  return url.startsWith("http://") || url.startsWith("https://")
 }
 
 function clearConfigPath(path?: string | null): string | null {
@@ -175,10 +175,10 @@ function clearConfigPath(path?: string | null): string | null {
   }
 
   // enforce leading slash
-  path = isExternalUrl(path) || path.startsWith('/') ? path : `/${path}`
+  path = isExternalUrl(path) || path.startsWith("/") ? path : `/${path}`
 
   // remove trailing slash
-  return path.endsWith('/') ? path.slice(0, -1) : path
+  return path.endsWith("/") ? path.slice(0, -1) : path
 }
 
 interface GoBackItem {
@@ -193,14 +193,14 @@ function saveGoBackItem({
   destinationApp,
   resourceId,
   returnToApp,
-  location
+  location,
 }: {
   destinationApp: TokenProviderClAppSlug
   resourceId?: string
   returnToApp: TokenProviderClAppSlug
   location: string
 }): void {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return
   }
   const itemKey = makePersistentKey({ destinationApp, resourceId })
@@ -209,19 +209,19 @@ function saveGoBackItem({
     JSON.stringify({
       version: currentVersion,
       returnToApp,
-      location
-    })
+      location,
+    }),
   )
 }
 
 function getGoBackItem({
   destinationApp,
-  resourceId
+  resourceId,
 }: {
   destinationApp: TokenProviderClAppSlug
   resourceId?: string
 }): GoBackItem | null {
-  if (typeof window === 'undefined') {
+  if (typeof window === "undefined") {
     return null
   }
   const itemKey = makePersistentKey({ destinationApp, resourceId })
@@ -229,7 +229,7 @@ function getGoBackItem({
   sessionStorage.removeItem(itemKey)
 
   try {
-    const item = JSON.parse(value ?? '{}') as GoBackItem
+    const item = JSON.parse(value ?? "{}") as GoBackItem
     if (item.version === currentVersion) {
       return item
     } else {
@@ -242,10 +242,10 @@ function getGoBackItem({
 
 function makePersistentKey({
   destinationApp,
-  resourceId
+  resourceId,
 }: {
   destinationApp: TokenProviderClAppSlug
   resourceId?: string
 }): string {
-  return `cl.apps.nav.${destinationApp}_${resourceId ?? 'list'}`
+  return `cl.apps.nav.${destinationApp}_${resourceId ?? "list"}`
 }

@@ -1,14 +1,14 @@
-import { type ResourceEndpoint } from '#helpers/resources'
-import { useTokenProvider } from '#providers/TokenProvider'
-import type { CommerceLayerClient } from '@commercelayer/sdk'
-import { useCallback } from 'react'
+import type { CommerceLayerClient } from "@commercelayer/sdk"
+import { useCallback } from "react"
 import useSWR, {
   type Fetcher,
   type SWRConfiguration,
-  type SWRResponse
-} from 'swr'
-import { type ConditionalKeys } from 'type-fest'
-import { useCoreSdkProvider } from '.'
+  type SWRResponse,
+} from "swr"
+import type { ConditionalKeys } from "type-fest"
+import type { ResourceEndpoint } from "#helpers/resources"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { useCoreSdkProvider } from "."
 
 type GenericMethod = (...args: any) => Promise<any>
 
@@ -45,33 +45,33 @@ export function useCoreApi<
   Method extends ForceToBeMethod<CommerceLayerClient[Resource][Action]>,
   Args extends Parameters<Method>,
   Output extends Awaited<ReturnType<Method>>,
-  SWROptions extends SWRConfiguration<Output, any, Fetcher<Output>>
+  SWROptions extends SWRConfiguration<Output, any, Fetcher<Output>>,
 >(
   resource: Resource,
   action: Action,
   args: Args | null,
-  config?: SWROptions
+  config?: SWROptions,
 ): SWRResponse<Output, any, SWROptions> {
   const { sdkClient } = useCoreSdkProvider()
   const {
-    settings: { mode }
+    settings: { mode },
   } = useTokenProvider()
 
   const fetcher = useCallback(
     async ([resource, action, args]: [
       resource: Resource,
       action: Action,
-      args: Args
+      args: Args,
     ]): Promise<Output> => {
       // @ts-expect-error I don't know how to fix it :(
       return sdkClient[resource][action](...args)
     },
-    [sdkClient]
+    [sdkClient],
   )
 
   return useSWR(
     args !== null ? [resource, action, args, mode] : null,
     fetcher,
-    config ?? {}
+    config ?? {},
   )
 }

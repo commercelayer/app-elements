@@ -30,8 +30,7 @@
     "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
     "build:tailwind-cfg": "cp ./tailwind.config.cjs ./dist/tailwind.config.js",
     "build:css-vendor": "pnpm exec tailwindcss -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
-    "lint": "eslint src --ext .ts,.tsx",
-    "lint:fix": "eslint src --ext .ts,.tsx --fix",
+    "lint:fix": "pnpm biome check --write",
     "test": "vitest run",
     "test:watch": "vitest",
     "ts:check": "tsc --noEmit",
@@ -71,7 +70,6 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
-    "@commercelayer/eslint-config-ts-react": "^2.2.0",
     "@hookform/resolvers": "^3.10.0",
     "@phosphor-icons/react": "v2.1.10",
     "@tailwindcss/forms": "^0.5.10",
@@ -86,7 +84,6 @@
     "cross-fetch": "^4.1.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
-    "eslint": "^8.57.1",
     "jsdom": "^26.1.0",
     "msw": "^2.10.4",
     "postcss": "^8.5.6",

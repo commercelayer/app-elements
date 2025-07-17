@@ -1,99 +1,99 @@
-import { act, fireEvent, render, waitFor } from '@testing-library/react'
+import { act, fireEvent, render, waitFor } from "@testing-library/react"
 import {
   PageHeadingToolbar,
-  type PageHeadingToolbarProps
-} from './PageHeadingToolbar'
+  type PageHeadingToolbarProps,
+} from "./PageHeadingToolbar"
 
 const buttons = [
   {
-    label: 'Primary',
-    size: 'small',
+    label: "Primary",
+    size: "small",
     onClick: () => {
-      console.log('Primary')
-    }
+      console.log("Primary")
+    },
   },
   {
-    label: 'Secondary',
-    icon: 'pulse',
-    variant: 'secondary',
-    size: 'small',
+    label: "Secondary",
+    icon: "pulse",
+    variant: "secondary",
+    size: "small",
     onClick: () => {
-      console.log('Secondary')
-    }
-  }
-] satisfies PageHeadingToolbarProps['buttons']
+      console.log("Secondary")
+    },
+  },
+] satisfies PageHeadingToolbarProps["buttons"]
 
 const dropdownItems = [
   [
     {
-      label: 'Edit',
+      label: "Edit",
       onClick: () => {
-        console.log('Edit')
-      }
+        console.log("Edit")
+      },
     },
     {
-      label: 'Set metadata',
+      label: "Set metadata",
       onClick: () => {
-        console.log('Set metadata')
-      }
-    }
+        console.log("Set metadata")
+      },
+    },
   ],
   [
     {
-      label: 'Delete',
+      label: "Delete",
       onClick: () => {
-        console.log('Delete')
-      }
-    }
-  ]
-] satisfies PageHeadingToolbarProps['dropdownItems']
+        console.log("Delete")
+      },
+    },
+  ],
+] satisfies PageHeadingToolbarProps["dropdownItems"]
 
-describe('PageHeadingToolbar', () => {
-  it('Should not be rendered', () => {
+describe("PageHeadingToolbar", () => {
+  it("Should not be rendered", () => {
     const { queryByTestId } = render(<PageHeadingToolbar />)
-    expect(queryByTestId('toolbar')).not.toBeInTheDocument()
+    expect(queryByTestId("toolbar")).not.toBeInTheDocument()
   })
 
-  it('Should render items', async () => {
+  it("Should render items", async () => {
     const { queryAllByTestId, queryByTestId, getByText } = render(
-      <PageHeadingToolbar buttons={buttons} dropdownItems={dropdownItems} />
+      <PageHeadingToolbar buttons={buttons} dropdownItems={dropdownItems} />,
     )
 
-    expect(queryAllByTestId('toolbar-button').length).toEqual(2)
-    expect(queryAllByTestId('toolbar-dropdown-button').length).toEqual(1)
-    expect(queryByTestId('toolbar-dropdown-button')).not.toHaveClass(
-      'md:hidden'
+    expect(queryAllByTestId("toolbar-button").length).toEqual(2)
+    expect(queryAllByTestId("toolbar-dropdown-button").length).toEqual(1)
+    expect(queryByTestId("toolbar-dropdown-button")).not.toHaveClass(
+      "md:hidden",
     )
-    const dropDownButton = queryByTestId('toolbar-dropdown-button')
+    const dropDownButton = queryByTestId("toolbar-dropdown-button")
     if (dropDownButton != null) {
       act(() => {
         fireEvent.click(dropDownButton)
       })
       await waitFor(() => {
-        expect(getByText('Edit')).toBeInTheDocument()
-        expect(getByText('Set metadata')).toBeInTheDocument()
-        expect(getByText('Delete')).toBeInTheDocument()
+        expect(getByText("Edit")).toBeInTheDocument()
+        expect(getByText("Set metadata")).toBeInTheDocument()
+        expect(getByText("Delete")).toBeInTheDocument()
       })
     }
   })
 
-  it('Should not display the dropdown button when empty', async () => {
+  it("Should not display the dropdown button when empty", async () => {
     const { queryAllByTestId } = render(
       <PageHeadingToolbar
         buttons={[
           {
-            label: 'Primary',
-            size: 'small',
+            label: "Primary",
+            size: "small",
             onClick: () => {
-              console.log('Primary')
-            }
-          }
+              console.log("Primary")
+            },
+          },
         ]}
         dropdownItems={[[]]}
-      />
+      />,
     )
 
-    expect(queryAllByTestId('toolbar-button').length).toEqual(1)
-    expect(queryAllByTestId('toolbar-dropdown-button').length).toEqual(0)
+    expect(queryAllByTestId("toolbar-button").length).toEqual(1)
+    expect(queryAllByTestId("toolbar-dropdown-button").length).toEqual(0)
   })
 })

@@ -1,4 +1,4 @@
-import { type FC } from 'react'
+import type { FC } from "react"
 
 export interface DropdownDividerProps
   extends React.HTMLAttributes<HTMLElement> {
@@ -10,10 +10,10 @@ export const DropdownDivider: FC<DropdownDividerProps> = ({
   ...rest
 }) => {
   return (
-    <div {...rest} className='h-px my-2'>
-      <hr className='border-gray-600' />
+    <div {...rest} className="h-px my-2">
+      <hr className="border-gray-600" />
     </div>
   )
 }
 
-DropdownDivider.displayName = 'DropdownDivider'
+DropdownDivider.displayName = "DropdownDivider"

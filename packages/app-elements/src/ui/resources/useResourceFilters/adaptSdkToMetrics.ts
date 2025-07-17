@@ -1,35 +1,35 @@
+import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk"
+import pluralize from "pluralize"
 import {
   makeDateYearsRange,
-  removeMillisecondsFromIsoDate
-} from '#helpers/date'
-import { type FiltersInstructions } from '#ui/resources/useResourceFilters/types'
-import { type ListableResourceType, type QueryFilter } from '@commercelayer/sdk'
-import pluralize from 'pluralize'
+  removeMillisecondsFromIsoDate,
+} from "#helpers/date"
+import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
 
-export type CoreResourceEnabledInMetrics = 'orders' | 'returns'
-type MetricsResource = 'order' | 'return'
+export type CoreResourceEnabledInMetrics = "orders" | "returns"
+type MetricsResource = "order" | "return"
 
 const metricsResourceMapping: Record<
   CoreResourceEnabledInMetrics,
   MetricsResource
 > = {
-  orders: 'order',
-  returns: 'return'
+  orders: "order",
+  returns: "return",
 }
 
 // Relationships that are not part of the main resource, but are part of the filters
-const relationships = ['market', 'tags', 'billing_address', 'shipping_address']
+const relationships = ["market", "tags", "billing_address", "shipping_address"]
 
 /** Record of core api filter operators with relative metrics operator */
 const metricsFiltersMapping = {
-  _eq: 'eq',
-  _not_eq: 'ne',
-  _lt: 'lt',
-  _lteq: 'lte',
-  _gt: 'gt',
-  _gteq: 'gte',
-  _in: 'in',
-  _not_in: 'not_in'
+  _eq: "eq",
+  _not_eq: "ne",
+  _lt: "lt",
+  _lteq: "lte",
+  _gt: "gt",
+  _gteq: "gte",
+  _in: "in",
+  _not_in: "not_in",
 } as const
 
 type CoreFilterOperator = keyof typeof metricsFiltersMapping
@@ -61,20 +61,20 @@ export function adaptSdkToMetrics({
   sdkFilters,
   resourceType,
   instructions,
-  predicateWhitelist = []
+  predicateWhitelist = [],
 }: AdaptSdkToMetricsParams): MetricsFilters {
   if (!isValidResourceForMetrics(resourceType)) {
     console.warn(
-      'The Resource you are listing is not enabled in Metrics API',
-      resourceType
+      "The Resource you are listing is not enabled in Metrics API",
+      resourceType,
     )
     return {}
   }
 
   const mainResource = metricsResourceMapping[resourceType]
   const defaultDatePredicate =
-    instructions.find((item) => item.type === 'timeRange')?.sdk.predicate ??
-    'created_at'
+    instructions.find((item) => item.type === "timeRange")?.sdk.predicate ??
+    "created_at"
 
   // separate relationships from main resource filters
   const regroupedFilters = Object.entries(sdkFilters).reduce<{
@@ -89,7 +89,7 @@ export function adaptSdkToMetrics({
   }>(
     (acc, [key, value]) => {
       const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key
+        (item) => item.sdk.predicate === key,
       )
 
       if (
@@ -105,8 +105,8 @@ export function adaptSdkToMetrics({
           ...acc,
           rel: {
             ...acc.rel,
-            [key]: value
-          }
+            [key]: value,
+          },
         }
       }
 
@@ -114,7 +114,7 @@ export function adaptSdkToMetrics({
       // only supporting one between `updated_at` and `created_at`,
       // if both are included we use the last one found
       if (key.startsWith(defaultDatePredicate)) {
-        const dateField = `${key.split('_at_')[0]}_at`
+        const dateField = `${key.split("_at_")[0]}_at`
         const dateFrom =
           sdkFilters[`${dateField}_gteq`] ?? sdkFilters[`${dateField}_gt`]
         const dateTo =
@@ -125,8 +125,8 @@ export function adaptSdkToMetrics({
         if (
           dateFrom == null ||
           dateTo == null ||
-          typeof dateFrom !== 'string' ||
-          typeof dateTo !== 'string'
+          typeof dateFrom !== "string" ||
+          typeof dateTo !== "string"
         ) {
           // we don't have a valid date range
           return acc
@@ -137,15 +137,15 @@ export function adaptSdkToMetrics({
           date: {
             from: removeMillisecondsFromIsoDate(dateFrom),
             to: removeMillisecondsFromIsoDate(dateTo),
-            field: dateField
-          }
+            field: dateField,
+          },
         }
       }
 
-      if (key === 'aggregated_details' && typeof value === 'string') {
+      if (key === "aggregated_details" && typeof value === "string") {
         return {
           ...acc,
-          aggregatedDetails: value
+          aggregatedDetails: value,
         }
       }
 
@@ -153,11 +153,11 @@ export function adaptSdkToMetrics({
         ...acc,
         main: {
           ...acc.main,
-          [key]: value
-        }
+          [key]: value,
+        },
       }
     },
-    { main: {}, rel: {} }
+    { main: {}, rel: {} },
   )
 
   const filterValueMainResource = Object.entries(regroupedFilters.main).reduce(
@@ -165,10 +165,10 @@ export function adaptSdkToMetrics({
       const coreOperator = getCoreOperator(key)
 
       // special case for archived that has no operator
-      if (key === 'archived' && value != null) {
+      if (key === "archived" && value != null) {
         return {
           ...metricsFilters,
-          archived: value
+          archived: value,
         }
       }
 
@@ -176,8 +176,8 @@ export function adaptSdkToMetrics({
         return metricsFilters
       }
 
-      const coreAttribute = key.replace(coreOperator, '')
-      const isPlural = key.endsWith('_in') && typeof value === 'string'
+      const coreAttribute = key.replace(coreOperator, "")
+      const isPlural = key.endsWith("_in") && typeof value === "string"
       const metricsAttribute = isPlural
         ? pluralizePredicate(coreAttribute)
         : coreAttribute
@@ -187,11 +187,11 @@ export function adaptSdkToMetrics({
       return {
         ...metricsFilters,
         [metricsAttribute]: {
-          [metricsOperator]: isPlural ? value.split(',') : value
-        }
+          [metricsOperator]: isPlural ? value.split(",") : value,
+        },
       }
     },
-    {}
+    {},
   )
 
   const filterValueRelResource = Object.entries(regroupedFilters.rel).reduce(
@@ -202,16 +202,16 @@ export function adaptSdkToMetrics({
         return metricsRelFilters
       }
 
-      const coreResourceRelParts = key.replace(coreOperator, '').split('_') // ['billing', 'address', 'id']
+      const coreResourceRelParts = key.replace(coreOperator, "").split("_") // ['billing', 'address', 'id']
       const coreAttribute = coreResourceRelParts.pop() // id
-      const coreResourceRel = coreResourceRelParts.join('_') // billing_address
+      const coreResourceRel = coreResourceRelParts.join("_") // billing_address
 
       if (coreAttribute == null) {
         return metricsRelFilters
       }
 
       const metricsOperator = metricsFiltersMapping[coreOperator]
-      const isPlural = key.endsWith('_in') && typeof value === 'string'
+      const isPlural = key.endsWith("_in") && typeof value === "string"
       const metricsAttribute = isPlural
         ? pluralizePredicate(coreAttribute)
         : coreAttribute
@@ -220,20 +220,20 @@ export function adaptSdkToMetrics({
         ...metricsRelFilters,
         [coreResourceRel]: {
           [metricsAttribute]: {
-            [metricsOperator]: isPlural ? value.split(',') : value
-          }
-        }
+            [metricsOperator]: isPlural ? value.split(",") : value,
+          },
+        },
       }
     },
-    {}
+    {},
   )
 
   const filterAggregatedDetails =
     regroupedFilters.aggregatedDetails != null
       ? {
           aggregated_details: {
-            query: regroupedFilters.aggregatedDetails
-          }
+            query: regroupedFilters.aggregatedDetails,
+          },
         }
       : {}
 
@@ -242,7 +242,7 @@ export function adaptSdkToMetrics({
       ? {
           date_from: regroupedFilters.date.from,
           date_to: regroupedFilters.date.to,
-          date_field: regroupedFilters.date.field
+          date_field: regroupedFilters.date.field,
         }
       : {
           // default date range for metrics, when no custom date range is set, is 1 year
@@ -251,28 +251,28 @@ export function adaptSdkToMetrics({
             now: new Date(),
             showMilliseconds: false,
             yearsAgo:
-              ('archived' in filterValueMainResource &&
+              ("archived" in filterValueMainResource &&
                 filterValueMainResource.archived === true) ||
               regroupedFilters.aggregatedDetails != null
                 ? 5
-                : 1
+                : 1,
           }),
-          date_field: defaultDatePredicate
+          date_field: defaultDatePredicate,
         }
 
   // In our definition of filters components the amount range is always in cents and linked to a currency code.
   // In fact the filter instructions expect an item of type `currencyRange`.
   // The following block adapts this logic to the metrics API where the amount is in float and the currency is always a plural `in` operator
   const instructionItemsCurrencyRange = instructions.filter(
-    (item) => item.type === 'currencyRange'
+    (item) => item.type === "currencyRange",
   )
   const filterCurrencyRange = instructionItemsCurrencyRange.reduce(
     (acc, item) => {
       // defining which operator is used in the sdk core filters
       const coreOperatorFrom =
-        sdkFilters[`${item.sdk.predicate}_gteq`] != null ? '_gteq' : '_gt'
+        sdkFilters[`${item.sdk.predicate}_gteq`] != null ? "_gteq" : "_gt"
       const coreOperatorTo =
-        sdkFilters[`${item.sdk.predicate}_lteq`] != null ? '_lteq' : '_lt'
+        sdkFilters[`${item.sdk.predicate}_lteq`] != null ? "_lteq" : "_lt"
 
       // getting relative metrics operators
       const metricsOperatorFrom = metricsFiltersMapping[coreOperatorFrom]
@@ -281,15 +281,15 @@ export function adaptSdkToMetrics({
       // metrics api has values as float, so we need to convert the cents to float if our sdk predicate is in cents
       const rangeFrom = parseMetricsAmountValue({
         value: sdkFilters[`${item.sdk.predicate}${coreOperatorFrom}`],
-        sdkPredicate: item.sdk.predicate
+        sdkPredicate: item.sdk.predicate,
       })
       const rangeTo = parseMetricsAmountValue({
         value: sdkFilters[`${item.sdk.predicate}${coreOperatorTo}`],
-        sdkPredicate: item.sdk.predicate
+        sdkPredicate: item.sdk.predicate,
       })
       const metricsPredicate = item.sdk.predicate
-        .replace('_cents', '')
-        .replace('_float', '')
+        .replace("_cents", "")
+        .replace("_float", "")
 
       if (rangeFrom == null && rangeTo == null) {
         return acc
@@ -303,8 +303,8 @@ export function adaptSdkToMetrics({
               // Example: { gte_lte: [10.3, 30.1] }
               [`${metricsOperatorFrom}_${metricsOperatorTo}`]: [
                 rangeFrom,
-                rangeTo
-              ]
+                rangeTo,
+              ],
             }
           : rangeFrom != null
             ? { [metricsOperatorFrom]: rangeFrom }
@@ -314,18 +314,18 @@ export function adaptSdkToMetrics({
         sdkFilters.currency_code_eq != null
           ? {
               currency_codes: {
-                in: [sdkFilters.currency_code_eq]
-              }
+                in: [sdkFilters.currency_code_eq],
+              },
             }
           : {}
 
       return {
         ...acc,
         ...currencyCode,
-        [metricsPredicate]: metricsValue
+        [metricsPredicate]: metricsValue,
       }
     },
-    {}
+    {},
   )
 
   return {
@@ -333,27 +333,27 @@ export function adaptSdkToMetrics({
       ...filterValueMainResource,
       ...filterAggregatedDetails,
       ...filterDate,
-      ...filterCurrencyRange
+      ...filterCurrencyRange,
     },
-    ...filterValueRelResource
+    ...filterValueRelResource,
   }
 }
 
 function pluralizePredicate(predicate: string): string {
-  const parts = predicate.split('_')
+  const parts = predicate.split("_")
   const last = parts.pop()
 
   if (last == null) {
     return predicate
   }
-  return [...parts, pluralize(last)].join('_')
+  return [...parts, pluralize(last)].join("_")
 }
 
 function getCoreOperator(
-  coreSdkFilterPredicate: string
+  coreSdkFilterPredicate: string,
 ): CoreFilterOperator | undefined {
   const coreFiltersOperators = Object.keys(metricsFiltersMapping)
-  const regexp = new RegExp(`(?<matcher>${coreFiltersOperators.join('|')})$`)
+  const regexp = new RegExp(`(?<matcher>${coreFiltersOperators.join("|")})$`)
   const matcher = coreSdkFilterPredicate.match(regexp)?.groups?.matcher as
     | CoreFilterOperator
     | undefined
@@ -361,10 +361,10 @@ function getCoreOperator(
 }
 
 function isValidResourceForMetrics(
-  resourceType: ListableResourceType
+  resourceType: ListableResourceType,
 ): resourceType is CoreResourceEnabledInMetrics {
   return Object.keys(metricsResourceMapping).includes(
-    resourceType as CoreResourceEnabledInMetrics
+    resourceType as CoreResourceEnabledInMetrics,
   )
 }
 
@@ -375,16 +375,16 @@ function isValidResourceForMetrics(
  */
 function parseMetricsAmountValue({
   sdkPredicate,
-  value
+  value,
 }: {
   sdkPredicate: string
   value?: QueryFilter[keyof QueryFilter]
 }): number | undefined {
-  if (typeof value !== 'string' && typeof value !== 'number') {
+  if (typeof value !== "string" && typeof value !== "number") {
     return undefined
   }
 
-  if (sdkPredicate.endsWith('_cents')) {
+  if (sdkPredicate.endsWith("_cents")) {
     return parseInt(`${value}`, 10) / 100
   }
 

@@ -1,6 +1,6 @@
-import { InputFeedback } from '#ui/forms/InputFeedback'
-import { type JSX } from 'react'
-import { useValidationFeedback } from './useValidationFeedback'
+import type { JSX } from "react"
+import { InputFeedback } from "#ui/forms/InputFeedback"
+import { useValidationFeedback } from "./useValidationFeedback"
 
 interface Props {
   /**
@@ -14,4 +14,4 @@ export function HookedValidationError({ name }: Props): JSX.Element | null {
   return feedback != null ? <InputFeedback {...feedback} /> : null
 }
 
-HookedValidationError.displayName = 'HookedValidationError'
+HookedValidationError.displayName = "HookedValidationError"

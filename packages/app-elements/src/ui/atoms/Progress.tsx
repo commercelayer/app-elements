@@ -1,4 +1,4 @@
-import cn from 'classnames'
+import cn from "classnames"
 
 export interface ProgressProps
   extends React.ProgressHTMLAttributes<HTMLProgressElement> {
@@ -21,7 +21,7 @@ export interface ProgressProps
    * - `percentage` - Display the completion status as a percentage
    * - `none` - Do not display the completion
    */
-  displayMode?: 'fraction' | 'percentage' | 'none'
+  displayMode?: "fraction" | "percentage" | "none"
   children: React.ReactNode
 }
 
@@ -36,13 +36,13 @@ export const Progress: React.FC<ProgressProps> = ({
   value,
   children,
   className,
-  displayMode = 'fraction',
+  displayMode = "fraction",
   ...rest
 }) => {
   return (
-    <div className='flex items-center gap-3'>
+    <div className="flex items-center gap-3">
       <progress
-        className={cn('progress', className)}
+        className={cn("progress", className)}
         max={max}
         value={value}
         {...rest}
@@ -51,22 +51,22 @@ export const Progress: React.FC<ProgressProps> = ({
       </progress>
 
       {value != null && (
-        <span className='flex-nowrap text-gray-400 text-xs font-extrabold relative'>
-          {displayMode === 'fraction' ? (
+        <span className="flex-nowrap text-gray-400 text-xs font-extrabold relative">
+          {displayMode === "fraction" ? (
             <>
-              <span className='absolute right-0'>
+              <span className="absolute right-0">
                 {value}/{max}
               </span>
-              <span className='invisible' aria-hidden='true'>
+              <span className="invisible" aria-hidden="true">
                 {max}/{max}
               </span>
             </>
-          ) : displayMode === 'percentage' ? (
+          ) : displayMode === "percentage" ? (
             <>
-              <span className='absolute right-0'>
+              <span className="absolute right-0">
                 {Math.round((value / max) * 100)}%
               </span>
-              <span className='invisible' aria-hidden='true'>
+              <span className="invisible" aria-hidden="true">
                 100%
               </span>
             </>
@@ -77,4 +77,4 @@ export const Progress: React.FC<ProgressProps> = ({
   )
 }
 
-Progress.displayName = 'Progress'
+Progress.displayName = "Progress"

@@ -1,21 +1,21 @@
-import { type Attachment } from '@commercelayer/sdk'
-import isEmpty from 'lodash-es/isEmpty'
-import { type SetNonNullable, type SetRequired } from 'type-fest'
+import type { Attachment } from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
+import type { SetNonNullable, SetRequired } from "type-fest"
 
 export const referenceOrigins = {
-  appOrdersNote: 'app-orders--note',
-  appOrdersRefundNote: 'app-orders--refund-note',
-  appShipmentsNote: 'app-shipments--note'
+  appOrdersNote: "app-orders--note",
+  appOrdersRefundNote: "app-orders--refund-note",
+  appShipmentsNote: "app-shipments--note",
 } as const
 
 export function isAttachmentValidNote(
   attachment: Attachment,
   validReferenceOrigins: Array<
     (typeof referenceOrigins)[keyof typeof referenceOrigins]
-  >
+  >,
 ): attachment is SetNonNullable<
-  SetRequired<Attachment, 'description' | 'reference_origin'>,
-  'description' | 'reference_origin'
+  SetRequired<Attachment, "description" | "reference_origin">,
+  "description" | "reference_origin"
 > {
   if (
     attachment.reference_origin == null ||
@@ -26,7 +26,7 @@ export function isAttachmentValidNote(
 
   return (
     validReferenceOrigins.includes(
-      attachment.reference_origin as (typeof validReferenceOrigins)[number]
+      attachment.reference_origin as (typeof validReferenceOrigins)[number],
     ) && attachment.description != null
   )
 }

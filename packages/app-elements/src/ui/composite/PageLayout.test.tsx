@@ -1,7 +1,7 @@
-import { render, type RenderResult } from '@testing-library/react'
-import { PageLayout, type PageLayoutProps } from './PageLayout'
+import { type RenderResult, render } from "@testing-library/react"
+import { PageLayout, type PageLayoutProps } from "./PageLayout"
 
-interface SetupProps extends Omit<PageLayoutProps, 'children'> {
+interface SetupProps extends Omit<PageLayoutProps, "children"> {
   id: string
 }
 
@@ -13,31 +13,31 @@ const setup = ({ id, ...rest }: SetupProps): SetupResult => {
   const utils = render(
     <PageLayout data-testid={id} {...rest}>
       <div>Content...</div>
-    </PageLayout>
+    </PageLayout>,
   )
   const element = utils.getByTestId(id)
   return {
     element,
-    ...utils
+    ...utils,
   }
 }
 
-describe('PageLayout', () => {
-  test('Should be rendered', () => {
+describe("PageLayout", () => {
+  test("Should be rendered", () => {
     const { element } = setup({
-      title: 'Page title',
-      id: 'my-page'
+      title: "Page title",
+      id: "my-page",
     })
     expect(element).toBeInTheDocument()
     expect(element).toMatchSnapshot()
   })
 
-  test('Should render test mode badge', () => {
+  test("Should render test mode badge", () => {
     const { getByText } = setup({
-      title: 'Page title',
-      id: 'my-page',
-      mode: 'test'
+      title: "Page title",
+      id: "my-page",
+      mode: "test",
     })
-    expect(getByText('TEST DATA')).toBeInTheDocument()
+    expect(getByText("TEST DATA")).toBeInTheDocument()
   })
 })

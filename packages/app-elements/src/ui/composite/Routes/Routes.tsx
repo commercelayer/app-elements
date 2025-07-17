@@ -1,19 +1,19 @@
-import { formatResourceName } from '#helpers/resources'
-import { useTokenProvider } from '#providers/TokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { EmptyState } from '#ui/atoms/EmptyState'
-import { SkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { PageLayout } from '#ui/composite/PageLayout'
-import { type ListableResourceType } from '@commercelayer/sdk'
-import { type JSX, Suspense, lazy } from 'react'
-import { useTranslation } from 'react-i18next'
-import type { SetRequired } from 'type-fest'
+import type { ListableResourceType } from "@commercelayer/sdk"
+import { type JSX, lazy, Suspense } from "react"
+import { useTranslation } from "react-i18next"
+import type { SetRequired } from "type-fest"
 import type {
   RouteComponentProps,
-  RouteProps as WouterRouteProps
-} from 'wouter'
-import { Switch, Route as WouterRoute, useLocation } from 'wouter'
-import { type GetParams } from './utils'
+  RouteProps as WouterRouteProps,
+} from "wouter"
+import { Switch, useLocation, Route as WouterRoute } from "wouter"
+import { formatResourceName } from "#helpers/resources"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { EmptyState } from "#ui/atoms/EmptyState"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { PageLayout } from "#ui/composite/PageLayout"
+import type { GetParams } from "./utils"
 
 /**
  * Renders the Switch component to conditionally render a route based on the current path
@@ -44,7 +44,7 @@ import { type GetParams } from './utils'
  */
 export function Routes<T extends Record<string, { path: string }>>({
   routes,
-  list
+  list,
 }: {
   /** Object of available app routes build using the `createRoute` helper method */
   routes: T
@@ -66,7 +66,7 @@ export function Routes<T extends Record<string, { path: string }>>({
 
         if (route?.path == null) {
           throw new Error(
-            'Missing configuration when defining <Routes routes=".." list=".." />'
+            'Missing configuration when defining <Routes routes=".." list=".." />',
           )
         }
 
@@ -89,7 +89,7 @@ function Route({
   path,
   component: Component,
   ...rest
-}: SetRequired<WouterRouteProps<any>, 'component'> & {
+}: SetRequired<WouterRouteProps<any>, "component"> & {
   overlay?: boolean
 }): React.ReactNode {
   return (
@@ -106,23 +106,23 @@ function Route({
 }
 
 export function LoadingPage({
-  overlay = false
+  overlay = false,
 }: {
   overlay?: boolean
 }): JSX.Element {
   const {
-    settings: { mode }
+    settings: { mode },
   } = useTokenProvider()
 
   return (
-    <div style={overlay ? { backgroundColor: '#F5F5F5' } : undefined}>
+    <div style={overlay ? { backgroundColor: "#F5F5F5" } : undefined}>
       <SkeletonTemplate isLoading>
         <PageLayout
           title={
             <SkeletonTemplate isLoading>Loading app page...</SkeletonTemplate>
           }
           mode={mode}
-          gap='only-top'
+          gap="only-top"
         >
           <div />
         </PageLayout>
@@ -136,7 +136,7 @@ export function LoadingPage({
  * When empty it will render a generic page not found message.
  */
 export function GenericPageNotFound({
-  resource
+  resource,
 }: {
   resource?: ListableResourceType
 }): JSX.Element {
@@ -144,36 +144,36 @@ export function GenericPageNotFound({
   const { t } = useTranslation()
 
   return (
-    <PageLayout title=''>
+    <PageLayout title="">
       <EmptyState
         title={
           resource == null
-            ? t('common.routes.page_not_found')
-            : t('common.routes.invalid_resource', {
+            ? t("common.routes.page_not_found")
+            : t("common.routes.invalid_resource", {
                 resource: formatResourceName({
                   resource,
-                  count: 'singular'
-                })
+                  count: "singular",
+                }),
               })
         }
         description={
           resource == null
-            ? t('common.routes.we_could_not_find_page')
-            : t('common.routes.we_could_not_find_resource', {
+            ? t("common.routes.we_could_not_find_page")
+            : t("common.routes.we_could_not_find_resource", {
                 resource: formatResourceName({
                   resource,
-                  count: 'singular'
-                })
+                  count: "singular",
+                }),
               })
         }
         action={
           <Button
-            size='regular'
+            size="regular"
             onClick={() => {
-              setLocation('/')
+              setLocation("/")
             }}
           >
-            {t('common.routes.go_home')}
+            {t("common.routes.go_home")}
           </Button>
         }
       />
@@ -191,5 +191,5 @@ export function GenericPageNotFound({
 export type PageProps<
   Route extends {
     makePath: (...arg: any[]) => string
-  }
+  },
 > = RouteComponentProps<GetParams<Route>> & { overlay?: boolean }

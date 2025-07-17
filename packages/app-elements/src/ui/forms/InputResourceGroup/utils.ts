@@ -1,8 +1,8 @@
-import {
-  type CommerceLayerClient,
-  type ListableResourceType
-} from '@commercelayer/sdk'
-import { useState } from 'react'
+import type {
+  CommerceLayerClient,
+  ListableResourceType,
+} from "@commercelayer/sdk"
+import { useState } from "react"
 
 export function useToggleCheckboxValues(defaultValues: string[]): {
   values: string[]
@@ -22,7 +22,7 @@ export function useToggleCheckboxValues(defaultValues: string[]): {
   return {
     values: state,
     toggleValue: toggle,
-    setValues: setState
+    setValues: setState,
   }
 }
 
@@ -39,7 +39,7 @@ export function useToggleCheckboxValues(defaultValues: string[]): {
 export function computeLabelWithSelected({
   label,
   selectedCount,
-  totalCount
+  totalCount,
 }: {
   label: string
   selectedCount: number
@@ -55,7 +55,7 @@ export function computeLabelWithSelected({
 }
 
 type Resource = Awaited<
-  ReturnType<CommerceLayerClient[ListableResourceType]['list']>
+  ReturnType<CommerceLayerClient[ListableResourceType]["list"]>
 >[number]
 
 /**
@@ -65,7 +65,7 @@ export function prepareCheckboxItemOrMock({
   resource,
   isLoading,
   fieldForLabel,
-  fieldForValue
+  fieldForValue,
 }: {
   resource?: Resource
   isLoading?: boolean
@@ -74,18 +74,18 @@ export function prepareCheckboxItemOrMock({
 }): { value: string; label: string } {
   const getAttribute = (attribute: string): string =>
     resource == null
-      ? ''
-      : ((resource[attribute as keyof Resource] ?? '') as string)
+      ? ""
+      : ((resource[attribute as keyof Resource] ?? "") as string)
 
   return isLoading === true || resource == null
     ? // mock
       {
-        value: '',
-        label: 'Commerce Layer'
+        value: "",
+        label: "Commerce Layer",
       }
     : // real
       {
         value: getAttribute(fieldForValue),
-        label: getAttribute(fieldForLabel)
+        label: getAttribute(fieldForLabel),
       }
 }

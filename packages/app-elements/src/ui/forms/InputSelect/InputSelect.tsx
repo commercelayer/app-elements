@@ -1,25 +1,25 @@
-import { t } from '#providers/I18NProvider'
+import { type FocusEventHandler, forwardRef } from "react"
+import type {
+  GroupBase,
+  MultiValue,
+  Options,
+  SelectInstance,
+  SingleValue,
+} from "react-select"
+import { t } from "#providers/I18NProvider"
 import {
   InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import { forwardRef, type FocusEventHandler } from 'react'
-import {
-  type GroupBase,
-  type MultiValue,
-  type Options,
-  type SelectInstance,
-  type SingleValue
-} from 'react-select'
-import { AsyncSelectComponent } from './AsyncComponent'
-import { AsyncCreatableSelectComponent } from './AsyncCreatableComponent'
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
+import { AsyncSelectComponent } from "./AsyncComponent"
+import { AsyncCreatableSelectComponent } from "./AsyncCreatableComponent"
 import {
   CreatableComponent,
-  type CreatableComponentProps
-} from './CreatableComponent'
-import { type GenericAsyncSelectComponentProps } from './GenericAsyncComponent'
-import { SelectComponent, type SelectComponentProps } from './SelectComponent'
-import { getSelectStyles } from './styles'
+  type CreatableComponentProps,
+} from "./CreatableComponent"
+import type { GenericAsyncSelectComponentProps } from "./GenericAsyncComponent"
+import { SelectComponent, type SelectComponentProps } from "./SelectComponent"
+import { getSelectStyles } from "./styles"
 
 export type GroupedSelectValues = Array<{
   label?: string
@@ -83,7 +83,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   isOptionDisabled?: (
     option: InputSelectValue,
-    selectValue: Options<InputSelectValue>
+    selectValue: Options<InputSelectValue>,
   ) => boolean
   /**
    * Callback triggered when a value is selected.
@@ -117,7 +117,7 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    * Function to load async values on search
    */
   loadAsyncValues?: (
-    inputValue: string
+    inputValue: string,
   ) => Promise<GroupedSelectValues | InputSelectValue[]>
   /**
    * Optional text to display at the bottom of the dropdown menu
@@ -161,7 +161,7 @@ export const InputSelect = forwardRef<
       value,
       isClearable,
       isLoading,
-      loadingText = t('common.loading'),
+      loadingText = t("common.loading"),
       placeholder,
       isDisabled,
       isOptionDisabled,
@@ -173,12 +173,12 @@ export const InputSelect = forwardRef<
       className,
       loadAsyncValues,
       debounceMs,
-      noOptionsMessage = t('common.no_results_found'),
+      noOptionsMessage = t("common.no_results_found"),
       menuFooterText,
       isCreatable,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const commonProps:
       | GenericAsyncSelectComponentProps
@@ -197,7 +197,7 @@ export const InputSelect = forwardRef<
       onBlur,
       name,
       styles: getSelectStyles(feedback?.variant),
-      menuFooterText
+      menuFooterText,
     }
 
     return (
@@ -244,7 +244,7 @@ export const InputSelect = forwardRef<
         )}
       </InputWrapper>
     )
-  }
+  },
 )
 
-InputSelect.displayName = 'InputSelect'
+InputSelect.displayName = "InputSelect"

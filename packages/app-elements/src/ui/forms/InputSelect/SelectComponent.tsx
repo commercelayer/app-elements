@@ -1,14 +1,14 @@
-import { forwardRef } from 'react'
+import { forwardRef } from "react"
 import Select, {
   type GroupBase,
   type SelectInstance,
-  type StylesConfig
-} from 'react-select'
-import { type InputSelectProps, type InputSelectValue } from './InputSelect'
-import components from './overrides'
+  type StylesConfig,
+} from "react-select"
+import type { InputSelectProps, InputSelectValue } from "./InputSelect"
+import components from "./overrides"
 
 export interface SelectComponentProps
-  extends Omit<InputSelectProps, 'loadAsyncValues' | 'label' | 'hint'> {
+  extends Omit<InputSelectProps, "loadAsyncValues" | "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
 }
 
@@ -18,7 +18,7 @@ export const SelectComponent = forwardRef<
 >(
   (
     { onSelect, noOptionsMessage, isOptionDisabled, initialValues, ...rest },
-    ref
+    ref,
   ) => {
     return (
       <Select
@@ -32,7 +32,7 @@ export const SelectComponent = forwardRef<
         components={components}
       />
     )
-  }
+  },
 )
 
-SelectComponent.displayName = 'SelectComponent'
+SelectComponent.displayName = "SelectComponent"

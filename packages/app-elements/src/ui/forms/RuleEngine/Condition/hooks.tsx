@@ -1,6 +1,6 @@
-import { atPath } from '#ui/forms/CodeEditor/fetchCoreResourcesSuggestions'
-import { useEffect, useState } from 'react'
-import { type SchemaConditionItem } from '../utils'
+import { useEffect, useState } from "react"
+import { atPath } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
+import type { SchemaConditionItem } from "../utils"
 
 export function useResourcePathInfos(item: SchemaConditionItem | null): {
   infos: Awaited<ReturnType<typeof atPath>> | undefined
@@ -16,7 +16,7 @@ export function useResourcePathInfos(item: SchemaConditionItem | null): {
           setInfos(result)
         })
         .catch((error) => {
-          console.error('Error fetching field info:', error)
+          console.error("Error fetching field info:", error)
         })
     }
   }, [item?.field])

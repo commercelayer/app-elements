@@ -1,15 +1,14 @@
-import DatePicker from 'react-datepicker'
-
-import { isDateValid } from '#helpers/date'
+import { TZDateMini as TZDate } from "@date-fns/tz"
+import { CalendarBlankIcon, XIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import { forwardRef, type JSX, useMemo } from "react"
+import DatePicker from "react-datepicker"
+import { isDateValid } from "#helpers/date"
 import {
-  InputWrapper,
   getFeedbackStyle,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
-import { TZDateMini as TZDate } from '@date-fns/tz'
-import { CalendarBlank, X } from '@phosphor-icons/react'
-import cn from 'classnames'
-import { forwardRef, useMemo, type JSX } from 'react'
+  InputWrapper,
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
 
 export type MaybeDate = Date | null
 
@@ -89,7 +88,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       preventOpenOnFocus,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const selectedDateInTimezone = useMemo(() => {
       if (value == null) return null
@@ -106,7 +105,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
         feedback={feedback}
         label={label}
       >
-        <div className='relative w-full'>
+        <div className="relative w-full">
           <DatePicker
             ref={ref}
             selected={selectedDateInTimezone}
@@ -119,45 +118,46 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
             minDate={minDate}
             openToDate={selectedDateInTimezone ?? minDate}
             className={cn(
-              'block w-full px-4 py-2.5 placeholder:text-gray-400 font-medium',
-              'rounded outline-0',
-              'transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light',
+              "block w-full px-4 py-2.5 placeholder:text-gray-400 font-medium",
+              "rounded outline-0",
+              "transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light",
               getFeedbackStyle(feedback),
-              inputClassName
+              inputClassName,
             )}
             preventOpenOnFocus={preventOpenOnFocus}
           />
-          <div className='absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none'>
-            <CalendarBlank />
+          <div className="absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none">
+            <CalendarBlankIcon />
           </div>
           {selectedDateInTimezone != null && isClearable === true ? (
             <button
-              className='absolute top-0 bottom-0 right-11 flex items-center'
+              type="button"
+              className="absolute top-0 bottom-0 right-11 flex items-center"
               onClick={() => {
                 onChange(null)
               }}
             >
-              <X />
+              <XIcon />
             </button>
           ) : null}
         </div>
       </InputWrapper>
     )
-  }
+  },
 )
 
-InputDateComponent.displayName = 'InputDateComponent'
+InputDateComponent.displayName = "InputDateComponent"
 
 function detectDateTimeFormat(showTime: boolean): string {
   const date = new Date(2023, 11, 15) //  15th of December
 
   const dateFormat = date
     .toLocaleDateString()
-    .replace('15', 'dd')
-    .replace('12', 'MM')
-    .replace('2023', 'yyyy')
+    .replace("15", "dd")
+    .replace("12", "MM")
+    .replace("2023", "yyyy")
 
-  const timeFormat = ', h:mm aa'
+  const timeFormat = ", h:mm aa"
 
-  return `${dateFormat}${showTime ? timeFormat : ''}`
+  return `${dateFormat}${showTime ? timeFormat : ""}`
 }

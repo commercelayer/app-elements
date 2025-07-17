@@ -1,20 +1,20 @@
-import { type InputFeedbackProps } from '#ui/forms/InputFeedback'
-import get from 'lodash-es/get'
-import { useFormContext } from 'react-hook-form'
+import get from "lodash-es/get"
+import { useFormContext } from "react-hook-form"
+import type { InputFeedbackProps } from "#ui/forms/InputFeedback"
 
-type MaybeFeedback = Omit<InputFeedbackProps, 'className'> | undefined
+type MaybeFeedback = Omit<InputFeedbackProps, "className"> | undefined
 
 export function useValidationFeedback(name: string): MaybeFeedback {
   const {
-    formState: { errors }
+    formState: { errors },
   } = useFormContext()
   const message = get(errors, name)?.message
-  const hasErrorMessage = message != null && typeof message === 'string'
+  const hasErrorMessage = message != null && typeof message === "string"
 
   if (hasErrorMessage) {
     return {
       message,
-      variant: 'danger'
+      variant: "danger",
     }
   }
 }

@@ -1,9 +1,9 @@
-import cn from 'classnames'
-import { type JSX, type ReactNode } from 'react'
-import { Icon, type IconProps } from './Icon'
+import cn from "classnames"
+import type { JSX, ReactNode } from "react"
+import { Icon, type IconProps } from "./Icon"
 
 export interface HintProps {
-  icon?: IconProps['name']
+  icon?: IconProps["name"]
   className?: string
   children: ReactNode
 }
@@ -15,11 +15,11 @@ export function Hint({
   ...rest
 }: HintProps): JSX.Element {
   return (
-    <div className={cn('flex gap-2 items-center', className)} {...rest}>
+    <div className={cn("flex gap-2 items-center", className)} {...rest}>
       {icon != null && <Icon name={icon} size={24} />}
-      <div className='text-sm font-medium text-gray-500'>{children}</div>
+      <div className="text-sm font-medium text-gray-500">{children}</div>
     </div>
   )
 }
 
-Hint.displayName = 'Hint'
+Hint.displayName = "Hint"

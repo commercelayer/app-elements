@@ -1,46 +1,46 @@
-import { type TokenProviderTokenApplicationKind } from '#providers/TokenProvider'
-import {
-  decodeExtras,
-  getExtrasFromUrl,
-  isValidUser
-} from '#providers/TokenProvider/extras'
-import { extractDomainFromApiBaseEndpoint } from '#providers/TokenProvider/url'
-import { PageError } from '#ui/composite/PageError'
-import { PageSkeleton } from '#ui/composite/PageSkeleton'
-import { getCoreApiBaseEndpoint } from '@commercelayer/js-auth'
-import type { ListableResourceType } from '@commercelayer/sdk'
+import { getCoreApiBaseEndpoint } from "@commercelayer/js-auth"
+import type { ListableResourceType } from "@commercelayer/sdk"
 import {
   createContext,
+  type ReactNode,
   useCallback,
   useContext,
   useEffect,
   useReducer,
-  type ReactNode
-} from 'react'
+} from "react"
+import type { TokenProviderTokenApplicationKind } from "#providers/TokenProvider"
+import {
+  decodeExtras,
+  getExtrasFromUrl,
+  isValidUser,
+} from "#providers/TokenProvider/extras"
+import { extractDomainFromApiBaseEndpoint } from "#providers/TokenProvider/url"
+import { PageError } from "#ui/composite/PageError"
+import { PageSkeleton } from "#ui/composite/PageSkeleton"
 import {
   getAccessTokenFromUrl,
   getCurrentMode,
-  removeAuthParamsFromUrl
-} from './getAccessTokenFromUrl'
-import { initialTokenProviderState, reducer } from './reducer'
-import { getPersistentJWT, savePersistentJWT } from './storage'
+  removeAuthParamsFromUrl,
+} from "./getAccessTokenFromUrl"
+import { initialTokenProviderState, reducer } from "./reducer"
+import { getPersistentJWT, savePersistentJWT } from "./storage"
 import type {
   TokenProviderAllowedAppSlug,
   TokenProviderAuthSettings,
   TokenProviderAuthUser,
   TokenProviderClAppSlug,
   TokenProviderExtras,
-  TokenProviderRoleActions
-} from './types'
-import { makeDashboardUrl } from './url'
-import { isTokenExpired, isValidTokenForCurrentApp } from './validateToken'
+  TokenProviderRoleActions,
+} from "./types"
+import { makeDashboardUrl } from "./url"
+import { isTokenExpired, isValidTokenForCurrentApp } from "./validateToken"
 
 export interface TokenProviderValue {
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
   canUser: (
     action: TokenProviderRoleActions,
-    resource: ListableResourceType
+    resource: ListableResourceType,
   ) => boolean
   canAccess: (appSlug: TokenProviderClAppSlug) => boolean
   emitInvalidAuth: (reason: string) => void
@@ -128,7 +128,7 @@ export const AuthContext = createContext<TokenProviderValue>({
   canAccess: () => false,
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
-  user: null
+  user: null,
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -148,7 +148,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   accessToken: accessTokenFromProp,
   onAppClose,
   isInDashboard = false,
-  extras: extrasFromProp
+  extras: extrasFromProp,
 }) => {
   const [_state, dispatch] = useReducer(reducer, initialTokenProviderState)
   const accessToken =
@@ -159,14 +159,14 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       : getPersistentJWT({
           appSlug,
           organizationSlug,
-          itemType: 'accessToken'
+          itemType: "accessToken",
         }))
 
   const encodeExtras =
     getExtrasFromUrl() ??
     (storage?.getEncodedExtra != null
       ? storage?.getEncodedExtra()
-      : getPersistentJWT({ appSlug, organizationSlug, itemType: 'extras' }))
+      : getPersistentJWT({ appSlug, organizationSlug, itemType: "extras" }))
 
   const extras = extrasFromProp ?? decodeExtras(encodeExtras)
 
@@ -176,60 +176,60 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
   const dashboardUrl = makeDashboardUrl({
     domain,
-    accessToken
+    accessToken,
   })
 
-  const emitInvalidAuth = useCallback(function (reason: string): void {
-    dispatch({ type: 'invalidAuth' })
+  const emitInvalidAuth = useCallback((reason: string): void => {
+    dispatch({ type: "invalidAuth" })
     if (onInvalidAuth != null) {
       onInvalidAuth({ dashboardUrl, reason })
     }
   }, [])
 
   const canUser = useCallback(
-    function (
+    (
       action: TokenProviderRoleActions,
-      resource: ListableResourceType | 'organizations'
-    ): boolean {
-      if (kind === 'integration') {
+      resource: ListableResourceType | "organizations",
+    ): boolean => {
+      if (kind === "integration") {
         return true
       }
 
       return Boolean(_state.rolePermissions?.[resource]?.[action])
     },
-    [_state.rolePermissions]
+    [_state.rolePermissions],
   )
 
   const canAccess = useCallback(
-    function (appSlug: TokenProviderClAppSlug): boolean {
-      if (kind === 'integration') {
+    (appSlug: TokenProviderClAppSlug): boolean => {
+      if (kind === "integration") {
         return true
       }
       return _state.accessibleApps.includes(appSlug)
     },
-    [_state.accessibleApps]
+    [_state.accessibleApps],
   )
 
   useEffect(
     function validateAndSetToken() {
       void (async (): Promise<void> => {
         if (apiBaseEndpoint == null) {
-          emitInvalidAuth('apiBaseEndpoint is missing')
+          emitInvalidAuth("apiBaseEndpoint is missing")
           return
         }
 
         if (accessToken == null) {
-          emitInvalidAuth('accessToken is missing')
+          emitInvalidAuth("accessToken is missing")
           return
         }
 
         if (
           isTokenExpired({
             accessToken,
-            compareTo: new Date()
+            compareTo: new Date(),
           })
         ) {
-          emitInvalidAuth('accessToken is expired')
+          emitInvalidAuth("accessToken is expired")
           return
         }
 
@@ -238,11 +238,11 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
           kind,
           isProduction: !devMode,
           currentMode: getCurrentMode({ accessToken }),
-          organizationSlug
+          organizationSlug,
         })
 
         if (!tokenInfo.isValidToken) {
-          emitInvalidAuth('accessToken is not valid')
+          emitInvalidAuth("accessToken is not valid")
           return
         }
 
@@ -254,7 +254,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
             appSlug,
             jwt: accessToken,
             organizationSlug,
-            itemType: 'accessToken'
+            itemType: "accessToken",
           })
         }
 
@@ -265,7 +265,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
                 appSlug,
                 jwt: encodeExtras,
                 organizationSlug,
-                itemType: 'extras'
+                itemType: "extras",
               })
         }
 
@@ -277,7 +277,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
             : null
 
         dispatch({
-          type: 'validToken',
+          type: "validToken",
           payload: {
             settings: {
               accessToken: tokenInfo.accessToken,
@@ -289,16 +289,16 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
               onAppClose,
               isInDashboard,
               scopes: tokenInfo.scopes,
-              extras
+              extras,
             },
             user: tokenInfo.user ?? userFromExtras,
             rolePermissions: tokenInfo.permissions ?? {},
-            accessibleApps: tokenInfo.accessibleApps ?? []
-          }
+            accessibleApps: tokenInfo.accessibleApps ?? [],
+          },
         })
       })()
     },
-    [accessToken]
+    [accessToken],
   )
 
   const value: TokenProviderValue = {
@@ -306,7 +306,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
     user: _state.user,
     canUser,
     canAccess,
-    emitInvalidAuth
+    emitInvalidAuth,
   }
 
   if (_state.isTokenError) {
@@ -314,9 +314,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
       <>
         {errorElement ?? (
           <PageError
-            pageTitle='Invalid token'
-            errorName='401'
-            errorDescription='The provided authorization token is not valid. Please try to re-authenticate.'
+            pageTitle="Invalid token"
+            errorName="401"
+            errorDescription="The provided authorization token is not valid. Please try to re-authenticate."
           />
         )}
       </>
@@ -329,9 +329,9 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
 
   return (
     <AuthContext.Provider value={value}>
-      {typeof children === 'function' ? children(value) : children}
+      {typeof children === "function" ? children(value) : children}
     </AuthContext.Provider>
   )
 }
 
-TokenProvider.displayName = 'TokenProvider'
+TokenProvider.displayName = "TokenProvider"

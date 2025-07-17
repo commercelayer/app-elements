@@ -1,9 +1,9 @@
-import { type JSX } from 'react'
+import type { JSX } from "react"
 import {
-  FormProvider,
   type FieldValues,
-  type FormProviderProps
-} from 'react-hook-form'
+  FormProvider,
+  type FormProviderProps,
+} from "react-hook-form"
 
 interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
   /**
@@ -60,4 +60,4 @@ export const HookedForm = <T extends FieldValues>({
   )
 }
 
-HookedForm.displayName = 'HookedForm'
+HookedForm.displayName = "HookedForm"

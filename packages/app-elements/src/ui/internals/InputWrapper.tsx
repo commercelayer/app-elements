@@ -1,10 +1,10 @@
-import { Hint, type HintProps } from '#ui/atoms/Hint'
-import { withSkeletonTemplate } from '#ui/atoms/SkeletonTemplate'
-import { InputFeedback, type InputFeedbackProps } from '#ui/forms/InputFeedback'
-import { Label } from '#ui/forms/Label'
-import { Legend } from '#ui/forms/Legend'
-import cn from 'classnames'
-import { Fragment } from 'react'
+import cn from "classnames"
+import { Fragment } from "react"
+import { Hint, type HintProps } from "#ui/atoms/Hint"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { InputFeedback, type InputFeedbackProps } from "#ui/forms/InputFeedback"
+import { Label } from "#ui/forms/Label"
+import { Legend } from "#ui/forms/Legend"
 
 export interface InputWrapperBaseProps {
   /**
@@ -15,13 +15,13 @@ export interface InputWrapperBaseProps {
    * Optional hint to be rendered below
    */
   hint?: {
-    icon?: HintProps['icon']
-    text: HintProps['children']
+    icon?: HintProps["icon"]
+    text: HintProps["children"]
   }
   /**
    * Optional hint to be rendered below
    */
-  feedback?: Omit<InputFeedbackProps, 'className'>
+  feedback?: Omit<InputFeedbackProps, "className">
   /**
    * Show label and input on the same line
    * @default false
@@ -53,16 +53,16 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
     delayMs,
     ...rest
   }) => {
-    const Fieldset = fieldset ? 'fieldset' : Fragment
+    const Fieldset = fieldset ? "fieldset" : Fragment
     return (
       <Fieldset>
         <div
           className={cn(
             {
-              'grid grid-cols-[1fr_2fr] gap-2 justify-between items-baseline':
-                inline
+              "grid grid-cols-[1fr_2fr] gap-2 justify-between items-baseline":
+                inline,
             },
-            className
+            className,
           )}
           {...rest}
         >
@@ -76,17 +76,17 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
             ))}
           <div
             className={cn({
-              'w-full flex justify-end text-right': inline
+              "w-full flex justify-end text-right": inline,
             })}
           >
             {children}
           </div>
-          <div className='col-span-2'>
+          <div className="col-span-2">
             {feedback != null && (
               <InputFeedback
-                data-testid='input-feedback'
+                data-testid="input-feedback"
                 className={cn({
-                  'mt-2': true
+                  "mt-2": true,
                 })}
                 {...feedback}
               />
@@ -94,7 +94,7 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
             {hint != null && (
               <Hint
                 className={cn({
-                  'mt-2': !inline || feedback != null
+                  "mt-2": !inline || feedback != null,
                 })}
                 icon={hint.icon}
               >
@@ -105,61 +105,61 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
         </div>
       </Fieldset>
     )
-  }
+  },
 )
 
-InputWrapper.displayName = 'InputWrapper'
+InputWrapper.displayName = "InputWrapper"
 
 export function getFeedbackStyle(
-  feedback?: Omit<InputFeedbackProps, 'className'>
+  feedback?: Omit<InputFeedbackProps, "className">,
 ): Record<string, boolean> {
   return {
     // with feedback
-    'focus:!ring-0': feedback != null,
-    '!shadow-inputfocus !shadow-red ': feedback?.variant === 'danger',
-    '!shadow-inputfocus !shadow-green': feedback?.variant === 'success',
-    '!shadow-inputfocus !shadow-orange': feedback?.variant === 'warning'
+    "focus:!ring-0": feedback != null,
+    "!shadow-inputfocus !shadow-red ": feedback?.variant === "danger",
+    "!shadow-inputfocus !shadow-green": feedback?.variant === "success",
+    "!shadow-inputfocus !shadow-orange": feedback?.variant === "warning",
   }
 }
 
 export function getFeedbackCssInJs(
-  variant?: InputFeedbackProps['variant']
-): Pick<CSSStyleDeclaration, 'boxShadow'> & {
-  '&:focus-within': {
+  variant?: InputFeedbackProps["variant"],
+): Pick<CSSStyleDeclaration, "boxShadow"> & {
+  "&:focus-within": {
     boxShadow: string
   }
 } {
   switch (variant) {
-    case 'danger':
+    case "danger":
       return {
-        boxShadow: 'inset 0 0 0 2px #FF656B',
-        '&:focus-within': {
-          boxShadow: 'inset 0 0 0 2px #FF656B'
-        }
+        boxShadow: "inset 0 0 0 2px #FF656B",
+        "&:focus-within": {
+          boxShadow: "inset 0 0 0 2px #FF656B",
+        },
       }
 
-    case 'success':
+    case "success":
       return {
-        boxShadow: 'inset 0 0 0 2px #1FDA8A',
-        '&:focus-within': {
-          boxShadow: 'inset 0 0 0 2px #1FDA8A'
-        }
+        boxShadow: "inset 0 0 0 2px #1FDA8A",
+        "&:focus-within": {
+          boxShadow: "inset 0 0 0 2px #1FDA8A",
+        },
       }
 
-    case 'warning':
+    case "warning":
       return {
-        boxShadow: 'inset 0 0 0 2px #FFAB2E',
-        '&:focus-within': {
-          boxShadow: 'inset 0 0 0 2px #FFAB2E'
-        }
+        boxShadow: "inset 0 0 0 2px #FFAB2E",
+        "&:focus-within": {
+          boxShadow: "inset 0 0 0 2px #FFAB2E",
+        },
       }
 
     default:
       return {
-        boxShadow: 'inset 0 0 0 1px #E6E7E7',
-        '&:focus-within': {
-          boxShadow: 'inset 0 0 0 2px #101111'
-        }
+        boxShadow: "inset 0 0 0 1px #E6E7E7",
+        "&:focus-within": {
+          boxShadow: "inset 0 0 0 2px #101111",
+        },
       }
   }
 }

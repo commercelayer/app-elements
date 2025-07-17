@@ -1,12 +1,12 @@
-import { Progress } from '#ui/atoms/Progress'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Progress } from "#ui/atoms/Progress"
 
 const setup: Meta<typeof Progress> = {
-  title: 'Atoms/Progress',
+  title: "Atoms/Progress",
   component: Progress,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -15,7 +15,7 @@ export const Default: StoryFn<typeof Progress> = (args) => (
 )
 Default.args = {
   max: 100,
-  value: 40
+  value: 40,
 }
 
 /** If there is no `value` prop, the progress bar is indeterminate; this indicates that an activity is ongoing with no indication of how long it is expected to take. */
@@ -31,7 +31,7 @@ export const WithPercentage: StoryFn<typeof Progress> = (args) => (
 WithPercentage.args = {
   max: 100,
   value: 40,
-  displayMode: 'percentage'
+  displayMode: "percentage",
 }
 
 /** Only show the progress bar, without completion details */
@@ -41,5 +41,5 @@ export const OnlyBar: StoryFn<typeof Progress> = (args) => (
 OnlyBar.args = {
   max: 100,
   value: 40,
-  displayMode: 'none'
+  displayMode: "none",
 }

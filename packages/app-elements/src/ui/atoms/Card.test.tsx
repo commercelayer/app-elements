@@ -1,76 +1,76 @@
-import { render } from '@testing-library/react'
-import { Card } from './Card'
+import { render } from "@testing-library/react"
+import { Card } from "./Card"
 
-describe('Card', () => {
-  test('Should be rendered simply as DIV', () => {
+describe("Card", () => {
+  test("Should be rendered simply as DIV", () => {
     const { getByText, container } = render(
-      <Card overflow='visible'>
+      <Card overflow="visible">
         <p>
           <strong>I am a Card</strong>
         </p>
-      </Card>
+      </Card>,
     )
-    expect(getByText('I am a Card')).toBeVisible()
-    expect(container.firstElementChild?.tagName).toBe('DIV')
+    expect(getByText("I am a Card")).toBeVisible()
+    expect(container.firstElementChild?.tagName).toBe("DIV")
   })
 
-  test('Should be rendered as BUTTON when `onClick` is set', () => {
+  test("Should be rendered as BUTTON when `onClick` is set", () => {
     const { getByText, container } = render(
-      <Card overflow='visible' onClick={() => {}}>
+      <Card overflow="visible" onClick={() => {}}>
         <p>
           <strong>I am a Card</strong>
         </p>
-      </Card>
+      </Card>,
     )
-    expect(getByText('I am a Card')).toBeVisible()
-    expect(container.firstElementChild?.tagName).toBe('BUTTON')
+    expect(getByText("I am a Card")).toBeVisible()
+    expect(container.firstElementChild?.tagName).toBe("BUTTON")
   })
 
-  test('Should be rendered as BUTTON when `onClick` is set', () => {
+  test("Should be rendered as BUTTON when `onClick` is set", () => {
     const { getByText, container } = render(
-      <Card overflow='visible' href='https://example.com' onClick={() => {}}>
+      <Card overflow="visible" href="https://example.com" onClick={() => {}}>
         <p>
           <strong>I am a Card</strong>
         </p>
-      </Card>
+      </Card>,
     )
-    expect(getByText('I am a Card')).toBeVisible()
-    expect(container.firstElementChild?.tagName).toBe('A')
-    expect(container.firstElementChild?.getAttribute('href')).toBe(
-      'https://example.com'
+    expect(getByText("I am a Card")).toBeVisible()
+    expect(container.firstElementChild?.tagName).toBe("A")
+    expect(container.firstElementChild?.getAttribute("href")).toBe(
+      "https://example.com",
     )
   })
 
-  test('Should have light gray background', () => {
+  test("Should have light gray background", () => {
     const { container } = render(
-      <Card overflow='visible' backgroundColor='light'>
+      <Card overflow="visible" backgroundColor="light">
         I am a Card
-      </Card>
+      </Card>,
     )
-    expect(container.firstElementChild).toHaveClass('bg-gray-50')
+    expect(container.firstElementChild).toHaveClass("bg-gray-50")
   })
 
-  test('Should have overflow hidden', () => {
+  test("Should have overflow hidden", () => {
     const { container } = render(
-      <Card overflow='hidden' backgroundColor='light'>
+      <Card overflow="hidden" backgroundColor="light">
         I am a Card
-      </Card>
+      </Card>,
     )
     const mainDiv = container.firstElementChild
     const innerDiv = container.firstElementChild?.firstElementChild
-    expect(mainDiv).toHaveClass('overflow-hidden')
-    expect(innerDiv).toHaveClass('overflow-hidden')
+    expect(mainDiv).toHaveClass("overflow-hidden")
+    expect(innerDiv).toHaveClass("overflow-hidden")
   })
 
-  test('Should NOT have overflow hidden', () => {
+  test("Should NOT have overflow hidden", () => {
     const { container } = render(
-      <Card overflow='visible' backgroundColor='light'>
+      <Card overflow="visible" backgroundColor="light">
         I am a Card
-      </Card>
+      </Card>,
     )
     const mainDiv = container.firstElementChild
     const innerDiv = container.firstElementChild?.firstElementChild
-    expect(mainDiv).not.toHaveClass('overflow-hidden')
-    expect(innerDiv).not.toHaveClass('overflow-hidden')
+    expect(mainDiv).not.toHaveClass("overflow-hidden")
+    expect(innerDiv).not.toHaveClass("overflow-hidden")
   })
 })

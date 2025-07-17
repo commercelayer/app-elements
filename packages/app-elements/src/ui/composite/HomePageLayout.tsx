@@ -1,10 +1,10 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import { type PageHeadingProps } from '#ui/atoms/PageHeading'
-import { type PageHeadingToolbarProps } from '#ui/atoms/PageHeading/PageHeadingToolbar'
-import { type JSX, type ReactNode } from 'react'
-import { PageLayout } from './PageLayout'
+import type { JSX, ReactNode } from "react"
+import { useTokenProvider } from "#providers/TokenProvider"
+import type { PageHeadingProps } from "#ui/atoms/PageHeading"
+import type { PageHeadingToolbarProps } from "#ui/atoms/PageHeading/PageHeadingToolbar"
+import { PageLayout } from "./PageLayout"
 
-export interface HomePageLayoutProps extends Pick<PageHeadingProps, 'title'> {
+export interface HomePageLayoutProps extends Pick<PageHeadingProps, "title"> {
   /**
    * Page content
    */
@@ -22,30 +22,30 @@ export interface HomePageLayoutProps extends Pick<PageHeadingProps, 'title'> {
 export function HomePageLayout({
   title,
   children,
-  toolbar
+  toolbar,
 }: HomePageLayoutProps): JSX.Element {
   const {
-    settings: { mode, dashboardUrl, isInDashboard, onAppClose }
+    settings: { mode, dashboardUrl, isInDashboard, onAppClose },
   } = useTokenProvider()
 
   return (
     <PageLayout
       title={title}
       mode={mode}
-      gap='only-top'
+      gap="only-top"
       scrollToTop
       navigationButton={
         isInDashboard && onAppClose == null
           ? undefined
           : {
-              label: 'Apps',
+              label: "Apps",
               onClick: () => {
                 if (onAppClose != null) {
                   onAppClose()
                 } else {
                   window.location.href = `${dashboardUrl}/hub`
                 }
-              }
+              },
             }
       }
       toolbar={toolbar}
@@ -55,4 +55,4 @@ export function HomePageLayout({
   )
 }
 
-HomePageLayout.displayName = 'HomePageLayout'
+HomePageLayout.displayName = "HomePageLayout"

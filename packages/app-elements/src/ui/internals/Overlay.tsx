@@ -1,8 +1,8 @@
-import { Container } from '#ui/atoms/Container'
-import { Spacer } from '#ui/atoms/Spacer'
-import cn from 'classnames'
-import { useEffect, useRef } from 'react'
-import { createPortal } from 'react-dom'
+import cn from "classnames"
+import { useEffect, useRef } from "react"
+import { createPortal } from "react-dom"
+import { Container } from "#ui/atoms/Container"
+import { Spacer } from "#ui/atoms/Spacer"
 
 export interface OverlayProps {
   /**
@@ -16,7 +16,7 @@ export interface OverlayProps {
   /**
    * Set a gray background color
    */
-  backgroundColor?: 'light'
+  backgroundColor?: "light"
 
   /**
    * Set the overlay to full width
@@ -47,9 +47,9 @@ export const Overlay: React.FC<OverlayProps> = ({
   const element = useRef<HTMLDivElement | null>(null)
 
   useEffect(function preventBodyScrollbar() {
-    document.body.classList.add('overflow-hidden')
+    document.body.classList.add("overflow-hidden")
     return () => {
-      document.body.classList.remove('overflow-hidden')
+      document.body.classList.remove("overflow-hidden")
     }
   }, [])
 
@@ -57,23 +57,23 @@ export const Overlay: React.FC<OverlayProps> = ({
     function focusFirstInput() {
       if (element.current != null) {
         const firstInputElement =
-          element.current.getElementsByTagName('input')[0]
+          element.current.getElementsByTagName("input")[0]
         firstInputElement?.focus()
       }
     },
-    [element]
+    [element],
   )
 
   const content = (
     <div className={contentClassName} style={contentStyle}>
-      <Spacer bottom={fullWidth ? undefined : '14'}>{children}</Spacer>
+      <Spacer bottom={fullWidth ? undefined : "14"}>{children}</Spacer>
       {footer != null && (
         <div
-          className={cn('w-full sticky bottom-0 pb-8', {
-            'bg-gray-50': backgroundColor === 'light',
-            'bg-white': backgroundColor == null
+          className={cn("w-full sticky bottom-0 pb-8", {
+            "bg-gray-50": backgroundColor === "light",
+            "bg-white": backgroundColor == null,
           })}
-          data-testid='overlay-buttonContainer'
+          data-testid="overlay-buttonContainer"
         >
           {footer}
         </div>
@@ -84,23 +84,22 @@ export const Overlay: React.FC<OverlayProps> = ({
   return createPortal(
     <div
       ref={element}
-      role='dialog'
-      tabIndex={0}
+      role="dialog"
       className={cn(
-        'overlay-container',
-        'fixed inset-0 z-50 w-full h-full  overflow-y-auto outline-none',
+        "overlay-container",
+        "fixed inset-0 z-50 w-full h-full  overflow-y-auto outline-none",
         {
-          'bg-gray-50': backgroundColor === 'light',
-          'bg-white': backgroundColor == null
-        }
+          "bg-gray-50": backgroundColor === "light",
+          "bg-white": backgroundColor == null,
+        },
       )}
-      data-testid='overlay'
+      data-testid="overlay"
       {...rest}
     >
       {fullWidth ? content : <Container minHeight={false}>{content}</Container>}
     </div>,
-    document.body
+    document.body,
   )
 }
 
-Overlay.displayName = 'Overlay'
+Overlay.displayName = "Overlay"

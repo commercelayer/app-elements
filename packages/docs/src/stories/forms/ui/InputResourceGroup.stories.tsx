@@ -1,36 +1,36 @@
-import { CoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { Spacer } from '#ui/atoms/Spacer'
-import { InputResourceGroup } from '#ui/forms/InputResourceGroup'
-import { useInputResourceGroupOverlay } from '#ui/forms/InputResourceGroup/FullList'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
-import { useState } from 'react'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { InputResourceGroup } from "#ui/forms/InputResourceGroup"
+import { useInputResourceGroupOverlay } from "#ui/forms/InputResourceGroup/FullList"
 
 const setup: Meta<typeof InputResourceGroup> = {
-  title: 'Forms/ui/InputResourceGroup',
+  title: "Forms/ui/InputResourceGroup",
   component: InputResourceGroup,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
 const Template: StoryFn<typeof InputResourceGroup> = (args) => {
   const [values, setValues] = useState<string[]>([])
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <InputResourceGroup
           {...args}
           defaultValues={values}
           onChange={setValues}
           // fixed values for the story to match msw mocked data
-          resource='markets'
-          fieldForLabel='name'
-          fieldForValue='id'
-          searchBy='name_cont'
-          sortBy={{ attribute: 'name', direction: 'asc' }}
+          resource="markets"
+          fieldForLabel="name"
+          fieldForValue="id"
+          searchBy="name_cont"
+          sortBy={{ attribute: "name", direction: "asc" }}
           previewLimit={3}
         />
       </CoreSdkProvider>
@@ -40,13 +40,13 @@ const Template: StoryFn<typeof InputResourceGroup> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  resource: 'markets',
-  fieldForLabel: 'name',
-  fieldForValue: 'id',
-  searchBy: 'name_cont',
-  sortBy: { attribute: 'name', direction: 'asc' },
-  title: 'Markets',
-  previewLimit: 3
+  resource: "markets",
+  fieldForLabel: "name",
+  fieldForValue: "id",
+  searchBy: "name_cont",
+  sortBy: { attribute: "name", direction: "asc" },
+  title: "Markets",
+  previewLimit: 3,
 }
 
 /**
@@ -58,26 +58,26 @@ export const UseInputResourceGroupOverlay: StoryFn = () => {
   const {
     InputResourceGroupOverlay,
     closeInputResourceGroupOverlay,
-    openInputResourceGroupOverlay
+    openInputResourceGroupOverlay,
   } = useInputResourceGroupOverlay()
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <pre>{JSON.stringify(values, undefined, 2)}</pre>
         <InputResourceGroupOverlay
           defaultValues={values}
           onChange={setValues}
           onCancel={closeInputResourceGroupOverlay}
-          resource='markets'
-          fieldForLabel='name'
-          fieldForValue='id'
-          searchBy='name_cont'
-          sortBy={{ attribute: 'name', direction: 'asc' }}
-          title='Markets'
+          resource="markets"
+          fieldForLabel="name"
+          fieldForValue="id"
+          searchBy="name_cont"
+          sortBy={{ attribute: "name", direction: "asc" }}
+          title="Markets"
           footer={
             <Button
               fullWidth
-              type='button'
+              type="button"
               onClick={() => {
                 closeInputResourceGroupOverlay()
                 alert(JSON.stringify(values, undefined, 2))
@@ -87,7 +87,7 @@ export const UseInputResourceGroupOverlay: StoryFn = () => {
             </Button>
           }
         />
-        <Spacer top='8'>
+        <Spacer top="8">
           <Button onClick={openInputResourceGroupOverlay}>Open</Button>
         </Spacer>
       </CoreSdkProvider>
@@ -99,31 +99,31 @@ export const UseInputResourceGroupOverlay: StoryFn = () => {
  * The `hideSelected` prop hides all the already selected resources in the overlay.
  */
 export const HideSelected: StoryFn = () => {
-  const [values, setValues] = useState<string[]>(['dlQbPhNNop', 'AlRevhXQga'])
+  const [values, setValues] = useState<string[]>(["dlQbPhNNop", "AlRevhXQga"])
   const {
     InputResourceGroupOverlay,
     closeInputResourceGroupOverlay,
-    openInputResourceGroupOverlay
+    openInputResourceGroupOverlay,
   } = useInputResourceGroupOverlay()
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <pre>{JSON.stringify(values, undefined, 2)}</pre>
         <InputResourceGroupOverlay
           defaultValues={values}
           onChange={setValues}
           onCancel={closeInputResourceGroupOverlay}
-          resource='markets'
-          fieldForLabel='name'
-          fieldForValue='id'
-          searchBy='name_cont'
-          sortBy={{ attribute: 'name', direction: 'asc' }}
-          title='Markets'
+          resource="markets"
+          fieldForLabel="name"
+          fieldForValue="id"
+          searchBy="name_cont"
+          sortBy={{ attribute: "name", direction: "asc" }}
+          title="Markets"
           hideSelected
           footer={
             <Button
               fullWidth
-              type='button'
+              type="button"
               onClick={() => {
                 closeInputResourceGroupOverlay()
                 alert(JSON.stringify(values, undefined, 2))
@@ -133,7 +133,7 @@ export const HideSelected: StoryFn = () => {
             </Button>
           }
         />
-        <Spacer top='8'>
+        <Spacer top="8">
           <Button onClick={openInputResourceGroupOverlay}>Add</Button>
         </Spacer>
       </CoreSdkProvider>

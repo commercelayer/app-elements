@@ -1,13 +1,13 @@
-import cn from 'classnames'
+import cn from "classnames"
 import React, {
   Children,
+  type JSX,
+  type ReactNode,
   useEffect,
   useMemo,
   useState,
-  type JSX,
-  type ReactNode
-} from 'react'
-import invariant from 'ts-invariant'
+} from "react"
+import invariant from "ts-invariant"
 
 export interface TabsProps {
   /**
@@ -44,7 +44,7 @@ export interface TabsProps {
 }
 
 function Tabs({
-  id = 'tab',
+  id = "tab",
   children,
   onTabSwitch,
   className,
@@ -56,12 +56,12 @@ function Tabs({
   const firstActiveIndex = useMemo(
     () =>
       Children.map(children, (tab) => tab != null)?.findIndex(
-        (c) => c === true
+        (c) => c === true,
       ),
-    [children]
+    [children],
   )
   const [activeIndex, setActiveIndex] = useState(
-    defaultTab ?? firstActiveIndex ?? 0
+    defaultTab ?? firstActiveIndex ?? 0,
   )
 
   useEffect(
@@ -71,23 +71,21 @@ function Tabs({
           return
         }
         invariant(
-          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           tab.type.name,
-          `Only "<Tab>" components can be used as children. Invalid at index #${index}`
+          `Only "<Tab>" components can be used as children. Invalid at index #${index}`,
         )
 
         invariant(
-          // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
           tab.props.name,
-          `Missing prop "name" in <Tab> component at index #${index}`
+          `Missing prop "name" in <Tab> component at index #${index}`,
         )
         invariant(
-          typeof tab.props.name === 'string',
-          `Prop "name" must be a string. Invalid at index #${index}`
+          typeof tab.props.name === "string",
+          `Prop "name" must be a string. Invalid at index #${index}`,
         )
       })
     },
-    [children]
+    [children],
   )
 
   useEffect(() => {
@@ -97,14 +95,15 @@ function Tabs({
   }, [activeIndex, onTabSwitch])
 
   return (
-    <div id={id} role='tablist' className={className} {...rest}>
+    <div id={id} role="tablist" className={className} {...rest}>
       {/* Navs */}
-      <nav className='flex gap-8 border-b-gray-100 border-b'>
+      <nav className="flex gap-8 border-b-gray-100 border-b">
         {Children.map(
           children,
           (tab, index) =>
             tab != null && (
               <TabNav
+                // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
                 key={index}
                 isActive={index === activeIndex}
                 label={tab.props.name}
@@ -114,7 +113,7 @@ function Tabs({
                 id={`tab-nav-${id}-${index}`}
                 data-testid={`tab-nav-${index}`}
               />
-            )
+            ),
         )}
       </nav>
       {/* Tab Panels */}
@@ -165,17 +164,19 @@ function TabNav({
   label: string
 }): JSX.Element {
   return (
+    // biome-ignore lint/a11y/useFocusableInteractive: Using div as a tab element
+    // biome-ignore lint/a11y/useKeyWithClickEvents: Using click handler to switch tabs
     <div
       id={id}
       className={cn(
-        'text-center pb-4 leading-6 cursor-pointer font-medium transition-all duration-300 -mb-[2px]',
+        "text-center pb-4 leading-6 cursor-pointer font-medium transition-all duration-300 -mb-[2px]",
         {
-          'border-b-black border-b-2 text-black': isActive,
-          'border-b-transparent border-b-2 text-gray-500': !isActive
-        }
+          "border-b-black border-b-2 text-black": isActive,
+          "border-b-transparent border-b-2 text-gray-500": !isActive,
+        },
       )}
       onClick={onClick}
-      role='tab'
+      role="tab"
       {...rest}
     >
       {label}
@@ -198,18 +199,12 @@ function TabPanel({
   }
 
   return (
-    <div
-      className='pt-4'
-      role='tabpanel'
-      aria-labelledby=''
-      {...rest}
-      hidden={!isActive}
-    >
+    <div className="pt-4" role="tabpanel" {...rest} hidden={!isActive}>
       {children}
     </div>
   )
 }
 
-Tabs.displayName = 'Tabs'
-Tab.displayName = 'Tab'
+Tabs.displayName = "Tabs"
+Tab.displayName = "Tab"
 export { Tab, Tabs }

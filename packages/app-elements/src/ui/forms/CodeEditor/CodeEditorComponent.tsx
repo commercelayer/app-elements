@@ -1,24 +1,24 @@
-import { useTokenProvider } from '#providers/TokenProvider'
-import {
-  InputWrapper,
-  type InputWrapperBaseProps
-} from '#ui/internals/InputWrapper'
 import Editor, {
-  useMonaco,
   type EditorProps,
   type Monaco,
   type OnMount,
-  type OnValidate
-} from '@monaco-editor/react'
-import type { editor } from 'monaco-editor'
-import { forwardRef, useEffect, useRef, useState, type JSX } from 'react'
-import { type JsonValue, type SetOptional } from 'type-fest'
-import { fetchCoreResourcesSuggestions } from './fetchCoreResourcesSuggestions'
+  type OnValidate,
+  useMonaco,
+} from "@monaco-editor/react"
+import type { editor, IDisposable } from "monaco-editor"
+import { forwardRef, type JSX, useEffect, useRef, useState } from "react"
+import type { JsonValue, SetOptional } from "type-fest"
+import { useTokenProvider } from "#providers/TokenProvider"
+import {
+  InputWrapper,
+  type InputWrapperBaseProps,
+} from "#ui/internals/InputWrapper"
+import { fetchCoreResourcesSuggestions } from "./fetchCoreResourcesSuggestions"
 
 export interface CodeEditorProps
   extends InputWrapperBaseProps,
-    SetOptional<Pick<HTMLInputElement, 'id' | 'name'>, 'id' | 'name'>,
-    Pick<EditorProps, 'defaultValue' | 'value'> {
+    SetOptional<Pick<HTMLInputElement, "id" | "name">, "id" | "name">,
+    Pick<EditorProps, "defaultValue" | "value"> {
   /**
    * Should the editor be read only.
    */
@@ -32,12 +32,12 @@ export interface CodeEditorProps
    * Language of the current model
    * @default plaintext
    */
-  language?: 'plaintext' | 'json'
+  language?: "plaintext" | "json"
   /**
    * JSON Schema to be used when writing JSON
    * @default none
    */
-  jsonSchema?: 'none' | 'order-rules' | 'price-rules' | 'organization-config'
+  jsonSchema?: "none" | "order-rules" | "price-rules" | "organization-config"
   /**
    * Trigger on every update.
    * @param markers List of markers (errors). `null` when there're no errors.
@@ -75,28 +75,28 @@ export const CodeEditor = forwardRef<
       defaultValue,
       readOnly,
       value,
-      language = 'plaintext',
-      height = '220px',
-      jsonSchema = 'none',
+      language = "plaintext",
+      height = "220px",
+      jsonSchema = "none",
       onValidate,
       onValid,
       onChange,
       noRounding = false,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const monaco = useMonaco()
-    const disposeCompletionItemProvider = useRef<() => void>(null)
+    const disposeCompletionItemProvider = useRef<IDisposable>(null)
     const [editor, setEditor] = useState<editor.IStandaloneCodeEditor | null>(
-      null
+      null,
     )
     const {
-      settings: { domain }
+      settings: { domain },
     } = useTokenProvider()
 
     const handleEditorDidMount: OnMount = (editor, monaco) => {
-      if (editor != null && ref != null && typeof ref === 'object') {
+      if (editor != null && ref != null && typeof ref === "object") {
         ;(ref as React.RefObject<editor.IStandaloneCodeEditor>).current = editor
       }
 
@@ -105,13 +105,13 @@ export const CodeEditor = forwardRef<
       editor.layout()
 
       editor.onDidPaste(() => {
-        void editor.getAction('editor.action.formatDocument')?.run()
+        void editor.getAction("editor.action.formatDocument")?.run()
       })
 
       editor.onDidChangeModelContent(() => {
         const model = editor.getModel()
         const markers = monaco.editor.getModelMarkers({
-          resource: model?.uri
+          resource: model?.uri,
         })
 
         const editorValue = editor.getValue()
@@ -128,70 +128,70 @@ export const CodeEditor = forwardRef<
     }
 
     useEffect(() => {
-      void (async function () {
+      void (async () => {
         const uri = editor?.getModel()?.uri.toString()
 
         if (monaco != null && uri != null && jsonSchema != null) {
-          disposeCompletionItemProvider.current?.()
+          disposeCompletionItemProvider.current?.dispose()
 
           const schemas =
             monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
 
           switch (jsonSchema) {
-            case 'none': {
+            case "none": {
               break
             }
 
-            case 'organization-config': {
+            case "organization-config": {
               schemas.push({
                 schema: await fetch(
-                  `https://provisioning.${domain}/api/public/schemas/organization_config`
+                  `https://provisioning.${domain}/api/public/schemas/organization_config`,
                 )
                   .then<JsonValue>(async (res) => await res.json())
                   .then((json) => {
                     return clearExamples(json)
                   }),
                 uri: `file:///json-schema--${jsonSchema}.json`,
-                fileMatch: [uri]
+                fileMatch: [uri],
               })
 
               break
             }
 
-            case 'order-rules': {
+            case "order-rules": {
               schemas.push({
                 schema: await fetch(
-                  `https://core.${domain}/api/public/schemas/order_rules`
+                  `https://core.${domain}/api/public/schemas/order_rules`,
                 )
                   .then<JsonValue>(async (res) => await res.json())
                   .then((json) => {
                     return clearExamples(json)
                   }),
                 uri: `file:///json-schema--${jsonSchema}.json`,
-                fileMatch: [uri]
-              })
-
-              disposeCompletionItemProvider.current =
-                registerJSONCompletionItemProvider(monaco, uri, ['order'])
-
-              break
-            }
-
-            case 'price-rules': {
-              schemas.push({
-                schema: await fetch(
-                  `https://core.${domain}/api/public/schemas/price_rules`
-                )
-                  .then<JsonValue>(async (res) => await res.json())
-                  .then((json) => {
-                    return clearExamples(json)
-                  }),
-                uri: `file:///json-schema--${jsonSchema}.json`,
-                fileMatch: [uri]
+                fileMatch: [uri],
               })
 
               disposeCompletionItemProvider.current =
-                registerJSONCompletionItemProvider(monaco, uri, ['price'])
+                registerJSONCompletionItemProvider(monaco, uri, ["order"])
+
+              break
+            }
+
+            case "price-rules": {
+              schemas.push({
+                schema: await fetch(
+                  `https://core.${domain}/api/public/schemas/price_rules`,
+                )
+                  .then<JsonValue>(async (res) => await res.json())
+                  .then((json) => {
+                    return clearExamples(json)
+                  }),
+                uri: `file:///json-schema--${jsonSchema}.json`,
+                fileMatch: [uri],
+              })
+
+              disposeCompletionItemProvider.current =
+                registerJSONCompletionItemProvider(monaco, uri, ["price"])
 
               break
             }
@@ -199,16 +199,16 @@ export const CodeEditor = forwardRef<
 
           monaco.languages.json.jsonDefaults.setDiagnosticsOptions({
             enableSchemaRequest: true,
-            schemaRequest: 'ignore',
-            schemaValidation: 'error',
+            schemaRequest: "ignore",
+            schemaValidation: "error",
             validate: true,
-            schemas
+            schemas,
           })
         }
       })()
 
       return () => {
-        disposeCompletionItemProvider.current?.()
+        disposeCompletionItemProvider.current?.dispose()
       }
     }, [monaco, editor, jsonSchema, domain])
 
@@ -219,16 +219,16 @@ export const CodeEditor = forwardRef<
         feedback={feedback}
         name={rest.id ?? rest.name}
         inline={inline}
-        className='h-full [&>div:first-of-type]:h-full'
+        className="h-full [&>div:first-of-type]:h-full"
       >
         <Editor
           defaultPath={rest.id ?? rest.name}
           className={
             noRounding
               ? undefined
-              : '[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded'
+              : "[&>.monaco-editor]:rounded [&>.monaco-editor>.overflow-guard]:rounded"
           }
-          theme='vs-dark'
+          theme="vs-dark"
           language={language}
           height={height}
           defaultValue={defaultValue}
@@ -241,21 +241,21 @@ export const CodeEditor = forwardRef<
             automaticLayout: true,
             insertSpaces: true,
             tabSize: 2,
-            lineNumbers: 'on',
+            lineNumbers: "on",
             padding: { top: 18, bottom: 18 },
             scrollBeyondLastLine: false,
             pasteAs: { enabled: true },
             minimap: {
-              enabled: false
-            }
+              enabled: false,
+            },
           }}
         />
       </InputWrapper>
     )
-  }
+  },
 )
 
-CodeEditor.displayName = 'CodeEditor'
+CodeEditor.displayName = "CodeEditor"
 
 function createDeferred(delay: number = 100) {
   let timeoutId: NodeJS.Timeout | null = null
@@ -278,7 +278,7 @@ function createDeferred(delay: number = 100) {
  * Remove `examples` attribute when present.
  */
 function clearExamples(json: JsonValue, previousKey?: string): JsonValue {
-  if (typeof json !== 'object' || json === null) {
+  if (typeof json !== "object" || json === null) {
     return json
   }
 
@@ -286,31 +286,30 @@ function clearExamples(json: JsonValue, previousKey?: string): JsonValue {
     ? json.map((item) => clearExamples(item))
     : Object.entries(json).reduce((acc, [key, value]) => {
         if (
-          previousKey !== 'properties' &&
-          ['examples', 'default'].includes(key)
+          previousKey !== "properties" &&
+          ["examples", "default"].includes(key)
         ) {
           return acc
         }
 
         return {
           ...acc,
-          [key]: clearExamples(value, key)
+          [key]: clearExamples(value, key),
         }
       }, {})
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function registerJSONCompletionItemProvider(
   monaco: Monaco,
   uri: string,
-  mainResourceIds: Parameters<typeof fetchCoreResourcesSuggestions>[0]
+  mainResourceIds: Parameters<typeof fetchCoreResourcesSuggestions>[0],
 ) {
-  return (monaco.languages.registerCompletionItemProvider('json', {
-    triggerCharacters: ['"', ':', '.'],
-    provideCompletionItems: async function (model, position) {
+  const disposable = monaco.languages.registerCompletionItemProvider("json", {
+    triggerCharacters: ['"', ":", "."],
+    provideCompletionItems: async (model, position) => {
       if (model.uri.toString() !== uri.toString()) {
         return {
-          suggestions: []
+          suggestions: [],
         }
       }
 
@@ -330,14 +329,14 @@ function registerJSONCompletionItemProvider(
         if (currentValue != null) {
           const suggestions = await fetchCoreResourcesSuggestions(
             mainResourceIds,
-            currentValue
+            currentValue,
           )
 
           return {
             incomplete: false,
             suggestions: suggestions.map((suggestion) => ({
               kind:
-                suggestion.type === 'relationship'
+                suggestion.type === "relationship"
                   ? monaco.languages.CompletionItemKind.Module
                   : monaco.languages.CompletionItemKind.Value,
               label: suggestion.value,
@@ -347,16 +346,19 @@ function registerJSONCompletionItemProvider(
                 startLineNumber: position.lineNumber,
                 startColumn: wordInfo.startColumn,
                 endLineNumber: position.lineNumber,
-                endColumn: wordInfo.endColumn
-              }
-            }))
+                endColumn: wordInfo.endColumn,
+              },
+            })),
           }
         }
       }
 
       return {
-        suggestions: []
+        suggestions: [],
       }
-    }
-  }).dispose = () => {})
+    },
+  })
+
+  // disposable.dispose = () => {}
+  return disposable
 }

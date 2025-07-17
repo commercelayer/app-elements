@@ -1,21 +1,21 @@
-import { Spacer } from '#ui/atoms/Spacer'
-import { StatusIcon } from '#ui/atoms/StatusIcon'
-import { Text } from '#ui/atoms/Text'
-import { List } from '#ui/composite/List'
-import { ListItem } from '#ui/composite/ListItem'
-import { PageLayout } from '#ui/composite/PageLayout'
 import {
   Description,
   Primary,
   Subtitle,
-  Title
-} from '@storybook/addon-docs/blocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+  Title,
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Spacer } from "#ui/atoms/Spacer"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { List } from "#ui/composite/List"
+import { ListItem } from "#ui/composite/ListItem"
+import { PageLayout } from "#ui/composite/PageLayout"
 
 const setup: Meta = {
-  title: 'Examples/List Resources',
+  title: "Examples/List Resources",
   parameters: {
-    layout: 'fullscreen',
+    layout: "fullscreen",
     docs: {
       page: () => (
         <>
@@ -24,49 +24,49 @@ const setup: Meta = {
           <Description />
           <Primary />
         </>
-      )
-    }
-  }
+      ),
+    },
+  },
 }
 export default setup
 
-const Template: StoryFn<typeof List> = (args) => (
+const Template: StoryFn<typeof List> = (_args) => (
   <PageLayout
-    title='Resources'
+    title="Resources"
     navigationButton={{
-      label: 'Back to dashboard',
+      label: "Back to dashboard",
       onClick: () => {
-        alert('Back to dashboard')
-      }
+        alert("Back to dashboard")
+      },
     }}
   >
-    <Spacer bottom='14'>
+    <Spacer bottom="14">
       <List
-        title='All resources'
+        title="All resources"
         pagination={{
           recordsPerPage: 200,
           recordCount: 104,
           currentPage: 1,
-          onChangePageRequest: (newPage: number) => {},
-          pageCount: 1
+          onChangePageRequest: (_newPage: number) => {},
+          pageCount: 1,
         }}
       >
         {[
-          'Customers',
-          'Events',
-          'Exports',
-          'Gift cards',
-          'Orders',
-          'Prices',
-          'Shipments',
-          'SKUs',
-          'SKU lists',
-          'Tax rules',
-          'Wire transfers'
+          "Customers",
+          "Events",
+          "Exports",
+          "Gift cards",
+          "Orders",
+          "Prices",
+          "Shipments",
+          "SKUs",
+          "SKU lists",
+          "Tax rules",
+          "Wire transfers",
         ].map((resource) => (
-          <ListItem key={resource} href='#'>
-            <Text weight='semibold'>{resource}</Text>
-            <StatusIcon name='caretRight' />
+          <ListItem key={resource} href="#">
+            <Text weight="semibold">{resource}</Text>
+            <StatusIcon name="caretRight" />
           </ListItem>
         ))}
       </List>

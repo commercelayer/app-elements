@@ -1,12 +1,12 @@
-import { InputTextArea } from '#ui/forms/InputTextArea'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { InputTextArea } from "#ui/forms/InputTextArea"
 
 const setup: Meta<typeof InputTextArea> = {
-  title: 'Forms/ui/InputTextArea',
+  title: "Forms/ui/InputTextArea",
   component: InputTextArea,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -16,32 +16,32 @@ const Template: StoryFn<typeof InputTextArea> = (args) => {
 
 export const Default = Template.bind({})
 Default.args = {
-  label: 'Your name',
-  name: 'fullname',
-  defaultValue: 'I love Commerce Layer'
+  label: "Your name",
+  name: "fullname",
+  defaultValue: "I love Commerce Layer",
 }
 
 export const CustomHeight = Template.bind({})
 CustomHeight.args = {
-  label: 'Your name',
-  name: 'fullname',
-  defaultValue: 'I love Commerce Layer',
-  rows: 2
+  label: "Your name",
+  name: "fullname",
+  defaultValue: "I love Commerce Layer",
+  rows: 2,
 }
 
 export const WithHint = Template.bind({})
 WithHint.args = {
-  label: 'Your name',
+  label: "Your name",
   hint: {
-    text: 'Please enter a valid name'
-  }
+    text: "Please enter a valid name",
+  },
 }
 
 export const WithError = Template.bind({})
 WithError.args = {
-  label: 'Your name',
+  label: "Your name",
   feedback: {
-    variant: 'danger',
-    message: 'Required field'
-  }
+    variant: "danger",
+    message: "Required field",
+  },
 }

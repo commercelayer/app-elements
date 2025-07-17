@@ -1,43 +1,43 @@
-import { formatResourceName } from '#helpers/resources'
-import { useIsChanged } from '#hooks/useIsChanged'
-import { useCoreSdkProvider } from '#providers/CoreSdkProvider'
-import { t } from '#providers/I18NProvider'
-import { Button } from '#ui/atoms/Button'
-import { Card } from '#ui/atoms/Card'
-import { EmptyState } from '#ui/atoms/EmptyState'
-import { Section, type SectionProps } from '#ui/atoms/Section'
-import {
-  SkeletonTemplate,
-  type SkeletonTemplateProps
-} from '#ui/atoms/SkeletonTemplate'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Table, Th, Tr } from '#ui/atoms/Table'
-import { type ThProps } from '#ui/atoms/Table/Th'
-import { Text } from '#ui/atoms/Text'
-import { InputFeedback } from '#ui/forms/InputFeedback'
 import {
   CommerceLayerStatic,
-  type ListMeta,
   type ListableResourceType,
+  type ListMeta,
   type QueryParamsList,
-  type ResourceFields
-} from '@commercelayer/sdk'
+  type ResourceFields,
+} from "@commercelayer/sdk"
 import React, {
+  type FC,
+  type JSX,
+  type ReactNode,
   useCallback,
   useEffect,
   useReducer,
-  type FC,
-  type JSX,
-  type ReactNode
-} from 'react'
-import { VisibilityTrigger } from './VisibilityTrigger'
-import { infiniteFetcher, type Resource } from './infiniteFetcher'
-import { useMetricsSdkProvider } from './metricsApiClient'
-import { initialState, reducer } from './reducer'
-import { computeTitleWithTotalCount } from './utils'
+} from "react"
+import { formatResourceName } from "#helpers/resources"
+import { useIsChanged } from "#hooks/useIsChanged"
+import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
+import { Card } from "#ui/atoms/Card"
+import { EmptyState } from "#ui/atoms/EmptyState"
+import { Section, type SectionProps } from "#ui/atoms/Section"
+import {
+  SkeletonTemplate,
+  type SkeletonTemplateProps,
+} from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Table, Th, Tr } from "#ui/atoms/Table"
+import type { ThProps } from "#ui/atoms/Table/Th"
+import { Text } from "#ui/atoms/Text"
+import { InputFeedback } from "#ui/forms/InputFeedback"
+import { infiniteFetcher, type Resource } from "./infiniteFetcher"
+import { useMetricsSdkProvider } from "./metricsApiClient"
+import { initialState, reducer } from "./reducer"
+import { computeTitleWithTotalCount } from "./utils"
+import { VisibilityTrigger } from "./VisibilityTrigger"
 
 export interface ResourceListItemTemplateProps<
-  TResource extends ListableResourceType
+  TResource extends ListableResourceType,
 > extends SkeletonTemplateProps<{
     /**
      * The fetched resource
@@ -50,13 +50,13 @@ export interface ResourceListItemTemplateProps<
     remove?: () => void
   }> {}
 
-type TableVariantHeading = Omit<ThProps, 'children'> & {
+type TableVariantHeading = Omit<ThProps, "children"> & {
   label: React.ReactNode
 }
 
 export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   SectionProps,
-  'actionButton'
+  "actionButton"
 > & {
   /**
    * A react component to be used to render each item in the list.
@@ -80,15 +80,15 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
   /**
    * Force the size of the title, when not defined, title size will be `small` by default or `normal` when variant is `table` or `boxed`.
    */
-  titleSize?: SectionProps['titleSize']
+  titleSize?: SectionProps["titleSize"]
 } & (
     | {
         /** Boxed variant wraps the list in a Card */
-        variant?: 'boxed'
+        variant?: "boxed"
       }
     | {
         /** Table variant wraps the list in a Table and enables the `headings` prop */
-        variant: 'table'
+        variant: "table"
         headings: TableVariantHeading[]
       }
   )
@@ -101,14 +101,14 @@ export interface UseResourceListConfig<TResource extends ListableResourceType> {
   /**
    * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
    */
-  query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
+  query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
   /**
    * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
    */
   metricsQuery?: {
     search: {
       limit?: number
-      sort?: 'asc' | 'desc'
+      sort?: "asc" | "desc"
       sort_by?: string
       fields?: string[]
     }
@@ -124,7 +124,7 @@ export interface UseResourceListConfig<TResource extends ListableResourceType> {
 export function useResourceList<TResource extends ListableResourceType>({
   type,
   query,
-  metricsQuery
+  metricsQuery,
 }: UseResourceListConfig<TResource>): {
   /** The component that renders the list with infinite scrolling functionality */
   ResourceList: FC<ResourceListProps<TResource>>
@@ -154,24 +154,24 @@ export function useResourceList<TResource extends ListableResourceType>({
   const { metricsClient } = useMetricsSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
     reducer,
-    initialState
+    initialState,
   )
 
   const isQueryChanged = useIsChanged({
     value: query,
     onChange: () => {
-      dispatch({ type: 'reset' })
+      dispatch({ type: "reset" })
       void fetchMore({ query })
-    }
+    },
   })
 
   const fetchMore = useCallback(
     async ({
-      query
+      query,
     }: {
-      query?: Omit<QueryParamsList<ResourceFields[TResource]>, 'pageNumber'>
+      query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
     }): Promise<void> => {
-      dispatch({ type: 'prepare' })
+      dispatch({ type: "prepare" })
       try {
         const listResponse = await infiniteFetcher({
           // when is new query, we don't want to pass existing data
@@ -179,29 +179,29 @@ export function useResourceList<TResource extends ListableResourceType>({
           resourceType: type,
           ...(metricsQuery != null
             ? {
-                clientType: 'metricsClient',
+                clientType: "metricsClient",
                 client: metricsClient,
-                query: metricsQuery
+                query: metricsQuery,
               }
             : {
-                clientType: 'coreSdkClient',
+                clientType: "coreSdkClient",
                 client: sdkClient,
-                query
-              })
+                query,
+              }),
         })
-        dispatch({ type: 'loaded', payload: listResponse })
+        dispatch({ type: "loaded", payload: listResponse })
       } catch (err) {
-        dispatch({ type: 'error', payload: parseApiErrorMessage(err) })
+        dispatch({ type: "error", payload: parseApiErrorMessage(err) })
       }
     },
-    [sdkClient, data, isQueryChanged]
+    [sdkClient, data, isQueryChanged],
   )
 
   useEffect(
     function initialFetch() {
       void fetchMore({ query })
     },
-    [sdkClient]
+    [sdkClient],
   )
 
   const isApiError = data != null && error != null
@@ -213,15 +213,15 @@ export function useResourceList<TResource extends ListableResourceType>({
 
   const removeItem = useCallback((resourceId: string) => {
     dispatch({
-      type: 'removeItem',
+      type: "removeItem",
       payload: {
-        resourceId
-      }
+        resourceId,
+      },
     })
   }, [])
 
   const refresh = useCallback(() => {
-    dispatch({ type: 'reset' })
+    dispatch({ type: "reset" })
     void fetchMore({ query })
   }, [])
 
@@ -236,25 +236,25 @@ export function useResourceList<TResource extends ListableResourceType>({
       ...rest
     }) => {
       const computedTitle =
-        typeof title === 'function'
+        typeof title === "function"
           ? title(recordCount)
           : computeTitleWithTotalCount({
               title,
-              recordCount
+              recordCount,
             })
       // lists by default have a small title, but table and boxed have a normal title size unless specified
       const titleSize =
         titleSizeProp ??
-        (variant === 'table' || variant === 'boxed' ? 'normal' : 'small')
+        (variant === "table" || variant === "boxed" ? "normal" : "small")
       const sectionBorder =
-        variant === 'boxed' || variant === 'table' ? 'none' : undefined
-      const tableHeadings = 'headings' in rest ? rest.headings : undefined
+        variant === "boxed" || variant === "table" ? "none" : undefined
+      const tableHeadings = "headings" in rest ? rest.headings : undefined
 
       if (isApiError) {
         return (
           <EmptyState
             title={`Could not retrieve ${type}`}
-            description={t('common.try_to_refresh_page')}
+            description={t("common.try_to_refresh_page")}
           />
         )
       }
@@ -262,25 +262,25 @@ export function useResourceList<TResource extends ListableResourceType>({
       // Empty state JSX element to render when the list is empty
       // If not provided, a default message based on the resource name will be shown
       const emptyState = emptyStateProp ?? (
-        <Text variant='info'>
-          No{' '}
+        <Text variant="info">
+          No{" "}
           {formatResourceName({
             resource: type,
-            count: 'plural'
+            count: "plural",
           })}
           .
         </Text>
       )
 
       if (isEmptyList) {
-        return variant != null || typeof emptyStateProp === 'string' ? (
+        return variant != null || typeof emptyStateProp === "string" ? (
           // inline empty state
           <Section
             actionButton={actionButton}
             title={computedTitle}
             titleSize={titleSize}
           >
-            <Spacer top='4'>{emptyState}</Spacer>
+            <Spacer top="4">{emptyState}</Spacer>
           </Section>
         ) : (
           // custom JSX element (no title or actionButton)
@@ -292,7 +292,7 @@ export function useResourceList<TResource extends ListableResourceType>({
         <Section
           isLoading={isFirstLoading}
           delayMs={0}
-          data-testid='resource-list'
+          data-testid="resource-list"
           actionButton={actionButton}
           title={computedTitle}
           titleSize={titleSize}
@@ -307,31 +307,30 @@ export function useResourceList<TResource extends ListableResourceType>({
               variant={variant}
               isLoading={isLoading}
               footer={
-                <>
-                  {error != null ? (
-                    <ErrorLine
-                      message={error.message}
-                      onRetry={() => {
+                error != null ? (
+                  <ErrorLine
+                    message={error.message}
+                    onRetry={() => {
+                      void fetchMore({ query })
+                    }}
+                  />
+                ) : isLoading ? (
+                  Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+                    .fill(null)
+                    .map((_, idx) => (
+                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                      <ItemTemplate isLoading delayMs={0} key={idx} />
+                    ))
+                ) : (
+                  <VisibilityTrigger
+                    enabled={hasMorePages}
+                    callback={(entry) => {
+                      if (entry.isIntersecting) {
                         void fetchMore({ query })
-                      }}
-                    />
-                  ) : isLoading ? (
-                    Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-                      .fill(null)
-                      .map((_, idx) => (
-                        <ItemTemplate isLoading delayMs={0} key={idx} />
-                      ))
-                  ) : (
-                    <VisibilityTrigger
-                      enabled={hasMorePages}
-                      callback={(entry) => {
-                        if (entry.isIntersecting) {
-                          void fetchMore({ query })
-                        }
-                      }}
-                    />
-                  )}
-                </>
+                      }
+                    }}
+                  />
+                )
               }
             >
               {data?.list.map((resource) => {
@@ -358,8 +357,8 @@ export function useResourceList<TResource extends ListableResourceType>({
       type,
       isLoading,
       isFirstLoading,
-      error
-    ]
+      error,
+    ],
   )
 
   return {
@@ -376,24 +375,24 @@ export function useResourceList<TResource extends ListableResourceType>({
         await fetchMore({ query })
       }
     },
-    hasMorePages
+    hasMorePages,
   }
 }
 
 function ErrorLine({
   message,
-  onRetry
+  onRetry,
 }: {
   message: string
   onRetry: () => void
 }): JSX.Element {
   return (
-    <Spacer top='6'>
-      <Spacer bottom='4'>
-        <InputFeedback variant='danger' message={message} />
+    <Spacer top="6">
+      <Spacer bottom="4">
+        <InputFeedback variant="danger" message={message} />
       </Spacer>
-      <Button size='small' onClick={onRetry}>
-        {t('common.retry')}
+      <Button size="small" onClick={onRetry}>
+        {t("common.retry")}
       </Button>
     </Spacer>
   )
@@ -401,8 +400,8 @@ function ErrorLine({
 
 function parseApiErrorMessage(error: unknown): string {
   return CommerceLayerStatic.isApiError(error)
-    ? (error.errors ?? []).map(({ detail }) => detail).join(', ')
-    : t('common.could_not_retrieve_data')
+    ? (error.errors ?? []).map(({ detail }) => detail).join(", ")
+    : t("common.could_not_retrieve_data")
 }
 
 /**
@@ -413,22 +412,22 @@ function parseApiErrorMessage(error: unknown): string {
  */
 const Wrapper: FC<{
   children?: ReactNode
-  variant?: 'boxed' | 'table'
+  variant?: "boxed" | "table"
   tableHeadings?: TableVariantHeading[]
   isFirstLoading?: boolean
   isLoading?: boolean
   footer?: ReactNode
 }> = ({ children, variant, tableHeadings, isLoading, footer }) => {
-  if (variant === 'boxed') {
+  if (variant === "boxed") {
     return (
-      <Card gap='1' overflow='hidden'>
+      <Card gap="1" overflow="hidden">
         {children}
         {footer}
       </Card>
     )
   }
 
-  if (variant === 'table') {
+  if (variant === "table") {
     return (
       <Table
         thead={

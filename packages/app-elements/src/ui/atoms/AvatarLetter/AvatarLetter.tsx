@@ -1,7 +1,7 @@
-import { getDeterministicValue, getInitials } from '#utils/text'
-import classNames from 'classnames'
-import { useMemo, type JSX } from 'react'
-import { BG_COLORS, getTextColorForBackground } from './colors'
+import classNames from "classnames"
+import { type JSX, useMemo } from "react"
+import { getDeterministicValue, getInitials } from "#utils/text"
+import { BG_COLORS, getTextColorForBackground } from "./colors"
 
 export interface AvatarLetterProps {
   /**
@@ -35,19 +35,19 @@ export function AvatarLetter({
 }: AvatarLetterProps): JSX.Element {
   const initials = useMemo(() => getInitials(text), [text])
   const backgroundColor = useMemo(
-    () => getDeterministicValue(text, BG_COLORS) ?? '#FFFFFF',
-    [text]
+    () => getDeterministicValue(text, BG_COLORS) ?? "#FFFFFF",
+    [text],
   )
   const textColor = useMemo(
     () => getTextColorForBackground(backgroundColor),
-    [backgroundColor]
+    [backgroundColor],
   )
 
   if (children != null) {
     return children({
       initials,
       backgroundColor,
-      textColor
+      textColor,
     })
   }
 
@@ -55,17 +55,17 @@ export function AvatarLetter({
     <div
       className={classNames(
         className,
-        'w-[42px] h-[42px] rounded-full',
-        'flex items-center justify-center',
-        'font-bold text-sm',
+        "w-[42px] h-[42px] rounded-full",
+        "flex items-center justify-center",
+        "font-bold text-sm",
         {
-          'text-white': textColor === 'white',
-          'text-black': textColor === 'black'
-        }
+          "text-white": textColor === "white",
+          "text-black": textColor === "black",
+        },
       )}
       style={{
         backgroundColor,
-        ...style
+        ...style,
       }}
       {...rest}
     >
@@ -74,4 +74,4 @@ export function AvatarLetter({
   )
 }
 
-AvatarLetter.displayName = 'AvatarLetter'
+AvatarLetter.displayName = "AvatarLetter"

@@ -1,55 +1,55 @@
-import { CoreSdkProvider } from '#providers/CoreSdkProvider'
-import { MockTokenProvider as TokenProvider } from '#providers/TokenProvider/MockTokenProvider'
-import { Button } from '#ui/atoms/Button'
-import { Card } from '#ui/atoms/Card'
-import { Spacer } from '#ui/atoms/Spacer'
-import { Text } from '#ui/atoms/Text'
-import { ListItem } from '#ui/composite/ListItem'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { Button } from "#ui/atoms/Button"
+import { Card } from "#ui/atoms/Card"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
+import { ListItem } from "#ui/composite/ListItem"
 import {
   ResourceLineItems,
-  type ResourceLineItemsProps
-} from '#ui/resources/ResourceLineItems'
-import { presetLineItems } from '#ui/resources/ResourceLineItems/ResourceLineItems.mocks'
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+  type ResourceLineItemsProps,
+} from "#ui/resources/ResourceLineItems"
+import { presetLineItems } from "#ui/resources/ResourceLineItems/ResourceLineItems.mocks"
 
 type Props = ResourceLineItemsProps & {
-  preset: Array<keyof typeof presetLineItems | 'custom'>
+  preset: Array<keyof typeof presetLineItems | "custom">
 }
 
 const setup: Meta<Props> = {
-  title: 'Resources/ResourceLineItems',
+  title: "Resources/ResourceLineItems",
   component: ResourceLineItems,
   argTypes: {
     preset: {
-      options: ['custom', ...Object.keys(presetLineItems)],
-      control: { type: 'check' },
+      options: ["custom", ...Object.keys(presetLineItems)],
+      control: { type: "check" },
       description: `⚠️ This attribute is **not** a component prop.
         It is meant to be used only within this documentation.
         You can quickly switch to a pre-configured \`lineItem\`.
       `,
-      defaultValue: ['custom']
-    }
+      defaultValue: ["custom"],
+    },
   },
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
 const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <ResourceLineItems
           {...args}
           items={[
-            ...(preset.includes('custom') ? items : []),
+            ...(preset.includes("custom") ? items : []),
             ...preset
               .filter(
-                (p): p is Exclude<Props['preset'][number], 'custom'> =>
-                  p !== 'custom'
+                (p): p is Exclude<Props["preset"][number], "custom"> =>
+                  p !== "custom",
               )
-              .map((p) => presetLineItems[p])
+              .map((p) => presetLineItems[p]),
           ]}
         />
       </CoreSdkProvider>
@@ -57,96 +57,96 @@ const Template: StoryFn<Props> = ({ preset, items, ...args }) => {
   )
 }
 
-const footer: Props['footer'] = [
+const footer: Props["footer"] = [
   {
-    key: 'first-row',
+    key: "first-row",
     element: (
-      <ListItem borderStyle='none' padding='y' paddingSize='2'>
+      <ListItem borderStyle="none" padding="y" paddingSize="2">
         <Text>Coupon</Text>
-        <Button variant='link'>Add coupon</Button>
+        <Button variant="link">Add coupon</Button>
       </ListItem>
-    )
+    ),
   },
   {
-    key: 'second-row',
+    key: "second-row",
     element: (
       <>
-        <ListItem borderStyle='none' padding='y' paddingSize='2'>
+        <ListItem borderStyle="none" padding="y" paddingSize="2">
           <Text>Subtotal</Text>
           <Text>$141.60</Text>
         </ListItem>
-        <ListItem borderStyle='none' padding='y' paddingSize='2'>
+        <ListItem borderStyle="none" padding="y" paddingSize="2">
           <Text>Shipping method</Text>
           <Text>$12.00</Text>
         </ListItem>
-        <ListItem borderStyle='none' padding='y' paddingSize='2'>
-          <Text weight='bold'>Total</Text>
-          <Text weight='bold'>$163.60</Text>
+        <ListItem borderStyle="none" padding="y" paddingSize="2">
+          <Text weight="bold">Total</Text>
+          <Text weight="bold">$163.60</Text>
         </ListItem>
       </>
-    )
-  }
+    ),
+  },
 ]
 
 export const Default = Template.bind({})
 Default.args = {
-  preset: ['custom'],
+  preset: ["custom"],
   isLoading: false,
-  items: [{ ...presetLineItems.oneLine, id: 'nIp9785zse' }],
+  items: [{ ...presetLineItems.oneLine, id: "nIp9785zse" }],
   footer,
   onChange() {
-    alert('Something has changed!')
-  }
+    alert("Something has changed!")
+  },
 }
 
 export const Simple = Template.bind({})
 Simple.args = {
-  preset: ['oneLine']
+  preset: ["oneLine"],
 }
 
 export const WithDiscountBreakdown = Template.bind({})
 WithDiscountBreakdown.args = {
-  preset: ['withDiscountBreakdown']
+  preset: ["withDiscountBreakdown"],
 }
 
 export const WithTaxes = Template.bind({})
 WithTaxes.args = {
-  preset: ['withTaxes']
+  preset: ["withTaxes"],
 }
 
 export const WithLineItemOptions = Template.bind({})
 WithLineItemOptions.args = {
-  preset: ['withOptions']
+  preset: ["withOptions"],
 }
 
 export const WithBundle = Template.bind({})
 WithBundle.args = {
-  preset: ['withBundle']
+  preset: ["withBundle"],
 }
 
 export const WithGiftCard = Template.bind({})
 WithGiftCard.args = {
-  preset: ['giftCardBought', 'giftCardUsed']
+  preset: ["giftCardBought", "giftCardUsed"],
 }
 
 export const ParcelLineItem = Template.bind({})
 ParcelLineItem.args = {
-  preset: ['parcelLineItem']
+  preset: ["parcelLineItem"],
 }
 
 export const StockLineItem = Template.bind({})
 StockLineItem.args = {
-  preset: ['stockLineItem', 'stockLineItemWithStockTransfer']
+  preset: ["stockLineItem", "stockLineItemWithStockTransfer"],
 }
 
 export const ReturnLineItem = Template.bind({})
 ReturnLineItem.args = {
-  preset: ['returnLineItem']
+  preset: ["returnLineItem"],
 }
 
 export const List: StoryFn<Props> = (args) => {
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <ResourceLineItems
           {...args}
@@ -162,8 +162,8 @@ export const EditableList = List.bind({})
 EditableList.args = {
   editable: true,
   onChange() {
-    alert('Something has changed!')
-  }
+    alert("Something has changed!")
+  },
 }
 
 /**
@@ -173,11 +173,11 @@ export const SwappableItem = List.bind({})
 SwappableItem.args = {
   editable: true,
   onChange() {
-    alert('Something has changed!')
+    alert("Something has changed!")
   },
   onSwap(lineItem) {
     alert(`Swap item #${lineItem.id}`)
-  }
+  },
 }
 
 /**
@@ -186,7 +186,7 @@ SwappableItem.args = {
  */
 export const RemoveDisabled: StoryFn<Props> = (args) => {
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
         <ResourceLineItems
           {...args}
@@ -200,11 +200,11 @@ export const RemoveDisabled: StoryFn<Props> = (args) => {
 RemoveDisabled.args = {
   editable: true,
   onChange() {
-    alert('Something has changed!')
+    alert("Something has changed!")
   },
   onSwap(lineItem) {
     alert(`Swap item #${lineItem.id}`)
-  }
+  },
 }
 
 /**
@@ -212,15 +212,15 @@ RemoveDisabled.args = {
  */
 export const WithinACard: StoryFn<Props> = (args) => {
   return (
-    <TokenProvider kind='integration' appSlug='orders' devMode>
+    <TokenProvider kind="integration" appSlug="orders" devMode>
       <CoreSdkProvider>
-        <Spacer bottom='4'>
-          <Card overflow='visible'>
+        <Spacer bottom="4">
+          <Card overflow="visible">
             <ResourceLineItems {...args} items={[presetLineItems.oneLine]} />
           </Card>
         </Spacer>
 
-        <Card overflow='visible'>
+        <Card overflow="visible">
           <ResourceLineItems
             {...args}
             items={[presetLineItems.oneLine]}
@@ -232,8 +232,8 @@ export const WithinACard: StoryFn<Props> = (args) => {
   )
 }
 WithinACard.parameters = {
-  backgrounds: { default: 'overlay' }
+  backgrounds: { default: "overlay" },
 }
 WithinACard.args = {
-  editable: true
+  editable: true,
 }

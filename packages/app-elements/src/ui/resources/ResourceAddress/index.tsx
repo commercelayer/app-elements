@@ -1,7 +1,7 @@
-export { ResourceAddress, type ResourceAddressProps } from './ResourceAddress'
+export { ResourceAddress, type ResourceAddressProps } from "./ResourceAddress"
 export {
-  ResourceAddressFormFields,
   getResourceAddressFormFieldsSchema,
-  type ResourceAddressFormFieldsProps
-} from './ResourceAddressFormFields'
-export { useResourceAddressOverlay } from './useResourceAddressOverlay'
+  ResourceAddressFormFields,
+  type ResourceAddressFormFieldsProps,
+} from "./ResourceAddressFormFields"
+export { useResourceAddressOverlay } from "./useResourceAddressOverlay"

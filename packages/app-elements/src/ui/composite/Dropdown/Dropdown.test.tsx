@@ -1,28 +1,28 @@
-import { Button } from '#ui/atoms/Button'
-import { Dropdown, DropdownDivider, DropdownItem } from '#ui/composite/Dropdown'
-import { fireEvent, render } from '@testing-library/react'
+import { fireEvent, render } from "@testing-library/react"
+import { Button } from "#ui/atoms/Button"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 
 const items = (
   <>
-    <DropdownItem onClick={() => {}} icon='creditCard' label='Payments' />
+    <DropdownItem onClick={() => {}} icon="creditCard" label="Payments" />
     <DropdownItem
       onClick={() => {}}
-      icon='keep-space' // no icon, keep same gap
-      label='Items'
+      icon="keep-space" // no icon, keep same gap
+      label="Items"
     />
 
     <DropdownDivider />
-    <DropdownItem onClick={() => {}} icon='xCircle' label='Delete' />
+    <DropdownItem onClick={() => {}} icon="xCircle" label="Delete" />
   </>
 )
 
-describe('Dropdown', () => {
-  test('Should use the provided Button when `dropdownLabel` is set to Button', () => {
+describe("Dropdown", () => {
+  test("Should use the provided Button when `dropdownLabel` is set to Button", () => {
     const { container, getByText, getAllByRole } = render(
       <Dropdown
         dropdownLabel={<Button>Open dropdown</Button>}
         dropdownItems={items}
-      />
+      />,
     )
 
     expect(container).toMatchInlineSnapshot(`
@@ -41,53 +41,53 @@ describe('Dropdown', () => {
       </div>
     `)
 
-    const button = getByText('Open dropdown')
-    expect(button).not.toHaveClass('m-0 p-0 align-top')
+    const button = getByText("Open dropdown")
+    expect(button).not.toHaveClass("m-0 p-0 align-top")
 
-    expect(getAllByRole('button').length).toEqual(1)
+    expect(getAllByRole("button").length).toEqual(1)
   })
 
-  test('Should be rendering with default bottom-right position', () => {
+  test("Should be rendering with default bottom-right position", () => {
     const { container, getByText } = render(
-      <Dropdown dropdownLabel='open dropdown' dropdownItems={items} />
+      <Dropdown dropdownLabel="open dropdown" dropdownItems={items} />,
     )
-    fireEvent.click(getByText('open dropdown'))
+    fireEvent.click(getByText("open dropdown"))
     expect(container).toMatchSnapshot()
   })
 
-  test('Should be rendering bottom-left', () => {
+  test("Should be rendering bottom-left", () => {
     const { container, getByText } = render(
       <Dropdown
-        dropdownLabel='open dropdown'
-        menuPosition='bottom-left'
+        dropdownLabel="open dropdown"
+        menuPosition="bottom-left"
         dropdownItems={<div />}
-      />
+      />,
     )
-    fireEvent.click(getByText('open dropdown'))
+    fireEvent.click(getByText("open dropdown"))
     expect(container).toMatchSnapshot()
   })
 
-  test('Should be rendering top-left', () => {
+  test("Should be rendering top-left", () => {
     const { container, getByText } = render(
       <Dropdown
-        dropdownLabel='open dropdown'
-        menuPosition='top-left'
+        dropdownLabel="open dropdown"
+        menuPosition="top-left"
         dropdownItems={<div />}
-      />
+      />,
     )
-    fireEvent.click(getByText('open dropdown'))
+    fireEvent.click(getByText("open dropdown"))
     expect(container).toMatchSnapshot()
   })
 
-  test('Should be rendering top-right', () => {
+  test("Should be rendering top-right", () => {
     const { container, getByText } = render(
       <Dropdown
-        dropdownLabel='open dropdown'
-        menuPosition='top-right'
+        dropdownLabel="open dropdown"
+        menuPosition="top-right"
         dropdownItems={<div />}
-      />
+      />,
     )
-    fireEvent.click(getByText('open dropdown'))
+    fireEvent.click(getByText("open dropdown"))
     expect(container).toMatchSnapshot()
   })
 })

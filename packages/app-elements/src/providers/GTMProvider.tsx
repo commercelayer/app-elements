@@ -1,11 +1,11 @@
-import isEmpty from 'lodash-es/isEmpty'
-import { createContext, useContext, useEffect, useMemo } from 'react'
-import TagManager, { type DataLayerArgs } from 'react-gtm-module'
+import isEmpty from "lodash-es/isEmpty"
+import { createContext, useContext, useEffect, useMemo } from "react"
+import TagManager, { type DataLayerArgs } from "react-gtm-module"
 
 interface GTMProviderValue {
   push: (
-    data: DataLayerArgs['dataLayer'],
-    customDataLayerName?: DataLayerArgs['dataLayerName']
+    data: DataLayerArgs["dataLayer"],
+    customDataLayerName?: DataLayerArgs["dataLayerName"],
   ) => void
 }
 
@@ -34,7 +34,7 @@ interface GTMProviderProps {
  */
 export const GTMProvider: React.FC<GTMProviderProps> = ({
   children,
-  gtmId
+  gtmId,
 }) => {
   useEffect(() => {
     if (gtmId != null && !isEmpty(gtmId)) {
@@ -42,14 +42,14 @@ export const GTMProvider: React.FC<GTMProviderProps> = ({
     }
   }, [gtmId])
 
-  const push = useMemo<GTMProviderValue['push']>(
+  const push = useMemo<GTMProviderValue["push"]>(
     () => (data, customDataLayerName) => {
       TagManager.dataLayer({
         dataLayer: data,
-        dataLayerName: customDataLayerName
+        dataLayerName: customDataLayerName,
       })
     },
-    []
+    [],
   )
 
   if (gtmId == null || isEmpty(gtmId)) {

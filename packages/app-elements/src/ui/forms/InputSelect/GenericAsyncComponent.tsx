@@ -1,22 +1,18 @@
-import debounce from 'lodash-es/debounce'
-import isEmpty from 'lodash-es/isEmpty'
-import { type AsyncAdditionalProps } from 'node_modules/react-select/dist/declarations/src/useAsync'
-import { forwardRef, useCallback, useEffect } from 'react'
-import {
-  type GroupBase,
-  type SelectInstance,
-  type StylesConfig
-} from 'react-select'
-import type AsyncSelect from 'react-select/async'
-import type AsyncCreatableSelect from 'react-select/async-creatable'
-import { type SetRequired } from 'type-fest'
-import { type InputSelectProps, type InputSelectValue } from './InputSelect'
-import components from './overrides'
+import debounce from "lodash-es/debounce"
+import isEmpty from "lodash-es/isEmpty"
+import type { AsyncAdditionalProps } from "node_modules/react-select/dist/declarations/src/useAsync"
+import { forwardRef, useCallback, useEffect } from "react"
+import type { GroupBase, SelectInstance, StylesConfig } from "react-select"
+import type AsyncSelect from "react-select/async"
+import type AsyncCreatableSelect from "react-select/async-creatable"
+import type { SetRequired } from "type-fest"
+import type { InputSelectProps, InputSelectValue } from "./InputSelect"
+import components from "./overrides"
 
 export interface GenericAsyncSelectComponentProps
   extends Omit<
-    SetRequired<InputSelectProps, 'loadAsyncValues'>,
-    'label' | 'hint'
+    SetRequired<InputSelectProps, "loadAsyncValues">,
+    "label" | "hint"
   > {
   styles: StylesConfig<InputSelectValue>
 }
@@ -26,7 +22,7 @@ type ReactSelectLoadOptions = Exclude<
   AsyncAdditionalProps<
     InputSelectValue,
     GroupBase<InputSelectValue>
-  >['loadOptions'],
+  >["loadOptions"],
   undefined
 >
 
@@ -47,7 +43,7 @@ export const GenericAsyncSelectComponent = forwardRef<
       debounceMs = 500,
       ...rest
     },
-    ref
+    ref,
   ) => {
     const loadOptions = useCallback(
       debounce<ReactSelectLoadOptions>((inputText, callback) => {
@@ -55,7 +51,7 @@ export const GenericAsyncSelectComponent = forwardRef<
           callback(options)
         })
       }, debounceMs),
-      [debounceMs]
+      [debounceMs],
     )
 
     useEffect(() => {
@@ -71,7 +67,7 @@ export const GenericAsyncSelectComponent = forwardRef<
         defaultOptions={initialValues}
         onChange={onSelect}
         closeMenuOnSelect={rest.isMulti !== true}
-        createOptionPosition='first'
+        createOptionPosition="first"
         allowCreateWhileLoading
         noOptionsMessage={({ inputValue }) =>
           isEmpty(inputValue) &&
@@ -82,13 +78,13 @@ export const GenericAsyncSelectComponent = forwardRef<
         loadOptions={loadOptions}
         components={{
           ...components,
-          DropdownIndicator: null
+          DropdownIndicator: null,
         }}
         isOptionDisabled={isOptionDisabled}
         formatCreateLabel={(v) => v} // to override default `Create "${value}"`
       />
     )
-  }
+  },
 )
 
-GenericAsyncSelectComponent.displayName = 'GenericAsyncSelectComponent'
+GenericAsyncSelectComponent.displayName = "GenericAsyncSelectComponent"

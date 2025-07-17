@@ -1,4 +1,4 @@
 export {
   ResourceMetadata,
-  type ResourceMetadataProps
-} from './ResourceMetadata'
+  type ResourceMetadataProps,
+} from "./ResourceMetadata"

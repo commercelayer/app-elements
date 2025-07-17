@@ -1,13 +1,12 @@
-import { Report } from '#ui/composite/Report'
-
-import { type Meta, type StoryFn } from '@storybook/react-vite'
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Report } from "#ui/composite/Report"
 
 const setup: Meta<typeof Report> = {
-  title: 'Composite/Report',
+  title: "Composite/Report",
   component: Report,
   parameters: {
-    layout: 'padded'
-  }
+    layout: "padded",
+  },
 }
 export default setup
 
@@ -20,24 +19,24 @@ Default.args = {
   isLoading: false,
   items: [
     {
-      label: 'Record imported',
+      label: "Record imported",
       count: 500,
       linkUrl:
-        'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-      linkLabel: 'Download CSV file'
+        "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      linkLabel: "Download CSV file",
     },
     {
-      label: 'Errors',
+      label: "Errors",
       count: 100,
       downloadJsonAsFile: {
-        foo: 'bar',
-        hello: 'world',
-        test: true
+        foo: "bar",
+        hello: "world",
+        test: true,
       },
-      downloadJsonFilename: 'testerros',
-      linkLabel: 'View logs'
-    }
-  ]
+      downloadJsonFilename: "testerros",
+      linkLabel: "View logs",
+    },
+  ],
 }
 
 export const Single = Template.bind({})
@@ -45,13 +44,13 @@ Single.args = {
   isLoading: false,
   items: [
     {
-      label: 'Record imported',
+      label: "Record imported",
       count: 500,
       linkUrl:
-        'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
-      linkLabel: 'Download CSV file'
-    }
-  ]
+        "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      linkLabel: "Download CSV file",
+    },
+  ],
 }
 
 export const NoLinks = Template.bind({})
@@ -59,8 +58,8 @@ NoLinks.args = {
   isLoading: false,
   items: [
     {
-      label: 'Record imported',
-      count: 500
-    }
-  ]
+      label: "Record imported",
+      count: 500,
+    },
+  ],
 }

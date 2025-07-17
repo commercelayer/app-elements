@@ -1,9 +1,9 @@
-const unitsOfWeight = ['gr', 'lb', 'oz'] as const
+const unitsOfWeight = ["gr", "lb", "oz"] as const
 
 const unitsOfWeightNames = {
-  gr: 'Grams',
-  lb: 'Pounds',
-  oz: 'Ounces'
+  gr: "Grams",
+  lb: "Pounds",
+  oz: "Ounces",
 } as const
 
 export type UnitOfWeight = (typeof unitsOfWeight)[number]
@@ -23,13 +23,13 @@ export const getUnitsOfWeightForSelect = (): UnitOfWeightForSelect[] => {
   return unitsOfWeight.map((unitOfWeight) => {
     return {
       value: unitOfWeight,
-      label: unitsOfWeightNames[unitOfWeight]
+      label: unitsOfWeightNames[unitOfWeight],
     }
   })
 }
 
 export function getUnitOfWeightName(
-  unitOfWeight: UnitOfWeight
+  unitOfWeight: UnitOfWeight,
 ): UnitOfWeightLabel {
   return unitsOfWeightNames[unitOfWeight]
 }

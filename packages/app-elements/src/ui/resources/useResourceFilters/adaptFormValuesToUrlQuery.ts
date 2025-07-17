@@ -1,16 +1,16 @@
-import isEmpty from 'lodash-es/isEmpty'
-import isNumber from 'lodash-es/isNumber'
-import omitBy from 'lodash-es/omitBy'
-import queryString from 'query-string'
+import isEmpty from "lodash-es/isEmpty"
+import isNumber from "lodash-es/isNumber"
+import omitBy from "lodash-es/omitBy"
+import queryString from "query-string"
 import {
-  isCurrencyRange,
   type CurrencyRangeFieldValue,
   type FiltersInstructions,
-  type FormFullValues
-} from './types'
+  type FormFullValues,
+  isCurrencyRange,
+} from "./types"
 
 export interface AdaptFormValuesToUrlQueryParams<
-  FilterFormValues extends FormFullValues
+  FilterFormValues extends FormFullValues,
 > {
   formValues: FilterFormValues
   instructions: FiltersInstructions
@@ -22,10 +22,10 @@ export interface AdaptFormValuesToUrlQueryParams<
  * @returns a string ready to be used in URL
  */
 export function adaptFormValuesToUrlQuery<
-  FilterFormValues extends FormFullValues
+  FilterFormValues extends FormFullValues,
 >({
   formValues,
-  instructions
+  instructions,
 }: AdaptFormValuesToUrlQueryParams<FilterFormValues>): string {
   // flat currency range object values
   const currencyRangePredicates = instructions
@@ -34,7 +34,7 @@ export function adaptFormValuesToUrlQuery<
 
   const currencyRangeFormValues = omitBy(
     formValues,
-    (_, key) => !currencyRangePredicates.includes(key)
+    (_, key) => !currencyRangePredicates.includes(key),
   )
 
   const currencyRangeValues = Object.entries(currencyRangeFormValues).reduce(
@@ -51,14 +51,14 @@ export function adaptFormValuesToUrlQuery<
         ...acc,
         [`${key}_gteq`]: currencyFrom,
         [`${key}_lteq`]: currencyTo,
-        currency_code_eq: currencyCode
+        currency_code_eq: currencyCode,
       }
     },
-    {}
+    {},
   )
 
   const restFormValues = omitBy(formValues, (_, key) =>
-    currencyRangePredicates.includes(key)
+    currencyRangePredicates.includes(key),
   )
 
   return queryString.stringify(
@@ -67,9 +67,9 @@ export function adaptFormValuesToUrlQuery<
         ...restFormValues,
         ...currencyRangeValues,
         timeFrom: formValues.timeFrom?.toISOString(),
-        timeTo: formValues.timeTo?.toISOString()
+        timeTo: formValues.timeTo?.toISOString(),
       },
-      (v) => isEmpty(v) && !isNumber(v)
-    )
+      (v) => isEmpty(v) && !isNumber(v),
+    ),
   )
 }

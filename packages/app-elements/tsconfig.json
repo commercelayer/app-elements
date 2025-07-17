@@ -2,15 +2,8 @@
   "compilerOptions": {
     "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
-    "types": [
-      "vitest/globals",
-      "@testing-library/jest-dom"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "types": ["vitest/globals", "@testing-library/jest-dom"],
     "allowJs": false,
     "skipLibCheck": true,
     "esModuleInterop": false,
@@ -26,35 +19,16 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "#dictionaries/*": [
-        "src/dictionaries/*"
-      ],
-      "#helpers/*": [
-        "src/helpers/*"
-      ],
-      "#hooks/*": [
-        "src/hooks/*"
-      ],
-      "#providers/*": [
-        "src/providers/*"
-      ],
-      "#styles/*": [
-        "src/styles/*"
-      ],
-      "#ui/*": [
-        "src/ui/*"
-      ],
-      "#utils/*": [
-        "src/utils/*"
-      ]
+      "#dictionaries/*": ["src/dictionaries/*"],
+      "#helpers/*": ["src/helpers/*"],
+      "#hooks/*": ["src/hooks/*"],
+      "#providers/*": ["src/providers/*"],
+      "#styles/*": ["src/styles/*"],
+      "#ui/*": ["src/ui/*"],
+      "#utils/*": ["src/utils/*"]
     }
   },
-  "include": [
-    "vite.config.js",
-    "src",
-    "mocks",
-    ".eslintrc.cjs"
-  ],
+  "include": ["vite.config.js", "src", "mocks"],
   "references": [
     {
       "path": "./tsconfig.node.json"
