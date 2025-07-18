@@ -41,7 +41,7 @@ export function Condition({
               )
             }}
             defaultValue={conditionsLogin}
-            className="pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-none appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4"
+            className="pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-hidden appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4"
           >
             <option value="and">{isNested ? "Nested in " : ""}AND</option>
             <option value="or">{isNested ? "Nested in " : ""}OR</option>
@@ -106,8 +106,8 @@ function Connector({
 
   return (
     <>
-      <div className="absolute -left-[1px] top-1/2 w-px h-1/2 bg-white" />
-      <div className="absolute -left-[1px] top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-l border-b rounded-es-sm bg-white border-gray-200" />
+      <div className="absolute -left-px top-1/2 w-px h-1/2 bg-white" />
+      <div className="absolute -left-px top-1/2 -translate-y-1/2 w-3.5 h-3.5 border-l border-b rounded-es-sm bg-white border-gray-200" />
     </>
   )
 }

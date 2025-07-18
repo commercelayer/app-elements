@@ -134,7 +134,7 @@ const SkeletonTemplate: SkeletonTemplateComponent<
 > = ({ children, isLoading, delayMs = 500 }) => {
   const [show] = useDelayShow(delayMs)
   const skeletonClass =
-    "select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+    "select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
 
   if (isLoading !== true) {
     return <>{children}</>
@@ -210,7 +210,7 @@ const SkeletonTemplate: SkeletonTemplateComponent<
           if (isSpecificReactComponent(child, [/^ListItem$/, /^Hr$/])) {
             return cloneElement(child, {
               ...props,
-              className: cn(props.className as string, "!border-gray-50"),
+              className: cn(props.className as string, "border-gray-50!"),
             })
           }
 

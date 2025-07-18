@@ -37,7 +37,7 @@ export function toast<TData = unknown>(
   }: ToastContentProps<ToastData>): React.JSX.Element => {
     return (
       <div className="border border-white/10 min-h-max p-0 text-white flex w-full">
-        <div className="flex-grow py-3 px-4 text-sm leading-5 font-semibold">
+        <div className="grow py-3 px-4 text-sm leading-5 font-semibold">
           {data.content}
         </div>
         <button
@@ -47,17 +47,17 @@ export function toast<TData = unknown>(
             closeToast()
           }}
         >
-          <Icon size={16} name="x" className="flex-grow cursor-pointer" />
+          <Icon size={16} name="x" className="grow cursor-pointer" />
         </button>
       </div>
     )
   }
 
   return originalToast<ToastData>(Msg, {
-    className: classNames("border-0 p-0 min-h-max", {
-      "bg-black": type === "default",
-      "bg-green-600": type === "success",
-      "bg-red-700": type === "error",
+    className: classNames("border-0! p-0! min-h-max!", {
+      "bg-black!": type === "default",
+      "bg-green-600!": type === "success",
+      "bg-red-700!": type === "error",
     }),
     data: { content },
     icon: false,

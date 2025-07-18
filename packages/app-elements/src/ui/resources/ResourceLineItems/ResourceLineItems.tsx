@@ -114,7 +114,7 @@ const Edit = withSkeletonTemplate<{
         {canSwap && (
           <Button
             variant="link"
-            className={cn(["flex items-center"])}
+            alignItems="center"
             aria-label={t("common.swap")}
             disabled={disabled}
             onClick={() => {
@@ -430,7 +430,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 <tr
                   className={cn("border-b border-gray-100", {
                     "border-dashed": !isLastRow,
-                    "[.boxed-container_&]:border-b-0":
+                    "in-[.boxed-container]:border-b-0":
                       isLastRow && footer == null,
                   })}
                 >
@@ -438,7 +438,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     className={cn("w-full p-0", {
                       "pb-6": size === "normal",
                       "pb-4": size === "small",
-                      "[.boxed-container_&]:pb-0": isLastRow && footer == null,
+                      "in-[.boxed-container]:pb-0": isLastRow && footer == null,
                     })}
                     colSpan={settings.showPrice ? 4 : 3}
                   />
@@ -452,7 +452,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
             footer.map(({ key: id, element, fullWidth = false }) => (
               <tr
                 key={id}
-                className="border-b [.boxed-container_&]:last-of-type:border-b-0 border-gray-100"
+                className="border-b last-of-type:in-[.boxed-container]:border-b-0 border-gray-100"
               >
                 {!fullWidth && <td />}
                 <td
@@ -460,7 +460,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                   colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
                 >
                   <Text tag="div" size={size === "normal" ? "regular" : size}>
-                    <div className="mt-4 mb-4 [.boxed-container_tr:last-of-type_&]:last-of-type:mb-0">
+                    <div className="mt-4 mb-4 last-of-type:[.boxed-container_tr:last-of-type_&]:mb-0">
                       {element}
                     </div>
                   </Text>

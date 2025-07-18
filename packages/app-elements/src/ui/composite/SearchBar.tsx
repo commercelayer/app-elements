@@ -97,10 +97,10 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           <input
             className={cn(
               "rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400",
-              "shadow-none !outline-0 !border-0 !ring-0",
-              "!focus:shadow-none !active:shadow-none focus:caret-primary focus:bg-white",
+              "shadow-none ring-0 outline-0 border-0",
+              "focus:caret-primary focus:bg-white",
               {
-                "animate-pulse !bg-gray-50 placeholder:text-gray-50":
+                "animate-pulse bg-gray-50! placeholder:text-gray-50":
                   isLoading === true,
               },
             )}
@@ -122,7 +122,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
               data-testid="SearchBar-clear"
               className={cn(
                 "flex items-center absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400",
-                "rounded outline-none ring-0 border-0",
+                "rounded outline-hidden ring-0 border-0",
                 "focus-within:shadow-focus focus:text-black",
               )}
               aria-label={t("common.clear_text")}

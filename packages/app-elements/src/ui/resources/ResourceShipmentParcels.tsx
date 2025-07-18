@@ -478,7 +478,7 @@ const TrackingDetails = withSkeletonTemplate<{
                           <div className="flex flex-col items-center gap-1.5 pt-[3px] h-full">
                             <div className="rounded-full bg-gray-300 w-3 h-3" />
                             {event.position !== "first" && (
-                              <div className="bg-[#E6E7E7] w-[1px] grow" />
+                              <div className="bg-[#E6E7E7] w-px grow" />
                             )}
                           </div>
                         </td>

@@ -43,7 +43,7 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
 
     return (
       <InputWrapper {...rest} label={label} hint={hint}>
-        <div className="flex group w-full rounded bg-gray-50 [.overlay-container_&]:bg-gray-200">
+        <div className="flex group w-full rounded bg-gray-50 in-[.overlay-container]:bg-gray-200">
           <div
             className="flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono font-medium marker:font-bold border-none break-all"
             data-testid="codeblock-content"
