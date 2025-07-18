@@ -61,7 +61,7 @@ export const Section = withSkeletonTemplate<SectionProps>(
               </h2>
             )}
             {actionButton != null && (
-              <nav className="flex-grow text-right flex justify-end gap-2">
+              <nav className="grow text-right flex justify-end gap-2">
                 {actionButton}
               </nav>
             )}

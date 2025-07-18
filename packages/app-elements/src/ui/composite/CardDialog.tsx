@@ -67,7 +67,7 @@ export const CardDialog = withSkeletonTemplate<CardDialogProps>(
           alignItems="top"
           padding="y"
           borderStyle="none"
-          className="!py-0"
+          className="py-0!"
           icon={icon}
         >
           <div>

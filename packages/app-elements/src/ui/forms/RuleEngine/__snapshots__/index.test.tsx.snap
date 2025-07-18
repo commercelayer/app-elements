@@ -39,10 +39,10 @@ exports[`RuleEngine > renders empty without any error 1`] = `
               </button>
             </div>
             <div
-              class="flex-grow flex justify-end"
+              class="grow flex justify-end"
             >
               <button
-                class="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="text-blue-600 hover:text-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 type="button"
               >
                 <svg
@@ -60,7 +60,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
             </div>
           </header>
           <div
-            class="h-full w-full bg-gray-50 p-8 [background-image:radial-gradient(#d6d6d6_1px,transparent_1px)] [background-size:16px_16px] overflow-auto"
+            class="h-full w-full bg-gray-50 p-8 bg-[radial-gradient(#d6d6d6_1px,transparent_1px)] bg-size-[16px_16px] overflow-auto"
           >
             <div
               class="max-w-[900px] mx-auto"
@@ -85,13 +85,13 @@ exports[`RuleEngine > renders empty without any error 1`] = `
                 </svg>
               </div>
               <div
-                class="rounded-md bg-white shadow-sm"
+                class="rounded-md bg-white shadow-xs"
               >
                 <div
                   class="flex items-center space-x-4 py-4 border-b border-gray-100"
                 >
                   <div
-                    class="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm shadow-primary-200"
+                    class="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-xs shadow-primary-200"
                   >
                     <svg
                       fill="currentColor"
@@ -153,13 +153,13 @@ exports[`RuleEngine > renders empty without any error 1`] = `
                 />
               </div>
               <div
-                class="rounded-md bg-white shadow-sm"
+                class="rounded-md bg-white shadow-xs"
               >
                 <div
                   class="flex items-center space-x-4 py-4 border-b border-gray-100"
                 >
                   <div
-                    class="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm shadow-primary-200"
+                    class="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-xs shadow-primary-200"
                   >
                     <svg
                       fill="currentColor"

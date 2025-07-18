@@ -58,7 +58,7 @@ export const DropdownSearch = forwardRef<HTMLInputElement, DropdownSearchProps>(
         />
         <input
           className={cn(
-            "pl-10 pr-8 py-2 bg-transparent min-w-max font-semibold text-sm placeholder:text-gray-400 !ring-0",
+            "pl-10 pr-8 py-2 bg-transparent min-w-max font-semibold text-sm placeholder:text-gray-400 ring-0!",
           )}
           placeholder={placeholder ?? t("common.search")}
           value={searchValue}

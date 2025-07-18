@@ -15,7 +15,8 @@ import { I18NProvider } from "#providers/I18NProvider"
 import { Container } from "#ui/atoms/Container"
 import { worker } from "../src/mocks/browser"
 
-import "../../app-elements/src/styles/global.css"
+import "../../app-elements/src/styles/vendor.css"
+import "../src/styles/global.css"
 
 export const parameters: Parameters = {
   layout: "centered",

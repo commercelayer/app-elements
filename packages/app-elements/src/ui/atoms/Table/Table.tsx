@@ -35,7 +35,7 @@ export const Table: React.FC<TableProps> = ({
       className={cn([
         "w-full",
         {
-          "border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 [&>tbody>tr:last-of-type>td]:first-of-type:rounded-es [&>tbody>tr:last-of-type>td]:last-of-type:rounded-ee":
+          "border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 first-of-type:[&>tbody>tr:last-of-type>td]:rounded-es last-of-type:[&>tbody>tr:last-of-type>td]:rounded-ee":
             variant === "boxed",
         },
         className,

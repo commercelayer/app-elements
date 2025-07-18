@@ -26,7 +26,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             BABYBIBXA19D9D000000XXXX
           </div>
@@ -38,7 +38,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Gray Baby Bib with Black Logo
           </div>
@@ -61,7 +61,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
           valign="top"
         >
           <div
-            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             2
@@ -73,7 +73,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             18.00€
           </div>
@@ -88,7 +88,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
             class="flex justify-between w-full gap-4 items-center pt-8"
           >
             <div
-              class="flex-grow"
+              class="grow"
             >
               <div>
                 <div
@@ -101,7 +101,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                       class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-decrement"
                         type="button"
                       >
@@ -118,13 +118,13 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
                       />
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-increment"
                         type="button"
                       >
@@ -156,7 +156,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               >
                 <button
                   aria-label="common.swap"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -182,7 +182,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 >
                   <button
                     aria-label="common.remove"
-                    class="flex items-center rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                    class="rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                     disabled=""
                   >
                     <svg
@@ -209,10 +209,10 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
+        class="border-b border-gray-100 in-[.boxed-container]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
+          class="w-full p-0 pb-6 in-[.boxed-container]:pb-0"
           colspan="4"
         />
       </tr>
@@ -247,7 +247,7 @@ exports[`ResourceLineItems > should render 1`] = `
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             BABYBIBXA19D9D000000XXXX
           </div>
@@ -259,7 +259,7 @@ exports[`ResourceLineItems > should render 1`] = `
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Gray Baby Bib with Black Logo
           </div>
@@ -282,7 +282,7 @@ exports[`ResourceLineItems > should render 1`] = `
           valign="top"
         >
           <div
-            class="font-medium text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             2
@@ -294,7 +294,7 @@ exports[`ResourceLineItems > should render 1`] = `
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             18.00€
           </div>
@@ -307,10 +307,10 @@ exports[`ResourceLineItems > should render 1`] = `
         />
       </tr>
       <tr
-        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
+        class="border-b border-gray-100 in-[.boxed-container]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
+          class="w-full p-0 pb-6 in-[.boxed-container]:pb-0"
           colspan="4"
         />
       </tr>
@@ -345,7 +345,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             BABYBIBXA19D9D000000XXXX
           </div>
@@ -357,7 +357,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Gray Baby Bib with Black Logo
           </div>
@@ -380,7 +380,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           valign="top"
         >
           <div
-            class="font-medium text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             2
@@ -392,7 +392,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             18.00€
           </div>
@@ -413,7 +413,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
         />
       </tr>
       <tr
-        class="border-b [.boxed-container_&]:last-of-type:border-b-0 border-gray-100"
+        class="border-b last-of-type:in-[.boxed-container]:border-b-0 border-gray-100"
       >
         <td />
         <td
@@ -421,10 +421,10 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           colspan="3"
         >
           <div
-            class="text-base [overflow-wrap:anywhere]"
+            class="text-base wrap-anywhere"
           >
             <div
-              class="mt-4 mb-4 [.boxed-container_tr:last-of-type_&]:last-of-type:mb-0"
+              class="mt-4 mb-4 last-of-type:[.boxed-container_tr:last-of-type_&]:mb-0"
             >
               <div>
                 Ehi there!
@@ -464,7 +464,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             BABYBIBXA19D9D000000XXXX
           </div>
@@ -476,7 +476,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Gray Baby Bib with Black Logo
           </div>
@@ -499,7 +499,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
           valign="top"
         >
           <div
-            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             2
@@ -511,7 +511,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             18.00€
           </div>
@@ -526,7 +526,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
             class="flex justify-between w-full gap-4 items-center pt-8"
           >
             <div
-              class="flex-grow"
+              class="grow"
             >
               <div>
                 <div
@@ -539,7 +539,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                       class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-decrement"
                         type="button"
                       >
@@ -556,13 +556,13 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
                       />
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-increment"
                         type="button"
                       >
@@ -594,7 +594,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               >
                 <button
                   aria-label="common.remove"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -619,10 +619,10 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
+        class="border-b border-gray-100 in-[.boxed-container]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
+          class="w-full p-0 pb-6 in-[.boxed-container]:pb-0"
           colspan="4"
         />
       </tr>
@@ -657,7 +657,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             WELCOME_KIT_001
           </div>
@@ -669,7 +669,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Welcome KIT
           </div>
@@ -692,7 +692,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
           valign="top"
         >
           <div
-            class="font-medium text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             1
@@ -704,7 +704,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             $10.00
           </div>
@@ -730,14 +730,14 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
                 class="flex flex-row gap-2 items-center ml-2"
               >
                 <span
-                  class="whitespace-nowrap text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="whitespace-nowrap text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   x 
                   1
                 </span>
                  
                 <span
-                  class="leading-4 font-semibold text-sm [overflow-wrap:anywhere]"
+                  class="leading-4 font-semibold text-sm wrap-anywhere"
                 >
                   Black Men T-Shirt with White Logo (L)
                 </span>
@@ -755,14 +755,14 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
                 class="flex flex-row gap-2 items-center ml-2"
               >
                 <span
-                  class="whitespace-nowrap text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="whitespace-nowrap text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   x 
                   2
                 </span>
                  
                 <span
-                  class="leading-4 font-semibold text-sm [overflow-wrap:anywhere]"
+                  class="leading-4 font-semibold text-sm wrap-anywhere"
                 >
                   Sport Grey Unisex Hoodie Sweatshirt with Black Logo (M)
                 </span>
@@ -772,10 +772,10 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
+        class="border-b border-gray-100 in-[.boxed-container]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
+          class="w-full p-0 pb-6 in-[.boxed-container]:pb-0"
           colspan="4"
         />
       </tr>
@@ -810,7 +810,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             TOTEBAGLE7DDC7000000XXXX
           </div>
@@ -822,7 +822,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Large Eco Tote Bag with Black Logo
           </div>
@@ -845,7 +845,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           valign="top"
         >
           <div
-            class="font-medium text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             9
@@ -857,7 +857,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             243.00€
           </div>
@@ -878,12 +878,12 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex gap-1"
               >
                 <div
-                  class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                  class="mb-1 font-bold text-sm wrap-anywhere"
                 >
                   Front Text
                 </div>
                 <div
-                  class="font-bold text-sm [overflow-wrap:anywhere]"
+                  class="font-bold text-sm wrap-anywhere"
                 >
                   x 
                   1
@@ -908,7 +908,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   line1: Commerce Layer
                 </div>
@@ -932,7 +932,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   line2: Composable Commerce API
                 </div>
@@ -945,12 +945,12 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex gap-1"
               >
                 <div
-                  class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                  class="mb-1 font-bold text-sm wrap-anywhere"
                 >
                   Rear Text
                 </div>
                 <div
-                  class="font-bold text-sm [overflow-wrap:anywhere]"
+                  class="font-bold text-sm wrap-anywhere"
                 >
                   x 
                   1
@@ -975,7 +975,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   name: Ringo Starr
                 </div>
@@ -999,7 +999,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   team: Beatles
                 </div>
@@ -1012,12 +1012,12 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex gap-1"
               >
                 <div
-                  class="mb-1 font-bold text-sm [overflow-wrap:anywhere]"
+                  class="mb-1 font-bold text-sm wrap-anywhere"
                 >
                   Special
                 </div>
                 <div
-                  class="font-bold text-sm [overflow-wrap:anywhere]"
+                  class="font-bold text-sm wrap-anywhere"
                 >
                   x 
                   1
@@ -1042,7 +1042,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   logo_url: http://data.commercelayer.com/long_url/logo.png
                 </div>
@@ -1066,7 +1066,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   colors: ["#400","#fff","#000fff"]
                 </div>
@@ -1090,7 +1090,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                   </svg>
                 </div>
                 <div
-                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   position: {"x":30,"y":10}
                 </div>
@@ -1100,10 +1100,10 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
+        class="border-b border-gray-100 in-[.boxed-container]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
+          class="w-full p-0 pb-6 in-[.boxed-container]:pb-0"
           colspan="4"
         />
       </tr>
@@ -1138,7 +1138,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             BABYBIBXA19D9D000000XXXX
           </div>
@@ -1150,7 +1150,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Gray Baby Bib with Black Logo
           </div>
@@ -1173,7 +1173,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             2
@@ -1185,7 +1185,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             18.00€
           </div>
@@ -1200,7 +1200,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
             class="flex justify-between w-full gap-4 items-center pt-8"
           >
             <div
-              class="flex-grow"
+              class="grow"
             >
               <div>
                 <div
@@ -1213,7 +1213,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                       class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-decrement"
                         type="button"
                       >
@@ -1230,13 +1230,13 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
                       />
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-increment"
                         type="button"
                       >
@@ -1268,7 +1268,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="common.swap"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1289,7 +1289,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 </button>
                 <button
                   aria-label="common.remove"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1341,7 +1341,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           colspan="3"
         >
           <div
-            class="text-sm font-semibold text-gray-500 [overflow-wrap:anywhere]"
+            class="text-sm font-semibold text-gray-500 wrap-anywhere"
           >
             WELCOME_KIT_001
           </div>
@@ -1353,7 +1353,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-bold [overflow-wrap:anywhere]"
+            class="font-bold wrap-anywhere"
           >
             Welcome KIT
           </div>
@@ -1376,7 +1376,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-medium hidden text-gray-500 whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-medium hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
             x 
             1
@@ -1388,7 +1388,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           valign="top"
         >
           <div
-            class="font-semibold whitespace-nowrap [overflow-wrap:anywhere]"
+            class="font-semibold whitespace-nowrap wrap-anywhere"
           >
             $10.00
           </div>
@@ -1414,14 +1414,14 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 class="flex flex-row gap-2 items-center ml-2"
               >
                 <span
-                  class="whitespace-nowrap text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="whitespace-nowrap text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   x 
                   1
                 </span>
                  
                 <span
-                  class="leading-4 font-semibold text-sm [overflow-wrap:anywhere]"
+                  class="leading-4 font-semibold text-sm wrap-anywhere"
                 >
                   Black Men T-Shirt with White Logo (L)
                 </span>
@@ -1439,14 +1439,14 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 class="flex flex-row gap-2 items-center ml-2"
               >
                 <span
-                  class="whitespace-nowrap text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                  class="whitespace-nowrap text-gray-500 font-medium text-sm wrap-anywhere"
                 >
                   x 
                   2
                 </span>
                  
                 <span
-                  class="leading-4 font-semibold text-sm [overflow-wrap:anywhere]"
+                  class="leading-4 font-semibold text-sm wrap-anywhere"
                 >
                   Sport Grey Unisex Hoodie Sweatshirt with Black Logo (M)
                 </span>
@@ -1457,7 +1457,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
             class="flex justify-between w-full gap-4 items-center pt-8"
           >
             <div
-              class="flex-grow"
+              class="grow"
             >
               <div>
                 <div
@@ -1470,7 +1470,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                       class="flex items-center justify-between rounded w-[122px] p-0.5 py-1 bg-white shadow-[0_0_0_1px_#e6e7e7_inset] focus-within:shadow-[0_0_0_2px_#101111_inset]"
                     >
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 text-gray-300"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! text-gray-300"
                         data-testid="InputSpinner-decrement"
                         disabled=""
                         tabindex="-1"
@@ -1489,13 +1489,13 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="1"
                       />
                       <button
-                        class="p-2 mx-1 text-xl relative bg-white rounded !outline-offset-0 active:top-[1px]"
+                        class="p-2 mx-1 text-xl relative bg-white rounded outline-offset-0! active:top-px"
                         data-testid="InputSpinner-increment"
                         type="button"
                       >
@@ -1527,7 +1527,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="common.swap"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1548,7 +1548,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 </button>
                 <button
                   aria-label="common.remove"
-                  class="flex items-center rounded whitespace-nowrap leading-5 inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1573,10 +1573,10 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
         </td>
       </tr>
       <tr
-        class="border-b border-gray-100 [.boxed-container_&]:border-b-0"
+        class="border-b border-gray-100 in-[.boxed-container]:border-b-0"
       >
         <td
-          class="w-full p-0 pb-6 [.boxed-container_&]:pb-0"
+          class="w-full p-0 pb-6 in-[.boxed-container]:pb-0"
           colspan="4"
         />
       </tr>

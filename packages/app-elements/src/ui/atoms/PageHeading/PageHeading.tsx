@@ -90,7 +90,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
           </div>
         )}
         {badge != null && (
-          <div className="flex mb-4 md:!mt-0" data-testid="page-heading-badge">
+          <div className="flex mb-4 md:mt-0!" data-testid="page-heading-badge">
             <Badge variant={badge.variant ?? "warning-solid"}>
               {badge.label}
             </Badge>

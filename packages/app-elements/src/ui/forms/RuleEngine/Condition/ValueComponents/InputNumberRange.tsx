@@ -19,7 +19,7 @@ export function InputNumberRange({
 
   return (
     <div className="flex items-center gap-4">
-      <div className="flex-grow">
+      <div className="grow">
         <Input
           type="number"
           placeholder="Min"
@@ -32,7 +32,7 @@ export function InputNumberRange({
         />
       </div>
       <span className="text-gray-300">to</span>
-      <div className="flex-grow">
+      <div className="grow">
         <Input
           type="number"
           placeholder="Max"

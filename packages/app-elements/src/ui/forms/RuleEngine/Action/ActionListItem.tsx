@@ -34,7 +34,7 @@ export function ActionListItem({
   return (
     <div className="mb-4 last:mb-0">
       <div className="bg-gray-50 rounded-md flex items-center">
-        <div className="flex items-center justify-between gap-2 flex-grow p-2">
+        <div className="flex items-center justify-between gap-2 grow p-2">
           {/* Action type */}
           <div className="flex-1">
             <InputSelect
@@ -82,7 +82,7 @@ export function ActionListItem({
             dropdownLabel={
               <button
                 type="button"
-                className="flex items-center justify-center self-stretch flex-grow"
+                className="flex items-center justify-center self-stretch grow"
               >
                 <Icon name="dotsThreeVertical" size={16} weight="bold" />
               </button>

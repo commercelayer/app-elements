@@ -59,7 +59,7 @@ function Text({
     // wrap
     "whitespace-nowrap": wrap === "nowrap",
     "whitespace-normal": wrap === "normal",
-    "[overflow-wrap:anywhere]": true,
+    "wrap-anywhere": true,
   })
   return tag === "span" ? (
     <span {...rest} className={computedClassName}>

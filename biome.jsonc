@@ -10,6 +10,7 @@
     "includes": [
       "**",
       "!**/vendor.css",
+      "!**/*.css",
       "!node_modules",
       "!packages/app-elements/dist",
       "!packages/docs/dist"

@@ -91,9 +91,9 @@ export const ListItem: FC<ListItemProps> = ({
   })
 
   const overlayPxSize = cn({
-    "[.overlay-container_&]:px-6": paddingSize === "6",
-    "[.overlay-container_&]:px-4": paddingSize === "4",
-    "[.overlay-container_&]:px-2": paddingSize === "2",
+    "in-[.overlay-container]:px-6": paddingSize === "6",
+    "in-[.overlay-container]:px-4": paddingSize === "4",
+    "in-[.overlay-container]:px-2": paddingSize === "2",
   })
   return (
     <JsxTag
@@ -107,7 +107,7 @@ export const ListItem: FC<ListItemProps> = ({
           relative: borderStyle === "dashed",
           "border-b": borderStyle === "solid",
           "rounded border": variant === "boxed",
-          "hover:bg-gray-50 focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-none":
+          "hover:bg-gray-50 focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-hidden":
             isClickable,
           "bg-white": !disabled && variant === "boxed",
           "bg-gray-100": disabled,
@@ -123,7 +123,7 @@ export const ListItem: FC<ListItemProps> = ({
       <div className={cn("flex gap-4 flex-1 items-center")}>
         {icon != null && (
           <div
-            className={cn("flex-shrink-0", {
+            className={cn("shrink-0", {
               // If icon is aligned to top we add a margin to simulate centered alignment
               // of icon with right content of most common case with one or two rows of text
               // like in case of ListItem Order
@@ -139,7 +139,7 @@ export const ListItem: FC<ListItemProps> = ({
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
       {borderStyle === "dashed" && (
-        <div className="absolute bottom-0 left-0 w-full h-[1px] bg-[linear-gradient(to_right,transparent_50%,rgba(230,231,231,1)_50%)] bg-[length:10px_100%]" />
+        <div className="absolute bottom-0 left-0 w-full h-px bg-[linear-gradient(to_right,transparent_50%,rgba(230,231,231,1)_50%)] bg-size-[10px_100%]" />
       )}
     </JsxTag>
   )

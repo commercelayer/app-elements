@@ -75,8 +75,8 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
             },
           )}
           classNameArrow={cn("w-2 h-2", {
-            "rotate-[45deg]": direction.includes("top"),
-            "rotate-[225deg]": direction.includes("bottom"),
+            "rotate-45": direction.includes("top"),
+            "rotate-225": direction.includes("bottom"),
           })}
         >
           {content}

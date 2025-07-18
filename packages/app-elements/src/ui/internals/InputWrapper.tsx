@@ -115,10 +115,10 @@ export function getFeedbackStyle(
 ): Record<string, boolean> {
   return {
     // with feedback
-    "focus:!ring-0": feedback != null,
-    "!shadow-inputfocus !shadow-red ": feedback?.variant === "danger",
-    "!shadow-inputfocus !shadow-green": feedback?.variant === "success",
-    "!shadow-inputfocus !shadow-orange": feedback?.variant === "warning",
+    "focus:ring-0!": feedback != null,
+    "shadow-inputfocus! shadow-red! ": feedback?.variant === "danger",
+    "shadow-inputfocus! shadow-green!": feedback?.variant === "success",
+    "shadow-inputfocus! shadow-orange!": feedback?.variant === "warning",
   }
 }
 

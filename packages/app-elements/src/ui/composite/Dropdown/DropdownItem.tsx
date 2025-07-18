@@ -61,7 +61,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         }}
         href={href}
         className={cn(
-          "w-full bg-black !text-white py-1.5 pl-4 text-[15px] font-semibold flex items-center focus:!outline-none",
+          "w-full bg-black text-white! py-1.5 pl-4 text-[15px] font-semibold flex items-center focus:outline-hidden!",
           {
             "pr-8": info == null,
             "min-w-[250px] pr-6": info != null,

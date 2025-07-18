@@ -37,6 +37,7 @@ const storybookConfig: StorybookConfig = {
         },
       },
     },
+    getAbsolutePath("@storybook/addon-styling-webpack"),
   ],
   // @ts-expect-error This 'managerEntries' exists.
   managerEntries: [

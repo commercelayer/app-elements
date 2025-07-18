@@ -92,8 +92,7 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
           className={cn("flex gap-2 wrap", {
             "flex-col": ["list", "simple"].includes(viewMode),
             "gap-4": ["inline", "grid"].includes(viewMode),
-            "flex-row [&>*]:flex-shrink [&>*]:flex-grow [&>*]:basis-0":
-              viewMode === "inline",
+            "flex-row *:shrink *:grow *:basis-0": viewMode === "inline",
             "grid grid-cols-2": viewMode === "grid",
           })}
         >
@@ -143,9 +142,9 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
                 key={optionItem.value}
                 overflow="hidden"
                 className={cn(optionItem.className, {
-                  "!p-1 hover:border-black hover:border-2 hover:!p-[calc(theme(space.1)-1px)]":
+                  "p-1! hover:border-black hover:border-2 hover:p-[calc(theme(space.1)-1px)]!":
                     !isSelected,
-                  "border-primary-500 border-2 !p-[calc(theme(space.1)-1px)]":
+                  "border-primary-500 border-2 p-[calc(theme(space.1)-1px)]!":
                     isSelected,
                 })}
                 tabIndex={showInput ? undefined : 0}

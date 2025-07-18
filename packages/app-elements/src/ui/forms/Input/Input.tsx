@@ -50,9 +50,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           "block w-full px-4 py-2.5 font-medium",
           "rounded outline-0",
           {
-            "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none !pr-1":
+            "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-1!":
               suffix != null,
-            "!bg-white": rest.autoComplete === "off",
+            "bg-white!": rest.autoComplete === "off",
           },
           getFeedbackStyle(feedback),
         )}
@@ -79,7 +79,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             <Text
               size="small"
               weight="semibold"
-              className="suffix shrink-0 !border-l-0 border-y border-r h-[44px] border-gray-200 -left-[4px] pl-2 pr-3 flex items-center bg-white relative rounded-e"
+              className="suffix shrink-0 border-l-0! border-y border-r h-[44px] border-gray-200 -left-[4px] pl-2 pr-3 flex items-center bg-white relative rounded-e"
             >
               {suffix}
             </Text>

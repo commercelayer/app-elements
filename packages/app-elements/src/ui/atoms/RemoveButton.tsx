@@ -1,5 +1,4 @@
 import { TrashIcon } from "@phosphor-icons/react"
-import cn from "classnames"
 import { Children, type JSX } from "react"
 import { Button } from "./Button"
 
@@ -13,11 +12,7 @@ export function RemoveButton({
   ...rest
 }: RemoveButtonProps): JSX.Element {
   return (
-    <Button
-      variant="link"
-      className={cn([className, "flex items-center"])}
-      {...rest}
-    >
+    <Button variant="link" alignItems="center" {...rest}>
       <TrashIcon size={18} weight="bold" />
       {Children.count(children) >= 1 && (
         <span className="pl-1">{children}</span>

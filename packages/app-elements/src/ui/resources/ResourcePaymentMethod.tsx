@@ -129,7 +129,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
                 }}
                 variant="link"
                 size="mini"
-                className="text-xs font-bold !text-gray-700"
+                className="text-xs font-bold text-gray-700!"
                 type="button"
               >
                 {showMore ? t("common.show_less") : t("common.show_more")}
