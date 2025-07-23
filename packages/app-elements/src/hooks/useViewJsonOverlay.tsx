@@ -6,7 +6,7 @@ import { CodeEditor } from "#ui/forms/CodeEditor/CodeEditorComponent"
 
 interface OverlayProps {
   title: string
-  json: JSON
+  json: object
 }
 
 interface ViewJsonOverlayHook {
@@ -39,7 +39,7 @@ export function useViewJsonOverlay(): ViewJsonOverlayHook {
         </Overlay>
       )
     },
-    [Overlay],
+    [Overlay, close],
   )
 
   return {

@@ -130,10 +130,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </Spacer>
           )}
         </Section>
-        <JsonOverlay
-          title="Metadata"
-          json={JSON.parse(JSON.stringify(resourceData?.metadata ?? {}))}
-        />
+        <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
         <EditMetadataOverlay
           title={overlay?.title}
           resourceId={resourceId}
