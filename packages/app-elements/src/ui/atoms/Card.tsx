@@ -90,7 +90,7 @@ export const Card = withSkeletonTemplate<CardProps>(
             className={cn([
               "py-4 border-t",
               {
-                "-mt-[1px]": gap === "none",
+                "-mt-px": gap === "none",
                 "mt-8": gap !== "none",
                 "-m-4 px-4": gap === "4",
                 "-m-6 px-6": gap === "6",

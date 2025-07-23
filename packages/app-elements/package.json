@@ -18,8 +18,8 @@
     "./vendor.css": {
       "import": "./dist/vendor.css"
     },
-    "./tailwind.config": {
-      "require": "./dist/tailwind.config.js"
+    "./tailwind.global.css": {
+      "require": "./dist/tailwind.global.css"
     }
   },
   "engines": {
@@ -28,8 +28,8 @@
   },
   "scripts": {
     "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
-    "build:tailwind-cfg": "cp ./tailwind.config.cjs ./dist/tailwind.config.js",
-    "build:css-vendor": "pnpm exec tailwindcss -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
+    "build:tailwind-cfg": "cp ./src/styles/global.css ./dist/tailwind.global.css",
+    "build:css-vendor": "pnpm dlx @tailwindcss/cli -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "lint:fix": "pnpm biome check --write",
     "test": "vitest run",
     "test:watch": "vitest",
@@ -60,7 +60,7 @@
     "react-datepicker": "^8.4.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.60.0",
-    "react-i18next": "^15.6.0",
+    "react-i18next": "^15.6.1",
     "react-select": "^5.10.2",
     "react-toastify": "^11.0.5",
     "react-tooltip": "^5.29.1",
@@ -73,14 +73,14 @@
     "@hookform/resolvers": "^3.10.0",
     "@phosphor-icons/react": "v2.1.10",
     "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/postcss": "^4.1.11",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^20.19.8",
     "@types/pluralize": "^0.0.33",
     "@types/react-gtm-module": "^2.0.4",
-    "@vitejs/plugin-react": "^4.6.0",
-    "autoprefixer": "^10.4.21",
+    "@vitejs/plugin-react": "^4.7.0",
     "cross-fetch": "^4.1.0",
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
@@ -88,9 +88,9 @@
     "msw": "^2.10.4",
     "postcss": "^8.5.6",
     "react-gtm-module": "^2.0.11",
-    "tailwindcss": "^3.4.17",
+    "tailwindcss": "^4.1.11",
     "typescript": "~5.8.3",
-    "vite": "^7.0.4",
+    "vite": "^7.0.5",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^3.2.4",
     "wouter": "^3.7.1"

@@ -24,7 +24,7 @@ export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
           <div
             className={cn(
               "relative flex",
-              "focus-within:rounded focus-within:outline focus-within:outline-2 focus-within:!outline-primary focus-within:outline-offset-2",
+              "focus-within:rounded focus-within:outline-solid focus-within:outline-2 focus-within:outline-primary! focus-within:outline-offset-2",
             )}
           >
             <input
@@ -38,7 +38,7 @@ export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
             />
             <span
               className={cn(
-                "w-[29px] h-[18px] flex items-center flex-shrink-0 p-[2.5px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-[14px] after:h-[14px] after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-[9.5px]",
+                "w-[29px] h-[18px] flex items-center shrink-0 p-[2.5px] bg-gray-300 rounded-full duration-300 ease-in-out peer-checked:bg-primary after:w-[14px] after:h-[14px] after:bg-white after:rounded-full after:shadow-md after:duration-300 peer-checked:after:translate-x-[9.5px]",
                 getFeedbackStyle(feedback),
               )}
             />

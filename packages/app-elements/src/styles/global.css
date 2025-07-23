@@ -1,5 +1,291 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import "tailwindcss";
 
-@import "./vendor.css";
+@plugin "@tailwindcss/forms";
+
+@theme {
+  --breakpoint-*: initial;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1280px;
+
+  --radius-*: initial;
+  --radius: 0.313rem;
+  --radius-sm: 0.188rem;
+  --radius-md: 0.625rem;
+  --radius-full: 9999px;
+
+  --color-*: initial;
+  --color-inherit: inherit;
+
+  --color-primary-50: #f8f8f8;
+  --color-primary-100: #edeeee;
+  --color-primary-200: #e6e7e7;
+  --color-primary-300: #bbbebe;
+  --color-primary-400: #878888;
+  --color-primary-500: #686e6e;
+  --color-primary-600: #404141;
+  --color-primary-700: #343535;
+  --color-primary-800: #282929;
+  --color-primary-900: #1d1e1e;
+  --color-primary-light: #101111cc;
+  --color-primary: #101111;
+
+  --color-transparent: transparent;
+  --color-black: #101111;
+  --color-white: #fff;
+
+  --color-violet-50: #ecf2ff;
+  --color-violet-100: #dde6ff;
+  --color-violet-200: #c2d1ff;
+  --color-violet-300: #9cb1ff;
+  --color-violet-400: #7586ff;
+  --color-violet-500: #666eff;
+  --color-violet-600: #3b36f5;
+  --color-violet-700: #322ad8;
+  --color-violet-800: #2925ae;
+  --color-violet-900: #181650;
+  --color-violet: #666eff;
+
+  --color-gray-50: #f8f8f8;
+  --color-gray-100: #edeeee;
+  --color-gray-200: #e6e7e7;
+  --color-gray-300: #bbbebe;
+  --color-gray-400: #878888;
+  --color-gray-500: #686e6e;
+  --color-gray-600: #404141;
+  --color-gray-700: #343535;
+  --color-gray-800: #282929;
+  --color-gray-900: #1d1e1e;
+
+  --color-green-50: #f0fdf7;
+  --color-green-100: #dbfdee;
+  --color-green-200: #b9f9dc;
+  --color-green-300: #83f2c2;
+  --color-green-400: #45e39f;
+  --color-green-500: #1fda8a;
+  --color-green-600: #11a868;
+  --color-green-700: #11784c;
+  --color-green-800: #0a472d;
+  --color-green-900: #03160e;
+  --color-green: #1fda8a;
+
+  --color-orange-50: #fff5e6;
+  --color-orange-100: #ffedd1;
+  --color-orange-200: #ffdca8;
+  --color-orange-300: #ffcc80;
+  --color-orange-400: #ffbb57;
+  --color-orange-500: #ffab2e;
+  --color-orange-600: #f98107;
+  --color-orange-700: #dd5c02;
+  --color-orange-800: #942e0c;
+  --color-orange-900: #461202;
+  --color-orange: #ffab2e;
+
+  --color-red-50: #fff4f4;
+  --color-red-100: #ffdfe1;
+  --color-red-200: #ffb7b9;
+  --color-red-300: #ff8e92;
+  --color-red-400: #ff656b;
+  --color-red-500: #ff2d35;
+  --color-red-600: #f40009;
+  --color-red-700: #bc0007;
+  --color-red-800: #840005;
+  --color-red-900: #4b0003;
+  --color-red: #ff656b;
+
+  --color-teal-50: #edfbfe;
+  --color-teal-100: #c7f4fc;
+  --color-teal-200: #a0ecfa;
+  --color-teal-300: #79e4f8;
+  --color-teal-400: #52dcf6;
+  --color-teal-500: #18d0f3;
+  --color-teal-600: #0bb7d8;
+  --color-teal-700: #0996b1;
+  --color-teal-800: #07758a;
+  --color-teal-900: #055463;
+  --color-teal: #055463;
+
+  --color-yellow-50: #fffce6;
+  --color-yellow-100: #fffad1;
+  --color-yellow-200: #fff6a8;
+  --color-yellow-300: #fff280;
+  --color-yellow-400: #ffee57;
+  --color-yellow-500: #ffea2e;
+  --color-yellow-600: #f5dc00;
+  --color-yellow-700: #bdaa00;
+  --color-yellow-800: #857700;
+  --color-yellow-900: #4d4500;
+  --color-yellow: #ffea2e;
+
+  --color-pink-50: #ffe9f3;
+  --color-pink-100: #ffd5e7;
+  --color-pink-200: #feacd1;
+  --color-pink-300: #fe84ba;
+  --color-pink-400: #fe4c9b;
+  --color-pink-500: #fd157c;
+  --color-pink-600: #d80261;
+  --color-pink-700: #a00148;
+  --color-pink-800: #69012f;
+  --color-pink-900: #310016;
+  --color-pink: #fe84ba;
+
+  --font-*: initial;
+  --font-sans: Manrope, ui-sans-serif, sans-serif;
+  --font-mono: Roboto Mono, ui-monospace, Menlo, monospace;
+
+  --text-*: initial;
+  --text-2xs: 0.688rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-2_5xl: 2rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 4rem;
+  --text-8xl: 6rem;
+  --text-10xl: 8rem;
+  --text-title: 2rem;
+
+  --shadow-hover: 0 0 0 1px #101111;
+  --shadow-focus: 0 0 0 2px #101111;
+  --shadow-inputfocus: inset 0 0 0 2px #101111;
+
+  --leading-title: 2.375rem;
+
+  --transition-property-bg: background;
+
+  --object-position-out-of-bounds: -99999px 99999px;
+
+  --font-weight-inherit: inherit;
+}
+
+@utility container {
+  @media (width >= --theme(--breakpoint-md)) {
+    max-width: none;
+  }
+  @media (width >= 632px) {
+    max-width: 632px;
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
+
+@layer base {
+  select {
+    text-align: inherit;
+  }
+  
+  body {
+    @apply text-gray-800 antialiased font-medium;
+  }
+  
+  input,
+  textarea,
+  div[role="textbox"],
+  .form-input,
+  .form-textarea {
+    border: none;
+    box-shadow: inset 0 0 0 1px var(--color-gray-200);
+    -webkit-box-shadow: inset 0 0 0 1px var(--color-gray-200);
+    -moz-box-shadow: inset 0 0 0 1px var(--color-gray-200);
+  }
+  
+  input:focus-visible,
+  textarea:focus-visible,
+  div[role="textbox"]:focus,
+  .form-input:focus,
+  .form-textarea:focus,
+  .group:focus-within input,
+  .group:focus-within div[role="textbox"],
+  .group:focus-within .form-input,
+  .group:focus-within .form-textarea,
+  *[contenteditable]:focus-visible {
+    ring: none;
+    outline: none !important;
+    box-shadow: inset 0 0 0 2px var(--color-primary) !important;
+    -webkit-box-shadow: inset 0 0 0 2px var(--color-primary) !important;
+    -moz-box-shadow: inset 0 0 0 2px var(--color-primary) !important;
+  }
+  
+  input:focus-visible + .suffix {
+    border-color: var(--color-primary);
+    border-width: 2px;
+    padding-right: 11px;
+  }
+  
+  button, [role=button] {
+    @apply cursor-pointer;
+  }
+  
+  /* input[type="radio"] {
+    --tw-shadow-color: var(--color-gray-200);
+  } */
+  
+  select:focus-visible {
+    border-radius: 2px;
+    outline: 2px solid var(--color-primary) !important;
+    outline-offset: 4px;
+  }
+  
+  *[contenteditable] {
+    @apply rounded-md p-2;
+  }
+  
+  /** Style all simple links. Useful with <Link ...> */
+  a:not(.button):not(:has(*)) {
+    @apply underline;
+  }
+  
+  a:not([class]) {
+    @apply rounded whitespace-nowrap leading-5 inline w-fit text-primary hover:text-primary-light border-primary-light cursor-pointer;
+  }
+  
+  a,
+  button {
+    @apply focus-visible:outline-solid focus-visible:outline-2 outline-offset-2 outline-primary;
+  }
+  
+  progress.progress {
+    @apply w-full h-2;
+  }
+  progress.progress,
+  progress.progress::-webkit-progress-bar {
+    @apply rounded bg-gray-100 overflow-hidden;
+  }
+  progress.progress::-moz-progress-bar {
+    @apply rounded bg-gray-100 overflow-hidden;
+  }
+  progress.progress::-webkit-progress-value {
+    @apply rounded bg-primary;
+  }
+  progress.progress[value]::-moz-progress-bar {
+    @apply rounded bg-primary;
+  }
+  
+  .underline-dotted {
+    text-decoration-line: underline;
+    text-underline-position: under;
+    text-decoration-thickness: 5%;
+    text-decoration-style: dotted;
+  }
+}

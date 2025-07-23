@@ -40,7 +40,7 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
       // still we need to be part of `rest` to discriminate the union type
       {...(wantedProps as any)}
     >
-      {icon != null && <div className="flex-shrink-0">{icon}</div>}
+      {icon != null && <div className="shrink-0">{icon}</div>}
       {children}
     </JsxTag>
   )

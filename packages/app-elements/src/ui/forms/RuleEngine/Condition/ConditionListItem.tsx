@@ -52,8 +52,8 @@ export function ConditionListItem({
 
   return (
     <div className="bg-gray-50 rounded-md flex items-center">
-      <div className="flex items-center justify-between gap-2 flex-grow p-2">
-        <div className="flex flex-col gap-2 flex-grow">
+      <div className="flex items-center justify-between gap-2 grow p-2">
+        <div className="flex flex-col gap-2 grow">
           <div className="flex items-center justify-between gap-2">
             {/* Condition target */}
             <div className="flex-1">
@@ -84,7 +84,7 @@ export function ConditionListItem({
             </div>
 
             {/* Condition matcher */}
-            <div className="flex-14">
+            <div>
               <ConditionMatcher item={item} pathPrefix={pathPrefix} />
             </div>
           </div>
@@ -97,7 +97,7 @@ export function ConditionListItem({
           dropdownLabel={
             <button
               type="button"
-              className="flex items-center justify-center self-stretch flex-grow"
+              className="flex items-center justify-center self-stretch grow"
             >
               <Icon name="dotsThreeVertical" size={16} weight="bold" />
             </button>

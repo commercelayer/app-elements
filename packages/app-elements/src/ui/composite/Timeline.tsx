@@ -61,7 +61,7 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
           {Object.entries(groupedEvents).map(([date, eventsByDate]) => (
             <div key={date}>
               <div className="flex items-center my-6">
-                <div className="bg-gray-100 h-[1px] grow" />
+                <div className="bg-gray-100 h-px grow" />
                 <Badge
                   data-testid="timeline-date-group"
                   className="rounded-full bg-gray-100 py-1 px-3 font-bold"
@@ -157,7 +157,7 @@ function getIcon(event: TimelineEvent): JSX.Element {
     <StatusIcon
       name="check"
       background="gray"
-      className="!text-transparent rounded-full !w-[16px] !h-[16px] mx-1"
+      className="text-transparent! rounded-full w-[16px]! h-[16px]! mx-1"
     />
   )
 }

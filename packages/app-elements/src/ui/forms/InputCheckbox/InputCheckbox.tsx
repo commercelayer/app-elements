@@ -69,9 +69,9 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
               }}
               data-testid="checkbox-input"
               className={cn(
-                "w-[20px] h-[20px] text-primary focus:ring-primary round",
-                "!border !border-solid !border-gray-300 rounded-sm",
-                "![box-shadow:none] checked:!border-primary",
+                "w-[20px] h-[20px] text-primary focus:ring-primary",
+                "border! border-solid! border-gray-300! rounded-sm",
+                "[box-shadow:none]! checked:border-primary!",
                 { "cursor-pointer": rest.disabled !== true },
                 getFeedbackStyle(feedback),
               )}

@@ -16,7 +16,7 @@ function Stack({ children, ...props }: StackProps): JSX.Element {
   return (
     <div
       {...props}
-      className="border-t border-b border-gray-100 md:py-6 [&:not(:first-child)]:mt-[-1px]" // make multiple stack possible even across different siblings
+      className="border-t border-b border-gray-100 md:py-6 not-first:-mt-px" // make multiple stack possible even across different siblings
     >
       <div className="flex flex-col md:flex-row">
         {Children.map(children, (child) => child != null && renderChild(child))}

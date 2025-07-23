@@ -170,10 +170,10 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               </button>
             </div>
 
-            <div className="flex-grow flex justify-end">
+            <div className="grow flex justify-end">
               <button
                 type="button"
-                className="text-blue-600 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="text-blue-600 hover:text-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
                 onClick={() => {
                   setEditorVisible(!editorVisible)
                 }}
@@ -258,9 +258,9 @@ function Card({
   children?: React.ReactNode
 }): React.JSX.Element {
   return (
-    <div className="rounded-md bg-white shadow-sm">
+    <div className="rounded-md bg-white shadow-xs">
       <div className="flex items-center space-x-4 py-4 border-b border-gray-100">
-        <div className="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-sm shadow-primary-200">
+        <div className="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-xs shadow-primary-200">
           <Icon name={icon} />
         </div>
         <h2 className="text-lg font-semibold">{title}</h2>
@@ -277,7 +277,7 @@ function Canvas({
   children?: React.ReactNode
 }): React.JSX.Element {
   return (
-    <div className="h-full w-full bg-gray-50 p-8 [background-image:radial-gradient(#d6d6d6_1px,transparent_1px)] [background-size:16px_16px] overflow-auto">
+    <div className="h-full w-full bg-gray-50 p-8 bg-[radial-gradient(#d6d6d6_1px,transparent_1px)] bg-size-[16px_16px] overflow-auto">
       <div className="max-w-[900px] mx-auto">{children}</div>
     </div>
   )

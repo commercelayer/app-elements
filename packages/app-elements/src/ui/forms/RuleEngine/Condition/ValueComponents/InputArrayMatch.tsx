@@ -90,7 +90,7 @@ function InputArrayMatchItem({
 
   return (
     <div className="flex gap-2 last-of-type:mt-2">
-      <div className="flex-shrink-0">
+      <div className="shrink-0">
         <InputSelect
           defaultValue={[
             { value: matcher, label: arrayMatcherDictionary[matcher].label },
@@ -108,7 +108,7 @@ function InputArrayMatchItem({
           }}
         />
       </div>
-      <div className="flex-grow">
+      <div className="grow">
         <InputSelect
           isMulti
           isCreatable

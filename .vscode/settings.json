@@ -10,5 +10,6 @@
   "files.associations": {
     "*.css": "tailwindcss", // enforce usage of Tailwind extention to lint css files
     "*.json": "jsonc"
-  }
+  },
+  "tailwindCSS.experimental.configFile": "packages/app-elements/src/styles/global.css"
 }

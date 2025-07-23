@@ -26,7 +26,7 @@ function EmptyState({
       )}
       {...rest}
     >
-      <div className="flex p-6 md:!p-14 relative">
+      <div className="flex p-6 md:p-14! relative">
         <div className="flex-1 z-10">
           <h4 className="text-black font-semibold text-2xl mb-4">{title}</h4>
 

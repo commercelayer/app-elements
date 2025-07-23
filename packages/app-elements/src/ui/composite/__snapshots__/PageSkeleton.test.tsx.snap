@@ -28,7 +28,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   type="button"
                 >
                   <svg
-                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                     fill="currentColor"
                     height="24"
                     viewBox="0 0 256 256"
@@ -41,10 +41,10 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </svg>
                    
                   <span
-                    class="font-semibold [overflow-wrap:anywhere]"
+                    class="font-semibold wrap-anywhere"
                   >
                     <span
-                      class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                      class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                     >
                       Back
                     </span>
@@ -58,7 +58,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   class="font-semibold text-2xl md:text-title leading-title break-all"
                 >
                   <span
-                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                   >
                     Loading
                   </span>
@@ -80,7 +80,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                 data-testid="SearchBar"
               >
                 <div
-                  class="inline-block align-middle w-fit absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px] select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                  class="inline-block align-middle w-fit absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px] select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                 >
                   <svg
                     fill="currentColor"
@@ -95,7 +95,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </svg>
                 </div>
                 <input
-                  class="rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400 shadow-none !outline-0 !border-0 !ring-0 !focus:shadow-none !active:shadow-none focus:caret-primary focus:bg-white animate-pulse !bg-gray-50 placeholder:text-gray-50"
+                  class="rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400 shadow-none ring-0 outline-0 border-0 focus:caret-primary focus:bg-white animate-pulse bg-gray-50! placeholder:text-gray-50"
                   data-testid="SearchBar-input"
                   value=""
                 />
@@ -115,7 +115,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   class="text-lg font-semibold"
                 >
                   <span
-                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                   >
                     Loading
                   </span>
@@ -128,19 +128,19 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                       class=""
                     >
                       <div
-                        class="flex gap-4 w-full text-gray-800 hover:text-gray-800 py-4 border-b border-gray-100 !border-gray-50"
+                        class="flex gap-4 w-full text-gray-800 hover:text-gray-800 py-4 border-b border-gray-100 border-gray-50!"
                       >
                         <div
                           class="flex gap-4 flex-1 items-center"
                         >
                           <div
-                            class="flex-shrink-0 my-0.5 self-start"
+                            class="shrink-0 my-0.5 self-start"
                           >
                             <div
                               class="select-none pointer-events-none inline"
                             >
                               <div
-                                class="inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                class="inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
@@ -160,28 +160,28 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                             class="flex justify-between w-full gap-4 items-center"
                           >
                             <div
-                              class="flex-grow"
+                              class="grow"
                             >
                               <div>
                                 <div
-                                  class="font-semibold [overflow-wrap:anywhere]"
+                                  class="font-semibold wrap-anywhere"
                                 >
                                   <span
-                                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                                   >
                                     Loading item number 
                                   </span>
                                   <span
-                                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                                   >
                                     0
                                   </span>
                                 </div>
                                 <div
-                                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                                 >
                                   <span
-                                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                                   >
                                     please wait a moment
                                   </span>
@@ -192,7 +192,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                               class="text-right"
                             >
                               <div
-                                class="inline-block align-middle w-fit select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                class="inline-block align-middle w-fit select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
@@ -211,19 +211,19 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                         </div>
                       </div>
                       <div
-                        class="flex gap-4 w-full text-gray-800 hover:text-gray-800 py-4 border-b border-gray-100 !border-gray-50"
+                        class="flex gap-4 w-full text-gray-800 hover:text-gray-800 py-4 border-b border-gray-100 border-gray-50!"
                       >
                         <div
                           class="flex gap-4 flex-1 items-center"
                         >
                           <div
-                            class="flex-shrink-0 my-0.5 self-start"
+                            class="shrink-0 my-0.5 self-start"
                           >
                             <div
                               class="select-none pointer-events-none inline"
                             >
                               <div
-                                class="inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                class="inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
@@ -243,28 +243,28 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                             class="flex justify-between w-full gap-4 items-center"
                           >
                             <div
-                              class="flex-grow"
+                              class="grow"
                             >
                               <div>
                                 <div
-                                  class="font-semibold [overflow-wrap:anywhere]"
+                                  class="font-semibold wrap-anywhere"
                                 >
                                   <span
-                                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                                   >
                                     Loading item number 
                                   </span>
                                   <span
-                                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                                   >
                                     1
                                   </span>
                                 </div>
                                 <div
-                                  class="text-gray-500 font-medium text-sm [overflow-wrap:anywhere]"
+                                  class="text-gray-500 font-medium text-sm wrap-anywhere"
                                 >
                                   <span
-                                    class="select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                    class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                                   >
                                     please wait a moment
                                   </span>
@@ -275,7 +275,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                               class="text-right"
                             >
                               <div
-                                class="inline-block align-middle w-fit select-none !border-gray-50 pointer-events-none animate-pulse !bg-gray-50 rounded text-transparent [&>*]:invisible object-out-of-bounds"
+                                class="inline-block align-middle w-fit select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
