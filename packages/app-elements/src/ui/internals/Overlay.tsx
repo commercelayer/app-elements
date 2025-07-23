@@ -4,7 +4,7 @@ import { createPortal } from "react-dom"
 import { Container } from "#ui/atoms/Container"
 import { Spacer } from "#ui/atoms/Spacer"
 
-export interface OverlayProps {
+export type OverlayProps = {
   /**
    * The content of the overlay.
    **/
@@ -19,12 +19,6 @@ export interface OverlayProps {
   backgroundColor?: "light"
 
   /**
-   * Set the overlay to full width
-   * @default false
-   */
-  fullWidth?: boolean
-
-  /**
    * Class name for the overlay container
    */
   contentClassName?: string
@@ -33,7 +27,30 @@ export interface OverlayProps {
    * Style object for the overlay container
    */
   contentStyle?: React.CSSProperties
-}
+} & (
+  | {
+      /**
+       * Set the overlay to full width
+       * @default false
+       */
+      fullWidth?: boolean
+      drawer?: never
+      onBackdropClick?: never
+    }
+  | {
+      /**
+       * Set the overlay to be displayed as a drawer on the right side of the screen.
+       * @default false
+       */
+      drawer: true
+      /**
+       * Callback function to be called when the backdrop is clicked.
+       * This is useful for closing the overlay when clicking outside of it.
+       */
+      onBackdropClick: () => void
+      fullWidth?: never
+    }
+)
 
 export const Overlay: React.FC<OverlayProps> = ({
   footer,
@@ -42,6 +59,8 @@ export const Overlay: React.FC<OverlayProps> = ({
   contentClassName,
   contentStyle,
   fullWidth = false,
+  drawer = false,
+  onBackdropClick,
   ...rest
 }) => {
   const element = useRef<HTMLDivElement | null>(null)
@@ -65,8 +84,20 @@ export const Overlay: React.FC<OverlayProps> = ({
   )
 
   const content = (
-    <div className={contentClassName} style={contentStyle}>
-      <Spacer bottom={fullWidth ? undefined : "14"}>{children}</Spacer>
+    <div
+      className={cn(contentClassName, {
+        "h-full": drawer,
+      })}
+      style={contentStyle}
+    >
+      <Spacer
+        bottom={fullWidth || drawer ? undefined : "14"}
+        className={cn({
+          "h-full": drawer,
+        })}
+      >
+        {children}
+      </Spacer>
       {footer != null && (
         <div
           className={cn("w-full sticky bottom-0 pb-8", {
@@ -82,22 +113,38 @@ export const Overlay: React.FC<OverlayProps> = ({
   )
 
   return createPortal(
-    <div
-      ref={element}
-      role="dialog"
-      className={cn(
-        "overlay-container",
-        "fixed inset-0 z-50 w-full h-full  overflow-y-auto outline-hidden",
-        {
-          "bg-gray-50": backgroundColor === "light",
-          "bg-white": backgroundColor == null,
-        },
+    <>
+      {drawer && (
+        <div
+          aria-hidden
+          className="fixed inset-0 bg-gray-900 animate-backdrop-fade-in"
+          onClick={onBackdropClick}
+        />
       )}
-      data-testid="overlay"
-      {...rest}
-    >
-      {fullWidth ? content : <Container minHeight={false}>{content}</Container>}
-    </div>,
+      <div
+        ref={element}
+        role="dialog"
+        className={cn(
+          "overlay-container",
+          "fixed z-50 h-full overflow-y-auto outline-hidden",
+          {
+            "bg-gray-50": backgroundColor === "light",
+            "bg-white": backgroundColor == null,
+            "inset-0 w-full": !drawer,
+            "top-0 right-0 bottom-0 w-full md:w-1/2 animate-slide-in-right":
+              drawer,
+          },
+        )}
+        data-testid="overlay"
+        {...rest}
+      >
+        {fullWidth || drawer ? (
+          content
+        ) : (
+          <Container minHeight={false}>{content}</Container>
+        )}
+      </div>
+    </>,
     document.body,
   )
 }
