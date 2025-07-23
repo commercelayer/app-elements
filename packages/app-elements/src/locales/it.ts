@@ -83,6 +83,7 @@ const it: typeof en = {
     update: "Aggiorna",
     updated: "Aggiornato",
     view_logs: "Visualizza i log",
+    view_json: "Vedi JSON",
     view_api_docs: "Visualizza la documentazione API",
     empty_states: {
       not_found: "Non trovato",
