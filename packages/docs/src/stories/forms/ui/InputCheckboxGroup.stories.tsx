@@ -2,6 +2,7 @@ import type { Meta, StoryFn } from "@storybook/react-vite"
 import { useState } from "react"
 import { Avatar } from "#ui/atoms/Avatar"
 import { Text } from "#ui/atoms/Text"
+import { Input } from "#ui/forms/Input"
 import { InputCheckboxGroup } from "#ui/forms/InputCheckboxGroup"
 
 const setup: Meta<typeof InputCheckboxGroup> = {
@@ -233,6 +234,68 @@ WithQuantity.args = {
         min: 1,
         max: 5,
       },
+    },
+  ],
+}
+
+export const WithCheckedElement = Template.bind({})
+WithCheckedElement.args = {
+  title: "Items",
+  defaultValues: [
+    {
+      value: "BABYBIBXA19D9D000000XXXX",
+      quantity: 1,
+    },
+    {
+      value: "BASEBHAT000000FFFFFFXXXX",
+    },
+  ],
+  options: [
+    {
+      value: "BABYBIBXA19D9D000000XXXX",
+      icon: (
+        <Avatar
+          size="small"
+          src="https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BABYBIBXA19D9D000000XXXX_FLAT.png"
+          alt="Gray Baby Bib with Black Logo"
+        />
+      ),
+      content: (
+        <div>
+          <Text size="regular" tag="div" weight="bold">
+            Gray Baby Bib with Black Logo
+          </Text>
+          <Text size="small" tag="div" variant="info">
+            200g
+          </Text>
+        </div>
+      ),
+      checkedElement: <Input placeholder="Reason" />,
+      quantity: {
+        min: 2,
+        max: 6,
+      },
+    },
+    {
+      value: "BASEBHAT000000FFFFFFXXXX",
+      icon: (
+        <Avatar
+          size="small"
+          src="https://res.cloudinary.com/commercelayer/image/upload/f_auto,b_white/demo-store/skus/BASEBHAT000000FFFFFFXXXX_FLAT.png"
+          alt="Black Baseball Hat with White Logo"
+        />
+      ),
+      content: (
+        <div>
+          <Text size="regular" tag="div" weight="bold">
+            Black Baseball Hat with White Logo
+          </Text>
+          <Text size="small" tag="div" variant="info">
+            50g
+          </Text>
+        </div>
+      ),
+      checkedElement: <Input placeholder="Reason" />,
     },
   ],
 }

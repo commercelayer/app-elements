@@ -50,7 +50,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
           {/** biome-ignore lint/a11y/useKeyWithClickEvents: I need to stop event propagation */}
           <label
             data-testid="checkbox-label"
-            className={cn("flex items-center gap-[10px] select-none flex-1", {
+            className={cn("flex items-center gap-3 select-none flex-1", {
               "cursor-pointer": rest.disabled !== true,
             })}
             onClick={(e) => {
