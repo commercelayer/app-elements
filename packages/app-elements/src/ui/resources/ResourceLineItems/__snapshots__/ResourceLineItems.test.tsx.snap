@@ -177,7 +177,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 </button>
                 <span
                   aria-description="Can't remove the last item"
-                  class="cursor-pointer"
+                  class="cursor-pointer flex items-center"
                   data-tooltip-id="commonremove-cantremovethelastitem-top-end"
                 >
                   <button

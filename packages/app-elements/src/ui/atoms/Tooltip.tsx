@@ -30,6 +30,11 @@ export interface TooltipProps {
    * If false or undefined, the tooltip will have a max-width of 280px and no minimum width.
    */
   minWidth?: boolean
+  /**
+   * Class name to be applied to the tooltip wrapper.
+   * Useful for custom styling.
+   */
+  className?: string
 }
 
 /**
@@ -46,6 +51,7 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
       direction = "top",
       minWidth = false,
       id = `${getSanitizedInnerText(label)}-${getSanitizedInnerText(content)}-${direction}`,
+      className,
     },
     ref,
   ): JSX.Element => {
@@ -54,7 +60,7 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
         <span
           aria-description={getInnerText(content)}
           data-tooltip-id={id}
-          className="cursor-pointer"
+          className={cn("cursor-pointer", className)}
         >
           {label}
         </span>
