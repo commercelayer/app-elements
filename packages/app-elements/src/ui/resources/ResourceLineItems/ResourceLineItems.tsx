@@ -133,6 +133,7 @@ const Edit = withSkeletonTemplate<{
               label={removeButton}
               content="Can't remove the last item"
               direction="top-end"
+              className="flex items-center"
             />
           ) : (
             removeButton
