@@ -4,6 +4,7 @@ import {
   type EditMetadataOverlayProps,
   useEditMetadataOverlay,
 } from "#hooks/useEditMetadataOverlay"
+import { useViewJsonOverlay } from "#hooks/useViewJsonOverlay"
 import { useCoreApi } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
@@ -40,6 +41,7 @@ export const isUpdatableType = (value: any): value is UpdatableType => {
 export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
   ({ resourceType, resourceId, overlay }) => {
     const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
+    const { JsonOverlay, showJsonOverlay } = useViewJsonOverlay()
 
     const { canUser } = useTokenProvider()
 
@@ -70,22 +72,33 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         <Section
           title="Metadata"
           actionButton={
-            canUser("update", resourceType) && (
+            <div className="flex items-center gap-2">
               <Button
                 variant="secondary"
                 size="mini"
-                alignItems="center"
-                aria-label={t("common.edit_resource", {
-                  resource: t("common.metadata").toLowerCase(),
-                })}
                 onClick={() => {
-                  show()
+                  showJsonOverlay()
                 }}
               >
-                <Icon name="pencilSimple" size="16" />
-                {t("common.edit")}
+                {t("common.view_json")}
               </Button>
-            )
+              {canUser("update", resourceType) && (
+                <Button
+                  variant="secondary"
+                  size="mini"
+                  alignItems="center"
+                  aria-label={t("common.edit_resource", {
+                    resource: t("common.metadata").toLowerCase(),
+                  })}
+                  onClick={() => {
+                    show()
+                  }}
+                >
+                  <Icon name="pencilSimple" size="16" />
+                  {t("common.edit")}
+                </Button>
+              )}
+            </div>
           }
         >
           {isUpdatable ? (
@@ -117,6 +130,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </Spacer>
           )}
         </Section>
+        <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
         <EditMetadataOverlay
           title={overlay?.title}
           resourceId={resourceId}

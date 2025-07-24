@@ -81,6 +81,7 @@ export { useEditTagsOverlay } from "#hooks/useEditTagsOverlay"
 export { useIsChanged } from "#hooks/useIsChanged"
 export { useOnBlurFromContainer } from "#hooks/useOnBlurFromContainer"
 export { useOverlay } from "#hooks/useOverlay"
+export { useViewJsonOverlay } from "#hooks/useViewJsonOverlay"
 // Providers
 export {
   CoreSdkProvider,

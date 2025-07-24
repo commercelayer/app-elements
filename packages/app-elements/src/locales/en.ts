@@ -305,6 +305,7 @@ const en = {
     update: "Update",
     updated: "Updated",
     view_logs: "View logs",
+    view_json: "View JSON",
     view_api_docs: "View API reference",
     empty_states: {
       not_found: "Not found",
