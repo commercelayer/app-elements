@@ -5,7 +5,10 @@ import { InputCheckbox, type InputCheckboxProps } from "#ui/forms/InputCheckbox"
 import { InputSpinner } from "#ui/forms/InputSpinner"
 
 export interface InputCheckboxGroupOption
-  extends Pick<InputCheckboxProps, "icon" | "checked" | "hideIconOnDesktop"> {
+  extends Pick<
+    InputCheckboxProps,
+    "icon" | "checked" | "hideIconOnDesktop" | "checkedElement"
+  > {
   /**
    * Input name, will be used to set the html name for checkbox and the quantity inputs.
    * If not provided, the value will be used instead.
@@ -54,54 +57,61 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
     quantity,
     defaultQuantity,
     hideIconOnDesktop,
+    checkedElement,
     icon,
   }) => {
     return (
-      <ListItem
-        alignItems="center"
-        alignIcon="center"
-        borderStyle="none"
-        padding="none"
-        className="rounded flex items-center gap-3 p-3"
-        onClick={() => {
-          onChange(value)
-        }}
-        data-testid="InputCheckboxGroupItem"
-      >
-        <InputCheckbox
-          name={name}
-          checked={checked}
-          icon={icon}
-          hideIconOnDesktop={hideIconOnDesktop}
-          onChange={() => {
+      // Ensure the hover effect applies to the entire row, including the checkedElement section if present
+      <div className="hover:bg-gray-50">
+        <ListItem
+          alignItems="center"
+          alignIcon="center"
+          borderStyle="none"
+          padding="none"
+          className="rounded flex items-center gap-3 p-3"
+          onClick={() => {
             onChange(value)
           }}
+          data-testid="InputCheckboxGroupItem"
         >
-          <div>{content}</div>
-        </InputCheckbox>
-
-        {quantity != null && (
-          // biome-ignore lint/a11y/noStaticElementInteractions: I need to prevent the click event from propagating to the ListItem.
-          // biome-ignore lint/a11y/useKeyWithClickEvents: I need to prevent the click event from propagating to the ListItem.
-          <div
-            onClick={(e) => {
-              e.stopPropagation()
+          <InputCheckbox
+            name={name}
+            checked={checked}
+            icon={icon}
+            hideIconOnDesktop={hideIconOnDesktop}
+            onChange={() => {
+              onChange(value)
             }}
           >
-            <InputSpinner
-              name={`${name}_quantity`}
-              defaultValue={defaultQuantity}
-              min={quantity.min}
-              max={quantity.max}
-              disableKeyboard
-              disabled={checked === false}
-              onChange={(newQuantity) => {
-                onChange(value, newQuantity)
+            <div>{content}</div>
+          </InputCheckbox>
+
+          {quantity != null && (
+            // biome-ignore lint/a11y/noStaticElementInteractions: I need to prevent the click event from propagating to the ListItem.
+            // biome-ignore lint/a11y/useKeyWithClickEvents: I need to prevent the click event from propagating to the ListItem.
+            <div
+              onClick={(e) => {
+                e.stopPropagation()
               }}
-            />
-          </div>
+            >
+              <InputSpinner
+                name={`${name}_quantity`}
+                defaultValue={defaultQuantity}
+                min={quantity.min}
+                max={quantity.max}
+                disableKeyboard
+                disabled={checked === false}
+                onChange={(newQuantity) => {
+                  onChange(value, newQuantity)
+                }}
+              />
+            </div>
+          )}
+        </ListItem>
+        {checkedElement != null && checked && (
+          <div className="pb-4 pr-3 pl-11">{checkedElement}</div>
         )}
-      </ListItem>
+      </div>
     )
   },
 )
