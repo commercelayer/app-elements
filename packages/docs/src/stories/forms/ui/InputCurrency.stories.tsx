@@ -74,3 +74,10 @@ ForceNegativeValue.args = {
   currencyCode: "USD",
   sign: "-",
 }
+
+export const CustomCurrency = Template.bind({})
+CustomCurrency.args = {
+  label: "Enter an amount",
+  name: "input-eur",
+  currencyCode: "DUN",
+}
