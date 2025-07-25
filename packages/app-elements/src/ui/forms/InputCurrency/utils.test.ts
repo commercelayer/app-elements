@@ -1,4 +1,5 @@
 import { currencies } from "#helpers/currencies"
+import { formatCentsToCurrency } from "#ui/forms/InputCurrency/utils"
 import { addCurrencySymbol, getDecimalLength, makePlaceholder } from "./utils"
 
 describe("getDecimalLength", () => {
@@ -37,5 +38,23 @@ describe("makePlaceholder", () => {
     expect(makePlaceholder(currencies.eur)).toBe("0,00")
     expect(makePlaceholder(currencies.usd)).toBe("0.00")
     expect(makePlaceholder(currencies.jpy)).toBe("0")
+  })
+})
+
+describe("formatCentsToCurrency", () => {
+  it("should format cents to currency for EUR", () => {
+    expect(formatCentsToCurrency(10250, "EUR")).toBe("€102,50")
+  })
+
+  it("should format cents to currency for USD", () => {
+    expect(formatCentsToCurrency(10250, "USD")).toBe("$102.50")
+  })
+
+  it("should format cents to currency for JPY", () => {
+    expect(formatCentsToCurrency(10250, "JPY")).toBe("¥10,250")
+  })
+
+  it("should handle custom currency for DUN", () => {
+    expect(formatCentsToCurrency(10250, "DUN")).toBe("10.250DC")
   })
 })

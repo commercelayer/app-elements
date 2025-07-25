@@ -74,3 +74,17 @@ ForceNegativeValue.args = {
   currencyCode: "USD",
   sign: "-",
 }
+
+export const NonIsoCurrency = Template.bind({})
+NonIsoCurrency.args = {
+  label: "Enter Bitcoin amount",
+  name: "input-btc",
+  currencyCode: "BTC",
+}
+
+export const CustomCurrency = Template.bind({})
+CustomCurrency.args = {
+  label: "Enter an amount",
+  name: "input-dun",
+  currencyCode: "DUN",
+}
