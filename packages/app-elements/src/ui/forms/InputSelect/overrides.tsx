@@ -1,4 +1,5 @@
 import { XIcon } from "@phosphor-icons/react"
+import cn from "classnames"
 import { castArray } from "lodash-es"
 import type { JSX } from "react"
 import {
@@ -7,6 +8,7 @@ import {
   type DropdownIndicatorProps,
   type GroupBase,
   type GroupHeadingProps,
+  type InputProps,
   type MenuListProps,
   type MultiValueGenericProps,
 } from "react-select"
@@ -146,6 +148,15 @@ function MenuList(props: MenuListProps<InputSelectValue>): JSX.Element {
   )
 }
 
+function Input(props: InputProps<InputSelectValue>): JSX.Element {
+  const newProps = {
+    ...props,
+    // `.no-focus` prevent applying default styles from global.css
+    inputClassName: cn(props.inputClassName, "no-focus"),
+  }
+  return <components.Input {...newProps} />
+}
+
 const selectComponentOverrides = {
   DropdownIndicator,
   IndicatorSeparator: () => null,
@@ -155,6 +166,7 @@ const selectComponentOverrides = {
   MultiValueRemove,
   GroupHeading,
   MenuList,
+  Input,
 }
 
 export default selectComponentOverrides

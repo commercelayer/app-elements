@@ -54,6 +54,7 @@ Default.args = {
   isSearchable: true,
   isClearable: false,
   onBlur: () => {},
+  name: "resource",
 }
 
 /**
