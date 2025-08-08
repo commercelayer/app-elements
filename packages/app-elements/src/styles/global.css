@@ -233,7 +233,7 @@
     -moz-box-shadow: inset 0 0 0 1px var(--color-gray-200);
   }
   
-  input:focus-visible:not([id^="react-select"]),
+  input:focus-visible:not(.no-focus),
   textarea:focus-visible,
   div[role="textbox"]:focus,
   .form-input:focus,
