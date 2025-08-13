@@ -34,7 +34,7 @@ export interface CodeEditorProps
    */
   language?: "plaintext" | "json"
   /**
-   * JSON Schema to be used when writing JSON
+   * JSON Schema to be used when writing JSON.
    * @default none
    */
   jsonSchema?: "none" | "order-rules" | "price-rules" | "organization-config"

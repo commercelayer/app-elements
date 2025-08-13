@@ -4,13 +4,14 @@ import { RuleEngine } from "./RuleEngineComponent"
 
 describe("RuleEngine", () => {
   it("renders empty without any error", async () => {
-    const { container } = render(<RuleEngine />)
+    const { container } = render(<RuleEngine schemaType="order-rules" />)
     expect(container).toMatchSnapshot()
   })
 
   it("renders rule name correctly", () => {
     const { container } = render(
       <RuleEngine
+        schemaType="order-rules"
         defaultValue={JSON.stringify({
           rules: [
             {
@@ -31,6 +32,7 @@ describe("RuleEngine", () => {
     const onChangeMock = vi.fn()
     const { container } = render(
       <RuleEngine
+        schemaType="order-rules"
         onChange={onChangeMock}
         defaultValue={JSON.stringify({
           rules: [
@@ -72,6 +74,7 @@ describe("RuleEngine", () => {
     it("renders percentage action with correct value", () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -103,6 +106,7 @@ describe("RuleEngine", () => {
     it("renders fixed_amount action with correct value", () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -134,6 +138,7 @@ describe("RuleEngine", () => {
     it("renders fixed_price action with correct value", () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -165,6 +170,7 @@ describe("RuleEngine", () => {
     it("renders buy_x_pay_y action with correct values", () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -202,6 +208,7 @@ describe("RuleEngine", () => {
     it("renders every_x_discount_y action with correct values", () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -239,6 +246,7 @@ describe("RuleEngine", () => {
     it("renders more than one action correctly", () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -291,6 +299,7 @@ describe("RuleEngine", () => {
     it("renders condition with a string value", async () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -325,6 +334,7 @@ describe("RuleEngine", () => {
     it("renders condition with a number value", async () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {
@@ -362,6 +372,7 @@ describe("RuleEngine", () => {
     it("renders condition with a boolean value", async () => {
       const { container } = render(
         <RuleEngine
+          schemaType="order-rules"
           defaultValue={JSON.stringify({
             rules: [
               {

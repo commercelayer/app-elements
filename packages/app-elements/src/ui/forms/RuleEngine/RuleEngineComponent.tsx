@@ -31,6 +31,14 @@ export interface RuleEngineProps
   defaultCodeEditorVisible?: boolean
 
   /**
+   * Schema type to be used when building the rule.
+   */
+  schemaType: Extract<
+    NonNullable<CodeEditorProps["jsonSchema"]>,
+    "order-rules" | "price-rules"
+  >
+
+  /**
    * Triggered when the editor value changes.
    * @param value The new editor value.
    * @returns
@@ -224,7 +232,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               name={props.id ?? props.name}
               height="100%"
               language="json"
-              jsonSchema="order-rules"
+              jsonSchema={props.schemaType}
               defaultValue={JSON.stringify(value, null, 2)}
               noRounding
               onChange={handleCodeEditorChange}
