@@ -57,7 +57,7 @@ PromotionRules.args = {
             {
               type: "percentage",
               selector: "order",
-              value: 3,
+              value: 0.3,
             },
           ],
         },
@@ -98,7 +98,7 @@ PriceListRules.args = {
             {
               type: "percentage",
               selector: "price",
-              value: "20%",
+              value: 0.2,
             },
           ],
         },
