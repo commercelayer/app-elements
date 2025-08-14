@@ -251,9 +251,9 @@
   }
   
   input:focus-visible + .suffix {
-    border-color: var(--color-primary);
-    border-width: 2px;
-    padding-right: 11px;
+    border-color: var(--color-primary) !important;
+    border-width: 2px 2px 2px 0 !important;
+    padding-right: 11px !important;
   }
   
   button, [role=button] {
