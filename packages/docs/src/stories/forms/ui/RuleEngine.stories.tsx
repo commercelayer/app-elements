@@ -30,6 +30,7 @@ const Template: StoryFn<typeof RuleEngine> = (args) => {
 export const Default = Template.bind({})
 Default.args = {
   name: "rules",
+  schemaType: "order-rules",
   onChange(value) {
     console.log("onChange", value)
   },
@@ -351,6 +352,60 @@ Default.args = {
   ).concat("\n"),
 }
 Default.parameters = {
+  docs: {
+    canvas: {
+      // This will remove the "show code" button
+      // https://storybook.js.org/docs/api/doc-blocks/doc-block-canvas#sourcestate
+      sourceState: "none",
+    },
+  },
+}
+
+export const PriceRules = Template.bind({})
+PriceRules.args = {
+  name: "rules",
+  schemaType: "price-rules",
+  onChange(value) {
+    console.log("onChange", value)
+  },
+  defaultValue: JSON.stringify(
+    {
+      rules: [
+        {
+          id: "d4e5f6a7-b8c9-0d1e-2f3g-4h5i6j7k8l9m",
+          name: "Discount 40% if employee_us",
+          actions: [
+            {
+              type: "percentage",
+              value: 0.4,
+              groups: ["discountable-items"],
+              selector: "price",
+            },
+          ],
+          conditions: [
+            {
+              field: "price.jwt_customer.tags.name",
+              group: "discountable_employee_us",
+              value: "employee_us",
+              matcher: "matches",
+            },
+            {
+              field: "price.sku.tags.name",
+              group: "discountable-items",
+              value: {
+                not_in_or: ["outlet", "public_40"],
+              },
+              matcher: "array_match",
+            },
+          ],
+        },
+      ],
+    },
+    undefined,
+    2,
+  ).concat("\n"),
+}
+PriceRules.parameters = {
   docs: {
     canvas: {
       // This will remove the "show code" button

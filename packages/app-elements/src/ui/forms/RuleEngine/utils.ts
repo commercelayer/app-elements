@@ -1,20 +1,19 @@
-import type { SetRequired } from "type-fest"
+import type { JsonValue, SetRequired } from "type-fest"
 import { asUniqueArray } from "#utils/array"
 import type { RulesForOrderContext } from "./schema.order_rules"
 
-export type Schema = SetRequired<RulesForOrderContext, "rules">
-type SchemaRule = Schema["rules"][number]
-export type SchemaCondition = NonNullable<
-  SchemaRule["conditions"][number]["nested"]
->
-export type SchemaActionItem = NonNullable<SchemaRule["actions"]>[number]
+export type RulesObject = SetRequired<RulesForOrderContext, "rules">
+type Rule = RulesObject["rules"][number]
+export type SchemaCondition = NonNullable<Rule["conditions"][number]["nested"]>
+export type SchemaActionItem = NonNullable<Rule["actions"]>[number]
 export type SchemaConditionItem = NonNullable<
   SchemaCondition["conditions"]
 >[number]
+export type ActionType = RulesObject["rules"][number]["actions"][number]["type"]
 
 export interface SetPath {
   (path: string): SetPath
-  (path: string, pathValue: unknown, shouldForceUpdate?: boolean): Schema
+  (path: string, pathValue: unknown, shouldForceUpdate?: boolean): RulesObject
 }
 
 export type ConditionMatchersWithoutValue = Exclude<
@@ -33,6 +32,41 @@ export type ItemWithValue = Exclude<
   SchemaConditionItem,
   { matcher: ConditionMatchersWithoutValue }
 >
+
+export type JSONSchema =
+  | "none"
+  | "order-rules"
+  | "price-rules"
+  | "organization-config"
+
+export const fetchJsonSchema = async (
+  jsonSchema: JSONSchema,
+  domain: string,
+): Promise<JsonValue | undefined> => {
+  switch (jsonSchema) {
+    case "none": {
+      break
+    }
+
+    case "organization-config": {
+      return fetch(
+        `https://provisioning.${domain}/api/public/schemas/organization_config`,
+      ).then<JsonValue>(async (res) => await res.json())
+    }
+
+    case "order-rules": {
+      return fetch(
+        `https://core.${domain}/api/public/schemas/order_rules`,
+      ).then<JsonValue>(async (res) => await res.json())
+    }
+
+    case "price-rules": {
+      return fetch(
+        `https://core.${domain}/api/public/schemas/price_rules`,
+      ).then<JsonValue>(async (res) => await res.json())
+    }
+  }
+}
 
 /**
  * This function is used to ensure that a value of type `never` is never reached.

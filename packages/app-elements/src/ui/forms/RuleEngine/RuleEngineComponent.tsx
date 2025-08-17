@@ -3,7 +3,9 @@ import classNames from "classnames"
 import { isEqual } from "lodash-es"
 import type React from "react"
 import { useCallback, useEffect, useRef, useState } from "react"
-import type { SetOptional, SetRequired } from "type-fest"
+import type { SetOptional } from "type-fest"
+import z from "zod"
+import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
 import { CodeEditor, type CodeEditorProps } from "#ui/forms/CodeEditor"
@@ -15,9 +17,7 @@ import { Action } from "./Action"
 import { Condition } from "./Condition"
 import { RuleEngineProvider, useRuleEngine } from "./RuleEngineContext"
 import { RuleName } from "./RuleName"
-import type { RulesForOrderContext } from "./schema.order_rules"
-
-type Schema = SetRequired<RulesForOrderContext, "rules">
+import { type ActionType, fetchJsonSchema, type RulesObject } from "./utils"
 
 export interface RuleEngineProps
   extends Omit<InputWrapperBaseProps, "label" | "inline">,
@@ -31,20 +31,28 @@ export interface RuleEngineProps
   defaultCodeEditorVisible?: boolean
 
   /**
+   * Schema type to be used when building the rule.
+   */
+  schemaType: Extract<
+    NonNullable<CodeEditorProps["jsonSchema"]>,
+    "order-rules" | "price-rules"
+  >
+
+  /**
    * Triggered when the editor value changes.
    * @param value The new editor value.
    * @returns
    */
-  onChange?: (value: Schema) => void
+  onChange?: (value: RulesObject) => void
 }
 
-const emptyRule: Schema = {
+const emptyRule: RulesObject = {
   rules: [],
 }
 
-const parseValue = (value: string | undefined): Schema => {
+const parseValue = (value: string | undefined): RulesObject => {
   try {
-    return JSON.parse(value ?? JSON.stringify(emptyRule)) as Schema
+    return JSON.parse(value ?? JSON.stringify(emptyRule)) as RulesObject
   } catch (_error) {
     return emptyRule
   }
@@ -60,7 +68,15 @@ const isParsable = (value: string | undefined): boolean => {
 }
 
 export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
-  const [value, setValue] = useState<Schema>(
+  const {
+    settings: { domain },
+  } = useTokenProvider()
+
+  const [availableActionTypes, setAvailableActionTypes] = useState<
+    ActionType[]
+  >([])
+
+  const [value, setValue] = useState<RulesObject>(
     parseValue(props.value ?? props.defaultValue),
   )
 
@@ -73,8 +89,52 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
     [props.value],
   )
 
+  useEffect(
+    function parseSchema() {
+      fetchJsonSchema(props.schemaType, domain).then((jsonSchema) => {
+        const schema = z.object({
+          properties: z.object({
+            rules: z.object({
+              items: z.object({
+                properties: z.object({
+                  actions: z.object({
+                    items: z.object({
+                      anyOf: z.array(
+                        z.object({
+                          properties: z.object({
+                            type: z.object({
+                              enum: z.string().array(),
+                            }),
+                          }),
+                        }),
+                      ),
+                    }),
+                  }),
+                }),
+              }),
+            }),
+          }),
+        })
+
+        const actionTypes = schema
+          .parse(jsonSchema)
+          .properties.rules.items.properties.actions.items.anyOf.flatMap(
+            (action) => action.properties.type.enum,
+          )
+
+        setAvailableActionTypes([...new Set(actionTypes)] as ActionType[])
+      })
+    },
+    [domain],
+  )
+
   return (
-    <RuleEngineProvider initialValue={{ rules: value.rules }}>
+    <RuleEngineProvider
+      initialValue={{
+        value: { rules: value.rules },
+        availableActionTypes,
+      }}
+    >
       <RuleEditorComponent {...props} />
     </RuleEngineProvider>
   )
@@ -224,7 +284,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               name={props.id ?? props.name}
               height="100%"
               language="json"
-              jsonSchema="order-rules"
+              jsonSchema={props.schemaType}
               defaultValue={JSON.stringify(value, null, 2)}
               noRounding
               onChange={handleCodeEditorChange}

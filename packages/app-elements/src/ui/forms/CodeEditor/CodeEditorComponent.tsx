@@ -13,6 +13,7 @@ import {
   InputWrapper,
   type InputWrapperBaseProps,
 } from "#ui/internals/InputWrapper"
+import { fetchJsonSchema, type JSONSchema } from "../RuleEngine/utils"
 import { fetchCoreResourcesSuggestions } from "./fetchCoreResourcesSuggestions"
 
 export interface CodeEditorProps
@@ -34,10 +35,10 @@ export interface CodeEditorProps
    */
   language?: "plaintext" | "json"
   /**
-   * JSON Schema to be used when writing JSON
+   * JSON Schema to be used when writing JSON.
    * @default none
    */
-  jsonSchema?: "none" | "order-rules" | "price-rules" | "organization-config"
+  jsonSchema?: JSONSchema
   /**
    * Trigger on every update.
    * @param markers List of markers (errors). `null` when there're no errors.
@@ -137,6 +138,16 @@ export const CodeEditor = forwardRef<
           const schemas =
             monaco.languages.json.jsonDefaults.diagnosticsOptions.schemas ?? []
 
+          const schema = await fetchJsonSchema(jsonSchema, domain).then(
+            (json) => {
+              if (json != null) {
+                return clearExamples(json)
+              }
+
+              return json
+            },
+          )
+
           switch (jsonSchema) {
             case "none": {
               break
@@ -144,13 +155,7 @@ export const CodeEditor = forwardRef<
 
             case "organization-config": {
               schemas.push({
-                schema: await fetch(
-                  `https://provisioning.${domain}/api/public/schemas/organization_config`,
-                )
-                  .then<JsonValue>(async (res) => await res.json())
-                  .then((json) => {
-                    return clearExamples(json)
-                  }),
+                schema,
                 uri: `file:///json-schema--${jsonSchema}.json`,
                 fileMatch: [uri],
               })
@@ -160,13 +165,7 @@ export const CodeEditor = forwardRef<
 
             case "order-rules": {
               schemas.push({
-                schema: await fetch(
-                  `https://core.${domain}/api/public/schemas/order_rules`,
-                )
-                  .then<JsonValue>(async (res) => await res.json())
-                  .then((json) => {
-                    return clearExamples(json)
-                  }),
+                schema,
                 uri: `file:///json-schema--${jsonSchema}.json`,
                 fileMatch: [uri],
               })
@@ -179,13 +178,7 @@ export const CodeEditor = forwardRef<
 
             case "price-rules": {
               schemas.push({
-                schema: await fetch(
-                  `https://core.${domain}/api/public/schemas/price_rules`,
-                )
-                  .then<JsonValue>(async (res) => await res.json())
-                  .then((json) => {
-                    return clearExamples(json)
-                  }),
+                schema,
                 uri: `file:///json-schema--${jsonSchema}.json`,
                 fileMatch: [uri],
               })

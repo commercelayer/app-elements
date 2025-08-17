@@ -7,23 +7,24 @@ import {
   useMemo,
   useReducer,
 } from "react"
-import type { Schema } from "./utils"
+import type { ActionType, RulesObject } from "./utils"
 
 interface State {
-  value: Schema
+  value: RulesObject
   selectedRuleIndex: number
 }
 
 type Action =
   | { type: "SET_PATH"; path: string; value: unknown }
   | { type: "SET_SELECTED_RULE_INDEX"; index: number }
-  | { type: "SET_VALUE"; value: Schema }
+  | { type: "SET_VALUE"; value: RulesObject }
 
 interface RuleEngineContextType {
+  availableActionTypes: ActionType[]
   state: State
   setPath: (path: string, value: unknown) => void
   setSelectedRuleIndex: (index: number) => void
-  setValue: (value: Schema) => void
+  setValue: (value: RulesObject) => void
 }
 
 const RuleEngineContext = createContext<RuleEngineContextType | undefined>(
@@ -111,10 +112,13 @@ export function RuleEngineProvider({
   initialValue,
 }: {
   children: React.ReactNode
-  initialValue: Schema
+  initialValue: {
+    value: RulesObject
+    availableActionTypes: RuleEngineContextType["availableActionTypes"]
+  }
 }): React.JSX.Element {
   const [state, dispatch] = useReducer(ruleEngineReducer, {
-    value: initialValue,
+    value: initialValue.value,
     selectedRuleIndex: 0,
   })
 
@@ -126,7 +130,7 @@ export function RuleEngineProvider({
     dispatch({ type: "SET_SELECTED_RULE_INDEX", index })
   }, [])
 
-  const setValue = useCallback((value: Schema) => {
+  const setValue = useCallback((value: RulesObject) => {
     dispatch({ type: "SET_VALUE", value })
   }, [])
 
@@ -136,8 +140,15 @@ export function RuleEngineProvider({
       setPath,
       setSelectedRuleIndex,
       setValue,
+      availableActionTypes: initialValue.availableActionTypes,
     }),
-    [state, setPath, setSelectedRuleIndex, setValue],
+    [
+      state,
+      setPath,
+      setSelectedRuleIndex,
+      setValue,
+      initialValue.availableActionTypes,
+    ],
   )
 
   return (

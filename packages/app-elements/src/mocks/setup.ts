@@ -6,8 +6,14 @@ beforeAll(() => {
     onUnhandledRequest(request, print) {
       const url = new URL(request.url)
 
-      // Ignore requests to fetch static assets.
       if (url.href === "https://core.commercelayer.io/api/public/resources") {
+        return
+      }
+
+      if (
+        url.href ===
+        "https://core.commercelayer.io/api/public/schemas/order_rules"
+      ) {
         return
       }
 

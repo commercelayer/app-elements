@@ -18,6 +18,7 @@ export function ActionListItem({
   const {
     setPath,
     state: { selectedRuleIndex },
+    availableActionTypes,
   } = useRuleEngine()
 
   type Item = NonNullable<typeof item>
@@ -47,9 +48,10 @@ export function ActionListItem({
                     }
                   : undefined
               }
-              initialValues={Object.entries(typeDictionary).map(
-                ([value, label]) => ({ value, label }),
-              )}
+              initialValues={availableActionTypes.map((type) => ({
+                value: type,
+                label: typeDictionary[type],
+              }))}
               onSelect={(selected) => {
                 if (isSingleValueSelected(selected)) {
                   setPath(`${pathPrefix}.type`, selected.value)
