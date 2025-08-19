@@ -117,7 +117,7 @@ export const Overlay: React.FC<OverlayProps> = ({
       {drawer && (
         <div
           aria-hidden
-          className="fixed inset-0 bg-gray-900 animate-backdrop-fade-in"
+          className="fixed inset-0 z-50 bg-gray-900 animate-backdrop-fade-in"
           onClick={onBackdropClick}
         />
       )}
@@ -131,7 +131,7 @@ export const Overlay: React.FC<OverlayProps> = ({
             "bg-gray-50": backgroundColor === "light",
             "bg-white": backgroundColor == null,
             "inset-0 w-full": !drawer,
-            "top-0 right-0 bottom-0 w-full md:w-1/2 animate-slide-in-right":
+            "top-0 right-0 bottom-0 w-full md:w-1/2 max-w-[800px] animate-slide-in-right":
               drawer,
           },
         )}
