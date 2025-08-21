@@ -27,6 +27,7 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
       className={cn([
         className,
         "flex gap-2 items-center select-none",
+        "wrap-anywhere",
         "text-black text-sm",
         "px-4 py-1",
         "rounded border border-solid border-gray-200",
