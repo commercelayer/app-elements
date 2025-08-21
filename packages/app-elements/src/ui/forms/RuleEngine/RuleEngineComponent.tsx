@@ -82,7 +82,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
 
   useEffect(
     function updateValue() {
-      if (value.rules.length === 0) {
+      if (value.rules?.length === 0) {
         setValue(parseValue(props.value))
       }
     },
@@ -152,7 +152,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const [editorVisible, setEditorVisible] = useState(
     props.defaultCodeEditorVisible ?? false,
   )
-  const selectedRule = value.rules[selectedRuleIndex]
+  const selectedRule = value.rules?.[selectedRuleIndex]
   const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
   const [forcedRender, setForcedRender] = useState(0)
 
@@ -196,12 +196,12 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
         >
           <header className="w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center">
             <div className="flex items-center gap-4 flex-wrap">
-              {value.rules.map((rule, ruleIndex) => {
+              {value.rules?.map((rule, ruleIndex) => {
                 const label = `#${(ruleIndex + 1).toString().padStart(2, "0")}`
                 return (
                   <button
                     type="button"
-                    key={`${selectedRuleIndex}-${rule.id}`}
+                    key={`${ruleIndex}-${rule.id}`}
                     className={classNames("font-bold", {
                       "text-black": selectedRuleIndex === ruleIndex,
                     })}
@@ -215,16 +215,16 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               })}
               <button
                 type="button"
-                className={classNames("font-bold", {
+                className={classNames("font-bold py-0.5", {
                   "text-black": true,
                 })}
                 onClick={() => {
-                  setPath(`rules.${value.rules.length}`, {
+                  setPath(`rules.${value.rules?.length ?? 0}`, {
                     name: "Rule name",
                     actions: [null],
                     conditions: [null],
                   })
-                  setSelectedRuleIndex(value.rules.length)
+                  setSelectedRuleIndex(value.rules?.length ?? 0)
                 }}
               >
                 <Icon name="plus" size={16} className="shrink-0" />
@@ -245,37 +245,41 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
           </header>
 
           <Canvas>
-            <div className="mb-8 flex items-center gap-2">
-              <RuleName />
-              <Icon name="pencilSimple" size={16} className="shrink-0" />
-            </div>
-            <Card title="Actions" icon="lightning">
-              <Action actions={selectedRule?.actions} />
-            </Card>
+            {selectedRule && (
+              <>
+                <div className="mb-8 flex items-center gap-2">
+                  <RuleName />
+                  <Icon name="pencilSimple" size={16} className="shrink-0" />
+                </div>
+                <Card title="Actions" icon="lightning">
+                  <Action actions={selectedRule?.actions} />
+                </Card>
 
-            <CardConnector>when</CardConnector>
+                <CardConnector>when</CardConnector>
 
-            <Card title="Conditions" icon="treeView">
-              <Condition
-                item={selectedRule}
-                pathPrefix={`rules.${selectedRuleIndex}`}
-              />
-              <div className="mt-6">
-                <Button
-                  size="small"
-                  variant="secondary"
-                  alignItems="center"
-                  onClick={() => {
-                    setPath(
-                      `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
-                      undefined,
-                    )
-                  }}
-                >
-                  <Icon name="plusCircle" /> Add condition
-                </Button>
-              </div>
-            </Card>
+                <Card title="Conditions" icon="treeView">
+                  <Condition
+                    item={selectedRule}
+                    pathPrefix={`rules.${selectedRuleIndex}`}
+                  />
+                  <div className="mt-6">
+                    <Button
+                      size="small"
+                      variant="secondary"
+                      alignItems="center"
+                      onClick={() => {
+                        setPath(
+                          `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
+                          undefined,
+                        )
+                      }}
+                    >
+                      <Icon name="plusCircle" /> Add condition
+                    </Button>
+                  </div>
+                </Card>
+              </>
+            )}
           </Canvas>
         </div>
         {editorVisible && (

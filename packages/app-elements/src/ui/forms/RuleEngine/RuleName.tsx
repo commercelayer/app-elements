@@ -7,11 +7,11 @@ export function RuleName(): React.JSX.Element {
     state: { value, selectedRuleIndex },
   } = useRuleEngine()
   const [name, setName] = useState<string>(
-    value.rules[selectedRuleIndex]?.name ?? "",
+    value.rules?.[selectedRuleIndex]?.name ?? "",
   )
 
   useEffect(() => {
-    setName(value.rules[selectedRuleIndex]?.name ?? "")
+    setName(value.rules?.[selectedRuleIndex]?.name ?? "")
   }, [selectedRuleIndex])
 
   return (
