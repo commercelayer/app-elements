@@ -1,15 +1,15 @@
-import type { JsonValue, SetRequired } from "type-fest"
+import type { JsonValue } from "type-fest"
 import { asUniqueArray } from "#utils/array"
 import type { RulesForOrderContext } from "./schema.order_rules"
 
-export type RulesObject = SetRequired<RulesForOrderContext, "rules">
-type Rule = RulesObject["rules"][number]
+export type RulesObject = RulesForOrderContext
+type Rule = NonNullable<RulesObject["rules"]>[number]
 export type SchemaCondition = NonNullable<Rule["conditions"][number]["nested"]>
 export type SchemaActionItem = NonNullable<Rule["actions"]>[number]
 export type SchemaConditionItem = NonNullable<
   SchemaCondition["conditions"]
 >[number]
-export type ActionType = RulesObject["rules"][number]["actions"][number]["type"]
+export type ActionType = Rule["actions"][number]["type"]
 
 export interface SetPath {
   (path: string): SetPath
