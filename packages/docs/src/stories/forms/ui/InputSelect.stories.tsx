@@ -231,6 +231,42 @@ WithSeparator.args = {
   isClearable: true,
 }
 
+/**
+ * This component uses the CSS `overflow-wrap: anywhere` property to prevent text from overflowing its line box.
+ */
+export const WrapAnywhere = Template.bind({})
+WrapAnywhere.args = {
+  label: "Search resource or type for new value",
+  initialValues: fullList,
+  placeholder: "Type something...",
+  defaultValue: [
+    {
+      label:
+        "this:is:a:long:text:that:should:break:because:we:are:using:the:break:all:css:property:is:it:breaking?:can:you:read:this:text?",
+      value: "custom-value",
+    },
+    {
+      label:
+        "this-is-a-long-text-that-should-break-because-we-are-using-the-break-all-css-property-is-it-breaking?-can-you-read-this-text?",
+      value: "custom-value",
+    },
+    {
+      label:
+        "this_is_a_long_text_that_should_break_because_we_are_using_the_break_all_css_property_is_it_breaking?_can_you_read_this_text?",
+      value: "custom-value",
+    },
+    {
+      label:
+        "this is a long text that should break because we are using the break all css property is it breaking? can you read this text?",
+      value: "custom-value",
+    },
+  ],
+  isMulti: true,
+  isSearchable: true,
+  isClearable: false,
+  isCreatable: true,
+}
+
 export const WithError = Template.bind({})
 WithError.args = {
   label: "Search resource",
