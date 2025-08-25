@@ -1,5 +1,6 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
 import { currencyInputSelectOptions } from "#helpers/currencies"
+import { fetchCoreResourcesSuggestions } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
 import { InputSelect, type InputSelectValue } from "#ui/forms/InputSelect"
 
 const fullList: InputSelectValue[] = [
@@ -183,6 +184,35 @@ AsyncCreatable.args = {
         resolve(fakeSearch(hint))
       }, 1000)
     })
+  },
+}
+
+/**
+ * When you use the `loadAsyncValues`, you'll be able to customize the behavior of the select input.
+ * When `true` the async select will show a text input instead of a select input.
+ * This is useful for cases where you want to allow freeform text input in addition to selecting from the dropdown.
+ */
+export const AsTextSearch = Template.bind({})
+AsTextSearch.args = {
+  label: "Select a resource path",
+  placeholder: "Type to search async...",
+  isSearchable: true,
+  isCreatable: true,
+  isClearable: false,
+  asTextSearch: true,
+  debounceMs: 200,
+  loadAsyncValues: async (hint) => {
+    const defaultValues = await new Promise<InputSelectValue[]>((resolve) => {
+      setTimeout(() => {
+        resolve(fakeSearch(hint))
+      }, 1000)
+    })
+
+    const suggestions = (await fetchCoreResourcesSuggestions(["order"], hint))
+      .filter((item) => item.value.startsWith(hint))
+      .map((item) => ({ label: item.value, value: item.value }))
+
+    return [...defaultValues, ...suggestions]
   },
 }
 

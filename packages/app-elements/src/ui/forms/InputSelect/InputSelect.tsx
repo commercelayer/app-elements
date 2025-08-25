@@ -133,6 +133,14 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    * It does not work with `loadAsyncValues`.
    */
   isCreatable?: boolean
+
+  /**
+   * When `true` the async select will show a text input instead of a select input.
+   * This is useful for cases where you want to allow freeform text input in addition to selecting from the dropdown.
+   *
+   * **This option is only available when `loadAsyncValues` is provided.**
+   */
+  asTextSearch?: boolean
 }
 
 /**
@@ -176,6 +184,7 @@ export const InputSelect = forwardRef<
       noOptionsMessage = t("common.no_results_found"),
       menuFooterText,
       isCreatable,
+      asTextSearch,
       ...rest
     },
     ref,
@@ -215,6 +224,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             loadAsyncValues={loadAsyncValues}
+            asTextSearch={asTextSearch}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
           />
@@ -224,6 +234,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             loadAsyncValues={loadAsyncValues}
+            asTextSearch={asTextSearch}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
           />
