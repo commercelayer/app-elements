@@ -7,6 +7,7 @@ import {
   useMemo,
   useReducer,
 } from "react"
+import type { RuleEngineProps } from "./RuleEngineComponent"
 import type { ActionType, RulesObject } from "./utils"
 
 interface State {
@@ -22,6 +23,7 @@ type Action =
 interface RuleEngineContextType {
   availableActionTypes: ActionType[]
   state: State
+  schemaType: RuleEngineProps["schemaType"]
   setPath: (path: string, value: unknown) => void
   setSelectedRuleIndex: (index: number) => void
   setValue: (value: RulesObject) => void
@@ -114,6 +116,7 @@ export function RuleEngineProvider({
   children: React.ReactNode
   initialValue: {
     value: RulesObject
+    schemaType: RuleEngineContextType["schemaType"]
     availableActionTypes: RuleEngineContextType["availableActionTypes"]
   }
 }): React.JSX.Element {
@@ -141,6 +144,7 @@ export function RuleEngineProvider({
       setSelectedRuleIndex,
       setValue,
       availableActionTypes: initialValue.availableActionTypes,
+      schemaType: initialValue.schemaType,
     }),
     [
       state,
@@ -148,6 +152,7 @@ export function RuleEngineProvider({
       setSelectedRuleIndex,
       setValue,
       initialValue.availableActionTypes,
+      initialValue.schemaType,
     ],
   )
 

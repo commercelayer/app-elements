@@ -133,6 +133,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
       initialValue={{
         value: { rules: value.rules },
         availableActionTypes,
+        schemaType: props.schemaType,
       }}
     >
       <RuleEditorComponent {...props} />
