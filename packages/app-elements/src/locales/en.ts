@@ -465,6 +465,14 @@ const en = {
     "order.tags.name": "order tag name",
     "order.total_amount_cents": "total amount cents",
     order: "order",
+    "price.jwt_customer.email": "customer email",
+    "price.jwt_customer.tags.name": "customer tag name",
+    "price.sku.sku_list_items.sku_list.name": "sku list name",
+    "price.sku.code": "sku code",
+    "price.sku.tags.name": "sku tag name",
+    "price.processed_at": "price processed at",
+    "price.amount_cents": "price amount cents",
+    price: "price",
   },
   apps: {
     customers: {

@@ -154,6 +154,13 @@ const conditionPaths = [
   "order.subtotal_amount_cents",
   "order.tags.name",
   "order.total_amount_cents",
+  "price.jwt_customer.email",
+  "price.jwt_customer.tags.name",
+  "price.sku.sku_list_items.sku_list.name",
+  "price.sku.code",
+  "price.sku.tags.name",
+  "price.processed_at",
+  "price.amount_cents",
 ] as const
 
 const actionPaths = [
@@ -166,4 +173,5 @@ const actionPaths = [
   "order.subtotal_amount_cents",
   "order.total_amount_cents",
   "order",
+  "price",
 ] as const
