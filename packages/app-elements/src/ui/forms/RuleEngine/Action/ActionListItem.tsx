@@ -1,7 +1,7 @@
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
-import { Input } from "#ui/forms/Input"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
+import { InputResourcePath } from "../InputResourcePath"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaActionItem } from "../utils"
 import { ActionValue } from "./ActionValue"
@@ -68,13 +68,10 @@ export function ActionListItem({
 
           {/* Action target */}
           <div className="flex-1">
-            <Input
+            <InputResourcePath
+              preset="action"
+              value={item?.selector}
               name={`${pathPrefix}.selector`}
-              type="text"
-              defaultValue={item != null ? item.selector : undefined}
-              onChange={(event) => {
-                setPath(`${pathPrefix}.selector`, event.currentTarget.value)
-              }}
             />
           </div>
         </div>

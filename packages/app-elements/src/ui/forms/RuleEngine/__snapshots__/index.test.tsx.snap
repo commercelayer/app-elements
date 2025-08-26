@@ -119,7 +119,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
                     class="mt-6"
                   >
                     <button
-                      class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline-block text-center transition-opacity duration-500 px-4 py-2 text-sm button font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50"
+                      class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center text-center transition-opacity duration-500 px-4 py-2 text-sm button font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50"
                     >
                       <svg
                         fill="currentColor"
@@ -189,7 +189,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
                     class="mt-6"
                   >
                     <button
-                      class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline-block text-center transition-opacity duration-500 px-4 py-2 text-sm button font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50"
+                      class="rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center text-center transition-opacity duration-500 px-4 py-2 text-sm button font-semibold bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50"
                     >
                       <svg
                         fill="currentColor"

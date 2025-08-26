@@ -1,7 +1,7 @@
 import React from "react"
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
-import { Input } from "#ui/forms/Input"
+import { InputResourcePath } from "../InputResourcePath"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
@@ -57,29 +57,10 @@ export function ConditionListItem({
           <div className="flex items-center justify-between gap-2">
             {/* Condition target */}
             <div className="flex-1">
-              <Input
+              <InputResourcePath
+                preset="condition"
+                value={item?.field}
                 name={`${pathPrefix}.field`}
-                type="text"
-                // suffix={
-                //   infos?.field?.type ? (
-                //     <InputSimpleSelect
-                //       defaultValue={infos.field?.type ?? 'string'}
-                //       options={[
-                //         { label: 'datetime', value: 'datetime' },
-                //         { label: 'string', value: 'string' },
-                //         { label: 'number', value: 'number' },
-                //         { label: 'boolean', value: 'boolean' }
-                //       ]}
-                //     />
-                //   ) : undefined
-                // }
-                defaultValue={item != null ? item.field : undefined}
-                onChange={(event) => {
-                  setPath(`${pathPrefix}.field`, event.currentTarget.value)
-                }}
-                onBlur={(event) => {
-                  setPath(`${pathPrefix}.field`, event.currentTarget.value)
-                }}
               />
             </div>
 

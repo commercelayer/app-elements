@@ -303,6 +303,10 @@ describe("fetchCoreResourcesSuggestions", () => {
           "type": "relationship",
           "value": "order.line_items.tags",
         },
+        {
+          "type": "relationship",
+          "value": "order.line_items.event_stores",
+        },
       ]
     `)
   })
@@ -350,6 +354,10 @@ describe("fetchCoreResourcesSuggestions", () => {
         {
           "type": "relationship",
           "value": "order.line_items.events.last_event_callbacks",
+        },
+        {
+          "type": "relationship",
+          "value": "order.line_items.events.event_stores",
         },
       ]
     `)
@@ -438,7 +446,10 @@ describe("atPath", () => {
             expect.arrayContaining(["description"]),
             expect.arrayContaining(["url"]),
           ]),
-          relationships: [],
+          relationships: expect.arrayContaining([
+            // expect.arrayContaining(["attachable"]), // <-- `attachable` is hidden since polymorphic relationships are not shown
+            expect.arrayContaining(["event_stores"]),
+          ]),
         }),
         resourcePath: "order.attachments",
       }),
@@ -1067,6 +1078,10 @@ const orderSuggestionsSnapshot = `
     {
       "type": "relationship",
       "value": "order.versions",
+    },
+    {
+      "type": "relationship",
+      "value": "order.event_stores",
     },
   ]
 `
