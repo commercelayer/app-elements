@@ -15,6 +15,16 @@ export function RuleName(): React.JSX.Element {
   }, [selectedRuleIndex])
 
   return (
+    // <Input
+    //   value={value.rules?.[selectedRuleIndex]?.name}
+    //   onChange={(event) => {
+    //     const target = event.currentTarget
+    //     const value = target.value.replace(/[\n\s]+/g, " ").trim()
+    //     setPath(`rules.${selectedRuleIndex}.name`, value)
+    //   }}
+    //   className="bg-transparent border-0 shadow-none field-sizing-content"
+    // />
+
     // biome-ignore lint/a11y/noStaticElementInteractions: This <div> is used with contentEditable
     <div
       key={selectedRuleIndex}

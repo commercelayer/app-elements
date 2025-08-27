@@ -15,38 +15,40 @@ exports[`RuleEngine > renders empty without any error 1`] = `
           class="shrink-0 basis-3/5 overflow-x-auto relative flex flex-col grow"
         >
           <header
-            class="w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center"
+            class="w-full bg-white border-b border-gray-200 px-4 flex text-[13px] gap-4 text-gray-400 font-semibold items-center"
           >
             <div
-              class="flex items-center gap-4 flex-wrap"
+              class="flex items-center flex-wrap basis-full"
             >
-              <button
-                class="font-bold py-0.5 text-black"
-                type="button"
+              <div
+                class="min-h-[49px] flex items-center"
               >
-                <svg
-                  class="shrink-0"
-                  fill="currentColor"
-                  height="16"
-                  viewBox="0 0 256 256"
-                  width="16"
-                  xmlns="http://www.w3.org/2000/svg"
+                <button
+                  class="mx-4 rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-6 py-3 p-1! text-base button font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
                 >
-                  <path
-                    d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    class="shrink-0"
+                    fill="currentColor"
+                    height="16"
+                    viewBox="0 0 256 256"
+                    width="16"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M224,128a8,8,0,0,1-8,8H136v80a8,8,0,0,1-16,0V136H40a8,8,0,0,1,0-16h80V40a8,8,0,0,1,16,0v80h80A8,8,0,0,1,224,128Z"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
             <div
               class="grow flex justify-end"
             >
               <button
-                class="text-blue-600 hover:text-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
-                type="button"
+                class="rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-6 py-3 p-1! text-base button font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
               >
                 <svg
-                  fill="#101111"
+                  fill="currentColor"
                   height="16"
                   viewBox="0 0 256 256"
                   width="16"

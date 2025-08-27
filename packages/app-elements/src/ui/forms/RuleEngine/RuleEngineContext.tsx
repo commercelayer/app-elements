@@ -123,6 +123,11 @@ export function RuleEngineProvider({
 
   const setSelectedRuleIndex = useCallback((index: number) => {
     dispatch({ type: "SET_SELECTED_RULE_INDEX", index })
+    if (index < 0) {
+      setTimeout(() => {
+        dispatch({ type: "SET_SELECTED_RULE_INDEX", index: 0 })
+      }, 50)
+    }
   }, [])
 
   const setValue = useCallback((value: RulesObject) => {

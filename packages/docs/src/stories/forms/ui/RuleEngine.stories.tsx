@@ -189,7 +189,7 @@ Default.args = {
         },
         {
           id: "b2c8f1d0-3a4e-4b5c-9f6d-7e8f9a0b1c2d",
-          name: "Rule for EUR",
+          name: "Rule for USD",
           actions: [
             {
               type: "percentage",
@@ -266,7 +266,7 @@ Default.args = {
             },
             {
               field: "order.customer.metadata.currency_code",
-              value: "EUR",
+              value: "USD",
               matcher: "eq",
               nested: {
                 conditions_logic: "and",
