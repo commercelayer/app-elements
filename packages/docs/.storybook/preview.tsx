@@ -10,7 +10,7 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import type { Decorator, Parameters } from "@storybook/react-vite"
-import React from "react"
+import React, { StrictMode } from "react"
 import { I18NProvider } from "#providers/I18NProvider"
 import { Container } from "#ui/atoms/Container"
 import { worker } from "../src/mocks/browser"
@@ -92,7 +92,7 @@ export const withContainer: Decorator = (Story, context) => {
   return <Story />
 }
 
-export const withLocale: Decorator = (Story, _context) => {
+export const withLocale: Decorator = (Story) => {
   const locale = "en-US"
   return (
     <I18NProvider enforcedLocaleCode={locale}>
@@ -101,7 +101,19 @@ export const withLocale: Decorator = (Story, _context) => {
   )
 }
 
-export const decorators: Decorator[] = [withLocale, withContainer]
+export const withStrictMode: Decorator = (Story) => {
+  return (
+    <StrictMode>
+      <Story />
+    </StrictMode>
+  )
+}
+
+export const decorators: Decorator[] = [
+  withStrictMode,
+  withLocale,
+  withContainer,
+]
 
 // Storybook executes this module in both bootstap phase (Node)
 // and a story's runtime (browser). However, we cannot call `setupWorker`
