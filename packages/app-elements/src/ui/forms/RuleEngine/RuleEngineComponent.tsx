@@ -8,6 +8,7 @@ import z from "zod"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { CodeEditor, type CodeEditorProps } from "#ui/forms/CodeEditor"
 import {
   InputWrapper,
@@ -82,7 +83,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
 
   useEffect(
     function updateValue() {
-      if (value.rules.length === 0) {
+      if (value.rules?.length === 0) {
         setValue(parseValue(props.value))
       }
     },
@@ -152,7 +153,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const [editorVisible, setEditorVisible] = useState(
     props.defaultCodeEditorVisible ?? false,
   )
-  const selectedRule = value.rules[selectedRuleIndex]
+  const selectedRule = value.rules?.[selectedRuleIndex]
   const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
   const [forcedRender, setForcedRender] = useState(0)
 
@@ -194,88 +195,132 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
           key={forcedRender}
           className={`shrink-0 basis-3/5 overflow-x-auto relative flex flex-col ${editorVisible ? "" : "grow"}`}
         >
-          <header className="w-full bg-white border-b border-gray-200 py-3 px-8 flex text-[13px] gap-4 text-gray-400 font-semibold items-center">
-            <div className="flex items-center gap-4 flex-wrap">
-              {value.rules.map((rule, ruleIndex) => {
+          <header className="w-full bg-white border-b border-gray-200 px-4 flex text-[13px] gap-4 text-gray-400 font-semibold items-center">
+            <div className="flex items-center flex-wrap basis-full">
+              {value.rules?.map((rule, ruleIndex, rules) => {
                 const label = `#${(ruleIndex + 1).toString().padStart(2, "0")}`
                 return (
-                  <button
-                    type="button"
-                    key={`${selectedRuleIndex}-${rule.id}`}
-                    className={classNames("font-bold", {
-                      "text-black": selectedRuleIndex === ruleIndex,
-                    })}
-                    onClick={() => {
-                      setSelectedRuleIndex(ruleIndex)
-                    }}
+                  <div
+                    key={`${ruleIndex}-${rule.id}`}
+                    className="flex items-center py-3 pl-4 pr-2 border-r basis-[88px] justify-center"
                   >
-                    {label}
-                  </button>
+                    <button
+                      type="button"
+                      className={classNames("font-bold mr-2", {
+                        "text-black": selectedRuleIndex === ruleIndex,
+                      })}
+                      onClick={() => {
+                        setSelectedRuleIndex(ruleIndex)
+                      }}
+                    >
+                      {label}
+                    </button>
+
+                    <Dropdown
+                      menuPosition={
+                        ruleIndex === 0 ? "bottom-left" : "bottom-right"
+                      }
+                      dropdownLabel={
+                        <Button variant="circle">
+                          <Icon name="dotsThreeVertical" size={16} />
+                        </Button>
+                      }
+                      dropdownItems={
+                        <>
+                          <DropdownItem
+                            onClick={() => {
+                              const ruleIndex = value.rules?.length ?? 0
+                              setPath(`rules.${ruleIndex}`, {
+                                ...rule,
+                                name: `${rule.name} (copy)`,
+                              })
+                              setSelectedRuleIndex(ruleIndex)
+                            }}
+                            label="Duplicate"
+                          />
+                          <DropdownDivider />
+                          <DropdownItem
+                            disabled={rules.length === 1}
+                            onClick={() => {
+                              setPath(`rules.${ruleIndex}`, null)
+                              if (selectedRuleIndex >= ruleIndex) {
+                                setSelectedRuleIndex(selectedRuleIndex - 1)
+                              }
+                            }}
+                            label="Delete"
+                          />
+                        </>
+                      }
+                    />
+                  </div>
                 )
               })}
-              <button
-                type="button"
-                className={classNames("font-bold", {
-                  "text-black": true,
-                })}
-                onClick={() => {
-                  setPath(`rules.${value.rules.length}`, {
-                    name: "Rule name",
-                    actions: [null],
-                    conditions: [null],
-                  })
-                  setSelectedRuleIndex(value.rules.length)
-                }}
-              >
-                <Icon name="plus" size={16} className="shrink-0" />
-              </button>
+              <div className="min-h-[49px] flex items-center">
+                <Button
+                  variant="circle"
+                  className="mx-4"
+                  onClick={() => {
+                    setPath(`rules.${value.rules?.length ?? 0}`, {
+                      name: "Rule name",
+                      actions: [null],
+                      conditions: [null],
+                    })
+                    setSelectedRuleIndex(value.rules?.length ?? 0)
+                  }}
+                >
+                  <Icon name="plus" size={16} className="shrink-0" />
+                </Button>
+              </div>
             </div>
 
             <div className="grow flex justify-end">
-              <button
-                type="button"
-                className="text-blue-600 hover:text-blue-700 focus:outline-hidden focus:ring-2 focus:ring-blue-500"
+              <Button
+                variant="circle"
                 onClick={() => {
                   setEditorVisible(!editorVisible)
                 }}
               >
-                <Icon name="sidebarSimple" size={16} color="#101111" />
-              </button>
+                <Icon name="sidebarSimple" size={16} />
+              </Button>
             </div>
           </header>
 
           <Canvas>
-            <div className="mb-8 flex items-center gap-2">
-              <RuleName />
-              <Icon name="pencilSimple" size={16} className="shrink-0" />
-            </div>
-            <Card title="Actions" icon="lightning">
-              <Action actions={selectedRule?.actions} />
-            </Card>
+            {selectedRule && (
+              <>
+                <div className="mb-8 flex items-center gap-2">
+                  <RuleName />
+                  <Icon name="pencilSimple" size={16} className="shrink-0" />
+                </div>
+                <Card title="Actions" icon="lightning">
+                  <Action actions={selectedRule?.actions} />
+                </Card>
 
-            <CardConnector>when</CardConnector>
+                <CardConnector>when</CardConnector>
 
-            <Card title="Conditions" icon="treeView">
-              <Condition
-                item={selectedRule}
-                pathPrefix={`rules.${selectedRuleIndex}`}
-              />
-              <div className="mt-6">
-                <Button
-                  size="small"
-                  variant="secondary"
-                  alignItems="center"
-                  onClick={() => {
-                    setPath(
-                      `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
-                      undefined,
-                    )
-                  }}
-                >
-                  <Icon name="plusCircle" /> Add condition
-                </Button>
-              </div>
-            </Card>
+                <Card title="Conditions" icon="treeView">
+                  <Condition
+                    item={selectedRule}
+                    pathPrefix={`rules.${selectedRuleIndex}`}
+                  />
+                  <div className="mt-6">
+                    <Button
+                      size="small"
+                      variant="secondary"
+                      alignItems="center"
+                      onClick={() => {
+                        setPath(
+                          `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
+                          undefined,
+                        )
+                      }}
+                    >
+                      <Icon name="plusCircle" /> Add condition
+                    </Button>
+                  </div>
+                </Card>
+              </>
+            )}
           </Canvas>
         </div>
         {editorVisible && (

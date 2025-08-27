@@ -81,7 +81,7 @@ function ruleEngineReducer(state: State, action: Action): State {
 
     case "SET_VALUE":
       if (!isEqual(state.value, action.value)) {
-        if (action.value.rules.length === 0) {
+        if ((action.value.rules?.length ?? 0) === 0) {
           return {
             selectedRuleIndex: 0,
             value: {
@@ -131,6 +131,11 @@ export function RuleEngineProvider({
 
   const setSelectedRuleIndex = useCallback((index: number) => {
     dispatch({ type: "SET_SELECTED_RULE_INDEX", index })
+    if (index < 0) {
+      setTimeout(() => {
+        dispatch({ type: "SET_SELECTED_RULE_INDEX", index: 0 })
+      }, 50)
+    }
   }, [])
 
   const setValue = useCallback((value: RulesObject) => {
