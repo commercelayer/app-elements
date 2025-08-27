@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { StrictMode } from "react"
 import { RuleEngine } from "#ui/forms/RuleEngine"
 
 const setup: Meta<typeof RuleEngine> = {
@@ -24,7 +25,11 @@ const setup: Meta<typeof RuleEngine> = {
 export default setup
 
 const Template: StoryFn<typeof RuleEngine> = (args) => {
-  return <RuleEngine {...args} />
+  return (
+    <StrictMode>
+      <RuleEngine {...args} />
+    </StrictMode>
+  )
 }
 
 export const Default = Template.bind({})

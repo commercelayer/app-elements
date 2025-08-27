@@ -1,4 +1,4 @@
-import { get, isEqual, set, unset } from "lodash-es"
+import { cloneDeep, get, isEqual, set, unset } from "lodash-es"
 import type React from "react"
 import {
   createContext,
@@ -36,7 +36,7 @@ const RuleEngineContext = createContext<RuleEngineContextType | undefined>(
 function ruleEngineReducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_PATH": {
-      const newValue = { ...state.value }
+      const newValue = cloneDeep(state.value)
 
       if (action.value === null) {
         if (/\.\d+$/.test(action.path)) {
