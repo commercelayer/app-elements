@@ -232,6 +232,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                               const ruleIndex = value.rules?.length ?? 0
                               setPath(`rules.${ruleIndex}`, {
                                 ...rule,
+                                id: undefined,
                                 name: `${rule.name} (copy)`,
                               })
                               setSelectedRuleIndex(ruleIndex)
