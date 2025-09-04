@@ -1,5 +1,6 @@
 import { isValid, parseISO } from "date-fns"
 import type React from "react"
+import { useEffect, useState } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Input } from "#ui/forms/Input"
 import { InputDate } from "#ui/forms/InputDate"
@@ -11,8 +12,6 @@ import {
 } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../RuleEngineContext"
 import {
-  type ConditionMatchersWithoutValue,
-  conditionMatchersWithoutValue,
   expectNever,
   type ItemWithValue,
   type SchemaConditionItem,
@@ -38,52 +37,262 @@ export function ConditionValue({
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { infos } = useResourcePathInfos(item)
-  const { user } = useTokenProvider()
   const pathKey = `${pathPrefix}.value`
+  const [containerKey, forceRerender] = useState<number>(0)
+  const [memoMatcher, setMemoMatcher] = useState<
+    SchemaConditionItem["matcher"] | undefined
+  >(item?.matcher)
+
+  let fieldType = infos?.field?.type
+
+  if (itemHasValue(item)) {
+    if (fieldType == null) {
+      fieldType = guessFieldType(item.value)
+    }
+
+    if (
+      (typeof item.value === "string" && /^{{.*}}$/.test(item.value)) ||
+      (Array.isArray(item.value) &&
+        item.value.some((v) => typeof v === "string" && /^{{.*}}$/.test(v)))
+    ) {
+      // If the value is a template string, treat it as a string
+      fieldType = "string"
+    }
+  }
+
+  const componentType = deriveComponentType(fieldType, item?.matcher)
+
+  useEffect(
+    function resetValueWhenComponentTypeChanges() {
+      if (memoMatcher !== item?.matcher) {
+        setMemoMatcher(item?.matcher)
+        setPath(pathKey, null)
+        forceRerender((k) => k + 1)
+      }
+    },
+    [componentType],
+  )
 
   if (item == null) {
     return null
   }
 
-  if (
-    conditionMatchersWithoutValue.includes(
-      item.matcher as ConditionMatchersWithoutValue,
-    )
-  ) {
-    return null
+  return (
+    <div key={containerKey}>
+      <ConditionValueComponent
+        fieldType={fieldType}
+        componentType={componentType}
+        value={itemHasValue(item) ? item.value : undefined}
+        pathKey={pathKey}
+      />
+    </div>
+  )
+}
+
+function ConditionValueComponent({
+  fieldType,
+  componentType,
+  value,
+  pathKey,
+}: {
+  fieldType: ReturnType<typeof guessFieldType> | undefined
+  componentType: ComponentType
+  value?: ItemWithValue["value"]
+  pathKey: string
+}): React.ReactNode {
+  const { setPath } = useRuleEngine()
+  const { user } = useTokenProvider()
+
+  switch (componentType) {
+    case "date": {
+      const date = parseISO(typeof value === "string" ? value : "")
+
+      return (
+        <InputDate
+          value={isValid(date) ? date : undefined}
+          showTimeSelect
+          placeholder="Enter value"
+          onChange={(date) => {
+            setPath(pathKey, date?.toJSON())
+          }}
+          timezone={user?.timezone}
+        />
+      )
+    }
+
+    case "dateRange": {
+      const inputValue = Array.isArray(value)
+        ? (value.map((v) => {
+            const date = parseISO(typeof v === "string" ? v : "")
+
+            return isValid(date) ? date : null
+          }) as [Date, Date])
+        : ([null, null] as [null, null])
+
+      return (
+        <InputDateRange
+          value={inputValue}
+          showTimeSelect
+          onChange={(dates) => {
+            setPath(
+              pathKey,
+              dates.map((date) => date?.toJSON() ?? null),
+            )
+          }}
+        />
+      )
+    }
+
+    case "numberRange": {
+      return (
+        <InputNumberRange
+          value={value}
+          onChange={(value) => {
+            setPath(pathKey, value)
+          }}
+        />
+      )
+    }
+
+    case "textRange": {
+      return (
+        <InputTextRange
+          value={value}
+          onChange={(value) => {
+            setPath(pathKey, value)
+          }}
+        />
+      )
+    }
+
+    case "arrayMatch": {
+      return <InputArrayMatch value={value} pathPrefix={pathKey} />
+    }
+
+    case "tag": {
+      return (
+        <InputSelect
+          isMulti
+          isClearable={false}
+          isCreatable
+          defaultValue={
+            Array.isArray(value)
+              ? value.map((v) => ({
+                  label: v.toString(),
+                  value: v,
+                }))
+              : []
+          }
+          initialValues={[]}
+          onSelect={(selected) => {
+            if (isMultiValueSelected(selected)) {
+              setPath(
+                pathKey,
+                selected
+                  .map((s) => {
+                    if (fieldType === "integer") {
+                      const intValue = parseInt(s.value.toString(), 10)
+                      if (Number.isNaN(intValue)) {
+                        return null
+                      }
+                      return intValue
+                    }
+
+                    return s.value
+                  })
+                  .filter((s) => s != null),
+              )
+            }
+          }}
+        />
+      )
+    }
+
+    case "number": {
+      return (
+        <Input
+          name={pathKey}
+          type="number"
+          defaultValue={typeof value === "number" ? value : ""}
+          placeholder="Enter value"
+          onChange={(event) => {
+            setPath(pathKey, parseInt(event.currentTarget.value, 10))
+          }}
+        />
+      )
+    }
+
+    case "boolean": {
+      return (
+        <InputSelect
+          name={pathKey}
+          defaultValue={
+            typeof value === "boolean"
+              ? {
+                  label: value ? "Yes" : "No",
+                  value: value,
+                }
+              : undefined
+          }
+          initialValues={[
+            { label: "Yes", value: true },
+            { label: "No", value: false },
+          ]}
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath(pathKey, selected.value)
+            }
+          }}
+        />
+      )
+    }
+
+    case "text":
+    case null: {
+      return (
+        <Input
+          name={pathKey}
+          type="text"
+          defaultValue={
+            typeof value === "string" ? value : JSON.stringify(value)
+          }
+          placeholder="Enter value"
+          onChange={(event) => {
+            setPath(pathKey, event.currentTarget.value)
+          }}
+        />
+      )
+    }
+
+    default: {
+      return expectNever(componentType)
+    }
   }
+}
 
-  const itemWithValue = item as ItemWithValue
+function itemHasValue(item: SchemaConditionItem | null): item is ItemWithValue {
+  return item != null && "value" in item
+}
 
-  let fieldType = infos?.field?.type
+type ComponentType =
+  | "arrayMatch"
+  | "boolean"
+  | "date"
+  | "dateRange"
+  | "number"
+  | "numberRange"
+  | "tag"
+  | "text"
+  | "textRange"
+  | null
 
-  if (fieldType == null) {
-    fieldType = guessFieldType(itemWithValue.value)
-  }
+function deriveComponentType(
+  fieldType: string | undefined,
+  matcher: SchemaConditionItem["matcher"] | undefined,
+): ComponentType {
+  let componentType: ComponentType = null
 
-  if (
-    (typeof itemWithValue.value === "string" &&
-      /^{{.*}}$/.test(itemWithValue.value)) ||
-    (Array.isArray(itemWithValue.value) &&
-      itemWithValue.value.some(
-        (v) => typeof v === "string" && /^{{.*}}$/.test(v),
-      ))
-  ) {
-    fieldType = "string"
-  }
-
-  let componentType:
-    | "arrayMatch"
-    | "boolean"
-    | "date"
-    | "dateRange"
-    | "number"
-    | "numberRange"
-    | "tag"
-    | "text"
-    | "textRange"
-    | null = null
-
+  // choose a componentType given the "fieldType"
   switch (fieldType) {
     case "datetime": {
       componentType = "date"
@@ -118,7 +327,8 @@ export function ConditionValue({
     }
   }
 
-  switch (itemWithValue.matcher) {
+  // choose a componentType given the "matcher"
+  switch (matcher) {
     case "eq":
     case "not_eq":
     case "lt":
@@ -173,189 +383,21 @@ export function ConditionValue({
       break
     }
 
+    case null:
+    case undefined:
+    case "blank":
+    case "not_null":
+    case "null":
+    case "present": {
+      // do nothing since there's no value
+      break
+    }
+
     default: {
-      expectNever(itemWithValue.matcher)
+      expectNever(matcher)
       break
     }
   }
 
-  switch (componentType) {
-    case "date": {
-      const date = parseISO(
-        typeof itemWithValue.value === "string" ? itemWithValue.value : "",
-      )
-
-      return (
-        <InputDate
-          value={isValid(date) ? date : undefined}
-          showTimeSelect
-          placeholder="Enter value"
-          onChange={(date) => {
-            setPath(pathKey, date?.toJSON())
-          }}
-          timezone={user?.timezone}
-        />
-      )
-    }
-
-    case "dateRange": {
-      const value = Array.isArray(itemWithValue.value)
-        ? (itemWithValue.value.map((v) => {
-            const date = parseISO(typeof v === "string" ? v : "")
-
-            return isValid(date) ? date : null
-          }) as [Date, Date])
-        : ([null, null] as [null, null])
-
-      return (
-        <InputDateRange
-          value={value}
-          showTimeSelect
-          onChange={(dates) => {
-            setPath(
-              `${pathPrefix}.value`,
-              dates.map((date) => date?.toJSON() ?? null),
-            )
-          }}
-        />
-      )
-    }
-
-    case "numberRange": {
-      return (
-        <InputNumberRange
-          value={itemWithValue.value}
-          onChange={(value) => {
-            setPath(pathKey, value)
-          }}
-        />
-      )
-    }
-
-    case "textRange": {
-      return (
-        <InputTextRange
-          value={itemWithValue.value}
-          onChange={(value) => {
-            setPath(pathKey, value)
-          }}
-        />
-      )
-    }
-
-    case "arrayMatch": {
-      return (
-        <InputArrayMatch
-          value={itemWithValue.value}
-          pathPrefix={`${pathPrefix}.value`}
-        />
-      )
-    }
-
-    case "tag": {
-      return (
-        <InputSelect
-          isMulti
-          isClearable={false}
-          isCreatable
-          defaultValue={
-            Array.isArray(itemWithValue.value)
-              ? itemWithValue.value.map((v) => ({
-                  label: v.toString(),
-                  value: v,
-                }))
-              : []
-          }
-          initialValues={[]}
-          onSelect={(selected) => {
-            if (isMultiValueSelected(selected)) {
-              setPath(
-                `${pathPrefix}.value`,
-                selected
-                  .map((s) => {
-                    if (fieldType === "integer") {
-                      const intValue = parseInt(s.value.toString(), 10)
-                      if (Number.isNaN(intValue)) {
-                        return null
-                      }
-                      return intValue
-                    }
-
-                    return s.value
-                  })
-                  .filter((s) => s != null),
-              )
-            }
-          }}
-        />
-      )
-    }
-
-    case "number": {
-      return (
-        <Input
-          name={`${pathPrefix}.value`}
-          type="number"
-          defaultValue={
-            typeof itemWithValue.value === "number" ? itemWithValue.value : ""
-          }
-          placeholder="Enter value"
-          onChange={(event) => {
-            setPath(
-              `${pathPrefix}.value`,
-              parseInt(event.currentTarget.value, 10),
-            )
-          }}
-        />
-      )
-    }
-
-    case "boolean": {
-      return (
-        <InputSelect
-          name={`${pathPrefix}.value`}
-          defaultValue={
-            typeof itemWithValue.value === "boolean"
-              ? {
-                  label: itemWithValue.value ? "Yes" : "No",
-                  value: itemWithValue.value,
-                }
-              : undefined
-          }
-          initialValues={[
-            { label: "Yes", value: true },
-            { label: "No", value: false },
-          ]}
-          onSelect={(selected) => {
-            if (isSingleValueSelected(selected)) {
-              setPath(pathKey, selected.value)
-            }
-          }}
-        />
-      )
-    }
-
-    case "text":
-    case null: {
-      return (
-        <Input
-          name={`${pathPrefix}.value`}
-          type="text"
-          defaultValue={
-            typeof itemWithValue.value === "string"
-              ? itemWithValue.value
-              : JSON.stringify(itemWithValue.value)
-          }
-          placeholder="Enter value"
-          onChange={(event) => {
-            setPath(pathKey, event.currentTarget.value)
-          }}
-        />
-      )
-    }
-
-    default: {
-      return expectNever(componentType)
-    }
-  }
+  return componentType
 }

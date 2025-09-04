@@ -7,7 +7,7 @@ export function InputNumberRange({
   value,
   onChange,
 }: {
-  value: ItemWithValue["value"]
+  value?: ItemWithValue["value"]
   onChange: (value: [number | null, number | null]) => void
 }): React.JSX.Element {
   const [min, setMin] = useState<number | null>(
