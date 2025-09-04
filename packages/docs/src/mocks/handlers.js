@@ -5,6 +5,7 @@ import customers from "./data/customers"
 import lineItems from "./data/line_items"
 import markets from "./data/markets"
 import orders from "./data/orders"
+import skus from "./data/skus"
 import tags from "./data/tags"
 
 /** @type {import('msw').RequestHandler[]} */
@@ -16,5 +17,6 @@ export const handlers = [
   ...lineItems,
   ...markets,
   ...orders,
+  ...skus,
   ...tags,
 ]

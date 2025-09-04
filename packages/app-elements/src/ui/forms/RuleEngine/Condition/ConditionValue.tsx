@@ -22,6 +22,7 @@ import { useResourcePathInfos } from "./hooks"
 import { guessFieldType } from "./utils"
 import { InputArrayMatch } from "./ValueComponents/InputArrayMatch"
 import { InputNumberRange } from "./ValueComponents/InputNumberRange"
+import { InputResourceSelector } from "./ValueComponents/InputResourceSelector"
 import { InputTextRange } from "./ValueComponents/InputTextRange"
 
 /**
@@ -68,7 +69,7 @@ export function ConditionValue({
     }
   }
 
-  const componentType = deriveComponentType(fieldType, item?.matcher)
+  const componentType = deriveComponentType(fieldType, item?.matcher, infos)
 
   useEffect(
     function resetValueWhenComponentTypeChanges() {
@@ -218,6 +219,56 @@ function ConditionValueComponent({
       )
     }
 
+    case "resourceSelector": {
+      return <InputResourceSelector item={item} pathKey={pathKey} />
+      // return (
+      //   <InputSelect
+      //     key={infos?.matcherInfos?.isMulti?.toString()}
+      //     isClearable={false}
+      //     isMulti={infos?.matcherInfos?.isMulti}
+      //     isCreatable
+      //     defaultValue={
+      //       infos?.matcherInfos?.isMulti
+      //         ? Array.isArray(itemWithValue.value)
+      //           ? itemWithValue.value.map((v) => ({
+      //               label: v.toString(),
+      //               value: v,
+      //             }))
+      //           : []
+      //         : typeof itemWithValue.value === "string"
+      //           ? {
+      //               label: itemWithValue.value.toString(),
+      //               value: itemWithValue.value.toString(),
+      //             }
+      //           : undefined
+      //     }
+      //     initialValues={[]}
+      //     onSelect={(selected) => {
+      //       if (isMultiValueSelected(selected)) {
+      //         setPath(
+      //           `${pathPrefix}.value`,
+      //           selected
+      //             .map((s) => {
+      //               if (fieldType === "integer") {
+      //                 const intValue = parseInt(s.value.toString(), 10)
+      //                 if (Number.isNaN(intValue)) {
+      //                   return null
+      //                 }
+      //                 return intValue
+      //               }
+
+      //               return s.value
+      //             })
+      //             .filter((s) => s != null),
+      //         )
+      //       } else if (isSingleValueSelected(selected)) {
+      //         setPath(`${pathPrefix}.value`, selected.value)
+      //       }
+      //     }}
+      //   />
+      // )
+    }
+
     case "number": {
       return (
         <Input
@@ -294,11 +345,13 @@ type ComponentType =
   | "tag"
   | "text"
   | "textRange"
+  | "resourceSelector"
   | null
 
 function deriveComponentType(
   fieldType: string | undefined,
   matcher: SchemaConditionItem["matcher"] | undefined,
+  infos: ReturnType<typeof useResourcePathInfos>["infos"],
 ): ComponentType {
   let componentType: ComponentType = null
 
@@ -407,6 +460,10 @@ function deriveComponentType(
       expectNever(matcher)
       break
     }
+  }
+
+  if (infos?.resourceSelectorAvailable) {
+    componentType = "resourceSelector"
   }
 
   return componentType

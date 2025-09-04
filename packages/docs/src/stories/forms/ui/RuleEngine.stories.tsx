@@ -1,4 +1,6 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { RuleEngine } from "#ui/forms/RuleEngine"
 
 const setup: Meta<typeof RuleEngine> = {
@@ -24,7 +26,13 @@ const setup: Meta<typeof RuleEngine> = {
 export default setup
 
 const Template: StoryFn<typeof RuleEngine> = (args) => {
-  return <RuleEngine {...args} />
+  return (
+    <TokenProvider kind="integration" appSlug="customers" devMode>
+      <CoreSdkProvider>
+        <RuleEngine {...args} />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
 }
 
 export const Default = Template.bind({})

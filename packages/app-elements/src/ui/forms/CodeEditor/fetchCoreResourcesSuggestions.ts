@@ -17,6 +17,7 @@ interface PublicResourcesResponse {
             | "array"
             | "json"
           desc: string
+          name: string
         }
       >
       relationships: Record<
@@ -76,10 +77,12 @@ export const fetchResources = (() => {
                 attributes: {
                   fields: {
                     available: {
+                      name: "available",
                       type: "boolean",
                       desc: "Indicates if the sku is available.",
                     },
                     quantity: {
+                      name: "quantity",
                       type: "integer",
                       desc: "The available stock quantity.",
                     },
@@ -192,9 +195,25 @@ export async function atPath(
   path: string,
   obj?: FetchResourceResponse[string],
 ): Promise<{
+  /**
+   * The original path used to resolve the resource.
+   * @example "order.market.code"
+   */
   path: string
+  /**
+   * The field for the current path. Is undefined when the path is not pointing to a field.
+   * @example "order.market.code" -> `code` is the field
+   * @example "order.market" -> path will be undefined since `market` is a resource
+   */
   field?: FetchResourceResponse[string]["fields"][number][1]
+  /**
+   * The path to the closest resource.
+   * @example "order.market"
+   */
   resourcePath: string
+  /**
+   * The closest resource for the current path. It can be undefined when the path is not pointing to a resource.
+   */
   resource?: FetchResourceResponse[string]
   // resource?: {
   //   fields: ReadonlyArray<readonly [string, { desc: string }]>

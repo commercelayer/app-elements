@@ -413,7 +413,7 @@ const it: typeof en = {
     "order.customer.email": "email del customer",
     "order.customer.customer_group.id": "id del customer group",
     "order.customer.customer_group.name": "nome del customer group",
-    "order.customer.tags.id": "id del customer tag",
+    "order.customer.tags.id": "customer tag",
     "order.customer.tags.name": "nome del customer tag",
     "order.line_items.item_type": "tipo di line item",
     "order.line_items.line_item_options.sku_option.tags.name":
@@ -432,7 +432,7 @@ const it: typeof en = {
     "order.line_items.shipment": "shipment line item",
     "order.line_items.sku_code": "sku code",
     "order.line_items.sku.code": "sku code",
-    "order.line_items.sku.id": "sku id",
+    "order.line_items.sku.id": "sku",
     "order.line_items.sku.inventory.quantity": "sku inventory quantity",
     "order.line_items.sku.name": "nome della sku",
     "order.line_items.sku.shipping_category.id":
@@ -444,7 +444,7 @@ const it: typeof en = {
     "order.line_items.unit_amount_cents": "line item unit amount cents",
     "order.line_items": "line item",
     "order.market.code": "code del market",
-    "order.market.id": "id del market",
+    "order.market.id": "market",
     "order.shipments_count": "numero di spedizioni",
     "order.shipping_address.country_code": "codice del paese di spedizione",
     "order.subtotal_amount_cents": "subtotal amount cents",
