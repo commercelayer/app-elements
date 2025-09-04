@@ -80,9 +80,9 @@ export function ConditionValue({
   return (
     <div key={containerKey}>
       <ConditionValueComponent
+        item={item}
         fieldType={fieldType}
         componentType={componentType}
-        value={itemHasValue(item) ? item.value : undefined}
         pathKey={pathKey}
       />
     </div>
@@ -90,18 +90,20 @@ export function ConditionValue({
 }
 
 function ConditionValueComponent({
+  item,
   fieldType,
   componentType,
-  value,
   pathKey,
 }: {
+  item: SchemaConditionItem | null
   fieldType: ReturnType<typeof guessFieldType> | undefined
   componentType: ComponentType
-  value?: ItemWithValue["value"]
   pathKey: string
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { user } = useTokenProvider()
+
+  const value = itemHasValue(item) ? item.value : undefined
 
   switch (componentType) {
     case "date": {
