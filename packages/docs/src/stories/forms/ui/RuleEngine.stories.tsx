@@ -68,6 +68,24 @@ Default.args = {
               group: "discountable-items",
               matcher: "blank",
             },
+            {
+              field: "order.market.id",
+              group: "discountable-items",
+              value: "rlEPzheRgO",
+              matcher: "eq",
+            },
+            {
+              field: "order.line_items.sku.id",
+              matcher: "is_in",
+              value: ["nQrOSKNJpa", "ZrxeSPvVYK"],
+            },
+            {
+              field: "order.customer.tags.id",
+              matcher: "array_match",
+              value: {
+                in_and: ["0921034977", "6947252530"],
+              },
+            },
           ],
         },
         {
