@@ -83,7 +83,9 @@ Default.args = {
               field: "order.customer.tags.id",
               matcher: "array_match",
               value: {
-                in_and: ["0921034977", "6947252530"],
+                in_and: ["mOikTtInCf", "zCjoORe9jM"],
+                in_or: ["kcvpLrFJiN", "75pio3zuOn"],
+                not_in_and: ["AW7SNiZgir", "O34h6vUe7l"],
               },
             },
           ],

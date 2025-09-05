@@ -111,6 +111,7 @@ function ConditionValueComponent({
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { user } = useTokenProvider()
+  const { infos } = useResourcePathInfos(item)
 
   const value = itemHasValue(item) ? item.value : undefined
 
@@ -177,7 +178,9 @@ function ConditionValueComponent({
     }
 
     case "arrayMatch": {
-      return <InputArrayMatch value={value} pathPrefix={pathKey} />
+      return (
+        <InputArrayMatch infos={infos} value={value} pathPrefix={pathKey} />
+      )
     }
 
     case "tag": {
@@ -220,53 +223,20 @@ function ConditionValueComponent({
     }
 
     case "resourceSelector": {
-      return <InputResourceSelector item={item} pathKey={pathKey} />
-      // return (
-      //   <InputSelect
-      //     key={infos?.matcherInfos?.isMulti?.toString()}
-      //     isClearable={false}
-      //     isMulti={infos?.matcherInfos?.isMulti}
-      //     isCreatable
-      //     defaultValue={
-      //       infos?.matcherInfos?.isMulti
-      //         ? Array.isArray(itemWithValue.value)
-      //           ? itemWithValue.value.map((v) => ({
-      //               label: v.toString(),
-      //               value: v,
-      //             }))
-      //           : []
-      //         : typeof itemWithValue.value === "string"
-      //           ? {
-      //               label: itemWithValue.value.toString(),
-      //               value: itemWithValue.value.toString(),
-      //             }
-      //           : undefined
-      //     }
-      //     initialValues={[]}
-      //     onSelect={(selected) => {
-      //       if (isMultiValueSelected(selected)) {
-      //         setPath(
-      //           `${pathPrefix}.value`,
-      //           selected
-      //             .map((s) => {
-      //               if (fieldType === "integer") {
-      //                 const intValue = parseInt(s.value.toString(), 10)
-      //                 if (Number.isNaN(intValue)) {
-      //                   return null
-      //                 }
-      //                 return intValue
-      //               }
+      if (item?.matcher === "array_match") {
+        return (
+          <InputArrayMatch
+            infos={infos}
+            value={value}
+            pathPrefix={pathKey}
+            hasResourceSelector
+          />
+        )
+      }
 
-      //               return s.value
-      //             })
-      //             .filter((s) => s != null),
-      //         )
-      //       } else if (isSingleValueSelected(selected)) {
-      //         setPath(`${pathPrefix}.value`, selected.value)
-      //       }
-      //     }}
-      //   />
-      // )
+      return (
+        <InputResourceSelector infos={infos} value={value} pathKey={pathKey} />
+      )
     }
 
     case "number": {

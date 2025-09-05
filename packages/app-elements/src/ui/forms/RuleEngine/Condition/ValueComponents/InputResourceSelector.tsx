@@ -9,22 +9,20 @@ import {
   isSingleValueSelected,
 } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../../RuleEngineContext"
-import type { SchemaConditionItem } from "../../utils"
-import { useResourcePathInfos } from "../hooks"
+import type { ItemWithValue } from "../../utils"
+import type { useResourcePathInfos } from "../hooks"
 
 export const InputResourceSelector: React.FC<{
-  item: SchemaConditionItem | null
+  value?: ItemWithValue["value"]
   pathKey: string
-}> = ({ item, pathKey }) => {
+  infos: ReturnType<typeof useResourcePathInfos>["infos"]
+}> = ({ value, pathKey, infos }) => {
   const { sdkClient } = useCoreSdkProvider()
 
-  const { infos } = useResourcePathInfos(item)
   console.log("infoosssssssss", infos)
   const { setPath } = useRuleEngine()
 
   const key = infos?.field?.name ?? "id"
-
-  const value = item != null && "value" in item ? item.value : undefined
 
   const resource =
     infos?.resource?.id === "market"
