@@ -12,6 +12,8 @@ import {
 } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../RuleEngineContext"
 import {
+  type ConditionMatchersWithoutValue,
+  conditionMatchersWithoutValue,
   expectNever,
   type ItemWithValue,
   type SchemaConditionItem,
@@ -43,6 +45,12 @@ export function ConditionValue({
     SchemaConditionItem["matcher"] | undefined
   >(item?.matcher)
 
+  const hasNoValue =
+    item == null ||
+    conditionMatchersWithoutValue.includes(
+      item.matcher as ConditionMatchersWithoutValue,
+    )
+
   let fieldType = infos?.field?.type
 
   if (itemHasValue(item)) {
@@ -73,7 +81,7 @@ export function ConditionValue({
     [componentType],
   )
 
-  if (item == null) {
+  if (hasNoValue) {
     return null
   }
 

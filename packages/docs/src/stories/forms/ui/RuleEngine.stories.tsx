@@ -55,6 +55,11 @@ Default.args = {
               value: 100,
               matcher: "gteq",
             },
+            {
+              field: "order.line_items.sku.name",
+              group: "discountable-items",
+              matcher: "blank",
+            },
           ],
         },
         {
