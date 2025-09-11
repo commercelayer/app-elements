@@ -19,7 +19,6 @@ export const InputResourceSelector: React.FC<{
 }> = ({ value, pathKey, infos }) => {
   const { sdkClient } = useCoreSdkProvider()
 
-  console.log("infoosssssssss", infos)
   const { setPath } = useRuleEngine()
 
   const key = infos?.field?.name ?? "id"
