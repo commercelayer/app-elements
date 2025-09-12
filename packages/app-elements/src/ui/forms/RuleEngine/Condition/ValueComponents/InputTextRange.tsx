@@ -7,7 +7,7 @@ export function InputTextRange({
   value,
   onChange,
 }: {
-  value: ItemWithValue["value"]
+  value?: ItemWithValue["value"]
   onChange: (value: [string | null, string | null]) => void
 }): React.JSX.Element {
   const [min, setMin] = useState<string | null>(

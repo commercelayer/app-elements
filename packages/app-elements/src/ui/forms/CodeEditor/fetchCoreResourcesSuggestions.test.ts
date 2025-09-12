@@ -897,6 +897,14 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.expires_at",
+    },
+    {
+      "type": "field",
+      "value": "order.expiration_info",
+    },
+    {
+      "type": "field",
       "value": "order.id",
     },
     {

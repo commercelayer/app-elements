@@ -27,32 +27,40 @@ export function ConditionMatcher({
     fieldType = guessFieldType((item as ItemWithValue | null)?.value)
   }
 
+  const resourceId = infos?.resource?.id
+
+  const AGGREGATED_RESOURCE = ["tag"]
+  const AGGREGATED_RESOURCE_MATCHERS = [
+    "matches",
+    "does_not_match",
+    "array_match",
+  ]
+
+  const initialValues = matcherDictionary
+    .filter(({ fieldTypes, visible }) => {
+      return visible !== false && fieldTypes.includes(fieldType)
+    })
+    .filter(({ matcher }) => {
+      return (
+        resourceId == null ||
+        (resourceId != null && !AGGREGATED_RESOURCE.includes(resourceId)) ||
+        AGGREGATED_RESOURCE_MATCHERS.includes(matcher)
+      )
+    })
+    .map(({ matcher, label }) => ({ value: matcher, label }))
+
   return (
     <InputSelect
       name={`${pathPrefix}.matcher`}
       value={
         item != null
-          ? {
-              label:
-                matcherDictionary.find((dict) => {
-                  const found =
-                    dict.matcher === item.matcher &&
-                    ((fieldType != null &&
-                      dict.fieldTypes.includes(fieldType)) ||
-                      fieldType == null)
-
-                  return found
-                })?.label ??
-                (item.matcher != null ? `⚠️   ${item.matcher}` : ""),
+          ? (initialValues.find((v) => v.value === item.matcher) ?? {
+              label: item.matcher != null ? `⚠️   ${item.matcher}` : "",
               value: item.matcher,
-            }
+            })
           : undefined
       }
-      initialValues={matcherDictionary
-        .filter(({ fieldTypes, visible }) => {
-          return visible !== false && fieldTypes.includes(fieldType)
-        })
-        .map(({ matcher, label }) => ({ value: matcher, label }))}
+      initialValues={initialValues}
       onSelect={(selected) => {
         if (isSingleValueSelected(selected)) {
           setPath(`${pathPrefix}.matcher`, selected.value)

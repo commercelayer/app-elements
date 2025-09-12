@@ -34,7 +34,7 @@ export function InputArrayMatch({
   value,
   pathPrefix,
 }: {
-  value: ItemWithValue["value"]
+  value?: ItemWithValue["value"]
   pathPrefix: string
 }): React.JSX.Element {
   if (typeof value !== "object" || Array.isArray(value) || value === null) {
