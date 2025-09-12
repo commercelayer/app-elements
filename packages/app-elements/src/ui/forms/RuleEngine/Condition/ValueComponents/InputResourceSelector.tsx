@@ -28,7 +28,9 @@ export const InputResourceSelector: React.FC<{
       ? "markets"
       : infos?.resource?.id === "tag"
         ? "tags"
-        : "skus"
+        : infos?.resource?.id === "sku"
+          ? "skus"
+          : "sku_lists"
 
   const { data, isLoading } = useCoreApi(
     resource,
@@ -51,7 +53,22 @@ export const InputResourceSelector: React.FC<{
         ],
   )
 
-  const initialValues = uniqBy(selectedData?.concat(data ?? []), "id")
+  const initialValues = uniqBy([...(selectedData ?? []), ...(data ?? [])], "id")
+
+  if (resource === "sku_lists") {
+    console.log("data", data)
+    console.log("selectedData", selectedData)
+    console.log("initialValues", initialValues)
+  }
+
+  function getValue(value: ItemWithValue["value"]): InputSelectValue {
+    return {
+      label:
+        initialValues?.find((item) => item.id === value.toString())?.name ??
+        value.toString(),
+      value: value.toString(),
+    }
+  }
 
   return (
     <InputSelect
@@ -61,19 +78,9 @@ export const InputResourceSelector: React.FC<{
       isMulti={infos?.matcherInfos?.isMulti}
       defaultValue={
         Array.isArray(value)
-          ? value.map((v) => ({
-              label:
-                initialValues?.find((item) => item.id === v)?.name ??
-                v.toString(),
-              value: v,
-            }))
+          ? value.map(getValue)
           : value != null
-            ? {
-                label:
-                  initialValues?.find((item) => item.id === value)?.name ??
-                  value.toString(),
-                value: value.toString(),
-              }
+            ? getValue(value)
             : undefined
       }
       menuFooterText={

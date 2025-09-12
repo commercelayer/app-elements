@@ -24,7 +24,7 @@ export function useResourcePathInfos(item: SchemaConditionItem | null): {
             (dict) => dict.matcher === item.matcher,
           )
 
-          const selectableResourceIds = ["market", "tag", "sku"]
+          const selectableResourceIds = ["market", "tag", "sku", "sku_list"]
 
           setInfos({
             ...result,

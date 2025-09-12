@@ -441,7 +441,7 @@ const it: typeof en = {
     "order.line_items.sku.name": "nome della sku",
     "order.line_items.sku.shipping_category.id":
       "id della sku shipping category",
-    "order.line_items.sku.sku_lists.id": "id della sku list",
+    "order.line_items.sku.sku_lists.id": "sku list",
     "order.line_items.sku.sku_lists.name": "nome della sku list",
     "order.line_items.sku.tags.name": "nome del tag della sku",
     "order.line_items.sku": "sku",

@@ -455,7 +455,7 @@ const en = {
     "order.line_items.sku.inventory.quantity": "sku inventory quantity",
     "order.line_items.sku.name": "sku name",
     "order.line_items.sku.shipping_category.id": "sku shipping category id",
-    "order.line_items.sku.sku_lists.id": "sku list id",
+    "order.line_items.sku.sku_lists.id": "sku list",
     "order.line_items.sku.sku_lists.name": "sku list name",
     "order.line_items.sku.tags.name": "sku tags name",
     "order.line_items.sku": "skus",

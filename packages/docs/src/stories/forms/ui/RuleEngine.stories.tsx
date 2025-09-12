@@ -88,6 +88,11 @@ Default.args = {
                 not_in_and: ["AW7SNiZgir", "O34h6vUe7l"],
               },
             },
+            {
+              field: "order.line_items.sku.sku_lists.id",
+              matcher: "eq",
+              value: "qJxWoIZByY",
+            },
           ],
         },
         {
