@@ -238,7 +238,7 @@ export function adaptMetricsOrderToCore(
             name: metricsOrder.market.name ?? "",
             number:
               metricsOrder.market.number != null
-                ? parseInt(`${metricsOrder.market.number}`)
+                ? parseInt(`${metricsOrder.market.number}`, 10)
                 : undefined,
           }
         : undefined,

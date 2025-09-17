@@ -16,6 +16,7 @@ describe("Tooltip", () => {
 
   test("render a tooltip", async () => {
     const { getByText } = render(
+      // biome-ignore lint/correctness/useUniqueElementIds: this is a test
       <Tooltip id="my-tooltip" label="discover more" content="content..." />,
     )
     expect(getByText("discover more")).toBeInTheDocument()

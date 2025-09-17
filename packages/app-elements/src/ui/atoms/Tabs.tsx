@@ -55,6 +55,7 @@ function Tabs({
   // since we allow `null` child (conditional rendering of <Tab>), we need to understand the first not null child to set as initial active
   const firstActiveIndex = useMemo(
     () =>
+      // biome-ignore lint/complexity/useIndexOf: safe to use
       Children.map(children, (tab) => tab != null)?.findIndex(
         (c) => c === true,
       ),

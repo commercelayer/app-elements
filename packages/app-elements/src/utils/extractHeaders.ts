@@ -8,7 +8,9 @@ import type { JsonObject } from "type-fest"
 export function extractHeaders(data: JsonObject[]): string[] {
   const allHeaders = new Set<string>()
   data.forEach((row) => {
-    Object.keys(row).forEach((h) => allHeaders.add(h))
+    Object.keys(row).forEach((h) => {
+      allHeaders.add(h)
+    })
   })
 
   return Array.from(allHeaders)
