@@ -80,7 +80,7 @@ export const iconMapping = {
   megaphoneSimple: phosphor.MegaphoneSimpleIcon,
   minus: phosphor.MinusIcon,
   minusCircle: phosphor.MinusCircleIcon,
-  package: phosphor.PackageIcon,
+  packageIcon: phosphor.PackageIcon,
   pencilSimple: phosphor.PencilSimpleIcon,
   percent: phosphor.PercentIcon,
   plus: phosphor.PlusIcon,

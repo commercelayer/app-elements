@@ -38,7 +38,7 @@ export const Parcel: StoryFn<typeof CardDialog> = (args): JSX.Element => (
 )
 Parcel.args = {
   title: "Large Box #1",
-  icon: <StatusIcon name="package" gap="large" background="teal" />,
+  icon: <StatusIcon name="packageIcon" gap="large" background="teal" />,
   onClose: () => {
     alert("clicked")
   },

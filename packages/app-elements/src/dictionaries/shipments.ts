@@ -51,7 +51,7 @@ export function getShipmentDisplayStatus(
     case "packing":
       return {
         label: t("resources.shipments.attributes.status.packing"),
-        icon: "package",
+        icon: "packageIcon",
         color: "orange",
         task: t("resources.shipments.attributes.status.packing"),
       }
