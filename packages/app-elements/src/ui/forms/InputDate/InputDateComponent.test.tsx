@@ -84,7 +84,7 @@ describe("InputDateComponent", () => {
 
     act(() => {
       fireEvent.click(
-        getByRole("option", { name: "Choose Wednesday, January 5th, 2022" }),
+        getByRole("gridcell", { name: "Choose Wednesday, January 5th, 2022" }),
       )
     })
 

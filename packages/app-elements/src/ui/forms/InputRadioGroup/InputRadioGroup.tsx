@@ -137,7 +137,6 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
             }
 
             return (
-              // biome-ignore lint/a11y/useSemanticElements: Card component has a role="radio" prop
               <Card
                 key={optionItem.value}
                 overflow="hidden"

@@ -5,7 +5,6 @@ import useSWR, {
   type SWRConfiguration,
   type SWRResponse,
 } from "swr"
-import type { ConditionalKeys } from "type-fest"
 import type { ResourceEndpoint } from "#helpers/resources"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { useCoreSdkProvider } from "."
@@ -15,6 +14,10 @@ type GenericMethod = (...args: any) => Promise<any>
 type ForceToBeMethod<Method> = Method extends GenericMethod
   ? Method
   : GenericMethod
+
+type MethodKeys<T> = {
+  [K in keyof T]: T[K] extends GenericMethod ? K : never
+}[keyof T]
 
 /**
  * This hook performs api request base on [`@commercelayer/sdk`](https://github.com/commercelayer/commercelayer-sdk) and [`swr`](https://swr.vercel.app/).
@@ -41,7 +44,7 @@ type ForceToBeMethod<Method> = Method extends GenericMethod
  */
 export function useCoreApi<
   Resource extends ResourceEndpoint,
-  Action extends ConditionalKeys<CommerceLayerClient[Resource], GenericMethod>,
+  Action extends MethodKeys<CommerceLayerClient[Resource]>,
   Method extends ForceToBeMethod<CommerceLayerClient[Resource][Action]>,
   Args extends Parameters<Method>,
   Output extends Awaited<ReturnType<Method>>,

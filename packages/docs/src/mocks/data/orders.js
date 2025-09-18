@@ -3878,8 +3878,11 @@ const orderList = http.get(
   async ({ request }) => {
     const url = new URL(request.url)
     const marketIdFilter = url.searchParams.get("filter[q][market_id_eq]")
-    const currentPage = parseInt(url.searchParams.get("page[number]") ?? "1")
-    const itemPerPage = parseInt(url.searchParams.get("page[size]") ?? "5")
+    const currentPage = parseInt(
+      url.searchParams.get("page[number]") ?? "1",
+      10,
+    )
+    const itemPerPage = parseInt(url.searchParams.get("page[size]") ?? "5", 10)
     const pageCount = itemPerPage <= 5 ? 1 : 3
 
     await delay(2000)
