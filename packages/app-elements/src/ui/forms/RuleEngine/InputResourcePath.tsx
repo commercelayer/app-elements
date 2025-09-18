@@ -67,7 +67,7 @@ export function InputResourcePath({
             })
           : undefined
       }
-      asTextSearch={true}
+      asTextSearch={preset === "condition"}
       isCreatable={true}
       loadAsyncValues={async (inputValue) => {
         if (mainResourceId == null) {
@@ -78,30 +78,34 @@ export function InputResourcePath({
           c.label.includes(inputValue),
         )
 
-        const suggestions = (
-          await fetchCoreResourcesSuggestions([mainResourceId], inputValue)
-        )
-          .filter((s) => s.value.startsWith(inputValue))
-          .map((suggestion) => {
-            const value =
-              suggestion.type === "relationship" ||
-              suggestion.value.endsWith(".metadata")
-                ? `${suggestion.value}.`
-                : suggestion.value
+        const suggestions =
+          preset === "condition"
+            ? (
+                await fetchCoreResourcesSuggestions(
+                  [mainResourceId],
+                  inputValue,
+                )
+              )
+                .filter((s) => s.value.startsWith(inputValue))
+                .map((suggestion) => {
+                  const value =
+                    suggestion.type === "relationship" ||
+                    suggestion.value.endsWith(".metadata")
+                      ? `${suggestion.value}.`
+                      : suggestion.value
 
-            return {
-              value,
-              label: value,
-            }
-          })
+                  return {
+                    value,
+                    label: value,
+                  }
+                })
+            : []
 
         const metadata = inputValue.includes(".metadata")
           ? [{ label: inputValue, value: inputValue }]
           : []
 
         const results = [...defaultValues, ...suggestions, ...metadata]
-
-        console.log("results", results)
 
         return results
       }}
@@ -164,14 +168,14 @@ const conditionPaths = [
 ] as const
 
 const actionPaths = [
-  "order.line_items.line_item_options",
-  "order.line_items.shipment",
-  "order.line_items.sku_code",
-  "order.line_items.sku.code",
-  "order.line_items.sku",
-  "order.line_items",
-  "order.subtotal_amount_cents",
-  "order.total_amount_cents",
   "order",
+  "order.line_items",
+  "order.line_items.line_item_options",
+  "order.line_items.sku",
+  "order.line_items.bundle",
+  "order.line_items.shipment",
+  "order.line_items.payment_method",
+  "order.line_items.adjustment",
+  "order.line_items.gift_card",
   "price",
 ] as const

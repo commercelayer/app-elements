@@ -1,4 +1,6 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { RuleEngine } from "#ui/forms/RuleEngine"
 
 const setup: Meta<typeof RuleEngine> = {
@@ -24,7 +26,13 @@ const setup: Meta<typeof RuleEngine> = {
 export default setup
 
 const Template: StoryFn<typeof RuleEngine> = (args) => {
-  return <RuleEngine {...args} />
+  return (
+    <TokenProvider kind="integration" appSlug="customers" devMode>
+      <CoreSdkProvider>
+        <RuleEngine {...args} />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
 }
 
 export const Default = Template.bind({})
@@ -59,6 +67,31 @@ Default.args = {
               field: "order.line_items.sku.name",
               group: "discountable-items",
               matcher: "blank",
+            },
+            {
+              field: "order.market.id",
+              group: "discountable-items",
+              value: "rlEPzheRgO",
+              matcher: "eq",
+            },
+            {
+              field: "order.line_items.sku.id",
+              matcher: "is_in",
+              value: ["nQrOSKNJpa", "ZrxeSPvVYK"],
+            },
+            {
+              field: "order.customer.tags.id",
+              matcher: "array_match",
+              value: {
+                in_and: ["mOikTtInCf", "zCjoORe9jM"],
+                in_or: ["kcvpLrFJiN", "75pio3zuOn"],
+                not_in_and: ["AW7SNiZgir", "O34h6vUe7l"],
+              },
+            },
+            {
+              field: "order.line_items.sku.sku_lists.id",
+              matcher: "eq",
+              value: "qJxWoIZByY",
             },
           ],
         },

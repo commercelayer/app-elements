@@ -7,6 +7,8 @@ import {
 } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../../RuleEngineContext"
 import type { ItemWithValue } from "../../utils"
+import type { useResourcePathInfos } from "../hooks"
+import { InputResourceSelector } from "./InputResourceSelector"
 
 type ArrayMatcherDictionary = Record<
   keyof Extract<ItemWithValue["value"], Record<string, unknown>>,
@@ -33,9 +35,13 @@ const arrayMatcherDictionary: ArrayMatcherDictionary = {
 export function InputArrayMatch({
   value,
   pathPrefix,
+  hasResourceSelector = false,
+  infos,
 }: {
   value?: ItemWithValue["value"]
   pathPrefix: string
+  hasResourceSelector?: boolean
+  infos: ReturnType<typeof useResourcePathInfos>["infos"]
 }): React.JSX.Element {
   if (typeof value !== "object" || Array.isArray(value) || value === null) {
     value = {
@@ -48,6 +54,8 @@ export function InputArrayMatch({
       {Object.entries(value).map(([operation, operationValue], index) => {
         return (
           <InputArrayMatchItem
+            infos={infos}
+            hasResourceSelector={hasResourceSelector}
             pathPrefix={pathPrefix}
             defaultValue={operationValue}
             initialMatcher={operation as keyof ArrayMatcherDictionary}
@@ -66,10 +74,14 @@ function InputArrayMatchItem({
   initialMatcher,
   defaultValue,
   pathPrefix,
+  hasResourceSelector,
+  infos,
 }: {
   initialMatcher: keyof ArrayMatcherDictionary
   defaultValue: Extract<ItemWithValue["value"], any[]>
   pathPrefix: string
+  hasResourceSelector: boolean
+  infos: ReturnType<typeof useResourcePathInfos>["infos"]
 }): React.JSX.Element {
   const [prevMatcher, setPrevMatcher] =
     useState<keyof ArrayMatcherDictionary>(initialMatcher)
@@ -89,7 +101,7 @@ function InputArrayMatchItem({
   }, [matcher, value, setPath])
 
   return (
-    <div className="flex gap-2 last-of-type:mt-2">
+    <div className="flex gap-2 mt-2 first-of-type:mt-0">
       <div className="shrink-0">
         <InputSelect
           defaultValue={[
@@ -109,24 +121,32 @@ function InputArrayMatchItem({
         />
       </div>
       <div className="grow">
-        <InputSelect
-          isMulti
-          isCreatable
-          defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
-            value: v,
-            label: v.toString(),
-          }))}
-          initialValues={[]}
-          onSelect={(selected) => {
-            if (isMultiValueSelected(selected)) {
-              setValue(
-                selected.map((s) =>
-                  typeof s.value === "boolean" ? s.value.toString() : s.value,
-                ),
-              )
-            }
-          }}
-        />
+        {hasResourceSelector ? (
+          <InputResourceSelector
+            infos={infos}
+            value={value}
+            pathKey={`${pathPrefix}.${matcher}`}
+          />
+        ) : (
+          <InputSelect
+            isMulti
+            isCreatable
+            defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
+              value: v,
+              label: v.toString(),
+            }))}
+            initialValues={[]}
+            onSelect={(selected) => {
+              if (isMultiValueSelected(selected)) {
+                setValue(
+                  selected.map((s) =>
+                    typeof s.value === "boolean" ? s.value.toString() : s.value,
+                  ),
+                )
+              }
+            }}
+          />
+        )}
       </div>
     </div>
   )

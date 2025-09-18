@@ -22,6 +22,7 @@ import { useResourcePathInfos } from "./hooks"
 import { guessFieldType } from "./utils"
 import { InputArrayMatch } from "./ValueComponents/InputArrayMatch"
 import { InputNumberRange } from "./ValueComponents/InputNumberRange"
+import { InputResourceSelector } from "./ValueComponents/InputResourceSelector"
 import { InputTextRange } from "./ValueComponents/InputTextRange"
 
 /**
@@ -68,7 +69,7 @@ export function ConditionValue({
     }
   }
 
-  const componentType = deriveComponentType(fieldType, item?.matcher)
+  const componentType = deriveComponentType(fieldType, item?.matcher, infos)
 
   useEffect(
     function resetValueWhenComponentTypeChanges() {
@@ -110,6 +111,7 @@ function ConditionValueComponent({
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
   const { user } = useTokenProvider()
+  const { infos } = useResourcePathInfos(item)
 
   const value = itemHasValue(item) ? item.value : undefined
 
@@ -176,7 +178,9 @@ function ConditionValueComponent({
     }
 
     case "arrayMatch": {
-      return <InputArrayMatch value={value} pathPrefix={pathKey} />
+      return (
+        <InputArrayMatch infos={infos} value={value} pathPrefix={pathKey} />
+      )
     }
 
     case "tag": {
@@ -215,6 +219,23 @@ function ConditionValueComponent({
             }
           }}
         />
+      )
+    }
+
+    case "resourceSelector": {
+      if (item?.matcher === "array_match") {
+        return (
+          <InputArrayMatch
+            infos={infos}
+            value={value}
+            pathPrefix={pathKey}
+            hasResourceSelector
+          />
+        )
+      }
+
+      return (
+        <InputResourceSelector infos={infos} value={value} pathKey={pathKey} />
       )
     }
 
@@ -294,11 +315,13 @@ type ComponentType =
   | "tag"
   | "text"
   | "textRange"
+  | "resourceSelector"
   | null
 
 function deriveComponentType(
   fieldType: string | undefined,
   matcher: SchemaConditionItem["matcher"] | undefined,
+  infos: ReturnType<typeof useResourcePathInfos>["infos"],
 ): ComponentType {
   let componentType: ComponentType = null
 
@@ -407,6 +430,10 @@ function deriveComponentType(
       expectNever(matcher)
       break
     }
+  }
+
+  if (infos?.resourceSelectorAvailable) {
+    componentType = "resourceSelector"
   }
 
   return componentType
