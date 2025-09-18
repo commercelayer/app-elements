@@ -10,7 +10,7 @@ import {
 } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../../RuleEngineContext"
 import type { ItemWithValue } from "../../utils"
-import type { useResourcePathInfos } from "../hooks"
+import { getResourceType, type useResourcePathInfos } from "../hooks"
 
 export const InputResourceSelector: React.FC<{
   value?: ItemWithValue["value"]
@@ -23,14 +23,7 @@ export const InputResourceSelector: React.FC<{
 
   const key = infos?.field?.name ?? "id"
 
-  const resource =
-    infos?.resource?.id === "market"
-      ? "markets"
-      : infos?.resource?.id === "tag"
-        ? "tags"
-        : infos?.resource?.id === "sku"
-          ? "skus"
-          : "sku_lists"
+  const resource = getResourceType(infos?.resource?.id)
 
   const { data, isLoading } = useCoreApi(
     resource,

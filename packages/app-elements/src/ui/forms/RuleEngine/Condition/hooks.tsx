@@ -1,7 +1,19 @@
+import type { ResourceTypeLock } from "@commercelayer/sdk"
 import { useEffect, useState } from "react"
 import { atPath } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
 import type { SchemaConditionItem } from "../utils"
 import { matcherDictionary } from "./utils"
+
+const selectableResources = {
+  market: "markets",
+  tag: "tags",
+  sku: "skus",
+  sku_list: "sku_lists",
+} as const satisfies Record<string, ResourceTypeLock>
+
+export function getResourceType(resourceId: string | undefined) {
+  return selectableResources[resourceId as keyof typeof selectableResources]
+}
 
 export function useResourcePathInfos(item: SchemaConditionItem | null): {
   infos:
@@ -24,14 +36,12 @@ export function useResourcePathInfos(item: SchemaConditionItem | null): {
             (dict) => dict.matcher === item.matcher,
           )
 
-          const selectableResourceIds = ["market", "tag", "sku", "sku_list"]
-
           setInfos({
             ...result,
             matcherInfos,
             resourceSelectorAvailable:
               result?.resource?.id != null &&
-              selectableResourceIds.includes(result.resource.id) &&
+              Object.keys(selectableResources).includes(result.resource.id) &&
               result.path.endsWith(".id") &&
               matcherInfos?.exactMatch === true,
           })
