@@ -96,12 +96,14 @@ export {
   I18NProvider,
   i18nLocales,
   Trans,
+  type Translation,
   t,
   useTranslation,
 } from "#providers/I18NProvider"
 export {
   encodeExtras,
   MetaTags,
+  type ParsedScopes,
   TokenProvider,
   type TokenProviderAllowedApp,
   type TokenProviderAllowedAppKind,
@@ -138,7 +140,11 @@ export { Grid, type GridProps } from "#ui/atoms/Grid"
 export { Hint, type HintProps } from "#ui/atoms/Hint"
 export { Hr, type HrProps } from "#ui/atoms/Hr"
 export { Icon, type IconProps } from "#ui/atoms/Icon"
-export { PageHeading, type PageHeadingProps } from "#ui/atoms/PageHeading"
+export {
+  PageHeading,
+  type PageHeadingProps,
+  type PageHeadingToolbarProps,
+} from "#ui/atoms/PageHeading"
 export { Pagination, type PaginationProps } from "#ui/atoms/Pagination"
 export { Progress, type ProgressProps } from "#ui/atoms/Progress"
 export {
@@ -232,7 +238,11 @@ export {
   type TimelineProps,
 } from "#ui/composite/Timeline"
 export { ToastContainer, toast } from "#ui/composite/Toast"
-export { Toolbar, type ToolbarProps } from "#ui/composite/Toolbar"
+export {
+  Toolbar,
+  type ToolbarItem,
+  type ToolbarProps,
+} from "#ui/composite/Toolbar"
 // Forms
 export {
   CodeEditor,
@@ -300,6 +310,7 @@ export {
 } from "#ui/forms/InputResourceGroup"
 export {
   flatSelectValues,
+  type GroupedSelectValues,
   getDefaultValueFromFlatten,
   HookedInputSelect,
   type HookedInputSelectProps,
@@ -309,6 +320,7 @@ export {
   isGroupedSelectValues,
   isMultiValueSelected,
   isSingleValueSelected,
+  type PossibleSelectValue,
 } from "#ui/forms/InputSelect"
 export {
   HookedInputSimpleSelect,
@@ -401,6 +413,10 @@ export {
 } from "#ui/resources/ResourceTags"
 export {
   type FiltersInstructions,
+  type FormFullValues,
+  type MetricsFilters,
+  type UiFilterName,
+  type UiFilterValue,
   useResourceFilters,
 } from "#ui/resources/useResourceFilters"
 export {
