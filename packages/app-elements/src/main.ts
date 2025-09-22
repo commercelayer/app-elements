@@ -156,6 +156,7 @@ export {
 } from "#ui/atoms/Skeleton"
 export {
   SkeletonTemplate,
+  type SkeletonTemplateProps,
   withSkeletonTemplate,
 } from "#ui/atoms/SkeletonTemplate"
 export { Spacer, type SpacerProps } from "#ui/atoms/Spacer"
