@@ -19,6 +19,7 @@ import {
 } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Table, Td, Th, Tr } from "#ui/atoms/Table"
 import { Text } from "#ui/atoms/Text"
 import { ListItem } from "#ui/composite/ListItem"
 
@@ -77,6 +78,32 @@ const children = (
       <StatusIcon name="check" background="green" gap="large" />
       <RadialProgress percentage={42} />
     </ListItem>
+    <Spacer top="8">
+      <Table
+        thead={
+          <Tr>
+            <Th>Name</Th>
+            <Th>Surname</Th>
+          </Tr>
+        }
+        tbody={
+          <>
+            <Tr>
+              <Td>John</Td>
+              <Td>Mayer</Td>
+            </Tr>
+            <Tr>
+              <Td>Eddie</Td>
+              <Td>Van Halen</Td>
+            </Tr>
+            <Tr>
+              <Td>Ben</Td>
+              <Td>Harper</Td>
+            </Tr>
+          </>
+        }
+      ></Table>
+    </Spacer>
     <Spacer top="8">
       <ListItem variant="boxed">
         <div>

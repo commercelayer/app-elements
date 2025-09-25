@@ -9,7 +9,11 @@ import {
   type ReactPortal,
 } from "react"
 import type { Simplify } from "type-fest"
-import { isFunctionComponent, isSpecificReactComponent } from "#utils/children"
+import {
+  filterByDisplayName,
+  isFunctionComponent,
+  isSpecificReactComponent,
+} from "#utils/children"
 import { useDelayShow } from "../../hooks/useDelayShow"
 
 type ReactNodeNoPortal = Exclude<Awaited<ReactNode>, ReactPortal>
@@ -140,83 +144,87 @@ const SkeletonTemplate: SkeletonTemplateComponent<
     return <>{children}</>
   }
 
+  const newChildren = childrenRecursiveMap(
+    children,
+    {
+      isLoading,
+      delayMs,
+    },
+    (child) => {
+      if (child == null) {
+        return child
+      }
+
+      if (typeof child === "string" && child.trim() === "") {
+        return child
+      }
+
+      if (
+        !isValidElement<React.PropsWithChildren<{ className?: string }>>(child)
+      ) {
+        return <span className={skeletonClass}>{child}</span>
+      }
+
+      const props = Object.fromEntries(
+        Object.entries(child.props as Record<string, unknown>).map(
+          ([key, value]) => {
+            if (key !== "children" && isValidElement(value)) {
+              const newValue = (
+                // biome-ignore lint/correctness/useJsxKeyInIterable: Key is not needed here
+                <SkeletonTemplate delayMs={0} isLoading>
+                  {value}
+                </SkeletonTemplate>
+              )
+
+              return [key, newValue]
+            }
+
+            return [key, value]
+          },
+        ),
+      )
+
+      if (
+        isSpecificReactComponent(child, [
+          /^Avatar$/,
+          /^AvatarLetter$/,
+          /^Badge$/,
+          /^Button$/,
+          /^A$/,
+          /^Icon$/,
+          /^StatusIcon$/,
+          /^RadialProgress$/,
+          /^ButtonFilter$/,
+          /^CopyToClipboard$/,
+        ])
+      ) {
+        return cloneElement(child, {
+          ...props,
+          className: cn(props.className as string, skeletonClass),
+        })
+      }
+
+      if (isSpecificReactComponent(child, [/^ListItem$/, /^Hr$/])) {
+        return cloneElement(child, {
+          ...props,
+          className: cn(props.className as string, "border-gray-50!"),
+        })
+      }
+
+      return cloneElement(child, props)
+    },
+  )
+
+  if (filterByDisplayName(newChildren, /^Tr$/).length > 0) {
+    return newChildren
+  }
+
   return (
     <div
       className="select-none pointer-events-none inline"
       style={{ opacity: show ? undefined : 0 }}
     >
-      {childrenRecursiveMap(
-        children,
-        {
-          isLoading,
-          delayMs,
-        },
-        (child) => {
-          if (child == null) {
-            return child
-          }
-
-          if (typeof child === "string" && child.trim() === "") {
-            return child
-          }
-
-          if (
-            !isValidElement<React.PropsWithChildren<{ className?: string }>>(
-              child,
-            )
-          ) {
-            return <span className={skeletonClass}>{child}</span>
-          }
-
-          const props = Object.fromEntries(
-            Object.entries(child.props as Record<string, unknown>).map(
-              ([key, value]) => {
-                if (key !== "children" && isValidElement(value)) {
-                  const newValue = (
-                    // biome-ignore lint/correctness/useJsxKeyInIterable: Key is not needed here
-                    <SkeletonTemplate delayMs={0} isLoading>
-                      {value}
-                    </SkeletonTemplate>
-                  )
-
-                  return [key, newValue]
-                }
-
-                return [key, value]
-              },
-            ),
-          )
-
-          if (
-            isSpecificReactComponent(child, [
-              /^Avatar$/,
-              /^AvatarLetter$/,
-              /^Badge$/,
-              /^Button$/,
-              /^A$/,
-              /^Icon$/,
-              /^StatusIcon$/,
-              /^RadialProgress$/,
-              /^ButtonFilter$/,
-              /^CopyToClipboard$/,
-            ])
-          ) {
-            return cloneElement(child, {
-              ...props,
-              className: cn(props.className as string, skeletonClass),
-            })
-          }
-
-          if (isSpecificReactComponent(child, [/^ListItem$/, /^Hr$/])) {
-            return cloneElement(child, {
-              ...props,
-              className: cn(props.className as string, "border-gray-50!"),
-            })
-          }
-
-          return cloneElement(child, props)
-        },
-      )}
+      {newChildren}
     </div>
   )
 }
