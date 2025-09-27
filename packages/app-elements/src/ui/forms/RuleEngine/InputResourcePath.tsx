@@ -13,11 +13,9 @@ import { useRuleEngine } from "./RuleEngineContext"
 export function InputResourcePath({
   value,
   name,
-  preset,
 }: {
   value: string | undefined
   name: string
-  preset?: "condition" | "action"
 }): React.JSX.Element {
   const { setPath, schemaType } = useRuleEngine()
   const { t } = useTranslation()
@@ -35,12 +33,7 @@ export function InputResourcePath({
         : undefined
 
   const initialValues = uniqBy(
-    (preset === "condition"
-      ? conditionPaths
-      : preset === "action"
-        ? actionPaths
-        : []
-    )
+    presetPaths
       .filter(
         (path) => mainResourceId != null && path.startsWith(mainResourceId),
       )
@@ -67,52 +60,42 @@ export function InputResourcePath({
             })
           : undefined
       }
-      asTextSearch={preset === "condition"}
-      isCreatable={preset === "condition"}
-      loadAsyncValues={
-        preset === "condition"
-          ? async (inputValue) => {
-              if (mainResourceId == null) {
-                return []
-              }
+      asTextSearch={true}
+      isCreatable={true}
+      loadAsyncValues={async (inputValue) => {
+        if (mainResourceId == null) {
+          return []
+        }
 
-              const defaultValues = initialValues.filter((c) =>
-                c.label.includes(inputValue),
-              )
+        const defaultValues = initialValues.filter((c) =>
+          c.label.includes(inputValue),
+        )
 
-              const suggestions =
-                preset === "condition"
-                  ? (
-                      await fetchCoreResourcesSuggestions(
-                        [mainResourceId],
-                        inputValue,
-                      )
-                    )
-                      .filter((s) => s.value.startsWith(inputValue))
-                      .map((suggestion) => {
-                        const value =
-                          suggestion.type === "relationship" ||
-                          suggestion.value.endsWith(".metadata")
-                            ? `${suggestion.value}.`
-                            : suggestion.value
+        const suggestions = (
+          await fetchCoreResourcesSuggestions([mainResourceId], inputValue)
+        )
+          .filter((s) => s.value.startsWith(inputValue))
+          .map((suggestion) => {
+            const value =
+              suggestion.type === "relationship" ||
+              suggestion.value.endsWith(".metadata")
+                ? `${suggestion.value}.`
+                : suggestion.value
 
-                        return {
-                          value,
-                          label: value,
-                        }
-                      })
-                  : []
-
-              const metadata = inputValue.includes(".metadata")
-                ? [{ label: inputValue, value: inputValue }]
-                : []
-
-              const results = [...defaultValues, ...suggestions, ...metadata]
-
-              return results
+            return {
+              value,
+              label: value,
             }
-          : undefined
-      }
+          })
+
+        const metadata = inputValue.includes(".metadata")
+          ? [{ label: inputValue, value: inputValue }]
+          : []
+
+        const results = [...defaultValues, ...suggestions, ...metadata]
+
+        return results
+      }}
       onSelect={async (selection) => {
         if (isSingleValueSelected(selection)) {
           setPath(name, selection.value)
@@ -126,7 +109,7 @@ export function InputResourcePath({
   )
 }
 
-const conditionPaths = [
+const presetPaths = [
   "order.billing_address.country_code",
   "order.country_code",
   "order.currency_code",
@@ -163,23 +146,14 @@ const conditionPaths = [
   "order.tags.name",
   "order.total_amount_cents",
   "price.jwt_customer.email",
+  "price.jwt_customer.tags.id",
   "price.jwt_customer.tags.name",
+  "price.sku.sku_list_items.sku_list.id",
   "price.sku.sku_list_items.sku_list.name",
   "price.sku.code",
+  "price.sku.id",
+  "price.sku.tags.id",
   "price.sku.tags.name",
   "price.processed_at",
   "price.amount_cents",
-] as const
-
-const actionPaths = [
-  "order",
-  "order.line_items",
-  "order.line_items.line_item_options",
-  "order.line_items.sku",
-  "order.line_items.bundle",
-  "order.line_items.shipment",
-  "order.line_items.payment_method",
-  "order.line_items.adjustment",
-  "order.line_items.gift_card",
-  "price",
 ] as const
