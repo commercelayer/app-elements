@@ -1,10 +1,31 @@
+import { compact, uniq } from "lodash-es"
+import { useTranslation } from "#providers/I18NProvider"
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
-import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
-import { InputResourcePath } from "../InputResourcePath"
+import {
+  InputSelect,
+  isMultiValueSelected,
+  isSingleValueSelected,
+} from "#ui/forms/InputSelect"
+import type { RuleEngineProps } from "../RuleEngineComponent"
 import { useRuleEngine } from "../RuleEngineContext"
+import type { Conditions } from "../schema.order_rules"
 import type { SchemaActionItem } from "../utils"
 import { ActionValue } from "./ActionValue"
+
+function extractAvailableGroups(conditions: Conditions | undefined): string[] {
+  if (conditions == null || conditions.length === 0) {
+    return []
+  }
+  return uniq(
+    compact(
+      conditions.flatMap((condition) => [
+        condition?.group,
+        ...extractAvailableGroups(condition?.nested?.conditions),
+      ]),
+    ),
+  )
+}
 
 export function ActionListItem({
   item,
@@ -17,9 +38,13 @@ export function ActionListItem({
 }): React.ReactNode {
   const {
     setPath,
-    state: { selectedRuleIndex },
+    state: { selectedRuleIndex, value },
     availableActionTypes,
   } = useRuleEngine()
+
+  const availableGroups = extractAvailableGroups(
+    value.rules?.[selectedRuleIndex]?.conditions,
+  )
 
   type Item = NonNullable<typeof item>
   const typeDictionary: Record<Item["type"], string> = {
@@ -35,45 +60,81 @@ export function ActionListItem({
   return (
     <div className="mb-4 last:mb-0">
       <div className="bg-gray-50 rounded-md flex items-center">
-        <div className="flex items-center justify-between gap-2 grow p-2">
-          {/* Action type */}
-          <div className="flex-1">
-            <InputSelect
-              name={`${pathPrefix}.type`}
-              defaultValue={
-                item != null
-                  ? {
-                      label: typeDictionary[item.type],
-                      value: item.type,
-                    }
-                  : undefined
-              }
-              initialValues={availableActionTypes.map((type) => ({
-                value: type,
-                label: typeDictionary[type],
-              }))}
-              onSelect={(selected) => {
-                if (isSingleValueSelected(selected)) {
-                  setPath(`${pathPrefix}.type`, selected.value)
+        <div className="flex flex-col grow">
+          <div className="flex items-center justify-between gap-2 p-2">
+            {/* Action type */}
+            <div className="flex-1">
+              <InputSelect
+                name={`${pathPrefix}.type`}
+                defaultValue={
+                  item != null
+                    ? {
+                        label: typeDictionary[item.type],
+                        value: item.type,
+                      }
+                    : undefined
                 }
-              }}
-            />
+                initialValues={availableActionTypes.map((type) => ({
+                  value: type,
+                  label: typeDictionary[type],
+                }))}
+                onSelect={(selected) => {
+                  if (isSingleValueSelected(selected)) {
+                    setPath(`${pathPrefix}.type`, selected.value)
+                  }
+                }}
+              />
+            </div>
+
+            {/* Action value */}
+            <ActionValue item={item} pathPrefix={pathPrefix} />
+
+            {/* ON */}
+            <div className="text-black font-bold text-sm">ON</div>
+
+            {/* Action target */}
+            <div className="flex-1">
+              <InputActionSelector
+                value={item?.selector}
+                name={`${pathPrefix}.selector`}
+              />
+            </div>
           </div>
+          {(availableGroups.length > 0 || (item?.groups ?? []).length > 0) && (
+            <div className="flex items-center justify-between gap-2 p-2">
+              <div className="text-black font-bold text-sm">GROUPS</div>
+              <div className="flex-1">
+                <InputSelect
+                  name={`${pathPrefix}.groups`}
+                  isMulti
+                  defaultValue={
+                    item != null
+                      ? item.groups?.map((groups) => ({
+                          label: groups,
+                          value: groups,
+                        }))
+                      : undefined
+                  }
+                  initialValues={availableGroups.map((group) => ({
+                    value: group,
+                    label: group,
+                  }))}
+                  onSelect={(selected) => {
+                    if (isMultiValueSelected(selected)) {
+                      setPath(
+                        `${pathPrefix}.groups`,
+                        selected.map((s) => s.value),
+                      )
 
-          {/* Action value */}
-          <ActionValue item={item} pathPrefix={pathPrefix} />
-
-          {/* ON */}
-          <div className="text-black font-bold text-sm">ON</div>
-
-          {/* Action target */}
-          <div className="flex-1">
-            <InputResourcePath
-              preset="action"
-              value={item?.selector}
-              name={`${pathPrefix}.selector`}
-            />
-          </div>
+                      if (selected.length > 0) {
+                        setPath(`${pathPrefix}.selector`, "order.line_items")
+                      }
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
         {onDelete != null && (
           <Dropdown
@@ -101,3 +162,51 @@ export function ActionListItem({
     </div>
   )
 }
+
+export function InputActionSelector({
+  value,
+  name,
+}: {
+  value: string | undefined
+  name: string
+}): React.JSX.Element {
+  const { setPath, schemaType } = useRuleEngine()
+  const { t } = useTranslation()
+
+  const initialValues = actionPaths[schemaType].map((field) => ({
+    value: field,
+    label: (t(`resource_paths.${field}`) as string).replace(
+      "resource_paths.",
+      "",
+    ),
+  }))
+
+  return (
+    <InputSelect
+      name={name}
+      isSearchable={false}
+      initialValues={initialValues}
+      value={initialValues.find((c) => c.value === value)}
+      onSelect={async (selection) => {
+        if (isSingleValueSelected(selection)) {
+          setPath(name, selection.value)
+        }
+      }}
+    />
+  )
+}
+
+const actionPaths = {
+  "order-rules": [
+    "order",
+    "order.line_items",
+    "order.line_items.line_item_options",
+    "order.line_items.sku",
+    "order.line_items.bundle",
+    "order.line_items.shipment",
+    "order.line_items.payment_method",
+    "order.line_items.adjustment",
+    "order.line_items.gift_card",
+  ] as const,
+  "price-rules": ["price"] as const,
+} satisfies Record<RuleEngineProps["schemaType"], string[]>
