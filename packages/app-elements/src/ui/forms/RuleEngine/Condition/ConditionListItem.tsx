@@ -58,7 +58,6 @@ export function ConditionListItem({
             {/* Condition target */}
             <div className="flex-1">
               <InputResourcePath
-                preset="condition"
                 value={item?.field}
                 name={`${pathPrefix}.field`}
               />
