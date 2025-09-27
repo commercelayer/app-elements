@@ -68,47 +68,51 @@ export function InputResourcePath({
           : undefined
       }
       asTextSearch={preset === "condition"}
-      isCreatable={true}
-      loadAsyncValues={async (inputValue) => {
-        if (mainResourceId == null) {
-          return []
-        }
+      isCreatable={preset === "condition"}
+      loadAsyncValues={
+        preset === "condition"
+          ? async (inputValue) => {
+              if (mainResourceId == null) {
+                return []
+              }
 
-        const defaultValues = initialValues.filter((c) =>
-          c.label.includes(inputValue),
-        )
-
-        const suggestions =
-          preset === "condition"
-            ? (
-                await fetchCoreResourcesSuggestions(
-                  [mainResourceId],
-                  inputValue,
-                )
+              const defaultValues = initialValues.filter((c) =>
+                c.label.includes(inputValue),
               )
-                .filter((s) => s.value.startsWith(inputValue))
-                .map((suggestion) => {
-                  const value =
-                    suggestion.type === "relationship" ||
-                    suggestion.value.endsWith(".metadata")
-                      ? `${suggestion.value}.`
-                      : suggestion.value
 
-                  return {
-                    value,
-                    label: value,
-                  }
-                })
-            : []
+              const suggestions =
+                preset === "condition"
+                  ? (
+                      await fetchCoreResourcesSuggestions(
+                        [mainResourceId],
+                        inputValue,
+                      )
+                    )
+                      .filter((s) => s.value.startsWith(inputValue))
+                      .map((suggestion) => {
+                        const value =
+                          suggestion.type === "relationship" ||
+                          suggestion.value.endsWith(".metadata")
+                            ? `${suggestion.value}.`
+                            : suggestion.value
 
-        const metadata = inputValue.includes(".metadata")
-          ? [{ label: inputValue, value: inputValue }]
-          : []
+                        return {
+                          value,
+                          label: value,
+                        }
+                      })
+                  : []
 
-        const results = [...defaultValues, ...suggestions, ...metadata]
+              const metadata = inputValue.includes(".metadata")
+                ? [{ label: inputValue, value: inputValue }]
+                : []
 
-        return results
-      }}
+              const results = [...defaultValues, ...suggestions, ...metadata]
+
+              return results
+            }
+          : undefined
+      }
       onSelect={async (selection) => {
         if (isSingleValueSelected(selection)) {
           setPath(name, selection.value)
