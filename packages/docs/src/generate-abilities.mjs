@@ -211,11 +211,13 @@ function roleToTable({
   subject,
 }) {
   return `|${[
-    createLink(
-      `https://docs.commercelayer.io/core/v/api-reference/${checkSubject(subject)}/object`,
-      checkSubject(subject),
-      "_blank",
-    ),
+    subject !== "payment_sources"
+      ? createLink(
+          `https://docs.commercelayer.io/core/v/api-reference/${checkSubject(subject)}/object`,
+          checkSubject(subject),
+          "_blank",
+        )
+      : checkSubject(subject),
     booleanToIcon(can_create),
     booleanToIcon(can_read),
     booleanToIcon(can_update),
