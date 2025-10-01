@@ -294,11 +294,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     align="center"
                     rowSpan={3}
                   >
-                    <Avatar
-                      size={size}
-                      src={imageUrl as `https://${string}`}
-                      alt={name ?? ""}
-                    />
+                    <Avatar size={size} src={imageUrl} alt={name ?? ""} />
                   </td>
                   <td
                     className={cn("pl-4", {
@@ -650,7 +646,7 @@ const Bundle = withSkeletonTemplate<{ code: LineItem["bundle_code"] }>(
             className="flex relative py-2 pl-4 before:absolute before:border-gray-100 before:left-0 before:h-4 before:w-4 before:top-[calc(50%-1rem)] before:border-b before:border-l before:rounded-bl-md after:absolute after:bg-gray-100 after:left-0 after:top-0 after:w-px after:h-full last:after:h-[calc(50%-1rem)]"
           >
             <Avatar
-              src={item.sku?.image_url as `https://${string}`}
+              src={item.sku?.image_url}
               size="x-small"
               alt={item.sku?.name ?? ""}
               className="ml-2"
