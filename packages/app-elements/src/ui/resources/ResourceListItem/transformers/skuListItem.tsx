@@ -10,10 +10,7 @@ export const skuListItemToProps: ResourceToProps<SkuListItem> = ({
     name: resource.sku?.name ?? "",
     description: resource.sku?.code ?? "",
     icon: (
-      <Avatar
-        alt={resource.sku?.name ?? ""}
-        src={resource.sku?.image_url as `https://${string}`}
-      />
+      <Avatar alt={resource.sku?.name ?? ""} src={resource.sku?.image_url} />
     ),
     invertNameDescription: true,
     rightContent: (

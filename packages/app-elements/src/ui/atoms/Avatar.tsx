@@ -3,13 +3,13 @@ import { type JSX, useState } from "react"
 import { presets } from "./Avatar.utils"
 
 type SrcPreset = keyof typeof presets
-type SrcUrl = `https://${string}` | `data:image/${string}`
+type SrcUrl = string & {}
 
 export interface AvatarProps {
   /**
    * Image URL
    */
-  src: SrcPreset | SrcUrl
+  src: SrcPreset | SrcUrl | null | undefined
   /**
    * Alt text
    */
@@ -91,7 +91,7 @@ export function Avatar({
 }
 
 function srcIsValidPreset(src: AvatarProps["src"]): src is SrcPreset {
-  return Object.keys(presets).includes(src)
+  return src != null && Object.keys(presets).includes(src)
 }
 
 function srcIsValidUrl(
