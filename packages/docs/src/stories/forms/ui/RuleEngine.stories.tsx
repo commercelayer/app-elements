@@ -379,7 +379,7 @@ Default.args = {
               type: "percentage",
               selector: "order.line_items",
               value: 1,
-              groups: ["1000_2000", "2100_3000", "3100"],
+              groups: ["1000_2000", "3100"],
             },
           ],
         },

@@ -1,5 +1,6 @@
 import React from "react"
 import { Icon } from "#ui/atoms/Icon"
+import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { InputResourcePath } from "../InputResourcePath"
 import { useRuleEngine } from "../RuleEngineContext"
@@ -54,6 +55,11 @@ export function ConditionListItem({
     <div className="bg-gray-50 rounded-md flex items-center">
       <div className="flex items-center justify-between gap-2 grow p-2">
         <div className="flex flex-col gap-2 grow">
+          {item?.group != null && (
+            <div className="text-sm text-gray-500 p-2">
+              group: <Text weight="bold">{item.group}</Text>
+            </div>
+          )}
           <div className="flex items-center justify-between gap-2">
             {/* Condition target */}
             <div className="flex-1">
