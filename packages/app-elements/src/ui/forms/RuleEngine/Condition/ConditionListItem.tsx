@@ -52,54 +52,56 @@ export function ConditionListItem({
   }
 
   return (
-    <div className="bg-gray-50 rounded-md flex items-center">
-      <div className="flex items-center justify-between gap-2 grow p-2">
-        <div className="flex flex-col gap-2 grow">
-          {item?.group != null && (
-            <div className="text-sm text-gray-500 p-2">
-              group: <Text weight="bold">{item.group}</Text>
-            </div>
-          )}
-          <div className="flex items-center justify-between gap-2">
-            {/* Condition target */}
-            <div className="flex-1">
-              <InputResourcePath
-                value={item?.field}
-                name={`${pathPrefix}.field`}
-              />
-            </div>
-
-            {/* Condition matcher */}
-            <div>
-              <ConditionMatcher item={item} pathPrefix={pathPrefix} />
-            </div>
-          </div>
-          <ConditionValue item={item} pathPrefix={pathPrefix} />
+    <div>
+      {item?.group != null && (
+        <div className="text-xs pb-4">
+          Group: <Text weight="bold">{item.group}</Text>
         </div>
-      </div>
-      {dropdownItems.length > 0 && (
-        <Dropdown
-          className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch"
-          dropdownLabel={
-            <button
-              type="button"
-              className="flex items-center justify-center self-stretch grow"
-            >
-              <Icon name="dotsThreeVertical" size={16} weight="bold" />
-            </button>
-          }
-          dropdownItems={dropdownItems.map((items, index, arr) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-            <React.Fragment key={index}>
-              {items.map((item, itemIndex) => (
-                // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                <React.Fragment key={itemIndex}>{item}</React.Fragment>
-              ))}
-              {index < arr.length - 1 && <DropdownDivider />}
-            </React.Fragment>
-          ))}
-        />
       )}
+      <div className="bg-gray-50 rounded-md flex items-center">
+        <div className="flex items-center justify-between gap-2 grow p-2">
+          <div className="flex flex-col gap-2 grow">
+            <div className="flex items-center justify-between gap-2">
+              {/* Condition target */}
+              <div className="flex-1">
+                <InputResourcePath
+                  value={item?.field}
+                  name={`${pathPrefix}.field`}
+                />
+              </div>
+
+              {/* Condition matcher */}
+              <div>
+                <ConditionMatcher item={item} pathPrefix={pathPrefix} />
+              </div>
+            </div>
+            <ConditionValue item={item} pathPrefix={pathPrefix} />
+          </div>
+        </div>
+        {dropdownItems.length > 0 && (
+          <Dropdown
+            className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch"
+            dropdownLabel={
+              <button
+                type="button"
+                className="flex items-center justify-center self-stretch grow"
+              >
+                <Icon name="dotsThreeVertical" size={16} weight="bold" />
+              </button>
+            }
+            dropdownItems={dropdownItems.map((items, index, arr) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+              <React.Fragment key={index}>
+                {items.map((item, itemIndex) => (
+                  // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                  <React.Fragment key={itemIndex}>{item}</React.Fragment>
+                ))}
+                {index < arr.length - 1 && <DropdownDivider />}
+              </React.Fragment>
+            ))}
+          />
+        )}
+      </div>
     </div>
   )
 }

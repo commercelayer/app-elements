@@ -59,7 +59,11 @@ export function Condition({
                     <Condition
                       item={condition?.nested ?? undefined}
                       nestingLevel={
-                        condition?.nested != null ? nestingLevel + 1 : 0
+                        condition?.nested != null
+                          ? nestingLevel + 1
+                          : condition?.group != null
+                            ? 1
+                            : 0
                       }
                       pathPrefix={`${pathPrefix}.conditions.${conditionIndex}.nested`}
                     >

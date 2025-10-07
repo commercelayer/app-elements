@@ -100,9 +100,10 @@ export function ActionListItem({
               />
             </div>
           </div>
+          {/* Groups */}
           {(availableGroups.length > 0 || (item?.groups ?? []).length > 0) && (
             <div className="flex items-center justify-between gap-2 p-2">
-              <div className="text-black font-bold text-sm">GROUPS</div>
+              <div className="text-black font-bold text-sm px-2">GROUPS</div>
               <div className="flex-1">
                 <InputSelect
                   name={`${pathPrefix}.groups`}
