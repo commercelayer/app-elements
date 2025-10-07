@@ -505,6 +505,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.customer_type",
+    },
+    {
+      "type": "field",
       "value": "order.language_code",
     },
     {
