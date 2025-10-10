@@ -1,12 +1,17 @@
-import React from "react"
+import React, { useEffect, useRef, useState } from "react"
+import { Button } from "#ui/atoms/Button"
 import { Icon } from "#ui/atoms/Icon"
+import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
+import { Modal, type ModalProps } from "#ui/composite/Modal"
+import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { InputResourcePath } from "../InputResourcePath"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
 import { ConditionValue } from "./ConditionValue"
+import { useAvailableGroups } from "./hooks"
 
 export function ConditionListItem({
   item,
@@ -21,10 +26,21 @@ export function ConditionListItem({
 }): React.JSX.Element {
   const { setPath } = useRuleEngine()
 
+  const [showGroupModal, setShowGroupModal] = useState(false)
+
   const dropdownItems: React.ReactNode[][] = []
 
+  dropdownItems[0] ??= []
+  dropdownItems[0].push(
+    <DropdownItem
+      label="Set group"
+      onClick={() => {
+        setShowGroupModal(true)
+      }}
+    />,
+  )
+
   if (nestingLevel < 2) {
-    dropdownItems[0] ??= []
     dropdownItems[0].push(
       <DropdownItem
         label="Nest conditions"
@@ -53,6 +69,12 @@ export function ConditionListItem({
 
   return (
     <div>
+      <GroupModal
+        onClose={() => setShowGroupModal(false)}
+        show={showGroupModal}
+        pathPrefix={pathPrefix}
+        item={item}
+      />
       {item?.group != null && (
         <div className="text-xs pb-4">
           Group: <Text weight="bold">{item.group}</Text>
@@ -80,7 +102,7 @@ export function ConditionListItem({
         </div>
         {dropdownItems.length > 0 && (
           <Dropdown
-            className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch"
+            className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch shrink-0"
             dropdownLabel={
               <button
                 type="button"
@@ -103,5 +125,73 @@ export function ConditionListItem({
         )}
       </div>
     </div>
+  )
+}
+
+const GroupModal = ({
+  show,
+  onClose,
+  pathPrefix,
+  item,
+}: Pick<ModalProps, "show" | "onClose"> & {
+  pathPrefix: string
+  item: SchemaConditionItem | null
+}) => {
+  const modal = useRef<HTMLDivElement | null>(null)
+  const { setPath } = useRuleEngine()
+  const availableGroups = useAvailableGroups()
+
+  const [group, setGroup] = useState<string | undefined>(item?.group)
+
+  useEffect(() => {
+    setGroup(item?.group)
+  }, [item?.group, show])
+
+  return (
+    <Modal ref={modal} show={show} onClose={onClose} size="large">
+      <Modal.Header>Set group</Modal.Header>
+      <Modal.Body>
+        <InputSelect
+          name={`${pathPrefix}.group`}
+          isCreatable
+          isClearable
+          menuPortalTarget={modal.current}
+          initialValues={availableGroups.map((group) => ({
+            value: group,
+            label: group,
+          }))}
+          value={
+            group != null
+              ? {
+                  value: group,
+                  label: group,
+                }
+              : undefined
+          }
+          onSelect={(selected) => {
+            if (selected == null || isSingleValueSelected(selected)) {
+              setGroup(selected?.value.toString())
+            }
+          }}
+          placeholder="Select or create group…"
+        />
+        <Spacer top="2">
+          <Text size="small" variant="info">
+            Choose an existing group or create a new one. Leave empty to remove.
+          </Text>
+        </Spacer>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button
+          onClick={() => {
+            setPath(`${pathPrefix}.group`, group)
+            onClose()
+          }}
+          fullWidth
+        >
+          Save
+        </Button>
+      </Modal.Footer>
+    </Modal>
   )
 }

@@ -1,4 +1,4 @@
-import { compact, uniq } from "lodash-es"
+import { useEffect } from "react"
 import { useTranslation } from "#providers/I18NProvider"
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
@@ -7,25 +7,11 @@ import {
   isMultiValueSelected,
   isSingleValueSelected,
 } from "#ui/forms/InputSelect"
+import { useAvailableGroups } from "../Condition/hooks"
 import type { RuleEngineProps } from "../RuleEngineComponent"
 import { useRuleEngine } from "../RuleEngineContext"
-import type { Conditions } from "../schema.order_rules"
 import type { SchemaActionItem } from "../utils"
 import { ActionValue } from "./ActionValue"
-
-function extractAvailableGroups(conditions: Conditions | undefined): string[] {
-  if (conditions == null || conditions.length === 0) {
-    return []
-  }
-  return uniq(
-    compact(
-      conditions.flatMap((condition) => [
-        condition?.group,
-        ...extractAvailableGroups(condition?.nested?.conditions),
-      ]),
-    ),
-  )
-}
 
 export function ActionListItem({
   item,
@@ -38,13 +24,12 @@ export function ActionListItem({
 }): React.ReactNode {
   const {
     setPath,
-    state: { selectedRuleIndex, value },
+    schemaType,
+    state: { selectedRuleIndex },
     availableActionTypes,
   } = useRuleEngine()
 
-  const availableGroups = extractAvailableGroups(
-    value.rules?.[selectedRuleIndex]?.conditions,
-  )
+  const availableGroups = useAvailableGroups()
 
   type Item = NonNullable<typeof item>
   const typeDictionary: Record<Item["type"], string> = {
@@ -56,6 +41,12 @@ export function ActionListItem({
   }
 
   const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
+
+  useEffect(() => {
+    if (availableGroups.length === 0 && (item?.groups ?? []).length > 0) {
+      setPath(`${pathPrefix}.groups`, [])
+    }
+  }, [availableGroups])
 
   return (
     <div className="mb-4 last:mb-0">
@@ -108,10 +99,12 @@ export function ActionListItem({
                 <InputSelect
                   name={`${pathPrefix}.groups`}
                   isMulti
-                  defaultValue={
+                  value={
                     item != null
                       ? item.groups?.map((groups) => ({
-                          label: groups,
+                          label: availableGroups.includes(groups)
+                            ? groups
+                            : `⚠️   ${groups}`,
                           value: groups,
                         }))
                       : undefined
@@ -127,7 +120,7 @@ export function ActionListItem({
                         selected.map((s) => s.value),
                       )
 
-                      if (selected.length > 0) {
+                      if (schemaType === "order-rules" && selected.length > 0) {
                         setPath(`${pathPrefix}.selector`, "order.line_items")
                       }
                     }
