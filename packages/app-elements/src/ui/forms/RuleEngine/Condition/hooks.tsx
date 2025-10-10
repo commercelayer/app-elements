@@ -1,6 +1,9 @@
 import type { ResourceTypeLock } from "@commercelayer/sdk"
+import { compact, uniq } from "lodash-es"
 import { useEffect, useState } from "react"
 import { atPath } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
+import { useRuleEngine } from "../RuleEngineContext"
+import type { Conditions } from "../schema.order_rules"
 import type { SchemaConditionItem } from "../utils"
 import { matcherDictionary } from "./utils"
 
@@ -53,4 +56,34 @@ export function useResourcePathInfos(item: SchemaConditionItem | null): {
   }, [item?.field, item?.matcher])
 
   return { infos }
+}
+
+function extractAvailableGroups(conditions: Conditions | undefined): string[] {
+  if (conditions == null || conditions.length === 0) {
+    return []
+  }
+  return uniq(
+    compact(
+      conditions.flatMap((condition) => [
+        condition?.group,
+        ...extractAvailableGroups(condition?.nested?.conditions),
+      ]),
+    ),
+  )
+}
+
+/**
+ * Extracts the available groups for the current rule.
+ * @returns The available groups for the current rule.
+ */
+export function useAvailableGroups(): string[] {
+  const {
+    state: { selectedRuleIndex, value },
+  } = useRuleEngine()
+
+  const availableGroups = extractAvailableGroups(
+    value.rules?.[selectedRuleIndex]?.conditions,
+  )
+
+  return availableGroups
 }

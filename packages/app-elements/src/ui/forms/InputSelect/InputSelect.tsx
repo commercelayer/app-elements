@@ -141,6 +141,10 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    * **This option is only available when `loadAsyncValues` is provided.**
    */
   asTextSearch?: boolean
+  /**
+   * Whether the menu should use a portal, and where it should attach to.
+   */
+  menuPortalTarget?: HTMLElement | null
 }
 
 /**
@@ -185,6 +189,7 @@ export const InputSelect = forwardRef<
       menuFooterText,
       isCreatable,
       asTextSearch,
+      menuPortalTarget,
       ...rest
     },
     ref,
@@ -225,6 +230,7 @@ export const InputSelect = forwardRef<
             inputId={name}
             loadAsyncValues={loadAsyncValues}
             asTextSearch={asTextSearch}
+            menuPortalTarget={menuPortalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
           />
@@ -235,6 +241,7 @@ export const InputSelect = forwardRef<
             inputId={name}
             loadAsyncValues={loadAsyncValues}
             asTextSearch={asTextSearch}
+            menuPortalTarget={menuPortalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
           />
@@ -244,6 +251,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             isSearchable={isSearchable}
+            menuPortalTarget={menuPortalTarget}
           />
         ) : (
           <SelectComponent
@@ -251,6 +259,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             isSearchable={isSearchable}
+            menuPortalTarget={menuPortalTarget}
           />
         )}
       </InputWrapper>

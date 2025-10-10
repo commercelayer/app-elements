@@ -136,6 +136,7 @@ const presetPaths = [
   "order.line_items.sku.shipping_category.id",
   "order.line_items.sku.sku_lists.id",
   "order.line_items.sku.sku_lists.name",
+  "order.line_items.sku.tags.id",
   "order.line_items.sku.tags.name",
   "order.line_items.unit_amount_cents",
   "order.market.code",

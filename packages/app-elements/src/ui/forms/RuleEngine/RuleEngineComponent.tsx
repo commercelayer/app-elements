@@ -293,13 +293,29 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                   <RuleName />
                   <Icon name="pencilSimple" size={16} className="shrink-0" />
                 </div>
-                <Card title="Actions" icon="lightning">
-                  <Action actions={selectedRule?.actions} />
-                </Card>
 
-                <CardConnector>when</CardConnector>
-
-                <Card title="Conditions" icon="treeView">
+                <Card
+                  title={
+                    <div>
+                      If{" "}
+                      <select
+                        onChange={(event) => {
+                          setPath(
+                            `rules.${selectedRuleIndex}.conditions_logic`,
+                            event.currentTarget.value,
+                          )
+                        }}
+                        value={selectedRule?.conditions_logic ?? "all"}
+                        className="font-bold py-1 pl-2 pr-6 bg-position-[right_center] focus:ring-0 focus:outline-hidden appearance-none border-0 rounded-md leading-4 ml-1 mr-1.5"
+                      >
+                        <option value="and">all</option>
+                        <option value="or">any</option>
+                      </select>
+                      conditions occur
+                    </div>
+                  }
+                  icon="treeView"
+                >
                   <Condition
                     item={selectedRule}
                     pathPrefix={`rules.${selectedRuleIndex}`}
@@ -319,6 +335,12 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                       <Icon name="plusCircle" /> Add condition
                     </Button>
                   </div>
+                </Card>
+
+                <CardConnector>do</CardConnector>
+
+                <Card title="Actions" icon="lightning">
+                  <Action actions={selectedRule?.actions} />
                 </Card>
               </>
             )}
@@ -360,7 +382,7 @@ function Card({
   title,
   icon,
 }: {
-  title: string
+  title: React.ReactNode
   icon: IconProps["name"]
   children?: React.ReactNode
 }): React.JSX.Element {
@@ -370,7 +392,7 @@ function Card({
         <div className="w-8 h-8 -ml-4 bg-white rounded-full border border-gray-200 flex items-center justify-center shadow-xs shadow-primary-200">
           <Icon name={icon} />
         </div>
-        <h2 className="text-lg font-semibold">{title}</h2>
+        <h2 className="font-semibold">{title}</h2>
       </div>
 
       <div className="p-6">{children}</div>

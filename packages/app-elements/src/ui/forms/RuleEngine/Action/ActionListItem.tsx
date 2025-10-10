@@ -1,7 +1,13 @@
+import { useEffect } from "react"
 import { useTranslation } from "#providers/I18NProvider"
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
-import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
+import {
+  InputSelect,
+  isMultiValueSelected,
+  isSingleValueSelected,
+} from "#ui/forms/InputSelect"
+import { useAvailableGroups } from "../Condition/hooks"
 import type { RuleEngineProps } from "../RuleEngineComponent"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaActionItem } from "../utils"
@@ -18,9 +24,12 @@ export function ActionListItem({
 }): React.ReactNode {
   const {
     setPath,
+    schemaType,
     state: { selectedRuleIndex },
     availableActionTypes,
   } = useRuleEngine()
+
+  const availableGroups = useAvailableGroups()
 
   type Item = NonNullable<typeof item>
   const typeDictionary: Record<Item["type"], string> = {
@@ -32,6 +41,12 @@ export function ActionListItem({
   }
 
   const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
+
+  useEffect(() => {
+    if (availableGroups.length === 0 && (item?.groups ?? []).length > 0) {
+      setPath(`${pathPrefix}.groups`, [])
+    }
+  }, [availableGroups])
 
   return (
     <div className="mb-4 last:mb-0">
@@ -76,6 +91,44 @@ export function ActionListItem({
               />
             </div>
           </div>
+          {/* Groups */}
+          {(availableGroups.length > 0 || (item?.groups ?? []).length > 0) && (
+            <div className="flex items-center justify-between gap-2 p-2">
+              <div className="text-black font-bold text-sm px-2">GROUPS</div>
+              <div className="flex-1">
+                <InputSelect
+                  name={`${pathPrefix}.groups`}
+                  isMulti
+                  value={
+                    item != null
+                      ? item.groups?.map((groups) => ({
+                          label: availableGroups.includes(groups)
+                            ? groups
+                            : `⚠️   ${groups}`,
+                          value: groups,
+                        }))
+                      : undefined
+                  }
+                  initialValues={availableGroups.map((group) => ({
+                    value: group,
+                    label: group,
+                  }))}
+                  onSelect={(selected) => {
+                    if (isMultiValueSelected(selected)) {
+                      setPath(
+                        `${pathPrefix}.groups`,
+                        selected.map((s) => s.value),
+                      )
+
+                      if (schemaType === "order-rules" && selected.length > 0) {
+                        setPath(`${pathPrefix}.selector`, "order.line_items")
+                      }
+                    }
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
         {onDelete != null && (
           <Dropdown
@@ -125,15 +178,9 @@ export function InputActionSelector({
   return (
     <InputSelect
       name={name}
+      isSearchable={false}
       initialValues={initialValues}
-      defaultValue={
-        value != null
-          ? (initialValues.find((c) => c.value === value) ?? {
-              value: value,
-              label: value,
-            })
-          : undefined
-      }
+      value={initialValues.find((c) => c.value === value)}
       onSelect={async (selection) => {
         if (isSingleValueSelected(selection)) {
           setPath(name, selection.value)

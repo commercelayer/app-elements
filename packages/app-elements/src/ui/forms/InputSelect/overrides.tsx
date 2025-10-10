@@ -148,6 +148,20 @@ function MenuList(props: MenuListProps<InputSelectValue>): JSX.Element {
   )
 }
 
+function MenuPortal(props: any): JSX.Element {
+  return (
+    <components.MenuPortal
+      {...props}
+      getStyles={(k, p) => ({
+        ...props.getStyles(k, p),
+        zIndex: 100,
+      })}
+    >
+      {props.children}
+    </components.MenuPortal>
+  )
+}
+
 function Input(props: InputProps<InputSelectValue>): JSX.Element {
   const newProps = {
     ...props,
@@ -166,6 +180,7 @@ const selectComponentOverrides = {
   MultiValueRemove,
   GroupHeading,
   MenuList,
+  MenuPortal,
   Input,
 }
 
