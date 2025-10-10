@@ -33,20 +33,26 @@ export function Condition({
       {children}
       {item != null && (item.conditions ?? []).length > 0 && (
         <>
-          <select
-            onChange={(event) => {
-              setPath(
-                `${pathPrefix}.conditions_logic`,
-                event.currentTarget.value,
-              )
-            }}
-            defaultValue={conditionsLogin}
-            className="pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-hidden appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4"
+          {isNested && (
+            <select
+              onChange={(event) => {
+                setPath(
+                  `${pathPrefix}.conditions_logic`,
+                  event.currentTarget.value,
+                )
+              }}
+              defaultValue={conditionsLogin}
+              className="pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-hidden appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4"
+            >
+              <option value="and">Nested in AND</option>
+              <option value="or">Nested in OR</option>
+            </select>
+          )}
+          <div
+            className={classNames({
+              "border-l border-gray-200 ml-3 pt-3": isNested,
+            })}
           >
-            <option value="and">{isNested ? "Nested in " : ""}AND</option>
-            <option value="or">{isNested ? "Nested in " : ""}OR</option>
-          </select>
-          <div className="border-l border-gray-200 ml-3 pt-3">
             {item?.conditions?.map((condition, conditionIndex, arr) => {
               const isLast = conditionIndex === arr.length - 1
               return (
@@ -54,8 +60,12 @@ export function Condition({
                   key={`${selectedRuleIndex}-${conditionIndex}-${rerenderKey}`}
                   className="flex items-center mb-4 last:mb-0 relative"
                 >
-                  <Connector rounded={isLast} />
-                  <div className="ml-4 w-full">
+                  {isNested && <Connector rounded={isLast} />}
+                  <div
+                    className={classNames("w-full", {
+                      "ml-4": isNested,
+                    })}
+                  >
                     <Condition
                       item={condition?.nested ?? undefined}
                       nestingLevel={

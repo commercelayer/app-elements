@@ -24,6 +24,7 @@ export const CreatableComponent = forwardRef<
         isOptionDisabled={isOptionDisabled}
         options={initialValues}
         onChange={onSelect}
+        createOptionPosition="first"
         closeMenuOnSelect={rest.isMulti !== true}
         noOptionsMessage={() => noOptionsMessage}
         components={components}

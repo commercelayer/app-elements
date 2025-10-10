@@ -48,12 +48,6 @@ export const InputResourceSelector: React.FC<{
 
   const initialValues = uniqBy([...(selectedData ?? []), ...(data ?? [])], "id")
 
-  if (resource === "sku_lists") {
-    console.log("data", data)
-    console.log("selectedData", selectedData)
-    console.log("initialValues", initialValues)
-  }
-
   function getValue(value: ItemWithValue["value"]): InputSelectValue {
     return {
       label:

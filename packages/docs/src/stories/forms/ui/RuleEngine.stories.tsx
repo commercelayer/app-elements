@@ -11,7 +11,7 @@ const setup: Meta<typeof RuleEngine> = {
   },
   decorators: [
     (Story) => (
-      <div style={{ height: "700px" }}>
+      <div style={{ height: "750px" }}>
         <style
           // biome-ignore lint/security/noDangerouslySetInnerHtml: This is a controlled example.
           dangerouslySetInnerHTML={{

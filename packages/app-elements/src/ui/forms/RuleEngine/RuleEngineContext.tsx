@@ -33,10 +33,40 @@ const RuleEngineContext = createContext<RuleEngineContextType | undefined>(
   undefined,
 )
 
+// if (/conditions\.\d\.[\w_]+$/.test(action.path)) {
+//   const parentPath = action.path.replace(/\.[\w_]+$/, "")
+//   const parentValue = get(newValue, parentPath) as Record<
+//     string,
+//     unknown
+//   > | null
+
+//   console.log("parentPath", parentPath, parentValue)
+//   console.log(
+//     `set(newValue, "${parentValue}.group", "${window.crypto.randomUUID()}")`,
+//   )
+
+//   if (parentValue?.group == null) {
+//     set(newValue, `${parentPath}.group`, window.crypto.randomUUID())
+//   }
+// }
+
 function ruleEngineReducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_PATH": {
       const newValue = cloneDeep(state.value)
+
+      // Ensure that if we are setting a field inside an action, the action has a groups array
+      if (/actions\.\d\.[\w_]+$/.test(action.path)) {
+        const parentPath = action.path.replace(/\.[\w_]+$/, "")
+        const parentValue = get(newValue, parentPath) as Record<
+          string,
+          unknown
+        > | null
+
+        if (parentValue?.groups == null) {
+          set(newValue, `${parentPath}.groups`, [])
+        }
+      }
 
       if (action.value === null) {
         if (/\.\d+$/.test(action.path)) {
