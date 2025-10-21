@@ -216,6 +216,7 @@ export {
   type ListDetailsItemProps,
 } from "#ui/composite/ListDetailsItem"
 export { ListItem, type ListItemProps } from "#ui/composite/ListItem"
+export { Modal, type ModalProps } from "#ui/composite/Modal"
 export { PageError, type PageErrorProps } from "#ui/composite/PageError"
 export { PageLayout, type PageLayoutProps } from "#ui/composite/PageLayout"
 export { PageSkeleton } from "#ui/composite/PageSkeleton"

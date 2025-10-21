@@ -43,6 +43,10 @@ export const fetchJsonSchema = async (
   jsonSchema: JSONSchema,
   domain: string,
 ): Promise<JsonValue | undefined> => {
+  if (domain === "localhost") {
+    domain = "commercelayer.io"
+  }
+
   switch (jsonSchema) {
     case "none": {
       break
