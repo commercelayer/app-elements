@@ -102,10 +102,13 @@ export const InputRadioGroup = withSkeletonTemplate<Props>(
             const option = (
               <div>
                 <label
-                  className={cn("flex gap-4 cursor-pointer h-full", {
-                    "rounded-md px-4 py-4": viewMode !== "simple",
-                    "items-center": ["list", "simple"].includes(viewMode),
-                  })}
+                  className={cn(
+                    "flex gap-4 cursor-pointer h-full text-sm leading-5",
+                    {
+                      "rounded-md px-4 py-4": viewMode !== "simple",
+                      "items-center": ["list", "simple"].includes(viewMode),
+                    },
+                  )}
                   data-testid="InputRadioGroup-item"
                 >
                   <input
