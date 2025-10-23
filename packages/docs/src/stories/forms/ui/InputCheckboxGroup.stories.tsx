@@ -44,10 +44,10 @@ Default.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Gray Baby Bib with Black Logo
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             200g
           </Text>
         </div>
@@ -64,10 +64,10 @@ Default.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Black Baseball Hat with White Logo
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             50g
           </Text>
         </div>
@@ -84,10 +84,10 @@ Default.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Black Unisex Lightweight Hoodie
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             150g
           </Text>
         </div>
@@ -129,10 +129,10 @@ WithQuantity.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Gray Baby Bib with Black Logo
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             200g
           </Text>
         </div>
@@ -153,10 +153,10 @@ WithQuantity.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Black Baseball Hat with White Logo
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             50g
           </Text>
         </div>
@@ -177,10 +177,10 @@ WithQuantity.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Black Unisex Lightweight Hoodie
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             150g
           </Text>
         </div>
@@ -194,7 +194,7 @@ WithQuantity.args = {
       value: "TOTEBAGLE7DDC7000000XXXX",
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Large Eco Tote Bag with Black Logo
           </Text>
         </div>
@@ -218,14 +218,14 @@ WithQuantity.args = {
       content: (
         <>
           <div>
-            <Text size="regular" weight="bold">
+            <Text size="small" weight="bold">
               Express Easy
             </Text>
-            <Text size="small" tag="div" variant="info" weight="medium">
+            <Text size="x-small" tag="div" variant="info" weight="medium">
               DHL Express
             </Text>
           </div>
-          <Text size="regular" weight="bold" wrap="nowrap">
+          <Text size="small" weight="bold" wrap="nowrap">
             €37,61
           </Text>
         </>
@@ -262,10 +262,10 @@ WithCheckedElement.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Gray Baby Bib with Black Logo
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             200g
           </Text>
         </div>
@@ -287,10 +287,10 @@ WithCheckedElement.args = {
       ),
       content: (
         <div>
-          <Text size="regular" tag="div" weight="bold">
+          <Text size="small" tag="div" weight="bold">
             Black Baseball Hat with White Logo
           </Text>
-          <Text size="small" tag="div" variant="info">
+          <Text size="x-small" tag="div" variant="info">
             50g
           </Text>
         </div>

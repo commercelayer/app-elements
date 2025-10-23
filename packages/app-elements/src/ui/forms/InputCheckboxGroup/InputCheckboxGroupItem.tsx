@@ -68,7 +68,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
           alignIcon="center"
           borderStyle="none"
           padding="none"
-          className="rounded flex items-center gap-3 p-3"
+          className="rounded flex items-center gap-3 py-1.5 px-2"
           onClick={() => {
             onChange(value)
           }}

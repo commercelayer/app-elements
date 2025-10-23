@@ -79,8 +79,8 @@ function MultiValueLabel(
       GroupBase<InputSelectValue>
     >
   >,
-): string {
-  return props.data.label
+) {
+  return <span className="text-[13px]">{props.data.label}</span>
 }
 
 function MultiValueRemove(props: any): JSX.Element {

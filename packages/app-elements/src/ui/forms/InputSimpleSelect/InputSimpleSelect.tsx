@@ -45,7 +45,7 @@ export const InputSimpleSelect = forwardRef<
         <select
           id={rest.id ?? rest.name}
           value={value}
-          className="appearance-none cursor-pointer border-0 py-0 pl-0 pr-9 font-medium text-gray-500 align-[inherit] focus:outline-hidden focus:ring-0 focus:shadow-none"
+          className="appearance-none cursor-pointer border-0 py-0 pl-0 pr-9 text-sm leading-5 font-medium text-gray-500 align-[inherit] focus:outline-hidden focus:ring-0 focus:shadow-none"
           {...rest}
           ref={ref}
         >

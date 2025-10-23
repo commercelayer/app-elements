@@ -82,7 +82,7 @@ function getSizeCss(size: InteractiveElementProps["size"]): string | undefined {
   const mapping = {
     mini: "px-2.5 py-1",
     small: "px-4 py-2",
-    regular: "px-6 py-3",
+    regular: "px-5 py-[11px]",
     large: "px-8 py-4",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
@@ -99,7 +99,7 @@ function getFontSizeCss(
   const mapping = {
     mini: "text-sm",
     small: "text-sm",
-    regular: "text-base",
+    regular: "text-sm",
     large: "text-base",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 

@@ -27,7 +27,8 @@ export const getSelectStyles = (
         ? "#F8F8F8"
         : "transparent",
     color: isDisabled ? "#BBBEBE" : "rgb(40 41 41)",
-    fontSize: 15,
+    fontSize: 14,
+    lineHeight: "20px",
     fontWeight: isSelected ? 700 : 500,
     cursor: "pointer",
     "&:active": {
@@ -55,15 +56,16 @@ export const getSelectStyles = (
     width: "100%",
     textAlign: "left",
   }),
-  valueContainer: (style) => ({
+  valueContainer: (style, { isMulti }) => ({
     ...style,
-    padding: "0.48rem 1rem",
+    padding: isMulti ? "0.4375rem 1rem" : "0.5rem 1rem",
     gap: "0.5rem",
   }),
   singleValue: (style) => ({
     ...style,
     fontWeight: 500,
-    fontSize: "1rem",
+    fontSize: 14,
+    lineHeight: "20px",
   }),
   multiValue: (style) => ({
     ...style,
@@ -114,7 +116,8 @@ export const getSelectStyles = (
   placeholder: (style) => ({
     ...style,
     margin: 0,
-    fontSize: "1rem",
+    fontSize: 14,
+    lineHeight: "20px",
     fontWeight: 500,
     color: "#686E6E",
   }),
@@ -122,6 +125,8 @@ export const getSelectStyles = (
     ...style,
     margin: 0,
     padding: 0,
+    fontSize: 14,
+    lineHeight: "20px",
     "& > input": {
       boxShadow: "none!important",
     },

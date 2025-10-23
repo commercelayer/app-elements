@@ -71,14 +71,14 @@ Default.args = {
           }
         >
           <div>
-            <Text size="regular" weight="bold">
+            <Text size="small" weight="bold">
               Domestic Express · 48h
             </Text>
-            <Text size="small" tag="div" variant="info" weight="medium">
+            <Text size="x-small" tag="div" variant="info" weight="medium">
               DHL Express
             </Text>
           </div>
-          <Text size="regular" weight="bold" wrap="nowrap">
+          <Text size="small" weight="bold" wrap="nowrap">
             €7,41
           </Text>
         </ListItem>
@@ -103,14 +103,14 @@ Default.args = {
           }
         >
           <div>
-            <Text size="regular" weight="bold">
+            <Text size="small" weight="bold">
               Express Pro · 48h
             </Text>
-            <Text size="small" tag="div" variant="info" weight="medium">
+            <Text size="x-small" tag="div" variant="info" weight="medium">
               Fedex
             </Text>
           </div>
-          <Text size="regular" weight="bold" wrap="nowrap">
+          <Text size="small" weight="bold" wrap="nowrap">
             $12,00
           </Text>
         </ListItem>
@@ -135,14 +135,14 @@ Default.args = {
           }
         >
           <div>
-            <Text size="regular" weight="bold">
+            <Text size="small" weight="bold">
               Domestic Express 1200 · 24h
             </Text>
-            <Text size="small" tag="div" variant="info" weight="medium">
+            <Text size="x-small" tag="div" variant="info" weight="medium">
               DHL Express
             </Text>
           </div>
-          <Text size="regular" weight="bold" wrap="nowrap">
+          <Text size="small" weight="bold" wrap="nowrap">
             €37,61
           </Text>
         </ListItem>
