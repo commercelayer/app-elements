@@ -9,7 +9,7 @@ type TextVariant =
   | "info"
   | "plain"
   | "disabled"
-type TextSize = "small" | "regular" | "large" | "inherit"
+type TextSize = "x-small" | "small" | "regular" | "large" | "inherit"
 type TextWeight = "regular" | "medium" | "semibold" | "bold" | "inherit"
 type TextAlignment = "center" | "left" | "right" | "inherit"
 type TextWrap = "normal" | "nowrap" | "inherit"
@@ -49,6 +49,7 @@ function Text({
     "font-semibold": weight === "semibold",
     "font-bold": weight === "bold",
     // size
+    "text-xs": size === "x-small",
     "text-sm": size === "small",
     "text-base": size === "regular",
     "text-title": size === "large",

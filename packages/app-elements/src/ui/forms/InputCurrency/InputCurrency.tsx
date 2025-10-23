@@ -138,7 +138,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             id={rest.id ?? rest.name}
             className={cn(
               className,
-              "block w-full pr-4 py-2.5 font-medium",
+              "block w-full pr-4 py-3 text-sm leading-5 font-medium",
               {
                 "pl-4": hideCurrencySymbol === true,
                 "pl-12": hideCurrencySymbol !== true,

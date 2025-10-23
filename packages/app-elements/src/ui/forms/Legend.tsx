@@ -19,7 +19,7 @@ export function Legend({
   return (
     <legend
       {...rest}
-      className={cn("block font-semibold leading-6", className, {
+      className={cn("block text-sm font-semibold leading-5", className, {
         "mb-2": gap,
       })}
     >

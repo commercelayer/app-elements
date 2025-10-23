@@ -93,7 +93,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
             ref={ref}
             data-testid="InputSpinner-input"
             className={cn(
-              "py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]!",
+              "py-2 px-0 text-sm leading-5 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]!",
               // reset browser default styles for number input
               "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
               // reset global style of input standard shadow color to remove it

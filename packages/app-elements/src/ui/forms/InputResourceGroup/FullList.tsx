@@ -126,7 +126,7 @@ export function FullList({
   }, [values])
 
   return (
-    <div>
+    <Spacer bottom="4">
       {searchBy != null && (
         <Spacer bottom="8">
           <div className="flex gap-4">
@@ -156,6 +156,7 @@ export function FullList({
       <SkeletonTemplate>
         <ResourceList
           variant="boxed"
+          titleSize="small"
           title={(totalCount) => (
             <Text weight="semibold">
               {computeLabelWithSelected({
@@ -202,7 +203,7 @@ export function FullList({
           }}
         />
       </SkeletonTemplate>
-    </div>
+    </Spacer>
   )
 }
 
