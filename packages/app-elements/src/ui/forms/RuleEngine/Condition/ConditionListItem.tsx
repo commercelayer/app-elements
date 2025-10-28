@@ -96,33 +96,51 @@ export function ConditionListItem({
               <div>
                 <ConditionMatcher item={item} pathPrefix={pathPrefix} />
               </div>
+
+              {/* Condition actions */}
+              <div className="border border-gray-200 rounded self-stretch flex">
+                <button
+                  type="button"
+                  className="w-11 flex self-stretch justify-center items-center"
+                >
+                  <Icon name="caretUp" size={16} />
+                </button>
+                {dropdownItems.length > 0 && (
+                  <Dropdown
+                    className="flex self-stretch border-gray-100 border-l"
+                    dropdownLabel={
+                      <button
+                        type="button"
+                        className="w-11 flex self-stretch justify-center items-center"
+                      >
+                        <Icon
+                          name="dotsThreeVertical"
+                          size={16}
+                          weight="bold"
+                        />
+                      </button>
+                    }
+                    dropdownItems={dropdownItems.map((items, index, arr) => (
+                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                      <React.Fragment key={index}>
+                        {items.map((item, itemIndex) => (
+                          // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                          <React.Fragment key={itemIndex}>
+                            {item}
+                          </React.Fragment>
+                        ))}
+                        {index < arr.length - 1 && <DropdownDivider />}
+                      </React.Fragment>
+                    ))}
+                  />
+                )}
+              </div>
             </div>
-            <ConditionValue item={item} pathPrefix={pathPrefix} />
+            <div className="bg-white rounded-md p-4 shadow-xs flex flex-col gap-2">
+              <ConditionValue item={item} pathPrefix={pathPrefix} />
+            </div>
           </div>
         </div>
-        {dropdownItems.length > 0 && (
-          <Dropdown
-            className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch shrink-0"
-            dropdownLabel={
-              <button
-                type="button"
-                className="flex items-center justify-center self-stretch grow"
-              >
-                <Icon name="dotsThreeVertical" size={16} weight="bold" />
-              </button>
-            }
-            dropdownItems={dropdownItems.map((items, index, arr) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-              <React.Fragment key={index}>
-                {items.map((item, itemIndex) => (
-                  // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                  <React.Fragment key={itemIndex}>{item}</React.Fragment>
-                ))}
-                {index < arr.length - 1 && <DropdownDivider />}
-              </React.Fragment>
-            ))}
-          />
-        )}
       </div>
     </div>
   )

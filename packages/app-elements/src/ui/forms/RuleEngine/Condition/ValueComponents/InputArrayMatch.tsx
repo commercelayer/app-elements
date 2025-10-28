@@ -1,10 +1,10 @@
 import type React from "react"
-import { useEffect, useState } from "react"
-import {
-  InputSelect,
-  isMultiValueSelected,
-  isSingleValueSelected,
-} from "#ui/forms/InputSelect"
+import { useEffect, useMemo, useState } from "react"
+import { Icon } from "#ui/atoms/Icon"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
+import { InputSelect, isMultiValueSelected } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../../RuleEngineContext"
 import type { ItemWithValue } from "../../utils"
 import type { useResourcePathInfos } from "../hooks"
@@ -19,16 +19,16 @@ type ArrayMatcherDictionary = Record<
 
 const arrayMatcherDictionary: ArrayMatcherDictionary = {
   in_and: {
-    label: "all of",
+    label: "All of",
   },
   in_or: {
-    label: "at least one of",
+    label: "At least one of",
   },
   not_in_and: {
-    label: "not any of",
+    label: "Not any of",
   },
   not_in_or: {
-    label: "not at least one of",
+    label: "Not at least one of",
   },
 }
 
@@ -43,15 +43,37 @@ export function InputArrayMatch({
   hasResourceSelector?: boolean
   infos: ReturnType<typeof useResourcePathInfos>["infos"]
 }): React.JSX.Element {
-  if (typeof value !== "object" || Array.isArray(value) || value === null) {
-    value = {
-      in_and: [],
+  const { setPath } = useRuleEngine()
+
+  const firstKey = Object.keys(
+    arrayMatcherDictionary,
+  )[0] as keyof ArrayMatcherDictionary
+
+  const validValue = useMemo(() => {
+    if (typeof value === "object" && value !== null && !Array.isArray(value)) {
+      return value as Extract<ItemWithValue["value"], Record<string, unknown>>
     }
-  }
+
+    return {
+      [firstKey]: [],
+    }
+  }, [value])
+
+  useEffect(() => {
+    if (typeof value !== "object" || Array.isArray(value) || value === null) {
+      setPath(pathPrefix, {
+        [firstKey]: [],
+      })
+    }
+  }, [value])
+
+  const remainingKeys = Object.keys(arrayMatcherDictionary).filter(
+    (key) => !(key in validValue),
+  ) as (keyof ArrayMatcherDictionary)[]
 
   return (
-    <div>
-      {Object.entries(value).map(([operation, operationValue], index) => {
+    <div className="flex flex-col" key={remainingKeys.join("-")}>
+      {Object.entries(validValue).map(([operation, operationValue], index) => {
         return (
           <InputArrayMatchItem
             infos={infos}
@@ -59,6 +81,7 @@ export function InputArrayMatch({
             pathPrefix={pathPrefix}
             defaultValue={operationValue}
             initialMatcher={operation as keyof ArrayMatcherDictionary}
+            remainingKeys={remainingKeys}
             key={`${pathPrefix}.${
               // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
               index
@@ -66,6 +89,32 @@ export function InputArrayMatch({
           />
         )
       })}
+      {remainingKeys.length > 0 && (
+        <Spacer top="4">
+          <Dropdown
+            className="inline-flex"
+            menuPosition="bottom-left"
+            dropdownItems={[
+              remainingKeys.map((key) => (
+                <DropdownItem
+                  onClick={() => {
+                    setPath(`${pathPrefix}.${key}`, [])
+                  }}
+                  label={arrayMatcherDictionary[key].label}
+                  key={key}
+                />
+              )),
+            ]}
+            dropdownLabel={
+              <button type="button">
+                <Text className="flex gap-2 items-center">
+                  <Text weight="bold">Add value</Text> <Icon name="caretDown" />
+                </Text>
+              </button>
+            }
+          />
+        </Spacer>
+      )}
     </div>
   )
 }
@@ -76,56 +125,70 @@ function InputArrayMatchItem({
   pathPrefix,
   hasResourceSelector,
   infos,
+  remainingKeys,
 }: {
   initialMatcher: keyof ArrayMatcherDictionary
   defaultValue: Extract<ItemWithValue["value"], any[]>
   pathPrefix: string
   hasResourceSelector: boolean
   infos: ReturnType<typeof useResourcePathInfos>["infos"]
+  remainingKeys: (keyof ArrayMatcherDictionary)[]
 }): React.JSX.Element {
-  const [prevMatcher, setPrevMatcher] =
-    useState<keyof ArrayMatcherDictionary>(initialMatcher)
-  const [matcher, setMatcher] =
-    useState<keyof ArrayMatcherDictionary>(initialMatcher)
   const [value, setValue] =
     useState<Extract<ItemWithValue["value"], any[]>>(defaultValue)
   const { setPath } = useRuleEngine()
 
-  useEffect(() => {
-    if (prevMatcher !== matcher) {
-      setPath(`${pathPrefix}.${prevMatcher}`, null)
-      setPrevMatcher(matcher)
-    }
-
-    setPath(`${pathPrefix}.${matcher}`, value)
-  }, [matcher, value, setPath])
-
   return (
-    <div className="flex gap-2 mt-2 first-of-type:mt-0">
-      <div className="shrink-0">
-        <InputSelect
-          defaultValue={[
-            { value: matcher, label: arrayMatcherDictionary[matcher].label },
-          ]}
-          initialValues={Object.entries(arrayMatcherDictionary).map(
-            ([value, { label }]) => ({
-              value,
-              label,
-            }),
-          )}
-          onSelect={(selected) => {
-            if (isSingleValueSelected(selected)) {
-              setMatcher(selected.value as keyof ArrayMatcherDictionary)
+    <div className="flex gap-4 mt-2 first-of-type:mt-0 items-center">
+      <div className="basis-[180px]">
+        {
+          <Dropdown
+            className="inline-flex"
+            menuPosition="bottom-left"
+            dropdownItems={[
+              remainingKeys.map((key) => (
+                <DropdownItem
+                  onClick={() => {
+                    setPath(`${pathPrefix}.${key}`, value)
+                    setPath(`${pathPrefix}.${initialMatcher}`, null)
+                  }}
+                  label={arrayMatcherDictionary[key].label}
+                  key={key}
+                />
+              )),
+              <DropdownDivider
+                key="divider"
+                hidden={remainingKeys.length === 0}
+              />,
+              <DropdownItem
+                key="remove"
+                disabled={
+                  remainingKeys.length ===
+                  Object.keys(arrayMatcherDictionary).length - 1
+                }
+                onClick={() => {
+                  setPath(`${pathPrefix}.${initialMatcher}`, null)
+                }}
+                label="Remove"
+              />,
+            ]}
+            dropdownLabel={
+              <button type="button">
+                <Text variant="info" className="flex gap-2 items-center">
+                  {arrayMatcherDictionary[initialMatcher].label}{" "}
+                  <Icon name="caretDown" />
+                </Text>
+              </button>
             }
-          }}
-        />
+          />
+        }
       </div>
       <div className="grow">
         {hasResourceSelector ? (
           <InputResourceSelector
             infos={infos}
             value={value}
-            pathKey={`${pathPrefix}.${matcher}`}
+            pathKey={`${pathPrefix}.${initialMatcher}`}
           />
         ) : (
           <InputSelect

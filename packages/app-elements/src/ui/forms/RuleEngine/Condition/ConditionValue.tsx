@@ -2,6 +2,7 @@ import { isValid, parseISO } from "date-fns"
 import type React from "react"
 import { useEffect, useState } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
+import { Text } from "#ui/atoms/Text"
 import { Input } from "#ui/forms/Input"
 import { InputDate } from "#ui/forms/InputDate"
 import { InputDateRange } from "#ui/forms/InputDateRange"
@@ -75,7 +76,11 @@ export function ConditionValue({
     function resetValueWhenComponentTypeChanges() {
       if (memoMatcher !== item?.matcher) {
         setMemoMatcher(item?.matcher)
-        setPath(pathKey, null)
+        if (item?.matcher === "array_match") {
+          setPath(pathKey, { in_and: [] })
+        } else {
+          setPath(pathKey, null)
+        }
         forceRerender((k) => k + 1)
       }
     },
@@ -86,14 +91,36 @@ export function ConditionValue({
     return null
   }
 
+  const isArrayMatchComponent =
+    componentType === "arrayMatch" ||
+    (componentType === "resourceSelector" && item?.matcher === "array_match")
+
+  if (isArrayMatchComponent) {
+    return (
+      <div key={containerKey}>
+        <ConditionValueComponent
+          item={item}
+          fieldType={fieldType}
+          componentType={componentType}
+          pathKey={pathKey}
+        />
+      </div>
+    )
+  }
+
   return (
-    <div key={containerKey}>
-      <ConditionValueComponent
-        item={item}
-        fieldType={fieldType}
-        componentType={componentType}
-        pathKey={pathKey}
-      />
+    <div key={containerKey} className="flex items-center gap-4">
+      <div className="basis-[180px]">
+        <Text variant="info">Value</Text>
+      </div>
+      <div className="flex-grow">
+        <ConditionValueComponent
+          item={item}
+          fieldType={fieldType}
+          componentType={componentType}
+          pathKey={pathKey}
+        />
+      </div>
     </div>
   )
 }
