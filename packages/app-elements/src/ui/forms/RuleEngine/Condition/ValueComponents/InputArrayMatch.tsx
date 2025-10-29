@@ -1,10 +1,12 @@
 import type React from "react"
 import { useEffect, useMemo, useState } from "react"
+import { Hr } from "#ui/atoms/Hr"
 import { Icon } from "#ui/atoms/Icon"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { InputSelect, isMultiValueSelected } from "#ui/forms/InputSelect"
+import { OptionRow } from "../../Options/OptionRow"
 import { useRuleEngine } from "../../RuleEngineContext"
 import type { ItemWithValue } from "../../utils"
 import type { useResourcePathInfos } from "../hooks"
@@ -113,6 +115,9 @@ export function InputArrayMatch({
               </button>
             }
           />
+          <Spacer top="6" bottom="2">
+            <Hr variant="dashed" />
+          </Spacer>
         </Spacer>
       )}
     </div>
@@ -139,78 +144,75 @@ function InputArrayMatchItem({
   const { setPath } = useRuleEngine()
 
   return (
-    <div className="flex gap-4 mt-2 first-of-type:mt-0 items-center">
-      <div className="basis-[180px]">
-        {
-          <Dropdown
-            className="inline-flex"
-            menuPosition="bottom-left"
-            dropdownItems={[
-              remainingKeys.map((key) => (
-                <DropdownItem
-                  onClick={() => {
-                    setPath(`${pathPrefix}.${key}`, value)
-                    setPath(`${pathPrefix}.${initialMatcher}`, null)
-                  }}
-                  label={arrayMatcherDictionary[key].label}
-                  key={key}
-                />
-              )),
-              <DropdownDivider
-                key="divider"
-                hidden={remainingKeys.length === 0}
-              />,
+    <OptionRow
+      label={
+        <Dropdown
+          className="inline-flex"
+          menuPosition="bottom-left"
+          dropdownItems={[
+            remainingKeys.map((key) => (
               <DropdownItem
-                key="remove"
-                disabled={
-                  remainingKeys.length ===
-                  Object.keys(arrayMatcherDictionary).length - 1
-                }
                 onClick={() => {
+                  setPath(`${pathPrefix}.${key}`, value)
                   setPath(`${pathPrefix}.${initialMatcher}`, null)
                 }}
-                label="Remove"
-              />,
-            ]}
-            dropdownLabel={
-              <button type="button">
-                <Text variant="info" className="flex gap-2 items-center">
-                  {arrayMatcherDictionary[initialMatcher].label}{" "}
-                  <Icon name="caretDown" />
-                </Text>
-              </button>
-            }
-          />
-        }
-      </div>
-      <div className="grow">
-        {hasResourceSelector ? (
-          <InputResourceSelector
-            infos={infos}
-            value={value}
-            pathKey={`${pathPrefix}.${initialMatcher}`}
-          />
-        ) : (
-          <InputSelect
-            isMulti
-            isCreatable
-            defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
-              value: v,
-              label: v.toString(),
-            }))}
-            initialValues={[]}
-            onSelect={(selected) => {
-              if (isMultiValueSelected(selected)) {
-                setValue(
-                  selected.map((s) =>
-                    typeof s.value === "boolean" ? s.value.toString() : s.value,
-                  ),
-                )
+                label={arrayMatcherDictionary[key].label}
+                key={key}
+              />
+            )),
+            <DropdownDivider
+              key="divider"
+              hidden={remainingKeys.length === 0}
+            />,
+            <DropdownItem
+              key="remove"
+              disabled={
+                remainingKeys.length ===
+                Object.keys(arrayMatcherDictionary).length - 1
               }
-            }}
-          />
-        )}
-      </div>
-    </div>
+              onClick={() => {
+                setPath(`${pathPrefix}.${initialMatcher}`, null)
+              }}
+              label="Remove"
+            />,
+          ]}
+          dropdownLabel={
+            <button type="button">
+              <Text variant="info" className="flex gap-2 items-center">
+                {arrayMatcherDictionary[initialMatcher].label}{" "}
+                <Icon name="caretDown" />
+              </Text>
+            </button>
+          }
+        />
+      }
+    >
+      {hasResourceSelector ? (
+        <InputResourceSelector
+          infos={infos}
+          value={value}
+          pathKey={`${pathPrefix}.${initialMatcher}`}
+        />
+      ) : (
+        <InputSelect
+          isMulti
+          isCreatable
+          defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
+            value: v,
+            label: v.toString(),
+          }))}
+          initialValues={[]}
+          onSelect={(selected) => {
+            if (isMultiValueSelected(selected)) {
+              setValue(
+                selected.map((s) =>
+                  typeof s.value === "boolean" ? s.value.toString() : s.value,
+                ),
+              )
+            }
+          }}
+        />
+      )}
+    </OptionRow>
   )
 }

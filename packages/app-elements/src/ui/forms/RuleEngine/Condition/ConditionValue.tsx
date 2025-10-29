@@ -11,6 +11,7 @@ import {
   isMultiValueSelected,
   isSingleValueSelected,
 } from "#ui/forms/InputSelect"
+import { OptionRow } from "../Options/OptionRow"
 import { useRuleEngine } from "../RuleEngineContext"
 import {
   type ConditionMatchersWithoutValue,
@@ -109,19 +110,14 @@ export function ConditionValue({
   }
 
   return (
-    <div key={containerKey} className="flex items-center gap-4">
-      <div className="basis-[180px]">
-        <Text variant="info">Value</Text>
-      </div>
-      <div className="flex-grow">
-        <ConditionValueComponent
-          item={item}
-          fieldType={fieldType}
-          componentType={componentType}
-          pathKey={pathKey}
-        />
-      </div>
-    </div>
+    <OptionRow key={containerKey} label={<Text variant="info">Value</Text>}>
+      <ConditionValueComponent
+        item={item}
+        fieldType={fieldType}
+        componentType={componentType}
+        pathKey={pathKey}
+      />
+    </OptionRow>
   )
 }
 

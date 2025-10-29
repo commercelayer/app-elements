@@ -1,12 +1,11 @@
-import React, { useEffect, useRef, useState } from "react"
-import { Button } from "#ui/atoms/Button"
+import React, { useEffect, useState } from "react"
 import { Icon } from "#ui/atoms/Icon"
-import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
-import { Modal, type ModalProps } from "#ui/composite/Modal"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { InputResourcePath } from "../InputResourcePath"
+import { OptionContainer } from "../Options/OptionContainer"
+import { OptionRow } from "../Options/OptionRow"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
@@ -26,19 +25,11 @@ export function ConditionListItem({
 }): React.JSX.Element {
   const { setPath } = useRuleEngine()
 
-  const [showGroupModal, setShowGroupModal] = useState(false)
+  const [optionVisibility, setOptionVisibility] = useState<boolean>(true)
 
   const dropdownItems: React.ReactNode[][] = []
 
   dropdownItems[0] ??= []
-  dropdownItems[0].push(
-    <DropdownItem
-      label="Set group"
-      onClick={() => {
-        setShowGroupModal(true)
-      }}
-    />,
-  )
 
   if (nestingLevel < 2) {
     dropdownItems[0].push(
@@ -69,17 +60,6 @@ export function ConditionListItem({
 
   return (
     <div>
-      <GroupModal
-        onClose={() => setShowGroupModal(false)}
-        show={showGroupModal}
-        pathPrefix={pathPrefix}
-        item={item}
-      />
-      {item?.group != null && (
-        <div className="text-xs pb-4">
-          Group: <Text weight="bold">{item.group}</Text>
-        </div>
-      )}
       <div className="bg-gray-50 rounded-md flex items-center">
         <div className="flex items-center justify-between gap-2 grow p-2">
           <div className="flex flex-col gap-2 grow">
@@ -101,9 +81,15 @@ export function ConditionListItem({
               <div className="border border-gray-200 rounded self-stretch flex">
                 <button
                   type="button"
+                  onClick={() => {
+                    setOptionVisibility((prev) => !prev)
+                  }}
                   className="w-11 flex self-stretch justify-center items-center"
                 >
-                  <Icon name="caretUp" size={16} />
+                  <Icon
+                    name={optionVisibility ? "caretUp" : "caretDown"}
+                    size={16}
+                  />
                 </button>
                 {dropdownItems.length > 0 && (
                   <Dropdown
@@ -136,9 +122,12 @@ export function ConditionListItem({
                 )}
               </div>
             </div>
-            <div className="bg-white rounded-md p-4 shadow-xs flex flex-col gap-2">
-              <ConditionValue item={item} pathPrefix={pathPrefix} />
-            </div>
+            {optionVisibility && (
+              <OptionContainer>
+                <ConditionValue item={item} pathPrefix={pathPrefix} />
+                <ConditionGroup item={item} pathPrefix={pathPrefix} />
+              </OptionContainer>
+            )}
           </div>
         </div>
       </div>
@@ -146,70 +135,44 @@ export function ConditionListItem({
   )
 }
 
-const GroupModal = ({
-  show,
-  onClose,
-  pathPrefix,
-  item,
-}: Pick<ModalProps, "show" | "onClose"> & {
+const ConditionGroup: React.FC<{
   pathPrefix: string
   item: SchemaConditionItem | null
-}) => {
-  const modal = useRef<HTMLDivElement | null>(null)
+}> = ({ item, pathPrefix }) => {
   const { setPath } = useRuleEngine()
   const availableGroups = useAvailableGroups()
 
   const [group, setGroup] = useState<string | undefined>(item?.group)
 
   useEffect(() => {
-    setGroup(item?.group)
-  }, [item?.group, show])
+    setPath(`${pathPrefix}.group`, group)
+  }, [group])
 
   return (
-    <Modal ref={modal} show={show} onClose={onClose} size="large">
-      <Modal.Header>Set group</Modal.Header>
-      <Modal.Body>
-        <InputSelect
-          name={`${pathPrefix}.group`}
-          isCreatable
-          isClearable
-          menuPortalTarget={modal.current}
-          initialValues={availableGroups.map((group) => ({
-            value: group,
-            label: group,
-          }))}
-          value={
-            group != null
-              ? {
-                  value: group,
-                  label: group,
-                }
-              : undefined
+    <OptionRow label={<Text variant="info">Groups</Text>}>
+      <InputSelect
+        name={`${pathPrefix}.group`}
+        isCreatable
+        isClearable
+        initialValues={availableGroups.map((group) => ({
+          value: group,
+          label: group,
+        }))}
+        value={
+          group != null
+            ? {
+                value: group,
+                label: group,
+              }
+            : undefined
+        }
+        onSelect={(selected) => {
+          if (selected == null || isSingleValueSelected(selected)) {
+            setGroup(selected?.value.toString())
           }
-          onSelect={(selected) => {
-            if (selected == null || isSingleValueSelected(selected)) {
-              setGroup(selected?.value.toString())
-            }
-          }}
-          placeholder="Select or create group…"
-        />
-        <Spacer top="2">
-          <Text size="small" variant="info">
-            Choose an existing group or create a new one. Leave empty to remove.
-          </Text>
-        </Spacer>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button
-          onClick={() => {
-            setPath(`${pathPrefix}.group`, group)
-            onClose()
-          }}
-          fullWidth
-        >
-          Save
-        </Button>
-      </Modal.Footer>
-    </Modal>
+        }}
+        placeholder="Select or create group…"
+      />
+    </OptionRow>
   )
 }
