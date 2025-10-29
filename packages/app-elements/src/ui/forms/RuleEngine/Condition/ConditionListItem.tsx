@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
-import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
+import { DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { InputResourcePath } from "../InputResourcePath"
-import { OptionContainer } from "../Options/OptionContainer"
-import { OptionRow } from "../Options/OptionRow"
+import { ListItemContainer } from "../layout/ListItemContainer"
+import { OptionRow } from "../layout/OptionRow"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
@@ -25,13 +24,10 @@ export function ConditionListItem({
 }): React.JSX.Element {
   const { setPath } = useRuleEngine()
 
-  const [optionVisibility, setOptionVisibility] = useState<boolean>(true)
-
   const dropdownItems: React.ReactNode[][] = []
 
-  dropdownItems[0] ??= []
-
   if (nestingLevel < 2) {
+    dropdownItems[0] ??= []
     dropdownItems[0].push(
       <DropdownItem
         label="Nest conditions"
@@ -60,77 +56,34 @@ export function ConditionListItem({
 
   return (
     <div>
-      <div className="bg-gray-50 rounded-md flex items-center">
-        <div className="flex items-center justify-between gap-2 grow p-2">
-          <div className="flex flex-col gap-2 grow">
-            <div className="flex items-center justify-between gap-2">
-              {/* Condition target */}
-              <div className="flex-1">
-                <InputResourcePath
-                  value={item?.field}
-                  name={`${pathPrefix}.field`}
-                />
-              </div>
-
-              {/* Condition matcher */}
-              <div>
-                <ConditionMatcher item={item} pathPrefix={pathPrefix} />
-              </div>
-
-              {/* Condition actions */}
-              <div className="border border-gray-200 rounded self-stretch flex">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setOptionVisibility((prev) => !prev)
-                  }}
-                  className="w-11 flex self-stretch justify-center items-center"
-                >
-                  <Icon
-                    name={optionVisibility ? "caretUp" : "caretDown"}
-                    size={16}
-                  />
-                </button>
-                {dropdownItems.length > 0 && (
-                  <Dropdown
-                    className="flex self-stretch border-gray-100 border-l"
-                    dropdownLabel={
-                      <button
-                        type="button"
-                        className="w-11 flex self-stretch justify-center items-center"
-                      >
-                        <Icon
-                          name="dotsThreeVertical"
-                          size={16}
-                          weight="bold"
-                        />
-                      </button>
-                    }
-                    dropdownItems={dropdownItems.map((items, index, arr) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                      <React.Fragment key={index}>
-                        {items.map((item, itemIndex) => (
-                          // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                          <React.Fragment key={itemIndex}>
-                            {item}
-                          </React.Fragment>
-                        ))}
-                        {index < arr.length - 1 && <DropdownDivider />}
-                      </React.Fragment>
-                    ))}
-                  />
-                )}
-              </div>
-            </div>
-            {optionVisibility && (
-              <OptionContainer>
-                <ConditionValue item={item} pathPrefix={pathPrefix} />
-                <ConditionGroup item={item} pathPrefix={pathPrefix} />
-              </OptionContainer>
-            )}
-          </div>
+      <ListItemContainer
+        dropdownItems={dropdownItems.map((items, index, arr) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+          <React.Fragment key={index}>
+            {items.map((item, itemIndex) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+              <React.Fragment key={itemIndex}>{item}</React.Fragment>
+            ))}
+            {index < arr.length - 1 && <DropdownDivider />}
+          </React.Fragment>
+        ))}
+        options={
+          <>
+            <ConditionValue item={item} pathPrefix={pathPrefix} />
+            <ConditionGroup item={item} pathPrefix={pathPrefix} />
+          </>
+        }
+      >
+        {/* Condition target */}
+        <div className="flex-1">
+          <InputResourcePath value={item?.field} name={`${pathPrefix}.field`} />
         </div>
-      </div>
+
+        {/* Condition matcher */}
+        <div>
+          <ConditionMatcher item={item} pathPrefix={pathPrefix} />
+        </div>
+      </ListItemContainer>
     </div>
   )
 }
