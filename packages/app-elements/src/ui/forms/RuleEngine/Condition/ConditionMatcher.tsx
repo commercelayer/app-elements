@@ -50,6 +50,7 @@ export function ConditionMatcher({
 
   return (
     <InputSelect
+      className="min-w-[175px]"
       name={`${pathPrefix}.matcher`}
       value={
         item != null

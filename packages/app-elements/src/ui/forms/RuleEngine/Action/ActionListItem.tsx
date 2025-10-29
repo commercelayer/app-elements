@@ -1,6 +1,6 @@
 import { useEffect } from "react"
-import { Text } from "src/main"
 import { useTranslation } from "#providers/I18NProvider"
+import { Text } from "#ui/atoms/Text"
 import { DropdownItem } from "#ui/composite/Dropdown"
 import {
   InputSelect,
@@ -66,7 +66,13 @@ export function ActionListItem({
         }
         options={
           <>
-            <OptionRow label={<Text variant="info">Apply to</Text>}>
+            <OptionRow
+              label={
+                <Text variant="info" size="small">
+                  Apply to
+                </Text>
+              }
+            >
               <InputActionSelector
                 value={item?.selector}
                 name={`${pathPrefix}.selector`}
@@ -75,7 +81,13 @@ export function ActionListItem({
 
             {(availableGroups.length > 0 ||
               (item?.groups ?? []).length > 0) && (
-              <OptionRow label={<Text variant="info">Groups</Text>}>
+              <OptionRow
+                label={
+                  <Text variant="info" size="small">
+                    Groups
+                  </Text>
+                }
+              >
                 <InputSelect
                   name={`${pathPrefix}.groups`}
                   isMulti

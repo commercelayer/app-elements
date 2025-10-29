@@ -110,7 +110,14 @@ export function ConditionValue({
   }
 
   return (
-    <OptionRow key={containerKey} label={<Text variant="info">Value</Text>}>
+    <OptionRow
+      key={containerKey}
+      label={
+        <Text variant="info" size="small">
+          Value
+        </Text>
+      }
+    >
       <ConditionValueComponent
         item={item}
         fieldType={fieldType}

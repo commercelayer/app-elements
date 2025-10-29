@@ -1,6 +1,7 @@
 import type React from "react"
 import { useState } from "react"
-import { Dropdown, Icon } from "src/main"
+import { Icon } from "#ui/atoms/Icon"
+import { Dropdown } from "#ui/composite/Dropdown"
 import { OptionContainer } from "./OptionContainer"
 
 export const ListItemContainer: React.FC<{

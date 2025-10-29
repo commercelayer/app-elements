@@ -110,7 +110,10 @@ export function InputArrayMatch({
             dropdownLabel={
               <button type="button">
                 <Text className="flex gap-2 items-center">
-                  <Text weight="bold">Add value</Text> <Icon name="caretDown" />
+                  <Text weight="bold" size="small">
+                    Add value
+                  </Text>{" "}
+                  <Icon name="caretDown" />
                 </Text>
               </button>
             }
@@ -178,7 +181,11 @@ function InputArrayMatchItem({
           ]}
           dropdownLabel={
             <button type="button">
-              <Text variant="info" className="flex gap-2 items-center">
+              <Text
+                variant="info"
+                size="small"
+                className="flex gap-2 items-center"
+              >
                 {arrayMatcherDictionary[initialMatcher].label}{" "}
                 <Icon name="caretDown" />
               </Text>
@@ -197,6 +204,7 @@ function InputArrayMatchItem({
         <InputSelect
           isMulti
           isCreatable
+          placeholder="Enter value"
           defaultValue={(Array.isArray(value) ? value : []).map((v) => ({
             value: v,
             label: v.toString(),

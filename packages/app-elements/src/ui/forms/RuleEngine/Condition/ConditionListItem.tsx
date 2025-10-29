@@ -102,7 +102,13 @@ const ConditionGroup: React.FC<{
   }, [group])
 
   return (
-    <OptionRow label={<Text variant="info">Groups</Text>}>
+    <OptionRow
+      label={
+        <Text variant="info" size="small">
+          Groups
+        </Text>
+      }
+    >
       <InputSelect
         name={`${pathPrefix}.group`}
         isCreatable
