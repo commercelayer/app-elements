@@ -130,8 +130,8 @@
   --color-pink: #fe84ba;
 
   --font-*: initial;
-  --font-sans: Manrope, ui-sans-serif, sans-serif;
-  --font-mono: Roboto Mono, ui-monospace, Menlo, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: "Roboto Mono", system-ui;
 
   --text-*: initial;
   --text-2xs: 0.688rem;
