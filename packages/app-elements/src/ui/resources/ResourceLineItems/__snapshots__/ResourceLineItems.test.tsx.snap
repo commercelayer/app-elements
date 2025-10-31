@@ -118,7 +118,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 text-sm leading-5 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
@@ -556,7 +556,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 text-sm leading-5 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
@@ -1230,7 +1230,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 text-sm leading-5 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="2"
@@ -1489,7 +1489,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                         </svg>
                       </button>
                       <input
-                        class="py-2 px-0 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
+                        class="py-2 px-0 text-sm leading-5 font-bold border-none min-w-0 text-center focus:ring-0 focus:rounded [box-shadow:none]! [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none shadow-transparent"
                         data-testid="InputSpinner-input"
                         type="number"
                         value="1"

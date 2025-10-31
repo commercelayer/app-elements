@@ -44,7 +44,7 @@ describe("Button", () => {
 
   it("Should render as size regular (default)", () => {
     const { getByRole } = render(<Button>click me</Button>)
-    expect(getByRole("button").className).toContain("px-6 py-3")
+    expect(getByRole("button").className).toContain("px-5 py-[11px]")
   })
 
   it("Should render as size large", () => {

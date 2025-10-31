@@ -83,14 +83,14 @@ WithListItem.args = {
   children: (
     <ListItem alignItems="top" borderStyle="none" padding="none">
       <div>
-        <Text size="regular" weight="bold">
+        <Text size="small" weight="bold">
           Express Easy
         </Text>
-        <Text size="small" tag="div" variant="info" weight="medium">
+        <Text size="x-small" tag="div" variant="info" weight="medium">
           DHL Express
         </Text>
       </div>
-      <Text size="regular" weight="bold">
+      <Text size="small" weight="bold">
         €37,61
       </Text>
     </ListItem>

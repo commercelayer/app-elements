@@ -134,7 +134,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 }
                 hideIconOnDesktop
                 isLoading={isLoading}
-                content={<Text weight="semibold">{item.label}</Text>}
+                content={<Text weight="medium">{item.label}</Text>}
                 value={item.value}
               />
             )
@@ -151,7 +151,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
             >
               <Text
                 variant="primary"
-                weight="bold"
+                weight="semibold"
                 size="small"
                 className="underline"
               >

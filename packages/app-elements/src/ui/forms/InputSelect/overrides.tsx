@@ -79,13 +79,16 @@ function MultiValueLabel(
       GroupBase<InputSelectValue>
     >
   >,
-): string {
-  return props.data.label
+) {
+  return <span className="text-[13px]">{props.data.label}</span>
 }
 
 function MultiValueRemove(props: any): JSX.Element {
   return (
-    <button {...props.innerProps} className="cursor-pointer -mr-2 rounded">
+    <button
+      {...props.innerProps}
+      className="cursor-pointer rounded text-gray-400"
+    >
       <XIcon weight="bold" />
     </button>
   )

@@ -63,7 +63,7 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-6 py-3")
+    expect(getByRole("link").className).toContain("px-5 py-[11px]")
   })
 
   it("Should render as size large", () => {

@@ -29,7 +29,7 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
         "flex gap-2 items-center select-none",
         "wrap-anywhere",
         "text-black text-sm",
-        "px-4 py-1",
+        "px-2 py-1",
         "rounded border border-solid border-gray-200",
         "bg-gray-50",
         {
