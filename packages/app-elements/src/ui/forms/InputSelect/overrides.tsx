@@ -85,7 +85,10 @@ function MultiValueLabel(
 
 function MultiValueRemove(props: any): JSX.Element {
   return (
-    <button {...props.innerProps} className="cursor-pointer -mr-2 rounded">
+    <button
+      {...props.innerProps}
+      className="cursor-pointer rounded text-gray-400"
+    >
       <XIcon weight="bold" />
     </button>
   )

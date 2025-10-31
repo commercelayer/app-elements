@@ -158,7 +158,7 @@ export function FullList({
           variant="boxed"
           titleSize="small"
           title={(totalCount) => (
-            <Text weight="semibold">
+            <Text weight="semibold" size="small" className="block -mb-2">
               {computeLabelWithSelected({
                 label: title,
                 selectedCount: hideSelected
@@ -196,7 +196,7 @@ export function FullList({
                   ) : undefined
                 }
                 hideIconOnDesktop
-                content={<Text weight="semibold">{item.label}</Text>}
+                content={<Text weight="medium">{item.label}</Text>}
                 value={item.value}
               />
             )
