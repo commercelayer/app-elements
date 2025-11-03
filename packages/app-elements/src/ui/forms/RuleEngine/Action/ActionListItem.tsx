@@ -1,13 +1,15 @@
 import { useEffect } from "react"
 import { useTranslation } from "#providers/I18NProvider"
-import { Icon } from "#ui/atoms/Icon"
-import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
+import { Text } from "#ui/atoms/Text"
+import { DropdownItem } from "#ui/composite/Dropdown"
 import {
   InputSelect,
   isMultiValueSelected,
   isSingleValueSelected,
 } from "#ui/forms/InputSelect"
 import { useAvailableGroups } from "../Condition/hooks"
+import { ListItemContainer } from "../layout/ListItemContainer"
+import { OptionRow } from "../layout/OptionRow"
 import type { RuleEngineProps } from "../RuleEngineComponent"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaActionItem } from "../utils"
@@ -50,52 +52,42 @@ export function ActionListItem({
 
   return (
     <div className="mb-4 last:mb-0">
-      <div className="bg-gray-50 rounded-md flex items-center">
-        <div className="flex flex-col grow">
-          <div className="flex items-center justify-between gap-2 p-2">
-            {/* Action type */}
-            <div className="flex-1">
-              <InputSelect
-                name={`${pathPrefix}.type`}
-                defaultValue={
-                  item != null
-                    ? {
-                        label: typeDictionary[item.type],
-                        value: item.type,
-                      }
-                    : undefined
-                }
-                initialValues={availableActionTypes.map((type) => ({
-                  value: type,
-                  label: typeDictionary[type],
-                }))}
-                onSelect={(selected) => {
-                  if (isSingleValueSelected(selected)) {
-                    setPath(`${pathPrefix}.type`, selected.value)
-                  }
-                }}
-              />
-            </div>
-
-            {/* Action value */}
-            <ActionValue item={item} pathPrefix={pathPrefix} />
-
-            {/* ON */}
-            <div className="text-black font-bold text-sm">ON</div>
-
-            {/* Action target */}
-            <div className="flex-1">
+      <ListItemContainer
+        dropdownItems={
+          onDelete != null ? (
+            <DropdownItem
+              label="Delete"
+              onClick={() => {
+                setPath(`${pathPrefix}`, null)
+                onDelete()
+              }}
+            />
+          ) : undefined
+        }
+        options={
+          <>
+            <OptionRow
+              label={
+                <Text variant="info" size="small">
+                  Apply to
+                </Text>
+              }
+            >
               <InputActionSelector
                 value={item?.selector}
                 name={`${pathPrefix}.selector`}
               />
-            </div>
-          </div>
-          {/* Groups */}
-          {(availableGroups.length > 0 || (item?.groups ?? []).length > 0) && (
-            <div className="flex items-center justify-between gap-2 p-2">
-              <div className="text-black font-bold text-sm px-2">GROUPS</div>
-              <div className="flex-1">
+            </OptionRow>
+
+            {(availableGroups.length > 0 ||
+              (item?.groups ?? []).length > 0) && (
+              <OptionRow
+                label={
+                  <Text variant="info" size="small">
+                    Groups
+                  </Text>
+                }
+              >
                 <InputSelect
                   name={`${pathPrefix}.groups`}
                   isMulti
@@ -126,33 +118,38 @@ export function ActionListItem({
                     }
                   }}
                 />
-              </div>
-            </div>
-          )}
-        </div>
-        {onDelete != null && (
-          <Dropdown
-            className="w-8 border-l border-gray-100 flex items-center justify-center self-stretch"
-            dropdownLabel={
-              <button
-                type="button"
-                className="flex items-center justify-center self-stretch grow"
-              >
-                <Icon name="dotsThreeVertical" size={16} weight="bold" />
-              </button>
+              </OptionRow>
+            )}
+          </>
+        }
+      >
+        {/* Action type */}
+        <div className="flex-1">
+          <InputSelect
+            name={`${pathPrefix}.type`}
+            defaultValue={
+              item != null
+                ? {
+                    label: typeDictionary[item.type],
+                    value: item.type,
+                  }
+                : undefined
             }
-            dropdownItems={
-              <DropdownItem
-                label="Delete"
-                onClick={() => {
-                  setPath(`${pathPrefix}`, null)
-                  onDelete()
-                }}
-              />
-            }
+            initialValues={availableActionTypes.map((type) => ({
+              value: type,
+              label: typeDictionary[type],
+            }))}
+            onSelect={(selected) => {
+              if (isSingleValueSelected(selected)) {
+                setPath(`${pathPrefix}.type`, selected.value)
+              }
+            }}
           />
-        )}
-      </div>
+        </div>
+
+        {/* Action value */}
+        <ActionValue item={item} pathPrefix={pathPrefix} />
+      </ListItemContainer>
     </div>
   )
 }
