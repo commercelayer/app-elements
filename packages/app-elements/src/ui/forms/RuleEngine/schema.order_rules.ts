@@ -126,6 +126,10 @@ export type Identifier = string
  */
 export type Groups = string[]
 /**
+ * If true, rounds the discount, only available on percentage actions.
+ */
+export type Round = boolean
+/**
  * If provided, applies the action to a specific attribute instead of the default one.
  */
 export type ApplyOn = string
@@ -191,6 +195,7 @@ export interface RulesForOrderContext {
            * Percentage to be discounted,
            */
           value: number
+          round?: Round
           apply_on?: ApplyOn
           bundle?: Bundle
         }
@@ -207,6 +212,7 @@ export interface RulesForOrderContext {
            * Percentage to be discounted,
            */
           value: number
+          round?: Round
           apply_on?: ApplyOn
           limit?: Limit
         }

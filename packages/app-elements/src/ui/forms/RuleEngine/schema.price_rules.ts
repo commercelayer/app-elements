@@ -126,6 +126,10 @@ export type Identifier = string
  */
 export type Groups = string[]
 /**
+ * If true, rounds the discount, only available on percentage actions.
+ */
+export type Round = boolean
+/**
  * If provided, applies the action to a specific attribute instead of the default one.
  */
 export type ApplyOn = string
@@ -164,9 +168,10 @@ export interface RulesForPriceContext {
      * Identifier of the rule, recommended to use UUID.
      */
     id?: string
-    name: {
-      [k: string]: unknown
-    }
+    /**
+     * Name of the rule
+     */
+    name: string
     /**
      * The priority order of the rule evaluation.
      */
@@ -190,6 +195,7 @@ export interface RulesForPriceContext {
            * Percentage to be discounted,
            */
           value: number
+          round?: Round
           apply_on?: ApplyOn
           bundle?: Bundle
         }
@@ -206,6 +212,7 @@ export interface RulesForPriceContext {
            * Percentage to be discounted,
            */
           value: number
+          round?: Round
           apply_on?: ApplyOn
           limit?: Limit
         }
@@ -227,7 +234,7 @@ export interface RulesForPriceContext {
           /**
            * The type of distribution of the discount over the items.
            */
-          discount_mode?: ["distributed", "default"]
+          discount_mode?: "distributed" | "default"
         }
       | {
           /**
@@ -247,7 +254,7 @@ export interface RulesForPriceContext {
           /**
            * The type of distribution of the discount over the items.
            */
-          discount_mode?: ["distributed", "default"]
+          discount_mode?: "distributed" | "default"
         }
       | {
           /**
