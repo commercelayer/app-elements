@@ -297,7 +297,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                 <Card
                   title={
                     <div>
-                      If{" "}
+                      When{" "}
                       <select
                         onChange={(event) => {
                           setPath(
@@ -306,10 +306,13 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                           )
                         }}
                         value={selectedRule?.conditions_logic ?? "all"}
-                        className="font-bold py-1 pl-2 pr-6 bg-position-[right_center] focus:ring-0 focus:outline-hidden appearance-none border-0 rounded-md leading-4 ml-1 mr-1.5"
+                        className={classNames(
+                          "pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-hidden appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4",
+                          "ml-1 mr-1.5",
+                        )}
                       >
-                        <option value="and">all</option>
-                        <option value="or">any</option>
+                        <option value="and">All</option>
+                        <option value="or">Any</option>
                       </select>
                       conditions occur
                     </div>
