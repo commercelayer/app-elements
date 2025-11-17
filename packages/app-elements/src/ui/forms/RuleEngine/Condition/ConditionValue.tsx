@@ -47,6 +47,9 @@ export function ConditionValue({
   const [memoMatcher, setMemoMatcher] = useState<
     SchemaConditionItem["matcher"] | undefined
   >(item?.matcher)
+  const [memoField, setMemoField] = useState<
+    SchemaConditionItem["field"] | undefined
+  >(item?.field)
 
   const hasNoValue =
     item == null ||
@@ -84,8 +87,14 @@ export function ConditionValue({
         }
         forceRerender((k) => k + 1)
       }
+
+      if (memoField !== item?.field) {
+        setMemoField(item?.field)
+        setPath(pathKey, null)
+        forceRerender((k) => k + 1)
+      }
     },
-    [componentType],
+    [componentType, item],
   )
 
   if (hasNoValue) {

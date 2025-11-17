@@ -203,6 +203,15 @@ function InputArrayMatchItem({
           infos={infos}
           value={value}
           pathKey={`${pathPrefix}.${initialMatcher}`}
+          onSelect={(selected) => {
+            if (isMultiValueSelected(selected)) {
+              setValue(
+                selected.map((s) =>
+                  typeof s.value === "boolean" ? s.value.toString() : s.value,
+                ),
+              )
+            }
+          }}
         />
       ) : (
         <InputSelect

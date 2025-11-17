@@ -7,6 +7,7 @@ import {
   type InputSelectValue,
   isMultiValueSelected,
   isSingleValueSelected,
+  type PossibleSelectValue,
 } from "#ui/forms/InputSelect"
 import { useRuleEngine } from "../../RuleEngineContext"
 import type { ItemWithValue } from "../../utils"
@@ -16,7 +17,8 @@ export const InputResourceSelector: React.FC<{
   value?: ItemWithValue["value"]
   pathKey: string
   infos: ReturnType<typeof useResourcePathInfos>["infos"]
-}> = ({ value, pathKey, infos }) => {
+  onSelect?: (selected: PossibleSelectValue) => void
+}> = ({ value, pathKey, infos, onSelect }) => {
   const { sdkClient } = useCoreSdkProvider()
 
   const { setPath } = useRuleEngine()
@@ -52,7 +54,7 @@ export const InputResourceSelector: React.FC<{
     return {
       label:
         initialValues?.find((item) => item.id === value.toString())?.name ??
-        value.toString(),
+        `⚠️ ${value.toString()}`,
       value: value.toString(),
     }
   }
@@ -82,6 +84,7 @@ export const InputResourceSelector: React.FC<{
         return toInputSelectValues(items, key)
       }}
       onSelect={(selected) => {
+        onSelect?.(selected)
         if (isMultiValueSelected(selected)) {
           setPath(
             pathKey,
