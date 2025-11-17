@@ -146,6 +146,10 @@ function InputArrayMatchItem({
     useState<Extract<ItemWithValue["value"], any[]>>(defaultValue)
   const { setPath } = useRuleEngine()
 
+  useEffect(() => {
+    setPath(`${pathPrefix}.${initialMatcher}`, value)
+  }, [value])
+
   return (
     <OptionRow
       label={
