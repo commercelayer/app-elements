@@ -9,10 +9,10 @@ import { useCoreApi } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
+import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 
 interface MetadataOverlay
@@ -58,11 +58,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
           ],
     )
 
-    const isUpdatable =
-      Object.entries(resourceData?.metadata ?? []).filter(([, metadataValue]) =>
-        isUpdatableType(metadataValue),
-      ).length > 0
-
     if (isLoading) {
       return null
     }
@@ -71,6 +66,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       <div>
         <Section
           title="Metadata"
+          border="none"
           actionButton={
             <div className="flex items-center gap-2">
               <Button
@@ -101,34 +97,37 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </div>
           }
         >
-          {isUpdatable ? (
-            Object.entries(resourceData?.metadata ?? []).map(
+          <Card gap="6" overflow="visible" backgroundColor="light">
+            {Object.entries(resourceData?.metadata ?? []).map(
               ([metadataKey, metadataValue], idx) => {
-                if (!isUpdatableType(metadataValue)) return null
-
                 return (
                   <div
                     // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
                     key={idx}
-                    className="grid grid-cols-2 py-4 border-b border-gray-100"
+                    className="flex w-full px-1"
                     data-testid={`ResourceMetadata-item-${metadataKey}`}
                   >
-                    <Text variant="info">{metadataKey}</Text>
                     <Text
-                      weight="semibold"
+                      size="small"
+                      variant="info"
+                      className="font-mono mr-2"
+                    >
+                      {metadataKey}:
+                    </Text>
+                    <Text
+                      size="small"
+                      className="font-mono"
                       data-testid={`ResourceMetadata-value-${metadataKey}`}
                     >
-                      {metadataValue.toString()}
+                      {isUpdatableType(metadataValue)
+                        ? metadataValue.toString()
+                        : "[...]"}
                     </Text>
                   </div>
                 )
               },
-            )
-          ) : (
-            <Spacer top="4">
-              <Text variant="info">{t("common.no_metadata")}.</Text>
-            </Spacer>
-          )}
+            )}
+          </Card>
         </Section>
         <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
         <EditMetadataOverlay

@@ -33,11 +33,13 @@ describe("ResourceMetadata", () => {
     ).toContain("Doe")
   })
 
-  it("should not render  of object entries with non string values", async () => {
+  it("should render in a different way object entries with non string values", async () => {
     const { queryByTestId } = await setup()
-
     expect(
       queryByTestId("ResourceMetadata-item-gdpr_preferences"),
-    ).not.toBeInTheDocument()
+    ).toBeVisible()
+    expect(
+      queryByTestId("ResourceMetadata-value-gdpr_preferences")?.innerHTML,
+    ).toContain("[...]")
   })
 })
