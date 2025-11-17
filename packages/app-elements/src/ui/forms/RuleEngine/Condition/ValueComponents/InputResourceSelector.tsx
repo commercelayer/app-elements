@@ -61,7 +61,7 @@ export const InputResourceSelector: React.FC<{
 
   return (
     <InputSelect
-      key={`${infos?.matcherInfos?.isMulti?.toString()}-${isLoading}-${isLoadingSelectedData}`}
+      key={`${infos?.matcherInfos?.isMulti?.toString()}-${JSON.stringify(initialValues)}`}
       placeholder="Search..."
       isClearable={false}
       isMulti={infos?.matcherInfos?.isMulti}
