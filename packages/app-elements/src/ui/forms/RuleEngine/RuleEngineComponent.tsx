@@ -150,6 +150,8 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
     setPath,
   } = useRuleEngine()
 
+  const [editorOnFocus, setEditorOnFocus] = useState(false)
+
   const [editorVisible, setEditorVisible] = useState(
     props.defaultCodeEditorVisible ?? false,
   )
@@ -159,11 +161,13 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
 
   useEffect(
     function updateCodeEditor() {
-      if (!isEqual(parseValue(codeEditorRef.current?.getValue()), value)) {
+      if (
+        !editorOnFocus &&
+        !isEqual(parseValue(codeEditorRef.current?.getValue()), value)
+      ) {
         codeEditorRef.current?.setValue(JSON.stringify(value, null, 2))
+        props.onChange?.(value)
       }
-
-      props.onChange?.(value)
     },
     [value],
   )
@@ -173,15 +177,16 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
       const newValue = parseValue(newValueAsString)
 
       if (
-        codeEditorRef.current?.hasTextFocus() &&
+        editorOnFocus &&
         isParsable(newValueAsString) &&
         !isEqual(newValue, value)
       ) {
         setValue(newValue)
         setForcedRender((prev) => prev + 1)
+        props.onChange?.(newValue)
       }
     },
-    [value],
+    [value, editorOnFocus],
   )
 
   return (
@@ -359,6 +364,12 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               jsonSchema={props.schemaType}
               defaultValue={JSON.stringify(value, null, 2)}
               noRounding
+              onFocus={() => {
+                setEditorOnFocus(true)
+              }}
+              onBlur={() => {
+                setEditorOnFocus(false)
+              }}
               onChange={handleCodeEditorChange}
             />
           </div>

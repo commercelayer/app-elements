@@ -27,7 +27,7 @@ export const InputResourceSelector: React.FC<{
 
   const resource = getResourceType(infos?.resource?.id)
 
-  const { data, isLoading } = useCoreApi(
+  const { data } = useCoreApi(
     resource,
     "list",
     infos?.resource?.id == null ? null : [getParams({ value: "" })],
@@ -54,14 +54,14 @@ export const InputResourceSelector: React.FC<{
     return {
       label:
         initialValues?.find((item) => item.id === value.toString())?.name ??
-        `⚠️ ${value.toString()}`,
+        `${isLoadingSelectedData ? "" : "⚠️ "}${value.toString()}`,
       value: value.toString(),
     }
   }
 
   return (
     <InputSelect
-      key={`${infos?.matcherInfos?.isMulti?.toString()}-${JSON.stringify(initialValues)}`}
+      key={`${infos?.matcherInfos?.isMulti?.toString()}-${isLoadingSelectedData}-${JSON.stringify(initialValues)}`}
       placeholder="Search..."
       isClearable={false}
       isMulti={infos?.matcherInfos?.isMulti}
