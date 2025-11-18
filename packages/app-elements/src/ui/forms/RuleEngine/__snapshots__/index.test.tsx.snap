@@ -24,7 +24,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
                 class="min-h-[49px] flex items-center"
               >
                 <button
-                  class="mx-4 rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-5 py-[11px] p-1! text-sm button font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
+                  class="mx-4 font-medium rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-6 py-3 p-1! text-base button bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
                 >
                   <svg
                     class="shrink-0"
@@ -45,7 +45,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
               class="grow flex justify-end"
             >
               <button
-                class="rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-5 py-[11px] p-1! text-sm button font-semibold bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
+                class="font-medium rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-6 py-3 p-1! text-base button bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
               >
                 <svg
                   fill="currentColor"

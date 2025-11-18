@@ -41,7 +41,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </svg>
                    
                   <span
-                    class="font-semibold wrap-anywhere"
+                    class="font-medium text-sm wrap-anywhere"
                   >
                     <span
                       class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
@@ -109,10 +109,10 @@ exports[`PageSkeleton > Should be rendered 1`] = `
               aria-label="Loading"
             >
               <header
-                class="border-b pb-4 flex justify-between items-center border-transparent"
+                class="font-semibold border-b pb-4 flex justify-between items-center border-transparent"
               >
                 <h2
-                  class="text-lg font-semibold"
+                  class="text-lg"
                 >
                   <span
                     class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
