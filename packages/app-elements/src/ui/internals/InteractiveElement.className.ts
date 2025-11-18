@@ -114,8 +114,7 @@ function getVariantCss(
   }
 
   const mapping = {
-    primary:
-      "bg-black border border-black text-white hover:opacity-80",
+    primary: "bg-black border border-black text-white hover:opacity-80",
     secondary:
       "bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50",
     circle:

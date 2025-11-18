@@ -1,27 +1,27 @@
-import { CheckIcon, CopyIcon } from "@phosphor-icons/react";
-import cn from "classnames";
-import isEmpty from "lodash-es/isEmpty";
-import { useCallback, useEffect, useState } from "react";
-import invariant from "ts-invariant";
-import { Text } from "#ui/atoms/Text";
+import { CheckIcon, CopyIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import isEmpty from "lodash-es/isEmpty"
+import { useCallback, useEffect, useState } from "react"
+import invariant from "ts-invariant"
+import { Text } from "#ui/atoms/Text"
 
 export interface CopyToClipboardProps {
   /**
    * text to display that will be copied on button click
    */
-  value?: string;
+  value?: string
   /**
    * css classes
    */
-  className?: string;
+  className?: string
   /**
    * conditional prop to show a preview string containing the defined value before the copy button
    */
-  showValue?: boolean;
+  showValue?: boolean
 }
 
-const transitionMs = 300;
-const feedbackDurationMs = 3000;
+const transitionMs = 300
+const feedbackDurationMs = 3000
 
 /** CopyToClipboard can copy a provided value to the clipboard. You can use the `showValue` prop to decide whether to render or not the provided value. */
 export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
@@ -30,40 +30,40 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   showValue = true,
   ...rest
 }) => {
-  const [copied, setCopied] = useState<boolean>(false);
+  const [copied, setCopied] = useState<boolean>(false)
 
   invariant(
     feedbackDurationMs > transitionMs,
-    "feedbackDurationMs must be greater than transitionMs"
-  );
+    "feedbackDurationMs must be greater than transitionMs",
+  )
 
   const handleCopy = useCallback(
     async (v: string): Promise<void> => {
-      await navigator.clipboard.writeText(v);
-      setCopied(true);
+      await navigator.clipboard.writeText(v)
+      setCopied(true)
     },
-    [value]
-  );
+    [value],
+  )
 
   useEffect(
     function resetStateAfterFeedbackAnimated() {
       if (copied === null || !copied) {
-        return;
+        return
       }
 
       setTimeout(() => {
-        setCopied(false);
-      }, feedbackDurationMs + transitionMs);
+        setCopied(false)
+      }, feedbackDurationMs + transitionMs)
     },
-    [copied]
-  );
+    [copied],
+  )
 
   if (value == null || isEmpty(value)) {
     return (
       <div
         className={cn(
           "border-b border-gray-500 last:border-b-0 py-2",
-          className
+          className,
         )}
         {...rest}
       >
@@ -71,14 +71,14 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
           &#8212;
         </Text>
       </div>
-    );
+    )
   }
 
   return (
     <div
       className={cn(
         "break-normal overflow-hidden font-medium text-sm flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0",
-        className
+        className,
       )}
       {...rest}
     >
@@ -96,7 +96,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       <button
         type="button"
         onClick={() => {
-          void handleCopy(value);
+          void handleCopy(value)
         }}
         className="flex items-center text-xl cursor-pointer text-gray-500 hover:text-gray-300 relative"
         data-testid="copy-value-button"
@@ -144,17 +144,17 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
         )}
       </button>
     </div>
-  );
-};
+  )
+}
 
 /** check if a string can be considered as stringified JSON object */
 function isJsonString(str: string): boolean {
   try {
-    JSON.parse(str);
+    JSON.parse(str)
   } catch (_e) {
-    return false;
+    return false
   }
-  return true;
+  return true
 }
 
-CopyToClipboard.displayName = "CopyToClipboard";
+CopyToClipboard.displayName = "CopyToClipboard"

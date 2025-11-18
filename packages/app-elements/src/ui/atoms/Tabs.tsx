@@ -1,4 +1,4 @@
-import cn from "classnames";
+import cn from "classnames"
 import React, {
   Children,
   type JSX,
@@ -6,22 +6,22 @@ import React, {
   useEffect,
   useMemo,
   useState,
-} from "react";
-import invariant from "ts-invariant";
+} from "react"
+import invariant from "ts-invariant"
 
 export interface TabsProps {
   /**
    * Used for accessability
    */
-  id?: string;
+  id?: string
   /*
    * css class
    */
-  className?: string;
+  className?: string
   /**
    * Event that fires every time a tab is activated. Note that this also fires on first render.
    */
-  onTabSwitch?: (tabIndex: number) => void;
+  onTabSwitch?: (tabIndex: number) => void
   /**
    * Children can only be <Tab> components
    * Example:
@@ -32,15 +32,15 @@ export interface TabsProps {
    * </Tabs>
    * ```
    */
-  children: Array<React.ReactElement<TabProps, typeof Tab> | null>;
+  children: Array<React.ReactElement<TabProps, typeof Tab> | null>
   /**
    * This controls whether the content of inactive tabs should be un-mounted or kept mounted but hidden.
    */
-  keepAlive?: boolean;
+  keepAlive?: boolean
   /**
    * Optional prop to define which tab needs to be activated at component mount by providing its numerical index. First tab has index 0.
    */
-  defaultTab?: number;
+  defaultTab?: number
 }
 
 function Tabs({
@@ -57,43 +57,43 @@ function Tabs({
     () =>
       // biome-ignore lint/complexity/useIndexOf: safe to use
       Children.map(children, (tab) => tab != null)?.findIndex(
-        (c) => c === true
+        (c) => c === true,
       ),
-    [children]
-  );
+    [children],
+  )
   const [activeIndex, setActiveIndex] = useState(
-    defaultTab ?? firstActiveIndex ?? 0
-  );
+    defaultTab ?? firstActiveIndex ?? 0,
+  )
 
   useEffect(
     function validateChildren() {
       Children.map(children, (tab, index) => {
         if (tab === null) {
-          return;
+          return
         }
         invariant(
           tab.type.name,
-          `Only "<Tab>" components can be used as children. Invalid at index #${index}`
-        );
+          `Only "<Tab>" components can be used as children. Invalid at index #${index}`,
+        )
 
         invariant(
           tab.props.name,
-          `Missing prop "name" in <Tab> component at index #${index}`
-        );
+          `Missing prop "name" in <Tab> component at index #${index}`,
+        )
         invariant(
           typeof tab.props.name === "string",
-          `Prop "name" must be a string. Invalid at index #${index}`
-        );
-      });
+          `Prop "name" must be a string. Invalid at index #${index}`,
+        )
+      })
     },
-    [children]
-  );
+    [children],
+  )
 
   useEffect(() => {
     if (onTabSwitch != null) {
-      onTabSwitch(activeIndex);
+      onTabSwitch(activeIndex)
     }
-  }, [activeIndex, onTabSwitch]);
+  }, [activeIndex, onTabSwitch])
 
   return (
     <div id={id} role="tablist" className={className} {...rest}>
@@ -109,18 +109,18 @@ function Tabs({
                 isActive={index === activeIndex}
                 label={tab.props.name}
                 onClick={() => {
-                  setActiveIndex(index);
+                  setActiveIndex(index)
                 }}
                 id={`tab-nav-${id}-${index}`}
                 data-testid={`tab-nav-${index}`}
               />
-            )
+            ),
         )}
       </nav>
       {/* Tab Panels */}
       {Children.map(children, (tab, index) => {
         if (tab === null) {
-          return;
+          return
         }
         return (
           <TabPanel
@@ -131,25 +131,25 @@ function Tabs({
           >
             {tab.props.children}
           </TabPanel>
-        );
+        )
       })}
     </div>
-  );
+  )
 }
 
 export interface TabProps {
   /**
    * This is the tab name used to render the Tab Navigation on top
    */
-  name: string;
+  name: string
   /**
    * Tab Panel content
    */
-  children: ReactNode;
+  children: ReactNode
 }
 
 function Tab({ children }: TabProps): React.ReactElement {
-  return <>{children}</>;
+  return <>{children}</>
 }
 
 function TabNav({
@@ -159,10 +159,10 @@ function TabNav({
   id,
   ...rest
 }: {
-  id: string;
-  isActive: boolean;
-  onClick: () => void;
-  label: string;
+  id: string
+  isActive: boolean
+  onClick: () => void
+  label: string
 }): JSX.Element {
   return (
     // biome-ignore lint/a11y/useFocusableInteractive: Using div as a tab element
@@ -174,7 +174,7 @@ function TabNav({
         {
           "border-b-black border-b-2 text-black font-semibold": isActive,
           "border-b-transparent border-b-2 text-gray-500": !isActive,
-        }
+        },
       )}
       onClick={onClick}
       role="tab"
@@ -182,7 +182,7 @@ function TabNav({
     >
       {label}
     </div>
-  );
+  )
 }
 
 function TabPanel({
@@ -191,21 +191,21 @@ function TabPanel({
   keepAlive,
   ...rest
 }: {
-  isActive: boolean;
-  children: ReactNode;
-  keepAlive: boolean;
+  isActive: boolean
+  children: ReactNode
+  keepAlive: boolean
 }): JSX.Element | null {
   if (!isActive && !keepAlive) {
-    return null;
+    return null
   }
 
   return (
     <div className="pt-4" role="tabpanel" {...rest} hidden={!isActive}>
       {children}
     </div>
-  );
+  )
 }
 
-Tabs.displayName = "Tabs";
-Tab.displayName = "Tab";
-export { Tab, Tabs };
+Tabs.displayName = "Tabs"
+Tab.displayName = "Tab"
+export { Tab, Tabs }

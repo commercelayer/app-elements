@@ -1,9 +1,9 @@
-import cn from "classnames";
-import type { JSX } from "react";
+import cn from "classnames"
+import type { JSX } from "react"
 
 export interface LabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  gap?: boolean;
+  gap?: boolean
 }
 
 /**
@@ -25,7 +25,7 @@ export function Label({
     >
       {children}
     </label>
-  );
+  )
 }
 
-Label.displayName = "Label";
+Label.displayName = "Label"

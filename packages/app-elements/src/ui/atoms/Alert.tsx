@@ -4,20 +4,20 @@ import {
   Info,
   Warning,
   XCircle,
-} from "@phosphor-icons/react";
-import classNames from "classnames";
+} from "@phosphor-icons/react"
+import classNames from "classnames"
 
 export interface AlertProps {
   /** Alert status. This affects the color scheme and icon used. */
-  status: "error" | "success" | "warning" | "info";
-  children: React.ReactNode;
+  status: "error" | "success" | "warning" | "info"
+  children: React.ReactNode
 }
 
 /**
  * Alerts are visual representations used to communicate a state that affects the page or the interactive element.
  */
 export const Alert: React.FC<AlertProps> = ({ children, status }) => {
-  const Icon = icons[status];
+  const Icon = icons[status]
 
   return (
     <div
@@ -34,14 +34,14 @@ export const Alert: React.FC<AlertProps> = ({ children, status }) => {
         <div>{children}</div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-Alert.displayName = "Alert";
+Alert.displayName = "Alert"
 
 const icons: Record<AlertProps["status"], Icon> = {
   warning: Warning,
   error: XCircle,
   info: Info,
   success: CheckCircle,
-};
+}

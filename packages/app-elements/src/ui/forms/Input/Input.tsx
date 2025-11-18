@@ -1,11 +1,11 @@
-import cn from "classnames";
-import { forwardRef, type JSX } from "react";
-import { Text } from "#ui/atoms/Text";
+import cn from "classnames"
+import { forwardRef, type JSX } from "react"
+import { Text } from "#ui/atoms/Text"
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper";
+} from "#ui/internals/InputWrapper"
 
 export interface InputProps
   extends InputWrapperBaseProps,
@@ -13,15 +13,15 @@ export interface InputProps
   /**
    * Controlled type
    */
-  type?: "text" | "number" | "password" | "tel" | "url" | "email" | "hidden";
+  type?: "text" | "number" | "password" | "tel" | "url" | "email" | "hidden"
   /**
    * Optional CSS class names used for the input element
    */
-  className?: string;
+  className?: string
   /**
    * Optional suffix that renders close to the right-edge of the input
    */
-  suffix?: React.ReactNode;
+  suffix?: React.ReactNode
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -36,7 +36,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       suffix,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const input = (
       <input
@@ -54,15 +54,15 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               suffix != null,
             "bg-white!": rest.autoComplete === "off",
           },
-          getFeedbackStyle(feedback)
+          getFeedbackStyle(feedback),
         )}
         type={type}
         ref={ref}
       />
-    );
+    )
 
     if (type === "hidden") {
-      return input;
+      return input
     }
 
     return (
@@ -86,8 +86,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
       </InputWrapper>
-    );
-  }
-);
+    )
+  },
+)
 
-Input.displayName = "Input";
+Input.displayName = "Input"

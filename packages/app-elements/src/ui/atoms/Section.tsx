@@ -1,25 +1,25 @@
-import cn from "classnames";
-import type React from "react";
-import type { ReactNode } from "react";
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { getInnerText } from "#utils/children";
+import cn from "classnames"
+import type React from "react"
+import type { ReactNode } from "react"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { getInnerText } from "#utils/children"
 
 export interface SectionProps {
   /** The content of the section. */
-  children: React.ReactNode;
+  children: React.ReactNode
   /**
    * Main section title.
    * When defined the component will render as a `<section>` HTML element; if **not** defined it will render as a `<div>` HTML element.
    */
-  title?: ReactNode;
+  title?: ReactNode
   /** Size for the title prop. */
-  titleSize?: "normal" | "small";
+  titleSize?: "normal" | "small"
   /** Specify `none` to remove border. */
-  border?: "none";
+  border?: "none"
   /** This will render a button on the right side of the row. */
-  actionButton?: ReactNode;
+  actionButton?: ReactNode
   /** CSS classes. */
-  className?: string;
+  className?: string
 }
 
 /**
@@ -36,7 +36,7 @@ export const Section = withSkeletonTemplate<SectionProps>(
     delayMs,
     ...rest
   }) => {
-    const Tag = title != null ? "section" : "div";
+    const Tag = title != null ? "section" : "div"
     return (
       <Tag
         {...rest}
@@ -49,7 +49,7 @@ export const Section = withSkeletonTemplate<SectionProps>(
               {
                 "border-gray-100": border == null,
                 "border-transparent": border === "none",
-              }
+              },
             )}
           >
             {title != null && (
@@ -72,8 +72,8 @@ export const Section = withSkeletonTemplate<SectionProps>(
         )}
         <div>{children}</div>
       </Tag>
-    );
-  }
-);
+    )
+  },
+)
 
-Section.displayName = "Section";
+Section.displayName = "Section"

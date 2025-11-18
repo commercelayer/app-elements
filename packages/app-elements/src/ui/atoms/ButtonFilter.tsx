@@ -1,13 +1,13 @@
-import cn from "classnames";
-import type { JSX } from "react";
-import { StatusIcon, type StatusIconProps } from "./StatusIcon";
+import cn from "classnames"
+import type { JSX } from "react"
+import { StatusIcon, type StatusIconProps } from "./StatusIcon"
 
 export interface ButtonFilterProps
   extends React.HTMLAttributes<HTMLDivElement> {
-  onClick?: () => void;
-  onRemoveRequest?: () => void;
-  icon?: StatusIconProps["name"];
-  label: string;
+  onClick?: () => void
+  onRemoveRequest?: () => void
+  icon?: StatusIconProps["name"]
+  label: string
 }
 
 function ButtonFilter({
@@ -23,7 +23,7 @@ function ButtonFilter({
       className={cn(
         "flex flex-nowrap text-xs text-gray-500 transition duration-300 ease-in-out",
         "hover:bg-gray-200 bg-gray-100 rounded",
-        className
+        className,
       )}
       {...rest}
     >
@@ -38,7 +38,7 @@ function ButtonFilter({
           {
             "pr-4": onRemoveRequest == null,
             "pr-1": onRemoveRequest != null,
-          }
+          },
         )}
       >
         {icon != null ? (
@@ -62,8 +62,8 @@ function ButtonFilter({
         </button>
       ) : null}
     </div>
-  );
+  )
 }
 
-ButtonFilter.displayName = "ButtonFilter";
-export { ButtonFilter };
+ButtonFilter.displayName = "ButtonFilter"
+export { ButtonFilter }

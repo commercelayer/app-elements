@@ -4,13 +4,13 @@ import {
   Stories,
   Subtitle,
   Title,
-} from "@storybook/addon-docs/blocks";
-import type { Meta, StoryFn } from "@storybook/react-vite";
-import { Badge } from "#ui/atoms/Badge";
-import { Button } from "#ui/atoms/Button";
-import { Spacer } from "#ui/atoms/Spacer";
-import { Stack } from "#ui/atoms/Stack";
-import { Text } from "#ui/atoms/Text";
+} from "@storybook/addon-docs/blocks"
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Badge } from "#ui/atoms/Badge"
+import { Button } from "#ui/atoms/Button"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Stack } from "#ui/atoms/Stack"
+import { Text } from "#ui/atoms/Text"
 
 const setup: Meta<typeof Stack> = {
   title: "Atoms/Stack",
@@ -29,8 +29,8 @@ const setup: Meta<typeof Stack> = {
       ),
     },
   },
-};
-export default setup;
+}
+export default setup
 
 export const Default: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
@@ -38,8 +38,8 @@ export const Default: StoryFn<typeof Stack> = (args) => (
     <div>Element 2</div>
     <div>Element 3</div>
   </Stack>
-);
-Default.args = {};
+)
+Default.args = {}
 
 export const Steps: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
@@ -68,8 +68,8 @@ export const Steps: StoryFn<typeof Stack> = (args) => (
       <Badge variant="secondary">UNFULFILLED</Badge>
     </div>
   </Stack>
-);
-Steps.args = {};
+)
+Steps.args = {}
 
 export const Addresses: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
@@ -108,8 +108,8 @@ export const Addresses: StoryFn<typeof Stack> = (args) => (
       </Spacer>
     </div>
   </Stack>
-);
-Addresses.args = {};
+)
+Addresses.args = {}
 
 /**
  * By using multiple `Stack` components it's possible to make a grid. Border top won't be duplicated.
@@ -135,4 +135,4 @@ export const MultipleStacks: StoryFn<typeof Stack> = (_args) => (
     </Stack>
     <div>last sibling</div>
   </>
-);
+)

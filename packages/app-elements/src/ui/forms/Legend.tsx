@@ -1,8 +1,8 @@
-import cn from "classnames";
-import type { JSX } from "react";
+import cn from "classnames"
+import type { JSX } from "react"
 
 export interface LegendProps extends React.HTMLAttributes<HTMLLegendElement> {
-  gap?: boolean;
+  gap?: boolean
 }
 
 /**
@@ -25,7 +25,7 @@ export function Legend({
     >
       {children}
     </legend>
-  );
+  )
 }
 
-Legend.displayName = "Legend";
+Legend.displayName = "Legend"

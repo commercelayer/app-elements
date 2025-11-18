@@ -1,4 +1,4 @@
-import cn from "classnames";
+import cn from "classnames"
 
 export interface ProgressProps
   extends React.ProgressHTMLAttributes<HTMLProgressElement> {
@@ -7,22 +7,22 @@ export interface ProgressProps
    * The `max` attribute, if present, must have a value greater than `0` and be a valid floating point number.
    * @default 1
    */
-  max?: number;
+  max?: number
   /**
    * This attribute specifies how much of the task that has been completed.
    * It must be a valid floating point number between `0` and `max`.
    * If there is no `value` attribute, the progress bar is indeterminate;
    * this indicates that an activity is ongoing with no indication of how long it is expected to take.
    */
-  value?: number;
+  value?: number
   /**
    * The display mode of the progress bar.
    * - `fraction` - Display the completion status as a fraction (default)
    * - `percentage` - Display the completion status as a percentage
    * - `none` - Do not display the completion
    */
-  displayMode?: "fraction" | "percentage" | "none";
-  children: React.ReactNode;
+  displayMode?: "fraction" | "percentage" | "none"
+  children: React.ReactNode
 }
 
 /**
@@ -74,7 +74,7 @@ export const Progress: React.FC<ProgressProps> = ({
         </span>
       )}
     </div>
-  );
-};
+  )
+}
 
-Progress.displayName = "Progress";
+Progress.displayName = "Progress"

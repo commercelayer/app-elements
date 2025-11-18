@@ -1,11 +1,11 @@
-import cn from "classnames";
-import type { JSX, ReactNode } from "react";
-import { Icon, type IconProps } from "./Icon";
+import cn from "classnames"
+import type { JSX, ReactNode } from "react"
+import { Icon, type IconProps } from "./Icon"
 
 export interface HintProps {
-  icon?: IconProps["name"];
-  className?: string;
-  children: ReactNode;
+  icon?: IconProps["name"]
+  className?: string
+  children: ReactNode
 }
 
 export function Hint({
@@ -19,7 +19,7 @@ export function Hint({
       {icon != null && <Icon name={icon} size={20} />}
       <div className="text-xs text-gray-500">{children}</div>
     </div>
-  );
+  )
 }
 
-Hint.displayName = "Hint";
+Hint.displayName = "Hint"

@@ -1,26 +1,26 @@
-import cn from "classnames";
-import { type FC, useMemo } from "react";
-import { Icon, type IconProps } from "#ui/atoms/Icon/Icon";
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { enforceAllowedTags } from "#utils/htmltags";
+import cn from "classnames"
+import { type FC, useMemo } from "react"
+import { Icon, type IconProps } from "#ui/atoms/Icon/Icon"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { enforceAllowedTags } from "#utils/htmltags"
 
 export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
-  label: string;
-  info?: string;
-  icon?: IconProps["name"] | "keep-space";
+  label: string
+  info?: string
+  icon?: IconProps["name"] | "keep-space"
 } & (
     | {
         /**
          * render the component as anchor tag
          */
-        href: string;
-        target?: string;
+        href: string
+        target?: string
       }
     | {
-        href?: never;
-        disabled?: boolean;
+        href?: never
+        disabled?: boolean
       }
-  );
+  )
 
 /**
  * Render a dropdown item to be used inside a `Dropdown` component.
@@ -46,17 +46,17 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           allowedTags: ["a", "button"],
           defaultTag: "button",
         }),
-      [href, onClick]
-    );
+      [href, onClick],
+    )
 
-    const isDisabled = Boolean("disabled" in rest && rest.disabled);
+    const isDisabled = Boolean("disabled" in rest && rest.disabled)
 
     return (
       <JsxTag
         {...rest}
         onClick={(e) => {
           if (!isDisabled) {
-            onClick?.(e);
+            onClick?.(e)
           }
         }}
         href={href}
@@ -72,7 +72,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
               onClick != null || href != null,
             "cursor-default": onClick == null && href == null,
             "opacity-50 pointer-events-none": isDisabled,
-          }
+          },
         )}
         aria-label={label}
       >
@@ -98,11 +98,11 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           </span>
         )}
       </JsxTag>
-    );
-  }
-);
-DropdownItem.displayName = "DropdownItem";
+    )
+  },
+)
+DropdownItem.displayName = "DropdownItem"
 
 const FakeIcon: FC = () => {
-  return <div className="w-[16px]" />;
-};
+  return <div className="w-[16px]" />
+}

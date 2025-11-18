@@ -1,10 +1,10 @@
-import cn from "classnames";
-import { forwardRef, type JSX, useState } from "react";
+import cn from "classnames"
+import { forwardRef, type JSX, useState } from "react"
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper";
+} from "#ui/internals/InputWrapper"
 
 export interface InputCheckboxProps
   extends Omit<InputWrapperBaseProps, "label" | "inline">,
@@ -13,13 +13,13 @@ export interface InputCheckboxProps
    * Icon component
    * Example: `<Avatar>`
    */
-  icon?: JSX.Element;
-  hideIconOnDesktop?: boolean;
+  icon?: JSX.Element
+  hideIconOnDesktop?: boolean
   /**
    * Additional `Element` to be rendered when the input is checked
    */
-  checkedElement?: JSX.Element;
-  children?: React.ReactNode;
+  checkedElement?: JSX.Element
+  children?: React.ReactNode
 }
 
 export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
@@ -34,11 +34,11 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
       hideIconOnDesktop,
       ...rest
     },
-    ref
+    ref,
   ): JSX.Element => {
     const [checked, setChecked] = useState<boolean>(
-      rest.defaultChecked ?? rest.checked ?? false
-    );
+      rest.defaultChecked ?? rest.checked ?? false,
+    )
 
     return (
       <InputWrapper
@@ -54,18 +54,18 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
               "cursor-pointer": rest.disabled !== true,
             })}
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation()
             }}
           >
             <input
               type="checkbox"
               onChangeCapture={(event) => {
-                setChecked(event.currentTarget.checked);
-                rest.onChangeCapture?.(event);
+                setChecked(event.currentTarget.checked)
+                rest.onChangeCapture?.(event)
               }}
               onChange={(event) => {
-                setChecked(event.currentTarget.checked);
-                rest.onChange?.(event);
+                setChecked(event.currentTarget.checked)
+                rest.onChange?.(event)
               }}
               data-testid="checkbox-input"
               className={cn(
@@ -73,7 +73,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
                 "border! border-solid! border-gray-300! rounded-sm",
                 "[box-shadow:none]! checked:border-primary!",
                 { "cursor-pointer": rest.disabled !== true },
-                getFeedbackStyle(feedback)
+                getFeedbackStyle(feedback),
               )}
               {...rest}
               ref={ref}
@@ -95,8 +95,8 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
           <div className="my-2 ml-[18px] pl-4">{checkedElement}</div>
         )}
       </InputWrapper>
-    );
-  }
-);
+    )
+  },
+)
 
-InputCheckbox.displayName = "InputCheckbox";
+InputCheckbox.displayName = "InputCheckbox"

@@ -1,9 +1,9 @@
-import type { Meta, StoryFn } from "@storybook/react-vite";
-import { useState } from "react";
-import { Avatar } from "#ui/atoms/Avatar";
-import { Text } from "#ui/atoms/Text";
-import { Input } from "#ui/forms/Input";
-import { InputCheckboxGroup } from "#ui/forms/InputCheckboxGroup";
+import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
+import { Avatar } from "#ui/atoms/Avatar"
+import { Text } from "#ui/atoms/Text"
+import { Input } from "#ui/forms/Input"
+import { InputCheckboxGroup } from "#ui/forms/InputCheckboxGroup"
 
 const setup: Meta<typeof InputCheckboxGroup> = {
   title: "Forms/ui/InputCheckboxGroup",
@@ -11,17 +11,17 @@ const setup: Meta<typeof InputCheckboxGroup> = {
   parameters: {
     layout: "padded",
   },
-};
-export default setup;
+}
+export default setup
 
 const Template: StoryFn<typeof InputCheckboxGroup> = (args) => {
-  const [values, setValues] = useState(args.defaultValues);
+  const [values, setValues] = useState(args.defaultValues)
   return (
     <InputCheckboxGroup {...args} defaultValues={values} onChange={setValues} />
-  );
-};
+  )
+}
 
-export const Default = Template.bind({});
+export const Default = Template.bind({})
 Default.args = {
   title: "Items",
   defaultValues: [
@@ -94,7 +94,7 @@ Default.args = {
       ),
     },
   ],
-};
+}
 
 /**
  * Each option in the following example has a quantity range (min, max) specified.
@@ -104,7 +104,7 @@ Default.args = {
  * So you won't be able to select 1 or 7, but you can still deselect the entire item.
  * </span>
  */
-export const WithQuantity = Template.bind({});
+export const WithQuantity = Template.bind({})
 WithQuantity.args = {
   title: "Items",
   defaultValues: [
@@ -236,9 +236,9 @@ WithQuantity.args = {
       },
     },
   ],
-};
+}
 
-export const WithCheckedElement = Template.bind({});
+export const WithCheckedElement = Template.bind({})
 WithCheckedElement.args = {
   title: "Items",
   defaultValues: [
@@ -298,13 +298,13 @@ WithCheckedElement.args = {
       checkedElement: <Input placeholder="Reason" />,
     },
   ],
-};
+}
 
-export const WithErrors = Template.bind({});
+export const WithErrors = Template.bind({})
 WithErrors.args = {
   ...Default.args,
   feedback: {
     message: "Please select",
     variant: "danger",
   },
-};
+}

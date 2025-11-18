@@ -1,20 +1,20 @@
-import cn from "classnames";
-import { useCallback, useMemo } from "react";
+import cn from "classnames"
+import { useCallback, useMemo } from "react"
 
 interface Step {
-  label: string;
-  active?: boolean;
+  label: string
+  active?: boolean
 }
 
 export interface StepsProps {
-  steps: Step[];
+  steps: Step[]
 }
 
 export const Steps: React.FC<StepsProps> = ({ steps }) => {
   const lastActiveIndex = useMemo(
     () => steps.findLastIndex((step) => step.active === true),
-    [steps]
-  );
+    [steps],
+  )
 
   const fixActive = useCallback(
     (step: Step, index: number): Step => {
@@ -22,13 +22,13 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
         return {
           ...step,
           active: true,
-        };
+        }
       }
 
-      return step;
+      return step
     },
-    [lastActiveIndex]
-  );
+    [lastActiveIndex],
+  )
 
   return (
     <ul
@@ -40,19 +40,19 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
       }}
       className={cn(
         "flex justify-between text-xs w-full items-center rounded",
-        `h-2 mb-8 bg-linear-to-r from-gray-100 from-50% to-primary to-50% bg-size-[200%]`
+        `h-2 mb-8 bg-linear-to-r from-gray-100 from-50% to-primary to-50% bg-size-[200%]`,
       )}
     >
       {steps.map(fixActive).map((step, index) => {
         const position =
-          index === 0 ? "first" : index === steps.length - 1 ? "last" : "other";
+          index === 0 ? "first" : index === steps.length - 1 ? "last" : "other"
 
         const activePosition =
           index < lastActiveIndex
             ? "before"
             : index === lastActiveIndex
-            ? "active"
-            : "after";
+              ? "active"
+              : "after"
 
         return (
           <li
@@ -71,7 +71,7 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
                   "bg-gray-100": step.active !== true,
                   "after:bg-white after:w-3 after:h-3 after:block after:rounded-full":
                     activePosition === "active",
-                }
+                },
               )}
             />
             <div
@@ -84,10 +84,10 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
               {step.label}
             </div>
           </li>
-        );
+        )
       })}
     </ul>
-  );
-};
+  )
+}
 
-Steps.displayName = "Steps";
+Steps.displayName = "Steps"

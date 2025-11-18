@@ -1,56 +1,56 @@
-import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk";
-import isEmpty from "lodash-es/isEmpty";
-import { type JSX, useCallback, useEffect, useMemo, useState } from "react";
-import { useOverlay } from "#hooks/useOverlay";
-import { t } from "#providers/I18NProvider";
-import { AvatarLetter } from "#ui/atoms/AvatarLetter";
-import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { Spacer } from "#ui/atoms/Spacer";
-import { Text } from "#ui/atoms/Text";
-import { SearchBar } from "#ui/composite/SearchBar";
-import type { OverlayProps } from "#ui/internals/Overlay";
-import { useResourceList } from "#ui/resources/useResourceList";
-import { InputCheckboxGroupItem } from "../InputCheckboxGroup/InputCheckboxGroupItem";
+import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk"
+import isEmpty from "lodash-es/isEmpty"
+import { type JSX, useCallback, useEffect, useMemo, useState } from "react"
+import { useOverlay } from "#hooks/useOverlay"
+import { t } from "#providers/I18NProvider"
+import { AvatarLetter } from "#ui/atoms/AvatarLetter"
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
+import { SearchBar } from "#ui/composite/SearchBar"
+import type { OverlayProps } from "#ui/internals/Overlay"
+import { useResourceList } from "#ui/resources/useResourceList"
+import { InputCheckboxGroupItem } from "../InputCheckboxGroup/InputCheckboxGroupItem"
 import {
   computeLabelWithSelected,
   prepareCheckboxItemOrMock,
   useToggleCheckboxValues,
-} from "./utils";
+} from "./utils"
 
 export interface SortBy {
-  attribute: string;
-  direction: "asc" | "desc";
+  attribute: string
+  direction: "asc" | "desc"
 }
 
 export interface FullListProps {
   /**
    * Default values to be shown as selected
    */
-  defaultValues: string[];
+  defaultValues: string[]
   /**
    * Resource name from core API to be fetched.
    * Example: `markets`
    */
-  resource: ListableResourceType;
+  resource: ListableResourceType
   /**
    * Attribute from the resource to be used as label for the checkbox
    * Example: name, sku_code or email
    */
-  fieldForLabel: string;
+  fieldForLabel: string
   /**
    * Attribute from the resource to be used as value for the checkbox
    * Example: id
    */
-  fieldForValue: string;
+  fieldForValue: string
   /**
    * Callback invoked on change, it returns the new list of selected values
    */
-  onChange: (values: string[]) => void;
+  onChange: (values: string[]) => void
   /**
    * Optional callback to be triggered when cancel button is pressed.
    * If missing, the local history will be used to go back (`history.back()`).
    */
-  onCancel?: () => void;
+  onCancel?: () => void
   /**
    * Value to be used as search predicate when SearchBar is used.
    * If missing the search bar will not be shown.
@@ -58,7 +58,7 @@ export interface FullListProps {
    * {@link https://docs.commercelayer.io/core/filtering-data}
    * Example: name_cont
    */
-  searchBy?: string;
+  searchBy?: string
   /**
    * Sorting options
    *
@@ -67,20 +67,20 @@ export interface FullListProps {
    * or
    * ```{ attribute: 'created_at', direction: 'desc'}```
    */
-  sortBy: SortBy;
+  sortBy: SortBy
   /**
    * Title to be shown as main label.
    * It will be automatically computed with the number of selected items.
    */
-  title: string;
+  title: string
   /**
    * Show icon in checkbox selectors
    */
-  showCheckboxIcon?: boolean;
+  showCheckboxIcon?: boolean
   /**
    * Hide selected items
    */
-  hideSelected?: boolean;
+  hideSelected?: boolean
 }
 
 export function FullList({
@@ -96,13 +96,13 @@ export function FullList({
   showCheckboxIcon = true,
   hideSelected = false,
 }: FullListProps): JSX.Element {
-  const { values, toggleValue } = useToggleCheckboxValues(defaultValues);
-  const [filters, setFilters] = useState<QueryFilter>({});
-  const [search, setSearch] = useState<string>("");
+  const { values, toggleValue } = useToggleCheckboxValues(defaultValues)
+  const [filters, setFilters] = useState<QueryFilter>({})
+  const [search, setSearch] = useState<string>("")
 
-  const initialValues = useMemo(() => defaultValues, []);
+  const initialValues = useMemo(() => defaultValues, [])
 
-  const selectedCount = values.length;
+  const selectedCount = values.length
 
   const { ResourceList } = useResourceList({
     type: resource,
@@ -113,17 +113,17 @@ export function FullList({
         [sortBy.attribute]: sortBy.direction,
       },
     },
-  });
+  })
 
   useEffect(() => {
     if (searchBy != null) {
-      setFilters(isEmpty(search) ? {} : { [searchBy]: search });
+      setFilters(isEmpty(search) ? {} : { [searchBy]: search })
     }
-  }, [search, searchBy]);
+  }, [search, searchBy])
 
   useEffect(() => {
-    onChange(values);
-  }, [values]);
+    onChange(values)
+  }, [values])
 
   return (
     <div>
@@ -133,16 +133,16 @@ export function FullList({
             <SearchBar
               onSearch={setSearch}
               onClear={() => {
-                setSearch("");
+                setSearch("")
               }}
             />
             <button
               type="button"
               onClick={() => {
                 if (onCancel != null) {
-                  onCancel();
+                  onCancel()
                 } else {
-                  history.back();
+                  history.back()
                 }
               }}
               className="text-primary font-semibold rounded px-1 shadow-none outline-0! border-0! ring-0! focus:shadow-focus"
@@ -176,10 +176,10 @@ export function FullList({
               isLoading,
               fieldForLabel,
               fieldForValue,
-            });
+            })
 
             if (hideSelected && initialValues.includes(item.value)) {
-              return null;
+              return null
             }
 
             return (
@@ -187,7 +187,7 @@ export function FullList({
                 isLoading={isLoading}
                 checked={values.includes(item.value)}
                 onChange={() => {
-                  toggleValue(item.value);
+                  toggleValue(item.value)
                 }}
                 icon={
                   showCheckboxIcon ? (
@@ -198,16 +198,16 @@ export function FullList({
                 content={<Text weight="semibold">{item.label}</Text>}
                 value={item.value}
               />
-            );
+            )
           }}
         />
       </SkeletonTemplate>
     </div>
-  );
+  )
 }
 
 export const useInputResourceGroupOverlay = () => {
-  const { Overlay, close, open } = useOverlay();
+  const { Overlay, close, open } = useOverlay()
 
   const InputResourceGroupOverlay = useCallback(
     ({
@@ -221,12 +221,12 @@ export const useInputResourceGroupOverlay = () => {
         </div>
       </Overlay>
     ),
-    [Overlay]
-  );
+    [Overlay],
+  )
 
   return {
     InputResourceGroupOverlay,
     openInputResourceGroupOverlay: open,
     closeInputResourceGroupOverlay: close,
-  };
-};
+  }
+}

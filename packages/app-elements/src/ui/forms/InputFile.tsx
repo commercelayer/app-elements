@@ -1,14 +1,14 @@
-import { UploadSimpleIcon } from "@phosphor-icons/react";
-import cn from "classnames";
-import { forwardRef, type JSX } from "react";
-import invariant from "ts-invariant";
-import { t } from "#providers/I18NProvider";
-import { Button } from "#ui/atoms/Button";
+import { UploadSimpleIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import { forwardRef, type JSX } from "react"
+import invariant from "ts-invariant"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper";
+} from "#ui/internals/InputWrapper"
 
 export interface InputFileProps
   extends InputWrapperBaseProps,
@@ -16,22 +16,22 @@ export interface InputFileProps
   /**
    * The title is shown within the input.
    */
-  title: string;
+  title: string
   /**
    * If defined, it shows a progress bar at the bottom. It must be between 0 and 100.
    */
-  progress?: number;
+  progress?: number
 }
 
 export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
   (
     { className, progress, label, hint, feedback, inline, title, ...rest },
-    ref
+    ref,
   ): JSX.Element => {
     invariant(
       progress === undefined || (progress >= 0 && progress <= 100),
-      "When set, progress must be between 0 and 100 range"
-    );
+      "When set, progress must be between 0 and 100 range",
+    )
     return (
       <InputWrapper
         label={label}
@@ -43,7 +43,7 @@ export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
           className={cn(
             "h-52 w-full p-4 text-center relative border bg-white rounded-md flex flex-col justify-center items-center hover:bg-gray-50 transition-bg group overflow-hidden",
             className,
-            getFeedbackStyle(feedback)
+            getFeedbackStyle(feedback),
           )}
         >
           <input
@@ -66,8 +66,8 @@ export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
           ) : null}
         </div>
       </InputWrapper>
-    );
-  }
-);
+    )
+  },
+)
 
-InputFile.displayName = "InputFile";
+InputFile.displayName = "InputFile"

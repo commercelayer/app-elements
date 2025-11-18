@@ -1,36 +1,36 @@
-import classNames from "classnames";
-import { Children, type JSX, type ReactNode } from "react";
-import { Skeleton, SkeletonItem } from "#ui/atoms/Skeleton";
-import { Text } from "#ui/atoms/Text";
-import { isSpecificReactComponent } from "#utils/children";
+import classNames from "classnames"
+import { Children, type JSX, type ReactNode } from "react"
+import { Skeleton, SkeletonItem } from "#ui/atoms/Skeleton"
+import { Text } from "#ui/atoms/Text"
+import { isSpecificReactComponent } from "#utils/children"
 
 export interface ListDetailsItemProps {
   /**
    * label to show on the left side. In a key/value pair, this is the `key`
    */
-  label: string;
+  label: string
   /**
    * content to show on the right side.
    * It represent the value.
    * Most of the time it should be a `<CopyToClipboard>` component
    */
-  children?: ReactNode;
+  children?: ReactNode
   /**
    * To show the skeleton item while `children` ar not yet. Label is always rendered
    */
-  isLoading?: boolean;
+  isLoading?: boolean
   /**
    * Specify `none` to remove border
    */
-  border?: "none";
+  border?: "none"
   /**
    * Text alignment for children on the right side.
    */
-  childrenAlign?: "left" | "right";
+  childrenAlign?: "left" | "right"
   /**
    * Specify `none` to remove side gutter
    */
-  gutter?: "none";
+  gutter?: "none"
 }
 
 export function ListDetailsItem({
@@ -44,9 +44,9 @@ export function ListDetailsItem({
 }: ListDetailsItemProps): JSX.Element {
   const childrenHaveInternalPadding = (
     Children.map(children, (child) =>
-      isSpecificReactComponent(child, [/^CopyToClipboard$/])
+      isSpecificReactComponent(child, [/^CopyToClipboard$/]),
     ) ?? []
-  ).some(Boolean);
+  ).some(Boolean)
 
   return (
     <div
@@ -56,7 +56,7 @@ export function ListDetailsItem({
         {
           "px-4": gutter !== "none",
           "border-b py-4 md:py-2!": border !== "none",
-        }
+        },
       )}
       {...rest}
     >
@@ -77,11 +77,11 @@ export function ListDetailsItem({
             <SkeletonItem className="w-28 h-6" />
           </Skeleton>
         ) : (
-          children ?? <Text variant="disabled">&#8212;</Text>
+          (children ?? <Text variant="disabled">&#8212;</Text>)
         )}
       </div>
     </div>
-  );
+  )
 }
 
-ListDetailsItem.displayName = "ListDetailsItem";
+ListDetailsItem.displayName = "ListDetailsItem"

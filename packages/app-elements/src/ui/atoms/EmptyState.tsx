@@ -1,13 +1,13 @@
-import cn from "classnames";
-import type { JSX, ReactNode } from "react";
-import { StatusIcon, type StatusIconProps } from "./StatusIcon";
+import cn from "classnames"
+import type { JSX, ReactNode } from "react"
+import { StatusIcon, type StatusIconProps } from "./StatusIcon"
 
 export interface EmptyStateProps {
-  title: string;
-  description?: ReactNode;
-  action?: ReactNode;
-  className?: string;
-  icon?: StatusIconProps["name"];
+  title: string
+  description?: ReactNode
+  action?: ReactNode
+  className?: string
+  icon?: StatusIconProps["name"]
 }
 
 function EmptyState({
@@ -22,7 +22,7 @@ function EmptyState({
     <div
       className={cn(
         "bg-gray-50 border-gray-50 rounded-md overflow-hidden w-full",
-        className
+        className,
       )}
       {...rest}
     >
@@ -45,8 +45,8 @@ function EmptyState({
         </div>
       </div>
     </div>
-  );
+  )
 }
 
-EmptyState.displayName = "EmptyState";
-export { EmptyState };
+EmptyState.displayName = "EmptyState"
+export { EmptyState }
