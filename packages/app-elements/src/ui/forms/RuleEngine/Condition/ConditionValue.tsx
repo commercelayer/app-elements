@@ -41,15 +41,16 @@ export function ConditionValue({
   pathPrefix: string
 }): React.ReactNode {
   const { setPath } = useRuleEngine()
-  const { infos } = useResourcePathInfos(item)
+  const { componentType, fieldType } = useItemType(item)
+
   const pathKey = `${pathPrefix}.value`
   const [containerKey, forceRerender] = useState<number>(0)
-  const [memoMatcher, setMemoMatcher] = useState<
-    SchemaConditionItem["matcher"] | undefined
-  >(item?.matcher)
-  const [memoField, setMemoField] = useState<
-    SchemaConditionItem["field"] | undefined
-  >(item?.field)
+
+  const [memo, setMemo] = useState({
+    componentType,
+    matcher: item?.matcher,
+    field: item?.field,
+  })
 
   const hasNoValue =
     item == null ||
@@ -57,44 +58,39 @@ export function ConditionValue({
       item.matcher as ConditionMatchersWithoutValue,
     )
 
-  let fieldType = infos?.field?.type
-
-  if (itemHasValue(item)) {
-    if (fieldType == null) {
-      fieldType = guessFieldType(item.value)
-    }
-
-    if (
-      (typeof item.value === "string" && /^{{.*}}$/.test(item.value)) ||
-      (Array.isArray(item.value) &&
-        item.value.some((v) => typeof v === "string" && /^{{.*}}$/.test(v)))
-    ) {
-      // If the value is a template string, treat it as a string
-      fieldType = "string"
-    }
-  }
-
-  const componentType = deriveComponentType(fieldType, item?.matcher, infos)
-
   useEffect(
     function resetValueWhenComponentTypeChanges() {
-      if (memoMatcher !== item?.matcher) {
-        setMemoMatcher(item?.matcher)
-        if (item?.matcher === "array_match") {
-          setPath(pathKey, { in_and: [] })
-        } else {
-          setPath(pathKey, null)
+      if (memo.componentType !== componentType) {
+        setMemo((value) => ({
+          ...value,
+          componentType,
+        }))
+
+        if (memo.matcher !== item?.matcher) {
+          setMemo((value) => ({
+            ...value,
+            matcher: item?.matcher,
+          }))
+          if (item?.matcher === "array_match") {
+            setPath(pathKey, { in_and: [] })
+          } else {
+            setPath(pathKey, null)
+          }
+
+          forceRerender((k) => k + 1)
         }
-        forceRerender((k) => k + 1)
       }
 
-      if (memoField !== item?.field) {
-        setMemoField(item?.field)
+      if (memo.field !== item?.field) {
+        setMemo((value) => ({
+          ...value,
+          field: item?.field,
+        }))
         setPath(pathKey, null)
         forceRerender((k) => k + 1)
       }
     },
-    [componentType, item],
+    [item],
   )
 
   if (hasNoValue) {
@@ -476,4 +472,29 @@ function deriveComponentType(
   }
 
   return componentType
+}
+
+function useItemType(item: SchemaConditionItem | null) {
+  const { infos } = useResourcePathInfos(item)
+
+  let fieldType = infos?.field?.type
+
+  if (itemHasValue(item)) {
+    if (fieldType == null) {
+      fieldType = guessFieldType(item.value)
+    }
+
+    if (
+      (typeof item.value === "string" && /^{{.*}}$/.test(item.value)) ||
+      (Array.isArray(item.value) &&
+        item.value.some((v) => typeof v === "string" && /^{{.*}}$/.test(v)))
+    ) {
+      // If the value is a template string, treat it as a string
+      fieldType = "string"
+    }
+  }
+
+  const componentType = deriveComponentType(fieldType, item?.matcher, infos)
+
+  return { fieldType, componentType }
 }
