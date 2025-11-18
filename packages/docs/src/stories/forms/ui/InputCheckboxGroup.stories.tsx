@@ -44,7 +44,7 @@ Default.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Gray Baby Bib with Black Logo
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -64,7 +64,7 @@ Default.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Black Baseball Hat with White Logo
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -84,7 +84,7 @@ Default.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Black Unisex Lightweight Hoodie
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -129,7 +129,7 @@ WithQuantity.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Gray Baby Bib with Black Logo
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -153,7 +153,7 @@ WithQuantity.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Black Baseball Hat with White Logo
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -177,7 +177,7 @@ WithQuantity.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Black Unisex Lightweight Hoodie
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -194,7 +194,7 @@ WithQuantity.args = {
       value: "TOTEBAGLE7DDC7000000XXXX",
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Large Eco Tote Bag with Black Logo
           </Text>
         </div>
@@ -218,14 +218,14 @@ WithQuantity.args = {
       content: (
         <>
           <div>
-            <Text size="small" weight="bold">
+            <Text size="regular" weight="semibold">
               Express Easy
             </Text>
             <Text size="x-small" tag="div" variant="info" weight="medium">
               DHL Express
             </Text>
           </div>
-          <Text size="small" weight="bold" wrap="nowrap">
+          <Text size="regular" weight="semibold" wrap="nowrap">
             €37,61
           </Text>
         </>
@@ -262,7 +262,7 @@ WithCheckedElement.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Gray Baby Bib with Black Logo
           </Text>
           <Text size="x-small" tag="div" variant="info">
@@ -287,7 +287,7 @@ WithCheckedElement.args = {
       ),
       content: (
         <div>
-          <Text size="small" tag="div" weight="bold">
+          <Text size="regular" tag="div" weight="semibold">
             Black Baseball Hat with White Logo
           </Text>
           <Text size="x-small" tag="div" variant="info">

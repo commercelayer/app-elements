@@ -75,7 +75,7 @@ export const Addresses: StoryFn<typeof Stack> = (args) => (
   <Stack {...args}>
     <div>
       <Spacer bottom="2">
-        <Text tag="div" weight="bold">
+        <Text tag="div" weight="semibold">
           Shipping address
         </Text>
       </Spacer>

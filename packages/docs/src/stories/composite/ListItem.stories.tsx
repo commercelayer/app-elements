@@ -34,10 +34,10 @@ const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
       <Text tag="div" weight="semibold">
         NY Store #19346524
       </Text>
-      <Text tag="div" weight="medium" size="small" variant="info">
+      <Text tag="div" weight="regular" size="small" variant="info">
         Placed · mjordan@nba.com · May 17
       </Text>
-      <Text tag="div" weight="bold" size="small" variant="warning">
+      <Text tag="div" weight="medium" size="small" variant="warning">
         Awaiting approval
       </Text>
     </div>

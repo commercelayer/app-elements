@@ -145,7 +145,7 @@ export function FullList({
                   history.back()
                 }
               }}
-              className="text-primary font-bold rounded px-1 shadow-none outline-0! border-0! ring-0! focus:shadow-focus"
+              className="text-primary font-semibold rounded px-1 shadow-none outline-0! border-0! ring-0! focus:shadow-focus"
             >
               {t("common.cancel")}
             </button>

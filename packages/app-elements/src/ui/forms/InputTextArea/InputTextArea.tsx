@@ -27,7 +27,7 @@ export const InputTextArea = forwardRef<
         id={rest.id ?? rest.name}
         className={cn(
           className,
-          "px-4 py-3 w-full bg-white rounded outline-0 text-sm leading-5",
+          "px-4 py-2.5 w-full bg-white rounded outline-0 font-normal",
           {
             "h-52": rest.rows == null,
           },
