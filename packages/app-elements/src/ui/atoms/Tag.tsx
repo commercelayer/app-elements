@@ -1,26 +1,26 @@
-import cn from "classnames"
-import type { FC, JSX } from "react"
-import type { FlexRowProps } from "#ui/internals/FlexRow"
-import { removeUnwantedProps } from "#utils/htmltags"
+import cn from "classnames";
+import type { FC, JSX } from "react";
+import type { FlexRowProps } from "#ui/internals/FlexRow";
+import { removeUnwantedProps } from "#utils/htmltags";
 
 type Props = Pick<FlexRowProps, "children"> & {
   /**
    * Icon component
    * Example: `<StatusIcon>` or `<RadialProgress>` or `<Avatar>`
    */
-  icon?: JSX.Element
-}
+  icon?: JSX.Element;
+};
 
 export type TagProps = React.HTMLAttributes<HTMLElement> &
   Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "onClick" | "href"> &
-  Props
+  Props;
 
 export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
   const wantedProps =
-    "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest
+    "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest;
   const JsxTag =
-    rest.href != null ? "a" : rest.onClick != null ? "button" : "div"
-  const hasHover = rest.onClick != null || rest.href != null
+    rest.href != null ? "a" : rest.onClick != null ? "button" : "div";
+  const hasHover = rest.onClick != null || rest.href != null;
 
   return (
     <JsxTag
@@ -28,7 +28,7 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
         className,
         "flex gap-2 items-center select-none",
         "wrap-anywhere",
-        "text-black text-sm",
+        "text-black text-[14px] font-medium",
         "px-4 py-1",
         "rounded border border-solid border-gray-200",
         "bg-gray-50",
@@ -44,7 +44,7 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
       {icon != null && <div className="shrink-0">{icon}</div>}
       {children}
     </JsxTag>
-  )
-}
+  );
+};
 
-Tag.displayName = "Tag"
+Tag.displayName = "Tag";

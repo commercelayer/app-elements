@@ -2,30 +2,30 @@ import type {
   ListableResourceType,
   QueryFilter,
   QueryParamsList,
-} from "@commercelayer/sdk"
-import uniqBy from "lodash-es/uniqBy"
-import { useEffect, useState } from "react"
-import { formatResourceName } from "#helpers/resources"
-import { useCoreApi } from "#providers/CoreSdkProvider"
-import { t } from "#providers/I18NProvider"
-import { AvatarLetter } from "#ui/atoms/AvatarLetter"
-import { Button } from "#ui/atoms/Button"
-import { Card } from "#ui/atoms/Card"
-import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { Spacer } from "#ui/atoms/Spacer"
-import { Text } from "#ui/atoms/Text"
-import { InputCheckboxGroupItem } from "#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem"
-import { InputWrapper } from "#ui/internals/InputWrapper"
+} from "@commercelayer/sdk";
+import uniqBy from "lodash-es/uniqBy";
+import { useEffect, useState } from "react";
+import { formatResourceName } from "#helpers/resources";
+import { useCoreApi } from "#providers/CoreSdkProvider";
+import { t } from "#providers/I18NProvider";
+import { AvatarLetter } from "#ui/atoms/AvatarLetter";
+import { Button } from "#ui/atoms/Button";
+import { Card } from "#ui/atoms/Card";
+import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
+import { Spacer } from "#ui/atoms/Spacer";
+import { Text } from "#ui/atoms/Text";
+import { InputCheckboxGroupItem } from "#ui/forms/InputCheckboxGroup/InputCheckboxGroupItem";
+import { InputWrapper } from "#ui/internals/InputWrapper";
 import {
   type FullListProps,
   type SortBy,
   useInputResourceGroupOverlay,
-} from "./FullList"
+} from "./FullList";
 import {
   computeLabelWithSelected,
   prepareCheckboxItemOrMock,
   useToggleCheckboxValues,
-} from "./utils"
+} from "./utils";
 
 export interface InputResourceGroupProps
   extends Omit<FullListProps, "totalCount"> {
@@ -33,19 +33,19 @@ export interface InputResourceGroupProps
    * Number of item to be shown in the preview list
    * @default 5
    */
-  previewLimit?: number
+  previewLimit?: number;
   /**
    * SDK filter query to be applied when fetching the list of resources
    */
-  filters?: QueryFilter
+  filters?: QueryFilter;
   /**
    * Hide the component when there is only one item.
    */
-  hideWhenSingleItem?: boolean
+  hideWhenSingleItem?: boolean;
   /**
    * Show icon in checkbox selectors
    */
-  showCheckboxIcon?: boolean
+  showCheckboxIcon?: boolean;
 }
 
 /**
@@ -69,13 +69,13 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
   title,
 }) => {
   const { values, toggleValue, setValues } =
-    useToggleCheckboxValues(defaultValues)
-  const selectedCount = values.length
+    useToggleCheckboxValues(defaultValues);
+  const selectedCount = values.length;
 
   // keeping this separated from values to prevent firing api calls on every change
   // we re-run api request to get the list of selected values only when overlay is closed
   const [selectedValuesForPreviews, setSelectedValuesForPreview] =
-    useState<string[]>(defaultValues)
+    useState<string[]>(defaultValues);
   const { list, isLoading, totalCount } = useList({
     resource,
     limit: previewLimit,
@@ -84,28 +84,28 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
     sortBy,
     selectedValues: selectedValuesForPreviews.slice(0, previewLimit),
     filters,
-  })
+  });
 
   useEffect(
     function syncChangesToParent() {
-      onChange(values)
+      onChange(values);
     },
-    [values],
-  )
+    [values]
+  );
 
   const {
     InputResourceGroupOverlay,
     closeInputResourceGroupOverlay,
     openInputResourceGroupOverlay,
-  } = useInputResourceGroupOverlay()
+  } = useInputResourceGroupOverlay();
 
-  const isEmptyList = !isLoading && list.length === 0
+  const isEmptyList = !isLoading && list.length === 0;
   const isHidden =
     hideWhenSingleItem === true &&
     totalCount === 1 &&
-    defaultValues.length === 0
+    defaultValues.length === 0;
   if (isEmptyList || isHidden) {
-    return null
+    return null;
   }
 
   return (
@@ -125,7 +125,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 key={`${item.value}-${idx}`}
                 checked={values.includes(item.value)}
                 onChange={() => {
-                  toggleValue(item.value)
+                  toggleValue(item.value);
                 }}
                 icon={
                   showCheckboxIcon ? (
@@ -134,10 +134,10 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
                 }
                 hideIconOnDesktop
                 isLoading={isLoading}
-                content={<Text weight="semibold">{item.label}</Text>}
+                content={<Text weight="medium">{item.label}</Text>}
                 value={item.value}
               />
-            )
+            );
           })}
         </Card>
 
@@ -146,12 +146,12 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
             <button
               type="button"
               onClick={() => {
-                openInputResourceGroupOverlay()
+                openInputResourceGroupOverlay();
               }}
             >
               <Text
                 variant="primary"
-                weight="bold"
+                weight="semibold"
                 size="small"
                 className="underline"
               >
@@ -170,8 +170,8 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
               fullWidth
               type="button"
               onClick={() => {
-                closeInputResourceGroupOverlay()
-                setSelectedValuesForPreview(values)
+                closeInputResourceGroupOverlay();
+                setSelectedValuesForPreview(values);
               }}
             >
               {t("common.apply")}
@@ -190,9 +190,9 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
         />
       </InputWrapper>
     </SkeletonTemplate>
-  )
-}
-InputResourceGroup.displayName = "InputResourceGroup"
+  );
+};
+InputResourceGroup.displayName = "InputResourceGroup";
 
 /**
  * Fetches the list of resources and merges it with the list of selected resources
@@ -207,17 +207,17 @@ function useList({
   selectedValues,
   filters,
 }: {
-  resource: ListableResourceType
-  limit: number
-  fieldForValue: string
-  fieldForLabel: string
-  sortBy: SortBy
-  selectedValues: string[]
-  filters: QueryFilter
+  resource: ListableResourceType;
+  limit: number;
+  fieldForValue: string;
+  fieldForLabel: string;
+  sortBy: SortBy;
+  selectedValues: string[];
+  filters: QueryFilter;
 }): {
-  list: Array<{ value: string; label: string }>
-  totalCount?: number
-  isLoading: boolean
+  list: Array<{ value: string; label: string }>;
+  totalCount?: number;
+  isLoading: boolean;
 } {
   const queryParam: QueryParamsList = {
     fields: {
@@ -228,7 +228,7 @@ function useList({
       [sortBy.attribute]: sortBy.direction,
     },
     filters,
-  }
+  };
 
   const filtersSelected: QueryParamsList =
     selectedValues.length === 0
@@ -240,7 +240,7 @@ function useList({
             ...filters,
             [`${fieldForValue}_in`]: selectedValues.join(","),
           },
-        }
+        };
 
   // list of selected resources to be shown on top of the list, even if they are on different pages
   const { data: selectedResources, isLoading: isLoadingSelectedResources } =
@@ -255,8 +255,8 @@ function useList({
       ],
       {
         revalidateOnFocus: false,
-      },
-    )
+      }
+    );
 
   // list of all resources, no need to exclude the selected ones since we can leverage both api and swr caches
   const { data: allResources, isLoading: isLoadingAllResources } = useCoreApi(
@@ -265,12 +265,12 @@ function useList({
     [queryParam],
     {
       revalidateOnFocus: false,
-    },
-  )
+    }
+  );
 
-  const isLoading = isLoadingSelectedResources || isLoadingAllResources
-  const totalCount = allResources?.meta?.recordCount
-  const jointList = [...(selectedResources ?? []), ...(allResources ?? [])]
+  const isLoading = isLoadingSelectedResources || isLoadingAllResources;
+  const totalCount = allResources?.meta?.recordCount;
+  const jointList = [...(selectedResources ?? []), ...(allResources ?? [])];
 
   // during loading, list is filled with empty mocks so we can render the skeleton
   const list = isLoading
@@ -281,7 +281,7 @@ function useList({
             isLoading: true,
             fieldForLabel,
             fieldForValue,
-          }),
+          })
         )
     : uniqBy(
         jointList.map((item) =>
@@ -289,14 +289,14 @@ function useList({
             resource: item,
             fieldForLabel,
             fieldForValue,
-          }),
+          })
         ),
-        "value",
-      ).slice(0, limit)
+        "value"
+      ).slice(0, limit);
 
   return {
     list,
     totalCount,
     isLoading,
-  }
+  };
 }

@@ -1,11 +1,11 @@
-import type { Meta, StoryFn } from "@storybook/react-vite"
-import { Avatar } from "#ui/atoms/Avatar"
-import { Button } from "#ui/atoms/Button"
-import { Icon } from "#ui/atoms/Icon"
-import { RadialProgress } from "#ui/atoms/RadialProgress"
-import { StatusIcon } from "#ui/atoms/StatusIcon"
-import { Text } from "#ui/atoms/Text"
-import { ListItem } from "#ui/composite/ListItem"
+import type { Meta, StoryFn } from "@storybook/react-vite";
+import { Avatar } from "#ui/atoms/Avatar";
+import { Button } from "#ui/atoms/Button";
+import { Icon } from "#ui/atoms/Icon";
+import { RadialProgress } from "#ui/atoms/RadialProgress";
+import { StatusIcon } from "#ui/atoms/StatusIcon";
+import { Text } from "#ui/atoms/Text";
+import { ListItem } from "#ui/composite/ListItem";
 
 const setup: Meta<typeof ListItem> = {
   title: "Composite/ListItem",
@@ -13,20 +13,20 @@ const setup: Meta<typeof ListItem> = {
   parameters: {
     layout: "padded",
   },
-}
-export default setup
+};
+export default setup;
 
 export const Simple: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args}>
     <Text weight="bold">Skus</Text>
     <StatusIcon name="caretRight" />
   </ListItem>
-)
+);
 Simple.args = {
   onClick: () => {
-    alert("clicked")
+    alert("clicked");
   },
-}
+};
 
 const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args}>
@@ -34,10 +34,10 @@ const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
       <Text tag="div" weight="semibold">
         NY Store #19346524
       </Text>
-      <Text tag="div" weight="medium" size="small" variant="info">
+      <Text tag="div" weight="regular" size="small" variant="info">
         Placed · mjordan@nba.com · May 17
       </Text>
-      <Text tag="div" weight="bold" size="small" variant="warning">
+      <Text tag="div" weight="medium" size="small" variant="warning">
         Awaiting approval
       </Text>
     </div>
@@ -50,25 +50,25 @@ const WithIconTemplate: StoryFn<typeof ListItem> = (args) => (
       </Text>
     </div>
   </ListItem>
-)
+);
 
-export const WithIcon = WithIconTemplate.bind({})
+export const WithIcon = WithIconTemplate.bind({});
 WithIcon.args = {
   icon: <StatusIcon name="arrowDown" background="orange" gap="large" />,
-}
+};
 
-export const BorderDashed = WithIconTemplate.bind({})
+export const BorderDashed = WithIconTemplate.bind({});
 BorderDashed.args = {
   icon: <StatusIcon name="arrowDown" background="orange" gap="large" />,
   borderStyle: "dashed",
-}
+};
 
-export const Boxed = WithIconTemplate.bind({})
+export const Boxed = WithIconTemplate.bind({});
 Boxed.args = {
   icon: <StatusIcon name="arrowDown" background="orange" gap="large" />,
   onClick: () => {},
   variant: "boxed",
-}
+};
 
 const BoxedCTATemplate: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args}>
@@ -80,35 +80,35 @@ const BoxedCTATemplate: StoryFn<typeof ListItem> = (args) => (
       Volume tier
     </Button>
   </ListItem>
-)
+);
 
-export const BoxedCTA = BoxedCTATemplate.bind({})
+export const BoxedCTA = BoxedCTATemplate.bind({});
 BoxedCTA.args = {
   icon: <Icon name="stack" size={32} />,
   alignIcon: "center",
   variant: "boxed",
   paddingSize: "6",
-}
+};
 
-export const Disabled = WithIconTemplate.bind({})
+export const Disabled = WithIconTemplate.bind({});
 Disabled.args = {
   icon: <StatusIcon name="arrowDown" background="orange" gap="large" />,
   onClick: () => {},
   variant: "boxed",
   disabled: true,
-}
+};
 
-export const WithCenteredIcon = WithIconTemplate.bind({})
+export const WithCenteredIcon = WithIconTemplate.bind({});
 WithCenteredIcon.args = {
   icon: <StatusIcon name="arrowDown" background="orange" gap="large" />,
   alignIcon: "center",
-}
+};
 
-export const AsAnchor = WithIconTemplate.bind({})
+export const AsAnchor = WithIconTemplate.bind({});
 AsAnchor.args = {
   href: "#",
   icon: <StatusIcon name="arrowDown" background="orange" gap="large" />,
-}
+};
 
 export const OrderLine: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args}>
@@ -127,7 +127,7 @@ export const OrderLine: StoryFn<typeof ListItem> = (args) => (
       $139,00
     </Text>
   </ListItem>
-)
+);
 OrderLine.args = {
   padding: "y",
   icon: (
@@ -136,7 +136,7 @@ OrderLine.args = {
       alt="Black Hat"
     />
   ),
-}
+};
 
 export const Task: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args} icon={<RadialProgress percentage={45} />}>
@@ -150,7 +150,7 @@ export const Task: StoryFn<typeof ListItem> = (args) => (
     </div>
     <StatusIcon name="caretRight" />
   </ListItem>
-)
+);
 
 export const Pending: StoryFn<typeof ListItem> = (args) => (
   <ListItem {...args} icon={<RadialProgress icon="cloudArrowUp" />}>
@@ -164,4 +164,4 @@ export const Pending: StoryFn<typeof ListItem> = (args) => (
     </div>
     <StatusIcon name="caretRight" />
   </ListItem>
-)
+);

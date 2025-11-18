@@ -1,8 +1,8 @@
-import cn from "classnames"
-import type { JSX } from "react"
+import cn from "classnames";
+import type { JSX } from "react";
 
 export interface LegendProps extends React.HTMLAttributes<HTMLLegendElement> {
-  gap?: boolean
+  gap?: boolean;
 }
 
 /**
@@ -19,13 +19,13 @@ export function Legend({
   return (
     <legend
       {...rest}
-      className={cn("block font-semibold leading-6", className, {
+      className={cn("block text-sm font-semibold leading-6", className, {
         "mb-2": gap,
       })}
     >
       {children}
     </legend>
-  )
+  );
 }
 
-Legend.displayName = "Legend"
+Legend.displayName = "Legend";

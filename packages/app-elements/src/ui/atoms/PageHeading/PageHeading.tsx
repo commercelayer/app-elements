@@ -1,53 +1,53 @@
-import cn from "classnames"
-import type { ReactNode } from "react"
-import { Badge, type BadgeProps } from "../Badge"
-import { Icon } from "../Icon"
-import { withSkeletonTemplate } from "../SkeletonTemplate"
-import { Text } from "../Text"
+import cn from "classnames";
+import type { ReactNode } from "react";
+import { Badge, type BadgeProps } from "../Badge";
+import { Icon } from "../Icon";
+import { withSkeletonTemplate } from "../SkeletonTemplate";
+import { Text } from "../Text";
 import {
   PageHeadingToolbar,
   type PageHeadingToolbarProps,
-} from "./PageHeadingToolbar"
+} from "./PageHeadingToolbar";
 
 export interface PageHeadingProps {
   /**
    * Main page title wrapped in a h1 element
    */
-  title: ReactNode
+  title: ReactNode;
   /**
    * A short text that helps to describe the page
    */
-  description?: ReactNode
+  description?: ReactNode;
   /**
    * If `true` removes element vertical paddings
    */
-  gap?: "none" | "only-top" | "only-bottom" | "both"
+  gap?: "none" | "only-top" | "only-bottom" | "both";
   /**
    * When set, it will render a badge (default as warning variant)
    */
   badge?: {
-    label: string
+    label: string;
     /**  @default warning-solid  */
-    variant?: BadgeProps["variant"]
-  }
+    variant?: BadgeProps["variant"];
+  };
   /**
    * When set, it will render a navigation (eg: go back) button on the left side of the first row
    */
   navigationButton?: {
     /* Button label */
-    label: string
+    label: string;
     /* Button callback */
-    onClick: () => void
+    onClick: () => void;
     /**
      * Button icon
      * @default arrowLeft
      */
-    icon?: "x" | "arrowLeft"
-  }
+    icon?: "x" | "arrowLeft";
+  };
   /**
    * When set, it will render a proper toolbar on the right side of the first row
    */
-  toolbar?: PageHeadingToolbarProps
+  toolbar?: PageHeadingToolbarProps;
 }
 
 const PageHeading = withSkeletonTemplate<PageHeadingProps>(
@@ -80,11 +80,13 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
               type="button"
               className="flex items-center gap-1"
               onClick={() => {
-                navigationButton.onClick()
+                navigationButton.onClick();
               }}
             >
               <Icon name={navigationButton.icon ?? "arrowLeft"} size={24} />{" "}
-              <Text weight="semibold">{navigationButton.label}</Text>
+              <Text weight="medium" size="small">
+                {navigationButton.label}
+              </Text>
             </button>
             {toolbar != null ? <PageHeadingToolbar {...toolbar} /> : null}
           </div>
@@ -108,9 +110,9 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
           <div className="text-gray-500 leading-6 mt-2">{description}</div>
         )}
       </div>
-    )
-  },
-)
+    );
+  }
+);
 
-PageHeading.displayName = "PageHeading"
-export { PageHeading }
+PageHeading.displayName = "PageHeading";
+export { PageHeading };

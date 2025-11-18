@@ -1,9 +1,9 @@
-import cn from "classnames"
-import type { JSX } from "react"
+import cn from "classnames";
+import type { JSX } from "react";
 
 export interface LabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {
-  gap?: boolean
+  gap?: boolean;
 }
 
 /**
@@ -19,13 +19,13 @@ export function Label({
     // biome-ignore lint/a11y/noLabelWithoutControl: I need to use a label without an associated control
     <label
       {...rest}
-      className={cn("block font-semibold leading-6", className, {
+      className={cn("block text-sm font-semibold leading-6", className, {
         "mb-2": gap,
       })}
     >
       {children}
     </label>
-  )
+  );
 }
 
-Label.displayName = "Label"
+Label.displayName = "Label";
