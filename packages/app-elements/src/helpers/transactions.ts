@@ -9,10 +9,14 @@ import isEmpty from "lodash-es/isEmpty"
 export function orderTransactionIsAnAsyncCapture(
   transaction: Authorization | Void | Capture | Refund,
 ): boolean {
+  const isAsyncMessage =
+    isEmpty(transaction.message) ||
+    ["pending", "received"].includes(transaction.message?.toLowerCase() ?? "")
+
   return (
     transaction.type === "captures" &&
     !transaction.succeeded &&
-    isEmpty(transaction.message) &&
+    isAsyncMessage &&
     isEmpty(transaction.error_code)
   )
 }
