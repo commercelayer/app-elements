@@ -80,7 +80,7 @@ function MultiValueLabel(
     >
   >,
 ) {
-  return <span className="text-[13px]">{props.data.label}</span>
+  return props.data.label
 }
 
 function MultiValueRemove(props: any): JSX.Element {
