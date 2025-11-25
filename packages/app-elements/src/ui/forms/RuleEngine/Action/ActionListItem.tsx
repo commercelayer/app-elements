@@ -1,7 +1,8 @@
 import { useEffect } from "react"
 import { useTranslation } from "#providers/I18NProvider"
+import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
-import { DropdownItem } from "#ui/composite/Dropdown"
+import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import {
   InputSelect,
   isMultiValueSelected,
@@ -10,9 +11,11 @@ import {
 import { useAvailableGroups } from "../Condition/hooks"
 import { ListItemContainer } from "../layout/ListItemContainer"
 import { OptionRow } from "../layout/OptionRow"
+import { Options } from "../Options"
+import { useAvailableOptions } from "../optionsConfig"
 import type { RuleEngineProps } from "../RuleEngineComponent"
 import { useRuleEngine } from "../RuleEngineContext"
-import type { SchemaActionItem } from "../utils"
+import type { ActionType, SchemaActionItem } from "../utils"
 import { ActionValue } from "./ActionValue"
 
 export function ActionListItem({
@@ -26,12 +29,21 @@ export function ActionListItem({
 }): React.ReactNode {
   const {
     setPath,
-    schemaType,
     state: { selectedRuleIndex },
-    availableActionTypes,
+    optionsConfig,
   } = useRuleEngine()
 
-  const availableGroups = useAvailableGroups()
+  const availableActionTypes = Object.keys(
+    optionsConfig.actions,
+  ) as ActionType[]
+
+  const actionOptionsConfig =
+    item?.type != null ? (optionsConfig.actions[item.type] ?? []) : []
+
+  const { available: availableOptions } = useAvailableOptions(
+    item,
+    actionOptionsConfig,
+  )
 
   type Item = NonNullable<typeof item>
   const typeDictionary: Record<Item["type"], string> = {
@@ -43,12 +55,6 @@ export function ActionListItem({
   }
 
   const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
-
-  useEffect(() => {
-    if (availableGroups.length === 0 && (item?.groups ?? []).length > 0) {
-      setPath(`${pathPrefix}.groups`, [])
-    }
-  }, [availableGroups])
 
   return (
     <div className="mb-4 last:mb-0">
@@ -66,59 +72,65 @@ export function ActionListItem({
         }
         options={
           <>
-            <OptionRow
-              label={
-                <Text variant="info" size="small">
-                  Apply to
-                </Text>
-              }
-            >
-              <InputActionSelector
-                value={item?.selector}
-                name={`${pathPrefix}.selector`}
-              />
-            </OptionRow>
+            <ActionSelector item={item} pathPrefix={pathPrefix} />
+            <ActionGroups item={item} pathPrefix={pathPrefix} />
+            <Options item={item} pathPrefix={pathPrefix} />
 
-            {(availableGroups.length > 0 ||
-              (item?.groups ?? []).length > 0) && (
-              <OptionRow
-                label={
-                  <Text variant="info" size="small">
-                    Groups
-                  </Text>
-                }
-              >
-                <InputSelect
-                  name={`${pathPrefix}.groups`}
-                  isMulti
-                  value={
-                    item != null
-                      ? item.groups?.map((groups) => ({
-                          label: availableGroups.includes(groups)
-                            ? groups
-                            : `⚠️   ${groups}`,
-                          value: groups,
-                        }))
-                      : undefined
-                  }
-                  initialValues={availableGroups.map((group) => ({
-                    value: group,
-                    label: group,
-                  }))}
-                  onSelect={(selected) => {
-                    if (isMultiValueSelected(selected)) {
-                      setPath(
-                        `${pathPrefix}.groups`,
-                        selected.map((s) => s.value),
-                      )
-
-                      if (schemaType === "order-rules" && selected.length > 0) {
-                        setPath(`${pathPrefix}.selector`, "order.line_items")
+            {availableOptions.length > 0 && (
+              <Dropdown
+                className="inline-flex mt-6"
+                menuPosition="bottom-left"
+                dropdownItems={availableOptions.map((option) => (
+                  <DropdownItem
+                    onClick={() => {
+                      // Set default values based on option type
+                      switch (option.name) {
+                        case "round":
+                          setPath(`${pathPrefix}.round`, true)
+                          break
+                        case "apply_on":
+                          setPath(`${pathPrefix}.apply_on`, "")
+                          break
+                        case "discount_mode":
+                          setPath(`${pathPrefix}.discount_mode`, "default")
+                          break
+                        case "limit":
+                          setPath(`${pathPrefix}.limit`, {
+                            value: 1,
+                            sort: { attribute: "", direction: "asc" },
+                          })
+                          break
+                        case "aggregation":
+                          setPath(`${pathPrefix}.aggregation`, {
+                            field: "",
+                            matcher: "eq",
+                            operator: "sum",
+                            value: 0,
+                          })
+                          break
+                        case "bundle":
+                          setPath(`${pathPrefix}.bundle`, {
+                            type: "balanced",
+                            sort: { attribute: "", direction: "asc" },
+                          })
+                          break
                       }
-                    }
-                  }}
-                />
-              </OptionRow>
+                    }}
+                    label={option.label}
+                    key={`option-${option.name}`}
+                  />
+                ))}
+                dropdownLabel={
+                  <button type="button">
+                    <Text className="flex gap-2 items-center">
+                      <Text weight="bold" size="small">
+                        Add option
+                      </Text>{" "}
+                      <Icon name="caretDown" />
+                    </Text>
+                  </button>
+                }
+              />
             )}
           </>
         }
@@ -154,13 +166,13 @@ export function ActionListItem({
   )
 }
 
-export function InputActionSelector({
-  value,
-  name,
+function ActionSelector({
+  item,
+  pathPrefix,
 }: {
-  value: string | undefined
-  name: string
-}): React.JSX.Element {
+  item: SchemaActionItem | null
+  pathPrefix: string
+}) {
   const { setPath, schemaType } = useRuleEngine()
   const { t } = useTranslation()
 
@@ -172,18 +184,91 @@ export function InputActionSelector({
     ),
   }))
 
+  const name = `${pathPrefix}.selector`
+
   return (
-    <InputSelect
-      name={name}
-      isSearchable={false}
-      initialValues={initialValues}
-      value={initialValues.find((c) => c.value === value)}
-      onSelect={async (selection) => {
-        if (isSingleValueSelected(selection)) {
-          setPath(name, selection.value)
+    <OptionRow
+      label={
+        <Text variant="info" size="small">
+          Apply to
+        </Text>
+      }
+    >
+      <InputSelect
+        name={name}
+        isSearchable={false}
+        initialValues={initialValues}
+        value={initialValues.find((c) => c.value === item?.selector)}
+        onSelect={async (selection) => {
+          if (isSingleValueSelected(selection)) {
+            setPath(name, selection.value)
+            setPath(`${pathPrefix}.apply_on`, null)
+          }
+        }}
+      />
+    </OptionRow>
+  )
+}
+
+function ActionGroups({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | null
+  pathPrefix: string
+}) {
+  const { setPath, schemaType } = useRuleEngine()
+  const availableGroups = useAvailableGroups()
+
+  useEffect(() => {
+    if (availableGroups.length === 0 && (item?.groups ?? []).length > 0) {
+      setPath(`${pathPrefix}.groups`, [])
+    }
+  }, [availableGroups])
+
+  if (availableGroups.length <= 0 && (item?.groups ?? []).length <= 0) {
+    return null
+  }
+
+  return (
+    <OptionRow
+      label={
+        <Text variant="info" size="small">
+          Groups
+        </Text>
+      }
+    >
+      <InputSelect
+        name={`${pathPrefix}.groups`}
+        isMulti
+        value={
+          item != null
+            ? item.groups?.map((groups) => ({
+                label: availableGroups.includes(groups)
+                  ? groups
+                  : `⚠️   ${groups}`,
+                value: groups,
+              }))
+            : undefined
         }
-      }}
-    />
+        initialValues={availableGroups.map((group) => ({
+          value: group,
+          label: group,
+        }))}
+        onSelect={(selected) => {
+          if (isMultiValueSelected(selected)) {
+            setPath(
+              `${pathPrefix}.groups`,
+              selected.map((s) => s.value),
+            )
+
+            if (schemaType === "order-rules" && selected.length > 0) {
+              setPath(`${pathPrefix}.selector`, "order.line_items")
+            }
+          }
+        }}
+      />
+    </OptionRow>
   )
 }
 

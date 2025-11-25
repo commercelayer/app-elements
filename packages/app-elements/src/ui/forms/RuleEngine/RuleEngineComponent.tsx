@@ -4,7 +4,6 @@ import { isEqual } from "lodash-es"
 import type React from "react"
 import { useCallback, useEffect, useRef, useState } from "react"
 import type { SetOptional } from "type-fest"
-import z from "zod"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
@@ -16,6 +15,11 @@ import {
 } from "#ui/internals/InputWrapper"
 import { Action } from "./Action"
 import { Condition } from "./Condition"
+import {
+  type OptionConfig,
+  type OptionsConfig,
+  parseOptionsFromSchema,
+} from "./optionsConfig"
 import { RuleEngineProvider, useRuleEngine } from "./RuleEngineContext"
 import { RuleName } from "./RuleName"
 import { type ActionType, fetchJsonSchema, type RulesObject } from "./utils"
@@ -73,9 +77,10 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
     settings: { domain },
   } = useTokenProvider()
 
-  const [availableActionTypes, setAvailableActionTypes] = useState<
-    ActionType[]
-  >([])
+  const [optionsConfig, setOptionsConfig] = useState<OptionsConfig>({
+    actions: {} as Record<ActionType, OptionConfig[]>,
+    conditions: [],
+  })
 
   const [value, setValue] = useState<RulesObject>(
     parseValue(props.value ?? props.defaultValue),
@@ -93,37 +98,8 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
   useEffect(
     function parseSchema() {
       fetchJsonSchema(props.schemaType, domain).then((jsonSchema) => {
-        const schema = z.object({
-          properties: z.object({
-            rules: z.object({
-              items: z.object({
-                properties: z.object({
-                  actions: z.object({
-                    items: z.object({
-                      anyOf: z.array(
-                        z.object({
-                          properties: z.object({
-                            type: z.object({
-                              enum: z.string().array(),
-                            }),
-                          }),
-                        }),
-                      ),
-                    }),
-                  }),
-                }),
-              }),
-            }),
-          }),
-        })
-
-        const actionTypes = schema
-          .parse(jsonSchema)
-          .properties.rules.items.properties.actions.items.anyOf.flatMap(
-            (action) => action.properties.type.enum,
-          )
-
-        setAvailableActionTypes([...new Set(actionTypes)] as ActionType[])
+        const parsedOptionsConfig = parseOptionsFromSchema(jsonSchema as any)
+        setOptionsConfig(parsedOptionsConfig)
       })
     },
     [domain],
@@ -133,8 +109,8 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
     <RuleEngineProvider
       initialValue={{
         value: { rules: value.rules },
-        availableActionTypes,
         schemaType: props.schemaType,
+        optionsConfig,
       }}
     >
       <RuleEditorComponent {...props} />

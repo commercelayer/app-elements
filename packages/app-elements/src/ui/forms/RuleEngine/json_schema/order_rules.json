@@ -1,0 +1,885 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "1.1.7",
+  "title": "Rules for order context",
+  "description": "Rules payload within order context for the rules engine of Commerce Layer.",
+  "properties": {
+    "rules": {
+      "type": "array",
+      "description": "Main container with all rules.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "default": "UUID",
+            "examples": ["UUID"],
+            "description": "Identifier of the rule, recommended to use UUID."
+          },
+          "name": {
+            "type": "string",
+            "examples": ["Rule 1"],
+            "description": "Name of the rule"
+          },
+          "priority": {
+            "type": "integer",
+            "default": 0,
+            "description": "The priority order of the rule evaluation.",
+            "examples": [0, 1]
+          },
+          "conditions_logic": { "$ref": "#/$defs/conditions_logic" },
+          "conditions": { "$ref": "#/$defs/conditions" },
+          "actions": {
+            "type": "array",
+            "description": "Array of actions that will be executed if the rule it's a match.",
+            "items": {
+              "anyOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["percentage"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["percentage"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "number",
+                      "description": "Percentage to be discounted,",
+                      "examples": [0.2, 0.3]
+                    },
+                    "round": { "$ref": "#/$defs/round" },
+                    "apply_on": { "$ref": "#/$defs/apply_on" },
+                    "bundle": { "$ref": "#/$defs/bundle" }
+                  },
+                  "required": ["type", "selector", "value", "groups"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["percentage"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["percentage"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "number",
+                      "description": "Percentage to be discounted,",
+                      "examples": [0.2, 0.3]
+                    },
+                    "round": { "$ref": "#/$defs/round" },
+                    "apply_on": { "$ref": "#/$defs/apply_on" },
+                    "limit": { "$ref": "#/$defs/limit" }
+                  },
+                  "required": ["type", "selector", "value"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["fixed_amount"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["fixed_amount"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "integer",
+                      "description": "The discount fixed amount to be applied.",
+                      "examples": [10]
+                    },
+                    "bundle": { "$ref": "#/$defs/bundle" },
+                    "apply_on": { "$ref": "#/$defs/apply_on" },
+                    "discount_mode": {
+                      "type": "string",
+                      "enum": ["distributed", "default"],
+                      "description": "The type of distribution of the discount over the items.",
+                      "examples": ["distributed"]
+                    }
+                  },
+                  "required": ["type", "selector", "value", "groups"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["fixed_amount"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["fixed_amount"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "integer",
+                      "description": "The discount fixed amount to be applied.",
+                      "examples": [10]
+                    },
+                    "apply_on": { "$ref": "#/$defs/apply_on" },
+                    "limit": { "$ref": "#/$defs/limit" },
+                    "discount_mode": {
+                      "type": "string",
+                      "enum": ["distributed", "default"],
+                      "description": "The type of distribution of the discount over the items.",
+                      "examples": ["distributed"]
+                    }
+                  },
+                  "required": ["type", "selector", "value"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["fixed_price"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["fixed_price"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "integer",
+                      "description": "The price fixed amount to be applied.",
+                      "examples": [20]
+                    },
+                    "bundle": { "$ref": "#/$defs/bundle" },
+                    "apply_on": { "$ref": "#/$defs/apply_on" }
+                  },
+                  "required": ["type", "selector", "value", "groups"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["fixed_price"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["fixed_price"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "integer",
+                      "description": "The price fixed amount to be applied.",
+                      "examples": [20]
+                    },
+                    "apply_on": { "$ref": "#/$defs/apply_on" },
+                    "limit": { "$ref": "#/$defs/limit" }
+                  },
+                  "required": ["type", "selector", "value"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["buy_x_pay_y"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["buy_x_pay_y"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "integer",
+                          "description": "The buy X part of the action",
+                          "examples": [3]
+                        },
+                        "y": {
+                          "type": "integer",
+                          "description": "The pay Y part of the action.",
+                          "examples": [2]
+                        },
+                        "result_item_limit": {
+                          "$ref": "#/$defs/result_item_limit",
+                          "description": "Max number of items to consider for the calculation."
+                        }
+                      },
+                      "required": ["x", "y"]
+                    }
+                  },
+                  "required": ["type", "value"],
+                  "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["every_x_discount_y"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["every_x_discount_y"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "value": {
+                      "type": "object",
+                      "properties": {
+                        "x": {
+                          "type": "integer",
+                          "description": "Amount to discount every.",
+                          "examples": [30]
+                        },
+                        "y": {
+                          "type": "integer",
+                          "description": "Amount to be discounted to each interval.",
+                          "examples": [3]
+                        },
+                        "attribute": {
+                          "type": "string",
+                          "description": "Uses the field to do the calculation for the action.",
+                          "examples": [
+                            "subtotal_amount_cents",
+                            "total_amount_cents"
+                          ]
+                        }
+                      },
+                      "required": ["x", "y", "attribute"]
+                    }
+                  },
+                  "required": ["type", "value", "selector"],
+                  "additionalProperties": false
+                }
+              ]
+            }
+          }
+        },
+        "required": ["name", "conditions", "actions"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "$defs": {
+    "conditions": {
+      "type": "array",
+      "description": "An array who contains all conditions to be evaluated by the engine within the rule.",
+      "items": {
+        "anyOf": [
+          {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "description": "Field to apply the condition.",
+                "examples": []
+              },
+              "matcher": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "const": "start_with",
+                    "description": "Match if the field starts with the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "not_start_with",
+                    "description": "Match if the field doess not start with the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "end_with",
+                    "description": "Match if the field ends with the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "not_end_with",
+                    "description": "Match if the fields does not end with the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "does_not_match",
+                    "description": "Match if the field does not match the value regexp expression."
+                  },
+                  {
+                    "type": "string",
+                    "const": "matches",
+                    "description": "Match if the field matches the value regexp expression."
+                  },
+                  {
+                    "type": "string",
+                    "const": "multiple",
+                    "description": "Match if the field it's a multiple of the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "eq",
+                    "description": "Match if the field it's equal to the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "not_eq",
+                    "description": "Match if the field it's not equal to the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "lt",
+                    "description": "Match if the field it's less than the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "lteq",
+                    "description": "Match if the field it's less than or equal the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "gt",
+                    "description": "Match if the field it's greater than the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "gteq",
+                    "description": "Match if the field it's greater than or equal the value."
+                  },
+                  {
+                    "type": "string",
+                    "const": "gt_lt",
+                    "description": "Match if the field it's greater than and less than the value range. Value must be an array with the range."
+                  },
+                  {
+                    "type": "string",
+                    "const": "gteq_lt",
+                    "description": "Match if the field it's greater than or equal and less than the value range. Value must be an array with the range."
+                  },
+                  {
+                    "type": "string",
+                    "const": "gt_lteq",
+                    "description": "Match if the field it's greater than and less than or equal the value range. Value must be an array with the range."
+                  },
+                  {
+                    "type": "string",
+                    "const": "gteq_lteq",
+                    "description": "Match if the field it's greater than or equal and less than or equal the value range. Value must be an array with the range."
+                  },
+                  {
+                    "type": "string",
+                    "const": "is_in",
+                    "description": "Match if the field it's in the value. Value must be an array."
+                  },
+                  {
+                    "type": "string",
+                    "const": "is_not_in",
+                    "description": "Match if the field it's not in the value. Value must be an array"
+                  },
+                  {
+                    "type": "string",
+                    "const": "array_match",
+                    "description": "Match if the field meets all conditions within an array_match value. See array_match value schema for more information."
+                  }
+                ],
+                "examples": ["start_with", "not_start_with", "end_with"],
+                "description": "Matcher to be used against the field and value."
+              },
+              "scope": { "$ref": "#/$defs/scope" },
+              "group": { "$ref": "#/$defs/group" },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "description": "Value to compare against the field value.",
+                    "examples": [
+                      "{\"matcher\": \"multiple\", \"value\": 5}",
+                      "{\"matcher\": \"eq\", \"value\": 5}",
+                      "{\"matcher\": \"not_eq\", \"value\": 5}",
+                      "{\"matcher\": \"lt\", \"value\": 5}",
+                      "{\"matcher\": \"lteq\", \"value\": 5}",
+                      "{\"matcher\": \"gt\", \"value\": 5}",
+                      "{\"matcher\": \"gteq\", \"value\": 5}"
+                    ],
+                    "matcherTypes": [
+                      "multiple",
+                      "eq",
+                      "not_eq",
+                      "lt",
+                      "lteq",
+                      "gt",
+                      "gteq"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "description": "Value to compare against the field value.",
+                    "examples": [
+                      "{\"matcher\": \"start_with\", \"value\": \"test\"}",
+                      "{\"matcher\": \"not_start_with\", \"value\": \"test\"}",
+                      "{\"matcher\": \"end_with\", \"value\": \"test\"}",
+                      "{\"matcher\": \"not_end_with\", \"value\": \"test\"}",
+                      "{\"matcher\": \"does_not_match\", \"value\": \"test\"}",
+                      "{\"matcher\": \"eq\", \"value\": \"test\"}",
+                      "{\"matcher\": \"not_eq\", \"value\": \"test\"}"
+                    ],
+                    "matcherTypes": [
+                      "start_with",
+                      "not_start_with",
+                      "end_with",
+                      "not_end_with",
+                      "does_not_match",
+                      "eq",
+                      "not_eq"
+                    ]
+                  },
+                  {
+                    "type": "string",
+                    "description": "Value to compare against the field value.",
+                    "examples": [
+                      "{\"matcher\": \"eq\", \"value\": \"{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}\"}",
+                      "{\"matcher\": \"not_eq\", \"value\": \"{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}\"}",
+                      "{\"matcher\": \"lt\", \"value\": \"{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}\"}",
+                      "{\"matcher\": \"lteq\", \"value\": \"{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}\"}",
+                      "{\"matcher\": \"gt\", \"value\": \"{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}\"}",
+                      "{\"matcher\": \"gteq\", \"value\": \"{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}\"}"
+                    ],
+                    "matcherTypes": [
+                      "eq",
+                      "not_eq",
+                      "lt",
+                      "lteq",
+                      "gt",
+                      "gteq"
+                    ],
+                    "format": "date-time"
+                  },
+                  {
+                    "type": "boolean",
+                    "description": "Value to compare against the field value.",
+                    "examples": [
+                      "{\"matcher\": \"eq\", \"value\": true}",
+                      "{\"matcher\": \"not_eq\", \"value\": true}"
+                    ],
+                    "matcherTypes": ["eq", "not_eq"]
+                  },
+                  {
+                    "type": "array",
+                    "description": "Values on range to compare against the field value.",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "examples": [
+                            "{\"matcher\": \"is_in\", \"value\": [\"test\", \"test\"]}",
+                            "{\"matcher\": \"is_not_in\", \"value\": [\"test\", \"test\"]}"
+                          ],
+                          "matcherTypes": ["is_in", "is_not_in"]
+                        },
+                        {
+                          "type": "integer",
+                          "examples": [
+                            "{\"matcher\": \"gt_lt\", \"value\": [5, 6]}",
+                            "{\"matcher\": \"gteq_lt\", \"value\": [5, 6]}",
+                            "{\"matcher\": \"gt_lteq\", \"value\": [5, 6]}",
+                            "{\"matcher\": \"gteq_lteq\", \"value\": [5, 6]}",
+                            "{\"matcher\": \"is_in\", \"value\": [5, 6]}",
+                            "{\"matcher\": \"is_not_in\", \"value\": [5, 6]}"
+                          ],
+                          "matcherTypes": [
+                            "gt_lt",
+                            "gteq_lt",
+                            "gt_lteq",
+                            "gteq_lteq",
+                            "is_in",
+                            "is_not_in"
+                          ]
+                        },
+                        {
+                          "type": "string",
+                          "format": "date-time",
+                          "examples": [
+                            "{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                            "{\"matcher\": \"is_not_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                            "{\"matcher\": \"gteq_lteq\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                            "{\"matcher\": \"gt_lteq\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                            "{\"matcher\": \"gteq_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                            "{\"matcher\": \"gt_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}"
+                          ],
+                          "matcherTypes": [
+                            "gt_lt",
+                            "gteq_lt",
+                            "gt_lteq",
+                            "gteq_lteq",
+                            "is_in",
+                            "is_not_in"
+                          ]
+                        }
+                      ]
+                    },
+                    "examples": [
+                      "{\"matcher\": \"is_in\", \"value\": [\"test\", \"test\"]}",
+                      "{\"matcher\": \"is_not_in\", \"value\": [\"test\", \"test\"]}",
+                      "{\"matcher\": \"gt_lt\", \"value\": [5, 6]}",
+                      "{\"matcher\": \"gteq_lt\", \"value\": [5, 6]}",
+                      "{\"matcher\": \"gt_lteq\", \"value\": [5, 6]}",
+                      "{\"matcher\": \"gteq_lteq\", \"value\": [5, 6]}",
+                      "{\"matcher\": \"is_in\", \"value\": [5, 6]}",
+                      "{\"matcher\": \"is_not_in\", \"value\": [5, 6]}",
+                      "{\"matcher\": \"is_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                      "{\"matcher\": \"is_not_in\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                      "{\"matcher\": \"gteq_lteq\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                      "{\"matcher\": \"gt_lteq\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                      "{\"matcher\": \"gteq_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                      "{\"matcher\": \"gt_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}"
+                    ],
+                    "matcherTypes": [
+                      "gt_lt",
+                      "gteq_lt",
+                      "gt_lteq",
+                      "gteq_lteq",
+                      "is_in",
+                      "is_not_in"
+                    ]
+                  },
+                  {
+                    "type": "object",
+                    "description": "value to be used with array_match matcher.",
+                    "examples": [
+                      "{\"matcher\": \"array_match\", \"value\": { \"in_and\": [\"accessories\"] } }"
+                    ],
+                    "properties": {
+                      "in_and": {
+                        "type": "array",
+                        "description": "Items that are in to match in AND logic.",
+                        "items": {
+                          "anyOf": [{ "type": "string" }, { "type": "integer" }]
+                        }
+                      },
+                      "in_or": {
+                        "type": "array",
+                        "description": "Items that are in to match in OR logic.",
+                        "items": {
+                          "anyOf": [{ "type": "string" }, { "type": "integer" }]
+                        }
+                      },
+                      "not_in_and": {
+                        "type": "array",
+                        "description": "Items that are not in to match in AND logic.",
+                        "items": {
+                          "anyOf": [{ "type": "string" }, { "type": "integer" }]
+                        }
+                      },
+                      "not_in_or": {
+                        "type": "array",
+                        "description": "Items that are not to match in OR logic.",
+                        "items": {
+                          "anyOf": [{ "type": "string" }, { "type": "integer" }]
+                        }
+                      }
+                    },
+                    "additionalProperties": false
+                  }
+                ]
+              },
+              "aggregations": {
+                "type": "array",
+                "description": "Aggregation conditions to execute within the result of the existing condition.",
+                "items": { "$ref": "#/$defs/aggregation" }
+              },
+              "nested": {
+                "type": "object",
+                "description": "Nested conditions to be evaluated within the context of the main condition.",
+                "properties": {
+                  "conditions_logic": { "$ref": "#/$defs/conditions_logic" },
+                  "conditions": { "$ref": "#/$defs/conditions" }
+                }
+              }
+            },
+            "required": ["field", "value", "matcher"],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "field": {
+                "type": "string",
+                "description": "Field to apply the condition.",
+                "examples": []
+              },
+              "matcher": {
+                "oneOf": [
+                  {
+                    "type": "string",
+                    "const": "blank",
+                    "description": "Match if the field it's blank."
+                  },
+                  {
+                    "type": "string",
+                    "const": "present",
+                    "description": "Match if the field it's present."
+                  },
+                  {
+                    "type": "string",
+                    "const": "null",
+                    "description": "Match if the field it's null."
+                  },
+                  {
+                    "type": "string",
+                    "const": "not_null",
+                    "description": "Match if the field it's not null."
+                  }
+                ],
+                "examples": ["blank", "present", "null"],
+                "description": "Matcher to be used against the field."
+              },
+              "scope": { "$ref": "#/$defs/scope" },
+              "group": { "$ref": "#/$defs/group" },
+              "aggregations": {
+                "type": "array",
+                "description": "Aggregation conditions to execute within the result of the existing condition.",
+                "items": { "$ref": "#/$defs/aggregation" }
+              },
+              "nested": {
+                "type": "object",
+                "description": "Nested conditions to be evaluated within the context of the main condition.",
+                "properties": {
+                  "conditions_logic": { "$ref": "#/$defs/conditions_logic" },
+                  "conditions": { "$ref": "#/$defs/conditions" }
+                }
+              }
+            },
+            "required": ["field", "matcher"],
+            "additionalProperties": false
+          }
+        ]
+      }
+    },
+    "conditions_logic": {
+      "type": "string",
+      "default": "and",
+      "enum": ["and", "or"],
+      "examples": ["and", "or"],
+      "description": "The logic to determine an overall match of the conditions."
+    },
+    "result_item_limit": { "type": "integer", "examples": [2, 3] },
+    "group": {
+      "type": "string",
+      "description": "Identifier of the group to assign the matches of the condition invoked."
+    },
+    "scope": {
+      "type": "string",
+      "description": "Policy to determine if a condition is a match. If value is any (default), it will match as long as one fact it's a match, if value is all, it will match if all facts are a match.",
+      "enum": ["any", "all"],
+      "examples": ["any", "all"]
+    },
+    "sort": {
+      "type": "object",
+      "description": "Sorting configuration for the given function",
+      "properties": {
+        "attribute": {
+          "type": "string",
+          "description": "The field to apply the sorting.",
+          "examples": ["quantity"]
+        },
+        "direction": {
+          "type": "string",
+          "description": "The sort criteria to be used.",
+          "examples": ["asc"],
+          "enum": ["asc", "desc"]
+        }
+      },
+      "required": ["direction", "attribute"]
+    },
+    "bundle_type": {
+      "type": "string",
+      "description": "The criteria to be used to select the matches and create the bundles across groups.",
+      "examples": ["balanced"],
+      "default": "balanced"
+    },
+    "bundle": {
+      "type": "object",
+      "description": "Creates bundles based on the groups provided.",
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "type": { "$ref": "#/$defs/bundle_type", "enum": ["balanced"] },
+            "sort": { "$ref": "#/$defs/sort" }
+          },
+          "required": ["sort"],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "type": { "$ref": "#/$defs/bundle_type", "enum": ["every"] },
+            "sort": { "$ref": "#/$defs/sort" },
+            "value": {
+              "type": "integer",
+              "examples": [1, 2],
+              "description": "Value to be used to do the bundle every calculation."
+            }
+          },
+          "required": ["sort", "value"],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "limit": {
+      "type": "object",
+      "description": "Restriction on how many resources will be affected by the action.",
+      "properties": {
+        "value": {
+          "type": "integer",
+          "description": "The number of items to return based on the limit type.",
+          "examples": [2]
+        },
+        "sort": { "$ref": "#/$defs/sort" }
+      },
+      "required": ["sort", "value"],
+      "additionalProperties": false
+    },
+    "selector": {
+      "type": "string",
+      "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+      "examples": []
+    },
+    "identifier": {
+      "type": "string",
+      "description": "An identifier value to address one or more specific instances based on the attribute defined in the selector key (if any). Cannot be used if the selector is a resource.",
+      "examples": ["WVyPSgRwxZ"]
+    },
+    "groups": {
+      "type": "array",
+      "items": { "type": "string", "examples": ["group_a"] },
+      "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions)."
+    },
+    "apply_on": {
+      "type": "string",
+      "description": "If provided, applies the action to a specific attribute instead of the default one.",
+      "examples": ["compare_at_amount_cents"]
+    },
+    "round": {
+      "type": "boolean",
+      "description": "If true, rounds the discount, only available on percentage actions.",
+      "examples": [true, false]
+    },
+    "aggregation": {
+      "type": "object",
+      "properties": {
+        "field": {
+          "type": "string",
+          "description": "Field to apply the condition.",
+          "examples": []
+        },
+        "matcher": {
+          "oneOf": [
+            {
+              "type": "string",
+              "const": "multiple",
+              "description": "Match if the field it's a multiple of the value."
+            },
+            {
+              "type": "string",
+              "const": "eq",
+              "description": "Match if the field it's equal to the value."
+            },
+            {
+              "type": "string",
+              "const": "not_eq",
+              "description": "Match if the field it's not equal to the value."
+            },
+            {
+              "type": "string",
+              "const": "lt",
+              "description": "Match if the field it's less than the value."
+            },
+            {
+              "type": "string",
+              "const": "lteq",
+              "description": "Match if the field it's less than or equal the value."
+            },
+            {
+              "type": "string",
+              "const": "gt",
+              "description": "Match if the field it's greater than the value."
+            },
+            {
+              "type": "string",
+              "const": "gteq",
+              "description": "Match if the field it's greater than or equal the value."
+            }
+          ],
+          "examples": ["multiple", "eq", "not_eq"],
+          "description": "Matcher to be used against the field and value."
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "description": "Value to compare against the operator value.",
+              "examples": ["{\"operator\": \"max\", \"value\": 5}"],
+              "matcherTypes": [
+                "multiple",
+                "eq",
+                "not_eq",
+                "lt",
+                "lteq",
+                "gt",
+                "gteq"
+              ]
+            }
+          ]
+        },
+        "operator": {
+          "oneOf": [
+            {
+              "type": "string",
+              "const": "sum",
+              "description": "Given a collection of numbers, returns the sum of all."
+            },
+            {
+              "type": "string",
+              "const": "min",
+              "description": "Given a collection of numbers returns the lowest one."
+            },
+            {
+              "type": "string",
+              "const": "max",
+              "description": "Given a collection of numbers returns the biggest one."
+            },
+            {
+              "type": "string",
+              "const": "count",
+              "description": "Given a collection of objects, counts them."
+            },
+            {
+              "type": "string",
+              "const": "count_uniq",
+              "description": "Given a collection of objects, return the number of unique ones."
+            }
+          ],
+          "description": "Operator to aggregate over previous results.",
+          "examples": ["sum", "min"]
+        }
+      },
+      "required": ["field", "matcher", "operator", "value"],
+      "additionalProperties": false
+    }
+  }
+}

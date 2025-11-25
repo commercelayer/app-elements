@@ -48,7 +48,8 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const closeDropdownMenuIfButtonClicked = (
     e: React.MouseEvent<HTMLElement>,
   ): void => {
-    if ((e.target as any).nodeName === "BUTTON") {
+    const target = e.target as HTMLElement
+    if (target.closest("button")) {
       close()
     }
   }

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react"
+import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
-import { DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { InputResourcePath } from "../InputResourcePath"
 import { ListItemContainer } from "../layout/ListItemContainer"
 import { OptionRow } from "../layout/OptionRow"
+import { Options } from "../Options"
+import { useAvailableOptions } from "../optionsConfig"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
@@ -22,7 +25,12 @@ export function ConditionListItem({
   pathPrefix: string
   onDelete?: () => void
 }): React.JSX.Element {
-  const { setPath } = useRuleEngine()
+  const { setPath, optionsConfig } = useRuleEngine()
+
+  const { available: availableOptions } = useAvailableOptions(
+    item,
+    optionsConfig.conditions,
+  )
 
   const dropdownItems: React.ReactNode[][] = []
 
@@ -71,6 +79,48 @@ export function ConditionListItem({
           <>
             <ConditionValue item={item} pathPrefix={pathPrefix} />
             <ConditionGroup item={item} pathPrefix={pathPrefix} />
+            <Options item={item} pathPrefix={pathPrefix} />
+
+            {availableOptions.length > 0 && (
+              <Dropdown
+                className="inline-flex mt-6"
+                menuPosition="bottom-left"
+                dropdownItems={availableOptions.map((option) => (
+                  <DropdownItem
+                    onClick={() => {
+                      // Set default values based on option type
+                      switch (option.name) {
+                        case "scope":
+                          setPath(`${pathPrefix}.scope`, "any")
+                          break
+                        case "aggregations":
+                          setPath(`${pathPrefix}.aggregations`, [
+                            {
+                              field: "",
+                              matcher: "eq",
+                              operator: "sum",
+                              value: 0,
+                            },
+                          ])
+                          break
+                      }
+                    }}
+                    label={option.label}
+                    key={`option-${option.name}`}
+                  />
+                ))}
+                dropdownLabel={
+                  <button type="button">
+                    <Text className="flex gap-2 items-center">
+                      <Text weight="bold" size="small">
+                        Add option
+                      </Text>{" "}
+                      <Icon name="caretDown" />
+                    </Text>
+                  </button>
+                }
+              />
+            )}
           </>
         }
       >
@@ -89,8 +139,8 @@ export function ConditionListItem({
 }
 
 const ConditionGroup: React.FC<{
-  pathPrefix: string
   item: SchemaConditionItem | null
+  pathPrefix: string
 }> = ({ item, pathPrefix }) => {
   const { setPath } = useRuleEngine()
   const availableGroups = useAvailableGroups()

@@ -7,8 +7,9 @@ import {
   useMemo,
   useReducer,
 } from "react"
+import type { OptionsConfig } from "./optionsConfig"
 import type { RuleEngineProps } from "./RuleEngineComponent"
-import type { ActionType, RulesObject } from "./utils"
+import type { RulesObject } from "./utils"
 
 interface State {
   value: RulesObject
@@ -21,9 +22,9 @@ type Action =
   | { type: "SET_VALUE"; value: RulesObject }
 
 interface RuleEngineContextType {
-  availableActionTypes: ActionType[]
   state: State
   schemaType: RuleEngineProps["schemaType"]
+  optionsConfig: OptionsConfig
   setPath: (path: string, value: unknown) => void
   setSelectedRuleIndex: (index: number) => void
   setValue: (value: RulesObject) => void
@@ -147,7 +148,7 @@ export function RuleEngineProvider({
   initialValue: {
     value: RulesObject
     schemaType: RuleEngineContextType["schemaType"]
-    availableActionTypes: RuleEngineContextType["availableActionTypes"]
+    optionsConfig: RuleEngineContextType["optionsConfig"]
   }
 }): React.JSX.Element {
   const [state, dispatch] = useReducer(ruleEngineReducer, {
@@ -178,16 +179,16 @@ export function RuleEngineProvider({
       setPath,
       setSelectedRuleIndex,
       setValue,
-      availableActionTypes: initialValue.availableActionTypes,
       schemaType: initialValue.schemaType,
+      optionsConfig: initialValue.optionsConfig,
     }),
     [
       state,
       setPath,
       setSelectedRuleIndex,
       setValue,
-      initialValue.availableActionTypes,
       initialValue.schemaType,
+      initialValue.optionsConfig,
     ],
   )
 
