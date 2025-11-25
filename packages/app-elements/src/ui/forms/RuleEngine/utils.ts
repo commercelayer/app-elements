@@ -1,6 +1,14 @@
-import type { JsonValue } from "type-fest"
 import { asUniqueArray } from "#utils/array"
-import type { RulesForOrderContext } from "./schema.order_rules"
+import orderRulesJsonSchema from "./json_schema/order_rules.json" with {
+  type: "json",
+}
+import type { RulesForOrderContext } from "./json_schema/order_rules.schema"
+import organizationConfigJsonSchema from "./json_schema/organization_config.json" with {
+  type: "json",
+}
+import priceRulesJsonSchema from "./json_schema/price_rules.json" with {
+  type: "json",
+}
 
 export type RulesObject = RulesForOrderContext
 type Rule = NonNullable<RulesObject["rules"]>[number]
@@ -39,10 +47,18 @@ export type JSONSchema =
   | "price-rules"
   | "organization-config"
 
-export const fetchJsonSchema = async (
-  jsonSchema: JSONSchema,
+export async function fetchJsonSchema<J extends JSONSchema>(
+  jsonSchema: J,
   domain: string,
-): Promise<JsonValue | undefined> => {
+): Promise<
+  J extends "organization-config"
+    ? typeof organizationConfigJsonSchema
+    : J extends "order-rules"
+      ? typeof orderRulesJsonSchema
+      : J extends "price-rules"
+        ? typeof priceRulesJsonSchema
+        : void
+> {
   if (domain === "localhost") {
     domain = "commercelayer.io"
   }
@@ -53,23 +69,27 @@ export const fetchJsonSchema = async (
     }
 
     case "organization-config": {
-      return fetch(
-        `https://provisioning.${domain}/api/public/schemas/organization_config`,
-      ).then<JsonValue>(async (res) => await res.json())
+      return (
+        await fetch(
+          `https://provisioning.${domain}/api/public/schemas/organization_config`,
+        )
+      ).json()
     }
 
     case "order-rules": {
-      return fetch(
-        `https://core.${domain}/api/public/schemas/order_rules`,
-      ).then<JsonValue>(async (res) => await res.json())
+      return (
+        await fetch(`https://core.${domain}/api/public/schemas/order_rules`)
+      ).json()
     }
 
     case "price-rules": {
-      return fetch(
-        `https://core.${domain}/api/public/schemas/price_rules`,
-      ).then<JsonValue>(async (res) => await res.json())
+      return (
+        await fetch(`https://core.${domain}/api/public/schemas/price_rules`)
+      ).json()
     }
   }
+
+  return undefined as any
 }
 
 /**
