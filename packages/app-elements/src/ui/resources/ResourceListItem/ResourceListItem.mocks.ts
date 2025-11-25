@@ -253,6 +253,37 @@ export const presetResourceListItem = {
       updated_at: "2023-06-10T06:38:44.964Z",
       created_at: "2023-06-09T11:00:00.000Z",
     },
+    tags: [
+      {
+        type: "tags",
+        id: "tag_1",
+        name: "Newsletter Subscriber",
+        created_at: "",
+        updated_at: "",
+      },
+      {
+        type: "tags",
+        id: "tag_2",
+        name: "Newsletter Subscriber 2",
+        created_at: "",
+        updated_at: "",
+      },
+      {
+        type: "tags",
+        id: "tag_3",
+        name: "Newsletter Subscriber 3",
+        created_at: "",
+        updated_at: "",
+      },
+      {
+        type: "tags",
+        id: "tag_4",
+        name: "Loyal Customer",
+        created_at: "",
+        updated_at: "",
+      },
+    ],
+    total_orders_count: 5,
   },
   skuListItemWithQuantity: {
     type: "sku_list_items",

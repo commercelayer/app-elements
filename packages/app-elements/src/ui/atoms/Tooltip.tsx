@@ -1,5 +1,5 @@
 import cn from "classnames"
-import { forwardRef, type JSX, type ReactNode } from "react"
+import { forwardRef, type JSX, type ReactNode, useId } from "react"
 import {
   type PlacesType,
   Tooltip as ReactTooltip,
@@ -45,36 +45,34 @@ export interface TooltipProps {
  */
 export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
   (
-    {
-      label,
-      content,
-      direction = "top",
-      minWidth = false,
-      id = `${getSanitizedInnerText(label)}-${getSanitizedInnerText(content)}-${direction}`,
-      className,
-    },
+    { label, content, direction = "top", minWidth = false, id, className },
     ref,
   ): JSX.Element => {
+    const generatedId = useId()
+    const tooltipId = id ?? generatedId
+
     return (
       <>
         <span
           aria-description={getInnerText(content)}
-          data-tooltip-id={id}
+          data-tooltip-id={tooltipId}
           className={cn("cursor-pointer", className)}
         >
           {label}
         </span>
         <ReactTooltip
-          id={id}
+          id={tooltipId}
           ref={ref}
           place={direction}
           clickable
           imperativeModeOnly={ref != null}
+          // Position strategy fixed to avoid issues with overflow hidden parents
+          positionStrategy="fixed"
           // We are using our own styles, by applying tailwind classes
           // https://react-tooltip.com/docs/examples/styling#base-styles
           disableStyleInjection
           className={cn(
-            "rounded bg-black text-white px-4 py-3 text-sm font-semibold w-max",
+            "rounded bg-black text-white px-4 py-3 text-sm font-semibold w-max wrap-anywhere",
             {
               "max-w-[280px]": !minWidth,
               "min-w-[280px]": minWidth,
@@ -93,7 +91,3 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
 )
 
 Tooltip.displayName = "Tooltip"
-
-function getSanitizedInnerText(node: ReactNode): string {
-  return getInnerText(node).replace(/\W+/g, "").toLowerCase()
-}

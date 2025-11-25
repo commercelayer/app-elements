@@ -30,6 +30,14 @@ export const SelectComponent = forwardRef<
         closeMenuOnSelect={rest.isMulti !== true}
         noOptionsMessage={() => noOptionsMessage}
         components={components}
+        /**
+         * With this change we ensure that the select control is always on top when focused.
+         * Thanks to this it is possible to have tooltips or other elements that open on
+         * hover/focus inside the options and they stay on top of the options menu.
+         */
+        classNames={{
+          control: (state) => (state.isFocused ? "z-[101]" : ""),
+        }}
       />
     )
   },

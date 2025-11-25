@@ -12,23 +12,23 @@ const Template: StoryFn<typeof Tag> = (args) => <Tag {...args}>logo-pink</Tag>
 export const Default = Template.bind({})
 
 /**
- * This component uses the CSS `overflow-wrap: anywhere` property to prevent text from overflowing its line box.
+ * This component integrates an automatic behavior of truncating text content longer than 15 characters and displaying a tooltip with the full content on hover.
  */
-export const WrapAnywhere = () => (
+export const TooltipIntegrated = () => (
   <>
-    <Tag>
+    <Tag key="tag-0">
       this:is:a:long:text:that:should:break:because:we:are:using:the:break:all:css:property:is:it:breaking?:can:you:read:this:text?
     </Tag>
     <br />
-    <Tag>
+    <Tag key="tag-1">
       this-is-a-long-text-that-should-break-because-we-are-using-the-break-all-css-property-is-it-breaking?-can-you-read-this-text?
     </Tag>
     <br />
-    <Tag>
+    <Tag key="tag-2">
       this_is_a_long_text_that_should_break_because_we_are_using_the_break_all_css_property_is_it_breaking?_can_you_read_this_text?
     </Tag>
     <br />
-    <Tag>
+    <Tag key="tag-3">
       this is a long text that should break because we are using the break all
       css property is it breaking? can you read this text?
     </Tag>

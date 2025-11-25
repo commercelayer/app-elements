@@ -40,6 +40,7 @@ export interface ResourceListItemComponentProps {
   description: JSX.Element | string
   icon: JSX.Element
   rightContent?: JSX.Element
+  bottomContent?: JSX.Element
   invertNameDescription?: boolean
   alignItems?: ListItemProps["alignItems"]
 }

@@ -48,6 +48,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     description,
     icon,
     rightContent,
+    bottomContent,
     href,
     onClick,
     alignItems,
@@ -65,25 +66,28 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         onClick={onClick}
         padding={isClickable ? "xy" : "y"}
       >
-        <div
-          className={`flex  ${invertNameDescription ? "flex-col-reverse" : "flex-col"}`}
-        >
-          <Text
-            tag="div"
-            weight="semibold"
-            data-testid="ResourceListItem-number"
+        <div>
+          <div
+            className={`flex  ${invertNameDescription ? "flex-col-reverse" : "flex-col"}`}
           >
-            {name}
-          </Text>
-          <Text
-            tag="div"
-            weight="medium"
-            size="small"
-            variant="info"
-            data-testid="ResourceListItem-content"
-          >
-            {description}
-          </Text>
+            <Text
+              tag="div"
+              weight="semibold"
+              data-testid="ResourceListItem-number"
+            >
+              {name}
+            </Text>
+            <Text
+              tag="div"
+              weight="medium"
+              size="small"
+              variant="info"
+              data-testid="ResourceListItem-content"
+            >
+              {description}
+            </Text>
+          </div>
+          {bottomContent && <div className="mt-2">{bottomContent}</div>}
         </div>
         <div>
           {showRightContent
