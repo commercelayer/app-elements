@@ -32,6 +32,7 @@ export function Options({
       <DiscountModeOption item={item} pathPrefix={pathPrefix} />
       <ScopeOption item={item} pathPrefix={pathPrefix} />
       <LimitOption item={item} pathPrefix={pathPrefix} />
+      <BundleOption item={item} pathPrefix={pathPrefix} />
       <RoundOption item={item} pathPrefix={pathPrefix} />
     </>
   )
@@ -96,25 +97,8 @@ function LimitOption({
     return null
   }
 
-  const mapper = {
-    mostExpensive: {
-      label: "Most expensive",
-      value: {
-        attribute: "unit_amount_cents",
-        direction: "desc",
-      },
-    },
-    lessExpensive: {
-      label: "Less expensive",
-      value: {
-        attribute: "unit_amount_cents",
-        direction: "asc",
-      },
-    },
-  }
-
-  const currentValue = Object.values(mapper).find((entry) =>
-    isEqual(item.limit?.sort, entry.value),
+  const currentValue = optionRow.optionConfig?.values?.find((entry) =>
+    isEqual(item.limit?.sort, entry.meta),
   )
 
   return (
@@ -122,7 +106,7 @@ function LimitOption({
       <div className="flex gap-2">
         <Input
           type="number"
-          className="basis-32"
+          className="basis-20"
           onChange={(e) => {
             const value = parseInt(e.currentTarget.value, 10)
             setPath(`${pathPrefix}.${optionName}.value`, value)
@@ -130,29 +114,132 @@ function LimitOption({
           defaultValue={item.limit?.value}
         />
         <InputSelect
-          className="w-full"
+          className="grow"
           defaultValue={
             currentValue != null
               ? {
                   label: currentValue.label,
-                  value: JSON.stringify(currentValue.value),
-                  meta: currentValue.value,
+                  value: JSON.stringify(currentValue.meta),
+                  meta: currentValue.meta,
                 }
-              : {
-                  label:
-                    item.limit?.sort?.attribute != null &&
-                    item.limit?.sort?.direction
-                      ? `${item.limit?.sort?.attribute} ${item.limit?.sort?.direction.toUpperCase()}`
-                      : "",
-                  value: JSON.stringify(item.limit?.sort),
-                  meta: item.limit?.sort,
-                }
+              : item.limit?.sort == null
+                ? undefined
+                : {
+                    label:
+                      item.limit.sort.attribute != null &&
+                      item.limit.sort.direction
+                        ? `${item.limit.sort.attribute} ${item.limit.sort.direction.toUpperCase()}`
+                        : "",
+                    value: JSON.stringify(item.limit.sort),
+                    meta: item.limit.sort,
+                  }
           }
-          initialValues={Object.values(mapper).map((entry) => ({
-            label: entry.label,
-            meta: entry.value,
-            value: JSON.stringify(entry.value),
-          }))}
+          initialValues={
+            optionRow.optionConfig?.values?.map((entry) => ({
+              label: entry.label,
+              meta: entry.meta,
+              value: JSON.stringify(entry.meta),
+            })) ?? []
+          }
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath(`${pathPrefix}.${optionName}.sort`, selected.meta)
+            }
+          }}
+        />
+      </div>
+    </optionRow.OptionRow>
+  )
+}
+
+function BundleOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | SchemaConditionItem
+  pathPrefix: string
+}) {
+  const optionName = "bundle" as const
+
+  const { setPath } = useRuleEngine()
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  if (!(optionName in item) || optionRow == null) {
+    return null
+  }
+
+  const currentValue = optionRow.optionConfig?.values?.find((entry) =>
+    isEqual(item.bundle?.sort, entry.meta),
+  )
+
+  const bundleTypes = [
+    { label: "Balanced", value: "balanced" },
+    { label: "Every", value: "every" },
+  ]
+
+  return (
+    <optionRow.OptionRow>
+      <div className="flex gap-2">
+        <InputSelect
+          className="basis-36"
+          initialValues={bundleTypes}
+          defaultValue={
+            item.bundle?.type == null
+              ? undefined
+              : (bundleTypes.find((v) => v.value === item.bundle?.type) ?? {
+                  label: item.bundle.type,
+                  value: item.bundle.type,
+                })
+          }
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath(`${pathPrefix}.${optionName}.type`, selected.value)
+
+              if (selected.value === "balanced") {
+                setPath(`${pathPrefix}.${optionName}.value`, null)
+              }
+            }
+          }}
+        />
+        {item.bundle?.type === "every" && (
+          <Input
+            type="number"
+            className="basis-20"
+            onChange={(e) => {
+              const value = parseInt(e.currentTarget.value, 10)
+              setPath(`${pathPrefix}.${optionName}.value`, value)
+            }}
+            defaultValue={item.bundle?.value}
+          />
+        )}
+        <InputSelect
+          className="grow"
+          defaultValue={
+            currentValue != null
+              ? {
+                  label: currentValue.label,
+                  value: JSON.stringify(currentValue.meta),
+                  meta: currentValue.meta,
+                }
+              : item.bundle?.sort == null
+                ? undefined
+                : {
+                    label:
+                      item.bundle.sort.attribute != null &&
+                      item.bundle.sort.direction
+                        ? `${item.bundle.sort.attribute} ${item.bundle.sort.direction.toUpperCase()}`
+                        : "",
+                    value: JSON.stringify(item.bundle.sort),
+                    meta: item.bundle?.sort,
+                  }
+          }
+          initialValues={
+            optionRow.optionConfig?.values?.map((entry) => ({
+              label: entry.label,
+              meta: entry.meta,
+              value: JSON.stringify(entry.meta),
+            })) ?? []
+          }
           onSelect={(selected) => {
             if (isSingleValueSelected(selected)) {
               setPath(`${pathPrefix}.${optionName}.sort`, selected.meta)
