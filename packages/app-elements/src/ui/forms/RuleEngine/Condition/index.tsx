@@ -1,6 +1,9 @@
 import classNames from "classnames"
 import type React from "react"
 import { useState } from "react"
+import { Button } from "#ui/atoms/Button"
+import { Icon } from "#ui/atoms/Icon"
+import { Text } from "#ui/atoms/Text"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaCondition } from "../utils"
 import { ConditionListItem } from "./ConditionListItem"
@@ -97,6 +100,22 @@ export function Condition({
               )
             })}
           </div>
+          {isNested && (
+            <Button
+              variant="link"
+              className="ml-7 mt-4 text-sm font-bold !no-underline"
+              onClick={() => {
+                setPath(
+                  `${pathPrefix}.conditions.${item?.conditions?.length ?? 0}`,
+                  undefined,
+                )
+              }}
+            >
+              <Text className="flex items-center gap-1">
+                <Icon name="plus" /> Add condition
+              </Text>
+            </Button>
+          )}
         </>
       )}
     </div>

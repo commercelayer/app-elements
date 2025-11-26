@@ -150,7 +150,7 @@ Default.args = {
             {
               field: "order.created_at",
               value: ["2025-05-05T15:17:40.977Z", "2025-07-05T15:17:40.977Z"],
-              matcher: "gt_lt",
+              matcher: "gteq_lteq",
             },
             {
               field: "order.total_amount_cents",
@@ -176,9 +176,9 @@ Default.args = {
               },
             },
             {
-              field: "order.tags.name",
+              field: "order.currency_code",
               matcher: "is_in",
-              value: ["discount", "summer"],
+              value: ["EUR", "USD"],
             },
             {
               field: "order.status",
@@ -245,7 +245,7 @@ Default.args = {
             {
               field: "order.customer.metadata.date_between",
               value: ["2025-05-05T15:17:40.977Z", "2025-07-05T15:17:40.977Z"],
-              matcher: "gt_lt",
+              matcher: "gteq_lteq",
             },
             {
               field: "order.customer.metadata.number_range",
@@ -263,7 +263,7 @@ Default.args = {
               value: true,
             },
             {
-              field: "order.customer.metadata.tags",
+              field: "order.customer.metadata.available_tags",
               matcher: "array_match",
               value: {
                 in_and: ["discount", "summer"],
@@ -271,7 +271,7 @@ Default.args = {
               },
             },
             {
-              field: "order.customer.metadata.tags",
+              field: "order.customer.metadata.available_tags",
               matcher: "is_in",
               value: ["discount", "summer"],
             },

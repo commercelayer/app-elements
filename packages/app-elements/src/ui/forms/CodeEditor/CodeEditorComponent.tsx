@@ -53,6 +53,14 @@ export interface CodeEditorProps
    * Trigger on every update.
    */
   onChange?: (value: string) => void
+  /**
+   * Trigger on every update.
+   */
+  onFocus?: () => void
+  /**
+   * Trigger on every update.
+   */
+  onBlur?: () => void
 
   /**
    * Whether to show rounded corners on the editor.
@@ -82,6 +90,8 @@ export const CodeEditor = forwardRef<
       onValidate,
       onValid,
       onChange,
+      onFocus,
+      onBlur,
       noRounding = false,
       ...rest
     },
@@ -89,44 +99,62 @@ export const CodeEditor = forwardRef<
   ): JSX.Element => {
     const monaco = useMonaco()
     const disposeCompletionItemProvider = useRef<IDisposable>(null)
+    const contentChangeDisposable = useRef<IDisposable>(null)
+
     const [editor, setEditor] = useState<editor.IStandaloneCodeEditor | null>(
       null,
     )
+
     const {
       settings: { domain },
     } = useTokenProvider()
 
-    const handleEditorDidMount: OnMount = (editor, monaco) => {
+    const handleEditorDidMount: OnMount = (editor) => {
       if (editor != null && ref != null && typeof ref === "object") {
         ;(ref as React.RefObject<editor.IStandaloneCodeEditor>).current = editor
       }
 
       setEditor(editor)
 
+      editor.onDidBlurEditorText(onBlur ?? (() => {}))
+
+      editor.onDidFocusEditorText(onFocus ?? (() => {}))
+
       editor.layout()
 
       editor.onDidPaste(() => {
         void editor.getAction("editor.action.formatDocument")?.run()
       })
-
-      editor.onDidChangeModelContent(() => {
-        const model = editor.getModel()
-        const markers = monaco.editor.getModelMarkers({
-          resource: model?.uri,
-        })
-
-        const editorValue = editor.getValue()
-
-        defer(() => {
-          onValidate?.(markers.length > 0 ? markers : null)
-          onChange?.(editorValue)
-
-          if (markers.length === 0) {
-            onValid?.(editorValue)
-          }
-        })
-      })
     }
+
+    useEffect(
+      function handleOnChange() {
+        if (editor != null && monaco != null) {
+          contentChangeDisposable.current?.dispose()
+
+          contentChangeDisposable.current = editor.onDidChangeModelContent(
+            () => {
+              const model = editor.getModel()
+              const markers = monaco.editor.getModelMarkers({
+                resource: model?.uri,
+              })
+
+              const editorValue = editor.getValue()
+
+              defer(() => {
+                onValidate?.(markers.length > 0 ? markers : null)
+                onChange?.(editorValue)
+
+                if (markers.length === 0) {
+                  onValid?.(editorValue)
+                }
+              })
+            },
+          )
+        }
+      },
+      [editor, monaco, onChange],
+    )
 
     useEffect(() => {
       void (async () => {

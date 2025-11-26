@@ -150,6 +150,8 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
     setPath,
   } = useRuleEngine()
 
+  const [editorOnFocus, setEditorOnFocus] = useState(false)
+
   const [editorVisible, setEditorVisible] = useState(
     props.defaultCodeEditorVisible ?? false,
   )
@@ -159,11 +161,13 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
 
   useEffect(
     function updateCodeEditor() {
-      if (!isEqual(parseValue(codeEditorRef.current?.getValue()), value)) {
+      if (
+        !editorOnFocus &&
+        !isEqual(parseValue(codeEditorRef.current?.getValue()), value)
+      ) {
         codeEditorRef.current?.setValue(JSON.stringify(value, null, 2))
+        props.onChange?.(value)
       }
-
-      props.onChange?.(value)
     },
     [value],
   )
@@ -173,15 +177,16 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
       const newValue = parseValue(newValueAsString)
 
       if (
-        codeEditorRef.current?.hasTextFocus() &&
+        editorOnFocus &&
         isParsable(newValueAsString) &&
         !isEqual(newValue, value)
       ) {
         setValue(newValue)
         setForcedRender((prev) => prev + 1)
+        props.onChange?.(newValue)
       }
     },
-    [value],
+    [value, editorOnFocus],
   )
 
   return (
@@ -297,7 +302,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                 <Card
                   title={
                     <div>
-                      If{" "}
+                      When{" "}
                       <select
                         onChange={(event) => {
                           setPath(
@@ -306,10 +311,13 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                           )
                         }}
                         value={selectedRule?.conditions_logic ?? "all"}
-                        className="font-bold py-1 pl-2 pr-6 bg-position-[right_center] focus:ring-0 focus:outline-hidden appearance-none border-0 rounded-md leading-4 ml-1 mr-1.5"
+                        className={classNames(
+                          "pl-4 pr-8 py-2 font-bold focus:ring-0 focus:outline-hidden appearance-none bg-gray-50 border border-gray-200 rounded-md text-sm leading-4",
+                          "ml-1 mr-1.5",
+                        )}
                       >
-                        <option value="and">all</option>
-                        <option value="or">any</option>
+                        <option value="and">All</option>
+                        <option value="or">Any</option>
                       </select>
                       conditions occur
                     </div>
@@ -356,6 +364,12 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
               jsonSchema={props.schemaType}
               defaultValue={JSON.stringify(value, null, 2)}
               noRounding
+              onFocus={() => {
+                setEditorOnFocus(true)
+              }}
+              onBlur={() => {
+                setEditorOnFocus(false)
+              }}
               onChange={handleCodeEditorChange}
             />
           </div>
