@@ -87,6 +87,16 @@ const configuration = {
             },
           },
         ],
+        bundle: [
+          {
+            label: "Most expensive",
+            value: "most-expensive",
+            meta: {
+              attribute: "unit_amount_cents",
+              direction: "desc",
+            },
+          },
+        ],
       },
       "order.line_items.line_item_options": {},
       "order.line_items.sku": {},
@@ -185,7 +195,7 @@ const MANAGED_ACTION_OPTIONS = [
   "limit",
   "discount_mode",
   // "aggregation",
-  // "bundle",
+  "bundle",
 ] as const
 
 const MANAGED_CONDITION_OPTIONS = [
@@ -208,7 +218,7 @@ export const OPTION_LABELS: Record<
   limit: "Limit",
   discount_mode: "Discount mode",
   // aggregation: "Aggregation",
-  // bundle: "Bundle",
+  bundle: "Bundle",
   scope: "Scope",
   // aggregations: "Aggregations",
 } as const

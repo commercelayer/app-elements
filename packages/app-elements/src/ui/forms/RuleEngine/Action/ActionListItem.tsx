@@ -99,7 +99,7 @@ export function ActionListItem({
                           setPath(`${pathPrefix}.discount_mode`, "default")
                           break
                         case "limit":
-                          setPath(`${pathPrefix}.limit`, {})
+                          setPath(`${pathPrefix}.limit`, { value: 1 })
                           break
                         case "aggregation":
                           setPath(`${pathPrefix}.aggregation`, {
@@ -112,7 +112,6 @@ export function ActionListItem({
                         case "bundle":
                           setPath(`${pathPrefix}.bundle`, {
                             type: "balanced",
-                            sort: { attribute: "", direction: "asc" },
                           })
                           break
                       }

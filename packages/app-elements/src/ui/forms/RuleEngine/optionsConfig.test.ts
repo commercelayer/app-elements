@@ -74,7 +74,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -98,6 +100,25 @@ describe("parseOptionsFromSchema", () => {
               },
             ],
             "order.line_items": [
+              {
+                "description": "Creates bundles based on the groups provided.",
+                "label": "Bundle",
+                "mutuallyExclusiveWith": [
+                  "limit",
+                ],
+                "name": "bundle",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Most expensive",
+                    "meta": {
+                      "attribute": "unit_amount_cents",
+                      "direction": "desc",
+                    },
+                    "value": "most-expensive",
+                  },
+                ],
+              },
               {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
@@ -135,7 +156,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -166,7 +189,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -214,7 +239,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -239,6 +266,25 @@ describe("parseOptionsFromSchema", () => {
             ],
             "order.line_items": [
               {
+                "description": "Creates bundles based on the groups provided.",
+                "label": "Bundle",
+                "mutuallyExclusiveWith": [
+                  "limit",
+                ],
+                "name": "bundle",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Most expensive",
+                    "meta": {
+                      "attribute": "unit_amount_cents",
+                      "direction": "desc",
+                    },
+                    "value": "most-expensive",
+                  },
+                ],
+              },
+              {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
@@ -258,7 +304,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -289,7 +337,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -345,7 +395,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -395,9 +447,30 @@ describe("parseOptionsFromSchema", () => {
                 ],
               },
               {
+                "description": "Creates bundles based on the groups provided.",
+                "label": "Bundle",
+                "mutuallyExclusiveWith": [
+                  "limit",
+                ],
+                "name": "bundle",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Most expensive",
+                    "meta": {
+                      "attribute": "unit_amount_cents",
+                      "direction": "desc",
+                    },
+                    "value": "most-expensive",
+                  },
+                ],
+              },
+              {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
@@ -428,7 +501,9 @@ describe("parseOptionsFromSchema", () => {
               {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
-                "mutuallyExclusiveWith": [],
+                "mutuallyExclusiveWith": [
+                  "bundle",
+                ],
                 "name": "limit",
                 "valueType": "object",
                 "values": [
