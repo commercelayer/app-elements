@@ -38,7 +38,11 @@ export function ActionListItem({
   ) as ActionType[]
 
   const actionOptionsConfig =
-    item?.type != null ? (optionsConfig.actions[item.type] ?? []) : []
+    item?.type != null && item?.selector != null
+      ? (optionsConfig.actions?.[item.type]?.[
+          item.selector as keyof (typeof optionsConfig.actions)[typeof item.type]
+        ] ?? [])
+      : []
 
   const { available: availableOptions } = useAvailableOptions(
     item,
@@ -95,10 +99,7 @@ export function ActionListItem({
                           setPath(`${pathPrefix}.discount_mode`, "default")
                           break
                         case "limit":
-                          setPath(`${pathPrefix}.limit`, {
-                            value: 1,
-                            sort: { attribute: "", direction: "asc" },
-                          })
+                          setPath(`${pathPrefix}.limit`, {})
                           break
                         case "aggregation":
                           setPath(`${pathPrefix}.aggregation`, {
@@ -198,7 +199,14 @@ function ActionSelector({
         name={name}
         isSearchable={false}
         initialValues={initialValues}
-        value={initialValues.find((c) => c.value === item?.selector)}
+        value={
+          item?.selector == null
+            ? undefined
+            : (initialValues.find((c) => c.value === item.selector) ?? {
+                value: item.selector,
+                label: item.selector,
+              })
+        }
         onSelect={async (selection) => {
           if (isSingleValueSelected(selection)) {
             setPath(name, selection.value)
@@ -241,6 +249,7 @@ function ActionGroups({
       <InputSelect
         name={`${pathPrefix}.groups`}
         isMulti
+        isClearable={false}
         value={
           item != null
             ? item.groups?.map((groups) => ({

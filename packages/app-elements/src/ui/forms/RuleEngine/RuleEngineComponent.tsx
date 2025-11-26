@@ -15,14 +15,10 @@ import {
 } from "#ui/internals/InputWrapper"
 import { Action } from "./Action"
 import { Condition } from "./Condition"
-import {
-  type OptionConfig,
-  type OptionsConfig,
-  parseOptionsFromSchema,
-} from "./optionsConfig"
+import { type OptionsConfig, parseOptionsFromSchema } from "./optionsConfig"
 import { RuleEngineProvider, useRuleEngine } from "./RuleEngineContext"
 import { RuleName } from "./RuleName"
-import { type ActionType, fetchJsonSchema, type RulesObject } from "./utils"
+import { fetchJsonSchema, type RulesObject } from "./utils"
 
 export interface RuleEngineProps
   extends Omit<InputWrapperBaseProps, "label" | "inline">,
@@ -78,7 +74,7 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
   } = useTokenProvider()
 
   const [optionsConfig, setOptionsConfig] = useState<OptionsConfig>({
-    actions: {} as Record<ActionType, OptionConfig[]>,
+    actions: {} as any,
     conditions: [],
   })
 
@@ -98,7 +94,10 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
   useEffect(
     function parseSchema() {
       fetchJsonSchema(props.schemaType, domain).then((jsonSchema) => {
-        const parsedOptionsConfig = parseOptionsFromSchema(jsonSchema as any)
+        const parsedOptionsConfig = parseOptionsFromSchema(
+          jsonSchema as any,
+          props.schemaType,
+        )
         setOptionsConfig(parsedOptionsConfig)
       })
     },
