@@ -89,7 +89,7 @@ Default.args = {
               },
             },
             {
-              field: "order.line_items.sku.sku_lists.id",
+              field: "order.line_items.sku.sku_list_items.sku_list.id",
               matcher: "eq",
               value: "qJxWoIZByY",
             },
