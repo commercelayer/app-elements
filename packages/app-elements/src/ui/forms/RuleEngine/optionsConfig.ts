@@ -1,4 +1,5 @@
 import type { JsonValue } from "type-fest"
+import type { RuleEngineProps } from "./RuleEngineComponent"
 import type { ActionType, SchemaActionItem, SchemaConditionItem } from "./utils"
 
 /**
@@ -13,43 +14,203 @@ export interface OptionConfig {
   mutuallyExclusiveWith: string[]
   /** Type of value this option accepts */
   valueType?: "boolean" | "string" | "number" | "integer" | "object" | "array"
-  /** Possible enum values */
-  enum?: string[]
   /** Description of what this option does */
   description?: string
+  /** Predefined values from configuration */
+  values?: Array<{ label: string; value: string; meta?: Record<string, any> }>
 }
 
 /**
  * Complete options configuration for the rule engine
  */
 export interface OptionsConfig {
-  /** Available options per action type */
-  actions: Record<ActionType, OptionConfig[]>
+  /** Available options per action type and applyTo */
+  actions: Record<
+    ActionType,
+    Record<OrderApplyTo | PriceApplyTo, OptionConfig[]>
+  >
   /** Available options for conditions */
   conditions: OptionConfig[]
 }
 
+const configuration = {
+  actions: {
+    "order-rules": {
+      order: {
+        round: true,
+        discount_mode: true,
+        apply_on: [
+          { label: "Subtotal amount", value: "subtotal_amount_cents" },
+          { label: "Total amount", value: "total_amount_cents" },
+        ],
+        limit: [
+          {
+            label: "Most expensive",
+            value: "most-expensive",
+            meta: {
+              attribute: "total_amount_cents",
+              direction: "desc",
+            },
+          },
+          {
+            label: "Less expensive",
+            value: "less-expensive",
+            meta: {
+              attribute: "total_amount_cents",
+              direction: "asc",
+            },
+          },
+        ],
+      },
+      "order.line_items": {
+        round: true,
+        discount_mode: true,
+        apply_on: [
+          { label: "Unit amount", value: "unit_amount_cents" },
+          { label: "Compare at amount", value: "compare_at_amount_cents" },
+        ],
+        limit: [
+          {
+            label: "Most expensive",
+            value: "most-expensive",
+            meta: {
+              attribute: "unit_amount_cents",
+              direction: "desc",
+            },
+          },
+          {
+            label: "Less expensive",
+            value: "less-expensive",
+            meta: {
+              attribute: "unit_amount_cents",
+              direction: "asc",
+            },
+          },
+        ],
+      },
+      "order.line_items.line_item_options": {},
+      "order.line_items.sku": {},
+      "order.line_items.bundle": {},
+      "order.line_items.shipment": {},
+      "order.line_items.payment_method": {
+        limit: [
+          {
+            label: "Most expensive",
+            value: "most-expensive",
+            meta: {
+              attribute: "price_amount_cents",
+              direction: "desc",
+            },
+          },
+          {
+            label: "Less expensive",
+            value: "less-expensive",
+            meta: {
+              attribute: "price_amount_cents",
+              direction: "asc",
+            },
+          },
+        ],
+      },
+      "order.line_items.adjustment": {},
+      "order.line_items.gift_card": {},
+    } as const,
+    "price-rules": {
+      price: {
+        apply_on: [
+          { label: "Amount", value: "amount_cents" },
+          { label: "Original amount", value: "original_amount_cents" },
+          { label: "Compare at amount", value: "compare_at_amount_cents" },
+        ],
+        round: true,
+        // limit: true,
+      },
+    } as const,
+  },
+  conditions: {
+    scope: true,
+  },
+} satisfies {
+  actions:
+    | Record<
+        Extract<RuleEngineProps["schemaType"], "order-rules">,
+        Record<
+          OrderApplyTo,
+          {
+            [key in ManagedActionOption]?: OptionValue
+          }
+        >
+      >
+    | Record<
+        Extract<RuleEngineProps["schemaType"], "price-rules">,
+        Record<
+          PriceApplyTo,
+          {
+            [key in ManagedActionOption]?: OptionValue
+          }
+        >
+      >
+  conditions: {
+    [key in ManagedConditionOption]?: OptionValue
+  }
+}
+
+type OptionValue =
+  | true
+  | {
+      label: string
+      value: string
+      meta?: unknown
+    }[]
+
+type OrderApplyTo =
+  | "order.line_items.adjustment"
+  | "order.line_items.gift_card"
+  | "order.line_items.shipment"
+  | "order.line_items.sku"
+  | "order.line_items.bundle"
+  | "order.line_items.payment_method"
+  | "order.line_items.line_item_options"
+  | "order.line_items"
+  | "order"
+
+type PriceApplyTo = "price"
+
 /**
  * Options that we want to manage dynamically
  */
-const MANAGED_ACTION_OPTIONS = ["apply_on", "round", "discount_mode"] as const
+const MANAGED_ACTION_OPTIONS = [
+  "apply_on",
+  "round",
+  "limit",
+  "discount_mode",
+  // "aggregation",
+  // "bundle",
+] as const
 
-const MANAGED_CONDITION_OPTIONS = ["scope"] as const
+const MANAGED_CONDITION_OPTIONS = [
+  "scope",
+  // "aggregations"
+] as const
 
-type ManagedActionOption = (typeof MANAGED_ACTION_OPTIONS)[number]
-type ManagedConditionOption = (typeof MANAGED_CONDITION_OPTIONS)[number]
+export type ManagedActionOption = (typeof MANAGED_ACTION_OPTIONS)[number]
+export type ManagedConditionOption = (typeof MANAGED_CONDITION_OPTIONS)[number]
 
 /**
  * Human-readable labels for options
  */
-const OPTION_LABELS: Record<
+export const OPTION_LABELS: Record<
   ManagedActionOption | ManagedConditionOption,
   string
 > = {
   apply_on: "Apply on",
   round: "Round",
+  limit: "Limit",
   discount_mode: "Discount mode",
+  // aggregation: "Aggregation",
+  // bundle: "Bundle",
   scope: "Scope",
+  // aggregations: "Aggregations",
 } as const
 
 /**
@@ -57,10 +218,14 @@ const OPTION_LABELS: Record<
  */
 export function parseOptionsFromSchema(
   jsonSchema: JsonValue | undefined,
+  schemaType: RuleEngineProps["schemaType"],
 ): OptionsConfig {
   if (jsonSchema == null || typeof jsonSchema !== "object") {
     return {
-      actions: {} as Record<ActionType, OptionConfig[]>,
+      actions: {} as Record<
+        ActionType,
+        Record<OrderApplyTo | PriceApplyTo, OptionConfig[]>
+      >,
       conditions: [],
     }
   }
@@ -68,7 +233,7 @@ export function parseOptionsFromSchema(
   const schema = jsonSchema as any
 
   return {
-    actions: parseActionOptions(schema),
+    actions: parseActionOptions(schema, schemaType),
     conditions: parseConditionOptions(schema),
   }
 }
@@ -76,10 +241,13 @@ export function parseOptionsFromSchema(
 /**
  * Parse action options from JSON schema
  */
-function parseActionOptions(schema: any): Record<ActionType, OptionConfig[]> {
-  const actionsConfig: Record<ActionType, OptionConfig[]> = {} as Record<
+function parseActionOptions(
+  schema: any,
+  schemaType: RuleEngineProps["schemaType"],
+): Record<ActionType, Record<OrderApplyTo | PriceApplyTo, OptionConfig[]>> {
+  const actionsConfig = {} as Record<
     ActionType,
-    OptionConfig[]
+    Record<OrderApplyTo | PriceApplyTo, OptionConfig[]>
   >
 
   try {
@@ -90,7 +258,47 @@ function parseActionOptions(schema: any): Record<ActionType, OptionConfig[]> {
 
     for (const [actionType, variants] of variantsByType.entries()) {
       const optionsMap = buildOptionsMap(variants, MANAGED_ACTION_OPTIONS)
-      actionsConfig[actionType] = buildOptions(optionsMap, variants, schema)
+      const baseOptions = buildOptions(optionsMap, variants, schema)
+
+      // Get applyTo keys from configuration
+      const configForSchemaType = configuration.actions[schemaType]
+      const applyToKeys = Object.keys(configForSchemaType) as (
+        | OrderApplyTo
+        | PriceApplyTo
+      )[]
+
+      actionsConfig[actionType] = {} as Record<
+        OrderApplyTo | PriceApplyTo,
+        OptionConfig[]
+      >
+
+      for (const applyTo of applyToKeys) {
+        const configForApplyTo =
+          configForSchemaType[applyTo as keyof typeof configForSchemaType]
+
+        if (configForApplyTo == null) continue
+
+        // Filter and enhance options based on configuration
+        actionsConfig[actionType][applyTo] = baseOptions
+          .filter((option) => {
+            return (
+              configForApplyTo[
+                option.name as ManagedActionOption | ManagedConditionOption
+              ] != null
+            )
+          })
+          .map((option) => {
+            const optionValue =
+              configForApplyTo[
+                option.name as ManagedActionOption | ManagedConditionOption
+              ]
+            return {
+              ...option,
+              // Configuration values override schema-derived values
+              values: Array.isArray(optionValue) ? optionValue : option.values,
+            }
+          })
+      }
     }
   } catch (error) {
     console.error("Error parsing action options from schema:", error)
@@ -109,7 +317,25 @@ function parseConditionOptions(schema: any): OptionConfig[] {
       conditionVariants,
       MANAGED_CONDITION_OPTIONS,
     )
-    return buildOptions(optionsMap, conditionVariants, schema)
+    const baseOptions = buildOptions(optionsMap, conditionVariants, schema)
+
+    // Filter and enhance options based on configuration
+    return baseOptions
+      .filter((option) => {
+        const optionValue =
+          configuration.conditions[option.name as ManagedConditionOption]
+        // Include if explicitly set (true or array of values)
+        return optionValue != null
+      })
+      .map((option) => {
+        const optionValue =
+          configuration.conditions[option.name as ManagedConditionOption]
+        return {
+          ...option,
+          // Configuration values override schema-derived values
+          values: Array.isArray(optionValue) ? optionValue : option.values,
+        }
+      })
   } catch (error) {
     console.error("Error parsing condition options from schema:", error)
     return []
@@ -189,13 +415,13 @@ function buildOptions(
       optionsMap,
     )
 
-    // Extract enum values and type from schema
+    // Extract metadata from schema
     let metadata: ReturnType<typeof extractPropertyMetadata> = {}
     for (const variant of variants) {
       const propertySchema = variant.properties?.[optionName]
       metadata = extractPropertyMetadata(propertySchema, schema)
       if (
-        metadata.enum != null ||
+        metadata.values != null ||
         metadata.valueType != null ||
         metadata.description != null
       ) {
@@ -249,8 +475,9 @@ function findMutuallyExclusiveOptions(
 function extractPropertyMetadata(
   propertySchema: any,
   schema: any,
-): Pick<OptionConfig, "enum" | "valueType" | "description"> {
-  const metadata: Pick<OptionConfig, "enum" | "valueType" | "description"> = {}
+): Pick<OptionConfig, "valueType" | "description" | "values"> {
+  const metadata: Pick<OptionConfig, "valueType" | "description" | "values"> =
+    {}
 
   let resolvedSchema = propertySchema
 
@@ -265,7 +492,10 @@ function extractPropertyMetadata(
   }
 
   if (resolvedSchema?.enum != null && Array.isArray(resolvedSchema.enum)) {
-    metadata.enum = resolvedSchema.enum
+    metadata.values = resolvedSchema.enum.map((value: string) => ({
+      label: value.charAt(0).toUpperCase() + value.slice(1),
+      value: value,
+    }))
   }
 
   if (resolvedSchema?.type != null) {
