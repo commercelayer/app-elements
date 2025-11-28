@@ -160,6 +160,7 @@
 
   --object-position-out-of-bounds: -99999px 99999px;
 
+  --font-weight-semibold: 550;
   --font-weight-inherit: inherit;
 
   --animate-slide-in-right: slide-in-right 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
