@@ -1,4 +1,5 @@
 import { isEqual } from "lodash-es"
+import { useCallback } from "react"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
@@ -446,10 +447,6 @@ function useOptionRow({
         ? "price"
         : undefined
 
-  if (!(optionName in item) || mainResourceId == null) {
-    return null
-  }
-
   const optionConfig =
     "type" in item && item.selector != null
       ? optionsConfig.actions[item.type]?.[
@@ -457,14 +454,8 @@ function useOptionRow({
         ]?.find((opt) => opt.name === optionName)
       : optionsConfig.conditions.find((opt) => opt.name === optionName)
 
-  // if (optionConfig == null) {
-  //   return null
-  // }
-
-  return {
-    optionConfig,
-    mainResourceId,
-    OptionRow: ({ children }: { children: React.ReactNode }) => {
+  const CustomizedOptionRow = useCallback(
+    ({ children }: { children: React.ReactNode }) => {
       return (
         <OptionRow
           label={
@@ -499,5 +490,16 @@ function useOptionRow({
         </OptionRow>
       )
     },
+    [pathPrefix, optionName, optionConfig, setPath],
+  )
+
+  if (!(optionName in item) || mainResourceId == null) {
+    return null
+  }
+
+  return {
+    optionConfig,
+    mainResourceId,
+    OptionRow: CustomizedOptionRow,
   }
 }
