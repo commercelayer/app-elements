@@ -15,7 +15,24 @@ describe("parseOptionsFromSchema", () => {
         "actions": {
           "buy_x_pay_y": {
             "order": [],
-            "order.line_items": [],
+            "order.line_items": [
+              {
+                "label": "Aggregation",
+                "mutuallyExclusiveWith": [],
+                "name": "aggregation",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Total quantity",
+                    "meta": {
+                      "field": "order.line_items.quantity",
+                      "operator": "sum",
+                    },
+                    "value": "total_quantity",
+                  },
+                ],
+              },
+            ],
             "order.line_items.adjustment": [],
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
@@ -26,7 +43,24 @@ describe("parseOptionsFromSchema", () => {
           },
           "every_x_discount_y": {
             "order": [],
-            "order.line_items": [],
+            "order.line_items": [
+              {
+                "label": "Aggregation",
+                "mutuallyExclusiveWith": [],
+                "name": "aggregation",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Total quantity",
+                    "meta": {
+                      "field": "order.line_items.quantity",
+                      "operator": "sum",
+                    },
+                    "value": "total_quantity",
+                  },
+                ],
+              },
+            ],
             "order.line_items.adjustment": [],
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
@@ -100,6 +134,22 @@ describe("parseOptionsFromSchema", () => {
               },
             ],
             "order.line_items": [
+              {
+                "label": "Aggregation",
+                "mutuallyExclusiveWith": [],
+                "name": "aggregation",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Total quantity",
+                    "meta": {
+                      "field": "order.line_items.quantity",
+                      "operator": "sum",
+                    },
+                    "value": "total_quantity",
+                  },
+                ],
+              },
               {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
@@ -266,6 +316,22 @@ describe("parseOptionsFromSchema", () => {
             ],
             "order.line_items": [
               {
+                "label": "Aggregation",
+                "mutuallyExclusiveWith": [],
+                "name": "aggregation",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Total quantity",
+                    "meta": {
+                      "field": "order.line_items.quantity",
+                      "operator": "sum",
+                    },
+                    "value": "total_quantity",
+                  },
+                ],
+              },
+              {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
                 "mutuallyExclusiveWith": [
@@ -422,6 +488,22 @@ describe("parseOptionsFromSchema", () => {
             ],
             "order.line_items": [
               {
+                "label": "Aggregation",
+                "mutuallyExclusiveWith": [],
+                "name": "aggregation",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Total quantity",
+                    "meta": {
+                      "field": "order.line_items.quantity",
+                      "operator": "sum",
+                    },
+                    "value": "total_quantity",
+                  },
+                ],
+              },
+              {
                 "description": "If true, rounds the discount, only available on percentage actions.",
                 "label": "Round",
                 "mutuallyExclusiveWith": [],
@@ -545,6 +627,23 @@ describe("parseOptionsFromSchema", () => {
               {
                 "label": "All",
                 "value": "all",
+              },
+            ],
+          },
+          {
+            "description": "Aggregation conditions to execute within the result of the existing condition.",
+            "label": "Aggregations",
+            "mutuallyExclusiveWith": [],
+            "name": "aggregations",
+            "valueType": "array",
+            "values": [
+              {
+                "label": "Total quantity",
+                "meta": {
+                  "field": "order.line_items.quantity",
+                  "operator": "sum",
+                },
+                "value": "total_quantity",
               },
             ],
           },
@@ -661,6 +760,23 @@ describe("parseOptionsFromSchema", () => {
               {
                 "label": "All",
                 "value": "all",
+              },
+            ],
+          },
+          {
+            "description": "Aggregation conditions to execute within the result of the existing condition.",
+            "label": "Aggregations",
+            "mutuallyExclusiveWith": [],
+            "name": "aggregations",
+            "valueType": "array",
+            "values": [
+              {
+                "label": "Total quantity",
+                "meta": {
+                  "field": "order.line_items.quantity",
+                  "operator": "sum",
+                },
+                "value": "total_quantity",
               },
             ],
           },

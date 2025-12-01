@@ -97,6 +97,13 @@ const configuration = {
             },
           },
         ],
+        aggregation: [
+          {
+            label: "Total quantity",
+            value: "total_quantity",
+            meta: { field: "order.line_items.quantity", operator: "sum" },
+          },
+        ],
       },
       "order.line_items.line_item_options": {},
       "order.line_items.sku": {},
@@ -139,6 +146,13 @@ const configuration = {
   },
   conditions: {
     scope: true,
+    aggregations: [
+      {
+        label: "Total quantity",
+        value: "total_quantity",
+        meta: { field: "order.line_items.quantity", operator: "sum" },
+      },
+    ],
   },
 } satisfies {
   actions:
@@ -194,14 +208,11 @@ const MANAGED_ACTION_OPTIONS = [
   "round",
   "limit",
   "discount_mode",
-  // "aggregation",
+  "aggregation",
   "bundle",
 ] as const
 
-const MANAGED_CONDITION_OPTIONS = [
-  "scope",
-  // "aggregations"
-] as const
+const MANAGED_CONDITION_OPTIONS = ["scope", "aggregations"] as const
 
 export type ManagedActionOption = (typeof MANAGED_ACTION_OPTIONS)[number]
 export type ManagedConditionOption = (typeof MANAGED_CONDITION_OPTIONS)[number]
@@ -217,10 +228,10 @@ export const OPTION_LABELS: Record<
   round: "Round",
   limit: "Limit",
   discount_mode: "Discount mode",
-  // aggregation: "Aggregation",
+  aggregation: "Aggregation",
   bundle: "Bundle",
   scope: "Scope",
-  // aggregations: "Aggregations",
+  aggregations: "Aggregations",
 } as const
 
 /**

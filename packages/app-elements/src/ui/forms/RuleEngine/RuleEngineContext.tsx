@@ -17,7 +17,7 @@ interface State {
 }
 
 type Action =
-  | { type: "SET_PATH"; path: string; value: unknown }
+  | { type: "SET_PATH"; path: string; value: unknown; allowNullValue?: boolean }
   | { type: "SET_SELECTED_RULE_INDEX"; index: number }
   | { type: "SET_VALUE"; value: RulesObject }
 
@@ -25,7 +25,20 @@ interface RuleEngineContextType {
   state: State
   schemaType: RuleEngineProps["schemaType"]
   optionsConfig: OptionsConfig
-  setPath: (path: string, value: unknown) => void
+  /** Sets a value at the given path */
+  setPath: (
+    /** The path to set the value at */
+    path: string,
+    /** The value to set */
+    value: unknown,
+    /**
+     * Whether to allow setting the value to `null`.
+     * When `false`, setting a value to `null` will remove the value at the given path.
+     *
+     * @default false
+     */
+    allowNullValue?: boolean,
+  ) => void
   setSelectedRuleIndex: (index: number) => void
   setValue: (value: RulesObject) => void
 }
@@ -69,7 +82,7 @@ function ruleEngineReducer(state: State, action: Action): State {
         }
       }
 
-      if (action.value === null) {
+      if (action.value === null && action.allowNullValue === false) {
         if (/\.\d+$/.test(action.path)) {
           // If the path ends with a number, we assume it's an array index
           const arrayPath = action.path.replace(/\.\d+$/, "")
@@ -156,9 +169,12 @@ export function RuleEngineProvider({
     selectedRuleIndex: 0,
   })
 
-  const setPath = useCallback((path: string, value: unknown) => {
-    dispatch({ type: "SET_PATH", path, value })
-  }, [])
+  const setPath = useCallback(
+    (path: string, value: unknown, allowNullValue: boolean = false) => {
+      dispatch({ type: "SET_PATH", path, value, allowNullValue })
+    },
+    [],
+  )
 
   const setSelectedRuleIndex = useCallback((index: number) => {
     dispatch({ type: "SET_SELECTED_RULE_INDEX", index })

@@ -94,14 +94,7 @@ export function ConditionListItem({
                           setPath(`${pathPrefix}.scope`, "any")
                           break
                         case "aggregations":
-                          setPath(`${pathPrefix}.aggregations`, [
-                            {
-                              field: "",
-                              matcher: "eq",
-                              operator: "sum",
-                              value: 0,
-                            },
-                          ])
+                          setPath(`${pathPrefix}.aggregations`, [{}])
                           break
                       }
                     }}

@@ -31,10 +31,11 @@ export function Options({
     <>
       <ApplyOnOption item={item} pathPrefix={pathPrefix} />
       <DiscountModeOption item={item} pathPrefix={pathPrefix} />
-      <ScopeOption item={item} pathPrefix={pathPrefix} />
+      <AggregationOption item={item} pathPrefix={pathPrefix} />
       <LimitOption item={item} pathPrefix={pathPrefix} />
       <BundleOption item={item} pathPrefix={pathPrefix} />
       <RoundOption item={item} pathPrefix={pathPrefix} />
+      <ScopeOption item={item} pathPrefix={pathPrefix} />
     </>
   )
 }
@@ -55,23 +56,20 @@ function RoundOption({
     return null
   }
 
+  const initialValues = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+  ]
+
+  const defaultValue = initialValues.find((v) => v.value === item[optionName])
+
   return (
     <optionRow.OptionRow>
       <InputSelect
         name={`${pathPrefix}.${optionName}`}
         isSearchable={false}
-        defaultValue={
-          typeof item[optionName] === "boolean"
-            ? {
-                label: item[optionName] ? "Yes" : "No",
-                value: item[optionName],
-              }
-            : undefined
-        }
-        initialValues={[
-          { label: "Yes", value: true },
-          { label: "No", value: false },
-        ]}
+        defaultValue={defaultValue}
+        initialValues={initialValues}
         onSelect={(selected) => {
           if (isSingleValueSelected(selected)) {
             setPath(`${pathPrefix}.${optionName}`, selected.value)
@@ -98,7 +96,7 @@ function LimitOption({
     return null
   }
 
-  const currentValue = optionRow.optionConfig?.values?.find((entry) =>
+  const defaultValue = optionRow.optionConfig?.values?.find((entry) =>
     isEqual(item.limit?.sort, entry.meta),
   )
 
@@ -108,6 +106,7 @@ function LimitOption({
         <Input
           type="number"
           className="basis-20"
+          placeholder="1"
           onChange={(e) => {
             const value = parseInt(e.currentTarget.value, 10)
             setPath(`${pathPrefix}.${optionName}.value`, value)
@@ -117,12 +116,8 @@ function LimitOption({
         <InputSelect
           className="grow"
           defaultValue={
-            currentValue != null
-              ? {
-                  label: currentValue.label,
-                  value: JSON.stringify(currentValue.meta),
-                  meta: currentValue.meta,
-                }
+            defaultValue != null
+              ? defaultValue
               : item.limit?.sort == null
                 ? undefined
                 : {
@@ -153,6 +148,111 @@ function LimitOption({
   )
 }
 
+function AggregationOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | SchemaConditionItem
+  pathPrefix: string
+}) {
+  const optionName = "aggregation" as const
+
+  const { setPath } = useRuleEngine()
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  if (!(optionName in item) || optionRow == null) {
+    return null
+  }
+
+  const defaultValue = optionRow.optionConfig?.values?.find(
+    (entry) =>
+      isEqual(item.aggregation?.field, entry.meta?.field) &&
+      isEqual(item.aggregation?.operator, entry.meta?.operator),
+  )
+
+  const matchers = [
+    { label: "=", value: "eq" },
+    { label: ">", value: "gt" },
+    { label: "<", value: "lt" },
+    { label: ">=", value: "gteq" },
+    { label: "<=", value: "lteq" },
+    { label: "≠", value: "not_eq" },
+    { label: "multiple", value: "multiple" },
+  ]
+
+  return (
+    <optionRow.OptionRow>
+      <div className="flex gap-2">
+        <InputSelect
+          className="grow"
+          defaultValue={
+            defaultValue != null
+              ? defaultValue
+              : item.aggregation?.field == null ||
+                  item.aggregation?.operator == null
+                ? undefined
+                : {
+                    label: `${item.aggregation.field} ${item.aggregation.operator}`,
+                    value: JSON.stringify({
+                      field: item.aggregation.field,
+                      operation: item.aggregation.operator,
+                    }),
+                    meta: {
+                      field: item.aggregation.field,
+                      operation: item.aggregation.operator,
+                    },
+                  }
+          }
+          initialValues={
+            optionRow.optionConfig?.values?.map((entry) => ({
+              label: entry.label,
+              meta: entry.meta,
+              value: JSON.stringify(entry.meta),
+            })) ?? []
+          }
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath(`${pathPrefix}.${optionName}.field`, selected.meta?.field)
+              setPath(
+                `${pathPrefix}.${optionName}.operator`,
+                selected.meta?.operator,
+              )
+            }
+          }}
+        />
+        <InputSelect
+          defaultValue={
+            item.aggregation?.matcher != null
+              ? {
+                  label:
+                    matchers.find((v) => v.value === item.aggregation?.matcher)
+                      ?.label ?? item.aggregation?.matcher,
+                  value: item.aggregation?.matcher,
+                }
+              : undefined
+          }
+          initialValues={matchers}
+          onSelect={(selected) => {
+            if (isSingleValueSelected(selected)) {
+              setPath(`${pathPrefix}.${optionName}.matcher`, selected.value)
+            }
+          }}
+        />
+        <Input
+          type="number"
+          className="basis-20"
+          placeholder="0"
+          onChange={(e) => {
+            const value = parseInt(e.currentTarget.value, 10)
+            setPath(`${pathPrefix}.${optionName}.value`, value)
+          }}
+          defaultValue={item.aggregation?.value}
+        />
+      </div>
+    </optionRow.OptionRow>
+  )
+}
+
 function BundleOption({
   item,
   pathPrefix,
@@ -169,7 +269,7 @@ function BundleOption({
     return null
   }
 
-  const currentValue = optionRow.optionConfig?.values?.find((entry) =>
+  const defaultValue = optionRow.optionConfig?.values?.find((entry) =>
     isEqual(item.bundle?.sort, entry.meta),
   )
 
@@ -182,7 +282,6 @@ function BundleOption({
     <optionRow.OptionRow>
       <div className="flex gap-2">
         <InputSelect
-          className="basis-36"
           initialValues={bundleTypes}
           defaultValue={
             item.bundle?.type == null
@@ -206,6 +305,7 @@ function BundleOption({
           <Input
             type="number"
             className="basis-20"
+            placeholder="1"
             onChange={(e) => {
               const value = parseInt(e.currentTarget.value, 10)
               setPath(`${pathPrefix}.${optionName}.value`, value)
@@ -216,12 +316,8 @@ function BundleOption({
         <InputSelect
           className="grow"
           defaultValue={
-            currentValue != null
-              ? {
-                  label: currentValue.label,
-                  value: JSON.stringify(currentValue.meta),
-                  meta: currentValue.meta,
-                }
+            defaultValue != null
+              ? defaultValue
               : item.bundle?.sort == null
                 ? undefined
                 : {
@@ -356,7 +452,7 @@ function ApplyOnOption({
         initialValues={optionRow.optionConfig?.values ?? []}
         isSearchable={false}
         defaultValue={
-          item[optionName] != null
+          item[optionName] != null && item[optionName] !== ""
             ? {
                 label:
                   optionRow.optionConfig?.values?.find(

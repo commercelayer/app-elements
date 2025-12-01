@@ -93,21 +93,16 @@ export function ActionListItem({
                           setPath(`${pathPrefix}.round`, true)
                           break
                         case "apply_on":
-                          setPath(`${pathPrefix}.apply_on`, "")
+                          setPath(`${pathPrefix}.apply_on`, null, true)
                           break
                         case "discount_mode":
                           setPath(`${pathPrefix}.discount_mode`, "default")
                           break
                         case "limit":
-                          setPath(`${pathPrefix}.limit`, { value: 1 })
+                          setPath(`${pathPrefix}.limit`, {})
                           break
                         case "aggregation":
-                          setPath(`${pathPrefix}.aggregation`, {
-                            field: "",
-                            matcher: "eq",
-                            operator: "sum",
-                            value: 0,
-                          })
+                          setPath(`${pathPrefix}.aggregation`, {})
                           break
                         case "bundle":
                           setPath(`${pathPrefix}.bundle`, {
