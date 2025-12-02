@@ -631,6 +631,14 @@ describe("parseOptionsFromSchema", () => {
             ],
           },
           {
+            "description": "Identifier of the group to assign the matches of the condition invoked.",
+            "label": "Group",
+            "mutuallyExclusiveWith": [],
+            "name": "group",
+            "valueType": "string",
+            "values": undefined,
+          },
+          {
             "description": "Aggregation conditions to execute within the result of the existing condition.",
             "label": "Aggregations",
             "mutuallyExclusiveWith": [],
@@ -762,6 +770,14 @@ describe("parseOptionsFromSchema", () => {
                 "value": "all",
               },
             ],
+          },
+          {
+            "description": "Identifier of the group to assign the matches of the condition invoked.",
+            "label": "Group",
+            "mutuallyExclusiveWith": [],
+            "name": "group",
+            "valueType": "string",
+            "values": undefined,
           },
           {
             "description": "Aggregation conditions to execute within the result of the existing condition.",

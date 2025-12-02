@@ -145,6 +145,7 @@ const configuration = {
     } as const,
   },
   conditions: {
+    group: true,
     scope: true,
     aggregations: [
       {
@@ -212,7 +213,7 @@ const MANAGED_ACTION_OPTIONS = [
   "bundle",
 ] as const
 
-const MANAGED_CONDITION_OPTIONS = ["scope", "aggregations"] as const
+const MANAGED_CONDITION_OPTIONS = ["group", "scope", "aggregations"] as const
 
 export type ManagedActionOption = (typeof MANAGED_ACTION_OPTIONS)[number]
 export type ManagedConditionOption = (typeof MANAGED_CONDITION_OPTIONS)[number]
@@ -232,6 +233,7 @@ export const OPTION_LABELS: Record<
   bundle: "Bundle",
   scope: "Scope",
   aggregations: "Aggregations",
+  group: "Group",
 } as const
 
 /**

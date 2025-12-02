@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from "react"
+import React from "react"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
-import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { InputResourcePath } from "../InputResourcePath"
 import { ListItemContainer } from "../layout/ListItemContainer"
-import { OptionRow } from "../layout/OptionRow"
 import { Options } from "../Options"
 import { useAvailableOptions } from "../optionsConfig"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
 import { ConditionValue } from "./ConditionValue"
-import { useAvailableGroups } from "./hooks"
 
 export function ConditionListItem({
   item,
@@ -78,7 +75,6 @@ export function ConditionListItem({
         options={
           <>
             <ConditionValue item={item} pathPrefix={pathPrefix} />
-            <ConditionGroup item={item} pathPrefix={pathPrefix} />
             <Options item={item} pathPrefix={pathPrefix} />
 
             {availableOptions.length > 0 && (
@@ -95,6 +91,9 @@ export function ConditionListItem({
                           break
                         case "aggregations":
                           setPath(`${pathPrefix}.aggregations`, [{}])
+                          break
+                        case "group":
+                          setPath(`${pathPrefix}.group`, null, true)
                           break
                       }
                     }}
@@ -128,53 +127,5 @@ export function ConditionListItem({
         </div>
       </ListItemContainer>
     </div>
-  )
-}
-
-const ConditionGroup: React.FC<{
-  item: SchemaConditionItem | null
-  pathPrefix: string
-}> = ({ item, pathPrefix }) => {
-  const { setPath } = useRuleEngine()
-  const availableGroups = useAvailableGroups()
-
-  const [group, setGroup] = useState<string | undefined>(item?.group)
-
-  useEffect(() => {
-    setPath(`${pathPrefix}.group`, group)
-  }, [group])
-
-  return (
-    <OptionRow
-      label={
-        <Text variant="info" size="small">
-          Groups
-        </Text>
-      }
-    >
-      <InputSelect
-        name={`${pathPrefix}.group`}
-        isCreatable
-        isClearable
-        initialValues={availableGroups.map((group) => ({
-          value: group,
-          label: group,
-        }))}
-        value={
-          group != null
-            ? {
-                value: group,
-                label: group,
-              }
-            : undefined
-        }
-        onSelect={(selected) => {
-          if (selected == null || isSingleValueSelected(selected)) {
-            setGroup(selected?.value.toString())
-          }
-        }}
-        placeholder="Select or create group…"
-      />
-    </OptionRow>
   )
 }

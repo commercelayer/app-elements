@@ -7,6 +7,7 @@ import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { fetchCoreResourcesSuggestions } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
 import { Input } from "#ui/forms/Input"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
+import { useAvailableGroups } from "../Condition/hooks"
 import { OptionRow } from "../layout/OptionRow"
 import {
   type ManagedActionOption,
@@ -30,6 +31,7 @@ export function Options({
 
   return (
     <>
+      <GroupOption item={item} pathPrefix={pathPrefix} />
       <ApplyOnOption item={item} pathPrefix={pathPrefix} />
       <DiscountModeOption item={item} pathPrefix={pathPrefix} />
       <AggregationOption item={item} pathPrefix={pathPrefix} />
@@ -39,6 +41,63 @@ export function Options({
       <RoundOption item={item} pathPrefix={pathPrefix} />
       <ScopeOption item={item} pathPrefix={pathPrefix} />
     </>
+  )
+}
+
+function GroupOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | SchemaConditionItem
+  pathPrefix: string
+}) {
+  const optionName = "group" as const
+
+  const { setPath } = useRuleEngine()
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  const availableGroups = useAvailableGroups()
+
+  // const [group, setGroup] = useState<string | undefined>(
+  //   optionName in item ? item.group : undefined,
+  // )
+
+  // useEffect(() => {
+  //   setPath(`${pathPrefix}.group`, group)
+  // }, [group])
+
+  if (!(optionName in item) || optionRow == null || item.group === undefined) {
+    return null
+  }
+
+  console.log("item.group", item.group, optionName in item)
+
+  return (
+    <optionRow.OptionRow>
+      <InputSelect
+        name={`${pathPrefix}.group`}
+        isCreatable
+        initialValues={availableGroups.map((group) => ({
+          value: group,
+          label: group,
+        }))}
+        defaultValue={
+          item.group != null
+            ? {
+                value: item.group,
+                label: item.group,
+              }
+            : undefined
+        }
+        onSelect={(selected) => {
+          if (selected == null || isSingleValueSelected(selected)) {
+            // setGroup(selected?.value.toString())
+            setPath(`${pathPrefix}.group`, selected?.value.toString())
+          }
+        }}
+        placeholder="Select or create group…"
+      />
+    </optionRow.OptionRow>
   )
 }
 
