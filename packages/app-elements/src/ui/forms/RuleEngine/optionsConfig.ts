@@ -563,7 +563,17 @@ export function useAvailableOptions(
   // Get currently set options
   const currentOptions = optionsConfig
     .map((opt) => opt.name)
-    .filter((name) => name in item && item[name as keyof typeof item] != null)
+    .filter((name) => {
+      const isPresent =
+        name in item && item[name as keyof typeof item] !== undefined
+      const isNonEmptyArray =
+        Array.isArray(item[name as keyof typeof item]) &&
+        (item[name as keyof typeof item] as any[]).length > 0
+
+      return Array.isArray(item[name as keyof typeof item])
+        ? isNonEmptyArray
+        : isPresent
+    })
 
   // Determine available and disabled options
   const available: OptionConfig[] = []

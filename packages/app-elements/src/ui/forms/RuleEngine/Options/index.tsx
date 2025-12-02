@@ -1,8 +1,9 @@
 import { isEqual } from "lodash-es"
-import { useCallback } from "react"
+import { useCallback, useState } from "react"
+import { Button } from "#ui/atoms/Button"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
-import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { fetchCoreResourcesSuggestions } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
 import { Input } from "#ui/forms/Input"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
@@ -32,6 +33,7 @@ export function Options({
       <ApplyOnOption item={item} pathPrefix={pathPrefix} />
       <DiscountModeOption item={item} pathPrefix={pathPrefix} />
       <AggregationOption item={item} pathPrefix={pathPrefix} />
+      <AggregationsOption item={item} pathPrefix={pathPrefix} />
       <LimitOption item={item} pathPrefix={pathPrefix} />
       <BundleOption item={item} pathPrefix={pathPrefix} />
       <RoundOption item={item} pathPrefix={pathPrefix} />
@@ -157,17 +159,40 @@ function AggregationOption({
 }) {
   const optionName = "aggregation" as const
 
-  const { setPath } = useRuleEngine()
   const optionRow = useOptionRow({ item, optionName, pathPrefix })
 
-  if (!(optionName in item) || optionRow == null) {
+  if (!(optionName in item) || optionRow == null || item[optionName] == null) {
     return null
   }
 
-  const defaultValue = optionRow.optionConfig?.values?.find(
+  return (
+    <optionRow.OptionRow>
+      <AggregationRow
+        aggregation={item[optionName]}
+        optionConfig={optionRow.optionConfig}
+        pathPrefix={`${pathPrefix}.${optionName}`}
+      />
+    </optionRow.OptionRow>
+  )
+}
+
+function AggregationRow({
+  aggregation,
+  pathPrefix,
+  optionConfig,
+}: {
+  aggregation:
+    | NonNullable<SchemaActionItem["aggregation"]>
+    | NonNullable<SchemaConditionItem["aggregations"]>[number]
+  pathPrefix: string
+  optionConfig?: OptionConfig
+}) {
+  const { setPath } = useRuleEngine()
+
+  const defaultValue = optionConfig?.values?.find(
     (entry) =>
-      isEqual(item.aggregation?.field, entry.meta?.field) &&
-      isEqual(item.aggregation?.operator, entry.meta?.operator),
+      isEqual(aggregation.field, entry.meta?.field) &&
+      isEqual(aggregation.operator, entry.meta?.operator),
   )
 
   const matchers = [
@@ -181,74 +206,153 @@ function AggregationOption({
   ]
 
   return (
-    <optionRow.OptionRow>
-      <div className="flex gap-2">
-        <InputSelect
-          className="grow"
-          defaultValue={
-            defaultValue != null
-              ? defaultValue
-              : item.aggregation?.field == null ||
-                  item.aggregation?.operator == null
-                ? undefined
-                : {
-                    label: `${item.aggregation.field} ${item.aggregation.operator}`,
-                    value: JSON.stringify({
-                      field: item.aggregation.field,
-                      operation: item.aggregation.operator,
-                    }),
-                    meta: {
-                      field: item.aggregation.field,
-                      operation: item.aggregation.operator,
-                    },
-                  }
-          }
-          initialValues={
-            optionRow.optionConfig?.values?.map((entry) => ({
-              label: entry.label,
-              meta: entry.meta,
-              value: JSON.stringify(entry.meta),
-            })) ?? []
-          }
-          onSelect={(selected) => {
-            if (isSingleValueSelected(selected)) {
-              setPath(`${pathPrefix}.${optionName}.field`, selected.meta?.field)
-              setPath(
-                `${pathPrefix}.${optionName}.operator`,
-                selected.meta?.operator,
-              )
-            }
-          }}
-        />
-        <InputSelect
-          defaultValue={
-            item.aggregation?.matcher != null
-              ? {
-                  label:
-                    matchers.find((v) => v.value === item.aggregation?.matcher)
-                      ?.label ?? item.aggregation?.matcher,
-                  value: item.aggregation?.matcher,
+    <div className="flex gap-2 grow">
+      <InputSelect
+        className="grow"
+        defaultValue={
+          defaultValue != null
+            ? defaultValue
+            : aggregation.field == null || aggregation.operator == null
+              ? undefined
+              : {
+                  label: `${aggregation.field} ${aggregation.operator}`,
+                  value: JSON.stringify({
+                    field: aggregation.field,
+                    operation: aggregation.operator,
+                  }),
+                  meta: {
+                    field: aggregation.field,
+                    operation: aggregation.operator,
+                  },
                 }
-              : undefined
+        }
+        initialValues={
+          optionConfig?.values?.map((entry) => ({
+            label: entry.label,
+            meta: entry.meta,
+            value: JSON.stringify(entry.meta),
+          })) ?? []
+        }
+        onSelect={(selected) => {
+          if (isSingleValueSelected(selected)) {
+            setPath(`${pathPrefix}.field`, selected.meta?.field)
+            setPath(`${pathPrefix}.operator`, selected.meta?.operator)
           }
-          initialValues={matchers}
-          onSelect={(selected) => {
-            if (isSingleValueSelected(selected)) {
-              setPath(`${pathPrefix}.${optionName}.matcher`, selected.value)
-            }
-          }}
-        />
-        <Input
-          type="number"
-          className="basis-20"
-          placeholder="0"
-          onChange={(e) => {
-            const value = parseInt(e.currentTarget.value, 10)
-            setPath(`${pathPrefix}.${optionName}.value`, value)
-          }}
-          defaultValue={item.aggregation?.value}
-        />
-      </div>
+        }}
+      />
+      <InputSelect
+        className="w-34"
+        defaultValue={
+          aggregation.matcher != null
+            ? {
+                label:
+                  matchers.find((v) => v.value === aggregation.matcher)
+                    ?.label ?? aggregation.matcher,
+                value: aggregation.matcher,
+              }
+            : undefined
+        }
+        initialValues={matchers}
+        onSelect={(selected) => {
+          if (isSingleValueSelected(selected)) {
+            setPath(`${pathPrefix}.matcher`, selected.value)
+          }
+        }}
+      />
+      <Input
+        type="number"
+        className="basis-20"
+        placeholder="0"
+        onChange={(e) => {
+          const value = parseInt(e.currentTarget.value, 10)
+          setPath(`${pathPrefix}.value`, value)
+        }}
+        defaultValue={aggregation.value}
+      />
+    </div>
+  )
+}
+
+function AggregationsOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | SchemaConditionItem
+  pathPrefix: string
+}) {
+  const optionName = "aggregations" as const
+
+  const { setPath } = useRuleEngine()
+  const [rerenderKey, setRerenderKey] = useState(0)
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  if (
+    !(optionName in item) ||
+    optionRow == null ||
+    item[optionName] == null ||
+    item[optionName].length === 0
+  ) {
+    return null
+  }
+
+  return (
+    <optionRow.OptionRow key={rerenderKey}>
+      {item.aggregations?.map((aggregation, index) => {
+        const key = index.toString()
+        return (
+          <div key={key} className="flex justify-between gap-2">
+            <AggregationRow
+              aggregation={aggregation}
+              optionConfig={optionRow.optionConfig}
+              pathPrefix={`${pathPrefix}.${optionName}.${index}`}
+            />
+            <Dropdown
+              className="grow-0"
+              dropdownLabel={
+                <Button variant="input" className="h-[44px] bg-gray-50">
+                  <Icon name="dotsThreeVertical" size={16} weight="bold" />
+                </Button>
+              }
+              dropdownItems={[
+                <DropdownItem
+                  label="Add aggregation"
+                  key={`${key}-"add-aggregation"`}
+                  onClick={() => {
+                    setPath(
+                      `${pathPrefix}.aggregations.${item.aggregations?.length}`,
+                      {},
+                    )
+                  }}
+                />,
+                <DropdownItem
+                  label="Duplicate"
+                  key={`${key}-"duplicate"`}
+                  onClick={() => {
+                    setPath(
+                      `${pathPrefix}.aggregations.${item.aggregations?.length}`,
+                      aggregation,
+                    )
+                  }}
+                />,
+                <DropdownDivider key={`${key}-"divider"`} />,
+                <DropdownItem
+                  label="Remove"
+                  disabled={item.aggregations?.length === 1}
+                  key={`${key}-"remove-aggregation"`}
+                  onClick={() => {
+                    if (item.aggregations?.length === 1) {
+                      setPath(`${pathPrefix}.aggregations`, null)
+                    } else {
+                      setPath(`${pathPrefix}.aggregations.${index}`, null)
+                    }
+                    setRerenderKey((prev) => prev + 1)
+                  }}
+                />,
+              ]}
+            />
+          </div>
+        )
+      })}
     </optionRow.OptionRow>
   )
 }
