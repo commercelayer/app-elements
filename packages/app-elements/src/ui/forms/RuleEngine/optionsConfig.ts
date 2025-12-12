@@ -145,15 +145,20 @@ const configuration = {
     } as const,
   },
   conditions: {
-    group: true,
-    scope: true,
-    aggregations: [
-      {
-        label: "Total quantity",
-        value: "total_quantity",
-        meta: { field: "order.line_items.quantity", operator: "sum" },
-      },
-    ],
+    "order-rules": {
+      group: true,
+      scope: true,
+      aggregations: [
+        {
+          label: "Total quantity",
+          value: "total_quantity",
+          meta: { field: "order.line_items.quantity", operator: "sum" },
+        },
+      ],
+    } as const,
+    "price-rules": {
+      scope: true,
+    } as const,
   },
 } satisfies {
   actions:
@@ -175,9 +180,19 @@ const configuration = {
           }
         >
       >
-  conditions: {
-    [key in ManagedConditionOption]?: OptionValue
-  }
+  conditions:
+    | Record<
+        Extract<RuleEngineProps["schemaType"], "order-rules">,
+        {
+          [key in ManagedConditionOption]?: OptionValue
+        }
+      >
+    | Record<
+        Extract<RuleEngineProps["schemaType"], "price-rules">,
+        {
+          [key in ManagedConditionOption]?: OptionValue
+        }
+      >
 }
 
 type OptionValue =
@@ -257,7 +272,7 @@ export function parseOptionsFromSchema(
 
   return {
     actions: parseActionOptions(schema, schemaType),
-    conditions: parseConditionOptions(schema),
+    conditions: parseConditionOptions(schema, schemaType),
   }
 }
 
@@ -333,7 +348,10 @@ function parseActionOptions(
 /**
  * Parse condition options from JSON schema
  */
-function parseConditionOptions(schema: any): OptionConfig[] {
+function parseConditionOptions(
+  schema: any,
+  schemaType: RuleEngineProps["schemaType"],
+): OptionConfig[] {
   try {
     const conditionVariants = schema?.$defs?.conditions?.items?.anyOf ?? []
     const optionsMap = buildOptionsMap(
@@ -342,21 +360,32 @@ function parseConditionOptions(schema: any): OptionConfig[] {
     )
     const baseOptions = buildOptions(optionsMap, conditionVariants, schema)
 
+    const configForSchemaType = configuration.conditions[schemaType] as Record<
+      ManagedConditionOption,
+      OptionValue | undefined
+    >
+
     // Filter and enhance options based on configuration
     return baseOptions
       .filter((option) => {
         const optionValue =
-          configuration.conditions[option.name as ManagedConditionOption]
+          configForSchemaType[option.name as ManagedConditionOption]
         // Include if explicitly set (true or array of values)
         return optionValue != null
       })
       .map((option) => {
         const optionValue =
-          configuration.conditions[option.name as ManagedConditionOption]
+          configForSchemaType[option.name as ManagedConditionOption]
         return {
           ...option,
           // Configuration values override schema-derived values
-          values: Array.isArray(optionValue) ? optionValue : option.values,
+          values: Array.isArray(optionValue)
+            ? (optionValue as Array<{
+                label: string
+                value: string
+                meta?: Record<string, any>
+              }>)
+            : option.values,
         }
       })
   } catch (error) {
