@@ -4,7 +4,6 @@ import { Button } from "#ui/atoms/Button"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
-import { fetchCoreResourcesSuggestions } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
 import { Input } from "#ui/forms/Input"
 import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { useAvailableGroups } from "../Condition/hooks"
@@ -58,19 +57,9 @@ function GroupOption({
 
   const availableGroups = useAvailableGroups()
 
-  // const [group, setGroup] = useState<string | undefined>(
-  //   optionName in item ? item.group : undefined,
-  // )
-
-  // useEffect(() => {
-  //   setPath(`${pathPrefix}.group`, group)
-  // }, [group])
-
   if (!(optionName in item) || optionRow == null || item.group === undefined) {
     return null
   }
-
-  console.log("item.group", item.group, optionName in item)
 
   return (
     <optionRow.OptionRow>
@@ -91,7 +80,6 @@ function GroupOption({
         }
         onSelect={(selected) => {
           if (selected == null || isSingleValueSelected(selected)) {
-            // setGroup(selected?.value.toString())
             setPath(`${pathPrefix}.group`, selected?.value.toString())
           }
         }}
@@ -631,7 +619,7 @@ function ApplyOnOption({
           }
         }}
       />
-      {
+      {/* {
         // TODO: this will be removed when we have static values for apply_on
         optionRow.optionConfig?.values == null && (
           <InputSelect
@@ -679,7 +667,7 @@ function ApplyOnOption({
             }}
           />
         )
-      }
+      } */}
     </optionRow.OptionRow>
   )
 }

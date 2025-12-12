@@ -15,24 +15,7 @@ describe("parseOptionsFromSchema", () => {
         "actions": {
           "buy_x_pay_y": {
             "order": [],
-            "order.line_items": [
-              {
-                "label": "Aggregation",
-                "mutuallyExclusiveWith": [],
-                "name": "aggregation",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Total quantity",
-                    "meta": {
-                      "field": "order.line_items.quantity",
-                      "operator": "sum",
-                    },
-                    "value": "total_quantity",
-                  },
-                ],
-              },
-            ],
+            "order.line_items": [],
             "order.line_items.adjustment": [],
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
@@ -43,24 +26,7 @@ describe("parseOptionsFromSchema", () => {
           },
           "every_x_discount_y": {
             "order": [],
-            "order.line_items": [
-              {
-                "label": "Aggregation",
-                "mutuallyExclusiveWith": [],
-                "name": "aggregation",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Total quantity",
-                    "meta": {
-                      "field": "order.line_items.quantity",
-                      "operator": "sum",
-                    },
-                    "value": "total_quantity",
-                  },
-                ],
-              },
-            ],
+            "order.line_items": [],
             "order.line_items.adjustment": [],
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
@@ -72,6 +38,33 @@ describe("parseOptionsFromSchema", () => {
           "fixed_amount": {
             "order": [
               {
+                "description": "Creates bundles based on the groups provided.",
+                "label": "Bundle",
+                "mutuallyExclusiveWith": [
+                  "limit",
+                ],
+                "name": "bundle",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Most expensive",
+                    "meta": {
+                      "attribute": "total_amount_cents",
+                      "direction": "desc",
+                    },
+                    "value": "most-expensive",
+                  },
+                  {
+                    "label": "Less expensive",
+                    "meta": {
+                      "attribute": "total_amount_cents",
+                      "direction": "asc",
+                    },
+                    "value": "less-expensive",
+                  },
+                ],
+              },
+              {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
@@ -135,22 +128,6 @@ describe("parseOptionsFromSchema", () => {
             ],
             "order.line_items": [
               {
-                "label": "Aggregation",
-                "mutuallyExclusiveWith": [],
-                "name": "aggregation",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Total quantity",
-                    "meta": {
-                      "field": "order.line_items.quantity",
-                      "operator": "sum",
-                    },
-                    "value": "total_quantity",
-                  },
-                ],
-              },
-              {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
                 "mutuallyExclusiveWith": [
@@ -166,6 +143,14 @@ describe("parseOptionsFromSchema", () => {
                       "direction": "desc",
                     },
                     "value": "most-expensive",
+                  },
+                  {
+                    "label": "Less expensive",
+                    "meta": {
+                      "attribute": "unit_amount_cents",
+                      "direction": "asc",
+                    },
+                    "value": "less-expensive",
                   },
                 ],
               },
@@ -235,41 +220,40 @@ describe("parseOptionsFromSchema", () => {
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
             "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [
-              {
-                "description": "Restriction on how many resources will be affected by the action.",
-                "label": "Limit",
-                "mutuallyExclusiveWith": [
-                  "bundle",
-                ],
-                "name": "limit",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Most expensive",
-                    "meta": {
-                      "attribute": "price_amount_cents",
-                      "direction": "desc",
-                    },
-                    "value": "most-expensive",
-                  },
-                  {
-                    "label": "Less expensive",
-                    "meta": {
-                      "attribute": "price_amount_cents",
-                      "direction": "asc",
-                    },
-                    "value": "less-expensive",
-                  },
-                ],
-              },
-            ],
+            "order.line_items.payment_method": [],
             "order.line_items.shipment": [],
             "order.line_items.sku": [],
           },
           "fixed_price": {
             "order": [
               {
+                "description": "Creates bundles based on the groups provided.",
+                "label": "Bundle",
+                "mutuallyExclusiveWith": [
+                  "limit",
+                ],
+                "name": "bundle",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Most expensive",
+                    "meta": {
+                      "attribute": "total_amount_cents",
+                      "direction": "desc",
+                    },
+                    "value": "most-expensive",
+                  },
+                  {
+                    "label": "Less expensive",
+                    "meta": {
+                      "attribute": "total_amount_cents",
+                      "direction": "asc",
+                    },
+                    "value": "less-expensive",
+                  },
+                ],
+              },
+              {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
@@ -316,22 +300,6 @@ describe("parseOptionsFromSchema", () => {
             ],
             "order.line_items": [
               {
-                "label": "Aggregation",
-                "mutuallyExclusiveWith": [],
-                "name": "aggregation",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Total quantity",
-                    "meta": {
-                      "field": "order.line_items.quantity",
-                      "operator": "sum",
-                    },
-                    "value": "total_quantity",
-                  },
-                ],
-              },
-              {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
                 "mutuallyExclusiveWith": [
@@ -347,6 +315,14 @@ describe("parseOptionsFromSchema", () => {
                       "direction": "desc",
                     },
                     "value": "most-expensive",
+                  },
+                  {
+                    "label": "Less expensive",
+                    "meta": {
+                      "attribute": "unit_amount_cents",
+                      "direction": "asc",
+                    },
+                    "value": "less-expensive",
                   },
                 ],
               },
@@ -399,35 +375,7 @@ describe("parseOptionsFromSchema", () => {
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
             "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [
-              {
-                "description": "Restriction on how many resources will be affected by the action.",
-                "label": "Limit",
-                "mutuallyExclusiveWith": [
-                  "bundle",
-                ],
-                "name": "limit",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Most expensive",
-                    "meta": {
-                      "attribute": "price_amount_cents",
-                      "direction": "desc",
-                    },
-                    "value": "most-expensive",
-                  },
-                  {
-                    "label": "Less expensive",
-                    "meta": {
-                      "attribute": "price_amount_cents",
-                      "direction": "asc",
-                    },
-                    "value": "less-expensive",
-                  },
-                ],
-              },
-            ],
+            "order.line_items.payment_method": [],
             "order.line_items.shipment": [],
             "order.line_items.sku": [],
           },
@@ -459,6 +407,33 @@ describe("parseOptionsFromSchema", () => {
                 ],
               },
               {
+                "description": "Creates bundles based on the groups provided.",
+                "label": "Bundle",
+                "mutuallyExclusiveWith": [
+                  "limit",
+                ],
+                "name": "bundle",
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "Most expensive",
+                    "meta": {
+                      "attribute": "total_amount_cents",
+                      "direction": "desc",
+                    },
+                    "value": "most-expensive",
+                  },
+                  {
+                    "label": "Less expensive",
+                    "meta": {
+                      "attribute": "total_amount_cents",
+                      "direction": "asc",
+                    },
+                    "value": "less-expensive",
+                  },
+                ],
+              },
+              {
                 "description": "Restriction on how many resources will be affected by the action.",
                 "label": "Limit",
                 "mutuallyExclusiveWith": [
@@ -487,22 +462,6 @@ describe("parseOptionsFromSchema", () => {
               },
             ],
             "order.line_items": [
-              {
-                "label": "Aggregation",
-                "mutuallyExclusiveWith": [],
-                "name": "aggregation",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Total quantity",
-                    "meta": {
-                      "field": "order.line_items.quantity",
-                      "operator": "sum",
-                    },
-                    "value": "total_quantity",
-                  },
-                ],
-              },
               {
                 "description": "If true, rounds the discount, only available on percentage actions.",
                 "label": "Round",
@@ -545,6 +504,14 @@ describe("parseOptionsFromSchema", () => {
                     },
                     "value": "most-expensive",
                   },
+                  {
+                    "label": "Less expensive",
+                    "meta": {
+                      "attribute": "unit_amount_cents",
+                      "direction": "asc",
+                    },
+                    "value": "less-expensive",
+                  },
                 ],
               },
               {
@@ -579,35 +546,7 @@ describe("parseOptionsFromSchema", () => {
             "order.line_items.bundle": [],
             "order.line_items.gift_card": [],
             "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [
-              {
-                "description": "Restriction on how many resources will be affected by the action.",
-                "label": "Limit",
-                "mutuallyExclusiveWith": [
-                  "bundle",
-                ],
-                "name": "limit",
-                "valueType": "object",
-                "values": [
-                  {
-                    "label": "Most expensive",
-                    "meta": {
-                      "attribute": "price_amount_cents",
-                      "direction": "desc",
-                    },
-                    "value": "most-expensive",
-                  },
-                  {
-                    "label": "Less expensive",
-                    "meta": {
-                      "attribute": "price_amount_cents",
-                      "direction": "asc",
-                    },
-                    "value": "less-expensive",
-                  },
-                ],
-              },
-            ],
+            "order.line_items.payment_method": [],
             "order.line_items.shipment": [],
             "order.line_items.sku": [],
           },
@@ -651,7 +590,15 @@ describe("parseOptionsFromSchema", () => {
                   "field": "order.line_items.quantity",
                   "operator": "sum",
                 },
-                "value": "total_quantity",
+                "value": "total-quantity",
+              },
+              {
+                "label": "Total amount",
+                "meta": {
+                  "field": "order.line_items.total_amount_cents",
+                  "operator": "sum",
+                },
+                "value": "total-amount",
               },
             ],
           },
@@ -683,10 +630,6 @@ describe("parseOptionsFromSchema", () => {
                     "value": "amount_cents",
                   },
                   {
-                    "label": "Original amount",
-                    "value": "original_amount_cents",
-                  },
-                  {
                     "label": "Compare at amount",
                     "value": "compare_at_amount_cents",
                   },
@@ -708,10 +651,6 @@ describe("parseOptionsFromSchema", () => {
                     "value": "amount_cents",
                   },
                   {
-                    "label": "Original amount",
-                    "value": "original_amount_cents",
-                  },
-                  {
                     "label": "Compare at amount",
                     "value": "compare_at_amount_cents",
                   },
@@ -722,14 +661,6 @@ describe("parseOptionsFromSchema", () => {
           "percentage": {
             "price": [
               {
-                "description": "If true, rounds the discount, only available on percentage actions.",
-                "label": "Round",
-                "mutuallyExclusiveWith": [],
-                "name": "round",
-                "valueType": "boolean",
-                "values": undefined,
-              },
-              {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
@@ -739,10 +670,6 @@ describe("parseOptionsFromSchema", () => {
                   {
                     "label": "Amount",
                     "value": "amount_cents",
-                  },
-                  {
-                    "label": "Original amount",
-                    "value": "original_amount_cents",
                   },
                   {
                     "label": "Compare at amount",
@@ -770,6 +697,14 @@ describe("parseOptionsFromSchema", () => {
                 "value": "all",
               },
             ],
+          },
+          {
+            "description": "Identifier of the group to assign the matches of the condition invoked.",
+            "label": "Group",
+            "mutuallyExclusiveWith": [],
+            "name": "group",
+            "valueType": "string",
+            "values": undefined,
           },
         ],
       }

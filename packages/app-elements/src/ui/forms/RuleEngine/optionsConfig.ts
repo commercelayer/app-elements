@@ -61,6 +61,24 @@ const configuration = {
             },
           },
         ],
+        bundle: [
+          {
+            label: "Most expensive",
+            value: "most-expensive",
+            meta: {
+              attribute: "total_amount_cents",
+              direction: "desc",
+            },
+          },
+          {
+            label: "Less expensive",
+            value: "less-expensive",
+            meta: {
+              attribute: "total_amount_cents",
+              direction: "asc",
+            },
+          },
+        ],
       },
       "order.line_items": {
         round: true,
@@ -96,12 +114,13 @@ const configuration = {
               direction: "desc",
             },
           },
-        ],
-        aggregation: [
           {
-            label: "Total quantity",
-            value: "total_quantity",
-            meta: { field: "order.line_items.quantity", operator: "sum" },
+            label: "Less expensive",
+            value: "less-expensive",
+            meta: {
+              attribute: "unit_amount_cents",
+              direction: "asc",
+            },
           },
         ],
       },
@@ -109,26 +128,7 @@ const configuration = {
       "order.line_items.sku": {},
       "order.line_items.bundle": {},
       "order.line_items.shipment": {},
-      "order.line_items.payment_method": {
-        limit: [
-          {
-            label: "Most expensive",
-            value: "most-expensive",
-            meta: {
-              attribute: "price_amount_cents",
-              direction: "desc",
-            },
-          },
-          {
-            label: "Less expensive",
-            value: "less-expensive",
-            meta: {
-              attribute: "price_amount_cents",
-              direction: "asc",
-            },
-          },
-        ],
-      },
+      "order.line_items.payment_method": {},
       "order.line_items.adjustment": {},
       "order.line_items.gift_card": {},
     } as const,
@@ -136,11 +136,8 @@ const configuration = {
       price: {
         apply_on: [
           { label: "Amount", value: "amount_cents" },
-          { label: "Original amount", value: "original_amount_cents" },
           { label: "Compare at amount", value: "compare_at_amount_cents" },
         ],
-        round: true,
-        // limit: true,
       },
     } as const,
   },
@@ -151,12 +148,24 @@ const configuration = {
       aggregations: [
         {
           label: "Total quantity",
-          value: "total_quantity",
-          meta: { field: "order.line_items.quantity", operator: "sum" },
+          value: "total-quantity",
+          meta: {
+            field: "order.line_items.quantity",
+            operator: "sum",
+          },
+        },
+        {
+          label: "Total amount",
+          value: "total-amount",
+          meta: {
+            field: "order.line_items.total_amount_cents",
+            operator: "sum",
+          },
         },
       ],
     } as const,
     "price-rules": {
+      group: true,
       scope: true,
     } as const,
   },
