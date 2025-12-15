@@ -1,9 +1,10 @@
 import { XIcon } from "@phosphor-icons/react"
 import cn from "classnames"
 import { castArray } from "lodash-es"
-import type { JSX } from "react"
+import { type JSX, useEffect, useRef, useState } from "react"
 import {
   type ClearIndicatorProps,
+  type ControlProps,
   components,
   type DropdownIndicatorProps,
   type GroupBase,
@@ -11,10 +12,13 @@ import {
   type InputProps,
   type MenuListProps,
   type MultiValueGenericProps,
+  type SingleValueProps,
+  type ValueContainerProps,
 } from "react-select"
 import { Hr } from "#ui/atoms/Hr"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Tag } from "#ui/atoms/Tag"
+import { Tooltip } from "#ui/atoms/Tooltip"
 import type { InputSelectValue } from "."
 
 function DropdownIndicator(
@@ -174,6 +178,60 @@ function Input(props: InputProps<InputSelectValue>): JSX.Element {
   return <components.Input {...newProps} />
 }
 
+function isEllipsisActive(e: HTMLElement): boolean {
+  return e.offsetWidth < e.scrollWidth
+}
+
+function Control(props: ControlProps<InputSelectValue>): JSX.Element {
+  const ref = useRef<HTMLDivElement>(null)
+  const [title, setTitle] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (ref.current != null) {
+      const singleValueElement = ref.current.querySelector(".single-value")
+      if (
+        props.selectProps.isMulti === false &&
+        singleValueElement != null &&
+        singleValueElement instanceof HTMLElement &&
+        isEllipsisActive(singleValueElement)
+      ) {
+        setTitle(singleValueElement.innerText)
+      } else {
+        setTitle(null)
+      }
+    }
+  }, [ref, props.selectProps.value])
+
+  const newProps = {
+    ...props,
+  }
+
+  return (
+    <div ref={ref}>
+      <Tooltip content={title} label={<components.Control {...newProps} />} />
+    </div>
+  )
+}
+
+function ValueContainer(
+  props: ValueContainerProps<InputSelectValue>,
+): JSX.Element {
+  const newProps = {
+    ...props,
+  }
+
+  return <components.ValueContainer {...newProps} />
+}
+
+function SingleValue(props: SingleValueProps<InputSelectValue>): JSX.Element {
+  const newProps = {
+    ...props,
+    className: cn(props.className, "single-value"),
+  }
+
+  return <components.SingleValue {...newProps} />
+}
+
 const selectComponentOverrides = {
   DropdownIndicator,
   IndicatorSeparator: () => null,
@@ -185,6 +243,9 @@ const selectComponentOverrides = {
   MenuList,
   MenuPortal,
   Input,
+  Control,
+  ValueContainer,
+  SingleValue,
 }
 
 export default selectComponentOverrides

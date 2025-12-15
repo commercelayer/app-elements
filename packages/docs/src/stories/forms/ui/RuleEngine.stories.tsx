@@ -54,6 +54,8 @@ Default.args = {
               value: 0.05,
               groups: ["discountable-items"],
               selector: "order.line_items",
+              round: true,
+              apply_on: "unit_amount_cents",
             },
           ],
           conditions: [

@@ -262,7 +262,7 @@ function AggregationRow({
             : aggregation.field == null || aggregation.operator == null
               ? undefined
               : {
-                  label: `${aggregation.field} ${aggregation.operator}`,
+                  label: `${aggregation.field} ${aggregation.operator.toUpperCase()}`,
                   value: JSON.stringify({
                     field: aggregation.field,
                     operation: aggregation.operator,

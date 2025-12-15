@@ -72,6 +72,42 @@ Simple.args = {
 }
 
 /**
+ * When text within the select is too long, it will be truncated with an ellipsis and a tooltip will show the full text on hover.
+ */
+export const LongText = Template.bind({})
+LongText.args = {
+  label: "Search resource",
+  initialValues: [
+    {
+      label:
+        "this is a very long text that should be truncated with an ellipsis if it exceeds the width of the select input component",
+      value:
+        "this is a very long text that should be truncated with an ellipsis if it exceeds the width of the select input component",
+    },
+    {
+      label:
+        "this is another very long text that should be truncated with an ellipsis if it exceeds the width of the select input component",
+      value:
+        "this is another very long text that should be truncated with an ellipsis if it exceeds the width of the select input component",
+    },
+    {
+      label: "this is a short text",
+      value: "this is a short text",
+    },
+  ],
+  defaultValue: {
+    label:
+      "this is a very long text that should be truncated with an ellipsis if it exceeds the width of the select input component",
+    value:
+      "this is a very long text that should be truncated with an ellipsis if it exceeds the width of the select input component",
+  },
+  placeholder: "Type to filter list...",
+  isSearchable: true,
+  isClearable: false,
+  onBlur: () => {},
+}
+
+/**
  * Use `isDisabled` option property to disable the option. In the list below `Customers` will be disabled.
  */
 export const DisabledOptions = Template.bind({})
