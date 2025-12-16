@@ -469,7 +469,7 @@ const en = {
     "order.subtotal_amount_cents": "subtotal amount cents",
     "order.tags.name": "order tag name",
     "order.total_amount_cents": "total amount cents",
-    order: "order total",
+    order: "order",
     "price.amount_cents": "price amount cents",
     "price.jwt_customer.email": "customer email",
     "price.jwt_customer.tags.id": "customer tag",
