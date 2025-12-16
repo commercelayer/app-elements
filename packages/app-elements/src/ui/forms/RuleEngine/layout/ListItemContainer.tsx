@@ -1,15 +1,20 @@
+import { get } from "lodash-es"
 import type React from "react"
-import { useState } from "react"
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown } from "#ui/composite/Dropdown"
+import { useRuleEngine } from "../RuleEngineContext"
 import { OptionContainer } from "./OptionContainer"
 
 export const ListItemContainer: React.FC<{
+  pathPrefix: string
   children: React.ReactNode
   dropdownItems?: React.ReactNode
   options?: React.ReactNode
-}> = ({ children, dropdownItems, options }) => {
-  const [optionVisibility, setOptionVisibility] = useState<boolean>(true)
+}> = ({ children, dropdownItems, options, pathPrefix }) => {
+  const { state, setRenderOption } = useRuleEngine()
+  const openPrefix = `${pathPrefix}.isOpen`
+
+  const isOpen = get(state.renderOptions, openPrefix) ?? true
 
   return (
     <div className="bg-gray-50 rounded-md flex items-center">
@@ -23,14 +28,11 @@ export const ListItemContainer: React.FC<{
               <button
                 type="button"
                 onClick={() => {
-                  setOptionVisibility((prev) => !prev)
+                  setRenderOption(`${openPrefix}`, !isOpen)
                 }}
                 className="w-11 flex self-stretch justify-center items-center"
               >
-                <Icon
-                  name={optionVisibility ? "caretUp" : "caretDown"}
-                  size={16}
-                />
+                <Icon name={isOpen ? "caretUp" : "caretDown"} size={16} />
               </button>
               {dropdownItems != null && (
                 <Dropdown
@@ -49,7 +51,7 @@ export const ListItemContainer: React.FC<{
             </div>
           </div>
 
-          {optionVisibility && <OptionContainer>{options}</OptionContainer>}
+          {isOpen && <OptionContainer>{options}</OptionContainer>}
         </div>
       </div>
     </div>

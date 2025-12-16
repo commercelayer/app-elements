@@ -53,7 +53,7 @@ export function ConditionMatcher({
       className="min-w-[175px]"
       name={`${pathPrefix}.matcher`}
       value={
-        item != null
+        item != null && item.matcher != null
           ? (initialValues.find((v) => v.value === item.matcher) ?? {
               label: item.matcher != null ? `⚠️   ${item.matcher}` : "",
               value: item.matcher,

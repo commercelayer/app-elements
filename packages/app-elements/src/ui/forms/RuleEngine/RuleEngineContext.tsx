@@ -11,13 +11,19 @@ import type { OptionsConfig } from "./optionsConfig"
 import type { RuleEngineProps } from "./RuleEngineComponent"
 import type { RulesObject } from "./utils"
 
+interface RenderOptions {
+  [path: string]: RenderOptions | RenderOptions[]
+}
+
 interface State {
   value: RulesObject
+  renderOptions: RenderOptions
   selectedRuleIndex: number
 }
 
 type Action =
   | { type: "SET_PATH"; path: string; value: unknown; allowNullValue?: boolean }
+  | { type: "SET_RENDER_OPTION"; path: string; value: unknown | null }
   | { type: "SET_SELECTED_RULE_INDEX"; index: number }
   | { type: "SET_VALUE"; value: RulesObject }
 
@@ -39,7 +45,11 @@ interface RuleEngineContextType {
      */
     allowNullValue?: boolean,
   ) => void
+  /** Sets a render option at the given path */
+  setRenderOption: (path: string, value: unknown | null) => void
+  /** Sets the selected rule index */
   setSelectedRuleIndex: (index: number) => void
+  /** Sets the entire rules object value */
   setValue: (value: RulesObject) => void
 }
 
@@ -88,7 +98,7 @@ function ruleEngineReducer(state: State, action: Action): State {
           const arrayPath = action.path.replace(/\.\d+$/, "")
           const arrayIndex = parseInt(action.path.match(/\d+$/)?.[0] ?? "0", 10)
 
-          const arrayValue = get(newValue, arrayPath) as unknown[]
+          const arrayValue = get(newValue, arrayPath)
 
           if (Array.isArray(arrayValue)) {
             arrayValue.splice(arrayIndex, 1)
@@ -114,6 +124,42 @@ function ruleEngineReducer(state: State, action: Action): State {
       return {
         ...state,
         value: newValue,
+      }
+    }
+
+    case "SET_RENDER_OPTION": {
+      const newValue = cloneDeep(state.renderOptions)
+
+      if (action.value === null) {
+        if (/\.\d+$/.test(action.path)) {
+          // If the path ends with a number, we assume it's an array index
+          const arrayPath = action.path.replace(/\.\d+$/, "")
+          const arrayIndex = parseInt(action.path.match(/\d+$/)?.[0] ?? "0", 10)
+
+          const arrayValue = get(newValue, arrayPath)
+
+          if (Array.isArray(arrayValue)) {
+            arrayValue.splice(arrayIndex, 1)
+            set(newValue, arrayPath, arrayValue)
+
+            if (arrayValue.length === 0) {
+              // If the array is empty, we unset the entire path when it is a "nested condition"
+              if (arrayPath.endsWith(".nested.conditions")) {
+                unset(newValue, arrayPath.replace(/\.conditions$/, ""))
+              }
+            }
+          }
+        } else {
+          // If the path does not end with a number, we unset the value
+          unset(newValue, action.path)
+        }
+      } else {
+        set(newValue, action.path, action.value)
+      }
+
+      return {
+        ...state,
+        renderOptions: newValue,
       }
     }
 
@@ -166,6 +212,7 @@ export function RuleEngineProvider({
 }): React.JSX.Element {
   const [state, dispatch] = useReducer(ruleEngineReducer, {
     value: initialValue.value,
+    renderOptions: {},
     selectedRuleIndex: 0,
   })
 
@@ -189,12 +236,17 @@ export function RuleEngineProvider({
     dispatch({ type: "SET_VALUE", value })
   }, [])
 
+  const setRenderOption = useCallback((path: string, value: unknown | null) => {
+    dispatch({ type: "SET_RENDER_OPTION", path, value })
+  }, [])
+
   const contextValue = useMemo(
     () => ({
       state,
       setPath,
       setSelectedRuleIndex,
       setValue,
+      setRenderOption,
       schemaType: initialValue.schemaType,
       optionsConfig: initialValue.optionsConfig,
     }),
@@ -203,6 +255,7 @@ export function RuleEngineProvider({
       setPath,
       setSelectedRuleIndex,
       setValue,
+      setRenderOption,
       initialValue.schemaType,
       initialValue.optionsConfig,
     ],

@@ -1,3 +1,4 @@
+import { isEmpty } from "lodash-es"
 import React from "react"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
@@ -22,7 +23,7 @@ export function ConditionListItem({
   pathPrefix: string
   onDelete?: () => void
 }): React.JSX.Element {
-  const { setPath, optionsConfig } = useRuleEngine()
+  const { setPath, setRenderOption, optionsConfig } = useRuleEngine()
 
   const { available: availableOptions } = useAvailableOptions(
     item,
@@ -53,6 +54,7 @@ export function ConditionListItem({
         label="Delete"
         onClick={() => {
           setPath(`${pathPrefix}`, null)
+          setRenderOption(`${pathPrefix}`, null)
           onDelete()
         }}
       />,
@@ -62,6 +64,7 @@ export function ConditionListItem({
   return (
     <div>
       <ListItemContainer
+        pathPrefix={pathPrefix}
         dropdownItems={dropdownItems.map((items, index, arr) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
           <React.Fragment key={index}>
@@ -73,47 +76,50 @@ export function ConditionListItem({
           </React.Fragment>
         ))}
         options={
-          <>
-            <ConditionValue item={item} pathPrefix={pathPrefix} />
-            <Options item={item} pathPrefix={pathPrefix} />
+          !isEmpty(item?.field) &&
+          !isEmpty(item?.matcher) && (
+            <>
+              <ConditionValue item={item} pathPrefix={pathPrefix} />
+              <Options item={item} pathPrefix={pathPrefix} />
 
-            {availableOptions.length > 0 && (
-              <Dropdown
-                className="inline-flex mt-6"
-                menuPosition="bottom-left"
-                dropdownItems={availableOptions.map((option) => (
-                  <DropdownItem
-                    onClick={() => {
-                      // Set default values based on option type
-                      switch (option.name) {
-                        case "scope":
-                          setPath(`${pathPrefix}.scope`, "any")
-                          break
-                        case "aggregations":
-                          setPath(`${pathPrefix}.aggregations`, [{}])
-                          break
-                        case "group":
-                          setPath(`${pathPrefix}.group`, null, true)
-                          break
-                      }
-                    }}
-                    label={option.label}
-                    key={`option-${option.name}`}
-                  />
-                ))}
-                dropdownLabel={
-                  <button type="button">
-                    <Text className="flex gap-2 items-center">
-                      <Text weight="bold" size="small">
-                        Add option
-                      </Text>{" "}
-                      <Icon name="caretDown" />
-                    </Text>
-                  </button>
-                }
-              />
-            )}
-          </>
+              {availableOptions.length > 0 && (
+                <Dropdown
+                  className="inline-flex mt-6"
+                  menuPosition="bottom-left"
+                  dropdownItems={availableOptions.map((option) => (
+                    <DropdownItem
+                      onClick={() => {
+                        // Set default values based on option type
+                        switch (option.name) {
+                          case "scope":
+                            setPath(`${pathPrefix}.scope`, "any")
+                            break
+                          case "aggregations":
+                            setPath(`${pathPrefix}.aggregations`, [{}])
+                            break
+                          case "group":
+                            setPath(`${pathPrefix}.group`, null, true)
+                            break
+                        }
+                      }}
+                      label={option.label}
+                      key={`option-${option.name}`}
+                    />
+                  ))}
+                  dropdownLabel={
+                    <button type="button">
+                      <Text className="flex gap-2 items-center">
+                        <Text weight="bold" size="small">
+                          Add option
+                        </Text>{" "}
+                        <Icon name="caretDown" />
+                      </Text>
+                    </button>
+                  }
+                />
+              )}
+            </>
+          )
         }
       >
         {/* Condition target */}

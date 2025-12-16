@@ -29,6 +29,7 @@ export function ActionListItem({
 }): React.ReactNode {
   const {
     setPath,
+    setRenderOption,
     state: { selectedRuleIndex },
     optionsConfig,
   } = useRuleEngine()
@@ -63,12 +64,14 @@ export function ActionListItem({
   return (
     <div className="mb-4 last:mb-0">
       <ListItemContainer
+        pathPrefix={pathPrefix}
         dropdownItems={
           onDelete != null ? (
             <DropdownItem
               label="Delete"
               onClick={() => {
                 setPath(`${pathPrefix}`, null)
+                setRenderOption(`${pathPrefix}`, null)
                 onDelete()
               }}
             />
@@ -135,7 +138,7 @@ export function ActionListItem({
           <InputSelect
             name={`${pathPrefix}.type`}
             defaultValue={
-              item != null
+              item != null && item.type != null
                 ? {
                     label: typeDictionary[item.type],
                     value: item.type,
