@@ -303,20 +303,48 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                     item={selectedRule}
                     pathPrefix={`rules.${selectedRuleIndex}`}
                   />
-                  <div className="mt-6">
-                    <Button
-                      size="small"
-                      variant="secondary"
-                      alignItems="center"
-                      onClick={() => {
-                        setPath(
-                          `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
-                          undefined,
-                        )
-                      }}
-                    >
-                      <Icon name="plusCircle" /> Add condition
-                    </Button>
+                  <div className="mt-6 flex">
+                    <Dropdown
+                      menuPosition="bottom-left"
+                      dropdownItems={[
+                        <DropdownItem
+                          key="empty"
+                          label="Empty"
+                          onClick={() => {
+                            setPath(
+                              `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
+                              undefined,
+                            )
+                          }}
+                        />,
+                        <DropdownDivider key="divider" />,
+                        <DropdownItem
+                          key="no-discount"
+                          label="No discount"
+                          onClick={() => {
+                            setPath(
+                              `rules.${selectedRuleIndex}.conditions.${selectedRule?.conditions?.length ?? 0}`,
+                              {
+                                field: "order.line_items.unit_amount_cents",
+                                matcher: "eq",
+                                value:
+                                  "{{order.line_items.compare_at_amount_cents}}",
+                              },
+                            )
+                          }}
+                        />,
+                      ]}
+                      dropdownLabel={
+                        <Button
+                          size="small"
+                          variant="secondary"
+                          alignItems="center"
+                          className=""
+                        >
+                          <Icon name="plusCircle" /> Add condition
+                        </Button>
+                      }
+                    />
                   </div>
                 </Card>
 
