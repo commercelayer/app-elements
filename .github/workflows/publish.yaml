@@ -8,20 +8,28 @@ jobs:
   publish:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      id-token: write
+
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v4
 
       - name: pnpm 🧰
-        uses: pnpm/action-setup@v3
+        uses: pnpm/action-setup@v4
         with:
-          version: 9
+          version: 10
 
       - name: Node 🧰
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
           node-version: 20.x
+          registry-url: https://registry.npmjs.org
           cache: 'pnpm'
+
+      - name: Update npm 📦
+        run: npm install -g npm@latest
 
       - name: Install 📦
         run: pnpm install
@@ -31,19 +39,11 @@ jobs:
 
       - name: Publish 🚀 PRERELEASE
         if: 'github.event.release.prerelease'
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          pnpm -r publish --tag next --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm -r publish --tag next --no-git-checks --access public
 
       - name: Publish 🚀 PRODUCTION
         if: '!github.event.release.prerelease'
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          pnpm -r publish --no-git-checks --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: pnpm -r publish --no-git-checks --access public
 
       - name: Trigger deploy to gh-pages 🚀
         # if: '!github.event.release.prerelease'

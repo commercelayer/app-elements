@@ -1,6 +1,7 @@
 {
   "private": true,
   "scripts": {
+    "clean": "pnpx rimraf --glob **/node_modules **/pnpm-lock.yaml",
     "prepare": "husky",
     "preinstall": "npx only-allow pnpm",
     "dev": "pnpm --stream -r dev",
@@ -19,8 +20,8 @@
   },
   "keywords": [],
   "author": {
-    "name": "Giuseppe Ciotola",
-    "email": "giuseppe@commercelayer.io"
+    "name": "Commerce Layer",
+    "email": "development@commercelayer.io"
   },
   "repository": {
     "type": "git",
@@ -35,10 +36,10 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@biomejs/biome": "2.2.4",
+    "@biomejs/biome": "2.3.10",
     "husky": "^9.1.7",
-    "lerna": "^8.2.4",
-    "lint-staged": "^16.1.6"
+    "lerna": "^9.0.3",
+    "lint-staged": "^16.2.7"
   },
   "resolutions": {
     "postcss": "8"

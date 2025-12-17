@@ -217,11 +217,12 @@ const resources = {
   }
 }
 
-type IsStringLiteral<T> = "I am a literal type" extends NonNullable<T>
-  ? false // Handle `string` specifically
-  : NonNullable<T> extends Exclude<Primitive, string>
-    ? false // Handle `Primitive` specifically
-    : true // It's a string literal
+type IsStringLiteral<T> =
+  "I am a literal type" extends NonNullable<T>
+    ? false // Handle `string` specifically
+    : NonNullable<T> extends Exclude<Primitive, string>
+      ? false // Handle `Primitive` specifically
+      : true // It's a string literal
 
 const en = {
   common: {
