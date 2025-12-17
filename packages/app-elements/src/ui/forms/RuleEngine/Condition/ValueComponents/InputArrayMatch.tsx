@@ -74,7 +74,7 @@ export function InputArrayMatch({
   ) as (keyof ArrayMatcherDictionary)[]
 
   return (
-    <div className="flex flex-col" key={remainingKeys.join("-")}>
+    <div className="flex flex-col gap-2" key={remainingKeys.join("-")}>
       {Object.entries(validValue).map(([operation, operationValue], index) => {
         return (
           <InputArrayMatchItem

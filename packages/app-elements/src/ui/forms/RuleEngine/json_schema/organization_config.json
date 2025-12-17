@@ -1,0 +1,231 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "1.0.1",
+  "title": "Valid config for organizations in CommerceLayer",
+  "description": "Payload to use when using the config field of the Organization on CommerceLayer.",
+  "type": "object",
+  "properties": {
+    "mfe": {
+      "additionalProperties": false,
+      "type": "object",
+      "properties": { "default": { "$ref": "#/$defs/mfe_config" } },
+      "patternProperties": {
+        "^market:id:[a-zA-Z0-9]*$$": { "$ref": "#/$defs/mfe_config" }
+      }
+    },
+    "apps": {
+      "additionalProperties": false,
+      "type": "object",
+      "description": "Default settings for apps.",
+      "properties": {
+        "customers": {
+          "type": "object",
+          "description": "Customers app settings.",
+          "properties": {
+            "enable_reset_password": {
+              "type": "boolean",
+              "default": false,
+              "description": "Enable reset password flow for customers."
+            }
+          },
+          "additionalProperties": false
+        },
+        "orders": {
+          "type": "object",
+          "description": "Orders app settings.",
+          "properties": {
+            "external_price": {
+              "type": "boolean",
+              "description": "Enable this option to allow external price."
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    },
+    "api": {
+      "additionalProperties": false,
+      "type": "object",
+      "description": "Organization API behavior settings.",
+      "properties": {
+        "auth": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "guest_orders": {
+              "type": "boolean",
+              "default": false,
+              "description": "Allow JWT bearer token to see guest orders."
+            }
+          }
+        },
+        "stream": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Stream pusher configuration.",
+          "properties": {
+            "scope": {
+              "type": "string",
+              "enum": ["none", "live", "test", "both"],
+              "default": "none",
+              "description": "Where streaming is enabled: none, live, test or both."
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "mfe_config": {
+      "type": "object",
+      "description": "Default settings for links and checkout.",
+      "properties": {
+        "links": {
+          "type": "object",
+          "description": "Links for specific micro frontends.",
+          "properties": {
+            "cart": { "$ref": "#/$defs/url" },
+            "checkout": { "$ref": "#/$defs/url" },
+            "identity": { "$ref": "#/$defs/url" },
+            "microstore": { "$ref": "#/$defs/url" },
+            "my_account": { "$ref": "#/$defs/url" }
+          },
+          "additionalProperties": false
+        },
+        "checkout": {
+          "type": "object",
+          "description": "Settings for the Checkout micro front end.",
+          "properties": {
+            "optional_billing_info": {
+              "$ref": "#/$defs/boolean",
+              "description": "Billing details not required for processing."
+            },
+            "hide_promo_code": { "$ref": "#/$defs/hide_promo_code" },
+            "optional_company_name": {
+              "$ref": "#/$defs/boolean",
+              "description": "Company name not required for processing."
+            },
+            "show_notes": {
+              "$ref": "#/$defs/boolean",
+              "description": "Show notes."
+            },
+            "thankyou_page": { "$ref": "#/$defs/url" },
+            "billing_countries": {
+              "$ref": "#/$defs/state_country",
+              "description": "List of billing countries by identifier and label."
+            },
+            "shipping_countries": {
+              "$ref": "#/$defs/state_country",
+              "description": "List of shipping countries by identifier and label."
+            },
+            "default_country": { "$ref": "#/$defs/country_code" },
+            "billing_states": {
+              "description": "List of states by country with identifier and label.",
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "$ref": "#/$defs/state_country",
+                  "description": "List of shipping countries by identifier and label."
+                }
+              }
+            },
+            "shipping_states": {
+              "description": "List of states by country with identifier and label.",
+              "type": "object",
+              "patternProperties": {
+                "^.*$": {
+                  "$ref": "#/$defs/state_country",
+                  "description": "List of shipping countries by identifier and label."
+                }
+              }
+            },
+            "hide_item_codes": { "$ref": "#/$defs/hide_item_codes" }
+          },
+          "additionalProperties": false
+        },
+        "urls": {
+          "type": "object",
+          "description": "Checkout internal links settings.",
+          "properties": {
+            "privacy": { "$ref": "#/$defs/url" },
+            "terms": { "$ref": "#/$defs/url" }
+          },
+          "additionalProperties": false
+        },
+        "language": {
+          "type": "string",
+          "description": "Default language setting.",
+          "examples": ["it", "it-IT"]
+        },
+        "cart": {
+          "type": "object",
+          "description": "Cart settings.",
+          "properties": {
+            "hide_item_codes": { "$ref": "#/$defs/hide_item_codes" },
+            "hide_promo_code": { "$ref": "#/$defs/hide_promo_code" }
+          },
+          "additionalProperties": false
+        },
+        "microstore": {
+          "type": "object",
+          "description": "Microstore settings.",
+          "properties": {
+            "hide_item_codes": { "$ref": "#/$defs/hide_item_codes" }
+          },
+          "additionalProperties": false
+        },
+        "my_account": {
+          "type": "object",
+          "description": "My Account settings.",
+          "properties": {
+            "hide_item_codes": { "$ref": "#/$defs/hide_item_codes" },
+            "hide_returns": {
+              "type": "boolean",
+              "description": "Enable this option if you want to hide returns."
+            },
+            "hide_subscriptions": {
+              "type": "boolean",
+              "description": "Enable this option if you want to hide subscriptions."
+            },
+            "hide_wallet": {
+              "type": "boolean",
+              "description": "Don't show the wallet."
+            },
+            "hide_logout": {
+              "type": "boolean",
+              "description": "Don't show the logout."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "boolean": { "type": "boolean", "default": true },
+    "url": { "type": "string", "format": "uri", "pattern": "^https?://" },
+    "hide_item_codes": {
+      "type": "boolean",
+      "description": "Enable this option if you want to hide item codes."
+    },
+    "hide_promo_code": {
+      "type": "boolean",
+      "description": "Don't show promo code."
+    },
+    "country_code": {
+      "type": "string",
+      "description": "The international 2-letter country code as defined by the ISO 3166-1 standard."
+    },
+    "state_country": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "value": { "$ref": "#/$defs/country_code" },
+          "label": { "type": "string", "description": "Name of the country." }
+        },
+        "required": ["value", "label"],
+        "additionalProperties": false
+      }
+    }
+  }
+}

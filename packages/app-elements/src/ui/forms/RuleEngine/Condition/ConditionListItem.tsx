@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from "react"
+import { isEmpty } from "lodash-es"
+import React from "react"
+import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
-import { DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
-import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
+import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { InputResourcePath } from "../InputResourcePath"
 import { ListItemContainer } from "../layout/ListItemContainer"
-import { OptionRow } from "../layout/OptionRow"
+import { Options } from "../Options"
+import { useAvailableOptions } from "../optionsConfig"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
 import { ConditionMatcher } from "./ConditionMatcher"
 import { ConditionValue } from "./ConditionValue"
-import { useAvailableGroups } from "./hooks"
 
 export function ConditionListItem({
   item,
@@ -22,7 +23,12 @@ export function ConditionListItem({
   pathPrefix: string
   onDelete?: () => void
 }): React.JSX.Element {
-  const { setPath } = useRuleEngine()
+  const { setPath, setRenderOption, optionsConfig } = useRuleEngine()
+
+  const { available: availableOptions } = useAvailableOptions(
+    item,
+    optionsConfig.conditions,
+  )
 
   const dropdownItems: React.ReactNode[][] = []
 
@@ -48,6 +54,7 @@ export function ConditionListItem({
         label="Delete"
         onClick={() => {
           setPath(`${pathPrefix}`, null)
+          setRenderOption(`${pathPrefix}`, null)
           onDelete()
         }}
       />,
@@ -57,6 +64,7 @@ export function ConditionListItem({
   return (
     <div>
       <ListItemContainer
+        pathPrefix={pathPrefix}
         dropdownItems={dropdownItems.map((items, index, arr) => (
           // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
           <React.Fragment key={index}>
@@ -68,10 +76,50 @@ export function ConditionListItem({
           </React.Fragment>
         ))}
         options={
-          <>
-            <ConditionValue item={item} pathPrefix={pathPrefix} />
-            <ConditionGroup item={item} pathPrefix={pathPrefix} />
-          </>
+          !isEmpty(item?.field) &&
+          !isEmpty(item?.matcher) && (
+            <>
+              <ConditionValue item={item} pathPrefix={pathPrefix} />
+              <Options item={item} pathPrefix={pathPrefix} />
+
+              {availableOptions.length > 0 && (
+                <Dropdown
+                  className="inline-flex mt-6"
+                  menuPosition="bottom-left"
+                  dropdownItems={availableOptions.map((option) => (
+                    <DropdownItem
+                      onClick={() => {
+                        // Set default values based on option type
+                        switch (option.name) {
+                          case "scope":
+                            setPath(`${pathPrefix}.scope`, "any")
+                            break
+                          case "aggregations":
+                            setPath(`${pathPrefix}.aggregations`, [{}])
+                            break
+                          case "group":
+                            setPath(`${pathPrefix}.group`, null, true)
+                            break
+                        }
+                      }}
+                      label={option.label}
+                      key={`option-${option.name}`}
+                    />
+                  ))}
+                  dropdownLabel={
+                    <button type="button">
+                      <Text className="flex gap-2 items-center">
+                        <Text weight="bold" size="small">
+                          Add option
+                        </Text>{" "}
+                        <Icon name="caretDown" />
+                      </Text>
+                    </button>
+                  }
+                />
+              )}
+            </>
+          )
         }
       >
         {/* Condition target */}
@@ -85,53 +133,5 @@ export function ConditionListItem({
         </div>
       </ListItemContainer>
     </div>
-  )
-}
-
-const ConditionGroup: React.FC<{
-  pathPrefix: string
-  item: SchemaConditionItem | null
-}> = ({ item, pathPrefix }) => {
-  const { setPath } = useRuleEngine()
-  const availableGroups = useAvailableGroups()
-
-  const [group, setGroup] = useState<string | undefined>(item?.group)
-
-  useEffect(() => {
-    setPath(`${pathPrefix}.group`, group)
-  }, [group])
-
-  return (
-    <OptionRow
-      label={
-        <Text variant="info" size="small">
-          Groups
-        </Text>
-      }
-    >
-      <InputSelect
-        name={`${pathPrefix}.group`}
-        isCreatable
-        isClearable
-        initialValues={availableGroups.map((group) => ({
-          value: group,
-          label: group,
-        }))}
-        value={
-          group != null
-            ? {
-                value: group,
-                label: group,
-              }
-            : undefined
-        }
-        onSelect={(selected) => {
-          if (selected == null || isSingleValueSelected(selected)) {
-            setGroup(selected?.value.toString())
-          }
-        }}
-        placeholder="Select or create group…"
-      />
-    </OptionRow>
   )
 }

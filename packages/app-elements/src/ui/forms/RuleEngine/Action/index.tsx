@@ -42,7 +42,9 @@ export function Action({
           onClick={() => {
             setPath(
               `rules.${selectedRuleIndex}.actions.${actions?.length ?? 0}`,
-              undefined,
+              {
+                selector: "order",
+              },
             )
           }}
         >

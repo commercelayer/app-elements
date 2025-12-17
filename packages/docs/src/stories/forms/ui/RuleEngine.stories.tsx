@@ -54,6 +54,8 @@ Default.args = {
               value: 0.05,
               groups: ["discountable-items"],
               selector: "order.line_items",
+              round: true,
+              apply_on: "unit_amount_cents",
             },
           ],
           conditions: [
@@ -89,7 +91,7 @@ Default.args = {
               },
             },
             {
-              field: "order.line_items.sku.sku_lists.id",
+              field: "order.line_items.sku.sku_list_items.sku_list.id",
               matcher: "eq",
               value: "qJxWoIZByY",
             },

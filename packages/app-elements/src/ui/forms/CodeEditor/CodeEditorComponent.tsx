@@ -13,6 +13,15 @@ import {
   InputWrapper,
   type InputWrapperBaseProps,
 } from "#ui/internals/InputWrapper"
+import orderRulesJsonSchema from "../RuleEngine/json_schema/order_rules.json" with {
+  type: "json",
+}
+import organizationConfigJsonSchema from "../RuleEngine/json_schema/organization_config.json" with {
+  type: "json",
+}
+import priceRulesJsonSchema from "../RuleEngine/json_schema/price_rules.json" with {
+  type: "json",
+}
 import { fetchJsonSchema, type JSONSchema } from "../RuleEngine/utils"
 import { fetchCoreResourcesSuggestions } from "./fetchCoreResourcesSuggestions"
 
@@ -169,6 +178,7 @@ export const CodeEditor = forwardRef<
           const schema = await fetchJsonSchema(jsonSchema, domain).then(
             (json) => {
               if (json != null) {
+                console.log(json)
                 return clearExamples(json)
               }
 
@@ -298,7 +308,13 @@ function createDeferred(delay: number = 100) {
 /**
  * Remove `examples` attribute when present.
  */
-function clearExamples(json: JsonValue, previousKey?: string): JsonValue {
+function clearExamples(
+  json:
+    | typeof organizationConfigJsonSchema
+    | typeof orderRulesJsonSchema
+    | typeof priceRulesJsonSchema,
+  previousKey?: string,
+): JsonValue {
   if (typeof json !== "object" || json === null) {
     return json
   }
