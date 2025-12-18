@@ -54,7 +54,7 @@ export const InputFile = forwardRef<HTMLInputElement, InputFileProps>(
           />
           <UploadSimpleIcon className="mb-2" size={32} />
           <div className="font-semibold text-sm text-gray-800">{title}</div>
-          <div className="text-sm">
+          <div className="text-sm font-normal">
             {t("common.forms.drag_here_or")}{" "}
             <Button variant="link">{t("common.forms.browse_files")}</Button>
           </div>

@@ -44,17 +44,20 @@ export const Section = withSkeletonTemplate<SectionProps>(
       >
         {(title != null || actionButton != null) && (
           <header
-            className={cn("border-b pb-4 flex justify-between items-center", {
-              "border-gray-100": border == null,
-              "border-transparent": border === "none",
-            })}
+            className={cn(
+              "font-semibold border-b pb-4 flex justify-between items-center",
+              {
+                "border-gray-100": border == null,
+                "border-transparent": border === "none",
+              },
+            )}
           >
             {title != null && (
               <h2
                 className={cn({
                   // titleSize
-                  "text-gray-600 font-medium": titleSize === "small",
-                  "text-lg font-semibold": titleSize === "normal",
+                  "text-gray-600": titleSize === "small",
+                  "text-lg": titleSize === "normal",
                 })}
               >
                 {title}

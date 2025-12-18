@@ -77,7 +77,7 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
   return (
     <div
       className={cn(
-        "break-normal overflow-hidden font-semibold flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0",
+        "break-normal overflow-hidden font-medium text-sm flex justify-between items-center gap-3 border-b border-gray-100 last:border-b-0",
         className,
       )}
       {...rest}

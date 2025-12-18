@@ -6,7 +6,7 @@ exports[`Steps > Should be rendered 1`] = `
     class="flex justify-between text-xs w-full items-center rounded h-2 mb-8 bg-linear-to-r from-gray-100 from-50% to-primary to-50% bg-size-[200%]"
   >
     <li
-      class="relative text-gray-300 font-semibold"
+      class="relative text-gray-300 font-medium"
     >
       <div
         class="w-6 h-6 rounded-full flex justify-center items-center bg-gray-100"
@@ -18,7 +18,7 @@ exports[`Steps > Should be rendered 1`] = `
       </div>
     </li>
     <li
-      class="relative text-gray-300 font-semibold"
+      class="relative text-gray-300 font-medium"
     >
       <div
         class="w-6 h-6 rounded-full flex justify-center items-center bg-gray-100"
@@ -30,7 +30,7 @@ exports[`Steps > Should be rendered 1`] = `
       </div>
     </li>
     <li
-      class="relative text-gray-300 font-semibold"
+      class="relative text-gray-300 font-medium"
     >
       <div
         class="w-6 h-6 rounded-full flex justify-center items-center bg-gray-100"

@@ -51,7 +51,7 @@ export const Progress: React.FC<ProgressProps> = ({
       </progress>
 
       {value != null && (
-        <span className="flex-nowrap text-gray-400 text-xs font-extrabold relative">
+        <span className="flex-nowrap text-gray-400 text-[11px] font-bold relative">
           {displayMode === "fraction" ? (
             <>
               <span className="absolute right-0">

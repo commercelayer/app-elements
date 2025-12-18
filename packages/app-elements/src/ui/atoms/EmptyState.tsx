@@ -28,12 +28,10 @@ function EmptyState({
     >
       <div className="flex p-6 md:p-14! relative">
         <div className="flex-1 z-10">
-          <h4 className="text-black font-semibold text-2xl mb-4">{title}</h4>
+          <h4 className="text-black font-medium text-2xl mb-4">{title}</h4>
 
           {description != null ? (
-            <div className="font-medium text-gray-500 text-lg">
-              {description}
-            </div>
+            <div className="text-gray-500 text-lg">{description}</div>
           ) : null}
 
           {action != null ? <div className="mt-14">{action}</div> : null}

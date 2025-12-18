@@ -84,7 +84,9 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
               }}
             >
               <Icon name={navigationButton.icon ?? "arrowLeft"} size={24} />{" "}
-              <Text weight="semibold">{navigationButton.label}</Text>
+              <Text weight="medium" size="small">
+                {navigationButton.label}
+              </Text>
             </button>
             {toolbar != null ? <PageHeadingToolbar {...toolbar} /> : null}
           </div>

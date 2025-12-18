@@ -19,7 +19,7 @@ export function Label({
     // biome-ignore lint/a11y/noLabelWithoutControl: I need to use a label without an associated control
     <label
       {...rest}
-      className={cn("block text-sm font-semibold leading-5", className, {
+      className={cn("block text-sm font-semibold leading-6", className, {
         "mb-2": gap,
       })}
     >

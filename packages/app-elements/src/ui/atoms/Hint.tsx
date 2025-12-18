@@ -15,9 +15,9 @@ export function Hint({
   ...rest
 }: HintProps): JSX.Element {
   return (
-    <div className={cn("flex gap-2 items-center", className)} {...rest}>
-      {icon != null && <Icon name={icon} size={24} />}
-      <div className="text-sm font-medium text-gray-500">{children}</div>
+    <div className={cn("flex gap-1 items-center", className)} {...rest}>
+      {icon != null && <Icon name={icon} size={20} />}
+      <div className="text-xs text-gray-500">{children}</div>
     </div>
   )
 }
