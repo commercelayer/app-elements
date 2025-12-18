@@ -96,7 +96,7 @@ export const Modal: React.FC<
           <div
             className={cn(
               "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              size === "large" && "max-w-150 md:w-150",
+              size === "large" && "max-w-155 md:w-155",
               size === "small" && "max-w-105 md:w-105",
             )}
             data-testid="modal"
