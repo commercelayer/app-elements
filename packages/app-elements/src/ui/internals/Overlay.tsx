@@ -131,7 +131,7 @@ export const Overlay: React.FC<OverlayProps> = ({
             "bg-gray-50": backgroundColor === "light",
             "bg-white": backgroundColor == null,
             "inset-0 w-full": !drawer,
-            "top-0 right-0 bottom-0 w-full md:w-1/2 max-w-[800px] animate-slide-in-right":
+            "top-0 right-0 bottom-0 w-full md:w-1/2 max-w-200 animate-slide-in-right":
               drawer,
           },
         )}
