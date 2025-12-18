@@ -85,7 +85,7 @@ export const Modal: React.FC<
             disabled={true}
             type="button"
             aria-label="Close modal"
-            className="fixed inset-0 z-50 bg-gray-900/90 animate-backdrop-fade-in cursor-default"
+            className="fixed inset-0 z-60 bg-gray-900/90 animate-backdrop-fade-in cursor-default"
             onClick={onClose}
             onKeyDown={(e) => {
               if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
@@ -95,9 +95,9 @@ export const Modal: React.FC<
           />
           <div
             className={cn(
-              "fixed z-50 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              size === "large" && "max-w-[600px] md:w-[600px]",
-              size === "small" && "max-w-[420px] md:w-[420px]",
+              "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+              size === "large" && "max-w-150 md:w-150",
+              size === "small" && "max-w-105 md:w-105",
             )}
             data-testid="modal"
           >
