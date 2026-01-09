@@ -1,33 +1,33 @@
-import type { Attachment, Order, StockTransfer } from "@commercelayer/sdk"
-import isEmpty from "lodash-es/isEmpty"
-import { useCallback, useEffect, useReducer, useState } from "react"
-import { getOrderTransactionName } from "#dictionaries/orders"
-import { navigateTo } from "#helpers/appsNavigation"
-import { isAttachmentValidNote, referenceOrigins } from "#helpers/attachments"
-import { isMockedId } from "#helpers/mocks"
-import { orderTransactionIsAnAsyncCapture } from "#helpers/transactions"
-import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
-import { useTranslation } from "#providers/I18NProvider"
-import { useTokenProvider } from "#providers/TokenProvider"
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { Text } from "#ui/atoms/Text"
-import { Timeline, type TimelineEvent } from "#ui/composite/Timeline"
+import type { Attachment, Order, StockTransfer } from "@commercelayer/sdk";
+import isEmpty from "lodash-es/isEmpty";
+import { useCallback, useEffect, useReducer, useState } from "react";
+import { getOrderTransactionName } from "#dictionaries/orders";
+import { navigateTo } from "#helpers/appsNavigation";
+import { isAttachmentValidNote, referenceOrigins } from "#helpers/attachments";
+import { isMockedId } from "#helpers/mocks";
+import { orderTransactionIsAnAsyncCapture } from "#helpers/transactions";
+import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider";
+import { useTranslation } from "#providers/I18NProvider";
+import { useTokenProvider } from "#providers/TokenProvider";
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
+import { Text } from "#ui/atoms/Text";
+import { Timeline, type TimelineEvent } from "#ui/composite/Timeline";
 
 export interface ResourceOrderTimelineProps {
-  orderId?: string
-  refresh?: boolean
+  orderId?: string;
+  refresh?: boolean;
   attachmentOption?: {
-    onMessage?: (attachment: Attachment) => void
+    onMessage?: (attachment: Attachment) => void;
     referenceOrigin:
       | typeof referenceOrigins.appOrdersNote
-      | typeof referenceOrigins.appShipmentsNote
-  }
+      | typeof referenceOrigins.appShipmentsNote;
+  };
 }
 
 export const ResourceOrderTimeline =
   withSkeletonTemplate<ResourceOrderTimelineProps>(
     ({ orderId, attachmentOption, refresh, isLoading: isExternalLoading }) => {
-      const fakeOrderId = "fake-NMWYhbGorj"
+      const fakeOrderId = "fake-NMWYhbGorj";
       const {
         data: order,
         isLoading,
@@ -66,21 +66,21 @@ export const ResourceOrderTimeline =
             approved_at: "2020-05-16T14:18:16.775Z",
             fulfillment_updated_at: "2020-05-16T14:18:35.411Z",
           } satisfies Order,
-        },
-      )
+        }
+      );
 
-      const [events] = useTimelineReducer(order)
-      const { sdkClient } = useCoreSdkProvider()
-      const { user, canUser } = useTokenProvider()
+      const [events] = useTimelineReducer(order);
+      const { sdkClient } = useCoreSdkProvider();
+      const { user, canUser } = useTokenProvider();
 
       useEffect(
         function refreshOrder() {
           if (refresh === true) {
-            void mutateOrder()
+            void mutateOrder();
           }
         },
-        [refresh],
-      )
+        [refresh]
+      );
 
       return (
         <Timeline
@@ -100,16 +100,16 @@ export const ResourceOrderTimeline =
                 ].includes(attachmentOption.referenceOrigin)
               ) {
                 console.warn(
-                  `Cannot create the attachment: "referenceOrigin" is not valid.`,
-                )
-                return
+                  `Cannot create the attachment: "referenceOrigin" is not valid.`
+                );
+                return;
               }
 
               if (user?.displayName == null || isEmpty(user.displayName)) {
                 console.warn(
-                  `Cannot create the attachment: token does not contain a valid "user".`,
-                )
-                return
+                  `Cannot create the attachment: token does not contain a valid "user".`
+                );
+                return;
               }
 
               void sdkClient.attachments
@@ -120,65 +120,65 @@ export const ResourceOrderTimeline =
                   attachable: { type: "orders", id: order.id },
                 })
                 .then((attachment) => {
-                  void mutateOrder()
-                  attachmentOption?.onMessage?.(attachment)
-                })
+                  void mutateOrder();
+                  attachmentOption?.onMessage?.(attachment);
+                });
 
-              event.currentTarget.value = ""
+              event.currentTarget.value = "";
             }
           }}
         />
-      )
-    },
-  )
+      );
+    }
+  );
 
 const useTimelineReducer = (order: Order) => {
-  const { t } = useTranslation()
-  const [orderId, setOrderId] = useState<string>(order.id)
+  const { t } = useTranslation();
+  const [orderId, setOrderId] = useState<string>(order.id);
   const {
     canAccess,
     settings: { mode },
-  } = useTokenProvider()
+  } = useTokenProvider();
 
-  type State = TimelineEvent[]
+  type State = TimelineEvent[];
 
   type Action =
     | [
         {
-          type: "add"
-          payload: TimelineEvent
-        },
+          type: "add";
+          payload: TimelineEvent;
+        }
       ]
     | [
         {
-          type: "clear"
-        },
-      ]
+          type: "clear";
+        }
+      ];
 
   const [events, dispatch] = useReducer<State, Action>((state, action) => {
     switch (action.type) {
       case "clear":
-        return []
+        return [];
       case "add":
         if (state.find((s) => s.date === action.payload.date) != null) {
-          return state
+          return state;
         }
 
-        return [...state, action.payload]
+        return [...state, action.payload];
       default:
-        return state
+        return state;
     }
-  }, [])
+  }, []);
 
   useEffect(
     function clearState() {
       if (order.id !== orderId) {
-        dispatch({ type: "clear" })
-        setOrderId(order.id)
+        dispatch({ type: "clear" });
+        setOrderId(order.id);
       }
     },
-    [order.id],
-  )
+    [order.id]
+  );
 
   useEffect(
     function addCreated() {
@@ -190,17 +190,17 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_created")}
                 </Text>
               </>
             ),
           },
-        })
+        });
       }
     },
-    [order.created_at],
-  )
+    [order.created_at]
+  );
 
   useEffect(
     function addPlaced() {
@@ -212,17 +212,17 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_placed")}
                 </Text>
               </>
             ),
           },
-        })
+        });
       }
     },
-    [order.placed_at],
-  )
+    [order.placed_at]
+  );
 
   useEffect(
     function addCancelled() {
@@ -234,17 +234,17 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_cancelled")}
                 </Text>
               </>
             ),
           },
-        })
+        });
       }
     },
-    [order.cancelled_at],
-  )
+    [order.cancelled_at]
+  );
 
   useEffect(
     function addArchived() {
@@ -256,17 +256,17 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_archived")}
                 </Text>
               </>
             ),
           },
-        })
+        });
       }
     },
-    [order.archived_at],
-  )
+    [order.archived_at]
+  );
 
   useEffect(
     function addApproved() {
@@ -278,17 +278,17 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_approved")}
                 </Text>
               </>
             ),
           },
-        })
+        });
       }
     },
-    [order.approved_at],
-  )
+    [order.approved_at]
+  );
 
   useEffect(
     function addFulfillmentStatus() {
@@ -300,7 +300,7 @@ const useTimelineReducer = (order: Order) => {
           fulfilled: (
             <>
               {t("common.timeline.resources.order_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_fulfilled")}
               </Text>
             </>
@@ -308,7 +308,7 @@ const useTimelineReducer = (order: Order) => {
           in_progress: (
             <>
               {t("common.timeline.resources.order_fulfillment_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_fulfillment_in_progress")}
               </Text>
             </>
@@ -316,7 +316,7 @@ const useTimelineReducer = (order: Order) => {
           not_required: (
             <>
               {t("common.timeline.resources.order_fulfillment_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_fulfillment_not_required")}
               </Text>
             </>
@@ -324,12 +324,12 @@ const useTimelineReducer = (order: Order) => {
           unfulfilled: (
             <>
               {t("common.timeline.resources.order_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_unfulfilled")}
               </Text>
             </>
           ),
-        }
+        };
 
         dispatch({
           type: "add",
@@ -337,25 +337,25 @@ const useTimelineReducer = (order: Order) => {
             date: order.fulfillment_updated_at,
             message: messages[order.fulfillment_status],
           },
-        })
+        });
       }
     },
-    [order.fulfillment_updated_at, order.fulfillment_status],
-  )
+    [order.fulfillment_updated_at, order.fulfillment_status]
+  );
 
   useEffect(
     function addTransactions() {
       if (order.transactions != null) {
         order.transactions.forEach((transaction) => {
-          const name = getOrderTransactionName(transaction.type)
+          const name = getOrderTransactionName(transaction.type);
           const isFailedCapture =
-            transaction.type === "captures" && !transaction.succeeded
+            transaction.type === "captures" && !transaction.succeeded;
           const isFailedAuthorization =
-            transaction.type === "authorizations" && !transaction.succeeded
+            transaction.type === "authorizations" && !transaction.succeeded;
 
           if (orderTransactionIsAnAsyncCapture(transaction)) {
             // skipping timeline event when the capture is pending async
-            return
+            return;
           }
 
           dispatch({
@@ -371,7 +371,7 @@ const useTimelineReducer = (order: Order) => {
                   {t("common.timeline.resources.payment_of_was", {
                     amount: transaction.formatted_amount,
                   })}{" "}
-                  <Text weight="bold">{name.pastTense}</Text>
+                  <Text weight="semibold">{name.pastTense}</Text>
                 </>
               ) : (
                 <>
@@ -380,7 +380,7 @@ const useTimelineReducer = (order: Order) => {
                     transaction: name.singular,
                     amount: transaction.formatted_amount,
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.transaction_failed")}
                   </Text>
                 </>
@@ -389,15 +389,15 @@ const useTimelineReducer = (order: Order) => {
                 isFailedCapture && transaction.message != null
                   ? transaction.message
                   : isFailedAuthorization && !isEmpty(transaction.error_detail)
-                    ? (transaction.error_detail ?? "")
-                    : undefined,
+                  ? transaction.error_detail ?? ""
+                  : undefined,
             },
-          })
-        })
+          });
+        });
       }
     },
-    [order.transactions],
-  )
+    [order.transactions]
+  );
 
   const dispatchAttachments = useCallback(
     (attachments?: Attachment[] | null | undefined) => {
@@ -425,20 +425,20 @@ const useTimelineReducer = (order: Order) => {
                 ),
                 note: attachment.description,
               },
-            })
+            });
           }
-        })
+        });
       }
     },
-    [],
-  )
+    []
+  );
 
   useEffect(
     function addAttachments() {
-      dispatchAttachments(order.attachments)
+      dispatchAttachments(order.attachments);
     },
-    [order.attachments],
-  )
+    [order.attachments]
+  );
 
   const dispatchStockTransfers = useCallback(
     (stockTransfers?: StockTransfer[] | null | undefined) => {
@@ -453,9 +453,9 @@ const useTimelineReducer = (order: Order) => {
                     mode,
                   },
                 })
-              : {}
+              : {};
 
-            const stockTransferLabel = `Transfer #${stockTransfer.number}`
+            const stockTransferLabel = `Transfer #${stockTransfer.number}`;
             const stockTransferClickableLabel = canAccess("stock_transfers") ? (
               // biome-ignore lint/correctness/useJsxKeyInIterable: Don't need a key here since this is not a list
               <a {...navigateToStockTransfer}>
@@ -464,11 +464,11 @@ const useTimelineReducer = (order: Order) => {
             ) : (
               // biome-ignore lint/correctness/useJsxKeyInIterable: Don't need a key here since this is not a list
               <Text variant="info">{stockTransferLabel}</Text>
-            )
+            );
             const stockTransferFrom =
               stockTransfer.origin_stock_location != null
                 ? `from ${stockTransfer.origin_stock_location?.name} `
-                : ""
+                : "";
             dispatch({
               type: "add",
               payload: {
@@ -476,25 +476,25 @@ const useTimelineReducer = (order: Order) => {
                 message: (
                   <>
                     {stockTransferClickableLabel} {stockTransferFrom}
-                    <Text weight="bold">
+                    <Text weight="semibold">
                       {t("common.timeline.resources.stock_transfer_completed")}
                     </Text>
                   </>
                 ),
               },
-            })
+            });
           }
-        })
+        });
       }
     },
-    [],
-  )
+    []
+  );
 
   useEffect(
     function addShipments() {
       order.shipments?.forEach((shipment) => {
-        dispatchAttachments(shipment.attachments)
-        dispatchStockTransfers(shipment.stock_transfers)
+        dispatchAttachments(shipment.attachments);
+        dispatchStockTransfers(shipment.stock_transfers);
 
         if (shipment.on_hold_at != null) {
           dispatch({
@@ -507,13 +507,13 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_on_hold")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (shipment.picking_at != null) {
@@ -527,13 +527,13 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_picked")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (shipment.packing_at != null) {
@@ -547,13 +547,13 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_packed")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (shipment.ready_to_ship_at != null) {
@@ -567,13 +567,13 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_ready_to_ship")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (shipment.shipped_at != null) {
@@ -587,23 +587,23 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_shipped")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
-      })
+      });
     },
-    [order.shipments],
-  )
+    [order.shipments]
+  );
 
   useEffect(
     function addReturns() {
       order.returns?.forEach((returnObj) => {
-        dispatchAttachments(returnObj.attachments)
+        dispatchAttachments(returnObj.attachments);
 
         if (returnObj.approved_at != null) {
           dispatch({
@@ -616,13 +616,13 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_approved")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (returnObj.cancelled_at != null) {
@@ -636,13 +636,13 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_cancelled")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (returnObj.shipped_at != null) {
@@ -656,13 +656,13 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_shipped")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (returnObj.rejected_at != null) {
@@ -676,13 +676,13 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_rejected")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
 
         if (returnObj.received_at != null) {
@@ -696,18 +696,18 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_received")}
                   </Text>
                 </>
               ),
             },
-          })
+          });
         }
-      })
+      });
     },
-    [order.returns],
-  )
+    [order.returns]
+  );
 
-  return [events, dispatch] as const
-}
+  return [events, dispatch] as const;
+};
