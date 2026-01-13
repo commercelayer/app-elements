@@ -306,12 +306,9 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     <Text
                       tag="div"
                       variant="info"
-                      className={cn({
-                        "text-sm font-semibold": size === "normal",
-                        "text-xs font-medium": size === "small",
-                      })}
+                      className="text-xs font-medium"
                     >
-                      {code}
+                      {code?.toUpperCase()}
                     </Text>
                   </td>
                 </tr>
