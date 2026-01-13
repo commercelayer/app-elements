@@ -89,11 +89,15 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
                     </div>
                     <div data-testid="timeline-event-message">
                       {event.author != null && (
-                        <Text weight="semibold" className="text-black">
+                        <Text
+                          weight="semibold"
+                          size="small"
+                          className="text-black"
+                        >
                           {event.author}{" "}
                         </Text>
                       )}
-                      <Text>
+                      <Text size="small">
                         <span
                           className={cn({
                             "text-orange-700 font-semibold":
