@@ -81,8 +81,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-firstLastName"
-                  weight={title == null ? "semibold" : undefined}
-                  variant={title != null ? "info" : undefined}
+                  weight={title == null ? "semibold" : "medium"}
+                  variant={title != null ? "primary" : undefined}
                 >
                   {address.first_name} {address.last_name}
                 </Text>
@@ -97,7 +97,12 @@ export const Address = withSkeletonTemplate<AddressProps>(
                   {address.company}
                 </Text>
               )}
-              <Text tag="div" variant="info" data-testid="Address-address">
+              <Text
+                tag="div"
+                variant="info"
+                data-testid="Address-address"
+                size="small"
+              >
                 {address.line_1} {address.line_2}
                 <br />
                 {address.city} {address.state_code} {address.zip_code} (
