@@ -1,17 +1,17 @@
-import type { Address as AddressType } from "@commercelayer/sdk";
-import { NoteIcon, PencilSimpleIcon, PhoneIcon } from "@phosphor-icons/react";
-import isEmpty from "lodash-es/isEmpty";
-import { useMemo } from "react";
-import { t } from "#providers/I18NProvider";
-import { Button } from "#ui/atoms/Button";
-import { Hr } from "#ui/atoms/Hr";
+import type { Address as AddressType } from "@commercelayer/sdk"
+import { NoteIcon, PencilSimpleIcon, PhoneIcon } from "@phosphor-icons/react"
+import isEmpty from "lodash-es/isEmpty"
+import { useMemo } from "react"
+import { t } from "#providers/I18NProvider"
+import { Button } from "#ui/atoms/Button"
+import { Hr } from "#ui/atoms/Hr"
 import {
   SkeletonTemplate,
   withSkeletonTemplate,
-} from "#ui/atoms/SkeletonTemplate";
-import { Spacer } from "#ui/atoms/Spacer";
-import { Text } from "#ui/atoms/Text";
-import { useCountryList } from "#ui/internals/useCountryList";
+} from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Text } from "#ui/atoms/Text"
+import { useCountryList } from "#ui/internals/useCountryList"
 
 export interface AddressProps {
   /**
@@ -31,26 +31,26 @@ export interface AddressProps {
     | "billing_info"
     | "phone"
     | "notes"
-  > | null;
+  > | null
   /**
    * Optional address title (if added it will be shown in bold on top of address infos)
    */
-  title?: string;
+  title?: string
   /**
    * Optional setting to define if given `Address` `billing_info` data is visible.
    * @default false
    */
-  showBillingInfo?: boolean;
+  showBillingInfo?: boolean
   /**
    * Optional setting to define if given `Address` `billing_info` data is visible.
    * @default true
    */
-  showNotes?: boolean;
+  showNotes?: boolean
   /**
    * When set, the component will render an edit button on the right side of the address.
    * The implemented method get triggered every time the edit button is clicked.
    */
-  onEdit?: () => void;
+  onEdit?: () => void
 }
 
 /**
@@ -58,12 +58,12 @@ export interface AddressProps {
  */
 export const Address = withSkeletonTemplate<AddressProps>(
   ({ address, title, showBillingInfo = false, showNotes = true, onEdit }) => {
-    const { countries, isLoading } = useCountryList();
-    const countryCode = address?.country_code;
+    const { countries, isLoading } = useCountryList()
+    const countryCode = address?.country_code
     const countryName = useMemo(
       () => countries?.find((c) => c.value === countryCode)?.label,
-      [countries, countryCode]
-    );
+      [countries, countryCode],
+    )
 
     return (
       <div className="w-full flex gap-4 space-between">
@@ -165,7 +165,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
             <Button
               variant="link"
               onClick={() => {
-                onEdit();
+                onEdit()
               }}
               data-testid="Address-editButton"
             >
@@ -174,8 +174,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
           </div>
         )}
       </div>
-    );
-  }
-);
+    )
+  },
+)
 
-Address.displayName = "Address";
+Address.displayName = "Address"

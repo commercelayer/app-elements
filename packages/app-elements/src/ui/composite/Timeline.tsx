@@ -1,50 +1,50 @@
-import cn from "classnames";
-import { isEmpty } from "lodash-es";
-import { Fragment, type JSX, type ReactNode, useMemo } from "react";
-import { formatDate, sortAndGroupByDate } from "#helpers/date";
-import { t } from "#providers/I18NProvider";
-import { useTokenProvider } from "#providers/TokenProvider";
-import { Badge } from "#ui/atoms/Badge";
-import { Card } from "#ui/atoms/Card";
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { StatusIcon } from "#ui/atoms/StatusIcon";
-import { Text } from "#ui/atoms/Text";
-import { Input } from "#ui/forms/Input";
+import cn from "classnames"
+import { isEmpty } from "lodash-es"
+import { Fragment, type JSX, type ReactNode, useMemo } from "react"
+import { formatDate, sortAndGroupByDate } from "#helpers/date"
+import { t } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Badge } from "#ui/atoms/Badge"
+import { Card } from "#ui/atoms/Card"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { Input } from "#ui/forms/Input"
 export interface TimelineEvent {
-  date: string;
-  author?: string;
-  message: ReactNode;
-  note?: string;
-  variant?: "warning";
+  date: string
+  author?: string
+  message: ReactNode
+  note?: string
+  variant?: "warning"
 }
 
 type EventWithIcon = TimelineEvent & {
-  icon: JSX.Element;
-};
+  icon: JSX.Element
+}
 
 export interface TimelineProps {
-  disabled?: boolean;
-  events: TimelineEvent[];
-  timezone?: string;
-  onChange?: React.ChangeEventHandler<HTMLInputElement>;
-  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>;
+  disabled?: boolean
+  events: TimelineEvent[]
+  timezone?: string
+  onChange?: React.ChangeEventHandler<HTMLInputElement>
+  onKeyDown?: React.KeyboardEventHandler<HTMLInputElement>
 }
 
 export const Timeline = withSkeletonTemplate<TimelineProps>(
   ({ disabled, events, timezone, onChange, onKeyDown }) => {
-    const { user } = useTokenProvider();
+    const { user } = useTokenProvider()
 
     const groupedEvents = useMemo(() => {
       const eventsWithIcon: EventWithIcon[] = events.map((event) => ({
         ...event,
         icon: getIcon(event),
-      }));
+      }))
 
       return sortAndGroupByDate(eventsWithIcon, {
         timezone,
         locale: user?.locale,
-      });
-    }, [events, timezone]);
+      })
+    }, [events, timezone])
     return (
       <div data-testid="timeline">
         <Input
@@ -144,17 +144,17 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
           ))}
         </div>
       </div>
-    );
-  }
-);
+    )
+  },
+)
 
 function getIcon(event: TimelineEvent): JSX.Element {
   if (event.variant === "warning") {
-    return <StatusIcon name="warning" background="orange" gap="small" />;
+    return <StatusIcon name="warning" background="orange" gap="small" />
   }
 
   if (event.note != null) {
-    return <StatusIcon name="chatCircle" background="black" gap="small" />;
+    return <StatusIcon name="chatCircle" background="black" gap="small" />
   }
 
   return (
@@ -163,5 +163,5 @@ function getIcon(event: TimelineEvent): JSX.Element {
       background="gray"
       className="text-transparent! rounded-full w-[16px]! h-[16px]! mx-1"
     />
-  );
+  )
 }
