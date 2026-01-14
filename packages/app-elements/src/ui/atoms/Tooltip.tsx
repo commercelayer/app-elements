@@ -45,16 +45,7 @@ export interface TooltipProps {
  */
 export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
   (
-    {
-      label,
-      content,
-      direction = "top",
-      minWidth = false,
-      id = `${getSanitizedInnerText(label)}-${getSanitizedInnerText(
-        content,
-      )}-${direction}`,
-      className,
-    },
+    { label, content, direction = "top", minWidth = false, id, className },
     ref,
   ): JSX.Element => {
     const generatedId = useId()
@@ -97,7 +88,3 @@ export const Tooltip = forwardRef<TooltipRefProps, TooltipProps>(
 )
 
 Tooltip.displayName = "Tooltip"
-
-function getSanitizedInnerText(node: ReactNode): string {
-  return getInnerText(node).replace(/\W+/g, "").toLowerCase()
-}
