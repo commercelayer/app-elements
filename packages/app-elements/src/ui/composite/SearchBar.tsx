@@ -41,6 +41,10 @@ export interface SearchBarProps
    * Enable auto focus on the input element
    */
   autoFocus?: boolean
+  /**
+   * Variant of the search bar
+   */
+  variant?: "outline"
 }
 
 /**
@@ -60,6 +64,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       autoFocus,
       isLoading,
       delayMs,
+      variant,
       ...rest
     },
     ref,
@@ -92,14 +97,23 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
         >
           <StatusIcon
             name="magnifyingGlass"
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px]"
+            className={cn(
+              "absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none",
+              {
+                "text-xl": variant !== "outline",
+                "text-base": variant !== "outline",
+              },
+            )}
           />
           <input
             className={cn(
-              "rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400",
-              "shadow-none ring-0 outline-0 border-0",
+              "rounded font-medium w-full px-11 transition placeholder:text-gray-400",
+              "shadow-none ring-0 outline-0",
               "focus:caret-primary focus:bg-white",
               {
+                "bg-gray-100 border-0 py-2": variant !== "outline", // default variant
+                "bg-white border border-gray-200 text-sm py-1.5":
+                  variant === "outline", // outline variant is also smaller
                 "animate-pulse bg-gray-50! placeholder:text-gray-50":
                   isLoading === true,
               },

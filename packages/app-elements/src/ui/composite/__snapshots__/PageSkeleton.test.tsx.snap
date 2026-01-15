@@ -80,7 +80,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                 data-testid="SearchBar"
               >
                 <div
-                  class="inline-block align-middle w-fit absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-[20px] select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
+                  class="inline-block align-middle w-fit absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-xl text-base select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                 >
                   <svg
                     fill="currentColor"
@@ -95,7 +95,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </svg>
                 </div>
                 <input
-                  class="rounded px-11 py-2 bg-gray-100 font-medium w-full transition placeholder:text-gray-400 shadow-none ring-0 outline-0 border-0 focus:caret-primary focus:bg-white animate-pulse bg-gray-50! placeholder:text-gray-50"
+                  class="rounded font-medium w-full px-11 transition placeholder:text-gray-400 shadow-none ring-0 outline-0 focus:caret-primary focus:bg-white bg-gray-100 border-0 py-2 animate-pulse bg-gray-50! placeholder:text-gray-50"
                   data-testid="SearchBar-input"
                   value=""
                 />
