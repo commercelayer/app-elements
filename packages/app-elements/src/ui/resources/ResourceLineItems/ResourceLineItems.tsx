@@ -306,12 +306,9 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     <Text
                       tag="div"
                       variant="info"
-                      className={cn({
-                        "text-sm font-semibold": size === "normal",
-                        "text-xs font-medium": size === "small",
-                      })}
+                      className="text-xs font-medium"
                     >
-                      {code}
+                      {code?.toUpperCase()}
                     </Text>
                   </td>
                 </tr>
@@ -320,8 +317,8 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     <Text
                       tag="div"
                       className={cn({
-                        "font-bold": size === "normal",
-                        "text-sm font-bold": size === "small",
+                        "font-medium": size === "normal",
+                        "text-sm font-medium": size === "small",
                       })}
                     >
                       {name}
@@ -329,7 +326,9 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     {lineItem.type === "line_items" &&
                       lineItem.formatted_unit_amount != null && (
                         <Spacer top="2">
-                          <Badge variant="secondary">{`${t("common.unit_price")} ${lineItem.formatted_unit_amount}`}</Badge>
+                          <Badge variant="secondary">{`${t(
+                            "common.unit_price",
+                          )} ${lineItem.formatted_unit_amount}`}</Badge>
                         </Spacer>
                       )}
                     {lineItem.type === "return_line_items" &&
@@ -351,7 +350,9 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     {lineItem.type !== "line_items" &&
                       "bundle_code" in lineItem &&
                       lineItem.bundle_code != null && (
-                        <Badge variant="secondary">{`${t("resources.bundles.name").toUpperCase()} ${lineItem.bundle_code}`}</Badge>
+                        <Badge variant="secondary">{`${t(
+                          "resources.bundles.name",
+                        ).toUpperCase()} ${lineItem.bundle_code}`}</Badge>
                       )}
                   </td>
                   <td valign="top" align="right">

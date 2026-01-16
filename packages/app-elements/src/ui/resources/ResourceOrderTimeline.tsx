@@ -190,7 +190,7 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_created")}
                 </Text>
               </>
@@ -212,7 +212,7 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_placed")}
                 </Text>
               </>
@@ -234,7 +234,7 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_cancelled")}
                 </Text>
               </>
@@ -256,7 +256,7 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_archived")}
                 </Text>
               </>
@@ -278,7 +278,7 @@ const useTimelineReducer = (order: Order) => {
             message: (
               <>
                 {t("common.timeline.resources.order_was")}{" "}
-                <Text weight="bold">
+                <Text weight="semibold">
                   {t("common.timeline.resources.order_approved")}
                 </Text>
               </>
@@ -300,7 +300,7 @@ const useTimelineReducer = (order: Order) => {
           fulfilled: (
             <>
               {t("common.timeline.resources.order_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_fulfilled")}
               </Text>
             </>
@@ -308,7 +308,7 @@ const useTimelineReducer = (order: Order) => {
           in_progress: (
             <>
               {t("common.timeline.resources.order_fulfillment_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_fulfillment_in_progress")}
               </Text>
             </>
@@ -316,7 +316,7 @@ const useTimelineReducer = (order: Order) => {
           not_required: (
             <>
               {t("common.timeline.resources.order_fulfillment_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_fulfillment_not_required")}
               </Text>
             </>
@@ -324,7 +324,7 @@ const useTimelineReducer = (order: Order) => {
           unfulfilled: (
             <>
               {t("common.timeline.resources.order_is")}{" "}
-              <Text weight="bold">
+              <Text weight="semibold">
                 {t("common.timeline.resources.order_unfulfilled")}
               </Text>
             </>
@@ -371,7 +371,7 @@ const useTimelineReducer = (order: Order) => {
                   {t("common.timeline.resources.payment_of_was", {
                     amount: transaction.formatted_amount,
                   })}{" "}
-                  <Text weight="bold">{name.pastTense}</Text>
+                  <Text weight="semibold">{name.pastTense}</Text>
                 </>
               ) : (
                 <>
@@ -380,7 +380,7 @@ const useTimelineReducer = (order: Order) => {
                     transaction: name.singular,
                     amount: transaction.formatted_amount,
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.transaction_failed")}
                   </Text>
                 </>
@@ -476,7 +476,7 @@ const useTimelineReducer = (order: Order) => {
                 message: (
                   <>
                     {stockTransferClickableLabel} {stockTransferFrom}
-                    <Text weight="bold">
+                    <Text weight="semibold">
                       {t("common.timeline.resources.stock_transfer_completed")}
                     </Text>
                   </>
@@ -507,7 +507,7 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_on_hold")}
                   </Text>
                 </>
@@ -527,7 +527,7 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_picked")}
                   </Text>
                 </>
@@ -547,7 +547,7 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_packed")}
                   </Text>
                 </>
@@ -567,7 +567,7 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_ready_to_ship")}
                   </Text>
                 </>
@@ -587,7 +587,7 @@ const useTimelineReducer = (order: Order) => {
                     number: shipment.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.shipment_shipped")}
                   </Text>
                 </>
@@ -616,7 +616,7 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_approved")}
                   </Text>
                 </>
@@ -636,7 +636,7 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_cancelled")}
                   </Text>
                 </>
@@ -656,7 +656,7 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_shipped")}
                   </Text>
                 </>
@@ -676,7 +676,7 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_rejected")}
                   </Text>
                 </>
@@ -696,7 +696,7 @@ const useTimelineReducer = (order: Order) => {
                     number: returnObj.number,
                     interpolation: { escapeValue: false },
                   })}{" "}
-                  <Text weight="bold">
+                  <Text weight="semibold">
                     {t("common.timeline.resources.return_received")}
                   </Text>
                 </>

@@ -22,7 +22,7 @@ function ToggleItem({
   return (
     <label
       className={cn(
-        "border-none rounded px-4 py-2 leading-5 cursor-pointer font-bold text-sm select-none hover:opacity-80",
+        "border-none rounded px-4 py-2 leading-6 cursor-pointer font-semibold text-xs select-none hover:opacity-80",
         {
           "opacity-50 pointer-events-none touch-none": isDisabled,
           "focus-within:ring-0 focus-within:outline-solid focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-primary":

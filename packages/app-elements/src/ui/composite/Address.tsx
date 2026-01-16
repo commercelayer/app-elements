@@ -70,7 +70,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
         <div className="w-full" data-testid="Address">
           {title != null && (
             <Spacer bottom="2" data-testid="Address-title">
-              <Text tag="div" weight="bold">
+              <Text tag="div" weight="semibold">
                 {title}
               </Text>
             </Spacer>
@@ -81,8 +81,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-firstLastName"
-                  weight={title == null ? "bold" : undefined}
-                  variant={title != null ? "info" : undefined}
+                  weight={title == null ? "semibold" : "medium"}
+                  variant={title != null ? "primary" : undefined}
                 >
                   {address.first_name} {address.last_name}
                 </Text>
@@ -91,13 +91,18 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-company"
-                  weight={title == null ? "bold" : undefined}
+                  weight={title == null ? "semibold" : undefined}
                   variant={title != null ? "info" : undefined}
                 >
                   {address.company}
                 </Text>
               )}
-              <Text tag="div" variant="info" data-testid="Address-address">
+              <Text
+                tag="div"
+                variant="info"
+                data-testid="Address-address"
+                size="small"
+              >
                 {address.line_1} {address.line_2}
                 <br />
                 {address.city} {address.state_code} {address.zip_code} (
@@ -153,7 +158,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
             <Text
               tag="div"
               data-testid="Address-noAddress"
-              weight={title == null ? "bold" : undefined}
+              weight={title == null ? "semibold" : undefined}
               variant={title != null ? "info" : undefined}
             >
               {t("common.no_address")}

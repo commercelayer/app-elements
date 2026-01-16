@@ -58,9 +58,9 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
           <li
             key={step.label}
             className={cn("relative", {
-              "text-gray-400 font-semibold": activePosition === "before",
-              "text-black font-bold": activePosition === "active",
-              "text-gray-300 font-semibold": activePosition === "after",
+              "text-gray-400 font-medium": activePosition === "before",
+              "text-black font-semibold": activePosition === "active",
+              "text-gray-300 font-medium": activePosition === "after",
             })}
           >
             <div

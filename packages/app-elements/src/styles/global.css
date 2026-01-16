@@ -130,13 +130,13 @@
   --color-pink: #fe84ba;
 
   --font-*: initial;
-  --font-sans: Manrope, ui-sans-serif, sans-serif;
-  --font-mono: Roboto Mono, ui-monospace, Menlo, monospace;
+  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  --font-mono: "Roboto Mono", system-ui;
 
   --text-*: initial;
   --text-2xs: 0.688rem;
-  --text-xs: 0.75rem;
-  --text-sm: 0.875rem;
+  --text-xs: 0.813rem;
+  --text-sm: 0.938rem;
   --text-base: 1rem;
   --text-lg: 1.125rem;
   --text-xl: 1.25rem;
@@ -148,7 +148,7 @@
   --text-6xl: 4rem;
   --text-8xl: 6rem;
   --text-10xl: 8rem;
-  --text-title: 2rem;
+  --text-title: 1.75rem;
 
   --shadow-hover: 0 0 0 1px #101111;
   --shadow-focus: 0 0 0 2px #101111;
@@ -160,6 +160,7 @@
 
   --object-position-out-of-bounds: -99999px 99999px;
 
+  --font-weight-semibold: 550;
   --font-weight-inherit: inherit;
 
   --animate-slide-in-right: slide-in-right 0.2s cubic-bezier(0.4, 0, 0.2, 1) both;
@@ -219,7 +220,7 @@
   }
   
   body {
-    @apply text-gray-800 antialiased font-medium;
+    @apply text-gray-800 antialiased;
   }
   
   input,

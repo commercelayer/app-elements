@@ -47,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         id={rest.id ?? rest.name}
         className={cn(
           className,
-          "block w-full px-4 py-3 text-sm leading-5 font-medium",
+          "block w-full px-4 py-2.5 font-normal",
           "rounded outline-0",
           {
             "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-1!":
@@ -78,7 +78,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           {suffix != null && (
             <Text
               size="small"
-              weight="semibold"
+              weight="medium"
               className="suffix shrink-0 border-l-0! border-y border-r h-[44px] border-gray-200 -left-[4px] pl-2 pr-3 flex items-center bg-white relative rounded-e"
             >
               {suffix}

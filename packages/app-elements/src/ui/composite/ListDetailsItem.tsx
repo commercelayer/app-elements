@@ -60,13 +60,13 @@ export function ListDetailsItem({
       )}
       {...rest}
     >
-      <div className="text-gray-500 font-medium flex-none w-full md:py-2! min-w-0">
+      <div className="text-gray-500 text-sm font-medium flex-none w-full md:py-2! min-w-0">
         {label}
       </div>
       <div
         data-testid={`list-details-item-${label}-value`}
         // keep `min-w-0` to avoid grid overflow when grid-item content is too long
-        className={classNames("font-semibold min-w-0", {
+        className={classNames("font-medium min-w-0", {
           "py-2": !childrenHaveInternalPadding,
           "md:text-right": childrenAlign === "right",
           truncate: typeof children === "string",

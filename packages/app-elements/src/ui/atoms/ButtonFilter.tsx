@@ -21,7 +21,7 @@ function ButtonFilter({
   return (
     <div
       className={cn(
-        "flex flex-nowrap text-sm text-gray-500 transition duration-300 ease-in-out",
+        "flex flex-nowrap text-xs text-gray-500 transition duration-300 ease-in-out",
         "hover:bg-gray-200 bg-gray-100 rounded",
         className,
       )}
@@ -32,8 +32,8 @@ function ButtonFilter({
         data-testid="ButtonFilter-main"
         onClick={onClick}
         className={cn(
-          "font-bold",
-          "flex items-center gap-2",
+          "font-semibold",
+          "flex items-center gap-1",
           "pl-4 py-[10px]",
           {
             "pr-4": onRemoveRequest == null,
@@ -44,7 +44,7 @@ function ButtonFilter({
         {icon != null ? (
           <StatusIcon
             name={icon}
-            className="px-0.5 text-base"
+            className="px-0.5 text-sm"
             data-testid="ButtonFilter-icon"
           />
         ) : null}
