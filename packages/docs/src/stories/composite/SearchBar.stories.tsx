@@ -24,6 +24,16 @@ export const Default: Story = {
   },
 }
 
+export const VariantOutline: Story = {
+  args: {
+    debounceMs: 0,
+    onSearch(hint) {
+      console.log(hint)
+    },
+    variant: "outline",
+  },
+}
+
 export const NoDebounce: Story = {
   args: {
     debounceMs: 0,
