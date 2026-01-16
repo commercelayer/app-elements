@@ -27,7 +27,7 @@ describe("Button", () => {
     const { getByRole } = render(<Button variant="secondary">click me</Button>)
     expect(getByRole("button").className).toContain("bg-white")
     expect(getByRole("button").className).toContain("text-black")
-    expect(getByRole("button").className).toContain("border border-black")
+    expect(getByRole("button").className).toContain("border border-gray-200")
   })
 
   it("Should render as danger variant", () => {
@@ -39,17 +39,12 @@ describe("Button", () => {
 
   it("Should render as size small", () => {
     const { getByRole } = render(<Button size="small">click me</Button>)
-    expect(getByRole("button").className).toContain("px-4 py-2")
+    expect(getByRole("button").className).toContain("px-4 py-[7px]")
   })
 
   it("Should render as size regular (default)", () => {
     const { getByRole } = render(<Button>click me</Button>)
-    expect(getByRole("button").className).toContain("px-5 py-[11px]")
-  })
-
-  it("Should render as size large", () => {
-    const { getByRole } = render(<Button size="large">click me</Button>)
-    expect(getByRole("button").className).toContain("px-8 py-4")
+    expect(getByRole("button").className).toContain("px-4 py-[9px]")
   })
 
   it("Should render with flex alignment", () => {

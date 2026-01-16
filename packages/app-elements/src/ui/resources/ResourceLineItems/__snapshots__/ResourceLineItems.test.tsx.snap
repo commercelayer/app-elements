@@ -156,7 +156,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               >
                 <button
                   aria-label="common.swap"
-                  class="font-medium rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -182,7 +182,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 >
                   <button
                     aria-label="common.remove"
-                    class="font-medium rounded whitespace-nowrap leading-5 opacity-50 pointer-events-none touch-none inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                    class="font-medium whitespace-nowrap leading-5 rounded-[8px] opacity-50 pointer-events-none touch-none inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                     disabled=""
                   >
                     <svg
@@ -594,7 +594,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               >
                 <button
                   aria-label="common.remove"
-                  class="font-medium rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1268,7 +1268,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="common.swap"
-                  class="font-medium rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1289,7 +1289,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 </button>
                 <button
                   aria-label="common.remove"
-                  class="font-medium rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1527,7 +1527,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="common.swap"
-                  class="font-medium rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1548,7 +1548,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 </button>
                 <button
                   aria-label="common.remove"
-                  class="font-medium rounded whitespace-nowrap leading-5 inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
