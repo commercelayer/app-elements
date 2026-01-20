@@ -11,7 +11,7 @@ type Variant =
   | "circle"
   | "relationship"
   | "input"
-type Size = "mini" | "small" | "regular" | "large"
+type Size = "mini" | "small" | "regular"
 
 export interface InteractiveElementProps {
   children: React.ReactNode
@@ -55,8 +55,9 @@ export function getInteractiveElementClassName({
     isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
 
   return cn([
-    `font-medium rounded whitespace-nowrap leading-5`,
+    `font-medium whitespace-nowrap leading-5`,
     {
+      "rounded-[8px]": variant !== "circle" && variant !== "input",
       "opacity-50 pointer-events-none touch-none": disabled,
       "w-full": fullWidth === true && variant !== "link",
       "inline-flex gap-1": alignItems != null,
@@ -81,9 +82,8 @@ function getSizeCss(size: InteractiveElementProps["size"]): string | undefined {
 
   const mapping = {
     mini: "px-2.5 py-1",
-    small: "px-4 py-2",
-    regular: "px-5 py-[11px]",
-    large: "px-8 py-4",
+    small: "px-4 py-[7px]",
+    regular: "px-4 py-[9px]",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]
@@ -97,10 +97,9 @@ function getFontSizeCss(
   }
 
   const mapping = {
-    mini: "text-sm",
+    mini: "text-[13px]",
     small: "text-sm",
-    regular: "text-sm",
-    large: "text-base",
+    regular: "text-[15px]",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]
@@ -116,7 +115,7 @@ function getVariantCss(
   const mapping = {
     primary: "bg-black border border-black text-white hover:opacity-80",
     secondary:
-      "bg-white border border-black text-black hover:opacity-80 hover:bg-gray-50",
+      "bg-white border border-gray-200 text-black hover:opacity-80 hover:bg-gray-50",
     circle:
       "bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full",
     danger: "font-medium bg-white border border-red text-red hover:bg-red/10",

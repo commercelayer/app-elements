@@ -33,7 +33,7 @@ describe("Dropdown", () => {
           <button
             aria-expanded="false"
             aria-haspopup="true"
-            class="font-medium rounded whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-5 py-[11px] text-sm button bg-black border border-black text-white hover:opacity-80"
+            class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-block text-center transition-opacity duration-500 px-4 py-[9px] text-[15px] button bg-black border border-black text-white hover:opacity-80"
           >
             Open dropdown
           </button>

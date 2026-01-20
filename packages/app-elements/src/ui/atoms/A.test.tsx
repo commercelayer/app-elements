@@ -34,7 +34,7 @@ describe("Anchor", () => {
     )
     expect(getByRole("link").className).toContain("bg-white")
     expect(getByRole("link").className).toContain("text-black")
-    expect(getByRole("link").className).toContain("border border-black")
+    expect(getByRole("link").className).toContain("border border-gray-200")
   })
 
   it("Should render as danger variant", () => {
@@ -54,7 +54,7 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-4 py-2")
+    expect(getByRole("link").className).toContain("px-4 py-[7px]")
   })
 
   it("Should render as size regular (default)", () => {
@@ -63,16 +63,7 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-5 py-[11px]")
-  })
-
-  it("Should render as size large", () => {
-    const { getByRole } = render(
-      <A href="https://commercelayer.io" variant="primary" size="large">
-        click me
-      </A>,
-    )
-    expect(getByRole("link").className).toContain("px-8 py-4")
+    expect(getByRole("link").className).toContain("px-4 py-[9px]")
   })
 
   it("Should render with flex alignment", () => {
