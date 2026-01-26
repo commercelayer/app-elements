@@ -108,6 +108,7 @@ export const iconMapping = {
   slackLogo: phosphor.SlackLogoIcon,
   sliders: phosphor.SlidersIcon,
   squaresFour: phosphor.SquaresFourIcon,
+  sparkle: phosphor.SparkleIcon,
   stack: phosphor.StackIcon,
   star: phosphor.StarIcon,
   storefront: phosphor.StorefrontIcon,
