@@ -36,7 +36,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
           target="_blank"
           rel="noopener noreferrer"
           href={item.linkUrl}
-          className="text-sm font-bold text-primary hover:underline"
+          className="text-sm font-semibold text-primary"
           data-testid={`report-item-${item.label}-link`}
         >
           {item.linkLabel ?? t("common.download_file")}
@@ -44,7 +44,7 @@ function renderItem(item: ReportItem, key: Key): JSX.Element {
       ) : item.downloadJsonAsFile != null ? (
         <button
           type="button"
-          className="text-sm font-bold text-primary hover:underline"
+          className="text-sm font-semibold text-gray-600 border px-2 rounded bg-gray-50"
           onClick={() => {
             downloadJsonAsFile({
               json: item.downloadJsonAsFile,

@@ -39,7 +39,9 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
           </ListDetailsItem>
           <ListDetailsItem label="Reference" gutter="none">
             <FlexRow alignItems="center">
-              <Text weight="semibold">{reference}</Text>
+              <Text weight="semibold" size="small">
+                {reference}
+              </Text>
               {canUser("update", resource.type as ListableResourceType) && (
                 <button
                   type="button"
@@ -53,18 +55,18 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
             </FlexRow>
           </ListDetailsItem>
           <ListDetailsItem label="Updated" gutter="none">
-            <Text weight="semibold">
+            <Text weight="semibold" size="small">
               {formatDate({
                 isoDate: resource?.updated_at,
                 timezone: user?.timezone,
                 format: "fullWithSeconds",
                 showCurrentYear: true,
                 locale,
-              })}
+              })}{" "}
             </Text>
           </ListDetailsItem>
           <ListDetailsItem label="Created" gutter="none">
-            <Text weight="semibold">
+            <Text weight="semibold" size="small">
               {formatDate({
                 isoDate: resource?.created_at,
                 timezone: user?.timezone,
