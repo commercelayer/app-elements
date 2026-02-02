@@ -85,11 +85,11 @@ export const CopyToClipboard: React.FC<CopyToClipboardProps> = ({
       {showValue && (
         <div className="overflow-x-auto py-2">
           {isJsonString(value) ? (
-            <div className="whitespace-pre max-h-[200px] font-mono font-medium">
+            <div className="whitespace-pre max-h-[200px] font-mono font-medium text-sm">
               {JSON.stringify(JSON.parse(value), null, 2)}
             </div>
           ) : (
-            value
+            <div className="font-medium text-sm">{value}</div>
           )}
         </div>
       )}
