@@ -8,6 +8,10 @@ import {
 import type { Meta, StoryFn } from "@storybook/react-vite"
 import { useRef, useState } from "react"
 import { Button } from "#ui/atoms/Button"
+import { Icon } from "#ui/atoms/Icon"
+import { Spacer } from "#ui/atoms/Spacer"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
 import { Modal } from "#ui/composite/Modal"
 import { InputSelect } from "#ui/forms/InputSelect"
 
@@ -163,6 +167,63 @@ export const WithInput: StoryFn = () => {
             fullWidth
           >
             Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  )
+}
+
+/**
+ * Modal as dialog without header
+ */
+export const AsDialog: StoryFn = () => {
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
+  return (
+    <div>
+      <Button onClick={handleShow}>Open modal</Button>
+      <Modal show={show} onClose={handleClose} size="x-small">
+        <Modal.Body>
+          <Spacer top="4" bottom="4">
+            <StatusIcon
+              name="check"
+              background="green"
+              gap="x-large"
+              align="center"
+            />
+          </Spacer>
+          <Text weight="semibold" align="center" tag="div">
+            Your coupons are ready.
+          </Text>
+          <Text align="center" tag="div" size="x-small" variant="info">
+            Download now or find them later in Imports.
+          </Text>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="primary"
+            onClick={() => {
+              alert("Downloaded!")
+              handleClose()
+            }}
+            fullWidth
+            alignItems="center"
+          >
+            <Icon name="fileArrowDown" />
+            Download (CSV)
+          </Button>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              handleClose()
+            }}
+            fullWidth
+          >
+            Cancel
           </Button>
         </Modal.Footer>
       </Modal>

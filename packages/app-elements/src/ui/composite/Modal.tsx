@@ -27,7 +27,7 @@ export type ModalProps = {
   /** Modal content */
   children: React.ReactNode
   /** Max width preset */
-  size?: "large" | "small"
+  size?: "large" | "small" | "x-small"
 }
 
 export const Modal: React.FC<
@@ -98,6 +98,7 @@ export const Modal: React.FC<
               "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
               size === "large" && "max-w-155 md:w-155",
               size === "small" && "max-w-105 md:w-105",
+              size === "x-small" && "max-w-80 md:w-80",
             )}
             data-testid="modal"
           >
@@ -138,7 +139,7 @@ Modal.Body = ({ children }) => {
 
 Modal.Footer = ({ children }) => {
   return (
-    <div className="flex-none px-6 py-4" data-testid="modal-footer">
+    <div className="flex-none px-6 py-4 space-y-2" data-testid="modal-footer">
       {children}
     </div>
   )
