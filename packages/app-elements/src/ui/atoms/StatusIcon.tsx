@@ -23,7 +23,11 @@ export interface StatusIconProps extends React.HTMLAttributes<HTMLDivElement> {
   /**
    * padding around the icon can bne: 'none' | 'small' | 'large'
    */
-  gap?: "none" | "small" | "medium" | "large"
+  gap?: "none" | "small" | "medium" | "large" | "x-large"
+  /**
+   * Optional alignment of the component
+   */
+  align?: "center"
 }
 
 export const StatusIcon: React.FC<StatusIconProps> = ({
@@ -31,15 +35,30 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
   className,
   background = "none",
   gap = "none",
+  align,
   ...rest
 }) => {
+  const iconSize = (gap?: StatusIconProps["gap"]): string | undefined => {
+    switch (gap) {
+      case "x-large":
+        return "1.65rem"
+      case "large":
+        return "1.25rem"
+      default:
+        return undefined
+    }
+  }
+
   return (
     <div
       className={cn([
-        "inline-block",
+        // alignment
+        { "mx-auto block": align === "center" },
+        { "inline-block": align !== "center" },
         "align-middle",
         "w-fit",
         // padding
+        { "p-[14px]": gap === "x-large" },
         { "p-[10px]": gap === "large" },
         { "p-[6px]": gap === "medium" },
         { "p-[3px]": gap === "small" },
@@ -55,6 +74,7 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
         { "bg-teal border-teal text-white": background === "teal" },
         { "bg-white border-gray-200": background === "white" },
         { "bg-gray-800 border-gray-800 text-white": background === "black" },
+
         // className
         className,
       ])}
@@ -62,7 +82,7 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
     >
       <Icon
         name={name}
-        size={gap === "large" ? "1.25rem" : undefined}
+        size={iconSize(gap)}
         weight={background !== "none" ? "bold" : undefined}
       />
     </div>

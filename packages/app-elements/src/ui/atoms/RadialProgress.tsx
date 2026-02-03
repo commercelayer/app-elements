@@ -13,11 +13,16 @@ export interface RadialProgressProps extends SVGAttributes<SVGElement> {
    * When missing, default size is 42px, small is 24px
    * @default 'large'
    */
-  size?: "small" | "large"
+  size?: "small" | "large" | "x-large"
   /**
    * Optional icon to be rendered in the center of the circle
    */
   icon?: StatusIconProps["name"]
+
+  /**
+   * Optional alignment of the component
+   */
+  align?: "center"
 }
 
 /**
@@ -32,9 +37,10 @@ function RadialProgress({
   className,
   size = "large",
   icon,
+  align,
   ...rest
 }: RadialProgressProps): JSX.Element {
-  const sizePixels = size === "small" ? 24 : 42
+  const sizePixels = size === "small" ? 24 : size === "x-large" ? 56 : 42
   const viewBox = `0 0 ${sizePixels * 2} ${sizePixels * 2}`
   const circumference = sizePixels * 2 * Math.PI
   const emptyOffset =
@@ -46,7 +52,13 @@ function RadialProgress({
         data-testid="radial-progress"
         viewBox={viewBox}
         xmlns="http://www.w3.org/2000/svg"
-        className={cn("transform -rotate-90 rounded-full", className)}
+        className={cn(
+          "transform -rotate-90 rounded-full",
+          {
+            "mx-auto": align === "center",
+          },
+          className,
+        )}
         width={sizePixels}
         height={sizePixels}
         {...rest}
