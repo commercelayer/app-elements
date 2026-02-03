@@ -56,7 +56,7 @@ export const Modal: React.FC<
     <ModalContext.Provider value={{ onClose, modalId }}>
       <div
         className={cn(
-          "bg-white rounded shadow-xl",
+          "bg-white rounded-md shadow-xl",
           "max-h-[90vh] flex flex-col",
         )}
         role="dialog"
@@ -132,14 +132,12 @@ Modal.Header = ({ children }) => {
 }
 
 Modal.Body = ({ children }) => {
-  return (
-    <div className="px-6 py-4 overflow-y-auto flex-1 min-h-0">{children}</div>
-  )
+  return <div className="p-6 overflow-y-auto flex-1 min-h-0">{children}</div>
 }
 
 Modal.Footer = ({ children }) => {
   return (
-    <div className="flex-none px-6 py-4 space-y-2" data-testid="modal-footer">
+    <div className="flex-none p-6 space-y-2" data-testid="modal-footer">
       {children}
     </div>
   )

@@ -188,7 +188,7 @@ export const AsDialog: StoryFn = () => {
       <Button onClick={handleShow}>Open modal</Button>
       <Modal show={show} onClose={handleClose} size="x-small">
         <Modal.Body>
-          <Spacer top="4" bottom="4">
+          <Spacer bottom="4">
             <StatusIcon
               name="check"
               background="green"
@@ -199,9 +199,11 @@ export const AsDialog: StoryFn = () => {
           <Text weight="semibold" align="center" tag="div">
             Your coupons are ready.
           </Text>
-          <Text align="center" tag="div" size="x-small" variant="info">
-            Download now or find them later in Imports.
-          </Text>
+          <Spacer top="1">
+            <Text align="center" tag="div" size="small" variant="info">
+              Download now or find them later in Imports.
+            </Text>
+          </Spacer>
         </Modal.Body>
         <Modal.Footer>
           <Button
