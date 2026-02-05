@@ -46,7 +46,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -267,7 +267,7 @@ exports[`ResourceLineItems > should render 1`] = `
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -365,7 +365,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -484,7 +484,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -677,7 +677,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -830,7 +830,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -1158,7 +1158,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"
@@ -1361,7 +1361,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
             class="mt-2"
           >
             <div
-              class="text-xs font-semibold py-[3px] px-2 rounded inline-block text-gray-500 bg-gray-50"
+              class="text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block text-gray-600 bg-gray-100"
             >
               <div
                 class="flex items-center gap-1"

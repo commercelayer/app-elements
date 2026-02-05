@@ -24,7 +24,7 @@ export const Badge: React.FC<BadgeProps> = ({
       {...rest}
       className={cn([
         className,
-        "text-xs font-semibold py-[3px] px-2 rounded inline-block",
+        "text-[12px] font-semibold px-2 py-1.5 leading-3 rounded inline-block",
         variantCss[variant],
       ])}
     >
