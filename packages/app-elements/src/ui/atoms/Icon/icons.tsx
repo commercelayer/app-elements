@@ -53,6 +53,7 @@ export const iconMapping = {
   equals: phosphor.EqualsIcon,
   eye: phosphor.EyeIcon,
   eyeSlash: phosphor.EyeSlashIcon,
+  fileArrowDown: phosphor.FileArrowDownIcon,
   flag: phosphor.FlagIcon,
   folderOpen: phosphor.FolderOpenIcon,
   funnel: phosphor.FunnelIcon,

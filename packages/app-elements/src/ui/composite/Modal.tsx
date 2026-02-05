@@ -27,7 +27,7 @@ export type ModalProps = {
   /** Modal content */
   children: React.ReactNode
   /** Max width preset */
-  size?: "large" | "small"
+  size?: "large" | "small" | "x-small"
 }
 
 export const Modal: React.FC<
@@ -56,7 +56,7 @@ export const Modal: React.FC<
     <ModalContext.Provider value={{ onClose, modalId }}>
       <div
         className={cn(
-          "bg-white rounded shadow-xl",
+          "bg-white rounded-md shadow-xl",
           "max-h-[90vh] flex flex-col",
         )}
         role="dialog"
@@ -98,6 +98,7 @@ export const Modal: React.FC<
               "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
               size === "large" && "max-w-155 md:w-155",
               size === "small" && "max-w-105 md:w-105",
+              size === "x-small" && "max-w-80 md:w-80",
             )}
             data-testid="modal"
           >
@@ -131,14 +132,12 @@ Modal.Header = ({ children }) => {
 }
 
 Modal.Body = ({ children }) => {
-  return (
-    <div className="px-6 py-4 overflow-y-auto flex-1 min-h-0">{children}</div>
-  )
+  return <div className="p-6 overflow-y-auto flex-1 min-h-0">{children}</div>
 }
 
 Modal.Footer = ({ children }) => {
   return (
-    <div className="flex-none px-6 py-4" data-testid="modal-footer">
+    <div className="flex-none p-6 space-y-2" data-testid="modal-footer">
       {children}
     </div>
   )
