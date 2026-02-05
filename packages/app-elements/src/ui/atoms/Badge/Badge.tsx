@@ -1,16 +1,14 @@
-import cn from "classnames";
-import type React from "react";
-import { Icon, type IconProps } from "#ui/atoms/Icon";
-import { variantCss } from "./badgeVariants";
+import cn from "classnames"
+import type React from "react"
+import { Icon, type IconProps } from "#ui/atoms/Icon"
+import { variantCss } from "./badgeVariants"
 
-export interface BadgeProps extends Omit<
-  React.HTMLAttributes<HTMLDivElement>,
-  "children"
-> {
+export interface BadgeProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "children"> {
   /** Render a different variant. */
-  variant: keyof typeof variantCss;
-  icon?: IconProps["name"];
-  children: React.ReactNode;
+  variant: keyof typeof variantCss
+  icon?: IconProps["name"]
+  children: React.ReactNode
 }
 
 /** Badges are used to highlight an item's status for quick recognition. */
@@ -35,7 +33,7 @@ export const Badge: React.FC<BadgeProps> = ({
         {children}
       </div>
     </div>
-  );
-};
+  )
+}
 
-Badge.displayName = "Badge";
+Badge.displayName = "Badge"

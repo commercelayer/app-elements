@@ -42,7 +42,7 @@ describe("PageHeading", () => {
     const badgeElement = getByTestId("page-heading-badge")
     expect(badgeElement).toBeInTheDocument()
     expect(
-      badgeElement.querySelector(".text-green-600.bg-green-50"),
+      badgeElement.querySelector(".text-green-700.bg-green-100"),
     ).toBeInTheDocument()
   })
 
