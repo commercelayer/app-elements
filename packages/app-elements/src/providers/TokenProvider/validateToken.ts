@@ -3,7 +3,10 @@ import type { ListableResourceType } from "@commercelayer/sdk"
 import fetch from "cross-fetch"
 import isEmpty from "lodash-es/isEmpty"
 import { computeFullname, formatDisplayName } from "#helpers/name"
-import type { TokenProviderTokenApplicationKind } from "#providers/TokenProvider"
+import type {
+  TokenProviderRole,
+  TokenProviderTokenApplicationKind,
+} from "#providers/TokenProvider"
 import { getInfoFromJwt, type ParsedScopes } from "./getInfoFromJwt"
 import type {
   Mode,
@@ -40,6 +43,7 @@ interface ValidToken {
   accessibleApps?: TokenProviderClAppSlug[]
   user: TokenProviderAuthUser | null
   scopes?: ParsedScopes
+  role: TokenProviderRole | null
 }
 interface InvalidToken {
   isValidToken: false
@@ -79,7 +83,7 @@ export async function isValidTokenForCurrentApp({
 
   try {
     const tokenInfo:
-      | (Omit<TokenProviderTokenInfo, "application" | "role" | "token"> & {
+      | (Omit<TokenProviderTokenInfo, "application" | "token"> & {
           token: { test: boolean }
         })
       | null =
@@ -88,6 +92,11 @@ export async function isValidTokenForCurrentApp({
             permissions: {},
             token: {
               test: jwtInfo.mode !== "live",
+            },
+            role: {
+              id: "integration",
+              kind: "admin",
+              name: "Admin",
             },
           }
         : await fetchTokenInfo({
@@ -154,6 +163,7 @@ export async function isValidTokenForCurrentApp({
             }
           : null,
       scopes: jwtInfo.scopes,
+      role: tokenInfo?.role ?? null,
     }
   } catch {
     return {

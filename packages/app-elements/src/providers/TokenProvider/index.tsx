@@ -9,6 +9,7 @@ export type {
   TokenProviderClAppSlug,
   TokenProviderExtras,
   TokenProviderPermissionItem,
+  TokenProviderRole,
   TokenProviderRoleActions,
   TokenProviderRolePermissions,
   TokenProviderTokenApplicationKind,

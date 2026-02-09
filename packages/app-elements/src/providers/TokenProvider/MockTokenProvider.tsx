@@ -34,6 +34,7 @@ export function MockTokenProvider({
     canUser: (_action, _resource) => true,
     canAccess: () => true,
     emitInvalidAuth: () => {},
+    role: null,
   }
 
   return (

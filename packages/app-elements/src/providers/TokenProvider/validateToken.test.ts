@@ -47,6 +47,12 @@ describe("isValidTokenForCurrentApp", () => {
     expect(tokenInfo.organizationSlug).toBe("giuseppe-imports")
 
     expect(tokenInfo.user).toBeNull()
+
+    expect(tokenInfo.role).toEqual({
+      id: "integration",
+      kind: "admin",
+      name: "Admin",
+    })
   })
 
   test('should extract proper data from `tokeninfo` endpoint for any other kind (other than "integration")', async () => {
