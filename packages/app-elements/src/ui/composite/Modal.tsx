@@ -1,23 +1,7 @@
+import * as Ariakit from "@ariakit/react"
 import cn from "classnames"
 import type React from "react"
-import { createContext, useContext, useEffect, useId } from "react"
-import { createPortal } from "react-dom"
 import { Icon } from "#ui/atoms/Icon"
-
-// Create a context for modal functions
-const ModalContext = createContext<{
-  onClose: () => void
-  modalId: string
-} | null>(null)
-
-// Hook to use modal context
-const useModalContext = () => {
-  const context = useContext(ModalContext)
-  if (!context) {
-    throw new Error("Modal components must be used within a Modal")
-  }
-  return context
-}
 
 export type ModalProps = {
   /** Whether the modal is open */
@@ -28,105 +12,52 @@ export type ModalProps = {
   children: React.ReactNode
   /** Max width preset */
   size?: "large" | "small" | "x-small"
+  /** Whether to close the modal when clicking on the backdrop */
+  closeOnBackdropClick?: boolean
 }
 
-export const Modal: React.FC<
-  ModalProps & { ref?: React.RefObject<HTMLDivElement | null> }
-> & {
+export const Modal: React.FC<ModalProps> & {
   Header: React.FC<React.PropsWithChildren>
   Body: React.FC<React.PropsWithChildren>
   Footer: React.FC<React.PropsWithChildren>
-} = ({ ref, show = false, children, onClose, size = "small" }) => {
-  const modalId = useId()
-
-  useEffect(
-    function preventBodyScrollbar() {
-      if (show) {
-        document.body.classList.add("overflow-hidden")
+} = ({
+  show = false,
+  children,
+  onClose,
+  size = "small",
+  closeOnBackdropClick = false,
+}) => {
+  return (
+    <Ariakit.Dialog
+      open={show}
+      onClose={onClose}
+      hideOnInteractOutside={closeOnBackdropClick}
+      backdrop={
+        <div className="fixed inset-0 bg-gray-900/90 animate-backdrop-fade-in" />
       }
-
-      return () => {
-        document.body.classList.remove("overflow-hidden")
-      }
-    },
-    [show],
-  )
-
-  const content = (
-    <ModalContext.Provider value={{ onClose, modalId }}>
-      <div
-        className={cn(
-          "bg-white rounded-md shadow-xl",
-          "max-h-[90vh] flex flex-col",
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={`${modalId}-title`}
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-        onKeyDown={(e) => {
-          // stop closing when pressing keys inside the dialog
-          if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-            e.stopPropagation()
-          }
-        }}
-      >
-        {children}
-      </div>
-    </ModalContext.Provider>
-  )
-
-  return createPortal(
-    <div ref={ref}>
-      {show && (
-        <>
-          <button
-            disabled={true}
-            type="button"
-            aria-label="Close modal"
-            className="fixed inset-0 z-60 bg-gray-900/90 animate-backdrop-fade-in cursor-default"
-            onClick={onClose}
-            onKeyDown={(e) => {
-              if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-                onClose()
-              }
-            }}
-          />
-          <div
-            className={cn(
-              "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              size === "large" && "max-w-155 md:w-155",
-              size === "small" && "max-w-105 md:w-105",
-              size === "x-small" && "max-w-80 md:w-80",
-            )}
-            data-testid="modal"
-          >
-            {content}
-          </div>
-        </>
+      className={cn(
+        "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
+        "bg-white rounded-md shadow-xl max-h-[90vh] flex flex-col",
+        size === "large" && "max-w-155 md:w-155",
+        size === "small" && "max-w-105 md:w-105",
+        size === "x-small" && "max-w-80 md:w-80",
       )}
-    </div>,
-    document.body,
+      data-testid="modal"
+    >
+      {children}
+    </Ariakit.Dialog>
   )
 }
 
 Modal.Header = ({ children }) => {
-  const { onClose, modalId } = useModalContext()
-
   return (
     <div className="flex-none flex items-center justify-between px-6 py-4 border-b border-gray-200">
-      <div id={`${modalId}-title`} className="font-bold leading-tight">
+      <Ariakit.DialogHeading className="font-bold leading-tight">
         {children}
-      </div>
-      <button
-        type="button"
-        aria-label="Close"
-        className="p-2 -m-2"
-        onClick={onClose}
-      >
+      </Ariakit.DialogHeading>
+      <Ariakit.DialogDismiss className="p-2 -m-2">
         <Icon name="x" size={16} />
-      </button>
+      </Ariakit.DialogDismiss>
     </div>
   )
 }

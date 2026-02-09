@@ -46,6 +46,7 @@
     "generate:schema.price_rules": "curl -s https://core.commercelayer.io/api/public/schemas/price_rules | pnpx json-schema-to-typescript > ./src/ui/forms/RuleEngine/schema.price_rules.ts"
   },
   "dependencies": {
+    "@ariakit/react": "^0.4.21",
     "@commercelayer/js-auth": "^7.2.0",
     "@commercelayer/sdk": "6.52.0",
     "@date-fns/tz": "^1.4.1",

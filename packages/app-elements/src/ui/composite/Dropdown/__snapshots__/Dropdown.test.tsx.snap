@@ -9,6 +9,7 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      type="button"
     >
       open dropdown
       <svg
@@ -54,6 +55,7 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      type="button"
     >
       open dropdown
       <svg
@@ -99,6 +101,7 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      type="button"
     >
       open dropdown
       <svg
@@ -144,6 +147,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      type="button"
     >
       open dropdown
       <svg

@@ -123,7 +123,6 @@ export const LongContent: StoryFn = () => {
  */
 export const WithInput: StoryFn = () => {
   const [show, setShow] = useState(false)
-  const modal = useRef<HTMLDivElement | null>(null)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -131,11 +130,11 @@ export const WithInput: StoryFn = () => {
   return (
     <div>
       <Button onClick={handleShow}>Open modal</Button>
-      <Modal ref={modal} size="large" show={show} onClose={handleClose}>
+      <Modal size="large" show={show} onClose={handleClose}>
         <Modal.Header>Choose an option</Modal.Header>
         <Modal.Body>
           <InputSelect
-            menuPortalTarget={modal.current}
+            menuPortalTarget={document.body}
             isCreatable
             initialValues={[
               {

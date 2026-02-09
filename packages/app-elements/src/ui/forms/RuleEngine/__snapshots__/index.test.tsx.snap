@@ -25,6 +25,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
               >
                 <button
                   class="mx-4 font-medium whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-4 py-[9px] p-1! text-[15px] button bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
+                  type="button"
                 >
                   <svg
                     class="shrink-0"
@@ -46,6 +47,7 @@ exports[`RuleEngine > renders empty without any error 1`] = `
             >
               <button
                 class="font-medium whitespace-nowrap leading-5 inline-block text-center transition-opacity duration-500 px-4 py-[9px] p-1! text-[15px] button bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
+                type="button"
               >
                 <svg
                   fill="currentColor"

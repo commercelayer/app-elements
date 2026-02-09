@@ -1,3 +1,4 @@
+import { Button as AriaButton } from "@ariakit/react"
 import cn from "classnames"
 import type { JSX } from "react"
 import {
@@ -24,7 +25,7 @@ export function Button({
   ...rest
 }: ButtonProps): JSX.Element {
   return (
-    <button
+    <AriaButton
       className={cn(
         className,
         getInteractiveElementClassName({
@@ -40,7 +41,7 @@ export function Button({
       {...rest}
     >
       {children}
-    </button>
+    </AriaButton>
   )
 }
 
