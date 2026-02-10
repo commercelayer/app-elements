@@ -108,12 +108,12 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           <input
             className={cn(
               "rounded font-medium w-full px-11 transition placeholder:text-gray-400",
-              "shadow-none ring-0 outline-0",
+              "ring-0 outline-0",
               "focus:caret-primary focus:bg-white",
               {
-                "bg-gray-100 border-0 py-2": variant !== "outline", // default variant
-                "bg-white border border-gray-200 text-sm py-1.5":
-                  variant === "outline", // outline variant is also smaller
+                "bg-gray-100 border-0 shadow-none py-2": variant !== "outline", // default variant
+                "bg-white text-sm py-1.5 shadow-[inset_0_0_0_1px_rgb(229,229,229)]":
+                  variant === "outline", // outline variant with explicit inset box-shadow border
                 "animate-pulse bg-gray-50! placeholder:text-gray-50":
                   isLoading === true,
               },
