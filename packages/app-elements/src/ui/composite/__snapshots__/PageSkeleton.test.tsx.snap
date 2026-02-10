@@ -95,7 +95,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </svg>
                 </div>
                 <input
-                  class="rounded font-medium w-full px-11 transition placeholder:text-gray-400 shadow-none ring-0 outline-0 focus:caret-primary focus:bg-white bg-gray-100 border-0 py-2 animate-pulse bg-gray-50! placeholder:text-gray-50"
+                  class="rounded font-medium w-full px-11 transition placeholder:text-gray-400 ring-0 outline-0 focus:caret-primary focus:bg-white bg-gray-100 border-0 shadow-none py-2 animate-pulse bg-gray-50! placeholder:text-gray-50"
                   data-testid="SearchBar-input"
                   value=""
                 />
