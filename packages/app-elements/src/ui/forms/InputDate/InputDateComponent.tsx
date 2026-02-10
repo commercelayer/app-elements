@@ -66,6 +66,12 @@ export interface InputDateProps extends InputWrapperBaseProps {
    * to avoid the calendar to open on top of the error message
    */
   preventOpenOnFocus?: boolean
+  /**
+   * Use fixed positioning strategy for the date picker popper.
+   * This is useful when the date picker is used inside a modal.
+   * @default false
+   */
+  fixedPopper?: boolean
 }
 
 export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
@@ -86,6 +92,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       hint,
       feedback,
       preventOpenOnFocus,
+      fixedPopper = false,
       ...rest
     },
     ref,
@@ -108,6 +115,13 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
         <div className="relative w-full">
           <DatePicker
             ref={ref}
+            popperProps={
+              fixedPopper
+                ? {
+                    strategy: "fixed",
+                  }
+                : undefined
+            }
             selected={selectedDateInTimezone}
             onChange={onChange}
             dateFormat={dateFormat}
