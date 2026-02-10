@@ -30,6 +30,7 @@ import type {
   TokenProviderAuthUser,
   TokenProviderClAppSlug,
   TokenProviderExtras,
+  TokenProviderRole,
   TokenProviderRoleActions,
 } from "./types"
 import { makeDashboardUrl } from "./url"
@@ -44,6 +45,7 @@ export interface TokenProviderValue {
   ) => boolean
   canAccess: (appSlug: TokenProviderClAppSlug) => boolean
   emitInvalidAuth: (reason: string) => void
+  role: TokenProviderRole | null
 }
 
 export interface TokenProviderProps {
@@ -129,6 +131,7 @@ export const AuthContext = createContext<TokenProviderValue>({
   emitInvalidAuth: () => undefined,
   settings: initialTokenProviderState.settings,
   user: null,
+  role: null,
 })
 
 export const useTokenProvider = (): TokenProviderValue => {
@@ -294,6 +297,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
             user: tokenInfo.user ?? userFromExtras,
             rolePermissions: tokenInfo.permissions ?? {},
             accessibleApps: tokenInfo.accessibleApps ?? [],
+            role: tokenInfo.role,
           },
         })
       })()
@@ -304,6 +308,7 @@ export const TokenProvider: React.FC<TokenProviderProps> = ({
   const value: TokenProviderValue = {
     settings: _state.settings,
     user: _state.user,
+    role: _state.role,
     canUser,
     canAccess,
     emitInvalidAuth,

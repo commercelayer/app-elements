@@ -62,6 +62,12 @@ export type TokenProviderRolePermissions = Partial<
   Record<ListableResourceType | "organizations", TokenProviderPermissionItem>
 >
 
+export type TokenProviderRole = {
+  id: string
+  kind: string
+  name: string
+}
+
 interface CoreApiOwnerUser {
   type: "User"
   id: string

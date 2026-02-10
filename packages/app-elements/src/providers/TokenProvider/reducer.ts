@@ -1,4 +1,7 @@
-import type { TokenProviderClAppSlug } from "#providers/TokenProvider"
+import type {
+  TokenProviderClAppSlug,
+  TokenProviderRole,
+} from "#providers/TokenProvider"
 import type {
   TokenProviderAuthSettings,
   TokenProviderAuthUser,
@@ -13,6 +16,7 @@ interface TokenProviderInternalState {
   accessibleApps: TokenProviderClAppSlug[]
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
+  role: TokenProviderRole | null
 }
 
 export const initialTokenProviderState: TokenProviderInternalState = {
@@ -31,6 +35,7 @@ export const initialTokenProviderState: TokenProviderInternalState = {
     dashboardUrl: "https://dashboard.commercelayer.io/",
   },
   user: null,
+  role: null,
 }
 
 type Action =
@@ -42,6 +47,7 @@ type Action =
         user: TokenProviderAuthUser | null
         rolePermissions: TokenProviderRolePermissions
         accessibleApps: TokenProviderClAppSlug[]
+        role: TokenProviderRole | null
       }
     }
 
