@@ -39,6 +39,7 @@ export function Options({
       <BundleOption item={item} pathPrefix={pathPrefix} />
       <RoundOption item={item} pathPrefix={pathPrefix} />
       <ScopeOption item={item} pathPrefix={pathPrefix} />
+      <QuantityOption item={item} pathPrefix={pathPrefix} />
     </>
   )
 }
@@ -123,6 +124,40 @@ function RoundOption({
           if (isSingleValueSelected(selected)) {
             setPath(`${pathPrefix}.${optionName}`, selected.value)
           }
+        }}
+      />
+    </optionRow.OptionRow>
+  )
+}
+
+function QuantityOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | SchemaConditionItem
+  pathPrefix: string
+}) {
+  const optionName = "quantity" as const
+
+  const { setPath } = useRuleEngine()
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  if (!(optionName in item) || optionRow == null) {
+    return null
+  }
+
+  const defaultValue = item[optionName]
+
+  return (
+    <optionRow.OptionRow>
+      <Input
+        type="number"
+        name={`${pathPrefix}.${optionName}`}
+        defaultValue={defaultValue}
+        min={1}
+        onChange={(e) => {
+          const value = parseInt(e.currentTarget.value, 10)
+          setPath(`${pathPrefix}.${optionName}`, value)
         }}
       />
     </optionRow.OptionRow>

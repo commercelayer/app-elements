@@ -125,6 +125,14 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items": [
               {
@@ -215,6 +223,14 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items.adjustment": [],
             "order.line_items.bundle": [],
@@ -297,6 +313,14 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items": [
               {
@@ -369,6 +393,14 @@ describe("parseOptionsFromSchema", () => {
                     "value": "less-expensive",
                   },
                 ],
+              },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "valueType": "integer",
+                "values": undefined,
               },
             ],
             "order.line_items.adjustment": [],
@@ -460,6 +492,14 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items": [
               {
@@ -540,6 +580,14 @@ describe("parseOptionsFromSchema", () => {
                     "value": "less-expensive",
                   },
                 ],
+              },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "valueType": "integer",
+                "values": undefined,
               },
             ],
             "order.line_items.adjustment": [],

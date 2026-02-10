@@ -38,6 +38,7 @@ const configuration = {
     "order-rules": {
       order: {
         round: true,
+        quantity: true,
         discount_mode: true,
         apply_on: [
           { label: "Subtotal amount", value: "subtotal_amount_cents" },
@@ -82,6 +83,7 @@ const configuration = {
       },
       "order.line_items": {
         round: true,
+        quantity: true,
         discount_mode: true,
         apply_on: [
           { label: "Unit amount", value: "unit_amount_cents" },
@@ -235,6 +237,7 @@ const MANAGED_ACTION_OPTIONS = [
   "discount_mode",
   "aggregation",
   "bundle",
+  "quantity",
 ] as const
 
 const MANAGED_CONDITION_OPTIONS = ["group", "scope", "aggregations"] as const
@@ -258,6 +261,7 @@ export const OPTION_LABELS: Record<
   scope: "Scope",
   aggregations: "Aggregations",
   group: "Group",
+  quantity: "Quantity",
 } as const
 
 /**

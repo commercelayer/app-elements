@@ -112,6 +112,9 @@ export function ActionListItem({
                             type: "balanced",
                           })
                           break
+                        case "quantity":
+                          setPath(`${pathPrefix}.quantity`, 1)
+                          break
                       }
                     }}
                     label={option.label}
