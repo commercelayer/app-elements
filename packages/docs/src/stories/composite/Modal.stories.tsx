@@ -13,6 +13,7 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
 import { Text } from "#ui/atoms/Text"
 import { Modal } from "#ui/composite/Modal"
+import { InputDateRange } from "#ui/forms/InputDateRange"
 import { InputSelect } from "#ui/forms/InputSelect"
 
 /**
@@ -167,6 +168,47 @@ export const WithInput: StoryFn = () => {
             fullWidth
           >
             Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </div>
+  )
+}
+
+/**
+ * Modal with an input select.
+ */
+export const WithDatePicker: StoryFn = () => {
+  const [show, setShow] = useState(false)
+  const modal = useRef<HTMLDivElement | null>(null)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
+  return (
+    <div>
+      <Button onClick={handleShow}>Open modal</Button>
+      <Modal ref={modal} size="small" show={show} onClose={handleClose}>
+        <Modal.Header>Select dates</Modal.Header>
+        <Modal.Body>
+          <InputDateRange
+            fromLabel="From"
+            toLabel="To"
+            value={[null, null]}
+            onChange={() => {}}
+            stacked
+            fixedPopper
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            onClick={() => {
+              alert("Saved!")
+              handleClose()
+            }}
+            fullWidth
+          >
+            Apply
           </Button>
         </Modal.Footer>
       </Modal>

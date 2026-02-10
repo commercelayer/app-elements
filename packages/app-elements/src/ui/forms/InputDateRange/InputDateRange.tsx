@@ -17,6 +17,7 @@ export interface InputDateRangeProps
       | "timezone"
       | "autoPlaceholder"
       | "showTimeSelect"
+      | "fixedPopper"
     >,
     InputWrapperBaseProps {
   /** a tuple that represents the [from, to] dates */
@@ -41,6 +42,8 @@ export interface InputDateRangeProps
   toHint?: InputWrapperBaseProps["hint"]
   /** optional feedback message for the `to` date  */
   toFeedback?: InputWrapperBaseProps["feedback"]
+  /** when true, the two date inputs will be stacked vertically instead of inline */
+  stacked?: boolean
 }
 
 export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
@@ -64,6 +67,8 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       toHint,
       fromFeedback,
       toFeedback,
+      stacked = false,
+      fixedPopper,
       ...rest
     },
     _ref,
@@ -92,6 +97,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
       <InputWrapper label={label} hint={hint} feedback={feedback} {...rest}>
         <div
           className={classNames("flex", {
+            "flex-col gap-2": stacked,
             "items-center": !hasSingleLabels,
             "items-start": hasSingleLabels,
           })}
@@ -104,13 +110,16 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             placeholder={fromPlaceholder}
             format={format}
             timezone={timezone}
-            wrapperClassName="flex-1"
+            wrapperClassName={classNames("flex-1", {
+              "w-full": stacked,
+            })}
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
             feedback={fromFeedback}
             showTimeSelect={showTimeSelect}
             label={fromLabel}
             hint={fromHint}
+            fixedPopper={fixedPopper}
           />
           <div className="px-4 text-gray-300">
             {hasSingleLabels ? null : <ArrowRightIcon size={24} />}
@@ -127,13 +136,16 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             minDate={fromDate ?? undefined}
             format={format}
             timezone={timezone}
-            wrapperClassName="flex-1"
+            wrapperClassName={classNames("flex-1", {
+              "w-full": stacked,
+            })}
             isClearable={isClearable}
             autoPlaceholder={autoPlaceholder}
             feedback={toFeedback}
             showTimeSelect={showTimeSelect}
             label={toLabel}
             hint={toHint}
+            fixedPopper={fixedPopper}
           />
         </div>
       </InputWrapper>
