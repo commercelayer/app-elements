@@ -9,6 +9,11 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      data-rac=""
+      data-react-aria-pressable="true"
+      id="react-aria-_r_4_"
+      tabindex="0"
+      type="button"
     >
       open dropdown
       <svg
@@ -54,6 +59,11 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      data-rac=""
+      data-react-aria-pressable="true"
+      id="react-aria-_r_6_"
+      tabindex="0"
+      type="button"
     >
       open dropdown
       <svg
@@ -99,6 +109,11 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      data-rac=""
+      data-react-aria-pressable="true"
+      id="react-aria-_r_8_"
+      tabindex="0"
+      type="button"
     >
       open dropdown
       <svg
@@ -144,6 +159,11 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
       aria-expanded="true"
       aria-haspopup="true"
       class="m-0 p-0 align-top no-underline! hover:underline! font-medium whitespace-nowrap leading-5 rounded-[8px] inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+      data-rac=""
+      data-react-aria-pressable="true"
+      id="react-aria-_r_2_"
+      tabindex="0"
+      type="button"
     >
       open dropdown
       <svg

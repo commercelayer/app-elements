@@ -64,6 +64,7 @@
     "pluralize": "^8.0.0",
     "query-string": "^9.3.1",
     "react": "19.2.4",
+    "react-aria-components": "^1.15.1",
     "react-currency-input-field": "^3.10.0",
     "react-datepicker": "^8.10.0",
     "react-dom": "19.2.4",

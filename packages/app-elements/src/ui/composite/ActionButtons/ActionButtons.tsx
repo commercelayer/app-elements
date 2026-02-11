@@ -1,11 +1,11 @@
-import { type MouseEventHandler, useMemo } from "react"
+import { useMemo } from "react"
 import { Button, type ButtonProps } from "#ui/atoms/Button"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 
 export interface ActionButtonsProps {
   actions: Array<{
     label: string
-    onClick: MouseEventHandler<HTMLButtonElement>
+    onClick: ButtonProps["onClick"]
     variant?: ButtonProps["variant"]
     disabled?: boolean
   }>

@@ -6,7 +6,7 @@ import { useOverlay } from "#hooks/useOverlay"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { useTranslation } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
-import { Button } from "#ui/atoms/Button"
+import { Button, type ButtonProps } from "#ui/atoms/Button"
 import { Text } from "#ui/atoms/Text"
 import { PageLayout } from "#ui/composite/PageLayout"
 import {
@@ -169,7 +169,8 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                         }),
                         variant: "secondary",
                         size: "small",
-                        onClick: navigateToTagsManagement?.onClick,
+                        onClick:
+                          navigateToTagsManagement?.onClick as ButtonProps["onClick"],
                       },
                     ]
                   : [],

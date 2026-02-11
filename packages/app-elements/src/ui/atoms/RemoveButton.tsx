@@ -1,9 +1,8 @@
 import { TrashIcon } from "@phosphor-icons/react"
 import { Children, type JSX } from "react"
-import { Button } from "./Button"
+import { Button, type ButtonProps } from "./Button"
 
-export interface RemoveButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface RemoveButtonProps extends ButtonProps {}
 
 /** Remove button is simply a button with attached an icon that highlight the functionality. */
 export function RemoveButton({

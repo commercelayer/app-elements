@@ -34,6 +34,11 @@ describe("Dropdown", () => {
             aria-expanded="false"
             aria-haspopup="true"
             class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-block text-center transition-opacity duration-500 px-4 py-[9px] text-[15px] button bg-black border border-black text-white hover:opacity-80"
+            data-rac=""
+            data-react-aria-pressable="true"
+            id="react-aria-_r_0_"
+            tabindex="0"
+            type="button"
           >
             Open dropdown
           </button>

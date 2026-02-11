@@ -157,6 +157,11 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 <button
                   aria-label="common.swap"
                   class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-_r_c_"
+                  tabindex="0"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -178,12 +183,17 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 <span
                   aria-description="Can't remove the last item"
                   class="cursor-pointer flex items-center"
-                  data-tooltip-id="_r_2_"
+                  data-tooltip-id="_r_e_"
                 >
                   <button
                     aria-label="common.remove"
                     class="font-medium whitespace-nowrap leading-5 rounded-[8px] opacity-50 pointer-events-none touch-none inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                    data-disabled="true"
+                    data-rac=""
+                    data-react-aria-pressable="true"
                     disabled=""
+                    id="react-aria-_r_f_"
+                    type="button"
                   >
                     <svg
                       fill="currentColor"
@@ -595,6 +605,11 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                 <button
                   aria-label="common.remove"
                   class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-_r_2_"
+                  tabindex="0"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -1269,6 +1284,11 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 <button
                   aria-label="common.swap"
                   class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-_r_4_"
+                  tabindex="0"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -1290,6 +1310,11 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 <button
                   aria-label="common.remove"
                   class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-_r_6_"
+                  tabindex="0"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -1528,6 +1553,11 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 <button
                   aria-label="common.swap"
                   class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-_r_8_"
+                  tabindex="0"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"
@@ -1549,6 +1579,11 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                 <button
                   aria-label="common.remove"
                   class="font-medium whitespace-nowrap leading-5 rounded-[8px] inline-flex gap-1 items-center justify-center inline w-fit underline font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  data-rac=""
+                  data-react-aria-pressable="true"
+                  id="react-aria-_r_a_"
+                  tabindex="0"
+                  type="button"
                 >
                   <svg
                     fill="currentColor"

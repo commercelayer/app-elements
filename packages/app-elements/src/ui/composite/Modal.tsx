@@ -1,7 +1,11 @@
 import cn from "classnames"
 import type React from "react"
-import { createContext, useContext, useEffect, useId } from "react"
-import { createPortal } from "react-dom"
+import { createContext, useContext, useId } from "react"
+import {
+  Dialog as AriaDialog,
+  Modal as AriaModal,
+  ModalOverlay,
+} from "react-aria-components"
 import { Icon } from "#ui/atoms/Icon"
 
 // Create a context for modal functions
@@ -28,86 +32,70 @@ export type ModalProps = {
   children: React.ReactNode
   /** Max width preset */
   size?: "large" | "small" | "x-small"
+  /** Whether to close the modal when the user interacts outside it */
+  isDismissable?: boolean
+  /** Whether pressing the escape key to close the modal should be disabled */
+  isKeyboardDismissDisabled?: boolean
+  /** Ref to the modal container element for portaling dropdown menus */
+  ref?: React.RefObject<HTMLDivElement | null>
 }
 
-export const Modal: React.FC<
-  ModalProps & { ref?: React.RefObject<HTMLDivElement | null> }
-> & {
+export const Modal: React.FC<ModalProps> & {
   Header: React.FC<React.PropsWithChildren>
   Body: React.FC<React.PropsWithChildren>
   Footer: React.FC<React.PropsWithChildren>
-} = ({ ref, show = false, children, onClose, size = "small" }) => {
+} = ({
+  show = false,
+  children,
+  onClose,
+  size = "small",
+  isDismissable = false,
+  isKeyboardDismissDisabled = false,
+  ref,
+}) => {
   const modalId = useId()
 
-  useEffect(
-    function preventBodyScrollbar() {
-      if (show) {
-        document.body.classList.add("overflow-hidden")
-      }
-
-      return () => {
-        document.body.classList.remove("overflow-hidden")
-      }
-    },
-    [show],
-  )
-
-  const content = (
-    <ModalContext.Provider value={{ onClose, modalId }}>
-      <div
-        className={cn(
-          "bg-white rounded-md shadow-xl",
-          "max-h-[90vh] flex flex-col",
-        )}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={`${modalId}-title`}
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-        onKeyDown={(e) => {
-          // stop closing when pressing keys inside the dialog
-          if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-            e.stopPropagation()
-          }
-        }}
-      >
-        {children}
-      </div>
-    </ModalContext.Provider>
-  )
-
-  return createPortal(
-    <div ref={ref}>
-      {show && (
-        <>
-          <button
-            disabled={true}
-            type="button"
-            aria-label="Close modal"
-            className="fixed inset-0 z-60 bg-gray-900/90 animate-backdrop-fade-in cursor-default"
-            onClick={onClose}
-            onKeyDown={(e) => {
-              if (e.key === "Escape" || e.key === "Enter" || e.key === " ") {
-                onClose()
-              }
-            }}
-          />
-          <div
-            className={cn(
-              "fixed z-70 w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-              size === "large" && "max-w-155 md:w-155",
-              size === "small" && "max-w-105 md:w-105",
-              size === "x-small" && "max-w-80 md:w-80",
-            )}
-            data-testid="modal"
-          >
-            {content}
-          </div>
-        </>
+  return (
+    <ModalOverlay
+      isOpen={show}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) {
+          onClose()
+        }
+      }}
+      isDismissable={isDismissable}
+      isKeyboardDismissDisabled={isKeyboardDismissDisabled}
+      className={cn(
+        "fixed inset-0 z-60 bg-gray-900/50",
+        "flex items-center justify-center",
+        // "data-[entering]:animate-backdrop-fade-in",
       )}
-    </div>,
-    document.body,
+    >
+      <AriaModal
+        className={cn(
+          "fixed z-70 w-full",
+          size === "large" && "max-w-155 md:w-155",
+          size === "small" && "max-w-105 md:w-105",
+          size === "x-small" && "max-w-80 md:w-80",
+        )}
+        data-testid="modal"
+      >
+        <AriaDialog
+          className={cn(
+            "bg-white rounded-md shadow-xl",
+            "max-h-[90vh] flex flex-col",
+            "outline-none",
+          )}
+          aria-labelledby={`${modalId}-title`}
+        >
+          <div ref={ref} className="contents">
+            <ModalContext.Provider value={{ onClose, modalId }}>
+              {children}
+            </ModalContext.Provider>
+          </div>
+        </AriaDialog>
+      </AriaModal>
+    </ModalOverlay>
   )
 }
 
