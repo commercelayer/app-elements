@@ -89,12 +89,6 @@ function Tabs({
     [children],
   )
 
-  useEffect(() => {
-    if (onTabSwitch != null) {
-      onTabSwitch(activeIndex)
-    }
-  }, [activeIndex, onTabSwitch])
-
   return (
     <div id={id} role="tablist" className={className} {...rest}>
       {/* Navs */}
@@ -110,6 +104,7 @@ function Tabs({
                 label={tab.props.name}
                 onClick={() => {
                   setActiveIndex(index)
+                  onTabSwitch?.(index)
                 }}
                 id={`tab-nav-${id}-${index}`}
                 data-testid={`tab-nav-${index}`}
