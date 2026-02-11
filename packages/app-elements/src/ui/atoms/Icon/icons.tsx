@@ -84,6 +84,7 @@ export const iconMapping = {
   minus: phosphor.MinusIcon,
   minusCircle: phosphor.MinusCircleIcon,
   packageIcon: phosphor.PackageIcon,
+  paperPlaneTiltIcon: phosphor.PaperPlaneTiltIcon,
   pencilSimple: phosphor.PencilSimpleIcon,
   percent: phosphor.PercentIcon,
   plus: phosphor.PlusIcon,
