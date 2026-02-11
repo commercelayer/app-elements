@@ -104,7 +104,7 @@ function Tabs({
                 label={tab.props.name}
                 onClick={() => {
                   setActiveIndex(index)
-                  onTabSwitch?.(activeIndex)
+                  onTabSwitch?.(index)
                 }}
                 id={`tab-nav-${id}-${index}`}
                 data-testid={`tab-nav-${index}`}
