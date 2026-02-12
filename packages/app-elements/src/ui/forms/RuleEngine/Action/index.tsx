@@ -43,7 +43,7 @@ export function Action({
             setPath(
               `rules.${selectedRuleIndex}.actions.${actions?.length ?? 0}`,
               {
-                selector: "order",
+                selector: "order.line_items",
               },
             )
           }}

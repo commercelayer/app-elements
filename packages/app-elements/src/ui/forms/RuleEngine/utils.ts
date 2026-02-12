@@ -60,7 +60,7 @@ export async function fetchJsonSchema<J extends JSONSchema>(
         : void
 > {
   if (domain === "localhost") {
-    domain = "commercelayer.io"
+    domain = "commercelayer.co"
   }
 
   switch (jsonSchema) {

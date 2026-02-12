@@ -45,13 +45,12 @@ export function ActionListItem({
         ] ?? [])
       : []
 
-  const { available: availableOptions } = useAvailableOptions(
-    item,
-    actionOptionsConfig,
-  )
+  const { available: availableOptions, required: requiredOptions } =
+    useAvailableOptions(item, actionOptionsConfig)
 
   type Item = NonNullable<typeof item>
   const typeDictionary: Record<Item["type"], string> = {
+    free_gift: "Free gift",
     percentage: "Percentage discount",
     fixed_amount: "Fixed amount",
     fixed_price: "Fixed price",
@@ -60,6 +59,55 @@ export function ActionListItem({
   }
 
   const pathPrefix = `rules.${selectedRuleIndex}.actions.${index}`
+
+  const setDefaultOptionFor = (optionName: string) => {
+    switch (optionName) {
+      case "round":
+        setPath(`${pathPrefix}.round`, true)
+        break
+      case "apply_on":
+        setPath(`${pathPrefix}.apply_on`, null, true)
+        break
+      case "discount_mode":
+        setPath(`${pathPrefix}.discount_mode`, "default")
+        break
+      case "limit":
+        setPath(`${pathPrefix}.limit`, {})
+        break
+      case "aggregation":
+        setPath(`${pathPrefix}.aggregation`, {})
+        break
+      case "bundle":
+        setPath(`${pathPrefix}.bundle`, {
+          type: "balanced",
+        })
+        break
+      case "quantity":
+        setPath(`${pathPrefix}.quantity`, null, true)
+        break
+      case "identifiers": {
+        setPath(`${pathPrefix}.identifiers`, {
+          "": [],
+        })
+        break
+      }
+    }
+  }
+
+  useEffect(
+    function ensureRequiredOptions() {
+      if (item == null) {
+        return
+      }
+
+      requiredOptions.forEach((option) => {
+        if (!(option.name in item)) {
+          setDefaultOptionFor(option.name)
+        }
+      })
+    },
+    [item, requiredOptions, pathPrefix],
+  )
 
   return (
     <div className="mb-4 last:mb-0">
@@ -91,31 +139,7 @@ export function ActionListItem({
                   <DropdownItem
                     onClick={() => {
                       // Set default values based on option type
-                      switch (option.name) {
-                        case "round":
-                          setPath(`${pathPrefix}.round`, true)
-                          break
-                        case "apply_on":
-                          setPath(`${pathPrefix}.apply_on`, null, true)
-                          break
-                        case "discount_mode":
-                          setPath(`${pathPrefix}.discount_mode`, "default")
-                          break
-                        case "limit":
-                          setPath(`${pathPrefix}.limit`, {})
-                          break
-                        case "aggregation":
-                          setPath(`${pathPrefix}.aggregation`, {})
-                          break
-                        case "bundle":
-                          setPath(`${pathPrefix}.bundle`, {
-                            type: "balanced",
-                          })
-                          break
-                        case "quantity":
-                          setPath(`${pathPrefix}.quantity`, 1)
-                          break
-                      }
+                      setDefaultOptionFor(option.name)
                     }}
                     label={option.label}
                     key={`option-${option.name}`}
@@ -154,7 +178,14 @@ export function ActionListItem({
             }))}
             onSelect={(selected) => {
               if (isSingleValueSelected(selected)) {
-                setPath(`${pathPrefix}.type`, selected.value)
+                setPath(`${pathPrefix}`, {
+                  type: selected.value,
+                  groups: item?.groups,
+                  selector:
+                    selected.value === "free_gift"
+                      ? "order.line_items"
+                      : item?.selector,
+                })
               }
             }}
           />
@@ -177,13 +208,21 @@ function ActionSelector({
   const { setPath, schemaType } = useRuleEngine()
   const { t } = useTranslation()
 
-  const initialValues = actionPaths[schemaType].map((field) => ({
-    value: field,
-    label: (t(`resource_paths.${field}`) as string).replace(
-      "resource_paths.",
-      "",
-    ),
-  }))
+  const initialValues = actionPaths[schemaType]
+    .map((field) => ({
+      value: field,
+      label: (t(`resource_paths.${field}`) as string).replace(
+        "resource_paths.",
+        "",
+      ),
+    }))
+    .filter((field) => {
+      if (item?.type !== "free_gift") {
+        return true
+      }
+
+      return field.value === "order.line_items"
+    })
 
   const name = `${pathPrefix}.selector`
 

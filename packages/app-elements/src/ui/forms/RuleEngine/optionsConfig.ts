@@ -18,6 +18,8 @@ export interface OptionConfig {
   description?: string
   /** Predefined values from configuration */
   values?: Array<{ label: string; value: string; meta?: Record<string, any> }>
+  /** Whether this option is required and must always be present */
+  required?: boolean
 }
 
 /**
@@ -40,6 +42,11 @@ const configuration = {
         round: true,
         quantity: true,
         discount_mode: true,
+        identifiers: [
+          { label: "SKU", value: "order.line_items.sku.id" },
+          { label: "Bundle", value: "order.line_items.bundle.id" },
+          { label: "SKU list", value: "order.line_items.sku.sku_lists.id" },
+        ],
         apply_on: [
           { label: "Subtotal amount", value: "subtotal_amount_cents" },
           { label: "Total amount", value: "total_amount_cents" },
@@ -85,6 +92,11 @@ const configuration = {
         round: true,
         quantity: true,
         discount_mode: true,
+        identifiers: [
+          { label: "SKU", value: "order.line_items.sku.id" },
+          { label: "Bundle", value: "order.line_items.bundle.id" },
+          { label: "SKU list", value: "order.line_items.sku.sku_lists.id" },
+        ],
         apply_on: [
           { label: "Unit amount", value: "unit_amount_cents" },
           { label: "Compare at amount", value: "compare_at_amount_cents" },
@@ -238,6 +250,7 @@ const MANAGED_ACTION_OPTIONS = [
   "aggregation",
   "bundle",
   "quantity",
+  "identifiers",
 ] as const
 
 const MANAGED_CONDITION_OPTIONS = ["group", "scope", "aggregations"] as const
@@ -262,6 +275,7 @@ export const OPTION_LABELS: Record<
   aggregations: "Aggregations",
   group: "Group",
   quantity: "Quantity",
+  identifiers: "Identifiers",
 } as const
 
 /**
@@ -399,6 +413,8 @@ function parseConditionOptions(
                 meta?: Record<string, any>
               }>)
             : option.values,
+          // Conditions are never required (only actions can be required)
+          required: false,
         }
       })
   } catch (error) {
@@ -473,7 +489,7 @@ function buildOptions(
 ): OptionConfig[] {
   const options: OptionConfig[] = []
 
-  for (const [optionName, { appearsIn }] of optionsMap.entries()) {
+  for (const [optionName, { appearsIn, requiredIn }] of optionsMap.entries()) {
     const mutuallyExclusiveWith = findMutuallyExclusiveOptions(
       optionName,
       appearsIn,
@@ -501,6 +517,7 @@ function buildOptions(
           optionName as ManagedActionOption | ManagedConditionOption
         ],
       mutuallyExclusiveWith,
+      required: requiredIn.size > 0,
       ...metadata,
     })
   }
@@ -587,6 +604,8 @@ interface OptionAvailability {
   disabled: OptionConfig[]
   /** Options that are currently set */
   current: string[]
+  /** Options that are required (must always be present) */
+  required: OptionConfig[]
 }
 
 /**
@@ -601,6 +620,7 @@ export function useAvailableOptions(
       available: [],
       disabled: [],
       current: [],
+      required: [],
     }
   }
 
@@ -641,9 +661,13 @@ export function useAvailableOptions(
     }
   }
 
+  // Get required options (including those not currently set)
+  const requiredOptions = optionsConfig.filter((opt) => opt.required === true)
+
   return {
     available,
     disabled,
     current: currentOptions,
+    required: requiredOptions,
   }
 }

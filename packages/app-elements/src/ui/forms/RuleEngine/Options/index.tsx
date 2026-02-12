@@ -5,8 +5,13 @@ import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { Input } from "#ui/forms/Input"
-import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
+import {
+  InputSelect,
+  isMultiValueSelected,
+  isSingleValueSelected,
+} from "#ui/forms/InputSelect"
 import { useAvailableGroups } from "../Condition/hooks"
+import { InputResourceSelector } from "../InputResourceSelector"
 import { OptionRow } from "../layout/OptionRow"
 import {
   type ManagedActionOption,
@@ -31,6 +36,8 @@ export function Options({
   return (
     <>
       <GroupOption item={item} pathPrefix={pathPrefix} />
+      <IdentifiersOption item={item} pathPrefix={pathPrefix} />
+      <QuantityOption item={item} pathPrefix={pathPrefix} />
       <ApplyOnOption item={item} pathPrefix={pathPrefix} />
       <DiscountModeOption item={item} pathPrefix={pathPrefix} />
       <AggregationOption item={item} pathPrefix={pathPrefix} />
@@ -39,7 +46,6 @@ export function Options({
       <BundleOption item={item} pathPrefix={pathPrefix} />
       <RoundOption item={item} pathPrefix={pathPrefix} />
       <ScopeOption item={item} pathPrefix={pathPrefix} />
-      <QuantityOption item={item} pathPrefix={pathPrefix} />
     </>
   )
 }
@@ -391,7 +397,7 @@ function AggregationsOption({
             <Dropdown
               className="grow-0"
               dropdownLabel={
-                <Button variant="input" className="h-[44px] bg-gray-50">
+                <Button variant="input" className="h-11 bg-gray-50">
                   <Icon name="dotsThreeVertical" size={16} weight="bold" />
                 </Button>
               }
@@ -707,6 +713,145 @@ function ApplyOnOption({
   )
 }
 
+function IdentifiersOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem | SchemaConditionItem
+  pathPrefix: string
+}) {
+  const optionName = "identifiers" as const
+
+  const { setPath } = useRuleEngine()
+  const [rerenderKey, setRerenderKey] = useState(0)
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  if (optionRow == null || optionRow.optionConfig?.required !== true) {
+    return null
+  }
+
+  const identifiers = optionName in item ? item.identifiers : {}
+  const identifierEntries = Object.entries(identifiers)
+
+  return (
+    <optionRow.OptionRow key={rerenderKey}>
+      {identifierEntries?.map(([identifierKey, identifierValue]) => {
+        const resourceType =
+          identifierKey === "order.line_items.sku.id"
+            ? "skus"
+            : identifierKey === "order.line_items.bundle.id"
+              ? "bundles"
+              : identifierKey === "order.line_items.sku.sku_lists.id"
+                ? "sku_lists"
+                : undefined
+
+        const allValues = optionRow.optionConfig?.values ?? []
+        const filteredValues = allValues.filter(({ value }) => {
+          return identifierEntries.find(([key]) => key === value) == null
+        })
+        const selectedValue = {
+          label:
+            allValues.find((v) => v.value === identifierKey)?.label ??
+            identifierKey,
+          value: identifierKey,
+        }
+
+        return (
+          <div key={identifierKey} className="flex justify-between gap-2">
+            <InputSelect
+              initialValues={
+                identifierKey === "" ? filteredValues : [selectedValue]
+              }
+              isSearchable={false}
+              defaultValue={{
+                label:
+                  allValues.find((v) => v.value === identifierKey)?.label ??
+                  identifierKey,
+                value: identifierKey,
+              }}
+              onSelect={(selected) => {
+                if (
+                  isSingleValueSelected(selected) &&
+                  typeof selected.value === "string" &&
+                  identifierKey !== selected.value
+                ) {
+                  delete identifiers[identifierKey]
+                  setPath(`${pathPrefix}.${optionName}`, {
+                    ...identifiers,
+                    [selected.value]: identifierValue,
+                  })
+                }
+              }}
+            />
+            <div className="flex-1">
+              <InputResourceSelector
+                resource={resourceType ?? "skus"}
+                resourceKey="id"
+                isDisabled={resourceType == null}
+                isMulti
+                value={identifierValue}
+                onSelect={(selected) => {
+                  if (isMultiValueSelected(selected)) {
+                    setPath(`${pathPrefix}.${optionName}`, {
+                      ...identifiers,
+                      [identifierKey]: selected
+                        .map((s) => s.value)
+                        .filter((s) => s != null),
+                    })
+                  }
+                }}
+              />
+            </div>
+            <Dropdown
+              className="grow-0"
+              dropdownLabel={
+                <Button variant="input" className="h-11 bg-gray-50">
+                  <Icon name="dotsThreeVertical" size={16} weight="bold" />
+                </Button>
+              }
+              dropdownItems={[
+                <DropdownItem
+                  label="Add identifier"
+                  disabled={
+                    identifierEntries?.length ===
+                    optionRow.optionConfig?.values?.length
+                  }
+                  key={`${identifierKey}-"add-identifier"`}
+                  onClick={() => {
+                    setPath(`${pathPrefix}.identifiers`, {
+                      ...identifiers,
+                      "": [],
+                    })
+                  }}
+                />,
+                <DropdownDivider key={`${identifierKey}-"divider"`} />,
+                <DropdownItem
+                  label="Remove"
+                  disabled={identifierEntries?.length === 1}
+                  key={`${identifierKey}-"remove-identifier"`}
+                  onClick={() => {
+                    if (identifierEntries?.length > 1) {
+                      setPath(
+                        `${pathPrefix}.identifiers`,
+                        Object.fromEntries(
+                          identifierEntries.filter(
+                            ([key]) => key !== identifierKey,
+                          ),
+                        ),
+                      )
+                    }
+                    setRerenderKey((prev) => prev + 1)
+                  }}
+                />,
+              ]}
+            />
+          </div>
+        )
+      })}
+    </optionRow.OptionRow>
+  )
+}
+
 function useOptionRow({
   item,
   optionName,
@@ -738,6 +883,27 @@ function useOptionRow({
 
   const CustomizedOptionRow = useCallback(
     ({ children }: { children: React.ReactNode }) => {
+      const label = optionConfig?.label ?? OPTION_LABELS[optionName]
+      const required = optionConfig?.required === true
+
+      if (required) {
+        return (
+          <OptionRow
+            label={
+              <Text
+                variant="info"
+                size="small"
+                className="flex gap-2 items-center"
+              >
+                {label}
+              </Text>
+            }
+          >
+            {children}
+          </OptionRow>
+        )
+      }
+
       return (
         <OptionRow
           label={
@@ -751,6 +917,7 @@ function useOptionRow({
                     setPath(`${pathPrefix}.${optionName}`, null)
                   }}
                   label="Remove"
+                  disabled={optionConfig?.required === true}
                 />,
               ]}
               dropdownLabel={
@@ -760,7 +927,7 @@ function useOptionRow({
                     size="small"
                     className="flex gap-2 items-center"
                   >
-                    {optionConfig?.label ?? OPTION_LABELS[optionName]}
+                    {label}
                     <Icon name="caretDown" />
                   </Text>
                 </button>

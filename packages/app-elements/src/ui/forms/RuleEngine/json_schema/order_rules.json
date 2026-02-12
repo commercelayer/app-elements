@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "1.1.8",
+  "$id": "1.2.0",
   "title": "Rules for order context",
   "description": "Rules payload within order context for the rules engine of Commerce Layer.",
   "properties": {
@@ -433,6 +433,45 @@
                   },
                   "required": ["type", "value", "selector"],
                   "additionalProperties": false
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["free_gift"],
+                      "description": "The type of action you want to apply.",
+                      "examples": ["free_gift"]
+                    },
+                    "selector": { "$ref": "#/$defs/selector" },
+                    "identifier": { "$ref": "#/$defs/identifier" },
+                    "groups": { "$ref": "#/$defs/groups" },
+                    "aggregation": { "$ref": "#/$defs/aggregation" },
+                    "identifiers": {
+                      "type": "object",
+                      "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",
+                      "additionalProperties": {
+                        "type": "array",
+                        "items": { "type": "string", "minLength": 1 },
+                        "minItems": 1
+                      },
+                      "propertyNames": {
+                        "enum": [
+                          "order.line_items.sku.id",
+                          "order.line_items.bundle.id",
+                          "order.line_items.sku.sku_lists.id"
+                        ]
+                      },
+                      "minProperties": 1
+                    },
+                    "quantity": {
+                      "type": "integer",
+                      "minimum": 1,
+                      "description": "Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required."
+                    }
+                  },
+                  "required": ["type", "identifiers", "quantity"],
+                  "additionalProperties": false
                 }
               ]
             }
@@ -633,6 +672,36 @@
                     "format": "date-time"
                   },
                   {
+                    "type": "string",
+                    "description": "Value to compare against the field value.",
+                    "examples": [
+                      "{\"matcher\": \"eq\", \"value\": \"{\"matcher\": \"eq\", \"value\": \"{{today}}\"}\"}",
+                      "{\"matcher\": \"not_eq\", \"value\": \"{\"matcher\": \"eq\", \"value\": \"{{today}}\"}\"}",
+                      "{\"matcher\": \"lt\", \"value\": \"{\"matcher\": \"eq\", \"value\": \"{{today}}\"}\"}",
+                      "{\"matcher\": \"lteq\", \"value\": \"{\"matcher\": \"eq\", \"value\": \"{{today}}\"}\"}",
+                      "{\"matcher\": \"gt\", \"value\": \"{\"matcher\": \"eq\", \"value\": \"{{today}}\"}\"}",
+                      "{\"matcher\": \"gteq\", \"value\": \"{\"matcher\": \"eq\", \"value\": \"{{today}}\"}\"}"
+                    ],
+                    "matcherTypes": [
+                      "eq",
+                      "not_eq",
+                      "lt",
+                      "lteq",
+                      "gt",
+                      "gteq"
+                    ],
+                    "format": "date-time-dynamic"
+                  },
+                  {
+                    "type": "string",
+                    "description": "Value to compare against the field value.",
+                    "examples": [
+                      "{\"matcher\": \"gteq_lteq\", \"value\": \"{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 7.days)}}\"}\"}"
+                    ],
+                    "matcherTypes": ["gteq_lteq"],
+                    "format": "date-time-range"
+                  },
+                  {
                     "type": "boolean",
                     "description": "Value to compare against the field value.",
                     "examples": [
@@ -692,6 +761,36 @@
                             "is_in",
                             "is_not_in"
                           ]
+                        },
+                        {
+                          "type": "string",
+                          "format": "date-time-dynamic",
+                          "examples": [
+                            "{\"matcher\": \"eq\", \"value\": \"{{today}}\"}",
+                            "{\"matcher\": \"eq\", \"value\": \"{{month(today)}}\"}",
+                            "{\"matcher\": \"eq\", \"value\": \"{{day(today)}}\"}",
+                            "{\"matcher\": \"eq\", \"value\": \"{{year(today)}}\"}",
+                            "{\"matcher\": \"eq\", \"value\": \"{{order.updated_at}}\"}",
+                            "{\"matcher\": \"eq\", \"value\": \"{{month(order.updated_at)}}\"}"
+                          ],
+                          "matcherTypes": [
+                            "eq",
+                            "not_eq",
+                            "lt",
+                            "lteq",
+                            "gt",
+                            "gteq"
+                          ]
+                        },
+                        {
+                          "type": "string",
+                          "format": "date-time-range",
+                          "examples": [
+                            "{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 7.days)}}\"}",
+                            "{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 2.months)}}\"}",
+                            "{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 1.years)}}\"}"
+                          ],
+                          "matcherTypes": ["gteq_lteq"]
                         }
                       ]
                     },
@@ -709,7 +808,16 @@
                       "{\"matcher\": \"gteq_lteq\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
                       "{\"matcher\": \"gt_lteq\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
                       "{\"matcher\": \"gteq_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
-                      "{\"matcher\": \"gt_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}"
+                      "{\"matcher\": \"gt_lt\", \"value\": [\"2024-09-25T23:34:49Z\", \"2024-09-26T23:34:49Z\"]}",
+                      "{\"matcher\": \"eq\", \"value\": \"{{today}}\"}",
+                      "{\"matcher\": \"eq\", \"value\": \"{{month(today)}}\"}",
+                      "{\"matcher\": \"eq\", \"value\": \"{{day(today)}}\"}",
+                      "{\"matcher\": \"eq\", \"value\": \"{{year(today)}}\"}",
+                      "{\"matcher\": \"eq\", \"value\": \"{{order.updated_at}}\"}",
+                      "{\"matcher\": \"eq\", \"value\": \"{{month(order.updated_at)}}\"}",
+                      "{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 7.days)}}\"}",
+                      "{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 2.months)}}\"}",
+                      "{\"matcher\": \"gteq_lteq\", \"value\": \"{{range(today, 1.years)}}\"}"
                     ],
                     "matcherTypes": [
                       "gt_lt",
@@ -775,7 +883,20 @@
               }
             },
             "required": ["field", "value", "matcher"],
-            "additionalProperties": false
+            "additionalProperties": false,
+            "if": {
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "pattern": "\\{\\{range\\s*\\(.+\\)\\}\\}"
+                }
+              },
+              "required": ["value"]
+            },
+            "then": {
+              "properties": { "matcher": { "const": "gteq_lteq" } },
+              "required": ["matcher"]
+            }
           },
           {
             "type": "object",
@@ -830,7 +951,8 @@
             "required": ["field", "matcher"],
             "additionalProperties": false
           }
-        ]
+        ],
+        "minItems": 1
       }
     },
     "conditions_logic": {

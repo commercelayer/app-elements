@@ -124,6 +124,10 @@ export function ActionValue({
       )
     }
 
+    case "free_gift": {
+      return null
+    }
+
     default: {
       return expectNever(item)
     }

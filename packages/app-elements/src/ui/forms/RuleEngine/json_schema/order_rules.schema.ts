@@ -454,6 +454,29 @@ export interface RulesForOrderContext {
             [k: string]: unknown
           }
         }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "free_gift"
+          selector?: Selector
+          identifier?: Identifier
+          groups?: Groups
+          aggregation?: Aggregation
+          /**
+           * Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.
+           */
+          identifiers: {
+            /**
+             * @minItems 1
+             */
+            [k: string]: [string, ...string[]]
+          }
+          /**
+           * Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required.
+           */
+          quantity: number
+        }
     )[]
   }[]
   [k: string]: unknown
