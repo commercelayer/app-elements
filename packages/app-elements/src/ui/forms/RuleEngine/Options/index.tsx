@@ -723,133 +723,64 @@ function IdentifiersOption({
   const optionName = "identifiers" as const
 
   const { setPath } = useRuleEngine()
-  const [rerenderKey, setRerenderKey] = useState(0)
+  // const [rerenderKey, setRerenderKey] = useState(0)
   const optionRow = useOptionRow({ item, optionName, pathPrefix })
 
   if (optionRow == null || optionRow.optionConfig?.required !== true) {
     return null
   }
 
-  const identifiers = optionName in item ? item.identifiers : {}
-  const identifierEntries = Object.entries(identifiers)
+  const selectedIdentifiers = optionName in item ? item.identifiers : {}
 
-  return (
-    <optionRow.OptionRow key={rerenderKey}>
-      {identifierEntries?.map(([identifierKey, identifierValue]) => {
-        const resourceType =
-          identifierKey === "order.line_items.sku.id"
-            ? "skus"
-            : identifierKey === "order.line_items.bundle.id"
-              ? "bundles"
-              : identifierKey === "order.line_items.sku.sku_lists.id"
-                ? "sku_lists"
-                : undefined
+  const allValues = optionRow.optionConfig?.values ?? []
 
-        const allValues = optionRow.optionConfig?.values ?? []
-        const filteredValues = allValues.filter(({ value }) => {
-          return identifierEntries.find(([key]) => key === value) == null
-        })
-        const selectedValue = {
-          label:
-            allValues.find((v) => v.value === identifierKey)?.label ??
-            identifierKey,
-          value: identifierKey,
+  return allValues.map(({ label, value }) => {
+    const resourceType =
+      value === "order.line_items.sku.id"
+        ? "skus"
+        : value === "order.line_items.bundle.id"
+          ? "bundles"
+          : value === "order.line_items.sku.sku_lists.id"
+            ? "sku_lists"
+            : undefined
+    if (resourceType == null) {
+      return null
+    }
+    return (
+      <OptionRow
+        label={
+          <Text variant="info" size="small" className="flex gap-2 items-center">
+            Free {label}
+          </Text>
         }
-
-        return (
-          <div key={identifierKey} className="flex justify-between gap-2">
-            <InputSelect
-              initialValues={
-                identifierKey === "" ? filteredValues : [selectedValue]
+        key={value}
+      >
+        <InputResourceSelector
+          resource={resourceType}
+          resourceKey="id"
+          isMulti
+          value={selectedIdentifiers[value] ?? []}
+          onSelect={(selected) => {
+            console.log("selected", selected)
+            if (isMultiValueSelected(selected)) {
+              if (selected.length > 0) {
+                setPath(`${pathPrefix}.${optionName}`, {
+                  ...selectedIdentifiers,
+                  [value]: selected
+                    .map((s) => s.value)
+                    .filter((s) => s != null),
+                })
+              } else {
+                const updatedIdentifiers = { ...selectedIdentifiers }
+                delete updatedIdentifiers[value]
+                setPath(`${pathPrefix}.${optionName}`, updatedIdentifiers)
               }
-              isSearchable={false}
-              defaultValue={{
-                label:
-                  allValues.find((v) => v.value === identifierKey)?.label ??
-                  identifierKey,
-                value: identifierKey,
-              }}
-              onSelect={(selected) => {
-                if (
-                  isSingleValueSelected(selected) &&
-                  typeof selected.value === "string" &&
-                  identifierKey !== selected.value
-                ) {
-                  delete identifiers[identifierKey]
-                  setPath(`${pathPrefix}.${optionName}`, {
-                    ...identifiers,
-                    [selected.value]: identifierValue,
-                  })
-                }
-              }}
-            />
-            <div className="flex-1">
-              <InputResourceSelector
-                resource={resourceType ?? "skus"}
-                resourceKey="id"
-                isDisabled={resourceType == null}
-                isMulti
-                value={identifierValue}
-                onSelect={(selected) => {
-                  if (isMultiValueSelected(selected)) {
-                    setPath(`${pathPrefix}.${optionName}`, {
-                      ...identifiers,
-                      [identifierKey]: selected
-                        .map((s) => s.value)
-                        .filter((s) => s != null),
-                    })
-                  }
-                }}
-              />
-            </div>
-            <Dropdown
-              className="grow-0"
-              dropdownLabel={
-                <Button variant="input" className="h-11 bg-gray-50">
-                  <Icon name="dotsThreeVertical" size={16} weight="bold" />
-                </Button>
-              }
-              dropdownItems={[
-                <DropdownItem
-                  label="Add identifier"
-                  disabled={
-                    identifierEntries?.length ===
-                    optionRow.optionConfig?.values?.length
-                  }
-                  key={`${identifierKey}-"add-identifier"`}
-                  onClick={() => {
-                    setPath(`${pathPrefix}.identifiers`, {
-                      ...identifiers,
-                      "": [],
-                    })
-                  }}
-                />,
-                <DropdownDivider key={`${identifierKey}-"divider"`} />,
-                <DropdownItem
-                  label="Remove"
-                  disabled={identifierEntries?.length === 1}
-                  key={`${identifierKey}-"remove-identifier"`}
-                  onClick={() => {
-                    if (identifierEntries?.length > 1) {
-                      setPath(
-                        `${pathPrefix}.identifiers`,
-                        Object.fromEntries(
-                          identifierEntries.filter(
-                            ([key]) => key !== identifierKey,
-                          ),
-                        ),
-                      )
-                    }
-                    setRerenderKey((prev) => prev + 1)
-                  }}
-                />,
-              ]}
-            />
-          </div>
-        )
-      })}
-    </optionRow.OptionRow>
-  )
+            }
+          }}
+        />
+      </OptionRow>
+    )
+  })
 }
 
 function useOptionRow({

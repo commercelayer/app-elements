@@ -86,9 +86,7 @@ export function ActionListItem({
         setPath(`${pathPrefix}.quantity`, null, true)
         break
       case "identifiers": {
-        setPath(`${pathPrefix}.identifiers`, {
-          "": [],
-        })
+        setPath(`${pathPrefix}.identifiers`, {})
         break
       }
     }
