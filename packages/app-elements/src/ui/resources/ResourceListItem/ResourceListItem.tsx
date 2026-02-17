@@ -1,11 +1,11 @@
-import { useMemo } from "react";
-import { useTranslation } from "react-i18next";
-import { useCoreApi } from "#providers/CoreSdkProvider";
-import { useTokenProvider } from "#providers/TokenProvider";
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { StatusIcon } from "#ui/atoms/StatusIcon";
-import { Text } from "#ui/atoms/Text";
-import { ListItem, type ListItemProps } from "#ui/composite/ListItem";
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
+import { useCoreApi } from "#providers/CoreSdkProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { ListItem, type ListItemProps } from "#ui/composite/ListItem"
 import {
   customerToProps,
   orderToProps,
@@ -13,34 +13,34 @@ import {
   shipmentToProps,
   skuListItemToProps,
   stockTransferToProps,
-} from "#ui/resources/ResourceListItem/transformers";
-import { promotionToProps } from "./transformers/promotions";
+} from "#ui/resources/ResourceListItem/transformers"
+import { promotionToProps } from "./transformers/promotions"
 import type {
   ResourceListItemComponentProps,
   ResourceListItemType,
-} from "./types";
+} from "./types"
 
 export interface ResourceListItemProps {
   /**
    * Resource object used to generate list item content depending on its own type
    */
-  resource: ResourceListItemType;
+  resource: ResourceListItemType
   /**
    * Optional href
    */
-  href?: ListItemProps["href"];
+  href?: ListItemProps["href"]
   /**
    * Optional onClick function
    */
-  onClick?: ListItemProps["onClick"];
+  onClick?: ListItemProps["onClick"]
   /**
    * Optional setting to show right content, if available, instead of right arrow
    */
-  showRightContent?: boolean;
+  showRightContent?: boolean
 }
 
 type ResourceListItemConfig = Omit<ResourceListItemProps, "resource"> &
-  ResourceListItemComponentProps;
+  ResourceListItemComponentProps
 
 const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
   ({
@@ -55,7 +55,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     showRightContent = false,
     invertNameDescription = false,
   }) => {
-    const isClickable = href != null || onClick != null;
+    const isClickable = href != null || onClick != null
 
     return (
       <ListItem
@@ -95,17 +95,17 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
             : isClickable && <StatusIcon name="caretRight" />}
         </div>
       </ListItem>
-    );
+    )
   },
-);
+)
 
 /**
  * This component generates a list item based on the requested resource data and type.
  */
 export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
   ({ resource, isLoading, delayMs, href, onClick, ...rest }) => {
-    const { user } = useTokenProvider();
-    const { t } = useTranslation();
+    const { user } = useTokenProvider()
+    const { t } = useTranslation()
 
     const { data: markets, isLoading: isLoadingMarkets } = useCoreApi(
       "markets",
@@ -124,12 +124,12 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
       {
         revalidateIfStale: false,
       },
-    );
+    )
 
     const listItemProps = useMemo(() => {
       switch (resource.type) {
         case "customers":
-          return customerToProps({ resource, user, t });
+          return customerToProps({ resource, user, t })
         case "orders":
           return orderToProps({
             resource: {
@@ -141,15 +141,15 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
             },
             user,
             t,
-          });
+          })
         case "returns":
-          return returnToProps({ resource, user, t });
+          return returnToProps({ resource, user, t })
         case "stock_transfers":
-          return stockTransferToProps({ resource, user, t });
+          return stockTransferToProps({ resource, user, t })
         case "shipments":
-          return shipmentToProps({ resource, user, t });
+          return shipmentToProps({ resource, user, t })
         case "sku_list_items":
-          return skuListItemToProps({ resource, user, t });
+          return skuListItemToProps({ resource, user, t })
         case "buy_x_pay_y_promotions":
         case "external_promotions":
         case "fixed_amount_promotions":
@@ -158,9 +158,9 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
         case "free_shipping_promotions":
         case "percentage_discount_promotions":
         case "flex_promotions":
-          return promotionToProps({ resource, user, t });
+          return promotionToProps({ resource, user, t })
       }
-    }, [resource]);
+    }, [resource])
     return (
       <ResourceListItemComponent
         {...listItemProps}
@@ -169,6 +169,6 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
         onClick={onClick}
         {...rest}
       />
-    );
+    )
   },
-);
+)

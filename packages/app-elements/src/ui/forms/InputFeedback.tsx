@@ -1,13 +1,13 @@
-import { CheckCircleIcon, WarningCircleIcon } from "@phosphor-icons/react";
-import cn from "classnames";
-import type { JSX } from "react";
+import { CheckCircleIcon, WarningCircleIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import type { JSX } from "react"
 
-type FeedbackVariant = "danger" | "success" | "warning";
+type FeedbackVariant = "danger" | "success" | "warning"
 
 export interface InputFeedbackProps {
-  message: string;
-  variant?: FeedbackVariant;
-  className?: string;
+  message: string
+  variant?: FeedbackVariant
+  className?: string
 }
 
 export function InputFeedback({
@@ -26,7 +26,7 @@ export function InputFeedback({
     warning: (
       <WarningCircleIcon size={20} weight="bold" data-testid="icon-warning" />
     ),
-  };
+  }
 
   return (
     <div
@@ -44,7 +44,7 @@ export function InputFeedback({
       {icons[variant]}
       <div className="text-sm font-semibold">{message}</div>
     </div>
-  );
+  )
 }
 
-InputFeedback.displayName = "InputFeedback";
+InputFeedback.displayName = "InputFeedback"

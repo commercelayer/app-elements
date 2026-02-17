@@ -1,29 +1,29 @@
-import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react";
-import cn from "classnames";
-import type { JSX } from "react";
-import { makeSomeAdjacentPages } from "#utils/pagination";
+import { CaretLeftIcon, CaretRightIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import type { JSX } from "react"
+import { makeSomeAdjacentPages } from "#utils/pagination"
 
 export interface PaginationProps {
   /**
    * CSS classes
    */
-  className?: string;
+  className?: string
   /**
    * You might want to set this as `true` on page change when new page is loading
    */
-  isDisabled?: boolean;
+  isDisabled?: boolean
   /**
    * the number of the current/active page
    */
-  currentPage: number;
+  currentPage: number
   /**
    * Callback invoked when a different page button is clicked
    */
-  onChangePageRequest: (pageNumber: number) => void;
+  onChangePageRequest: (pageNumber: number) => void
   /**
    * Total number of pages
    */
-  pageCount: number;
+  pageCount: number
 }
 
 function Pagination({
@@ -41,7 +41,7 @@ function Pagination({
     pageCount,
     direction: "forward",
     excludeCurrentPage: true,
-  });
+  })
 
   const prevPages = makeSomeAdjacentPages({
     currentPage,
@@ -49,11 +49,11 @@ function Pagination({
     pageCount,
     direction: "backward",
     excludeCurrentPage: true,
-  });
+  })
 
   // hide pagination if is only 1 page
   if (nextPages.length === 0 && currentPage === 1) {
-    return null;
+    return null
   }
 
   return (
@@ -71,7 +71,7 @@ function Pagination({
         <PaginationButton
           data-testid="pagination-btn-back"
           onClick={() => {
-            onChangePageRequest(currentPage - 1);
+            onChangePageRequest(currentPage - 1)
           }}
         >
           <CaretLeftIcon />
@@ -83,7 +83,7 @@ function Pagination({
           key={p}
           data-testid="pagination-btn"
           onClick={() => {
-            onChangePageRequest(p);
+            onChangePageRequest(p)
           }}
         >
           {p}
@@ -95,7 +95,7 @@ function Pagination({
       </PaginationButton>
 
       {nextPages.map((p) => {
-        const isCurrentPage = p === currentPage;
+        const isCurrentPage = p === currentPage
         return (
           <PaginationButton
             key={p}
@@ -105,33 +105,31 @@ function Pagination({
               isCurrentPage
                 ? undefined
                 : () => {
-                    onChangePageRequest(p);
+                    onChangePageRequest(p)
                   }
             }
           >
             {p}
           </PaginationButton>
-        );
+        )
       })}
       {currentPage < pageCount ? (
         <PaginationButton
           data-testid="pagination-btn-next"
           onClick={() => {
-            onChangePageRequest(currentPage + 1);
+            onChangePageRequest(currentPage + 1)
           }}
         >
           <CaretRightIcon />
         </PaginationButton>
       ) : null}
     </div>
-  );
+  )
 }
 
-interface PaginationButtonProps extends Omit<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  "className"
-> {
-  isActive?: boolean;
+interface PaginationButtonProps
+  extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "className"> {
+  isActive?: boolean
 }
 
 function PaginationButton({
@@ -153,8 +151,8 @@ function PaginationButton({
     >
       {children}
     </button>
-  );
+  )
 }
 
-Pagination.displayName = "Pagination";
-export { Pagination };
+Pagination.displayName = "Pagination"
+export { Pagination }

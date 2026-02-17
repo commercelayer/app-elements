@@ -878,12 +878,12 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex gap-1"
               >
                 <div
-                  class="mb-1 font-bold text-sm wrap-anywhere"
+                  class="mb-1 font-semibold text-sm wrap-anywhere"
                 >
                   Front Text
                 </div>
                 <div
-                  class="font-bold text-sm wrap-anywhere"
+                  class="font-semibold text-sm wrap-anywhere"
                 >
                   x 
                   1
@@ -945,12 +945,12 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex gap-1"
               >
                 <div
-                  class="mb-1 font-bold text-sm wrap-anywhere"
+                  class="mb-1 font-semibold text-sm wrap-anywhere"
                 >
                   Rear Text
                 </div>
                 <div
-                  class="font-bold text-sm wrap-anywhere"
+                  class="font-semibold text-sm wrap-anywhere"
                 >
                   x 
                   1
@@ -1012,12 +1012,12 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex gap-1"
               >
                 <div
-                  class="mb-1 font-bold text-sm wrap-anywhere"
+                  class="mb-1 font-semibold text-sm wrap-anywhere"
                 >
                   Special
                 </div>
                 <div
-                  class="font-bold text-sm wrap-anywhere"
+                  class="font-semibold text-sm wrap-anywhere"
                 >
                   x 
                   1

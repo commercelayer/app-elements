@@ -1,37 +1,35 @@
-import type { ComponentProps } from "react";
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { ListItem } from "#ui/composite/ListItem";
-import {
-  InputCheckbox,
-  type InputCheckboxProps,
-} from "#ui/forms/InputCheckbox";
-import { InputSpinner } from "#ui/forms/InputSpinner";
+import type { ComponentProps } from "react"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { ListItem } from "#ui/composite/ListItem"
+import { InputCheckbox, type InputCheckboxProps } from "#ui/forms/InputCheckbox"
+import { InputSpinner } from "#ui/forms/InputSpinner"
 
-export interface InputCheckboxGroupOption extends Pick<
-  InputCheckboxProps,
-  "icon" | "checked" | "hideIconOnDesktop" | "checkedElement"
-> {
+export interface InputCheckboxGroupOption
+  extends Pick<
+    InputCheckboxProps,
+    "icon" | "checked" | "hideIconOnDesktop" | "checkedElement"
+  > {
   /**
    * Input name, will be used to set the html name for checkbox and the quantity inputs.
    * If not provided, the value will be used instead.
    */
-  name?: string;
+  name?: string
   /**
    * Item identifier, must be unique and will be used for the onChange callback.
    */
-  value: string;
+  value: string
   /**
    * Item content to be displayed in the central section of the row.
    */
-  content: React.ReactNode;
+  content: React.ReactNode
   /**
    * Quantity range to be used in the InputSpinner.
    * If not provided the quantity input spinner will not be displayed.
    */
   quantity?: {
-    min: number;
-    max: number;
-  };
+    min: number
+    max: number
+  }
 }
 
 export interface Props extends InputCheckboxGroupOption {
@@ -39,11 +37,11 @@ export interface Props extends InputCheckboxGroupOption {
    * Callback triggered when the user checks/unchecks an option or changes the quantity.
    * New quantity is returned only if `quantity` is part of the option (`InputCheckboxGroupOption`).
    */
-  onChange: (value: string, newQuantity?: number) => void;
+  onChange: (value: string, newQuantity?: number) => void
   /**
    * Quantity to be used as default value for the InputSpinner.
    */
-  defaultQuantity?: number;
+  defaultQuantity?: number
 }
 
 /**
@@ -72,7 +70,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
           padding="none"
           className="rounded flex items-center gap-3 py-1.5 px-2"
           onClick={() => {
-            onChange(value);
+            onChange(value)
           }}
           data-testid="InputCheckboxGroupItem"
         >
@@ -82,7 +80,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
             icon={icon}
             hideIconOnDesktop={hideIconOnDesktop}
             onChange={() => {
-              onChange(value);
+              onChange(value)
             }}
           >
             <div>{content}</div>
@@ -93,7 +91,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
             // biome-ignore lint/a11y/useKeyWithClickEvents: I need to prevent the click event from propagating to the ListItem.
             <div
               onClick={(e) => {
-                e.stopPropagation();
+                e.stopPropagation()
               }}
             >
               <InputSpinner
@@ -104,7 +102,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
                 disableKeyboard
                 disabled={checked === false}
                 onChange={(newQuantity) => {
-                  onChange(value, newQuantity);
+                  onChange(value, newQuantity)
                 }}
               />
             </div>
@@ -114,10 +112,10 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
           <div className="pb-4 pr-3 pl-11">{checkedElement}</div>
         )}
       </div>
-    );
+    )
   },
-);
+)
 
 export type InputCheckboxGroupItemProps = ComponentProps<
   typeof InputCheckboxGroupItem
->;
+>

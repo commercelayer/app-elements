@@ -1,77 +1,77 @@
-import { TZDateMini as TZDate } from "@date-fns/tz";
-import { CalendarBlankIcon, XIcon } from "@phosphor-icons/react";
-import cn from "classnames";
-import { forwardRef, type JSX, useMemo } from "react";
-import DatePicker from "react-datepicker";
-import { isDateValid } from "#helpers/date";
+import { TZDateMini as TZDate } from "@date-fns/tz"
+import { CalendarBlankIcon, XIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import { forwardRef, type JSX, useMemo } from "react"
+import DatePicker from "react-datepicker"
+import { isDateValid } from "#helpers/date"
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper";
+} from "#ui/internals/InputWrapper"
 
-export type MaybeDate = Date | null;
+export type MaybeDate = Date | null
 
 export interface InputDateProps extends InputWrapperBaseProps {
   /**
    * Controlled value
    */
-  value?: MaybeDate;
+  value?: MaybeDate
   /**
    * Callback fired when value is changed
    */
-  onChange: (date: MaybeDate) => void;
+  onChange: (date: MaybeDate) => void
   /**
    * Optional CSS class names used for the outer wrapper/container element
    */
-  wrapperClassName?: string;
+  wrapperClassName?: string
   /**
    * Optional CSS class names used for the input element
    */
-  inputClassName?: string;
+  inputClassName?: string
   /**
    * Optional placeholder text
    */
-  placeholder?: string;
+  placeholder?: string
   /**
    * Show the time selector
    */
-  showTimeSelect?: boolean | undefined;
+  showTimeSelect?: boolean | undefined
   /**
    * String to be parsed as formatter (eg. MM/dd/yyyy, dd-MM-yy, ect...).
    * When undefined, will autodetect format from user's browser.
    */
-  format?: string;
+  format?: string
   /**
    * Timezone string to be used for date formatting.
    * (eg. `Africa/Nairobi`, `America/New_York`, `Etc/UTC`, ect...).
    * When undefined or not valid, will autodetect user's browser timezone.
    */
-  timezone?: string;
+  timezone?: string
   /**
    * Disable selection of previous dates
    */
-  minDate?: Date;
+  minDate?: Date
   /**
    * Set placeholder as detected date format
    */
-  autoPlaceholder?: boolean;
+  autoPlaceholder?: boolean
   /**
    * Enables a button to clear the selected date
    */
-  isClearable?: boolean;
+  isClearable?: boolean
   /**
    * Prevent the date picker calendar from opening on focus,
    * this is useful when showing validation error message and
    * to avoid the calendar to open on top of the error message
    */
-  preventOpenOnFocus?: boolean;
+  preventOpenOnFocus?: boolean
   /**
    * Use fixed positioning strategy for the date picker popper.
    * This is useful when the date picker is used inside a modal.
    * @default false
    */
-  fixedPopper?: boolean;
+  fixedPopper?: boolean
 }
 
 export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
@@ -98,12 +98,12 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
     ref,
   ): JSX.Element => {
     const selectedDateInTimezone = useMemo(() => {
-      if (value == null) return null;
-      const tzDate = new TZDate(value, timezone);
-      return isDateValid(tzDate) ? tzDate : value;
-    }, [value, timezone]);
+      if (value == null) return null
+      const tzDate = new TZDate(value, timezone)
+      return isDateValid(tzDate) ? tzDate : value
+    }, [value, timezone])
 
-    const dateFormat = format ?? detectDateTimeFormat(showTimeSelect);
+    const dateFormat = format ?? detectDateTimeFormat(showTimeSelect)
     return (
       <InputWrapper
         {...rest}
@@ -148,7 +148,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
               type="button"
               className="absolute top-0 bottom-0 right-11 flex items-center"
               onClick={() => {
-                onChange(null);
+                onChange(null)
               }}
             >
               <XIcon />
@@ -156,22 +156,22 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
           ) : null}
         </div>
       </InputWrapper>
-    );
+    )
   },
-);
+)
 
-InputDateComponent.displayName = "InputDateComponent";
+InputDateComponent.displayName = "InputDateComponent"
 
 function detectDateTimeFormat(showTime: boolean): string {
-  const date = new Date(2023, 11, 15); //  15th of December
+  const date = new Date(2023, 11, 15) //  15th of December
 
   const dateFormat = date
     .toLocaleDateString()
     .replace("15", "dd")
     .replace("12", "MM")
-    .replace("2023", "yyyy");
+    .replace("2023", "yyyy")
 
-  const timeFormat = ", h:mm aa";
+  const timeFormat = ", h:mm aa"
 
-  return `${dateFormat}${showTime ? timeFormat : ""}`;
+  return `${dateFormat}${showTime ? timeFormat : ""}`
 }
