@@ -47,7 +47,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         id={rest.id ?? rest.name}
         className={cn(
           className,
-          "block w-full px-4 py-2.5 font-normal",
+          "block w-full px-4 py-2.5 font-normal text-sm",
           "rounded outline-0",
           {
             "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-1!":

@@ -377,7 +377,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           wrap="nowrap"
                           className={cn({
                             "font-semibold": size === "normal",
-                            "text-sm font-bold": size === "small",
+                            "text-sm font-semibold": size === "small",
                           })}
                         >
                           {hasPriceTooltip ? (
@@ -481,12 +481,12 @@ const LineItemOptionsWrapper = withSkeletonTemplate<{
   <Spacer top="4" className="pb-2 last:pb-0">
     <div className="flex gap-1">
       {title != null && (
-        <Text tag="div" weight="bold" size="small" className="mb-1">
+        <Text tag="div" weight="semibold" size="small" className="mb-1">
           {title}
         </Text>
       )}
       {quantity != null && (
-        <Text tag="div" size="small" weight="bold">
+        <Text tag="div" size="small" weight="semibold">
           x {quantity}
         </Text>
       )}

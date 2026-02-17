@@ -141,7 +141,7 @@ function PaginationButton({
     <button
       {...props}
       className={cn([
-        "text-[14px] rounded w-[46px] h-[38px] flex items-center justify-center transition ease-in duration-200 hover:bg-gray-50",
+        "text-sm rounded w-[46px] h-[38px] flex items-center justify-center transition ease-in duration-200 hover:bg-gray-50",
         {
           "border-2 border-black text-black hover:bg-white font-medium":
             isActive,

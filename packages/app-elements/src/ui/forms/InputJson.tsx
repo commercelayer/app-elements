@@ -70,7 +70,7 @@ export function InputJson<JsonType extends object>({
         onBlur={() => {
           setValue(prettifyJson)
         }}
-        className="bg-black text-white font-semibold text-xs font-mono h-72 p-3 w-full rounded-md outline-hidden"
+        className="bg-black text-white font-medium text-xs font-mono h-72 p-3 w-full rounded-md outline-hidden"
       />
     </InputWrapper>
   )

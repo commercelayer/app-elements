@@ -63,7 +63,7 @@ export const Card = withSkeletonTemplate<CardProps>(
           className,
           "border border-solid rounded-md",
           "text-left", // reset <button>
-          "text-inherit active:text-inherit hover:text-inherit text-[14px] font-inherit", // reset <a>
+          "text-inherit active:text-inherit hover:text-inherit text-sm font-inherit", // reset <a>
           {
             "overflow-hidden": overflow === "hidden",
             "border-gray-200 bg-white": backgroundColor == null,

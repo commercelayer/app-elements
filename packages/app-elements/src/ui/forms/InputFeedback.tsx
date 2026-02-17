@@ -42,7 +42,7 @@ export function InputFeedback({
       {...rest}
     >
       {icons[variant]}
-      <div className="text-[14px] font-semibold">{message}</div>
+      <div className="text-sm font-semibold">{message}</div>
     </div>
   )
 }

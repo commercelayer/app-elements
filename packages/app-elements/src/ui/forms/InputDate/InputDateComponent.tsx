@@ -132,7 +132,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
             minDate={minDate}
             openToDate={selectedDateInTimezone ?? minDate}
             className={cn(
-              "block w-full px-4 py-2.5 placeholder:text-gray-400 font-normal",
+              "block w-full px-4 py-2.5 placeholder:text-gray-400 font-normal text-sm",
               "rounded outline-0",
               "transition duration-500 ease-in-out focus:outline-0 focus:border-primary-light",
               getFeedbackStyle(feedback),

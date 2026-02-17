@@ -51,7 +51,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
           <label
             data-testid="checkbox-label"
             className={cn(
-              "flex items-center gap-3 select-none flex-1 text-sm leading-5 py-0.5",
+              "flex items-center gap-2 select-none flex-1 text-sm leading-5 py-0.5",
               {
                 "cursor-pointer": rest.disabled !== true,
               },
@@ -89,7 +89,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
                     {icon}
                   </div>
                 ) : null}
-                <div className="flex-1 text-sm">{children}</div>
+                <div className="flex-1 text-sm font-medium">{children}</div>
               </div>
             ) : null}
           </label>
