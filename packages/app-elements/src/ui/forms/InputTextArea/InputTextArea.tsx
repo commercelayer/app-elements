@@ -1,13 +1,14 @@
-import cn from "classnames"
-import { forwardRef, type JSX } from "react"
+import cn from "classnames";
+import { forwardRef, type JSX } from "react";
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper"
+} from "#ui/internals/InputWrapper";
 
 export interface InputTextAreaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement>,
+  extends
+    React.TextareaHTMLAttributes<HTMLTextAreaElement>,
     InputWrapperBaseProps {}
 
 export const InputTextArea = forwardRef<
@@ -27,7 +28,7 @@ export const InputTextArea = forwardRef<
         id={rest.id ?? rest.name}
         className={cn(
           className,
-          "px-4 py-2.5 w-full bg-white rounded outline-0 font-normal",
+          "px-4 py-2.5 w-full bg-white rounded outline-0 font-normal text-sm",
           {
             "h-52": rest.rows == null,
           },
@@ -36,7 +37,7 @@ export const InputTextArea = forwardRef<
         ref={ref}
       />
     </InputWrapper>
-  )
-})
+  );
+});
 
-InputTextArea.displayName = "InputTextArea"
+InputTextArea.displayName = "InputTextArea";

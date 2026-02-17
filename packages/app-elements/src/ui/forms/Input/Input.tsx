@@ -1,27 +1,28 @@
-import cn from "classnames"
-import { forwardRef, type JSX } from "react"
-import { Text } from "#ui/atoms/Text"
+import cn from "classnames";
+import { forwardRef, type JSX } from "react";
+import { Text } from "#ui/atoms/Text";
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper"
+} from "#ui/internals/InputWrapper";
 
 export interface InputProps
-  extends InputWrapperBaseProps,
+  extends
+    InputWrapperBaseProps,
     Omit<React.InputHTMLAttributes<HTMLInputElement>, "type"> {
   /**
    * Controlled type
    */
-  type?: "text" | "number" | "password" | "tel" | "url" | "email" | "hidden"
+  type?: "text" | "number" | "password" | "tel" | "url" | "email" | "hidden";
   /**
    * Optional CSS class names used for the input element
    */
-  className?: string
+  className?: string;
   /**
    * Optional suffix that renders close to the right-edge of the input
    */
-  suffix?: React.ReactNode
+  suffix?: React.ReactNode;
 }
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
@@ -47,7 +48,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         id={rest.id ?? rest.name}
         className={cn(
           className,
-          "block w-full px-4 py-2.5 font-normal",
+          "block w-full px-4 py-2.5 font-normal text-sm",
           "rounded outline-0",
           {
             "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-1!":
@@ -59,10 +60,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         type={type}
         ref={ref}
       />
-    )
+    );
 
     if (type === "hidden") {
-      return input
+      return input;
     }
 
     return (
@@ -86,8 +87,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
         </div>
       </InputWrapper>
-    )
+    );
   },
-)
+);
 
-Input.displayName = "Input"
+Input.displayName = "Input";

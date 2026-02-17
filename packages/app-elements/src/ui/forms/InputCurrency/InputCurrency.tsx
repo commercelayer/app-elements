@@ -1,58 +1,59 @@
-import { XIcon } from "@phosphor-icons/react"
-import cn from "classnames"
-import { forwardRef, type JSX, useEffect, useMemo, useState } from "react"
+import { XIcon } from "@phosphor-icons/react";
+import cn from "classnames";
+import { forwardRef, type JSX, useEffect, useMemo, useState } from "react";
 import ReactCurrencyInputField, {
   type CurrencyInputProps as ReactCurrencyInputFieldProps,
-} from "react-currency-input-field"
-import type { Currency, CurrencyCode } from "#helpers/currencies"
-import { t } from "#providers/I18NProvider"
+} from "react-currency-input-field";
+import type { Currency, CurrencyCode } from "#helpers/currencies";
+import { t } from "#providers/I18NProvider";
 import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper"
+} from "#ui/internals/InputWrapper";
 import {
   formatCentsToCurrency,
   getCurrency,
   getDecimalLength,
   makePlaceholder,
-} from "./utils"
+} from "./utils";
 
 export interface InputCurrencyProps
-  extends InputWrapperBaseProps,
+  extends
+    InputWrapperBaseProps,
     Pick<ReactCurrencyInputFieldProps, "onBlur" | "onClick" | "disabled"> {
   /**
    * HTML input id
    */
-  id?: string
+  id?: string;
   /**
    * Field name
    */
-  name?: string
+  name?: string;
   /**
    * Input placeholder
    */
-  placeholder?: string
+  placeholder?: string;
   /**
    * Optional CSS class names used for the input element
    */
-  className?: string
+  className?: string;
   /**
    * Valid 3-digit iso currency code (eg: EUR, USD, GBP)
    */
-  currencyCode: CurrencyCode
+  currencyCode: CurrencyCode;
   /**
    * Value in cents
    */
-  cents?: number | null
+  cents?: number | null;
   /**
    * onChange callback triggered when during typing
    */
-  onChange: (cents: number | null, formatted: string) => void
+  onChange: (cents: number | null, formatted: string) => void;
   /**
    * Hide currency symbol but keep the currency formatting
    */
-  hideCurrencySymbol?: boolean
+  hideCurrencySymbol?: boolean;
   /**
    * It defines which are the available signs.
    *
@@ -61,11 +62,11 @@ export interface InputCurrencyProps
    * The signs `+-` and `-+` can accept both positive and negative numbers (first sign is the default).
    * @default +
    */
-  sign?: "+" | "-" | "+-" | "-+"
+  sign?: "+" | "-" | "+-" | "-+";
   /**
    * Show (X) button to clear the input
    */
-  isClearable?: boolean
+  isClearable?: boolean;
 }
 
 export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
@@ -87,33 +88,33 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
     },
     ref,
   ): JSX.Element => {
-    const currency = useMemo(() => getCurrency(currencyCode), [currencyCode])
+    const currency = useMemo(() => getCurrency(currencyCode), [currencyCode]);
 
     const [_value, setValue] = useState<string | number | undefined>(
       makeInitialValue({ cents, currency }),
-    )
+    );
 
     const decimalLength = useMemo(
       () => (currency != null ? getDecimalLength(currency) : 0),
       [currency],
-    )
+    );
 
     useEffect(() => {
-      setValue(makeInitialValue({ cents, currency }))
-    }, [cents, currency])
+      setValue(makeInitialValue({ cents, currency }));
+    }, [cents, currency]);
 
     if (currency == null) {
       return (
         <div>{t("common.forms.currency_code_not_valid", { currencyCode })}</div>
-      )
+      );
     }
 
     if (cents != null && cents > 0 && cents % 1 !== 0) {
-      return <div>{t("common.forms.cents_not_integer", { cents })}</div>
+      return <div>{t("common.forms.cents_not_integer", { cents })}</div>;
     }
 
-    const allowNegativeValue = sign.includes("-")
-    const defaultSign = sign.startsWith("+") ? "+" : "-"
+    const allowNegativeValue = sign.includes("-");
+    const defaultSign = sign.startsWith("+") ? "+" : "-";
 
     return (
       <InputWrapper
@@ -127,7 +128,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
           {hideCurrencySymbol === true ? null : (
             <div
               data-testid="inputCurrency-symbol"
-              className="absolute left-4 top-1/2 transform -translate-y-1/2 font-semibold"
+              className="absolute left-4 top-1/2 transform -translate-y-1/2 font-semibold text-xs"
             >
               {currency.symbol}
             </div>
@@ -138,7 +139,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             id={rest.id ?? rest.name}
             className={cn(
               className,
-              "block w-full pr-4 py-2.5",
+              "block w-full pr-4 py-2.5 text-sm",
               {
                 "pl-4": hideCurrencySymbol === true,
                 "pl-8": hideCurrencySymbol !== true,
@@ -158,33 +159,36 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             }
             value={_value ?? ""}
             transformRawValue={(rawValue) => {
-              const noMinus = rawValue.replaceAll("-", "")
-              const notEmpty = rawValue != null && rawValue !== ""
+              const noMinus = rawValue.replaceAll("-", "");
+              const notEmpty = rawValue != null && rawValue !== "";
 
               const newValue =
                 sign === "+"
                   ? noMinus
                   : sign === "-" && notEmpty
                     ? `-${noMinus}`
-                    : rawValue
+                    : rawValue;
 
               if (newValue.length === 1 && _value == null) {
-                return `${defaultSign === "-" ? "-" : ""}${newValue}`
+                return `${defaultSign === "-" ? "-" : ""}${newValue}`;
               }
 
-              return newValue
+              return newValue;
             }}
             onValueChange={(val, __, values) => {
-              setValue(val)
+              setValue(val);
               if (values?.float == null) {
-                onChange(null, "")
-                return
+                onChange(null, "");
+                return;
               }
               const newValue = Math.round(
                 values.float * currency.subunit_to_unit,
-              )
-              const newFormatted = formatCentsToCurrency(newValue, currencyCode)
-              onChange(newValue, newFormatted)
+              );
+              const newFormatted = formatCentsToCurrency(
+                newValue,
+                currencyCode,
+              );
+              onChange(newValue, newFormatted);
             }}
             {...rest}
           />
@@ -192,8 +196,8 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             <button
               type="button"
               onClick={() => {
-                setValue("")
-                onChange(null, "")
+                setValue("");
+                onChange(null, "");
               }}
               className="bg-gray-100 text-gray-400 rounded-full p-1.5 absolute right-4 top-1/2 transform -translate-y-1/2"
             >
@@ -202,11 +206,11 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
           ) : null}
         </div>
       </InputWrapper>
-    )
+    );
   },
-)
+);
 
-InputCurrency.displayName = "InputCurrency"
+InputCurrency.displayName = "InputCurrency";
 
 /**
  * Prepare the initial value for the component internal state.
@@ -215,12 +219,12 @@ function makeInitialValue({
   cents,
   currency,
 }: {
-  cents?: number | null
-  currency?: Currency
+  cents?: number | null;
+  currency?: Currency;
 }): number | undefined {
   if (cents == null || currency == null) {
-    return
+    return;
   }
 
-  return cents / currency.subunit_to_unit
+  return cents / currency.subunit_to_unit;
 }

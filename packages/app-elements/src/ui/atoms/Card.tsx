@@ -1,17 +1,17 @@
-import cn from "classnames"
-import { removeUnwantedProps } from "#utils/htmltags"
-import { withSkeletonTemplate } from "./SkeletonTemplate"
+import cn from "classnames";
+import { removeUnwantedProps } from "#utils/htmltags";
+import { withSkeletonTemplate } from "./SkeletonTemplate";
 
 export type CardProps = React.HTMLAttributes<HTMLElement> &
   Pick<React.AnchorHTMLAttributes<HTMLAnchorElement>, "onClick" | "href"> & {
     /**
      * Footer will render in a dedicated section below the main content.
      */
-    footer?: React.ReactNode
+    footer?: React.ReactNode;
     /**
      * Set a gray background color
      */
-    backgroundColor?: "light"
+    backgroundColor?: "light";
   } & (
     | {
         /**
@@ -22,21 +22,21 @@ export type CardProps = React.HTMLAttributes<HTMLElement> &
          *
          * @default 6
          */
-        gap?: "1" | "4" | "6"
+        gap?: "1" | "4" | "6";
         /**
          * Set the overflow behavior. In most of the cases you might want to keep overflow visible,
          * but when you have inner content with hover effects you might want to set overflow to hidden.
          */
-        overflow: "visible" | "hidden"
+        overflow: "visible" | "hidden";
       }
     | {
         /**
          * When card is rendered with no gap, overflow is always intended as hidden and cannot be controlled via props,
          * otherwise inner content will overlap the rounded corners of the card.
          */
-        gap: "none"
+        gap: "none";
       }
-  )
+  );
 
 /** Card is a flexible component used to group and display content in a clear and concise format. */
 export const Card = withSkeletonTemplate<CardProps>(
@@ -50,11 +50,11 @@ export const Card = withSkeletonTemplate<CardProps>(
     backgroundColor,
     ...rest
   }) => {
-    const overflow = "overflow" in rest ? rest.overflow : "hidden"
+    const overflow = "overflow" in rest ? rest.overflow : "hidden";
     const divProps =
-      "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest
+      "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest;
     const JsxTag =
-      rest.href != null ? "a" : rest.onClick != null ? "button" : "div"
+      rest.href != null ? "a" : rest.onClick != null ? "button" : "div";
 
     return (
       <JsxTag
@@ -63,7 +63,7 @@ export const Card = withSkeletonTemplate<CardProps>(
           className,
           "border border-solid rounded-md",
           "text-left", // reset <button>
-          "text-inherit active:text-inherit hover:text-inherit text-[14px] font-inherit", // reset <a>
+          "text-inherit active:text-inherit hover:text-inherit text-sm font-inherit", // reset <a>
           {
             "overflow-hidden": overflow === "hidden",
             "border-gray-200 bg-white": backgroundColor == null,
@@ -101,8 +101,8 @@ export const Card = withSkeletonTemplate<CardProps>(
           </div>
         )}
       </JsxTag>
-    )
+    );
   },
-)
+);
 
-Card.displayName = "Card"
+Card.displayName = "Card";

@@ -1,17 +1,17 @@
-import isEmpty from "lodash-es/isEmpty"
-import { type JSX, useEffect, useState } from "react"
+import isEmpty from "lodash-es/isEmpty";
+import { type JSX, useEffect, useState } from "react";
 import {
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper"
+} from "#ui/internals/InputWrapper";
 
 export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
-  placeholder: object
-  validateFn: (json: any) => JsonType
-  onDataReady: (validJson: JsonType) => void
-  onDataResetRequest: () => void
-  errorMessageText?: string
-  className?: string
+  placeholder: object;
+  validateFn: (json: any) => JsonType;
+  onDataReady: (validJson: JsonType) => void;
+  onDataResetRequest: () => void;
+  errorMessageText?: string;
+  className?: string;
 }
 
 export function InputJson<JsonType extends object>({
@@ -26,31 +26,31 @@ export function InputJson<JsonType extends object>({
   hint,
   ...rest
 }: InputJsonProps<JsonType>): JSX.Element {
-  const [value, setValue] = useState("")
+  const [value, setValue] = useState("");
   const [internalFeedback, setInternalFeedback] =
-    useState<InputWrapperBaseProps["feedback"]>(feedback)
+    useState<InputWrapperBaseProps["feedback"]>(feedback);
 
   useEffect(
     function parseValueAsJson() {
-      setInternalFeedback(undefined)
+      setInternalFeedback(undefined);
       if (isEmpty(value)) {
-        onDataResetRequest()
-        return
+        onDataResetRequest();
+        return;
       }
       try {
-        const json = JSON.parse(value)
-        const validData = validateFn(json)
-        onDataReady(validData)
+        const json = JSON.parse(value);
+        const validData = validateFn(json);
+        onDataReady(validData);
       } catch {
-        onDataResetRequest()
+        onDataResetRequest();
         setInternalFeedback({
           variant: "danger",
           message: errorMessageText,
-        })
+        });
       }
     },
     [value],
-  )
+  );
 
   return (
     <InputWrapper
@@ -65,28 +65,28 @@ export function InputJson<JsonType extends object>({
         placeholder={preparePlaceholder(placeholder)}
         value={value}
         onChange={(e) => {
-          setValue(e.currentTarget.value)
+          setValue(e.currentTarget.value);
         }}
         onBlur={() => {
-          setValue(prettifyJson)
+          setValue(prettifyJson);
         }}
-        className="bg-black text-white font-semibold text-xs font-mono h-72 p-3 w-full rounded-md outline-hidden"
+        className="bg-black text-white font-medium text-xs font-mono h-72 p-3 w-full rounded-md outline-hidden"
       />
     </InputWrapper>
-  )
+  );
 }
 
-InputJson.displayName = "InputJson"
+InputJson.displayName = "InputJson";
 
 function preparePlaceholder(obj: object): string {
-  const content = JSON.stringify(obj, null, 2)
-  return `Example: \n${content}`
+  const content = JSON.stringify(obj, null, 2);
+  return `Example: \n${content}`;
 }
 
 function prettifyJson(maybeJsonString: string): string {
   try {
-    return JSON.stringify(JSON.parse(maybeJsonString), null, 2)
+    return JSON.stringify(JSON.parse(maybeJsonString), null, 2);
   } catch {
-    return maybeJsonString
+    return maybeJsonString;
   }
 }

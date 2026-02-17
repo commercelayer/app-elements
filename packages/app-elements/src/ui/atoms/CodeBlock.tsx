@@ -1,28 +1,28 @@
-import cn from "classnames"
-import { useEffect, useState } from "react"
-import { CopyToClipboard } from "#ui/atoms/CopyToClipboard"
-import { Icon } from "#ui/atoms/Icon"
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import cn from "classnames";
+import { useEffect, useState } from "react";
+import { CopyToClipboard } from "#ui/atoms/CopyToClipboard";
+import { Icon } from "#ui/atoms/Icon";
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
 import {
   InputWrapper,
   type InputWrapperBaseProps,
-} from "#ui/internals/InputWrapper"
+} from "#ui/internals/InputWrapper";
 
 export type CodeBlockProps = Pick<InputWrapperBaseProps, "label" | "hint"> & {
   /**
    * Show a Copy to clipboard button.
    */
-  showCopyAction?: boolean
+  showCopyAction?: boolean;
   /**
    * Show a button to hide/show content. Content starts hidden if `showSecretAction` is true.
    */
-  showSecretAction?: boolean
+  showSecretAction?: boolean;
   /**
    * Content to be rendered.
    * It only accepts a string and will respect new lines when passing a template literal (backticks).
    */
-  children: string
-}
+  children: string;
+};
 
 export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
   ({
@@ -35,17 +35,17 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
     children,
     ...rest
   }) => {
-    const [hideValue, setHideValue] = useState(showSecretAction)
+    const [hideValue, setHideValue] = useState(showSecretAction);
 
     useEffect(() => {
-      setHideValue(showSecretAction)
-    }, [showSecretAction])
+      setHideValue(showSecretAction);
+    }, [showSecretAction]);
 
     return (
       <InputWrapper {...rest} label={label} hint={hint}>
         <div className="flex group w-full rounded bg-gray-50 in-[.overlay-container]:bg-gray-200">
           <div
-            className="flex flex-col w-full px-4 py-2.5 text-teal text-[14px] font-mono marker:font-bold border-none break-all"
+            className="flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono marker:font-bold border-none break-all"
             data-testid="codeblock-content"
           >
             {isLoading === true
@@ -63,7 +63,7 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
                 <button
                   type="button"
                   onClick={() => {
-                    setHideValue(!hideValue)
+                    setHideValue(!hideValue);
                   }}
                   data-testid="toggle-secret"
                 >
@@ -81,12 +81,12 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
           ) : null}
         </div>
       </InputWrapper>
-    )
+    );
   },
-)
+);
 
-CodeBlock.displayName = "CodeBlock"
+CodeBlock.displayName = "CodeBlock";
 
 function randomHiddenValue(): string {
-  return "*".repeat(Math.floor(Math.random() * 7) + 10)
+  return "*".repeat(Math.floor(Math.random() * 7) + 10);
 }
