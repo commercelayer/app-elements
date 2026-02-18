@@ -317,7 +317,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     <Text
                       tag="div"
                       className={cn({
-                        "font-medium": size === "normal",
+                        "font-medium text-base": size === "normal",
                         "text-sm font-medium": size === "small",
                       })}
                     >
@@ -361,7 +361,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       variant="info"
                       wrap="nowrap"
                       className={cn({
-                        "font-medium": size === "normal",
+                        "font-medium text-base": size === "normal",
                         "text-sm": size === "small",
                         hidden: isEditable(lineItem),
                       })}
@@ -376,7 +376,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           tag="div"
                           wrap="nowrap"
                           className={cn({
-                            "font-semibold": size === "normal",
+                            "font-semibold text-base": size === "normal",
                             "text-sm font-semibold": size === "small",
                           })}
                         >
