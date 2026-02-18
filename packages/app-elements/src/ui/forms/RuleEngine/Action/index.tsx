@@ -42,9 +42,8 @@ export function Action({
           onClick={() => {
             setPath(
               `rules.${selectedRuleIndex}.actions.${actions?.length ?? 0}`,
-              {
-                selector: "order.line_items",
-              },
+              null,
+              true,
             )
           }}
         >

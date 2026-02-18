@@ -5,7 +5,7 @@ import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { InputResourcePath } from "../InputResourcePath"
 import { ListItemContainer } from "../layout/ListItemContainer"
-import { Options } from "../Options"
+import { ConditionOptions } from "../Options"
 import { useAvailableOptions } from "../optionsConfig"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { SchemaConditionItem } from "../utils"
@@ -80,7 +80,7 @@ export function ConditionListItem({
           !isEmpty(item?.matcher) && (
             <>
               <ConditionValue item={item} pathPrefix={pathPrefix} />
-              <Options item={item} pathPrefix={pathPrefix} />
+              <ConditionOptions item={item} pathPrefix={pathPrefix} />
 
               {availableOptions.length > 0 && (
                 <Dropdown

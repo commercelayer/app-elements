@@ -81,7 +81,7 @@
                     "apply_on": { "$ref": "#/$defs/apply_on" },
                     "limit": { "$ref": "#/$defs/limit" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -133,7 +133,7 @@
                     "limit": { "$ref": "#/$defs/limit" },
                     "quantity": { "$ref": "#/$defs/quantity" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -193,7 +193,7 @@
                       "examples": ["distributed"]
                     }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -255,7 +255,7 @@
                       "examples": ["distributed"]
                     }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -303,7 +303,7 @@
                     "apply_on": { "$ref": "#/$defs/apply_on" },
                     "limit": { "$ref": "#/$defs/limit" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -353,7 +353,7 @@
                     "limit": { "$ref": "#/$defs/limit" },
                     "quantity": { "$ref": "#/$defs/quantity" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -390,7 +390,7 @@
                       "required": ["x", "y"]
                     }
                   },
-                  "required": ["type", "value"],
+                  "required": ["type", "value", "groups", "selector"],
                   "additionalProperties": false
                 },
                 {
@@ -431,7 +431,7 @@
                       "required": ["x", "y", "attribute"]
                     }
                   },
-                  "required": ["type", "value", "selector"],
+                  "required": ["type", "value", "selector", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -443,10 +443,6 @@
                       "description": "The type of action you want to apply.",
                       "examples": ["free_gift"]
                     },
-                    "selector": { "$ref": "#/$defs/selector" },
-                    "identifier": { "$ref": "#/$defs/identifier" },
-                    "groups": { "$ref": "#/$defs/groups" },
-                    "aggregation": { "$ref": "#/$defs/aggregation" },
                     "identifiers": {
                       "type": "object",
                       "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",

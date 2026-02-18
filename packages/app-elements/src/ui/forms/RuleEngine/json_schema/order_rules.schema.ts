@@ -210,7 +210,7 @@ export interface RulesForOrderContext {
           type: "percentage"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * Percentage to be discounted,
@@ -245,7 +245,7 @@ export interface RulesForOrderContext {
           type: "percentage"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * Percentage to be discounted,
@@ -283,7 +283,7 @@ export interface RulesForOrderContext {
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
@@ -324,7 +324,7 @@ export interface RulesForOrderContext {
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
@@ -361,7 +361,7 @@ export interface RulesForOrderContext {
           type: "fixed_price"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
@@ -394,7 +394,7 @@ export interface RulesForOrderContext {
           type: "fixed_price"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
@@ -409,9 +409,9 @@ export interface RulesForOrderContext {
            * The type of action you want to apply.
            */
           type: "buy_x_pay_y"
-          selector?: Selector
+          selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           value: {
             /**
@@ -436,7 +436,7 @@ export interface RulesForOrderContext {
           type: "every_x_discount_y"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           value: {
             /**
@@ -459,10 +459,6 @@ export interface RulesForOrderContext {
            * The type of action you want to apply.
            */
           type: "free_gift"
-          selector?: Selector
-          identifier?: Identifier
-          groups?: Groups
-          aggregation?: Aggregation
           /**
            * Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.
            */

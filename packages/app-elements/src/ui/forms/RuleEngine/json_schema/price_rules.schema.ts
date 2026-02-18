@@ -210,7 +210,7 @@ export interface RulesForPriceContext {
           type: "percentage"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * Percentage to be discounted,
@@ -245,7 +245,7 @@ export interface RulesForPriceContext {
           type: "percentage"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * Percentage to be discounted,
@@ -283,7 +283,7 @@ export interface RulesForPriceContext {
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
@@ -324,7 +324,7 @@ export interface RulesForPriceContext {
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
@@ -361,7 +361,7 @@ export interface RulesForPriceContext {
           type: "fixed_price"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
@@ -394,7 +394,7 @@ export interface RulesForPriceContext {
           type: "fixed_price"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.

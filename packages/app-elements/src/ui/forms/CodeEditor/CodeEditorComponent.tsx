@@ -178,7 +178,6 @@ export const CodeEditor = forwardRef<
           const schema = await fetchJsonSchema(jsonSchema, domain).then(
             (json) => {
               if (json != null) {
-                console.log(json)
                 return clearExamples(json)
               }
 

@@ -38,7 +38,18 @@ export interface OptionsConfig {
 const configuration = {
   actions: {
     "order-rules": {
+      "": {
+        selector: true,
+        quantity: true,
+        identifiers: [
+          { label: "SKU", value: "order.line_items.sku.id" },
+          { label: "Bundle", value: "order.line_items.bundle.id" },
+          { label: "SKU list", value: "order.line_items.sku.sku_lists.id" },
+        ],
+      },
       order: {
+        selector: true,
+        groups: true,
         round: true,
         quantity: true,
         discount_mode: true,
@@ -89,14 +100,11 @@ const configuration = {
         ],
       },
       "order.line_items": {
+        selector: true,
+        groups: true,
         round: true,
         quantity: true,
         discount_mode: true,
-        identifiers: [
-          { label: "SKU", value: "order.line_items.sku.id" },
-          { label: "Bundle", value: "order.line_items.bundle.id" },
-          { label: "SKU list", value: "order.line_items.sku.sku_lists.id" },
-        ],
         apply_on: [
           { label: "Unit amount", value: "unit_amount_cents" },
           { label: "Compare at amount", value: "compare_at_amount_cents" },
@@ -138,16 +146,42 @@ const configuration = {
           },
         ],
       },
-      "order.line_items.line_item_options": {},
-      "order.line_items.sku": {},
-      "order.line_items.bundle": {},
-      "order.line_items.shipment": {},
-      "order.line_items.payment_method": {},
-      "order.line_items.adjustment": {},
-      "order.line_items.gift_card": {},
+      "order.line_items.line_item_options": {
+        selector: true,
+        groups: true,
+      },
+      "order.line_items.sku": {
+        selector: true,
+        groups: true,
+      },
+      "order.line_items.bundle": {
+        selector: true,
+        groups: true,
+      },
+      "order.line_items.shipment": {
+        selector: true,
+        groups: true,
+      },
+      "order.line_items.payment_method": {
+        selector: true,
+        groups: true,
+      },
+      "order.line_items.adjustment": {
+        selector: true,
+        groups: true,
+      },
+      "order.line_items.gift_card": {
+        selector: true,
+        groups: true,
+      },
     } as const,
     "price-rules": {
+      "": {
+        selector: true,
+      },
       price: {
+        selector: true,
+        groups: true,
         apply_on: [
           { label: "Amount", value: "amount_cents" },
           { label: "Compare at amount", value: "compare_at_amount_cents" },
@@ -223,10 +257,11 @@ type OptionValue =
   | {
       label: string
       value: string
-      meta?: unknown
+      meta?: Record<string, any>
     }[]
 
 type OrderApplyTo =
+  | ""
   | "order.line_items.adjustment"
   | "order.line_items.gift_card"
   | "order.line_items.shipment"
@@ -237,12 +272,14 @@ type OrderApplyTo =
   | "order.line_items"
   | "order"
 
-type PriceApplyTo = "price"
+type PriceApplyTo = "" | "price"
 
 /**
  * Options that we want to manage dynamically
  */
 const MANAGED_ACTION_OPTIONS = [
+  "selector",
+  "groups",
   "apply_on",
   "round",
   "limit",
@@ -265,6 +302,8 @@ export const OPTION_LABELS: Record<
   ManagedActionOption | ManagedConditionOption,
   string
 > = {
+  selector: "Apply to",
+  groups: "Groups",
   apply_on: "Apply on",
   round: "Round",
   limit: "Limit",
@@ -338,25 +377,21 @@ function parseActionOptions(
       >
 
       for (const applyTo of applyToKeys) {
-        const configForApplyTo =
-          configForSchemaType[applyTo as keyof typeof configForSchemaType]
+        const configForApplyTo = configForSchemaType[
+          applyTo as keyof typeof configForSchemaType
+        ] as Record<string, any>
 
         if (configForApplyTo == null) continue
 
         // Filter and enhance options based on configuration
         actionsConfig[actionType][applyTo] = baseOptions
           .filter((option) => {
-            return (
-              configForApplyTo[
-                option.name as ManagedActionOption | ManagedConditionOption
-              ] != null
-            )
+            return configForApplyTo[option.name] != null
           })
           .map((option) => {
-            const optionValue =
-              configForApplyTo[
-                option.name as ManagedActionOption | ManagedConditionOption
-              ]
+            const optionValue = configForApplyTo[option.name] as
+              | OptionValue
+              | undefined
             return {
               ...option,
               // Configuration values override schema-derived values
@@ -639,13 +674,17 @@ export function useAvailableOptions(
         : isPresent
     })
 
-  // Determine available and disabled options
+  // Separate required options
+  const requiredOptions: OptionConfig[] = optionsConfig.filter(
+    (opt) => opt.required === true && !currentOptions.includes(opt.name),
+  )
+
+  // Only show non-required, not-set, not-conflicting options as available
   const available: OptionConfig[] = []
   const disabled: OptionConfig[] = []
 
   for (const option of optionsConfig) {
-    // Skip if already set
-    if (currentOptions.includes(option.name)) {
+    if (currentOptions.includes(option.name) || option.required) {
       continue
     }
 
@@ -660,9 +699,6 @@ export function useAvailableOptions(
       available.push(option)
     }
   }
-
-  // Get required options (including those not currently set)
-  const requiredOptions = optionsConfig.filter((opt) => opt.required === true)
 
   return {
     available,

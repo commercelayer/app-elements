@@ -81,7 +81,7 @@
                     "apply_on": { "$ref": "#/$defs/apply_on" },
                     "limit": { "$ref": "#/$defs/limit" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -133,7 +133,7 @@
                     "limit": { "$ref": "#/$defs/limit" },
                     "quantity": { "$ref": "#/$defs/quantity" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -193,7 +193,7 @@
                       "examples": ["distributed"]
                     }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -255,7 +255,7 @@
                       "examples": ["distributed"]
                     }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -303,7 +303,7 @@
                     "apply_on": { "$ref": "#/$defs/apply_on" },
                     "limit": { "$ref": "#/$defs/limit" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 },
                 {
@@ -353,7 +353,7 @@
                     "limit": { "$ref": "#/$defs/limit" },
                     "quantity": { "$ref": "#/$defs/quantity" }
                   },
-                  "required": ["type", "selector", "value"],
+                  "required": ["type", "selector", "value", "groups"],
                   "additionalProperties": false
                 }
               ]

@@ -1,19 +1,11 @@
 import { useEffect } from "react"
-import { useTranslation } from "#providers/I18NProvider"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
-import {
-  InputSelect,
-  isMultiValueSelected,
-  isSingleValueSelected,
-} from "#ui/forms/InputSelect"
-import { useAvailableGroups } from "../Condition/hooks"
+import { InputSelect, isSingleValueSelected } from "#ui/forms/InputSelect"
 import { ListItemContainer } from "../layout/ListItemContainer"
-import { OptionRow } from "../layout/OptionRow"
-import { Options } from "../Options"
+import { ActionOptions } from "../Options"
 import { useAvailableOptions } from "../optionsConfig"
-import type { RuleEngineProps } from "../RuleEngineComponent"
 import { useRuleEngine } from "../RuleEngineContext"
 import type { ActionType, SchemaActionItem } from "../utils"
 import { ActionValue } from "./ActionValue"
@@ -32,16 +24,19 @@ export function ActionListItem({
     setRenderOption,
     state: { selectedRuleIndex },
     optionsConfig,
+    schemaType,
   } = useRuleEngine()
 
   const availableActionTypes = Object.keys(
     optionsConfig.actions,
   ) as ActionType[]
 
+  const selector = item != null && "selector" in item ? item.selector : ""
+
   const actionOptionsConfig =
-    item?.type != null && item?.selector != null
+    item?.type != null
       ? (optionsConfig.actions?.[item.type]?.[
-          item.selector as keyof (typeof optionsConfig.actions)[typeof item.type]
+          selector as keyof (typeof optionsConfig.actions)[typeof item.type]
         ] ?? [])
       : []
 
@@ -62,6 +57,20 @@ export function ActionListItem({
 
   const setDefaultOptionFor = (optionName: string) => {
     switch (optionName) {
+      case "selector":
+        setPath(
+          `${pathPrefix}.selector`,
+          schemaType === "order-rules"
+            ? "order.line_items"
+            : schemaType === "price-rules"
+              ? "price"
+              : null,
+          true,
+        )
+        break
+      case "groups":
+        setPath(`${pathPrefix}.groups`, [])
+        break
       case "round":
         setPath(`${pathPrefix}.round`, true)
         break
@@ -125,9 +134,7 @@ export function ActionListItem({
         }
         options={
           <>
-            <ActionSelector item={item} pathPrefix={pathPrefix} />
-            <ActionGroups item={item} pathPrefix={pathPrefix} />
-            <Options item={item} pathPrefix={pathPrefix} />
+            <ActionOptions item={item} pathPrefix={pathPrefix} />
 
             {availableOptions.length > 0 && (
               <Dropdown
@@ -178,11 +185,6 @@ export function ActionListItem({
               if (isSingleValueSelected(selected)) {
                 setPath(`${pathPrefix}`, {
                   type: selected.value,
-                  groups: item?.groups,
-                  selector:
-                    selected.value === "free_gift"
-                      ? "order.line_items"
-                      : item?.selector,
                 })
               }
             }}
@@ -195,140 +197,3 @@ export function ActionListItem({
     </div>
   )
 }
-
-function ActionSelector({
-  item,
-  pathPrefix,
-}: {
-  item: SchemaActionItem | null
-  pathPrefix: string
-}) {
-  const { setPath, schemaType } = useRuleEngine()
-  const { t } = useTranslation()
-
-  const initialValues = actionPaths[schemaType]
-    .map((field) => ({
-      value: field,
-      label: (t(`resource_paths.${field}`) as string).replace(
-        "resource_paths.",
-        "",
-      ),
-    }))
-    .filter((field) => {
-      if (item?.type !== "free_gift") {
-        return true
-      }
-
-      return field.value === "order.line_items"
-    })
-
-  const name = `${pathPrefix}.selector`
-
-  return (
-    <OptionRow
-      label={
-        <Text variant="info" size="small">
-          Apply to
-        </Text>
-      }
-    >
-      <InputSelect
-        name={name}
-        isSearchable={false}
-        initialValues={initialValues}
-        value={
-          item?.selector == null
-            ? undefined
-            : (initialValues.find((c) => c.value === item.selector) ?? {
-                value: item.selector,
-                label: item.selector,
-              })
-        }
-        onSelect={async (selection) => {
-          if (isSingleValueSelected(selection)) {
-            setPath(name, selection.value)
-            setPath(`${pathPrefix}.apply_on`, null)
-          }
-        }}
-      />
-    </OptionRow>
-  )
-}
-
-function ActionGroups({
-  item,
-  pathPrefix,
-}: {
-  item: SchemaActionItem | null
-  pathPrefix: string
-}) {
-  const { setPath, schemaType } = useRuleEngine()
-  const availableGroups = useAvailableGroups()
-
-  useEffect(() => {
-    if (availableGroups.length === 0 && (item?.groups ?? []).length > 0) {
-      setPath(`${pathPrefix}.groups`, [])
-    }
-  }, [availableGroups])
-
-  if (availableGroups.length <= 0 && (item?.groups ?? []).length <= 0) {
-    return null
-  }
-
-  return (
-    <OptionRow
-      label={
-        <Text variant="info" size="small">
-          Groups
-        </Text>
-      }
-    >
-      <InputSelect
-        name={`${pathPrefix}.groups`}
-        isMulti
-        isClearable={false}
-        value={
-          item != null
-            ? item.groups?.map((groups) => ({
-                label: availableGroups.includes(groups)
-                  ? groups
-                  : `⚠️   ${groups}`,
-                value: groups,
-              }))
-            : undefined
-        }
-        initialValues={availableGroups.map((group) => ({
-          value: group,
-          label: group,
-        }))}
-        onSelect={(selected) => {
-          if (isMultiValueSelected(selected)) {
-            setPath(
-              `${pathPrefix}.groups`,
-              selected.map((s) => s.value),
-            )
-
-            if (schemaType === "order-rules" && selected.length > 0) {
-              setPath(`${pathPrefix}.selector`, "order.line_items")
-            }
-          }
-        }}
-      />
-    </OptionRow>
-  )
-}
-
-const actionPaths = {
-  "order-rules": [
-    "order",
-    "order.line_items",
-    "order.line_items.line_item_options",
-    "order.line_items.sku",
-    "order.line_items.bundle",
-    "order.line_items.shipment",
-    "order.line_items.payment_method",
-    "order.line_items.adjustment",
-    "order.line_items.gift_card",
-  ] as const,
-  "price-rules": ["price"] as const,
-} satisfies Record<RuleEngineProps["schemaType"], string[]>
