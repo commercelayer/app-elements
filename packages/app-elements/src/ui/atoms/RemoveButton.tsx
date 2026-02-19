@@ -1,8 +1,9 @@
-import { TrashIcon } from "@phosphor-icons/react";
-import { Children, type JSX } from "react";
-import { Button } from "./Button";
+import { TrashIcon } from "@phosphor-icons/react"
+import { Children, type JSX } from "react"
+import { Button } from "./Button"
 
-export interface RemoveButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
+export interface RemoveButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 
 /** Remove button is simply a button with attached an icon that highlight the functionality. */
 export function RemoveButton({
@@ -17,7 +18,7 @@ export function RemoveButton({
         <span className="pl-1 text-sm">{children}</span>
       )}
     </Button>
-  );
+  )
 }
 
-RemoveButton.displayName = "RemoveButton";
+RemoveButton.displayName = "RemoveButton"

@@ -170,7 +170,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                     />
                   </svg>
                   <span
-                    class="pl-1"
+                    class="pl-1 text-sm"
                   >
                     common.swap
                   </span>
@@ -197,7 +197,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                       />
                     </svg>
                     <span
-                      class="pl-1"
+                      class="pl-1 text-sm"
                     >
                       common.remove
                     </span>
@@ -608,7 +608,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                     />
                   </svg>
                   <span
-                    class="pl-1"
+                    class="pl-1 text-sm"
                   >
                     common.remove
                   </span>
@@ -1282,7 +1282,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1"
+                    class="pl-1 text-sm"
                   >
                     common.swap
                   </span>
@@ -1303,7 +1303,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1"
+                    class="pl-1 text-sm"
                   >
                     common.remove
                   </span>
@@ -1541,7 +1541,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1"
+                    class="pl-1 text-sm"
                   >
                     common.swap
                   </span>
@@ -1562,7 +1562,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1"
+                    class="pl-1 text-sm"
                   >
                     common.remove
                   </span>

@@ -3,71 +3,71 @@ import type {
   ParcelLineItem,
   ReturnLineItem,
   StockTransfer,
-} from "@commercelayer/sdk";
-import { ChecksIcon, SwapIcon } from "@phosphor-icons/react";
-import cn from "classnames";
-import isEmpty from "lodash-es/isEmpty";
+} from "@commercelayer/sdk"
+import { ChecksIcon, SwapIcon } from "@phosphor-icons/react"
+import cn from "classnames"
+import isEmpty from "lodash-es/isEmpty"
 import {
   type ComponentProps,
   Fragment,
   type JSX,
   useMemo,
   useState,
-} from "react";
-import { z } from "zod";
-import { getStockTransferDisplayStatus } from "#dictionaries/stockTransfers";
-import { navigateTo } from "#helpers/appsNavigation";
-import type { CurrencyCode } from "#helpers/currencies";
-import { formatDateWithPredicate } from "#helpers/date";
-import { maskGiftCardCode } from "#helpers/giftCards";
-import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider";
-import { useTranslation } from "#providers/I18NProvider";
-import { useTokenProvider } from "#providers/TokenProvider";
-import { Avatar } from "#ui/atoms/Avatar";
-import { Badge } from "#ui/atoms/Badge";
-import { Button } from "#ui/atoms/Button";
-import { RemoveButton } from "#ui/atoms/RemoveButton";
-import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate";
-import { Spacer } from "#ui/atoms/Spacer";
-import { StatusIcon } from "#ui/atoms/StatusIcon";
-import { Text } from "#ui/atoms/Text";
-import { Tooltip } from "#ui/atoms/Tooltip";
-import { formatCentsToCurrency } from "#ui/forms/InputCurrency";
-import { InputSpinner } from "#ui/forms/InputSpinner";
-import { FlexRow } from "#ui/internals/FlexRow";
-import type { StockLineItemWithStockTransfer } from "./types";
+} from "react"
+import { z } from "zod"
+import { getStockTransferDisplayStatus } from "#dictionaries/stockTransfers"
+import { navigateTo } from "#helpers/appsNavigation"
+import type { CurrencyCode } from "#helpers/currencies"
+import { formatDateWithPredicate } from "#helpers/date"
+import { maskGiftCardCode } from "#helpers/giftCards"
+import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { useTranslation } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
+import { Avatar } from "#ui/atoms/Avatar"
+import { Badge } from "#ui/atoms/Badge"
+import { Button } from "#ui/atoms/Button"
+import { RemoveButton } from "#ui/atoms/RemoveButton"
+import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
+import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { Text } from "#ui/atoms/Text"
+import { Tooltip } from "#ui/atoms/Tooltip"
+import { formatCentsToCurrency } from "#ui/forms/InputCurrency"
+import { InputSpinner } from "#ui/forms/InputSpinner"
+import { FlexRow } from "#ui/internals/FlexRow"
+import type { StockLineItemWithStockTransfer } from "./types"
 
 interface LineItemSettings {
-  showPrice: boolean;
+  showPrice: boolean
 }
 
 type Item =
   | LineItem
   | ParcelLineItem
   | StockLineItemWithStockTransfer
-  | ReturnLineItem;
+  | ReturnLineItem
 
 const Edit = withSkeletonTemplate<{
-  item: Item;
-  isLast: boolean;
-  onSwap?: (item: LineItem) => void;
-  onChange?: (item: LineItem | null) => void;
+  item: Item
+  isLast: boolean
+  onSwap?: (item: LineItem) => void
+  onChange?: (item: LineItem | null) => void
 }>(({ item, isLast, onChange, onSwap }) => {
-  const { canUser } = useTokenProvider();
-  const { sdkClient } = useCoreSdkProvider();
-  const [disabled, setDisabled] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { canUser } = useTokenProvider()
+  const { sdkClient } = useCoreSdkProvider()
+  const [disabled, setDisabled] = useState<boolean>(false)
+  const { t } = useTranslation()
 
   const canUpdate =
-    item.type === "line_items" && canUser("update", "line_items");
+    item.type === "line_items" && canUser("update", "line_items")
   const canRemove =
-    canUpdate && item.type === "line_items" && canUser("destroy", "line_items");
+    canUpdate && item.type === "line_items" && canUser("destroy", "line_items")
   const canSwap =
     canRemove &&
     onSwap != null &&
     item.type === "line_items" &&
-    canUser("create", "line_items");
-  const removeDisabled = canSwap && isLast;
+    canUser("create", "line_items")
+  const removeDisabled = canSwap && isLast
 
   const removeButton = (
     <RemoveButton
@@ -75,17 +75,17 @@ const Edit = withSkeletonTemplate<{
       disabled={disabled || removeDisabled}
       onClick={() => {
         if (!disabled) {
-          setDisabled(true);
+          setDisabled(true)
           void sdkClient.line_items.delete(item.id).then(() => {
-            onChange?.(null);
-            setDisabled(false);
-          });
+            onChange?.(null)
+            setDisabled(false)
+          })
         }
       }}
     >
       {t("common.remove")}
     </RemoveButton>
-  );
+  )
 
   return (
     <FlexRow className="pt-8" alignItems="center">
@@ -96,16 +96,16 @@ const Edit = withSkeletonTemplate<{
             defaultValue={item.quantity}
             min={1}
             onChange={(value) => {
-              setDisabled(true);
+              setDisabled(true)
               void sdkClient.line_items
                 .update({
                   id: item.id,
                   quantity: value,
                 })
                 .then((newItem) => {
-                  onChange?.(newItem);
-                  setDisabled(false);
-                });
+                  onChange?.(newItem)
+                  setDisabled(false)
+                })
             }}
           />
         )}
@@ -119,7 +119,7 @@ const Edit = withSkeletonTemplate<{
             disabled={disabled}
             onClick={() => {
               if (!disabled) {
-                onSwap?.(item);
+                onSwap?.(item)
               }
             }}
           >
@@ -140,51 +140,51 @@ const Edit = withSkeletonTemplate<{
           ))}
       </div>
     </FlexRow>
-  );
-});
+  )
+})
 
 interface Props {
   /**
    * Array of supported line items to be rendered.
    */
-  items: Item[];
+  items: Item[]
   /**
    * Optional size of rendered items structure. This setting is going to change font size, spacings, icon size in a proportional way.
    */
-  size?: "small" | "normal";
+  size?: "small" | "normal"
   /**
    * Optional footer slot to add bottom elements / actions.
    */
   footer?: Array<{
-    key: string;
-    element: React.ReactNode;
-    fullWidth?: boolean;
-  }>;
+    key: string
+    element: React.ReactNode
+    fullWidth?: boolean
+  }>
   /**
    * Make the line items editable.
    */
-  editable?: boolean;
+  editable?: boolean
   /**
    * Get triggered when a line item changes.
    */
-  onChange?: (item: LineItem | null) => void;
+  onChange?: (item: LineItem | null) => void
   /**
    * When defined, it adds a `swap` icon and disables the `remove` action when there's only one editable item in the order.
    *
    * Get triggered when a line item swaps (a line item can be swapped when it is the only editable item in the order).
    */
-  onSwap?: (item: LineItem) => void;
+  onSwap?: (item: LineItem) => void
 }
 
-export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>;
+export type ResourceLineItemsProps = ComponentProps<typeof ResourceLineItems>
 
 /**
  * This component renders a list of line items taking care of showing the right informations and structure depending of provided line item type.
  */
 export const ResourceLineItems = withSkeletonTemplate<Props>(
   ({ items, size = "normal", footer, editable = false, onChange, onSwap }) => {
-    const { user } = useTokenProvider();
-    const { t } = useTranslation();
+    const { user } = useTokenProvider()
+    const { t } = useTranslation()
 
     const settings = useMemo<LineItemSettings>(() => {
       return items.reduce<LineItemSettings>(
@@ -194,11 +194,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
               acc.showPrice ||
               (lineItem.type === "line_items" &&
                 lineItem.formatted_total_amount != null),
-          };
+          }
         },
         { showPrice: false } satisfies LineItemSettings,
-      );
-    }, [items]);
+      )
+    }, [items])
 
     function isGiftCard(
       item: Item,
@@ -208,11 +208,11 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
         item.item_type === "gift_cards" &&
         item.unit_amount_cents != null &&
         item.unit_amount_cents > 0
-      );
+      )
     }
 
     function isEditable(item: Item): boolean {
-      return editable && item.type === "line_items";
+      return editable && item.type === "line_items"
     }
 
     const validLineItems = items.filter((lineItem) => {
@@ -221,25 +221,25 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
         lineItem.type === "return_line_items" ||
         lineItem.type === "stock_line_items"
       ) {
-        return true;
+        return true
       }
 
       return (
         lineItem.item_type === "skus" ||
         lineItem.item_type === "bundles" ||
         isGiftCard(lineItem)
-      );
-    });
+      )
+    })
 
     const editableLineItems = validLineItems.filter((lineItem) =>
       isEditable(lineItem),
-    );
+    )
 
     return (
       <table className="w-full">
         <tbody>
           {validLineItems.map((lineItem, index, arr) => {
-            const isLastRow = index === arr.length - 1;
+            const isLastRow = index === arr.length - 1
 
             const code =
               lineItem.type === "line_items"
@@ -248,39 +248,39 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                   : lineItem.item_type === "skus"
                     ? lineItem.sku_code
                     : lineItem.bundle_code
-                : lineItem.sku_code;
+                : lineItem.sku_code
 
-            const name = lineItem.name;
+            const name = lineItem.name
 
             const imageUrl = isGiftCard(lineItem)
               ? "gift_card"
-              : lineItem.image_url;
+              : lineItem.image_url
 
             const hasLineItemOptions =
               lineItem.type === "line_items" &&
-              lineItem.line_item_options != null;
+              lineItem.line_item_options != null
 
             const hasReturnLineItemReason =
               lineItem.type === "return_line_items" &&
-              lineItem.return_reason != null;
+              lineItem.return_reason != null
 
             const hasStockTransfer =
               lineItem.type === "stock_line_items" &&
-              lineItem.stockTransfer != null;
+              lineItem.stockTransfer != null
 
             const hasBundle =
               lineItem.type === "line_items" &&
               lineItem.item_type === "bundles" &&
-              lineItem.bundle_code != null;
+              lineItem.bundle_code != null
 
             const hasTaxes =
               "tax_amount_cents" in lineItem &&
               lineItem.tax_amount_cents != null &&
-              lineItem.tax_amount_cents > 0;
+              lineItem.tax_amount_cents > 0
 
             const hasPriceTooltip =
               lineItem.type === "line_items" &&
-              (!isEmpty(lineItem.discount_breakdown) || hasTaxes);
+              (!isEmpty(lineItem.discount_breakdown) || hasTaxes)
 
             return (
               <Fragment key={lineItem.id}>
@@ -442,7 +442,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                   />
                 </tr>
               </Fragment>
-            );
+            )
           })}
 
           {footer != null &&
@@ -467,16 +467,16 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
             ))}
         </tbody>
       </table>
-    );
+    )
   },
-);
+)
 
-ResourceLineItems.displayName = "ResourceLineItems";
+ResourceLineItems.displayName = "ResourceLineItems"
 
 const LineItemOptionsWrapper = withSkeletonTemplate<{
-  title?: string;
-  quantity?: number;
-  children: React.ReactNode;
+  title?: string
+  quantity?: number
+  children: React.ReactNode
 }>(({ title, quantity, children }) => (
   <Spacer top="4" className="pb-2 last:pb-0">
     <div className="flex gap-1">
@@ -493,7 +493,7 @@ const LineItemOptionsWrapper = withSkeletonTemplate<{
     </div>
     {children}
   </Spacer>
-));
+))
 
 const LineItemOptionsItem = withSkeletonTemplate<{ title: string }>(
   ({ title }) => (
@@ -504,13 +504,13 @@ const LineItemOptionsItem = withSkeletonTemplate<{ title: string }>(
       </Text>
     </div>
   ),
-);
+)
 
 const LineItemOptions = withSkeletonTemplate<{
-  lineItemOptions: LineItem["line_item_options"];
+  lineItemOptions: LineItem["line_item_options"]
 }>(({ lineItemOptions }) => {
   if (lineItemOptions == null || lineItemOptions.length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -532,14 +532,14 @@ const LineItemOptions = withSkeletonTemplate<{
         </LineItemOptionsWrapper>
       ))}
     </Spacer>
-  );
-});
+  )
+})
 
 const ReturnLineItemReason = withSkeletonTemplate<{
-  reason: ReturnLineItem["return_reason"];
+  reason: ReturnLineItem["return_reason"]
 }>(({ reason }) => {
   if (reason == null || Object.keys(reason).length === 0) {
-    return null;
+    return null
   }
 
   return (
@@ -553,22 +553,22 @@ const ReturnLineItemReason = withSkeletonTemplate<{
         ))}
       </LineItemOptionsWrapper>
     </Spacer>
-  );
-});
+  )
+})
 
 const StockLineItemStockTransfer = withSkeletonTemplate<{
-  stockTransfer?: StockTransfer;
+  stockTransfer?: StockTransfer
 }>(({ stockTransfer }) => {
   const {
     canAccess,
     settings: { mode },
-  } = useTokenProvider();
+  } = useTokenProvider()
 
   if (stockTransfer === undefined) {
-    return null;
+    return null
   }
 
-  const displayStatus = getStockTransferDisplayStatus(stockTransfer);
+  const displayStatus = getStockTransferDisplayStatus(stockTransfer)
   const status =
     displayStatus.task != null ? (
       <Text weight="semibold" size="small" variant="warning">
@@ -576,14 +576,14 @@ const StockLineItemStockTransfer = withSkeletonTemplate<{
       </Text>
     ) : (
       displayStatus.label
-    );
+    )
   const originStockLocationName =
     stockTransfer.origin_stock_location?.name != null ? (
       <Text variant="info" size="small">
         {" "}
         · From {stockTransfer.origin_stock_location.name}{" "}
       </Text>
-    ) : undefined;
+    ) : undefined
 
   const navigateToStockTransfer = canAccess("stock_transfers")
     ? navigateTo({
@@ -593,9 +593,9 @@ const StockLineItemStockTransfer = withSkeletonTemplate<{
           mode,
         },
       })
-    : {};
+    : {}
 
-  const stockTransferLabel = `See transfer #${stockTransfer.number}`;
+  const stockTransferLabel = `See transfer #${stockTransfer.number}`
   const stockTransferClickableLabel = canAccess("stock_transfers") ? (
     <a {...navigateToStockTransfer}>
       <Text size="small">{stockTransferLabel}</Text>
@@ -604,7 +604,7 @@ const StockLineItemStockTransfer = withSkeletonTemplate<{
     <Text size="small" variant="info">
       {stockTransferLabel}
     </Text>
-  );
+  )
 
   return (
     <>
@@ -615,8 +615,8 @@ const StockLineItemStockTransfer = withSkeletonTemplate<{
       </Text>
       {stockTransferClickableLabel}
     </>
-  );
-});
+  )
+})
 
 const Bundle = withSkeletonTemplate<{ code: LineItem["bundle_code"] }>(
   ({ code }): JSX.Element | null => {
@@ -633,10 +633,10 @@ const Bundle = withSkeletonTemplate<{ code: LineItem["bundle_code"] }>(
               include: ["sku_list.sku_list_items.sku"],
             },
           ],
-    );
+    )
 
     if (isLoading || bundles == null || bundles.length === 0) {
-      return null;
+      return null
     }
 
     return (
@@ -668,26 +668,26 @@ const Bundle = withSkeletonTemplate<{ code: LineItem["bundle_code"] }>(
           </li>
         ))}
       </ul>
-    );
+    )
   },
-);
+)
 
 function normalizeLineItemOptionValue(value: any): string {
   try {
-    return typeof value === "string" ? value : JSON.stringify(value);
+    return typeof value === "string" ? value : JSON.stringify(value)
   } catch {
-    return "Could not render option value";
+    return "Could not render option value"
   }
 }
 
 const LineItemPriceTooltip = withSkeletonTemplate<{
-  lineItem: LineItem;
+  lineItem: LineItem
 }>(({ lineItem }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const discountBreakdown = useMemo(
     () => getDiscountBreakdown(lineItem),
     [lineItem.id],
-  );
+  )
 
   return (
     <Tooltip
@@ -728,8 +728,8 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
         </div>
       }
     />
-  );
-});
+  )
+})
 
 const discountBreakdownType = z
   .array(
@@ -741,7 +741,7 @@ const discountBreakdownType = z
       weight: z.number().optional().default(0),
     }),
   )
-  .optional();
+  .optional()
 
 function getDiscountBreakdown(
   lineItem: LineItem,
@@ -752,9 +752,9 @@ function getDiscountBreakdown(
           id: key,
           ...val,
         }))
-      : undefined;
+      : undefined
 
   return discountBreakdownType
     .safeParse(discountBreakdownAttribute)
-    ?.data?.sort((a, b) => b.weight - a.weight);
+    ?.data?.sort((a, b) => b.weight - a.weight)
 }
