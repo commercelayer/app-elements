@@ -15,7 +15,7 @@ export function RemoveButton({
     <Button variant="link" alignItems="center" {...rest}>
       <TrashIcon size={18} weight="bold" />
       {Children.count(children) >= 1 && (
-        <span className="pl-1">{children}</span>
+        <span className="pl-1 text-sm">{children}</span>
       )}
     </Button>
   )
