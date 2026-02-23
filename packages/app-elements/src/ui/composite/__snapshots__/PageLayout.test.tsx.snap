@@ -15,7 +15,7 @@ exports[`PageLayout > Should be rendered 1`] = `
         class="flex items-center justify-between"
       >
         <h1
-          class="font-semibold text-2xl md:text-title leading-title break-all"
+          class="font-semibold text-2xl md:text-title leading-title break-word"
         >
           Page title
         </h1>
