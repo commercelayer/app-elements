@@ -55,7 +55,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                 class="flex items-center justify-between"
               >
                 <h1
-                  class="font-semibold text-2xl md:text-title leading-title break-all"
+                  class="font-semibold text-2xl md:text-title leading-title break-word"
                 >
                   <span
                     class="select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
