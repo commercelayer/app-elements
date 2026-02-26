@@ -30,7 +30,7 @@ function DropdownIndicator(
         {/** biome-ignore lint/a11y/noSvgWithoutTitle: Don't need to add a title */}
         <svg
           width="12"
-          height="auto"
+          height="100%"
           viewBox="0 0 16 14"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"

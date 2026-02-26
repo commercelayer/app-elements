@@ -1,4 +1,4 @@
-import type { ResourceTypeLock } from "@commercelayer/sdk"
+import type { ListableResourceType } from "@commercelayer/sdk"
 import { compact, uniq } from "lodash-es"
 import { useEffect, useState } from "react"
 import { atPath } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
@@ -12,7 +12,8 @@ const selectableResources = {
   tag: "tags",
   sku: "skus",
   sku_list: "sku_lists",
-} as const satisfies Record<string, ResourceTypeLock>
+  bundle: "bundles",
+} as const satisfies Record<string, ListableResourceType>
 
 export function getResourceType(resourceId: string | undefined) {
   return selectableResources[resourceId as keyof typeof selectableResources]

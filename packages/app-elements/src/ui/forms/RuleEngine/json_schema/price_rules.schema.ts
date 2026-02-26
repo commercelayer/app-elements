@@ -155,6 +155,10 @@ export type Bundle =
        */
       value: number
     }
+/**
+ * Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.
+ */
+export type Quantity = number
 
 /**
  * Rules payload within price context for the rules engine of Commerce Layer.
@@ -206,7 +210,7 @@ export interface RulesForPriceContext {
           type: "percentage"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * Percentage to be discounted,
@@ -220,6 +224,42 @@ export interface RulesForPriceContext {
           /**
            * The type of action you want to apply.
            */
+          type: "percentage"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * Percentage to be discounted,
+           */
+          value: number
+          round?: Round
+          apply_on?: ApplyOn
+          bundle?: Bundle
+          quantity?: Quantity
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "percentage"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * Percentage to be discounted,
+           */
+          value: number
+          round?: Round
+          apply_on?: ApplyOn
+          limit?: Limit
+          quantity?: Quantity
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
@@ -243,7 +283,7 @@ export interface RulesForPriceContext {
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
@@ -251,6 +291,48 @@ export interface RulesForPriceContext {
           value: number
           apply_on?: ApplyOn
           limit?: Limit
+          /**
+           * The type of distribution of the discount over the items.
+           */
+          discount_mode?: "distributed" | "default"
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_amount"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The discount fixed amount to be applied.
+           */
+          value: number
+          bundle?: Bundle
+          apply_on?: ApplyOn
+          quantity?: Quantity
+          /**
+           * The type of distribution of the discount over the items.
+           */
+          discount_mode?: "distributed" | "default"
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_amount"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The discount fixed amount to be applied.
+           */
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
+          quantity?: Quantity
           /**
            * The type of distribution of the discount over the items.
            */
@@ -279,7 +361,7 @@ export interface RulesForPriceContext {
           type: "fixed_price"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
@@ -287,6 +369,40 @@ export interface RulesForPriceContext {
           value: number
           apply_on?: ApplyOn
           limit?: Limit
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_price"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The price fixed amount to be applied.
+           */
+          value: number
+          bundle?: Bundle
+          apply_on?: ApplyOn
+          quantity?: Quantity
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_price"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The price fixed amount to be applied.
+           */
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
+          quantity?: Quantity
         }
     )[]
   }[]

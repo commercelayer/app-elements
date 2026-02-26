@@ -91,6 +91,7 @@ const initI18n = async (
       load: "languageOnly",
       lng: localeCode,
       fallbackLng: i18nLocales[0],
+      showSupportNotice: false,
       react: {
         useSuspense: true,
       },

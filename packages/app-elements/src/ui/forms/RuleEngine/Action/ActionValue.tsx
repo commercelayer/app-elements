@@ -19,6 +19,7 @@ export function ActionValue({
       return (
         <div className="w-36 flex items-center gap-0.5">
           <Input
+            key={`${item.type}-${pathPrefix}.value.x`}
             name={`${pathPrefix}.value.x`}
             type="number"
             suffix="X"
@@ -31,6 +32,7 @@ export function ActionValue({
             }}
           />
           <Input
+            key={`${item.type}-${pathPrefix}.value.y`}
             name={`${pathPrefix}.value.y`}
             type="number"
             suffix="Y"
@@ -50,6 +52,7 @@ export function ActionValue({
       return (
         <div className="w-36 flex items-center gap-0.5">
           <Input
+            key={`${item.type}-${pathPrefix}.value.x`}
             name={`${pathPrefix}.value.x`}
             type="number"
             suffix="X"
@@ -62,6 +65,7 @@ export function ActionValue({
             }}
           />
           <Input
+            key={`${item.type}-${pathPrefix}.value.y`}
             name={`${pathPrefix}.value.y`}
             type="number"
             suffix="Y"
@@ -82,6 +86,7 @@ export function ActionValue({
       return (
         <div className="w-36">
           <Input
+            key={`${item.type}-${pathPrefix}.value`}
             name={`${pathPrefix}.value`}
             type="number"
             defaultValue={item.value}
@@ -103,6 +108,7 @@ export function ActionValue({
       return (
         <div className="w-24">
           <Input
+            key={`${item.type}-${pathPrefix}.value`}
             name={`${pathPrefix}.value`}
             type="number"
             defaultValue={
@@ -122,6 +128,10 @@ export function ActionValue({
           />
         </div>
       )
+    }
+
+    case "free_gift": {
+      return null
     }
 
     default: {

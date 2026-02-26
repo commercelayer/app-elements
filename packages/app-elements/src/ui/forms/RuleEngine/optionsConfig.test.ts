@@ -14,29 +14,431 @@ describe("parseOptionsFromSchema", () => {
       {
         "actions": {
           "buy_x_pay_y": {
-            "order": [],
-            "order.line_items": [],
-            "order.line_items.adjustment": [],
-            "order.line_items.bundle": [],
-            "order.line_items.gift_card": [],
-            "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [],
-            "order.line_items.shipment": [],
-            "order.line_items.sku": [],
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+            ],
+            "order": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.adjustment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.bundle": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.gift_card": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.line_item_options": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.payment_method": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.shipment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.sku": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
           },
           "every_x_discount_y": {
-            "order": [],
-            "order.line_items": [],
-            "order.line_items.adjustment": [],
-            "order.line_items.bundle": [],
-            "order.line_items.gift_card": [],
-            "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [],
-            "order.line_items.shipment": [],
-            "order.line_items.sku": [],
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+            ],
+            "order": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.adjustment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.bundle": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.gift_card": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.line_item_options": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.payment_method": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.shipment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.sku": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
           },
           "fixed_amount": {
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
+            ],
             "order": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
@@ -44,6 +446,7 @@ describe("parseOptionsFromSchema", () => {
                   "limit",
                 ],
                 "name": "bundle",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -69,6 +472,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -86,6 +490,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Discount mode",
                 "mutuallyExclusiveWith": [],
                 "name": "discount_mode",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -105,6 +510,7 @@ describe("parseOptionsFromSchema", () => {
                   "bundle",
                 ],
                 "name": "limit",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -125,8 +531,35 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
@@ -134,6 +567,7 @@ describe("parseOptionsFromSchema", () => {
                   "limit",
                 ],
                 "name": "bundle",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -159,6 +593,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -176,6 +611,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Discount mode",
                 "mutuallyExclusiveWith": [],
                 "name": "discount_mode",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -195,6 +631,7 @@ describe("parseOptionsFromSchema", () => {
                   "bundle",
                 ],
                 "name": "limit",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -215,17 +652,197 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
-            "order.line_items.adjustment": [],
-            "order.line_items.bundle": [],
-            "order.line_items.gift_card": [],
-            "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [],
-            "order.line_items.shipment": [],
-            "order.line_items.sku": [],
+            "order.line_items.adjustment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.bundle": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.gift_card": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.line_item_options": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.payment_method": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.shipment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.sku": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
           },
           "fixed_price": {
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
+            ],
             "order": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
@@ -233,6 +850,7 @@ describe("parseOptionsFromSchema", () => {
                   "limit",
                 ],
                 "name": "bundle",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -258,6 +876,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -277,6 +896,7 @@ describe("parseOptionsFromSchema", () => {
                   "bundle",
                 ],
                 "name": "limit",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -297,8 +917,35 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "Creates bundles based on the groups provided.",
                 "label": "Bundle",
@@ -306,6 +953,7 @@ describe("parseOptionsFromSchema", () => {
                   "limit",
                 ],
                 "name": "bundle",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -331,6 +979,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -350,6 +999,7 @@ describe("parseOptionsFromSchema", () => {
                   "bundle",
                 ],
                 "name": "limit",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -369,6 +1019,234 @@ describe("parseOptionsFromSchema", () => {
                     "value": "less-expensive",
                   },
                 ],
+              },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.adjustment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.bundle": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.gift_card": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.line_item_options": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.payment_method": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.shipment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.sku": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+          },
+          "free_gift": {
+            "": [
+              {
+                "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",
+                "label": "Identifiers",
+                "mutuallyExclusiveWith": [],
+                "name": "identifiers",
+                "required": true,
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "SKU",
+                    "value": "order.line_items.sku.id",
+                  },
+                  {
+                    "label": "Bundle",
+                    "value": "order.line_items.bundle.id",
+                  },
+                  {
+                    "label": "SKU list",
+                    "value": "order.line_items.sku.sku_lists.id",
+                  },
+                ],
+              },
+              {
+                "description": "Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": true,
+                "valueType": "integer",
+                "values": undefined,
+              },
+            ],
+            "order": [
+              {
+                "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",
+                "label": "Identifiers",
+                "mutuallyExclusiveWith": [],
+                "name": "identifiers",
+                "required": true,
+                "valueType": "object",
+                "values": [
+                  {
+                    "label": "SKU",
+                    "value": "order.line_items.sku.id",
+                  },
+                  {
+                    "label": "Bundle",
+                    "value": "order.line_items.bundle.id",
+                  },
+                  {
+                    "label": "SKU list",
+                    "value": "order.line_items.sku.sku_lists.id",
+                  },
+                ],
+              },
+              {
+                "description": "Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": true,
+                "valueType": "integer",
+                "values": undefined,
+              },
+            ],
+            "order.line_items": [
+              {
+                "description": "Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": true,
+                "valueType": "integer",
+                "values": undefined,
               },
             ],
             "order.line_items.adjustment": [],
@@ -380,12 +1258,51 @@ describe("parseOptionsFromSchema", () => {
             "order.line_items.sku": [],
           },
           "percentage": {
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
+            ],
             "order": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "If true, rounds the discount, only available on percentage actions.",
                 "label": "Round",
                 "mutuallyExclusiveWith": [],
                 "name": "round",
+                "required": false,
                 "valueType": "boolean",
                 "values": undefined,
               },
@@ -394,6 +1311,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -413,6 +1331,7 @@ describe("parseOptionsFromSchema", () => {
                   "limit",
                 ],
                 "name": "bundle",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -440,6 +1359,7 @@ describe("parseOptionsFromSchema", () => {
                   "bundle",
                 ],
                 "name": "limit",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -460,13 +1380,41 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
             "order.line_items": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "If true, rounds the discount, only available on percentage actions.",
                 "label": "Round",
                 "mutuallyExclusiveWith": [],
                 "name": "round",
+                "required": false,
                 "valueType": "boolean",
                 "values": undefined,
               },
@@ -475,6 +1423,7 @@ describe("parseOptionsFromSchema", () => {
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -494,6 +1443,7 @@ describe("parseOptionsFromSchema", () => {
                   "limit",
                 ],
                 "name": "bundle",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -521,6 +1471,7 @@ describe("parseOptionsFromSchema", () => {
                   "bundle",
                 ],
                 "name": "limit",
+                "required": false,
                 "valueType": "object",
                 "values": [
                   {
@@ -541,14 +1492,156 @@ describe("parseOptionsFromSchema", () => {
                   },
                 ],
               },
+              {
+                "description": "Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.",
+                "label": "Quantity",
+                "mutuallyExclusiveWith": [],
+                "name": "quantity",
+                "required": false,
+                "valueType": "integer",
+                "values": undefined,
+              },
             ],
-            "order.line_items.adjustment": [],
-            "order.line_items.bundle": [],
-            "order.line_items.gift_card": [],
-            "order.line_items.line_item_options": [],
-            "order.line_items.payment_method": [],
-            "order.line_items.shipment": [],
-            "order.line_items.sku": [],
+            "order.line_items.adjustment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.bundle": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.gift_card": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.line_item_options": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.payment_method": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.shipment": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
+            "order.line_items.sku": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
+            ],
           },
         },
         "conditions": [
@@ -557,6 +1650,7 @@ describe("parseOptionsFromSchema", () => {
             "label": "Scope",
             "mutuallyExclusiveWith": [],
             "name": "scope",
+            "required": false,
             "valueType": "string",
             "values": [
               {
@@ -574,6 +1668,7 @@ describe("parseOptionsFromSchema", () => {
             "label": "Group",
             "mutuallyExclusiveWith": [],
             "name": "group",
+            "required": false,
             "valueType": "string",
             "values": undefined,
           },
@@ -582,6 +1677,7 @@ describe("parseOptionsFromSchema", () => {
             "label": "Aggregations",
             "mutuallyExclusiveWith": [],
             "name": "aggregations",
+            "required": false,
             "valueType": "array",
             "values": [
               {
@@ -617,12 +1713,42 @@ describe("parseOptionsFromSchema", () => {
       {
         "actions": {
           "fixed_amount": {
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+            ],
             "price": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -638,12 +1764,42 @@ describe("parseOptionsFromSchema", () => {
             ],
           },
           "fixed_price": {
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+            ],
             "price": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -659,12 +1815,42 @@ describe("parseOptionsFromSchema", () => {
             ],
           },
           "percentage": {
+            "": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+            ],
             "price": [
+              {
+                "description": "The resource on which to apply the action (expressed in dot notation). Can be an attribute if you set also the identifier key.",
+                "label": "Apply to",
+                "mutuallyExclusiveWith": [],
+                "name": "selector",
+                "required": true,
+                "valueType": "string",
+                "values": undefined,
+              },
+              {
+                "description": "The groups on which to apply the action (must be one or more among the ones defined when grouping the matches of the related conditions).",
+                "label": "Groups",
+                "mutuallyExclusiveWith": [],
+                "name": "groups",
+                "required": true,
+                "valueType": "array",
+                "values": undefined,
+              },
               {
                 "description": "If provided, applies the action to a specific attribute instead of the default one.",
                 "label": "Apply on",
                 "mutuallyExclusiveWith": [],
                 "name": "apply_on",
+                "required": false,
                 "valueType": "string",
                 "values": [
                   {
@@ -686,6 +1872,7 @@ describe("parseOptionsFromSchema", () => {
             "label": "Scope",
             "mutuallyExclusiveWith": [],
             "name": "scope",
+            "required": false,
             "valueType": "string",
             "values": [
               {
@@ -703,6 +1890,7 @@ describe("parseOptionsFromSchema", () => {
             "label": "Group",
             "mutuallyExclusiveWith": [],
             "name": "group",
+            "required": false,
             "valueType": "string",
             "values": undefined,
           },
@@ -777,6 +1965,7 @@ describe("useAvailableOptions", () => {
         ],
         "current": [],
         "disabled": [],
+        "required": [],
       }
     `)
   })
@@ -834,6 +2023,7 @@ describe("useAvailableOptions", () => {
             "name": "limit",
           },
         ],
+        "required": [],
       }
     `)
   })
@@ -860,6 +2050,7 @@ describe("useAvailableOptions", () => {
     const item = {
       type: "percentage" as const,
       selector: "order",
+      groups: [],
       value: 0.1,
       limit: {
         value: 1,
@@ -890,6 +2081,7 @@ describe("useAvailableOptions", () => {
             "name": "bundle",
           },
         ],
+        "required": [],
       }
     `)
   })
@@ -931,6 +2123,7 @@ describe("useAvailableOptions", () => {
           "round",
         ],
         "disabled": [],
+        "required": [],
       }
     `)
   })
@@ -951,6 +2144,7 @@ describe("useAvailableOptions", () => {
         "available": [],
         "current": [],
         "disabled": [],
+        "required": [],
       }
     `)
   })

@@ -155,6 +155,10 @@ export type Bundle =
        */
       value: number
     }
+/**
+ * Optional quantity to override the resource quantity. If specified, the action will apply to the minimum of specified quantity and resource quantity.
+ */
+export type Quantity = number
 
 /**
  * Rules payload within order context for the rules engine of Commerce Layer.
@@ -206,7 +210,7 @@ export interface RulesForOrderContext {
           type: "percentage"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * Percentage to be discounted,
@@ -220,6 +224,42 @@ export interface RulesForOrderContext {
           /**
            * The type of action you want to apply.
            */
+          type: "percentage"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * Percentage to be discounted,
+           */
+          value: number
+          round?: Round
+          apply_on?: ApplyOn
+          bundle?: Bundle
+          quantity?: Quantity
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "percentage"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * Percentage to be discounted,
+           */
+          value: number
+          round?: Round
+          apply_on?: ApplyOn
+          limit?: Limit
+          quantity?: Quantity
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
@@ -243,7 +283,7 @@ export interface RulesForOrderContext {
           type: "fixed_amount"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The discount fixed amount to be applied.
@@ -251,6 +291,48 @@ export interface RulesForOrderContext {
           value: number
           apply_on?: ApplyOn
           limit?: Limit
+          /**
+           * The type of distribution of the discount over the items.
+           */
+          discount_mode?: "distributed" | "default"
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_amount"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The discount fixed amount to be applied.
+           */
+          value: number
+          bundle?: Bundle
+          apply_on?: ApplyOn
+          quantity?: Quantity
+          /**
+           * The type of distribution of the discount over the items.
+           */
+          discount_mode?: "distributed" | "default"
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_amount"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The discount fixed amount to be applied.
+           */
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
+          quantity?: Quantity
           /**
            * The type of distribution of the discount over the items.
            */
@@ -279,7 +361,7 @@ export interface RulesForOrderContext {
           type: "fixed_price"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           /**
            * The price fixed amount to be applied.
@@ -287,15 +369,49 @@ export interface RulesForOrderContext {
           value: number
           apply_on?: ApplyOn
           limit?: Limit
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_price"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The price fixed amount to be applied.
+           */
+          value: number
+          bundle?: Bundle
+          apply_on?: ApplyOn
+          quantity?: Quantity
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "fixed_price"
+          selector: Selector
+          identifier?: Identifier
+          groups: Groups
+          aggregation?: Aggregation
+          /**
+           * The price fixed amount to be applied.
+           */
+          value: number
+          apply_on?: ApplyOn
+          limit?: Limit
+          quantity?: Quantity
         }
       | {
           /**
            * The type of action you want to apply.
            */
           type: "buy_x_pay_y"
-          selector?: Selector
+          selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           value: {
             /**
@@ -320,7 +436,7 @@ export interface RulesForOrderContext {
           type: "every_x_discount_y"
           selector: Selector
           identifier?: Identifier
-          groups?: Groups
+          groups: Groups
           aggregation?: Aggregation
           value: {
             /**
@@ -337,6 +453,25 @@ export interface RulesForOrderContext {
             attribute: string
             [k: string]: unknown
           }
+        }
+      | {
+          /**
+           * The type of action you want to apply.
+           */
+          type: "free_gift"
+          /**
+           * Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.
+           */
+          identifiers: {
+            /**
+             * @minItems 1
+             */
+            [k: string]: [string, ...string[]]
+          }
+          /**
+           * Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required.
+           */
+          quantity: number
         }
     )[]
   }[]

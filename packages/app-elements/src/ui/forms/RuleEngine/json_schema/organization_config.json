@@ -71,6 +71,25 @@
               "description": "Where streaming is enabled: none, live, test or both."
             }
           }
+        },
+        "anomalies": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Configs for anomalies alerts",
+          "properties": {
+            "orders": {
+              "type": "object",
+              "description": "Configs for anomalies alerts on orders.",
+              "properties": {
+                "enabled": {
+                  "type": "boolean",
+                  "default": false,
+                  "description": "Enables anomaly alerts on orders."
+                },
+                "recipients": { "$ref": "#/$defs/recipients" }
+              }
+            }
+          }
         }
       }
     }
@@ -226,6 +245,10 @@
         "required": ["value", "label"],
         "additionalProperties": false
       }
+    },
+    "recipients": {
+      "type": "string",
+      "description": "Comma separated list of email recipients for the notifications (ex: test0@commercelayer.io,test1@sommercelayer.io)."
     }
   }
 }

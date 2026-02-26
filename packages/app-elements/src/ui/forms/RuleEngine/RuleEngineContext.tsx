@@ -74,23 +74,23 @@ const RuleEngineContext = createContext<RuleEngineContextType | undefined>(
 //   }
 // }
 
+// // Ensure that if we are setting a field inside an action, the action has a groups array
+// if (/actions\.\d\.[\w_]+$/.test(action.path)) {
+//   const parentPath = action.path.replace(/\.[\w_]+$/, "")
+//   const parentValue = get(newValue, parentPath) as Record<
+//     string,
+//     unknown
+//   > | null
+
+//   if (parentValue?.groups == null) {
+//     set(newValue, `${parentPath}.groups`, [])
+//   }
+// }
+
 function ruleEngineReducer(state: State, action: Action): State {
   switch (action.type) {
     case "SET_PATH": {
       const newValue = cloneDeep(state.value)
-
-      // Ensure that if we are setting a field inside an action, the action has a groups array
-      if (/actions\.\d\.[\w_]+$/.test(action.path)) {
-        const parentPath = action.path.replace(/\.[\w_]+$/, "")
-        const parentValue = get(newValue, parentPath) as Record<
-          string,
-          unknown
-        > | null
-
-        if (parentValue?.groups == null) {
-          set(newValue, `${parentPath}.groups`, [])
-        }
-      }
 
       if (action.value === null && action.allowNullValue === false) {
         if (/\.\d+$/.test(action.path)) {
