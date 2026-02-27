@@ -1,3 +1,4 @@
+import type { Order } from "@commercelayer/sdk"
 import { adaptMetricsOrderToCore } from "./adaptMetricsOrderToCore"
 
 describe("adaptMetricsOrderToCore", () => {
@@ -50,6 +51,12 @@ describe("adaptMetricsOrderToCore", () => {
       coupon: false,
       options: false,
       archived: false,
+      reference: "ref123",
+      reference_origin: "origin123",
+      tags: [
+        { id: "tag1", name: "Tag 1" },
+        { id: "tag2", name: "Tag 2" },
+      ],
       market: {
         id: "marketId",
         name: "Europe",
@@ -143,6 +150,24 @@ describe("adaptMetricsOrderToCore", () => {
       placed_at: "2024-08-28T09:01:02.225Z",
       payment_updated_at: "2024-08-28T09:01:02.171Z",
       archived_at: null,
+      reference: "ref123",
+      reference_origin: "origin123",
+      tags: [
+        {
+          id: "tag1",
+          type: "tags",
+          name: "Tag 1",
+          created_at: "",
+          updated_at: "",
+        },
+        {
+          id: "tag2",
+          type: "tags",
+          name: "Tag 2",
+          created_at: "",
+          updated_at: "",
+        },
+      ],
       market: {
         id: "marketId",
         type: "markets",
@@ -168,6 +193,6 @@ describe("adaptMetricsOrderToCore", () => {
         country_code: "IT",
         phone: "",
       },
-    })
+    } satisfies Order)
   })
 })
