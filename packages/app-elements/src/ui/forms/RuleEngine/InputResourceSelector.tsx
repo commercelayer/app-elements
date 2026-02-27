@@ -5,7 +5,8 @@ import type {
 } from "@commercelayer/sdk"
 import { uniqBy } from "lodash-es"
 import type React from "react"
-import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
+import { useCoreSdkProvider } from "#providers/CoreSdkProvider/CoreSdkProvider"
+import { useCoreApi } from "#providers/CoreSdkProvider/useCoreApi"
 import {
   InputSelect,
   type InputSelectValue,

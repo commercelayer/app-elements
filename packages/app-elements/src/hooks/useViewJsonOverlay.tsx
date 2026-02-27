@@ -2,7 +2,7 @@ import { type FC, useCallback } from "react"
 import { useOverlay } from "#hooks/useOverlay"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
-import { CodeEditor } from "#ui/forms/CodeEditor/CodeEditorComponent"
+import { CodeEditor } from "#ui/forms/CodeEditor"
 
 interface OverlayProps {
   title: string

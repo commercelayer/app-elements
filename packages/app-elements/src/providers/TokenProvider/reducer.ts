@@ -1,10 +1,8 @@
 import type {
-  TokenProviderClAppSlug,
-  TokenProviderRole,
-} from "#providers/TokenProvider"
-import type {
   TokenProviderAuthSettings,
   TokenProviderAuthUser,
+  TokenProviderClAppSlug,
+  TokenProviderRole,
   TokenProviderRolePermissions,
 } from "./types"
 

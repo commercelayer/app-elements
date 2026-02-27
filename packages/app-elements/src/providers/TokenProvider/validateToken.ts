@@ -3,17 +3,15 @@ import type { ListableResourceType } from "@commercelayer/sdk"
 import fetch from "cross-fetch"
 import isEmpty from "lodash-es/isEmpty"
 import { computeFullname, formatDisplayName } from "#helpers/name"
-import type {
-  TokenProviderRole,
-  TokenProviderTokenApplicationKind,
-} from "#providers/TokenProvider"
 import { getInfoFromJwt, type ParsedScopes } from "./getInfoFromJwt"
 import type {
   Mode,
   TokenProviderAuthUser,
   TokenProviderClAppSlug,
   TokenProviderPermissionItem,
+  TokenProviderRole,
   TokenProviderRolePermissions,
+  TokenProviderTokenApplicationKind,
   TokenProviderTokenInfo,
 } from "./types"
 

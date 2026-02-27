@@ -8,7 +8,6 @@ import {
   useEffect,
   useReducer,
 } from "react"
-import type { TokenProviderTokenApplicationKind } from "#providers/TokenProvider"
 import {
   decodeExtras,
   getExtrasFromUrl,
@@ -32,6 +31,7 @@ import type {
   TokenProviderExtras,
   TokenProviderRole,
   TokenProviderRoleActions,
+  TokenProviderTokenApplicationKind,
 } from "./types"
 import { makeDashboardUrl } from "./url"
 import { isTokenExpired, isValidTokenForCurrentApp } from "./validateToken"
