@@ -51,6 +51,12 @@ export interface MetricsResourceOrder {
   coupon?: boolean
   options?: boolean
   archived?: boolean
+  reference?: string
+  reference_origin?: string
+  tags?: {
+    id: string
+    name: string
+  }[]
   market?: {
     id: string
     name?: string
@@ -220,12 +226,23 @@ export function adaptMetricsOrderToCore(
 
     payment_updated_at: metricsOrder.payment_updated_at,
 
+    reference: metricsOrder.reference,
+    reference_origin: metricsOrder.reference_origin,
+
     archived_at:
       metricsOrder.archived === true
         ? metricsOrder.updated_at
         : metricsOrder.archived === false
           ? null
           : undefined,
+
+    tags: metricsOrder.tags?.map((tag) => ({
+      id: tag.id,
+      created_at: "",
+      updated_at: "",
+      type: "tags",
+      name: tag.name,
+    })),
 
     market:
       metricsOrder.market != null
