@@ -8,7 +8,7 @@ import Editor, {
 import type { editor, IDisposable } from "monaco-editor"
 import { forwardRef, type JSX, useEffect, useRef, useState } from "react"
 import type { JsonValue, SetOptional } from "type-fest"
-import { useTokenProvider } from "#providers/TokenProvider"
+import { useTokenProvider } from "#providers/TokenProvider/TokenProvider"
 import {
   InputWrapper,
   type InputWrapperBaseProps,

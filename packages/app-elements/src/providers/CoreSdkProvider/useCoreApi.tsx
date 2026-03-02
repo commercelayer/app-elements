@@ -6,8 +6,8 @@ import useSWR, {
   type SWRResponse,
 } from "swr"
 import type { ResourceEndpoint } from "#helpers/resources"
-import { useTokenProvider } from "#providers/TokenProvider"
-import { useCoreSdkProvider } from "."
+import { useTokenProvider } from "#providers/TokenProvider/TokenProvider"
+import { useCoreSdkProvider } from "./CoreSdkProvider"
 
 type GenericMethod = (...args: any) => Promise<any>
 

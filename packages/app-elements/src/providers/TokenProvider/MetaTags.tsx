@@ -2,7 +2,7 @@ import type { ListableResourceType } from "@commercelayer/sdk"
 import { useEffect } from "react"
 import { formatResourceName } from "#helpers/resources"
 import { useCoreApi } from "#providers/CoreSdkProvider"
-import { useTokenProvider } from "./index"
+import { useTokenProvider } from "./TokenProvider"
 
 function MetaTags(): null {
   const {

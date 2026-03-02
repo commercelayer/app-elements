@@ -1,7 +1,7 @@
 import { isValid, parseISO } from "date-fns"
 import type React from "react"
 import { useEffect, useState } from "react"
-import { useTokenProvider } from "#providers/TokenProvider"
+import { useTokenProvider } from "#providers/TokenProvider/TokenProvider"
 import { Text } from "#ui/atoms/Text"
 import { Input } from "#ui/forms/Input"
 import { InputDate } from "#ui/forms/InputDate"
