@@ -77,6 +77,11 @@ describe("ResourceAddress", () => {
     expect(getByText("+39 055 1234567890")).toBeVisible()
   })
 
+  test("Should render email", async () => {
+    const { getByText } = setup()
+    expect(getByText("luke@rebellion.com")).toBeVisible()
+  })
+
   test("Should render notes", async () => {
     const { getByText } = setup()
     expect(

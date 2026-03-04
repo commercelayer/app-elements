@@ -1,5 +1,10 @@
 import type { Address as AddressType } from "@commercelayer/sdk"
-import { NoteIcon, PencilSimpleIcon, PhoneIcon } from "@phosphor-icons/react"
+import {
+  EnvelopeSimpleIcon,
+  NoteIcon,
+  PencilSimpleIcon,
+  PhoneIcon,
+} from "@phosphor-icons/react"
 import isEmpty from "lodash-es/isEmpty"
 import { useMemo } from "react"
 import { t } from "#providers/I18NProvider"
@@ -21,6 +26,7 @@ export interface AddressProps {
     AddressType,
     | "first_name"
     | "last_name"
+    | "email"
     | "company"
     | "line_1"
     | "line_2"
@@ -123,12 +129,24 @@ export const Address = withSkeletonTemplate<AddressProps>(
               ) : null}
 
               {!isEmpty(address.phone) ||
+              !isEmpty(address.email) ||
               (showNotes && !isEmpty(address.notes)) ? (
                 <>
                   <Spacer top="4" bottom="4">
                     <Hr variant="dashed" />
                   </Spacer>
                   <div className="grid gap-1">
+                    {!isEmpty(address.email) && (
+                      <div className="flex gap-2 ">
+                        {/* mt-[2px] to keep icon aligned with text  */}
+                        <Text tag="div" variant="info" className="mt-[2px]">
+                          <EnvelopeSimpleIcon weight="bold" />
+                        </Text>
+                        <Text tag="div" size="small" variant="info">
+                          {address.email}
+                        </Text>
+                      </div>
+                    )}
                     {!isEmpty(address.phone) && (
                       <div className="flex gap-2 ">
                         {/* mt-[2px] to keep icon aligned with text  */}
