@@ -36,6 +36,7 @@ export const getResourceAddressFormFieldsSchema = ({
       zip_code: z.string().nullish(),
       state_code: zodRequiredField,
       country_code: zodRequiredField,
+      email: z.string().email().nullish(),
       phone: zodRequiredField,
       billing_info: requiresBillingInfo
         ? zodRequiredField
@@ -168,6 +169,10 @@ export const ResourceAddressFormFields =
                 label={t("resources.addresses.attributes.zip_code")}
               />
             </div>
+          </FieldRow>
+
+          <FieldRow columns="1">
+            <HookedInput name={`${namePrefix}email`} label={"Email"} />
           </FieldRow>
 
           <FieldRow columns="1">
