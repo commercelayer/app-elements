@@ -11,7 +11,13 @@ export const filterableTimeRangePreset = [
 ] as const
 
 export type UiFilterName = string
-export type UiFilterValue = string | string[] | boolean | Date | undefined
+export type UiFilterValue =
+  | string
+  | string[]
+  | boolean
+  | Date
+  | undefined
+  | null
 
 export type TimeRangePreset = (typeof filterableTimeRangePreset)[number]
 
