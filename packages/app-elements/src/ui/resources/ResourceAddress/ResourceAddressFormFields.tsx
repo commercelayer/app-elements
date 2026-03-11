@@ -96,6 +96,11 @@ export interface ResourceAddressFormFieldsProps {
    * @default false
    */
   showNameOrCompany?: boolean
+  /**
+   * Optional setting to define if given `Address` `email` data is editable.
+   * @default false
+   */
+  showEmail?: boolean
 }
 
 export const ResourceAddressFormFields =
@@ -105,6 +110,7 @@ export const ResourceAddressFormFields =
       showBillingInfo = false,
       showNotes = true,
       showNameOrCompany = false,
+      showEmail = false,
     }) => {
       const namePrefix = name == null ? "" : `${name}.`
       const { watch } = useFormContext()
@@ -171,9 +177,11 @@ export const ResourceAddressFormFields =
             </div>
           </FieldRow>
 
-          <FieldRow columns="1">
-            <HookedInput name={`${namePrefix}email`} label={"Email"} />
-          </FieldRow>
+          {showEmail && (
+            <FieldRow columns="1">
+              <HookedInput name={`${namePrefix}email`} label={"Email"} />
+            </FieldRow>
+          )}
 
           <FieldRow columns="1">
             <HookedInput
