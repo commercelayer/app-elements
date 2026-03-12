@@ -48,7 +48,6 @@ export function PaginationInfo({
             aria-disabled={isLoading || currentPage === 1}
             disabled={isLoading || currentPage === 1}
             onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" })
               onPageChange(currentPage - 1)
             }}
             className="p-2 disabled:opacity-30 rounded-[8px] border border-gray-200"
@@ -61,7 +60,6 @@ export function PaginationInfo({
             aria-disabled={isLoading || currentPage === pageCount}
             disabled={isLoading || currentPage === pageCount}
             onClick={() => {
-              window.scrollTo({ top: 0, behavior: "smooth" })
               onPageChange(currentPage + 1)
             }}
             className="p-2 disabled:opacity-30 rounded-[8px] border border-gray-200"

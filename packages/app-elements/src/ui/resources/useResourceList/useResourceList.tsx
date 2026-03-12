@@ -284,8 +284,9 @@ export function useResourceList<TResource extends ListableResourceType>({
   const handlePageChange = useCallback(
     (newPage: number) => {
       setCurrentPage(newPage)
-      void fetchMore({ query, pageNumber: newPage })
-      window.scrollTo({ top: 0 })
+      void fetchMore({ query, pageNumber: newPage }).then(() => {
+        window.scrollTo({ top: 0 })
+      })
     },
     [query, fetchMore],
   )

@@ -87,5 +87,5 @@ export async function listFetcher<TResource extends ListableResourceType>({
       : uniqBy(existingList.concat(listResponse), "id")
   const meta = listResponse.meta
 
-  return { list: uniqueList, meta }
+  return { list: uniqueList, meta: { ...meta, currentPage: pageToFetch } }
 }
