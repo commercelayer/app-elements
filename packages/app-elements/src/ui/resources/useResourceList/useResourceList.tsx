@@ -285,6 +285,7 @@ export function useResourceList<TResource extends ListableResourceType>({
     (newPage: number) => {
       setCurrentPage(newPage)
       void fetchMore({ query, pageNumber: newPage })
+      window.scrollTo({ top: 0, behavior: "smooth" })
     },
     [query, fetchMore],
   )
