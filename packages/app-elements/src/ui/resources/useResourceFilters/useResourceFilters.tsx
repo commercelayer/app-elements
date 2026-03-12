@@ -7,7 +7,10 @@ import {
   type UseResourceListConfig,
   useResourceList,
 } from "#ui/resources/useResourceList"
-import type { ResourceListProps } from "#ui/resources/useResourceList/useResourceList"
+import type {
+  ResourceListProps,
+  UseResourceListReturnWithPagination,
+} from "#ui/resources/useResourceList/useResourceList"
 import { makeFilterAdapters } from "./adapters"
 import {
   FiltersForm as FiltersFormComponent,
@@ -193,17 +196,29 @@ function ResourceListComponent<TResource extends ListableResourceType>({
   metricsQuery,
   type,
   query,
+  paginationType = "infinite",
   ...listProps
-}: UseResourceListConfig<TResource> &
-  ResourceListProps<TResource>): JSX.Element {
-  const hookConfig: UseResourceListConfig<TResource> = {
+}: UseResourceListConfig<TResource> & {
+  paginationType?: "infinite" | "pagination"
+} & ResourceListProps<TResource>): JSX.Element {
+  const result = useResourceList<TResource>({
     type,
     query,
     metricsQuery,
-  }
-  const { ResourceList } = useResourceList(hookConfig)
+    paginationType,
+  })
 
-  return <ResourceList {...listProps} />
+  const paginationResult =
+    paginationType === "pagination"
+      ? (result as UseResourceListReturnWithPagination<TResource>)
+      : null
+
+  return (
+    <>
+      <result.ResourceList {...listProps} />
+      {paginationResult != null && <paginationResult.Pagination />}
+    </>
+  )
 }
 
 const makeFilteredList: (options: {

@@ -122,17 +122,8 @@ export interface UseResourceListConfig<TResource extends ListableResourceType> {
   paginationType?: "infinite" | "pagination"
 }
 
-/**
- * Renders a list of resources of a given type with infinite scrolling or classic pagination.
- * It's possible to specify a query to filter the list and either
- * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
- */
-export function useResourceList<TResource extends ListableResourceType>({
-  type,
-  query,
-  metricsQuery,
-  paginationType = "infinite",
-}: UseResourceListConfig<TResource>): {
+// Base return type without Pagination
+interface UseResourceListReturn<TResource extends ListableResourceType> {
   /** The component that renders the list with infinite scrolling or pagination functionality */
   ResourceList: FC<ResourceListProps<TResource>>
   /** The raw array of fetched resources, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
@@ -156,7 +147,45 @@ export function useResourceList<TResource extends ListableResourceType>({
   refresh: () => void
   /** Indicates whether there are more pages available for fetching */
   hasMorePages?: boolean
-} {
+}
+
+// Return type with Pagination component
+export interface UseResourceListReturnWithPagination<
+  TResource extends ListableResourceType,
+> extends UseResourceListReturn<TResource> {
+  /** Pagination controls component (only shown when paginationType is 'pagination' and there are multiple pages) */
+  Pagination: FC
+}
+
+/**
+ * Renders a list of resources of a given type with infinite scrolling or classic pagination.
+ * It's possible to specify a query to filter the list and either
+ * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
+ */
+// Overload: when paginationType is explicitly 'pagination'
+export function useResourceList<TResource extends ListableResourceType>(
+  config: UseResourceListConfig<TResource> & { paginationType: "pagination" },
+): UseResourceListReturnWithPagination<TResource>
+
+// Overload: when paginationType is explicitly 'infinite' or omitted
+export function useResourceList<TResource extends ListableResourceType>(
+  config: UseResourceListConfig<TResource> & { paginationType?: "infinite" },
+): UseResourceListReturn<TResource>
+
+// Fallback overload: when paginationType is a union type or otherwise not narrowable to a literal
+export function useResourceList<TResource extends ListableResourceType>(
+  config: UseResourceListConfig<TResource>,
+): UseResourceListReturn<TResource>
+
+// Implementation signature
+export function useResourceList<TResource extends ListableResourceType>({
+  type,
+  query,
+  metricsQuery,
+  paginationType = "infinite",
+}: UseResourceListConfig<TResource>):
+  | UseResourceListReturn<TResource>
+  | UseResourceListReturnWithPagination<TResource> {
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
@@ -388,19 +417,6 @@ export function useResourceList<TResource extends ListableResourceType>({
                 )
               })}
             </Wrapper>
-
-            {paginationType === "pagination" &&
-            data != null &&
-            data.meta.pageCount > 1 ? (
-              <PaginationInfo
-                currentPage={currentPage}
-                pageCount={data.meta.pageCount}
-                recordsPerPage={data.meta.recordsPerPage}
-                recordCount={data.meta.recordCount}
-                isLoading={isLoading}
-                onPageChange={handlePageChange}
-              />
-            ) : null}
           </SkeletonTemplate>
         </Section>
       )
@@ -422,7 +438,28 @@ export function useResourceList<TResource extends ListableResourceType>({
     ],
   )
 
-  return {
+  const Pagination = useCallback<FC>(() => {
+    if (
+      paginationType !== "pagination" ||
+      data == null ||
+      data.meta.pageCount <= 1
+    ) {
+      return null
+    }
+
+    return (
+      <PaginationInfo
+        currentPage={currentPage}
+        pageCount={data.meta.pageCount}
+        recordsPerPage={data.meta.recordsPerPage}
+        recordCount={data.meta.recordCount}
+        isLoading={isLoading}
+        onPageChange={handlePageChange}
+      />
+    )
+  }, [paginationType, data, currentPage, isLoading, handlePageChange])
+
+  const baseReturn: UseResourceListReturn<TResource> = {
     ResourceList,
     list: data?.list,
     meta: data?.meta,
@@ -438,6 +475,15 @@ export function useResourceList<TResource extends ListableResourceType>({
     },
     hasMorePages,
   }
+
+  if (paginationType === "pagination") {
+    return {
+      ...baseReturn,
+      Pagination,
+    } as UseResourceListReturnWithPagination<TResource>
+  }
+
+  return baseReturn
 }
 
 function ErrorLine({

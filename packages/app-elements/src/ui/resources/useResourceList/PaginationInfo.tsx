@@ -31,7 +31,9 @@ export function PaginationInfo({
     <Spacer top="6">
       <div className="flex items-center justify-between mt-auto">
         <Text variant="info" tag="div" size="x-small">
-          {offsets.firstOfPage}-{offsets.lastOfPage} of {recordCount}
+          {offsets.firstOfPage.toLocaleString()}-
+          {offsets.lastOfPage.toLocaleString()} of{" "}
+          {recordCount.toLocaleString()}
         </Text>
         <div className="flex gap-2 items-center justify-between text-xs">
           <button

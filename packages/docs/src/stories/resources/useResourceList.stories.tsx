@@ -220,7 +220,7 @@ WithInfiniteScrolling.parameters = {
  * This mode is only supported for Core API (not Metrics API).
  */
 export const WithPagination: StoryFn = () => {
-  const { ResourceList } = useResourceList({
+  const { ResourceList, Pagination } = useResourceList({
     type: "orders",
     query: {
       pageSize: 10,
@@ -229,18 +229,21 @@ export const WithPagination: StoryFn = () => {
   })
 
   return (
-    <ResourceList
-      title="Orders"
-      emptyState={<div>Empty</div>}
-      actionButton={<Button variant="link">Add new</Button>}
-      ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-        return (
-          <SkeletonTemplate isLoading={isLoading}>
-            <ResourceListItem resource={resource} />
-          </SkeletonTemplate>
-        )
-      }}
-    />
+    <>
+      <ResourceList
+        title="Orders"
+        emptyState={<div>Empty</div>}
+        actionButton={<Button variant="link">Add new</Button>}
+        ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+          return (
+            <SkeletonTemplate isLoading={isLoading}>
+              <ResourceListItem resource={resource} />
+            </SkeletonTemplate>
+          )
+        }}
+      />
+      <Pagination />
+    </>
   )
 }
 WithPagination.parameters = {
@@ -255,7 +258,7 @@ WithPagination.parameters = {
  * Pagination mode also works with table variant.
  */
 export const WithPaginationAsTable: StoryFn = () => {
-  const { ResourceList } = useResourceList({
+  const { ResourceList, Pagination } = useResourceList({
     type: "orders",
     query: {
       pageSize: 10,
@@ -264,31 +267,34 @@ export const WithPaginationAsTable: StoryFn = () => {
   })
 
   return (
-    <ResourceList
-      variant="table"
-      title="Orders"
-      headings={[
-        { label: "NUMBER" },
-        { label: "MARKET" },
-        { label: "TOTAL", align: "right" },
-      ]}
-      actionButton={
-        <Button variant="secondary" size="mini" alignItems="center">
-          <Icon name="plus" /> Order
-        </Button>
-      }
-      ItemTemplate={({ resource = mockedOrder, isLoading }) => {
-        return (
-          <Tr>
-            <Td isLoading={isLoading}>#{resource.number}</Td>
-            <Td isLoading={isLoading}>{resource.market?.name}</Td>
-            <Td isLoading={isLoading} align="right">
-              {resource.formatted_total_amount}
-            </Td>
-          </Tr>
-        )
-      }}
-    />
+    <>
+      <ResourceList
+        variant="table"
+        title="Orders"
+        headings={[
+          { label: "NUMBER" },
+          { label: "MARKET" },
+          { label: "TOTAL", align: "right" },
+        ]}
+        actionButton={
+          <Button variant="secondary" size="mini" alignItems="center">
+            <Icon name="plus" /> Order
+          </Button>
+        }
+        ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+          return (
+            <Tr>
+              <Td isLoading={isLoading}>#{resource.number}</Td>
+              <Td isLoading={isLoading}>{resource.market?.name}</Td>
+              <Td isLoading={isLoading} align="right">
+                {resource.formatted_total_amount}
+              </Td>
+            </Tr>
+          )
+        }}
+      />
+      <Pagination />
+    </>
   )
 }
 WithPaginationAsTable.parameters = {
