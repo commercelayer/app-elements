@@ -20,7 +20,6 @@ import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
 import { EmptyState } from "#ui/atoms/EmptyState"
-import { Pagination } from "#ui/atoms/Pagination"
 import { Section, type SectionProps } from "#ui/atoms/Section"
 import {
   SkeletonTemplate,
@@ -33,6 +32,7 @@ import { Text } from "#ui/atoms/Text"
 import { InputFeedback } from "#ui/forms/InputFeedback"
 import { listFetcher, type Resource } from "./listFetcher"
 import { useMetricsSdkProvider } from "./metricsApiClient"
+import { PaginationInfo } from "./PaginationInfo"
 import { initialState, reducer } from "./reducer"
 import { computeTitleWithTotalCount } from "./utils"
 import { VisibilityTrigger } from "./VisibilityTrigger"
@@ -355,33 +355,24 @@ export function useResourceList<TResource extends ListableResourceType>({
                       })
                     }}
                   />
-                ) : isLoading ? (
-                  Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-                    .fill(null)
-                    .map((_, idx) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                      <ItemTemplate isLoading delayMs={0} key={idx} />
-                    ))
-                ) : paginationType === "pagination" &&
-                  data != null &&
-                  data.meta.pageCount > 1 ? (
-                  <Spacer top="6">
-                    <Pagination
-                      currentPage={currentPage}
-                      pageCount={data.meta.pageCount}
-                      isDisabled={isLoading}
-                      onChangePageRequest={handlePageChange}
-                    />
-                  </Spacer>
                 ) : paginationType === "infinite" ? (
-                  <VisibilityTrigger
-                    enabled={hasMorePages}
-                    callback={(entry) => {
-                      if (entry.isIntersecting) {
-                        void fetchMore({ query })
-                      }
-                    }}
-                  />
+                  isLoading ? (
+                    Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+                      .fill(null)
+                      .map((_, idx) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                        <ItemTemplate isLoading delayMs={0} key={idx} />
+                      ))
+                  ) : (
+                    <VisibilityTrigger
+                      enabled={hasMorePages}
+                      callback={(entry) => {
+                        if (entry.isIntersecting) {
+                          void fetchMore({ query })
+                        }
+                      }}
+                    />
+                  )
                 ) : null
               }
             >
@@ -397,6 +388,19 @@ export function useResourceList<TResource extends ListableResourceType>({
                 )
               })}
             </Wrapper>
+
+            {paginationType === "pagination" &&
+            data != null &&
+            data.meta.pageCount > 1 ? (
+              <PaginationInfo
+                currentPage={currentPage}
+                pageCount={data.meta.pageCount}
+                recordsPerPage={data.meta.recordsPerPage}
+                recordCount={data.meta.recordCount}
+                isLoading={isLoading}
+                onPageChange={handlePageChange}
+              />
+            ) : null}
           </SkeletonTemplate>
         </Section>
       )
