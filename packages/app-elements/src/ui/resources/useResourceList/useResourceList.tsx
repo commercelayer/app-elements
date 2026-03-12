@@ -279,13 +279,13 @@ export function useResourceList<TResource extends ListableResourceType>({
       query,
       pageNumber: paginationType === "pagination" ? 1 : undefined,
     })
-  }, [query, paginationType])
+  }, [query, paginationType, fetchMore])
 
   const handlePageChange = useCallback(
     (newPage: number) => {
       setCurrentPage(newPage)
       void fetchMore({ query, pageNumber: newPage })
-      window.scrollTo({ top: 0, behavior: "instant" })
+      window.scrollTo({ top: 0 })
     },
     [query, fetchMore],
   )
@@ -433,7 +433,6 @@ export function useResourceList<TResource extends ListableResourceType>({
       error,
       paginationType,
       currentPage,
-      handlePageChange,
       query,
       fetchMore,
     ],
@@ -450,7 +449,7 @@ export function useResourceList<TResource extends ListableResourceType>({
 
     return (
       <PaginationInfo
-        currentPage={currentPage}
+        currentPage={data.meta.currentPage}
         pageCount={data.meta.pageCount}
         recordsPerPage={data.meta.recordsPerPage}
         recordCount={data.meta.recordCount}
@@ -470,6 +469,10 @@ export function useResourceList<TResource extends ListableResourceType>({
     removeItem,
     refresh,
     fetchMore: async () => {
+      if (paginationType === "pagination") {
+        console.warn("fetchMore is not supported in pagination mode.")
+        return
+      }
       if (hasMorePages) {
         await fetchMore({ query })
       }

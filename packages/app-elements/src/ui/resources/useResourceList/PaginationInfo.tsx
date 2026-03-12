@@ -30,7 +30,13 @@ export function PaginationInfo({
   return (
     <Spacer top="6">
       <div className="flex items-center justify-between mt-auto">
-        <Text variant="info" tag="div" size="x-small">
+        <Text
+          variant="info"
+          tag="div"
+          size="x-small"
+          aria-live="polite"
+          aria-atomic="true"
+        >
           {offsets.firstOfPage.toLocaleString()}-
           {offsets.lastOfPage.toLocaleString()} of{" "}
           {recordCount.toLocaleString()}
@@ -38,19 +44,29 @@ export function PaginationInfo({
         <div className="flex gap-2 items-center justify-between text-xs">
           <button
             type="button"
+            aria-label="Previous page"
+            aria-disabled={isLoading || currentPage === 1}
             disabled={isLoading || currentPage === 1}
-            onClick={() => onPageChange(currentPage - 1)}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" })
+              onPageChange(currentPage - 1)
+            }}
             className="p-2 disabled:opacity-30 rounded-[8px] border border-gray-200"
           >
-            <Icon name="caretRight" className="rotate-180" />
+            <Icon name="caretRight" className="rotate-180" aria-hidden="true" />
           </button>
           <button
             type="button"
+            aria-label="Next page"
+            aria-disabled={isLoading || currentPage === pageCount}
             disabled={isLoading || currentPage === pageCount}
-            onClick={() => onPageChange(currentPage + 1)}
+            onClick={() => {
+              window.scrollTo({ top: 0, behavior: "smooth" })
+              onPageChange(currentPage + 1)
+            }}
             className="p-2 disabled:opacity-30 rounded-[8px] border border-gray-200"
           >
-            <Icon name="caretRight" />
+            <Icon name="caretRight" aria-hidden="true" />
           </button>
         </div>
       </div>
