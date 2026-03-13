@@ -36,6 +36,7 @@ export const getResourceAddressFormFieldsSchema = ({
       zip_code: z.string().nullish(),
       state_code: zodRequiredField,
       country_code: zodRequiredField,
+      email: z.string().email().nullish(),
       phone: zodRequiredField,
       billing_info: requiresBillingInfo
         ? zodRequiredField
@@ -95,6 +96,11 @@ export interface ResourceAddressFormFieldsProps {
    * @default false
    */
   showNameOrCompany?: boolean
+  /**
+   * Optional setting to define if given `Address` `email` data is editable.
+   * @default false
+   */
+  showEmail?: boolean
 }
 
 export const ResourceAddressFormFields =
@@ -104,6 +110,7 @@ export const ResourceAddressFormFields =
       showBillingInfo = false,
       showNotes = true,
       showNameOrCompany = false,
+      showEmail = false,
     }) => {
       const namePrefix = name == null ? "" : `${name}.`
       const { watch } = useFormContext()
@@ -169,6 +176,12 @@ export const ResourceAddressFormFields =
               />
             </div>
           </FieldRow>
+
+          {showEmail && (
+            <FieldRow columns="1">
+              <HookedInput name={`${namePrefix}email`} label={"Email"} />
+            </FieldRow>
+          )}
 
           <FieldRow columns="1">
             <HookedInput
