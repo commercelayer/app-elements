@@ -37,6 +37,7 @@ type TaggableResource = Extract<
   | "percentage_discount_promotions"
   | "returns"
   | "shipments"
+  | "shipping_methods"
   | "sku_options"
   | "skus"
 >
