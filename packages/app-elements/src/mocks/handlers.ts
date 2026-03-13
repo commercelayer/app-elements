@@ -77,8 +77,10 @@ export const handlers = [
   }),
 
   http.get(`https://*/api/orders`, async ({ request }) => {
+    const url = new URL(request.url)
+    const pageNumber = Number(url.searchParams.get("page[number]") ?? "1")
     return HttpResponse.json(
-      returnEmptyList(new URL(request.url))
+      returnEmptyList(url)
         ? {
             data: [],
             meta: { record_count: 0, page_count: 1 },
@@ -87,7 +89,7 @@ export const handlers = [
             data: Array(10)
               .fill(null)
               .map(() => ({
-                id: Math.random().toString().substring(2, 12),
+                id: `page${pageNumber}-${Math.random().toString().substring(2, 12)}`,
                 type: "orders",
                 attributes: {
                   number: Math.floor(Math.random() * 100_000),

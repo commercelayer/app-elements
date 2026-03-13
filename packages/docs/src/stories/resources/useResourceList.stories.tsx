@@ -214,3 +214,93 @@ WithInfiniteScrolling.parameters = {
     },
   },
 }
+
+/**
+ * You can use classic prev/next pagination instead of infinite scrolling by setting `paginationType: "pagination"`.
+ * This mode is only supported for Core API (not Metrics API).
+ */
+export const WithPagination: StoryFn = () => {
+  const { ResourceList, Pagination } = useResourceList({
+    type: "orders",
+    query: {
+      pageSize: 10,
+    },
+    paginationType: "pagination",
+  })
+
+  return (
+    <>
+      <ResourceList
+        title="Orders"
+        emptyState={<div>Empty</div>}
+        actionButton={<Button variant="link">Add new</Button>}
+        ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+          return (
+            <SkeletonTemplate isLoading={isLoading}>
+              <ResourceListItem resource={resource} />
+            </SkeletonTemplate>
+          )
+        }}
+      />
+      <Pagination />
+    </>
+  )
+}
+WithPagination.parameters = {
+  docs: {
+    canvas: {
+      sourceState: "none",
+    },
+  },
+}
+
+/**
+ * Pagination mode also works with table variant.
+ */
+export const WithPaginationAsTable: StoryFn = () => {
+  const { ResourceList, Pagination } = useResourceList({
+    type: "orders",
+    query: {
+      pageSize: 10,
+    },
+    paginationType: "pagination",
+  })
+
+  return (
+    <>
+      <ResourceList
+        variant="table"
+        title="Orders"
+        headings={[
+          { label: "NUMBER" },
+          { label: "MARKET" },
+          { label: "TOTAL", align: "right" },
+        ]}
+        actionButton={
+          <Button variant="secondary" size="mini" alignItems="center">
+            <Icon name="plus" /> Order
+          </Button>
+        }
+        ItemTemplate={({ resource = mockedOrder, isLoading }) => {
+          return (
+            <Tr>
+              <Td isLoading={isLoading}>#{resource.number}</Td>
+              <Td isLoading={isLoading}>{resource.market?.name}</Td>
+              <Td isLoading={isLoading} align="right">
+                {resource.formatted_total_amount}
+              </Td>
+            </Tr>
+          )
+        }}
+      />
+      <Pagination />
+    </>
+  )
+}
+WithPaginationAsTable.parameters = {
+  docs: {
+    canvas: {
+      sourceState: "none",
+    },
+  },
+}

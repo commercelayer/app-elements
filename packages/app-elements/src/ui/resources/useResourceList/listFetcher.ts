@@ -29,15 +29,19 @@ export interface FetcherResponse<TResource> {
   }
 }
 
-export async function infiniteFetcher<TResource extends ListableResourceType>({
+export async function listFetcher<TResource extends ListableResourceType>({
   currentData,
   resourceType,
   client,
   clientType,
   query,
+  mode = "infinite",
+  pageNumber,
 }: {
   currentData?: FetcherResponse<Resource<TResource>>
   resourceType: TResource
+  mode?: "infinite" | "pagination"
+  pageNumber?: number
 } & (
   | {
       client: CommerceLayerClient
@@ -51,7 +55,8 @@ export async function infiniteFetcher<TResource extends ListableResourceType>({
     }
 )): Promise<FetcherResponse<Resource<TResource>>> {
   const currentPage = currentData?.meta.currentPage ?? 0
-  const pageToFetch = currentPage + 1
+  const pageToFetch =
+    mode === "pagination" && pageNumber != null ? pageNumber : currentPage + 1
 
   if (clientType === "metricsClient" && !isValidMetricsResource(resourceType)) {
     throw new Error("Metrics client is not available for this resource type")
@@ -75,8 +80,12 @@ export async function infiniteFetcher<TResource extends ListableResourceType>({
   // we need the primitive array
   // without the sdk added methods ('meta' | 'first' | 'last' | 'get')
   const existingList = currentData?.list ?? []
-  const uniqueList = uniqBy(existingList.concat(listResponse), "id")
+  // In pagination mode, replace the list instead of accumulating
+  const uniqueList =
+    mode === "pagination"
+      ? [...listResponse]
+      : uniqBy(existingList.concat(listResponse), "id")
   const meta = listResponse.meta
 
-  return { list: uniqueList, meta }
+  return { list: uniqueList, meta: { ...meta, currentPage: pageToFetch } }
 }
