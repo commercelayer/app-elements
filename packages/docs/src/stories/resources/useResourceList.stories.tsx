@@ -226,6 +226,7 @@ export const WithPagination: StoryFn = () => {
       pageSize: 10,
     },
     paginationType: "pagination",
+    paginationScrollTo: "list",
   })
 
   return (
@@ -264,6 +265,7 @@ export const WithPaginationAsTable: StoryFn = () => {
       pageSize: 10,
     },
     paginationType: "pagination",
+    paginationScrollTo: "list",
   })
 
   return (

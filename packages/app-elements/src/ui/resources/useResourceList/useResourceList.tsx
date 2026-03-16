@@ -94,7 +94,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
       }
   )
 
-export interface UseResourceListConfig<TResource extends ListableResourceType> {
+export type UseResourceListConfig<TResource extends ListableResourceType> = {
   /**
    * The resource type to be fetched in the list
    */
@@ -120,6 +120,15 @@ export interface UseResourceListConfig<TResource extends ListableResourceType> {
    * Note: 'pagination' mode is only supported for Core API (not Metrics API).
    */
   paginationType?: "infinite" | "pagination"
+  /**
+   * Controls scroll behavior when the user navigates to a new page.
+   * Only applies when `paginationType` is `'pagination'`.
+   * - `'top'`: scrolls to the top of the page (default)
+   * - `'list'`: scrolls to the top of the list
+   * - `'none'`: no scroll
+   * @default 'top'
+   */
+  paginationScrollTo?: "top" | "list" | "none"
 }
 
 // Base return type without Pagination
@@ -164,12 +173,16 @@ export interface UseResourceListReturnWithPagination<
  */
 // Overload: when paginationType is explicitly 'pagination'
 export function useResourceList<TResource extends ListableResourceType>(
-  config: UseResourceListConfig<TResource> & { paginationType: "pagination" },
+  config: UseResourceListConfig<TResource> & {
+    paginationType: "pagination"
+  },
 ): UseResourceListReturnWithPagination<TResource>
 
 // Overload: when paginationType is explicitly 'infinite' or omitted
 export function useResourceList<TResource extends ListableResourceType>(
-  config: UseResourceListConfig<TResource> & { paginationType?: "infinite" },
+  config: UseResourceListConfig<TResource> & {
+    paginationType?: "infinite"
+  },
 ): UseResourceListReturn<TResource>
 
 // Fallback overload: when paginationType is a union type or otherwise not narrowable to a literal
@@ -183,6 +196,7 @@ export function useResourceList<TResource extends ListableResourceType>({
   query,
   metricsQuery,
   paginationType = "infinite",
+  paginationScrollTo = "top",
 }: UseResourceListConfig<TResource>):
   | UseResourceListReturn<TResource>
   | UseResourceListReturnWithPagination<TResource> {
@@ -193,6 +207,7 @@ export function useResourceList<TResource extends ListableResourceType>({
     initialState,
   )
   const [currentPage, setCurrentPage] = React.useState(1)
+  const listRef = React.useRef<HTMLDivElement>(null)
 
   // Validate that pagination mode is not used with metrics API
   if (paginationType === "pagination" && metricsQuery != null) {
@@ -285,10 +300,14 @@ export function useResourceList<TResource extends ListableResourceType>({
     (newPage: number) => {
       setCurrentPage(newPage)
       void fetchMore({ query, pageNumber: newPage }).then(() => {
-        window.scrollTo({ top: 0 })
+        if (paginationScrollTo === "top") {
+          window.scrollTo({ top: 0 })
+        } else if (paginationScrollTo === "list") {
+          listRef.current?.scrollIntoView()
+        }
       })
     },
-    [query, fetchMore],
+    [query, fetchMore, paginationScrollTo],
   )
 
   const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
@@ -356,6 +375,7 @@ export function useResourceList<TResource extends ListableResourceType>({
 
       return (
         <Section
+          ref={paginationScrollTo === "list" ? listRef : undefined}
           isLoading={isFirstLoading}
           delayMs={0}
           data-testid="resource-list"
