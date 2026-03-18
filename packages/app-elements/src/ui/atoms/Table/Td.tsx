@@ -1,15 +1,14 @@
-import cn from "classnames"
-import { isJsonPrimitive } from "#utils/text"
+import cn from "classnames";
+import { isJsonPrimitive } from "#utils/text";
 import {
   SkeletonTemplate,
   type SkeletonTemplateProps,
-} from "../SkeletonTemplate"
+} from "../SkeletonTemplate";
 
 export interface TdProps
-  extends React.TdHTMLAttributes<HTMLElement>,
-    SkeletonTemplateProps {
-  children?: Awaited<React.ReactNode>
-  textEllipsis?: number
+  extends React.TdHTMLAttributes<HTMLElement>, SkeletonTemplateProps {
+  children?: Awaited<React.ReactNode>;
+  textEllipsis?: number;
 }
 
 export const Td: React.FC<TdProps> = ({
@@ -45,7 +44,7 @@ export const Td: React.FC<TdProps> = ({
         )}
       </SkeletonTemplate>
     </td>
-  )
-}
+  );
+};
 
-Td.displayName = "Td"
+Td.displayName = "Td";
