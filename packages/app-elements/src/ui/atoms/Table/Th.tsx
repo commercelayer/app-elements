@@ -1,8 +1,8 @@
-import cn from "classnames";
-import type { JSX } from "react";
+import cn from "classnames"
+import type { JSX } from "react"
 
 export interface ThProps extends React.ThHTMLAttributes<HTMLElement> {
-  children?: React.ReactNode;
+  children?: React.ReactNode
 }
 
 function Th({ children, className, ...rest }: ThProps): JSX.Element {
@@ -19,8 +19,8 @@ function Th({ children, className, ...rest }: ThProps): JSX.Element {
     >
       {children}
     </th>
-  );
+  )
 }
 
-Th.displayName = "Th";
-export { Th };
+Th.displayName = "Th"
+export { Th }
