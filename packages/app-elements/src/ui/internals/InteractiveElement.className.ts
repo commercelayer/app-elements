@@ -66,7 +66,7 @@ export function getInteractiveElementClassName({
       "inline-block": variant !== "link" && alignItems == null,
       [`text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== "link",
-      "p-2.5!": isIcon && variant !== "circle",
+      "px-0.5!": isIcon && variant !== "circle",
       "p-1!": isIcon && variant === "circle",
       [`${getFontSizeCss(size)}`]: variant !== "link",
       button: variant !== "link",
