@@ -29,11 +29,11 @@ function truncateFirstText(node: React.ReactNode): {
   truncated: boolean
 } {
   const truncateClassNames =
-    "text-ellipsis overflow-hidden whitespace-nowrap max-w-[90px]"
+    "text-ellipsis overflow-hidden whitespace-nowrap max-w-[150px]"
 
   // ---- CASE 1: string ----
   if (typeof node === "string") {
-    const shouldModify = node.length > 15
+    const shouldModify = node.length > 25
     return {
       node: shouldModify ? (
         <span className={cn({ [truncateClassNames]: shouldModify })}>
