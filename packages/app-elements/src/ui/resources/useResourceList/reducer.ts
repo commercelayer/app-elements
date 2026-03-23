@@ -1,5 +1,5 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
-import type { FetcherResponse, Resource } from "./infiniteFetcher"
+import type { FetcherResponse, Resource } from "./listFetcher"
 
 interface ResourceListInternalState<TResource extends ListableResourceType> {
   isLoading: boolean

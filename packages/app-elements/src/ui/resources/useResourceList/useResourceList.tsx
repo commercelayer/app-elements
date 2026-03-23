@@ -30,8 +30,9 @@ import { Table, Th, Tr } from "#ui/atoms/Table"
 import type { ThProps } from "#ui/atoms/Table/Th"
 import { Text } from "#ui/atoms/Text"
 import { InputFeedback } from "#ui/forms/InputFeedback"
-import { infiniteFetcher, type Resource } from "./infiniteFetcher"
+import { listFetcher, type Resource } from "./listFetcher"
 import { useMetricsSdkProvider } from "./metricsApiClient"
+import { PaginationInfo } from "./PaginationInfo"
 import { initialState, reducer } from "./reducer"
 import { computeTitleWithTotalCount } from "./utils"
 import { VisibilityTrigger } from "./VisibilityTrigger"
@@ -93,7 +94,7 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
       }
   )
 
-export interface UseResourceListConfig<TResource extends ListableResourceType> {
+export type UseResourceListConfig<TResource extends ListableResourceType> = {
   /**
    * The resource type to be fetched in the list
    */
@@ -114,21 +115,27 @@ export interface UseResourceListConfig<TResource extends ListableResourceType> {
     }
     filter: Record<string, unknown>
   }
+  /**
+   * Pagination type: 'infinite' for infinite scrolling (default), 'pagination' for classic prev/next pagination.
+   * Note: 'pagination' mode is only supported for Core API (not Metrics API).
+   */
+  paginationType?: "infinite" | "pagination"
+  /**
+   * Controls scroll behavior when the user navigates to a new page.
+   * Only applies when `paginationType` is `'pagination'`.
+   * - `'top'`: scrolls to the top of the page (default)
+   * - `'list'`: scrolls to the top of the list
+   * - `'none'`: no scroll
+   * @default 'top'
+   */
+  paginationScrollTo?: "top" | "list" | "none"
 }
 
-/**
- * Renders a list of resources of a given type with infinite scrolling.
- * It's possible to specify a query to filter the list and either
- * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
- */
-export function useResourceList<TResource extends ListableResourceType>({
-  type,
-  query,
-  metricsQuery,
-}: UseResourceListConfig<TResource>): {
-  /** The component that renders the list with infinite scrolling functionality */
+// Base return type without Pagination
+interface UseResourceListReturn<TResource extends ListableResourceType> {
+  /** The component that renders the list with infinite scrolling or pagination functionality */
   ResourceList: FC<ResourceListProps<TResource>>
-  /** The raw array of fetched resources, which grows each time a new page is fetched */
+  /** The raw array of fetched resources, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
   list?: Array<Resource<TResource>>
   /** Metadata related to pagination, as returned by the SDK */
   meta?: ListMeta
@@ -149,34 +156,91 @@ export function useResourceList<TResource extends ListableResourceType>({
   refresh: () => void
   /** Indicates whether there are more pages available for fetching */
   hasMorePages?: boolean
-} {
+}
+
+// Return type with Pagination component
+export interface UseResourceListReturnWithPagination<
+  TResource extends ListableResourceType,
+> extends UseResourceListReturn<TResource> {
+  /** Pagination controls component (only shown when paginationType is 'pagination' and there are multiple pages) */
+  Pagination: FC
+}
+
+/**
+ * Renders a list of resources of a given type with infinite scrolling or classic pagination.
+ * It's possible to specify a query to filter the list and either
+ * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
+ */
+// Overload: when paginationType is explicitly 'pagination'
+export function useResourceList<TResource extends ListableResourceType>(
+  config: UseResourceListConfig<TResource> & {
+    paginationType: "pagination"
+  },
+): UseResourceListReturnWithPagination<TResource>
+
+// Overload: when paginationType is explicitly 'infinite' or omitted
+export function useResourceList<TResource extends ListableResourceType>(
+  config: UseResourceListConfig<TResource> & {
+    paginationType?: "infinite"
+  },
+): UseResourceListReturn<TResource>
+
+// Fallback overload: when paginationType is a union type or otherwise not narrowable to a literal
+export function useResourceList<TResource extends ListableResourceType>(
+  config: UseResourceListConfig<TResource>,
+): UseResourceListReturn<TResource>
+
+// Implementation signature
+export function useResourceList<TResource extends ListableResourceType>({
+  type,
+  query,
+  metricsQuery,
+  paginationType = "infinite",
+  paginationScrollTo = "top",
+}: UseResourceListConfig<TResource>):
+  | UseResourceListReturn<TResource>
+  | UseResourceListReturnWithPagination<TResource> {
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
   const [{ data, isLoading, error }, dispatch] = useReducer(
     reducer,
     initialState,
   )
+  const [currentPage, setCurrentPage] = React.useState(1)
+  const listRef = React.useRef<HTMLDivElement>(null)
+
+  // Validate that pagination mode is not used with metrics API
+  if (paginationType === "pagination" && metricsQuery != null) {
+    throw new Error(
+      "Pagination mode is not supported with Metrics API. Please use infinite scrolling (default) or switch to Core API.",
+    )
+  }
 
   const isQueryChanged = useIsChanged({
     value: query,
     onChange: () => {
+      setCurrentPage(1)
       dispatch({ type: "reset" })
-      void fetchMore({ query })
+      void fetchMore({ query, pageNumber: 1 })
     },
   })
 
   const fetchMore = useCallback(
     async ({
       query,
+      pageNumber,
     }: {
       query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
+      pageNumber?: number
     }): Promise<void> => {
       dispatch({ type: "prepare" })
       try {
-        const listResponse = await infiniteFetcher({
+        const listResponse = await listFetcher({
           // when is new query, we don't want to pass existing data
           currentData: isQueryChanged ? undefined : data,
           resourceType: type,
+          mode: paginationType,
+          pageNumber,
           ...(metricsQuery != null
             ? {
                 clientType: "metricsClient",
@@ -194,12 +258,15 @@ export function useResourceList<TResource extends ListableResourceType>({
         dispatch({ type: "error", payload: parseApiErrorMessage(err) })
       }
     },
-    [sdkClient, data, isQueryChanged],
+    [sdkClient, data, isQueryChanged, paginationType, metricsQuery, type],
   )
 
   useEffect(
     function initialFetch() {
-      void fetchMore({ query })
+      void fetchMore({
+        query,
+        pageNumber: paginationType === "pagination" ? 1 : undefined,
+      })
     },
     [sdkClient],
   )
@@ -221,9 +288,27 @@ export function useResourceList<TResource extends ListableResourceType>({
   }, [])
 
   const refresh = useCallback(() => {
+    setCurrentPage(1)
     dispatch({ type: "reset" })
-    void fetchMore({ query })
-  }, [])
+    void fetchMore({
+      query,
+      pageNumber: paginationType === "pagination" ? 1 : undefined,
+    })
+  }, [query, paginationType, fetchMore])
+
+  const handlePageChange = useCallback(
+    (newPage: number) => {
+      setCurrentPage(newPage)
+      void fetchMore({ query, pageNumber: newPage }).then(() => {
+        if (paginationScrollTo === "top") {
+          window.scrollTo({ top: 0 })
+        } else if (paginationScrollTo === "list") {
+          listRef.current?.scrollIntoView()
+        }
+      })
+    },
+    [query, fetchMore, paginationScrollTo],
+  )
 
   const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
     ({
@@ -290,6 +375,7 @@ export function useResourceList<TResource extends ListableResourceType>({
 
       return (
         <Section
+          ref={paginationScrollTo === "list" ? listRef : undefined}
           isLoading={isFirstLoading}
           delayMs={0}
           data-testid="resource-list"
@@ -311,26 +397,34 @@ export function useResourceList<TResource extends ListableResourceType>({
                   <ErrorLine
                     message={error.message}
                     onRetry={() => {
-                      void fetchMore({ query })
+                      void fetchMore({
+                        query,
+                        pageNumber:
+                          paginationType === "pagination"
+                            ? currentPage
+                            : undefined,
+                      })
                     }}
                   />
-                ) : isLoading ? (
-                  Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
-                    .fill(null)
-                    .map((_, idx) => (
-                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                      <ItemTemplate isLoading delayMs={0} key={idx} />
-                    ))
-                ) : (
-                  <VisibilityTrigger
-                    enabled={hasMorePages}
-                    callback={(entry) => {
-                      if (entry.isIntersecting) {
-                        void fetchMore({ query })
-                      }
-                    }}
-                  />
-                )
+                ) : paginationType === "infinite" ? (
+                  isLoading ? (
+                    Array(isFirstLoading ? 8 : 2) // we want more elements as skeleton on first mount
+                      .fill(null)
+                      .map((_, idx) => (
+                        // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                        <ItemTemplate isLoading delayMs={0} key={idx} />
+                      ))
+                  ) : (
+                    <VisibilityTrigger
+                      enabled={hasMorePages}
+                      callback={(entry) => {
+                        if (entry.isIntersecting) {
+                          void fetchMore({ query })
+                        }
+                      }}
+                    />
+                  )
+                ) : null
               }
             >
               {data?.list.map((resource) => {
@@ -358,10 +452,35 @@ export function useResourceList<TResource extends ListableResourceType>({
       isLoading,
       isFirstLoading,
       error,
+      paginationType,
+      currentPage,
+      query,
+      fetchMore,
     ],
   )
 
-  return {
+  const Pagination = useCallback<FC>(() => {
+    if (
+      paginationType !== "pagination" ||
+      data == null ||
+      data.meta.pageCount <= 1
+    ) {
+      return null
+    }
+
+    return (
+      <PaginationInfo
+        currentPage={data.meta.currentPage}
+        pageCount={data.meta.pageCount}
+        recordsPerPage={data.meta.recordsPerPage}
+        recordCount={data.meta.recordCount}
+        isLoading={isLoading}
+        onPageChange={handlePageChange}
+      />
+    )
+  }, [paginationType, data, currentPage, isLoading, handlePageChange])
+
+  const baseReturn: UseResourceListReturn<TResource> = {
     ResourceList,
     list: data?.list,
     meta: data?.meta,
@@ -371,12 +490,25 @@ export function useResourceList<TResource extends ListableResourceType>({
     removeItem,
     refresh,
     fetchMore: async () => {
+      if (paginationType === "pagination") {
+        console.warn("fetchMore is not supported in pagination mode.")
+        return
+      }
       if (hasMorePages) {
         await fetchMore({ query })
       }
     },
     hasMorePages,
   }
+
+  if (paginationType === "pagination") {
+    return {
+      ...baseReturn,
+      Pagination,
+    } as UseResourceListReturnWithPagination<TResource>
+  }
+
+  return baseReturn
 }
 
 function ErrorLine({

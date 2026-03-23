@@ -12,7 +12,7 @@ import {
   adaptMetricsOrderToCore,
   type MetricsResourceOrder,
 } from "./adaptMetricsOrderToCore"
-import type { Resource } from "./infiniteFetcher"
+import type { Resource } from "./listFetcher"
 
 export type MetricsResources = "orders" | "returns"
 

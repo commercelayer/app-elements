@@ -20,6 +20,8 @@ export interface SectionProps {
   actionButton?: ReactNode
   /** CSS classes. */
   className?: string
+  /** Ref forwarded to the root element (`<section>` or `<div>`). */
+  ref?: React.Ref<HTMLDivElement>
 }
 
 /**
@@ -34,12 +36,14 @@ export const Section = withSkeletonTemplate<SectionProps>(
     border,
     isLoading,
     delayMs,
+    ref,
     ...rest
   }) => {
     const Tag = title != null ? "section" : "div"
     return (
       <Tag
         {...rest}
+        ref={ref}
         aria-label={title != null ? getInnerText(title) : undefined}
       >
         {(title != null || actionButton != null) && (
