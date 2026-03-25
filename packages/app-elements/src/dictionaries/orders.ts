@@ -13,6 +13,14 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
   const combinedStatus =
     `${order.status}:${order.payment_status}:${order.fulfillment_status}` as const
 
+  if (order.status === "cancelled") {
+    return {
+      label: t("resources.orders.attributes.status.cancelled"),
+      icon: "x",
+      color: "gray",
+    }
+  }
+
   if (order.status === "editing") {
     return {
       label: t("resources.orders.attributes.status.editing"),
@@ -39,6 +47,8 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case "placed:unpaid:unfulfilled":
+    case "placed:partially_authorized:unfulfilled":
+    case "placed:partially_authorized:not_required":
       return {
         label: t("resources.orders.attributes.status.placed"),
         icon: "x",
@@ -110,24 +120,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         ),
         icon: "check",
         color: "green",
-      }
-
-    case "cancelled:voided:unfulfilled":
-    case "cancelled:refunded:unfulfilled":
-    case "cancelled:refunded:not_required":
-    case "cancelled:unpaid:unfulfilled":
-    case "cancelled:free:unfulfilled":
-      return {
-        label: t("resources.orders.attributes.status.cancelled"),
-        icon: "x",
-        color: "gray",
-      }
-
-    case "cancelled:refunded:fulfilled":
-      return {
-        label: t("resources.orders.attributes.status.cancelled"),
-        icon: "x",
-        color: "gray",
       }
 
     case "pending:unpaid:unfulfilled":
