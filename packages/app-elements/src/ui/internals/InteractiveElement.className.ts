@@ -66,7 +66,7 @@ export function getInteractiveElementClassName({
       "inline-block": variant !== "link" && alignItems == null,
       [`text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
         variant !== "link",
-      "px-0.5!": isIcon && variant !== "circle",
+      "p-2.5!": isIcon && variant !== "circle" && variant !== "link",
       "p-1!": isIcon && variant === "circle",
       [`${getFontSizeCss(size)}`]: variant !== "link",
       button: variant !== "link",
@@ -81,9 +81,9 @@ function getSizeCss(size: InteractiveElementProps["size"]): string | undefined {
   }
 
   const mapping = {
-    mini: "px-2.5 py-1",
-    small: "px-4 py-[7px]",
-    regular: "px-4 py-[9px]",
+    mini: "px-2.5 h-[30px]",
+    small: "px-4 h-9",
+    regular: "px-4 h-10",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]

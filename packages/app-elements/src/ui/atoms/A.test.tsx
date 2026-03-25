@@ -54,7 +54,7 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-4 py-[7px]")
+    expect(getByRole("link").className).toContain("px-4 h-9")
   })
 
   it("Should render as size regular (default)", () => {
@@ -63,7 +63,7 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-4 py-[9px]")
+    expect(getByRole("link").className).toContain("px-4 h-10")
   })
 
   it("Should render with flex alignment", () => {

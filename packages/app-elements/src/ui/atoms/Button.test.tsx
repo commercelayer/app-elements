@@ -39,12 +39,12 @@ describe("Button", () => {
 
   it("Should render as size small", () => {
     const { getByRole } = render(<Button size="small">click me</Button>)
-    expect(getByRole("button").className).toContain("px-4 py-[7px]")
+    expect(getByRole("button").className).toContain("px-4 h-9")
   })
 
   it("Should render as size regular (default)", () => {
     const { getByRole } = render(<Button>click me</Button>)
-    expect(getByRole("button").className).toContain("px-4 py-[9px]")
+    expect(getByRole("button").className).toContain("px-4 h-10")
   })
 
   it("Should render with flex alignment", () => {
