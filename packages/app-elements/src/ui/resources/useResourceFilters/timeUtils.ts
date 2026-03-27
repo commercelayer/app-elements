@@ -102,7 +102,6 @@ export const timeRangeValidationSchema = z
     timeTo: z.date().optional().nullable(),
     timePreset: z.enum(filterableTimeRangePreset).optional().nullable(),
   })
-  .passthrough()
   .superRefine((data, ctx) => {
     if (data.timePreset === "custom" && data.timeFrom == null) {
       ctx.addIssue({
@@ -125,7 +124,9 @@ export const timeRangeValidationSchema = z
       data.timeFrom > data.timeTo
     ) {
       ctx.addIssue({
-        code: "invalid_date",
+        code: "invalid_type",
+        expected: "date",
+        input: data.timeTo,
         path: ["timeTo"],
         message: 'The "To" date must be greater than the "From" date',
       })

@@ -50,7 +50,7 @@
     "typescript": "~5.9.3",
     "vite": "^7.3.1",
     "vite-tsconfig-paths": "^5.1.4",
-    "zod": "^3.25.76"
+    "zod": "^4.0.5"
   },
   "msw": {
     "workerDirectory": "public"
