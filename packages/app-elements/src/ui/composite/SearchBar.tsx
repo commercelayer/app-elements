@@ -107,7 +107,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           />
           <input
             className={cn(
-              "rounded font-medium w-full px-11 transition placeholder:text-gray-400",
+              "rounded-[8px] font-medium w-full px-11 transition placeholder:text-gray-400",
               "ring-0 outline-0",
               "focus:caret-primary focus:bg-white",
               {
