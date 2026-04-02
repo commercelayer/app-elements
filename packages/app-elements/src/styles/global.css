@@ -9,9 +9,9 @@
   --breakpoint-xl: 1280px;
 
   --radius-*: initial;
-  --radius: 0.313rem;
-  --radius-sm: 0.188rem;
-  --radius-md: 0.625rem;
+  --radius: 0.5rem;
+  --radius-sm: 0.25rem;
+  --radius-md: 1rem;
   --radius-full: 9999px;
 
   --color-*: initial;
