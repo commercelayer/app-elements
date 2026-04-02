@@ -1,29 +1,29 @@
-import cn from "classnames"
-import { type FC, useEffect, useState } from "react"
-import { DropdownDivider } from "./DropdownDivider"
+import cn from "classnames";
+import { type FC, useEffect, useState } from "react";
+import { DropdownDivider } from "./DropdownDivider";
 
 export interface DropdownMenuProps extends React.HTMLAttributes<HTMLElement> {
   /** Menu content */
-  children?: React.ReactNode
+  children?: React.ReactNode;
   /** Set to `none` to hide the top arrow */
-  arrow?: "none"
+  arrow?: "none";
   /** Optional header for the dropdown menu */
-  menuHeader?: string
+  menuHeader?: string;
   /**
    * Opening position of the dropdown menu
    * @default bottom-right
    */
-  menuPosition?: "bottom-left" | "bottom-right" | "top-left" | "top-right"
+  menuPosition?: "bottom-left" | "bottom-right" | "top-left" | "top-right";
   /**
    * If set, the arrow will be centered when trigger button is smaller than 50px
    * Otherwise it will fallback to a default centering based on 32px trigger button
    */
-  parentElementRef?: React.RefObject<HTMLDivElement>
+  parentElementRef?: React.RefObject<HTMLDivElement>;
   /**
    * Set a wider menu, fixed to 280px.
    * By default, when no width is set, the menu adjusts its width dynamically to accommodate content, within a range of 150px to 250px.
    **/
-  menuWidth?: "wide"
+  menuWidth?: "wide";
 }
 
 export const DropdownMenu: FC<DropdownMenuProps> = ({
@@ -35,10 +35,10 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
   menuWidth,
   ...rest
 }) => {
-  const [centerToWidth, setCenterToWidth] = useState<number>()
+  const [centerToWidth, setCenterToWidth] = useState<number>();
   useEffect(() => {
-    setCenterToWidth(parentElementRef?.current?.clientWidth)
-  }, [parentElementRef])
+    setCenterToWidth(parentElementRef?.current?.clientWidth);
+  }, [parentElementRef]);
 
   return (
     <div
@@ -55,7 +55,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
       <div
         {...rest}
         className={cn(
-          "bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2",
+          "bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg",
           {
             "min-w-[150px] md:max-w-[250px]": menuWidth == null, // default width
             "w-[280px]": menuWidth === "wide",
@@ -65,7 +65,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
         {menuHeader != null && (
           <>
             <div
-              className="py-2 px-4 text-gray-400 text-xs font-semibold text-ellipsis overflow-hidden whitespace-nowrap"
+              className="py-2 px-4 text-gray-800 text-xs font-semibold text-ellipsis overflow-hidden whitespace-nowrap"
               title={menuHeader}
             >
               {menuHeader}
@@ -76,28 +76,28 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
         {children}
       </div>
     </div>
-  )
-}
+  );
+};
 
-DropdownMenu.displayName = "DropdownMenu"
+DropdownMenu.displayName = "DropdownMenu";
 
 const Arrow: FC<{
-  menuPosition: DropdownMenuProps["menuPosition"]
-  centerToWidth?: number
+  menuPosition: DropdownMenuProps["menuPosition"];
+  centerToWidth?: number;
 }> = ({ menuPosition = "bottom-right", centerToWidth }) => {
-  const arrowHeight = 5
-  const arrowWidth = 12
+  const arrowHeight = 5;
+  const arrowWidth = 12;
 
   const centeringOffset = calculateArrowCenteringOffset({
     arrowWidth,
     centerToWidth,
-  })
+  });
 
-  const alignProp = menuPosition.includes("right") ? "right" : "left"
+  const alignProp = menuPosition.includes("right") ? "right" : "left";
   const arrowDirection =
     menuPosition === "bottom-right" || menuPosition === "bottom-left"
       ? "top"
-      : "bottom"
+      : "bottom";
   const cssForPointingDirection =
     arrowDirection === "top"
       ? {
@@ -107,11 +107,11 @@ const Arrow: FC<{
       : {
           borderTopWidth: arrowHeight,
           borderBottomColor: "transparent",
-        }
+        };
 
   return (
     <span
-      className="relative border-black border-l-transparent border-r-transparent"
+      className="relative border-gray-200 border-l-transparent border-r-transparent"
       style={{
         // base styles
         borderLeftWidth: arrowWidth / 2,
@@ -121,8 +121,8 @@ const Arrow: FC<{
         [alignProp]: centeringOffset,
       }}
     />
-  )
-}
+  );
+};
 
 // Calculate the offset for centering the arrow on the dropdown button when this does not excide 50px
 // This means that for smaller buttons (up to 50px) the arrow will be centered on the button
@@ -131,13 +131,13 @@ function calculateArrowCenteringOffset({
   arrowWidth,
   centerToWidth,
 }: {
-  arrowWidth: number
-  centerToWidth?: number
+  arrowWidth: number;
+  centerToWidth?: number;
 }): number {
   if (centerToWidth == null || centerToWidth > 50) {
-    return 10 // default offset calculated on a base of 32px button width
+    return 10; // default offset calculated on a base of 32px button width
   }
 
-  const centeringOffset = centerToWidth / 2 - arrowWidth / 2
-  return centeringOffset
+  const centeringOffset = centerToWidth / 2 - arrowWidth / 2;
+  return centeringOffset;
 }

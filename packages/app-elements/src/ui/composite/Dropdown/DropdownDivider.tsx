@@ -1,8 +1,7 @@
-import type { FC } from "react"
+import type { FC } from "react";
 
-export interface DropdownDividerProps
-  extends React.HTMLAttributes<HTMLElement> {
-  children?: React.ReactNode
+export interface DropdownDividerProps extends React.HTMLAttributes<HTMLElement> {
+  children?: React.ReactNode;
 }
 
 export const DropdownDivider: FC<DropdownDividerProps> = ({
@@ -11,9 +10,9 @@ export const DropdownDivider: FC<DropdownDividerProps> = ({
 }) => {
   return (
     <div {...rest} className="h-px my-2">
-      <hr className="border-gray-600" />
+      <hr className="border-gray-200" />
     </div>
-  )
-}
+  );
+};
 
-DropdownDivider.displayName = "DropdownDivider"
+DropdownDivider.displayName = "DropdownDivider";
