@@ -51,6 +51,7 @@ export const iconMapping = {
   download: phosphor.DownloadIcon,
   envelopeSimple: phosphor.EnvelopeSimpleIcon,
   equals: phosphor.EqualsIcon,
+  exportIcon: phosphor.ExportIcon,
   eye: phosphor.EyeIcon,
   eyeSlash: phosphor.EyeSlashIcon,
   fileArrowDown: phosphor.FileArrowDownIcon,
