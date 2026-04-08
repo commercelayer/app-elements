@@ -39,16 +39,20 @@ describe("Button", () => {
 
   it("Should render as size small", () => {
     const { getByRole } = render(<Button size="small">click me</Button>)
-    expect(getByRole("button").className).toContain("px-4 h-9")
+    expect(getByRole("button").className).toContain("px-4")
+    expect(getByRole("button").className).toContain("h-9")
   })
 
   it("Should render as size regular (default)", () => {
     const { getByRole } = render(<Button>click me</Button>)
-    expect(getByRole("button").className).toContain("px-4 h-10")
+    expect(getByRole("button").className).toContain("px-4")
+    expect(getByRole("button").className).toContain("h-10")
   })
 
   it("Should render with flex alignment", () => {
     const { getByRole } = render(<Button alignItems="center">click me</Button>)
-    expect(getByRole("button").className).toContain("flex gap-1 items-center")
+    expect(getByRole("button").className).toContain("inline-flex")
+    expect(getByRole("button").className).toContain("gap-1")
+    expect(getByRole("button").className).toContain("items-center")
   })
 })
