@@ -40,6 +40,7 @@
     "build:css-vendor": "pnpm dlx @tailwindcss/cli -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "lint:fix": "pnpm biome check --write",
     "test": "vitest run",
+    "test:update": "vitest run --update",
     "test:watch": "vitest",
     "ts:check": "tsc --noEmit",
     "generate:schema.order_rules": "curl -s https://core.commercelayer.io/api/public/schemas/order_rules | pnpx json-schema-to-typescript > ./src/ui/forms/RuleEngine/schema.order_rules.ts",
