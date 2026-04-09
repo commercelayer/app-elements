@@ -108,10 +108,10 @@ export const Dropdown: React.FC<DropdownProps> = ({
         // biome-ignore lint/a11y/useKeyWithClickEvents: Using click handler to close the dropdown
         <div
           className={cn("absolute z-30", {
-            "top-full mt-[5px] right-0": menuPosition === "bottom-right",
-            "top-full mt-[5px] left-0": menuPosition === "bottom-left",
-            "bottom-full mb-[5px] right-0": menuPosition === "top-right",
-            "bottom-full mb-[5px] left-0": menuPosition === "top-left",
+            "top-full mt-2 right-0": menuPosition === "bottom-right",
+            "top-full mt-2 left-0": menuPosition === "bottom-left",
+            "bottom-full mb-2 right-0": menuPosition === "top-right",
+            "bottom-full mb-2 left-0": menuPosition === "top-left",
           })}
           onClick={closeDropdownMenuIfButtonClicked}
         >

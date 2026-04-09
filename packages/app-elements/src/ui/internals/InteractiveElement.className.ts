@@ -29,6 +29,7 @@ export interface InteractiveElementProps {
   fullWidth?: boolean
   /**
    * Flex content alignment with a standard gap
+   * @deprecated This prop is actually useless as we always have centered items inside buttons.
    */
   alignItems?: "center"
   /**
@@ -38,7 +39,6 @@ export interface InteractiveElementProps {
 }
 
 export function getInteractiveElementClassName({
-  alignItems,
   children,
   disabled,
   fullWidth,
@@ -57,22 +57,39 @@ export function getInteractiveElementClassName({
   return cn([
     `font-medium whitespace-nowrap leading-5`,
     {
+      // Button-like behaviors (non links)
+      "inline-flex justify-center items-center gap-1": variant !== "link",
+      "!justify-start": variant === "input",
+      "transition-opacity duration-500": variant !== "link",
+      button: variant !== "link",
+      [`${getSizeCss(size)}`]: variant !== "link",
+      [`${getFontSizeCss(size)}`]: variant !== "link",
+      [`${getPaddingCss(size)}`]: !isIcon && variant !== "link",
+      // Link-like behaviors
+      "inline w-fit underline": variant === "link",
+      // Shared behaviors
       "rounded-[8px]": variant !== "circle" && variant !== "input",
       "opacity-50 pointer-events-none touch-none": disabled,
       "w-full": fullWidth === true && variant !== "link",
-      "inline-flex gap-1": alignItems != null,
-      "items-center justify-center": alignItems === "center",
-      "inline w-fit underline": variant === "link",
-      "inline-block": variant !== "link" && alignItems == null,
-      [`text-center transition-opacity duration-500 ${getSizeCss(size)}`]:
-        variant !== "link",
-      "p-2.5!": isIcon && variant !== "circle" && variant !== "link",
-      "p-1!": isIcon && variant === "circle",
-      [`${getFontSizeCss(size)}`]: variant !== "link",
-      button: variant !== "link",
     },
     getVariantCss(variant),
   ])
+}
+
+function getPaddingCss(
+  size: InteractiveElementProps["size"],
+): string | undefined {
+  if (size == null) {
+    return undefined
+  }
+
+  const mapping = {
+    mini: "px-2.5",
+    small: "px-4",
+    regular: "px-4",
+  } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
+
+  return mapping[size]
 }
 
 function getSizeCss(size: InteractiveElementProps["size"]): string | undefined {
@@ -81,9 +98,9 @@ function getSizeCss(size: InteractiveElementProps["size"]): string | undefined {
   }
 
   const mapping = {
-    mini: "px-2.5 h-[30px]",
-    small: "px-4 h-9",
-    regular: "px-4 h-10",
+    mini: "h-[30px] min-w-[30px]",
+    small: "h-9 min-w-9",
+    regular: "h-10 min-w-10",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]

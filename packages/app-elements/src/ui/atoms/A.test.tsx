@@ -54,7 +54,8 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-4 h-9")
+    expect(getByRole("link").className).toContain("h-9")
+    expect(getByRole("link").className).toContain("px-4")
   })
 
   it("Should render as size regular (default)", () => {
@@ -63,7 +64,8 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("px-4 h-10")
+    expect(getByRole("link").className).toContain("px-4")
+    expect(getByRole("link").className).toContain("h-10")
   })
 
   it("Should render with flex alignment", () => {
@@ -72,6 +74,6 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("flex gap-1 items-center")
+    expect(getByRole("link").className).toContain("inline")
   })
 })

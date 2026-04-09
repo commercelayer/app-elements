@@ -11,7 +11,7 @@ export const DropdownDivider: FC<DropdownDividerProps> = ({
 }) => {
   return (
     <div {...rest} className="h-px my-2">
-      <hr className="border-gray-600" />
+      <hr className="border-gray-200" />
     </div>
   )
 }
