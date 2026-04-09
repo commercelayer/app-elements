@@ -9,10 +9,11 @@ export const getSelectStyles = (
   menu: (style) => ({
     ...style,
     zIndex: 100,
-    border: "1px solid rgb(230 231 231)",
-    borderRadius: 5,
-    boxShadow: "2px 2px 0 #f8f8f8;",
-    padding: "1px",
+    border: "1px solid #e5e5e5",
+    borderRadius: 8,
+    boxShadow:
+      "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);",
+    padding: "8px",
   }),
   menuList: (style) => ({
     ...style,
@@ -22,25 +23,18 @@ export const getSelectStyles = (
     ...style,
     padding: "0.375rem 1rem",
     backgroundColor: isSelected
-      ? "#EDEEEE"
+      ? "#f8f8f8"
       : isFocused
-        ? "#F8F8F8"
+        ? "#edeeee"
         : "transparent",
     color: isDisabled ? "#BBBEBE" : "rgb(40 41 41)",
     fontSize: 14,
     lineHeight: "20px",
-    fontWeight: isSelected ? 700 : 500,
+    fontWeight: isSelected ? 600 : 400,
     cursor: "pointer",
+    borderRadius: "8px",
     "&:active": {
-      backgroundColor: isSelected ? "#EDEEEE" : "rgb(248 248 248)",
-    },
-    "&:first-of-type": {
-      borderTopLeftRadius: 5,
-      borderTopRightRadius: 5,
-    },
-    "&:last-child": {
-      borderBottomLeftRadius: 5,
-      borderBottomRightRadius: 5,
+      backgroundColor: isSelected ? "#f8f8f8" : "rgb(248 248 248)",
     },
   }),
   noOptionsMessage: (style) => ({
@@ -58,8 +52,14 @@ export const getSelectStyles = (
   }),
   valueContainer: (style, { isMulti }) => ({
     ...style,
-    padding: isMulti ? "0.4375rem 1rem" : "0.5rem 1rem",
-    gap: "0.5rem",
+    padding: isMulti ? "0.4375rem 0.625rem" : "0.5rem 1rem",
+    gap: "0",
+    "> div[class^='flex']": {
+      marginRight: "6px",
+    },
+    "> div[class^='flex']:not(:has(~ div[class^='flex']))": {
+      marginRight: "0",
+    },
   }),
   singleValue: (style) => ({
     ...style,
@@ -92,7 +92,7 @@ export const getSelectStyles = (
       backgroundColor: "transparent",
     },
     "> button": {
-      borderRadius: "5px",
+      borderRadius: "8px",
     },
     "> button:focus-within": {
       color: "black",
@@ -109,22 +109,24 @@ export const getSelectStyles = (
       minHeight: "44px",
 
       outline: "none",
-      borderRadius: 5,
+      borderRadius: 8,
       cursor: "pointer",
     }
   },
-  placeholder: (style) => ({
+  placeholder: (style, { isMulti }) => ({
     ...style,
     margin: 0,
     fontSize: 14,
     lineHeight: "20px",
     fontWeight: 500,
     color: "#686E6E",
+    paddingLeft: isMulti ? "0.375rem" : "0",
   }),
-  input: (style) => ({
+  input: (style, { isMulti }) => ({
     ...style,
     margin: 0,
     padding: 0,
+    paddingLeft: isMulti ? "0.375rem" : "0",
     fontSize: 14,
     lineHeight: "20px",
     "& > input": {
