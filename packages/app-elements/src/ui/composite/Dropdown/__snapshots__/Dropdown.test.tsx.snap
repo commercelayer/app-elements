@@ -25,15 +25,11 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
       </svg>
     </button>
     <div
-      class="absolute z-30 top-full mt-[5px] left-0"
+      class="absolute z-30 top-full mt-2 left-0"
     >
       <div
         class="flex flex-col items-start"
       >
-        <span
-          class="relative border-gray-200 border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; left: 10px;"
-        />
         <div
           class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
@@ -70,15 +66,11 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
       </svg>
     </button>
     <div
-      class="absolute z-30 bottom-full mb-[5px] left-0"
+      class="absolute z-30 bottom-full mb-2 left-0"
     >
       <div
         class="flex flex-col-reverse items-start"
       >
-        <span
-          class="relative border-gray-200 border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; left: 10px;"
-        />
         <div
           class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
@@ -115,15 +107,11 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
       </svg>
     </button>
     <div
-      class="absolute z-30 bottom-full mb-[5px] right-0"
+      class="absolute z-30 bottom-full mb-2 right-0"
     >
       <div
         class="flex flex-col-reverse items-end"
       >
-        <span
-          class="relative border-gray-200 border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-top-width: 5px; border-bottom-color: transparent; right: 10px;"
-        />
         <div
           class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
@@ -160,15 +148,11 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
       </svg>
     </button>
     <div
-      class="absolute z-30 top-full mt-[5px] right-0"
+      class="absolute z-30 top-full mt-2 right-0"
     >
       <div
         class="flex flex-col items-end"
       >
-        <span
-          class="relative border-gray-200 border-l-transparent border-r-transparent"
-          style="border-left-width: 6px; border-right-width: 6px; border-bottom-width: 5px; border-top-color: transparent; right: 10px;"
-        />
         <div
           class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
