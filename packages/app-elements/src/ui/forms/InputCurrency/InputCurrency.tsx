@@ -141,7 +141,8 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
               "block w-full pr-4 py-2.5 text-sm",
               {
                 "pl-4": hideCurrencySymbol === true,
-                "pl-8": hideCurrencySymbol !== true,
+                [getSymbolPaddingCSS(currency.symbol)]:
+                  hideCurrencySymbol !== true,
               },
               "rounded outline-0",
               getFeedbackStyle(feedback),
@@ -207,6 +208,20 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
 )
 
 InputCurrency.displayName = "InputCurrency"
+
+/**
+ * Returns the left-padding class for the input based on the currency symbol length.
+ **/
+function getSymbolPaddingCSS(symbol: string): string {
+  switch (symbol.length) {
+    case 3:
+      return "pl-12"
+    case 2:
+      return "pl-10"
+    default:
+      return "pl-8"
+  }
+}
 
 /**
  * Prepare the initial value for the component internal state.
