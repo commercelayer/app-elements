@@ -4,7 +4,7 @@ import type { JSX } from "react"
 import { t } from "#providers/I18NProvider"
 import { SearchBar, type SearchBarProps } from "#ui/composite/SearchBar"
 import { makeFilterAdapters } from "./adapters"
-import type { FiltersInstructions } from "./types"
+import { type FiltersInstructions, getFieldKey, isTextSearch } from "./types"
 
 export interface FilterSearchBarProps
   extends Pick<SearchBarProps, "placeholder" | "debounceMs"> {
@@ -52,10 +52,11 @@ function FiltersSearchBar({
       predicateWhitelist,
     })
 
-  const textPredicate = instructions.find(
-    (item) =>
-      item.type === "textSearch" && item.render.component === "searchBar",
-  )?.sdk.predicate
+  const textSearchItem = instructions.find(
+    (item) => isTextSearch(item) && item.render.component === "searchBar",
+  )
+  const textPredicate =
+    textSearchItem != null ? getFieldKey(textSearchItem.sdk) : undefined
 
   const updateTextFilter = (hint?: string): void => {
     if (textPredicate == null) {
@@ -68,7 +69,9 @@ function FiltersSearchBar({
 
     const newQueryString = adaptFormValuesToUrlQuery({
       formValues: {
-        ...currentFilters,
+        ...(currentFilters as Parameters<
+          typeof adaptFormValuesToUrlQuery
+        >[0]["formValues"]),
         [textPredicate]: isEmpty(hint?.trim()) ? undefined : hint,
       },
     })

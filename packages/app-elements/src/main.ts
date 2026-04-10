@@ -416,6 +416,7 @@ export {
   type FiltersInstructions,
   type FormFullValues,
   type MetricsFilters,
+  type SdkPredicate,
   type UiFilterName,
   type UiFilterValue,
   useResourceFilters,

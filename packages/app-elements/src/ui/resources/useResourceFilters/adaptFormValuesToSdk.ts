@@ -11,9 +11,11 @@ import {
   type FilterItemOptions,
   type FilterItemTextSearch,
   type FiltersInstructions,
+  getFieldKey,
   isCurrencyRange,
   isItemOptions,
   isTextSearch,
+  resolvePredicate,
   type TimeRangePreset,
   type UiFilterName,
   type UiFilterValue,
@@ -52,14 +54,19 @@ export function adaptFormValuesToSdk<
         | FilterItemCurrencyRange =>
         isItemOptions(item) || isTextSearch(item) || isCurrencyRange(item),
     )
-    .flatMap((item) =>
-      ([] as string[]).concat(item.sdk.predicate).concat(predicateWhitelist),
-    )
+    .flatMap((item) => {
+      const fieldKey = isTextSearch(item)
+        ? getFieldKey(item.sdk)
+        : item.sdk.predicate
+      return ([fieldKey] as string[]).concat(predicateWhitelist)
+    })
 
   const sdkFilters = formFieldNames.reduce<Partial<QueryFilter>>(
     (acc, key) => {
-      const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key,
+      const instructionItem = instructions.find((item) =>
+        isTextSearch(item)
+          ? getFieldKey(item.sdk) === key
+          : item.sdk.predicate === key,
       )
 
       if (instructionItem == null) {
@@ -73,6 +80,12 @@ export function adaptFormValuesToSdk<
         return acc
       }
 
+      // resolve the actual SDK predicate key (dynamic when predicate is a function, textSearch only)
+      const sdkKey =
+        instructionItem.type === "textSearch"
+          ? resolvePredicate(instructionItem.sdk.predicate, formValues[key])
+          : key
+
       // user custom defined parseFormValue function
       if (
         "parseFormValue" in instructionItem.sdk &&
@@ -80,7 +93,7 @@ export function adaptFormValuesToSdk<
       ) {
         return {
           ...acc,
-          [key]: instructionItem.sdk.parseFormValue(formValues[key]),
+          [sdkKey]: instructionItem.sdk.parseFormValue(formValues[key]),
         }
       }
 
@@ -90,7 +103,7 @@ export function adaptFormValuesToSdk<
       ) {
         return {
           ...acc,
-          [key]: castArray(formValues[key]).join(","),
+          [sdkKey]: castArray(formValues[key]).join(","),
         }
       }
 
@@ -104,8 +117,8 @@ export function adaptFormValuesToSdk<
             : undefined
         return {
           ...acc,
-          [`${key}_gteq`]: currencyFrom,
-          [`${key}_lteq`]: currencyTo,
+          [`${sdkKey}_gteq`]: currencyFrom,
+          [`${sdkKey}_lteq`]: currencyTo,
           currency_code_eq: currencyCode,
         }
       }

@@ -43,6 +43,40 @@ export type FormFullValues = Record<
   TimeRangeFormValues &
   PageInfoFormValues
 
+/**
+ * The SDK predicate to use in the query for a text search filter. It can be:
+ * - A static string (e.g. `name_cont`) — used as both the form field name and the SDK query key.
+ * - A function `(value: unknown) => string` that receives the current input value and returns
+ *   the SDK predicate dynamically. When using a function, `fieldKey` must also be provided.
+ */
+export type SdkPredicate = string | ((value: unknown) => string)
+
+/**
+ * Returns the stable form field name / URL query param key for a text search sdk config.
+ * - When `predicate` is a string, returns `predicate`.
+ * - When `predicate` is a function, returns `fieldKey`.
+ */
+export function getFieldKey(sdk: {
+  predicate: SdkPredicate
+  fieldKey?: string
+}): string {
+  return typeof sdk.predicate === "string"
+    ? sdk.predicate
+    : (sdk.fieldKey as string)
+}
+
+/**
+ * Resolves the SDK predicate key to use in a query.
+ * - When `predicate` is a string, returns it directly.
+ * - When `predicate` is a function, calls it with `value` and returns the result.
+ */
+export function resolvePredicate(
+  predicate: SdkPredicate,
+  value: unknown,
+): string {
+  return typeof predicate === "function" ? predicate(value) : predicate
+}
+
 export interface BaseFilterItem {
   /**
    * Label of the filter field in form component
@@ -118,7 +152,33 @@ export interface FilterItemTextSearch extends Omit<BaseFilterItem, "sdk"> {
      */
     component: "searchBar" | "input"
   }
-  sdk: Pick<BaseFilterItem["sdk"], "predicate" | "parseFormValue">
+  sdk: {
+    /**
+     * Custom function to transform the form value to the SDK value
+     */
+    parseFormValue?: (value: unknown) => ValueOf<QueryFilter> | undefined
+  } & (
+    | {
+        /**
+         * SDK predicate to use in the query (example: `name_cont` or `email_start`).
+         * Can also be a function `(value: unknown) => string` that dynamically computes the
+         * predicate based on the current input value (e.g. to switch between predicates depending
+         * on what the user typed). When using a function, `fieldKey` must also be provided to
+         * identify the form field name and URL query param key.
+         */
+        predicate: string
+        fieldKey?: never
+      }
+    | {
+        predicate: (value: unknown) => string
+        /**
+         * The form field name and URL query param key for this filter item.
+         * Required when `predicate` is a function; ignored when `predicate` is a string
+         * (in that case the predicate string itself is used as the field key).
+         */
+        fieldKey: string
+      }
+  )
 }
 
 export interface FilterItemTime extends Omit<BaseFilterItem, "sdk"> {

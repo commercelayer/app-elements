@@ -1,6 +1,7 @@
 import type { JSX } from "react"
 import { HookedInput } from "#ui/forms/Input"
 import type { FilterItemTextSearch } from "./types"
+import { getFieldKey } from "./types"
 
 interface FieldProps {
   item: FilterItemTextSearch
@@ -12,6 +13,6 @@ export function FieldTextSearch({ item }: FieldProps): JSX.Element | null {
       return null
 
     case "input":
-      return <HookedInput label={item.label} name={item.sdk.predicate} />
+      return <HookedInput label={item.label} name={getFieldKey(item.sdk)} />
   }
 }

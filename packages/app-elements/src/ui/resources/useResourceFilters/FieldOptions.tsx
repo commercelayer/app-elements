@@ -13,7 +13,7 @@ export function FieldOptions({ item }: FieldProps): JSX.Element | null {
   const { watch } = useFormContext()
 
   switch (item.render.component) {
-    case "inputToggleButton":
+    case "inputToggleButton": {
       return (
         <HookedInputToggleButton
           label={
@@ -34,8 +34,9 @@ export function FieldOptions({ item }: FieldProps): JSX.Element | null {
           )}
         />
       )
+    }
 
-    case "inputResourceGroup":
+    case "inputResourceGroup": {
       return (
         <HookedInputResourceGroup
           name={item.sdk.predicate}
@@ -43,5 +44,6 @@ export function FieldOptions({ item }: FieldProps): JSX.Element | null {
           {...item.render.props}
         />
       )
+    }
   }
 }

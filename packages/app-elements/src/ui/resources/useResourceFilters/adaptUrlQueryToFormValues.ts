@@ -5,7 +5,9 @@ import {
   type FiltersInstructions,
   type FormFullValues,
   filterableTimeRangePreset,
+  getFieldKey,
   isCurrencyRange,
+  isTextSearch,
   type UiFilterName,
   type UiFilterValue,
 } from "./types"
@@ -34,7 +36,9 @@ export function adaptUrlQueryToFormValues<
   const allowedQueryParams = [
     ...instructions
       .filter((item) => !isCurrencyRange(item))
-      .map((item) => item.sdk.predicate),
+      .map((item) =>
+        isTextSearch(item) ? getFieldKey(item.sdk) : item.sdk.predicate,
+      ),
     ...predicateWhitelist,
     // ...currencyRangeFieldKeys
   ]
@@ -100,8 +104,10 @@ export function adaptUrlQueryToFormValues<
 
   const formValues = allowedQueryParams.reduce(
     (formValues, key) => {
-      const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key,
+      const instructionItem = instructions.find((item) =>
+        isTextSearch(item)
+          ? getFieldKey(item.sdk) === key
+          : item.sdk.predicate === key,
       )
 
       if (instructionItem == null) {

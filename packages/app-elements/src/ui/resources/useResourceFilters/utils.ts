@@ -1,10 +1,12 @@
 import isEmpty from "lodash-es/isEmpty"
 import { adaptUrlQueryToFormValues } from "./adaptUrlQueryToFormValues"
-import type {
-  FilterItemOptions,
-  FiltersInstructions,
-  UiFilterName,
-  UiFilterValue,
+import {
+  type FilterItemOptions,
+  type FiltersInstructions,
+  getFieldKey,
+  isTextSearch,
+  type UiFilterName,
+  type UiFilterValue,
 } from "./types"
 
 /**
@@ -55,7 +57,9 @@ export function getActiveFilterCountFromUrl({
   })
 
   return instructions.reduce((total, instructionItem) => {
-    const { predicate } = instructionItem.sdk
+    const predicate = isTextSearch(instructionItem)
+      ? getFieldKey(instructionItem.sdk)
+      : instructionItem.sdk.predicate
 
     if (instructionItem.hidden === true) {
       return total

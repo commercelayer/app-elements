@@ -6,7 +6,7 @@ import { adaptSdkToUrlQuery as adaptSdkToUrlQueryFn } from "./adaptSdkToUrlQuery
 import { adaptUrlQueryToFormValues as adaptUrlQueryToFormValuesFn } from "./adaptUrlQueryToFormValues"
 import { adaptUrlQueryToSdk as adaptUrlQueryToSdkFn } from "./adaptUrlQueryToSdk"
 import { adaptUrlQueryToUrlQuery as adaptUrlQueryToUrlQueryFn } from "./adaptUrlQueryToUrlQuery"
-import type { FiltersInstructions } from "./types"
+import { type FiltersInstructions, getFieldKey, isTextSearch } from "./types"
 
 export const makeFilterAdapters: MakeFiltersAdapters = ({
   instructions,
@@ -85,12 +85,16 @@ function isValidInstructions(instructions: FiltersInstructions): boolean {
     instructions.filter((item) => item.type === "timeRange")?.length > 1
 
   const hasReservedTimePresetUiFilterName =
-    instructions.filter(
-      (item) =>
-        (item.sdk.predicate === "timePreset" && item.type !== "timeRange") ||
-        item.sdk.predicate === "timeFrom" ||
-        item.sdk.predicate === "timeTo",
-    )?.length > 0
+    instructions.filter((item) => {
+      const fieldKey = isTextSearch(item)
+        ? getFieldKey(item.sdk)
+        : item.sdk.predicate
+      return (
+        (fieldKey === "timePreset" && item.type !== "timeRange") ||
+        fieldKey === "timeFrom" ||
+        fieldKey === "timeTo"
+      )
+    })?.length > 0
 
   const isInvalid =
     hasMultipleText ||

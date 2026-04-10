@@ -24,6 +24,7 @@ import {
   type FiltersInstructionItem,
   type FiltersInstructions,
   type FormFullValues,
+  getFieldKey,
   isTextSearch,
   type UiFilterName,
   type UiFilterValue,
@@ -140,7 +141,9 @@ export function FiltersNav({
     () =>
       instructions
         .filter((item) => item.hidden === true)
-        .map((item) => item.sdk.predicate),
+        .map((item) =>
+          isTextSearch(item) ? getFieldKey(item.sdk) : item.sdk.predicate,
+        ),
     [instructions],
   )
 
@@ -153,7 +156,9 @@ export function FiltersNav({
     // we need to keep all filters hidden in UI, the viewTitle and the text filter
     const filtersToKeep = Object.entries(currentFilters).reduce<FormFullValues>(
       (toKeep, [filterName, value]) => {
-        const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
+        const textItem = instructions.find(isTextSearch)
+        const textPredicate =
+          textItem != null ? getFieldKey(textItem.sdk) : undefined
 
         const isToKeep =
           hiddenFilters.includes(filterName) ||
@@ -366,7 +371,11 @@ function getInstructionItemByFilterPredicate({
   if (isTimeRangeFilterUiName(filterPredicate)) {
     return instructions.find(({ type }) => type === "timeRange")
   }
-  return instructions.find((item) => item.sdk.predicate === filterPredicate)
+  return instructions.find((item) =>
+    isTextSearch(item)
+      ? getFieldKey(item.sdk) === filterPredicate
+      : item.sdk.predicate === filterPredicate,
+  )
 }
 
 /**
