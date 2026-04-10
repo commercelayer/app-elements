@@ -11,7 +11,7 @@ interface TokenProviderInternalState {
   isLoading: boolean
   isTokenError: boolean
   rolePermissions: TokenProviderRolePermissions
-  accessibleApps: TokenProviderClAppSlug[]
+  accessibleApps: (TokenProviderClAppSlug | "metrics")[]
   settings: TokenProviderAuthSettings
   user: TokenProviderAuthUser | null
   role: TokenProviderRole | null
@@ -44,7 +44,7 @@ type Action =
         settings: TokenProviderAuthSettings
         user: TokenProviderAuthUser | null
         rolePermissions: TokenProviderRolePermissions
-        accessibleApps: TokenProviderClAppSlug[]
+        accessibleApps: (TokenProviderClAppSlug | "metrics")[]
         role: TokenProviderRole | null
       }
     }

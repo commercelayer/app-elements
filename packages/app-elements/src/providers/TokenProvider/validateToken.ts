@@ -38,7 +38,7 @@ interface ValidToken {
   mode: Mode
   organizationSlug: string
   permissions?: TokenProviderRolePermissions
-  accessibleApps?: TokenProviderClAppSlug[]
+  accessibleApps?: (TokenProviderClAppSlug | "metrics")[]
   user: TokenProviderAuthUser | null
   scopes?: ParsedScopes
   role: TokenProviderRole | null

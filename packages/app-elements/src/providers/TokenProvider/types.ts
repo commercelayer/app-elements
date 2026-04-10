@@ -24,7 +24,10 @@ export type TokenProviderClAppSlug =
  * TokenProviderAllowedApp is a type that contains all the possible kinds of the app that you can create inside the dashboard.
  * As a convention Commerce Layer official apps have a slug that matches the kind of the app.
  */
-export type TokenProviderAllowedAppKind = TokenProviderClAppSlug | "generic"
+export type TokenProviderAllowedAppKind =
+  | TokenProviderClAppSlug
+  | "generic"
+  | "metrics"
 
 /**
  * @deprecated Use `TokenProviderAllowedAppKind` instead.
