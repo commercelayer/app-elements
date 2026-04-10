@@ -11,6 +11,7 @@
     "lint": "pnpm biome check",
     "lint:fix": "pnpm biome check --write",
     "test": "pnpm -r test",
+    "test:update": "pnpm --stream -r test:update",
     "test:watch": "pnpm --stream -r test:watch",
     "ts:check": "pnpm --stream -r ts:check",
     "dep:major": "pnpm dlx npm-check-updates",
