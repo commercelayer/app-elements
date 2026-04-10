@@ -61,10 +61,10 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         }}
         href={href}
         className={cn(
-          "w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-4 mx-2 text-sm font-regular flex items-center focus:outline-hidden!",
+          "w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden!",
           {
             "pr-8": info == null,
-            "min-w-[250px] pr-6": info != null,
+            "min-w-64 pr-6": info != null,
           },
           className,
           {
@@ -93,7 +93,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           {label}
         </span>
         {info != null && (
-          <span className="ml-auto pl-1 text-xs text-gray-500 font-semibold group-hover:text-white">
+          <span className="ml-auto pl-1 text-xs text-gray-500 font-semibold group-hover:text-gray-600">
             {info}
           </span>
         )}

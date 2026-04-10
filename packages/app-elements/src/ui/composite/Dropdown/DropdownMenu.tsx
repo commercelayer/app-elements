@@ -51,7 +51,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
         className={cn(
           "bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg",
           {
-            "min-w-[150px] md:max-w-[250px]": menuWidth == null, // default width
+            "min-w-40 md:max-w-80": menuWidth == null, // default width
             "w-70": menuWidth === "wide",
           },
         )}
