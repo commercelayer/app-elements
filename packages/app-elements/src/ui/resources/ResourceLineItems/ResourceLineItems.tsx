@@ -686,7 +686,7 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
   const { t } = useTranslation()
   const discountBreakdown = useMemo(
     () => getDiscountBreakdown(lineItem),
-    [lineItem.id],
+    [lineItem.discount_breakdown],
   )
 
   return (
