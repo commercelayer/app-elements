@@ -61,14 +61,14 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
         }}
         href={href}
         className={cn(
-          "w-full bg-black text-white! py-1.5 pl-4 text-sm font-medium flex items-center focus:outline-hidden!",
+          "w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-4 mx-2 text-sm font-regular flex items-center focus:outline-hidden!",
           {
             "pr-8": info == null,
             "min-w-[250px] pr-6": info != null,
           },
           className,
           {
-            "hover:bg-gray-600 cursor-pointer focus:bg-gray-600 group":
+            "hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group":
               onClick != null || href != null,
             "cursor-default": onClick == null && href == null,
             "opacity-50 pointer-events-none": isDisabled,

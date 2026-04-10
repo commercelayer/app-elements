@@ -103,8 +103,8 @@ export const Tag: FC<TagProps> = ({ icon, children, className, ...rest }) => {
       className={cn([
         className,
         "flex gap-2 items-center select-none",
-        "text-xs font-bold",
-        "py-[3px] px-2 rounded text-gray bg-gray-200",
+        "text-xs font-semibold",
+        "py-[3px] px-2 rounded-sm text-gray bg-gray-200",
         {
           "cursor-pointer hover:bg-gray-100  outline-primary-light": hasHover,
         },

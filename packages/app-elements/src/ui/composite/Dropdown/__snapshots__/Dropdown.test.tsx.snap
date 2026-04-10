@@ -31,7 +31,7 @@ exports[`Dropdown > Should be rendering bottom-left 1`] = `
         class="flex flex-col items-start"
       >
         <div
-          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
           <div />
         </div>
@@ -72,7 +72,7 @@ exports[`Dropdown > Should be rendering top-left 1`] = `
         class="flex flex-col-reverse items-start"
       >
         <div
-          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
           <div />
         </div>
@@ -113,7 +113,7 @@ exports[`Dropdown > Should be rendering top-right 1`] = `
         class="flex flex-col-reverse items-end"
       >
         <div
-          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
           <div />
         </div>
@@ -154,11 +154,11 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
         class="flex flex-col items-end"
       >
         <div
-          class="bg-black text-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 min-w-[150px] md:max-w-[250px]"
+          class="bg-white rounded overflow-x-hidden overflow-y-auto max-h-[450px] py-2 border shadow-lg min-w-[150px] md:max-w-[250px]"
         >
           <button
             aria-label="Payments"
-            class="w-full bg-black text-white! py-1.5 pl-4 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-600 cursor-pointer focus:bg-gray-600 group"
+            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-4 mx-2 text-sm font-regular flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group"
           >
             <div
               class="mr-2"
@@ -184,7 +184,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </button>
           <button
             aria-label="Items"
-            class="w-full bg-black text-white! py-1.5 pl-4 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-600 cursor-pointer focus:bg-gray-600 group"
+            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-4 mx-2 text-sm font-regular flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group"
           >
             <div
               class="mr-2"
@@ -204,12 +204,12 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
             class="h-px my-2"
           >
             <hr
-              class="border-gray-600"
+              class="border-gray-200"
             />
           </div>
           <button
             aria-label="Delete"
-            class="w-full bg-black text-white! py-1.5 pl-4 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-600 cursor-pointer focus:bg-gray-600 group"
+            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-4 mx-2 text-sm font-regular flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group"
           >
             <div
               class="mr-2"
