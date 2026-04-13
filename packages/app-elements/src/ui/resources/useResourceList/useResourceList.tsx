@@ -282,11 +282,24 @@ export function useResourceList<TResource extends ListableResourceType>({
   const isApiError = data != null && error != null
   const displayList =
     preProcess != null && data != null ? preProcess(data.list) : data?.list
+  // true when preProcess has filtered out items — client-side filtering is active
+  const isPreProcessed =
+    preProcess != null &&
+    data != null &&
+    displayList != null &&
+    displayList.length !== data.list.length
   const isEmptyList = data != null && (displayList?.length ?? 0) === 0
   const isFirstLoading = isLoading && data == null
-  const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
+  // when filtered client-side, show the filtered count; otherwise show the API total (includes unfetched pages)
+  const recordCount = isFirstLoading
+    ? 1000
+    : isPreProcessed
+      ? displayList?.length
+      : data?.meta.recordCount
+  // when filtered client-side, stop fetching more pages — assume further pages won't change the filtered result
   const hasMorePages =
-    data == null || data.meta.pageCount > data.meta.currentPage
+    !isPreProcessed &&
+    (data == null || data.meta.pageCount > data.meta.currentPage)
 
   const removeItem = useCallback((resourceId: string) => {
     dispatch({
@@ -473,7 +486,8 @@ export function useResourceList<TResource extends ListableResourceType>({
     if (
       paginationType !== "pagination" ||
       data == null ||
-      data.meta.pageCount <= 1
+      data.meta.pageCount <= 1 ||
+      isPreProcessed
     ) {
       return null
     }
@@ -488,7 +502,14 @@ export function useResourceList<TResource extends ListableResourceType>({
         onPageChange={handlePageChange}
       />
     )
-  }, [paginationType, data, currentPage, isLoading, handlePageChange])
+  }, [
+    paginationType,
+    data,
+    currentPage,
+    isLoading,
+    handlePageChange,
+    isPreProcessed,
+  ])
 
   const baseReturn: UseResourceListReturn<TResource> = {
     ResourceList,
