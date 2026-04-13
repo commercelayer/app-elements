@@ -69,8 +69,11 @@ const TrackingDetails = withSkeletonTemplate<{
         tracking,
       }))
 
-    return sortAndGroupByDate(events)
-  }, [parcel])
+    return sortAndGroupByDate(events, {
+      timezone: user?.timezone,
+      locale: user?.locale,
+    })
+  }, [parcel, user?.locale, user?.timezone])
 
   const lastEvent = Object.values(groupedEvents)[0]?.[0] as Event | undefined
 
@@ -107,7 +110,7 @@ const TrackingDetails = withSkeletonTemplate<{
             {rate != null && (
               <Avatar
                 src={getAvatarSrcFromRate(rate)}
-                alt="Adyen"
+                alt={rate.carrier}
                 border="none"
                 shape="circle"
                 size="x-small"
