@@ -116,6 +116,13 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
     filter: Record<string, unknown>
   }
   /**
+   * Optional function to process the fetched resource list client-side before rendering.
+   * It receives the full list returned by the API and must return the processed list.
+   * Useful for client-side filtering or sorting that cannot be expressed via the API query.
+   * Affects both the `list` value returned by the hook and what is rendered by `<ResourceList>`.
+   */
+  preProcess?: (list: Array<Resource<TResource>>) => Array<Resource<TResource>>
+  /**
    * Pagination type: 'infinite' for infinite scrolling (default), 'pagination' for classic prev/next pagination.
    * Note: 'pagination' mode is only supported for Core API (not Metrics API).
    */
@@ -197,6 +204,7 @@ export function useResourceList<TResource extends ListableResourceType>({
   metricsQuery,
   paginationType = "infinite",
   paginationScrollTo = "top",
+  preProcess,
 }: UseResourceListConfig<TResource>):
   | UseResourceListReturn<TResource>
   | UseResourceListReturnWithPagination<TResource> {
@@ -272,7 +280,9 @@ export function useResourceList<TResource extends ListableResourceType>({
   )
 
   const isApiError = data != null && error != null
-  const isEmptyList = data != null && data.list.length === 0
+  const displayList =
+    preProcess != null && data != null ? preProcess(data.list) : data?.list
+  const isEmptyList = data != null && (displayList?.length ?? 0) === 0
   const isFirstLoading = isLoading && data == null
   const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
   const hasMorePages =
@@ -427,7 +437,7 @@ export function useResourceList<TResource extends ListableResourceType>({
                 ) : null
               }
             >
-              {data?.list.map((resource) => {
+              {displayList?.map((resource) => {
                 return (
                   <ItemTemplate
                     resource={resource}
@@ -444,7 +454,7 @@ export function useResourceList<TResource extends ListableResourceType>({
       )
     },
     [
-      data?.list,
+      displayList,
       hasMorePages,
       isApiError,
       isEmptyList,
@@ -482,7 +492,7 @@ export function useResourceList<TResource extends ListableResourceType>({
 
   const baseReturn: UseResourceListReturn<TResource> = {
     ResourceList,
-    list: data?.list,
+    list: displayList,
     meta: data?.meta,
     isLoading,
     isFirstLoading,
