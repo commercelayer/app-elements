@@ -11,6 +11,7 @@ import React, {
   type ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useReducer,
 } from "react"
 import { formatResourceName } from "#helpers/resources"
@@ -116,6 +117,13 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
     filter: Record<string, unknown>
   }
   /**
+   * Optional function to process the fetched resource list client-side before rendering.
+   * It receives the full list returned by the API and must return the processed list.
+   * Useful for client-side filtering or sorting that cannot be expressed via the API query.
+   * Affects both the `list` value returned by the hook and what is rendered by `<ResourceList>`.
+   */
+  preProcess?: (list: Array<Resource<TResource>>) => Array<Resource<TResource>>
+  /**
    * Pagination type: 'infinite' for infinite scrolling (default), 'pagination' for classic prev/next pagination.
    * Note: 'pagination' mode is only supported for Core API (not Metrics API).
    */
@@ -135,7 +143,7 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
 interface UseResourceListReturn<TResource extends ListableResourceType> {
   /** The component that renders the list with infinite scrolling or pagination functionality */
   ResourceList: FC<ResourceListProps<TResource>>
-  /** The raw array of fetched resources, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
+  /** The array of resources to display. When `preProcess` is provided, this is the processed result; otherwise it is the raw fetched data, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
   list?: Array<Resource<TResource>>
   /** Metadata related to pagination, as returned by the SDK */
   meta?: ListMeta
@@ -197,6 +205,7 @@ export function useResourceList<TResource extends ListableResourceType>({
   metricsQuery,
   paginationType = "infinite",
   paginationScrollTo = "top",
+  preProcess,
 }: UseResourceListConfig<TResource>):
   | UseResourceListReturn<TResource>
   | UseResourceListReturnWithPagination<TResource> {
@@ -272,11 +281,29 @@ export function useResourceList<TResource extends ListableResourceType>({
   )
 
   const isApiError = data != null && error != null
-  const isEmptyList = data != null && data.list.length === 0
+  const displayList = useMemo(
+    () =>
+      preProcess != null && data != null ? preProcess(data.list) : data?.list,
+    [data?.list, preProcess],
+  )
+  // true when preProcess has filtered out items — client-side filtering is active
+  const isPreProcessed =
+    preProcess != null &&
+    data != null &&
+    displayList != null &&
+    displayList.length !== data.list.length
+  const isEmptyList = data != null && (displayList?.length ?? 0) === 0
   const isFirstLoading = isLoading && data == null
-  const recordCount = isFirstLoading ? 1000 : data?.meta.recordCount
+  // when filtered client-side, show the filtered count; otherwise show the API total (includes unfetched pages)
+  const recordCount = isFirstLoading
+    ? 1000
+    : isPreProcessed
+      ? displayList?.length
+      : data?.meta.recordCount
+  // when filtered client-side, stop fetching more pages — assume further pages won't change the filtered result
   const hasMorePages =
-    data == null || data.meta.pageCount > data.meta.currentPage
+    !isPreProcessed &&
+    (data == null || data.meta.pageCount > data.meta.currentPage)
 
   const removeItem = useCallback((resourceId: string) => {
     dispatch({
@@ -427,7 +454,7 @@ export function useResourceList<TResource extends ListableResourceType>({
                 ) : null
               }
             >
-              {data?.list.map((resource) => {
+              {displayList?.map((resource) => {
                 return (
                   <ItemTemplate
                     resource={resource}
@@ -444,7 +471,7 @@ export function useResourceList<TResource extends ListableResourceType>({
       )
     },
     [
-      data?.list,
+      displayList,
       hasMorePages,
       isApiError,
       isEmptyList,
@@ -463,7 +490,8 @@ export function useResourceList<TResource extends ListableResourceType>({
     if (
       paginationType !== "pagination" ||
       data == null ||
-      data.meta.pageCount <= 1
+      data.meta.pageCount <= 1 ||
+      isPreProcessed
     ) {
       return null
     }
@@ -478,11 +506,18 @@ export function useResourceList<TResource extends ListableResourceType>({
         onPageChange={handlePageChange}
       />
     )
-  }, [paginationType, data, currentPage, isLoading, handlePageChange])
+  }, [
+    paginationType,
+    data,
+    currentPage,
+    isLoading,
+    handlePageChange,
+    isPreProcessed,
+  ])
 
   const baseReturn: UseResourceListReturn<TResource> = {
     ResourceList,
-    list: data?.list,
+    list: displayList,
     meta: data?.meta,
     isLoading,
     isFirstLoading,

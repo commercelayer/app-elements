@@ -197,6 +197,7 @@ function ResourceListComponent<TResource extends ListableResourceType>({
   type,
   query,
   paginationType = "infinite",
+  preProcess,
   ...listProps
 }: UseResourceListConfig<TResource> & {
   paginationType?: "infinite" | "pagination"
@@ -206,6 +207,7 @@ function ResourceListComponent<TResource extends ListableResourceType>({
     query,
     metricsQuery,
     paginationType,
+    preProcess,
   })
 
   const paginationResult =
