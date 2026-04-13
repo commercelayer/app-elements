@@ -11,6 +11,7 @@ import React, {
   type ReactNode,
   useCallback,
   useEffect,
+  useMemo,
   useReducer,
 } from "react"
 import { formatResourceName } from "#helpers/resources"
@@ -142,7 +143,7 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
 interface UseResourceListReturn<TResource extends ListableResourceType> {
   /** The component that renders the list with infinite scrolling or pagination functionality */
   ResourceList: FC<ResourceListProps<TResource>>
-  /** The raw array of fetched resources, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
+  /** The array of resources to display. When `preProcess` is provided, this is the processed result; otherwise it is the raw fetched data, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
   list?: Array<Resource<TResource>>
   /** Metadata related to pagination, as returned by the SDK */
   meta?: ListMeta
@@ -280,8 +281,11 @@ export function useResourceList<TResource extends ListableResourceType>({
   )
 
   const isApiError = data != null && error != null
-  const displayList =
-    preProcess != null && data != null ? preProcess(data.list) : data?.list
+  const displayList = useMemo(
+    () =>
+      preProcess != null && data != null ? preProcess(data.list) : data?.list,
+    [data?.list, preProcess],
+  )
   // true when preProcess has filtered out items — client-side filtering is active
   const isPreProcessed =
     preProcess != null &&
