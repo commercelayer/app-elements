@@ -3,5 +3,5 @@
     "bash -c \"tsc -p ./tsconfig.json --noEmit\"",
     "bash -c \"pnpm test\""
   ],
-  "*.{js,jsx,ts,tsx,json,jsonc}": ["pnpm lint:fix"]
+  "*.{js,jsx,ts,tsx,json,jsonc}": ["pnpm check:fix"]
 }

@@ -4,7 +4,8 @@
   "version": "6.14.0",
   "license": "MIT",
   "scripts": {
-    "lint:fix": "pnpm biome check --write",
+    "check": "pnpm biome check",
+    "check:fix": "pnpm biome check --write",
     "dev": "NODE_OPTIONS='--openssl-legacy-provider' storybook dev -p 6006",
     "build:abilities": "node src/generate-abilities.mjs",
     "build:docs": "NODE_OPTIONS='--openssl-legacy-provider' storybook build -o dist",
@@ -12,8 +13,8 @@
     "ts:check": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=18",
-    "pnpm": ">=7"
+    "node": "22",
+    "pnpm": "10"
   },
   "dependencies": {
     "prettier": "^3.8.1",
@@ -34,14 +35,14 @@
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.2.1",
     "@types/js-yaml": "^4.0.9",
-    "@types/node": "^20.19.33",
+    "@types/node": "25.5.0",
     "@types/react": "19.2.13",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
     "babel-loader": "^10.0.0",
     "date-fns": "^4.1.0",
     "js-yaml": "^4.1.1",
-    "msw": "^2.12.10",
+    "msw": "^2.13.2",
     "react-hook-form": "7.62.0",
     "react-select": "^5.10.2",
     "remark-gfm": "^4.0.1",
