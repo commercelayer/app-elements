@@ -672,6 +672,8 @@ const it: typeof en = {
         weight: "Peso",
         parcel_item: "{{count}} prodotto",
         parcel_item_other: "{{count}} prodotti",
+        stock_transfer_cancelled: "Stock transfer cancellato",
+        stock_transfer_cancelled_other: "Stock transfer cancellati",
       },
       tasks: {
         pending: "Aperte",
