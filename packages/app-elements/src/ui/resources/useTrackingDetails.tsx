@@ -1,6 +1,7 @@
 import type { Parcel as ParcelResource } from "@commercelayer/sdk"
 import { useCallback, useMemo, useState } from "react"
 import type { SetNonNullable, SetRequired } from "type-fest"
+import { T } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js"
 import { formatDate, sortAndGroupByDate } from "#helpers/date"
 import {
   getAvatarSrcFromRate,
@@ -12,6 +13,7 @@ import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Avatar } from "#ui/atoms/Avatar"
 import { Badge } from "#ui/atoms/Badge"
+import { CopyToClipboard } from "#ui/atoms/CopyToClipboard"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -28,7 +30,14 @@ export const useTrackingDetails = (parcel: ParcelResource, rate?: Rate) => {
       parcel.tracking_number != null && (
         <Modal show={show} onClose={() => setShow(false)} size="large">
           <Modal.Header>
-            {`${t("common.tracking")} #${parcel.tracking_number}`}
+            <div className="flex gap-1 items-center group pr-7">
+              {`${t("common.tracking")} ${parcel.tracking_number}`}
+              <CopyToClipboard
+                value={parcel.tracking_number}
+                showValue={false}
+                className="hidden group-hover:inline-block"
+              />
+            </div>
           </Modal.Header>
           <Modal.Body>
             <TrackingDetails parcel={parcel} rate={rate} />
@@ -118,7 +127,7 @@ const TrackingDetails = withSkeletonTemplate<{
               />
             )}{" "}
             <span className="text-lg font-semibold text-black pl-1.5">
-              {rate?.carrier}
+              {rate?.carrier ?? <Text variant="info">N/A</Text>}
             </span>
           </div>
           <div>
@@ -128,12 +137,16 @@ const TrackingDetails = withSkeletonTemplate<{
               </Text>
             </Spacer>
             <div className="text-lg font-semibold text-black">
-              {formatDate({
-                isoDate: rate?.delivery_date,
-                format: "date",
-                timezone: user?.timezone,
-                locale: user?.locale,
-              })}
+              {rate?.delivery_date != null ? (
+                formatDate({
+                  isoDate: rate.delivery_date,
+                  format: "date",
+                  timezone: user?.timezone,
+                  locale: user?.locale,
+                })
+              ) : (
+                <Text variant="info">N/A</Text>
+              )}
             </div>
           </div>
         </Stack>

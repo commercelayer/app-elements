@@ -40,7 +40,7 @@ export interface ResourceListItemProps {
   /**
    * Optional override for the right slot. When provided, it replaces any computed right content.
    */
-  rightContentOverride?: JSX.Element
+  rightContentOverride?: JSX.Element | null
 }
 
 type ResourceListItemConfig = Omit<ResourceListItemProps, "resource"> &
