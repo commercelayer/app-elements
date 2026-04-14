@@ -1,4 +1,4 @@
-import { useMemo } from "react"
+import { type JSX, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { useCoreApi } from "#providers/CoreSdkProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
@@ -37,6 +37,10 @@ export interface ResourceListItemProps {
    * Optional setting to show right content, if available, instead of right arrow
    */
   showRightContent?: boolean
+  /**
+   * Optional override for the right slot. When provided, it replaces any computed right content.
+   */
+  rightContentOverride?: JSX.Element | null
 }
 
 type ResourceListItemConfig = Omit<ResourceListItemProps, "resource"> &
@@ -48,6 +52,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     description,
     icon,
     rightContent,
+    rightContentOverride,
     bottomContent,
     href,
     onClick,
@@ -90,9 +95,11 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           {bottomContent && <div className="mt-2">{bottomContent}</div>}
         </div>
         <div>
-          {showRightContent
-            ? rightContent
-            : isClickable && <StatusIcon name="caretRight" />}
+          {rightContentOverride != null
+            ? rightContentOverride
+            : showRightContent
+              ? rightContent
+              : isClickable && <StatusIcon name="caretRight" />}
         </div>
       </ListItem>
     )

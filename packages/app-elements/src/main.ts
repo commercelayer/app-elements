@@ -426,3 +426,4 @@ export {
   type UseResourceListConfig,
   useResourceList,
 } from "#ui/resources/useResourceList"
+export { useTrackingDetails } from "#ui/resources/useTrackingDetails"
