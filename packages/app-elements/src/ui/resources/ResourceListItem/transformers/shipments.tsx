@@ -52,7 +52,8 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
         })}
         additionalInfos={`${reference}${info}`}
         additionalSuffix={
-          isAllStockTransfersCancelled(resource)
+          isAllStockTransfersCancelled(resource) &&
+          resource.status === "on_hold"
             ? t("apps.shipments.details.stock_transfer_cancelled", {
                 count: resource.stock_transfers?.length ?? 0,
               })
