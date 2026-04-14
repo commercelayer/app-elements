@@ -2,7 +2,7 @@ import type { ListResponse, Market, Resource } from "@commercelayer/sdk"
 import cn from "classnames"
 import isEmpty from "lodash-es/isEmpty"
 import isString from "lodash-es/isString"
-import type { FC } from "react"
+import { type FC, useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { currencyInputSelectOptions } from "#helpers/currencies"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
@@ -47,6 +47,7 @@ export const HookedMarketWithCurrencySelector: FC<
     setValue,
     formState: { defaultValues },
   } = useFormContext()
+  const [hasMorePages, setHasMorePages] = useState(false)
   const defaultMarketId = defaultValues?.[fieldNameMarket]
   const defaultCurrencyCode = defaultValues?.[fieldNameCurrencyCode]
 
@@ -73,8 +74,11 @@ export const HookedMarketWithCurrencySelector: FC<
     ],
   )
 
-  const hasMorePages =
-    (data?.meta?.pageCount != null && data.meta.pageCount > 1) ?? false
+  useEffect(() => {
+    if (data?.meta?.pageCount != null) {
+      setHasMorePages(data.meta.pageCount > 1)
+    }
+  }, [data])
 
   const { data: defaultResource, isLoading: isLoadingDefaultResource } =
     useCoreApi(
@@ -155,6 +159,7 @@ export const HookedMarketWithCurrencySelector: FC<
                     include: ["price_list"],
                   })
                   .then((res) => {
+                    setHasMorePages(res.meta.pageCount > 1)
                     return res.map((market) => ({
                       label: market.name,
                       value: market.id,
