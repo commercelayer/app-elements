@@ -192,7 +192,8 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
           return {
             showPrice:
               acc.showPrice ||
-              (lineItem.type === "line_items" &&
+              ((lineItem.type === "line_items" ||
+                lineItem.type === "return_line_items") &&
                 lineItem.formatted_total_amount != null),
           }
         },
@@ -371,7 +372,8 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                   </td>
                   {settings.showPrice && (
                     <td className="pl-2" valign="top" align="right">
-                      {lineItem.type === "line_items" && (
+                      {(lineItem.type === "line_items" ||
+                        lineItem.type === "return_line_items") && (
                         <Text
                           tag="div"
                           wrap="nowrap"
