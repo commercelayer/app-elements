@@ -1,7 +1,6 @@
 import type { Parcel as ParcelResource } from "@commercelayer/sdk"
 import { useCallback, useMemo, useState } from "react"
 import type { SetNonNullable, SetRequired } from "type-fest"
-import { T } from "vitest/dist/chunks/reporters.d.BFLkQcL6.js"
 import { formatDate, sortAndGroupByDate } from "#helpers/date"
 import {
   getAvatarSrcFromRate,
