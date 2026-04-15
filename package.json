@@ -8,6 +8,7 @@
     "build:elements": "pnpm --stream --filter @commercelayer/app-elements build",
     "build:abilities": "pnpm --filter docs build:abilities",
     "build:docs": "pnpm --filter docs build",
+    "build": "pnpm build:elements && pnpm --filter docs build:docs",
     "check": "pnpm biome check",
     "check:fix": "pnpm biome check --write",
     "test": "pnpm -r test",
