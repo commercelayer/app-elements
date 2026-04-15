@@ -60,6 +60,7 @@ export function Condition({
               const isLast = conditionIndex === arr.length - 1
               return (
                 <div
+                  // biome-ignore lint/suspicious/noArrayIndexKey: The index is used as part of a more complex key.
                   key={`${selectedRuleIndex}-${conditionIndex}-${rerenderKey}`}
                   className="flex items-center mb-4 last:mb-0 relative"
                 >

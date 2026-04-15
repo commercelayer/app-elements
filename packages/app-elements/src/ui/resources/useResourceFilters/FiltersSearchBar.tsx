@@ -98,4 +98,5 @@ function FiltersSearchBar({
 }
 
 FiltersSearchBar.displayName = "FiltersSearchBar"
+
 export { FiltersSearchBar }

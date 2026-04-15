@@ -203,4 +203,5 @@ function TabPanel({
 
 Tabs.displayName = "Tabs"
 Tab.displayName = "Tab"
+
 export { Tab, Tabs }

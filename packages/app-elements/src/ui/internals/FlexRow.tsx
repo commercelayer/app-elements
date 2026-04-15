@@ -45,6 +45,7 @@ function FlexRow({
 }
 
 FlexRow.displayName = "FlexRow"
+
 export { FlexRow }
 
 function isLastOfMultipleChildren(index: number, count: number): boolean {

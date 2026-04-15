@@ -181,6 +181,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                 const label = `#${(ruleIndex + 1).toString().padStart(2, "0")}`
                 return (
                   <div
+                    // biome-ignore lint/suspicious/noArrayIndexKey: The index is used as part of a more complex key.
                     key={`${ruleIndex}-${rule.id}`}
                     className="flex items-center py-3 pl-4 pr-2 border-r basis-[88px] justify-center"
                   >

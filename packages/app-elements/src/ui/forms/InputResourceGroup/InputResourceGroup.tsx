@@ -122,6 +122,7 @@ export const InputResourceGroup: React.FC<InputResourceGroupProps> = ({
           {list.map((item, idx) => {
             return (
               <InputCheckboxGroupItem
+                // biome-ignore lint/suspicious/noArrayIndexKey: The index is used as part of a more complex key.
                 key={`${item.value}-${idx}`}
                 checked={values.includes(item.value)}
                 onChange={() => {

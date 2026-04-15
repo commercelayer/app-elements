@@ -231,4 +231,5 @@ const SkeletonTemplate: SkeletonTemplateComponent<
 
 SkeletonTemplate.displayName = "SkeletonTemplate"
 SkeletonTemplate.isSkeletonTemplate = true
+
 export { SkeletonTemplate }

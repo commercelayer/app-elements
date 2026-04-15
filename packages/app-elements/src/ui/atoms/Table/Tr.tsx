@@ -9,4 +9,5 @@ function Tr({ children, ...rest }: TrProps): JSX.Element {
 }
 
 Tr.displayName = "Tr"
+
 export { Tr }

@@ -138,4 +138,5 @@ function parsePercentageRange(percentage: any): number {
 }
 
 RadialProgress.displayName = "RadialProgress"
+
 export { RadialProgress }
