@@ -679,6 +679,8 @@ const en = {
         weight: "Weight",
         parcel_item: "{{count}} item",
         parcel_item_other: "{{count}} items",
+        stock_transfer_cancelled: "Stock transfer cancelled",
+        stock_transfer_cancelled_other: "Stock transfers cancelled",
       },
       tasks: {
         pending: "Pending",

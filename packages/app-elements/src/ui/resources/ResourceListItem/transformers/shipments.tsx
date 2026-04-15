@@ -2,6 +2,7 @@ import type { Shipment } from "@commercelayer/sdk"
 import { isEmpty } from "lodash-es"
 import { getShipmentDisplayStatus } from "#dictionaries/shipments"
 import { formatDate } from "#helpers/date"
+import { isAllStockTransfersCancelled } from "#helpers/shipments"
 import { RadialProgress } from "#ui/atoms/RadialProgress"
 import {
   ListItemDescription,
@@ -50,6 +51,14 @@ export const shipmentToProps: ResourceToProps<Shipment> = ({
           locale: user?.locale,
         })}
         additionalInfos={`${reference}${info}`}
+        additionalSuffix={
+          isAllStockTransfersCancelled(resource) &&
+          resource.status === "on_hold"
+            ? t("apps.shipments.details.stock_transfer_cancelled", {
+                count: resource.stock_transfers?.length ?? 0,
+              })
+            : undefined
+        }
       />
     ),
     icon:
