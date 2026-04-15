@@ -23,4 +23,5 @@ function Th({ children, className, ...rest }: ThProps): JSX.Element {
 }
 
 Th.displayName = "Th"
+
 export { Th }

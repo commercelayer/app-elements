@@ -115,4 +115,5 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
 )
 
 PageHeading.displayName = "PageHeading"
+
 export { PageHeading }

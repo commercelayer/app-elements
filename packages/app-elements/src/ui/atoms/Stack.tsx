@@ -26,4 +26,5 @@ function Stack({ children, ...props }: StackProps): JSX.Element {
 }
 
 Stack.displayName = "Stack"
+
 export { Stack }

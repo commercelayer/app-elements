@@ -8,6 +8,7 @@
     "build:elements": "pnpm --stream --filter @commercelayer/app-elements build",
     "build:abilities": "pnpm --filter docs build:abilities",
     "build:docs": "pnpm --filter docs build",
+    "build": "pnpm build:elements && pnpm --filter docs build:docs",
     "check": "pnpm biome check",
     "check:fix": "pnpm biome check --write",
     "test": "pnpm -r test",
@@ -15,9 +16,9 @@
     "test:watch": "pnpm --stream -r test:watch",
     "ts:check": "pnpm --stream -r ts:check",
     "dep:major": "pnpm dlx npm-check-updates --packageFile '**/package.json' -u",
-    "dep:minor": "pnpm dlx npm-check-updates -t semver --packageFile '**/package.json' -u",
+    "dep:semver": "pnpm dlx npm-check-updates -t semver --packageFile '**/package.json' -u",
     "postdep:major": "echo \"\\033[0;31mRemember to check the \\\"peerDependencies\\\" of the updated packages.\\033[0m\n\"",
-    "postdep:minor": "echo \"\\033[0;31mRemember to check the \\\"peerDependencies\\\" of the updated packages.\\033[0m\n\""
+    "postdep:semver": "echo \"\\033[0;31mRemember to check the \\\"peerDependencies\\\" of the updated packages.\\033[0m\n\""
   },
   "keywords": [],
   "author": {
@@ -37,9 +38,9 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@biomejs/biome": "2.4.4",
+    "@biomejs/biome": "^2.4.12",
     "husky": "^9.1.7",
-    "lerna": "^9.0.4",
-    "lint-staged": "^16.2.7"
+    "lerna": "^9.0.7",
+    "lint-staged": "^16.4.0"
   }
 }

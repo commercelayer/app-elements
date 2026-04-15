@@ -63,4 +63,5 @@ function PageSkeleton(): JSX.Element {
 }
 
 PageSkeleton.displayName = "PageSkeleton"
+
 export { PageSkeleton }

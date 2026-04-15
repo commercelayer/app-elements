@@ -75,4 +75,5 @@ export function SkeletonItem({
 }
 
 Skeleton.displayName = "Skeleton"
+
 export { Skeleton }

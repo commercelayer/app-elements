@@ -21,6 +21,7 @@ export function Action({
       <div>
         {actions?.map((action, actionIndex, actionArray) => (
           <ActionListItem
+            // biome-ignore lint/suspicious/noArrayIndexKey: The index is used as part of a more complex key.
             key={`${selectedRuleIndex}-${actionIndex}-${rerenderKey}`}
             item={action}
             index={actionIndex}
