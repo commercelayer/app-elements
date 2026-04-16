@@ -139,6 +139,7 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
               inputClassName,
             )}
             preventOpenOnFocus={preventOpenOnFocus}
+            fixedHeight
           />
           <div className="absolute top-0 bottom-0 right-4 flex items-center pointer-events-none touch-none">
             <CalendarBlankIcon />
