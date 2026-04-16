@@ -1,3 +1,4 @@
+import { formatValue } from "react-currency-input-field"
 import {
   type Currency,
   type CurrencyCode,
@@ -87,23 +88,14 @@ export function formatCentsToCurrency(
     stripZeroDecimals && unit % 1 === 0
       ? unit.toFixed(0)
       : unit.toFixed(decimalLength)
+  const value = `${fixedDecimals}`.replace(".", currency.decimal_mark)
 
-  // Split on '.' (toFixed always uses '.' as decimal separator)
-  const [integerPart = "", fractionalPart] = fixedDecimals.split(".")
-
-  // Apply thousands separator directly - no Intl.NumberFormat locale dependency
-  const formattedInteger =
-    currency.thousands_separator !== ""
-      ? integerPart.replace(
-          /\B(?=(\d{3})+(?!\d))/g,
-          currency.thousands_separator,
-        )
-      : integerPart
-
-  const formattedValue =
-    fractionalPart !== undefined
-      ? `${formattedInteger}${currency.decimal_mark}${fractionalPart}`
-      : formattedInteger
+  const formattedValue = formatValue({
+    value,
+    decimalSeparator: currency.decimal_mark,
+    groupSeparator: currency.thousands_separator,
+    intlConfig: { locale: "en-US" },
+  })
 
   return addCurrencySymbol({ formattedValue, currency })
 }
