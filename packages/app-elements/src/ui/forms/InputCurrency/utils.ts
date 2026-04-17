@@ -94,6 +94,7 @@ export function formatCentsToCurrency(
     value,
     decimalSeparator: currency.decimal_mark,
     groupSeparator: currency.thousands_separator,
+    intlConfig: { locale: "en-US" },
   })
 
   return addCurrencySymbol({ formattedValue, currency })

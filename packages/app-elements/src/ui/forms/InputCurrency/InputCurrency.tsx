@@ -153,6 +153,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
             decimalsLimit={decimalLength}
             decimalSeparator={currency.decimal_mark}
             groupSeparator={currency.thousands_separator}
+            intlConfig={{ locale: "en-US" }}
             placeholder={
               placeholder ??
               makePlaceholder(currency, defaultSign === "-" ? "-" : "")
