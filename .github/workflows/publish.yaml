@@ -47,7 +47,7 @@ jobs:
 
       - name: Trigger deploy to gh-pages 🚀
         # if: '!github.event.release.prerelease'
-        uses: actions/github-script@v7
+        uses: actions/github-script@v8
         with:
           github-token: ${{ secrets.COMMERCELAYER_CI_TOKEN }}
           script: |
