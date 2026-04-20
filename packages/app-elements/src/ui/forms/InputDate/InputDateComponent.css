@@ -1,5 +1,5 @@
 :root {
-  --var-border-color: #e6e7e7;
+  --var-border-color: #e5e5e5;
 }
 
 .react-datepicker-wrapper {
@@ -9,8 +9,9 @@
 .react-datepicker {
   font-family: inherit;
   border-color: var(--var-border-color);
-  padding: 1px;
-  box-shadow: 2px 2px 0 #f8f8f8;
+  padding: 8px;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
 }
 
 .react-datepicker-popper {
@@ -26,6 +27,8 @@
 .react-datepicker__header {
   background-color: #f8f8f8;
   border-color: var(--var-border-color);
+  border-radius: 6px 6px 0px 0px; 
+  position: relative;
 }
 
 .react-datepicker__time-container {
@@ -33,17 +36,40 @@
 }
 
 .react-datepicker__navigation {
-  height: 24px;
-  width: 24px;
-  border-radius: 5px;
-  margin: 4px !important;
+  height: 32px;
+  width: 32px;
+  line-height: 32px;
+  margin: 0px !important;
+  padding: 4px;
   outline: 0;
+  top: 8px;
 }
+
+.react-datepicker__navigation--previous {
+  left: 8px;
+}
+
+.react-datepicker__navigation-icon--previous {
+  right: 0;
+}
+
+.react-datepicker__navigation--next {
+  right: 8px;
+}
+
+.react-datepicker__navigation-icon--next {
+  left: 0;
+}
+
+.react-datepicker__navigation-icon {
+  top: 0;
+}
+
 
 .react-datepicker__navigation-icon::before {
   border-color: #686e6e;
   border-width: 1px 1px 0 0;
-  margin-top: 5px;
+  margin-top: 6px;
 }
 
 .react-datepicker__current-month,
@@ -73,7 +99,7 @@
   width: 2rem;
   line-height: 2rem;
   font-weight: 600;
-  border: 1px solid #f8f8f8;
+  margin: 0 0.166rem;
 }
 
 .react-datepicker__day--selected,
@@ -117,4 +143,11 @@
   ul.react-datepicker__time-list
   li.react-datepicker__time-list-item--selected:hover {
   background-color: #404141;
+}
+
+.react-datepicker__day--keyboard-selected:not([aria-disabled=true]):hover, 
+.react-datepicker__month-text--keyboard-selected:not([aria-disabled=true]):hover, 
+.react-datepicker__quarter-text--keyboard-selected:not([aria-disabled=true]):hover, 
+.react-datepicker__year-text--keyboard-selected:not([aria-disabled=true]):hover {
+  background-color: #101111;
 }
