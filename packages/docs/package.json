@@ -42,7 +42,7 @@
     "babel-loader": "^10.1.1",
     "date-fns": "^4.1.0",
     "js-yaml": "^4.1.1",
-    "msw": "^2.13.3",
+    "msw": "^2.13.4",
     "react-hook-form": "7.62.0",
     "react-select": "^5.10.2",
     "remark-gfm": "^4.0.1",
