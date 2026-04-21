@@ -587,6 +587,7 @@ const it: typeof en = {
         cancel_transactions: "Annulla pagamento",
         cancel: "Annulla ordine",
         capture_payment: "Cattura pagamento",
+        cancel_as_authorized: "Annulla autorizzazione",
         capture: "Cattura",
         place: "Piazza ordine",
         refund: "Rimborsa",

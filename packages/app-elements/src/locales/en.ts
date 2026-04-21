@@ -594,6 +594,7 @@ const en = {
         cancel_transactions: "Cancel payment",
         cancel: "Cancel order",
         capture_payment: "Capture payment",
+        cancel_as_authorized: "Void authorization",
         capture: "Capture",
         place: "Place order",
         refund: "Refund",
