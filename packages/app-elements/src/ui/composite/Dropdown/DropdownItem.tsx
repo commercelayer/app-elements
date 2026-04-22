@@ -64,7 +64,7 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           "w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden!",
           {
             "pr-8": info == null,
-            "min-w-64 pr-6": info != null,
+            "min-w-[170px] pr-6": info != null,
           },
           className,
           {

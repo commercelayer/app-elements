@@ -21,6 +21,7 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
 import { Table, Td, Th, Tr } from "#ui/atoms/Table"
 import { Text } from "#ui/atoms/Text"
+import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { ListItem } from "#ui/composite/ListItem"
 
 const setup: Meta<typeof SkeletonTemplate> = {
@@ -60,6 +61,19 @@ const children = (
     </ForwardRefComponent>
     <Spacer top="4" bottom="4">
       <Hr />
+    </Spacer>
+    <Spacer top="4" bottom="4">
+      <Dropdown
+        dropdownLabel="Click me"
+        menuPosition="bottom-left"
+        dropdownItems={
+          <>
+            <DropdownItem label="All" info="32" />
+            <DropdownItem label="Enabled" info="30" />
+            <DropdownItem label="Disabled" info="2" />
+          </>
+        }
+      />
     </Spacer>
     <WithSkeletonComponentB>C</WithSkeletonComponentB>
     <ListItem
