@@ -242,7 +242,11 @@ const makeFilteredList: (options: {
       <ResourceListComponent
         {...resourceListProps}
         type={type}
-        title={hideTitle === true ? undefined : t("common.all")}
+        title={
+          hideTitle === true
+            ? undefined
+            : (resourceListProps.title ?? t("common.all"))
+        }
         query={{
           ...query,
           filters: sdkFilters,
