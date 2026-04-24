@@ -87,6 +87,7 @@ export const Overlay: React.FC<OverlayProps> = ({
     <div
       className={cn(contentClassName, {
         "h-full": drawer,
+        "pb-12": !drawer && footer == null,
       })}
       style={contentStyle}
     >
