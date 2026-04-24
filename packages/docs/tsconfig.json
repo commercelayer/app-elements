@@ -25,7 +25,8 @@
       "#providers/*": ["../app-elements/src/providers/*"],
       "#styles/*": ["../app-elements/src/styles/*"],
       "#ui/*": ["../app-elements/src/ui/*"],
-      "#utils/*": ["../app-elements/src/utils/*"]
+      "#utils/*": ["../app-elements/src/utils/*"],
+      "#node_modules/*": ["../app-elements/node_modules/*"]
     }
   },
   "include": [".storybook/*.tsx", "src"]
