@@ -1,7 +1,6 @@
 import cn from "classnames"
 import debounce from "lodash-es/debounce"
 import isEmpty from "lodash-es/isEmpty"
-import type { AsyncAdditionalProps } from "node_modules/react-select/dist/declarations/src/useAsync"
 import type React from "react"
 import { forwardRef, useCallback, useEffect, useState } from "react"
 import type {
@@ -16,6 +15,7 @@ import type {
 import type AsyncSelect from "react-select/async"
 import type AsyncCreatableSelect from "react-select/async-creatable"
 import type { SetRequired } from "type-fest"
+import type { AsyncAdditionalProps } from "#node_modules/react-select/dist/declarations/src/useAsync"
 import type {
   GroupedSelectValues,
   InputSelectProps,
