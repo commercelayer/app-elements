@@ -24,8 +24,7 @@
       "#providers/*": ["./src/providers/*"],
       "#styles/*": ["./src/styles/*"],
       "#ui/*": ["./src/ui/*"],
-      "#utils/*": ["./src/utils/*"],
-      "#node_modules/*": ["./node_modules/*"]
+      "#utils/*": ["./src/utils/*"]
     }
   },
   "include": ["vite.config.js", "src", "mocks"],
