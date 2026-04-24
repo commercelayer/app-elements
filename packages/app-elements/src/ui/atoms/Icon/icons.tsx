@@ -22,6 +22,7 @@ export const iconMapping = {
   arrowUUpLeft: phosphor.ArrowUUpLeftIcon,
   asteriskSimple: phosphor.AsteriskSimpleIcon,
   bank: phosphor.BankIcon,
+  book: phosphor.BookIcon,
   bookOpenText: phosphor.BookOpenTextIcon,
   bracketsCurly: phosphor.BracketsCurlyIcon,
   buildings: phosphor.BuildingsIcon,
