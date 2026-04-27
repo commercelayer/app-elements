@@ -1,4 +1,5 @@
 import type { UseFormSetError } from "react-hook-form"
+import { isToastInitialized, toast } from "#ui/composite/Toast"
 
 interface ApiError {
   /**
@@ -172,9 +173,17 @@ export function setApiFormErrors({
   })
 
   if (errorByTypes.others.length > 0) {
-    setError(API_ERROR_FIELD_NAME, {
-      type: "server",
-      message: errorByTypes.others.join(". "),
-    })
+    if (isToastInitialized()) {
+      errorByTypes.others.forEach((message) => {
+        toast(message, {
+          type: "error",
+        })
+      })
+    } else {
+      setError(API_ERROR_FIELD_NAME, {
+        type: "server",
+        message: errorByTypes.others.join(". "),
+      })
+    }
   }
 }

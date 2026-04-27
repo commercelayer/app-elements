@@ -239,7 +239,7 @@ export {
   type TimelineEvent,
   type TimelineProps,
 } from "#ui/composite/Timeline"
-export { ToastContainer, toast } from "#ui/composite/Toast"
+export { isToastInitialized, ToastContainer, toast } from "#ui/composite/Toast"
 export {
   Toolbar,
   type ToolbarItem,

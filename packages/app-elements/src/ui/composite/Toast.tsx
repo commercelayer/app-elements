@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import type React from "react"
+import { useEffect } from "react"
 import {
   type Id,
   ToastContainer as OriginalToastContainer,
@@ -9,7 +10,20 @@ import {
 } from "react-toastify"
 import { Icon } from "#ui/atoms/Icon"
 
+// Function to check if toast is initialized
+export const isToastInitialized = (): boolean => {
+  return document.body.hasAttribute("data-toast-initialized")
+}
+
 export const ToastContainer = (): React.JSX.Element => {
+  // Add data attribute when component mounts
+  useEffect(() => {
+    document.body.setAttribute("data-toast-initialized", "true")
+    return () => {
+      document.body.removeAttribute("data-toast-initialized")
+    }
+  }, [])
+
   return (
     <OriginalToastContainer
       newestOnTop
