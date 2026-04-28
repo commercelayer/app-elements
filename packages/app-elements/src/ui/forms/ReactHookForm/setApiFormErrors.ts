@@ -173,16 +173,15 @@ export function setApiFormErrors({
   })
 
   if (errorByTypes.others.length > 0) {
+    const message = errorByTypes.others.join(". ")
     if (isToastInitialized()) {
-      errorByTypes.others.forEach((message) => {
-        toast(message, {
-          type: "error",
-        })
+      toast(message, {
+        type: "error",
       })
     } else {
       setError(API_ERROR_FIELD_NAME, {
         type: "server",
-        message: errorByTypes.others.join(". "),
+        message,
       })
     }
   }
