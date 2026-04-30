@@ -43,8 +43,8 @@ describe("Anchor", () => {
         click me
       </A>,
     )
-    expect(getByRole("link").className).toContain("bg-white")
-    expect(getByRole("link").className).toContain("text-red")
+    expect(getByRole("link").className).toContain("bg-red")
+    expect(getByRole("link").className).toContain("text-white")
     expect(getByRole("link").className).toContain("border border-red")
   })
 
