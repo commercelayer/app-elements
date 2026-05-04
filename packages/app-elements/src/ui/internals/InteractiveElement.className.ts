@@ -135,7 +135,8 @@ function getVariantCss(
       "bg-white border border-gray-200 text-black hover:opacity-80 hover:bg-gray-50",
     circle:
       "bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full",
-    danger: "font-medium bg-white border border-red text-red hover:bg-red/10",
+    danger:
+      "font-medium bg-red border border-red text-white hover:bg-red-300 hover:border-red-300",
     link: "font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer",
     relationship: "text-primary border border-gray-300 border-dashed",
     input:

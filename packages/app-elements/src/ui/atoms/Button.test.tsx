@@ -32,8 +32,8 @@ describe("Button", () => {
 
   it("Should render as danger variant", () => {
     const { getByRole } = render(<Button variant="danger">click me</Button>)
-    expect(getByRole("button").className).toContain("bg-white")
-    expect(getByRole("button").className).toContain("text-red")
+    expect(getByRole("button").className).toContain("bg-red")
+    expect(getByRole("button").className).toContain("text-white")
     expect(getByRole("button").className).toContain("border border-red")
   })
 
