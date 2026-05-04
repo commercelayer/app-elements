@@ -47,6 +47,7 @@ export {
   timeSeparator,
 } from "#helpers/date"
 export { downloadJsonAsFile } from "#helpers/downloadJsonAsFile"
+export { type ApiError, parseApiError } from "#helpers/errors"
 export { maskGiftCardCode } from "#helpers/giftCards"
 export { isMock, isMockedId } from "#helpers/mocks"
 export { computeFullname, formatDisplayName } from "#helpers/name"
@@ -76,6 +77,7 @@ export {
 export { useAppLinking } from "#helpers/useAppLinking"
 // Hooks
 export { useClickAway } from "#hooks/useClickAway"
+export { useConfirmDialog } from "#hooks/useConfirmDialog"
 export { useDelayShow } from "#hooks/useDelayShow"
 export { useEditMetadataOverlay } from "#hooks/useEditMetadataOverlay"
 export { useEditTagsOverlay } from "#hooks/useEditTagsOverlay"
