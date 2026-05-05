@@ -102,12 +102,17 @@ SingleParcelSingleTrackingWithoutCarrier.args = {
 /**
  * Shipment can be handled manually without purchasing a label and tracking information can be added or updated manually.
  */
-export const SingleParcelManualTracking: StoryFn<
+export const ParcelsWithManualTracking: StoryFn<
   typeof ResourceShipmentParcels
 > = (args): JSX.Element => <ResourceShipmentParcels {...args} />
-SingleParcelManualTracking.args = {
+ParcelsWithManualTracking.args = {
   onRemoveParcel: (parcelId) => {
     alert(`removed parcel "${parcelId}"`)
+  },
+  onTrackingNumberUpdate: async (parcelId, trackingNumber) => {
+    alert(
+      `updated tracking number for parcel "${parcelId}" with "${trackingNumber}"`,
+    )
   },
   shipment: shipmentWithNoCarrierAndManualShipping,
 }

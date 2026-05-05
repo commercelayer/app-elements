@@ -74,6 +74,8 @@ export const ResourceShipmentParcels =
             const allowManualTrackingNumber =
               !hasBeenPurchased(shipment) &&
               isEmpty(parcel.tracking_status) &&
+              isEmpty(parcel.tracking_details) &&
+              !hasCarrier &&
               (shipment.status === "ready_to_ship" ||
                 shipment.status === "shipped" ||
                 shipment.status === "delivered")
@@ -84,9 +86,7 @@ export const ResourceShipmentParcels =
                 rate={rate}
                 showEstimatedDelivery={!singleTracking}
                 onTrackingNumberUpdate={
-                  allowManualTrackingNumber && onTrackingNumberUpdate != null
-                    ? onTrackingNumberUpdate
-                    : undefined
+                  allowManualTrackingNumber ? onTrackingNumberUpdate : undefined
                 }
                 parcel={
                   singleTracking && hasCarrier
@@ -280,7 +280,6 @@ const Tracking = withSkeletonTemplate<{
   parcel: ParcelResource
   rate?: Rate
   showEstimatedDelivery: boolean
-  allowTrackingNumberUpdate?: boolean
   onTrackingNumberUpdate?: OnTrackingNumberUpdate
 }>(
   ({ parcel, rate, showEstimatedDelivery = false, onTrackingNumberUpdate }) => {
@@ -375,9 +374,12 @@ const AddTrackingNumberModal: FC<{
             disabled={isUpdating}
             onClick={async () => {
               setIsUpdating(true)
-              await onTrackingNumberUpdate(parcel.id, trackingNumber)
-              setIsUpdating(false)
-              setShow(false)
+              try {
+                await onTrackingNumberUpdate(parcel.id, trackingNumber)
+              } finally {
+                setShow(false)
+                setIsUpdating(false)
+              }
             }}
           >
             Save

@@ -455,7 +455,7 @@ export const shipmentWithSingleParcelSingleTracking = createShipment({
 
 export const shipmentWithSingleParcelSingleTrackingNoCarrier = createShipment({
   id: "shipment-with-single-parcel-single-tracking",
-  status: "ready_to_ship",
+  status: "packing",
   purchaseStartedAt: "2023-07-11",
   selectedRateId: "rate_dhl_1111",
   parcels: [
@@ -473,10 +473,20 @@ export const shipmentWithNoCarrierAndManualShipping = createShipment({
   purchaseStartedAt: null,
   selectedRateId: undefined,
   parcels: [
+    // existing tracking number (can be updated)
     {
       ...parcelWithTracking1,
       tracking_details: [],
-      // tracking_status: "delivered",
+      tracking_status: undefined,
+      shipping_label_url: undefined,
+    },
+    // no tracking number (can be added)
+    {
+      ...parcelWithTracking2,
+      tracking_details: [],
+      tracking_status: undefined,
+      tracking_number: undefined,
+      shipping_label_url: undefined,
     },
   ],
 })
