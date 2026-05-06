@@ -47,12 +47,12 @@ describe("Steps", () => {
       />,
     )
 
-    expect(getByText("Step 1").previousSibling).toHaveClass("bg-primary")
+    expect(getByText("Step 1").previousSibling).toHaveClass("bg-brand")
     expect(getByText("Step 1").previousSibling).not.toHaveClass(
       "after:bg-white",
     )
     expect(getByText("Step 2").previousSibling).toHaveClass(
-      "bg-primary after:bg-white",
+      "bg-brand after:bg-white",
     )
     expect(getByText("Step 3").previousSibling).toHaveClass("bg-gray-100")
     expect(getByText("Step 3").previousSibling).not.toHaveClass(
@@ -71,12 +71,12 @@ describe("Steps", () => {
       />,
     )
 
-    expect(getByText("Step 1").previousSibling).toHaveClass("bg-primary")
+    expect(getByText("Step 1").previousSibling).toHaveClass("bg-brand")
     expect(getByText("Step 1").previousSibling).not.toHaveClass(
       "after:bg-white",
     )
     expect(getByText("Step 2").previousSibling).toHaveClass(
-      "bg-primary after:bg-white",
+      "bg-brand after:bg-white",
     )
     expect(getByText("Step 3").previousSibling).toHaveClass("bg-gray-100")
     expect(getByText("Step 3").previousSibling).not.toHaveClass(
