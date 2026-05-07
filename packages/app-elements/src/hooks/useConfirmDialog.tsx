@@ -34,6 +34,10 @@ interface ConfirmDialogProps {
   errorMessage?: string
   /** Optional success message shown when the action completes successfully */
   successMessage?: string
+  /**
+   * Toast variant used for the success message. Defaults to `"default"`.
+   */
+  successVariant?: "default" | "success" | "error"
 }
 
 /**
@@ -51,6 +55,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
   confirm,
   errorMessage,
   successMessage,
+  successVariant = "default",
 }) => {
   const [isPending, setIsPending] = useState(false)
 
@@ -60,7 +65,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
     try {
       await confirm.onClick()
       if (successMessage) {
-        toast(successMessage, { type: "success" })
+        toast(successMessage, { type: successVariant })
       }
     } catch (err) {
       const parsedMessage = parseApiError(err)
