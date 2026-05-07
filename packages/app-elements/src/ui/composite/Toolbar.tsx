@@ -58,6 +58,7 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
               // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since the list is static and does not change.
               key={`dropdown-${gidx}-${idx}`}
               label={dropdownItem.label}
+              icon={dropdownItem.icon}
               className={dropdownItem.className}
               onClick={dropdownItemHandleClick}
               data-testid="toolbar-dropdown-item"
@@ -81,7 +82,6 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
                 variant={item.variant}
                 disabled={item.disabled}
                 onClick={handleClick}
-                alignItems="center"
                 className={item.className}
                 data-testid="toolbar-dropdown-button"
               >
