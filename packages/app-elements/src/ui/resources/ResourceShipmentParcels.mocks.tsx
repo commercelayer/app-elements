@@ -467,6 +467,30 @@ export const shipmentWithSingleParcelSingleTrackingNoCarrier = createShipment({
   ],
 })
 
+export const shipmentWithNoCarrierAndManualShipping = createShipment({
+  id: "shipment-with-no-carrier-and-manual-shipping",
+  status: "ready_to_ship",
+  purchaseStartedAt: null,
+  selectedRateId: undefined,
+  parcels: [
+    // existing tracking number (can be updated)
+    {
+      ...parcelWithTracking1,
+      tracking_details: [],
+      tracking_status: undefined,
+      shipping_label_url: undefined,
+    },
+    // no tracking number (can be added)
+    {
+      ...parcelWithTracking2,
+      tracking_details: [],
+      tracking_status: undefined,
+      tracking_number: undefined,
+      shipping_label_url: undefined,
+    },
+  ],
+})
+
 export const shipmentWithMultipleParcelsSingleTracking = createShipment({
   id: "shipment-with-multiple-parcels-single-tracking",
   status: "packing",

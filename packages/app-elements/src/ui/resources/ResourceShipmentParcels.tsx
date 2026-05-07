@@ -5,7 +5,7 @@ import type {
 import { FileIcon, PackageIcon } from "@phosphor-icons/react"
 import cn from "classnames"
 import isEmpty from "lodash-es/isEmpty"
-import { useMemo } from "react"
+import { type FC, useMemo, useState } from "react"
 import type { SetNonNullable, SetRequired } from "type-fest"
 import {
   getAvatarSrcFromRate,
@@ -25,6 +25,8 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
 import { Text } from "#ui/atoms/Text"
 import { CardDialog } from "#ui/composite/CardDialog"
+import { Modal } from "#ui/composite/Modal"
+import { Input } from "#ui/forms/Input"
 import { FlexRow } from "#ui/internals/FlexRow"
 import { ResourceLineItems } from "./ResourceLineItems"
 import { useTrackingDetails } from "./useTrackingDetails"
@@ -33,6 +35,11 @@ type SetNonNullableRequired<
   BaseType,
   Keys extends keyof BaseType,
 > = SetRequired<SetNonNullable<BaseType, Keys>, Keys>
+
+type OnTrackingNumberUpdate = (
+  parcelId: string,
+  trackingNumber: string,
+) => Promise<void>
 
 function hasPackage(
   parcel: ParcelResource,
@@ -43,11 +50,12 @@ function hasPackage(
 export interface ResourceShipmentParcelsProps {
   shipment: ShipmentResource
   onRemoveParcel?: (parcelId: string) => void
+  onTrackingNumberUpdate?: OnTrackingNumberUpdate
 }
 
 export const ResourceShipmentParcels =
   withSkeletonTemplate<ResourceShipmentParcelsProps>(
-    ({ shipment, onRemoveParcel }) => {
+    ({ shipment, onRemoveParcel, onTrackingNumberUpdate }) => {
       const singleTracking = hasSingleTracking(shipment)
       const rate = getShipmentRate(shipment)
       const hasCarrier = rate != null
@@ -63,11 +71,23 @@ export const ResourceShipmentParcels =
               return null
             }
 
+            const allowManualTrackingNumber =
+              !hasBeenPurchased(shipment) &&
+              isEmpty(parcel.tracking_status) &&
+              isEmpty(parcel.tracking_details) &&
+              !hasCarrier &&
+              (shipment.status === "ready_to_ship" ||
+                shipment.status === "shipped" ||
+                shipment.status === "delivered")
+
             return (
               <Parcel
                 key={parcel.id}
                 rate={rate}
                 showEstimatedDelivery={!singleTracking}
+                onTrackingNumberUpdate={
+                  allowManualTrackingNumber ? onTrackingNumberUpdate : undefined
+                }
                 parcel={
                   singleTracking && hasCarrier
                     ? {
@@ -106,56 +126,67 @@ const Parcel = withSkeletonTemplate<{
   rate?: Rate
   showEstimatedDelivery?: boolean
   onRemove?: () => void
-}>(({ parcel, rate, showEstimatedDelivery = false, onRemove }) => {
-  const { t } = useTranslation()
-  const itemsLength =
-    parcel.parcel_line_items?.reduce((sum, item) => sum + item.quantity, 0) ?? 0
+  onTrackingNumberUpdate?: OnTrackingNumberUpdate
+}>(
+  ({
+    parcel,
+    rate,
+    showEstimatedDelivery = false,
+    onRemove,
+    onTrackingNumberUpdate,
+  }) => {
+    const { t } = useTranslation()
+    const itemsLength =
+      parcel.parcel_line_items?.reduce((sum, item) => sum + item.quantity, 0) ??
+      0
 
-  return (
-    <CardDialog
-      data-testid={`parcel-box-${parcel.id}`}
-      onClose={onRemove}
-      title={parcel.package.name}
-      icon={<PackageIcon size={42} className="text-gray-300" weight="thin" />}
-      footer={
-        parcel.shipping_label_url == null ? undefined : (
-          <PrintLabel href={parcel.shipping_label_url} />
-        )
-      }
-    >
-      {parcel.parcel_line_items != null && (
-        <ResourceLineItems items={parcel.parcel_line_items} size="small" />
-      )}
-      <Spacer top="6">
-        <Text size="small">
-          <FlexRow>
-            <Text variant="info">{t("common.parcel_total")}</Text>
-            <Text weight="semibold">
-              {t("apps.shipments.details.parcel_item", {
-                count: itemsLength,
-              })}
-            </Text>
-          </FlexRow>
-          <Spacer top="4">
+    return (
+      <CardDialog
+        data-testid={`parcel-box-${parcel.id}`}
+        onClose={onRemove}
+        title={parcel.package.name}
+        icon={<PackageIcon size={42} className="text-gray-300" weight="thin" />}
+        footer={
+          parcel.shipping_label_url == null ? undefined : (
+            <PrintLabel href={parcel.shipping_label_url} />
+          )
+        }
+      >
+        {parcel.parcel_line_items != null && (
+          <ResourceLineItems items={parcel.parcel_line_items} size="small" />
+        )}
+        <Spacer top="6">
+          <Text size="small">
             <FlexRow>
-              <Text variant="info">{t("common.parcel_weight")}</Text>
+              <Text variant="info">{t("common.parcel_total")}</Text>
               <Text weight="semibold">
-                {parcel.weight} {parcel.unit_of_weight}
+                {t("apps.shipments.details.parcel_item", {
+                  count: itemsLength,
+                })}
               </Text>
             </FlexRow>
-          </Spacer>
-          <Tracking
-            parcel={parcel}
-            rate={rate}
-            showEstimatedDelivery={showEstimatedDelivery}
-          />
-          <Attachments parcel={parcel} />
-          <CustomsInfo parcel={parcel} />
-        </Text>
-      </Spacer>
-    </CardDialog>
-  )
-})
+            <Spacer top="4">
+              <FlexRow>
+                <Text variant="info">{t("common.parcel_weight")}</Text>
+                <Text weight="semibold">
+                  {parcel.weight} {parcel.unit_of_weight}
+                </Text>
+              </FlexRow>
+            </Spacer>
+            <Tracking
+              parcel={parcel}
+              rate={rate}
+              showEstimatedDelivery={showEstimatedDelivery}
+              onTrackingNumberUpdate={onTrackingNumberUpdate}
+            />
+            <Attachments parcel={parcel} />
+            <CustomsInfo parcel={parcel} />
+          </Text>
+        </Spacer>
+      </CardDialog>
+    )
+  },
+)
 
 const Carrier = withSkeletonTemplate<{
   shipment: ShipmentResource
@@ -233,9 +264,10 @@ const Attachments = withSkeletonTemplate<{
               href={attachment.url ?? ""}
               target="_blank"
               rel="noopener"
-              className="flex items-center gap-1"
             >
-              <FileIcon weight="bold" /> {attachment.name}
+              <div className="flex items-center gap-1">
+                <FileIcon weight="bold" /> {attachment.name}
+              </div>
             </A>
           ))}
         </div>
@@ -248,55 +280,120 @@ const Tracking = withSkeletonTemplate<{
   parcel: ParcelResource
   rate?: Rate
   showEstimatedDelivery: boolean
-}>(({ parcel, rate, showEstimatedDelivery = false }) => {
-  const trackingDetails = getParcelTrackingDetail(parcel)
-  const { TrackingDetailsModal, openTrackingDetails } = useTrackingDetails(
-    parcel,
-    rate,
-  )
+  onTrackingNumberUpdate?: OnTrackingNumberUpdate
+}>(
+  ({ parcel, rate, showEstimatedDelivery = false, onTrackingNumberUpdate }) => {
+    const trackingDetails = getParcelTrackingDetail(parcel)
+    const { TrackingDetailsModal, openTrackingDetails } = useTrackingDetails(
+      parcel,
+      rate,
+    )
 
+    return (
+      <>
+        <TrackingDetailsModal />
+        {trackingDetails?.status != null ? (
+          <FlexRow className="mt-4">
+            <Text variant="info">{t("common.status")}</Text>
+            <Text weight="semibold">{trackingDetails.status}</Text>
+          </FlexRow>
+        ) : parcel.tracking_status != null ? (
+          <FlexRow className="mt-4">
+            <Text variant="info">{t("common.status")}</Text>
+            <Text weight="semibold">{parcel.tracking_status}</Text>
+          </FlexRow>
+        ) : null}
+        {onTrackingNumberUpdate == null && parcel.tracking_number != null ? (
+          <FlexRow className="mt-4">
+            <Text variant="info">{t("common.tracking")}</Text>
+            <Text weight="semibold">
+              {trackingDetails != null ? (
+                <Button
+                  variant="link"
+                  onClick={() => {
+                    openTrackingDetails()
+                  }}
+                >
+                  {parcel.tracking_number}
+                </Button>
+              ) : (
+                parcel.tracking_number
+              )}
+            </Text>
+          </FlexRow>
+        ) : onTrackingNumberUpdate != null ? (
+          <FlexRow className="mt-4">
+            <Text variant="info">{t("common.tracking")}</Text>
+            <Text>
+              <AddTrackingNumberModal
+                parcel={parcel}
+                onTrackingNumberUpdate={onTrackingNumberUpdate}
+              />
+            </Text>
+          </FlexRow>
+        ) : null}
+        {showEstimatedDelivery && rate?.formatted_delivery_date != null && (
+          <FlexRow className="mt-4">
+            <Text variant="info">{t("common.estimated_delivery")}</Text>
+            <Text weight="semibold">{rate.formatted_delivery_date}</Text>
+          </FlexRow>
+        )}
+      </>
+    )
+  },
+)
+
+const AddTrackingNumberModal: FC<{
+  parcel: ParcelResource
+  onTrackingNumberUpdate: OnTrackingNumberUpdate
+}> = ({ parcel, onTrackingNumberUpdate }) => {
+  const [show, setShow] = useState(false)
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [trackingNumber, setTrackingNumber] = useState(
+    parcel.tracking_number ?? "",
+  )
   return (
     <>
-      <TrackingDetailsModal />
-      {trackingDetails?.status != null ? (
-        <FlexRow className="mt-4">
-          <Text variant="info">{t("common.status")}</Text>
-          <Text weight="semibold">{trackingDetails.status}</Text>
-        </FlexRow>
-      ) : parcel.tracking_status != null ? (
-        <FlexRow className="mt-4">
-          <Text variant="info">{t("common.status")}</Text>
-          <Text weight="semibold">{parcel.tracking_status}</Text>
-        </FlexRow>
-      ) : null}
-      {parcel.tracking_number != null && (
-        <FlexRow className="mt-4">
-          <Text variant="info">{t("common.tracking")}</Text>
-          <Text weight="semibold">
-            {trackingDetails != null ? (
-              <Button
-                variant="link"
-                onClick={() => {
-                  openTrackingDetails()
-                }}
-              >
-                {parcel.tracking_number}
-              </Button>
-            ) : (
-              parcel.tracking_number
-            )}
-          </Text>
-        </FlexRow>
-      )}
-      {showEstimatedDelivery && rate?.formatted_delivery_date != null && (
-        <FlexRow className="mt-4">
-          <Text variant="info">{t("common.estimated_delivery")}</Text>
-          <Text weight="semibold">{rate.formatted_delivery_date}</Text>
-        </FlexRow>
-      )}
+      <Modal show={show} onClose={() => setShow(false)}>
+        <Modal.Header>Tracking information</Modal.Header>
+        <Modal.Body>
+          <Input
+            label="Tracking number"
+            value={trackingNumber}
+            onChange={(e) => setTrackingNumber(e.target.value)}
+            hint={{
+              text: "Insert tracking number from your carrier.",
+            }}
+          />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button
+            type="button"
+            variant="primary"
+            fullWidth
+            disabled={isUpdating}
+            onClick={async () => {
+              setIsUpdating(true)
+              try {
+                await onTrackingNumberUpdate(parcel.id, trackingNumber)
+              } finally {
+                setShow(false)
+                setIsUpdating(false)
+              }
+            }}
+          >
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      <Button variant="link" onClick={() => setShow(true)}>
+        {isEmpty(parcel.tracking_number)
+          ? "Add tracking"
+          : parcel.tracking_number}
+      </Button>
     </>
   )
-})
+}
 
 const PrintLabel = withSkeletonTemplate<{ href: string }>(({ href }) => {
   return (

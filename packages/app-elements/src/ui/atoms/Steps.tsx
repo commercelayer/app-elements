@@ -40,7 +40,7 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
       }}
       className={cn(
         "flex justify-between text-xs w-full items-center rounded",
-        `h-2 mb-8 bg-linear-to-r from-gray-100 from-50% to-primary to-50% bg-size-[200%]`,
+        `h-2 mb-8 bg-linear-to-r from-gray-100 from-50% to-brand to-50% bg-size-[200%]`,
       )}
     >
       {steps.map(fixActive).map((step, index) => {
@@ -67,7 +67,7 @@ export const Steps: React.FC<StepsProps> = ({ steps }) => {
               className={cn(
                 "w-6 h-6 rounded-full flex justify-center items-center",
                 {
-                  "bg-primary": step.active === true,
+                  "bg-brand": step.active === true,
                   "bg-gray-100": step.active !== true,
                   "after:bg-white after:w-3 after:h-3 after:block after:rounded-full":
                     activePosition === "active",

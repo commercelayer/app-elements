@@ -87,27 +87,29 @@ const TrackingDetails = withSkeletonTemplate<{
 
   return (
     <>
-      <Steps
-        steps={[
-          {
-            label: t("common.tracking_details.tracking_pre_transit"),
-            active: lastEvent?.tracking.status === "pre_transit",
-          },
-          {
-            label: t("common.tracking_details.tracking_in_transit"),
-            active: lastEvent?.tracking.status === "in_transit",
-          },
-          {
-            label: t("common.tracking_details.tracking_out_for_delivery"),
-            active: lastEvent?.tracking.status === "out_for_delivery",
-          },
-          {
-            label: t("common.tracking_details.tracking_delivered"),
-            active: lastEvent?.tracking.status === "delivered",
-          },
-        ]}
-      />
-      <Spacer top="12" bottom="14">
+      <div className="pt-10 pb-14">
+        <Steps
+          steps={[
+            {
+              label: t("common.tracking_details.tracking_pre_transit"),
+              active: lastEvent?.tracking.status === "pre_transit",
+            },
+            {
+              label: t("common.tracking_details.tracking_in_transit"),
+              active: lastEvent?.tracking.status === "in_transit",
+            },
+            {
+              label: t("common.tracking_details.tracking_out_for_delivery"),
+              active: lastEvent?.tracking.status === "out_for_delivery",
+            },
+            {
+              label: t("common.tracking_details.tracking_delivered"),
+              active: lastEvent?.tracking.status === "delivered",
+            },
+          ]}
+        />
+      </div>
+      <Spacer bottom="14">
         <Stack>
           <div>
             <Spacer bottom="2">

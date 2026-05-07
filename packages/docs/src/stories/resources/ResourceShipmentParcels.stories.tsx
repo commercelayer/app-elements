@@ -6,6 +6,7 @@ import {
   shipmentWithCustomsInfo,
   shipmentWithMultipleParcelsMultipleTrackings,
   shipmentWithMultipleParcelsSingleTracking,
+  shipmentWithNoCarrierAndManualShipping,
   shipmentWithoutParcels,
   shipmentWithoutTracking,
   shipmentWithoutTrackingDetails,
@@ -96,6 +97,24 @@ SingleParcelSingleTrackingWithoutCarrier.args = {
     alert(`removed parcel "${parcelId}"`)
   },
   shipment: shipmentWithSingleParcelSingleTrackingNoCarrier,
+}
+
+/**
+ * Shipment can be handled manually without purchasing a label and tracking information can be added or updated manually.
+ */
+export const ParcelsWithManualTracking: StoryFn<
+  typeof ResourceShipmentParcels
+> = (args): JSX.Element => <ResourceShipmentParcels {...args} />
+ParcelsWithManualTracking.args = {
+  onRemoveParcel: (parcelId) => {
+    alert(`removed parcel "${parcelId}"`)
+  },
+  onTrackingNumberUpdate: async (parcelId, trackingNumber) => {
+    alert(
+      `updated tracking number for parcel "${parcelId}" with "${trackingNumber}"`,
+    )
+  },
+  shipment: shipmentWithNoCarrierAndManualShipping,
 }
 
 /**
