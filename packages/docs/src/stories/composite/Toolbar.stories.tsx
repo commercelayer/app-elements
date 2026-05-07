@@ -47,18 +47,21 @@ Simple.args = {
         [
           {
             label: "Edit",
+            icon: "pencilSimple",
             onClick: () => {
               console.log("Edit")
             },
           },
           {
             label: "Set metadata",
+            icon: "treeView",
             onClick: () => {
               console.log("Set metadata")
             },
           },
           {
             label: "Disabled item",
+            icon: "eyeSlash",
             disabled: true,
             onClick: () => {
               console.log("Cannot click me")
@@ -68,6 +71,7 @@ Simple.args = {
         [
           {
             label: "Delete",
+            icon: "trash",
             onClick: () => {
               console.log("Delete")
             },
