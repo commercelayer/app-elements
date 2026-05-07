@@ -64,9 +64,13 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
     setIsPending(true)
     try {
       await confirm.onClick()
+      console.log("should trigger toast")
       if (successMessage) {
+        console.log("OK - Before toast")
         toast(successMessage, { type: successVariant })
+        console.log("OK - After toast")
       }
+      console.log("should have triggered toast")
     } catch (err) {
       const parsedMessage = parseApiError(err)
         .map((e) => e.detail)
