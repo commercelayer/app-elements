@@ -120,7 +120,7 @@ export const ListItem: FC<ListItemProps> = ({
       type={JsxTag === "button" ? "button" : undefined}
       {...wantedProps}
     >
-      <div className={cn("flex gap-4 flex-1 items-center")}>
+      <div className={cn("flex gap-4 flex-1 items-center print:gap-0")}>
         {icon != null && (
           <div
             className={cn("shrink-0", {

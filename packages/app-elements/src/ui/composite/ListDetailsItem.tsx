@@ -52,7 +52,7 @@ export function ListDetailsItem({
     <div
       data-testid={`list-details-item-${label}`}
       className={classNames(
-        "border-gray-100 md:gap-4! py-2 md:py-0 grid md:grid-cols-[1fr_1.4fr]!",
+        "border-gray-100 md:gap-4! py-2 md:py-0 grid md:grid-cols-[1fr_1.4fr]! print:inline-grid",
         {
           "px-4": gutter !== "none",
           "border-b py-4 md:py-2!": border !== "none",

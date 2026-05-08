@@ -893,7 +893,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
@@ -917,7 +917,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
@@ -960,7 +960,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
@@ -984,7 +984,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
@@ -1027,7 +1027,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
@@ -1051,7 +1051,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
@@ -1075,7 +1075,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
                 class="flex items-center gap-1 mb-1"
               >
                 <div
-                  class="inline-block align-middle w-fit text-gray-500"
+                  class="print:hidden inline-block align-middle w-fit text-gray-500"
                 >
                   <svg
                     fill="currentColor"
