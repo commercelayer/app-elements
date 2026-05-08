@@ -380,7 +380,6 @@ describe("atPath", () => {
             expect.arrayContaining(["number"]),
           ]),
           relationships: expect.arrayContaining([
-            expect.arrayContaining(["versions"]),
             expect.arrayContaining(["line_items"]),
           ]),
         }),
@@ -407,7 +406,6 @@ describe("atPath", () => {
             expect.arrayContaining(["number"]),
           ]),
           relationships: expect.arrayContaining([
-            expect.arrayContaining(["versions"]),
             expect.arrayContaining(["line_items"]),
           ]),
         }),
@@ -1086,10 +1084,6 @@ const orderSuggestionsSnapshot = `
     {
       "type": "relationship",
       "value": "order.tags",
-    },
-    {
-      "type": "relationship",
-      "value": "order.versions",
     },
     {
       "type": "relationship",

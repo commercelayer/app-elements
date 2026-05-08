@@ -31,7 +31,7 @@ jobs:
       - name: Node 🧰
         uses: actions/setup-node@v6
         with:
-          node-version: 22.x
+          node-version: 24.x
 
       - name: Install 📦
         run: pnpm install --frozen-lockfile
@@ -41,4 +41,4 @@ jobs:
 
       - name: Publish 🚀 pkg.pr.new
         run: |
-          npx pkg-pr-new@0.0.68 publish './packages/app-elements' --no-template
+          npx pkg-pr-new publish './packages/app-elements' --no-template
