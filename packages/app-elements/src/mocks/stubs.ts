@@ -1,5 +1,15 @@
 import { vi } from "vitest"
 
+// In Node.js 25, undici performs strict instanceof checks on AbortSignal.
+// jsdom replaces globalThis.AbortSignal with its own implementation, but jsdom's AbortSignal
+// instances fail undici's instanceof check, causing network requests with signals to throw:
+//   "RequestInit: Expected signal ("AbortSignal {}") to be an instance of AbortSignal."
+//
+// The Commerce Layer SDK uses AbortSignal.timeout() for request timeouts. To prevent the error
+// in tests (where real timeouts are not needed), we remove AbortSignal.timeout from jsdom's
+// AbortSignal so the SDK skips adding a signal to its fetch calls.
+delete (AbortSignal as any).timeout
+
 const MockIntersectionObserver = vi.fn(
   (mockedCallback: IntersectionObserverCallback) => {
     window.addEventListener("triggerIntersection", () => {

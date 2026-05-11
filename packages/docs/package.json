@@ -13,7 +13,7 @@
     "ts:check": "tsc --noEmit"
   },
   "engines": {
-    "node": "22",
+    "node": ">=24",
     "pnpm": "10"
   },
   "dependencies": {
@@ -42,7 +42,7 @@
     "babel-loader": "^10.1.1",
     "date-fns": "^4.1.0",
     "js-yaml": "^4.1.1",
-    "msw": "^2.13.4",
+    "msw": "^2.14.5",
     "react-hook-form": "7.62.0",
     "react-select": "^5.10.2",
     "remark-gfm": "^4.0.1",
