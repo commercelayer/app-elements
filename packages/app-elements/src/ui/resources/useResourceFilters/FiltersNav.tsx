@@ -439,6 +439,17 @@ function getButtonFilterLabel({
     )
   }
 
+  if (
+    instructionItem.type === "groupedPredicates" &&
+    (isSingleElementArray || isString)
+  ) {
+    return (
+      instructionItem.render.props.options.find(
+        ({ value }) => value === optionValue,
+      )?.label ?? instructionItem.label
+    )
+  }
+
   if (instructionItem.type === "textSearch") {
     return `${instructionItem.label} · ${optionValue}`
   }

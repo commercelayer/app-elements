@@ -8,10 +8,12 @@ import { makeSdkFilterTime } from "./timeUtils"
 import {
   type CurrencyRangeFieldValue,
   type FilterItemCurrencyRange,
+  type FilterItemGroupedPredicates,
   type FilterItemOptions,
   type FilterItemTextSearch,
   type FiltersInstructions,
   isCurrencyRange,
+  isGroupedPredicates,
   isItemOptions,
   isTextSearch,
   type TimeRangePreset,
@@ -49,8 +51,12 @@ export function adaptFormValuesToSdk<
       ): item is
         | FilterItemOptions
         | FilterItemTextSearch
-        | FilterItemCurrencyRange =>
-        isItemOptions(item) || isTextSearch(item) || isCurrencyRange(item),
+        | FilterItemCurrencyRange
+        | FilterItemGroupedPredicates =>
+        isItemOptions(item) ||
+        isTextSearch(item) ||
+        isCurrencyRange(item) ||
+        isGroupedPredicates(item),
     )
     .flatMap((item) =>
       ([] as string[]).concat(item.sdk.predicate).concat(predicateWhitelist),
@@ -108,6 +114,23 @@ export function adaptFormValuesToSdk<
           [`${key}_lteq`]: currencyTo,
           currency_code_eq: currencyCode,
         }
+      }
+
+      if (instructionItem.type === "groupedPredicates") {
+        // Each selected option value maps to its own distinct SDK predicate + value
+        const selectedValues = castArray(formValues[key]).filter(
+          Boolean,
+        ) as string[]
+        return selectedValues.reduce((innerAcc, selectedValue) => {
+          const option = instructionItem.render.props.options.find(
+            (o) => o.value === selectedValue,
+          )
+          if (option == null) return innerAcc
+          return {
+            ...innerAcc,
+            [option.sdk.predicate]: option.sdk.value,
+          }
+        }, acc)
       }
 
       return acc

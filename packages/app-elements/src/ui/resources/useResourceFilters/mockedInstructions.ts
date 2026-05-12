@@ -149,6 +149,31 @@ export const instructions: FiltersInstructions = [
     },
   },
   {
+    label: "Items quantity",
+    type: "groupedPredicates",
+    sdk: {
+      predicate: "quantity_filter",
+    },
+    render: {
+      component: "inputToggleButton",
+      props: {
+        mode: "single",
+        options: [
+          {
+            label: "Has items",
+            value: "has_items",
+            sdk: { predicate: "quantity_gte", value: "1" },
+          },
+          {
+            label: "Empty",
+            value: "empty",
+            sdk: { predicate: "quantity_eq", value: "0" },
+          },
+        ],
+      },
+    },
+  },
+  {
     label: "Time range",
     type: "timeRange",
     sdk: {

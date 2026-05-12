@@ -163,6 +163,47 @@ export function adaptUrlQueryToFormValues<
             }
       }
 
+      // single grouped predicates option: store one option value in URL
+      if (
+        instructionItem.type === "groupedPredicates" &&
+        instructionItem.render.props.mode === "single"
+      ) {
+        const allowedValues = instructionItem.render.props.options.map(
+          (o) => o.value,
+        )
+        return parsedQuery[key] != null
+          ? {
+              ...formValues,
+              [key]: parseQueryStringValueAsArray(
+                parsedQuery[key],
+                allowedValues,
+              )[0],
+            }
+          : {
+              ...formValues,
+              [key]: undefined,
+            }
+      }
+
+      // multi grouped predicates options: store array of option values in URL
+      if (instructionItem.type === "groupedPredicates") {
+        const allowedValues = instructionItem.render.props.options.map(
+          (o) => o.value,
+        )
+        return parsedQuery[key] != null
+          ? {
+              ...formValues,
+              [key]: parseQueryStringValueAsArray(
+                parsedQuery[key],
+                allowedValues,
+              ),
+            }
+          : {
+              ...formValues,
+              [key]: [],
+            }
+      }
+
       return formValues
     },
     {

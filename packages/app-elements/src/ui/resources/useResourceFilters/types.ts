@@ -73,6 +73,63 @@ export interface BaseFilterItem {
   }
 }
 
+export interface FilterItemGroupedPredicates {
+  /**
+   * Label of the filter field in form component
+   */
+  label: string
+  /**
+   * Flag to hide the filter field in form component
+   */
+  hidden?: boolean
+  type: "groupedPredicates"
+  /**
+   * A virtual/synthetic field name used as the URL query param and react-hook-form field name.
+   * The actual SDK predicates are defined individually per option.
+   */
+  sdk: {
+    /**
+     * Virtual predicate used in the URL query string and form state.
+     * Example: `quantity_filter` — the real SDK predicates are defined inside each option.
+     */
+    predicate: string
+  }
+  render: {
+    /**
+     * UI component to render
+     */
+    component: "inputToggleButton"
+    /**
+     * Props required for the UI component
+     */
+    props: {
+      mode: "single" | "multi"
+      /**
+       * Each option maps to a specific SDK predicate + value pair when selected.
+       * An option can be hidden from the UI but still be used in the query.
+       * @example
+       * ```ts
+       * [
+       *   { label: 'Has items', value: 'has_items', sdk: { predicate: 'quantity_gte', value: '1' } },
+       *   { label: 'Empty',     value: 'empty',     sdk: { predicate: 'quantity_eq',  value: '0' } },
+       * ]
+       * ```
+       */
+      options: Array<{
+        label: string
+        /** The value stored in the URL query string and form state */
+        value: string
+        isHidden?: boolean
+        /** The actual SDK predicate + value this option maps to when selected */
+        sdk: {
+          predicate: string
+          value: string
+        }
+      }>
+    }
+  }
+}
+
 export type FilterItemOptions = BaseFilterItem & {
   type: "options"
   render:
@@ -161,6 +218,7 @@ export type FiltersInstructionItem =
   | FilterItemTextSearch
   | FilterItemTime
   | FilterItemCurrencyRange
+  | FilterItemGroupedPredicates
 
 export type FiltersInstructions = FiltersInstructionItem[]
 
@@ -180,4 +238,10 @@ export function isCurrencyRange(
   item: FiltersInstructionItem,
 ): item is FilterItemCurrencyRange {
   return item.type === "currencyRange"
+}
+
+export function isGroupedPredicates(
+  item: FiltersInstructionItem,
+): item is FilterItemGroupedPredicates {
+  return item.type === "groupedPredicates"
 }
