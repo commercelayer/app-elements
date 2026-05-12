@@ -137,7 +137,7 @@ function getVariantCss(
       "bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full",
     danger:
       "font-medium bg-red border border-red text-white hover:bg-red-300 hover:border-red-300",
-    link: "font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer",
+    link: "font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer flex! items-center!",
     relationship: "text-primary border border-gray-300 border-dashed",
     input:
       "font-normal form-input block w-full px-4! py-2.5! rounded outline-0 text-left! leading-6! text-gray-500",
