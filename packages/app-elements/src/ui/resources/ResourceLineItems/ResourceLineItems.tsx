@@ -124,7 +124,7 @@ const Edit = withSkeletonTemplate<{
             }}
           >
             <SwapIcon size={18} weight="bold" />
-            <span className="pl-1 text-sm">{t("common.swap")}</span>
+            <span className="text-sm">{t("common.swap")}</span>
           </Button>
         )}
         {canRemove &&
