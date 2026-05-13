@@ -196,6 +196,60 @@ describe("adaptUrlQueryToFormValues", () => {
     })
   })
 
+  test("should parse a groupedPredicates option value from the query string", () => {
+    expect(
+      adaptUrlQueryToFormValues({
+        queryString: "quantity_filter=has_items",
+        instructions,
+      }),
+    ).toStrictEqual({
+      market_id_in: [],
+      status_in: [],
+      payment_status_eq: undefined,
+      fulfillment_status_in: [],
+      quantity_filter: "has_items",
+      archived_at_null: undefined,
+      timePreset: undefined,
+      timeFrom: undefined,
+      timeTo: undefined,
+      name_eq: undefined,
+      number_or_email_cont: undefined,
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined,
+      },
+    })
+  })
+
+  test("should discard an invalid groupedPredicates option value from the query string", () => {
+    expect(
+      adaptUrlQueryToFormValues({
+        queryString: "quantity_filter=not_a_valid_option",
+        instructions,
+      }),
+    ).toStrictEqual({
+      market_id_in: [],
+      status_in: [],
+      payment_status_eq: undefined,
+      fulfillment_status_in: [],
+      quantity_filter: undefined,
+      archived_at_null: undefined,
+      timePreset: undefined,
+      timeFrom: undefined,
+      timeTo: undefined,
+      name_eq: undefined,
+      number_or_email_cont: undefined,
+      viewTitle: undefined,
+      total_amount_cents: {
+        from: undefined,
+        to: undefined,
+        currencyCode: undefined,
+      },
+    })
+  })
+
   test("should handle partial currency range values", () => {
     expect(
       adaptUrlQueryToFormValues({

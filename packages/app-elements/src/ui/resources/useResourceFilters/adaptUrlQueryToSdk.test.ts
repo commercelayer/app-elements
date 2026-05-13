@@ -66,6 +66,32 @@ describe("adaptUrlQueryToSdk", () => {
     })
   })
 
+  test("should resolve a groupedPredicates option to its sdk predicate", () => {
+    expect(
+      adaptUrlQueryToSdk({
+        queryString: "quantity_filter=has_items",
+        instructions,
+      }),
+    ).toStrictEqual({
+      quantity_gteq: "1",
+      archived_at_null: true,
+      status_in: "placed,approved,cancelled",
+    })
+  })
+
+  test("should resolve a different groupedPredicates option to its own sdk predicate", () => {
+    expect(
+      adaptUrlQueryToSdk({
+        queryString: "quantity_filter=empty",
+        instructions,
+      }),
+    ).toStrictEqual({
+      quantity_eq: "0",
+      archived_at_null: true,
+      status_in: "placed,approved,cancelled",
+    })
+  })
+
   test("should consider the query string whitelist", () => {
     expect(
       adaptUrlQueryToSdk({
