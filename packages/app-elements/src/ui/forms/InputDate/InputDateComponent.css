@@ -15,7 +15,7 @@
 }
 
 .react-datepicker-popper {
-  min-width: 370px;
+  min-width: 378px;
   text-align: center;
   z-index: 30;
 }
@@ -70,6 +70,10 @@
   border-color: #686e6e;
   border-width: 1px 1px 0 0;
   margin-top: 6px;
+}
+
+.react-datepicker__navigation--next--with-time:not(.react-datepicker__navigation--next--with-today-button) {
+  right: 95px;
 }
 
 .react-datepicker__current-month,
