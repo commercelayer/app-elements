@@ -46,7 +46,7 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
       })
     }, [events, timezone])
     return (
-      <div data-testid="timeline">
+      <div data-testid="timeline" className="print:hidden">
         <Input
           disabled={disabled}
           onKeyDown={onKeyDown}

@@ -195,6 +195,9 @@
   @media (width >= 632px) {
     max-width: 632px;
   }
+  @media print {
+    max-width: 100%;
+  }
 }
 
 /*
@@ -312,5 +315,21 @@
     text-underline-position: under;
     text-decoration-thickness: 5%;
     text-decoration-style: dotted;
+  }
+}
+
+@media print {
+  @page {
+    size: A4;
+    margin: 15cm;
+    @top-right {
+      content: '';
+    }
+    @top-left {
+      content: '';
+    }
+  }
+  html {
+    zoom: 0.75;
   }
 }

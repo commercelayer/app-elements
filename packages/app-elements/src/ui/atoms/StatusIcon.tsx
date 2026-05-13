@@ -51,7 +51,7 @@ export const StatusIcon: React.FC<StatusIconProps> = ({
 
   return (
     <div
-      className={cn([
+      className={cn("print:hidden", [
         // alignment
         { "mx-auto block": align === "center" },
         { "inline-block": align !== "center" },

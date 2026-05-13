@@ -91,9 +91,9 @@ export const ListItem: FC<ListItemProps> = ({
   })
 
   const overlayPxSize = cn({
-    "in-[.overlay-container]:px-6": paddingSize === "6",
-    "in-[.overlay-container]:px-4": paddingSize === "4",
-    "in-[.overlay-container]:px-2": paddingSize === "2",
+    "in-[.overlay-container]:px-6 print:px-0": paddingSize === "6",
+    "in-[.overlay-container]:px-4 print:px-0": paddingSize === "4",
+    "in-[.overlay-container]:px-2 print:px-0": paddingSize === "2",
   })
   return (
     <JsxTag
@@ -120,7 +120,7 @@ export const ListItem: FC<ListItemProps> = ({
       type={JsxTag === "button" ? "button" : undefined}
       {...wantedProps}
     >
-      <div className={cn("flex gap-4 flex-1 items-center")}>
+      <div className={cn("flex gap-4 flex-1 items-center print:gap-0")}>
         {icon != null && (
           <div
             className={cn("shrink-0", {

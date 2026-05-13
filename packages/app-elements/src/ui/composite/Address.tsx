@@ -72,7 +72,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
     )
 
     return (
-      <div className="w-full flex gap-4 space-between">
+      <div className="w-full flex gap-4 space-between print:break-inside-avoid">
         <div className="w-full" data-testid="Address">
           {title != null && (
             <Spacer bottom="2" data-testid="Address-title">
@@ -184,7 +184,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
           )}
         </div>
         {onEdit != null && (
-          <div>
+          <div className="print:hidden">
             <Button
               variant="link"
               onClick={() => {
