@@ -55,10 +55,11 @@ export function getInteractiveElementClassName({
     isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
 
   return cn([
-    `font-medium whitespace-nowrap leading-5`,
+    "font-medium whitespace-nowrap leading-5",
+    "inline-flex items-center gap-1",
     {
       // Button-like behaviors (non links)
-      "inline-flex justify-center items-center gap-1": variant !== "link",
+      "justify-center": variant !== "link" && variant !== "input",
       "!justify-start": variant === "input",
       "transition-opacity duration-500": variant !== "link",
       button: variant !== "link",
@@ -137,7 +138,7 @@ function getVariantCss(
       "bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full",
     danger:
       "font-medium bg-red border border-red text-white hover:bg-red-300 hover:border-red-300",
-    link: "font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer flex! items-center!",
+    link: "font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer",
     relationship: "text-primary border border-gray-300 border-dashed",
     input:
       "font-normal form-input block w-full px-4! py-2.5! rounded outline-0 text-left! leading-6! text-gray-500",
