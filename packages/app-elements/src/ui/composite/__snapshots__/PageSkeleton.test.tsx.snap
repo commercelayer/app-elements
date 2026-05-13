@@ -21,7 +21,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
               class="w-full pt-5 md:pt-10"
             >
               <div
-                class="mb-4 flex items-center justify-between"
+                class="mb-4 flex items-center justify-between print:hidden"
               >
                 <button
                   class="flex items-center gap-1"
@@ -80,7 +80,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                 data-testid="SearchBar"
               >
                 <div
-                  class="inline-block align-middle w-fit absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-xl text-base select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
+                  class="print:hidden inline-block align-middle w-fit absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none text-xl text-base select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                 >
                   <svg
                     fill="currentColor"
@@ -131,7 +131,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                         class="flex gap-4 w-full text-gray-800 hover:text-gray-800 py-4 border-b border-gray-100 border-gray-50!"
                       >
                         <div
-                          class="flex gap-4 flex-1 items-center"
+                          class="flex gap-4 flex-1 items-center print:gap-0"
                         >
                           <div
                             class="shrink-0 my-0.5 self-start"
@@ -140,7 +140,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                               class="select-none pointer-events-none inline"
                             >
                               <div
-                                class="inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
+                                class="print:hidden inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
@@ -192,7 +192,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                               class="text-right"
                             >
                               <div
-                                class="inline-block align-middle w-fit select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
+                                class="print:hidden inline-block align-middle w-fit select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
@@ -214,7 +214,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                         class="flex gap-4 w-full text-gray-800 hover:text-gray-800 py-4 border-b border-gray-100 border-gray-50!"
                       >
                         <div
-                          class="flex gap-4 flex-1 items-center"
+                          class="flex gap-4 flex-1 items-center print:gap-0"
                         >
                           <div
                             class="shrink-0 my-0.5 self-start"
@@ -223,7 +223,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                               class="select-none pointer-events-none inline"
                             >
                               <div
-                                class="inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
+                                class="print:hidden inline-block align-middle w-fit p-[10px] border rounded-full bg-gray-300 border-gray-300 text-white select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"
@@ -275,7 +275,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                               class="text-right"
                             >
                               <div
-                                class="inline-block align-middle w-fit select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
+                                class="print:hidden inline-block align-middle w-fit select-none border-gray-50! pointer-events-none animate-pulse bg-gray-50! rounded text-transparent *:invisible object-out-of-bounds"
                               >
                                 <svg
                                   fill="currentColor"

@@ -75,7 +75,11 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
         {...rest}
       >
         {navigationButton != null && (
-          <div className={cn("mb-4 flex items-center justify-between")}>
+          <div
+            className={cn(
+              "mb-4 flex items-center justify-between print:hidden",
+            )}
+          >
             <button
               type="button"
               className="flex items-center gap-1"
@@ -92,7 +96,10 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
           </div>
         )}
         {badge != null && (
-          <div className="flex mb-4 md:mt-0!" data-testid="page-heading-badge">
+          <div
+            className="flex mb-4 md:mt-0! print:hidden"
+            data-testid="page-heading-badge"
+          >
             <Badge variant={badge.variant ?? "warning-solid"}>
               {badge.label}
             </Badge>
