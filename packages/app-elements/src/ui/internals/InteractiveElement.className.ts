@@ -55,10 +55,11 @@ export function getInteractiveElementClassName({
     isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
 
   return cn([
-    `font-medium whitespace-nowrap leading-5`,
+    "font-medium whitespace-nowrap leading-5",
+    "inline-flex items-center gap-1",
     {
       // Button-like behaviors (non links)
-      "inline-flex justify-center items-center gap-1": variant !== "link",
+      "justify-center": variant !== "link" && variant !== "input",
       "!justify-start": variant === "input",
       "transition-opacity duration-500": variant !== "link",
       button: variant !== "link",

@@ -89,6 +89,12 @@ export const VariantLink: StoryFn = () => (
     <Spacer top="4">
       <Button variant="link">I am a &lt;button&gt; element</Button>
     </Spacer>
+    <Spacer top="4">
+      <Button variant="link">
+        <Icon name="plus" size={18} />
+        Add item
+      </Button>
+    </Spacer>
   </div>
 )
 

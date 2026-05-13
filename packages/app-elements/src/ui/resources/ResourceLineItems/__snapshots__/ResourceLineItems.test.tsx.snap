@@ -156,7 +156,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
               >
                 <button
                   aria-label="common.swap"
-                  class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -170,7 +170,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                     />
                   </svg>
                   <span
-                    class="pl-1 text-sm"
+                    class="text-sm"
                   >
                     common.swap
                   </span>
@@ -182,7 +182,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                 >
                   <button
                     aria-label="common.remove"
-                    class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] opacity-50 pointer-events-none touch-none font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                    class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] opacity-50 pointer-events-none touch-none font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                     disabled=""
                   >
                     <svg
@@ -197,7 +197,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
                       />
                     </svg>
                     <span
-                      class="pl-1 text-sm"
+                      class="text-sm"
                     >
                       common.remove
                     </span>
@@ -594,7 +594,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
               >
                 <button
                   aria-label="common.remove"
-                  class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -608,7 +608,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
                     />
                   </svg>
                   <span
-                    class="pl-1 text-sm"
+                    class="text-sm"
                   >
                     common.remove
                   </span>
@@ -1268,7 +1268,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="common.swap"
-                  class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1282,14 +1282,14 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1 text-sm"
+                    class="text-sm"
                   >
                     common.swap
                   </span>
                 </button>
                 <button
                   aria-label="common.remove"
-                  class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1303,7 +1303,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1 text-sm"
+                    class="text-sm"
                   >
                     common.remove
                   </span>
@@ -1527,7 +1527,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
               >
                 <button
                   aria-label="common.swap"
-                  class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1541,14 +1541,14 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1 text-sm"
+                    class="text-sm"
                   >
                     common.swap
                   </span>
                 </button>
                 <button
                   aria-label="common.remove"
-                  class="font-medium whitespace-nowrap leading-5 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
+                  class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 inline w-fit underline rounded-[8px] font-semibold text-primary hover:text-primary-light border-primary-light cursor-pointer"
                 >
                   <svg
                     fill="currentColor"
@@ -1562,7 +1562,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
                     />
                   </svg>
                   <span
-                    class="pl-1 text-sm"
+                    class="text-sm"
                   >
                     common.remove
                   </span>

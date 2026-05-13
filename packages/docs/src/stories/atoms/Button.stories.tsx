@@ -65,6 +65,7 @@ export const Link: StoryFn = (_args) => (
         alert("Item added!")
       }}
     >
+      <Icon name="plus" size={18} />
       Add item
     </Button>
   </div>
