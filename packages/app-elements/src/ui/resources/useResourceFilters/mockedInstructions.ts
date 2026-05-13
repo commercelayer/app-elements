@@ -160,7 +160,7 @@ export const instructions: FiltersInstructions = [
           {
             label: "Has items",
             value: "has_items",
-            sdk: { predicate: "quantity_gte", value: "1" },
+            sdk: { predicate: "quantity_gteq", value: "1" },
           },
           {
             label: "Empty",

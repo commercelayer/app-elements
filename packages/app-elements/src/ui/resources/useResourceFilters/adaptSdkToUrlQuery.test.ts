@@ -53,4 +53,28 @@ describe("adaptSdkToUrlQuery", () => {
       }),
     ).toBe("lastname_eq=doe&status_in=approved&status_in=cancelled")
   })
+
+  test("should map a groupedPredicates option SDK predicate back to its virtual URL param", () => {
+    expect(
+      adaptSdkToUrlQuery({
+        sdkFilters: {
+          quantity_eq: "0",
+          status_in: "approved",
+        },
+        instructions,
+      }),
+    ).toBe("quantity_filter=empty&status_in=approved")
+  })
+
+  test("should map multiple groupedPredicates option SDK predicates back to their virtual URL params", () => {
+    expect(
+      adaptSdkToUrlQuery({
+        sdkFilters: {
+          quantity_gteq: "1",
+          status_in: "approved",
+        },
+        instructions,
+      }),
+    ).toBe("quantity_filter=has_items&status_in=approved")
+  })
 })
