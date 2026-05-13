@@ -5,6 +5,7 @@ import {
   removeMillisecondsFromIsoDate,
 } from "#helpers/date"
 import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
+import { getInstructionKey } from "#ui/resources/useResourceFilters/types"
 
 export type CoreResourceEnabledInMetrics = "orders" | "returns"
 type MetricsResource = "order" | "return"
@@ -89,7 +90,7 @@ export function adaptSdkToMetrics({
   }>(
     (acc, [key, value]) => {
       const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key,
+        (item) => getInstructionKey(item) === key,
       )
 
       if (

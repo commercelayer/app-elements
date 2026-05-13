@@ -84,16 +84,16 @@ export interface FilterItemGroupedPredicates {
   hidden?: boolean
   type: "groupedPredicates"
   /**
-   * A virtual/synthetic field name used as the URL query param and react-hook-form field name.
-   * The actual SDK predicates are defined individually per option.
+   * The URL query string key used to identify this filter in the URL and form state.
+   * Unlike other filter types, this is NOT an SDK predicate — it is a virtual key used
+   * only for URL serialization and react-hook-form state management.
+   * The actual SDK predicates are defined per-option inside `render.props.options`.
+   * @example
+   * ```ts
+   * urlParamKey: "availability" // → ?availability=in_stock
+   * ```
    */
-  sdk: {
-    /**
-     * Virtual predicate used in the URL query string and form state.
-     * Example: `quantity_filter` — the real SDK predicates are defined inside each option.
-     */
-    predicate: string
-  }
+  urlParamKey: string
   render: {
     /**
      * UI component to render
@@ -244,4 +244,20 @@ export function isGroupedPredicates(
   item: FiltersInstructionItem,
 ): item is FilterItemGroupedPredicates {
   return item.type === "groupedPredicates"
+}
+
+/**
+ * Returns the URL query string key / form field name for any instruction item.
+ *
+ * - For all standard types (`options`, `textSearch`, `timeRange`, `currencyRange`) this is `item.sdk.predicate`.
+ * - For `groupedPredicates` it is `item.urlParamKey`, because that type has no single SDK predicate
+ *   (each option maps to its own predicate at the option level).
+ *
+ * Use this helper everywhere you need to resolve the URL/form key from an unnarrowed `FiltersInstructionItem`
+ * instead of accessing `item.sdk.predicate` directly.
+ */
+export function getInstructionKey(item: FiltersInstructionItem): string {
+  return item.type === "groupedPredicates"
+    ? item.urlParamKey
+    : item.sdk.predicate
 }

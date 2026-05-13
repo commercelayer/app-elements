@@ -224,6 +224,7 @@ describe("extractEnforcedValues", () => {
   test("should return empty object if no enforced values", () => {
     const instructionsWithoutDefaultOptions = instructions.filter(
       (item) =>
+        item.type === "groupedPredicates" ||
         !("defaultOptions" in item.sdk && item.sdk.defaultOptions != null),
     )
     expect(

@@ -7,6 +7,7 @@ import { adaptUrlQueryToFormValues as adaptUrlQueryToFormValuesFn } from "./adap
 import { adaptUrlQueryToSdk as adaptUrlQueryToSdkFn } from "./adaptUrlQueryToSdk"
 import { adaptUrlQueryToUrlQuery as adaptUrlQueryToUrlQueryFn } from "./adaptUrlQueryToUrlQuery"
 import type { FiltersInstructions } from "./types"
+import { getInstructionKey } from "./types"
 
 export const makeFilterAdapters: MakeFiltersAdapters = ({
   instructions,
@@ -87,9 +88,10 @@ function isValidInstructions(instructions: FiltersInstructions): boolean {
   const hasReservedTimePresetUiFilterName =
     instructions.filter(
       (item) =>
-        (item.sdk.predicate === "timePreset" && item.type !== "timeRange") ||
-        item.sdk.predicate === "timeFrom" ||
-        item.sdk.predicate === "timeTo",
+        (getInstructionKey(item) === "timePreset" &&
+          item.type !== "timeRange") ||
+        getInstructionKey(item) === "timeFrom" ||
+        getInstructionKey(item) === "timeTo",
     )?.length > 0
 
   const isInvalid =

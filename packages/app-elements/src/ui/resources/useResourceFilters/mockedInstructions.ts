@@ -151,9 +151,7 @@ export const instructions: FiltersInstructions = [
   {
     label: "Items quantity",
     type: "groupedPredicates",
-    sdk: {
-      predicate: "quantity_filter",
-    },
+    urlParamKey: "quantity_filter",
     render: {
       component: "inputToggleButton",
       props: {

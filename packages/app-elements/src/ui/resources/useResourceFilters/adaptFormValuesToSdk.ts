@@ -12,6 +12,7 @@ import {
   type FilterItemOptions,
   type FilterItemTextSearch,
   type FiltersInstructions,
+  getInstructionKey,
   isCurrencyRange,
   isGroupedPredicates,
   isItemOptions,
@@ -59,13 +60,15 @@ export function adaptFormValuesToSdk<
         isGroupedPredicates(item),
     )
     .flatMap((item) =>
-      ([] as string[]).concat(item.sdk.predicate).concat(predicateWhitelist),
+      ([] as string[])
+        .concat(getInstructionKey(item))
+        .concat(predicateWhitelist),
     )
 
   const sdkFilters = formFieldNames.reduce<Partial<QueryFilter>>(
     (acc, key) => {
       const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key,
+        (item) => getInstructionKey(item) === key,
       )
 
       if (instructionItem == null) {
@@ -81,6 +84,7 @@ export function adaptFormValuesToSdk<
 
       // user custom defined parseFormValue function
       if (
+        instructionItem.type !== "groupedPredicates" &&
         "parseFormValue" in instructionItem.sdk &&
         instructionItem.sdk.parseFormValue != null
       ) {

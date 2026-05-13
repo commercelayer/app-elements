@@ -17,10 +17,7 @@ export function FieldGroupedPredicates({
     (opt) => opt.isHidden !== true,
   )
 
-  const selectedValue = watch(item.sdk.predicate) as
-    | string
-    | string[]
-    | undefined
+  const selectedValue = watch(item.urlParamKey) as string | string[] | undefined
 
   const selectedCount = Array.isArray(selectedValue)
     ? selectedValue.length
@@ -39,7 +36,7 @@ export function FieldGroupedPredicates({
             })
           : item.label
       }
-      name={item.sdk.predicate}
+      name={item.urlParamKey}
       mode={item.render.props.mode}
       options={visibleOptions.map(({ label, value }) => ({ label, value }))}
     />
