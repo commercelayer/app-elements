@@ -65,26 +65,36 @@ function invertGroupedPredicates(
 
   for (const instruction of groupedInstructions) {
     const matchedOptionValues: string[] = []
+    const matchedSdkPredicates: string[] = []
 
     for (const option of instruction.render.props.options) {
       const sdkValue = sdkFilters[option.sdk.predicate]
       if (sdkValue != null && String(sdkValue) === option.sdk.value) {
         matchedOptionValues.push(option.value)
-        consumedSdkKeys.add(option.sdk.predicate)
+        matchedSdkPredicates.push(option.sdk.predicate)
       }
     }
 
     if (matchedOptionValues.length === 0) continue
 
+    const isSingleMode = instruction.render.props.mode === "single"
+
+    // In single mode, multiple matches cannot be represented without losing
+    // information. Leave the original SDK predicates untouched instead.
+    if (isSingleMode && matchedOptionValues.length > 1) continue
+
     const [firstValue] = matchedOptionValues
     if (firstValue == null) continue
 
+    for (const predicate of matchedSdkPredicates) {
+      consumedSdkKeys.add(predicate)
+    }
+
     // Single mode: only one option can be active at a time
     // Multi mode: multiple options can be active simultaneously
-    virtualParams[instruction.urlParamKey] =
-      instruction.render.props.mode === "single"
-        ? firstValue
-        : matchedOptionValues
+    virtualParams[instruction.urlParamKey] = isSingleMode
+      ? firstValue
+      : matchedOptionValues
   }
 
   if (consumedSdkKeys.size === 0) return sdkFilters

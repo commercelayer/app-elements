@@ -110,8 +110,8 @@ export interface FilterItemGroupedPredicates {
        * @example
        * ```ts
        * [
-       *   { label: 'Has items', value: 'has_items', sdk: { predicate: 'quantity_gte', value: '1' } },
-       *   { label: 'Empty',     value: 'empty',     sdk: { predicate: 'quantity_eq',  value: '0' } },
+       *   { label: 'Has items', value: 'has_items', sdk: { predicate: 'quantity_gteq', value: '1' } },
+       *   { label: 'Empty',     value: 'empty',     sdk: { predicate: 'quantity_eq',   value: '0' } },
        * ]
        * ```
        */

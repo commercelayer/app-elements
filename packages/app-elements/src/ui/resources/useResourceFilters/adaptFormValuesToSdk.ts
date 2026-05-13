@@ -123,8 +123,9 @@ export function adaptFormValuesToSdk<
       if (instructionItem.type === "groupedPredicates") {
         // Each selected option value maps to its own distinct SDK predicate + value
         const selectedValues = castArray(formValues[key]).filter(
-          Boolean,
-        ) as string[]
+          (value): value is string =>
+            typeof value === "string" && value.length > 0,
+        )
         return selectedValues.reduce((innerAcc, selectedValue) => {
           const option = instructionItem.render.props.options.find(
             (o) => o.value === selectedValue,
