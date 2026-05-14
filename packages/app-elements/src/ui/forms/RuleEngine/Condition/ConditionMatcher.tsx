@@ -26,10 +26,6 @@ export function ConditionMatcher({
     fieldType = guessFieldType((item as ItemWithValue | null)?.value)
   }
 
-  if (fieldType === "string" && infos?.field?.format === "datetime") {
-    fieldType = "datetime"
-  }
-
   const resourceId = infos?.resource?.id
 
   const AGGREGATED_RESOURCE = ["tag"]

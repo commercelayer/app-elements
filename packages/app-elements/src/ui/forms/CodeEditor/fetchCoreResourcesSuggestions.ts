@@ -239,15 +239,23 @@ export async function atPath(
       if (className == null) {
         const field = acc.resource?.fields.find(([key]) => key === attr)?.[1]
 
+        if (field == null) {
+          return acc
+        }
+
+        let fieldType = field.type
+
+        if (fieldType === "string" && field?.format === "datetime") {
+          fieldType = "datetime"
+        }
+
         return {
           ...acc,
-          field:
-            field != null
-              ? {
-                  ...field,
-                  name: attr,
-                }
-              : undefined,
+          field: {
+            ...field,
+            type: fieldType,
+            name: attr,
+          },
         }
       }
 
