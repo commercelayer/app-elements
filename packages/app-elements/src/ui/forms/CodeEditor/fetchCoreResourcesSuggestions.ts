@@ -18,6 +18,7 @@ interface PublicResourcesResponse {
             | "json"
           desc: string
           name: string
+          format?: "datetime" | (string & {})
         }
       >
       relationships: Record<

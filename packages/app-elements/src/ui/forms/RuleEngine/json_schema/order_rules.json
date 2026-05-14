@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "1.2.0",
+  "$id": "1.2.1",
   "title": "Rules for order context",
   "description": "Rules payload within order context for the rules engine of Commerce Layer.",
   "properties": {

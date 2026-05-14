@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "1.0.1",
+  "$id": "1.0.2",
   "title": "Valid config for organizations in CommerceLayer",
   "description": "Payload to use when using the config field of the Organization on CommerceLayer.",
   "type": "object",
@@ -40,6 +40,18 @@
             }
           },
           "additionalProperties": false
+        },
+        "returns": {
+          "type": "object",
+          "description": "Returns app settings.",
+          "properties": {
+            "return_reasons": {
+              "type": "array",
+              "description": "Predefined return reason labels; shoppers can still submit a custom reason.",
+              "items": { "type": "string", "minLength": 1 }
+            }
+          },
+          "additionalProperties": false
         }
       }
     },
@@ -54,6 +66,7 @@
           "properties": {
             "guest_orders": {
               "type": "boolean",
+              "disabled": true,
               "default": false,
               "description": "Allow JWT bearer token to see guest orders."
             }
@@ -62,6 +75,7 @@
         "stream": {
           "type": "object",
           "additionalProperties": false,
+          "enterprise": true,
           "description": "Stream pusher configuration.",
           "properties": {
             "scope": {
@@ -75,6 +89,7 @@
         "anomalies": {
           "type": "object",
           "additionalProperties": false,
+          "enterprise": true,
           "description": "Configs for anomalies alerts",
           "properties": {
             "orders": {
@@ -87,6 +102,76 @@
                   "description": "Enables anomaly alerts on orders."
                 },
                 "recipients": { "$ref": "#/$defs/recipients" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "well-known": {
+      "additionalProperties": false,
+      "type": "object",
+      "description": "Well-known metadata references for storefronts (resolved by Core).",
+      "properties": {
+        "shopping": {
+          "type": "object",
+          "additionalProperties": false,
+          "description": "Shopping well-known configuration; locale_scopes values are market references.",
+          "properties": {
+            "client_id": {
+              "type": "string",
+              "description": "OAuth client id for the shopping experience."
+            },
+            "locale_scopes": {
+              "type": "object",
+              "description": "Locale tag to market reference mapping.",
+              "patternProperties": {
+                "^[A-Za-z]{2,3}(-[A-Za-z0-9]{2,8})*$": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["id"],
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Market id reference (hashid) to be resolved by Core."
+                    }
+                  }
+                }
+              },
+              "additionalProperties": false
+            },
+            "ui": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "UI host and Content-Security-Policy hints.",
+              "properties": {
+                "domain": {
+                  "type": "string",
+                  "description": "Optional storefront UI domain."
+                },
+                "csp": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "description": "CSP domain lists (absolute http(s) URIs).",
+                  "properties": {
+                    "resourceDomains": {
+                      "type": "array",
+                      "items": { "$ref": "#/$defs/url" }
+                    },
+                    "baseUriDomains": {
+                      "type": "array",
+                      "items": { "$ref": "#/$defs/url" }
+                    },
+                    "connectDomains": {
+                      "type": "array",
+                      "items": { "$ref": "#/$defs/url" }
+                    },
+                    "frameDomains": {
+                      "type": "array",
+                      "items": { "$ref": "#/$defs/url" }
+                    }
+                  }
+                }
               }
             }
           }
@@ -248,7 +333,7 @@
     },
     "recipients": {
       "type": "string",
-      "description": "Comma separated list of email recipients for the notifications (ex: test0@commercelayer.io,test1@sommercelayer.io)."
+      "description": "Add comma separated emails to notify."
     }
   }
 }
