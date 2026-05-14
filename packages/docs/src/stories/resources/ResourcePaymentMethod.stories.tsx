@@ -1,6 +1,9 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
 import { Icon } from "#ui/atoms/Icon"
-import { ResourcePaymentMethod } from "#ui/resources/ResourcePaymentMethod"
+import {
+  getPaymentInstrumentDetails,
+  ResourcePaymentMethod,
+} from "#ui/resources/ResourcePaymentMethod"
 import {
   customerPaymentSource,
   orderWithoutPaymentSourceResponse,
@@ -77,3 +80,33 @@ WithActionButton.args = {
     </button>
   ),
 }
+
+/**
+ * `getPaymentInstrumentDetails` is a standalone helper that extracts payment data
+ * from an `Order` or `CustomerPaymentSource` resource as plain strings, without
+ * rendering any UI. Useful when you need those values independently.
+ */
+export const HelperGetPaymentInstrumentDetails: StoryFn = () => {
+  const examples = [
+    { label: "Order", resource: orderWithPaymentSourceResponse },
+    { label: "CustomerPaymentSource", resource: customerPaymentSource },
+  ]
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: "2rem" }}>
+      {examples.map(({ label, resource }) => {
+        const details = getPaymentInstrumentDetails(resource)
+        return (
+          <div key={label}>
+            <p style={{ fontWeight: "bold", marginBottom: "0.5rem" }}>
+              {label}
+            </p>
+            <pre style={{ margin: 0 }}>{JSON.stringify(details, null, 2)}</pre>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+HelperGetPaymentInstrumentDetails.storyName =
+  "Helper: getPaymentInstrumentDetails"

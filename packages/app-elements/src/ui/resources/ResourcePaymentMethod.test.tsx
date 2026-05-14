@@ -1,6 +1,10 @@
 import { fireEvent, render } from "@testing-library/react"
-import { ResourcePaymentMethod } from "./ResourcePaymentMethod"
 import {
+  getPaymentInstrumentDetails,
+  ResourcePaymentMethod,
+} from "./ResourcePaymentMethod"
+import {
+  customerPaymentSource,
   orderWithoutPaymentSourceResponse,
   orderWithPaymentSourceResponse,
 } from "./ResourcePaymentMethod.mocks"
@@ -52,5 +56,45 @@ describe("ResourcePaymentMethod", () => {
     expect(queryByText("common.show_less")).not.toBeInTheDocument()
     expect(queryByText("resultCode:")).not.toBeInTheDocument()
     expect(queryByText("fraudResult:")).not.toBeInTheDocument()
+  })
+
+  it("should render card details from a CustomerPaymentSource", () => {
+    const { getByText } = render(
+      <ResourcePaymentMethod resource={customerPaymentSource} />,
+    )
+    expect(getByText("Braintree")).toBeVisible()
+    expect(getByText("··0004")).toBeVisible()
+    expect(getByText(/10\/30/)).toBeVisible()
+  })
+})
+
+describe("getPaymentInstrumentDetails", () => {
+  it("should return only paymentMethodName when no payment_instrument is present", () => {
+    const result = getPaymentInstrumentDetails(
+      orderWithoutPaymentSourceResponse,
+    )
+    expect(result.paymentMethodName).toBe("Adyen Payment")
+    expect(result.cardType).toBeUndefined()
+    expect(result.issuerType).toBeUndefined()
+    expect(result.cardLastDigits).toBeUndefined()
+    expect(result.cardExpiry).toBeUndefined()
+  })
+
+  it("should return card details without expiry when expiry fields are missing", () => {
+    const result = getPaymentInstrumentDetails(orderWithPaymentSourceResponse)
+    expect(result.paymentMethodName).toBe("Adyen Payment")
+    expect(result.cardType).toBe("Amex")
+    expect(result.issuerType).toBe("credit card")
+    expect(result.cardLastDigits).toBe("4242")
+    expect(result.cardExpiry).toBeUndefined()
+  })
+
+  it("should return title-cased card type, formatted expiry, and name from CustomerPaymentSource", () => {
+    const result = getPaymentInstrumentDetails(customerPaymentSource)
+    expect(result.paymentMethodName).toBe("Braintree")
+    expect(result.cardType).toBe("Visa")
+    expect(result.issuerType).toBe("braintree")
+    expect(result.cardLastDigits).toBe("0004")
+    expect(result.cardExpiry).toBe("10/30")
   })
 })
