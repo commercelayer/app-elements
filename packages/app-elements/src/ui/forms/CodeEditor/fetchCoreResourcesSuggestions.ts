@@ -240,7 +240,10 @@ export async function atPath(
         const field = acc.resource?.fields.find(([key]) => key === attr)?.[1]
 
         if (field == null) {
-          return acc
+          return {
+            ...acc,
+            field: undefined,
+          }
         }
 
         let fieldType = field.type
