@@ -403,6 +403,7 @@ export {
   type ResourceOrderTimelineProps,
 } from "#ui/resources/ResourceOrderTimeline"
 export {
+  getPaymentInstrumentDetails,
   getPaymentMethodLogoSrc,
   ResourcePaymentMethod,
   type ResourcePaymentMethodProps,

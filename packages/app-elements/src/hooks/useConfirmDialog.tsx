@@ -28,6 +28,8 @@ interface ConfirmDialogProps {
   description?: React.ReactNode
   /** Configuration for the confirm (primary action) button */
   confirm: ConfirmDialogConfirmProps
+  /** Optional label for the cancel button - Default "Cancel" */
+  cancelLabel?: string
   /**
    * Message shown in the error toast when `confirm.onClick` rejects and overrides the API errors.
    */
@@ -53,6 +55,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
   title,
   description,
   confirm,
+  cancelLabel = "Cancel",
   errorMessage,
   successMessage,
   successVariant = "default",
@@ -113,7 +116,7 @@ const ConfirmDialog: FC<ConfirmDialogProps> = ({
           disabled={isPending}
           fullWidth
         >
-          Cancel
+          {cancelLabel}
         </Button>
       </Modal.Footer>
     </Modal>

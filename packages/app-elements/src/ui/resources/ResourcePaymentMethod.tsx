@@ -13,20 +13,22 @@ import { Button } from "#ui/atoms/Button"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 
+type PaymentMethodResource =
+  | SetRequired<
+      SetNonNullable<Partial<Order>, "payment_method">,
+      "payment_method"
+    >
+  | SetRequired<
+      SetNonNullable<CustomerPaymentSource, "payment_source">,
+      "payment_source"
+    >
+
 export interface ResourcePaymentMethodProps {
   /**
    * Any resource that has `payment_source` or `payment_method` properties is actually eligible.
    * But we are only interested in `Order` and `CustomerPaymentSource` resources.
    */
-  resource:
-    | SetRequired<
-        SetNonNullable<Partial<Order>, "payment_method">,
-        "payment_method"
-      >
-    | SetRequired<
-        SetNonNullable<CustomerPaymentSource, "payment_source">,
-        "payment_source"
-      >
+  resource: PaymentMethodResource
   /**
    * When true and if `payment_source.payment_response` is present, enables the expandable content to show more details on the transaction.
    */
@@ -52,16 +54,13 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
 }) => {
   const [showMore, setShowMore] = useState(false)
   const { t } = useTranslation()
-  const paymentInstrument = paymentInstrumentType.safeParse(
-    resource.payment_source?.payment_instrument,
-  )
-
-  const paymentMethodName =
-    "payment_method" in resource
-      ? resource.payment_method?.name
-      : resource.type === "customer_payment_sources"
-        ? getPaymentMethodNameFromCustomerPaymentSource(resource)
-        : undefined
+  const {
+    paymentMethodName,
+    cardType,
+    issuerType,
+    cardLastDigits,
+    cardExpiry,
+  } = getPaymentInstrumentDetails(resource)
 
   const avatarSrc = getPaymentMethodLogoSrc(
     resource.payment_method?.payment_source_type ??
@@ -89,31 +88,28 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
         <img src={avatarSrc} alt={paymentMethodName} className="h-8" />
         <div className="flex gap-4 items-center justify-between w-full">
           <div className="flex flex-col gap-0">
-            {paymentInstrument.success ? (
+            {issuerType != null ? (
               <div>
                 <Text weight="semibold">{paymentMethodName}</Text>
                 <Text>{" · "}</Text>
                 <Text weight="medium" variant="info">
-                  {paymentInstrument.data.card_type != null ? (
+                  {cardType != null ? (
                     <span>
-                      {paymentInstrument.data.card_type}{" "}
-                      {paymentInstrument.data.issuer_type}
-                      {paymentInstrument.data.card_last_digits != null && (
+                      {cardType} {issuerType}
+                      {cardLastDigits != null && (
                         <Spacer left="2" style={{ display: "inline-block" }}>
-                          ··{paymentInstrument.data.card_last_digits}
+                          {cardLastDigits}
                         </Spacer>
                       )}
-                      {paymentInstrument.data.card_expiry_month != null &&
-                        paymentInstrument.data.card_expiry_year != null && (
-                          <Spacer left="1" style={{ display: "inline-block" }}>
-                            {`${t("common.card_expires")} `}
-                            {paymentInstrument.data.card_expiry_month}/
-                            {paymentInstrument.data.card_expiry_year.slice(2)}
-                          </Spacer>
-                        )}
+                      {cardExpiry != null && (
+                        <Spacer left="1" style={{ display: "inline-block" }}>
+                          {`${t("common.card_expires")} `}
+                          {cardExpiry}
+                        </Spacer>
+                      )}
                     </span>
                   ) : (
-                    paymentInstrument.data.issuer_type
+                    issuerType
                   )}
                 </Text>
               </div>
@@ -257,4 +253,58 @@ function getPaymentMethodNameFromCustomerPaymentSource(
     ]
 
   return paymentMethodName
+}
+
+/**
+ * Extracts payment instrument details from an Order or CustomerPaymentSource resource.
+ * Returns individual parts, all of which may be `undefined` if not available.
+ */
+export function getPaymentInstrumentDetails(resource: PaymentMethodResource): {
+  paymentMethodName: string | undefined
+  cardType: string | undefined
+  issuerType: string | undefined
+  cardLastDigits: string | undefined
+  cardExpiry: string | undefined
+} {
+  const rawName =
+    "payment_method" in resource
+      ? resource.payment_method?.name
+      : resource.type === "customer_payment_sources"
+        ? getPaymentMethodNameFromCustomerPaymentSource(resource)
+        : undefined
+  const paymentMethodName = rawName ?? undefined
+
+  const paymentInstrument = paymentInstrumentType.safeParse(
+    resource.payment_source?.payment_instrument,
+  )
+
+  if (!paymentInstrument.success) {
+    return {
+      paymentMethodName,
+      cardType: undefined,
+      issuerType: undefined,
+      cardLastDigits: undefined,
+      cardExpiry: undefined,
+    }
+  }
+
+  const {
+    card_type,
+    issuer_type,
+    card_last_digits,
+    card_expiry_month,
+    card_expiry_year,
+  } = paymentInstrument.data
+
+  return {
+    paymentMethodName,
+    cardType: card_type,
+    issuerType: issuer_type,
+    cardLastDigits:
+      card_last_digits != null ? `··${card_last_digits}` : undefined,
+    cardExpiry:
+      card_expiry_month != null && card_expiry_year != null
+        ? `${card_expiry_month}/${card_expiry_year.slice(2)}`
+        : undefined,
+  }
 }
