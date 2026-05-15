@@ -98,7 +98,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
                       {cardType} {issuerType}
                       {cardLastDigits != null && (
                         <Spacer left="2" style={{ display: "inline-block" }}>
-                          ··{cardLastDigits}
+                          {cardLastDigits}
                         </Spacer>
                       )}
                       {cardExpiry != null && (
@@ -300,7 +300,8 @@ export function getPaymentInstrumentDetails(resource: PaymentMethodResource): {
     paymentMethodName,
     cardType: card_type,
     issuerType: issuer_type,
-    cardLastDigits: card_last_digits,
+    cardLastDigits:
+      card_last_digits != null ? `··${card_last_digits}` : undefined,
     cardExpiry:
       card_expiry_month != null && card_expiry_year != null
         ? `${card_expiry_month}/${card_expiry_year.slice(2)}`

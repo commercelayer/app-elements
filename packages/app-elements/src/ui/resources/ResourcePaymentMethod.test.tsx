@@ -85,7 +85,7 @@ describe("getPaymentInstrumentDetails", () => {
     expect(result.paymentMethodName).toBe("Adyen Payment")
     expect(result.cardType).toBe("Amex")
     expect(result.issuerType).toBe("credit card")
-    expect(result.cardLastDigits).toBe("4242")
+    expect(result.cardLastDigits).toBe("··4242")
     expect(result.cardExpiry).toBeUndefined()
   })
 
@@ -94,7 +94,7 @@ describe("getPaymentInstrumentDetails", () => {
     expect(result.paymentMethodName).toBe("Braintree")
     expect(result.cardType).toBe("Visa")
     expect(result.issuerType).toBe("braintree")
-    expect(result.cardLastDigits).toBe("0004")
+    expect(result.cardLastDigits).toBe("··0004")
     expect(result.cardExpiry).toBe("10/30")
   })
 })
