@@ -24,6 +24,7 @@ import {
   type FiltersInstructionItem,
   type FiltersInstructions,
   type FormFullValues,
+  getInstructionKey,
   isTextSearch,
   type UiFilterName,
   type UiFilterValue,
@@ -140,7 +141,7 @@ export function FiltersNav({
     () =>
       instructions
         .filter((item) => item.hidden === true)
-        .map((item) => item.sdk.predicate),
+        .map((item) => getInstructionKey(item)),
     [instructions],
   )
 
@@ -366,7 +367,9 @@ function getInstructionItemByFilterPredicate({
   if (isTimeRangeFilterUiName(filterPredicate)) {
     return instructions.find(({ type }) => type === "timeRange")
   }
-  return instructions.find((item) => item.sdk.predicate === filterPredicate)
+  return instructions.find(
+    (item) => getInstructionKey(item) === filterPredicate,
+  )
 }
 
 /**
@@ -439,6 +442,17 @@ function getButtonFilterLabel({
     )
   }
 
+  if (
+    instructionItem.type === "groupedPredicates" &&
+    (isSingleElementArray || isString)
+  ) {
+    return (
+      instructionItem.render.props.options.find(
+        ({ value }) => value === optionValue,
+      )?.label ?? instructionItem.label
+    )
+  }
+
   if (instructionItem.type === "textSearch") {
     return `${instructionItem.label} · ${optionValue}`
   }
@@ -477,7 +491,7 @@ function predicateBelongsToCurrencyRange({
   instructions: FiltersInstructions
 }): boolean {
   const instructionItem = instructions.find(
-    (item) => item.sdk.predicate === filterPredicate,
+    (item) => getInstructionKey(item) === filterPredicate,
   )
 
   return instructionItem?.type === "currencyRange"

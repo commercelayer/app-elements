@@ -73,6 +73,63 @@ export interface BaseFilterItem {
   }
 }
 
+export interface FilterItemGroupedPredicates {
+  /**
+   * Label of the filter field in form component
+   */
+  label: string
+  /**
+   * Flag to hide the filter field in form component
+   */
+  hidden?: boolean
+  type: "groupedPredicates"
+  /**
+   * The URL query string key used to identify this filter in the URL and form state.
+   * Unlike other filter types, this is NOT an SDK predicate — it is a virtual key used
+   * only for URL serialization and react-hook-form state management.
+   * The actual SDK predicates are defined per-option inside `render.props.options`.
+   * @example
+   * ```ts
+   * urlParamKey: "availability" // → ?availability=in_stock
+   * ```
+   */
+  urlParamKey: string
+  render: {
+    /**
+     * UI component to render
+     */
+    component: "inputToggleButton"
+    /**
+     * Props required for the UI component
+     */
+    props: {
+      mode: "single" | "multi"
+      /**
+       * Each option maps to a specific SDK predicate + value pair when selected.
+       * An option can be hidden from the UI but still be used in the query.
+       * @example
+       * ```ts
+       * [
+       *   { label: 'Has items', value: 'has_items', sdk: { predicate: 'quantity_gteq', value: '1' } },
+       *   { label: 'Empty',     value: 'empty',     sdk: { predicate: 'quantity_eq',   value: '0' } },
+       * ]
+       * ```
+       */
+      options: Array<{
+        label: string
+        /** The value stored in the URL query string and form state */
+        value: string
+        isHidden?: boolean
+        /** The actual SDK predicate + value this option maps to when selected */
+        sdk: {
+          predicate: string
+          value: string
+        }
+      }>
+    }
+  }
+}
+
 export type FilterItemOptions = BaseFilterItem & {
   type: "options"
   render:
@@ -161,6 +218,7 @@ export type FiltersInstructionItem =
   | FilterItemTextSearch
   | FilterItemTime
   | FilterItemCurrencyRange
+  | FilterItemGroupedPredicates
 
 export type FiltersInstructions = FiltersInstructionItem[]
 
@@ -180,4 +238,26 @@ export function isCurrencyRange(
   item: FiltersInstructionItem,
 ): item is FilterItemCurrencyRange {
   return item.type === "currencyRange"
+}
+
+export function isGroupedPredicates(
+  item: FiltersInstructionItem,
+): item is FilterItemGroupedPredicates {
+  return item.type === "groupedPredicates"
+}
+
+/**
+ * Returns the URL query string key / form field name for any instruction item.
+ *
+ * - For all standard types (`options`, `textSearch`, `timeRange`, `currencyRange`) this is `item.sdk.predicate`.
+ * - For `groupedPredicates` it is `item.urlParamKey`, because that type has no single SDK predicate
+ *   (each option maps to its own predicate at the option level).
+ *
+ * Use this helper everywhere you need to resolve the URL/form key from an unnarrowed `FiltersInstructionItem`
+ * instead of accessing `item.sdk.predicate` directly.
+ */
+export function getInstructionKey(item: FiltersInstructionItem): string {
+  return item.type === "groupedPredicates"
+    ? item.urlParamKey
+    : item.sdk.predicate
 }

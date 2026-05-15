@@ -4,7 +4,11 @@ import type { JSX } from "react"
 import { t } from "#providers/I18NProvider"
 import { SearchBar, type SearchBarProps } from "#ui/composite/SearchBar"
 import { makeFilterAdapters } from "./adapters"
-import type { FiltersInstructions } from "./types"
+import type {
+  FilterItemTextSearch,
+  FiltersInstructions,
+  FormFullValues,
+} from "./types"
 
 export interface FilterSearchBarProps
   extends Pick<SearchBarProps, "placeholder" | "debounceMs"> {
@@ -53,7 +57,7 @@ function FiltersSearchBar({
     })
 
   const textPredicate = instructions.find(
-    (item) =>
+    (item): item is FilterItemTextSearch =>
       item.type === "textSearch" && item.render.component === "searchBar",
   )?.sdk.predicate
 
@@ -70,7 +74,7 @@ function FiltersSearchBar({
       formValues: {
         ...currentFilters,
         [textPredicate]: isEmpty(hint?.trim()) ? undefined : hint,
-      },
+      } as FormFullValues,
     })
 
     onUpdate(newQueryString)

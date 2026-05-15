@@ -58,6 +58,24 @@ describe("adaptUrlQueryToUrlQuery", () => {
     ).toBe("status_in=approved&status_in=cancelled")
   })
 
+  test("should preserve a valid groupedPredicates urlParamKey through the round-trip", () => {
+    expect(
+      adaptUrlQueryToUrlQuery({
+        queryString: "quantity_filter=has_items&status_in=approved",
+        instructions,
+      }),
+    ).toBe("quantity_filter=has_items&status_in=approved")
+  })
+
+  test("should strip a groupedPredicates urlParamKey with an invalid option value", () => {
+    expect(
+      adaptUrlQueryToUrlQuery({
+        queryString: "quantity_filter=not_a_valid_option&status_in=approved",
+        instructions,
+      }),
+    ).toBe("status_in=approved")
+  })
+
   test("should ignore invalid values", () => {
     expect(
       adaptUrlQueryToUrlQuery({

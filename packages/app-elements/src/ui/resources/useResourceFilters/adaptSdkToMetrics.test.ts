@@ -211,4 +211,39 @@ describe("adaptSdkToMetrics", () => {
       },
     })
   })
+
+  test("Should include groupedPredicates option SDK predicates as main resource metrics filters", () => {
+    expect(
+      adaptSdkToMetrics({
+        sdkFilters: { quantity_eq: "0" },
+        resourceType: "orders",
+        instructions,
+      }),
+    ).toStrictEqual({
+      order: {
+        date_from: "2022-04-05T15:20:01Z",
+        date_to: "2023-04-05T15:20:00Z",
+        date_field: "updated_at",
+        quantity: { eq: "0" },
+      },
+    })
+  })
+
+  test("Should include groupedPredicates option SDK predicates alongside standard filters", () => {
+    expect(
+      adaptSdkToMetrics({
+        sdkFilters: { quantity_gteq: "1", status_in: "approved,cancelled" },
+        resourceType: "orders",
+        instructions,
+      }),
+    ).toStrictEqual({
+      order: {
+        date_from: "2022-04-05T15:20:01Z",
+        date_to: "2023-04-05T15:20:00Z",
+        date_field: "updated_at",
+        quantity: { gte: "1" },
+        statuses: { in: ["approved", "cancelled"] },
+      },
+    })
+  })
 })

@@ -106,6 +106,30 @@ describe("adaptFormValuesToUrlQuery", () => {
     ).toBe("archived_at_null=show")
   })
 
+  test("should serialize a groupedPredicates selection as its urlParamKey value", () => {
+    expect(
+      adaptFormValuesToUrlQuery({
+        formValues: {
+          status_in: ["approved"],
+          quantity_filter: "has_items",
+        },
+        instructions,
+      }),
+    ).toBe("quantity_filter=has_items&status_in=approved")
+  })
+
+  test("should omit groupedPredicates urlParamKey when no option is selected", () => {
+    expect(
+      adaptFormValuesToUrlQuery({
+        formValues: {
+          status_in: ["approved"],
+          quantity_filter: undefined,
+        },
+        instructions,
+      }),
+    ).toBe("status_in=approved")
+  })
+
   test("should accept empty values", () => {
     expect(
       adaptFormValuesToUrlQuery({

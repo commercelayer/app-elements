@@ -7,6 +7,7 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { HookedForm } from "#ui/forms/Form"
 import { makeFilterAdapters } from "./adapters"
 import { FieldCurrencyRange } from "./FieldCurrencyRange"
+import { FieldGroupedPredicates } from "./FieldGroupedPredicates"
 import { FieldOptions } from "./FieldOptions"
 import { FieldTextSearch } from "./FieldTextSearch"
 import { FieldTimeRange } from "./FieldTimeRange"
@@ -103,6 +104,14 @@ function FiltersForm({
           return (
             <Spacer bottom="10" key={item.label}>
               <FieldCurrencyRange item={item} />
+            </Spacer>
+          )
+        }
+
+        if (item.type === "groupedPredicates") {
+          return (
+            <Spacer bottom="10" key={item.label}>
+              <FieldGroupedPredicates item={item} />
             </Spacer>
           )
         }

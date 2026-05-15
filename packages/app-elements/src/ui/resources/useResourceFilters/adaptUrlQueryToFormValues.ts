@@ -5,6 +5,7 @@ import {
   type FiltersInstructions,
   type FormFullValues,
   filterableTimeRangePreset,
+  getInstructionKey,
   isCurrencyRange,
   type UiFilterName,
   type UiFilterValue,
@@ -34,7 +35,7 @@ export function adaptUrlQueryToFormValues<
   const allowedQueryParams = [
     ...instructions
       .filter((item) => !isCurrencyRange(item))
-      .map((item) => item.sdk.predicate),
+      .map((item) => getInstructionKey(item)),
     ...predicateWhitelist,
     // ...currencyRangeFieldKeys
   ]
@@ -101,7 +102,7 @@ export function adaptUrlQueryToFormValues<
   const formValues = allowedQueryParams.reduce(
     (formValues, key) => {
       const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key,
+        (item) => getInstructionKey(item) === key,
       )
 
       if (instructionItem == null) {
@@ -160,6 +161,47 @@ export function adaptUrlQueryToFormValues<
           : {
               ...formValues,
               [key]: undefined,
+            }
+      }
+
+      // single grouped predicates option: store one option value in URL
+      if (
+        instructionItem.type === "groupedPredicates" &&
+        instructionItem.render.props.mode === "single"
+      ) {
+        const allowedValues = instructionItem.render.props.options.map(
+          (o) => o.value,
+        )
+        return parsedQuery[key] != null
+          ? {
+              ...formValues,
+              [key]: parseQueryStringValueAsArray(
+                parsedQuery[key],
+                allowedValues,
+              )[0],
+            }
+          : {
+              ...formValues,
+              [key]: undefined,
+            }
+      }
+
+      // multi grouped predicates options: store array of option values in URL
+      if (instructionItem.type === "groupedPredicates") {
+        const allowedValues = instructionItem.render.props.options.map(
+          (o) => o.value,
+        )
+        return parsedQuery[key] != null
+          ? {
+              ...formValues,
+              [key]: parseQueryStringValueAsArray(
+                parsedQuery[key],
+                allowedValues,
+              ),
+            }
+          : {
+              ...formValues,
+              [key]: [],
             }
       }
 

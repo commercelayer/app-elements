@@ -6,6 +6,7 @@ import type {
   UiFilterName,
   UiFilterValue,
 } from "./types"
+import { getInstructionKey } from "./types"
 
 /**
  * Show the filter label with the counter for selected options
@@ -55,7 +56,7 @@ export function getActiveFilterCountFromUrl({
   })
 
   return instructions.reduce((total, instructionItem) => {
-    const { predicate } = instructionItem.sdk
+    const predicate = getInstructionKey(instructionItem)
 
     if (instructionItem.hidden === true) {
       return total

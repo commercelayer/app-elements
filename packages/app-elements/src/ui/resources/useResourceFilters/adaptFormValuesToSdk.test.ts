@@ -197,6 +197,50 @@ describe("adaptFormValuesToSdk", () => {
     })
   })
 
+  test("should map a groupedPredicates option to its sdk predicate", () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          quantity_filter: "has_items",
+        },
+        instructions,
+      }),
+    ).toStrictEqual({
+      quantity_gteq: "1",
+      archived_at_null: true,
+      status_in: "placed,approved,cancelled",
+    })
+  })
+
+  test("should map a different groupedPredicates option to its own sdk predicate", () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          quantity_filter: "empty",
+        },
+        instructions,
+      }),
+    ).toStrictEqual({
+      quantity_eq: "0",
+      archived_at_null: true,
+      status_in: "placed,approved,cancelled",
+    })
+  })
+
+  test("should omit groupedPredicates sdk predicates when no option is selected", () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          quantity_filter: undefined,
+        },
+        instructions,
+      }),
+    ).toStrictEqual({
+      archived_at_null: true,
+      status_in: "placed,approved,cancelled",
+    })
+  })
+
   test("should generate `lastname_eq` when whitelisted", () => {
     expect(
       adaptFormValuesToSdk({
@@ -224,6 +268,7 @@ describe("extractEnforcedValues", () => {
   test("should return empty object if no enforced values", () => {
     const instructionsWithoutDefaultOptions = instructions.filter(
       (item) =>
+        item.type === "groupedPredicates" ||
         !("defaultOptions" in item.sdk && item.sdk.defaultOptions != null),
     )
     expect(

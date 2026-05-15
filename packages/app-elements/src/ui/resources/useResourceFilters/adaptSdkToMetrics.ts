@@ -5,6 +5,10 @@ import {
   removeMillisecondsFromIsoDate,
 } from "#helpers/date"
 import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
+import {
+  getInstructionKey,
+  isGroupedPredicates,
+} from "#ui/resources/useResourceFilters/types"
 
 export type CoreResourceEnabledInMetrics = "orders" | "returns"
 type MetricsResource = "order" | "return"
@@ -76,6 +80,15 @@ export function adaptSdkToMetrics({
     instructions.find((item) => item.type === "timeRange")?.sdk.predicate ??
     "created_at"
 
+  // Pre-compute the set of all SDK predicates declared inside groupedPredicates options.
+  // These are not top-level instruction keys, but must be allowed through the drop guard
+  // so they can be forwarded to the Metrics API as regular field filters.
+  const groupedPredicatesOptionKeys = new Set(
+    instructions
+      .filter(isGroupedPredicates)
+      .flatMap((item) => item.render.props.options.map((o) => o.sdk.predicate)),
+  )
+
   // separate relationships from main resource filters
   const regroupedFilters = Object.entries(sdkFilters).reduce<{
     /** main resource filters */
@@ -89,13 +102,14 @@ export function adaptSdkToMetrics({
   }>(
     (acc, [key, value]) => {
       const instructionItem = instructions.find(
-        (item) => item.sdk.predicate === key,
+        (item) => getInstructionKey(item) === key,
       )
 
       if (
         instructionItem == null &&
         !predicateWhitelist.includes(key) &&
-        !key.startsWith(defaultDatePredicate)
+        !key.startsWith(defaultDatePredicate) &&
+        !groupedPredicatesOptionKeys.has(key)
       ) {
         return acc
       }
