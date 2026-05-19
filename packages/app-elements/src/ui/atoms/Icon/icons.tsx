@@ -36,6 +36,7 @@ export const iconMapping = {
   caretUp: phosphor.CaretUpIcon,
   chat: phosphor.ChatIcon,
   chatCircle: phosphor.ChatCircleIcon,
+  chatText: phosphor.ChatTextIcon,
   check: phosphor.CheckIcon,
   checkSquareOffset: phosphor.CheckSquareOffsetIcon,
   clipboardText: phosphor.ClipboardTextIcon,
