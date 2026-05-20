@@ -48,6 +48,10 @@ interface Props extends Pick<InputWrapperBaseProps, "feedback"> {
    * Callback triggered when the user checks/unchecks an option or changes the quantity
    */
   onChange: (selected: SelectedItem[]) => void
+  /**
+   * set a unique id for the card element, useful for testing or accessibility purposes
+   **/
+  cardId?: string
 }
 
 /**
@@ -60,7 +64,15 @@ interface Props extends Pick<InputWrapperBaseProps, "feedback"> {
  * <span type="info">Quantity for each option item has a min/max range, to prevent selecting less or more than the allowed number.</span>
  */
 export const InputCheckboxGroup = withSkeletonTemplate<Props>(
-  ({ options, defaultValues = [], onChange, title, isLoading, feedback }) => {
+  ({
+    options,
+    defaultValues = [],
+    onChange,
+    title,
+    isLoading,
+    feedback,
+    cardId,
+  }) => {
     const [_state, dispatch] = useReducer(
       reducer,
       makeInitialState({ options, defaultValues }),
@@ -108,6 +120,7 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
           gap="1"
           overflow="hidden"
           className={cn(getFeedbackStyle(feedback))}
+          id={cardId}
         >
           {options.map((optionItem) => {
             const currentItem = _state.find(
