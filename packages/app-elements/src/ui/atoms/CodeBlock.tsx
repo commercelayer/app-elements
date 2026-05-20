@@ -1,5 +1,6 @@
 import cn from "classnames"
 import { useEffect, useState } from "react"
+import type { JsonObject } from "type-fest"
 import { CopyToClipboard } from "#ui/atoms/CopyToClipboard"
 import { Icon } from "#ui/atoms/Icon"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
@@ -19,9 +20,10 @@ export type CodeBlockProps = Pick<InputWrapperBaseProps, "label" | "hint"> & {
   showSecretAction?: boolean
   /**
    * Content to be rendered.
-   * It only accepts a string and will respect new lines when passing a template literal (backticks).
+   * Accepts a string (respects new lines with template literals) or a JSON object.
+   * JSON objects are formatted with 2-space indentation.
    */
-  children: string
+  children: string | JsonObject
 }
 
 export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
@@ -41,16 +43,24 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
       setHideValue(showSecretAction)
     }, [showSecretAction])
 
+    const contentString =
+      typeof children === "string"
+        ? children
+        : JSON.stringify(children, null, 2)
+
     return (
       <InputWrapper {...rest} label={label} hint={hint}>
         <div className="flex group w-full rounded bg-gray-50 in-[.overlay-container]:bg-gray-200">
           <div
-            className="flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono marker:font-bold border-none break-all"
+            className={cn(
+              "flex flex-col w-full px-4 py-2.5 text-teal text-sm font-mono marker:font-bold border-none break-all",
+              typeof children !== "string" ? "whitespace-pre-wrap" : "",
+            )}
             data-testid="codeblock-content"
           >
             {isLoading === true
               ? ""
-              : children.split("\n").map((line, idx) => (
+              : contentString.split("\n").map((line, idx) => (
                   // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since the content is static and does not change and the lines are not reordered or filtered.
                   <span key={idx}>
                     {hideValue ? randomHiddenValue() : line}
@@ -75,7 +85,10 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
                 </button>
               )}
               {showCopyAction && (
-                <CopyToClipboard value={children?.trim()} showValue={false} />
+                <CopyToClipboard
+                  value={contentString.trim()}
+                  showValue={false}
+                />
               )}
             </div>
           ) : null}

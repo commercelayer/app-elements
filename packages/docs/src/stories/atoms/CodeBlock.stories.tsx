@@ -57,6 +57,21 @@ Secret.args = {
 }
 
 /**
+ * This component can be used to show JSON content.
+ */
+export const Json: StoryFn = () => {
+  return (
+    <CodeBlock label="JSON Object" showCopyAction>
+      {{
+        apiKey: "elyFpGvqXsOSsvEko6ues2Ua4No1_HxaKH_0rUaFuYiX9",
+        organization: "demo-store",
+        roles: ["admin", "developer"],
+      }}
+    </CodeBlock>
+  )
+}
+
+/**
  * In this example we are using the `children` prop to render a code snippet with multi-line content.
  * Special characters like `\` need to be escaped with `\\` to be rendered correctly.
  */
