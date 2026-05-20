@@ -32,3 +32,13 @@ Success.args = {
   children:
     "Commerce Layer is a multi-market commerce API and order management system",
 }
+
+export const CodeinLine: StoryFn = () => (
+  <div>
+    Use{" "}
+    <Text variant="code" size="x-small">
+      InputDateRange
+    </Text>{" "}
+    in between other text.
+  </div>
+)

@@ -9,7 +9,14 @@ type TextVariant =
   | "info"
   | "plain"
   | "disabled"
-type TextSize = "x-small" | "small" | "regular" | "large" | "inherit"
+  | "code"
+type TextSize =
+  | "xx-small"
+  | "x-small"
+  | "small"
+  | "regular"
+  | "large"
+  | "inherit"
 type TextWeight = "regular" | "medium" | "semibold" | "bold" | "inherit"
 type TextAlignment = "center" | "left" | "right" | "inherit"
 type TextWrap = "normal" | "nowrap" | "inherit"
@@ -43,12 +50,14 @@ function Text({
     "text-gray-500": variant === "info",
     "text-orange-600": variant === "warning",
     "text-gray-300": variant === "disabled",
+    "font-mono font-semibold! bg-gray-100 rounded-sm p-1.5": variant === "code",
     // weight
     "font-regular": weight === "regular",
     "font-medium": weight === "medium",
     "font-semibold": weight === "semibold",
     "font-bold": weight === "bold",
     // size
+    "text-2xs": size === "xx-small",
     "text-xs": size === "x-small",
     "text-sm": size === "small",
     "text-base": size === "regular",
