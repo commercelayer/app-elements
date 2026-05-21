@@ -1,4 +1,5 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
+import { isEmpty } from "lodash-es"
 import { isMockedId } from "#helpers/mocks"
 import {
   type EditMetadataOverlayProps,
@@ -97,37 +98,45 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </div>
           }
         >
-          <Card gap="6" overflow="visible" backgroundColor="light">
-            {Object.entries(resourceData?.metadata ?? []).map(
-              ([metadataKey, metadataValue], idx) => {
-                return (
-                  <div
-                    // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                    key={idx}
-                    className="flex w-full px-1"
-                    data-testid={`ResourceMetadata-item-${metadataKey}`}
-                  >
-                    <Text
-                      size="small"
-                      variant="info"
-                      className="font-mono mr-2"
+          {!isEmpty(resourceData?.metadata) ? (
+            <Card gap="6" overflow="visible" backgroundColor="light">
+              {Object.entries(resourceData?.metadata ?? []).map(
+                ([metadataKey, metadataValue], idx) => {
+                  return (
+                    <div
+                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                      key={idx}
+                      className="flex w-full px-1"
+                      data-testid={`ResourceMetadata-item-${metadataKey}`}
                     >
-                      {metadataKey}:
-                    </Text>
-                    <Text
-                      size="small"
-                      className="font-mono"
-                      data-testid={`ResourceMetadata-value-${metadataKey}`}
-                    >
-                      {isUpdatableType(metadataValue)
-                        ? metadataValue.toString()
-                        : "[...]"}
-                    </Text>
-                  </div>
-                )
-              },
-            )}
-          </Card>
+                      <Text
+                        size="small"
+                        variant="info"
+                        className="font-mono mr-2"
+                      >
+                        {metadataKey}:
+                      </Text>
+                      <Text
+                        size="small"
+                        className="font-mono"
+                        data-testid={`ResourceMetadata-value-${metadataKey}`}
+                      >
+                        {isUpdatableType(metadataValue)
+                          ? metadataValue.toString()
+                          : "[...]"}
+                      </Text>
+                    </div>
+                  )
+                },
+              )}
+            </Card>
+          ) : (
+            <div className="border-t pt-4">
+              <Text tag="span" variant="info">
+                {t("common.no_metadata")}
+              </Text>
+            </div>
+          )}
         </Section>
         <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
         <EditMetadataOverlay
