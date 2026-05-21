@@ -14,6 +14,7 @@ import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 
 interface MetadataOverlay
@@ -67,7 +68,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       <div>
         <Section
           title="Metadata"
-          border="none"
+          border={isEmpty(resourceData?.metadata) ? undefined : "none"}
           actionButton={
             <div className="flex items-center gap-2">
               <Button
@@ -131,11 +132,11 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
               )}
             </Card>
           ) : (
-            <div className="border-t pt-4">
+            <Spacer top="4">
               <Text tag="span" variant="info">
                 {t("common.no_metadata")}
               </Text>
-            </div>
+            </Spacer>
           )}
         </Section>
         <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
