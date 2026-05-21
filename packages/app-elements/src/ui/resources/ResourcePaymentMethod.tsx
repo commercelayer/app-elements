@@ -147,7 +147,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
             {Object.entries(paymentResponse).map(([key, value]) => (
               <div key={key}>
                 <span className="font-semibold">{key}: </span>
-                <span className="font-medium break-words overflow-hidden">
+                <span className="font-medium break-all overflow-hidden">
                   {typeof value === "string" || typeof value === "number"
                     ? value
                     : typeof value === "boolean"
