@@ -1,4 +1,5 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
+import { isEmpty } from "lodash-es"
 import { isMockedId } from "#helpers/mocks"
 import {
   type EditMetadataOverlayProps,
@@ -13,6 +14,7 @@ import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 
 interface MetadataOverlay
@@ -66,7 +68,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
       <div>
         <Section
           title="Metadata"
-          border="none"
+          border={isEmpty(resourceData?.metadata) ? undefined : "none"}
           actionButton={
             <div className="flex items-center gap-2">
               <Button
@@ -97,37 +99,45 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </div>
           }
         >
-          <Card gap="6" overflow="visible" backgroundColor="light">
-            {Object.entries(resourceData?.metadata ?? []).map(
-              ([metadataKey, metadataValue], idx) => {
-                return (
-                  <div
-                    // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                    key={idx}
-                    className="flex w-full px-1"
-                    data-testid={`ResourceMetadata-item-${metadataKey}`}
-                  >
-                    <Text
-                      size="small"
-                      variant="info"
-                      className="font-mono mr-2"
+          {!isEmpty(resourceData?.metadata) ? (
+            <Card gap="6" overflow="visible" backgroundColor="light">
+              {Object.entries(resourceData?.metadata ?? []).map(
+                ([metadataKey, metadataValue], idx) => {
+                  return (
+                    <div
+                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                      key={idx}
+                      className="flex w-full px-1"
+                      data-testid={`ResourceMetadata-item-${metadataKey}`}
                     >
-                      {metadataKey}:
-                    </Text>
-                    <Text
-                      size="small"
-                      className="font-mono"
-                      data-testid={`ResourceMetadata-value-${metadataKey}`}
-                    >
-                      {isUpdatableType(metadataValue)
-                        ? metadataValue.toString()
-                        : "[...]"}
-                    </Text>
-                  </div>
-                )
-              },
-            )}
-          </Card>
+                      <Text
+                        size="small"
+                        variant="info"
+                        className="font-mono mr-2"
+                      >
+                        {metadataKey}:
+                      </Text>
+                      <Text
+                        size="small"
+                        className="font-mono"
+                        data-testid={`ResourceMetadata-value-${metadataKey}`}
+                      >
+                        {isUpdatableType(metadataValue)
+                          ? metadataValue.toString()
+                          : "[...]"}
+                      </Text>
+                    </div>
+                  )
+                },
+              )}
+            </Card>
+          ) : (
+            <Spacer top="4">
+              <Text tag="span" variant="info">
+                {t("common.no_metadata")}
+              </Text>
+            </Spacer>
+          )}
         </Section>
         <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
         <EditMetadataOverlay
