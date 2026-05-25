@@ -70,7 +70,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
           title="Metadata"
           border={isEmpty(resourceData?.metadata) ? undefined : "none"}
           actionButton={
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 print:hidden">
               <Button
                 variant="secondary"
                 size="mini"
@@ -100,7 +100,12 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
           }
         >
           {!isEmpty(resourceData?.metadata) ? (
-            <Card gap="6" overflow="visible" backgroundColor="light">
+            <Card
+              gap="6"
+              overflow="visible"
+              backgroundColor="light"
+              className="print:p-4 print:rounded-sm"
+            >
               {Object.entries(resourceData?.metadata ?? []).map(
                 ([metadataKey, metadataValue], idx) => {
                   return (

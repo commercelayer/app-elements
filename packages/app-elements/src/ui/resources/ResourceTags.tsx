@@ -87,6 +87,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
         actionButton={
           canUser("update", resourceType) && (
             <Button
+              className="print:hidden"
               variant="secondary"
               size="mini"
               alignItems="center"
@@ -114,6 +115,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
               if (onTagClick != null) {
                 return (
                   <TagUi
+                    className="print:border"
                     // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
                     key={idx}
                     onClick={() => {
