@@ -13,11 +13,31 @@ export function VisibilityTrigger({
   ...rest
 }: VisibilityTriggerProps): JSX.Element {
   const triggerEl = useRef<HTMLDivElement | null>(null)
+  const callbackRef = useRef(callback)
+  const wasIntersectingRef = useRef(false)
+
   useEffect(() => {
+    callbackRef.current = callback
+  }, [callback])
+
+  useEffect(() => {
+    if (!enabled || triggerEl.current == null) {
+      return
+    }
+
+    const observedElement = triggerEl.current
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry !== undefined) {
-          callback(entry)
+        if (entry == null) {
+          return
+        }
+
+        const didEnterViewport =
+          entry.isIntersecting && !wasIntersectingRef.current
+        wasIntersectingRef.current = entry.isIntersecting
+
+        if (didEnterViewport) {
+          callbackRef.current(entry)
         }
       },
       {
@@ -25,16 +45,14 @@ export function VisibilityTrigger({
       },
     )
 
-    if (triggerEl?.current != null) {
-      observer.observe(triggerEl.current)
-    }
+    observer.observe(observedElement)
 
     return () => {
-      if (triggerEl?.current != null) {
-        observer.unobserve(triggerEl.current)
-      }
+      observer.unobserve(observedElement)
+      observer.disconnect()
+      wasIntersectingRef.current = false
     }
-  }, [enabled])
+  }, [enabled, rootMargin])
 
   return (
     <div
