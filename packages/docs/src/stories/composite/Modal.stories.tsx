@@ -71,6 +71,28 @@ export const Default: StoryFn = () => {
 }
 
 /**
+ * Modal that can be dismissed by clicking the backdrop or pressing Esc.
+ */
+export const Dismissible: StoryFn = () => {
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
+  return (
+    <div>
+      <Button onClick={handleShow}>Open dismissible modal</Button>
+      <Modal show={show} onClose={handleClose} dismissible>
+        <Modal.Header>Dismissible modal</Modal.Header>
+        <Modal.Body>
+          This modal can be closed by clicking outside or pressing Escape.
+        </Modal.Body>
+      </Modal>
+    </div>
+  )
+}
+
+/**
  * Modal with a long, scrollable content.
  */
 export const LongContent: StoryFn = () => {
