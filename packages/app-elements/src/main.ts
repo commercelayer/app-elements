@@ -430,4 +430,8 @@ export {
   type UseResourceListConfig,
   useResourceList,
 } from "#ui/resources/useResourceList"
+export {
+  type UseResourceModalConfig,
+  useResourceModal,
+} from "#ui/resources/useResourceModal"
 export { useTrackingDetails } from "#ui/resources/useTrackingDetails"
