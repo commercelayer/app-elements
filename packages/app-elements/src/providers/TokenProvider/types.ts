@@ -207,4 +207,8 @@ export interface TokenProviderExtras {
   }
   /** Allow to pass the current user in the app context when using an access token that does not contain an owner. */
   user?: TokenProviderAuthUser
+  /** Custom data that can be passed to the app and used in the app context. */
+  organization?: {
+    isEnterprise?: boolean
+  }
 }
