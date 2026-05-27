@@ -1,4 +1,4 @@
-import { type Order, Resource } from "@commercelayer/sdk"
+import type { Order } from "@commercelayer/sdk"
 import capitalize from "lodash-es/capitalize"
 import lowerCase from "lodash-es/lowerCase"
 import { type FC, useState } from "react"

@@ -136,14 +136,16 @@ const EventStoreItems: FC<Props> = ({ resourceType, resourceId }) => {
               isLoading
             />
           )}
-          <VisibilityTrigger
-            enabled={hasMorePages ?? false}
-            callback={(entry) => {
-              if (entry.isIntersecting) {
-                void fetchMore()
-              }
-            }}
-          />
+          {!isLoading && hasMorePages && (
+            <VisibilityTrigger
+              enabled={hasMorePages}
+              callback={(entry) => {
+                if (entry.isIntersecting) {
+                  void fetchMore()
+                }
+              }}
+            />
+          )}
         </div>
       )}
     </>
@@ -191,8 +193,8 @@ const EventStoreItem = withSkeletonTemplate<{
             <Text variant="info">
               {eventToPastTense[eventStore.event]}{" "}
               {attributes.slice(0, 2).join(", ")}
-              {attributes.length > 3 && (
-                <span>, and {attributes.length - 3} more</span>
+              {attributes.length > 2 && (
+                <span>, and {attributes.length - 2} more</span>
               )}
             </Text>
           </div>
@@ -260,28 +262,30 @@ const eventParser = z.object({
       to: z.any(),
     }),
   ),
-  who: z.object({
-    worker: z
-      .object({
-        id: z.string(),
-        type: z.string(),
-      })
-      .optional(),
-    application: z
-      .object({
-        id: z.string(),
-        client_id: z.string(),
-        kind: z.string(),
-      })
-      .optional(),
-    owner: z
-      .object({
-        email: z.string(),
-        first_name: z.string().optional(),
-        last_name: z.string().optional(),
-      })
-      .optional(),
-  }),
+  who: z
+    .object({
+      worker: z
+        .object({
+          id: z.string(),
+          type: z.string(),
+        })
+        .optional(),
+      application: z
+        .object({
+          id: z.string(),
+          client_id: z.string(),
+          kind: z.string(),
+        })
+        .optional(),
+      owner: z
+        .object({
+          email: z.string(),
+          first_name: z.string().optional(),
+          last_name: z.string().optional(),
+        })
+        .optional(),
+    })
+    .nullish(),
 })
 
 const mockedEventStore: EventStore = {
