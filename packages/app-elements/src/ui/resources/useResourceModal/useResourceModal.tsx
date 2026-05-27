@@ -44,7 +44,7 @@ export function useResourceModal({
 
   const ResourceModal = useCallback<FC>(() => {
     return (
-      <Modal show={show} onClose={closeResourceModal} size="large">
+      <Modal show={show} onClose={closeResourceModal} size="large" dismissible>
         <Modal.Header>{title ?? "Resource Details"}</Modal.Header>
         <Modal.Body>
           <div className="h-[50dvh]">
