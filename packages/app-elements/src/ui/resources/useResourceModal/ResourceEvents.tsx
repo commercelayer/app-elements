@@ -62,6 +62,7 @@ const EventStoreItems: FC<Props> = ({ resourceType, resourceId }) => {
     list: eventStores,
     isLoading,
     hasMorePages,
+    error,
     fetchMore,
   } = useResourceList({
     type: "event_stores",
@@ -111,7 +112,8 @@ const EventStoreItems: FC<Props> = ({ resourceType, resourceId }) => {
 
   return (
     <>
-      {eventStores != null && eventStores.length === 0 && !isLoading ? (
+      {error ||
+      (eventStores != null && eventStores.length === 0 && !isLoading) ? (
         <Text variant="info" align="center">
           No events found for this resource.
         </Text>
