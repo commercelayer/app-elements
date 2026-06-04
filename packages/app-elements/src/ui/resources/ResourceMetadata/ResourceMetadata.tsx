@@ -71,15 +71,19 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
           border={isEmpty(resourceData?.metadata) ? undefined : "none"}
           actionButton={
             <div className="flex items-center gap-2 print:hidden">
-              <Button
-                variant="secondary"
-                size="mini"
-                onClick={() => {
-                  showJsonOverlay()
-                }}
-              >
-                {t("common.view_json")}
-              </Button>
+              {!isEmpty(resourceData?.metadata) ? (
+                <Button
+                  variant="secondary"
+                  size="mini"
+                  onClick={() => {
+                    showJsonOverlay()
+                  }}
+                >
+                  {t("common.view_json")}
+                </Button>
+              ) : (
+                ""
+              )}
               {canUser("update", resourceType) && (
                 <Button
                   variant="secondary"
