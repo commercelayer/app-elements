@@ -42,6 +42,7 @@ export const iconMapping = {
   clipboardText: phosphor.ClipboardTextIcon,
   clockClockwise: phosphor.ClockClockwiseIcon,
   cloudArrowUp: phosphor.CloudArrowUpIcon,
+  code: phosphor.CodeIcon,
   copy: phosphor.CopyIcon,
   creditCard: phosphor.CreditCardIcon,
   currencyEur: phosphor.CurrencyEurIcon,
