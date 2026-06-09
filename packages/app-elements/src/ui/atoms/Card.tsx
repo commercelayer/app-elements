@@ -71,7 +71,7 @@ export const Card = withSkeletonTemplate<CardProps>(
             "p-1": gap === "1",
             "p-4": gap === "4",
             "p-6": gap === "6",
-            "hover:border-black hover:shadow-hover":
+            "hover:border-black hover:shadow-cardhover":
               JsxTag === "a" || JsxTag === "button",
           },
         ])}
