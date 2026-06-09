@@ -211,4 +211,15 @@ export interface TokenProviderExtras {
   organization?: {
     isEnterprise?: boolean
   }
+  /**
+   * This method can be used to trigger the display of a resource detail modal within the dashboard, when the app is running as micro-frontend inside the dashboard.
+   * It accepts an object with `resourceType` and `resourceId` properties, that will be used to generate the URL of the resource detail page and trigger the redirection.
+   */
+  openResourceModal?: ({
+    resourceType,
+    resourceId,
+  }: {
+    resourceType: string
+    resourceId: string
+  }) => void
 }
