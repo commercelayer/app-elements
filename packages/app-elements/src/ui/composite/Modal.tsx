@@ -82,6 +82,7 @@ const ModalRoot = (
         } else {
           dialog.open = true
         }
+        document.body.style.overflow = "hidden" // Prevent background scrolling when modal is open
         return
       }
 
@@ -91,6 +92,7 @@ const ModalRoot = (
         } else {
           dialog.open = false
         }
+        document.body.style.overflow = "" // Restore background scrolling when modal is closed
       }
     },
     [show],
