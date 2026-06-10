@@ -167,7 +167,10 @@ Modal.Header = ({ children }) => {
 
   return (
     <div className="flex-none flex items-center justify-between px-6 py-4 border-b border-gray-200">
-      <div id={`${modalId}-title`} className="font-bold leading-tight">
+      <div
+        id={`${modalId}-title`}
+        className="font-semibold text-sm leading-tight"
+      >
         {children}
       </div>
       <button
