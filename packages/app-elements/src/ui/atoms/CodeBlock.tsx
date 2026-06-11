@@ -53,8 +53,10 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
         <div className="flex group w-full rounded bg-gray-50 in-[.overlay-container]:bg-gray-200">
           <div
             className={cn(
-              "flex flex-col w-full px-4 py-2.5 text-primary text-sm font-mono font-medium marker:font-semibold leading-5 border-none break-all",
-              typeof children !== "string" ? "whitespace-pre-wrap" : "",
+              "flex flex-col w-full px-4 py-2.5 text-primary font-mono font-medium marker:font-semibold leading-5 border-none break-all",
+              typeof children !== "string"
+                ? "whitespace-pre-wrap text-xs"
+                : "text-sm",
             )}
             data-testid="codeblock-content"
           >
