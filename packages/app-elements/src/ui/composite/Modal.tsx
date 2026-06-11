@@ -82,6 +82,7 @@ const ModalRoot = (
         } else {
           dialog.open = true
         }
+        document.body.style.overflow = "hidden" // Prevent background scrolling when modal is open
         return
       }
 
@@ -91,6 +92,7 @@ const ModalRoot = (
         } else {
           dialog.open = false
         }
+        document.body.style.overflow = "" // Restore background scrolling when modal is closed
       }
     },
     [show],
@@ -167,7 +169,10 @@ Modal.Header = ({ children }) => {
 
   return (
     <div className="flex-none flex items-center justify-between px-6 py-4 border-b border-gray-200">
-      <div id={`${modalId}-title`} className="font-bold leading-tight">
+      <div
+        id={`${modalId}-title`}
+        className="font-semibold text-sm leading-tight"
+      >
         {children}
       </div>
       <button
