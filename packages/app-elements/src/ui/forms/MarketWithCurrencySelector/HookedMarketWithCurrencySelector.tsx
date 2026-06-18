@@ -150,7 +150,7 @@ export const HookedMarketWithCurrencySelector: FC<
                   .list({
                     pageSize: 25,
                     filters: {
-                      name_cont: hint,
+                      name_i_cont: hint,
                     },
                     fields: {
                       markets: ["name", "price_list"],

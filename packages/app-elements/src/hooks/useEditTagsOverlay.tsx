@@ -207,7 +207,7 @@ export function useEditTagsOverlay(): TagsOverlayHook {
                     .list({
                       fields: ["id", "name"],
                       filters: {
-                        ...(!isEmpty(hint) && { name_cont: hint }),
+                        ...(!isEmpty(hint) && { name_i_cont: hint }),
                       },
                       pageSize: 25,
                     })
