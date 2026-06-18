@@ -1,4 +1,4 @@
-import type { ListableResourceType, ResourceTypeLock } from "@commercelayer/sdk"
+import type { ListableResourceType } from "@commercelayer/sdk"
 import type { ParsedScopes } from "#providers/TokenProvider/getInfoFromJwt"
 
 export type TokenProviderClAppSlug =
