@@ -27,8 +27,8 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1
       '@commercelayer/sdk':
-        specifier: ^6.57.0
-        version: 6.57.0
+        specifier: https://pkg.pr.new/@commercelayer/sdk@fcc1b8a
+        version: https://pkg.pr.new/@commercelayer/sdk@fcc1b8a
       '@date-fns/tz':
         specifier: ^1.4.1
         version: 1.4.1
@@ -927,8 +927,9 @@ packages:
     resolution: {integrity: sha512-5OLk7EknJowznEEEBBPfcl1uhx5apJ0OESyzqocjCXY3sPma9pabGCMJWelmGIU/esoqvdwNIFGIc2EIeVea6A==}
     engines: {node: '>=20.0.0'}
 
-  '@commercelayer/sdk@6.57.0':
-    resolution: {integrity: sha512-m4Rk8bKd2B32xWLxy+b4K5p0fAuhOG0FN5WGXxTbiVXV88YP3xYEYQZZDDy70A1p9TchsNH+bTnhtRdqn+Mcug==}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@fcc1b8a':
+    resolution: {integrity: sha512-XyusU36+G7rDX5b9lPcC9Txbko9RQX2jTei6GMSUYU5ty3cQ2CwG2vUPpHHfaumfUpppy4XObw36liNefIB7Mw==, tarball: https://pkg.pr.new/@commercelayer/sdk@fcc1b8a}
+    version: 8.0.0-beta.6
     engines: {node: '>=20'}
 
   '@csstools/color-helpers@6.0.2':
@@ -6772,7 +6773,7 @@ snapshots:
 
   '@commercelayer/js-auth@7.4.1': {}
 
-  '@commercelayer/sdk@6.57.0': {}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@fcc1b8a': {}
 
   '@csstools/color-helpers@6.0.2': {}
 
