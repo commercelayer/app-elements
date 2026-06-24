@@ -82,7 +82,6 @@ const ModalRoot = (
         } else {
           dialog.open = true
         }
-        document.body.style.overflow = "hidden" // Prevent background scrolling when modal is open
         return
       }
 
@@ -92,6 +91,22 @@ const ModalRoot = (
         } else {
           dialog.open = false
         }
+      }
+    },
+    [show],
+  )
+
+  useEffect(
+    function manageDialogOverflow() {
+      const dialog = dialogRef.current
+      if (!dialog) return
+
+      if (show || dialog.open) {
+        document.body.style.overflow = "hidden" // Prevent background scrolling when modal is open
+        return
+      }
+
+      if (!show || !dialog.open) {
         document.body.style.overflow = "" // Restore background scrolling when modal is closed
       }
     },
