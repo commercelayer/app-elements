@@ -168,6 +168,122 @@ describe("Modal", () => {
     expect(document.getElementById(secondLabelId ?? "")).toBeInTheDocument()
   })
 
+  describe("body scroll lock", () => {
+    afterEach(() => {
+      document.body.style.overflow = ""
+    })
+
+    test("Should lock body scroll while open and restore on close", () => {
+      const onClose = vi.fn()
+      const { rerender } = render(
+        <Modal show onClose={onClose} dismissible>
+          <Modal.Body>Body</Modal.Body>
+        </Modal>,
+      )
+
+      expect(document.body.style.overflow).toBe("hidden")
+
+      rerender(
+        <Modal show={false} onClose={onClose} dismissible>
+          <Modal.Body>Body</Modal.Body>
+        </Modal>,
+      )
+
+      expect(document.body.style.overflow).toBe("")
+    })
+
+    test("Should keep body locked while another modal is still open", () => {
+      const onClose = vi.fn()
+
+      // Two modals on the page: one open, one closed (e.g. two confirm dialogs).
+      const { rerender } = render(
+        <>
+          <Modal show onClose={onClose} dismissible>
+            <Modal.Body>Open</Modal.Body>
+          </Modal>
+          <Modal show={false} onClose={onClose} dismissible>
+            <Modal.Body>Closed</Modal.Body>
+          </Modal>
+        </>,
+      )
+
+      expect(document.body.style.overflow).toBe("hidden")
+
+      // Re-render: the still-closed modal must not clear the lock held by the open one.
+      rerender(
+        <>
+          <Modal show onClose={onClose} dismissible>
+            <Modal.Body>Open</Modal.Body>
+          </Modal>
+          <Modal show={false} onClose={onClose} dismissible>
+            <Modal.Body>Closed</Modal.Body>
+          </Modal>
+        </>,
+      )
+
+      expect(document.body.style.overflow).toBe("hidden")
+    })
+
+    test("Should restore body scroll only after the last modal closes", () => {
+      const onClose = vi.fn()
+      const { rerender } = render(
+        <>
+          <Modal show onClose={onClose} dismissible>
+            <Modal.Body>First</Modal.Body>
+          </Modal>
+          <Modal show onClose={onClose} dismissible>
+            <Modal.Body>Second</Modal.Body>
+          </Modal>
+        </>,
+      )
+
+      expect(document.body.style.overflow).toBe("hidden")
+
+      // Close one — lock must remain because the other is still open.
+      rerender(
+        <>
+          <Modal show={false} onClose={onClose} dismissible>
+            <Modal.Body>First</Modal.Body>
+          </Modal>
+          <Modal show onClose={onClose} dismissible>
+            <Modal.Body>Second</Modal.Body>
+          </Modal>
+        </>,
+      )
+
+      expect(document.body.style.overflow).toBe("hidden")
+
+      // Close the last one — now the lock is released.
+      rerender(
+        <>
+          <Modal show={false} onClose={onClose} dismissible>
+            <Modal.Body>First</Modal.Body>
+          </Modal>
+          <Modal show={false} onClose={onClose} dismissible>
+            <Modal.Body>Second</Modal.Body>
+          </Modal>
+        </>,
+      )
+
+      expect(document.body.style.overflow).toBe("")
+    })
+
+    test("Should release the lock when an open modal unmounts", () => {
+      const onClose = vi.fn()
+      const { unmount } = render(
+        <Modal show onClose={onClose} dismissible>
+          <Modal.Body>Body</Modal.Body>
+        </Modal>,
+      )
+
+      expect(document.body.style.overflow).toBe("hidden")
+
+      unmount()
+
+      expect(document.body.style.overflow).toBe("")
+    })
+  })
+
   test("Should fallback to open property when showModal/close are unavailable", () => {
     const onClose = vi.fn()
     const { rerender } = render(

@@ -57,6 +57,35 @@ type ModalComponent = React.ForwardRefExoticComponent<
   Footer: React.FC<React.PropsWithChildren>
 }
 
+/**
+ * Reference-counted body scroll lock shared across all Modal instances.
+ *
+ * Multiple modals can be mounted on the same page (e.g. several
+ * `useConfirmDialog` hooks). Because they all mutate the shared
+ * `document.body.style.overflow`, a closed modal must never restore the body
+ * overflow while another modal is still open. We keep a single counter so the
+ * body is locked when the first modal opens and only restored when the last
+ * one closes, preserving any pre-existing inline overflow value.
+ */
+let openModalCount = 0
+let previousBodyOverflow = ""
+
+function lockBodyScroll(): void {
+  if (openModalCount === 0) {
+    previousBodyOverflow = document.body.style.overflow
+    document.body.style.overflow = "hidden"
+  }
+  openModalCount += 1
+}
+
+function unlockBodyScroll(): void {
+  openModalCount = Math.max(0, openModalCount - 1)
+  if (openModalCount === 0) {
+    document.body.style.overflow = previousBodyOverflow
+    previousBodyOverflow = ""
+  }
+}
+
 const ModalRoot = (
   {
     show = false,
@@ -98,13 +127,14 @@ const ModalRoot = (
 
   useEffect(
     function manageDialogOverflow() {
-      if (show) {
-        console.log("Modal is open, preventing background scrolling")
-        document.body.style.overflow = "hidden" // Prevent background scrolling when modal is open
-      } else {
-        console.log("Modal is closed, restoring background scrolling")
-        document.body.style.overflow = "" // Restore background scrolling when modal is closed
-      }
+      // A closed modal must not touch the shared body overflow, otherwise it
+      // would clear the lock set by another modal that is still open.
+      if (!show) return
+
+      lockBodyScroll()
+      // Cleanup runs when `show` flips to false and on unmount-while-open,
+      // so the lock is always released exactly once per open.
+      return unlockBodyScroll
     },
     [show],
   )
