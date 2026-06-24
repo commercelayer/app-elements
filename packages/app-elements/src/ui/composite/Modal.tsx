@@ -98,15 +98,11 @@ const ModalRoot = (
 
   useEffect(
     function manageDialogOverflow() {
-      const dialog = dialogRef.current
-      if (!dialog) return
-
-      if (show || dialog.open) {
+      if (show) {
+        console.log("Modal is open, preventing background scrolling")
         document.body.style.overflow = "hidden" // Prevent background scrolling when modal is open
-        return
-      }
-
-      if (!show || !dialog.open) {
+      } else {
+        console.log("Modal is closed, restoring background scrolling")
         document.body.style.overflow = "" // Restore background scrolling when modal is closed
       }
     },
