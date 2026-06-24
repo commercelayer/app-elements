@@ -49,7 +49,7 @@
   },
   "dependencies": {
     "@commercelayer/js-auth": "^7.4.1",
-    "@commercelayer/sdk": "https://pkg.pr.new/@commercelayer/sdk@fcc1b8a",
+    "@commercelayer/sdk": "https://pkg.pr.new/@commercelayer/sdk@f48d469",
     "@date-fns/tz": "^1.4.1",
     "@monaco-editor/react": "~4.7.0",
     "@types/lodash-es": "^4.17.12",

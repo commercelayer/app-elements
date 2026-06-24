@@ -1,7 +1,5 @@
-import type {
-  CommerceLayerClient,
-  ListableResourceType,
-} from "@commercelayer/sdk"
+import type { ListableResourceType } from "@commercelayer/sdk"
+import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import { useState } from "react"
 
 export function useToggleCheckboxValues(defaultValues: string[]): {
@@ -55,7 +53,7 @@ export function computeLabelWithSelected({
 }
 
 type Resource = Awaited<
-  ReturnType<CommerceLayerClient[ListableResourceType]["list"]>
+  ReturnType<CommerceLayerBundle[ListableResourceType]["list"]>
 >[number]
 
 /**

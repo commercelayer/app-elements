@@ -27,8 +27,8 @@ importers:
         specifier: ^7.4.1
         version: 7.4.1
       '@commercelayer/sdk':
-        specifier: https://pkg.pr.new/@commercelayer/sdk@fcc1b8a
-        version: https://pkg.pr.new/@commercelayer/sdk@fcc1b8a
+        specifier: https://pkg.pr.new/@commercelayer/sdk@f48d469
+        version: https://pkg.pr.new/@commercelayer/sdk@f48d469
       '@date-fns/tz':
         specifier: ^1.4.1
         version: 1.4.1
@@ -927,8 +927,8 @@ packages:
     resolution: {integrity: sha512-5OLk7EknJowznEEEBBPfcl1uhx5apJ0OESyzqocjCXY3sPma9pabGCMJWelmGIU/esoqvdwNIFGIc2EIeVea6A==}
     engines: {node: '>=20.0.0'}
 
-  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@fcc1b8a':
-    resolution: {integrity: sha512-XyusU36+G7rDX5b9lPcC9Txbko9RQX2jTei6GMSUYU5ty3cQ2CwG2vUPpHHfaumfUpppy4XObw36liNefIB7Mw==, tarball: https://pkg.pr.new/@commercelayer/sdk@fcc1b8a}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@f48d469':
+    resolution: {integrity: sha512-UxKjpItn9ve3ccrUMBCRDOI3kf2KUBk2wk53c1raDYAWjWnCyy/wQJnErHCYoU4ncFjg16HsMBHbJfcClgQIiw==, tarball: https://pkg.pr.new/@commercelayer/sdk@f48d469}
     version: 8.0.0-beta.6
     engines: {node: '>=20'}
 
@@ -6773,7 +6773,7 @@ snapshots:
 
   '@commercelayer/js-auth@7.4.1': {}
 
-  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@fcc1b8a': {}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@f48d469': {}
 
   '@csstools/color-helpers@6.0.2': {}
 

@@ -1,4 +1,4 @@
-import type { CommerceLayerClient } from "@commercelayer/sdk"
+import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import {
   createContext,
   type JSX,
@@ -15,7 +15,7 @@ interface CoreSdkProviderValue {
   /**
    * Valid SDK client
    */
-  sdkClient: CommerceLayerClient
+  sdkClient: CommerceLayerBundle
 }
 
 interface CoreSdkProviderProps {
@@ -42,7 +42,7 @@ export function CoreSdkProvider({
     settings: { accessToken, domain, organizationSlug },
   } = useTokenProvider()
 
-  const [sdkClient, setSdkClient] = useState<CommerceLayerClient | undefined>(
+  const [sdkClient, setSdkClient] = useState<CommerceLayerBundle | undefined>(
     undefined,
   )
 

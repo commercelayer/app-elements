@@ -1,8 +1,5 @@
-import type {
-  CommerceLayerClient,
-  ListResponse,
-  PriceList,
-} from "@commercelayer/sdk"
+import type { ListResponse, PriceList } from "@commercelayer/sdk"
+import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import isEmpty from "lodash-es/isEmpty"
 import uniq from "lodash-es/uniq"
 import { useEffect, useState } from "react"
@@ -74,7 +71,7 @@ interface FullList {
 async function fetchAllCurrencies({
   sdkClient,
 }: {
-  sdkClient: CommerceLayerClient
+  sdkClient: CommerceLayerBundle
 }): Promise<InputCurrencyRangeProps["currencyList"]> {
   const allCurrencies: FullList = {
     currencies: [],

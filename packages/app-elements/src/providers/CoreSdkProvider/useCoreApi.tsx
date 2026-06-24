@@ -1,4 +1,4 @@
-import type { CommerceLayerClient } from "@commercelayer/sdk"
+import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import { useCallback } from "react"
 import useSWR, {
   type Fetcher,
@@ -44,8 +44,8 @@ type MethodKeys<T> = {
  */
 export function useCoreApi<
   Resource extends ResourceEndpoint,
-  Action extends MethodKeys<CommerceLayerClient[Resource]>,
-  Method extends ForceToBeMethod<CommerceLayerClient[Resource][Action]>,
+  Action extends MethodKeys<CommerceLayerBundle[Resource]>,
+  Method extends ForceToBeMethod<CommerceLayerBundle[Resource][Action]>,
   Args extends Parameters<Method>,
   Output extends Awaited<ReturnType<Method>>,
   SWROptions extends SWRConfiguration<Output, any, Fetcher<Output>>,

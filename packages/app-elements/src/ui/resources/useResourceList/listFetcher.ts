@@ -1,9 +1,9 @@
 import type {
-  CommerceLayerClient,
   ListableResourceType,
   QueryParamsList,
   ResourceFields,
 } from "@commercelayer/sdk"
+import type { CommerceLayerBundle } from "@commercelayer/sdk/bundle"
 import uniqBy from "lodash-es/uniqBy"
 import {
   isValidMetricsResource,
@@ -12,7 +12,7 @@ import {
 } from "./metricsApiClient"
 
 type ListResource<TResource extends ListableResourceType> = Awaited<
-  ReturnType<CommerceLayerClient[TResource]["list"]>
+  ReturnType<CommerceLayerBundle[TResource]["list"]>
 >
 
 export type Resource<TResource extends ListableResourceType> =
@@ -44,7 +44,7 @@ export async function listFetcher<TResource extends ListableResourceType>({
   pageNumber?: number
 } & (
   | {
-      client: CommerceLayerClient
+      client: CommerceLayerBundle
       clientType: "coreSdkClient"
       query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
     }
