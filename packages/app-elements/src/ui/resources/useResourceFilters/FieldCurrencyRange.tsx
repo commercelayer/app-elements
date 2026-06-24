@@ -1,5 +1,5 @@
 import type {
-  CommerceLayerClient,
+  CommerceLayerBundle,
   ListResponse,
   PriceList,
 } from "@commercelayer/sdk"
@@ -74,7 +74,7 @@ interface FullList {
 async function fetchAllCurrencies({
   sdkClient,
 }: {
-  sdkClient: CommerceLayerClient
+  sdkClient: CommerceLayerBundle
 }): Promise<InputCurrencyRangeProps["currencyList"]> {
   const allCurrencies: FullList = {
     currencies: [],

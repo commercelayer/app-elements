@@ -111,12 +111,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/ZyyESNNPLG/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZyyESNNPLG/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZyyESNNPLG/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/ZyyESNNPLG/relationships/jwt_customer",
@@ -257,12 +251,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/nQrOSKNJpa/relationships/tags",
                 related: "https://mock.localhost/api/skus/nQrOSKNJpa/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nQrOSKNJpa/relationships/versions",
-                related: "https://mock.localhost/api/skus/nQrOSKNJpa/versions",
               },
             },
             jwt_customer: {
@@ -407,12 +395,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/BgvMSwxLEA/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/BgvMSwxLEA/relationships/versions",
-                related: "https://mock.localhost/api/skus/BgvMSwxLEA/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/BgvMSwxLEA/relationships/jwt_customer",
@@ -553,12 +535,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/WYqPSwbPAe/relationships/tags",
                 related: "https://mock.localhost/api/skus/WYqPSwbPAe/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/WYqPSwbPAe/relationships/versions",
-                related: "https://mock.localhost/api/skus/WYqPSwbPAe/versions",
               },
             },
             jwt_customer: {
@@ -703,12 +679,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/WPwySKJvgv/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/WPwySKJvgv/relationships/versions",
-                related: "https://mock.localhost/api/skus/WPwySKJvgv/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/WPwySKJvgv/relationships/jwt_customer",
@@ -849,12 +819,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/BxAkSGLweb/relationships/tags",
                 related: "https://mock.localhost/api/skus/BxAkSGLweb/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/BxAkSGLweb/relationships/versions",
-                related: "https://mock.localhost/api/skus/BxAkSGLweb/versions",
               },
             },
             jwt_customer: {
@@ -999,12 +963,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/nprzSgzrxd/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nprzSgzrxd/relationships/versions",
-                related: "https://mock.localhost/api/skus/nprzSgzrxd/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/nprzSgzrxd/relationships/jwt_customer",
@@ -1145,12 +1103,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/WEPdSkRLVg/relationships/tags",
                 related: "https://mock.localhost/api/skus/WEPdSkRLVg/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/WEPdSkRLVg/relationships/versions",
-                related: "https://mock.localhost/api/skus/WEPdSkRLVg/versions",
               },
             },
             jwt_customer: {
@@ -1295,12 +1247,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/ZNRJSaJrPa/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZNRJSaJrPa/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZNRJSaJrPa/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/ZNRJSaJrPa/relationships/jwt_customer",
@@ -1441,12 +1387,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/ZeDdSQJAbz/relationships/tags",
                 related: "https://mock.localhost/api/skus/ZeDdSQJAbz/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZeDdSQJAbz/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZeDdSQJAbz/versions",
               },
             },
             jwt_customer: {
@@ -1591,12 +1531,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/nkGgSabVLL/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nkGgSabVLL/relationships/versions",
-                related: "https://mock.localhost/api/skus/nkGgSabVLL/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/nkGgSabVLL/relationships/jwt_customer",
@@ -1737,12 +1671,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/BmDzSXYxdl/relationships/tags",
                 related: "https://mock.localhost/api/skus/BmDzSXYxdl/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/BmDzSXYxdl/relationships/versions",
-                related: "https://mock.localhost/api/skus/BmDzSXYxdl/versions",
               },
             },
             jwt_customer: {
@@ -1887,12 +1815,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/BDklSXzAKm/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/BDklSXzAKm/relationships/versions",
-                related: "https://mock.localhost/api/skus/BDklSXzAKm/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/BDklSXzAKm/relationships/jwt_customer",
@@ -2033,12 +1955,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/nlwzSgevyM/relationships/tags",
                 related: "https://mock.localhost/api/skus/nlwzSgevyM/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nlwzSgevyM/relationships/versions",
-                related: "https://mock.localhost/api/skus/nlwzSgevyM/versions",
               },
             },
             jwt_customer: {
@@ -2183,12 +2099,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/ZdplSqXgOw/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZdplSqXgOw/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZdplSqXgOw/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/ZdplSqXgOw/relationships/jwt_customer",
@@ -2329,12 +2239,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/ZorzSOjdkm/relationships/tags",
                 related: "https://mock.localhost/api/skus/ZorzSOjdkm/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZorzSOjdkm/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZorzSOjdkm/versions",
               },
             },
             jwt_customer: {
@@ -2479,12 +2383,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/nMPOSDblxk/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nMPOSDblxk/relationships/versions",
-                related: "https://mock.localhost/api/skus/nMPOSDblxk/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/nMPOSDblxk/relationships/jwt_customer",
@@ -2625,12 +2523,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/WVyPSYOxgb/relationships/tags",
                 related: "https://mock.localhost/api/skus/WVyPSYOxgb/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/WVyPSYOxgb/relationships/versions",
-                related: "https://mock.localhost/api/skus/WVyPSYOxgb/versions",
               },
             },
             jwt_customer: {
@@ -2775,12 +2667,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/ZXxPSDpXdA/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZXxPSDpXdA/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZXxPSDpXdA/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/ZXxPSDpXdA/relationships/jwt_customer",
@@ -2921,12 +2807,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/BqkxSGJexJ/relationships/tags",
                 related: "https://mock.localhost/api/skus/BqkxSGJexJ/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/BqkxSGJexJ/relationships/versions",
-                related: "https://mock.localhost/api/skus/BqkxSGJexJ/versions",
               },
             },
             jwt_customer: {
@@ -3071,12 +2951,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/WGDMSMAEYz/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/WGDMSMAEYz/relationships/versions",
-                related: "https://mock.localhost/api/skus/WGDMSMAEYz/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/WGDMSMAEYz/relationships/jwt_customer",
@@ -3217,12 +3091,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/BwpOSrxOkE/relationships/tags",
                 related: "https://mock.localhost/api/skus/BwpOSrxOkE/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/BwpOSrxOkE/relationships/versions",
-                related: "https://mock.localhost/api/skus/BwpOSrxOkE/versions",
               },
             },
             jwt_customer: {
@@ -3367,12 +3235,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/nOpOSljYLA/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nOpOSljYLA/relationships/versions",
-                related: "https://mock.localhost/api/skus/nOpOSljYLA/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/nOpOSljYLA/relationships/jwt_customer",
@@ -3515,12 +3377,6 @@ const allSkus = http.get(
                 related: "https://mock.localhost/api/skus/nzPQSrjmak/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/nzPQSrjmak/relationships/versions",
-                related: "https://mock.localhost/api/skus/nzPQSrjmak/versions",
-              },
-            },
             jwt_customer: {
               links: {
                 self: "https://mock.localhost/api/skus/nzPQSrjmak/relationships/jwt_customer",
@@ -3661,12 +3517,6 @@ const allSkus = http.get(
               links: {
                 self: "https://mock.localhost/api/skus/ZrxeSPvVYK/relationships/tags",
                 related: "https://mock.localhost/api/skus/ZrxeSPvVYK/tags",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/skus/ZrxeSPvVYK/relationships/versions",
-                related: "https://mock.localhost/api/skus/ZrxeSPvVYK/versions",
               },
             },
             jwt_customer: {
