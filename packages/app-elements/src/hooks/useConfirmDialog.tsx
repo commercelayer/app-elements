@@ -1,4 +1,4 @@
-import { type FC, useCallback, useState } from "react"
+import { type FC, useCallback, useRef, useState } from "react"
 import { parseApiError } from "#helpers/errors"
 import { Button, type ButtonProps } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
@@ -156,6 +156,11 @@ interface ConfirmDialogHook {
 export function useConfirmDialog(): ConfirmDialogHook {
   const [isOpen, setIsOpen] = useState(false)
 
+  // Kept in sync on every render so the renderer below can read the latest
+  // value without being recreated (see comment further down).
+  const isOpenRef = useRef(isOpen)
+  isOpenRef.current = isOpen
+
   const open = useCallback(() => {
     setIsOpen(true)
   }, [])
@@ -164,15 +169,21 @@ export function useConfirmDialog(): ConfirmDialogHook {
     setIsOpen(false)
   }, [])
 
-  const ConfirmDialogRenderer = useCallback<FC<ConfirmDialogRendererProps>>(
-    (props) => {
-      return <ConfirmDialog {...props} show={isOpen} onClose={close} />
-    },
-    [isOpen, close],
+  // Identity must stay stable across the hook's lifetime: if it changed
+  // whenever `isOpen` changed (e.g. via `useCallback(..., [isOpen, close])`),
+  // React would treat it as a new component type on every open/close and
+  // remount the underlying `Modal` instead of just re-rendering it. That
+  // remount happens mid-open, before the cleanup that restores
+  // `document.body.style.overflow` can run, leaving the page stuck unscrollable.
+  const ConfirmDialogRendererRef = useRef<
+    FC<ConfirmDialogRendererProps> | undefined
+  >(undefined)
+  ConfirmDialogRendererRef.current ??= (props) => (
+    <ConfirmDialog {...props} show={isOpenRef.current} onClose={close} />
   )
 
   return {
     show: open,
-    ConfirmDialog: ConfirmDialogRenderer,
+    ConfirmDialog: ConfirmDialogRendererRef.current,
   }
 }
