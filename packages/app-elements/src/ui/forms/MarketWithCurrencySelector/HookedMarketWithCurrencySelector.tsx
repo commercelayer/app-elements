@@ -159,7 +159,6 @@ export const HookedMarketWithCurrencySelector: FC<
                     include: ["price_list"],
                   })
                   .then((res) => {
-                    setHasMorePages(res.meta.pageCount > 1)
                     return res.map((market) => ({
                       label: market.name,
                       value: market.id,
