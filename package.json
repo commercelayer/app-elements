@@ -31,9 +31,9 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=22",
-    "pnpm": "10"
+    "node": ">=22.22"
   },
+  "packageManager": "pnpm@11.9.0",
   "workspaces": [
     "packages/*"
   ],
