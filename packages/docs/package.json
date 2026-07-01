@@ -13,8 +13,7 @@
     "ts:check": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=22",
-    "pnpm": "10"
+    "node": ">=22.13"
   },
   "dependencies": {
     "prettier": "^3.8.3",

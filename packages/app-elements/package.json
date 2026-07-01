@@ -31,8 +31,7 @@
     "url": "https://github.com/commercelayer/app-elements"
   },
   "engines": {
-    "node": ">=22",
-    "pnpm": "10"
+    "node": ">=22.13"
   },
   "scripts": {
     "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
