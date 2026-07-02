@@ -33,6 +33,8 @@ export const presets = {
     "https://data.commercelayer.app/assets/images/icons/tax-calculators/avalara.svg",
   "tax-calculators:taxjar":
     "https://data.commercelayer.app/assets/images/icons/tax-calculators/taxjar.svg",
+  "tax-calculators:vertex":
+    "https://data.commercelayer.app/assets/images/icons/tax-calculators/vertex.svg",
   "tax-calculators:manual":
     "https://data.commercelayer.app/assets/images/icons/tax-calculators/manual-service.svg",
   "tax-calculators:external":
