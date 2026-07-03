@@ -1,7 +1,5 @@
-import CommerceLayer, {
-  type CommerceLayerClient,
-  type ErrorObj,
-} from "@commercelayer/sdk"
+import type { ErrorObj } from "@commercelayer/sdk"
+import { CommerceLayer, type CommerceLayerBundle } from "@commercelayer/sdk"
 import isEmpty from "lodash-es/isEmpty"
 
 interface ApiReasonError {
@@ -28,7 +26,7 @@ export function makeSdkClient({
   organization: string
   domain?: string
   onInvalidToken: () => void
-}): CommerceLayerClient {
+}): CommerceLayerBundle {
   const client = CommerceLayer({
     accessToken,
     organization,

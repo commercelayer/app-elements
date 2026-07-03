@@ -67,13 +67,6 @@ const allSkuLists = http.get(
                   "https://mock.localhost/api/sku_lists/rbqjZIRkyj/links",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/sku_lists/rbqjZIRkyj/relationships/versions",
-                related:
-                  "https://mock.localhost/api/sku_lists/rbqjZIRkyj/versions",
-              },
-            },
             event_stores: {
               links: {
                 self: "https://mock.localhost/api/sku_lists/rbqjZIRkyj/relationships/event_stores",
@@ -150,13 +143,6 @@ const allSkuLists = http.get(
                   "https://mock.localhost/api/sku_lists/AnVvZIvanz/links",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/sku_lists/AnVvZIvanz/relationships/versions",
-                related:
-                  "https://mock.localhost/api/sku_lists/AnVvZIvanz/versions",
-              },
-            },
             event_stores: {
               links: {
                 self: "https://mock.localhost/api/sku_lists/AnVvZIvanz/relationships/event_stores",
@@ -231,13 +217,6 @@ const allSkuLists = http.get(
                 self: "https://mock.localhost/api/sku_lists/XJjEpIRryP/relationships/links",
                 related:
                   "https://mock.localhost/api/sku_lists/XJjEpIRryP/links",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/sku_lists/XJjEpIRryP/relationships/versions",
-                related:
-                  "https://mock.localhost/api/sku_lists/XJjEpIRryP/versions",
               },
             },
             event_stores: {
@@ -317,13 +296,6 @@ const allSkuLists = http.get(
                   "https://mock.localhost/api/sku_lists/wJWxZIAdnK/links",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/sku_lists/wJWxZIAdnK/relationships/versions",
-                related:
-                  "https://mock.localhost/api/sku_lists/wJWxZIAdnK/versions",
-              },
-            },
             event_stores: {
               links: {
                 self: "https://mock.localhost/api/sku_lists/wJWxZIAdnK/relationships/event_stores",
@@ -399,13 +371,6 @@ const allSkuLists = http.get(
                 self: "https://mock.localhost/api/sku_lists/qJxWoIZByY/relationships/links",
                 related:
                   "https://mock.localhost/api/sku_lists/qJxWoIZByY/links",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/sku_lists/qJxWoIZByY/relationships/versions",
-                related:
-                  "https://mock.localhost/api/sku_lists/qJxWoIZByY/versions",
               },
             },
             event_stores: {

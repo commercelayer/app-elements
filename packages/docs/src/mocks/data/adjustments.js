@@ -51,14 +51,6 @@ const adjustment = {
       reference_origin: "app-orders--manual-adjustment",
       metadata: {},
     },
-    relationships: {
-      versions: {
-        links: {
-          self: "https://mock.localhost/api/adjustments/QWOaGhpKbd/relationships/versions",
-          related: "https://mock.localhost/api/adjustments/QWOaGhpKbd/versions",
-        },
-      },
-    },
     meta: {
       mode: "test",
       organization_id: "WXlEOFrjnr",

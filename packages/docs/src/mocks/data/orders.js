@@ -321,12 +321,6 @@ const order = {
         related: "https://mock.localhost/api/orders/NMWYhbGorj/tags",
       },
     },
-    versions: {
-      links: {
-        self: "https://mock.localhost/api/orders/NMWYhbGorj/relationships/versions",
-        related: "https://mock.localhost/api/orders/NMWYhbGorj/versions",
-      },
-    },
   },
   meta: { mode: "test", organization_id: "WXlEOFrjnr" },
 }
@@ -407,13 +401,6 @@ const orderDetail = http.get(
                 self: "https://mock.localhost/api/markets/dlQbPhNNop/relationships/attachments",
                 related:
                   "https://mock.localhost/api/markets/dlQbPhNNop/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/markets/dlQbPhNNop/relationships/versions",
-                related:
-                  "https://mock.localhost/api/markets/dlQbPhNNop/versions",
               },
             },
           },
@@ -575,13 +562,6 @@ const orderDetail = http.get(
                 related: "https://mock.localhost/api/addresses/dPoNukZmnB/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/addresses/dPoNukZmnB/relationships/versions",
-                related:
-                  "https://mock.localhost/api/addresses/dPoNukZmnB/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -644,13 +624,6 @@ const orderDetail = http.get(
                 related: "https://mock.localhost/api/addresses/dQxruwZDnB/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/addresses/dQxruwZDnB/relationships/versions",
-                related:
-                  "https://mock.localhost/api/addresses/dQxruwZDnB/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -700,13 +673,6 @@ const orderDetail = http.get(
                 self: "https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/attachments",
                 related:
                   "https://mock.localhost/api/payment_methods/wmBvQsARml/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/versions",
-                related:
-                  "https://mock.localhost/api/payment_methods/wmBvQsARml/versions",
               },
             },
           },
@@ -834,13 +800,6 @@ const orderDetail = http.get(
                 self: "https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/payment_gateway",
                 related:
                   "https://mock.localhost/api/stripe_payments/onXELSmbQy/payment_gateway",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/versions",
-                related:
-                  "https://mock.localhost/api/stripe_payments/onXELSmbQy/versions",
               },
             },
           },
@@ -1629,13 +1588,6 @@ const orderDetail = http.get(
                   "https://mock.localhost/api/shipments/YpLwCnNQgY/events",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/versions",
-                related:
-                  "https://mock.localhost/api/shipments/YpLwCnNQgY/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -1780,13 +1732,6 @@ const orderDetail = http.get(
                   "https://mock.localhost/api/shipments/PabvCpOxRy/events",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/shipments/PabvCpOxRy/relationships/versions",
-                related:
-                  "https://mock.localhost/api/shipments/PabvCpOxRy/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -1842,13 +1787,6 @@ const orderDetail = http.get(
                 self: "https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/attachments",
                 related:
                   "https://mock.localhost/api/authorizations/nKZkPUDBVj/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/versions",
-                related:
-                  "https://mock.localhost/api/authorizations/nKZkPUDBVj/versions",
               },
             },
             captures: {
@@ -1930,13 +1868,6 @@ const orderDetail = http.get(
                   "https://mock.localhost/api/authorizations/authFailed/attachments",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/authorizations/authFailed/relationships/versions",
-                related:
-                  "https://mock.localhost/api/authorizations/authFailed/versions",
-              },
-            },
             captures: {
               links: {
                 self: "https://mock.localhost/api/authorizations/authFailed/relationships/captures",
@@ -2004,13 +1935,6 @@ const orderDetail = http.get(
                 self: "https://mock.localhost/api/captures/kyAnxUgegE/relationships/attachments",
                 related:
                   "https://mock.localhost/api/captures/kyAnxUgegE/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/captures/kyAnxUgegE/relationships/versions",
-                related:
-                  "https://mock.localhost/api/captures/kyAnxUgegE/versions",
               },
             },
             reference_authorization: {
@@ -2081,13 +2005,6 @@ const orderDetail = http.get(
                 self: "https://mock.localhost/api/captures/vcAnxfaiLc/relationships/attachments",
                 related:
                   "https://mock.localhost/api/captures/vcAnxfaiLc/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/captures/vcAnxfaiLc/relationships/versions",
-                related:
-                  "https://mock.localhost/api/captures/vcAnxfaiLc/versions",
               },
             },
             reference_authorization: {
@@ -2276,13 +2193,6 @@ const orderUpdate = http.patch(
                   "https://mock.localhost/api/markets/dlQbPhNNop/attachments",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/markets/dlQbPhNNop/relationships/versions",
-                related:
-                  "https://mock.localhost/api/markets/dlQbPhNNop/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -2442,13 +2352,6 @@ const orderUpdate = http.patch(
                 related: "https://mock.localhost/api/addresses/dPoNukZmnB/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/addresses/dPoNukZmnB/relationships/versions",
-                related:
-                  "https://mock.localhost/api/addresses/dPoNukZmnB/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -2511,13 +2414,6 @@ const orderUpdate = http.patch(
                 related: "https://mock.localhost/api/addresses/dQxruwZDnB/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/addresses/dQxruwZDnB/relationships/versions",
-                related:
-                  "https://mock.localhost/api/addresses/dQxruwZDnB/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -2567,13 +2463,6 @@ const orderUpdate = http.patch(
                 self: "https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/attachments",
                 related:
                   "https://mock.localhost/api/payment_methods/wmBvQsARml/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/versions",
-                related:
-                  "https://mock.localhost/api/payment_methods/wmBvQsARml/versions",
               },
             },
           },
@@ -2701,13 +2590,6 @@ const orderUpdate = http.patch(
                 self: "https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/payment_gateway",
                 related:
                   "https://mock.localhost/api/stripe_payments/onXELSmbQy/payment_gateway",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/versions",
-                related:
-                  "https://mock.localhost/api/stripe_payments/onXELSmbQy/versions",
               },
             },
           },
@@ -3496,13 +3378,6 @@ const orderUpdate = http.patch(
                   "https://mock.localhost/api/shipments/YpLwCnNQgY/events",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/versions",
-                related:
-                  "https://mock.localhost/api/shipments/YpLwCnNQgY/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -3647,13 +3522,6 @@ const orderUpdate = http.patch(
                   "https://mock.localhost/api/shipments/PabvCpOxRy/events",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/shipments/PabvCpOxRy/relationships/versions",
-                related:
-                  "https://mock.localhost/api/shipments/PabvCpOxRy/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -3708,13 +3576,6 @@ const orderUpdate = http.patch(
                 self: "https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/attachments",
                 related:
                   "https://mock.localhost/api/authorizations/nKZkPUDBVj/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/versions",
-                related:
-                  "https://mock.localhost/api/authorizations/nKZkPUDBVj/versions",
               },
             },
             captures: {
@@ -3783,13 +3644,6 @@ const orderUpdate = http.patch(
                 self: "https://mock.localhost/api/captures/kyAnxUgegE/relationships/attachments",
                 related:
                   "https://mock.localhost/api/captures/kyAnxUgegE/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/captures/kyAnxUgegE/relationships/versions",
-                related:
-                  "https://mock.localhost/api/captures/kyAnxUgegE/versions",
               },
             },
             reference_authorization: {
@@ -3987,13 +3841,6 @@ const orderList = http.get(
                   "https://mock.localhost/api/markets/dlQbPhNNop/attachments",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/markets/dlQbPhNNop/relationships/versions",
-                related:
-                  "https://mock.localhost/api/markets/dlQbPhNNop/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -4153,13 +4000,6 @@ const orderList = http.get(
                 related: "https://mock.localhost/api/addresses/dPoNukZmnB/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/addresses/dPoNukZmnB/relationships/versions",
-                related:
-                  "https://mock.localhost/api/addresses/dPoNukZmnB/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -4222,13 +4062,6 @@ const orderList = http.get(
                 related: "https://mock.localhost/api/addresses/dQxruwZDnB/tags",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/addresses/dQxruwZDnB/relationships/versions",
-                related:
-                  "https://mock.localhost/api/addresses/dQxruwZDnB/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -4278,13 +4111,6 @@ const orderList = http.get(
                 self: "https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/attachments",
                 related:
                   "https://mock.localhost/api/payment_methods/wmBvQsARml/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/payment_methods/wmBvQsARml/relationships/versions",
-                related:
-                  "https://mock.localhost/api/payment_methods/wmBvQsARml/versions",
               },
             },
           },
@@ -4412,13 +4238,6 @@ const orderList = http.get(
                 self: "https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/payment_gateway",
                 related:
                   "https://mock.localhost/api/stripe_payments/onXELSmbQy/payment_gateway",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/stripe_payments/onXELSmbQy/relationships/versions",
-                related:
-                  "https://mock.localhost/api/stripe_payments/onXELSmbQy/versions",
               },
             },
           },
@@ -5207,13 +5026,6 @@ const orderList = http.get(
                   "https://mock.localhost/api/shipments/YpLwCnNQgY/events",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/shipments/YpLwCnNQgY/relationships/versions",
-                related:
-                  "https://mock.localhost/api/shipments/YpLwCnNQgY/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -5358,13 +5170,6 @@ const orderList = http.get(
                   "https://mock.localhost/api/shipments/PabvCpOxRy/events",
               },
             },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/shipments/PabvCpOxRy/relationships/versions",
-                related:
-                  "https://mock.localhost/api/shipments/PabvCpOxRy/versions",
-              },
-            },
           },
           meta: { mode: "test", organization_id: "WXlEOFrjnr" },
         },
@@ -5419,13 +5224,6 @@ const orderList = http.get(
                 self: "https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/attachments",
                 related:
                   "https://mock.localhost/api/authorizations/nKZkPUDBVj/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/authorizations/nKZkPUDBVj/relationships/versions",
-                related:
-                  "https://mock.localhost/api/authorizations/nKZkPUDBVj/versions",
               },
             },
             captures: {
@@ -5494,13 +5292,6 @@ const orderList = http.get(
                 self: "https://mock.localhost/api/captures/kyAnxUgegE/relationships/attachments",
                 related:
                   "https://mock.localhost/api/captures/kyAnxUgegE/attachments",
-              },
-            },
-            versions: {
-              links: {
-                self: "https://mock.localhost/api/captures/kyAnxUgegE/relationships/versions",
-                related:
-                  "https://mock.localhost/api/captures/kyAnxUgegE/versions",
               },
             },
             reference_authorization: {

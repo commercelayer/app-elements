@@ -1,5 +1,5 @@
 import type {
-  CommerceLayerClient,
+  CommerceLayerBundle,
   ListableResourceType,
 } from "@commercelayer/sdk"
 import { useState } from "react"
@@ -55,7 +55,7 @@ export function computeLabelWithSelected({
 }
 
 type Resource = Awaited<
-  ReturnType<CommerceLayerClient[ListableResourceType]["list"]>
+  ReturnType<CommerceLayerBundle[ListableResourceType]["list"]>
 >[number]
 
 /**
