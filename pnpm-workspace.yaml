@@ -6,4 +6,4 @@ allowBuilds:
   msw: true
   nx: true
 minimumReleaseAgeExclude:
-  - '@commercelayer/sdk@8.0.0-beta.8'
+  - '@commercelayer/sdk'
