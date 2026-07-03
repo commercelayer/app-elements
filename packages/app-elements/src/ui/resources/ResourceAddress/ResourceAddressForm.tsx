@@ -1,4 +1,3 @@
-import type { Address } from "@commercelayer/sdk"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -33,7 +32,7 @@ export const ResourceAddressForm =
       onUpdate,
       onCreate,
     }) => {
-      const methods = useForm<Omit<Address, "geocoder">>({
+      const methods = useForm({
         defaultValues: address ?? undefined,
         resolver: zodResolver(
           getResourceAddressFormFieldsSchema({ requiresBillingInfo }),
