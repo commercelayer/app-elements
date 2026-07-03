@@ -76,7 +76,7 @@ export const handlers = [
     })
   }),
 
-  http.get(`https://*/api/orders`, async ({ request }) => {
+  http.get(`https://*/api/:version/orders`, async ({ request }) => {
     const url = new URL(request.url)
     const pageNumber = Number(url.searchParams.get("page[number]") ?? "1")
     return HttpResponse.json(
