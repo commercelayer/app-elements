@@ -300,6 +300,68 @@ WithCheckedElement.args = {
   ],
 }
 
+/**
+ * By setting the `checkboxPosition` prop to `right`, the checkbox is rendered after each item's content.
+ */
+export const CheckboxOnRight = Template.bind({})
+CheckboxOnRight.args = {
+  title: "Items",
+  checkboxPosition: "right",
+  options: [
+    {
+      value: "adyen",
+      icon: (
+        <img
+          src="https://data.commercelayer.app/assets/images/icons/credit-cards/color/adyen.svg"
+          alt="Adyen Payment"
+          className="h-6"
+        />
+      ),
+      content: (
+        <div>
+          <Text size="small" tag="div" weight="semibold">
+            Adyen Payment
+          </Text>
+        </div>
+      ),
+    },
+    {
+      value: "giftcard",
+      icon: (
+        <img
+          src="https://data.commercelayer.app/assets/images/icons/credit-cards/color/giftcard.svg"
+          alt="Gift Card"
+          className="h-6"
+        />
+      ),
+      content: (
+        <div>
+          <Text size="small" tag="div" weight="semibold">
+            Gift Card
+          </Text>
+        </div>
+      ),
+    },
+    {
+      value: "Stripe",
+      icon: (
+        <img
+          src="https://data.commercelayer.app/assets/images/icons/credit-cards/color/stripe.svg"
+          alt="Stripe"
+          className="h-6"
+        />
+      ),
+      content: (
+        <div>
+          <Text size="small" tag="div" weight="semibold">
+            Stripe
+          </Text>
+        </div>
+      ),
+    },
+  ],
+}
+
 export const WithErrors = Template.bind({})
 WithErrors.args = {
   ...Default.args,

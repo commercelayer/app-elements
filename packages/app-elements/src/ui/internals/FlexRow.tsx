@@ -1,5 +1,5 @@
 import cn from "classnames"
-import { Children, type JSX, type ReactNode } from "react"
+import { Children, isValidElement, type JSX, type ReactNode } from "react"
 
 export type FlexRowAlignItems = "top" | "bottom" | "center"
 export interface FlexRowProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -30,16 +30,20 @@ function FlexRow({
       )}
       {...rest}
     >
-      {Children.map(children, (child, index) => (
-        <div
-          className={cn({
-            grow: !isLastOfMultipleChildren(index, childrenCount),
-            "text-right": isLastOfMultipleChildren(index, childrenCount),
-          })}
-        >
-          {child}
-        </div>
-      ))}
+      {Children.map(
+        children,
+        (child, index) =>
+          isValidElement(child) && (
+            <div
+              className={cn({
+                grow: !isLastOfMultipleChildren(index, childrenCount),
+                "text-right": isLastOfMultipleChildren(index, childrenCount),
+              })}
+            >
+              {child}
+            </div>
+          ),
+      )}
     </div>
   )
 }

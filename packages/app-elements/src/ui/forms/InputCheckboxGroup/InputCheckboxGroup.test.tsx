@@ -188,6 +188,30 @@ describe("InputCheckboxGroup with quantity", () => {
       { value: "BABYBIBXA19D9D000000XXXX", quantity: 5 },
     ])
   })
+
+  test("Should render the checkbox before the content by default", () => {
+    const { getAllByTestId } = render(
+      <InputCheckboxGroup options={options} onChange={() => {}} />,
+    )
+    getAllByTestId("checkbox-label").forEach((label) => {
+      const input = label.querySelector('[data-testid="checkbox-input"]')
+      expect(label.firstElementChild).toBe(input)
+    })
+  })
+
+  test("Should render the checkbox after the content when position is right", () => {
+    const { getAllByTestId } = render(
+      <InputCheckboxGroup
+        options={options}
+        onChange={() => {}}
+        checkboxPosition="right"
+      />,
+    )
+    getAllByTestId("checkbox-label").forEach((label) => {
+      const input = label.querySelector('[data-testid="checkbox-input"]')
+      expect(label.lastElementChild).toBe(input)
+    })
+  })
 })
 
 const optionsWithoutQuantity = options.map((option) => {
