@@ -27,8 +27,8 @@ importers:
         specifier: ^7.4.2
         version: 7.4.2
       '@commercelayer/sdk':
-        specifier: https://pkg.pr.new/@commercelayer/sdk@02912ef
-        version: https://pkg.pr.new/@commercelayer/sdk@02912ef
+        specifier: https://pkg.pr.new/@commercelayer/sdk@c923f75
+        version: https://pkg.pr.new/@commercelayer/sdk@c923f75
       '@date-fns/tz':
         specifier: ^1.5.0
         version: 1.5.0
@@ -1044,9 +1044,9 @@ packages:
     resolution: {integrity: sha512-ifRcoAL1R7o5AU5w4bgmSnNMEWXDc11A+yZwAAZMEkAYrrsaud1X/3xmgY1e0yIXK8AAdIiqfW/Rm/4DdWwAQA==}
     engines: {node: '>=20.0.0'}
 
-  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@02912ef':
-    resolution: {integrity: sha512-KyKUBwcmyeiiVMbTNNAAZuHaOvnkJVQobmkOPzlF/YAHvQLfZgBQECmOfiHiFM5XLqRsGHBwWftUDaHMS4hBoQ==, tarball: https://pkg.pr.new/@commercelayer/sdk@02912ef}
-    version: 8.0.0-beta.9
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@c923f75':
+    resolution: {integrity: sha512-34a6up4pJ+8aqI4U5tvpF88BiQ0B+EQ8SGZwC9LwEq9njtmLcAN6B8j2M78C3LFF+Tiq0FoT8NvhvIPWMksReQ==, tarball: https://pkg.pr.new/@commercelayer/sdk@c923f75}
+    version: 8.0.0-beta.10
     engines: {node: '>=20'}
 
   '@conventional-changelog/git-client@3.1.0':
@@ -6763,7 +6763,7 @@ snapshots:
 
   '@commercelayer/js-auth@7.4.2': {}
 
-  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@02912ef': {}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@c923f75': {}
 
   '@conventional-changelog/git-client@3.1.0(conventional-commits-filter@6.0.1)(conventional-commits-parser@7.1.0)':
     dependencies:
