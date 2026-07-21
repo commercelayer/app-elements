@@ -52,6 +52,12 @@ interface Props extends Pick<InputWrapperBaseProps, "feedback"> {
    * set a unique id for the card element, useful for testing or accessibility purposes
    **/
   cardId?: string
+  /**
+   * Position of the checkbox relative to each item's content.
+   * When `right`, the checkbox is rendered after the content.
+   * @default 'left'
+   */
+  checkboxPosition?: "left" | "right"
 }
 
 /**
@@ -72,6 +78,7 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
     isLoading,
     feedback,
     cardId,
+    checkboxPosition = "left",
   }) => {
     const [_state, dispatch] = useReducer(
       reducer,
@@ -134,6 +141,7 @@ export const InputCheckboxGroup = withSkeletonTemplate<Props>(
                 isLoading={isLoading}
                 checked={Boolean(currentItem?.isSelected)}
                 defaultQuantity={currentItem?.quantity}
+                checkboxPosition={checkboxPosition}
                 onChange={(value, newQty) => {
                   if (newQty != null) {
                     dispatch({

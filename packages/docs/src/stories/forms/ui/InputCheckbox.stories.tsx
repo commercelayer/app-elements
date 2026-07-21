@@ -133,3 +133,39 @@ export const WithCheckedElement: StoryFn<typeof InputCheckbox> = (_args) => {
     </div>
   )
 }
+
+/**
+ * By setting the `checkboxPosition` prop to `right`, the checkbox is rendered after the main content.
+ */
+
+export const CheckboxOnRight: StoryFn<typeof InputCheckbox> = (_args) => {
+  return (
+    <div style={{ height: "300px" }}>
+      <InputCheckbox checkboxPosition="right">First checkbox</InputCheckbox>
+      <InputCheckbox
+        checkboxPosition="right"
+        defaultChecked
+        checkedElement={<Input />}
+      >
+        Set a name
+      </InputCheckbox>
+      <InputCheckbox
+        checkboxPosition="right"
+        checkedElement={
+          <InputSelect
+            onSelect={() => {}}
+            hint={{ text: "Select your preferred color." }}
+            initialValues={[
+              { label: "Red", value: "red" },
+              { label: "Green", value: "green" },
+              { label: "Blue", value: "blue" },
+            ]}
+          />
+        }
+      >
+        Preferred color
+      </InputCheckbox>
+      <InputCheckbox checkboxPosition="right">Last checkbox</InputCheckbox>
+    </div>
+  )
+}

@@ -71,4 +71,20 @@ describe("InputCheckbox", () => {
     fireEvent.click(label)
     expect(input.checked).toBe(false)
   })
+
+  test("Should render the checkbox before the content by default", () => {
+    const utils = render(<InputCheckbox>Check me</InputCheckbox>)
+    const label = utils.getByTestId("checkbox-label")
+    const input = utils.getByTestId("checkbox-input")
+    expect(label.firstElementChild).toBe(input)
+  })
+
+  test("Should render the checkbox after the content when position is right", () => {
+    const utils = render(
+      <InputCheckbox checkboxPosition="right">Check me</InputCheckbox>,
+    )
+    const label = utils.getByTestId("checkbox-label")
+    const input = utils.getByTestId("checkbox-input")
+    expect(label.lastElementChild).toBe(input)
+  })
 })

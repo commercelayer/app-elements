@@ -1,3 +1,4 @@
+import cn from "classnames"
 import type { ComponentProps } from "react"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { ListItem } from "#ui/composite/ListItem"
@@ -32,7 +33,9 @@ export interface InputCheckboxGroupOption
   }
 }
 
-export interface Props extends InputCheckboxGroupOption {
+export interface Props
+  extends InputCheckboxGroupOption,
+    Pick<InputCheckboxProps, "checkboxPosition"> {
   /**
    * Callback triggered when the user checks/unchecks an option or changes the quantity.
    * New quantity is returned only if `quantity` is part of the option (`InputCheckboxGroupOption`).
@@ -59,16 +62,17 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
     hideIconOnDesktop,
     checkedElement,
     icon,
+    checkboxPosition = "left",
   }) => {
     return (
-      // Ensure the hover effect applies to the entire row, including the checkedElement section if present
-      <div className="hover:bg-gray-50">
+      // Ensure the alternating and hover backgrounds apply to the entire row, including the checkedElement section if present
+      <div className="odd:bg-gray-50 hover:bg-gray-100">
         <ListItem
           alignItems="center"
           alignIcon="center"
           borderStyle="none"
           padding="none"
-          className="rounded flex items-center gap-3 py-1.5 px-2"
+          className="rounded flex items-center gap-3 py-1.5 px-2 hover:bg-gray-100"
           onClick={() => {
             onChange(value)
           }}
@@ -79,6 +83,7 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
             checked={checked}
             icon={icon}
             hideIconOnDesktop={hideIconOnDesktop}
+            checkboxPosition={checkboxPosition}
             onChange={() => {
               onChange(value)
             }}
@@ -109,7 +114,14 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
           )}
         </ListItem>
         {checkedElement != null && checked && (
-          <div className="pb-4 pr-3 pl-11">{checkedElement}</div>
+          <div
+            className={cn("pb-4", {
+              "pr-3 pl-11": checkboxPosition === "left",
+              "pl-3 pr-11": checkboxPosition === "right",
+            })}
+          >
+            {checkedElement}
+          </div>
         )}
       </div>
     )
