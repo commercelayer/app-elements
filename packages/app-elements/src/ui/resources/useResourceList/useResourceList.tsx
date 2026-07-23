@@ -1,7 +1,6 @@
 import {
   CommerceLayerStatic,
   type ListableResourceType,
-  type ListMeta,
   type QueryParamsList,
   type ResourceFields,
 } from "@commercelayer/sdk"
@@ -31,7 +30,7 @@ import { Table, Th, Tr } from "#ui/atoms/Table"
 import type { ThProps } from "#ui/atoms/Table/Th"
 import { Text } from "#ui/atoms/Text"
 import { InputFeedback } from "#ui/forms/InputFeedback"
-import { listFetcher, type Resource } from "./listFetcher"
+import { type FetcherResponse, listFetcher, type Resource } from "./listFetcher"
 import { useMetricsSdkProvider } from "./metricsApiClient"
 import { PaginationInfo } from "./PaginationInfo"
 import { initialState, reducer } from "./reducer"
@@ -146,7 +145,7 @@ interface UseResourceListReturn<TResource extends ListableResourceType> {
   /** The array of resources to display. When `preProcess` is provided, this is the processed result; otherwise it is the raw fetched data, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
   list?: Array<Resource<TResource>>
   /** Metadata related to pagination, as returned by the SDK */
-  meta?: ListMeta
+  meta?: FetcherResponse<Resource<TResource>>["meta"]
   /** Indicates whether the list is currently loading the next page */
   isLoading: boolean
   /** Indicates whether the list is loading for the first time (initial page load) */

@@ -85,7 +85,10 @@ export async function listFetcher<TResource extends ListableResourceType>({
     mode === "pagination"
       ? [...listResponse]
       : uniqBy(existingList.concat(listResponse), "id")
-  const meta = listResponse.meta
+  // The core SDK's `meta.cursor` is an object we don't use here; keep only the
+  // string cursor set by the metrics client for infinite scrolling.
+  const { cursor, ...rest } = listResponse.meta
+  const meta = { ...rest, cursor: typeof cursor === "string" ? cursor : null }
 
   return { list: uniqueList, meta }
 }
