@@ -30,7 +30,9 @@ type ListResponseWithoutMeta<ResourceType extends MetricsResources> = Omit<
   ListResponse<Resource<ResourceType>>,
   "meta"
 >
-type ListMetaWithCursor = Writable<ListMeta> & {
+// The metrics API paginates with a string `cursor`, which shadows the
+// object-shaped `cursor` the core SDK's `ListMeta` now exposes.
+type ListMetaWithCursor = Omit<Writable<ListMeta>, "cursor"> & {
   cursor: string | null
 }
 type ListResponseMetrics<ResourceType extends MetricsResources> =
