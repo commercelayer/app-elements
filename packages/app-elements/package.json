@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@commercelayer/js-auth": "^7.4.2",
-    "@commercelayer/sdk": "https://pkg.pr.new/@commercelayer/sdk@c923f75",
+    "@commercelayer/sdk": "https://pkg.pr.new/@commercelayer/sdk@1eb5123",
     "@date-fns/tz": "^1.5.0",
     "@monaco-editor/react": "~4.7.0",
     "@tanstack/react-table": "^9.0.0",
