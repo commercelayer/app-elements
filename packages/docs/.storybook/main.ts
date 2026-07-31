@@ -1,8 +1,16 @@
+// This file has been automatically migrated to valid ESM format by Storybook.
+
+import { createRequire } from "node:module"
 import { dirname, join, resolve } from "node:path"
+import { fileURLToPath } from "node:url"
 import type { StorybookConfig } from "@storybook/react-vite"
 import remarkGfm from "remark-gfm"
 import { mergeConfig, type UserConfig } from "vite"
 import tsconfigPaths from "vite-tsconfig-paths"
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = dirname(__filename)
+const require = createRequire(import.meta.url)
 
 const viteOverrides: UserConfig = {
   base: process.env.VITE_BASE_URL,

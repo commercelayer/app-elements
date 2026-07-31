@@ -27,12 +27,12 @@ export const parameters: Parameters = {
     },
   },
   backgrounds: {
-    values: [
-      {
+    options: {
+      overlay: {
         name: "overlay",
         value: "#F8F8F8",
       },
-    ],
+    },
   },
   options: {
     storySort: {
