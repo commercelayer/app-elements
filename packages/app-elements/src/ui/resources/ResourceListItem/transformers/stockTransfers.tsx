@@ -1,6 +1,7 @@
 import type { StockTransfer } from "@commercelayer/sdk"
 import { getStockTransferDisplayStatus } from "#dictionaries/stockTransfers"
 import { formatDate } from "#helpers/date"
+import { RadialProgress } from "#ui/atoms/RadialProgress"
 import {
   ListItemDescription,
   ListItemIcon,
@@ -38,8 +39,11 @@ export const stockTransferToProps: ResourceToProps<StockTransfer> = ({
         additionalInfos={`${originStockLocationName} · ${destinationStockLocationName}`}
       />
     ),
-    icon: (
-      <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
-    ),
+    icon:
+      resource.status === "upcoming" ? (
+        <RadialProgress icon={displayStatus.icon} />
+      ) : (
+        <ListItemIcon icon={displayStatus.icon} color={displayStatus.color} />
+      ),
   }
 }

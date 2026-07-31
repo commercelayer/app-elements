@@ -17,9 +17,8 @@ export function getStockTransferDisplayStatus(
     case "upcoming":
       return {
         label: t("resources.stock_transfers.attributes.status.upcoming"),
-        icon: "arrowUpRight",
-        color: "orange",
-        task: t("resources.stock_transfers.attributes.status.upcoming"),
+        icon: "arrowsLeftRight",
+        color: "white",
       }
 
     case "on_hold":
