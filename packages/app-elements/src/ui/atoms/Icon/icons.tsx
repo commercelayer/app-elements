@@ -70,6 +70,7 @@ export const iconMapping = {
   githubLogo: phosphor.GithubLogoIcon,
   globe: phosphor.GlobeIcon,
   globeSimple: phosphor.GlobeSimpleIcon,
+  globeHemisphereWest: phosphor.GlobeHemisphereWestIcon,
   googleLogo: phosphor.GoogleLogoIcon,
   hourglass: phosphor.HourglassIcon,
   houseSimple: phosphor.HouseSimpleIcon,
