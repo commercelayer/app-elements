@@ -1,7 +1,7 @@
 import { BoxIcon } from "@storybook/icons"
 // biome-ignore lint/correctness/noUnusedImports: React is used in the render method
 import React, { useCallback, useEffect } from "react"
-import { IconButton } from "storybook/internal/components"
+import { ToggleButton } from "storybook/internal/components"
 import { useGlobals, useStorybookApi } from "storybook/manager-api"
 import { ADDON_ID, ADDON_NAME, PARAM_KEY, TOOL_ID } from "./constants"
 
@@ -29,13 +29,14 @@ export const Tool = () => {
   }, [toggleContainer, api])
 
   return (
-    <IconButton
+    <ToggleButton
       key={TOOL_ID}
       active={active}
+      pressed={active}
       title={ADDON_NAME}
       onClick={toggleContainer}
     >
       <BoxIcon />
-    </IconButton>
+    </ToggleButton>
   )
 }
