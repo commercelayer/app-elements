@@ -10,13 +10,6 @@ beforeAll(() => {
         return
       }
 
-      if (
-        url.href ===
-        "https://core.commercelayer.io/api/public/schemas/order_rules"
-      ) {
-        return
-      }
-
       // Otherwise, print a warning for any unhandled request.
       print.error()
     },
