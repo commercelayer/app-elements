@@ -7,3 +7,5 @@ allowBuilds:
   nx: true
 minimumReleaseAgeExclude:
   - '@commercelayer/sdk'
+  - '@tanstack/react-table'
+  - '@tanstack/table-core@9.0.0'

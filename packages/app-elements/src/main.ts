@@ -430,4 +430,12 @@ export {
   type UseResourceListConfig,
   useResourceList,
 } from "#ui/resources/useResourceList"
+export {
+  type ResourceTableColumn,
+  type ResourceTableProps,
+  type ResourceTableSort,
+  type UseResourceTableConfig,
+  type UseResourceTableReturn,
+  useResourceTable,
+} from "#ui/resources/useResourceTable"
 export { useTrackingDetails } from "#ui/resources/useTrackingDetails"

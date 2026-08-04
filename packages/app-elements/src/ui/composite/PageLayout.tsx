@@ -12,7 +12,7 @@ export type PageLayoutProps = Pick<
   PageHeadingProps,
   "title" | "description" | "navigationButton" | "toolbar" | "gap"
 > &
-  Pick<ContainerProps, "minHeight"> & {
+  Pick<ContainerProps, "minHeight" | "fullWidth"> & {
     /**
      * Page content
      */
@@ -52,6 +52,7 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     mode,
     gap,
     minHeight,
+    fullWidth,
     scrollToTop,
     overlay = false,
     isLoading,
@@ -98,7 +99,14 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     }
 
     return (
-      <Container minHeight={minHeight} {...rest}>
+      <Container
+        minHeight={minHeight}
+        fullWidth={fullWidth}
+        // Inside the dashboard the horizontal breathing room comes from the
+        // dashboard layout; standalone there is nothing else to provide it.
+        className={fullWidth === true && !isInDashboard ? "md:px-8" : undefined}
+        {...rest}
+      >
         <Spacer bottom="14">{component}</Spacer>
       </Container>
     )

@@ -124,7 +124,9 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
   preProcess?: (list: Array<Resource<TResource>>) => Array<Resource<TResource>>
   /**
    * Pagination type: 'infinite' for infinite scrolling (default), 'pagination' for classic prev/next pagination.
-   * Note: 'pagination' mode is only supported for Core API (not Metrics API).
+   * Works with both the Core API and the Metrics API. Since the Metrics API is
+   * cursor-based, prev/next works by remembering the cursor that opens each
+   * visited page; arbitrary page jumps are not possible there.
    */
   paginationType?: "infinite" | "pagination"
   /**
@@ -216,18 +218,25 @@ export function useResourceList<TResource extends ListableResourceType>({
   )
   const [currentPage, setCurrentPage] = React.useState(1)
   const listRef = React.useRef<HTMLDivElement>(null)
+  /**
+   * Metrics API + `pagination` mode only: the cursor that opens each page.
+   * Index 0 is page 1 (no cursor); after loading page N we learn the cursor for
+   * page N+1. The metrics API can only move forward, so remembering the cursors
+   * we have seen is what makes "previous page" possible.
+   */
+  const metricsCursorsRef = React.useRef<Array<string | null>>([null])
 
-  // Validate that pagination mode is not used with metrics API
-  if (paginationType === "pagination" && metricsQuery != null) {
-    throw new Error(
-      "Pagination mode is not supported with Metrics API. Please use infinite scrolling (default) or switch to Core API.",
-    )
-  }
+  const resetMetricsCursors = useCallback(() => {
+    metricsCursorsRef.current = [null]
+  }, [])
 
+  // Both queries are watched: for metrics-backed lists `metricsQuery` is the one
+  // that actually drives the request (deep-compared, so inline objects are safe).
   const isQueryChanged = useIsChanged({
-    value: query,
+    value: { query, metricsQuery },
     onChange: () => {
       setCurrentPage(1)
+      resetMetricsCursors()
       dispatch({ type: "reset" })
       void fetchMore({ query, pageNumber: 1 })
     },
@@ -249,6 +258,13 @@ export function useResourceList<TResource extends ListableResourceType>({
           resourceType: type,
           mode: paginationType,
           pageNumber,
+          // metrics pagination: hand over the cursor that opens the requested page
+          cursor:
+            metricsQuery != null &&
+            paginationType === "pagination" &&
+            pageNumber != null
+              ? (metricsCursorsRef.current[pageNumber - 1] ?? null)
+              : undefined,
           ...(metricsQuery != null
             ? {
                 clientType: "metricsClient",
@@ -261,6 +277,16 @@ export function useResourceList<TResource extends ListableResourceType>({
                 query,
               }),
         })
+        // remember the cursor that will open the *next* page, so it can be
+        // revisited (forwards or backwards) without refetching from page 1
+        if (
+          metricsQuery != null &&
+          paginationType === "pagination" &&
+          pageNumber != null
+        ) {
+          metricsCursorsRef.current[pageNumber] =
+            listResponse.meta.cursor ?? null
+        }
         dispatch({ type: "loaded", payload: listResponse })
       } catch (err) {
         dispatch({ type: "error", payload: parseApiErrorMessage(err) })
@@ -315,12 +341,13 @@ export function useResourceList<TResource extends ListableResourceType>({
 
   const refresh = useCallback(() => {
     setCurrentPage(1)
+    resetMetricsCursors()
     dispatch({ type: "reset" })
     void fetchMore({
       query,
       pageNumber: paginationType === "pagination" ? 1 : undefined,
     })
-  }, [query, paginationType, fetchMore])
+  }, [query, paginationType, fetchMore, resetMetricsCursors])
 
   const handlePageChange = useCallback(
     (newPage: number) => {

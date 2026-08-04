@@ -11,6 +11,11 @@ import type {
   ResourceListProps,
   UseResourceListReturnWithPagination,
 } from "#ui/resources/useResourceList/useResourceList"
+import { useResourceTable } from "#ui/resources/useResourceTable"
+import type {
+  ResourceTableProps,
+  UseResourceTableConfig,
+} from "#ui/resources/useResourceTable/types"
 import { makeFilterAdapters } from "./adapters"
 import {
   FiltersForm as FiltersFormComponent,
@@ -94,6 +99,28 @@ interface UseResourceFiltersHook {
       },
   ) => React.ReactNode
   /**
+   * Filtered ResourceTable component based on current active filters.
+   * Table sibling of `FilteredList`: renders a column-model data table wired
+   * to the active search/filters and pagination.
+   */
+  FilteredTable: <TResource extends ListableResourceType>(
+    props: Omit<UseResourceTableConfig<TResource>, "query" | "metricsQuery"> &
+      ResourceTableProps & {
+        query?: Omit<
+          NonNullable<UseResourceTableConfig<TResource>["query"]>,
+          "filters"
+        >
+        metricsQuery?: Omit<
+          NonNullable<UseResourceTableConfig<TResource>["metricsQuery"]>,
+          "filter"
+        > & {
+          /** Filters need to be configured within the `useResourceFilters` options. */
+          filter?: never
+        }
+        hideTitle?: boolean
+      },
+  ) => React.ReactNode
+  /**
    * SDK filters object to be used in the sdk query
    */
   sdkFilters: QueryFilter | undefined
@@ -148,6 +175,11 @@ export function useResourceFilters({
     [sdkFilters],
   )
 
+  const FilteredTable = useMemo(
+    () => makeFilteredTable({ sdkFilters, adapters }),
+    [sdkFilters],
+  )
+
   const SearchWithNav = useMemo(() => {
     return makeSearchWithNav({
       validInstructions,
@@ -187,6 +219,7 @@ export function useResourceFilters({
     SearchWithNav,
     FiltersForm,
     FilteredList,
+    FilteredTable,
     viewTitle,
   }
 }
@@ -246,6 +279,83 @@ const makeFilteredList: (options: {
           hideTitle === true
             ? undefined
             : (resourceListProps.title ?? t("common.all"))
+        }
+        query={{
+          ...query,
+          filters: sdkFilters,
+        }}
+        metricsQuery={
+          metricsQuery == null
+            ? undefined
+            : {
+                ...metricsQuery,
+                filter: adapters.adaptSdkToMetrics({
+                  sdkFilters,
+                  resourceType: type,
+                }),
+              }
+        }
+      />
+    )
+  }
+
+// internal implementation of the ResourceTable component exposed from the useResourceTable hook
+function ResourceTableComponent<TResource extends ListableResourceType>({
+  type,
+  columns,
+  query,
+  metricsQuery,
+  preProcess,
+  paginationType = "pagination",
+  paginationScrollTo,
+  onRowClick,
+  getRowHref,
+  sort,
+  onSortChange,
+  defaultSort,
+  ...tableProps
+}: UseResourceTableConfig<TResource> & ResourceTableProps): JSX.Element {
+  const { ResourceTable, Pagination } = useResourceTable<TResource>({
+    type,
+    columns,
+    query,
+    metricsQuery,
+    preProcess,
+    paginationType,
+    paginationScrollTo,
+    onRowClick,
+    getRowHref,
+    sort,
+    onSortChange,
+    defaultSort,
+  })
+
+  return (
+    <>
+      <ResourceTable {...tableProps} />
+      <Pagination />
+    </>
+  )
+}
+
+const makeFilteredTable: (options: {
+  sdkFilters: QueryFilter | undefined
+  adapters: ReturnType<typeof makeFilterAdapters>
+}) => UseResourceFiltersHook["FilteredTable"] =
+  ({ sdkFilters, adapters }) =>
+  ({ type, query, metricsQuery, hideTitle, ...tableProps }) => {
+    const { t } = useTranslation()
+
+    if (sdkFilters == null) {
+      return null
+    }
+
+    return (
+      <ResourceTableComponent
+        {...tableProps}
+        type={type}
+        title={
+          hideTitle === true ? undefined : (tableProps.title ?? t("common.all"))
         }
         query={{
           ...query,

@@ -37,11 +37,18 @@ export async function listFetcher<TResource extends ListableResourceType>({
   query,
   mode = "infinite",
   pageNumber,
+  cursor,
 }: {
   currentData?: FetcherResponse<Resource<TResource>>
   resourceType: TResource
   mode?: "infinite" | "pagination"
   pageNumber?: number
+  /**
+   * Metrics API only: the cursor that opens the requested page. Used in
+   * `pagination` mode, where the caller keeps track of one cursor per page
+   * (the metrics API can only move forward on its own).
+   */
+  cursor?: string | null
 } & (
   | {
       client: CommerceLayerBundle
@@ -68,7 +75,13 @@ export async function listFetcher<TResource extends ListableResourceType>({
           ...query,
           search: {
             ...query.search,
-            cursor: currentData?.meta.cursor ?? null,
+            // in pagination mode the caller owns the cursor (it can jump back to
+            // an already-visited page); in infinite mode we just keep going
+            // forward from the last response
+            cursor:
+              mode === "pagination"
+                ? (cursor ?? null)
+                : (currentData?.meta.cursor ?? null),
           },
         })
       : // @ts-expect-error "Expression produces a union type that is too complex to represent"
@@ -87,8 +100,24 @@ export async function listFetcher<TResource extends ListableResourceType>({
       : uniqBy(existingList.concat(listResponse), "id")
   // The core SDK's `meta.cursor` is an object we don't use here; keep only the
   // string cursor set by the metrics client for infinite scrolling.
-  const { cursor, ...rest } = listResponse.meta
-  const meta = { ...rest, cursor: typeof cursor === "string" ? cursor : null }
+  const { cursor: responseCursor, ...rest } = listResponse.meta
+  const meta = {
+    ...rest,
+    cursor: typeof responseCursor === "string" ? responseCursor : null,
+  }
+
+  // The metrics API reports neither the current page nor a total page count
+  // (its `pageCount` is only a "has more" flag). In pagination mode the caller
+  // drives the page number, so derive honest values from the real `recordCount`.
+  // Infinite mode is left untouched: there `pageCount`/`currentPage` are what
+  // `hasMorePages` is computed from.
+  if (clientType === "metricsClient" && mode === "pagination") {
+    meta.currentPage = pageToFetch
+    meta.pageCount =
+      meta.recordsPerPage > 0
+        ? Math.max(1, Math.ceil(meta.recordCount / meta.recordsPerPage))
+        : 1
+  }
 
   return { list: uniqueList, meta }
 }

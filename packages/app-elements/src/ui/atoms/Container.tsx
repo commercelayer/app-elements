@@ -6,6 +6,16 @@ export interface ContainerProps {
    */
   minHeight?: boolean
   /**
+   * Let the content span all the available width instead of being constrained
+   * to the standard readable column (632px from the `md` breakpoint up).
+   *
+   * Use it for data-dense pages such as tables. When the app runs inside the
+   * dashboard, the horizontal breathing room comes from the dashboard layout,
+   * which also needs to render the route without the legacy side column.
+   * @default false
+   */
+  fullWidth?: boolean
+  /**
    * CSS class name
    */
   className?: string
@@ -20,6 +30,7 @@ export const Container: React.FC<ContainerProps> = ({
   children,
   className,
   minHeight = true,
+  fullWidth = false,
   ...rest
 }) => {
   return (
@@ -27,6 +38,9 @@ export const Container: React.FC<ContainerProps> = ({
       className={cn(
         "container mx-auto flex flex-col px-4 md:px-0",
         { "min-h-screen": minHeight },
+        // `md:max-w-none` opts out of the capped width set by the `container`
+        // utility (see styles/global.css)
+        { "w-full md:max-w-none": fullWidth },
         className,
       )}
       {...rest}
