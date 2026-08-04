@@ -429,7 +429,7 @@ const en = {
     "order.country_code": "country code",
     "order.currency_code": "currency code",
     "order.customer_email": "customer email",
-    "order.customer.customer_group.id": "customer group id",
+    "order.customer.customer_group.id": "customer group",
     "order.customer.customer_group.name": "customer group name",
     "order.customer.email": "customer email",
     "order.customer.tags.id": "customer tag",
