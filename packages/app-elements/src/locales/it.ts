@@ -441,7 +441,7 @@ const it: typeof en = {
     "order.currency_code": "valuta (3 lettere)",
     "order.customer_email": "email del customer",
     "order.customer.email": "email del customer",
-    "order.customer.customer_group.id": "id del customer group",
+    "order.customer.customer_group.id": "customer group",
     "order.customer.customer_group.name": "nome del customer group",
     "order.customer.tags.id": "customer tag",
     "order.customer.tags.name": "nome del customer tag",
