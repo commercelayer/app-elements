@@ -1,6 +1,14 @@
 import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk"
-import { type JSX, useCallback, useEffect, useMemo, useState } from "react"
+import {
+  type JSX,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { useTranslation } from "react-i18next"
+import { useOverlay } from "#hooks/useOverlay"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Spacer } from "#ui/atoms/Spacer"
 import type { SearchBarProps } from "#ui/composite/SearchBar"
@@ -18,6 +26,8 @@ import type {
   UseResourceTableConfig,
 } from "#ui/resources/useResourceTable/types"
 import { makeFilterAdapters } from "./adapters"
+import { FiltersBar, type FiltersBarProps } from "./FiltersBar"
+import { FiltersDrawer, type FiltersDrawerProps } from "./FiltersDrawer"
 import {
   FiltersForm as FiltersFormComponent,
   type FiltersFormProps,
@@ -53,7 +63,33 @@ interface UseResourceFiltersHook {
    */
   adapters: ReturnType<typeof makeFilterAdapters>
   /**
+   * Search bar with the filters button on the right and the applied filters
+   * rendered as removable pills below.
+   *
+   * Clicking the filters button opens the drawer rendered by `FiltersDrawer`,
+   * unless an `onFilterClick` prop is provided.
+   *
+   * @example
+   * ```jsx
+   * const { FiltersBar, FiltersDrawer, FilteredTable } = useResourceFilters({ instructions })
+   *
+   * <FiltersBar queryString={queryString} onUpdate={onUpdate} />
+   * <FilteredTable type='orders' columns={columns} />
+   * <FiltersDrawer onUpdate={onUpdate} />
+   * ```
+   */
+  FiltersBar: (props: FiltersBarProps) => React.ReactNode
+  /**
+   * Side drawer with the filters form, opened by the `FiltersBar` filters button.
+   * Render it once per page as a sibling of `FiltersBar`.
+   */
+  FiltersDrawer: (props: FiltersDrawerProps) => React.ReactNode
+  /**
    * Search bar component with filters navigation buttons
+   *
+   * @deprecated Use `FiltersBar` together with `FiltersDrawer` instead, they
+   * render the search bar and the filters as pills in the style used by the
+   * dashboard. This component will be removed in a future major release.
    */
   SearchWithNav: (
     props: Pick<FiltersNavProps, "onFilterClick" | "queryString"> & {
@@ -193,6 +229,52 @@ export function useResourceFilters({
     })
   }, [JSON.stringify(validInstructions)])
 
+  const {
+    Overlay: FiltersOverlay,
+    open: openFiltersDrawer,
+    close: closeFiltersDrawer,
+  } = useOverlay()
+
+  const FiltersBarComponent = useMemo(
+    () =>
+      makeFiltersBar({
+        validInstructions,
+        predicateWhitelist,
+        openDrawer: openFiltersDrawer,
+      }),
+    [JSON.stringify(validInstructions), openFiltersDrawer],
+  )
+
+  // The overlay component identity flips when the drawer opens and `queryString`
+  // changes on every navigation. Reading them from a ref keeps the returned
+  // component identity stable, so the drawer content is never remounted while in
+  // use, which would discard what the user is filling in.
+  const drawerPropsRef = useRef({
+    Overlay: FiltersOverlay,
+    close: closeFiltersDrawer,
+    queryString,
+  })
+  drawerPropsRef.current = {
+    Overlay: FiltersOverlay,
+    close: closeFiltersDrawer,
+    queryString,
+  }
+
+  const FiltersDrawerComponent: UseResourceFiltersHook["FiltersDrawer"] =
+    useCallback(
+      (props): JSX.Element => (
+        <FiltersDrawer
+          {...props}
+          instructions={validInstructions}
+          predicateWhitelist={predicateWhitelist}
+          Overlay={drawerPropsRef.current.Overlay}
+          close={drawerPropsRef.current.close}
+          queryString={drawerPropsRef.current.queryString}
+        />
+      ),
+      [JSON.stringify(validInstructions)],
+    )
+
   const FiltersForm: UseResourceFiltersHook["FiltersForm"] = useCallback(
     ({ onSubmit }): JSX.Element => {
       return (
@@ -222,6 +304,8 @@ export function useResourceFilters({
     adapters,
     sdkFilters,
     hasActiveFilter,
+    FiltersBar: FiltersBarComponent,
+    FiltersDrawer: FiltersDrawerComponent,
     SearchWithNav,
     FiltersForm,
     FilteredList,
@@ -229,6 +313,21 @@ export function useResourceFilters({
     viewTitle,
   }
 }
+
+const makeFiltersBar: (options: {
+  validInstructions: FiltersInstructions
+  predicateWhitelist: string[]
+  openDrawer: () => void
+}) => UseResourceFiltersHook["FiltersBar"] =
+  ({ validInstructions, predicateWhitelist, openDrawer }) =>
+  (props) => (
+    <FiltersBar
+      {...props}
+      instructions={validInstructions}
+      predicateWhitelist={predicateWhitelist}
+      openDrawer={openDrawer}
+    />
+  )
 
 // internal implementation of the ResourceList component exposed from the useResourceList hook
 function ResourceListComponent<TResource extends ListableResourceType>({
