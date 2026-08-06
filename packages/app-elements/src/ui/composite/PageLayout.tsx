@@ -1,3 +1,4 @@
+import cn from "classnames"
 import type { ReactNode } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
 import type { ContainerProps } from "#ui/atoms/Container"
@@ -17,6 +18,51 @@ export type PageLayoutProps = Pick<
      * Page content
      */
     children: ReactNode
+    /**
+     * Secondary content, rendered in a column beside `children` on large screens
+     * and stacked below it on smaller ones.
+     *
+     * Meant for details pages, where the supporting information of a resource
+     * (customer, addresses, tags, metadata, …) sits next to its main content.
+     * Only the structure is provided: wrap the content in a `Card` with a
+     * `Section` per block to get the look used by the dashboard.
+     *
+     * Best paired with `fullWidth`, since the default content width leaves too
+     * little room for two columns.
+     *
+     * @example
+     * ```jsx
+     * <PageLayout
+     *   title='Order #1234'
+     *   fullWidth
+     *   sidebar={
+     *     <Card>
+     *       <Section title='Customer'>...</Section>
+     *       <Section title='Addresses'>...</Section>
+     *     </Card>
+     *   }
+     * >
+     *   <OrderSummary />
+     * </PageLayout>
+     * ```
+     */
+    sidebar?: ReactNode
+    /**
+     * Tail of the main content, rendered below `children` on large screens and
+     * below the `sidebar` once the layout collapses to a single column.
+     *
+     * Use it for sections that should stay last no matter the width, such as a
+     * timeline: `children` and `sidebar` alone would push the sidebar to the very
+     * bottom of the page when stacked.
+     *
+     * @example
+     * ```jsx
+     * <PageLayout sidebar={<Card>…</Card>} afterSidebar={<Timeline />}>
+     *   <OrderSummary />
+     * </PageLayout>
+     * ```
+     */
+    afterSidebar?: ReactNode
     /**
      * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
      * Only if app is standalone mode.
@@ -48,6 +94,8 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     description,
     navigationButton,
     children,
+    sidebar,
+    afterSidebar,
     toolbar,
     mode,
     gap,
@@ -65,6 +113,11 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
 
     const { overlayFooter, ...rest } =
       "overlayFooter" in props ? props : { ...props, overlayFooter: undefined }
+
+    // `false` is what a `condition && <Section />` prop evaluates to, which is
+    // common while a resource is still loading: treat it as no content, so no
+    // empty grid row is created.
+    const hasAfterSidebar = afterSidebar != null && afterSidebar !== false
 
     const component = (
       <>
@@ -85,7 +138,36 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           isLoading={isLoading}
           delayMs={delayMs}
         />
-        {children}
+        {sidebar == null ? (
+          <>
+            {children}
+            {afterSidebar}
+          </>
+        ) : (
+          // A grid rather than two flex columns, so that `afterSidebar` can be
+          // placed under `children` on the left while the sidebar keeps its own
+          // column: stacked, the natural source order then reads
+          // children → sidebar → afterSidebar.
+          // `min-w-0` stops wide content (tables, code blocks) in the main column
+          // from pushing the sidebar out of the viewport.
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-8 print:block">
+            <div className="min-w-0 lg:col-start-1 lg:row-start-1">
+              {children}
+            </div>
+            <aside
+              className={cn("self-start lg:col-start-2 lg:row-start-1", {
+                "lg:row-span-2": hasAfterSidebar,
+              })}
+            >
+              {sidebar}
+            </aside>
+            {hasAfterSidebar && (
+              <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+                {afterSidebar}
+              </div>
+            )}
+          </div>
+        )}
         {scrollToTop === true && <ScrollToTop />}
       </>
     )
