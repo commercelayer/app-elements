@@ -3,6 +3,7 @@ import { type JSX, useCallback, useEffect, useMemo, useState } from "react"
 import { useTranslation } from "react-i18next"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Spacer } from "#ui/atoms/Spacer"
+import type { SearchBarProps } from "#ui/composite/SearchBar"
 import {
   type UseResourceListConfig,
   useResourceList,
@@ -67,6 +68,11 @@ interface UseResourceFiltersHook {
        * @default 'Search...'
        */
       searchBarPlaceholder?: string
+      /**
+       * Visual variant of the search bar. Use `outline` to match the style used
+       * in the dashboard (metrics) pages.
+       */
+      searchBarVariant?: SearchBarProps["variant"]
       /**
        * Milliseconds to wait before triggering the search bar callback
        * @default 500
@@ -386,6 +392,7 @@ const makeSearchWithNav: (_options: {
     onUpdate,
     searchBarPlaceholder,
     searchBarDebounceMs,
+    searchBarVariant,
     hideSearchBar,
     hideFiltersNav,
     // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
@@ -406,6 +413,7 @@ const makeSearchWithNav: (_options: {
               queryString={queryStringProp}
               placeholder={searchBarPlaceholder ?? t("common.search")}
               debounceMs={searchBarDebounceMs}
+              variant={searchBarVariant}
               instructions={validInstructions}
               onUpdate={onUpdate}
               predicateWhitelist={predicateWhitelist}
