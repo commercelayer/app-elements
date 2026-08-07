@@ -229,13 +229,14 @@ export interface PillFilter {
    */
   value?: string
   /**
-   * Set for `inputResourceGroup` filters with a single selected value, whose
-   * label lives on the resource itself and has to be retrieved.
+   * Set for filters backed by a resource (`inputResourceGroup`, `inputSelect`),
+   * whose labels live on the resources themselves and have to be retrieved.
    */
   fetch?: {
     resource: ListableResourceType
-    id: string
+    ids: string[]
     fieldForLabel: string
+    fieldForValue: string
   }
   /** Which reset strategy the remove button has to apply. */
   kind: "group" | "timeRange"
@@ -315,11 +316,12 @@ export function getPillFilters({
 
     const arrValue = castArray(value)
 
-    // the label of a single selected resource has to be retrieved
+    // These are backed by a resource, so the options carry no labels: they have
+    // to be retrieved, otherwise the pill would show raw ids.
     if (
-      instructionItem.render.component === "inputResourceGroup" &&
-      arrValue[0] !== undefined &&
-      arrValue.length === 1
+      (instructionItem.render.component === "inputResourceGroup" ||
+        instructionItem.render.component === "inputSelect") &&
+      arrValue.length > 0
     ) {
       pills.push({
         id: filterPredicate,
@@ -327,8 +329,9 @@ export function getPillFilters({
         kind: "group",
         fetch: {
           resource: instructionItem.render.props.resource,
-          id: arrValue[0],
+          ids: arrValue,
           fieldForLabel: instructionItem.render.props.fieldForLabel,
+          fieldForValue: instructionItem.render.props.fieldForValue,
         },
       })
       continue

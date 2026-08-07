@@ -62,7 +62,7 @@ describe("getPillFilters", () => {
     expect(pills.map((pill) => pill.id)).toEqual(["payment_status_eq"])
   })
 
-  test("defers the label of a single selected resource to a fetch", () => {
+  test("defers the labels of selected resources to a fetch", () => {
     const [pill] = getPillFilters({
       ...baseArgs,
       queryString: "market_id_in=dLbQmsNqrX",
@@ -71,9 +71,20 @@ describe("getPillFilters", () => {
     expect(pill?.value).toBeUndefined()
     expect(pill?.fetch).toEqual({
       resource: "markets",
-      id: "dLbQmsNqrX",
+      ids: ["dLbQmsNqrX"],
       fieldForLabel: "name",
+      fieldForValue: "id",
     })
+  })
+
+  test("defers every selected resource, not just a single one", () => {
+    // showing raw ids would be the alternative, as it did before
+    const [pill] = getPillFilters({
+      ...baseArgs,
+      queryString: "market_id_in=dLbQmsNqrX&market_id_in=NgojhKoyYN",
+    })
+
+    expect(pill?.fetch?.ids).toEqual(["dLbQmsNqrX", "NgojhKoyYN"])
   })
 
   test("renders a time range preset as a single pill", () => {

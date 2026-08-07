@@ -185,8 +185,9 @@ export function FiltersBar({
                 key={pill.id}
                 label={pill.label}
                 resource={pill.fetch.resource}
-                id={pill.fetch.id}
+                ids={pill.fetch.ids}
                 fieldForLabel={pill.fetch.fieldForLabel}
+                fieldForValue={pill.fetch.fieldForValue}
                 onRemoveRequest={() => {
                   removePill(pill)
                 }}
@@ -222,40 +223,54 @@ export function FiltersBar({
 FiltersBar.displayName = "FiltersBar"
 
 /**
- * Pill for a single selected resource, whose label has to be retrieved since it
- * lives on the resource itself.
+ * Pill for a filter backed by a resource: the labels of the selected values live
+ * on the resources themselves, so they are retrieved in a single request and
+ * joined. Falls back to the raw ids while loading or when a value no longer
+ * resolves (e.g. a deleted record).
  */
 function ResourcePill({
   label,
   resource,
-  id,
+  ids,
   fieldForLabel,
+  fieldForValue,
   onRemoveRequest,
 }: {
   label: string
   resource: ListableResourceType
-  id: string
+  ids: string[]
   fieldForLabel: string
+  fieldForValue: string
   onRemoveRequest: () => void
 }): JSX.Element {
-  const { data, isLoading } = useCoreApi(resource, "retrieve", [
-    id,
-    {
-      fields: { [resource]: [fieldForLabel] },
-    },
-  ])
+  const { data, isLoading } = useCoreApi(
+    resource,
+    "list",
+    [
+      {
+        fields: { [resource]: [fieldForValue, fieldForLabel] },
+        pageSize: 25,
+        filters: { [`${fieldForValue}_in`]: ids.join(",") },
+      },
+    ],
+    { revalidateOnFocus: false },
+  )
 
-  const value =
-    data != null
-      ? fieldForLabel in data && data[fieldForLabel as keyof typeof data]
-      : undefined
+  const labelsById = new Map(
+    (data ?? []).map((item) => {
+      const record = item as unknown as Record<string, unknown>
+      return [String(record[fieldForValue]), String(record[fieldForLabel])]
+    }),
+  )
+
+  const value = ids.map((id) => labelsById.get(id) ?? id).join(", ")
 
   return (
     <SkeletonTemplate isLoading={isLoading} delayMs={0}>
       <ButtonFilter
         variant="pill"
         label={label}
-        value={typeof value === "string" ? value : id}
+        value={value}
         onRemoveRequest={onRemoveRequest}
       />
     </SkeletonTemplate>
