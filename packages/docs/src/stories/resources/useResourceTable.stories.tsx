@@ -363,7 +363,7 @@ export const FromMetricsApi: StoryFn = () => {
     metricsQuery: {
       search: {
         limit: 10,
-        fields: ["order.*", "billing_address.*", "market.*"],
+        fields: ["order.*", "billing_address.*", "market.*", "customer.*"],
       },
     },
     defaultSort: "-order.placed_at",
@@ -395,10 +395,11 @@ export const FromMetricsApi: StoryFn = () => {
               {formatDisplayName(
                 resource.billing_address?.first_name ?? "",
                 resource.billing_address?.last_name ?? "",
-              )}
+              )}{" "}
+              ({resource.billing_address?.country_code ?? "—"})
             </Text>
             <Text tag="div" size="small" variant="info">
-              {resource.billing_address?.country_code}
+              {resource.customer?.email ?? "—"}
             </Text>
           </div>
         ),

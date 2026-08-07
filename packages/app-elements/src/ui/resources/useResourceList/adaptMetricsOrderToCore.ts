@@ -1,4 +1,4 @@
-import type { Order } from "@commercelayer/sdk"
+import type { Customer, Order } from "@commercelayer/sdk"
 import type { CurrencyCode } from "#helpers/currencies"
 import { formatCentsToCurrency } from "#ui/forms/InputCurrency"
 
@@ -72,6 +72,11 @@ export interface MetricsResourceOrder {
     zip_code?: string
     first_name?: string
     last_name?: string
+  }
+  customer?: {
+    id?: string
+    email?: string
+    total_orders_count?: number
   }
 }
 
@@ -278,6 +283,21 @@ export function adaptMetricsOrderToCore(
             state_code: metricsOrder.billing_address.state_code ?? "",
             zip_code: metricsOrder.billing_address.zip_code,
           }
+        : undefined,
+
+    customer:
+      metricsOrder.customer != null
+        ? // `Customer` requires a `status` that the metrics payload does not
+          // carry. It is left absent rather than invented, so anything reading it
+          // sees "unknown" instead of a plausible but wrong value.
+          ({
+            id: metricsOrder.customer.id ?? "",
+            created_at: "",
+            updated_at: "",
+            type: "customers",
+            email: metricsOrder.customer.email ?? "",
+            total_orders_count: metricsOrder.customer.total_orders_count,
+          } as Customer)
         : undefined,
   }
 }
