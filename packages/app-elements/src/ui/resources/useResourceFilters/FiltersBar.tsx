@@ -93,6 +93,19 @@ export function FiltersBar({
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
     makeFilterAdapters({ instructions, predicateWhitelist })
 
+  /**
+   * Whether the drawer would have anything to show. A `searchBar` text filter is
+   * rendered by this bar and skipped by the form (`FieldTextSearch` returns
+   * `null` for it), and hidden instructions render nothing — so an instruction
+   * set made only of those would open an empty drawer. The button is dropped
+   * instead, which is what an app with search but no filters wants.
+   */
+  const hasFilterFields = instructions.some(
+    (item) =>
+      item.hidden !== true &&
+      !(item.type === "textSearch" && item.render.component === "searchBar"),
+  )
+
   const pills = getPillFilters({
     instructions,
     queryString,
@@ -157,22 +170,24 @@ export function FiltersBar({
         )}
 
         <div className="flex gap-2 ml-auto">
-          <Tooltip
-            direction="bottom-end"
-            content={t("common.filters")}
-            label={
-              <Button
-                type="button"
-                alignItems="center"
-                size="small"
-                variant="secondary"
-                aria-label={t("common.filters")}
-                onClick={onFilterClick ?? openDrawer}
-              >
-                <Icon name="funnel" size={16} />
-              </Button>
-            }
-          />
+          {hasFilterFields && (
+            <Tooltip
+              direction="bottom-end"
+              content={t("common.filters")}
+              label={
+                <Button
+                  type="button"
+                  alignItems="center"
+                  size="small"
+                  variant="secondary"
+                  aria-label={t("common.filters")}
+                  onClick={onFilterClick ?? openDrawer}
+                >
+                  <Icon name="funnel" size={16} />
+                </Button>
+              }
+            />
+          )}
           {actions}
         </div>
       </div>
