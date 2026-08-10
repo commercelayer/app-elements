@@ -7,7 +7,7 @@ import {
   useTable,
 } from "@tanstack/react-table"
 import cn from "classnames"
-import { type FC, useCallback, useMemo, useState } from "react"
+import { type FC, useCallback, useMemo, useRef, useState } from "react"
 import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
@@ -280,6 +280,53 @@ export function useResourceTable<TResource extends ListableResourceType>(
   const isEmpty = !isFirstLoading && (list?.length ?? 0) === 0
   const isApiError = error != null && list == null
 
+  /**
+   * Everything the table body reads is funnelled through a ref so that
+   * `ResourceTable` can be created **once** (empty dependency list) and keep a
+   * stable component type.
+   *
+   * With these values as dependencies instead, the identity changed on almost
+   * every render — callers pass row handlers inline, and `fetchMore` itself is
+   * rebuilt whenever swr returns a new data object. A new component type makes
+   * React unmount the whole table and build it again, which re-creates every cell
+   * and visibly re-loads the row images.
+   *
+   * Reading from the ref is safe because the component that owns this hook
+   * re-renders on each of these changes, which re-runs the body below.
+   */
+  const renderRef = useRef({
+    table,
+    columns,
+    columnCount,
+    type,
+    meta,
+    isApiError,
+    isEmpty,
+    isFirstLoading,
+    isLoading,
+    hasMorePages,
+    paginationType,
+    fetchMore,
+    onRowClick,
+    getRowHref,
+  })
+  renderRef.current = {
+    table,
+    columns,
+    columnCount,
+    type,
+    meta,
+    isApiError,
+    isEmpty,
+    isFirstLoading,
+    isLoading,
+    hasMorePages,
+    paginationType,
+    fetchMore,
+    onRowClick,
+    getRowHref,
+  }
+
   const ResourceTable = useCallback<FC<ResourceTableProps>>(
     ({
       title,
@@ -289,6 +336,23 @@ export function useResourceTable<TResource extends ListableResourceType>(
       variant,
       layout = "fit",
     }) => {
+      const {
+        table,
+        columns,
+        columnCount,
+        type,
+        meta,
+        isApiError,
+        isEmpty,
+        isFirstLoading,
+        isLoading,
+        hasMorePages,
+        paginationType,
+        fetchMore,
+        onRowClick,
+        getRowHref,
+      } = renderRef.current
+
       const recordCount = meta?.recordCount
       const computedTitle =
         typeof title === "function"
@@ -511,22 +575,8 @@ export function useResourceTable<TResource extends ListableResourceType>(
         </Section>
       )
     },
-    [
-      table,
-      columns,
-      columnCount,
-      type,
-      meta?.recordCount,
-      isApiError,
-      isEmpty,
-      isFirstLoading,
-      isLoading,
-      hasMorePages,
-      paginationType,
-      fetchMore,
-      onRowClick,
-      getRowHref,
-    ],
+    // created once: every value it reads comes from `renderRef`
+    [],
   )
 
   return {
