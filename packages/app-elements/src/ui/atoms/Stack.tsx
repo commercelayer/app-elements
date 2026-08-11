@@ -21,9 +21,12 @@ function Stack({ children, ...props }: StackProps): JSX.Element {
       // stays readable inside narrow containers such as a page sidebar.
       // The 576px threshold sits below the 632px default content width, so a
       // regular page keeps the horizontal layout it has always had.
-      className="@container border-t border-b border-gray-100 @xl:py-6 not-first:-mt-px" // make multiple stack possible even across different siblings
+      className="@container border-t border-b border-gray-100 not-first:-mt-px" // make multiple stack possible even across different siblings
     >
-      <div className="flex flex-col @xl:flex-row print:flex-row print:gap-4">
+      {/* the vertical padding belongs here, not on the `@container` element: a
+          container query is answered by an *ancestor* container, so an `@xl`
+          variant on the element that declares `@container` never matches */}
+      <div className="flex flex-col @xl:py-6 @xl:flex-row print:flex-row print:gap-4">
         {Children.map(children, (child) => child != null && renderChild(child))}
       </div>
     </div>
