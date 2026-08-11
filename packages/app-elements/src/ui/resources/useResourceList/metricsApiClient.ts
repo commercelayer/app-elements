@@ -119,12 +119,14 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
     ] as unknown as ListResponseMetrics<typeof resourceType>
 
     // fake meta just to make the list compatible with core sdk ListResponse
-    // plus the addition of `cursor` to support infinite scrolling with metrics api
+    // plus the addition of `cursor` to support infinite scrolling with metrics api.
+    // `pageCount` is a "has more" flag here (the metrics API cannot report a total
+    // page count); `listFetcher` derives a real one in pagination mode.
     list.meta = {
       pageCount: json.meta.pagination.cursor == null ? 1 : 2,
       recordCount: json.meta.pagination.record_count,
       currentPage: 1,
-      recordsPerPage: 25,
+      recordsPerPage: query.search?.limit ?? 25,
       cursor: json.meta.pagination.cursor,
     }
 

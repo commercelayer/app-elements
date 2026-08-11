@@ -11,7 +11,7 @@ import type {
 } from "./types"
 
 export interface FilterSearchBarProps
-  extends Pick<SearchBarProps, "placeholder" | "debounceMs"> {
+  extends Pick<SearchBarProps, "placeholder" | "debounceMs" | "variant"> {
   /**
    * Array of instruction items to build the filters behaviors
    */
@@ -49,6 +49,7 @@ function FiltersSearchBar({
   queryString,
   predicateWhitelist,
   debounceMs,
+  variant,
 }: FilterSearchBarProps): JSX.Element {
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
     makeFilterAdapters({
@@ -97,6 +98,7 @@ function FiltersSearchBar({
       onSearch={updateTextFilter}
       autoFocus={safeInitialValue !== undefined && safeInitialValue.length > 0}
       debounceMs={debounceMs}
+      variant={variant}
     />
   )
 }

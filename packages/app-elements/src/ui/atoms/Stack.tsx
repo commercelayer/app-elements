@@ -6,7 +6,7 @@ export interface StackProps {
 
 function renderChild(child: ReactNode): JSX.Element {
   return (
-    <div className="flex-1 flex flex-col items-start py-6 md:py-2 md:px-6 border-t md:border-l border-l-0 md:border-t-0 border-gray-100 first:border-l-0 first:border-t-0 md:first:-ml-6 md:last:-mr-6 print:border-t-0">
+    <div className="flex-1 flex flex-col items-start py-6 @xl:py-2 @xl:px-6 border-t @xl:border-l border-l-0 @xl:border-t-0 border-gray-100 first:border-l-0 first:border-t-0 @xl:first:-ml-6 @xl:last:-mr-6 print:border-t-0">
       {child}
     </div>
   )
@@ -16,9 +16,14 @@ function Stack({ children, ...props }: StackProps): JSX.Element {
   return (
     <div
       {...props}
-      className="border-t border-b border-gray-100 md:py-6 not-first:-mt-px" // make multiple stack possible even across different siblings
+      // `@container` + `@xl` variants lay the children out side by side based on
+      // the width available to the Stack rather than the viewport width, so it
+      // stays readable inside narrow containers such as a page sidebar.
+      // The 576px threshold sits below the 632px default content width, so a
+      // regular page keeps the horizontal layout it has always had.
+      className="@container border-t border-b border-gray-100 @xl:py-6 not-first:-mt-px" // make multiple stack possible even across different siblings
     >
-      <div className="flex flex-col md:flex-row print:flex-row print:gap-4">
+      <div className="flex flex-col @xl:flex-row print:flex-row print:gap-4">
         {Children.map(children, (child) => child != null && renderChild(child))}
       </div>
     </div>

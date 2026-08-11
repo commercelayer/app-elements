@@ -163,6 +163,42 @@ export type FilterItemOptions = BaseFilterItem & {
           "onChange" | "defaultValues" | "title"
         >
       }
+    | {
+        /**
+         * UI component to render: a select dropdown, matching the style of the
+         * dashboard metrics filters. Prefer it over `inputResourceGroup` when the
+         * options are many, since it searches server-side instead of showing a
+         * checkbox list with a "see all" overlay.
+         */
+        component: "inputSelect"
+        /**
+         * props required for the UI component
+         */
+        props: Pick<
+          InputResourceGroupProps,
+          | "resource"
+          | "fieldForLabel"
+          | "fieldForValue"
+          | "searchBy"
+          | "sortBy"
+          | "filters"
+          | "hideWhenSingleItem"
+        > & {
+          /**
+           * How many options to load upfront. Capped at 25 by the Core API, which
+           * is why `searchBy` should be set when more options exist.
+           * @default 25
+           */
+          limit?: number
+          placeholder?: string
+          isClearable?: boolean
+          /**
+           * Filter predicates are usually `_in`, so multiple values are expected.
+           * @default true
+           */
+          isMulti?: boolean
+        }
+      }
 }
 
 export interface FilterItemTextSearch extends Omit<BaseFilterItem, "sdk"> {

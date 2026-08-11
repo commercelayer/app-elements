@@ -241,6 +241,7 @@ const en = {
     back: "Back",
     go_back: "Go back",
     cancel: "Cancel",
+    clear_all: "Clear all",
     clear_text: "Clear text",
     close: "Close",
     continue: "Continue",

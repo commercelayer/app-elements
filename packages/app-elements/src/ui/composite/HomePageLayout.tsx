@@ -2,9 +2,11 @@ import type { JSX, ReactNode } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
 import type { PageHeadingProps } from "#ui/atoms/PageHeading"
 import type { PageHeadingToolbarProps } from "#ui/atoms/PageHeading/PageHeadingToolbar"
-import { PageLayout } from "./PageLayout"
+import { PageLayout, type PageLayoutProps } from "./PageLayout"
 
-export interface HomePageLayoutProps extends Pick<PageHeadingProps, "title"> {
+export interface HomePageLayoutProps
+  extends Pick<PageHeadingProps, "title">,
+    Pick<PageLayoutProps, "fullWidth"> {
   /**
    * Page content
    */
@@ -23,6 +25,7 @@ export function HomePageLayout({
   title,
   children,
   toolbar,
+  fullWidth,
 }: HomePageLayoutProps): JSX.Element {
   const {
     settings: { mode, dashboardUrl, isInDashboard, onAppClose },
@@ -34,6 +37,7 @@ export function HomePageLayout({
       mode={mode}
       gap="only-top"
       scrollToTop
+      fullWidth={fullWidth}
       navigationButton={
         isInDashboard && onAppClose == null
           ? undefined

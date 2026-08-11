@@ -459,4 +459,82 @@ const allMarkets = http.get(
   },
 )
 
+/**
+ * A longer, dynamic list of markets that honours `filter[q][name_cont]`,
+ * `filter[q][id_in]` and `page[size]`.
+ *
+ * Deliberately **not** part of the default handlers: msw matches on the path and
+ * uses the first matching handler, so adding it there would shadow the two
+ * handlers above and change the markets shown in every other story (two of them
+ * reference specific market ids). Stories that need it opt in with
+ * `worker.use(marketsWithSearch)`.
+ */
+const marketNames = [
+  "Adyen",
+  "Austria",
+  "Belgium",
+  "Croatia",
+  "Denmark",
+  "Estonia",
+  "Europe",
+  "Finland",
+  "France",
+  "Germany",
+  "Greece",
+  "Hungary",
+  "Iceland",
+  "Ireland",
+  "Italia 4",
+  "Italy",
+  "Latvia",
+  "Lithuania",
+  "Luxembourg",
+  "Malta",
+  "Milan",
+  "Netherlands",
+  "Norway",
+  "Poland",
+  "Portugal",
+  "Romania",
+  "Slovakia",
+  "Slovenia",
+  "Spain",
+  "Sweden",
+  "Switzerland",
+  "United States",
+]
+
+export const marketsWithSearch = http.get(
+  "https://mock.localhost/api/markets",
+  async ({ request }) => {
+    await delay(300)
+
+    const url = new URL(request.url)
+    const search = url.searchParams.get("filter[q][name_cont]")
+    const idsIn = url.searchParams.get("filter[q][id_in]")
+    const pageSize = Number(url.searchParams.get("page[size]") ?? 25)
+
+    const matching = marketNames
+      .map((name, index) => ({ id: `market-${index}`, name }))
+      .filter(({ name, id }) => {
+        if (idsIn != null) {
+          return idsIn.split(",").includes(id)
+        }
+        return (
+          search == null || name.toLowerCase().includes(search.toLowerCase())
+        )
+      })
+
+    return HttpResponse.json({
+      data: matching.slice(0, pageSize).map(({ id, name }) => ({
+        id,
+        type: "markets",
+        attributes: { name },
+        meta: { mode: "test", organization_id: "WXlEOFrjnr" },
+      })),
+      meta: { record_count: matching.length, page_count: 1 },
+    })
+  },
+)
+
 export default [allMarkets, someMarkets]

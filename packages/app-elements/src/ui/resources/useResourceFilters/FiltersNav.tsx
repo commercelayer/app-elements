@@ -10,9 +10,12 @@ import { useTokenProvider } from "#providers/TokenProvider"
 import { ButtonFilter } from "#ui/atoms/ButtonFilter"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import {
-  formatCentsToCurrency,
-  type InputCurrencyProps,
-} from "#ui/forms/InputCurrency"
+  extractCurrencyRangeFilterValues,
+  getButtonFilterLabel,
+  getInstructionItemByFilterPredicate,
+  makeCurrencyRangeFilterButtonLabel,
+  predicateBelongsToCurrencyRange,
+} from "./activeFilters"
 import { makeFilterAdapters } from "./adapters"
 import {
   getDefaultBrowserTimezone,
@@ -20,8 +23,6 @@ import {
   isTimeRangeFilterUiName,
 } from "./timeUtils"
 import {
-  type CurrencyRangeFieldValue,
-  type FiltersInstructionItem,
   type FiltersInstructions,
   type FormFullValues,
   getInstructionKey,
@@ -357,21 +358,6 @@ export function FiltersNav({
   )
 }
 
-function getInstructionItemByFilterPredicate({
-  instructions,
-  filterPredicate,
-}: {
-  instructions: FiltersInstructions
-  filterPredicate: string
-}): FiltersInstructionItem | undefined {
-  if (isTimeRangeFilterUiName(filterPredicate)) {
-    return instructions.find(({ type }) => type === "timeRange")
-  }
-  return instructions.find(
-    (item) => getInstructionKey(item) === filterPredicate,
-  )
-}
-
 /**
  * Render the button for InputResourceGroup when there's one value.
  * It fetches the resource to get the label.
@@ -410,111 +396,4 @@ function ButtonFilterFetchResource({
       />
     </SkeletonTemplate>
   )
-}
-
-/**
- * Get label for user defined ButtonFilter component by reading the `instructionItem` object.
- * If the filter has options and only one value is selected, the label will be the option label.
- * Otherwise, the label will be the filter group label plus the number of selected values.
- */
-function getButtonFilterLabel({
-  values,
-  instructionItem,
-}: {
-  values: string | string[]
-  instructionItem: FiltersInstructionItem
-}): string {
-  const isSingleElementArray = Array.isArray(values) && values.length === 1
-  const isString = typeof values === "string"
-  const optionValue = Array.isArray(values) ? values[0] : values
-
-  if (
-    instructionItem.type === "options" &&
-    "options" in instructionItem.render.props &&
-    instructionItem.render.props.options != null &&
-    instructionItem.render.props.options.length > 0 &&
-    (isSingleElementArray || isString)
-  ) {
-    return (
-      instructionItem.render.props.options.find(
-        ({ value }) => value === optionValue,
-      )?.label ?? instructionItem.label
-    )
-  }
-
-  if (
-    instructionItem.type === "groupedPredicates" &&
-    (isSingleElementArray || isString)
-  ) {
-    return (
-      instructionItem.render.props.options.find(
-        ({ value }) => value === optionValue,
-      )?.label ?? instructionItem.label
-    )
-  }
-
-  if (instructionItem.type === "textSearch") {
-    return `${instructionItem.label} · ${optionValue}`
-  }
-
-  return `${instructionItem.label} · ${values.length}`
-}
-
-function extractCurrencyRangeFilterValues({
-  activeFilters,
-  instructions,
-}: {
-  activeFilters: Array<[string, UiFilterValue]>
-  instructions: FiltersInstructions
-}): Array<[string, CurrencyRangeFieldValue]> {
-  const rangeFilters = activeFilters.filter(([filterPredicate]) => {
-    return predicateBelongsToCurrencyRange({
-      filterPredicate,
-      instructions,
-    })
-  }) as Array<[string, CurrencyRangeFieldValue]>
-
-  return rangeFilters.filter(
-    ([, value]) => value.from != null || value.to != null,
-  )
-}
-
-/**
- * Checks if a filter predicate belongs to a currency range filter
- * by checking the instructions
- */
-function predicateBelongsToCurrencyRange({
-  filterPredicate,
-  instructions,
-}: {
-  filterPredicate: string
-  instructions: FiltersInstructions
-}): boolean {
-  const instructionItem = instructions.find(
-    (item) => getInstructionKey(item) === filterPredicate,
-  )
-
-  return instructionItem?.type === "currencyRange"
-}
-
-function makeCurrencyRangeFilterButtonLabel(
-  value: CurrencyRangeFieldValue,
-): string {
-  const currencyCode = value.currencyCode as InputCurrencyProps["currencyCode"]
-  if (value.from == null && value.to == null) {
-    return ""
-  }
-
-  const formattedFrom = formatCentsToCurrency(
-    value.from ?? 0,
-    currencyCode,
-    true,
-  )
-
-  const formattedTo =
-    value.to != null
-      ? formatCentsToCurrency(value.to, currencyCode, true)
-      : "Max"
-
-  return `${formattedFrom} - ${formattedTo}`
 }

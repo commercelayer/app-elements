@@ -6,7 +6,7 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import type { Meta, StoryFn } from "@storybook/react-vite"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useOverlay } from "#hooks/useOverlay"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
@@ -17,6 +17,8 @@ import { presetResourceListItem } from "#ui/resources/ResourceListItem/ResourceL
 import { useResourceFilters } from "#ui/resources/useResourceFilters"
 import { instructions } from "#ui/resources/useResourceFilters/mockedInstructions"
 import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
+import { worker } from "../../mocks/browser"
+import { marketsWithSearch } from "../../mocks/data/markets"
 
 const mockedOrder = presetResourceListItem.orderAwaitingApproval
 const navigate = (qs: string): void => {
@@ -222,6 +224,77 @@ export const SearchWithNav: StoryFn = () => {
           searchBarPlaceholder="Type to search..."
           queryString="?name_eq=Ehi there&status_in=placed&status_in=approved&payment_status_eq=authorized&fulfillment_status_in=unfulfilled&timeFrom=2023-09-03T22%3A00%3A00.000Z&timePreset=custom&timeTo=2023-09-05T22%3A00%3A00.000Z"
         />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+/**
+ * Same instructions as the other stories, with `Markets` rendered as a dropdown
+ * (`component: 'inputSelect'`) rather than as a checkbox list.
+ */
+const instructionsWithMarketsSelect: FiltersInstructions = instructions.map(
+  (item) =>
+    item.type === "options" && item.sdk.predicate === "market_id_in"
+      ? {
+          ...item,
+          render: {
+            component: "inputSelect",
+            props: {
+              resource: "markets",
+              fieldForLabel: "name",
+              fieldForValue: "id",
+              // enables server-side search: Core caps `page[size]` at 25, so
+              // without this the options past the first page are unreachable
+              searchBy: "name_cont",
+              sortBy: { attribute: "name", direction: "asc" },
+            },
+          },
+        }
+      : item,
+)
+
+/**
+ * `FiltersBar` renders the search bar with the filters button on the right and the
+ * active filters as removable pills below, the style used by the dashboard.
+ * `FiltersDrawer` holds the filters form and is opened by that button, so the two
+ * are meant to be rendered together.
+ *
+ * The `Markets` field in the drawer uses `component: 'inputSelect'`: a multi
+ * select dropdown. Type into it to see that the search hits the API, so options
+ * beyond the first page of 25 can still be picked.
+ *
+ * <span type="info">
+ * Filters live in the url query string. This story keeps it in React state
+ * instead, and prints it below, so the whole thing is interactive without a
+ * router — in an app you would pass the query string from your router and write
+ * back to it in `onUpdate`.
+ * </span>
+ **/
+export const FiltersBarWithDrawer: StoryFn = () => {
+  const [queryString, setQueryString] = useState("")
+  const { FiltersBar, FiltersDrawer } = useResourceFilters({
+    instructions: instructionsWithMarketsSelect,
+  })
+
+  // Only this story needs a searchable list of markets: the default handler
+  // returns a fixed set, which would make the dropdown look like it ignores what
+  // you type. Scoped with `use`/`resetHandlers` so no other story is affected.
+  useEffect(() => {
+    worker.use(marketsWithSearch)
+    return () => {
+      worker.resetHandlers()
+    }
+  }, [])
+
+  return (
+    <TokenProvider kind="integration" appSlug="orders" devMode>
+      <CoreSdkProvider>
+        <FiltersBar queryString={queryString} onUpdate={setQueryString} />
+        <FiltersDrawer onUpdate={setQueryString} />
+        <pre className="bg-gray-50 rounded p-4 text-sm overflow-x-auto">
+          {queryString === "" ? "(no filter applied)" : `?${queryString}`}
+        </pre>
       </CoreSdkProvider>
     </TokenProvider>
   )

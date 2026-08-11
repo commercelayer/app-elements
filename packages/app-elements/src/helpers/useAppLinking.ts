@@ -1,5 +1,5 @@
 import isEmpty from "lodash-es/isEmpty"
-import { useCallback } from "react"
+import { useCallback, useRef } from "react"
 import { useLocation, useRouter, useSearch } from "wouter"
 import { useTokenProvider } from "#providers/TokenProvider"
 import type { TokenProviderClAppSlug } from "#providers/TokenProvider/types"
@@ -51,6 +51,19 @@ export function useAppLinking(): UseAppLinkingHook {
   const [location, setLocation] = useLocation()
   const search = useSearch()
 
+  /**
+   * `navigateTo` keeps a stable identity on purpose: it is called while rendering
+   * list rows, so re-creating it on every navigation would invalidate memoized
+   * rows and re-run any consumer effect that depends on it.
+   *
+   * That means it must not close over `location`/`search`, which change on every
+   * navigation — the entry saved for "go back" has to be the url at *click* time,
+   * not the one from the render that last recreated this callback. Reading them
+   * from a ref keeps both properties.
+   */
+  const currentUrlRef = useRef({ location, search })
+  currentUrlRef.current = { location, search }
+
   const navigateTo: UseAppLinkingHook["navigateTo"] = useCallback(
     ({ app, resourceId }) => {
       const path = resourceId != null ? `/list/${resourceId}` : `/list`
@@ -77,11 +90,12 @@ export function useAppLinking(): UseAppLinkingHook {
           // probably in a future we can use a query string param
           window.location.assign(to)
         } else {
+          const { location: from, search: fromSearch } = currentUrlRef.current
           saveGoBackItem({
             destinationApp: app,
             resourceId,
             returnToApp: currentAppSlug as TokenProviderClAppSlug,
-            location: `${location}${!isEmpty(search) ? `?${search}` : ""}`,
+            location: `${from}${!isEmpty(fromSearch) ? `?${fromSearch}` : ""}`,
           })
           setLocation(to)
         }

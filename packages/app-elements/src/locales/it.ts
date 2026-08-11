@@ -17,6 +17,7 @@ const it: typeof en = {
     go_back: "Torna indietro",
     cancel: "Annulla",
     close: "Chiudi",
+    clear_all: "Cancella tutto",
     clear_text: "Svuota testo",
     continue: "Continua",
     could_not_retrieve_data: "Impossibile recuperare i dati",

@@ -2,6 +2,7 @@ import type { JSX } from "react"
 import { useFormContext } from "react-hook-form"
 import { HookedInputResourceGroup } from "#ui/forms/InputResourceGroup"
 import { HookedInputToggleButton } from "#ui/forms/InputToggleButton"
+import { FieldOptionsSelect } from "./FieldOptionsSelect"
 import type { FilterItemOptions } from "./types"
 import { computeFilterLabel } from "./utils"
 
@@ -41,6 +42,13 @@ export function FieldOptions({ item }: FieldProps): JSX.Element | null {
           name={item.sdk.predicate}
           title={item.label}
           {...item.render.props}
+        />
+      )
+
+    case "inputSelect":
+      return (
+        <FieldOptionsSelect
+          item={item as FilterItemOptions & { render: typeof item.render }}
         />
       )
   }

@@ -4,6 +4,7 @@ import bundles from "./data/bundles"
 import customers from "./data/customers"
 import lineItems from "./data/line_items"
 import markets from "./data/markets"
+import metrics from "./data/metrics"
 import orders from "./data/orders"
 import sku_lists from "./data/sku_lists"
 import skus from "./data/skus"
@@ -17,6 +18,7 @@ export const handlers = [
   ...customers,
   ...lineItems,
   ...markets,
+  ...metrics,
   ...orders,
   ...skus,
   ...sku_lists,
