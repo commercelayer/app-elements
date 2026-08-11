@@ -439,6 +439,8 @@ export {
 export {
   type ResourceListItemTemplateProps,
   type ResourceListProps,
+  refreshResourceLists,
+  removeFromResourceLists,
   type UseResourceListConfig,
   useResourceList,
 } from "#ui/resources/useResourceList"
