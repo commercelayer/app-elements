@@ -9,6 +9,11 @@ export interface AvatarLetterProps {
    */
   text: string
   /**
+   * Size variant (medium: 36px, large: 42px)
+   * @default 'large'
+   */
+  size?: "medium" | "large"
+  /**
    * CSS class name
    */
   className?: string
@@ -28,6 +33,7 @@ export interface AvatarLetterProps {
  */
 export function AvatarLetter({
   text,
+  size = "large",
   className,
   style,
   children,
@@ -55,10 +61,14 @@ export function AvatarLetter({
     <div
       className={classNames(
         className,
-        "w-[42px] h-[42px] rounded-full",
+        "rounded-full",
         "flex items-center justify-center",
         "font-bold text-sm",
         {
+          // `min-*` as in `Avatar`: without it the circle is squashed when used
+          // as a flex child next to text that wants the room
+          "min-w-[36px] min-h-[36px] w-[36px] h-[36px]": size === "medium",
+          "min-w-[42px] min-h-[42px] w-[42px] h-[42px]": size === "large",
           "text-white": textColor === "white",
           "text-black": textColor === "black",
         },

@@ -54,8 +54,20 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    *
    * Sorting is server-side: clicking the header drives the SDK `sort` query
    * param and refetches. Rows are never reordered client-side.
+   *
+   * The header toggles between the two directions; the sort cannot be removed,
+   * so a table always keeps an explicit order.
    */
   sortBy?: string
+  /**
+   * Direction applied on the first click of this column's header.
+   *
+   * Defaults to descending for date attributes — a `sortBy` ending in `_at`,
+   * where the newest rows are the interesting ones — and to ascending for
+   * everything else (codes, names, emails). Set it explicitly to override, e.g.
+   * on a quantity column where the largest values matter most.
+   */
+  sortDescFirst?: boolean
 }
 
 /**

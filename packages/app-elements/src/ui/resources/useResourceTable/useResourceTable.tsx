@@ -66,6 +66,15 @@ function parseSort(
   return { attribute: desc ? sort.slice(1) : sort, desc }
 }
 
+/**
+ * Whether a sort attribute is a date, by CommerceLayer's naming convention
+ * (`created_at`, `updated_at`, `placed_at`, …). Such columns sort descending on
+ * the first click, so the newest rows come first.
+ */
+function isDateAttribute(sortBy: string | undefined): boolean {
+  return sortBy?.endsWith("_at") === true
+}
+
 function alignClassName(
   align: ResourceTableColumn<ListableResourceType>["align"],
 ): string | undefined {
@@ -259,6 +268,9 @@ export function useResourceTable<TResource extends ListableResourceType>(
           cell: ({ row }) =>
             column.cell({ resource: row.original as Resource<TResource> }),
           enableSorting: column.sortBy != null,
+          // the accessor returns `null`, so TanStack cannot infer a direction
+          // from the data and would default every column to descending-first
+          sortDescFirst: column.sortDescFirst ?? isDateAttribute(column.sortBy),
         }),
       ),
     )
@@ -271,7 +283,9 @@ export function useResourceTable<TResource extends ListableResourceType>(
     getRowId: (row) => row.id,
     manualSorting: true,
     enableMultiSort: false,
-    enableSortingRemoval: true,
+    // the header toggles asc/desc only: removing the sort would silently discard
+    // the app's `defaultSort` and leave the rows in the API's own order
+    enableSortingRemoval: false,
     state: { sorting },
     onSortingChange,
   })
