@@ -530,7 +530,7 @@ const en = {
       anonymize: {
         title: "Customer cannot be deleted",
         description:
-          "The customer cannot be deleted. Instead, you can request the anonymization. Their personal data will be replaced in all the related resources, including orders. You can cancel the anonymization request until it is not in progress.",
+          "Their personal data will be replaced everywhere, including orders. You can cancel the request until it starts.",
         request_button: "Request anonymization",
       },
       anonymization_info: {

@@ -523,7 +523,7 @@ const it: typeof en = {
       anonymize: {
         title: "Il cliente non può essere eliminato",
         description:
-          "Il cliente non può essere eliminato. Invece, puoi richiederne l'anonimizzazione. I suoi dati personali saranno sostituiti in tutte le risorse correlate, compresi gli ordini. Puoi annullare la richiesta di anonimizzazione finché non viene elaborata.",
+          "I suoi dati personali saranno sostituiti ovunque, compresi gli ordini. Puoi annullare la richiesta finché non viene avviata.",
         request_button: "Richiedi anonimizzazione",
       },
       anonymization_info: {
