@@ -461,7 +461,10 @@ export function useResourceTable<TResource extends ListableResourceType>(
                       href == null && onRowClick != null ? "button" : undefined
                     }
                     className={cn(
-                      clickable && "cursor-pointer hover:bg-gray-50",
+                      // the hover has to be painted on the cells, not on the row:
+                      // `Td` is opaque (`bg-white`) and a `tr` background renders
+                      // behind its cells, so a `hover:bg-*` here would be covered
+                      clickable && "cursor-pointer [&:hover>td]:bg-gray-50",
                       // positioning context for the stretched-link `::after`
                       href != null && "relative",
                     )}
