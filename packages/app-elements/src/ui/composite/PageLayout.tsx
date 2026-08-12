@@ -150,7 +150,7 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           // children → sidebar → afterSidebar.
           // `min-w-0` stops wide content (tables, code blocks) in the main column
           // from pushing the sidebar out of the viewport.
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-8 print:block">
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-16 print:block">
             <div className="min-w-0 lg:col-start-1 lg:row-start-1">
               {children}
             </div>

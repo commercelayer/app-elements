@@ -66,13 +66,13 @@ export const InputCheckboxGroupItem = withSkeletonTemplate<Props>(
   }) => {
     return (
       // Ensure the alternating and hover backgrounds apply to the entire row, including the checkedElement section if present
-      <div className="odd:bg-gray-50 hover:bg-gray-100">
+      <div className="odd:bg-gray-50">
         <ListItem
           alignItems="center"
           alignIcon="center"
           borderStyle="none"
           padding="none"
-          className="rounded flex items-center gap-3 py-1.5 px-2 hover:bg-gray-100"
+          className="rounded flex items-center gap-3 py-1.5 px-2 transition duration-300 ease-in-out hover:bg-gray-100"
           onClick={() => {
             onChange(value)
           }}
