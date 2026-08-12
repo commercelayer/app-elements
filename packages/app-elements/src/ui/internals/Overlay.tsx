@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { Container } from "#ui/atoms/Container"
 import { Spacer } from "#ui/atoms/Spacer"
+import { lockBodyScroll, unlockBodyScroll } from "./bodyScrollLock"
 
 export type OverlayProps = {
   /**
@@ -66,9 +67,12 @@ export const Overlay: React.FC<OverlayProps> = ({
   const element = useRef<HTMLDivElement | null>(null)
 
   useEffect(function preventBodyScrollbar() {
-    document.body.classList.add("overflow-hidden")
+    // shared with `Modal` and with any other overlay open at the same time: an
+    // edit overlay closing inside a details drawer must leave the drawer's lock
+    // in place, and a plain `classList.remove` here would not
+    lockBodyScroll()
     return () => {
-      document.body.classList.remove("overflow-hidden")
+      unlockBodyScroll()
     }
   }, [])
 
