@@ -548,6 +548,7 @@ const it: typeof en = {
         fulfillment_status: "Stato spedizione",
       },
       display_status: {
+        awaiting_capture: "Da catturare",
         in_progress: "In corso",
         in_progress_manual: "In corso (Manuale)",
       },

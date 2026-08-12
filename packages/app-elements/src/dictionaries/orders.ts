@@ -59,7 +59,9 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case "approved:authorized:unfulfilled":
     case "approved:authorized:not_required":
       return {
-        label: t("resources.orders.attributes.status.approved"),
+        // an approved order whose payment is only authorized says what is left to
+        // do rather than what already happened: the money is not captured yet
+        label: t("apps.orders.display_status.awaiting_capture"),
         icon: "creditCard",
         color: "orange",
         task: t("apps.orders.tasks.payment_to_capture"),

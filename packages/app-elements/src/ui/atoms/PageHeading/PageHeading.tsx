@@ -1,6 +1,7 @@
 import cn from "classnames"
 import type { ReactNode } from "react"
 import { Badge, type BadgeProps } from "../Badge"
+import { Button } from "../Button"
 import { Icon } from "../Icon"
 import { withSkeletonTemplate } from "../SkeletonTemplate"
 import { Text } from "../Text"
@@ -43,6 +44,12 @@ export interface PageHeadingProps {
      * @default arrowLeft
      */
     icon?: "x" | "arrowLeft"
+    /**
+     * How the button looks: `inline` is a bare icon with its label next to it,
+     * `button` is a standalone secondary button, as the drawers use.
+     * @default inline
+     */
+    variant?: "inline" | "button"
   }
   /**
    * When set, it will render a proper toolbar on the right side of the first row
@@ -77,21 +84,44 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
         {navigationButton != null && (
           <div
             className={cn(
-              "mb-4 flex items-center justify-between print:hidden",
+              {
+                // the standalone button carries its own box, so it needs more air
+                // below it — the spacing the drawer panels are designed with
+                "mb-8": navigationButton.variant === "button",
+                "mb-4": navigationButton.variant !== "button",
+              },
+              "flex items-center justify-between print:hidden",
             )}
           >
-            <button
-              type="button"
-              className="flex items-center gap-1"
-              onClick={() => {
-                navigationButton.onClick()
-              }}
-            >
-              <Icon name={navigationButton.icon ?? "arrowLeft"} size={24} />{" "}
-              <Text weight="medium" size="small">
+            {navigationButton.variant === "button" ? (
+              <Button
+                variant="secondary"
+                size="small"
+                alignItems="center"
+                // the drawers render it icon-only, which would otherwise leave
+                // the button with no accessible name
+                aria-label={navigationButton.label === "" ? "Close" : undefined}
+                onClick={() => {
+                  navigationButton.onClick()
+                }}
+              >
+                <Icon name={navigationButton.icon ?? "arrowLeft"} />
                 {navigationButton.label}
-              </Text>
-            </button>
+              </Button>
+            ) : (
+              <button
+                type="button"
+                className="flex items-center gap-1"
+                onClick={() => {
+                  navigationButton.onClick()
+                }}
+              >
+                <Icon name={navigationButton.icon ?? "arrowLeft"} size={24} />{" "}
+                <Text weight="medium" size="small">
+                  {navigationButton.label}
+                </Text>
+              </button>
+            )}
             {toolbar != null ? <PageHeadingToolbar {...toolbar} /> : null}
           </div>
         )}

@@ -61,6 +61,25 @@ describe("PageHeading", () => {
     element.querySelector("button")?.click()
     expect(foo.includes("bar")).toBe(true)
   })
+
+  test("Should render the navigation button as a secondary button when asked", () => {
+    const { element, getByLabelText } = setup({
+      id: "heading",
+      title: "My Page Heading",
+      navigationButton: {
+        label: "",
+        icon: "x",
+        variant: "button",
+        onClick: () => undefined,
+      },
+    })
+    // an icon-only button still needs a name to be usable
+    const button = getByLabelText("Close")
+    expect(button).toBeVisible()
+    expect(button.className).toContain("border-gray-200")
+    // the inline style renders its label in a `Text`, this one does not
+    expect(element.querySelector("button > div")).toBe(null)
+  })
 })
 
 describe("PageHeading gap", () => {
