@@ -64,9 +64,6 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                   </span>
                 </h1>
               </div>
-              <div
-                class="text-gray-500 leading-6 mt-2"
-              />
             </div>
           </div>
           <div

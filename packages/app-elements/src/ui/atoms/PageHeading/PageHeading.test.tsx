@@ -33,6 +33,14 @@ describe("PageHeading", () => {
     expect(getByText("Lorem ipsum...")).toBeVisible()
   })
 
+  test("Should render nothing below the title when there is no description", () => {
+    const { element } = setup({ id: "heading", title: "My Page Heading" })
+    // an empty div would still push its `mt-2` below the title
+    expect(element.querySelector("h1")?.parentElement?.nextElementSibling).toBe(
+      null,
+    )
+  })
+
   test("Should also render optional badge", () => {
     const { getByTestId } = setup({
       id: "heading-w-badge",

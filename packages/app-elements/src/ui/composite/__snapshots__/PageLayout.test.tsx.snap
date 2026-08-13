@@ -20,9 +20,6 @@ exports[`PageLayout > Should be rendered 1`] = `
           Page title
         </h1>
       </div>
-      <div
-        class="text-gray-500 leading-6 mt-2"
-      />
     </div>
     <div>
       Content...

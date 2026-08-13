@@ -143,7 +143,9 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
             <PageHeadingToolbar {...toolbar} />
           ) : null}
         </div>
-        {description !== null && (
+        {/* `!= null`, so an omitted description renders nothing at all: `!== null`
+            let `undefined` through and left an empty div carrying its `mt-2` */}
+        {description != null && (
           <div className="text-gray-500 leading-6 mt-2">{description}</div>
         )}
       </div>
