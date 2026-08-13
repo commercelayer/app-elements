@@ -17,6 +17,12 @@ import { SearchBar } from "#ui/composite/SearchBar"
  * - list of items.
  *
  * <span type='info'>You can use this component to display generic loading UI when you can't rely on single SkeletonTemplate blocks.</span>
+ *
+ * @deprecated Use `PageLoading` instead. The elements drawn here have to be kept in
+ * step with every page this stands in for, and they no longer match: apps render
+ * tables, not a search bar over a list of items. `PageLoading` draws only the frame
+ * and a spinner, so it cannot drift. For loading *within* a page, where the shape is
+ * known, wrap the real components in `SkeletonTemplate`.
  **/
 function PageSkeleton(): JSX.Element {
   return (

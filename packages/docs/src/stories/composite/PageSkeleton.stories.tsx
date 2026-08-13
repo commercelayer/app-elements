@@ -12,6 +12,11 @@ const meta: Meta<typeof PageSkeleton> = {
 export default meta
 type Story = StoryObj<typeof PageSkeleton>
 
+/**
+ * Deprecated in favour of `Composite/PageLoading`: the search bar and list of rows
+ * drawn here have to be kept in step with every page this stands in for, and they no
+ * longer match what the apps render.
+ */
 export const Default: Story = {
   args: {
     delayMs: 0,
