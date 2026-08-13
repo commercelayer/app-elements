@@ -11,8 +11,8 @@ import { formatResourceName } from "#helpers/resources"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { EmptyState } from "#ui/atoms/EmptyState"
-import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { PageLayout } from "#ui/composite/PageLayout"
+import { PageLoading } from "#ui/composite/PageLoading"
 import type { GetParams } from "./utils"
 
 /**
@@ -115,18 +115,11 @@ export function LoadingPage({
   } = useTokenProvider()
 
   return (
+    // the same `PageLoading` the dashboard and the token provider show, so handing
+    // over from one to the next is not visible: a skeletonised title here used to
+    // appear after their spinner, as a second, different kind of placeholder
     <div style={overlay ? { backgroundColor: "#F5F5F5" } : undefined}>
-      <SkeletonTemplate isLoading>
-        <PageLayout
-          title={
-            <SkeletonTemplate isLoading>Loading app page...</SkeletonTemplate>
-          }
-          mode={mode}
-          gap="only-top"
-        >
-          <div />
-        </PageLayout>
-      </SkeletonTemplate>
+      <PageLoading mode={mode} />
     </div>
   )
 }

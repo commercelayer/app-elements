@@ -31,7 +31,7 @@ export const Default: Story = {
 /**
  * Nothing is drawn until the delay elapses, so a page that resolves quickly never
  * flashes an indicator. Exaggerated to 1s here to make the wait visible — the
- * default is 200ms. Reload the story to watch it appear.
+ * default is 400ms. Reload the story to watch it appear.
  */
 export const WithDelay: Story = {
   args: {
