@@ -85,6 +85,10 @@ describe("PageHeading", () => {
     const button = getByLabelText("Close")
     expect(button).toBeVisible()
     expect(button.className).toContain("border-gray-200")
+    // square, exactly like the toolbar buttons next to it: `Button` only drops its
+    // horizontal padding when a lone `Icon` is its single child
+    expect(button.className).toContain("h-9 min-w-9")
+    expect(button.className).not.toContain("px-4")
     // the inline style renders its label in a `Text`, this one does not
     expect(element.querySelector("button > div")).toBe(null)
   })

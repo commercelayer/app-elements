@@ -105,8 +105,21 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
                   navigationButton.onClick()
                 }}
               >
-                <Icon name={navigationButton.icon ?? "arrowLeft"} />
-                {navigationButton.label}
+                {/* icon-only when there is no label, and as its *single* child:
+                    `Button` drops its horizontal padding for a lone `Icon`, which
+                    is what makes it square like the toolbar buttons beside it.
+                    `size={16}` matches those too. */}
+                {navigationButton.label === "" ? (
+                  <Icon name={navigationButton.icon ?? "arrowLeft"} size={16} />
+                ) : (
+                  <>
+                    <Icon
+                      name={navigationButton.icon ?? "arrowLeft"}
+                      size={16}
+                    />
+                    {navigationButton.label}
+                  </>
+                )}
               </Button>
             ) : (
               <button

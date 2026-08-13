@@ -65,6 +65,37 @@ WithNavClose.args = {
   },
 }
 
+/**
+ * A drawer closes itself rather than navigating back, so its navigation button is
+ * rendered as a standalone square button with no label: `variant: 'button'` plus an
+ * empty `label`. Icon-only, it gets the very same box as the icon-only buttons of
+ * the toolbar sitting next to it.
+ */
+export const WithNavCloseAsButton: StoryFn<typeof PageHeading> = () => (
+  <PageHeading
+    title="SKU"
+    // the drawer's own padding is the whole gap above the button
+    gap="none"
+    navigationButton={{
+      label: "",
+      icon: "x",
+      variant: "button",
+      onClick: () => {
+        historyGoBack()
+      },
+    }}
+    toolbar={{
+      buttons: [
+        {
+          icon: "eye",
+          variant: "secondary",
+          size: "small",
+        },
+      ],
+    }}
+  />
+)
+
 export const WithNavAndBadge = Template.bind({})
 WithNavAndBadge.args = {
   title: "SKUs",
