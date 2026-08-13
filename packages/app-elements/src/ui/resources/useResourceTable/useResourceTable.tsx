@@ -408,15 +408,15 @@ export function useResourceTable<TResource extends ListableResourceType>(
                   <button
                     type="button"
                     onClick={header.column.getToggleSortingHandler()}
-                    className="inline-flex items-center gap-1 uppercase hover:text-gray-500"
+                    className="inline-flex items-center gap-1 uppercase hover:text-gray-700"
                   >
                     {label}
                     <Icon
                       name={
                         sorted === "asc"
-                          ? "caretUp"
+                          ? "arrowUp"
                           : sorted === "desc"
-                            ? "caretDown"
+                            ? "arrowDown"
                             : "arrowsDownUp"
                       }
                     />
