@@ -297,7 +297,11 @@
   progress.progress {
     @apply w-full h-2;
   }
-  progress.progress,
+  progress.progress {
+    @apply rounded bg-gray-100 overflow-hidden;
+  }
+  /* on its own, not grouped with the rule above: grouped, the build drops this
+     selector and Chrome then paints its own, darker, native track */
   progress.progress::-webkit-progress-bar {
     @apply rounded bg-gray-100 overflow-hidden;
   }
@@ -305,10 +309,10 @@
     @apply rounded bg-gray-100 overflow-hidden;
   }
   progress.progress::-webkit-progress-value {
-    @apply rounded bg-primary;
+    @apply rounded bg-brand;
   }
   progress.progress[value]::-moz-progress-bar {
-    @apply rounded bg-primary;
+    @apply rounded bg-brand;
   }
   
   .underline-dotted {
