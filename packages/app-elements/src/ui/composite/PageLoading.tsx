@@ -137,7 +137,14 @@ export function PageLoading({
       minHeight={false}
       data-testid="page-loading"
     >
-      <div className="flex justify-center py-14" role="status">
+      {/* `min-h-[60vh]` rather than filling the container: `PageLayout` nests its
+          children a couple of divs deep inside a non-growing wrapper, so `flex-1`
+          would have nothing to grow against. Starting below the title band, this
+          lands the spinner at about the middle of the page. */}
+      <div
+        className="flex min-h-[60vh] items-center justify-center"
+        role="status"
+      >
         {isSpinnerVisible && (
           <div
             className="w-6 h-6 rounded-full border-2 border-gray-200 border-t-gray-400 animate-spin"

@@ -2,6 +2,19 @@ import { act, render } from "@testing-library/react"
 import { PageLoading } from "./PageLoading"
 
 describe("PageLoading", () => {
+  beforeEach(() => {
+    // the loading sequence is shared through `window` on purpose, and its reset is
+    // scheduled 500ms after the last one unmounts — on the real clock. Without
+    // clearing it here a test that ran less than 500ms earlier leaves a sequence in
+    // flight, and the next mount then shows its spinner immediately.
+    const shared = window as unknown as Record<string, unknown>
+    if (typeof shared.__clPageLoadingSequenceResetTimeout === "number") {
+      window.clearTimeout(shared.__clPageLoadingSequenceResetTimeout)
+    }
+    shared.__clPageLoadingSequenceStartedAt = null
+    shared.__clPageLoadingSequenceResetTimeout = null
+  })
+
   test("Should reserve the title band without drawing anything in it", () => {
     const { getByRole, getByText } = render(<PageLoading delayMs={0} />)
 
