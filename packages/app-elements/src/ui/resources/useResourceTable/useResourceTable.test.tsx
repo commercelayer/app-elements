@@ -218,9 +218,9 @@ describe("useResourceTable", () => {
   describe("sorting", () => {
     const renderSortable = (
       config: {
-        sort?: ResourceTableSort
-        onSortChange?: (sort: ResourceTableSort) => void
-        defaultSort?: ResourceTableSort
+        sort?: ResourceTableSort<"orders">
+        onSortChange?: (sort: ResourceTableSort<"orders">) => void
+        defaultSort?: ResourceTableSort<"orders">
       } = {},
     ) => {
       const Implementation: FC = () => {
@@ -279,7 +279,12 @@ describe("useResourceTable", () => {
         undefined,
         "-updated_at",
       ],
-      ["an explicit `sortDescFirst`", "quantity", true, "-quantity"],
+      [
+        "an explicit `sortDescFirst`",
+        "total_amount_cents",
+        true,
+        "-total_amount_cents",
+      ],
       [
         "an explicitly ascending date column",
         "created_at",
@@ -324,7 +329,7 @@ describe("useResourceTable", () => {
 
     it("never clears the sort, however many times the header is clicked", async () => {
       mockOrdersList()
-      const reported: ResourceTableSort[] = []
+      const reported: Array<ResourceTableSort<"orders">> = []
       const { container, findByText } = renderSortable({
         defaultSort: "number",
         onSortChange: (sort) => {

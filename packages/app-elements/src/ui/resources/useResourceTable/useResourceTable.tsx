@@ -57,7 +57,7 @@ function getColumnId<T extends ListableResourceType>(
 
 /** Parse an SDK sort expression (`"-created_at"`) into `{ attribute, desc }`. */
 function parseSort(
-  sort: ResourceTableSort,
+  sort: string | undefined,
 ): { attribute: string; desc: boolean } | undefined {
   if (sort == null || sort === "") {
     return undefined
@@ -135,12 +135,12 @@ export function useResourceTable<TResource extends ListableResourceType>(
 
   // Sort state: controlled when `onSortChange` is provided, otherwise internal.
   const isControlled = onSortChange != null
-  const [internalSort, setInternalSort] = useState<ResourceTableSort>(
-    () => defaultSort,
-  )
+  const [internalSort, setInternalSort] = useState<
+    ResourceTableSort<TResource>
+  >(() => defaultSort)
   const sort = isControlled ? controlledSort : internalSort
   const setSort = useCallback(
-    (next: ResourceTableSort) => {
+    (next: ResourceTableSort<TResource>) => {
       if (isControlled) {
         onSortChange?.(next)
       } else {
@@ -244,7 +244,9 @@ export function useResourceTable<TResource extends ListableResourceType>(
       if (attribute == null) {
         return
       }
-      setSort(`${first.desc ? "-" : ""}${attribute}`)
+      // built per branch rather than with an inline conditional inside the
+      // template: that way each branch matches the sort expression union exactly
+      setSort(first.desc ? `-${attribute}` : attribute)
     },
     [sorting, columns, setSort],
   )

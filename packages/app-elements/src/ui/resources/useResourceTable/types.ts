@@ -1,4 +1,7 @@
-import type { ListableResourceType } from "@commercelayer/sdk"
+import type {
+  ListableResourceType,
+  ResourceSortFields,
+} from "@commercelayer/sdk"
 import type { FC, ReactNode } from "react"
 import type { SectionProps } from "#ui/atoms/Section"
 import type { Resource } from "../useResourceList/listFetcher"
@@ -49,8 +52,16 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    */
   hideBelow?: "md" | "lg" | "xl"
   /**
-   * When set, the column becomes sortable and this value is the CommerceLayer
-   * SDK sort attribute it sorts by (e.g. `"created_at"`).
+   * When set, the column becomes sortable and this value is the attribute it
+   * sorts by (e.g. `"created_at"`).
+   *
+   * Only attributes the API can actually sort by are accepted: the type is the
+   * resource's own sortable set, taken from the SDK (see `SortableAttribute`).
+   * Attributes reached through a relationship (`sku.code`, a market's name) are
+   * not sortable, so those columns stay static.
+   *
+   * On a `metricsQuery` table the value is a Metrics attribute instead
+   * (`"order.placed_at"`) — see `MetricsAttribute`.
    *
    * Sorting is server-side: clicking the header drives the SDK `sort` query
    * param and refetches. Rows are never reordered client-side.
@@ -58,7 +69,7 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    * The header toggles between the two directions; the sort cannot be removed,
    * so a table always keeps an explicit order.
    */
-  sortBy?: string
+  sortBy?: SortableAttribute<TResource> | MetricsAttribute
   /**
    * Direction applied on the first click of this column's header.
    *
@@ -71,10 +82,39 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
 }
 
 /**
+ * The attributes the API can sort a given resource by, straight from the SDK's
+ * `ResourceSortFields`. Every resource adds the shared `id`, `reference`,
+ * `reference_origin`, `created_at` and `updated_at` to its own set.
+ *
+ * This is the single source of truth for whether a column can be sortable: the
+ * API rejects anything else, and computed values (a status derived from several
+ * timestamps, a relationship's name) are not in it by definition.
+ */
+export type SortableAttribute<TResource extends ListableResourceType> = Extract<
+  keyof ResourceSortFields[TResource],
+  string
+>
+
+/**
+ * A Metrics API sort attribute, always namespaced by its entity
+ * (`"order.placed_at"`). Metrics has its own attribute names, outside the SDK's
+ * resource types, so these can only be checked by shape — the dot is what tells
+ * them apart from a Core attribute.
+ */
+export type MetricsAttribute = `${string}.${string}`
+
+/**
  * SDK sort expression, e.g. `"created_at"` (asc) or `"-created_at"` (desc).
  * `undefined` means no explicit table sort is applied.
  */
-export type ResourceTableSort = string | undefined
+export type ResourceTableSort<
+  TResource extends ListableResourceType = ListableResourceType,
+> =
+  | SortableAttribute<TResource>
+  | `-${SortableAttribute<TResource>}`
+  | MetricsAttribute
+  | `-${MetricsAttribute}`
+  | undefined
 
 export type UseResourceTableConfig<TResource extends ListableResourceType> =
   Omit<UseResourceListConfig<TResource>, "metricsQuery" | "query"> & {
@@ -138,18 +178,18 @@ export type UseResourceTableConfig<TResource extends ListableResourceType> =
      * Pass together with `onSortChange` to own the sort state (e.g. persist it
      * in the URL). When omitted the table manages sort internally.
      */
-    sort?: ResourceTableSort
+    sort?: ResourceTableSort<TResource>
     /**
      * Called when the user changes the sort. Provide together with `sort` for
      * controlled mode; the callback receives the new SDK sort expression (or
      * `undefined` when sorting is cleared).
      */
-    onSortChange?: (sort: ResourceTableSort) => void
+    onSortChange?: (sort: ResourceTableSort<TResource>) => void
     /**
      * Initial sort used only when the table manages sort internally
      * (uncontrolled). Ignored when `sort`/`onSortChange` are provided.
      */
-    defaultSort?: ResourceTableSort
+    defaultSort?: ResourceTableSort<TResource>
   }
 
 /** Props of the `ResourceTable` component returned by the hook. */
@@ -201,5 +241,5 @@ export interface UseResourceTableReturn<
   refresh: () => void
   hasMorePages?: boolean
   /** The active sort (SDK sort expression), whether controlled or internal. */
-  sort: ResourceTableSort
+  sort: ResourceTableSort<TResource>
 }
