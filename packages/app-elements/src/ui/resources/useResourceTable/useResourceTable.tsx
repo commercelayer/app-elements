@@ -17,6 +17,7 @@ import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Table, Td, Th, Tr } from "#ui/atoms/Table"
 import { Text } from "#ui/atoms/Text"
+import { VisibilityTrigger } from "#ui/atoms/VisibilityTrigger"
 import type { Resource } from "../useResourceList/listFetcher"
 import {
   type UseResourceListConfig,
@@ -24,7 +25,6 @@ import {
   useResourceList,
 } from "../useResourceList/useResourceList"
 import { computeTitleWithTotalCount } from "../useResourceList/utils"
-import { VisibilityTrigger } from "../useResourceList/VisibilityTrigger"
 import type {
   ResourceTableColumn,
   ResourceTableProps,

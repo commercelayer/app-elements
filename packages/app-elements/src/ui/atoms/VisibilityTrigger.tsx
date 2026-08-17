@@ -1,11 +1,24 @@
 import React, { type JSX, useEffect, useRef } from "react"
 
-interface VisibilityTriggerProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface VisibilityTriggerProps
+  extends React.HTMLAttributes<HTMLDivElement> {
+  /**
+   * Grows or shrinks the area that counts as visible, e.g. `"200px"` to start
+   * loading before the element actually reaches the viewport.
+   */
   rootMargin?: string
+  /** Invoked whenever the element enters or leaves the viewport. */
   callback: (entry: IntersectionObserverEntry) => void
+  /** When `false` the element still renders, but is not observed. */
   enabled: boolean
 }
 
+/**
+ * Renders an empty element and reports when it scrolls into view, so callers
+ * can load the next page of a long list as the user approaches the end of it.
+ *
+ * Place it after the last item you have rendered.
+ */
 export function VisibilityTrigger({
   rootMargin,
   enabled,
@@ -13,6 +26,7 @@ export function VisibilityTrigger({
   ...rest
 }: VisibilityTriggerProps): JSX.Element {
   const triggerEl = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {

@@ -29,13 +29,13 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { Table, Th, Tr } from "#ui/atoms/Table"
 import type { ThProps } from "#ui/atoms/Table/Th"
 import { Text } from "#ui/atoms/Text"
+import { VisibilityTrigger } from "#ui/atoms/VisibilityTrigger"
 import { InputFeedback } from "#ui/forms/InputFeedback"
 import { type FetcherResponse, listFetcher, type Resource } from "./listFetcher"
 import { useMetricsSdkProvider } from "./metricsApiClient"
 import { PaginationInfo } from "./PaginationInfo"
 import { initialState, reducer } from "./reducer"
 import { computeTitleWithTotalCount } from "./utils"
-import { VisibilityTrigger } from "./VisibilityTrigger"
 
 export interface ResourceListItemTemplateProps<
   TResource extends ListableResourceType,

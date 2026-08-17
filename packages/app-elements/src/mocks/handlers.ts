@@ -3,6 +3,7 @@ import { HttpResponse, http } from "msw"
 import corePublicResources from "./data/core_resources"
 import countries from "./data/countries"
 import customers from "./data/customers"
+import eventStores from "./data/event_stores"
 import markets from "./data/markets"
 
 export const handlers = [
@@ -110,6 +111,7 @@ export const handlers = [
   ...customers,
   ...countries,
   ...markets,
+  ...eventStores,
 ]
 
 function returnEmptyList(url: URL): boolean {
