@@ -62,3 +62,42 @@ describe("Tabs", () => {
     expect(getByTestId("tab-nav-2")).toBeInTheDocument()
   })
 })
+
+describe("Tabs separator", () => {
+  it("draws a rule before the tab that asks for one, right after the previous tab", () => {
+    const { container, queryAllByTestId } = render(
+      <Tabs>
+        <Tab name="Placed">a</Tab>
+        <Tab name="Fulfilled">b</Tab>
+        <Tab name="Carts" separatorBefore>
+          c
+        </Tab>
+        <Tab name="Archived">d</Tab>
+      </Tabs>,
+    )
+
+    expect(queryAllByTestId("tab-nav-separator")).toHaveLength(1)
+
+    const navChildren = Array.from(
+      container.querySelector("nav")?.children ?? [],
+    )
+    const separatorIndex = navChildren.findIndex(
+      (child) => child.getAttribute("data-testid") === "tab-nav-separator",
+    )
+    expect(navChildren[separatorIndex - 1]).toHaveTextContent("Fulfilled")
+    expect(navChildren[separatorIndex + 1]).toHaveTextContent("Carts")
+  })
+
+  it("draws none when no tab asks, and none before the first tab", () => {
+    const { queryAllByTestId } = render(
+      <Tabs>
+        <Tab name="Placed" separatorBefore>
+          a
+        </Tab>
+        <Tab name="Fulfilled">b</Tab>
+      </Tabs>,
+    )
+
+    expect(queryAllByTestId("tab-nav-separator")).toHaveLength(0)
+  })
+})

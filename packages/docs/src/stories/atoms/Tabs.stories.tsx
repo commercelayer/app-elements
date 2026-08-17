@@ -45,3 +45,37 @@ Default.args = {
   },
   keepAlive: true,
 }
+
+/**
+ * `separatorBefore` draws a vertical rule before a tab, to set the tabs that follow
+ * apart from the ones before it.
+ *
+ * Here the first four tabs are the states an order moves through, while the last two
+ * are shelves it can be put on — related to the others, but not a further step.
+ *
+ * The rule is a flex item in the same row as the tabs, so it takes the same gap on
+ * either side, and it is skipped when set on the first rendered tab, where there is
+ * nothing to separate.
+ */
+export const WithSeparator: StoryFn<typeof Tabs> = (args) => (
+  <Tabs {...args}>
+    <Tab name="All">
+      <div>Every order</div>
+    </Tab>
+    <Tab name="Placed">
+      <div>Waiting to be approved</div>
+    </Tab>
+    <Tab name="Approved">
+      <div>Approved, not fulfilled yet</div>
+    </Tab>
+    <Tab name="Fulfilled">
+      <div>Nothing left to do</div>
+    </Tab>
+    <Tab name="Carts" separatorBefore>
+      <div>Not placed yet</div>
+    </Tab>
+    <Tab name="Archived">
+      <div>Put away</div>
+    </Tab>
+  </Tabs>
+)

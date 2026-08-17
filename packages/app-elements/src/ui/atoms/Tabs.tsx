@@ -97,18 +97,22 @@ function Tabs({
           children,
           (tab, index) =>
             tab != null && (
-              <TabNav
-                // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                key={index}
-                isActive={index === activeIndex}
-                label={tab.props.name}
-                onClick={() => {
-                  setActiveIndex(index)
-                  onTabSwitch?.(index)
-                }}
-                id={`tab-nav-${id}-${index}`}
-                data-testid={`tab-nav-${index}`}
-              />
+              // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+              <React.Fragment key={index}>
+                {/* nothing to separate before the first rendered tab */}
+                {tab.props.separatorBefore === true &&
+                  index > (firstActiveIndex ?? 0) && <TabNavSeparator />}
+                <TabNav
+                  isActive={index === activeIndex}
+                  label={tab.props.name}
+                  onClick={() => {
+                    setActiveIndex(index)
+                    onTabSwitch?.(index)
+                  }}
+                  id={`tab-nav-${id}-${index}`}
+                  data-testid={`tab-nav-${index}`}
+                />
+              </React.Fragment>
             ),
         )}
       </nav>
@@ -138,6 +142,14 @@ export interface TabProps {
    */
   name: string
   /**
+   * Draws a vertical rule before this tab in the navigation, to set the tabs that
+   * follow apart from the ones before — e.g. to separate the states an order moves
+   * through from the shelves it can be put on (carts, archive).
+   *
+   * Ignored on the first rendered tab, where there is nothing to separate.
+   */
+  separatorBefore?: boolean
+  /**
    * Tab Panel content
    */
   children: ReactNode
@@ -145,6 +157,23 @@ export interface TabProps {
 
 function Tab({ children }: TabProps): React.ReactElement {
   return <>{children}</>
+}
+
+/**
+ * The rule between two groups of tabs. A flex item like the tabs themselves, so it
+ * picks up the same `gap` on either side, and padded like them so its line centres
+ * on the labels rather than on the whole row.
+ */
+function TabNavSeparator(): JSX.Element {
+  return (
+    <div
+      aria-hidden
+      className="flex items-center pb-4 -mb-[2px]"
+      data-testid="tab-nav-separator"
+    >
+      <span className="block w-px h-4 bg-gray-200" />
+    </div>
+  )
 }
 
 function TabNav({
