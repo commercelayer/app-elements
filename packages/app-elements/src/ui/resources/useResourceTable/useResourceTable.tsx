@@ -618,12 +618,19 @@ export function useResourceTable<TResource extends ListableResourceType>(
                 return (
                   <Tr
                     key={row.id}
-                    // Row-level click is used only when there is no href; with an
-                    // href the (stretched) anchor on the first cell owns the click
-                    // so modified/middle clicks open a new tab.
+                    // The whole row is clickable through here, including when the
+                    // first cell carries a link: clicks coming from that link are
+                    // skipped, since the link handles them itself.
                     onClick={
-                      href == null && onRowClick != null
+                      onRowClick != null
                         ? (event) => {
+                            if (
+                              (event.target as HTMLElement | null)?.closest(
+                                "a",
+                              ) != null
+                            ) {
+                              return
+                            }
                             onRowClick(resource, event)
                           }
                         : undefined
@@ -640,8 +647,6 @@ export function useResourceTable<TResource extends ListableResourceType>(
                       // stuck on the row it opened.
                       clickable &&
                         "cursor-pointer md:[&:hover>td]:bg-gray-50/50",
-                      // positioning context for the stretched-link `::after`
-                      href != null && "relative",
                     )}
                   >
                     {row.getAllCells().map((cell, colIndex) => {
@@ -658,13 +663,21 @@ export function useResourceTable<TResource extends ListableResourceType>(
                             alignClassName(columns, colIndex),
                             clipClassName(columns[colIndex]?.kind),
                             visibilityClassName(columns[colIndex], colIndex),
+                            // Positioning context for the link's `::after` below.
+                            // On the cell, never on the `tr`: engines that ignore
+                            // `position: relative` on a table row (older iOS Safari)
+                            // resolve the overlay against a page-level ancestor
+                            // instead, and it then covers the search field and the
+                            // tabs above the table — every tap opening the last row.
+                            href != null && colIndex === 0 && "relative",
                           )}
                         >
                           {href != null && colIndex === 0 ? (
-                            // Stretched link: a real anchor on the first cell's
-                            // content whose `::after` covers the whole row. Gives
-                            // new-tab / cmd-click semantics; plain clicks are
-                            // handled client-side via onRowClick when provided.
+                            // A real anchor, stretched over its own cell, so
+                            // cmd/middle click opens the row in a new tab and the
+                            // URL shows on hover. The rest of the row is covered by
+                            // the row's own click handler rather than by a wider
+                            // overlay, which could not be contained reliably.
                             <a
                               href={href}
                               onClick={(event) => {

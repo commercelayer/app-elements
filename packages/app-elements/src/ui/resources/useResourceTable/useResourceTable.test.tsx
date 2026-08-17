@@ -119,7 +119,7 @@ describe("useResourceTable", () => {
       )
     }
 
-    it("renders a single stretched anchor, on the first cell only", async () => {
+    it("renders a single anchor, on the first cell only", async () => {
       mockOrdersList()
       const { container, findByText } = renderWithLinks()
       await findByText("#1001")
@@ -133,11 +133,28 @@ describe("useResourceTable", () => {
       assertToBeDefined(anchor)
       expect(anchor).toHaveAttribute("href", "/orders/order-1")
       expect(anchor.closest("td")).toBe(firstRow.querySelector("td"))
-      // `::after` is what covers the row, so the anchor needs a positioned row
-      expect(firstRow).toHaveClass("relative")
     })
 
-    it("leaves the row itself non-interactive, so the anchor owns the click", async () => {
+    /**
+     * The anchor's `::after` overlay must be contained by its own cell, not by the
+     * row: engines that ignore `position: relative` on a `tr` (older iOS Safari)
+     * resolve it against a page-level ancestor instead, where it covers the search
+     * field and the tabs above the table and swallows every tap.
+     */
+    it("positions the link overlay on its cell, never on the row", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithLinks()
+      await findByText("#1001")
+
+      const [firstRow] = getRows(container)
+      assertToBeDefined(firstRow)
+      expect(firstRow).not.toHaveClass("relative")
+      expect(firstRow.querySelector("td")).toHaveClass("relative")
+      // and only that cell: the others hold no overlay to contain
+      expect(firstRow.querySelectorAll("td")[1]).not.toHaveClass("relative")
+    })
+
+    it("leaves the row without a button role, so the anchor carries the semantics", async () => {
       mockOrdersList()
       const { container, findByText } = renderWithLinks(() => {})
       await findByText("#1001")
@@ -145,6 +162,33 @@ describe("useResourceTable", () => {
       const [firstRow] = getRows(container)
       assertToBeDefined(firstRow)
       expect(firstRow).not.toHaveAttribute("role", "button")
+    })
+
+    it("opens the row from a click anywhere in it, not only on the link", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const { container, findByText } = renderWithLinks(onRowClick)
+      await findByText("#1001")
+
+      const secondCell = getRows(container)[0]?.querySelectorAll("td")[1]
+      assertToBeDefined(secondCell)
+      fireEvent.click(secondCell)
+
+      expect(onRowClick).toHaveBeenCalledTimes(1)
+      expect(onRowClick.mock.calls[0]?.[0]).toMatchObject({ id: "order-1" })
+    })
+
+    it("does not handle a link click twice, once for the link and once for the row", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const { container, findByText } = renderWithLinks(onRowClick)
+      await findByText("#1001")
+
+      const anchor = getRows(container)[0]?.querySelector("a")
+      assertToBeDefined(anchor)
+      fireEvent.click(anchor)
+
+      expect(onRowClick).toHaveBeenCalledTimes(1)
     })
 
     it("on a plain click, calls `onRowClick` with the row's resource and prevents the navigation", async () => {
