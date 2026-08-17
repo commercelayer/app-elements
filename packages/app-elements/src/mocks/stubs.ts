@@ -31,6 +31,18 @@ const MockIntersectionObserver = vi.fn(
 vi.stubGlobal(`IntersectionObserver`, MockIntersectionObserver)
 vi.stubGlobal(`scrollTo`, vi.fn())
 
+// jsdom has no ResizeObserver, and shared components observe their own size —
+// `Tabs` watches its tab row to know which edge should fade when it scrolls. Stubbed
+// globally rather than per suite, so rendering such a component never needs setup.
+vi.stubGlobal(
+  "ResizeObserver",
+  vi.fn(() => ({
+    observe: vi.fn(),
+    unobserve: vi.fn(),
+    disconnect: vi.fn(),
+  })),
+)
+
 const intersectionEntry = {
   isIntersecting: true,
 } as unknown as IntersectionObserverEntry

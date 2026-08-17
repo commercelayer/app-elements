@@ -101,3 +101,76 @@ describe("Tabs separator", () => {
     expect(queryAllByTestId("tab-nav-separator")).toHaveLength(0)
   })
 })
+
+describe("Tabs scroll fade", () => {
+  /** jsdom lays nothing out, so the row's geometry has to be stated. */
+  const setGeometry = (
+    element: HTMLElement,
+    {
+      scrollWidth,
+      clientWidth,
+      scrollLeft,
+    }: { scrollWidth: number; clientWidth: number; scrollLeft: number },
+  ): void => {
+    Object.defineProperty(element, "scrollWidth", {
+      value: scrollWidth,
+      configurable: true,
+    })
+    Object.defineProperty(element, "clientWidth", {
+      value: clientWidth,
+      configurable: true,
+    })
+    element.scrollLeft = scrollLeft
+    fireEvent.scroll(element)
+  }
+
+  const renderTabs = (): HTMLElement => {
+    const { getByTestId } = render(
+      <Tabs>
+        <Tab name="All">a</Tab>
+        <Tab name="In progress">b</Tab>
+        <Tab name="Archived">c</Tab>
+      </Tabs>,
+    )
+    return getByTestId("tab-nav-scroller")
+  }
+
+  it("fades neither edge when the tabs fit", () => {
+    const scroller = renderTabs()
+    setGeometry(scroller, { scrollWidth: 390, clientWidth: 390, scrollLeft: 0 })
+
+    expect(scroller.style.maskImage).toBe("")
+  })
+
+  it("fades the end only, at the start of the row", () => {
+    const scroller = renderTabs()
+    setGeometry(scroller, { scrollWidth: 600, clientWidth: 390, scrollLeft: 0 })
+
+    expect(scroller.style.maskImage).toContain("transparent 100%")
+    expect(scroller.style.maskImage).not.toContain("transparent 0")
+  })
+
+  it("fades both edges midway", () => {
+    const scroller = renderTabs()
+    setGeometry(scroller, {
+      scrollWidth: 600,
+      clientWidth: 390,
+      scrollLeft: 90,
+    })
+
+    expect(scroller.style.maskImage).toContain("transparent 0")
+    expect(scroller.style.maskImage).toContain("transparent 100%")
+  })
+
+  it("fades the start only, at the end of the row", () => {
+    const scroller = renderTabs()
+    setGeometry(scroller, {
+      scrollWidth: 600,
+      clientWidth: 390,
+      scrollLeft: 210,
+    })
+
+    expect(scroller.style.maskImage).toContain("transparent 0")
+    expect(scroller.style.maskImage).not.toContain("transparent 100%")
+  })
+})

@@ -79,3 +79,38 @@ export const WithSeparator: StoryFn<typeof Tabs> = (args) => (
     </Tab>
   </Tabs>
 )
+
+/**
+ * On a narrow screen the tab row scrolls sideways rather than wrapping, and fades out
+ * at whichever end still has tabs beyond it. Drag the row below to see the hint move
+ * from one side to the other.
+ *
+ * Labels never break: "In progress" stays on one line and the row grows instead.
+ */
+export const ScrollingOnMobile: StoryFn<typeof Tabs> = (args) => (
+  <div style={{ width: 390, border: "1px dashed #ddd", padding: "0 16px" }}>
+    <Tabs {...args}>
+      <Tab name="All">
+        <div>Every order</div>
+      </Tab>
+      <Tab name="Placed">
+        <div>Waiting to be approved</div>
+      </Tab>
+      <Tab name="Approved">
+        <div>Approved, not being fulfilled yet</div>
+      </Tab>
+      <Tab name="In progress">
+        <div>Being fulfilled</div>
+      </Tab>
+      <Tab name="Fulfilled">
+        <div>Nothing left to do</div>
+      </Tab>
+      <Tab name="Carts" separatorBefore>
+        <div>Not placed yet</div>
+      </Tab>
+      <Tab name="Archived">
+        <div>Put away</div>
+      </Tab>
+    </Tabs>
+  </div>
+)
