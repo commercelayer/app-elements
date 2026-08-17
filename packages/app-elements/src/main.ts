@@ -51,6 +51,7 @@ export { type ApiError, parseApiError } from "#helpers/errors"
 export { maskGiftCardCode } from "#helpers/giftCards"
 export { isMock, isMockedId } from "#helpers/mocks"
 export { computeFullname, formatDisplayName } from "#helpers/name"
+export { type FormatNumberOptions, formatNumber } from "#helpers/numbers"
 export {
   formatResourceName,
   getResourceEndpoint,

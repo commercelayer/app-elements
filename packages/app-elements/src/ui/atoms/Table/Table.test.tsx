@@ -49,4 +49,30 @@ describe("Table", () => {
     expect(element).toBeInTheDocument()
     expect(element).toHaveClass("border")
   })
+
+  it("Should hide the header on mobile and close the first row with a divider instead", () => {
+    const { getByRole, container } = render(
+      <Table thead={tHead} tbody={tBody} />,
+    )
+
+    expect(container.querySelector("thead")).toHaveClass(
+      "hidden",
+      "md:table-header-group",
+    )
+    expect(getByRole("table")).toHaveClass(
+      "[&>tbody>tr:first-of-type>td]:border-t",
+      "md:[&>tbody>tr:first-of-type>td]:border-t-0",
+    )
+  })
+
+  // the card border already draws that line
+  it("Should not add the mobile divider to a boxed table", () => {
+    const { getByRole } = render(
+      <Table variant="boxed" thead={tHead} tbody={tBody} />,
+    )
+
+    expect(getByRole("table")).not.toHaveClass(
+      "[&>tbody>tr:first-of-type>td]:border-t",
+    )
+  })
 })

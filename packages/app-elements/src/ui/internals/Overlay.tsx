@@ -136,7 +136,13 @@ export const Overlay: React.FC<OverlayProps> = ({
             "bg-gray-50": backgroundColor === "light",
             "bg-white": backgroundColor == null,
             "inset-0 w-full": !drawer,
-            "top-0 right-0 bottom-0 w-full md:w-170 max-w-[95vw] animate-slide-in-right":
+            // Full width on mobile. There used to be a 95vw max-width here, but it
+            // could only ever bind below `md`: the `md` width is a fixed 680px and
+            // 95vw is already wider than that at the breakpoint itself.
+            //
+            // (Written out rather than as a class name on purpose — Tailwind scans
+            // comments too, and would keep emitting the rule we just dropped.)
+            "top-0 right-0 bottom-0 w-full md:w-170 animate-slide-in-right":
               drawer,
           },
         )}

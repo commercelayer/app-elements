@@ -118,7 +118,11 @@ function FiltersForm({
 
         return null
       })}
-      <div className="w-full sticky bottom-0 bg-gray-50 pb-8">
+      {/* Sticky so the button stays reachable while the filters scroll, opaque so
+          they do not show through underneath it. White because that is what the
+          drawer it lives in is: a `bg-gray-50` here reads as a second, empty grey
+          button below the real one. */}
+      <div className="w-full sticky bottom-0 bg-white pb-8">
         <Button type="submit" fullWidth>
           {t("common.apply_filters")}
         </Button>

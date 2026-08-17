@@ -8,6 +8,7 @@ import cn from "classnames"
 import { type FC, useCallback, useMemo, useRef, useState } from "react"
 import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
 import { Section } from "#ui/atoms/Section"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
@@ -64,17 +65,18 @@ function parseSort(
   return { attribute: desc ? sort.slice(1) : sort, desc }
 }
 
+/**
+ * Alignment classes for a data cell. Unlike a header, a `td` has no alignment of its
+ * own, so the base and the responsive override are both spelled out here.
+ */
 function alignClassName(
-  align: ResourceTableColumn<ListableResourceType>["align"],
+  columns: AlignableColumn[],
+  index: number,
 ): string | undefined {
-  switch (align) {
-    case "right":
-      return "text-right"
-    case "center":
-      return "text-center"
-    default:
-      return undefined
-  }
+  const { align, className } = resolveAlign(columns, index)
+  const base =
+    align === "right" ? "text-right" : align === "center" ? "text-center" : ""
+  return cn(base, className) || undefined
 }
 
 type ColumnKind = NonNullable<ResourceTableColumn<ListableResourceType>["kind"]>
@@ -140,34 +142,115 @@ function columnWidths(
   return weights.map((weight) => (weight / total) * 100)
 }
 
+/** A column of any resource, reduced to the fields alignment depends on. */
+type AlignableColumn = Pick<
+  ResourceTableColumn<ListableResourceType>,
+  "align" | "kind" | "hideBelow"
+>
+
 /**
- * Numbers read right-aligned, so their digits line up down the column.
+ * Which columns are on screen at a given width — mobile shows the first column and
+ * whatever asked to stay (see `visibilityClassName`), desktop shows them all.
  *
- * So does the `actions` menu: its share is wider than the icon button it holds, and
- * left-aligned that surplus reads as a gap at the table's right edge.
+ * Only these two widths are modelled. A `hideBelow` of `"lg"`/`"xl"` narrows a
+ * column further, which would matter here only if it were the trailing one; no
+ * table does that today, and the fallback (aligned as if it were visible) is the
+ * current behaviour rather than a regression.
  */
-const columnKindAlign: Partial<Record<ColumnKind, "right">> = {
-  amount: "right",
-  count: "right",
-  actions: "right",
+function visibleIndexes(
+  columns: AlignableColumn[],
+  width: "mobile" | "desktop",
+): number[] {
+  if (width === "desktop") {
+    return columns.map((_, index) => index)
+  }
+  return columns
+    .map((_, index) => index)
+    .filter((index) => index === 0 || columns[index]?.hideBelow === "never")
 }
 
 /**
- * The alignment a column ends up with: its own `align`, else its kind's.
+ * Whether a column sits at the trailing edge of what is on screen: the last visible
+ * column, or the last before a visible `actions` menu.
+ */
+function isTrailingColumn(
+  columns: AlignableColumn[],
+  index: number,
+  width: "mobile" | "desktop",
+): boolean {
+  const visible = visibleIndexes(columns, width)
+  const position = visible.indexOf(index)
+  if (position === -1) {
+    return false
+  }
+  const lastPosition = visible.length - 1
+  if (position === lastPosition) {
+    return true
+  }
+  const nextIsActions =
+    columns[visible[lastPosition] as number]?.kind === "actions"
+  return position === lastPosition - 1 && nextIsActions
+}
+
+/** Whether a column's number should be right-aligned at the given width. */
+function isRightAligned(
+  columns: AlignableColumn[],
+  index: number,
+  width: "mobile" | "desktop",
+): boolean {
+  const column = columns[index]
+  if (column?.kind === "actions") {
+    return true
+  }
+  const isNumeric = column?.kind === "amount" || column?.kind === "count"
+  return isNumeric && isTrailingColumn(columns, index, width)
+}
+
+/**
+ * How a column is aligned, as the `align` value for the header plus the classes that
+ * carry any change between widths.
  *
- * Takes only the two fields it reads, so it accepts a column of any resource: the
- * full `ResourceTableColumn<TResource>` is invariant through its `cell` callback
- * and would not be assignable here.
+ * Numbers are right-aligned at the trailing edge, where their digits line up against
+ * the table's own border. Mid-table the same alignment pulls a number away from its
+ * header and up against the next column, reading as if it belonged there — so it
+ * stays left-aligned like everything else.
+ *
+ * Which column is trailing depends on the width: mobile shows one column plus
+ * whatever asked to stay, so price_lists' Price and inventory's Quantity are last on
+ * a phone and mid-table on a desktop. Hence the responsive override rather than one
+ * fixed value.
+ *
+ * The `actions` menu is right-aligned wherever it is: its share is wider than the
+ * icon button it holds, and left-aligned that surplus reads as a gap at the table's
+ * right edge.
+ *
+ * Takes only the fields it reads, so it accepts a column of any resource: the full
+ * `ResourceTableColumn<TResource>` is invariant through its `cell` callback and
+ * would not be assignable here.
  */
 function resolveAlign(
-  column:
-    | Pick<ResourceTableColumn<ListableResourceType>, "align" | "kind">
-    | undefined,
-): ResourceTableColumn<ListableResourceType>["align"] {
+  columns: AlignableColumn[],
+  index: number,
+): {
+  align: ResourceTableColumn<ListableResourceType>["align"]
+  className: string | undefined
+} {
+  const column = columns[index]
+  // an app that states an alignment means it at every width
   if (column?.align != null) {
-    return column.align
+    return { align: column.align, className: undefined }
   }
-  return column?.kind != null ? columnKindAlign[column.kind] : undefined
+  const onMobile = isRightAligned(columns, index, "mobile")
+  const onDesktop = isRightAligned(columns, index, "desktop")
+  if (onMobile === onDesktop) {
+    return { align: onMobile ? "right" : undefined, className: undefined }
+  }
+  // Full literal classes, for Tailwind's scanner. The override wins over the base
+  // alignment because media-query variants are emitted after plain utilities — and
+  // over `Th`'s legacy `align` attribute, which carries no specificity at all.
+  return onDesktop
+    ? { align: undefined, className: "md:text-right" }
+    : { align: "right", className: "md:text-left" }
 }
 
 /**
@@ -255,6 +338,8 @@ export function useResourceTable<TResource extends ListableResourceType>(
     onSortChange,
     defaultSort,
   } = config
+
+  const { user } = useTokenProvider()
 
   // Sort state: controlled when `onSortChange` is provided, otherwise internal.
   const isControlled = onSortChange != null
@@ -395,6 +480,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
     fetchMore,
     onRowClick,
     getRowHref,
+    locale: user?.locale,
   })
   renderRef.current = {
     table,
@@ -411,6 +497,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
     fetchMore,
     onRowClick,
     getRowHref,
+    locale: user?.locale,
   }
 
   const ResourceTable = useCallback<FC<ResourceTableProps>>(
@@ -437,13 +524,14 @@ export function useResourceTable<TResource extends ListableResourceType>(
         fetchMore,
         onRowClick,
         getRowHref,
+        locale,
       } = renderRef.current
 
       const recordCount = meta?.recordCount
       const computedTitle =
         typeof title === "function"
           ? title(recordCount)
-          : computeTitleWithTotalCount({ title, recordCount })
+          : computeTitleWithTotalCount({ title, recordCount, locale })
 
       if (isApiError) {
         return (
@@ -467,10 +555,11 @@ export function useResourceTable<TResource extends ListableResourceType>(
           {table.getHeaderGroups()[0]?.headers.map((header, index) => {
             const definition = columns[index]
             const label = <table.FlexRender header={header} />
+            const headerAlign = resolveAlign(columns, index)
             return (
               <Th
                 key={header.id}
-                align={resolveAlign(definition)}
+                align={headerAlign.align}
                 // fixed layout takes its widths from the first row, so declaring
                 // them here sizes the whole column. Skipped when the column sets
                 // an explicit `width` class, which then owns the width.
@@ -481,6 +570,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
                 }
                 className={cn(
                   definition?.width,
+                  headerAlign.className,
                   visibilityClassName(definition, index),
                 )}
               >
@@ -506,7 +596,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
                     : undefined
                 }
                 className={cn(
-                  alignClassName(resolveAlign(column)),
+                  alignClassName(columns, colIndex),
                   clipClassName(column.kind),
                   visibilityClassName(column, colIndex),
                 )}
@@ -542,10 +632,14 @@ export function useResourceTable<TResource extends ListableResourceType>(
                       href == null && onRowClick != null ? "button" : undefined
                     }
                     className={cn(
-                      // the hover has to be painted on the cells, not on the row:
+                      // The hover has to be painted on the cells, not on the row:
                       // `Td` is opaque (`bg-white`) and a `tr` background renders
-                      // behind its cells, so a `hover:bg-*` here would be covered
-                      clickable && "cursor-pointer [&:hover>td]:bg-gray-50/50",
+                      // behind its cells, so a `hover:bg-*` here would be covered.
+                      //
+                      // From `md` up only: a tap on a touch screen leaves the hover
+                      // stuck on the row it opened.
+                      clickable &&
+                        "cursor-pointer md:[&:hover>td]:bg-gray-50/50",
                       // positioning context for the stretched-link `::after`
                       href != null && "relative",
                     )}
@@ -561,7 +655,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
                               : undefined
                           }
                           className={cn(
-                            alignClassName(resolveAlign(columns[colIndex])),
+                            alignClassName(columns, colIndex),
                             clipClassName(columns[colIndex]?.kind),
                             visibilityClassName(columns[colIndex], colIndex),
                           )}

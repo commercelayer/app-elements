@@ -46,6 +46,14 @@ export const Table: React.FC<TableProps> = ({
         {
           "border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 first-of-type:[&>tbody>tr:last-of-type>td]:rounded-es last-of-type:[&>tbody>tr:last-of-type>td]:rounded-ee":
             variant === "boxed",
+          // With the header hidden on mobile the first row starts with no line
+          // above it, so it gets one that matches the dividers between rows (the
+          // colour comes from `Td`'s own `border-gray-100`). Above `md` the header
+          // is back and its bottom border draws that line instead.
+          //
+          // Not for `boxed`, where the card's own border already closes the top.
+          "[&>tbody>tr:first-of-type>td]:border-t md:[&>tbody>tr:first-of-type>td]:border-t-0":
+            variant !== "boxed",
         },
         className,
       ])}

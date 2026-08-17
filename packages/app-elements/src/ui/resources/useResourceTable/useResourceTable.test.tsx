@@ -215,6 +215,50 @@ describe("useResourceTable", () => {
     })
   })
 
+  describe("mobile", () => {
+    it("keeps the row hover for pointers only", async () => {
+      mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          onRowClick: () => {},
+        })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      const row = getRows(container)[0]
+      assertToBeDefined(row)
+      // a tap would otherwise leave the hover stuck on the row it opened
+      expect(row).toHaveClass("md:[&:hover>td]:bg-gray-50/50")
+      expect(row).not.toHaveClass("[&:hover>td]:bg-gray-50/50")
+    })
+
+    it("drops the cells' horizontal padding, keeping it from md up", async () => {
+      mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({ type: "orders", columns })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      const cell = container.querySelector("tbody td")
+      expect(cell).toHaveClass("py-4", "md:p-4")
+      expect(cell).not.toHaveClass("p-4")
+    })
+  })
+
   describe("column widths", () => {
     const kindColumns: Array<ResourceTableColumn<"orders">> = [
       // no kind: absorbs whatever the others leave
@@ -348,15 +392,124 @@ describe("useResourceTable", () => {
       expect(container.querySelector("table")).toHaveClass("table-fixed")
     })
 
-    it("right-aligns amounts and counts without the app asking", async () => {
+    /**
+     * Effective alignment of the first body row's cells, per width: the base class
+     * gives mobile, an `md:` override gives desktop.
+     */
+    const alignments = (container: HTMLElement) =>
+      Array.from(container.querySelectorAll("tbody tr:first-of-type td")).map(
+        (td) => {
+          const has = (c: string) => td.classList.contains(c)
+          const mobile = has("text-right") ? "right" : "left"
+          const desktop = has("md:text-right")
+            ? "right"
+            : has("md:text-left")
+              ? "left"
+              : mobile
+          return `${mobile}/${desktop}`
+        },
+      )
+
+    const renderColumns = (cols: Array<ResourceTableColumn<"orders">>) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: cols,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("right-aligns a number last before the actions menu, on desktop", async () => {
       mockOrdersList()
+      // Order, Status, Amount, actions — the amount is trailing on desktop, and not
+      // on screen at all on mobile
       const { container, findByText } = renderKinds()
       await findByText("#1001")
 
-      const amountCell = container.querySelector(
-        "tbody tr:first-of-type td:nth-of-type(3)",
-      )
-      expect(amountCell).toHaveClass("text-right")
+      expect(alignments(container)).toEqual([
+        "left/left",
+        "left/left",
+        "left/right",
+        "right/right",
+      ])
+    })
+
+    // price_lists and inventory: the kept number is the last column on a phone, so
+    // it aligns right there, and goes back to left where the table is full width.
+    it("right-aligns a number that is trailing only on mobile", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "SKU", cell: ({ resource }) => `#${resource.number}` },
+        {
+          header: "Price",
+          kind: "amount",
+          hideBelow: "never",
+          cell: () => "€10,00",
+        },
+        { header: "Original", kind: "amount", cell: () => "€12,00" },
+        { header: "Price list", kind: "text", cell: () => "retail" },
+        { header: "Updated", kind: "datetime", cell: () => "today" },
+      ])
+      await findByText("#1001")
+
+      const [sku, price, original] = alignments(container)
+      expect(price).toBe("right/left")
+      expect(sku).toBe("left/left")
+      expect(original).toBe("left/left")
+    })
+
+    it("right-aligns a number that is last at both widths", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        {
+          header: "Amount",
+          kind: "amount",
+          hideBelow: "never",
+          cell: () => "€10,00",
+        },
+      ])
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual(["left/left", "right/right"])
+    })
+
+    it("leaves a mid-table number left-aligned at every width", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        { header: "Amount", kind: "amount", cell: () => "€10,00" },
+        { header: "Status", kind: "status", cell: () => "placed" },
+      ])
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual([
+        "left/left",
+        "left/left",
+        "left/left",
+      ])
+    })
+
+    it("still honours an explicit `align`, at every width", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        { header: "Qty", kind: "count", align: "right", cell: () => "12" },
+        { header: "Status", kind: "status", cell: () => "placed" },
+      ])
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual([
+        "left/left",
+        "right/right",
+        "left/left",
+      ])
     })
 
     // An open dropdown is absolutely positioned, not portaled, so clipping the

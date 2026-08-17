@@ -22,7 +22,13 @@ export const Td: React.FC<TdProps> = ({
 }) => {
   return (
     <td
-      className={cn("p-4 text-sm border-b border-gray-100 bg-white", className)}
+      className={cn(
+        // `py-4` on mobile, where the row runs edge to edge and the cell's own
+        // horizontal inset would sit on top of the page's; the full `p-4` returns
+        // with the columns at `md`
+        "py-4 md:p-4 text-sm border-b border-gray-100 bg-white",
+        className,
+      )}
       {...rest}
     >
       <SkeletonTemplate isLoading={isLoading} delayMs={delayMs}>
