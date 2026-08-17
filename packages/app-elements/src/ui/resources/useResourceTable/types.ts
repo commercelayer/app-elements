@@ -36,21 +36,43 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    */
   align?: "left" | "right" | "center"
   /**
-   * Optional CSS class applied to the column header, typically for width
-   * control (e.g. `"w-1/2"`).
+   * What the column holds. Sets its width — as a share of the table, so it stays
+   * liquid — plus alignment and truncation, from one scale shared by every app
+   * (see `columnKindClassName`). Leave it off for the column that should absorb
+   * the leftover space: the name, email or SKU the row is about.
+   *
+   * Prefer this over `width`: it is what keeps a status column the same size in
+   * every app, and it makes the loading and loaded tables identical, since the
+   * widths no longer depend on the cell content.
+   */
+  kind?: ResourceTableColumnKind
+  /**
+   * Escape hatch for a width `kind` cannot express, as a CSS class applied to
+   * the column header (e.g. `"w-1/2"`). Overrides the `kind` width.
+   *
+   * Note the table lays out with `table-layout: fixed`, so a class means what it
+   * says: a column narrower than its content clips rather than growing.
    */
   width?: string
   /**
-   * Hide this column below the given breakpoint; it is shown at that width and
-   * up. These are app-elements' own breakpoints (see `styles/global.css`, which
-   * resets Tailwind's defaults): `md` 768px, `lg` 992px, `xl` 1280px. There is
+   * When this column starts being shown, overriding the default.
+   *
+   * By default a table shows only its first column on mobile — a phone has room
+   * for what the row is about and little else — and everything else from `md` up.
+   * Set this to widen or narrow that:
+   *
+   * - `"lg"` / `"xl"` — appear later than the default (a low-value column)
+   * - `"never"` — always visible, mobile included. For the one column that is the
+   *   point of the table: a stock item's quantity, a price, a gift card balance.
+   *
+   * These are app-elements' own breakpoints (see `styles/global.css`, which resets
+   * Tailwind's defaults): `md` 768px, `lg` 992px, `xl` 1280px. There is
    * deliberately no `sm`.
    *
-   * Common cases: `"md"` hides on mobile (shown on tablet + desktop), `"lg"`
-   * shows on desktop only. The column's data is still fetched; only its
-   * rendering is suppressed via CSS, so there is no layout shift on resize.
+   * The column's data is still fetched either way; only its rendering is
+   * suppressed, via CSS, so nothing shifts on resize.
    */
-  hideBelow?: "md" | "lg" | "xl"
+  hideBelow?: "md" | "lg" | "xl" | "never"
   /**
    * When set, the column becomes sortable and this value is the attribute it
    * sorts by (e.g. `"created_at"`).
@@ -80,6 +102,25 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    */
   sortDescFirst?: boolean
 }
+
+/**
+ * The kinds of column a resource table has, each with a width, an alignment and
+ * a truncation rule. Deliberately a short list: the point is that a status column
+ * is the same width in every app, which only holds if apps pick from a scale
+ * rather than sizing columns one by one.
+ *
+ * `text` is for the secondary strings a row carries — a market, a stock location,
+ * a customer, an origin. Without it they would split the leftover space evenly
+ * with the column the row is actually about, which is rarely what you want.
+ */
+export type ResourceTableColumnKind =
+  | "text"
+  | "code"
+  | "status"
+  | "datetime"
+  | "amount"
+  | "count"
+  | "actions"
 
 /**
  * The attributes the API can sort a given resource by, straight from the SDK's

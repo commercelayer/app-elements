@@ -88,13 +88,122 @@ function alignClassName(
   }
 }
 
+type ColumnKind = NonNullable<ResourceTableColumn<ListableResourceType>["kind"]>
+
+/**
+ * How much of the table each kind of column wants, as a weight.
+ *
+ * Relative, not absolute: the weights are normalized to percentages of the actual
+ * column set (see `columnWidths`), because the pages are liquid — a percentage
+ * holds at any viewport where a pixel width would not — and because one scale has
+ * to serve tables of three to six columns.
+ *
+ * A column with no `kind` weighs `flexibleColumnWeight`: it is the name, email or
+ * SKU the row is about, so it gets the largest share.
+ */
+const columnKindWeight: Record<ColumnKind, number> = {
+  text: 2,
+  code: 2,
+  status: 2,
+  datetime: 2,
+  amount: 1,
+  count: 1,
+  // narrow on purpose — it holds one icon button — but still a share rather than
+  // a fixed width: `table-layout: fixed` ignores `min-width`, so a `ch` width
+  // could not defend itself and the surplus would land on this column anyway,
+  // which is what left a third of the table looking empty.
+  actions: 1,
+}
+
+/** The weight of a column with no `kind`, the one the row is about. */
+const flexibleColumnWeight = 3
+
+/**
+ * The widths to declare, as percentages summing to 100.
+ *
+ * Percentages rather than a fraction class per column, because the share depends
+ * on the whole set: the same `status` column is a quarter of a four-column table
+ * and a sixth of a six-column one. Inline styles rather than classes, because app
+ * code is not Tailwind-scanned and these values cannot be enumerated in advance.
+ *
+ * Declared on the header cells *and* on the body cells, because fixed layout takes
+ * its widths from the first rendered row: the header row on desktop, the first body
+ * row once the header is hidden on mobile. Measured — with the widths on the header
+ * alone, a hidden header leaves the columns evenly split (192/192 instead of
+ * 286/98). A `colgroup` looks like the tidier answer but is not: a `col` keeps
+ * reserving its share even when its cells are hidden, so the visible columns would
+ * fill only part of the table.
+ *
+ * Every column is declared, including the ones `hideBelow` may hide: hiding is a
+ * CSS decision made per viewport, so it cannot be resolved here. That works out —
+ * a hidden column takes its percentage out of play and the browser shares the
+ * remainder proportionally, which is measurably what we want (a six-column table
+ * at 560px with three columns hidden splits 249/249/62 rather than dumping the
+ * surplus on the last column).
+ */
+function columnWidths(
+  columns: Array<Pick<ResourceTableColumn<ListableResourceType>, "kind">>,
+): number[] {
+  const weights = columns.map((column) =>
+    column.kind != null ? columnKindWeight[column.kind] : flexibleColumnWeight,
+  )
+  const total = weights.reduce((sum, weight) => sum + weight, 0)
+  return weights.map((weight) => (weight / total) * 100)
+}
+
+/**
+ * Numbers read right-aligned, so their digits line up down the column.
+ *
+ * So does the `actions` menu: its share is wider than the icon button it holds, and
+ * left-aligned that surplus reads as a gap at the table's right edge.
+ */
+const columnKindAlign: Partial<Record<ColumnKind, "right">> = {
+  amount: "right",
+  count: "right",
+  actions: "right",
+}
+
+/**
+ * The alignment a column ends up with: its own `align`, else its kind's.
+ *
+ * Takes only the two fields it reads, so it accepts a column of any resource: the
+ * full `ResourceTableColumn<TResource>` is invariant through its `cell` callback
+ * and would not be assignable here.
+ */
+function resolveAlign(
+  column:
+    | Pick<ResourceTableColumn<ListableResourceType>, "align" | "kind">
+    | undefined,
+): ResourceTableColumn<ListableResourceType>["align"] {
+  if (column?.align != null) {
+    return column.align
+  }
+  return column?.kind != null ? columnKindAlign[column.kind] : undefined
+}
+
+/**
+ * A fixed-layout cell cannot grow, so an over-long value is clipped at the column
+ * edge instead of spilling over its neighbour.
+ *
+ * `actions` is excluded: its dropdown menu is absolutely positioned rather than
+ * portaled, so clipping the cell would clip the open menu away with it.
+ */
+function clipClassName(
+  kind: ResourceTableColumn<ListableResourceType>["kind"],
+): string | undefined {
+  return kind === "actions" ? undefined : "overflow-hidden"
+}
+
 // Full literal class strings (not interpolated) so Tailwind v4's source scanner
 // keeps them in the compiled stylesheet. Only breakpoints that actually exist in
 // `styles/global.css` may be used — that file resets Tailwind's defaults, so a
 // variant like `sm:` would produce no CSS and hide the column at every width.
 function hideBelowClassName(
-  hideBelow: ResourceTableColumn<ListableResourceType>["hideBelow"],
-): string | undefined {
+  hideBelow: Exclude<
+    ResourceTableColumn<ListableResourceType>["hideBelow"],
+    undefined | "never"
+  >,
+): string {
   switch (hideBelow) {
     case "md":
       return "hidden md:table-cell"
@@ -102,9 +211,34 @@ function hideBelowClassName(
       return "hidden lg:table-cell"
     case "xl":
       return "hidden xl:table-cell"
-    default:
-      return undefined
   }
+}
+
+/**
+ * From which width a column is shown.
+ *
+ * A phone fits one column, so that is the default: the first one — what the row is
+ * about — and nothing else until `md`.
+ *
+ * Neither status nor the actions menu is exempt. Apps render their status badge
+ * next to the name on mobile (`md:hidden`), so keeping the column too would show it
+ * twice; and a row's actions are reachable by opening the row itself.
+ *
+ * A column overrides this with `hideBelow`, including `"never"` to stay visible on
+ * mobile — for the one value that is the point of the table.
+ */
+function visibilityClassName(
+  column:
+    | Pick<ResourceTableColumn<ListableResourceType>, "hideBelow" | "kind">
+    | undefined,
+  index: number,
+): string | undefined {
+  if (column?.hideBelow != null) {
+    return column.hideBelow === "never"
+      ? undefined
+      : hideBelowClassName(column.hideBelow)
+  }
+  return index === 0 ? undefined : hideBelowClassName("md")
 }
 
 /**
@@ -390,6 +524,8 @@ export function useResourceTable<TResource extends ListableResourceType>(
         </Text>
       )
 
+      const widths = columnWidths(columns)
+
       const thead = (
         <Tr>
           {table.getHeaderGroups()[0]?.headers.map((header, index) => {
@@ -400,10 +536,18 @@ export function useResourceTable<TResource extends ListableResourceType>(
             return (
               <Th
                 key={header.id}
-                align={definition?.align}
+                align={resolveAlign(definition)}
+                // fixed layout takes its widths from the first row, so declaring
+                // them here sizes the whole column. Skipped when the column sets
+                // an explicit `width` class, which then owns the width.
+                style={
+                  definition?.width == null
+                    ? { width: `${widths[index]}%` }
+                    : undefined
+                }
                 className={cn(
                   definition?.width,
-                  hideBelowClassName(definition?.hideBelow),
+                  visibilityClassName(definition, index),
                 )}
               >
                 {canSort ? (
@@ -441,9 +585,15 @@ export function useResourceTable<TResource extends ListableResourceType>(
                 key={getColumnId(column, colIndex)}
                 isLoading
                 delayMs={0}
+                style={
+                  column.width == null
+                    ? { width: `${widths[colIndex]}%` }
+                    : undefined
+                }
                 className={cn(
-                  alignClassName(column.align),
-                  hideBelowClassName(column.hideBelow),
+                  alignClassName(resolveAlign(column)),
+                  clipClassName(column.kind),
+                  visibilityClassName(column, colIndex),
                 )}
               >
                 &nbsp;
@@ -490,9 +640,15 @@ export function useResourceTable<TResource extends ListableResourceType>(
                       return (
                         <Td
                           key={cell.id}
+                          style={
+                            columns[colIndex]?.width == null
+                              ? { width: `${widths[colIndex]}%` }
+                              : undefined
+                          }
                           className={cn(
-                            alignClassName(columns[colIndex]?.align),
-                            hideBelowClassName(columns[colIndex]?.hideBelow),
+                            alignClassName(resolveAlign(columns[colIndex])),
+                            clipClassName(columns[colIndex]?.kind),
+                            visibilityClassName(columns[colIndex], colIndex),
                           )}
                         >
                           {href != null && colIndex === 0 ? (
@@ -586,6 +742,12 @@ export function useResourceTable<TResource extends ListableResourceType>(
             ) : (
               <Table
                 variant={variant === "boxed" ? "boxed" : undefined}
+                // Column widths come from the header row and the declared shares,
+                // never from the cell content: that is what makes the loading and
+                // the loaded table the same size, and keeps them stable from page
+                // to page. Not applied in `scroll` mode, where the table is meant
+                // to take its natural width.
+                className="table-fixed"
                 thead={thead}
                 tbody={tbody}
               />

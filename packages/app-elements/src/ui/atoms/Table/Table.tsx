@@ -2,6 +2,14 @@ import cn from "classnames"
 import type React from "react"
 
 export interface TableProps {
+  /**
+   * Column definitions (`<col>` elements), rendered before the header.
+   *
+   * This is where column widths belong when the table lays out with
+   * `table-layout: fixed`: widths declared on the header row are lost as soon as
+   * the header is hidden, while a `colgroup` holds regardless.
+   */
+  colgroup?: React.ReactNode
   thead?: React.ReactNode
   className?: string
   variant?: "boxed"
@@ -24,6 +32,7 @@ export interface TableProps {
  * ```
  */
 export const Table: React.FC<TableProps> = ({
+  colgroup,
   thead,
   className,
   variant,
@@ -41,7 +50,14 @@ export const Table: React.FC<TableProps> = ({
         className,
       ])}
     >
-      {thead != null && <thead>{thead}</thead>}
+      {colgroup}
+      {thead != null && (
+        // Hidden on mobile: a table shows a single column there (see
+        // `useResourceTable`), and a header labelling one column is noise — it
+        // reads as a list, not a table. Column widths are declared on the body
+        // cells as well, so hiding the header does not lose them.
+        <thead className="hidden md:table-header-group">{thead}</thead>
+      )}
       {tbody != null && <tbody>{tbody}</tbody>}
       {tfoot != null && <tfoot>{tfoot}</tfoot>}
     </table>
