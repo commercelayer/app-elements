@@ -295,7 +295,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     align="center"
                     rowSpan={3}
                   >
-                    <Avatar size={size} src={imageUrl} alt={name ?? ""} />
+                    <Avatar size={"small"} src={imageUrl} alt={name ?? ""} />
                   </td>
                   <td
                     className={cn("pl-4", {
