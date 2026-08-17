@@ -204,6 +204,32 @@ const it: typeof en = {
     no_resources: {
       no_tags: "Nessun tag",
     },
+    resource_details: {
+      title: "Dettagli risorsa",
+      attributes: "Attributi",
+      events: "Eventi",
+      json: "Json",
+      no_events: "Nessun evento trovato per questa risorsa.",
+      unknown_event: "Evento sconosciuto",
+      and_more: "e altri {{count}}",
+      unlock_title: "Attiva Event Stores",
+      unlock_description:
+        "Scopri cosa è successo a una risorsa con una cronologia completa delle modifiche, incluso chi le ha fatte e quando.",
+      learn_more: "Scopri di più",
+      contact_sales: "Contatta le vendite",
+      who_system: "Sistema",
+      who_customer: "Cliente",
+      who_application: "Applicazione",
+      who_worker: "Worker ({{type}})",
+      event_create: "ha creato",
+      event_update: "ha aggiornato",
+      event_destroy: "ha eliminato",
+      event_anonymization_request: "anonimizzazione richiesta",
+      event_anonymization_started: "anonimizzazione iniziata",
+      event_anonymization_completed: "anonimizzazione completata",
+      event_anonymization_failed: "anonimizzazione fallita",
+      event_anonymization_cancel: "anonimizzazione annullata",
+    },
   },
   resources: {
     addresses: {

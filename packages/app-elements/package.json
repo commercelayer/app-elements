@@ -74,6 +74,7 @@
     "react-select": "^5.10.2",
     "react-toastify": "^11.1.0",
     "react-tooltip": "^5.30.1",
+    "stable-hash": "^0.0.6",
     "swr": "^2.4.2",
     "ts-invariant": "^0.10.3",
     "type-fest": "^5.7.0",

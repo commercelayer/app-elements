@@ -191,6 +191,10 @@ export {
   type TooltipProps,
   type TooltipRefProps,
 } from "#ui/atoms/Tooltip"
+export {
+  VisibilityTrigger,
+  type VisibilityTriggerProps,
+} from "#ui/atoms/VisibilityTrigger"
 // Composite
 export {
   ActionButtons,
@@ -386,6 +390,14 @@ export {
   ResourceDetails,
   type ResourceDetailsProps,
 } from "#ui/resources/ResourceDetails"
+export {
+  ResourceDetailsContent,
+  type ResourceDetailsContentProps,
+  type ResourceDetailsTab,
+  type UseResourceDetailsModalProps,
+  type UseResourceDetailsModalReturn,
+  useResourceDetailsModal,
+} from "#ui/resources/ResourceDetailsModal"
 export {
   ResourceLineItems,
   type ResourceLineItemsProps,
