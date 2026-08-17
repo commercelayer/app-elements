@@ -1,5 +1,5 @@
 import cn from "classnames"
-import { Children } from "react"
+import { Children, Fragment, isValidElement, type ReactNode } from "react"
 import { isSpecificReactComponent } from "#utils/children"
 
 // The `relationship` variant is temporary to cover the old dashed `ButtonCard` behavior until there will be an updated design proof solution
@@ -48,11 +48,22 @@ export function getInteractiveElementClassName({
   /*
    * Prop `children` could be an array of elements with just one element inside.
    * In this case we want to check if the only iterable element is of kind `Icon`.
+   *
+   * A fragment counts as one child, so it is flattened first: a button holding
+   * nothing but icons is still icon-only, even when it carries one per breakpoint
+   * (`<><Icon className="md:hidden" /><Icon className="hidden md:block" /></>`).
+   * Anything else in there — a label beside the icon — makes it a normal button.
    */
-  const childrenAsArray = Children.toArray(children)
+  const childrenAsArray = Children.toArray(children).flatMap((child) =>
+    isValidElement<{ children?: ReactNode }>(child) && child.type === Fragment
+      ? Children.toArray(child.props.children)
+      : [child],
+  )
   const isIcon =
-    childrenAsArray.length === 1 &&
-    isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
+    childrenAsArray.length > 0 &&
+    childrenAsArray.every((child) =>
+      isSpecificReactComponent(child, [/^Icon$/]),
+    )
 
   return cn([
     "font-medium whitespace-nowrap leading-5",

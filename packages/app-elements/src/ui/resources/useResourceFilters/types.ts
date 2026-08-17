@@ -270,6 +270,22 @@ export function isTextSearch(
   return item.type === "textSearch"
 }
 
+/**
+ * The predicate of the free text filter shown in the search bar, if any.
+ *
+ * Not simply the first `textSearch` instruction: apps also declare `textSearch`
+ * items for predicates they only want whitelisted (hidden ones driving tabs, for
+ * instance), and those can come first. There is at most one `searchBar` in a set
+ * of instructions, so this is unambiguous.
+ */
+export function getSearchBarPredicate(
+  instructions: FiltersInstructions,
+): string | undefined {
+  return instructions
+    .filter(isTextSearch)
+    .find((item) => item.render.component === "searchBar")?.sdk.predicate
+}
+
 export function isCurrencyRange(
   item: FiltersInstructionItem,
 ): item is FilterItemCurrencyRange {

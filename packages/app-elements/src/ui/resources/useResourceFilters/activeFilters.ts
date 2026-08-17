@@ -21,7 +21,7 @@ import {
   type FiltersInstructions,
   type FormFullValues,
   getInstructionKey,
-  isTextSearch,
+  getSearchBarPredicate,
   type UiFilterValue,
 } from "./types"
 
@@ -283,7 +283,7 @@ export function getPillFilters({
     .filter((item) => item.hidden === true)
     .map((item) => getInstructionKey(item))
 
-  const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
+  const textPredicate = getSearchBarPredicate(instructions)
 
   const activeFilters: Array<[string, UiFilterValue]> = Object.entries(filters)
     .filter(([, value]) => isDate(value) || !isEmpty(value))
@@ -440,7 +440,7 @@ export function getClearedFormValues({
   const hiddenFilters = instructions
     .filter((item) => item.hidden === true)
     .map((item) => getInstructionKey(item))
-  const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
+  const textPredicate = getSearchBarPredicate(instructions)
 
   const filtersToKeep = Object.entries(currentFilters).reduce<FormFullValues>(
     (toKeep, [filterName, value]) => {

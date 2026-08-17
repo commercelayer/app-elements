@@ -40,7 +40,10 @@ export interface PageHeadingProps {
     /* Button callback */
     onClick: () => void
     /**
-     * Button icon
+     * Button icon.
+     *
+     * `x` becomes a left arrow on mobile: a drawer there fills the screen rather
+     * than sitting beside the list behind it, so dismissing it reads as going back.
      * @default arrowLeft
      */
     icon?: "x" | "arrowLeft"
@@ -69,6 +72,12 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
     delayMs,
     ...rest
   }) => {
+    // A close button reads as "back" on a phone, where the panel it closes is the
+    // whole screen. Same button, same action — only the glyph changes.
+    const desktopIcon = navigationButton?.icon ?? "arrowLeft"
+    const mobileIcon = "arrowLeft" as const
+    const iconsDiffer = desktopIcon !== mobileIcon
+
     return (
       <div
         className={cn([
@@ -94,33 +103,11 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
             )}
           >
             {navigationButton.variant === "button" ? (
-              <Button
-                variant="secondary"
-                size="small"
-                alignItems="center"
-                // the drawers render it icon-only, which would otherwise leave
-                // the button with no accessible name
-                aria-label={navigationButton.label === "" ? "Close" : undefined}
-                onClick={() => {
-                  navigationButton.onClick()
-                }}
-              >
-                {/* icon-only when there is no label, and as its *single* child:
-                    `Button` drops its horizontal padding for a lone `Icon`, which
-                    is what makes it square like the toolbar buttons beside it.
-                    `size={16}` matches those too. */}
-                {navigationButton.label === "" ? (
-                  <Icon name={navigationButton.icon ?? "arrowLeft"} size={16} />
-                ) : (
-                  <>
-                    <Icon
-                      name={navigationButton.icon ?? "arrowLeft"}
-                      size={16}
-                    />
-                    {navigationButton.label}
-                  </>
-                )}
-              </Button>
+              <NavigationButton
+                {...navigationButton}
+                mobileIcon={mobileIcon}
+                desktopIcon={iconsDiffer ? desktopIcon : undefined}
+              />
             ) : (
               <button
                 type="button"
@@ -129,7 +116,20 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
                   navigationButton.onClick()
                 }}
               >
-                <Icon name={navigationButton.icon ?? "arrowLeft"} size={24} />{" "}
+                {/* the inline variant has a label beside the icon, so there is no
+                    lone-child rule to respect: the glyphs can swap in place */}
+                <Icon
+                  name={mobileIcon}
+                  size={24}
+                  className={iconsDiffer ? "md:hidden" : undefined}
+                />
+                {iconsDiffer && (
+                  <Icon
+                    name={desktopIcon}
+                    size={24}
+                    className="hidden md:block"
+                  />
+                )}{" "}
                 <Text weight="medium" size="small">
                   {navigationButton.label}
                 </Text>
@@ -164,6 +164,45 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
       </div>
     )
   },
+)
+
+/**
+ * The standalone navigation button the drawers use, as one component so the mobile
+ * and desktop variants cannot drift apart.
+ */
+const NavigationButton: React.FC<{
+  label: string
+  onClick: () => void
+  /** The glyph shown on a phone. */
+  mobileIcon: "x" | "arrowLeft"
+  /** The glyph shown from `md` up, when it differs from the mobile one. */
+  desktopIcon?: "x" | "arrowLeft"
+}> = ({ label, onClick, mobileIcon, desktopIcon }) => (
+  <Button
+    variant="secondary"
+    size="small"
+    alignItems="center"
+    // the drawers render it icon-only, which would otherwise leave the button with
+    // no accessible name
+    aria-label={label === "" ? "Close" : undefined}
+    onClick={onClick}
+  >
+    {/* Icons only when there is no label, which is what keeps the button square like
+        the toolbar buttons beside it (`Button` drops its horizontal padding when it
+        holds nothing else). `size={16}` matches those too. One button rather than one
+        per breakpoint, so the accessibility tree holds a single control. */}
+    <>
+      <Icon
+        name={mobileIcon}
+        size={16}
+        className={desktopIcon != null ? "md:hidden" : undefined}
+      />
+      {desktopIcon != null && (
+        <Icon name={desktopIcon} size={16} className="hidden md:block" />
+      )}
+      {label !== "" && label}
+    </>
+  </Button>
 )
 
 PageHeading.displayName = "PageHeading"
