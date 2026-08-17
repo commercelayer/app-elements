@@ -451,161 +451,130 @@ describe("useResourceTable", () => {
     })
   })
 
-  describe("sorting", () => {
-    const renderSortable = (
-      config: {
-        sort?: ResourceTableSort<"orders">
-        onSortChange?: (sort: ResourceTableSort<"orders">) => void
-        defaultSort?: ResourceTableSort<"orders">
-      } = {},
-    ) => {
+  // Headers carry no sorting affordance: sorting will be driven by a field +
+  // direction control outside the table, so a `sortBy` marks the column sortable
+  // without making its header interactive.
+  describe("inert headers", () => {
+    it("renders no control in a header, even for a column with a `sortBy`", async () => {
+      mockOrdersList()
       const Implementation: FC = () => {
-        const { ResourceTable } = useResourceTable({
-          type: "orders",
-          columns,
-          ...config,
-        })
+        const { ResourceTable } = useResourceTable({ type: "orders", columns })
         return <ResourceTable />
       }
-      return render(
+      const { container, findByText } = render(
         <Wrapper>
           <Implementation />
         </Wrapper>,
       )
-    }
-
-    it("makes only the columns with a `sortBy` interactive", async () => {
-      mockOrdersList()
-      const { container, findByText } = renderSortable()
       await findByText("#1001")
 
-      const headers = Array.from(container.querySelectorAll("thead th"))
-      expect(headers).toHaveLength(2)
-      expect(headers[0]?.querySelector("button")).toBeInTheDocument()
-      expect(headers[1]?.querySelector("button")).not.toBeInTheDocument()
+      expect(container.querySelectorAll("thead th")).toHaveLength(2)
+      expect(container.querySelector("thead button")).not.toBeInTheDocument()
+      // no direction indicator either
+      expect(container.querySelector("thead svg")).not.toBeInTheDocument()
     })
 
-    // A two-state toggle: the sort can never be removed, so `defaultSort` is
-    // never silently discarded.
-    it.each([
-      ["unsorted", undefined, "number"],
-      ["ascending", "number", "-number"],
-      ["descending", "-number", "number"],
-    ] as const)(
-      "from %s, clicking a text column's header reports %s → %s",
-      async (_name, sort, expected) => {
-        mockOrdersList()
-        const onSortChange = vi.fn()
-        const { container, findByText } = renderSortable({ sort, onSortChange })
-        await findByText("#1001")
-
-        const button = container.querySelector("thead th button")
-        assertToBeDefined(button)
-        fireEvent.click(button)
-
-        expect(onSortChange).toHaveBeenCalledTimes(1)
-        expect(onSortChange).toHaveBeenCalledWith(expected)
-      },
-    )
-
-    it.each([
-      [
-        "a date column, descending first",
-        "updated_at",
-        undefined,
-        "-updated_at",
-      ],
-      [
-        "an explicit `sortDescFirst`",
-        "total_amount_cents",
-        true,
-        "-total_amount_cents",
-      ],
-      [
-        "an explicitly ascending date column",
-        "created_at",
-        false,
-        "created_at",
-      ],
-    ] as const)(
-      "sorts %s on the first click",
-      async (_name, sortBy, sortDescFirst, expected) => {
-        mockOrdersList()
-        const onSortChange = vi.fn()
-        const Implementation: FC = () => {
-          const { ResourceTable } = useResourceTable({
-            type: "orders",
-            columns: [
-              {
-                header: "Column",
-                sortBy,
-                sortDescFirst,
-                cell: ({ resource }) => `#${resource.number}`,
-              },
-            ],
-            sort: undefined,
-            onSortChange,
-          })
-          return <ResourceTable />
-        }
-        const { container, findByText } = render(
-          <Wrapper>
-            <Implementation />
-          </Wrapper>,
-        )
-        await findByText("#1001")
-
-        const button = container.querySelector("thead th button")
-        assertToBeDefined(button)
-        fireEvent.click(button)
-
-        expect(onSortChange).toHaveBeenCalledWith(expected)
-      },
-    )
-
-    it("never clears the sort, however many times the header is clicked", async () => {
-      mockOrdersList()
-      const reported: Array<ResourceTableSort<"orders">> = []
-      const { container, findByText } = renderSortable({
-        defaultSort: "number",
-        onSortChange: (sort) => {
-          reported.push(sort)
-        },
-        sort: "number",
-      })
-      await findByText("#1001")
-
-      const button = container.querySelector("thead th button")
-      assertToBeDefined(button)
-      for (let click = 0; click < 3; click++) {
-        fireEvent.click(button)
-      }
-
-      expect(reported).toHaveLength(3)
-      expect(reported).not.toContain(undefined)
-    })
-
-    it("sends the sort to the API rather than reordering rows client-side", async () => {
+    it("orders the list server-side all the same", async () => {
       const { requestedSorts } = mockOrdersList()
-      const { container, findByText } = renderSortable({
-        defaultSort: "-number",
-      })
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+        })
+        return <ResourceTable />
+      }
+      const { findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
       await findByText("#1001")
 
-      expect(requestedSorts).toContain("-number")
+      expect(requestedSorts).toEqual(["-number"])
+    })
+  })
 
-      const orderBefore = getRows(container).map((row) => row.textContent)
-      const button = container.querySelector("thead th button")
-      assertToBeDefined(button)
-      fireEvent.click(button)
-
-      // the click drives a refetch; the rows on screen keep the server's order
-      await waitFor(() => {
-        expect(requestedSorts).toContain("number")
-      })
-      expect(getRows(container).map((row) => row.textContent)).toEqual(
-        orderBefore,
+  describe("sorting", () => {
+    // Headers are inert: sorting is driven from outside the table (a field +
+    // direction control), so what matters is that the expression reaches the API
+    // and that rows are never reordered client-side.
+    it("sends `defaultSort` to the API and leaves the server's row order alone", async () => {
+      const { requestedSorts } = mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+        })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
       )
+      await findByText("#1001")
+
+      expect(requestedSorts).toEqual(["-number"])
+      // the mock returns its rows in a fixed order whatever the sort: the table
+      // must show them in that order rather than sorting them itself
+      expect(
+        getRows(container).map((row) => row.textContent?.slice(0, 5)),
+      ).toEqual(["#1001", "#1002", "#1003"])
+    })
+
+    it("refetches with the new expression when a controlled sort changes", async () => {
+      const { requestedSorts } = mockOrdersList()
+      const Implementation: FC<{ sort: ResourceTableSort<"orders"> }> = ({
+        sort,
+      }) => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          sort,
+          onSortChange: () => {},
+        })
+        return <ResourceTable />
+      }
+      const { rerender, findByText } = render(
+        <Wrapper>
+          <Implementation sort="number" />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+      expect(requestedSorts).toEqual(["number"])
+
+      rerender(
+        <Wrapper>
+          <Implementation sort="-created_at" />
+        </Wrapper>,
+      )
+      await waitFor(() => {
+        expect(requestedSorts).toContain("-created_at")
+      })
+    })
+
+    it("exposes the active sort, so a sort control can reflect it", async () => {
+      mockOrdersList()
+      let seen: ResourceTableSort<"orders">
+      const Implementation: FC = () => {
+        const { ResourceTable, sort } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+        })
+        seen = sort
+        return <ResourceTable />
+      }
+      const { findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      expect(seen).toBe("-number")
     })
   })
 })

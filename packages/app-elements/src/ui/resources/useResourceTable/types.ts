@@ -85,22 +85,14 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    * On a `metricsQuery` table the value is a Metrics attribute instead
    * (`"order.placed_at"`) — see `MetricsAttribute`.
    *
-   * Sorting is server-side: clicking the header drives the SDK `sort` query
-   * param and refetches. Rows are never reordered client-side.
+   * Sorting is server-side: the attribute goes into the SDK `sort` query param and
+   * the list refetches. Rows are never reordered client-side.
    *
-   * The header toggles between the two directions; the sort cannot be removed,
-   * so a table always keeps an explicit order.
+   * Declaring it does not make the header interactive — table headers are inert.
+   * It marks the column as sortable and names the attribute, which is what a sort
+   * control outside the table reads to build its options.
    */
   sortBy?: SortableAttribute<TResource> | MetricsAttribute
-  /**
-   * Direction applied on the first click of this column's header.
-   *
-   * Defaults to descending for date attributes — a `sortBy` ending in `_at`,
-   * where the newest rows are the interesting ones — and to ascending for
-   * everything else (codes, names, emails). Set it explicitly to override, e.g.
-   * on a quantity column where the largest values matter most.
-   */
-  sortDescFirst?: boolean
 }
 
 /**
@@ -221,9 +213,9 @@ export type UseResourceTableConfig<TResource extends ListableResourceType> =
      */
     sort?: ResourceTableSort<TResource>
     /**
-     * Called when the user changes the sort. Provide together with `sort` for
-     * controlled mode; the callback receives the new SDK sort expression (or
-     * `undefined` when sorting is cleared).
+     * Called when the sort changes. Provide together with `sort` for controlled
+     * mode; the callback receives the new SDK sort expression (or `undefined` when
+     * sorting is cleared).
      */
     onSortChange?: (sort: ResourceTableSort<TResource>) => void
     /**

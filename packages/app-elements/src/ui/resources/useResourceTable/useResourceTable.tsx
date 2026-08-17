@@ -1,8 +1,6 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
 import {
   createColumnHelper,
-  rowSortingFeature,
-  type SortingState,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table"
@@ -11,7 +9,6 @@ import { type FC, useCallback, useMemo, useRef, useState } from "react"
 import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
-import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -33,10 +30,11 @@ import type {
   UseResourceTableReturn,
 } from "./types"
 
-// Static, prop-free feature registry. Only the row-sorting feature is needed:
-// sorting is server-side (`manualSorting`), so no sorted row model is registered
+// Static, prop-free feature registry: no feature is needed. Sorting is server-side
+// and driven from outside the table (see `sort`), and TanStack's row-sorting feature
+// only ever existed to turn header clicks into a sort expression
 // (see docs/adr/0002-server-side-table-operations.md).
-const tableFeaturesConfig = tableFeatures({ rowSortingFeature })
+const tableFeaturesConfig = tableFeatures({})
 
 // Stable empty-data reference to avoid invalidating the table's models on every
 // render while the first page is loading.
@@ -64,15 +62,6 @@ function parseSort(
   }
   const desc = sort.startsWith("-")
   return { attribute: desc ? sort.slice(1) : sort, desc }
-}
-
-/**
- * Whether a sort attribute is a date, by CommerceLayer's naming convention
- * (`created_at`, `updated_at`, `placed_at`, …). Such columns sort descending on
- * the first click, so the newest rows come first.
- */
-function isDateAttribute(sortBy: string | undefined): boolean {
-  return sortBy?.endsWith("_at") === true
 }
 
 function alignClassName(
@@ -347,44 +336,6 @@ export function useResourceTable<TResource extends ListableResourceType>(
       ? (result as UseResourceListReturnWithPagination<TResource>).Pagination
       : NullComponent
 
-  // Map the active sort onto TanStack's controlled sorting state.
-  const sorting = useMemo<SortingState>(() => {
-    const parsed = parseSort(sort)
-    if (parsed == null) {
-      return []
-    }
-    const index = columns.findIndex(
-      (column) => column.sortBy === parsed.attribute,
-    )
-    const column = columns[index]
-    if (column == null) {
-      return []
-    }
-    return [{ id: getColumnId(column, index), desc: parsed.desc }]
-  }, [sort, columns])
-
-  const onSortingChange = useCallback(
-    (updater: SortingState | ((old: SortingState) => SortingState)) => {
-      const next = typeof updater === "function" ? updater(sorting) : updater
-      const first = next[0]
-      if (first == null) {
-        setSort(undefined)
-        return
-      }
-      const index = columns.findIndex(
-        (column, i) => getColumnId(column, i) === first.id,
-      )
-      const attribute = columns[index]?.sortBy
-      if (attribute == null) {
-        return
-      }
-      // built per branch rather than with an inline conditional inside the
-      // template: that way each branch matches the sort expression union exactly
-      setSort(first.desc ? `-${attribute}` : attribute)
-    },
-    [sorting, columns, setSort],
-  )
-
   const tableColumns = useMemo(() => {
     // Type the column helper/table with a minimal row shape rather than the full
     // `Resource<TResource>` SDK union: pushing that large conditional type
@@ -394,19 +345,11 @@ export function useResourceTable<TResource extends ListableResourceType>(
     const helper = createColumnHelper<typeof tableFeaturesConfig, TableRow>()
     return helper.columns(
       columns.map((column, index) =>
-        // Accessor (not display) columns: TanStack's `getCanSort` requires an
-        // `accessorFn`, so a display column can never be sortable. The accessor
-        // value itself is unused — sorting is server-side (`manualSorting`) — so
-        // it returns a trivial `null`. The cell renders from `row.original`.
-        helper.accessor(() => null, {
+        helper.display({
           id: getColumnId(column, index),
           header: () => column.header,
           cell: ({ row }) =>
             column.cell({ resource: row.original as Resource<TResource> }),
-          enableSorting: column.sortBy != null,
-          // the accessor returns `null`, so TanStack cannot infer a direction
-          // from the data and would default every column to descending-first
-          sortDescFirst: column.sortDescFirst ?? isDateAttribute(column.sortBy),
         }),
       ),
     )
@@ -417,13 +360,6 @@ export function useResourceTable<TResource extends ListableResourceType>(
     columns: tableColumns,
     data: (list ?? EMPTY_DATA) as TableRow[],
     getRowId: (row) => row.id,
-    manualSorting: true,
-    enableMultiSort: false,
-    // the header toggles asc/desc only: removing the sort would silently discard
-    // the app's `defaultSort` and leave the rows in the API's own order
-    enableSortingRemoval: false,
-    state: { sorting },
-    onSortingChange,
   })
 
   const columnCount = columns.length
@@ -530,8 +466,6 @@ export function useResourceTable<TResource extends ListableResourceType>(
         <Tr>
           {table.getHeaderGroups()[0]?.headers.map((header, index) => {
             const definition = columns[index]
-            const canSort = header.column.getCanSort()
-            const sorted = header.column.getIsSorted()
             const label = <table.FlexRender header={header} />
             return (
               <Th
@@ -550,26 +484,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
                   visibilityClassName(definition, index),
                 )}
               >
-                {canSort ? (
-                  <button
-                    type="button"
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="inline-flex items-center gap-1 uppercase hover:text-gray-700"
-                  >
-                    {label}
-                    <Icon
-                      name={
-                        sorted === "asc"
-                          ? "arrowUp"
-                          : sorted === "desc"
-                            ? "arrowDown"
-                            : "arrowsDownUp"
-                      }
-                    />
-                  </button>
-                ) : (
-                  label
-                )}
+                {label}
               </Th>
             )
           })}
