@@ -81,17 +81,16 @@ describe("ResourceLineItems", () => {
     assertToBeDefined(fourthRow)
 
     expect(
-      within(firstRow).getByText("BABYBIBXA19D9D000000XXXX"),
-    ).toBeInTheDocument()
-    expect(
       within(secondRow).getByText("Gray Baby Bib with Black Logo"),
     ).toBeInTheDocument()
-    expect(within(secondRow).getByText("x 2")).toBeInTheDocument()
-    expect(within(secondRow).getByText("x 2")).not.toHaveClass("hidden")
-    expect(within(secondRow).getByText("18.00€")).toBeInTheDocument()
+    // the code reads as a subtitle under the name, in the same cell
     expect(
-      within(secondRow).getByText("common.unit_price 9.00€"),
+      within(secondRow).getByText("BABYBIBXA19D9D000000XXXX"),
     ).toBeInTheDocument()
+    // unit price and quantity share one cell: "9.00€ x 2", not a separate badge
+    expect(within(secondRow).getByText("9.00€ x 2")).toBeInTheDocument()
+    expect(within(secondRow).getByText("9.00€ x 2")).not.toHaveClass("hidden")
+    expect(within(secondRow).getByText("18.00€")).toBeInTheDocument()
     expect(within(thirdRow).getByRole("cell").children.length).toEqual(0)
     expect(within(fourthRow).getByRole("cell").children.length).toEqual(0)
   })
@@ -207,14 +206,11 @@ describe("ResourceLineItems", () => {
     assertToBeDefined(thirdRow)
     assertToBeDefined(fourthRow)
 
-    expect(within(firstRow).getByText("WELCOME_KIT_001")).toBeInTheDocument()
     expect(within(secondRow).getByText("Welcome KIT")).toBeInTheDocument()
-    expect(within(secondRow).getByText("x 1")).toBeInTheDocument()
-    expect(within(secondRow).getByText("x 1")).not.toHaveClass("hidden")
+    expect(within(secondRow).getByText("WELCOME_KIT_001")).toBeInTheDocument()
+    expect(within(secondRow).getByText("$10.00 x 1")).toBeInTheDocument()
+    expect(within(secondRow).getByText("$10.00 x 1")).not.toHaveClass("hidden")
     expect(within(secondRow).getByText("$10.00")).toBeInTheDocument()
-    expect(
-      within(secondRow).getByText("common.unit_price $10.00"),
-    ).toBeInTheDocument()
     expect(within(thirdRow).getByRole("cell").children.length).toEqual(1)
     expect(within(thirdRow).getByText("x 1")).toBeInTheDocument()
     expect(
@@ -277,7 +273,7 @@ describe("ResourceLineItems", () => {
     const deleteButton: HTMLButtonElement =
       within(thirdRow).getByLabelText("common.remove")
 
-    expect(within(secondRow).getByText("x 2")).toHaveClass("hidden")
+    expect(within(secondRow).getByText("9.00€ x 2")).toHaveClass("hidden")
     expect(within(thirdRow).getByRole("cell").children.length).toEqual(1)
     expect(inputSpinner).toBeInTheDocument()
     expect(inputSpinner.value).toEqual("2")

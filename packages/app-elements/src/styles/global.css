@@ -225,7 +225,7 @@
   }
   
   body {
-    @apply text-gray-800 antialiased;
+    @apply text-black antialiased;
   }
   
   input,
