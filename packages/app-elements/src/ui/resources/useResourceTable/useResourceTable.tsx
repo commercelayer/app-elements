@@ -254,6 +254,24 @@ function resolveAlign(
 }
 
 /**
+ * What counts as a control inside a row: clicking one must not also open the row.
+ *
+ * Written as a selector rather than a tag check because the click can land on
+ * anything nested inside the control — the icon inside the `…` button, the label of
+ * a checkbox — and `closest` walks up to whichever comes first.
+ */
+const interactiveSelector = [
+  "a",
+  "button",
+  "input",
+  "select",
+  "textarea",
+  "label",
+  '[role="button"]',
+  '[role="menuitem"]',
+].join(", ")
+
+/**
  * A fixed-layout cell cannot grow, so an over-long value is clipped at the column
  * edge instead of spilling over its neighbour.
  *
@@ -621,13 +639,23 @@ export function useResourceTable<TResource extends ListableResourceType>(
                     // The whole row is clickable through here, including when the
                     // first cell carries a link: clicks coming from that link are
                     // skipped, since the link handles them itself.
+                    //
+                    // So are clicks on a control inside a cell — the row's `…` menu
+                    // and its items, a checkbox, a copy button. Those mean "do this
+                    // one thing", not "open the row", and before this guard opening
+                    // the menu opened the drawer behind it too.
                     onClick={
                       onRowClick != null
                         ? (event) => {
+                            const control = (
+                              event.target as HTMLElement | null
+                            )?.closest(interactiveSelector)
+                            // `!== currentTarget` because the row itself carries
+                            // `role="button"` when it has no link, and would
+                            // otherwise match as its own control
                             if (
-                              (event.target as HTMLElement | null)?.closest(
-                                "a",
-                              ) != null
+                              control != null &&
+                              control !== event.currentTarget
                             ) {
                               return
                             }

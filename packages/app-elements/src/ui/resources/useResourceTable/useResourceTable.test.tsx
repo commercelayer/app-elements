@@ -303,6 +303,49 @@ describe("useResourceTable", () => {
     })
   })
 
+  describe("in-cell controls", () => {
+    // The row link is a stretched anchor covering the row, so a control inside a
+    // cell has to sit above it — otherwise clicking the row's `…` menu follows the
+    // link instead, and the drawer opens behind the menu.
+    it("does not follow the row link when a control in a cell is clicked", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const onAction = vi.fn()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: [
+            { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+            {
+              header: "",
+              kind: "actions",
+              cell: () => (
+                <button type="button" onClick={onAction}>
+                  actions
+                </button>
+              ),
+            },
+          ],
+          getRowHref: () => "/list/order-1",
+          onRowClick,
+        })
+        return <ResourceTable />
+      }
+      const { findByText, getAllByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      // one per row; the first will do
+      fireEvent.click(getAllByText("actions")[0] as HTMLElement)
+
+      expect(onAction).toHaveBeenCalledTimes(1)
+      expect(onRowClick).not.toHaveBeenCalled()
+    })
+  })
+
   describe("column widths", () => {
     const kindColumns: Array<ResourceTableColumn<"orders">> = [
       // no kind: absorbs whatever the others leave
