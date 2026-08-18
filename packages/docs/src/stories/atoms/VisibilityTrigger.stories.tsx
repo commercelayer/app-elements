@@ -1,5 +1,5 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Card } from "#ui/atoms/Card"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
@@ -36,6 +36,9 @@ export default setup
 const PAGE_SIZE = 8
 const TOTAL = 40
 
+/** Simulated request time, so the loading state is actually visible. */
+const LOAD_DELAY_MS = 1500
+
 const makePage = (from: number, to: number): number[] =>
   Array.from(
     { length: Math.max(0, to - from) },
@@ -54,7 +57,35 @@ const InfiniteList = ({
     makePage(0, Math.min(PAGE_SIZE, stopAt)),
   )
   const [loadedPages, setLoadedPages] = useState(0)
+  const [isLoading, setIsLoading] = useState(false)
   const hasMore = items.length < stopAt
+
+  // The observer keeps the callback from the render in which `enabled` last
+  // changed, so reading `isLoading` from a ref is what stops the same page
+  // being requested repeatedly while a load is still in flight.
+  const isLoadingRef = useRef(false)
+
+  const loadNextPage = (): void => {
+    if (isLoadingRef.current) {
+      return
+    }
+    isLoadingRef.current = true
+    setIsLoading(true)
+
+    setTimeout(() => {
+      setItems((current) =>
+        current.concat(
+          makePage(
+            current.length,
+            Math.min(current.length + PAGE_SIZE, stopAt),
+          ),
+        ),
+      )
+      setLoadedPages((current) => current + 1)
+      isLoadingRef.current = false
+      setIsLoading(false)
+    }, LOAD_DELAY_MS)
+  }
 
   return (
     <div>
@@ -84,7 +115,7 @@ const InfiniteList = ({
 
         {hasMore ? (
           <Text variant="info" size="small">
-            Loading more…
+            {isLoading ? "Loading more…" : "Scroll for more"}
           </Text>
         ) : (
           <Text variant="info" size="small">
@@ -97,15 +128,7 @@ const InfiniteList = ({
           enabled={hasMore}
           callback={(entry) => {
             if (entry.isIntersecting) {
-              setItems((current) =>
-                current.concat(
-                  makePage(
-                    current.length,
-                    Math.min(current.length + PAGE_SIZE, stopAt),
-                  ),
-                ),
-              )
-              setLoadedPages((current) => current + 1)
+              loadNextPage()
             }
           }}
         />
@@ -116,8 +139,8 @@ const InfiniteList = ({
 
 /**
  * Scroll the list to the bottom: each time the trigger becomes visible another
- * page is appended, until there is nothing left to load and `enabled` turns
- * `false`.
+ * page is fetched, with a simulated delay so the loading state is visible.
+ * Once there is nothing left to load, `enabled` turns `false`.
  */
 export const Default: StoryFn = () => <InfiniteList />
 

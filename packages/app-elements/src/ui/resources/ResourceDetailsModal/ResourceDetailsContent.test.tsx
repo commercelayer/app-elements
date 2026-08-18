@@ -140,8 +140,9 @@ describe("ResourceDetailsContent", () => {
     await openTab(result, 1)
 
     // Proves the `event_stores` request is actually served: the name is
-    // derived from the mocked event's `who.owner`.
-    expect(await result.findByText("R. Starr")).toBeVisible()
+    // derived from the mocked events' `who.owner`. The mock returns a full page,
+    // so several rows carry it.
+    expect((await result.findAllByText("R. Starr")).length).toBeGreaterThan(0)
 
     expect(
       result.container.querySelector(`a[href="${EVENT_STORES_DOCS_URL}"]`),

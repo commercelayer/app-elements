@@ -1,6 +1,6 @@
 // @ts-check
 
-import { HttpResponse, http } from "msw"
+import { delay, HttpResponse, http } from "msw"
 
 /**
  * Mirrors a real `event_stores` response.
@@ -13,7 +13,9 @@ import { HttpResponse, http } from "msw"
  *   `page[after]` param. The SDK parses it out of there, not out of `meta`.
  *
  * Kept in sync with `app-elements/src/mocks/data/event_stores.ts`, which serves
- * the same payload to the unit tests.
+ * the same payload to the unit tests. The one difference is the delay below:
+ * it makes infinite scroll observable in Storybook, and would only slow the
+ * test suite down.
  */
 
 const ORGANIZATION_ID = "mockOrgIdXX"
@@ -22,9 +24,6 @@ const TRACE_ID =
 const APPLICATION_ID = "mockAppIdXX"
 const CLIENT_ID = "mock-client-id"
 const BASE_URL = "https://mock.localhost/api"
-
-/** Opaque cursor pointing at the second page. Real ones are base64 blobs. */
-const SECOND_PAGE_CURSOR = "eyJpZCI6IjE3ODY2MDYxMjQyNTktMCJ9"
 
 const salesChannel = {
   id: APPLICATION_ID,
@@ -62,72 +61,93 @@ const makeEvent = (
   meta: responseMeta,
 })
 
-const firstPage = (/** @type {string} */ resourceId) => [
-  makeEvent({
-    id: "1786606128871-0",
-    resourceId,
-    createdAt: "2026-08-13T07:28:48.867Z",
-    payload: {
-      updated_at: {
-        from: "2026-08-13T07:28:44.284Z",
-        to: "2026-08-13T07:28:48.867Z",
-      },
-      cart_url: {
-        from: null,
-        to: `https://mock.localhost/cart/${resourceId}`,
-      },
+const EVENTS_PER_PAGE = 12
+const PAGE_COUNT = 3
+
+/**
+ * Cursor handed out for each following page. Real ones are opaque base64
+ * blobs; these decode to `{"page":N}` so they are readable while debugging.
+ */
+const PAGE_CURSORS = /** @type {Record<number, string>} */ ({
+  2: "eyJwYWdlIjoyfQ==",
+  3: "eyJwYWdlIjozfQ==",
+})
+
+const whoVariants = [
+  {
+    owner: {
+      email: "ringo@commercelayer.io",
+      first_name: "Ringo",
+      last_name: "Starr",
     },
-    who: {
-      owner: {
-        email: "ringo@commercelayer.io",
-        first_name: "Ringo",
-        last_name: "Starr",
-      },
-    },
-  }),
-  makeEvent({
-    id: "1786606124259-0",
-    resourceId,
-    createdAt: "2026-08-13T07:28:44.256Z",
-    payload: {
-      subtotal_amount_cents: { from: 0, to: 900 },
-      total_tax_amount_cents: { from: null, to: 0 },
-      subtotal_tax_amount_cents: { from: null, to: 0 },
-      total_amount_cents: { from: 0, to: 900 },
-      updated_at: {
-        from: "2026-08-13T07:28:44.018Z",
-        to: "2026-08-13T07:28:44.256Z",
-      },
-    },
-    who: { application: salesChannel },
-  }),
+  },
+  { application: salesChannel },
+  { worker: { id: "mockWorkerId", type: "OrderWorker" } },
 ]
 
-const secondPage = (/** @type {string} */ resourceId) => [
-  makeEvent({
-    id: "1786606120001-0",
-    resourceId,
-    createdAt: "2026-08-12T09:21:40.000Z",
-    payload: { number: { from: null, to: 2817081 } },
-    who: { worker: { id: "mockWorkerId", type: "OrderWorker" } },
-  }),
+const payloadVariants = [
+  { status: { from: "placed", to: "approved" } },
+  { payment_status: { from: "unpaid", to: "authorized" } },
+  { fulfillment_status: { from: "unfulfilled", to: "in_progress" } },
+  {
+    subtotal_amount_cents: { from: 0, to: 900 },
+    total_amount_cents: { from: 0, to: 900 },
+    updated_at: {
+      from: "2026-08-13T07:28:44.018Z",
+      to: "2026-08-13T07:28:44.256Z",
+    },
+  },
 ]
+
+/**
+ * Builds one page of events. Each page spans two days, so the day grouping in
+ * the timeline is visible while scrolling rather than only between pages.
+ */
+const pageEvents = (
+  /** @type {string} */ resourceId,
+  /** @type {number} */ page,
+) =>
+  Array.from({ length: EVENTS_PER_PAGE }, (_, indexInPage) => {
+    const index = (page - 1) * EVENTS_PER_PAGE + indexInPage
+    const day =
+      13 - (page - 1) * 2 - (indexInPage < EVENTS_PER_PAGE / 2 ? 0 : 1)
+    const minute = 59 - indexInPage
+
+    return makeEvent({
+      id: `17866061${String(99999 - index).padStart(5, "0")}-0`,
+      resourceId,
+      createdAt: `2026-08-${String(day).padStart(2, "0")}T07:${String(minute).padStart(2, "0")}:00.000Z`,
+      payload: payloadVariants[index % payloadVariants.length] ?? {},
+      who: whoVariants[index % whoVariants.length] ?? {},
+    })
+  })
+
+/** Resolves the requested page from the cursor, defaulting to the first. */
+const pageFromCursor = (/** @type {string | null} */ cursor) => {
+  const found = Object.entries(PAGE_CURSORS).find(
+    ([, value]) => value === cursor,
+  )
+  return found != null ? Number(found[0]) : 1
+}
 
 const eventStoresList = http.get(
   `https://*/api/:resourceType/:resourceId/event_stores`,
   async ({ request, params }) => {
+    // Long enough to actually see the loading state while scrolling.
+    await delay(1500)
+
     const url = new URL(request.url)
     const resourceId = String(params.resourceId)
-    const isSecondPage =
-      url.searchParams.get("page[after]") === SECOND_PAGE_CURSOR
+    const page = pageFromCursor(url.searchParams.get("page[after]"))
+    const nextCursor = PAGE_CURSORS[page + 1]
 
     const pageSize = url.searchParams.get("page[size]") ?? "25"
-    const nextLink = `${BASE_URL}/${String(params.resourceType)}/${resourceId}/event_stores?page%5Bafter%5D=${SECOND_PAGE_CURSOR}&page%5Bsize%5D=${pageSize}&sort=-id`
+    const nextLink = `${BASE_URL}/${String(params.resourceType)}/${resourceId}/event_stores?page%5Bafter%5D=${nextCursor}&page%5Bsize%5D=${pageSize}&sort=-id`
 
     return HttpResponse.json({
-      data: isSecondPage ? secondPage(resourceId) : firstPage(resourceId),
+      data: pageEvents(resourceId, page),
       meta: responseMeta,
-      links: isSecondPage ? {} : { next: nextLink },
+      links: page < PAGE_COUNT ? { next: nextLink } : {},
     })
   },
 )

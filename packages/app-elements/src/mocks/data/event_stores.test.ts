@@ -13,33 +13,39 @@ const sdkClient = CommerceLayer({
   domain: "localhost",
 })
 
+const fetchPage = async (pageAfter?: string) =>
+  await sdkClient.orders.event_stores("NgojhKoyYN", {
+    pageSize: 25,
+    sort: { id: "desc" },
+    pageAfter,
+  })
+
 describe("event_stores mock", () => {
   it("advertises a next cursor on the first page", async () => {
-    const page = await sdkClient.orders.event_stores("NgojhKoyYN", {
-      pageSize: 25,
-      sort: { id: "desc" },
-    })
+    const page = await fetchPage()
 
-    expect(page).toHaveLength(2)
+    expect(page.length).toBeGreaterThan(0)
     expect(page.meta.cursor?.next?.after).toBeTypeOf("string")
   })
 
-  it("returns the last page without a next cursor", async () => {
-    const firstPage = await sdkClient.orders.event_stores("NgojhKoyYN", {
-      pageSize: 25,
-      sort: { id: "desc" },
-    })
-    const cursor = firstPage.meta.cursor?.next?.after
-    assertToBeDefined(cursor)
+  it("walks every page and stops without a cursor on the last", async () => {
+    const seen: string[] = []
+    let cursor: string | undefined
+    let pages = 0
 
-    const lastPage = await sdkClient.orders.event_stores("NgojhKoyYN", {
-      pageSize: 25,
-      sort: { id: "desc" },
-      pageAfter: cursor,
-    })
+    do {
+      const page = await fetchPage(cursor)
+      seen.push(...page.map((event) => event.id))
+      cursor = page.meta.cursor?.next?.after
+      pages += 1
+      // Guards against a mock that hands out the same cursor forever.
+      expect(pages).toBeLessThanOrEqual(10)
+    } while (cursor != null)
 
-    expect(lastPage).toHaveLength(1)
-    expect(lastPage.meta.cursor?.next?.after).toBeUndefined()
+    expect(pages).toBeGreaterThan(1)
+    // Enough records to actually overflow a panel and exercise infinite scroll.
+    expect(seen.length).toBeGreaterThanOrEqual(24)
+    expect(new Set(seen).size).toBe(seen.length)
   })
 
   it("scopes the events to the requested resource", async () => {
