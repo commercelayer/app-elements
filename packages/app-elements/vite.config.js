@@ -16,6 +16,11 @@ export default defineConfig({
     }),
   ],
   build: {
+    // `vendor.css` and `tailwind.global.css` are produced by separate steps of
+    // `pnpm build`, so wiping `dist` on a watch rebuild would delete them and
+    // leave consumers failing to resolve `@commercelayer/app-elements/vendor.css`.
+    // `build:watch` generates them once up front and keeps them.
+    emptyOutDir: process.env.APP_ELEMENTS_WATCH !== "true",
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, "src/main.ts"),

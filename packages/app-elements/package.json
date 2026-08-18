@@ -35,6 +35,7 @@
   },
   "scripts": {
     "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
+    "build:watch": "pnpm build:css-vendor && pnpm build:tailwind-cfg && APP_ELEMENTS_WATCH=true vite build --watch",
     "build:tailwind-cfg": "cp ./src/styles/global.css ./dist/tailwind.global.css",
     "build:css-vendor": "pnpm dlx @tailwindcss/cli -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "check": "pnpm biome check",
