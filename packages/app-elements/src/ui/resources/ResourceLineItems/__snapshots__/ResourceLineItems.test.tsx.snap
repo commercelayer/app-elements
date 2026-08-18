@@ -791,7 +791,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           colspan="3"
         >
           <div
-            class="mt-4"
+            class="empty:hidden mt-4"
           >
             <div
               class="pb-2 last:pb-0"

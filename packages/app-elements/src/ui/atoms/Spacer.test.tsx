@@ -54,6 +54,20 @@ describe("Spacer", () => {
   test("Should ignore invalid values", () => {
     // @ts-expect-error I want to test with a wrong value.
     const { element } = setup({ top: 400, bottom: "abc" })
-    expect(element.className).toBe("")
+    expect(element.className).toBe("empty:hidden")
+  })
+
+  test("Should collapse when its content renders nothing", () => {
+    const RendersNothing = (): null => null
+    const { getByTestId } = render(
+      <Spacer data-testid="my-spacer" top="14">
+        <RendersNothing />
+      </Spacer>,
+    )
+    // the div is still in the DOM, but empty — `empty:hidden` is what keeps a
+    // section with no data from leaving a block of blank space behind
+    const element = getByTestId("my-spacer")
+    expect(element).toBeEmptyDOMElement()
+    expect(element).toHaveClass("empty:hidden")
   })
 })

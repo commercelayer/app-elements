@@ -12,7 +12,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
         class="container mx-auto flex flex-col px-4 md:px-0 min-h-screen"
       >
         <div
-          class="mb-14"
+          class="empty:hidden mb-14"
         >
           <div
             class="select-none pointer-events-none inline"
@@ -67,7 +67,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
             </div>
           </div>
           <div
-            class="mb-14"
+            class="empty:hidden mb-14"
           >
             <div
               class="select-none pointer-events-none inline"

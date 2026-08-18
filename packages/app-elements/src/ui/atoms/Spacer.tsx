@@ -104,6 +104,11 @@ function Spacer({
   return (
     <div
       className={cn([
+        // A child that renders nothing — a section with no data to show — would
+        // otherwise leave this div behind with its margins, as a block of blank
+        // space. `children == null` above only catches a literal null child, not
+        // a component that returns one.
+        "empty:hidden",
         marginTopCss[valueTop],
         marginBottomCss[valueBottom],
         marginLeftCss[valueLeft],

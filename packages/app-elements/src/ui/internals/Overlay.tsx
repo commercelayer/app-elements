@@ -79,13 +79,22 @@ export const Overlay: React.FC<OverlayProps> = ({
 
   useEffect(
     function focusFirstInput() {
+      // Only an editing overlay: there the first input is the first form field, so
+      // focusing it saves a click. A `drawer` is a details panel, whose only input
+      // tends to be the timeline's note field at the very bottom — focusing that
+      // scrolled the panel down to it on open, and only sometimes, since the effect
+      // catches whatever has rendered by then (a cached resource paints its timeline
+      // straight away, a cold one does not).
+      if (drawer === true) {
+        return
+      }
       if (element.current != null) {
         const firstInputElement =
           element.current.getElementsByTagName("input")[0]
         firstInputElement?.focus()
       }
     },
-    [element],
+    [element, drawer],
   )
 
   const content = (
