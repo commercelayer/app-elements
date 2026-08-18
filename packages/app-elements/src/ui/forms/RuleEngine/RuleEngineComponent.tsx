@@ -93,13 +93,23 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
 
   useEffect(
     function parseSchema() {
-      fetchJsonSchema(props.schemaType, domain).then((jsonSchema) => {
+      let cancelled = false
+
+      void fetchJsonSchema(props.schemaType, domain).then((jsonSchema) => {
+        if (cancelled) {
+          return
+        }
+
         const parsedOptionsConfig = parseOptionsFromSchema(
           jsonSchema as any,
           props.schemaType,
         )
         setOptionsConfig(parsedOptionsConfig)
       })
+
+      return () => {
+        cancelled = true
+      }
     },
     [domain],
   )

@@ -1,6 +1,7 @@
 import { HttpResponse, http } from "msw"
 
 import corePublicResources from "./data/core_resources"
+import coreSchemas from "./data/core_schemas"
 import countries from "./data/countries"
 import customers from "./data/customers"
 import eventStores from "./data/event_stores"
@@ -108,6 +109,7 @@ export const handlers = [
   }),
 
   ...corePublicResources,
+  ...coreSchemas,
   ...customers,
   ...countries,
   ...markets,
