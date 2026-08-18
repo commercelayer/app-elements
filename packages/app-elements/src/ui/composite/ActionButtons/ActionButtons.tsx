@@ -34,7 +34,7 @@ export const ActionButtons = withSkeletonTemplate<ActionButtonsProps>(
     return (
       <div
         data-testid="action-buttons"
-        className="flex flex-col-reverse md:flex-row justify-end border-b border-gray-100 py-6 gap-6 md:gap-8"
+        className="flex flex-col-reverse lg:flex-row justify-end border-b border-gray-100 py-6 gap-4 md:gap-2"
       >
         {primaryActions.length === 1 && secondaryActions.length === 0 ? (
           primaryActions.map(({ label, ...props }) => (
@@ -44,20 +44,16 @@ export const ActionButtons = withSkeletonTemplate<ActionButtonsProps>(
           ))
         ) : (
           <>
-            <div className="md:basis-1/2 flex gap-3">
-              {secondaryActions.map(({ label, ...props }) => (
-                <Button key={label} {...props} fullWidth>
-                  {label}
-                </Button>
-              ))}
-            </div>
-            <div className="md:basis-1/2 flex gap-3 justify-end">
-              {primaryActions.map(({ label, ...props }) => (
-                <Button key={label} {...props} fullWidth>
-                  {label}
-                </Button>
-              ))}
-            </div>
+            {secondaryActions.map(({ label, ...props }) => (
+              <Button key={label} {...props} fullWidth>
+                {label}
+              </Button>
+            ))}
+            {primaryActions.map(({ label, ...props }) => (
+              <Button key={label} {...props} fullWidth>
+                {label}
+              </Button>
+            ))}
           </>
         )}
       </div>

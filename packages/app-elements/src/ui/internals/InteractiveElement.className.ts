@@ -73,9 +73,9 @@ export function getInteractiveElementClassName({
       // Link-like behaviors
       "inline w-fit underline": variant === "link",
       // Shared behaviors
-      "rounded-[8px]": variant !== "circle" && variant !== "input",
+      rounded: variant !== "circle" && variant !== "input",
       "opacity-50 pointer-events-none touch-none": disabled,
-      "w-full": fullWidth === true && variant !== "link",
+      "w-full lg:w-auto": fullWidth === true && variant !== "link",
     },
     getVariantCss(variant),
   ])
