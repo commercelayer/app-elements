@@ -316,11 +316,13 @@ export function getPillFilters({
 
     const arrValue = castArray(value)
 
-    // These are backed by a resource, so the options carry no labels: they have
-    // to be retrieved, otherwise the pill would show raw ids.
+    // A resource-backed filter carries no labels of its own: they have to be
+    // retrieved, otherwise the pill would show raw ids. A select over a fixed
+    // list already knows them, so it falls through to the normal path below.
     if (
       (instructionItem.render.component === "inputResourceGroup" ||
         instructionItem.render.component === "inputSelect") &&
+      "resource" in instructionItem.render.props &&
       arrValue.length > 0
     ) {
       pills.push({

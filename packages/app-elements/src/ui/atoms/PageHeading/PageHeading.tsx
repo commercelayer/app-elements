@@ -150,7 +150,12 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
           </div>
         )}
         <div className="flex items-center justify-between">
-          <h1 className="font-semibold text-2xl md:text-title leading-title break-all [[data-drawer]_&]:md:text-2xl">
+          {/* A flex row, so a status badge passed alongside the text sits centred
+              against it. Inline, a badge aligns its own text baseline to the
+              title's and hangs below it by its bottom padding. `flex-wrap` lets
+              the badge drop to its own line rather than being squeezed when the
+              title is long. */}
+          <h1 className="font-semibold text-2xl md:text-title leading-title break-all [[data-drawer]_&]:md:text-2xl flex flex-wrap items-center gap-3">
             {title}
           </h1>
           {navigationButton == null && toolbar != null ? (
@@ -198,17 +203,15 @@ const NavigationButton: React.FC<{
         the toolbar buttons beside it (`Button` drops its horizontal padding when it
         holds nothing else). `size={16}` matches those too. One button rather than one
         per breakpoint, so the accessibility tree holds a single control. */}
-      <>
-        <Icon
-          name={mobileIcon}
-          size={16}
-          className={desktopIcon != null ? "md:hidden" : undefined}
-        />
-        {desktopIcon != null && (
-          <Icon name={desktopIcon} size={16} className="hidden md:block" />
-        )}
-        {label !== "" && label}
-      </>
+      <Icon
+        name={mobileIcon}
+        size={16}
+        className={desktopIcon != null ? "md:hidden" : undefined}
+      />
+      {desktopIcon != null && (
+        <Icon name={desktopIcon} size={16} className="hidden md:block" />
+      )}
+      {label !== "" && label}
     </Button>
   )
 }

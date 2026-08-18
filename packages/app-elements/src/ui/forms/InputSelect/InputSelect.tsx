@@ -142,6 +142,14 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   asTextSearch?: boolean
   /**
+   * Hide the chevron on the right of the control.
+   *
+   * For a field that is a text entry first and a picker second — an email you may be
+   * typing for the first time — where the chevron promises a list of choices the
+   * value does not have to come from. The menu still opens on focus and on typing.
+   */
+  hideDropdownIndicator?: boolean
+  /**
    * Whether the menu should use a portal, and where it should attach to.
    */
   menuPortalTarget?: HTMLElement | null
@@ -189,6 +197,7 @@ export const InputSelect = forwardRef<
       menuFooterText,
       isCreatable,
       asTextSearch,
+      hideDropdownIndicator,
       menuPortalTarget,
       ...rest
     },
@@ -230,6 +239,7 @@ export const InputSelect = forwardRef<
             inputId={name}
             loadAsyncValues={loadAsyncValues}
             asTextSearch={asTextSearch}
+            hideDropdownIndicator={hideDropdownIndicator}
             menuPortalTarget={menuPortalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
@@ -241,6 +251,7 @@ export const InputSelect = forwardRef<
             inputId={name}
             loadAsyncValues={loadAsyncValues}
             asTextSearch={asTextSearch}
+            hideDropdownIndicator={hideDropdownIndicator}
             menuPortalTarget={menuPortalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}

@@ -83,6 +83,7 @@ export const GenericAsyncSelectComponent = forwardRef<
       loadAsyncValues,
       SelectComponent,
       asTextSearch = false,
+      hideDropdownIndicator = false,
       debounceMs = 500,
       ...rest
     },
@@ -132,10 +133,14 @@ export const GenericAsyncSelectComponent = forwardRef<
           : {
               defaultOptions: initialValues,
               onChange: onSelect,
-              components: {
-                ...components,
-                DropdownIndicator: null,
-              },
+              // the shared overrides carry the chevron: an async select is still a
+              // select, and dropping it left the resource-backed filters (tags,
+              // markets) looking like plain text inputs next to the static ones.
+              // The `asTextSearch` variant above keeps none — that one is a search
+              // field, not a dropdown — and a caller can opt out per field.
+              components: hideDropdownIndicator
+                ? { ...components, DropdownIndicator: null }
+                : components,
             })}
       />
     )

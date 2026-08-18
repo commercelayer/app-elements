@@ -794,6 +794,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
     refresh,
     hasMorePages,
     sort,
+    setSort,
   }
 }
 

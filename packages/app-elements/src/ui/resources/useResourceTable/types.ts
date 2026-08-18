@@ -275,4 +275,12 @@ export interface UseResourceTableReturn<
   hasMorePages?: boolean
   /** The active sort (SDK sort expression), whether controlled or internal. */
   sort: ResourceTableSort<TResource>
+  /**
+   * Sets the sort, for a control outside the table to drive — a field + direction
+   * picker, say. Table headers are inert (see `sortBy`).
+   *
+   * In controlled mode (`sort` + `onSortChange`) this calls `onSortChange` rather
+   * than holding state of its own.
+   */
+  setSort: (sort: ResourceTableSort<TResource>) => void
 }

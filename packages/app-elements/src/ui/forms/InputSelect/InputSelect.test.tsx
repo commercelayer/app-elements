@@ -113,4 +113,38 @@ describe("InputSelect", () => {
     expect(queryByText("Paris")).toBeVisible()
     expect(queryByText("London")).toBeVisible()
   })
+
+  test("renders the chevron on an async select", async () => {
+    const { container } = render(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={[]}
+        loadAsyncValues={async () => []}
+      />,
+    )
+    await waitFor(() => {
+      expect(
+        container.querySelector('[class*="indicatorContainer"] svg'),
+      ).toBeInTheDocument()
+    })
+  })
+
+  // for a field that is a text entry first and a picker second, e.g. an email that
+  // may not exist yet
+  test("hides the chevron when asked", async () => {
+    const { container } = render(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={[]}
+        loadAsyncValues={async () => []}
+        hideDropdownIndicator
+      />,
+    )
+    await waitFor(() => {
+      expect(container.querySelector("input")).toBeInTheDocument()
+    })
+    expect(
+      container.querySelector('[class*="indicatorContainer"] svg'),
+    ).not.toBeInTheDocument()
+  })
 })
