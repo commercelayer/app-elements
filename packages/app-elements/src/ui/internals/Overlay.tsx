@@ -128,7 +128,9 @@ export const Overlay: React.FC<OverlayProps> = ({
   )
 
   return createPortal(
-    <OverlayContext.Provider value={{ isDrawer: drawer === true }}>
+    <OverlayContext.Provider
+      value={{ surface: drawer === true ? "drawer" : "page" }}
+    >
       {drawer && (
         <div
           aria-hidden

@@ -431,8 +431,11 @@ export {
   type ResourceShipmentParcelsProps,
 } from "#ui/resources/ResourceShipmentParcels"
 export {
+  isTaggableResource,
   ResourceTags,
   type ResourceTagsProps,
+  type TaggableResource,
+  taggableResources,
 } from "#ui/resources/ResourceTags"
 export {
   type FiltersInstructions,

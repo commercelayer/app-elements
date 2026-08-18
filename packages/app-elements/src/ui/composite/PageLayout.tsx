@@ -8,6 +8,7 @@ import { ScrollToTop } from "#ui/atoms/ScrollToTop"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Overlay, type OverlayProps } from "#ui/internals/Overlay"
+import { OverlayContext } from "#ui/internals/overlayContext"
 
 export type PageLayoutProps = Pick<
   PageHeadingProps,
@@ -155,11 +156,28 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
               {children}
             </div>
             <aside
-              className={cn("self-start lg:col-start-2 lg:row-start-1", {
+              // The column's top offset belongs out here, not inside the box below:
+              // it lines the card up with the main content's first block, and a page
+              // putting its own `Spacer` in the slot would leave that space *inside*
+              // the card as an empty band.
+              className={cn("self-start mt-14 lg:col-start-2 lg:row-start-1", {
                 "lg:row-span-2": hasAfterSidebar,
               })}
             >
-              {sidebar}
+              {/* The sidebar's box lives here rather than in each page: from `lg` up
+                  — the width at which this grid splits in two — the column is a card,
+                  and below it is just another full-width row of the page, so the box
+                  goes away. A plain element and not `Card`, whose chrome is not
+                  responsive and which would clip the menus inside.
+
+                  The context tells the blocks inside which surface they are on, so
+                  they can match. Innermost wins: a sidebar inside a drawer reports
+                  itself as a sidebar. */}
+              <OverlayContext.Provider value={{ surface: "sidebar" }}>
+                <div className="lg:border lg:border-gray-200 lg:rounded-md lg:bg-white lg:p-6">
+                  {sidebar}
+                </div>
+              </OverlayContext.Provider>
             </aside>
             {hasAfterSidebar && (
               <div className="min-w-0 lg:col-start-1 lg:row-start-2">

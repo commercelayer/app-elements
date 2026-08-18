@@ -97,7 +97,7 @@ describe("PageHeading", () => {
 
   test("Should name the icon-only navigation button after its surface", () => {
     const { getByLabelText } = render(
-      <OverlayContext.Provider value={{ isDrawer: true }}>
+      <OverlayContext.Provider value={{ surface: "drawer" }}>
         <PageHeading
           title="My Page Heading"
           navigationButton={{
