@@ -75,7 +75,7 @@ export function getInteractiveElementClassName({
       // Shared behaviors
       rounded: variant !== "circle" && variant !== "input",
       "opacity-50 pointer-events-none touch-none": disabled,
-      "w-full lg:w-auto": fullWidth === true && variant !== "link",
+      "w-full": fullWidth === true && variant !== "link",
     },
     getVariantCss(variant),
   ])

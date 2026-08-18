@@ -38,19 +38,19 @@ export const ActionButtons = withSkeletonTemplate<ActionButtonsProps>(
       >
         {primaryActions.length === 1 && secondaryActions.length === 0 ? (
           primaryActions.map(({ label, ...props }) => (
-            <Button key={label} {...props} fullWidth>
+            <Button key={label} {...props} fullWidth className="lg:w-auto">
               {label}
             </Button>
           ))
         ) : (
           <>
             {secondaryActions.map(({ label, ...props }) => (
-              <Button key={label} {...props} fullWidth>
+              <Button key={label} {...props} fullWidth className="lg:w-auto">
                 {label}
               </Button>
             ))}
             {primaryActions.map(({ label, ...props }) => (
-              <Button key={label} {...props} fullWidth>
+              <Button key={label} {...props} fullWidth className="lg:w-auto">
                 {label}
               </Button>
             ))}
