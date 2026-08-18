@@ -1,4 +1,5 @@
 import { type RenderResult, render } from "@testing-library/react"
+import { OverlayContext } from "#ui/internals/overlayContext"
 import { PageHeading, type PageHeadingProps } from "./PageHeading"
 
 interface SetupProps extends PageHeadingProps {
@@ -81,8 +82,9 @@ describe("PageHeading", () => {
         onClick: () => undefined,
       },
     })
-    // an icon-only button still needs a name to be usable
-    const button = getByLabelText("Close")
+    // an icon-only button still needs a name to be usable, and on a page (this one
+    // is not rendered inside a drawer) the button goes back rather than closing
+    const button = getByLabelText("Go back")
     expect(button).toBeVisible()
     expect(button.className).toContain("border-gray-200")
     // square, exactly like the toolbar buttons next to it: `Button` only drops its
@@ -91,6 +93,24 @@ describe("PageHeading", () => {
     expect(button.className).not.toContain("px-4")
     // the inline style renders its label in a `Text`, this one does not
     expect(element.querySelector("button > div")).toBe(null)
+  })
+
+  test("Should name the icon-only navigation button after its surface", () => {
+    const { getByLabelText } = render(
+      <OverlayContext.Provider value={{ isDrawer: true }}>
+        <PageHeading
+          title="My Page Heading"
+          navigationButton={{
+            label: "",
+            icon: "x",
+            variant: "button",
+            onClick: () => undefined,
+          }}
+        />
+      </OverlayContext.Provider>,
+    )
+    // inside a drawer the button dismisses the panel it sits in
+    expect(getByLabelText("Close")).toBeVisible()
   })
 })
 

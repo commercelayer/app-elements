@@ -4,6 +4,7 @@ import { createPortal } from "react-dom"
 import { Container } from "#ui/atoms/Container"
 import { Spacer } from "#ui/atoms/Spacer"
 import { lockBodyScroll, unlockBodyScroll } from "./bodyScrollLock"
+import { OverlayContext } from "./overlayContext"
 
 export type OverlayProps = {
   /**
@@ -118,7 +119,7 @@ export const Overlay: React.FC<OverlayProps> = ({
   )
 
   return createPortal(
-    <>
+    <OverlayContext.Provider value={{ isDrawer: drawer === true }}>
       {drawer && (
         <div
           aria-hidden
@@ -147,6 +148,9 @@ export const Overlay: React.FC<OverlayProps> = ({
           },
         )}
         data-testid="overlay"
+        // lets descendants adapt to the narrower surface without every app
+        // passing a prop down — `PageHeading` uses it to shrink its title
+        data-drawer={drawer ? "" : undefined}
         {...rest}
       >
         {fullWidth || drawer ? (
@@ -155,7 +159,7 @@ export const Overlay: React.FC<OverlayProps> = ({
           <Container minHeight={false}>{content}</Container>
         )}
       </div>
-    </>,
+    </OverlayContext.Provider>,
     document.body,
   )
 }

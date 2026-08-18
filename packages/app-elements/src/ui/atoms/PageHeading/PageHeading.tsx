@@ -1,5 +1,6 @@
 import cn from "classnames"
 import type { ReactNode } from "react"
+import { useIsInDrawer } from "#ui/internals/overlayContext"
 import { Badge, type BadgeProps } from "../Badge"
 import { Button } from "../Button"
 import { Icon } from "../Icon"
@@ -149,7 +150,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
           </div>
         )}
         <div className="flex items-center justify-between">
-          <h1 className="font-semibold text-2xl md:text-title leading-title break-all">
+          <h1 className="font-semibold text-2xl md:text-title leading-title break-all [[data-drawer]_&]:md:text-2xl">
             {title}
           </h1>
           {navigationButton == null && toolbar != null ? (
@@ -159,7 +160,9 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
         {/* `!= null`, so an omitted description renders nothing at all: `!== null`
             let `undefined` through and left an empty div carrying its `mt-2` */}
         {description != null && (
-          <div className="text-gray-500 leading-6 mt-2">{description}</div>
+          <div className="text-sm text-gray-500 leading-6 mt-2">
+            {description}
+          </div>
         )}
       </div>
     )
@@ -177,33 +180,38 @@ const NavigationButton: React.FC<{
   mobileIcon: "x" | "arrowLeft"
   /** The glyph shown from `md` up, when it differs from the mobile one. */
   desktopIcon?: "x" | "arrowLeft"
-}> = ({ label, onClick, mobileIcon, desktopIcon }) => (
-  <Button
-    variant="secondary"
-    size="small"
-    alignItems="center"
-    // the drawers render it icon-only, which would otherwise leave the button with
-    // no accessible name
-    aria-label={label === "" ? "Close" : undefined}
-    onClick={onClick}
-  >
-    {/* Icons only when there is no label, which is what keeps the button square like
+}> = ({ label, onClick, mobileIcon, desktopIcon }) => {
+  const isInDrawer = useIsInDrawer()
+  return (
+    <Button
+      variant="secondary"
+      size="small"
+      alignItems="center"
+      // rendered icon-only, the button would otherwise have no accessible name.
+      // What it is called follows the surface, not the glyph: inside a drawer the
+      // button dismisses the panel, on a page it returns to where the page came
+      // from — and a drawer shows the arrow on mobile while still closing
+      aria-label={label === "" ? (isInDrawer ? "Close" : "Go back") : undefined}
+      onClick={onClick}
+    >
+      {/* Icons only when there is no label, which is what keeps the button square like
         the toolbar buttons beside it (`Button` drops its horizontal padding when it
         holds nothing else). `size={16}` matches those too. One button rather than one
         per breakpoint, so the accessibility tree holds a single control. */}
-    <>
-      <Icon
-        name={mobileIcon}
-        size={16}
-        className={desktopIcon != null ? "md:hidden" : undefined}
-      />
-      {desktopIcon != null && (
-        <Icon name={desktopIcon} size={16} className="hidden md:block" />
-      )}
-      {label !== "" && label}
-    </>
-  </Button>
-)
+      <>
+        <Icon
+          name={mobileIcon}
+          size={16}
+          className={desktopIcon != null ? "md:hidden" : undefined}
+        />
+        {desktopIcon != null && (
+          <Icon name={desktopIcon} size={16} className="hidden md:block" />
+        )}
+        {label !== "" && label}
+      </>
+    </Button>
+  )
+}
 
 PageHeading.displayName = "PageHeading"
 
