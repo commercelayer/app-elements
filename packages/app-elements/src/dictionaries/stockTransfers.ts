@@ -60,10 +60,11 @@ export function getStockTransferDisplayStatus(
       }
 
     default:
+      // an unnamed status is still a status: show it, rather than a warning
       return {
-        label: `${t("common.not_handled")}: (${stockTransfer.status})`,
-        icon: "warning",
-        color: "white",
+        label: getStockTransferStatusName(stockTransfer.status),
+        icon: "minus",
+        color: "gray",
       }
   }
 }

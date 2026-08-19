@@ -25,25 +25,34 @@ export type PageLayoutProps = Pick<
      *
      * Meant for details pages, where the supporting information of a resource
      * (customer, addresses, tags, metadata, …) sits next to its main content.
-     * Only the structure is provided: wrap the content in a `Card` with a
-     * `Section` per block to get the look used by the dashboard.
+     * Pass one `Section` per block: the column's card is drawn here, so the slot
+     * takes the blocks themselves and no wrapper of its own.
      *
      * Best paired with `fullWidth`, since the default content width leaves too
      * little room for two columns.
+     *
+     * Pair it with `gap="only-top"` and open `children` with a `Spacer top="14"`:
+     * the card is aligned to that spacer, and the heading's default bottom gap
+     * would otherwise be added on top of it.
      *
      * @example
      * ```jsx
      * <PageLayout
      *   title='Order #1234'
      *   fullWidth
+     *   gap='only-top'
      *   sidebar={
-     *     <Card>
+     *     <>
      *       <Section title='Customer'>...</Section>
-     *       <Section title='Addresses'>...</Section>
-     *     </Card>
+     *       <Spacer top='10'>
+     *         <Section title='Addresses'>...</Section>
+     *       </Spacer>
+     *     </>
      *   }
      * >
-     *   <OrderSummary />
+     *   <Spacer top='14'>
+     *     <OrderSummary />
+     *   </Spacer>
      * </PageLayout>
      * ```
      */
@@ -174,7 +183,11 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
                   they can match. Innermost wins: a sidebar inside a drawer reports
                   itself as a sidebar. */}
               <OverlayContext.Provider value={{ surface: "sidebar" }}>
-                <div className="lg:border lg:border-gray-200 lg:rounded-md lg:bg-white lg:p-6">
+                {/* `[&>*:first-child]:mt-0` because the blocks in the slot space
+                    themselves with a top `Spacer`: when the block that was meant to
+                    come first renders nothing (a customer with no addresses, say),
+                    that spacer would open the column with an empty band. */}
+                <div className="[&>*:first-child]:mt-0 lg:border lg:border-gray-200 lg:rounded-md lg:bg-white lg:p-6">
                   {sidebar}
                 </div>
               </OverlayContext.Provider>

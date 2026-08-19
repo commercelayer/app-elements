@@ -10,8 +10,17 @@ export interface OrderDisplayStatus extends DisplayStatus {
 }
 
 export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
+  // A partial refund changes neither where the order stands nor what is left to do
+  // with it, so it reads as `paid`: the display status then follows the fulfillment
+  // status, exactly as for an order that was never refunded. That part of the money
+  // went back is told by the payment status itself, beside the transactions.
+  const paymentStatus =
+    order.payment_status === "partially_refunded"
+      ? "paid"
+      : order.payment_status
+
   const combinedStatus =
-    `${order.status}:${order.payment_status}:${order.fulfillment_status}` as const
+    `${order.status}:${paymentStatus}:${order.fulfillment_status}` as const
 
   if (order.status === "cancelled") {
     return {
@@ -35,8 +44,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case "placed:authorized:not_required":
     case "placed:paid:unfulfilled":
     case "placed:paid:not_required":
-    case "placed:partially_refunded:unfulfilled":
-    case "placed:partially_refunded:not_required":
     case "placed:free:unfulfilled":
     case "placed:free:not_required":
       return {
@@ -68,7 +75,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case "approved:paid:in_progress":
-    case "approved:partially_refunded:in_progress":
     case "approved:free:in_progress":
       return {
         label: t("apps.orders.display_status.in_progress"),
@@ -101,7 +107,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case "approved:paid:not_required":
-    case "approved:partially_refunded:not_required":
       return {
         label: t("resources.orders.attributes.status.approved"),
         icon: "check",
@@ -111,15 +116,6 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case "approved:free:not_required":
       return {
         label: t("resources.orders.attributes.status.approved"),
-        icon: "check",
-        color: "green",
-      }
-
-    case "approved:partially_refunded:fulfilled":
-      return {
-        label: t(
-          "resources.orders.attributes.payment_status.partially_refunded",
-        ),
         icon: "check",
         color: "green",
       }
@@ -134,12 +130,28 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     default:
+      // A combination the switch does not name is not an error to show the user:
+      // fall back to the order status, which is always true, and dress it the way
+      // that status is dressed elsewhere.
       return {
-        label: `${t("common.not_handled")}: (${combinedStatus})`,
-        icon: "warning",
-        color: "white",
+        label: getOrderStatusName(order.status),
+        ...statusAppearance[order.status],
       }
   }
+}
+
+/** Icon and color of each order status, for when no finer status applies. */
+const statusAppearance: Record<
+  Order["status"],
+  Pick<OrderDisplayStatus, "icon" | "color">
+> = {
+  draft: { icon: "minus", color: "gray" },
+  pending: { icon: "shoppingBag", color: "white" },
+  placing: { icon: "shoppingBag", color: "white" },
+  placed: { icon: "arrowDown", color: "orange" },
+  approved: { icon: "check", color: "green" },
+  editing: { icon: "pencilSimple", color: "orange" },
+  cancelled: { icon: "x", color: "gray" },
 }
 
 export function getOrderTransactionName(

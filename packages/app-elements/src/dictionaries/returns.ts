@@ -65,10 +65,11 @@ export function getReturnDisplayStatus(returnObj: Return): ReturnDisplayStatus {
       }
 
     default:
+      // an unnamed status is still a status: show it, rather than a warning
       return {
-        label: `${t("common.not_handled")}: (${returnObj.status})`,
-        icon: "warning",
-        color: "white",
+        label: getReturnStatusName(returnObj.status),
+        icon: "minus",
+        color: "gray",
       }
   }
 }
