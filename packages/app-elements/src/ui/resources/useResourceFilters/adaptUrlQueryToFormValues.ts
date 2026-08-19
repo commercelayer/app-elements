@@ -10,7 +10,10 @@ import {
   type UiFilterName,
   type UiFilterValue,
 } from "./types"
-import { getAllowedValuesFromItemOptions } from "./utils"
+import {
+  getAllowedValuesFromItemOptions,
+  isSingleValueOptionsItem,
+} from "./utils"
 
 export interface AdaptUrlQueryToFormValuesParams {
   queryString: string
@@ -119,8 +122,7 @@ export function adaptUrlQueryToFormValues<
       // single option, return first value only
       if (
         instructionItem.type === "options" &&
-        instructionItem.render.component === "inputToggleButton" &&
-        instructionItem.render.props.mode === "single"
+        isSingleValueOptionsItem(instructionItem)
       ) {
         return parsedQuery[key] != null
           ? {

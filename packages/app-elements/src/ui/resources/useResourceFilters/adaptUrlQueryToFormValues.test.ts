@@ -1,5 +1,7 @@
+import { adaptFormValuesToSdk } from "./adaptFormValuesToSdk"
 import { adaptUrlQueryToFormValues } from "./adaptUrlQueryToFormValues"
 import { instructions } from "./mockedInstructions"
+import type { FiltersInstructions } from "./types"
 
 describe("adaptUrlQueryToFormValues", () => {
   test("should build proper form value object", () => {
@@ -276,5 +278,44 @@ describe("adaptUrlQueryToFormValues", () => {
         currencyCode: "USD",
       },
     })
+  })
+
+  test("unwraps a single-valued select, as it does for a single-mode toggle", () => {
+    // a select says it is single-valued through `isMulti`, a toggle through
+    // `mode`. Left as the array the query string parses into, a predicate reading
+    // the value sees `["hide"]` and takes the branch meant for anything but
+    // "hide" — which is how a scoping filter ends up excluding every record.
+    const singleSelect: FiltersInstructions = [
+      {
+        label: "Archived",
+        type: "options",
+        sdk: {
+          predicate: "archived_at_null",
+          parseFormValue: (value) =>
+            value === "show" ? undefined : value === "hide",
+        },
+        render: {
+          component: "inputSelect",
+          props: {
+            isMulti: false,
+            options: [
+              { value: "only", label: "Only archived" },
+              { value: "hide", label: "Hide archived" },
+              { value: "show", label: "Show all" },
+            ],
+          },
+        },
+      },
+    ]
+
+    const formValues = adaptUrlQueryToFormValues({
+      queryString: "archived_at_null=hide",
+      instructions: singleSelect,
+    })
+    expect(formValues.archived_at_null).toBe("hide")
+
+    expect(
+      adaptFormValuesToSdk({ formValues, instructions: singleSelect }),
+    ).toStrictEqual({ archived_at_null: true })
   })
 })
