@@ -76,7 +76,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
         <div className="w-full" data-testid="Address">
           {title != null && (
             <Spacer bottom="2" data-testid="Address-title">
-              <Text tag="div" weight="semibold">
+              <Text tag="div" weight="semibold" size="small">
                 {title}
               </Text>
             </Spacer>
@@ -87,7 +87,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-firstLastName"
-                  weight={title == null ? "semibold" : "medium"}
+                  size="small"
+                  weight={title == null ? "medium" : undefined}
                   variant={title != null ? "primary" : undefined}
                 >
                   {address.first_name} {address.last_name}
@@ -97,7 +98,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-company"
-                  weight={title == null ? "semibold" : undefined}
+                  size="small"
+                  weight={title == null ? "regular" : undefined}
                   variant={title != null ? "info" : undefined}
                 >
                   {address.company}
