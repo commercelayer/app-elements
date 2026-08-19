@@ -19,6 +19,26 @@ export type PageLayoutProps = Pick<
      */
     children: ReactNode
     /**
+     * Page-level notices, rendered full width between the heading and the content.
+     *
+     * For what is true of the resource as a whole — "generated via API", "pending
+     * because it has no usable payment method", a failed purchase — rather than of
+     * one section. Read before anything else, and spanning the sidebar too, since
+     * they are about the page and not about its main column.
+     *
+     * Pass the `Alert`s themselves: the spacing around them belongs here, so the
+     * gap stays the same whether a page shows one, two or none.
+     *
+     * @example
+     * ```jsx
+     * <PageLayout
+     *   title='Promotion'
+     *   alert={viaApi && <Alert status='info'>Generated via API.</Alert>}
+     * >
+     * ```
+     */
+    alert?: ReactNode
+    /**
      * Secondary content, rendered in a column beside `children` on large screens
      * and stacked below it on smaller ones.
      *
@@ -88,6 +108,7 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     navigationButton,
     children,
     sidebar,
+    alert,
     toolbar,
     mode,
     gap,
@@ -125,6 +146,11 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           isLoading={isLoading}
           delayMs={delayMs}
         />
+        {/* `false` is what a `condition && <Alert />` evaluates to, which is the
+            common way to pass this: nothing to show means no wrapper and no gap */}
+        {alert != null && alert !== false && (
+          <div className="pt-6 empty:hidden print:hidden">{alert}</div>
+        )}
         {sidebar == null ? (
           children
         ) : (
