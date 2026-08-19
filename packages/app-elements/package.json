@@ -34,9 +34,8 @@
     "node": ">=22.22"
   },
   "scripts": {
-    "build": "tsc && vite build && pnpm build:css-vendor && pnpm build:tailwind-cfg",
-    "build:watch": "pnpm build:css-vendor && pnpm build:tailwind-cfg && APP_ELEMENTS_WATCH=true vite build --watch",
-    "build:tailwind-cfg": "cp ./src/styles/global.css ./dist/tailwind.global.css",
+    "build": "tsc && vite build && pnpm build:css-vendor",
+    "build:watch": "pnpm dlx concurrently@10 --kill-others --names vendor,lib --prefix-colors cyan,magenta \"pnpm build:css-vendor --watch\" \"APP_ELEMENTS_WATCH=true vite build --watch\"",
     "build:css-vendor": "pnpm dlx @tailwindcss/cli -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "check": "pnpm biome check",
     "check:fix": "pnpm biome check --write",
