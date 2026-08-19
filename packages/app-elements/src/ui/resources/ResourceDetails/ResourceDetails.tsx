@@ -3,13 +3,12 @@ import { useTranslation } from "react-i18next"
 import { formatDate } from "#helpers/date"
 import type { I18NLocale } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
-import { CopyToClipboard } from "#ui/atoms/CopyToClipboard"
 import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Text } from "#ui/atoms/Text"
+import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { ListDetailsItem } from "#ui/composite/ListDetailsItem"
-import { FlexRow } from "#ui/internals/FlexRow"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
 import { useEditDetailsOverlay } from "./useEditDetailsOverlay"
 
@@ -35,7 +34,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
     const inferredSurface = useSurfaceVariant()
     const surface = variant ?? inferredSurface
     const { user, canUser } = useTokenProvider()
-    const { i18n } = useTranslation()
+    const { t, i18n } = useTranslation()
     const locale = i18n.language as I18NLocale
     const { Overlay: EditDetailsOverlay, show } = useEditDetailsOverlay()
 
@@ -45,26 +44,62 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
 
     return (
       <>
-        <Section surface={surface} title="Details">
+        <Section
+          surface={surface}
+          title="Details"
+          actionButton={
+            // A `…` menu, as Tags and Metadata have: the rows then carry no controls
+            // of their own and read as a plain list, the same on every surface.
+            <Dropdown
+              className="print:hidden"
+              dropdownLabel={
+                <Icon
+                  name="dotsThree"
+                  weight="bold"
+                  size="16"
+                  aria-label={t("common.details_options")}
+                />
+              }
+              dropdownItems={
+                <>
+                  <DropdownItem
+                    icon="copy"
+                    label={t("common.copy_id")}
+                    onClick={() => {
+                      void navigator.clipboard.writeText(resource?.id ?? "")
+                    }}
+                  />
+                  {canUser("update", resource.type as ListableResourceType) && (
+                    <DropdownItem
+                      icon="pencilSimple"
+                      label={t("common.edit_resource", {
+                        resource: t("common.reference").toLowerCase(),
+                      })}
+                      onClick={() => {
+                        show()
+                      }}
+                    />
+                  )}
+                </>
+              }
+            />
+          }
+        >
           <ListDetailsItem surface={surface} label="ID" gutter="none">
-            <CopyToClipboard value={resource?.id} />
+            <Text weight="semibold" size="small">
+              {resource?.id}
+            </Text>
           </ListDetailsItem>
           <ListDetailsItem surface={surface} label="Reference" gutter="none">
-            <FlexRow alignItems="center">
+            {reference === "" ? (
+              <Text variant="disabled" size="small">
+                &#8212;
+              </Text>
+            ) : (
               <Text weight="semibold" size="small">
                 {reference}
               </Text>
-              {canUser("update", resource.type as ListableResourceType) && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    show()
-                  }}
-                >
-                  <Icon name="pencilSimple" size={16} />
-                </button>
-              )}
-            </FlexRow>
+            )}
           </ListDetailsItem>
           <ListDetailsItem surface={surface} label="Updated" gutter="none">
             <Text weight="semibold" size="small">

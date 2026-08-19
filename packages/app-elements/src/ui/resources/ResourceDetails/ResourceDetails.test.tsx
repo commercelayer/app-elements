@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react"
+import { fireEvent, render } from "@testing-library/react"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { PageLayout } from "#ui/composite/PageLayout"
 import { ResourceDetails } from "./ResourceDetails"
@@ -90,6 +90,27 @@ describe("ResourceDetails", () => {
     )
 
     expect(row(container, "ID")?.className).not.toContain("lg:grid-cols-1!")
+  })
+
+  // The rows show values only: copying the id and editing the reference are in the
+  // section's menu, so the block looks the same wherever it renders.
+  it("keeps its actions in the `…` menu", () => {
+    const { container } = render(
+      wrap(<ResourceDetails resource={resource} onUpdated={async () => {}} />),
+    )
+
+    // no control on the rows themselves: the id is text, not a copy button
+    expect(row(container, "ID")?.querySelector("button")).toBeNull()
+
+    const trigger = container.querySelector('[aria-haspopup="true"]')
+    assertToBeDefined(trigger)
+    expect(container.textContent).not.toContain("common.copy_id")
+
+    fireEvent.click(trigger)
+
+    // rendered without `I18NProvider`, so the items read as their keys
+    expect(container.textContent).toContain("common.copy_id")
+    expect(container.textContent).toContain("common.edit_resource")
   })
 
   // Every difference hides behind `lg:`, so the two read the same on a phone.
