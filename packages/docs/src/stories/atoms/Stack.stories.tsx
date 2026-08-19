@@ -9,7 +9,7 @@ import type { Meta, StoryFn } from "@storybook/react-vite"
 import { Badge } from "#ui/atoms/Badge"
 import { Button } from "#ui/atoms/Button"
 import { Spacer } from "#ui/atoms/Spacer"
-import { Stack } from "#ui/atoms/Stack"
+import { Stack, StackCell } from "#ui/atoms/Stack"
 import { Text } from "#ui/atoms/Text"
 
 const setup: Meta<typeof Stack> = {
@@ -135,4 +135,43 @@ export const MultipleStacks: StoryFn<typeof Stack> = (_args) => (
     </Stack>
     <div>last sibling</div>
   </>
+)
+
+/** `StackCell` writes the label and the value, taking its type sizes from the stack. */
+export const WithCells: StoryFn<typeof Stack> = (args) => (
+  <div>
+    <Stack {...args}>
+      <StackCell label="Discount">1%</StackCell>
+      <StackCell label="Usage">0</StackCell>
+      <StackCell label="Coupons">0</StackCell>
+    </Stack>
+    <Stack {...args}>
+      <StackCell label="Started on">Jan 19, 2027, 23:00</StackCell>
+      <StackCell label="Expires on">Mar 17, 2027, 23:00</StackCell>
+      <StackCell label="Apply to" />
+    </Stack>
+  </div>
+)
+WithCells.args = {}
+
+/**
+ * `small` tightens the padding and shrinks the type. Once the cells sit side by side
+ * the trailing one reads from the right edge; narrower than that they stack and all
+ * align to the left.
+ */
+export const Small: StoryFn<typeof Stack> = () => (
+  <div>
+    <Stack size="small">
+      <StackCell label="Discount">10%</StackCell>
+      <StackCell label="Coupons">592</StackCell>
+    </Stack>
+    <Stack size="small">
+      <StackCell label="Started on">May 12, 12:00</StackCell>
+      <StackCell label="Expires on">May 24, 12:00</StackCell>
+    </Stack>
+    <Stack size="small">
+      <StackCell label="Usage">23/500</StackCell>
+      <StackCell label="Apply to">All products in the order</StackCell>
+    </Stack>
+  </div>
 )

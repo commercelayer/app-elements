@@ -170,7 +170,13 @@ export {
   withSkeletonTemplate,
 } from "#ui/atoms/SkeletonTemplate"
 export { Spacer, type SpacerProps } from "#ui/atoms/Spacer"
-export { Stack, type StackProps } from "#ui/atoms/Stack"
+export {
+  Stack,
+  StackCell,
+  type StackCellProps,
+  type StackProps,
+  type StackSize,
+} from "#ui/atoms/Stack"
 export { StatusDot, type StatusDotProps } from "#ui/atoms/StatusDot"
 export { StatusIcon, type StatusIconProps } from "#ui/atoms/StatusIcon"
 export { Steps, type StepsProps } from "#ui/atoms/Steps"
