@@ -1,4 +1,3 @@
-import cn from "classnames"
 import type { ReactNode } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
 import type { ContainerProps } from "#ui/atoms/Container"
@@ -58,22 +57,6 @@ export type PageLayoutProps = Pick<
      */
     sidebar?: ReactNode
     /**
-     * Tail of the main content, rendered below `children` on large screens and
-     * below the `sidebar` once the layout collapses to a single column.
-     *
-     * Use it for sections that should stay last no matter the width, such as a
-     * timeline: `children` and `sidebar` alone would push the sidebar to the very
-     * bottom of the page when stacked.
-     *
-     * @example
-     * ```jsx
-     * <PageLayout sidebar={<Card>…</Card>} afterSidebar={<Timeline />}>
-     *   <OrderSummary />
-     * </PageLayout>
-     * ```
-     */
-    afterSidebar?: ReactNode
-    /**
      * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
      * Only if app is standalone mode.
      */
@@ -105,7 +88,6 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     navigationButton,
     children,
     sidebar,
-    afterSidebar,
     toolbar,
     mode,
     gap,
@@ -123,11 +105,6 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
 
     const { overlayFooter, ...rest } =
       "overlayFooter" in props ? props : { ...props, overlayFooter: undefined }
-
-    // `false` is what a `condition && <Section />` prop evaluates to, which is
-    // common while a resource is still loading: treat it as no content, so no
-    // empty grid row is created.
-    const hasAfterSidebar = afterSidebar != null && afterSidebar !== false
 
     const component = (
       <>
@@ -149,29 +126,20 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           delayMs={delayMs}
         />
         {sidebar == null ? (
-          <>
-            {children}
-            {afterSidebar}
-          </>
+          children
         ) : (
-          // A grid rather than two flex columns, so that `afterSidebar` can be
-          // placed under `children` on the left while the sidebar keeps its own
-          // column: stacked, the natural source order then reads
-          // children → sidebar → afterSidebar.
-          // `min-w-0` stops wide content (tables, code blocks) in the main column
-          // from pushing the sidebar out of the viewport.
+          // A grid rather than two flex columns, for the `minmax(0,1fr)` that stops
+          // wide content (tables, code blocks) in the main column from pushing the
+          // sidebar out of the viewport. Stacked, the source order reads
+          // children → sidebar, so the sidebar lands below the main content.
           <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-16 print:block">
-            <div className="min-w-0 lg:col-start-1 lg:row-start-1">
-              {children}
-            </div>
+            <div className="min-w-0">{children}</div>
             <aside
               // The column's top offset belongs out here, not inside the box below:
               // it lines the card up with the main content's first block, and a page
               // putting its own `Spacer` in the slot would leave that space *inside*
               // the card as an empty band.
-              className={cn("self-start mt-14 lg:col-start-2 lg:row-start-1", {
-                "lg:row-span-2": hasAfterSidebar,
-              })}
+              className="self-start mt-14"
             >
               {/* The sidebar's box lives here rather than in each page: from `lg` up
                   — the width at which this grid splits in two — the column is a card,
@@ -192,11 +160,6 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
                 </div>
               </OverlayContext.Provider>
             </aside>
-            {hasAfterSidebar && (
-              <div className="min-w-0 lg:col-start-1 lg:row-start-2">
-                {afterSidebar}
-              </div>
-            )}
           </div>
         )}
         {scrollToTop === true && <ScrollToTop />}
