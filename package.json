@@ -4,7 +4,7 @@
     "clean": "pnpx rimraf --glob **/node_modules **/pnpm-lock.yaml",
     "prepare": "husky",
     "preinstall": "npx only-allow pnpm",
-    "dev": "pnpm --stream -r dev",
+    "dev": "pnpm --stream -r dev --port 6006",
     "build:elements": "pnpm --stream --filter @commercelayer/app-elements build",
     "build:abilities": "pnpm --filter docs build:abilities",
     "build:docs": "pnpm --filter docs build",

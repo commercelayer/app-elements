@@ -1,10 +1,41 @@
 // @ts-check
 
+import { copyFileSync } from "node:fs"
 import { resolve } from "node:path"
 import react from "@vitejs/plugin-react"
 import dts from "vite-plugin-dts"
 import { defineConfig } from "vitest/config"
 import pkg from "./package.json"
+
+const tailwindConfigSource = resolve(__dirname, "src/styles/global.css")
+
+/**
+ * Publishes `src/styles/global.css` as `dist/tailwind.global.css`, the file
+ * consumers import to get the theme and to scan their own content.
+ *
+ * Owned by the build rather than a separate `cp` step, so `vite build --watch`
+ * reissues it: `addWatchFile` makes the source a dependency of the build, which
+ * a plain copy in a script is not, leaving consumers on a stale theme until the
+ * next full build.
+ *
+ * Copying on `writeBundle` rather than earlier because `emptyOutDir` clears
+ * `dist` during the write phase and would delete it again.
+ * @type {() => import('vite').Plugin}
+ */
+const emitTailwindConfig = () => ({
+  name: "emit-tailwind-config",
+  // this config is shared with vitest, which has no `dist` to write into
+  apply: "build",
+  buildStart() {
+    this.addWatchFile(tailwindConfigSource)
+  },
+  writeBundle() {
+    copyFileSync(
+      tailwindConfigSource,
+      resolve(__dirname, "dist/tailwind.global.css"),
+    )
+  },
+})
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -14,8 +45,13 @@ export default defineConfig({
       insertTypesEntry: true,
       include: ["src"],
     }),
+    emitTailwindConfig(),
   ],
   build: {
+    // `vendor.css` comes from a separate step of `pnpm build`, so wiping `dist`
+    // on a watch rebuild would delete it and leave consumers failing to resolve
+    // `@commercelayer/app-elements/vendor.css`.
+    emptyOutDir: process.env.APP_ELEMENTS_WATCH !== "true",
     lib: {
       // Could also be a dictionary or array of multiple entry points
       entry: resolve(__dirname, "src/main.ts"),

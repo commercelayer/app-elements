@@ -6,7 +6,7 @@
   "scripts": {
     "check": "pnpm biome check",
     "check:fix": "pnpm biome check --write",
-    "dev": "NODE_OPTIONS='--openssl-legacy-provider' storybook dev -p 6006",
+    "dev": "NODE_OPTIONS='--openssl-legacy-provider' storybook dev",
     "build:abilities": "node src/generate-abilities.mjs",
     "build:docs": "NODE_OPTIONS='--openssl-legacy-provider' storybook build -o dist",
     "build": "pnpm run --sequential \"/^build:.*/\"",
