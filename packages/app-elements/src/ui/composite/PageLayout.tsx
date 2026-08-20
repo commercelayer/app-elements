@@ -158,15 +158,9 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           // wide content (tables, code blocks) in the main column from pushing the
           // sidebar out of the viewport. Stacked, the source order reads
           // children → sidebar, so the sidebar lands below the main content.
-          <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-16 print:block">
-            <div className="min-w-0">{children}</div>
-            <aside
-              // The column's top offset belongs out here, not inside the box below:
-              // it lines the card up with the main content's first block, and a page
-              // putting its own `Spacer` in the slot would leave that space *inside*
-              // the card as an empty band.
-              className="self-start mt-14"
-            >
+          <div className="grid lg:grid-cols-[minmax(0,1fr)_380px] lg:gap-x-16 print:block mt-14">
+            <main>{children}</main>
+            <aside>
               {/* The sidebar's box lives here rather than in each page: from `lg` up
                   — the width at which this grid splits in two — the column is a card,
                   and below it is just another full-width row of the page, so the box
