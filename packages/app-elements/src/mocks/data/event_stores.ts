@@ -16,7 +16,14 @@ const TRACE_ID =
   "0000000000000000000000000000000000000000000000000000000000000000"
 const APPLICATION_ID = "mockAppIdXX"
 const CLIENT_ID = "mock-client-id"
-const BASE_URL = "https://mock.localhost/api"
+
+/**
+ * The SDK now pins an `apiVersion` and puts it in the path, so every URL is
+ * `/api/<version>/…`. Handlers match the segment as `:version` and the links
+ * echoed back reuse whatever the request asked for, so a version bump does not
+ * need a touch here.
+ */
+const baseUrl = (version: string) => `https://mock.localhost/api/${version}`
 
 const salesChannel = {
   id: APPLICATION_ID,
@@ -38,16 +45,18 @@ const makeEvent = ({
   createdAt,
   payload,
   who,
+  version,
 }: {
   id: string
   resourceId: string
   createdAt: string
   payload: Record<string, { from: unknown; to: unknown }>
   who: Record<string, unknown>
+  version: string
 }) => ({
   id,
   type: "event_stores",
-  links: { self: `${BASE_URL}/event_stores/${id}` },
+  links: { self: `${baseUrl(version)}/event_stores/${id}` },
   attributes: {
     resource_type: "orders",
     resource_id: resourceId,
@@ -105,7 +114,7 @@ const payloadVariants: Array<Record<string, { from: unknown; to: unknown }>> = [
  * Builds one page of events. Each page spans two days, so the day grouping in
  * the timeline is visible while scrolling rather than only between pages.
  */
-const pageEvents = (resourceId: string, page: number) =>
+const pageEvents = (resourceId: string, page: number, version: string) =>
   Array.from({ length: EVENTS_PER_PAGE }, (_, indexInPage) => {
     const index = (page - 1) * EVENTS_PER_PAGE + indexInPage
     const day =
@@ -118,6 +127,7 @@ const pageEvents = (resourceId: string, page: number) =>
       createdAt: `2026-08-${String(day).padStart(2, "0")}T07:${String(minute).padStart(2, "0")}:00.000Z`,
       payload: payloadVariants[index % payloadVariants.length] ?? {},
       who: whoVariants[index % whoVariants.length] ?? {},
+      version,
     })
   })
 
@@ -130,18 +140,19 @@ const pageFromCursor = (cursor: string | null): number => {
 }
 
 const eventStoresList = http.get(
-  `https://*/api/:resourceType/:resourceId/event_stores`,
+  `https://*/api/:version/:resourceType/:resourceId/event_stores`,
   async ({ request, params }) => {
     const url = new URL(request.url)
+    const version = String(params.version)
     const resourceId = String(params.resourceId)
     const page = pageFromCursor(url.searchParams.get("page[after]"))
     const nextCursor = PAGE_CURSORS[page + 1]
 
     const pageSize = url.searchParams.get("page[size]") ?? "25"
-    const nextLink = `${BASE_URL}/${String(params.resourceType)}/${resourceId}/event_stores?page%5Bafter%5D=${nextCursor}&page%5Bsize%5D=${pageSize}&sort=-id`
+    const nextLink = `${baseUrl(version)}/${String(params.resourceType)}/${resourceId}/event_stores?page%5Bafter%5D=${nextCursor}&page%5Bsize%5D=${pageSize}&sort=-id`
 
     return HttpResponse.json({
-      data: pageEvents(resourceId, page),
+      data: pageEvents(resourceId, page, version),
       meta: responseMeta,
       links: page < PAGE_COUNT ? { next: nextLink } : {},
     })

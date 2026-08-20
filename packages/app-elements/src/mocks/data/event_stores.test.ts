@@ -11,6 +11,7 @@ const sdkClient = CommerceLayer({
   accessToken: "1234",
   organization: "mock",
   domain: "localhost",
+  apiVersion: "2026-05",
 })
 
 const fetchPage = async (pageAfter?: string) =>
