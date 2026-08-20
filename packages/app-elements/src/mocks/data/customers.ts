@@ -49,7 +49,7 @@ const mockedCustomerWithNoMetadata = {
 }
 
 const customerRetrive = http.get(
-  `https://*/api/customers/NMWYhbGorj`,
+  `https://*/api/:version/customers/NMWYhbGorj`,
   async () => {
     return HttpResponse.json({
       data: mockedCustomer,
@@ -59,7 +59,7 @@ const customerRetrive = http.get(
 )
 
 const customerRetriveWithEmptyMetadata = http.get(
-  `https://*/api/customers/OEMAhobdgO`,
+  `https://*/api/:version/customers/OEMAhobdgO`,
   async () => {
     return HttpResponse.json({
       data: mockedCustomerWithNoMetadata,
@@ -69,7 +69,7 @@ const customerRetriveWithEmptyMetadata = http.get(
 )
 
 const customerUpdate = http.patch(
-  `https://*/api/customers/NMWYhbGorj`,
+  `https://*/api/:version/customers/NMWYhbGorj`,
   async () => {
     return HttpResponse.json({
       data: mockedCustomer,
