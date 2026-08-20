@@ -1,7 +1,7 @@
 import { HttpResponse, http } from "msw"
 
 const singleMarket = http.get(
-  `https://*/api/markets/:marketId`,
+  `https://*/api/:version/markets/:marketId`,
   async ({ params }) => {
     return HttpResponse.json({
       data: {
@@ -23,7 +23,7 @@ const singleMarket = http.get(
 )
 
 const allMarketsWithPriceList = http.get(
-  "https://mock.localhost/api/markets",
+  "https://mock.localhost/api/:version/markets",
   async () => {
     return HttpResponse.json({
       data: [

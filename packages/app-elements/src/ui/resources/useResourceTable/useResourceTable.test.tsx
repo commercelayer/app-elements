@@ -25,7 +25,7 @@ const mockedOrders = [
 function mockOrdersList(): { requestedSorts: Array<string | null> } {
   const requestedSorts: Array<string | null> = []
   server.use(
-    http.get(`https://*/api/orders`, ({ request }) => {
+    http.get(`https://*/api/:version/orders`, ({ request }) => {
       requestedSorts.push(new URL(request.url).searchParams.get("sort"))
       return HttpResponse.json({
         data: mockedOrders.map((order) => ({

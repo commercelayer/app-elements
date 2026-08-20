@@ -19,7 +19,7 @@ const mockedOrders = [
 function mockOrdersList(): { requestCount: () => number } {
   let requests = 0
   server.use(
-    http.get(`https://*/api/orders`, () => {
+    http.get(`https://*/api/:version/orders`, () => {
       requests += 1
       return HttpResponse.json({
         data: mockedOrders.map((order) => ({
@@ -128,7 +128,7 @@ describe("resource list signals, against a mounted list", () => {
     const requestedPages: number[] = []
     const orders = [...mockedOrders]
     server.use(
-      http.get(`https://*/api/orders`, ({ request }) => {
+      http.get(`https://*/api/:version/orders`, ({ request }) => {
         const url = new URL(request.url)
         requestedPages.push(Number(url.searchParams.get("page[number]") ?? 1))
         return HttpResponse.json({
