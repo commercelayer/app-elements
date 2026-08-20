@@ -70,4 +70,30 @@ describe("Spacer", () => {
     expect(element).toBeEmptyDOMElement()
     expect(element).toHaveClass("empty:hidden")
   })
+
+  test("Should take a value per breakpoint", () => {
+    const { getByTestId } = render(
+      <Spacer
+        data-testid="my-spacer"
+        top={{ base: "14", lg: "10" }}
+        bottom={{ md: "4" }}
+      >
+        <div>inner content</div>
+      </Spacer>,
+    )
+    const element = getByTestId("my-spacer")
+    expect(element).toHaveClass("mt-14", "lg:mt-10", "md:mb-4")
+  })
+
+  // `mt-14 lg:mt-10` written in an app is silently nothing: app code is not
+  // scanned by Tailwind, so only classes app-elements itself uses ever exist
+  test("Should keep its margins when given a className", () => {
+    const { getByTestId } = render(
+      <Spacer data-testid="my-spacer" top="14" className="print:hidden">
+        <div>inner content</div>
+      </Spacer>,
+    )
+    const element = getByTestId("my-spacer")
+    expect(element).toHaveClass("mt-14", "print:hidden")
+  })
 })

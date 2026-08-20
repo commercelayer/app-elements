@@ -188,7 +188,7 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
                     themselves with a top `Spacer`: when the block that was meant to
                     come first renders nothing (a customer with no addresses, say),
                     that spacer would open the column with an empty band. */}
-                <div className="mt-14 lg:mt-0 lg:border lg:border-gray-200 lg:rounded lg:bg-white lg:p-6">
+                <div className="mt-14 [&>*:first-child]:mt-0 lg:mt-0 lg:border lg:border-gray-200 lg:rounded lg:bg-white lg:p-6">
                   {sidebar}
                 </div>
               </OverlayContext.Provider>

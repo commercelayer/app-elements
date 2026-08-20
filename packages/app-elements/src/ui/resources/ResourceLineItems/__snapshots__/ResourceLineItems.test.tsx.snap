@@ -794,7 +794,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
             class="empty:hidden mt-4"
           >
             <div
-              class="pb-2 last:pb-0"
+              class="empty:hidden mt-4 pb-2 last:pb-0"
             >
               <div
                 class="flex gap-1"
@@ -861,7 +861,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
               </div>
             </div>
             <div
-              class="pb-2 last:pb-0"
+              class="empty:hidden mt-4 pb-2 last:pb-0"
             >
               <div
                 class="flex gap-1"
@@ -928,7 +928,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
               </div>
             </div>
             <div
-              class="pb-2 last:pb-0"
+              class="empty:hidden mt-4 pb-2 last:pb-0"
             >
               <div
                 class="flex gap-1"
