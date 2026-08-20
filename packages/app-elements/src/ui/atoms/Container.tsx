@@ -38,9 +38,11 @@ export const Container: React.FC<ContainerProps> = ({
       className={cn(
         "container mx-auto flex flex-col px-4 md:px-0",
         { "min-h-screen": minHeight },
-        // `md:max-w-none` opts out of the capped width set by the `container`
-        // utility (see styles/global.css)
-        { "w-full md:max-w-none": fullWidth },
+        // Opts out of the capped width set by the `container` utility (see
+        // styles/global.css) at every width, not just from `md`: that cap starts
+        // at 632px, so between there and `md` a full-width page was drawn as a
+        // 632px column floating in the middle of the window.
+        { "w-full max-w-none": fullWidth },
         className,
       )}
       {...rest}

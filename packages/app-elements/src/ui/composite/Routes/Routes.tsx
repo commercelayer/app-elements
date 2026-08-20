@@ -114,12 +114,23 @@ export function LoadingPage({
     settings: { mode },
   } = useTokenProvider()
 
+  // the same `PageLoading` the dashboard and the token provider show, so handing
+  // over from one to the next is not visible: a skeletonised title here used to
+  // appear after their spinner, as a second, different kind of placeholder
+  const loading = <PageLoading mode={mode} />
+
+  if (!overlay) {
+    return loading
+  }
+
+  // An overlay route resolves into a fixed, full-screen surface, so its
+  // placeholder has to be one too: rendered in the page flow it showed up as a
+  // grey band pushed in among the content behind, and the page then jumped as the
+  // real overlay took over. Same position, same `bg-gray-50` the overlay paints
+  // (the colour used to be hardcoded a shade off), so the handoff is invisible.
   return (
-    // the same `PageLoading` the dashboard and the token provider show, so handing
-    // over from one to the next is not visible: a skeletonised title here used to
-    // appear after their spinner, as a second, different kind of placeholder
-    <div style={overlay ? { backgroundColor: "#F5F5F5" } : undefined}>
-      <PageLoading mode={mode} />
+    <div className="fixed inset-0 z-50 h-full w-full overflow-y-auto bg-gray-50">
+      {loading}
     </div>
   )
 }

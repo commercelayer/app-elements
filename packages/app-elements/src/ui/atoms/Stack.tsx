@@ -20,6 +20,24 @@ export interface StackProps {
    * `@xl` up — where the cells sit side by side — sends the trailing cell to the
    * right edge; stacked, every cell still reads from the left. `StackCell` takes its
    * type sizes from this as well.
+   *
+   * ⚠️ Give a `small` row **two cells**. The pair is what the alignment is built
+   * for: one cell reading from the left edge, one from the right. A third cell
+   * lands in the middle with nothing to align to, so more facts go in further
+   * `Stack`s below — consecutive ones merge their borders and read as one block.
+   * A lone cell is fine as the remainder of an odd count; it stays left-aligned.
+   *
+   * @example
+   * ```jsx
+   * <Stack size='small'>
+   *   <StackCell label='Frequency'>Monthly</StackCell>
+   *   <StackCell label='Last run'>Mar 15, 2024</StackCell>
+   * </Stack>
+   * <Stack size='small'>
+   *   <StackCell label='Source order'>#1234</StackCell>
+   *   <StackCell label='Customer'>customer@commercelayer.io</StackCell>
+   * </Stack>
+   * ```
    */
   size?: StackSize
 }

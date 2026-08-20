@@ -601,7 +601,7 @@ describe("useResourceTable", () => {
 
     // An open dropdown is absolutely positioned, not portaled, so clipping the
     // actions cell would clip the menu away with it.
-    it("clips every cell except the actions one", async () => {
+    it("ends an over-long value in an ellipsis, except in the actions cell", async () => {
       mockOrdersList()
       const { container, findByText } = renderKinds()
       await findByText("#1001")
@@ -609,9 +609,13 @@ describe("useResourceTable", () => {
       const cells = Array.from(
         container.querySelectorAll("tbody tr:first-of-type td"),
       )
-      expect(cells[0]).toHaveClass("overflow-hidden")
-      expect(cells[1]).toHaveClass("overflow-hidden")
-      expect(cells[3]).not.toHaveClass("overflow-hidden")
+      // on the cell for a bare value, and one level in for the `Text` a cell
+      // usually renders: the ellipsis belongs to the box that holds the text
+      expect(cells[0]).toHaveClass("truncate", "[&>*]:truncate")
+      expect(cells[1]).toHaveClass("truncate")
+      // `actions` opts out: its dropdown is positioned rather than portaled, so
+      // clipping the cell would clip the open menu away with it
+      expect(cells[3]).not.toHaveClass("truncate")
     })
   })
 

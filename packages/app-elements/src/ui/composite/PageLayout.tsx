@@ -79,6 +79,10 @@ export type PageLayoutProps = Pick<
     /**
      * When mode is `test`, it will render a `TEST DATA` Badge to inform user api is working in test mode.
      * Only if app is standalone mode.
+     *
+     * Defaults to the mode of the current token, so a page gets the badge without
+     * having to pass anything: forgetting it is invisible in the dashboard, where
+     * the badge is suppressed anyway, and only shows up standalone.
      */
     mode?: "test" | "live"
     /**
@@ -121,8 +125,13 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
     ...props
   }) => {
     const {
-      settings: { isInDashboard },
+      settings: { isInDashboard, mode: tokenMode, accessToken },
     } = useTokenProvider()
+
+    // Only once there is a token: the provider's initial state says `test`, so
+    // falling back to it unconditionally would badge every page rendered without
+    // a provider — a story, a test — as test data.
+    const resolvedMode = mode ?? (accessToken !== "" ? tokenMode : undefined)
 
     const { overlayFooter, ...rest } =
       "overlayFooter" in props ? props : { ...props, overlayFooter: undefined }
@@ -135,10 +144,14 @@ export const PageLayout = withSkeletonTemplate<PageLayoutProps>(
           navigationButton={navigationButton}
           toolbar={toolbar}
           badge={
-            mode === "test" && !isInDashboard
+            resolvedMode === "test" && !isInDashboard
               ? {
                   label: "TEST DATA",
-                  variant: "warning-solid",
+                  // the soft variant the status badges use, and the same colours
+                  // the dashboard's own "Test mode" pill carries: standalone, this
+                  // badge says the same thing, so it should not look like a
+                  // different kind of warning
+                  variant: "warning",
                 }
               : undefined
           }

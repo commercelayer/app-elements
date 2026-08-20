@@ -29,7 +29,7 @@ export interface PageHeadingProps {
    */
   badge?: {
     label: string
-    /**  @default warning-solid  */
+    /**  @default warning  */
     variant?: BadgeProps["variant"]
   }
   /**
@@ -144,9 +144,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
             className="flex mb-4 md:mt-0! print:hidden"
             data-testid="page-heading-badge"
           >
-            <Badge variant={badge.variant ?? "warning-solid"}>
-              {badge.label}
-            </Badge>
+            <Badge variant={badge.variant ?? "warning"}>{badge.label}</Badge>
           </div>
         )}
         <div className="flex items-center justify-between">

@@ -272,8 +272,16 @@ const interactiveSelector = [
 ].join(", ")
 
 /**
- * A fixed-layout cell cannot grow, so an over-long value is clipped at the column
- * edge instead of spilling over its neighbour.
+ * A fixed-layout cell cannot grow, so an over-long value ends in an ellipsis at
+ * the column edge rather than wrapping onto a second line and making the row
+ * taller than its neighbours.
+ *
+ * `[&>*:not(:has(*))]:truncate` reaches one level in: a cell usually renders a
+ * `Text`, and the ellipsis belongs to whichever box actually holds the text — on
+ * the cell alone it would clip a block child without ever drawing the "…". The
+ * `:not(:has(*))` keeps it to children that are only text, so a cell holding two
+ * lines (a name over its code) still gets one ellipsis per line, and a child that
+ * lays its own content out (a flex row, a badge beside a date) is left alone.
  *
  * `actions` is excluded: its dropdown menu is absolutely positioned rather than
  * portaled, so clipping the cell would clip the open menu away with it.
@@ -281,7 +289,7 @@ const interactiveSelector = [
 function clipClassName(
   kind: ResourceTableColumn<ListableResourceType>["kind"],
 ): string | undefined {
-  return kind === "actions" ? undefined : "overflow-hidden"
+  return kind === "actions" ? undefined : "truncate [&>*]:truncate"
 }
 
 // Full literal class strings (not interpolated) so Tailwind v4's source scanner
