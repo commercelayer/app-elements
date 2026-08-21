@@ -145,7 +145,9 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
       >
         {resourceTags == null || resourceTags.length === 0 ? (
           <Spacer top="4">
-            <Text variant="info" size="small">{t("common.no_resources.no_tags")}.</Text>
+            <Text variant="info" size="small">
+              {t("common.no_resources.no_tags")}.
+            </Text>
           </Spacer>
         ) : (
           <div className="flex flex-wrap gap-2 mt-4">
