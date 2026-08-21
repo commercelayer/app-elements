@@ -71,10 +71,13 @@ export function ListDetailsItem({
     <div
       data-testid={`list-details-item-${label}`}
       className={classNames(
-        "border-gray-100 md:gap-4! py-2 md:py-0 grid md:grid-cols-[1fr_1.4fr]! print:inline-grid",
+        // the padding is the row's own, not the divider's: without this a
+        // `border="none"` row lost it and sat flush against whatever followed —
+        // visible on the last row of a card, where the value nearly touched the edge
+        "border-gray-100 md:gap-4! py-4 grid md:grid-cols-[1fr_1.4fr]! print:inline-grid",
         {
           "px-4": gutter !== "none",
-          "border-b py-4 md:py-4!": border !== "none",
+          "border-b": border !== "none",
           // Back to one column once the sidebar becomes a 380px column, and no
           // divider there: the vertical gaps do that job — which only works if a
           // value sits closer to its own label than to the next row. Stacked, the
