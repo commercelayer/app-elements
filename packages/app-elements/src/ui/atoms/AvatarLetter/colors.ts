@@ -1,45 +1,53 @@
 import { asUniqueArray } from "#utils/array"
 
+/**
+ * The backgrounds an avatar picks from, deterministically, by the text it renders.
+ *
+ * The initials are always white, so a background's contrast against white decides
+ * whether they can be read. Most of these clear 4.5:1; three pastels are kept
+ * deliberately for variety and sit well below it — `#FFCC80` (1.5:1), `#9CB1FF`
+ * (2.1:1), `#BBBEBE` (1.9:1) — where the initials read as a watermark rather than
+ * as text.
+ *
+ * `getWhiteContrastRatio` measures it, if a new colour needs checking.
+ */
 export const BG_COLORS = asUniqueArray([
-  "#BBBEBE",
-  "#79E4F8",
   "#FFCC80",
-  "#FFF280",
-  "#83F2C2",
-  "#18D0F3",
   "#9CB1FF",
-  "#FFEA2E",
-  "#FF8E92",
-  "#1FDA8A",
-  "#FFAB2E",
-  "#FE84BA",
-  "#BDAA00",
+  "#BBBEBE",
+  "#343535",
   "#686E6E",
   "#11784C",
+  "#0E8451",
+  "#087F96",
+  "#3963FF",
+  "#322AD8",
+  "#6B21A8",
+  "#A00148",
+  "#E20265",
   "#BC0007",
   "#942E0C",
-  "#A00148",
-  "#322AD8",
-  "#343535",
+  "#A96500",
+  "#827500",
 ])
 
-export function getTextColorForBackground(
-  backgroundColor: string,
-): "black" | "white" {
-  /**
-   * Convert a hexadecimal format to RGB format.
-   */
+/**
+ * The contrast ratio between a colour and white, from `1:1` (invisible) to `21:1`.
+ *
+ * @see https://www.w3.org/TR/WCAG20/#contrast-ratiodef
+ */
+export function getWhiteContrastRatio(backgroundColor: string): number {
   const hexToRgb = (hex: string): { r: number; g: number; b: number } => ({
-    r: parseInt(hex.slice(1, 3), 16),
-    g: parseInt(hex.slice(3, 5), 16),
-    b: parseInt(hex.slice(5, 7), 16),
+    r: Number.parseInt(hex.slice(1, 3), 16),
+    g: Number.parseInt(hex.slice(3, 5), 16),
+    b: Number.parseInt(hex.slice(5, 7), 16),
   })
 
   /**
-   * Calculate the relative luminance of the color.
+   * Relative luminance.
    * @see https://www.w3.org/TR/WCAG20/#relativeluminancedef
    */
-  const calculateRelativeLuminance = ({
+  const relativeLuminance = ({
     r,
     g,
     b,
@@ -56,35 +64,6 @@ export function getTextColorForBackground(
     return 0.2126 * sRGB(r) + 0.7152 * sRGB(g) + 0.0722 * sRGB(b)
   }
 
-  /**
-   * Calculate contrast ratios with both white and black.
-   *
-   * To calculate the contrast ratio,
-   * the relative luminance of the lighter color (`L1`)
-   * is divided through the relative luminance of the darker color (`L2`):
-   * ```
-   * (L1 + 0.05) / (L2 + 0.05)
-   * ```
-   *
-   * This results in a value ranging from `1:1` (no contrast at all) to `21:1` (the highest possible contrast).
-   */
-  const calculateWhiteAndBlackContrastRatio = (
-    luminance: number,
-  ): { white: number; black: number } => {
-    const whiteLuminance = calculateRelativeLuminance(hexToRgb("#FFFFFF"))
-    const blackLuminance = calculateRelativeLuminance(hexToRgb("#000000"))
-
-    return {
-      white: (whiteLuminance + 0.05) / (luminance + 0.05),
-      black: (luminance + 0.05) / (blackLuminance + 0.05),
-    }
-  }
-
-  const rgb = hexToRgb(backgroundColor)
-
-  const luminance = calculateRelativeLuminance(rgb)
-
-  const { white, black } = calculateWhiteAndBlackContrastRatio(luminance)
-
-  return white > black ? "white" : "black"
+  // white's own luminance is 1, so the ratio is `(1 + 0.05) / (L + 0.05)`
+  return 1.05 / (relativeLuminance(hexToRgb(backgroundColor)) + 0.05)
 }

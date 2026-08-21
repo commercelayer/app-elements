@@ -13,6 +13,7 @@ import { FieldTextSearch } from "./FieldTextSearch"
 import { FieldTimeRange } from "./FieldTimeRange"
 import { timeRangeValidationSchema } from "./timeUtils"
 import type { FiltersInstructions } from "./types"
+import { isBarFilter } from "./utils"
 
 export interface FiltersFormProps {
   /**
@@ -73,6 +74,12 @@ function FiltersForm({
     >
       {instructions.map((item) => {
         if (item.hidden === true) {
+          return null
+        }
+
+        // rendered by `FiltersBar`; offering it here too would mean two controls
+        // for one predicate, applying at different moments
+        if (isBarFilter(item)) {
           return null
         }
 

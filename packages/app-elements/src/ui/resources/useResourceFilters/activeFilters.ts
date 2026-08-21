@@ -24,6 +24,7 @@ import {
   getSearchBarPredicate,
   type UiFilterValue,
 } from "./types"
+import { isBarFilter } from "./utils"
 
 /**
  * Shared helpers to read the active filters out of a url query string and turn
@@ -311,6 +312,12 @@ export function getPillFilters({
     })
 
     if (instructionItem == null) {
+      continue
+    }
+
+    // A filter rendered in the bar states itself, so a pill under it would be a
+    // second control for the same value.
+    if (isBarFilter(instructionItem)) {
       continue
     }
 

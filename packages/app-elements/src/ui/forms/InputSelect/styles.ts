@@ -5,6 +5,11 @@ import type { InputSelectValue } from "."
 
 export const getSelectStyles = (
   feedbackVariant?: InputFeedbackProps["variant"],
+  /**
+   * `small` matches the height of the other controls in a toolbar row — the
+   * search field and the buttons beside it — where the regular 44px stands out.
+   */
+  size: "regular" | "small" = "regular",
 ): StylesConfig<InputSelectValue> => ({
   menu: (style) => ({
     ...style,
@@ -106,7 +111,7 @@ export const getSelectStyles = (
       ...style,
       ...feedbackStyle,
       borderWidth: 0,
-      minHeight: "44px",
+      minHeight: size === "small" ? "36px" : "44px",
 
       outline: "none",
       borderRadius: 8,

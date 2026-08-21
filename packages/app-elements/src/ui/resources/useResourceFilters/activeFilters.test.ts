@@ -27,6 +27,47 @@ describe("isSameFilterValue", () => {
 describe("getPillFilters", () => {
   const baseArgs = { instructions, predicateWhitelist: [] }
 
+  // The bar states the filter itself, so a pill under it would be a second
+  // control for the same value — while the filter still counts as active, which
+  // is what picks the "no results" empty state over "nothing here yet".
+  test("omits a filter promoted to the bar, which states itself", () => {
+    const promoted: FiltersInstructions = [
+      {
+        label: "Price list",
+        type: "options",
+        sdk: { predicate: "price_list_id_in" },
+        render: {
+          component: "inputSelect",
+          position: "bar",
+          props: {
+            resource: "price_lists",
+            fieldForLabel: "name",
+            fieldForValue: "id",
+            sortBy: { attribute: "name", direction: "asc" },
+            isMulti: false,
+          },
+        },
+      },
+      {
+        label: "Currency",
+        type: "options",
+        sdk: { predicate: "currency_code_in" },
+        render: {
+          component: "inputSelect",
+          props: { options: [{ value: "EUR", label: "EUR" }] },
+        },
+      },
+    ]
+
+    const pills = getPillFilters({
+      instructions: promoted,
+      predicateWhitelist: [],
+      queryString: "?price_list_id_in=abc&currency_code_in=EUR",
+    })
+
+    expect(pills.map((pill) => pill.id)).toStrictEqual(["currency_code_in"])
+  })
+
   // Apps declare `textSearch` items for predicates they only want whitelisted —
   // hidden ones driving tabs — and those can be listed before the search bar's own
   // instruction. Taking the first `textSearch` then left the searched text showing

@@ -75,6 +75,15 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   isSearchable?: boolean
   /**
+   * How tall the control is.
+   *
+   * `small` (36px) lines it up with the other controls of a toolbar row — the
+   * search field and the buttons beside it. Otherwise the regular 44px of a form
+   * field.
+   * @default 'regular'
+   */
+  size?: "regular" | "small"
+  /**
    * Allow to select multiple values
    */
   isMulti?: boolean
@@ -183,6 +192,7 @@ export const InputSelect = forwardRef<
       isLoading,
       loadingText = t("common.loading"),
       placeholder,
+      size = "regular",
       isDisabled,
       isOptionDisabled,
       isSearchable,
@@ -219,7 +229,7 @@ export const InputSelect = forwardRef<
       isOptionDisabled,
       onBlur,
       name,
-      styles: getSelectStyles(feedback?.variant),
+      styles: getSelectStyles(feedback?.variant, size),
       menuFooterText,
     }
 

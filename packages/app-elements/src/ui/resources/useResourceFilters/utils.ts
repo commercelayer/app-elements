@@ -2,6 +2,7 @@ import isEmpty from "lodash-es/isEmpty"
 import { adaptUrlQueryToFormValues } from "./adaptUrlQueryToFormValues"
 import type {
   FilterItemOptions,
+  FiltersInstructionItem,
   FiltersInstructions,
   UiFilterName,
   UiFilterValue,
@@ -122,4 +123,19 @@ export function isSingleValueOptionsItem(
     return render.props.isMulti === false
   }
   return false
+}
+
+/**
+ * Whether a filter is promoted out of the drawer and into `FiltersBar`.
+ *
+ * `hidden` wins: a tab that pins the predicate must not leave a select in the bar
+ * claiming otherwise.
+ */
+export function isBarFilter(instructionItem: FiltersInstructionItem): boolean {
+  return (
+    instructionItem.hidden !== true &&
+    instructionItem.type === "options" &&
+    instructionItem.render.component === "inputSelect" &&
+    instructionItem.render.position === "bar"
+  )
 }

@@ -254,6 +254,27 @@ const instructionsWithMarketsSelect: FiltersInstructions = instructions.map(
       : item,
 )
 
+/** The same market select, promoted into the bar and made single-valued. */
+const instructionsWithMarketInBar: FiltersInstructions =
+  instructionsWithMarketsSelect.map((item) =>
+    item.type === "options" &&
+    item.sdk.predicate === "market_id_in" &&
+    item.render.component === "inputSelect"
+      ? {
+          ...item,
+          render: {
+            ...item.render,
+            position: "bar",
+            props: {
+              ...item.render.props,
+              isMulti: false,
+              placeholder: "All markets",
+            },
+          },
+        }
+      : item,
+  )
+
 /**
  * `FiltersBar` renders the search bar with the filters button on the right and the
  * active filters as removable pills below, the style used by the dashboard.
@@ -280,6 +301,55 @@ export const FiltersBarWithDrawer: StoryFn = () => {
   // Only this story needs a searchable list of markets: the default handler
   // returns a fixed set, which would make the dropdown look like it ignores what
   // you type. Scoped with `use`/`resetHandlers` so no other story is affected.
+  useEffect(() => {
+    worker.use(marketsWithSearch)
+    return () => {
+      worker.resetHandlers()
+    }
+  }, [])
+
+  return (
+    <TokenProvider kind="integration" appSlug="orders" devMode>
+      <CoreSdkProvider>
+        <FiltersBar queryString={queryString} onUpdate={setQueryString} />
+        <FiltersDrawer onUpdate={setQueryString} />
+        <pre className="bg-gray-50 rounded p-4 text-sm overflow-x-auto">
+          {queryString === "" ? "(no filter applied)" : `?${queryString}`}
+        </pre>
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+/**
+ * A filter can be promoted out of the drawer and into the bar with
+ * `render: { position: 'bar' }`, available on `inputSelect` only. Use it for the
+ * one filter a page is really read through — the price list on prices, the stock
+ * location on inventory — so the page states what it is showing instead of hiding
+ * it behind the funnel.
+ *
+ * What comes with the promotion:
+ *
+ * - **the drawer skips it**, the way it already skips the search bar: one control,
+ *   one home, at every width;
+ * - **no pill** underneath — the trigger says it already;
+ * - **single-valued**, so pair it with `isMulti: false`. The predicate stays `_in`,
+ *   and a url carrying more than one id is rewritten to the first;
+ * - **`placeholder` is the unfiltered state** ("All markets"), and the first row of
+ *   the menu, which is how you get back to it;
+ * - **fixed width**, so picking a long name never shifts the buttons beside it;
+ * - **`hidden: true` wins**, so a tab that pins the predicate leaves no select
+ *   behind it contradicting the tab.
+ *
+ * Try it: pick a market, and watch the drawer offer everything *but* markets, with
+ * no market pill below.
+ **/
+export const FiltersBarWithPromotedFilter: StoryFn = () => {
+  const [queryString, setQueryString] = useState("")
+  const { FiltersBar, FiltersDrawer } = useResourceFilters({
+    instructions: instructionsWithMarketInBar,
+  })
+
   useEffect(() => {
     worker.use(marketsWithSearch)
     return () => {

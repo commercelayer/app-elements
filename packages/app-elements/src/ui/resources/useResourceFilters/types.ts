@@ -172,6 +172,25 @@ export type FilterItemOptions = BaseFilterItem & {
          */
         component: "inputSelect"
         /**
+         * Where the field is rendered.
+         *
+         * `"bar"` promotes it out of the drawer and into `FiltersBar`, as a
+         * fixed-width trigger beside the search field — for the one filter a page
+         * is really read through, such as the price list on prices or the stock
+         * location on inventory. The drawer then skips it, the way it already
+         * skips the search bar: one control, one home.
+         *
+         * A promoted filter produces no pill (the trigger already states it) and
+         * is single-select, so give it `isMulti: false` and a `placeholder` that
+         * reads as the unfiltered state ("All price lists").
+         *
+         * `hidden: true` wins over this: a tab that pins the filter must not leave
+         * a select next to it claiming otherwise.
+         *
+         * @default 'drawer'
+         */
+        position?: "bar" | "drawer"
+        /**
          * props required for the UI component.
          *
          * Either a fixed list of `options` — statuses, kinds, anything the app

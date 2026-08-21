@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { type JSX, useMemo } from "react"
 import { getDeterministicValue, getInitials } from "#utils/text"
-import { BG_COLORS, getTextColorForBackground } from "./colors"
+import { BG_COLORS } from "./colors"
 
 export interface AvatarLetterProps {
   /**
@@ -44,10 +44,9 @@ export function AvatarLetter({
     () => getDeterministicValue(text, BG_COLORS) ?? "#FFFFFF",
     [text],
   )
-  const textColor = useMemo(
-    () => getTextColorForBackground(backgroundColor),
-    [backgroundColor],
-  )
+  // every colour in `BG_COLORS` clears 4.5:1 against white, so the initials are
+  // always white rather than picked per background
+  const textColor = "white"
 
   if (children != null) {
     return children({
@@ -63,14 +62,15 @@ export function AvatarLetter({
         className,
         "rounded-full",
         "flex items-center justify-center",
-        "font-bold text-sm",
+        "font-bold text-white",
         {
           // `min-*` as in `Avatar`: without it the circle is squashed when used
-          // as a flex child next to text that wants the room
-          "min-w-[36px] min-h-[36px] w-[36px] h-[36px]": size === "medium",
-          "min-w-[42px] min-h-[42px] w-[42px] h-[42px]": size === "large",
-          "text-white": textColor === "white",
-          "text-black": textColor === "black",
+          // as a flex child next to text that wants the room. The initials shrink
+          // with the circle, so the two sizes keep the same proportions
+          "min-w-[36px] min-h-[36px] w-[36px] h-[36px] text-2xs":
+            size === "medium",
+          "min-w-[42px] min-h-[42px] w-[42px] h-[42px] text-sm":
+            size === "large",
         },
       )}
       style={{

@@ -13,8 +13,14 @@ import {
   type PillFilter,
 } from "./activeFilters"
 import { makeFilterAdapters } from "./adapters"
+import { FiltersBarSelect } from "./FiltersBarSelect"
 import { FiltersSearchBar } from "./FiltersSearchBar"
-import type { FiltersInstructions, FormFullValues } from "./types"
+import type {
+  FilterItemOptions,
+  FiltersInstructions,
+  FormFullValues,
+} from "./types"
+import { isBarFilter } from "./utils"
 
 export interface FiltersBarProps {
   /**
@@ -99,10 +105,18 @@ export function FiltersBar({
    * set made only of those would open an empty drawer. The button is dropped
    * instead, which is what an app with search but no filters wants.
    */
+  const barFilters = instructions.filter((item): item is FilterItemOptions =>
+    isBarFilter(item),
+  )
+
+  // What the drawer would hold: the search bar renders here, and so does a
+  // promoted filter, so neither counts. With nothing left the button would open
+  // an empty drawer.
   const hasFilterFields = instructions.some(
     (item) =>
       item.hidden !== true &&
-      !(item.type === "textSearch" && item.render.component === "searchBar"),
+      !(item.type === "textSearch" && item.render.component === "searchBar") &&
+      !isBarFilter(item),
   )
 
   const pills = getPillFilters({
@@ -169,6 +183,18 @@ export function FiltersBar({
         )}
 
         <div className="flex gap-2 ml-auto">
+          {/* Promoted filters, before the buttons: each keeps a fixed width, so
+              picking one never shifts the icons beside it. */}
+          {barFilters.map((item) => (
+            <FiltersBarSelect
+              key={item.sdk.predicate}
+              item={item}
+              instructions={instructions}
+              queryString={queryString}
+              predicateWhitelist={predicateWhitelist}
+              onUpdate={onUpdate}
+            />
+          ))}
           {hasFilterFields && (
             <Button
               type="button"
