@@ -165,7 +165,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </Card>
           ) : (
             <Spacer top="4">
-              <Text tag="span" variant="info">
+              <Text tag="span" variant="info" size="small">
                 {t("common.no_metadata")}
               </Text>
             </Spacer>

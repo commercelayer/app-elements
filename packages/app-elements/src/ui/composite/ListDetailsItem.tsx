@@ -74,13 +74,13 @@ export function ListDetailsItem({
         "border-gray-100 md:gap-4! py-2 md:py-0 grid md:grid-cols-[1fr_1.4fr]! print:inline-grid",
         {
           "px-4": gutter !== "none",
-          "border-b py-4 md:py-2!": border !== "none",
+          "border-b py-4 md:py-4!": border !== "none",
           // Back to one column once the sidebar becomes a 380px column, and no
           // divider there: the vertical gaps do that job — which only works if a
           // value sits closer to its own label than to the next row. Stacked, the
           // two-column gap of `16px` applied in both directions and made every gap
           // equal, so nothing read as a pair.
-          "lg:grid-cols-1! lg:border-b-0 lg:gap-y-1! lg:py-3!":
+          "lg:grid-cols-1! lg:border-b-0 lg:gap-y-0! lg:pt-0! first:lg:pt-4! last:lg:pb-0!":
             resolvedSurface === "sidebar",
         },
       )}
@@ -88,7 +88,7 @@ export function ListDetailsItem({
     >
       <div
         className={classNames(
-          "text-gray-500 text-sm font-medium flex-none w-full md:py-2! min-w-0",
+          "text-gray-500 text-sm font-medium flex-none w-full",
           { "lg:py-0!": resolvedSurface === "sidebar" },
         )}
       >
@@ -98,7 +98,7 @@ export function ListDetailsItem({
         data-testid={`list-details-item-${label}-value`}
         // keep `min-w-0` to avoid grid overflow when grid-item content is too long
         className={classNames("font-medium min-w-0 text-sm", {
-          "py-2": !childrenHaveInternalPadding,
+          "py-0!": !childrenHaveInternalPadding,
           "lg:pt-0!": resolvedSurface === "sidebar",
           "md:text-right": childrenAlign === "right",
           // stacked under its label, a value reads from the left again
