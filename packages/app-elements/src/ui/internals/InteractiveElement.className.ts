@@ -121,7 +121,7 @@ function getFontSizeCss(
   const mapping = {
     mini: "text-[13px]",
     small: "text-sm",
-    regular: "text-[15px]",
+    regular: "text-base",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]
