@@ -86,7 +86,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
           }
         >
           <ListDetailsItem surface={surface} label="ID" gutter="none">
-            <Text weight="semibold" size="small">
+            <Text weight="medium" size="small">
               {resource?.id}
             </Text>
           </ListDetailsItem>
@@ -96,13 +96,13 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
                 &#8212;
               </Text>
             ) : (
-              <Text weight="semibold" size="small">
+              <Text weight="medium" size="small">
                 {reference}
               </Text>
             )}
           </ListDetailsItem>
           <ListDetailsItem surface={surface} label="Updated" gutter="none">
-            <Text weight="semibold" size="small">
+            <Text weight="medium" size="small">
               {formatDate({
                 isoDate: resource?.updated_at,
                 timezone: user?.timezone,
@@ -113,7 +113,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
             </Text>
           </ListDetailsItem>
           <ListDetailsItem surface={surface} label="Created" gutter="none">
-            <Text weight="semibold" size="small">
+            <Text weight="medium" size="small">
               {formatDate({
                 isoDate: resource?.created_at,
                 timezone: user?.timezone,
