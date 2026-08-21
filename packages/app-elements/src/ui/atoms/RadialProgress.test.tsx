@@ -22,6 +22,18 @@ describe("RadialProgress", () => {
     expect(queryByTestId("radial-progress-icon")).toBeInTheDocument()
   })
 
+  test.each([
+    ["small", 24],
+    ["medium", 36],
+    ["large", 42],
+    ["x-large", 56],
+  ] as const)("Should render %s at %ipx", (size, expectedPixels) => {
+    const { getByTestId } = render(<RadialProgress size={size} />)
+    const svg = getByTestId("radial-progress")
+    expect(svg).toHaveAttribute("width", String(expectedPixels))
+    expect(svg).toHaveAttribute("height", String(expectedPixels))
+  })
+
   test("Should be rendered in progress 0%", () => {
     const { getByTestId, queryByTestId } = render(
       <RadialProgress percentage={0} />,

@@ -9,18 +9,27 @@ import { useViewJsonOverlay } from "#hooks/useViewJsonOverlay"
 import { useCoreApi } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
-import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
+import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
+import { useSurfaceVariant } from "#ui/internals/overlayContext"
 
 interface MetadataOverlay
   extends Omit<EditMetadataOverlayProps, "resourceId" | "resourceType"> {}
 
 export interface ResourceMetadataProps {
+  /**
+   * How the block renders, overriding what it infers from where it sits.
+   *
+   * Inferred by default — `PageLayout`'s sidebar slot reports `"sidebar"`, while a
+   * page and a drawer both report the wider `"default"`. Pass it only to force a
+   * rendering the surrounding surface would not choose.
+   */
+  variant?: "default" | "sidebar"
   resourceType: ListableResourceType
   resourceId: string
   /**
@@ -41,7 +50,10 @@ export const isUpdatableType = (value: any): value is UpdatableType => {
  * More in detail the `metadata` attribute is a JSON object, customizable for several purposes, and this component will allow to show and manage its keys with a simple (string kind) values.
  */
 export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
-  ({ resourceType, resourceId, overlay }) => {
+  ({ resourceType, resourceId, overlay, variant }) => {
+    // the hook runs unconditionally; the prop only wins afterwards
+    const inferredSurface = useSurfaceVariant()
+    const surface = variant ?? inferredSurface
     const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
     const { JsonOverlay, showJsonOverlay } = useViewJsonOverlay()
 
@@ -67,40 +79,51 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
     return (
       <div>
         <Section
+          surface={surface}
           title="Metadata"
           border={isEmpty(resourceData?.metadata) ? undefined : "none"}
           actionButton={
-            <div className="flex items-center gap-2 print:hidden">
-              {!isEmpty(resourceData?.metadata) ? (
-                <Button
-                  variant="secondary"
-                  size="mini"
-                  onClick={() => {
-                    showJsonOverlay()
-                  }}
-                >
-                  {t("common.view_json")}
-                </Button>
-              ) : (
-                ""
-              )}
-              {canUser("update", resourceType) && (
-                <Button
-                  variant="secondary"
-                  size="mini"
-                  alignItems="center"
-                  aria-label={t("common.edit_resource", {
-                    resource: t("common.metadata").toLowerCase(),
-                  })}
-                  onClick={() => {
-                    show()
-                  }}
-                >
-                  <Icon name="pencilSimple" size="16" />
-                  {t("common.edit")}
-                </Button>
-              )}
-            </div>
+            // A `…` menu rather than a row of buttons, as the tables and the page
+            // headings use: the section then looks the same on every surface, which
+            // is what lets the surface variants differ by CSS alone.
+            (!isEmpty(resourceData?.metadata) ||
+              canUser("update", resourceType)) && (
+              <Dropdown
+                className="print:hidden"
+                dropdownLabel={
+                  <Icon
+                    name="dotsThree"
+                    weight="bold"
+                    size="16"
+                    aria-label={t("common.edit_resource", {
+                      resource: t("common.metadata").toLowerCase(),
+                    })}
+                  />
+                }
+                dropdownItems={
+                  <>
+                    {canUser("update", resourceType) && (
+                      <DropdownItem
+                        icon="pencilSimple"
+                        label={t("common.edit")}
+                        onClick={() => {
+                          show()
+                        }}
+                      />
+                    )}
+                    {!isEmpty(resourceData?.metadata) && (
+                      <DropdownItem
+                        icon="code"
+                        label={t("common.view_json")}
+                        onClick={() => {
+                          showJsonOverlay()
+                        }}
+                      />
+                    )}
+                  </>
+                }
+              />
+            )
           }
         >
           {!isEmpty(resourceData?.metadata) ? (
@@ -142,7 +165,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             </Card>
           ) : (
             <Spacer top="4">
-              <Text tag="span" variant="info">
+              <Text tag="span" variant="info" size="small">
                 {t("common.no_metadata")}
               </Text>
             </Spacer>

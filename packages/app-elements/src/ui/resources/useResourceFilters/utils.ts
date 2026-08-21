@@ -101,3 +101,25 @@ export function getAllowedValuesFromItemOptions(
     ? instructionItem.render.props.options.map((o) => o.value)
     : undefined
 }
+
+/**
+ * Whether an `options` filter holds a single value rather than a list.
+ *
+ * Two components can be single-valued and they say so differently: a toggle
+ * button through `mode`, a select through `isMulti`. Anything reading a filter
+ * value has to know which, so the value can be unwrapped from the array the URL
+ * always parses into — a predicate like `archived_at_null` expects `"hide"`,
+ * not `["hide"]`.
+ */
+export function isSingleValueOptionsItem(
+  instructionItem: FilterItemOptions,
+): boolean {
+  const { render } = instructionItem
+  if (render.component === "inputToggleButton") {
+    return render.props.mode === "single"
+  }
+  if (render.component === "inputSelect") {
+    return render.props.isMulti === false
+  }
+  return false
+}

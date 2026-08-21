@@ -295,7 +295,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     align="center"
                     rowSpan={3}
                   >
-                    <Avatar size={size} src={imageUrl} alt={name ?? ""} />
+                    <Avatar size={"small"} src={imageUrl} alt={name ?? ""} />
                   </td>
                   <td
                     className={cn("pl-4", {
@@ -303,35 +303,27 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       "pt-4": size === "small",
                     })}
                     colSpan={settings.showPrice ? 3 : 2}
-                  >
-                    <Text
-                      tag="div"
-                      variant="info"
-                      className="text-xs font-medium"
-                    >
-                      {code?.toUpperCase()}
-                    </Text>
-                  </td>
+                  ></td>
                 </tr>
                 <tr>
                   <td className="px-4 w-full" valign="top">
                     <Text
                       tag="div"
                       className={cn({
-                        "font-medium text-base": size === "normal",
-                        "text-sm font-medium": size === "small",
+                        "font-semibold text-sm": size === "normal",
+                        "text-sm font-semibold": size === "small",
                       })}
                     >
                       {name}
                     </Text>
-                    {lineItem.type === "line_items" &&
-                      lineItem.formatted_unit_amount != null && (
-                        <Spacer top="2">
-                          <Badge variant="secondary">{`${t(
-                            "common.unit_price",
-                          )} ${lineItem.formatted_unit_amount}`}</Badge>
-                        </Spacer>
-                      )}
+                    <Text
+                      tag="div"
+                      variant="info"
+                      size="x-small"
+                      weight="regular"
+                    >
+                      {code?.toUpperCase()}
+                    </Text>
                     {lineItem.type === "return_line_items" &&
                       lineItem.restocked_at != null && (
                         <Spacer top="2">
@@ -357,18 +349,21 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       )}
                   </td>
                   <td valign="top" align="right">
-                    <Text
-                      tag="div"
-                      variant="info"
-                      wrap="nowrap"
-                      className={cn({
-                        "font-medium text-base": size === "normal",
-                        "text-sm": size === "small",
-                        hidden: isEditable(lineItem),
-                      })}
-                    >
-                      x {lineItem.quantity}
-                    </Text>
+                    {lineItem.type === "line_items" &&
+                      lineItem.formatted_unit_amount != null && (
+                        <Text
+                          tag="div"
+                          variant="info"
+                          wrap="nowrap"
+                          className={cn("pr-10", {
+                            "font-regular text-sm": size === "normal",
+                            "text-sm": size === "small",
+                            hidden: isEditable(lineItem),
+                          })}
+                        >
+                          {lineItem.formatted_unit_amount} x {lineItem.quantity}
+                        </Text>
+                      )}
                   </td>
                   {settings.showPrice && (
                     <td className="pl-2" valign="top" align="right">
@@ -378,7 +373,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                           tag="div"
                           wrap="nowrap"
                           className={cn({
-                            "font-semibold text-base": size === "normal",
+                            "font-semibold text-sm": size === "normal",
                             "text-sm font-semibold": size === "small",
                           })}
                         >
@@ -392,6 +387,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                     </td>
                   )}
                 </tr>
+
                 <tr>
                   <td
                     className="p-0 pl-4 w-full"
@@ -459,7 +455,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                   className={cn("pl-4")}
                   colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
                 >
-                  <Text tag="div" size={size === "normal" ? "regular" : size}>
+                  <Text tag="div" size={size === "normal" ? "small" : size}>
                     <div className="mt-4 mb-4 last-of-type:[.boxed-container_tr:last-of-type_&]:mb-0">
                       {element}
                     </div>
@@ -483,7 +479,7 @@ const LineItemOptionsWrapper = withSkeletonTemplate<{
   <Spacer top="4" className="pb-2 last:pb-0">
     <div className="flex gap-1">
       {title != null && (
-        <Text tag="div" weight="semibold" size="small" className="mb-1">
+        <Text tag="div" weight="semibold" size="x-small" className="mb-1">
           {title}
         </Text>
       )}
@@ -501,7 +497,7 @@ const LineItemOptionsItem = withSkeletonTemplate<{ title: string }>(
   ({ title }) => (
     <div className="flex items-center gap-1 mb-1">
       <StatusIcon name="arrowBendDownRight" className="text-gray-500" />
-      <Text variant="info" tag="div" size="small" weight="medium">
+      <Text variant="info" tag="div" size="x-small" weight="regular">
         {title}
       </Text>
     </div>
@@ -657,13 +653,13 @@ const Bundle = withSkeletonTemplate<{ code: LineItem["bundle_code"] }>(
             <div className="flex flex-row gap-2 items-center ml-2">
               <Text
                 variant="info"
-                size="small"
+                size="x-small"
                 weight="medium"
                 className="whitespace-nowrap"
               >
                 x {item.quantity}
               </Text>{" "}
-              <Text size="small" weight="semibold" className="leading-4">
+              <Text size="x-small" weight="medium" className="leading-4">
                 {item.sku?.name}
               </Text>
             </div>
@@ -704,10 +700,10 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
         <div className="grid justify-between grid-cols-2 gap-4 gap-y-2 w-auto">
           {discountBreakdown?.map((discountItem) => (
             <Fragment key={discountItem.id}>
-              <Text size="small" weight="semibold" className="text-left">
+              <Text size="x-small" weight="medium" className="text-left">
                 {discountItem.name}
               </Text>
-              <Text size="small" weight="semibold" className="text-right">
+              <Text size="x-small" weight="semibold" className="text-right">
                 {formatCentsToCurrency(
                   discountItem.cents,
                   lineItem.currency_code as CurrencyCode,
@@ -719,10 +715,10 @@ const LineItemPriceTooltip = withSkeletonTemplate<{
           {lineItem.tax_amount_cents != null &&
             lineItem.tax_amount_cents > 0 && (
               <>
-                <Text size="small" weight="semibold" className="text-left">
+                <Text size="x-small" weight="medium" className="text-left">
                   {t("common.taxes")}
                 </Text>
-                <Text size="small" weight="semibold" className="text-right">
+                <Text size="x-small" weight="semibold" className="text-right">
                   {lineItem.formatted_tax_amount}
                 </Text>
               </>

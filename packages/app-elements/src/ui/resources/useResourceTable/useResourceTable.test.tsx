@@ -1,0 +1,824 @@
+import { createEvent, fireEvent, render, waitFor } from "@testing-library/react"
+import { HttpResponse, http } from "msw"
+import type { FC } from "react"
+import { CoreSdkProvider } from "#providers/CoreSdkProvider"
+import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { server } from "../../../mocks/server"
+import type {
+  ResourceTableColumn,
+  ResourceTableProps,
+  ResourceTableSort,
+} from "./types"
+import { useResourceTable } from "./useResourceTable"
+
+const mockedOrders = [
+  { id: "order-1", number: 1001 },
+  { id: "order-2", number: 1002 },
+  { id: "order-3", number: 1003 },
+]
+
+/**
+ * Deterministic orders, replacing the shared handler's randomized ones, plus a
+ * record of every `sort` the API is asked for — sorting is server-side, so the
+ * outgoing query is the observable behavior.
+ */
+function mockOrdersList(): { requestedSorts: Array<string | null> } {
+  const requestedSorts: Array<string | null> = []
+  server.use(
+    http.get(`https://*/api/orders`, ({ request }) => {
+      requestedSorts.push(new URL(request.url).searchParams.get("sort"))
+      return HttpResponse.json({
+        data: mockedOrders.map((order) => ({
+          id: order.id,
+          type: "orders",
+          attributes: { number: order.number },
+        })),
+        meta: { record_count: mockedOrders.length, page_count: 1 },
+      })
+    }),
+  )
+  return { requestedSorts }
+}
+
+const columns: Array<ResourceTableColumn<"orders">> = [
+  {
+    header: "Order",
+    sortBy: "number",
+    cell: ({ resource }) => `#${resource.number}`,
+  },
+  // no `sortBy`, so this one must not become interactive
+  { header: "Status", cell: () => "placed" },
+]
+
+const Wrapper: FC<{ children: React.ReactNode }> = ({ children }) => (
+  <TokenProvider kind="integration" appSlug="orders" devMode>
+    <CoreSdkProvider>{children}</CoreSdkProvider>
+  </TokenProvider>
+)
+
+/** Row elements in document order. */
+function getRows(container: HTMLElement): HTMLElement[] {
+  return Array.from(container.querySelectorAll("tbody tr"))
+}
+
+describe("useResourceTable", () => {
+  describe("component identity", () => {
+    it("keeps the returned `ResourceTable` stable across re-renders, so rows are not remounted (which showed up as a flicker on row click)", async () => {
+      mockOrdersList()
+      const seen = new Set<FC<ResourceTableProps>>()
+
+      const Implementation: FC<{ tick: number }> = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          // inline handlers: a fresh identity on every render, as callers write them
+          onRowClick: () => {},
+          getRowHref: (order) => `/orders/${order.id}`,
+        })
+        seen.add(ResourceTable)
+        return <ResourceTable />
+      }
+
+      const { findByText, rerender } = render(
+        <Wrapper>
+          <Implementation tick={0} />
+        </Wrapper>,
+      )
+
+      // covers the render caused by the fetch resolving, which swaps `list`,
+      // `meta` and `fetchMore`
+      expect(await findByText("#1001")).toBeInTheDocument()
+
+      rerender(
+        <Wrapper>
+          <Implementation tick={1} />
+        </Wrapper>,
+      )
+
+      expect(seen.size).toBe(1)
+    })
+  })
+
+  describe("row links", () => {
+    const renderWithLinks = (
+      onRowClick?: (order: { id: string }, event: React.MouseEvent) => void,
+    ) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          getRowHref: (order) => `/orders/${order.id}`,
+          onRowClick,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("renders a single anchor, on the first cell only", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithLinks()
+      await findByText("#1001")
+
+      const [firstRow] = getRows(container)
+      assertToBeDefined(firstRow)
+      const anchors = firstRow.querySelectorAll("a")
+      expect(anchors).toHaveLength(1)
+
+      const anchor = anchors[0]
+      assertToBeDefined(anchor)
+      expect(anchor).toHaveAttribute("href", "/orders/order-1")
+      expect(anchor.closest("td")).toBe(firstRow.querySelector("td"))
+    })
+
+    /**
+     * The anchor's `::after` overlay must be contained by its own cell, not by the
+     * row: engines that ignore `position: relative` on a `tr` (older iOS Safari)
+     * resolve it against a page-level ancestor instead, where it covers the search
+     * field and the tabs above the table and swallows every tap.
+     */
+    it("positions the link overlay on its cell, never on the row", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithLinks()
+      await findByText("#1001")
+
+      const [firstRow] = getRows(container)
+      assertToBeDefined(firstRow)
+      expect(firstRow).not.toHaveClass("relative")
+      expect(firstRow.querySelector("td")).toHaveClass("relative")
+      // and only that cell: the others hold no overlay to contain
+      expect(firstRow.querySelectorAll("td")[1]).not.toHaveClass("relative")
+    })
+
+    it("leaves the row without a button role, so the anchor carries the semantics", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithLinks(() => {})
+      await findByText("#1001")
+
+      const [firstRow] = getRows(container)
+      assertToBeDefined(firstRow)
+      expect(firstRow).not.toHaveAttribute("role", "button")
+    })
+
+    it("opens the row from a click anywhere in it, not only on the link", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const { container, findByText } = renderWithLinks(onRowClick)
+      await findByText("#1001")
+
+      const secondCell = getRows(container)[0]?.querySelectorAll("td")[1]
+      assertToBeDefined(secondCell)
+      fireEvent.click(secondCell)
+
+      expect(onRowClick).toHaveBeenCalledTimes(1)
+      expect(onRowClick.mock.calls[0]?.[0]).toMatchObject({ id: "order-1" })
+    })
+
+    it("does not handle a link click twice, once for the link and once for the row", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const { container, findByText } = renderWithLinks(onRowClick)
+      await findByText("#1001")
+
+      const anchor = getRows(container)[0]?.querySelector("a")
+      assertToBeDefined(anchor)
+      fireEvent.click(anchor)
+
+      expect(onRowClick).toHaveBeenCalledTimes(1)
+    })
+
+    it("on a plain click, calls `onRowClick` with the row's resource and prevents the navigation", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const { container, findByText } = renderWithLinks(onRowClick)
+      await findByText("#1001")
+
+      const anchor = getRows(container)[0]?.querySelector("a")
+      assertToBeDefined(anchor)
+      const click = createEvent.click(anchor)
+      fireEvent(anchor, click)
+
+      expect(onRowClick).toHaveBeenCalledTimes(1)
+      expect(onRowClick.mock.calls[0]?.[0]).toMatchObject({ id: "order-1" })
+      expect(click.defaultPrevented).toBe(true)
+    })
+
+    it.each([
+      ["metaKey", { metaKey: true }],
+      ["ctrlKey", { ctrlKey: true }],
+      ["shiftKey", { shiftKey: true }],
+      ["altKey", { altKey: true }],
+    ])(
+      "on a %s click, falls through to the browser so the row opens in a new tab",
+      async (_name, modifier) => {
+        mockOrdersList()
+        const onRowClick = vi.fn()
+        const { container, findByText } = renderWithLinks(onRowClick)
+        await findByText("#1001")
+
+        const anchor = getRows(container)[0]?.querySelector("a")
+        assertToBeDefined(anchor)
+        const click = createEvent.click(anchor, modifier)
+        fireEvent(anchor, click)
+
+        expect(onRowClick).not.toHaveBeenCalled()
+        expect(click.defaultPrevented).toBe(false)
+      },
+    )
+
+    it("without `getRowHref`, makes the row itself the button and renders no anchor", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          onRowClick,
+        })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      const [firstRow] = getRows(container)
+      assertToBeDefined(firstRow)
+      expect(firstRow.querySelectorAll("a")).toHaveLength(0)
+      expect(firstRow).toHaveAttribute("role", "button")
+
+      fireEvent.click(firstRow)
+      expect(onRowClick).toHaveBeenCalledTimes(1)
+      expect(onRowClick.mock.calls[0]?.[0]).toMatchObject({ id: "order-1" })
+    })
+  })
+
+  describe("mobile", () => {
+    it("keeps the row hover for pointers only", async () => {
+      mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          onRowClick: () => {},
+        })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      const row = getRows(container)[0]
+      assertToBeDefined(row)
+      // a tap would otherwise leave the hover stuck on the row it opened
+      expect(row).toHaveClass("md:[&:hover>td]:bg-gray-50/50")
+      expect(row).not.toHaveClass("[&:hover>td]:bg-gray-50/50")
+    })
+
+    it("drops the cells' horizontal padding, keeping it from md up", async () => {
+      mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({ type: "orders", columns })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      const cell = container.querySelector("tbody td")
+      expect(cell).toHaveClass("py-4", "md:p-4")
+      expect(cell).not.toHaveClass("p-4")
+    })
+  })
+
+  describe("in-cell controls", () => {
+    // The row link is a stretched anchor covering the row, so a control inside a
+    // cell has to sit above it — otherwise clicking the row's `…` menu follows the
+    // link instead, and the drawer opens behind the menu.
+    it("does not follow the row link when a control in a cell is clicked", async () => {
+      mockOrdersList()
+      const onRowClick = vi.fn()
+      const onAction = vi.fn()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: [
+            { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+            {
+              header: "",
+              kind: "actions",
+              cell: () => (
+                <button type="button" onClick={onAction}>
+                  actions
+                </button>
+              ),
+            },
+          ],
+          getRowHref: () => "/list/order-1",
+          onRowClick,
+        })
+        return <ResourceTable />
+      }
+      const { findByText, getAllByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      // one per row; the first will do
+      fireEvent.click(getAllByText("actions")[0] as HTMLElement)
+
+      expect(onAction).toHaveBeenCalledTimes(1)
+      expect(onRowClick).not.toHaveBeenCalled()
+    })
+  })
+
+  describe("column widths", () => {
+    const kindColumns: Array<ResourceTableColumn<"orders">> = [
+      // no kind: absorbs whatever the others leave
+      { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+      { header: "Status", kind: "status", cell: () => "placed" },
+      { header: "Amount", kind: "amount", cell: () => "€10,00" },
+      { header: "", kind: "actions", cell: () => "…" },
+    ]
+
+    const renderKinds = () => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: kindColumns,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    /** Declared column widths, as numbers. */
+    const declaredWidths = (container: HTMLElement): number[] =>
+      Array.from(container.querySelectorAll("thead th")).map((th) =>
+        Number.parseFloat((th as HTMLElement).style.width),
+      )
+
+    it("sizes columns from their kind, giving the unlabelled one the largest share", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      // weights 3 (no kind) + 2 (status) + 1 (amount) + 1 (actions) = 7
+      const widths = declaredWidths(container)
+      expect(widths[0]).toBeCloseTo((3 / 7) * 100, 4)
+      expect(widths[1]).toBeCloseTo((2 / 7) * 100, 4)
+      expect(widths[2]).toBeCloseTo((1 / 7) * 100, 4)
+      expect(widths[3]).toBeCloseTo((1 / 7) * 100, 4)
+    })
+
+    // The bug this replaced: shares that did not add up left the surplus on the
+    // last column, so a third of the table looked empty.
+    it("declares widths that fill the table exactly", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      const total = declaredWidths(container).reduce((sum, w) => sum + w, 0)
+      expect(total).toBeCloseTo(100, 4)
+    })
+
+    it("lets an explicit `width` class own the width", async () => {
+      mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: [
+            { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+            { header: "Half", width: "w-1/2", cell: () => "x" },
+          ],
+        })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      const headers = Array.from(container.querySelectorAll("thead th"))
+      expect(headers[1]).toHaveClass("w-1/2")
+      expect((headers[1] as HTMLElement).style.width).toBe("")
+    })
+
+    // The whole point: the widths live on the header row and come from the kind,
+    // so the table does not resize when the data replaces the skeleton.
+    it("declares the same widths while loading as when loaded", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+
+      const widthsOf = () =>
+        Array.from(container.querySelectorAll("thead th")).map(
+          (th) => (th as HTMLElement).style.width,
+        )
+      const loading = widthsOf()
+      // guards the assertion below against being trivially true when no width is
+      // declared anywhere
+      expect(loading.join("")).not.toBe("")
+      await findByText("#1001")
+
+      expect(loading).toEqual(widthsOf())
+    })
+
+    // Fixed layout takes its widths from the first rendered row. The header is
+    // hidden on mobile, so the body cells have to carry the widths too or the
+    // columns fall back to an even split.
+    it("declares the widths on the body cells as well as the header", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      const headWidths = declaredWidths(container)
+      const bodyWidths = Array.from(
+        container.querySelectorAll("tbody tr:first-of-type td"),
+      ).map((td) => Number.parseFloat((td as HTMLElement).style.width))
+
+      expect(bodyWidths).toEqual(headWidths)
+      expect(bodyWidths.some((w) => Number.isNaN(w))).toBe(false)
+    })
+
+    it("hides the header on mobile", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      expect(container.querySelector("thead")).toHaveClass(
+        "hidden",
+        "md:table-header-group",
+      )
+    })
+
+    it("lays out with fixed table layout so cells cannot widen a column", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      expect(container.querySelector("table")).toHaveClass("table-fixed")
+    })
+
+    /**
+     * Effective alignment of the first body row's cells, per width: the base class
+     * gives mobile, an `md:` override gives desktop.
+     */
+    const alignments = (container: HTMLElement) =>
+      Array.from(container.querySelectorAll("tbody tr:first-of-type td")).map(
+        (td) => {
+          const has = (c: string) => td.classList.contains(c)
+          const mobile = has("text-right") ? "right" : "left"
+          const desktop = has("md:text-right")
+            ? "right"
+            : has("md:text-left")
+              ? "left"
+              : mobile
+          return `${mobile}/${desktop}`
+        },
+      )
+
+    const renderColumns = (cols: Array<ResourceTableColumn<"orders">>) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: cols,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("right-aligns a number last before the actions menu, on desktop", async () => {
+      mockOrdersList()
+      // Order, Status, Amount, actions — the amount is trailing on desktop, and not
+      // on screen at all on mobile
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual([
+        "left/left",
+        "left/left",
+        "left/right",
+        "right/right",
+      ])
+    })
+
+    // price_lists and inventory: the kept number is the last column on a phone, so
+    // it aligns right there, and goes back to left where the table is full width.
+    it("right-aligns a number that is trailing only on mobile", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "SKU", cell: ({ resource }) => `#${resource.number}` },
+        {
+          header: "Price",
+          kind: "amount",
+          hideBelow: "never",
+          cell: () => "€10,00",
+        },
+        { header: "Original", kind: "amount", cell: () => "€12,00" },
+        { header: "Price list", kind: "text", cell: () => "retail" },
+        { header: "Updated", kind: "datetime", cell: () => "today" },
+      ])
+      await findByText("#1001")
+
+      const [sku, price, original] = alignments(container)
+      expect(price).toBe("right/left")
+      expect(sku).toBe("left/left")
+      expect(original).toBe("left/left")
+    })
+
+    it("right-aligns a number that is last at both widths", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        {
+          header: "Amount",
+          kind: "amount",
+          hideBelow: "never",
+          cell: () => "€10,00",
+        },
+      ])
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual(["left/left", "right/right"])
+    })
+
+    it("leaves a mid-table number left-aligned at every width", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        { header: "Amount", kind: "amount", cell: () => "€10,00" },
+        { header: "Status", kind: "status", cell: () => "placed" },
+      ])
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual([
+        "left/left",
+        "left/left",
+        "left/left",
+      ])
+    })
+
+    it("still honours an explicit `align`, at every width", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderColumns([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        { header: "Qty", kind: "count", align: "right", cell: () => "12" },
+        { header: "Status", kind: "status", cell: () => "placed" },
+      ])
+      await findByText("#1001")
+
+      expect(alignments(container)).toEqual([
+        "left/left",
+        "right/right",
+        "left/left",
+      ])
+    })
+
+    // An open dropdown is absolutely positioned, not portaled, so clipping the
+    // actions cell would clip the menu away with it.
+    it("ends an over-long value in an ellipsis, except in the actions cell", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderKinds()
+      await findByText("#1001")
+
+      const cells = Array.from(
+        container.querySelectorAll("tbody tr:first-of-type td"),
+      )
+      // on the cell for a bare value, and one level in for the `Text` a cell
+      // usually renders: the ellipsis belongs to the box that holds the text
+      expect(cells[0]).toHaveClass("truncate", "[&>*]:truncate")
+      expect(cells[1]).toHaveClass("truncate")
+      // `actions` opts out: its dropdown is positioned rather than portaled, so
+      // clipping the cell would clip the open menu away with it
+      expect(cells[3]).not.toHaveClass("truncate")
+    })
+  })
+
+  describe("mobile visibility", () => {
+    const renderCols = (cols: Array<ResourceTableColumn<"orders">>) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: cols,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    /** Whether each column is hidden on mobile, header row and body row alike. */
+    const hiddenOnMobile = (container: HTMLElement) => {
+      const cellsOf = (selector: string) =>
+        Array.from(container.querySelectorAll(selector)).map((cell) =>
+          cell.classList.contains("hidden"),
+        )
+      return {
+        head: cellsOf("thead th"),
+        body: cellsOf("tbody tr:first-of-type td"),
+      }
+    }
+
+    it("shows only the first column, actions included", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderCols([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        { header: "Customer", kind: "text", cell: () => "someone" },
+        { header: "Status", kind: "status", cell: () => "placed" },
+        { header: "", kind: "actions", cell: () => "…" },
+      ])
+      await findByText("#1001")
+
+      const { head, body } = hiddenOnMobile(container)
+      expect(head).toEqual([false, true, true, true])
+      // the body must agree with the header, or the columns would misalign
+      expect(body).toEqual(head)
+    })
+
+    it("keeps a column visible on mobile when it asks to be", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderCols([
+        { header: "SKU", cell: ({ resource }) => `#${resource.number}` },
+        // the value the table exists for, e.g. a stock item's quantity
+        {
+          header: "Quantity",
+          kind: "count",
+          hideBelow: "never",
+          cell: () => "12",
+        },
+        { header: "Updated", kind: "datetime", cell: () => "today" },
+      ])
+      await findByText("#1001")
+
+      expect(hiddenOnMobile(container).head).toEqual([false, false, true])
+    })
+
+    it("honours a later breakpoint for a low-value column", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderCols([
+        { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+        { header: "Group", kind: "text", hideBelow: "lg", cell: () => "vip" },
+      ])
+      await findByText("#1001")
+
+      const group = container.querySelectorAll("thead th")[1]
+      expect(group).toHaveClass("hidden", "lg:table-cell")
+      expect(group).not.toHaveClass("md:table-cell")
+    })
+  })
+
+  // Headers carry no sorting affordance: sorting will be driven by a field +
+  // direction control outside the table, so a `sortBy` marks the column sortable
+  // without making its header interactive.
+  describe("inert headers", () => {
+    it("renders no control in a header, even for a column with a `sortBy`", async () => {
+      mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({ type: "orders", columns })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      expect(container.querySelectorAll("thead th")).toHaveLength(2)
+      expect(container.querySelector("thead button")).not.toBeInTheDocument()
+      // no direction indicator either
+      expect(container.querySelector("thead svg")).not.toBeInTheDocument()
+    })
+
+    it("orders the list server-side all the same", async () => {
+      const { requestedSorts } = mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+        })
+        return <ResourceTable />
+      }
+      const { findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      expect(requestedSorts).toEqual(["-number"])
+    })
+  })
+
+  describe("sorting", () => {
+    // Headers are inert: sorting is driven from outside the table (a field +
+    // direction control), so what matters is that the expression reaches the API
+    // and that rows are never reordered client-side.
+    it("sends `defaultSort` to the API and leaves the server's row order alone", async () => {
+      const { requestedSorts } = mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+        })
+        return <ResourceTable />
+      }
+      const { container, findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      expect(requestedSorts).toEqual(["-number"])
+      // the mock returns its rows in a fixed order whatever the sort: the table
+      // must show them in that order rather than sorting them itself
+      expect(
+        getRows(container).map((row) => row.textContent?.slice(0, 5)),
+      ).toEqual(["#1001", "#1002", "#1003"])
+    })
+
+    it("refetches with the new expression when a controlled sort changes", async () => {
+      const { requestedSorts } = mockOrdersList()
+      const Implementation: FC<{ sort: ResourceTableSort<"orders"> }> = ({
+        sort,
+      }) => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          sort,
+          onSortChange: () => {},
+        })
+        return <ResourceTable />
+      }
+      const { rerender, findByText } = render(
+        <Wrapper>
+          <Implementation sort="number" />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+      expect(requestedSorts).toEqual(["number"])
+
+      rerender(
+        <Wrapper>
+          <Implementation sort="-created_at" />
+        </Wrapper>,
+      )
+      await waitFor(() => {
+        expect(requestedSorts).toContain("-created_at")
+      })
+    })
+
+    it("exposes the active sort, so a sort control can reflect it", async () => {
+      mockOrdersList()
+      let seen: ResourceTableSort<"orders">
+      const Implementation: FC = () => {
+        const { ResourceTable, sort } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+        })
+        seen = sort
+        return <ResourceTable />
+      }
+      const { findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      expect(seen).toBe("-number")
+    })
+  })
+})

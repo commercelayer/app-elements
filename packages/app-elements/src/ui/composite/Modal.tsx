@@ -10,6 +10,7 @@ import {
 } from "react"
 import { createPortal } from "react-dom"
 import { Icon } from "#ui/atoms/Icon"
+import { lockBodyScroll, unlockBodyScroll } from "#ui/internals/bodyScrollLock"
 
 // Create a context for modal functions
 const ModalContext = createContext<{
@@ -55,35 +56,6 @@ type ModalComponent = React.ForwardRefExoticComponent<
   Header: React.FC<React.PropsWithChildren>
   Body: React.FC<React.PropsWithChildren>
   Footer: React.FC<React.PropsWithChildren>
-}
-
-/**
- * Reference-counted body scroll lock shared across all Modal instances.
- *
- * Multiple modals can be mounted on the same page (e.g. several
- * `useConfirmDialog` hooks). Because they all mutate the shared
- * `document.body.style.overflow`, a closed modal must never restore the body
- * overflow while another modal is still open. We keep a single counter so the
- * body is locked when the first modal opens and only restored when the last
- * one closes, preserving any pre-existing inline overflow value.
- */
-let openModalCount = 0
-let previousBodyOverflow = ""
-
-function lockBodyScroll(): void {
-  if (openModalCount === 0) {
-    previousBodyOverflow = document.body.style.overflow
-    document.body.style.overflow = "hidden"
-  }
-  openModalCount += 1
-}
-
-function unlockBodyScroll(): void {
-  openModalCount = Math.max(0, openModalCount - 1)
-  if (openModalCount === 0) {
-    document.body.style.overflow = previousBodyOverflow
-    previousBodyOverflow = ""
-  }
 }
 
 const ModalRoot = (

@@ -1,8 +1,6 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
 import {
   createColumnHelper,
-  rowSortingFeature,
-  type SortingState,
   tableFeatures,
   useTable,
 } from "@tanstack/react-table"
@@ -10,8 +8,8 @@ import cn from "classnames"
 import { type FC, useCallback, useMemo, useRef, useState } from "react"
 import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
+import { useTokenProvider } from "#providers/TokenProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
-import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -33,10 +31,11 @@ import type {
   UseResourceTableReturn,
 } from "./types"
 
-// Static, prop-free feature registry. Only the row-sorting feature is needed:
-// sorting is server-side (`manualSorting`), so no sorted row model is registered
+// Static, prop-free feature registry: no feature is needed. Sorting is server-side
+// and driven from outside the table (see `sort`), and TanStack's row-sorting feature
+// only ever existed to turn header clicks into a sort expression
 // (see docs/adr/0002-server-side-table-operations.md).
-const tableFeaturesConfig = tableFeatures({ rowSortingFeature })
+const tableFeaturesConfig = tableFeatures({})
 
 // Stable empty-data reference to avoid invalidating the table's models on every
 // render while the first page is loading.
@@ -57,7 +56,7 @@ function getColumnId<T extends ListableResourceType>(
 
 /** Parse an SDK sort expression (`"-created_at"`) into `{ attribute, desc }`. */
 function parseSort(
-  sort: ResourceTableSort,
+  sort: string | undefined,
 ): { attribute: string; desc: boolean } | undefined {
   if (sort == null || sort === "") {
     return undefined
@@ -66,17 +65,231 @@ function parseSort(
   return { attribute: desc ? sort.slice(1) : sort, desc }
 }
 
+/**
+ * Alignment classes for a data cell. Unlike a header, a `td` has no alignment of its
+ * own, so the base and the responsive override are both spelled out here.
+ */
 function alignClassName(
-  align: ResourceTableColumn<ListableResourceType>["align"],
+  columns: AlignableColumn[],
+  index: number,
 ): string | undefined {
-  switch (align) {
-    case "right":
-      return "text-right"
-    case "center":
-      return "text-center"
-    default:
-      return undefined
+  const { align, className } = resolveAlign(columns, index)
+  const base =
+    align === "right" ? "text-right" : align === "center" ? "text-center" : ""
+  return cn(base, className) || undefined
+}
+
+type ColumnKind = NonNullable<ResourceTableColumn<ListableResourceType>["kind"]>
+
+/**
+ * How much of the table each kind of column wants, as a weight.
+ *
+ * Relative, not absolute: the weights are normalized to percentages of the actual
+ * column set (see `columnWidths`), because the pages are liquid — a percentage
+ * holds at any viewport where a pixel width would not — and because one scale has
+ * to serve tables of three to six columns.
+ *
+ * A column with no `kind` weighs `flexibleColumnWeight`: it is the name, email or
+ * SKU the row is about, so it gets the largest share.
+ */
+const columnKindWeight: Record<ColumnKind, number> = {
+  text: 2,
+  code: 2,
+  status: 2,
+  datetime: 2,
+  amount: 1,
+  count: 1,
+  // narrow on purpose — it holds one icon button — but still a share rather than
+  // a fixed width: `table-layout: fixed` ignores `min-width`, so a `ch` width
+  // could not defend itself and the surplus would land on this column anyway,
+  // which is what left a third of the table looking empty.
+  actions: 1,
+}
+
+/** The weight of a column with no `kind`, the one the row is about. */
+const flexibleColumnWeight = 3
+
+/**
+ * The widths to declare, as percentages summing to 100.
+ *
+ * Percentages rather than a fraction class per column, because the share depends
+ * on the whole set: the same `status` column is a quarter of a four-column table
+ * and a sixth of a six-column one. Inline styles rather than classes, because app
+ * code is not Tailwind-scanned and these values cannot be enumerated in advance.
+ *
+ * Declared on the header cells *and* on the body cells, because fixed layout takes
+ * its widths from the first rendered row: the header row on desktop, the first body
+ * row once the header is hidden on mobile. Measured — with the widths on the header
+ * alone, a hidden header leaves the columns evenly split (192/192 instead of
+ * 286/98). A `colgroup` looks like the tidier answer but is not: a `col` keeps
+ * reserving its share even when its cells are hidden, so the visible columns would
+ * fill only part of the table.
+ *
+ * Every column is declared, including the ones `hideBelow` may hide: hiding is a
+ * CSS decision made per viewport, so it cannot be resolved here. That works out —
+ * a hidden column takes its percentage out of play and the browser shares the
+ * remainder proportionally, which is measurably what we want (a six-column table
+ * at 560px with three columns hidden splits 249/249/62 rather than dumping the
+ * surplus on the last column).
+ */
+function columnWidths(
+  columns: Array<Pick<ResourceTableColumn<ListableResourceType>, "kind">>,
+): number[] {
+  const weights = columns.map((column) =>
+    column.kind != null ? columnKindWeight[column.kind] : flexibleColumnWeight,
+  )
+  const total = weights.reduce((sum, weight) => sum + weight, 0)
+  return weights.map((weight) => (weight / total) * 100)
+}
+
+/** A column of any resource, reduced to the fields alignment depends on. */
+type AlignableColumn = Pick<
+  ResourceTableColumn<ListableResourceType>,
+  "align" | "kind" | "hideBelow"
+>
+
+/**
+ * Which columns are on screen at a given width — mobile shows the first column and
+ * whatever asked to stay (see `visibilityClassName`), desktop shows them all.
+ *
+ * Only these two widths are modelled. A `hideBelow` of `"lg"`/`"xl"` narrows a
+ * column further, which would matter here only if it were the trailing one; no
+ * table does that today, and the fallback (aligned as if it were visible) is the
+ * current behaviour rather than a regression.
+ */
+function visibleIndexes(
+  columns: AlignableColumn[],
+  width: "mobile" | "desktop",
+): number[] {
+  if (width === "desktop") {
+    return columns.map((_, index) => index)
   }
+  return columns
+    .map((_, index) => index)
+    .filter((index) => index === 0 || columns[index]?.hideBelow === "never")
+}
+
+/**
+ * Whether a column sits at the trailing edge of what is on screen: the last visible
+ * column, or the last before a visible `actions` menu.
+ */
+function isTrailingColumn(
+  columns: AlignableColumn[],
+  index: number,
+  width: "mobile" | "desktop",
+): boolean {
+  const visible = visibleIndexes(columns, width)
+  const position = visible.indexOf(index)
+  if (position === -1) {
+    return false
+  }
+  const lastPosition = visible.length - 1
+  if (position === lastPosition) {
+    return true
+  }
+  const nextIsActions =
+    columns[visible[lastPosition] as number]?.kind === "actions"
+  return position === lastPosition - 1 && nextIsActions
+}
+
+/** Whether a column's number should be right-aligned at the given width. */
+function isRightAligned(
+  columns: AlignableColumn[],
+  index: number,
+  width: "mobile" | "desktop",
+): boolean {
+  const column = columns[index]
+  if (column?.kind === "actions") {
+    return true
+  }
+  const isNumeric = column?.kind === "amount" || column?.kind === "count"
+  return isNumeric && isTrailingColumn(columns, index, width)
+}
+
+/**
+ * How a column is aligned, as the `align` value for the header plus the classes that
+ * carry any change between widths.
+ *
+ * Numbers are right-aligned at the trailing edge, where their digits line up against
+ * the table's own border. Mid-table the same alignment pulls a number away from its
+ * header and up against the next column, reading as if it belonged there — so it
+ * stays left-aligned like everything else.
+ *
+ * Which column is trailing depends on the width: mobile shows one column plus
+ * whatever asked to stay, so price_lists' Price and inventory's Quantity are last on
+ * a phone and mid-table on a desktop. Hence the responsive override rather than one
+ * fixed value.
+ *
+ * The `actions` menu is right-aligned wherever it is: its share is wider than the
+ * icon button it holds, and left-aligned that surplus reads as a gap at the table's
+ * right edge.
+ *
+ * Takes only the fields it reads, so it accepts a column of any resource: the full
+ * `ResourceTableColumn<TResource>` is invariant through its `cell` callback and
+ * would not be assignable here.
+ */
+function resolveAlign(
+  columns: AlignableColumn[],
+  index: number,
+): {
+  align: ResourceTableColumn<ListableResourceType>["align"]
+  className: string | undefined
+} {
+  const column = columns[index]
+  // an app that states an alignment means it at every width
+  if (column?.align != null) {
+    return { align: column.align, className: undefined }
+  }
+  const onMobile = isRightAligned(columns, index, "mobile")
+  const onDesktop = isRightAligned(columns, index, "desktop")
+  if (onMobile === onDesktop) {
+    return { align: onMobile ? "right" : undefined, className: undefined }
+  }
+  // Full literal classes, for Tailwind's scanner. The override wins over the base
+  // alignment because media-query variants are emitted after plain utilities — and
+  // over `Th`'s legacy `align` attribute, which carries no specificity at all.
+  return onDesktop
+    ? { align: undefined, className: "md:text-right" }
+    : { align: "right", className: "md:text-left" }
+}
+
+/**
+ * What counts as a control inside a row: clicking one must not also open the row.
+ *
+ * Written as a selector rather than a tag check because the click can land on
+ * anything nested inside the control — the icon inside the `…` button, the label of
+ * a checkbox — and `closest` walks up to whichever comes first.
+ */
+const interactiveSelector = [
+  "a",
+  "button",
+  "input",
+  "select",
+  "textarea",
+  "label",
+  '[role="button"]',
+  '[role="menuitem"]',
+].join(", ")
+
+/**
+ * A fixed-layout cell cannot grow, so an over-long value ends in an ellipsis at
+ * the column edge rather than wrapping onto a second line and making the row
+ * taller than its neighbours.
+ *
+ * `[&>*:not(:has(*))]:truncate` reaches one level in: a cell usually renders a
+ * `Text`, and the ellipsis belongs to whichever box actually holds the text — on
+ * the cell alone it would clip a block child without ever drawing the "…". The
+ * `:not(:has(*))` keeps it to children that are only text, so a cell holding two
+ * lines (a name over its code) still gets one ellipsis per line, and a child that
+ * lays its own content out (a flex row, a badge beside a date) is left alone.
+ *
+ * `actions` is excluded: its dropdown menu is absolutely positioned rather than
+ * portaled, so clipping the cell would clip the open menu away with it.
+ */
+function clipClassName(
+  kind: ResourceTableColumn<ListableResourceType>["kind"],
+): string | undefined {
+  return kind === "actions" ? undefined : "truncate [&>*]:truncate"
 }
 
 // Full literal class strings (not interpolated) so Tailwind v4's source scanner
@@ -84,8 +297,11 @@ function alignClassName(
 // `styles/global.css` may be used — that file resets Tailwind's defaults, so a
 // variant like `sm:` would produce no CSS and hide the column at every width.
 function hideBelowClassName(
-  hideBelow: ResourceTableColumn<ListableResourceType>["hideBelow"],
-): string | undefined {
+  hideBelow: Exclude<
+    ResourceTableColumn<ListableResourceType>["hideBelow"],
+    undefined | "never"
+  >,
+): string {
   switch (hideBelow) {
     case "md":
       return "hidden md:table-cell"
@@ -93,9 +309,34 @@ function hideBelowClassName(
       return "hidden lg:table-cell"
     case "xl":
       return "hidden xl:table-cell"
-    default:
-      return undefined
   }
+}
+
+/**
+ * From which width a column is shown.
+ *
+ * A phone fits one column, so that is the default: the first one — what the row is
+ * about — and nothing else until `md`.
+ *
+ * Neither status nor the actions menu is exempt. Apps render their status badge
+ * next to the name on mobile (`md:hidden`), so keeping the column too would show it
+ * twice; and a row's actions are reachable by opening the row itself.
+ *
+ * A column overrides this with `hideBelow`, including `"never"` to stay visible on
+ * mobile — for the one value that is the point of the table.
+ */
+function visibilityClassName(
+  column:
+    | Pick<ResourceTableColumn<ListableResourceType>, "hideBelow" | "kind">
+    | undefined,
+  index: number,
+): string | undefined {
+  if (column?.hideBelow != null) {
+    return column.hideBelow === "never"
+      ? undefined
+      : hideBelowClassName(column.hideBelow)
+  }
+  return index === 0 ? undefined : hideBelowClassName("md")
 }
 
 /**
@@ -124,14 +365,16 @@ export function useResourceTable<TResource extends ListableResourceType>(
     defaultSort,
   } = config
 
+  const { user } = useTokenProvider()
+
   // Sort state: controlled when `onSortChange` is provided, otherwise internal.
   const isControlled = onSortChange != null
-  const [internalSort, setInternalSort] = useState<ResourceTableSort>(
-    () => defaultSort,
-  )
+  const [internalSort, setInternalSort] = useState<
+    ResourceTableSort<TResource>
+  >(() => defaultSort)
   const sort = isControlled ? controlledSort : internalSort
   const setSort = useCallback(
-    (next: ResourceTableSort) => {
+    (next: ResourceTableSort<TResource>) => {
       if (isControlled) {
         onSortChange?.(next)
       } else {
@@ -204,42 +447,6 @@ export function useResourceTable<TResource extends ListableResourceType>(
       ? (result as UseResourceListReturnWithPagination<TResource>).Pagination
       : NullComponent
 
-  // Map the active sort onto TanStack's controlled sorting state.
-  const sorting = useMemo<SortingState>(() => {
-    const parsed = parseSort(sort)
-    if (parsed == null) {
-      return []
-    }
-    const index = columns.findIndex(
-      (column) => column.sortBy === parsed.attribute,
-    )
-    const column = columns[index]
-    if (column == null) {
-      return []
-    }
-    return [{ id: getColumnId(column, index), desc: parsed.desc }]
-  }, [sort, columns])
-
-  const onSortingChange = useCallback(
-    (updater: SortingState | ((old: SortingState) => SortingState)) => {
-      const next = typeof updater === "function" ? updater(sorting) : updater
-      const first = next[0]
-      if (first == null) {
-        setSort(undefined)
-        return
-      }
-      const index = columns.findIndex(
-        (column, i) => getColumnId(column, i) === first.id,
-      )
-      const attribute = columns[index]?.sortBy
-      if (attribute == null) {
-        return
-      }
-      setSort(`${first.desc ? "-" : ""}${attribute}`)
-    },
-    [sorting, columns, setSort],
-  )
-
   const tableColumns = useMemo(() => {
     // Type the column helper/table with a minimal row shape rather than the full
     // `Resource<TResource>` SDK union: pushing that large conditional type
@@ -249,16 +456,11 @@ export function useResourceTable<TResource extends ListableResourceType>(
     const helper = createColumnHelper<typeof tableFeaturesConfig, TableRow>()
     return helper.columns(
       columns.map((column, index) =>
-        // Accessor (not display) columns: TanStack's `getCanSort` requires an
-        // `accessorFn`, so a display column can never be sortable. The accessor
-        // value itself is unused — sorting is server-side (`manualSorting`) — so
-        // it returns a trivial `null`. The cell renders from `row.original`.
-        helper.accessor(() => null, {
+        helper.display({
           id: getColumnId(column, index),
           header: () => column.header,
           cell: ({ row }) =>
             column.cell({ resource: row.original as Resource<TResource> }),
-          enableSorting: column.sortBy != null,
         }),
       ),
     )
@@ -269,11 +471,6 @@ export function useResourceTable<TResource extends ListableResourceType>(
     columns: tableColumns,
     data: (list ?? EMPTY_DATA) as TableRow[],
     getRowId: (row) => row.id,
-    manualSorting: true,
-    enableMultiSort: false,
-    enableSortingRemoval: true,
-    state: { sorting },
-    onSortingChange,
   })
 
   const columnCount = columns.length
@@ -309,6 +506,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
     fetchMore,
     onRowClick,
     getRowHref,
+    locale: user?.locale,
   })
   renderRef.current = {
     table,
@@ -325,6 +523,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
     fetchMore,
     onRowClick,
     getRowHref,
+    locale: user?.locale,
   }
 
   const ResourceTable = useCallback<FC<ResourceTableProps>>(
@@ -351,13 +550,14 @@ export function useResourceTable<TResource extends ListableResourceType>(
         fetchMore,
         onRowClick,
         getRowHref,
+        locale,
       } = renderRef.current
 
       const recordCount = meta?.recordCount
       const computedTitle =
         typeof title === "function"
           ? title(recordCount)
-          : computeTitleWithTotalCount({ title, recordCount })
+          : computeTitleWithTotalCount({ title, recordCount, locale })
 
       if (isApiError) {
         return (
@@ -374,42 +574,33 @@ export function useResourceTable<TResource extends ListableResourceType>(
         </Text>
       )
 
+      const widths = columnWidths(columns)
+
       const thead = (
         <Tr>
           {table.getHeaderGroups()[0]?.headers.map((header, index) => {
             const definition = columns[index]
-            const canSort = header.column.getCanSort()
-            const sorted = header.column.getIsSorted()
             const label = <table.FlexRender header={header} />
+            const headerAlign = resolveAlign(columns, index)
             return (
               <Th
                 key={header.id}
-                align={definition?.align}
+                align={headerAlign.align}
+                // fixed layout takes its widths from the first row, so declaring
+                // them here sizes the whole column. Skipped when the column sets
+                // an explicit `width` class, which then owns the width.
+                style={
+                  definition?.width == null
+                    ? { width: `${widths[index]}%` }
+                    : undefined
+                }
                 className={cn(
                   definition?.width,
-                  hideBelowClassName(definition?.hideBelow),
+                  headerAlign.className,
+                  visibilityClassName(definition, index),
                 )}
               >
-                {canSort ? (
-                  <button
-                    type="button"
-                    onClick={header.column.getToggleSortingHandler()}
-                    className="inline-flex items-center gap-1 uppercase hover:text-gray-500"
-                  >
-                    {label}
-                    <Icon
-                      name={
-                        sorted === "asc"
-                          ? "caretUp"
-                          : sorted === "desc"
-                            ? "caretDown"
-                            : "arrowsDownUp"
-                      }
-                    />
-                  </button>
-                ) : (
-                  label
-                )}
+                {label}
               </Th>
             )
           })}
@@ -425,9 +616,15 @@ export function useResourceTable<TResource extends ListableResourceType>(
                 key={getColumnId(column, colIndex)}
                 isLoading
                 delayMs={0}
+                style={
+                  column.width == null
+                    ? { width: `${widths[colIndex]}%` }
+                    : undefined
+                }
                 className={cn(
-                  alignClassName(column.align),
-                  hideBelowClassName(column.hideBelow),
+                  alignClassName(columns, colIndex),
+                  clipClassName(column.kind),
+                  visibilityClassName(column, colIndex),
                 )}
               >
                 &nbsp;
@@ -447,12 +644,29 @@ export function useResourceTable<TResource extends ListableResourceType>(
                 return (
                   <Tr
                     key={row.id}
-                    // Row-level click is used only when there is no href; with an
-                    // href the (stretched) anchor on the first cell owns the click
-                    // so modified/middle clicks open a new tab.
+                    // The whole row is clickable through here, including when the
+                    // first cell carries a link: clicks coming from that link are
+                    // skipped, since the link handles them itself.
+                    //
+                    // So are clicks on a control inside a cell — the row's `…` menu
+                    // and its items, a checkbox, a copy button. Those mean "do this
+                    // one thing", not "open the row", and before this guard opening
+                    // the menu opened the drawer behind it too.
                     onClick={
-                      href == null && onRowClick != null
+                      onRowClick != null
                         ? (event) => {
+                            const control = (
+                              event.target as HTMLElement | null
+                            )?.closest(interactiveSelector)
+                            // `!== currentTarget` because the row itself carries
+                            // `role="button"` when it has no link, and would
+                            // otherwise match as its own control
+                            if (
+                              control != null &&
+                              control !== event.currentTarget
+                            ) {
+                              return
+                            }
                             onRowClick(resource, event)
                           }
                         : undefined
@@ -461,9 +675,14 @@ export function useResourceTable<TResource extends ListableResourceType>(
                       href == null && onRowClick != null ? "button" : undefined
                     }
                     className={cn(
-                      clickable && "cursor-pointer hover:bg-gray-50",
-                      // positioning context for the stretched-link `::after`
-                      href != null && "relative",
+                      // The hover has to be painted on the cells, not on the row:
+                      // `Td` is opaque (`bg-white`) and a `tr` background renders
+                      // behind its cells, so a `hover:bg-*` here would be covered.
+                      //
+                      // From `md` up only: a tap on a touch screen leaves the hover
+                      // stuck on the row it opened.
+                      clickable &&
+                        "cursor-pointer md:[&:hover>td]:bg-gray-50/50",
                     )}
                   >
                     {row.getAllCells().map((cell, colIndex) => {
@@ -471,16 +690,30 @@ export function useResourceTable<TResource extends ListableResourceType>(
                       return (
                         <Td
                           key={cell.id}
+                          style={
+                            columns[colIndex]?.width == null
+                              ? { width: `${widths[colIndex]}%` }
+                              : undefined
+                          }
                           className={cn(
-                            alignClassName(columns[colIndex]?.align),
-                            hideBelowClassName(columns[colIndex]?.hideBelow),
+                            alignClassName(columns, colIndex),
+                            clipClassName(columns[colIndex]?.kind),
+                            visibilityClassName(columns[colIndex], colIndex),
+                            // Positioning context for the link's `::after` below.
+                            // On the cell, never on the `tr`: engines that ignore
+                            // `position: relative` on a table row (older iOS Safari)
+                            // resolve the overlay against a page-level ancestor
+                            // instead, and it then covers the search field and the
+                            // tabs above the table — every tap opening the last row.
+                            href != null && colIndex === 0 && "relative",
                           )}
                         >
                           {href != null && colIndex === 0 ? (
-                            // Stretched link: a real anchor on the first cell's
-                            // content whose `::after` covers the whole row. Gives
-                            // new-tab / cmd-click semantics; plain clicks are
-                            // handled client-side via onRowClick when provided.
+                            // A real anchor, stretched over its own cell, so
+                            // cmd/middle click opens the row in a new tab and the
+                            // URL shows on hover. The rest of the row is covered by
+                            // the row's own click handler rather than by a wider
+                            // overlay, which could not be contained reliably.
                             <a
                               href={href}
                               onClick={(event) => {
@@ -567,6 +800,12 @@ export function useResourceTable<TResource extends ListableResourceType>(
             ) : (
               <Table
                 variant={variant === "boxed" ? "boxed" : undefined}
+                // Column widths come from the header row and the declared shares,
+                // never from the cell content: that is what makes the loading and
+                // the loaded table the same size, and keeps them stable from page
+                // to page. Not applied in `scroll` mode, where the table is meant
+                // to take its natural width.
+                className="table-fixed"
                 thead={thead}
                 tbody={tbody}
               />
@@ -591,6 +830,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
     refresh,
     hasMorePages,
     sort,
+    setSort,
   }
 }
 

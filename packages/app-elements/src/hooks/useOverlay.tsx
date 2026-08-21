@@ -9,7 +9,15 @@ interface OverlayOptions {
    * and the `open` method will perform an history.push to add the query param as navigating to a new page.
    * Otherwise, the overlay will be opened as a classic in-page modal.
    **/
-  queryParam: string
+  queryParam?: string
+  /**
+   * Render the overlay already open, on its very first paint.
+   * Use it when the route itself means "open", as for a details drawer: opening it
+   * from an effect instead lets the page behind it paint once without the overlay,
+   * which shows up as a flicker when landing on the url or reloading the page.
+   * @default false
+   **/
+  initialOpen?: boolean
 }
 
 interface OverlayHook {
@@ -28,9 +36,14 @@ interface OverlayHook {
 }
 
 export function useOverlay(options?: OverlayOptions): OverlayHook {
-  const [show, setShow] = useState(false)
+  // `queryParam` is optional, so it is read once here: narrowing it through
+  // `isInQueryParamMode` no longer reaches the callbacks below
+  const queryParam = options?.queryParam
+  // an overlay that is already open on page load is part of the first paint,
+  // instead of appearing right after it
+  const [show, setShow] = useState(options?.initialOpen === true)
   const search = useSearch()
-  const isInQueryParamMode = window != null && options?.queryParam != null
+  const isInQueryParamMode = window != null && queryParam != null
 
   // close the overlay by going back in history when it's configured to work with `queryParam`
   // otherwise, just update internal visibility state
@@ -47,22 +60,22 @@ export function useOverlay(options?: OverlayOptions): OverlayHook {
   const open = useCallback((): void => {
     if (isInQueryParamMode) {
       const url = new URL(window.location.href)
-      url.searchParams.append(options.queryParam, "true")
+      url.searchParams.append(queryParam, "true")
       window.history.pushState({}, "", url.toString())
     } else {
       setShow(true)
     }
-  }, [isInQueryParamMode, options?.queryParam])
+  }, [isInQueryParamMode, queryParam])
 
   // when component is mounted and `queryParam` exists in current url, overlay will automatically opened
   useEffect(
     function restoreVisibilityOnPageLoad() {
-      if (options?.queryParam != null) {
+      if (queryParam != null) {
         const params = new URLSearchParams(search)
-        setShow(params.get(options.queryParam) === "true")
+        setShow(params.get(queryParam) === "true")
       }
     },
-    [search, options?.queryParam],
+    [search, queryParam],
   )
 
   const Empty = useCallback(() => null, [])

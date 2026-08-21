@@ -20,6 +20,7 @@ const it: typeof en = {
     clear_all: "Cancella tutto",
     clear_text: "Svuota testo",
     continue: "Continua",
+    copy_id: "Copia ID",
     could_not_retrieve_data: "Impossibile recuperare i dati",
     could_not_retrieve_resource: "Impossibile recuperare {{resource}}",
     create: "Crea",
@@ -30,6 +31,7 @@ const it: typeof en = {
     update_resource: "Aggiorna {{resource}}",
     delete_resource: "Elimina {{resource}}",
     delete: "Elimina",
+    details_options: "Opzioni dettagli",
     download_file: "Scarica file",
     download_json: "Scarica JSON",
     edit: "Modifica",
@@ -523,7 +525,7 @@ const it: typeof en = {
       anonymize: {
         title: "Il cliente non può essere eliminato",
         description:
-          "Il cliente non può essere eliminato. Invece, puoi richiederne l'anonimizzazione. I suoi dati personali saranno sostituiti in tutte le risorse correlate, compresi gli ordini. Puoi annullare la richiesta di anonimizzazione finché non viene elaborata.",
+          "I suoi dati personali saranno sostituiti ovunque, compresi gli ordini. Puoi annullare la richiesta finché non viene avviata.",
         request_button: "Richiedi anonimizzazione",
       },
       anonymization_info: {
@@ -548,6 +550,7 @@ const it: typeof en = {
         fulfillment_status: "Stato spedizione",
       },
       display_status: {
+        awaiting_capture: "Da catturare",
         in_progress: "In corso",
         in_progress_manual: "In corso (Manuale)",
       },

@@ -10,12 +10,14 @@ import { useMemo } from "react"
 import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
 import { Hr } from "#ui/atoms/Hr"
+import { Icon } from "#ui/atoms/Icon"
 import {
   SkeletonTemplate,
   withSkeletonTemplate,
 } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
+import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { useCountryList } from "#ui/internals/useCountryList"
 
 export interface AddressProps {
@@ -57,13 +59,28 @@ export interface AddressProps {
    * The implemented method get triggered every time the edit button is clicked.
    */
   onEdit?: () => void
+  /**
+   * When set, the address can be deleted.
+   *
+   * With both actions the two move into a `…` menu, as everywhere else a row
+   * carries more than one action; with only `onEdit` the pencil stays, since a
+   * menu holding a single item is a click for nothing.
+   */
+  onDelete?: () => void
 }
 
 /**
  * Renders an all-in-one visualization to deal with a given address
  */
 export const Address = withSkeletonTemplate<AddressProps>(
-  ({ address, title, showBillingInfo = false, showNotes = true, onEdit }) => {
+  ({
+    address,
+    title,
+    showBillingInfo = false,
+    showNotes = true,
+    onEdit,
+    onDelete,
+  }) => {
     const { countries, isLoading } = useCountryList()
     const countryCode = address?.country_code
     const countryName = useMemo(
@@ -76,7 +93,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
         <div className="w-full" data-testid="Address">
           {title != null && (
             <Spacer bottom="2" data-testid="Address-title">
-              <Text tag="div" weight="semibold">
+              <Text tag="div" weight="semibold" size="small">
                 {title}
               </Text>
             </Spacer>
@@ -87,7 +104,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-firstLastName"
-                  weight={title == null ? "semibold" : "medium"}
+                  size="small"
+                  weight={title == null ? "medium" : undefined}
                   variant={title != null ? "primary" : undefined}
                 >
                   {address.first_name} {address.last_name}
@@ -97,7 +115,8 @@ export const Address = withSkeletonTemplate<AddressProps>(
                 <Text
                   tag="div"
                   data-testid="Address-company"
-                  weight={title == null ? "semibold" : undefined}
+                  size="small"
+                  weight={title == null ? "regular" : undefined}
                   variant={title != null ? "info" : undefined}
                 >
                   {address.company}
@@ -183,7 +202,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
             </Text>
           )}
         </div>
-        {onEdit != null && (
+        {onEdit != null && onDelete == null && (
           <div className="print:hidden">
             <Button
               variant="link"
@@ -194,6 +213,31 @@ export const Address = withSkeletonTemplate<AddressProps>(
             >
               <PencilSimpleIcon weight="bold" />
             </Button>
+          </div>
+        )}
+        {onDelete != null && (
+          <div className="print:hidden">
+            <Dropdown
+              dropdownLabel={
+                <Icon name="dotsThree" size="24" data-testid="Address-menu" />
+              }
+              dropdownItems={
+                <>
+                  {onEdit != null && (
+                    <DropdownItem
+                      icon="pencilSimple"
+                      label={t("common.edit")}
+                      onClick={onEdit}
+                    />
+                  )}
+                  <DropdownItem
+                    icon="trash"
+                    label={t("common.delete")}
+                    onClick={onDelete}
+                  />
+                </>
+              }
+            />
           </div>
         )}
       </div>

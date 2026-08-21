@@ -1,4 +1,7 @@
-import type { ListableResourceType } from "@commercelayer/sdk"
+import type {
+  ListableResourceType,
+  ResourceSortFields,
+} from "@commercelayer/sdk"
 import type { FC, ReactNode } from "react"
 import type { SectionProps } from "#ui/atoms/Section"
 import type { Resource } from "../useResourceList/listFetcher"
@@ -33,36 +36,118 @@ export interface ResourceTableColumn<TResource extends ListableResourceType> {
    */
   align?: "left" | "right" | "center"
   /**
-   * Optional CSS class applied to the column header, typically for width
-   * control (e.g. `"w-1/2"`).
+   * What the column holds. Sets its width — as a share of the table, so it stays
+   * liquid — plus alignment and truncation, from one scale shared by every app
+   * (see `columnKindClassName`). Leave it off for the column that should absorb
+   * the leftover space: the name, email or SKU the row is about.
+   *
+   * Prefer this over `width`: it is what keeps a status column the same size in
+   * every app, and it makes the loading and loaded tables identical, since the
+   * widths no longer depend on the cell content.
+   */
+  kind?: ResourceTableColumnKind
+  /**
+   * Escape hatch for a width `kind` cannot express, as a CSS class applied to
+   * the column header (e.g. `"w-1/2"`). Overrides the `kind` width.
+   *
+   * Note the table lays out with `table-layout: fixed`, so a class means what it
+   * says: a column narrower than its content clips rather than growing.
    */
   width?: string
   /**
-   * Hide this column below the given breakpoint; it is shown at that width and
-   * up. These are app-elements' own breakpoints (see `styles/global.css`, which
-   * resets Tailwind's defaults): `md` 768px, `lg` 992px, `xl` 1280px. There is
+   * When this column starts being shown, overriding the default.
+   *
+   * By default a table shows only its first column on mobile — a phone has room
+   * for what the row is about and little else — and everything else from `md` up.
+   * Set this to widen or narrow that:
+   *
+   * - `"lg"` / `"xl"` — appear later than the default (a low-value column)
+   * - `"never"` — always visible, mobile included. For the one column that is the
+   *   point of the table: a stock item's quantity, a price, a gift card balance.
+   *
+   * These are app-elements' own breakpoints (see `styles/global.css`, which resets
+   * Tailwind's defaults): `md` 768px, `lg` 992px, `xl` 1280px. There is
    * deliberately no `sm`.
    *
-   * Common cases: `"md"` hides on mobile (shown on tablet + desktop), `"lg"`
-   * shows on desktop only. The column's data is still fetched; only its
-   * rendering is suppressed via CSS, so there is no layout shift on resize.
+   * The column's data is still fetched either way; only its rendering is
+   * suppressed, via CSS, so nothing shifts on resize.
    */
-  hideBelow?: "md" | "lg" | "xl"
+  hideBelow?: "md" | "lg" | "xl" | "never"
   /**
-   * When set, the column becomes sortable and this value is the CommerceLayer
-   * SDK sort attribute it sorts by (e.g. `"created_at"`).
+   * When set, the column becomes sortable and this value is the attribute it
+   * sorts by (e.g. `"created_at"`).
    *
-   * Sorting is server-side: clicking the header drives the SDK `sort` query
-   * param and refetches. Rows are never reordered client-side.
+   * Only attributes the API can actually sort by are accepted: the type is the
+   * resource's own sortable set, taken from the SDK (see `SortableAttribute`).
+   * Attributes reached through a relationship (`sku.code`, a market's name) are
+   * not sortable, so those columns stay static.
+   *
+   * On a `metricsQuery` table the value is a Metrics attribute instead
+   * (`"order.placed_at"`) — see `MetricsAttribute`.
+   *
+   * Sorting is server-side: the attribute goes into the SDK `sort` query param and
+   * the list refetches. Rows are never reordered client-side.
+   *
+   * Declaring it does not make the header interactive — table headers are inert.
+   * It marks the column as sortable and names the attribute, which is what a sort
+   * control outside the table reads to build its options.
    */
-  sortBy?: string
+  sortBy?: SortableAttribute<TResource> | MetricsAttribute
 }
+
+/**
+ * The kinds of column a resource table has, each with a width, an alignment and
+ * a truncation rule. Deliberately a short list: the point is that a status column
+ * is the same width in every app, which only holds if apps pick from a scale
+ * rather than sizing columns one by one.
+ *
+ * `text` is for the secondary strings a row carries — a market, a stock location,
+ * a customer, an origin. Without it they would split the leftover space evenly
+ * with the column the row is actually about, which is rarely what you want.
+ */
+export type ResourceTableColumnKind =
+  | "text"
+  | "code"
+  | "status"
+  | "datetime"
+  | "amount"
+  | "count"
+  | "actions"
+
+/**
+ * The attributes the API can sort a given resource by, straight from the SDK's
+ * `ResourceSortFields`. Every resource adds the shared `id`, `reference`,
+ * `reference_origin`, `created_at` and `updated_at` to its own set.
+ *
+ * This is the single source of truth for whether a column can be sortable: the
+ * API rejects anything else, and computed values (a status derived from several
+ * timestamps, a relationship's name) are not in it by definition.
+ */
+export type SortableAttribute<TResource extends ListableResourceType> = Extract<
+  keyof ResourceSortFields[TResource],
+  string
+>
+
+/**
+ * A Metrics API sort attribute, always namespaced by its entity
+ * (`"order.placed_at"`). Metrics has its own attribute names, outside the SDK's
+ * resource types, so these can only be checked by shape — the dot is what tells
+ * them apart from a Core attribute.
+ */
+export type MetricsAttribute = `${string}.${string}`
 
 /**
  * SDK sort expression, e.g. `"created_at"` (asc) or `"-created_at"` (desc).
  * `undefined` means no explicit table sort is applied.
  */
-export type ResourceTableSort = string | undefined
+export type ResourceTableSort<
+  TResource extends ListableResourceType = ListableResourceType,
+> =
+  | SortableAttribute<TResource>
+  | `-${SortableAttribute<TResource>}`
+  | MetricsAttribute
+  | `-${MetricsAttribute}`
+  | undefined
 
 export type UseResourceTableConfig<TResource extends ListableResourceType> =
   Omit<UseResourceListConfig<TResource>, "metricsQuery" | "query"> & {
@@ -126,18 +211,18 @@ export type UseResourceTableConfig<TResource extends ListableResourceType> =
      * Pass together with `onSortChange` to own the sort state (e.g. persist it
      * in the URL). When omitted the table manages sort internally.
      */
-    sort?: ResourceTableSort
+    sort?: ResourceTableSort<TResource>
     /**
-     * Called when the user changes the sort. Provide together with `sort` for
-     * controlled mode; the callback receives the new SDK sort expression (or
-     * `undefined` when sorting is cleared).
+     * Called when the sort changes. Provide together with `sort` for controlled
+     * mode; the callback receives the new SDK sort expression (or `undefined` when
+     * sorting is cleared).
      */
-    onSortChange?: (sort: ResourceTableSort) => void
+    onSortChange?: (sort: ResourceTableSort<TResource>) => void
     /**
      * Initial sort used only when the table manages sort internally
      * (uncontrolled). Ignored when `sort`/`onSortChange` are provided.
      */
-    defaultSort?: ResourceTableSort
+    defaultSort?: ResourceTableSort<TResource>
   }
 
 /** Props of the `ResourceTable` component returned by the hook. */
@@ -189,5 +274,13 @@ export interface UseResourceTableReturn<
   refresh: () => void
   hasMorePages?: boolean
   /** The active sort (SDK sort expression), whether controlled or internal. */
-  sort: ResourceTableSort
+  sort: ResourceTableSort<TResource>
+  /**
+   * Sets the sort, for a control outside the table to drive — a field + direction
+   * picker, say. Table headers are inert (see `sortBy`).
+   *
+   * In controlled mode (`sort` + `onSortChange`) this calls `onSortChange` rather
+   * than holding state of its own.
+   */
+  setSort: (sort: ResourceTableSort<TResource>) => void
 }

@@ -21,7 +21,7 @@ import {
   type FiltersInstructions,
   type FormFullValues,
   getInstructionKey,
-  isTextSearch,
+  getSearchBarPredicate,
   type UiFilterValue,
 } from "./types"
 
@@ -283,7 +283,7 @@ export function getPillFilters({
     .filter((item) => item.hidden === true)
     .map((item) => getInstructionKey(item))
 
-  const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
+  const textPredicate = getSearchBarPredicate(instructions)
 
   const activeFilters: Array<[string, UiFilterValue]> = Object.entries(filters)
     .filter(([, value]) => isDate(value) || !isEmpty(value))
@@ -316,11 +316,13 @@ export function getPillFilters({
 
     const arrValue = castArray(value)
 
-    // These are backed by a resource, so the options carry no labels: they have
-    // to be retrieved, otherwise the pill would show raw ids.
+    // A resource-backed filter carries no labels of its own: they have to be
+    // retrieved, otherwise the pill would show raw ids. A select over a fixed
+    // list already knows them, so it falls through to the normal path below.
     if (
       (instructionItem.render.component === "inputResourceGroup" ||
         instructionItem.render.component === "inputSelect") &&
+      "resource" in instructionItem.render.props &&
       arrValue.length > 0
     ) {
       pills.push({
@@ -440,7 +442,7 @@ export function getClearedFormValues({
   const hiddenFilters = instructions
     .filter((item) => item.hidden === true)
     .map((item) => getInstructionKey(item))
-  const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
+  const textPredicate = getSearchBarPredicate(instructions)
 
   const filtersToKeep = Object.entries(currentFilters).reduce<FormFullValues>(
     (toKeep, [filterName, value]) => {

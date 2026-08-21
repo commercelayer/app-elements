@@ -77,6 +77,37 @@ describe("PageHeadingToolbar", () => {
     }
   })
 
+  it("Should hide the secondary button and the dropdown through media queries only", () => {
+    const { queryAllByTestId, queryByTestId } = render(
+      <PageHeadingToolbar buttons={buttons} />,
+    )
+
+    // A `Button` always carries `inline-flex`, declared after `hidden` in the
+    // stylesheet: a base `hidden` would lose to it and both the button and the
+    // dropdown holding the same action would show up together on small screens.
+    const [, secondary] = queryAllByTestId("toolbar-button")
+    expect(secondary).toHaveClass("max-md:hidden")
+    expect(secondary).not.toHaveClass("hidden")
+
+    const dropdown = queryByTestId("toolbar-dropdown-button")
+    expect(dropdown).toHaveClass("md:hidden")
+    expect(dropdown).not.toHaveClass("flex")
+  })
+
+  it("Should keep a single button as a button, with no dropdown beside it", () => {
+    // the secondary one alone: the variant that used to be collapsed
+    const { queryAllByTestId, queryByTestId, getByText } = render(
+      <PageHeadingToolbar buttons={buttons.slice(1)} />,
+    )
+
+    expect(queryAllByTestId("toolbar-button").length).toEqual(1)
+    // not hidden at any size, and not duplicated as a dropdown item
+    expect(getByText("Secondary").closest("button")).not.toHaveClass(
+      "max-md:hidden",
+    )
+    expect(queryByTestId("toolbar-dropdown-button")).not.toBeInTheDocument()
+  })
+
   it("Should not display the dropdown button when empty", async () => {
     const { queryAllByTestId } = render(
       <PageHeadingToolbar

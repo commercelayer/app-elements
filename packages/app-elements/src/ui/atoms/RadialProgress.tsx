@@ -10,10 +10,10 @@ export interface RadialProgressProps extends SVGAttributes<SVGElement> {
   percentage?: number
   /**
    * Size variant to match `Icon` dimension.
-   * When missing, default size is 42px, small is 24px
+   * (small: 24px, medium: 36px, large: 42px, x-large: 56px)
    * @default 'large'
    */
-  size?: "small" | "large" | "x-large"
+  size?: "small" | "medium" | "large" | "x-large"
   /**
    * Optional icon to be rendered in the center of the circle
    */
@@ -40,7 +40,14 @@ function RadialProgress({
   align,
   ...rest
 }: RadialProgressProps): JSX.Element {
-  const sizePixels = size === "small" ? 24 : size === "x-large" ? 56 : 42
+  const sizePixels =
+    size === "small"
+      ? 24
+      : size === "medium"
+        ? 36
+        : size === "x-large"
+          ? 56
+          : 42
   const viewBox = `0 0 ${sizePixels * 2} ${sizePixels * 2}`
   const circumference = sizePixels * 2 * Math.PI
   const emptyOffset =

@@ -26,7 +26,7 @@ import {
   type FiltersInstructions,
   type FormFullValues,
   getInstructionKey,
-  isTextSearch,
+  getSearchBarPredicate,
   type UiFilterName,
   type UiFilterValue,
 } from "./types"
@@ -155,7 +155,7 @@ export function FiltersNav({
     // we need to keep all filters hidden in UI, the viewTitle and the text filter
     const filtersToKeep = Object.entries(currentFilters).reduce<FormFullValues>(
       (toKeep, [filterName, value]) => {
-        const textPredicate = instructions.find(isTextSearch)?.sdk.predicate
+        const textPredicate = getSearchBarPredicate(instructions)
 
         const isToKeep =
           hiddenFilters.includes(filterName) ||

@@ -12,6 +12,16 @@ type SelectRender = Extract<
   { component: "inputSelect" }
 >
 
+/**
+ * The two shapes a select can take, split apart.
+ *
+ * The parent narrows once and hands each child exactly the props it understands,
+ * rather than passing the whole item and having the child bail out on the wrong
+ * shape — a bail-out before hooks is a hooks-order bug waiting to happen.
+ */
+type StaticSelectProps = Extract<SelectRender["props"], { options: unknown }>
+type ResourceSelectProps = Exclude<SelectRender["props"], { options: unknown }>
+
 /** Core caps `pageSize` at 25, so this is also the most we can load in one go. */
 const defaultLimit = 25
 
@@ -29,6 +39,63 @@ export function FieldOptionsSelect({
 }: {
   item: FilterItemOptions & { render: SelectRender }
 }): JSX.Element | null {
+  const { render, sdk, label } = item
+  return "options" in render.props ? (
+    <StaticOptionsSelect
+      name={sdk.predicate}
+      label={label}
+      props={render.props}
+    />
+  ) : (
+    <ResourceOptionsSelect
+      name={sdk.predicate}
+      label={label}
+      props={render.props}
+    />
+  )
+}
+
+/**
+ * A select over a list the app already holds — statuses, kinds, and the like.
+ * Nothing is fetched, so it is also what the drawer falls back to for filters
+ * that used to render as toggle buttons.
+ */
+function StaticOptionsSelect({
+  name,
+  label,
+  props,
+}: {
+  name: string
+  label: string
+  props: StaticSelectProps
+}): JSX.Element {
+  const { options, placeholder, isClearable, isMulti = true } = props
+
+  return (
+    <HookedInputSelect
+      name={name}
+      label={label}
+      // hidden options stay valid in the query, they just have no button here
+      initialValues={options
+        .filter((option) => option.isHidden !== true)
+        .map(({ value, label }) => ({ value, label }))}
+      isMulti={isMulti}
+      isClearable={isClearable}
+      placeholder={placeholder}
+    />
+  )
+}
+
+/** A select whose options are fetched from the Core API. */
+function ResourceOptionsSelect({
+  name,
+  label,
+  props,
+}: {
+  name: string
+  label: string
+  props: ResourceSelectProps
+}): JSX.Element | null {
   const { watch } = useFormContext()
   const { sdkClient } = useCoreSdkProvider()
 
@@ -44,10 +111,10 @@ export function FieldOptionsSelect({
     isClearable,
     isMulti = true,
     hideWhenSingleItem,
-  } = item.render.props
+  } = props
 
-  const selectedValues = castArray(watch(item.sdk.predicate) ?? []).map(
-    (value) => String(value),
+  const selectedValues = castArray(watch(name) ?? []).map((value) =>
+    String(value),
   )
 
   const listQuery: QueryParamsList = {
@@ -112,8 +179,8 @@ export function FieldOptionsSelect({
 
   return (
     <HookedInputSelect
-      name={item.sdk.predicate}
-      label={item.label}
+      name={name}
+      label={label}
       initialValues={initialValues}
       isLoading={isLoading}
       isMulti={isMulti}

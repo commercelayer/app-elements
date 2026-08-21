@@ -25,14 +25,22 @@ export interface PageHeadingToolbarProps {
  */
 export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
   ({ buttons = [], dropdownItems = [] }) => {
+    // A lone button is kept as a button at every size: there is nothing to
+    // reorganize, and moving a single action into a dropdown only hides it
+    const isSingleButton = buttons.length === 1
+
     // Initialize the toolbar items list with the buttons
     const toolbarItems: ToolbarProps["items"] = buttons.map((button, idx) => {
       const isShown =
-        (button.variant == null || button.variant === "primary") && idx === 0
+        isSingleButton ||
+        ((button.variant == null || button.variant === "primary") && idx === 0)
       return {
         ...button,
-        // On mobile devices only the first primary button is shown outside the dropdown
-        className: !isShown ? "hidden md:flex" : "",
+        // On mobile devices only the first primary button is shown outside the dropdown.
+        // `max-md:hidden` rather than `hidden md:flex`: a `Button` always carries
+        // `inline-flex`, which is declared after `hidden` in the stylesheet and would
+        // win over it — only a media query can hide it.
+        className: !isShown ? "max-md:hidden" : "",
       }
     })
 
@@ -40,7 +48,8 @@ export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
     const buttonsForDropdown: DropdownItemProps[] = buttons
       .filter(
         (button, idx) =>
-          (button.variant != null && button.variant !== "primary") || idx > 0,
+          !isSingleButton &&
+          ((button.variant != null && button.variant !== "primary") || idx > 0),
       )
       .map((button) => {
         return {
@@ -61,7 +70,9 @@ export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
         icon: "dotsThree",
         size: "small",
         variant: "secondary",
-        className: dropdownItems.flat().length > 0 ? "" : "flex md:hidden",
+        // same reason as above: the base `flex` is redundant and `md:hidden` is what
+        // actually takes the dropdown away once the buttons themselves fit
+        className: dropdownItems.flat().length > 0 ? "" : "md:hidden",
         dropdownItems: combinedDropdownItems,
       })
     }

@@ -46,13 +46,17 @@ export function getInteractiveElementClassName({
   variant,
 }: InteractiveElementProps) {
   /*
-   * Prop `children` could be an array of elements with just one element inside.
-   * In this case we want to check if the only iterable element is of kind `Icon`.
+   * A button holding nothing but icons is icon-only: it loses its horizontal padding
+   * and comes out square. That covers one icon and, as `PageHeading` does, one per
+   * breakpoint. Anything else in there — a label beside the icon — makes it a normal
+   * button.
    */
   const childrenAsArray = Children.toArray(children)
   const isIcon =
-    childrenAsArray.length === 1 &&
-    isSpecificReactComponent(childrenAsArray[0], [/^Icon$/])
+    childrenAsArray.length > 0 &&
+    childrenAsArray.every((child) =>
+      isSpecificReactComponent(child, [/^Icon$/]),
+    )
 
   return cn([
     "font-medium whitespace-nowrap leading-5",
@@ -69,7 +73,7 @@ export function getInteractiveElementClassName({
       // Link-like behaviors
       "inline w-fit underline": variant === "link",
       // Shared behaviors
-      "rounded-[8px]": variant !== "circle" && variant !== "input",
+      rounded: variant !== "circle" && variant !== "input",
       "opacity-50 pointer-events-none touch-none": disabled,
       "w-full": fullWidth === true && variant !== "link",
     },
@@ -117,7 +121,7 @@ function getFontSizeCss(
   const mapping = {
     mini: "text-[13px]",
     small: "text-sm",
-    regular: "text-[15px]",
+    regular: "text-base",
   } satisfies Record<NonNullable<InteractiveElementProps["size"]>, string>
 
   return mapping[size]

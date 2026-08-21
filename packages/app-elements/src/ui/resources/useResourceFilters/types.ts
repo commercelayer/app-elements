@@ -172,24 +172,42 @@ export type FilterItemOptions = BaseFilterItem & {
          */
         component: "inputSelect"
         /**
-         * props required for the UI component
+         * props required for the UI component.
+         *
+         * Either a fixed list of `options` — statuses, kinds, anything the app
+         * already knows — or a `resource` the options are fetched from.
          */
-        props: Pick<
-          InputResourceGroupProps,
-          | "resource"
-          | "fieldForLabel"
-          | "fieldForValue"
-          | "searchBy"
-          | "sortBy"
-          | "filters"
-          | "hideWhenSingleItem"
-        > & {
-          /**
-           * How many options to load upfront. Capped at 25 by the Core API, which
-           * is why `searchBy` should be set when more options exist.
-           * @default 25
-           */
-          limit?: number
+        props: (
+          | {
+              /**
+               * The options to choose from. An option can be hidden from the UI
+               * and still be accepted in the query, e.g. a status that is only
+               * ever set through a predefined link.
+               */
+              options: Array<{
+                label: string
+                value: string
+                isHidden?: boolean
+              }>
+            }
+          | (Pick<
+              InputResourceGroupProps,
+              | "resource"
+              | "fieldForLabel"
+              | "fieldForValue"
+              | "searchBy"
+              | "sortBy"
+              | "filters"
+              | "hideWhenSingleItem"
+            > & {
+              /**
+               * How many options to load upfront. Capped at 25 by the Core API, which
+               * is why `searchBy` should be set when more options exist.
+               * @default 25
+               */
+              limit?: number
+            })
+        ) & {
           placeholder?: string
           isClearable?: boolean
           /**
@@ -268,6 +286,22 @@ export function isTextSearch(
   item: FiltersInstructionItem,
 ): item is FilterItemTextSearch {
   return item.type === "textSearch"
+}
+
+/**
+ * The predicate of the free text filter shown in the search bar, if any.
+ *
+ * Not simply the first `textSearch` instruction: apps also declare `textSearch`
+ * items for predicates they only want whitelisted (hidden ones driving tabs, for
+ * instance), and those can come first. There is at most one `searchBar` in a set
+ * of instructions, so this is unambiguous.
+ */
+export function getSearchBarPredicate(
+  instructions: FiltersInstructions,
+): string | undefined {
+  return instructions
+    .filter(isTextSearch)
+    .find((item) => item.render.component === "searchBar")?.sdk.predicate
 }
 
 export function isCurrencyRange(

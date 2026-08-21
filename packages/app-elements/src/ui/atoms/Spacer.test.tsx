@@ -54,6 +54,46 @@ describe("Spacer", () => {
   test("Should ignore invalid values", () => {
     // @ts-expect-error I want to test with a wrong value.
     const { element } = setup({ top: 400, bottom: "abc" })
-    expect(element.className).toBe("")
+    expect(element.className).toBe("empty:hidden")
+  })
+
+  test("Should collapse when its content renders nothing", () => {
+    const RendersNothing = (): null => null
+    const { getByTestId } = render(
+      <Spacer data-testid="my-spacer" top="14">
+        <RendersNothing />
+      </Spacer>,
+    )
+    // the div is still in the DOM, but empty — `empty:hidden` is what keeps a
+    // section with no data from leaving a block of blank space behind
+    const element = getByTestId("my-spacer")
+    expect(element).toBeEmptyDOMElement()
+    expect(element).toHaveClass("empty:hidden")
+  })
+
+  test("Should take a value per breakpoint", () => {
+    const { getByTestId } = render(
+      <Spacer
+        data-testid="my-spacer"
+        top={{ base: "14", lg: "10" }}
+        bottom={{ md: "4" }}
+      >
+        <div>inner content</div>
+      </Spacer>,
+    )
+    const element = getByTestId("my-spacer")
+    expect(element).toHaveClass("mt-14", "lg:mt-10", "md:mb-4")
+  })
+
+  // `mt-14 lg:mt-10` written in an app is silently nothing: app code is not
+  // scanned by Tailwind, so only classes app-elements itself uses ever exist
+  test("Should keep its margins when given a className", () => {
+    const { getByTestId } = render(
+      <Spacer data-testid="my-spacer" top="14" className="print:hidden">
+        <div>inner content</div>
+      </Spacer>,
+    )
+    const element = getByTestId("my-spacer")
+    expect(element).toHaveClass("mt-14", "print:hidden")
   })
 })

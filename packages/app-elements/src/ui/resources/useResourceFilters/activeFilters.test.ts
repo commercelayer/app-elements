@@ -4,6 +4,7 @@ import {
   isSameFilterValue,
 } from "./activeFilters"
 import { instructions } from "./mockedInstructions"
+import type { FiltersInstructions } from "./types"
 
 describe("isSameFilterValue", () => {
   test("ignores array wrapping and ordering", () => {
@@ -25,6 +26,31 @@ describe("isSameFilterValue", () => {
 
 describe("getPillFilters", () => {
   const baseArgs = { instructions, predicateWhitelist: [] }
+
+  // Apps declare `textSearch` items for predicates they only want whitelisted —
+  // hidden ones driving tabs — and those can be listed before the search bar's own
+  // instruction. Taking the first `textSearch` then left the searched text showing
+  // as a pill, duplicating what the search bar already displays.
+  test("omits the searched text even when a hidden textSearch comes first", () => {
+    const withHiddenFirst: FiltersInstructions = [
+      {
+        hidden: true,
+        label: "starts_at_lteq",
+        type: "textSearch",
+        sdk: { predicate: "starts_at_lteq" },
+        render: { component: "input" },
+      },
+      ...instructions,
+    ]
+
+    const pills = getPillFilters({
+      instructions: withHiddenFirst,
+      predicateWhitelist: [],
+      queryString: "number_or_email_cont=shoes",
+    })
+
+    expect(pills).toEqual([])
+  })
 
   test("resolves option labels, spelling out every selected value", () => {
     const pills = getPillFilters({

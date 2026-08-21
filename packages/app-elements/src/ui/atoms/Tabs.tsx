@@ -5,9 +5,13 @@ import React, {
   type ReactNode,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react"
 import invariant from "ts-invariant"
+
+/** How wide the hint at each end of a scrolling tab row is. */
+const FADE_WIDTH = "24px"
 
 export interface TabsProps {
   /**
@@ -65,6 +69,43 @@ function Tabs({
     defaultTab ?? firstActiveIndex ?? 0,
   )
 
+  /**
+   * Which edges of the scrolling tab row have tabs beyond them, so the row can fade
+   * out on those sides and hint that it scrolls.
+   *
+   * Needs the real scroll position, so it cannot be done in CSS alone. It also needs
+   * no breakpoint: above `md` the row does not scroll, both edges read false, and no
+   * mask is applied.
+   */
+  const scroller = useRef<HTMLDivElement>(null)
+  const [overflowing, setOverflowing] = useState({ start: false, end: false })
+
+  useEffect(() => {
+    const element = scroller.current
+    if (element == null) {
+      return
+    }
+    const update = (): void => {
+      const max = element.scrollWidth - element.clientWidth
+      // a pixel of tolerance: fractional scroll positions never land on 0 or `max`
+      const start = element.scrollLeft > 1
+      const end = element.scrollLeft < max - 1
+      setOverflowing((previous) =>
+        previous.start === start && previous.end === end
+          ? previous
+          : { start, end },
+      )
+    }
+    update()
+    element.addEventListener("scroll", update, { passive: true })
+    const observer = new ResizeObserver(update)
+    observer.observe(element)
+    return () => {
+      element.removeEventListener("scroll", update)
+      observer.disconnect()
+    }
+  }, [children])
+
   useEffect(
     function validateChildren() {
       Children.map(children, (tab, index) => {
@@ -89,29 +130,60 @@ function Tabs({
     [children],
   )
 
+  const maskImage = useMemo(() => {
+    if (!overflowing.start && !overflowing.end) {
+      return undefined
+    }
+    const from = overflowing.start
+      ? `transparent 0, black ${FADE_WIDTH}`
+      : "black 0"
+    const to = overflowing.end
+      ? `black calc(100% - ${FADE_WIDTH}), transparent 100%`
+      : "black 100%"
+    return `linear-gradient(to right, ${from}, ${to})`
+  }, [overflowing])
+
   return (
     <div id={id} role="tablist" className={className} {...rest}>
-      {/* Navs */}
-      <nav className="flex gap-8 border-b-gray-100 border-b">
-        {Children.map(
-          children,
-          (tab, index) =>
-            tab != null && (
-              <TabNav
+      {/* Navs. On a phone the row is wider than the screen, so it scrolls sideways
+          instead of wrapping onto a second line. `w-full min-w-max` keeps the
+          underline spanning the whole row when the tabs fit and lets the row grow
+          past it when they do not, and the 2px bottom padding on the scroller
+          absorbs the active tab's negative margin — otherwise that overhang counts
+          as scrollable overflow and earns the row a vertical scrollbar. */}
+      <div
+        ref={scroller}
+        className="overflow-x-auto pb-[2px] md:overflow-x-visible md:pb-0"
+        // masked rather than covered by a gradient, so the fade works on whatever
+        // the page background happens to be
+        style={{ maskImage, WebkitMaskImage: maskImage }}
+        data-testid="tab-nav-scroller"
+      >
+        <nav className="flex gap-8 border-b-gray-100 border-b w-full min-w-max">
+          {Children.map(
+            children,
+            (tab, index) =>
+              tab != null && (
                 // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                key={index}
-                isActive={index === activeIndex}
-                label={tab.props.name}
-                onClick={() => {
-                  setActiveIndex(index)
-                  onTabSwitch?.(index)
-                }}
-                id={`tab-nav-${id}-${index}`}
-                data-testid={`tab-nav-${index}`}
-              />
-            ),
-        )}
-      </nav>
+                <React.Fragment key={index}>
+                  {/* nothing to separate before the first rendered tab */}
+                  {tab.props.separatorBefore === true &&
+                    index > (firstActiveIndex ?? 0) && <TabNavSeparator />}
+                  <TabNav
+                    isActive={index === activeIndex}
+                    label={tab.props.name}
+                    onClick={() => {
+                      setActiveIndex(index)
+                      onTabSwitch?.(index)
+                    }}
+                    id={`tab-nav-${id}-${index}`}
+                    data-testid={`tab-nav-${index}`}
+                  />
+                </React.Fragment>
+              ),
+          )}
+        </nav>
+      </div>
       {/* Tab Panels */}
       {Children.map(children, (tab, index) => {
         if (tab === null) {
@@ -138,6 +210,14 @@ export interface TabProps {
    */
   name: string
   /**
+   * Draws a vertical rule before this tab in the navigation, to set the tabs that
+   * follow apart from the ones before — e.g. to separate the states an order moves
+   * through from the shelves it can be put on (carts, archive).
+   *
+   * Ignored on the first rendered tab, where there is nothing to separate.
+   */
+  separatorBefore?: boolean
+  /**
    * Tab Panel content
    */
   children: ReactNode
@@ -145,6 +225,23 @@ export interface TabProps {
 
 function Tab({ children }: TabProps): React.ReactElement {
   return <>{children}</>
+}
+
+/**
+ * The rule between two groups of tabs. A flex item like the tabs themselves, so it
+ * picks up the same `gap` on either side, and padded like them so its line centres
+ * on the labels rather than on the whole row.
+ */
+function TabNavSeparator(): JSX.Element {
+  return (
+    <div
+      aria-hidden
+      className="flex items-center pb-4 -mb-[2px]"
+      data-testid="tab-nav-separator"
+    >
+      <span className="block w-px h-4 bg-gray-200" />
+    </div>
+  )
 }
 
 function TabNav({
@@ -166,6 +263,9 @@ function TabNav({
       id={id}
       className={cn(
         "text-center pb-4 leading-6 cursor-pointer transition-all duration-300 -mb-[2px]",
+        // never break a two-word label ("In progress") onto a second line, and never
+        // let the row squeeze it: the row scrolls instead
+        "whitespace-nowrap shrink-0",
         {
           "border-b-black border-b-2 text-black font-semibold": isActive,
           "border-b-transparent border-b-2 text-gray-500": !isActive,

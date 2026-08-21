@@ -95,10 +95,11 @@ export function getShipmentDisplayStatus(
       }
 
     default:
+      // an unnamed status is still a status: show it, rather than a warning
       return {
-        label: `${t("common.not_handled")}: (${shipment.status})`,
-        icon: "warning",
-        color: "white",
+        label: getShipmentStatusName(shipment.status),
+        icon: "minus",
+        color: "gray",
       }
   }
 }

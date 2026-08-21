@@ -20,6 +20,13 @@ export type ResourceAddressProps = Pick<
    */
   editable?: boolean
   /**
+   * When set, the address can be deleted: the edit pencil becomes a `…` menu
+   * holding both actions. The handler is called on click — the confirmation and
+   * the delete itself belong to the caller, which knows what the address is
+   * attached to.
+   */
+  onDelete?: () => void
+  /**
    * Optional setting to define if given `Address` `billing_info` data is required.
    * @default false
    */
@@ -42,6 +49,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
     address,
     title,
     editable = false,
+    onDelete,
     showBillingInfo = false,
     requiresBillingInfo = false,
     showNotes = true,
@@ -102,6 +110,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
                 }
               : undefined
           }
+          onDelete={onDelete}
         />
         {canEdit && <ResourceAddressOverlay />}
       </>

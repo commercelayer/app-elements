@@ -7,7 +7,6 @@ import { Button } from "#ui/atoms/Button"
 import { ButtonFilter } from "#ui/atoms/ButtonFilter"
 import { Icon } from "#ui/atoms/Icon"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { Tooltip } from "#ui/atoms/Tooltip"
 import {
   getClearedFormValues,
   getPillFilters,
@@ -171,22 +170,18 @@ export function FiltersBar({
 
         <div className="flex gap-2 ml-auto">
           {hasFilterFields && (
-            <Tooltip
-              direction="bottom-end"
-              content={t("common.filters")}
-              label={
-                <Button
-                  type="button"
-                  alignItems="center"
-                  size="small"
-                  variant="secondary"
-                  aria-label={t("common.filters")}
-                  onClick={onFilterClick ?? openDrawer}
-                >
-                  <Icon name="funnel" size={16} />
-                </Button>
-              }
-            />
+            <Button
+              type="button"
+              alignItems="center"
+              size="small"
+              variant="secondary"
+              aria-label={t("common.filters")}
+              // the browser's own tooltip, so the button carries its name itself
+              title={t("common.filters")}
+              onClick={onFilterClick ?? openDrawer}
+            >
+              <Icon name="funnel" size={16} />
+            </Button>
           )}
           {actions}
         </div>

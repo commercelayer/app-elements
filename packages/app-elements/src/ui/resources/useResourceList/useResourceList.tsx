@@ -12,6 +12,7 @@ import React, {
   useEffect,
   useMemo,
   useReducer,
+  useRef,
 } from "react"
 import { formatResourceName } from "#helpers/resources"
 import { useIsChanged } from "#hooks/useIsChanged"
@@ -35,6 +36,7 @@ import { type FetcherResponse, listFetcher, type Resource } from "./listFetcher"
 import { useMetricsSdkProvider } from "./metricsApiClient"
 import { PaginationInfo } from "./PaginationInfo"
 import { initialState, reducer } from "./reducer"
+import { subscribeToResourceLists } from "./resourceListSignals"
 import { computeTitleWithTotalCount } from "./utils"
 
 export interface ResourceListItemTemplateProps<
@@ -348,6 +350,26 @@ export function useResourceList<TResource extends ListableResourceType>({
       pageNumber: paginationType === "pagination" ? 1 : undefined,
     })
   }, [query, paginationType, fetchMore, resetMetricsCursors])
+
+  // A component that mutates a resource is often not the one rendering the list:
+  // a details drawer is a sibling of the list, which stays mounted underneath, so
+  // a row deleted there would linger until a reload. These signals let it say so.
+  // Read through a ref because `refresh` changes identity with `query`, and
+  // resubscribing on every query change would be pointless churn.
+  const signalHandlersRef = useRef({ removeItem, refresh })
+  signalHandlersRef.current = { removeItem, refresh }
+
+  useEffect(
+    () =>
+      subscribeToResourceLists(type, (signal) => {
+        if (signal.kind === "removeItem") {
+          signalHandlersRef.current.removeItem(signal.resourceId)
+        } else {
+          signalHandlersRef.current.refresh()
+        }
+      }),
+    [type],
+  )
 
   const handlePageChange = useCallback(
     (newPage: number) => {

@@ -18,6 +18,17 @@ const fullList: InputSelectValue[] = [
   { value: "sku_options", label: "Sku Options" },
 ].sort((a, b) => a.label.localeCompare(b.label))
 
+/**
+ * The options the orders app gives its status filter — a short, fixed list the value
+ * has to come from, which is the common case for a static select.
+ */
+const orderStatuses: InputSelectValue[] = [
+  { value: "placed", label: "Placed" },
+  { value: "approved", label: "Approved" },
+  { value: "cancelled", label: "Cancelled" },
+  { value: "editing", label: "Editing" },
+]
+
 const fakeSearch = (hint: string): InputSelectValue[] =>
   fullList.filter((item) =>
     item.label.toLowerCase().includes(hint.toLowerCase()),
@@ -170,6 +181,24 @@ MenuFooterText.args = {
     })
   },
   menuFooterText: "Type to search for more options.",
+}
+
+/**
+ * A static select over a short list of statuses, as the orders app renders its
+ * `status_in` filter: every option is known up front, so nothing is fetched and the
+ * value must come from the list — hence the chevron and no free typing.
+ *
+ * `isMulti` because a filter is a set: picking Placed and Approved means either.
+ */
+export const StaticOrderStatus = Template.bind({})
+StaticOrderStatus.args = {
+  label: "Status",
+  initialValues: orderStatuses,
+  placeholder: "Any status",
+  isMulti: true,
+  isSearchable: false,
+  isClearable: true,
+  name: "status_in",
 }
 
 /**

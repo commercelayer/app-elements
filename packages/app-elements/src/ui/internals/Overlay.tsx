@@ -3,6 +3,8 @@ import { useEffect, useRef } from "react"
 import { createPortal } from "react-dom"
 import { Container } from "#ui/atoms/Container"
 import { Spacer } from "#ui/atoms/Spacer"
+import { lockBodyScroll, unlockBodyScroll } from "./bodyScrollLock"
+import { OverlayContext } from "./overlayContext"
 
 export type OverlayProps = {
   /**
@@ -66,21 +68,33 @@ export const Overlay: React.FC<OverlayProps> = ({
   const element = useRef<HTMLDivElement | null>(null)
 
   useEffect(function preventBodyScrollbar() {
-    document.body.classList.add("overflow-hidden")
+    // shared with `Modal` and with any other overlay open at the same time: an
+    // edit overlay closing inside a details drawer must leave the drawer's lock
+    // in place, and a plain `classList.remove` here would not
+    lockBodyScroll()
     return () => {
-      document.body.classList.remove("overflow-hidden")
+      unlockBodyScroll()
     }
   }, [])
 
   useEffect(
     function focusFirstInput() {
+      // Only an editing overlay: there the first input is the first form field, so
+      // focusing it saves a click. A `drawer` is a details panel, whose only input
+      // tends to be the timeline's note field at the very bottom — focusing that
+      // scrolled the panel down to it on open, and only sometimes, since the effect
+      // catches whatever has rendered by then (a cached resource paints its timeline
+      // straight away, a cold one does not).
+      if (drawer === true) {
+        return
+      }
       if (element.current != null) {
         const firstInputElement =
           element.current.getElementsByTagName("input")[0]
         firstInputElement?.focus()
       }
     },
-    [element],
+    [element, drawer],
   )
 
   const content = (
@@ -114,7 +128,9 @@ export const Overlay: React.FC<OverlayProps> = ({
   )
 
   return createPortal(
-    <>
+    <OverlayContext.Provider
+      value={{ surface: drawer === true ? "drawer" : "page" }}
+    >
       {drawer && (
         <div
           aria-hidden
@@ -132,11 +148,20 @@ export const Overlay: React.FC<OverlayProps> = ({
             "bg-gray-50": backgroundColor === "light",
             "bg-white": backgroundColor == null,
             "inset-0 w-full": !drawer,
-            "top-0 right-0 bottom-0 w-full md:w-170 max-w-[95vw] animate-slide-in-right":
+            // Full width on mobile. There used to be a 95vw max-width here, but it
+            // could only ever bind below `md`: the `md` width is a fixed 680px and
+            // 95vw is already wider than that at the breakpoint itself.
+            //
+            // (Written out rather than as a class name on purpose — Tailwind scans
+            // comments too, and would keep emitting the rule we just dropped.)
+            "top-0 right-0 bottom-0 w-full md:w-170 animate-slide-in-right":
               drawer,
           },
         )}
         data-testid="overlay"
+        // lets descendants adapt to the narrower surface without every app
+        // passing a prop down — `PageHeading` uses it to shrink its title
+        data-drawer={drawer ? "" : undefined}
         {...rest}
       >
         {fullWidth || drawer ? (
@@ -145,7 +170,7 @@ export const Overlay: React.FC<OverlayProps> = ({
           <Container minHeight={false}>{content}</Container>
         )}
       </div>
-    </>,
+    </OverlayContext.Provider>,
     document.body,
   )
 }

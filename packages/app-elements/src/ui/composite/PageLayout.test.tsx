@@ -1,4 +1,5 @@
 import { type RenderResult, render } from "@testing-library/react"
+import { MockTokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { PageLayout, type PageLayoutProps } from "./PageLayout"
 
 interface SetupProps extends Omit<PageLayoutProps, "children"> {
@@ -38,6 +39,19 @@ describe("PageLayout", () => {
       id: "my-page",
       mode: "test",
     })
+    expect(getByText("TEST DATA")).toBeInTheDocument()
+  })
+
+  // the badge went missing from the list pages when they moved off
+  // `HomePageLayout`, which was passing the mode on their behalf
+  test("Should take the mode from the token when the page passes none", () => {
+    const { getByText } = render(
+      <MockTokenProvider kind="integration" appSlug="orders" devMode>
+        <PageLayout title="Page title">
+          <div>Content...</div>
+        </PageLayout>
+      </MockTokenProvider>,
+    )
     expect(getByText("TEST DATA")).toBeInTheDocument()
   })
 })

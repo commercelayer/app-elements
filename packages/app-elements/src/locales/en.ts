@@ -245,6 +245,7 @@ const en = {
     clear_text: "Clear text",
     close: "Close",
     continue: "Continue",
+    copy_id: "Copy ID",
     could_not_retrieve_data: "Could not retrieve data",
     could_not_retrieve_resource: "Could not retrieve {{resource}}",
     create: "Create",
@@ -254,6 +255,7 @@ const en = {
     custom_time_range: "Custom Time Range",
     delete_resource: "Delete {{resource}}",
     delete: "Delete",
+    details_options: "Details options",
     download_file: "Download file",
     download_json: "Download JSON",
     edit: "Edit",
@@ -530,7 +532,7 @@ const en = {
       anonymize: {
         title: "Customer cannot be deleted",
         description:
-          "The customer cannot be deleted. Instead, you can request the anonymization. Their personal data will be replaced in all the related resources, including orders. You can cancel the anonymization request until it is not in progress.",
+          "Their personal data will be replaced everywhere, including orders. You can cancel the request until it starts.",
         request_button: "Request anonymization",
       },
       anonymization_info: {
@@ -555,6 +557,7 @@ const en = {
         fulfillment_status: "Fulfillment status",
       },
       display_status: {
+        awaiting_capture: "Awaiting capture",
         in_progress: "In progress",
         in_progress_manual: "In progress (Manual)",
       },

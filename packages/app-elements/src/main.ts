@@ -51,6 +51,7 @@ export { type ApiError, parseApiError } from "#helpers/errors"
 export { maskGiftCardCode } from "#helpers/giftCards"
 export { isMock, isMockedId } from "#helpers/mocks"
 export { computeFullname, formatDisplayName } from "#helpers/name"
+export { type FormatNumberOptions, formatNumber } from "#helpers/numbers"
 export {
   formatResourceName,
   getResourceEndpoint,
@@ -169,7 +170,13 @@ export {
   withSkeletonTemplate,
 } from "#ui/atoms/SkeletonTemplate"
 export { Spacer, type SpacerProps } from "#ui/atoms/Spacer"
-export { Stack, type StackProps } from "#ui/atoms/Stack"
+export {
+  Stack,
+  StackCell,
+  type StackCellProps,
+  type StackProps,
+  type StackSize,
+} from "#ui/atoms/Stack"
 export { StatusDot, type StatusDotProps } from "#ui/atoms/StatusDot"
 export { StatusIcon, type StatusIconProps } from "#ui/atoms/StatusIcon"
 export { Steps, type StepsProps } from "#ui/atoms/Steps"
@@ -226,6 +233,11 @@ export { ListItem, type ListItemProps } from "#ui/composite/ListItem"
 export { Modal, type ModalProps } from "#ui/composite/Modal"
 export { PageError, type PageErrorProps } from "#ui/composite/PageError"
 export { PageLayout, type PageLayoutProps } from "#ui/composite/PageLayout"
+export {
+  PageLoading,
+  type PageLoadingProps,
+} from "#ui/composite/PageLoading"
+/** @deprecated Use `PageLoading` instead. */
 export { PageSkeleton } from "#ui/composite/PageSkeleton"
 export { Report, type ReportProps } from "#ui/composite/Report"
 export {
@@ -425,8 +437,11 @@ export {
   type ResourceShipmentParcelsProps,
 } from "#ui/resources/ResourceShipmentParcels"
 export {
+  isTaggableResource,
   ResourceTags,
   type ResourceTagsProps,
+  type TaggableResource,
+  taggableResources,
 } from "#ui/resources/ResourceTags"
 export {
   type FiltersInstructions,
@@ -439,6 +454,8 @@ export {
 export {
   type ResourceListItemTemplateProps,
   type ResourceListProps,
+  refreshResourceLists,
+  removeFromResourceLists,
   type UseResourceListConfig,
   useResourceList,
 } from "#ui/resources/useResourceList"
