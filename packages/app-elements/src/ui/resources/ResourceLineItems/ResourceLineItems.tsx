@@ -37,8 +37,24 @@ import { InputSpinner } from "#ui/forms/InputSpinner"
 import { FlexRow } from "#ui/internals/FlexRow"
 import type { StockLineItemWithStockTransfer } from "./types"
 
+/** A row shows a total only when its type carries one and the api returned it. */
+function hasTotal(
+  lineItem: Item,
+): lineItem is Extract<Item, { type: "line_items" | "return_line_items" }> {
+  return (
+    (lineItem.type === "line_items" || lineItem.type === "return_line_items") &&
+    lineItem.formatted_total_amount != null
+  )
+}
+
 interface LineItemSettings {
   showPrice: boolean
+  /**
+   * Whether any row has a quantity to show in the trailing column: stock,
+   * shipment and parcel line items carry no price, so without this the column
+   * would not be rendered at all and their quantity would be invisible.
+   */
+  showQuantity: boolean
 }
 
 type Item =
@@ -190,16 +206,18 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
       return items.reduce<LineItemSettings>(
         (acc, lineItem): LineItemSettings => {
           return {
-            showPrice:
-              acc.showPrice ||
-              ((lineItem.type === "line_items" ||
-                lineItem.type === "return_line_items") &&
-                lineItem.formatted_total_amount != null),
+            showPrice: acc.showPrice || hasTotal(lineItem),
+            showQuantity:
+              acc.showQuantity ||
+              (!hasTotal(lineItem) && lineItem.quantity != null),
           }
         },
-        { showPrice: false } satisfies LineItemSettings,
+        { showPrice: false, showQuantity: false } satisfies LineItemSettings,
       )
     }, [items])
+
+    /** The trailing column holds a total, or a quantity when there is no price. */
+    const hasTrailingColumn = settings.showPrice || settings.showQuantity
 
     function isGiftCard(
       item: Item,
@@ -302,7 +320,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       "pt-6": size === "normal",
                       "pt-4": size === "small",
                     })}
-                    colSpan={settings.showPrice ? 3 : 2}
+                    colSpan={hasTrailingColumn ? 3 : 2}
                   ></td>
                 </tr>
                 <tr>
@@ -349,26 +367,30 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       )}
                   </td>
                   <td valign="top" align="right">
-                    {lineItem.type === "line_items" &&
-                      lineItem.formatted_unit_amount != null && (
-                        <Text
-                          tag="div"
-                          variant="info"
-                          wrap="nowrap"
-                          className={cn("pr-10", {
-                            "font-regular text-sm": size === "normal",
-                            "text-sm": size === "small",
-                            hidden: isEditable(lineItem),
-                          })}
-                        >
-                          {lineItem.formatted_unit_amount} x {lineItem.quantity}
-                        </Text>
-                      )}
+                    {hasTotal(lineItem) && (
+                      <Text
+                        tag="div"
+                        variant="info"
+                        wrap="nowrap"
+                        className={cn("pr-10", {
+                          "font-regular text-sm": size === "normal",
+                          "text-sm": size === "small",
+                          hidden: isEditable(lineItem),
+                        })}
+                      >
+                        {/* the unit price rides along where there is one: return
+                            line items have no price of their own, so the quantity
+                            stands here on its own beside their total */}
+                        {lineItem.type === "line_items" &&
+                        lineItem.formatted_unit_amount != null
+                          ? `${lineItem.formatted_unit_amount} x ${lineItem.quantity}`
+                          : `x ${lineItem.quantity}`}
+                      </Text>
+                    )}
                   </td>
-                  {settings.showPrice && (
+                  {hasTrailingColumn && (
                     <td className="pl-2" valign="top" align="right">
-                      {(lineItem.type === "line_items" ||
-                        lineItem.type === "return_line_items") && (
+                      {hasTotal(lineItem) ? (
                         <Text
                           tag="div"
                           wrap="nowrap"
@@ -383,6 +405,22 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                             lineItem.formatted_total_amount
                           )}
                         </Text>
+                      ) : (
+                        // Stock, shipment and parcel line items carry no price, so
+                        // this column would be empty: the quantity takes the total's
+                        // place rather than sitting in the unit price's cell, which
+                        // is where the eye already goes for a number on these rows.
+                        <Text
+                          tag="div"
+                          wrap="nowrap"
+                          className={cn({
+                            "font-semibold text-sm": size === "normal",
+                            "text-sm font-semibold": size === "small",
+                            hidden: isEditable(lineItem),
+                          })}
+                        >
+                          x {lineItem.quantity}
+                        </Text>
                       )}
                     </td>
                   )}
@@ -391,7 +429,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 <tr>
                   <td
                     className="p-0 pl-4 w-full"
-                    colSpan={settings.showPrice ? 3 : 2}
+                    colSpan={hasTrailingColumn ? 3 : 2}
                   >
                     {hasLineItemOptions && (
                       <LineItemOptions
@@ -436,7 +474,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                       "pb-4": size === "small",
                       "in-[.boxed-container]:pb-0": isLastRow && footer == null,
                     })}
-                    colSpan={settings.showPrice ? 4 : 3}
+                    colSpan={hasTrailingColumn ? 4 : 3}
                   />
                 </tr>
               </Fragment>
@@ -453,7 +491,7 @@ export const ResourceLineItems = withSkeletonTemplate<Props>(
                 {!fullWidth && <td />}
                 <td
                   className={cn("pl-4")}
-                  colSpan={(settings.showPrice ? 3 : 2) + (fullWidth ? 1 : 0)}
+                  colSpan={(hasTrailingColumn ? 3 : 2) + (fullWidth ? 1 : 0)}
                 >
                   <Text tag="div" size={size === "normal" ? "small" : size}>
                     <div className="mt-4 mb-4 last-of-type:[.boxed-container_tr:last-of-type_&]:mb-0">

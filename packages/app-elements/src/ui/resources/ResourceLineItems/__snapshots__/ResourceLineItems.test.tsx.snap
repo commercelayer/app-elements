@@ -49,9 +49,7 @@ exports[`ResourceLineItems > should disable the remove action when \`onSwap\` is
           <div
             class="pr-10 font-regular text-sm hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            9.00€
-             x 
-            2
+            9.00€ x 2
           </div>
         </td>
         <td
@@ -257,9 +255,7 @@ exports[`ResourceLineItems > should render 1`] = `
           <div
             class="pr-10 font-regular text-sm text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            9.00€
-             x 
-            2
+            9.00€ x 2
           </div>
         </td>
         <td
@@ -342,9 +338,7 @@ exports[`ResourceLineItems > should render the Footer prop when defined 1`] = `
           <div
             class="pr-10 font-regular text-sm text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            9.00€
-             x 
-            2
+            9.00€ x 2
           </div>
         </td>
         <td
@@ -448,9 +442,7 @@ exports[`ResourceLineItems > should render the InputSpinner and the trash icon w
           <div
             class="pr-10 font-regular text-sm hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            9.00€
-             x 
-            2
+            9.00€ x 2
           </div>
         </td>
         <td
@@ -628,9 +620,7 @@ exports[`ResourceLineItems > should render the bundle 1`] = `
           <div
             class="pr-10 font-regular text-sm text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            $10.00
-             x 
-            1
+            $10.00 x 1
           </div>
         </td>
         <td
@@ -768,9 +758,7 @@ exports[`ResourceLineItems > should render the list item options 1`] = `
           <div
             class="pr-10 font-regular text-sm text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            27.00€
-             x 
-            9
+            27.00€ x 9
           </div>
         </td>
         <td
@@ -1083,9 +1071,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           <div
             class="pr-10 font-regular text-sm hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            9.00€
-             x 
-            2
+            9.00€ x 2
           </div>
         </td>
         <td
@@ -1273,9 +1259,7 @@ exports[`ResourceLineItems > should render the swap action when \`onSwap\` is de
           <div
             class="pr-10 font-regular text-sm hidden text-gray-500 whitespace-nowrap wrap-anywhere"
           >
-            $10.00
-             x 
-            1
+            $10.00 x 1
           </div>
         </td>
         <td
