@@ -369,4 +369,39 @@ describe("ResourceLineItems", () => {
     expect(deleteButton[0]).toBeInTheDocument()
     expect(deleteButton[0]).toBeDisabled()
   })
+
+  // how shipments and stock transfers render their line items: no price at all,
+  // so the quantity is the only number the row can show
+  it("should show the quantity when no item has a price", () => {
+    const { getByText } = render(
+      <MockTokenProvider kind="integration" appSlug="shipments" devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems
+            items={[
+              presetLineItems.stockLineItem,
+              presetLineItems.parcelLineItem,
+            ]}
+          />
+        </CoreSdkProvider>
+      </MockTokenProvider>,
+    )
+
+    expect(getByText("x 3")).toBeInTheDocument()
+    expect(getByText("x 2")).toBeInTheDocument()
+  })
+
+  // returns show a total but no unit price of their own: the quantity has to
+  // stand beside the total, the way it did before the desktop view
+  it("should show both the quantity and the total for a return line item", () => {
+    const { getByText } = render(
+      <MockTokenProvider kind="integration" appSlug="returns" devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems items={[presetLineItems.returnLineItem]} />
+        </CoreSdkProvider>
+      </MockTokenProvider>,
+    )
+
+    expect(getByText("x 1")).toBeInTheDocument()
+    expect(getByText("€100,00")).toBeInTheDocument()
+  })
 })

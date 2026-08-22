@@ -16,7 +16,7 @@ export type ResourceSelectProps = Exclude<
 >
 
 /** Core caps `pageSize` at 25, so this is also the most we can load in one go. */
-export const defaultOptionsLimit = 10
+export const defaultOptionsLimit = 25
 
 export interface ResourceSelectOptions {
   /** Options to hand to the select: the first page, plus anything selected. */
