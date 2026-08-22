@@ -13,6 +13,7 @@ const selectableResources = {
   sku: "skus",
   sku_list: "sku_lists",
   bundle: "bundles",
+  customer_group: "customer_groups",
 } as const satisfies Record<string, ListableResourceType>
 
 export function getResourceType(resourceId: string | undefined) {
