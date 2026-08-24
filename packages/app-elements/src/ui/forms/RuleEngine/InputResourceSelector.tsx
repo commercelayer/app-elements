@@ -34,14 +34,16 @@ export const InputResourceSelector: React.FC<{
 }) => {
   const { sdkClient } = useCoreSdkProvider()
 
-  const { data } = useCoreApi(resource, "list", [getParams({ value: "" })])
+  const { data } = useCoreApi(resource, "list", [
+    getParams({ value: "", resource }),
+  ])
 
   const { data: selectedData, isLoading: isLoadingSelectedData } = useCoreApi(
     resource,
     "list",
     [
       {
-        ...getParams({ value: "" }),
+        ...getParams({ value: "", resource }),
         filters: {
           id_in: Array.isArray(value) ? value : [value],
         },
@@ -81,7 +83,9 @@ export const InputResourceSelector: React.FC<{
       }
       initialValues={toInputSelectValues(initialValues ?? [], resourceKey)}
       loadAsyncValues={async (value) => {
-        const items = await sdkClient[resource].list(getParams({ value }))
+        const items = await sdkClient[resource].list(
+          getParams({ value, resource }),
+        )
 
         return toInputSelectValues(items, resourceKey)
       }}
@@ -92,15 +96,22 @@ export const InputResourceSelector: React.FC<{
   )
 }
 
-function getParams({ value }: { value: string }): QueryParamsList<Tag> {
+function getParams({
+  value,
+  resource,
+}: {
+  value: string
+  resource: ListableResourceType
+}): QueryParamsList<Tag> {
   return {
     pageSize: 25,
     sort: {
       name: "asc",
     },
-    filters: {
-      name_i_cont: value,
-    },
+    filters:
+      resource === "skus"
+        ? { name_or_code_i_cont: value }
+        : { name_i_cont: value },
   }
 }
 
