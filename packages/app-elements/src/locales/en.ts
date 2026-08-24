@@ -465,6 +465,9 @@ const en = {
     "order.customer.tags.name": "customer tag name",
     "order.line_items.adjustment": "adjustments",
     "order.line_items.bundle": "bundles",
+    "order.line_items.bundle.id": "bundle",
+    "order.line_items.bundle.name": "bundle name",
+    "order.line_items.bundle.tags.id": "bundle tag",
     "order.line_items.gift_card": "gift cards",
     "order.line_items.item_type": "line item type",
     "order.line_items.line_item_options.sku_option.tags.name":
