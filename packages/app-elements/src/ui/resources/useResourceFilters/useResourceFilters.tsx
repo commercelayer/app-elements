@@ -1,4 +1,5 @@
 import type { ListableResourceType, QueryFilter } from "@commercelayer/sdk"
+import isEqual from "lodash-es/isEqual"
 import {
   type JSX,
   useCallback,
@@ -290,11 +291,19 @@ export function useResourceFilters({
 
   useEffect(
     function updateSdkQueryFilterOnSearchChange() {
-      setSdkFilters(
-        adapters.adaptUrlQueryToSdk({
-          queryString,
-          timezone: user?.timezone,
-        }),
+      const nextSdkFilters = adapters.adaptUrlQueryToSdk({
+        queryString,
+        timezone: user?.timezone,
+      })
+      // `FilteredList` and `FilteredTable` are memoized on this object, so a new
+      // identity is a new component type and React remounts the whole list.
+      // The query string carries more than filters (a view title, a page), and
+      // those must not blank the rows: keep the previous object whenever the
+      // filters it encodes are unchanged, which makes React skip the update.
+      setSdkFilters((currentSdkFilters) =>
+        isEqual(currentSdkFilters, nextSdkFilters)
+          ? currentSdkFilters
+          : nextSdkFilters,
       )
     },
     [queryString],
@@ -361,6 +370,38 @@ function ResourceListComponent<TResource extends ListableResourceType>({
   )
 }
 
+/**
+ * Metrics filter for the current `sdkFilters`, computed once per mount.
+ *
+ * It must not be rebuilt on every render: with no explicit date filter,
+ * `adaptSdkToMetrics` falls back to a range anchored to `new Date()` (truncated
+ * to the second). `useResourceList` deep-compares `{ query, metricsQuery }` and
+ * refetches from page 1 when it differs, so an unmemoized filter turns any
+ * re-render landing in a later second — opening the filters drawer, switching
+ * tab — into a full reload of the list.
+ */
+function useMetricsFilter<TResource extends ListableResourceType>({
+  adapters,
+  sdkFilters,
+  type,
+}: {
+  adapters: ReturnType<typeof makeFilterAdapters>
+  sdkFilters: QueryFilter | undefined
+  type: TResource
+}): ReturnType<ReturnType<typeof makeFilterAdapters>["adaptSdkToMetrics"]> {
+  // Both call sites bail out before rendering when `sdkFilters` is undefined, so
+  // the value computed for that case is never sent; an empty object keeps the
+  // hook unconditional and its return type free of a null nobody has to handle.
+  return useMemo(
+    () =>
+      adapters.adaptSdkToMetrics({
+        sdkFilters: sdkFilters ?? {},
+        resourceType: type,
+      }),
+    [sdkFilters, type],
+  )
+}
+
 const makeFilteredList: (options: {
   sdkFilters: QueryFilter | undefined
   adapters: ReturnType<typeof makeFilterAdapters>
@@ -368,6 +409,7 @@ const makeFilteredList: (options: {
   ({ sdkFilters, adapters }) =>
   ({ type, query, metricsQuery, hideTitle, ...resourceListProps }) => {
     const { t } = useTranslation()
+    const metricsFilter = useMetricsFilter({ adapters, sdkFilters, type })
 
     if (resourceListProps == null) {
       return <div>resourceListProps not defined</div>
@@ -394,10 +436,7 @@ const makeFilteredList: (options: {
             ? undefined
             : {
                 ...metricsQuery,
-                filter: adapters.adaptSdkToMetrics({
-                  sdkFilters,
-                  resourceType: type,
-                }),
+                filter: metricsFilter,
               }
         }
       />
@@ -450,6 +489,7 @@ const makeFilteredTable: (options: {
   ({ sdkFilters, adapters }) =>
   ({ type, query, metricsQuery, hideTitle, ...tableProps }) => {
     const { t } = useTranslation()
+    const metricsFilter = useMetricsFilter({ adapters, sdkFilters, type })
 
     if (sdkFilters == null) {
       return null
@@ -471,10 +511,7 @@ const makeFilteredTable: (options: {
             ? undefined
             : {
                 ...metricsQuery,
-                filter: adapters.adaptSdkToMetrics({
-                  sdkFilters,
-                  resourceType: type,
-                }),
+                filter: metricsFilter,
               }
         }
       />

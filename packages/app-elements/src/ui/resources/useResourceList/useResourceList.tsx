@@ -37,6 +37,8 @@ import { useMetricsSdkProvider } from "./metricsApiClient"
 import { PaginationInfo } from "./PaginationInfo"
 import { initialState, reducer } from "./reducer"
 import { subscribeToResourceLists } from "./resourceListSignals"
+import { useMetricsCursorTrail } from "./useMetricsCursorTrail"
+import { usePageInUrl } from "./usePageInUrl"
 import { computeTitleWithTotalCount } from "./utils"
 
 export interface ResourceListItemTemplateProps<
@@ -218,19 +220,52 @@ export function useResourceList<TResource extends ListableResourceType>({
     reducer,
     initialState,
   )
-  const [currentPage, setCurrentPage] = React.useState(1)
+  const { requestedPage, pushPage, replacePage } = usePageInUrl()
   const listRef = React.useRef<HTMLDivElement>(null)
   /**
    * Metrics API + `pagination` mode only: the cursor that opens each page.
    * Index 0 is page 1 (no cursor); after loading page N we learn the cursor for
    * page N+1. The metrics API can only move forward, so remembering the cursors
-   * we have seen is what makes "previous page" possible.
+   * we have seen is what makes "previous page" possible — and persisting them
+   * is what lets the list reopen on the page it was left on.
    */
-  const metricsCursorsRef = React.useRef<Array<string | null>>([null])
+  const metricsTrail = useMetricsCursorTrail({
+    enabled: metricsQuery != null && paginationType === "pagination",
+    type,
+    metricsQuery,
+  })
 
-  const resetMetricsCursors = useCallback(() => {
-    metricsCursorsRef.current = [null]
-  }, [])
+  /**
+   * Turn the page the url asks for into the page that can actually be served.
+   *
+   * This is the seam between "what the url wants" and "what the api can do".
+   * The core api addresses any page directly, so a request always stands. The
+   * metrics api can only open a page whose cursor is in the trail, and
+   * answering a request it cannot meet would return the first page of rows
+   * under the requested page's label — see `listFetcher`, which stamps
+   * `meta.currentPage` from the requested number. Declining is the only honest
+   * answer, and page 1 is always servable.
+   */
+  const resolveRequestedPage = useCallback(
+    (page: number): number => {
+      if (page <= 1) {
+        return 1
+      }
+      if (metricsQuery == null) {
+        return page
+      }
+      return metricsTrail.cursorFor(page) != null ? page : 1
+    },
+    [metricsQuery, metricsTrail],
+  )
+
+  // Resolved once, on mount, so that a restored list opens the page the url
+  // asks for with a single request. A metrics-backed list can answer here too,
+  // when its trail was persisted by an earlier mount; `followRequestedPage`
+  // below corrects the url when the request cannot be met after all.
+  const [currentPage, setCurrentPage] = React.useState(() =>
+    paginationType === "pagination" ? resolveRequestedPage(requestedPage) : 1,
+  )
 
   // Both queries are watched: for metrics-backed lists `metricsQuery` is the one
   // that actually drives the request (deep-compared, so inline objects are safe).
@@ -238,8 +273,12 @@ export function useResourceList<TResource extends ListableResourceType>({
     value: { query, metricsQuery },
     onChange: () => {
       setCurrentPage(1)
-      resetMetricsCursors()
+      // the url must follow, or it would keep asking for a page this list has
+      // just left — in place, since the filter change already pushed an entry
+      replacePage(1)
       dispatch({ type: "reset" })
+      // no need to clear the cursor trail here: the page 1 fetch below
+      // re-anchors it, and a changed query no longer matches its fingerprint
       void fetchMore({ query, pageNumber: 1 })
     },
   })
@@ -265,7 +304,7 @@ export function useResourceList<TResource extends ListableResourceType>({
             metricsQuery != null &&
             paginationType === "pagination" &&
             pageNumber != null
-              ? (metricsCursorsRef.current[pageNumber - 1] ?? null)
+              ? (metricsTrail.cursorFor(pageNumber) ?? null)
               : undefined,
           ...(metricsQuery != null
             ? {
@@ -286,8 +325,18 @@ export function useResourceList<TResource extends ListableResourceType>({
           paginationType === "pagination" &&
           pageNumber != null
         ) {
-          metricsCursorsRef.current[pageNumber] =
-            listResponse.meta.cursor ?? null
+          // Page 1 is fetched with no cursor, so it re-anchors the list against
+          // the data as it is now. Everything the trail remembered about later
+          // pages was measured against an older snapshot and would place their
+          // boundaries in the wrong spot, so it goes.
+          //
+          // This is the *only* place the trail is cleared, and it is enough:
+          // every path that abandons the current page — a filter or tab change,
+          // `refresh`, a page the resolver declined — goes on to fetch page 1.
+          if (pageNumber === 1) {
+            metricsTrail.reset()
+          }
+          metricsTrail.record(pageNumber, listResponse.meta.cursor ?? null)
         }
         dispatch({ type: "loaded", payload: listResponse })
       } catch (err) {
@@ -301,10 +350,51 @@ export function useResourceList<TResource extends ListableResourceType>({
     function initialFetch() {
       void fetchMore({
         query,
-        pageNumber: paginationType === "pagination" ? 1 : undefined,
+        // `currentPage` is already the page the url asked for, when that page
+        // could be served, so a restored list opens it with a single request
+        pageNumber: paginationType === "pagination" ? currentPage : undefined,
       })
     },
     [sdkClient],
+  )
+
+  /**
+   * The url is the single source of truth for the page: a pager click, the
+   * browser's back button and a shared link all arrive here the same way.
+   *
+   * Deliberately keyed on `requestedPage` alone. `fetchMore` changes identity
+   * with `data`, so depending on it would refetch on every response; the values
+   * read here come from the render in which the page changed, which is the
+   * render whose values are wanted.
+   */
+  useEffect(
+    function followRequestedPage() {
+      if (paginationType !== "pagination") {
+        return
+      }
+
+      const servablePage = resolveRequestedPage(requestedPage)
+
+      if (servablePage !== requestedPage) {
+        // correcting the url re-runs this effect with a page that can be served
+        replacePage(servablePage)
+        return
+      }
+
+      if (servablePage === currentPage) {
+        return
+      }
+
+      setCurrentPage(servablePage)
+      void fetchMore({ query, pageNumber: servablePage }).then(() => {
+        if (paginationScrollTo === "top") {
+          window.scrollTo({ top: 0 })
+        } else if (paginationScrollTo === "list") {
+          listRef.current?.scrollIntoView()
+        }
+      })
+    },
+    [requestedPage],
   )
 
   const isApiError = data != null && error != null
@@ -343,13 +433,15 @@ export function useResourceList<TResource extends ListableResourceType>({
 
   const refresh = useCallback(() => {
     setCurrentPage(1)
-    resetMetricsCursors()
+    if (paginationType === "pagination") {
+      replacePage(1)
+    }
     dispatch({ type: "reset" })
     void fetchMore({
       query,
       pageNumber: paginationType === "pagination" ? 1 : undefined,
     })
-  }, [query, paginationType, fetchMore, resetMetricsCursors])
+  }, [query, paginationType, fetchMore, replacePage])
 
   // A component that mutates a resource is often not the one rendering the list:
   // a details drawer is a sibling of the list, which stays mounted underneath, so
@@ -371,18 +463,13 @@ export function useResourceList<TResource extends ListableResourceType>({
     [type],
   )
 
+  // The pager only writes the url; `followRequestedPage` above does the rest, so
+  // that clicking Next and pressing the browser's back button take one path.
   const handlePageChange = useCallback(
     (newPage: number) => {
-      setCurrentPage(newPage)
-      void fetchMore({ query, pageNumber: newPage }).then(() => {
-        if (paginationScrollTo === "top") {
-          window.scrollTo({ top: 0 })
-        } else if (paginationScrollTo === "list") {
-          listRef.current?.scrollIntoView()
-        }
-      })
+      pushPage(newPage)
     },
-    [query, fetchMore, paginationScrollTo],
+    [pushPage],
   )
 
   const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(

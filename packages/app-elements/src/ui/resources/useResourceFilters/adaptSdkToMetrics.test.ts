@@ -87,6 +87,26 @@ describe("adaptSdkToMetrics", () => {
     expect(metricsFilters.order?.date_field).toBe("updated_at")
   })
 
+  // The default range is anchored to the current time, so two calls one second
+  // apart disagree. `useResourceList` deep-compares `metricsQuery` and refetches
+  // from page 1 when it differs, which is why `useResourceFilters` computes this
+  // filter once per mount instead of on every render.
+  test("Should move the default date range as the clock advances", () => {
+    const args = {
+      sdkFilters: {},
+      resourceType: "orders",
+      instructions,
+    } as const
+
+    const before = adaptSdkToMetrics(args)
+    vi.advanceTimersByTime(1000)
+    const after = adaptSdkToMetrics(args)
+
+    expect(before.order?.date_to).toBe("2023-04-05T15:20:00Z")
+    expect(after.order?.date_to).toBe("2023-04-05T15:20:01Z")
+    expect(after).not.toStrictEqual(before)
+  })
+
   test("Should set a default 5-year date range when text search is defined", () => {
     const metricsFilters = adaptSdkToMetrics({
       sdkFilters: {
