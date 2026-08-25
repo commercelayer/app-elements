@@ -611,6 +611,18 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.subtotal_after_discount_cents",
+    },
+    {
+      "type": "field",
+      "value": "order.subtotal_after_discount_float",
+    },
+    {
+      "type": "field",
+      "value": "order.formatted_subtotal_after_discount",
+    },
+    {
+      "type": "field",
       "value": "order.adjustment_amount_cents",
     },
     {
