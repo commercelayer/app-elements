@@ -447,6 +447,9 @@ const it: typeof en = {
     "order.customer.tags.name": "nome del customer tag",
     "order.line_items.adjustment": "adjustments",
     "order.line_items.bundle": "bundles",
+    "order.line_items.bundle.id": "bundle",
+    "order.line_items.bundle.name": "nome del bundle",
+    "order.line_items.bundle.tags.id": "tag del bundle",
     "order.line_items.gift_card": "gift cards",
     "order.line_items.item_type": "tipo di line item",
     "order.line_items.line_item_options.sku_option.tags.name":
