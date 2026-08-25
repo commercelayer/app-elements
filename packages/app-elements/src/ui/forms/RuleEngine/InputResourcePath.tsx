@@ -146,6 +146,7 @@ const presetPaths = [
   "order.market.id",
   "order.shipments_count",
   "order.shipping_address.country_code",
+  "order.subtotal_after_discount_cents",
   "order.subtotal_amount_cents",
   "order.tags.name",
   "order.total_amount_cents",

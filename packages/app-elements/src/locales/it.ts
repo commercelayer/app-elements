@@ -485,6 +485,7 @@ const it: typeof en = {
     "order.market.id": "market",
     "order.shipments_count": "numero di spedizioni",
     "order.shipping_address.country_code": "codice del paese di spedizione",
+    "order.subtotal_after_discount_cents": "subtotale dopo lo sconto",
     "order.subtotal_amount_cents": "subtotal amount cents",
     "order.tags.name": "nome del tag dell'ordine",
     "order.total_amount_cents": "total amount cents",

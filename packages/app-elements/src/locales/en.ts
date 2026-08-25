@@ -500,6 +500,7 @@ const en = {
     "order.market.id": "market",
     "order.shipments_count": "number of shipments",
     "order.shipping_address.country_code": "shipping address country code",
+    "order.subtotal_after_discount_cents": "subtotal after discount",
     "order.subtotal_amount_cents": "subtotal amount cents",
     "order.tags.name": "order tag name",
     "order.total_amount_cents": "total amount cents",
