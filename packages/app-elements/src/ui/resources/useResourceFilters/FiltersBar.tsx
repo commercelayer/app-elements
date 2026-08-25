@@ -59,6 +59,12 @@ export interface FiltersBarProps {
    */
   searchBarDebounceMs?: number
   /**
+   * Characters the user has to type before the search runs. Leading and
+   * trailing `*` do not count, so a wildcard cannot stand in for them.
+   * @default 2
+   */
+  searchBarMinLength?: number
+  /**
    * Hide the search bar, keeping the filters button and the pills.
    * @default false
    */
@@ -88,6 +94,7 @@ export function FiltersBar({
   onFilterClick,
   searchBarPlaceholder,
   searchBarDebounceMs,
+  searchBarMinLength,
   hideSearchBar = false,
   actions,
   instructions,
@@ -174,6 +181,7 @@ export function FiltersBar({
               queryString={queryString}
               placeholder={searchBarPlaceholder ?? t("common.search")}
               debounceMs={searchBarDebounceMs}
+              minSearchLength={searchBarMinLength}
               variant="outline"
               instructions={instructions}
               onUpdate={onUpdate}
