@@ -85,7 +85,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case "approved:authorized:in_progress":
       return {
-        label: t("apps.orders.display_status.in_progress_manual"),
+        label: t("apps.orders.display_status.in_progress"),
         icon: "arrowClockwise",
         color: "orange",
         task: t("apps.orders.tasks.fulfillment_in_progress"),

@@ -562,7 +562,6 @@ const en = {
       display_status: {
         awaiting_capture: "Awaiting capture",
         in_progress: "In progress",
-        in_progress_manual: "In progress (Manual)",
       },
       tasks: {
         open: "Open",
