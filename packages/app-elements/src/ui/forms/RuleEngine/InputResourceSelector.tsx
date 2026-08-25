@@ -18,7 +18,7 @@ export const InputResourceSelector: React.FC<{
   value?: ItemWithValue["value"]
   resource: Extract<
     ListableResourceType,
-    "markets" | "tags" | "skus" | "sku_lists" | "bundles"
+    "markets" | "tags" | "skus" | "sku_lists" | "bundles" | "customer_groups"
   >
   resourceKey: string
   isMulti?: boolean

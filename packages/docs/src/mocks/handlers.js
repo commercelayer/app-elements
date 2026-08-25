@@ -1,6 +1,7 @@
 import addresses from "./data/addresses"
 import adjustments from "./data/adjustments"
 import bundles from "./data/bundles"
+import customerGroups from "./data/customer_groups"
 import customers from "./data/customers"
 import eventStores from "./data/event_stores"
 import lineItems from "./data/line_items"
@@ -16,6 +17,7 @@ export const handlers = [
   ...addresses,
   ...adjustments,
   ...bundles,
+  ...customerGroups,
   ...customers,
   ...eventStores,
   ...lineItems,
