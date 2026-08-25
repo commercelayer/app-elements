@@ -100,8 +100,13 @@ function ResourceOptionsSelect({
     String(value),
   )
 
-  const { initialValues, isLoading, recordCount, loadAsyncValues } =
-    useResourceSelectOptions({ props, selectedValues })
+  const {
+    initialValues,
+    isLoading,
+    recordCount,
+    hasMorePages,
+    loadAsyncValues,
+  } = useResourceSelectOptions({ props, selectedValues })
 
   // parity with `inputResourceGroup`: a filter over a single possible value is
   // not worth showing, unless the user already picked something
@@ -113,6 +118,12 @@ function ResourceOptionsSelect({
     return null
   }
 
+  // a list that fits in its first page is entirely loaded already, so it filters
+  // in place and never asks the server for anything
+  const paginationProps = hasMorePages
+    ? ({ infiniteScroll: true, loadAsyncValues } as const)
+    : {}
+
   return (
     <HookedInputSelect
       name={name}
@@ -122,7 +133,7 @@ function ResourceOptionsSelect({
       isMulti={isMulti}
       isClearable={isClearable}
       placeholder={placeholder}
-      loadAsyncValues={loadAsyncValues}
+      {...paginationProps}
     />
   )
 }

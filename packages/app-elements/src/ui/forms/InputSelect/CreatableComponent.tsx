@@ -1,11 +1,11 @@
 import { forwardRef } from "react"
 import type { GroupBase, SelectInstance, StylesConfig } from "react-select"
 import CreatableSelect from "react-select/creatable"
-import type { InputSelectProps, InputSelectValue } from "./InputSelect"
+import type { InputSelectBaseProps, InputSelectValue } from "./InputSelect"
 import components from "./overrides"
 
 export interface CreatableComponentProps
-  extends Omit<InputSelectProps, "loadAsyncValues" | "label" | "hint"> {
+  extends Omit<InputSelectBaseProps, "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
 }
 

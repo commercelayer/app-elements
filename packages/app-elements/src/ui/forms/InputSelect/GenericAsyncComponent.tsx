@@ -15,11 +15,11 @@ import type {
 } from "react-select"
 import type AsyncSelect from "react-select/async"
 import type AsyncCreatableSelect from "react-select/async-creatable"
-import type { SetRequired } from "type-fest"
 import type {
   GroupedSelectValues,
-  InputSelectProps,
+  InputSelectBaseProps,
   InputSelectValue,
+  LoadAsyncValues,
 } from "./InputSelect"
 import components from "./overrides"
 import { isSingleValueSelected } from "./utils"
@@ -52,10 +52,8 @@ interface AsyncAdditionalProps<Option, Group extends GroupBase<Option>> {
 }
 
 export interface GenericAsyncSelectComponentProps
-  extends Omit<
-    SetRequired<InputSelectProps, "loadAsyncValues">,
-    "label" | "hint"
-  > {
+  extends Omit<InputSelectBaseProps, "label" | "hint"> {
+  loadAsyncValues: LoadAsyncValues
   styles: StylesConfig<InputSelectValue>
 }
 

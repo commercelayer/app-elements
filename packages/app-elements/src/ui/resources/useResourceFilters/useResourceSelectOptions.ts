@@ -27,8 +27,21 @@ export interface ResourceSelectOptions {
   recordCount?: number
   /** Whether the labels of the current selection have been resolved. */
   hasResolvedSelection: boolean
-  /** Server-side search, when the instruction sets `searchBy`. */
-  loadAsyncValues?: (hint: string) => Promise<InputSelectValue[]>
+  /**
+   * Whether anything exists beyond `initialValues`. When it does not, the whole
+   * list is already in hand and the select needs no request of its own.
+   */
+  hasMorePages: boolean
+  /** Whether typing narrows the list server-side, i.e. `searchBy` is set. */
+  isSearchable: boolean
+  /**
+   * Loads one page of options, narrowed by what has been typed when the
+   * instruction sets `searchBy`. Feeds the select's infinite scroll.
+   */
+  loadAsyncValues: (
+    hint: string,
+    meta: { page: number },
+  ) => Promise<{ options: InputSelectValue[]; hasMore: boolean }>
 }
 
 /**
@@ -106,33 +119,48 @@ export function useResourceSelectOptions({
     "value",
   )
 
+  const recordCount = firstPage?.meta?.recordCount
+  const pageCount = firstPage?.meta?.pageCount
+
   return {
     initialValues,
     isLoading,
-    recordCount: firstPage?.meta?.recordCount,
+    recordCount,
     hasResolvedSelection:
       selectedValues.length === 0 ||
       selectedValues.every((value) =>
         initialValues.some((option) => option.value === value),
       ),
-    loadAsyncValues:
-      searchBy == null
-        ? undefined
-        : async (hint: string) => {
-            // the sdk resource is only known at runtime, so the `list` shape
-            // cannot be inferred from the union of all listable resources
-            const results = await (
-              sdkClient[resource] as unknown as {
-                list: (
-                  params: QueryParamsList,
-                ) => Promise<Array<Record<string, unknown>>>
-              }
-            ).list({
-              ...listQuery,
-              filters: { ...filters, [searchBy]: hint },
-            })
+    hasMorePages: pageCount != null && pageCount > 1,
+    isSearchable: searchBy != null,
+    loadAsyncValues: async (hint: string, { page }: { page: number }) => {
+      // the sdk resource is only known at runtime, so the `list` shape cannot be
+      // inferred from the union of all listable resources
+      const results = await (
+        sdkClient[resource] as unknown as {
+          list: (params: QueryParamsList) => Promise<
+            Array<Record<string, unknown>> & {
+              meta?: { pageCount?: number }
+            }
+          >
+        }
+      ).list({
+        ...listQuery,
+        pageNumber: page,
+        // an empty hint is every record, and `searchBy` is what makes narrowing
+        // possible at all — without it the menu can still be paged, just not
+        // searched
+        filters:
+          searchBy == null || hint === ""
+            ? filters
+            : { ...filters, [searchBy]: hint },
+      })
 
-            return results.map(toOption)
-          },
+      return {
+        options: results.map(toOption),
+        hasMore:
+          results.meta?.pageCount != null && results.meta.pageCount > page,
+      }
+    },
   }
 }

@@ -149,10 +149,47 @@ Async.args = {
     icon: "lightbulbFilament",
     text: "Try to search some of the following values: customer, SKU, price, tax",
   },
-  loadAsyncValues: async (hint) => {
+  loadAsyncValues: async (hint: string) => {
     return await new Promise<InputSelectValue[]>((resolve) => {
       setTimeout(() => {
         resolve(fakeSearch(hint))
+      }, 1000)
+    })
+  },
+}
+
+/**
+ * With `infiniteScroll`, the menu loads the page after the one it is showing as it
+ * is scrolled to the bottom, so a list longer than a single page can be browsed
+ * instead of only searched.
+ *
+ * `loadAsyncValues` is handed the page to fetch and answers with `hasMore`, which
+ * is what stops the paging. Anything passed as `initialValues` counts as the first
+ * page, so scrolling continues from the second one.
+ */
+export const AsyncInfiniteScroll = Template.bind({})
+AsyncInfiniteScroll.args = {
+  label: "Search resource",
+  placeholder: "Scroll for more...",
+  isSearchable: true,
+  isClearable: false,
+  debounceMs: 200,
+  hint: {
+    icon: "lightbulbFilament",
+    text: "Open the menu and scroll to the bottom to load more options",
+  },
+  infiniteScroll: true,
+  loadAsyncValues: async (hint, { page }) => {
+    const pageSize = 5
+    const matches = fakeSearch(hint)
+    const options = matches.slice((page - 1) * pageSize, page * pageSize)
+
+    return await new Promise<{
+      options: InputSelectValue[]
+      hasMore: boolean
+    }>((resolve) => {
+      setTimeout(() => {
+        resolve({ options, hasMore: matches.length > page * pageSize })
       }, 1000)
     })
   },
@@ -173,7 +210,7 @@ MenuFooterText.args = {
     text: "Try to search some of the following values: customer, SKU, price, tax",
   },
   initialValues: fullList.slice(0, 5),
-  loadAsyncValues: async (hint) => {
+  loadAsyncValues: async (hint: string) => {
     return await new Promise<InputSelectValue[]>((resolve) => {
       setTimeout(() => {
         resolve(fakeSearch(hint))
@@ -243,7 +280,7 @@ AsyncCreatable.args = {
     icon: "lightbulbFilament",
     text: "Try to search some of the following values: customer, SKU, price, tax or any other text",
   },
-  loadAsyncValues: async (hint) => {
+  loadAsyncValues: async (hint: string) => {
     return await new Promise<InputSelectValue[]>((resolve) => {
       setTimeout(() => {
         resolve(fakeSearch(hint))
@@ -266,7 +303,7 @@ AsTextSearch.args = {
   isClearable: false,
   asTextSearch: true,
   debounceMs: 200,
-  loadAsyncValues: async (hint) => {
+  loadAsyncValues: async (hint: string) => {
     const defaultValues = await new Promise<InputSelectValue[]>((resolve) => {
       setTimeout(() => {
         resolve(fakeSearch(hint))

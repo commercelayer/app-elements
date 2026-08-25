@@ -84,6 +84,8 @@ export function FiltersBarSelect({
     isLoading,
     recordCount,
     hasResolvedSelection,
+    hasMorePages,
+    isSearchable,
     loadAsyncValues,
   } = useResourceSelectOptions({
     props,
@@ -115,16 +117,38 @@ export function FiltersBarSelect({
   const allOption = { value: "", label: props.placeholder ?? item.label }
   const options = [allOption, ...initialValues]
 
+  // Only a list that runs past its first page needs to fetch: with everything
+  // already loaded the select filters what it holds, and no request is made just
+  // to open the menu.
+  //
+  // Where it does page, "All" rides on the first page of the resting list rather
+  // than on every response: it belongs to the list one browses, not to search
+  // results, so it heads the untouched menu and steps aside as soon as one types.
+  const paginationProps = hasMorePages
+    ? ({
+        infiniteScroll: true,
+        loadAsyncValues: async (hint: string, meta: { page: number }) => {
+          const { options, hasMore } = await loadAsyncValues(hint, meta)
+
+          return {
+            options:
+              hint === "" && meta.page === 1
+                ? [allOption, ...options]
+                : options,
+            hasMore,
+          }
+        },
+      } as const)
+    : {}
+
   return (
     <div className={triggerWidth}>
       <InputSelect
         aria-label={item.label}
         initialValues={options}
         isLoading={isLoading}
-        // the first page holds 25 options at most, so without searching the rest
-        // of a long list cannot be reached from here at all
-        loadAsyncValues={loadAsyncValues}
-        isSearchable={loadAsyncValues != null}
+        {...paginationProps}
+        isSearchable={isSearchable || !hasMorePages}
         isClearable={false}
         // lines up with the search field and the buttons beside it
         size="small"

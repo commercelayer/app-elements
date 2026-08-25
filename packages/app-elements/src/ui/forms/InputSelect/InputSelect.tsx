@@ -13,6 +13,7 @@ import {
 } from "#ui/internals/InputWrapper"
 import { AsyncSelectComponent } from "./AsyncComponent"
 import { AsyncCreatableSelectComponent } from "./AsyncCreatableComponent"
+import { AsyncPaginateSelectComponent } from "./AsyncPaginateComponent"
 import {
   CreatableComponent,
   type CreatableComponentProps,
@@ -37,7 +38,7 @@ export type PossibleSelectValue =
   | MultiValue<InputSelectValue>
   | SingleValue<InputSelectValue>
 
-export interface InputSelectProps extends InputWrapperBaseProps {
+export interface InputSelectBaseProps extends InputWrapperBaseProps {
   /**
    * Initial values to populate the select options. It can be a flat array of values or a grouped array.
    */
@@ -123,12 +124,6 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   className?: string
   /**
-   * Function to load async values on search
-   */
-  loadAsyncValues?: (
-    inputValue: string,
-  ) => Promise<GroupedSelectValues | InputSelectValue[]>
-  /**
    * Optional text to display at the bottom of the dropdown menu
    */
   menuFooterText?: string
@@ -163,6 +158,58 @@ export interface InputSelectProps extends InputWrapperBaseProps {
    */
   menuPortalTarget?: HTMLElement | null
 }
+
+/**
+ * Loads the options matching what has been typed, all in one go.
+ */
+export type LoadAsyncValues = (
+  inputValue: string,
+) => Promise<GroupedSelectValues | InputSelectValue[]>
+
+/**
+ * Loads one page of the options matching what has been typed.
+ *
+ * `hasMore` is what stops the paging: while it is `true` the menu asks for the
+ * page after the current one as it is scrolled to the bottom.
+ */
+export type LoadAsyncValuesPaginated = (
+  inputValue: string,
+  meta: { page: number },
+) => Promise<{ options: InputSelectValue[]; hasMore: boolean }>
+
+/**
+ * How the options are loaded, which also decides which select is mounted.
+ *
+ * The two are kept apart rather than folded into one optional flag so that
+ * turning `infiniteScroll` on makes the paginated loader mandatory — a loader
+ * that ignores the page it is handed would silently return the first page
+ * forever.
+ */
+export type InputSelectAsyncProps =
+  | {
+      /**
+       * Load the next page of options as the menu is scrolled, so that a list
+       * longer than one page can be browsed instead of only searched.
+       *
+       * Opt-in: without it the select keeps loading options the way it always
+       * has, one non-paginated request per search.
+       */
+      infiniteScroll?: false
+      /**
+       * Function to load async values on search
+       */
+      loadAsyncValues?: LoadAsyncValues
+    }
+  | {
+      infiniteScroll: true
+      /**
+       * Function to load one page of async values. Called again with the next
+       * page as the menu is scrolled to the bottom.
+       */
+      loadAsyncValues: LoadAsyncValuesPaginated
+    }
+
+export type InputSelectProps = InputSelectBaseProps & InputSelectAsyncProps
 
 /**
  * Advanced select component with support for async options loading and multi-select.
@@ -202,6 +249,7 @@ export const InputSelect = forwardRef<
       name,
       className,
       loadAsyncValues,
+      infiniteScroll,
       debounceMs,
       noOptionsMessage = t("common.no_results_found"),
       menuFooterText,
@@ -242,12 +290,24 @@ export const InputSelect = forwardRef<
         name={name}
         {...rest}
       >
-        {loadAsyncValues != null && isCreatable === true ? (
+        {loadAsyncValues != null && infiniteScroll === true ? (
+          <AsyncPaginateSelectComponent
+            {...commonProps}
+            ref={ref}
+            inputId={name}
+            loadAsyncValues={loadAsyncValues as LoadAsyncValuesPaginated}
+            hideDropdownIndicator={hideDropdownIndicator}
+            menuPortalTarget={menuPortalTarget}
+            debounceMs={debounceMs}
+            noOptionsMessage={noOptionsMessage}
+            isSearchable={isSearchable}
+          />
+        ) : loadAsyncValues != null && isCreatable === true ? (
           <AsyncCreatableSelectComponent
             {...commonProps}
             ref={ref}
             inputId={name}
-            loadAsyncValues={loadAsyncValues}
+            loadAsyncValues={loadAsyncValues as LoadAsyncValues}
             asTextSearch={asTextSearch}
             hideDropdownIndicator={hideDropdownIndicator}
             menuPortalTarget={menuPortalTarget}
@@ -259,7 +319,7 @@ export const InputSelect = forwardRef<
             {...commonProps}
             ref={ref}
             inputId={name}
-            loadAsyncValues={loadAsyncValues}
+            loadAsyncValues={loadAsyncValues as LoadAsyncValues}
             asTextSearch={asTextSearch}
             hideDropdownIndicator={hideDropdownIndicator}
             menuPortalTarget={menuPortalTarget}
