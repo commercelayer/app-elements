@@ -88,4 +88,106 @@ describe("SearchBar", () => {
     expect(handleClear).toHaveBeenNthCalledWith(1, "cleared")
     expect(input.value).toBe("")
   })
+  describe("minSearchLength", () => {
+    const renderWithThreshold = (): {
+      input: HTMLInputElement
+      onSearch: ReturnType<typeof vi.fn>
+      type: (value: string) => void
+    } => {
+      const onSearch = vi.fn()
+      const { getByTestId } = render(
+        <SearchBar onSearch={onSearch} debounceMs={100} minSearchLength={3} />,
+      )
+      const input = getByTestId("SearchBar-input") as HTMLInputElement
+
+      return {
+        input,
+        onSearch,
+        type: (value) => {
+          fireEvent.change(input, { target: { value } })
+          act(() => {
+            vi.advanceTimersByTime(110)
+          })
+        },
+      }
+    }
+
+    it("should not search below the threshold", () => {
+      const { onSearch, type } = renderWithThreshold()
+      type("fo")
+      expect(onSearch).not.toHaveBeenCalled()
+    })
+
+    it("should search once the threshold is reached", () => {
+      const { onSearch, type } = renderWithThreshold()
+      type("foo")
+      expect(onSearch).toHaveBeenNthCalledWith(1, "foo")
+    })
+
+    it("should not count wildcards at either end", () => {
+      const { onSearch, type } = renderWithThreshold()
+      // "fo*" is two characters the user actually typed, so it must wait
+      type("fo*")
+      expect(onSearch).not.toHaveBeenCalled()
+
+      type("foo*")
+      expect(onSearch).toHaveBeenNthCalledWith(1, "foo*")
+    })
+
+    it("should count a wildcard that is not at either end", () => {
+      const { onSearch, type } = renderWithThreshold()
+      type("f*o")
+      expect(onSearch).toHaveBeenNthCalledWith(1, "f*o")
+    })
+
+    it("should clear the search once, when the term falls below the threshold", () => {
+      const { onSearch, type } = renderWithThreshold()
+      type("foo")
+      expect(onSearch).toHaveBeenNthCalledWith(1, "foo")
+
+      // dropping below the threshold means "no search", so the list must not
+      // keep showing results for a term the input no longer holds
+      type("fo")
+      expect(onSearch).toHaveBeenNthCalledWith(2, "")
+
+      // and staying below it must not ask for the same unfiltered list again
+      type("f")
+      expect(onSearch).toHaveBeenCalledTimes(2)
+    })
+
+    it("should default to two characters", () => {
+      const onSearch = vi.fn()
+      const { getByTestId } = render(
+        <SearchBar onSearch={onSearch} debounceMs={100} />,
+      )
+      const input = getByTestId("SearchBar-input")
+      const type = (value: string): void => {
+        fireEvent.change(input, { target: { value } })
+        act(() => {
+          vi.advanceTimersByTime(110)
+        })
+      }
+
+      // a single character matches most of any collection, so it is not worth a request
+      type("f")
+      expect(onSearch).not.toHaveBeenCalled()
+
+      type("fo")
+      expect(onSearch).toHaveBeenNthCalledWith(1, "fo")
+    })
+
+    it("should search on every keystroke when the threshold is disabled", () => {
+      const onSearch = vi.fn()
+      const { getByTestId } = render(
+        <SearchBar onSearch={onSearch} debounceMs={100} minSearchLength={0} />,
+      )
+      fireEvent.change(getByTestId("SearchBar-input"), {
+        target: { value: "f" },
+      })
+      act(() => {
+        vi.advanceTimersByTime(110)
+      })
+      expect(onSearch).toHaveBeenNthCalledWith(1, "f")
+    })
+  })
 })

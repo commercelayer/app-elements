@@ -1,7 +1,7 @@
 import cn from "classnames"
 import debounce from "lodash-es/debounce"
 import isEmpty from "lodash-es/isEmpty"
-import { forwardRef, useCallback, useEffect, useState } from "react"
+import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
 import { t } from "#providers/I18NProvider"
 import {
   SkeletonTemplate,
@@ -45,6 +45,21 @@ export interface SearchBarProps
    * Variant of the search bar
    */
   variant?: "outline"
+  /**
+   * Number of characters the user has to type before a search is triggered.
+   *
+   * Leading and trailing `*` are not counted: where they act as wildcards they
+   * stand in for the rest of the term rather than being part of it, so `fo*` is
+   * two characters and does not reach a threshold of three.
+   *
+   * Below the threshold the search reads as empty, so the list shows unfiltered
+   * results instead of the ones from the last term long enough to run.
+   *
+   * A single character matches most of any collection, so the request it costs
+   * buys nothing. Pass `0` to search on every keystroke anyway.
+   * @default 2
+   */
+  minSearchLength?: number
 }
 
 /**
@@ -65,18 +80,38 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       isLoading,
       delayMs,
       variant,
+      minSearchLength = 2,
       ...rest
     },
     ref,
   ) => {
     const [searchValue, setSearchValue] = useState("")
+    // what the consumer was last told, so a term that stays below the threshold
+    // does not ask for the same unfiltered list on every keystroke
+    const lastSearchedRef = useRef<string | null>(null)
 
-    const debouncedOnSearch = useCallback(debounce(onSearch, debounceMs), [
-      onSearch,
+    const search = useCallback(
+      (value: string) => {
+        const searchable =
+          countSearchableCharacters(value) >= minSearchLength ? value : ""
+
+        if (lastSearchedRef.current === searchable) {
+          return
+        }
+
+        lastSearchedRef.current = searchable
+        onSearch(searchable)
+      },
+      [minSearchLength, onSearch],
+    )
+
+    const debouncedOnSearch = useCallback(debounce(search, debounceMs), [
+      search,
     ])
 
     useEffect(() => {
       setSearchValue(initialValue)
+      lastSearchedRef.current = initialValue
     }, [initialValue])
 
     useEffect(
@@ -142,6 +177,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
               aria-label={t("common.clear_text")}
               onClick={() => {
                 setSearchValue("")
+                lastSearchedRef.current = ""
                 onClear()
               }}
             >
@@ -155,3 +191,17 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
 )
 
 SearchBar.displayName = "SearchBar"
+
+/**
+ * How many characters of a search term count towards `minSearchLength`.
+ *
+ * Wildcards at either end are stripped: in the apps that support them a
+ * trailing `*` is what makes the term a prefix search, so counting it would let
+ * `fo*` pass a threshold that `fo` does not.
+ */
+function countSearchableCharacters(value: string): number {
+  return value
+    .trim()
+    .replace(/^\*+|\*+$/g, "")
+    .trim().length
+}
