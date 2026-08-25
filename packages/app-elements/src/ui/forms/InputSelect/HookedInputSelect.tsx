@@ -4,14 +4,15 @@ import type { GroupBase, SelectInstance } from "react-select"
 import { useValidationFeedback } from "../ReactHookForm"
 import {
   InputSelect,
-  type InputSelectProps,
+  type InputSelectAsyncProps,
+  type InputSelectBaseProps,
   type InputSelectValue,
   type PossibleSelectValue,
 } from "./InputSelect"
 import { flatSelectValues, getDefaultValueFromFlatten } from "./utils"
 
-export interface HookedInputSelectProps
-  extends Omit<InputSelectProps, "onSelect" | "defaultValue"> {
+interface HookedInputSelectOwnProps
+  extends Omit<InputSelectBaseProps, "onSelect" | "defaultValue"> {
   /**
    * field name to match hook-form state
    */
@@ -39,6 +40,14 @@ export interface HookedInputSelectProps
    */
   onSelect?: (value: PossibleSelectValue) => void
 }
+
+/**
+ * The async half is intersected in rather than derived with `Omit`/`Pick`, as
+ * both collapse a union — and with it the rule that `infiniteScroll` requires the
+ * paginated loader.
+ */
+export type HookedInputSelectProps = HookedInputSelectOwnProps &
+  InputSelectAsyncProps
 
 /**
  * `InputSelect` component ready to be used with the `react-hook-form` context.

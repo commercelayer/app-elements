@@ -5,8 +5,12 @@ export {
 export {
   type GroupedSelectValues,
   InputSelect,
+  type InputSelectAsyncProps,
+  type InputSelectBaseProps,
   type InputSelectProps,
   type InputSelectValue,
+  type LoadAsyncValues,
+  type LoadAsyncValuesPaginated,
   type PossibleSelectValue,
 } from "./InputSelect"
 export {

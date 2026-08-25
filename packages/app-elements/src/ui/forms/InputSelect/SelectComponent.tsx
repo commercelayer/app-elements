@@ -4,11 +4,11 @@ import Select, {
   type SelectInstance,
   type StylesConfig,
 } from "react-select"
-import type { InputSelectProps, InputSelectValue } from "./InputSelect"
+import type { InputSelectBaseProps, InputSelectValue } from "./InputSelect"
 import components from "./overrides"
 
 export interface SelectComponentProps
-  extends Omit<InputSelectProps, "loadAsyncValues" | "label" | "hint"> {
+  extends Omit<InputSelectBaseProps, "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
 }
 

@@ -15,6 +15,7 @@ import {
   type SingleValueProps,
   type ValueContainerProps,
 } from "react-select"
+import { t } from "#providers/I18NProvider"
 import { Hr } from "#ui/atoms/Hr"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Tag } from "#ui/atoms/Tag"
@@ -144,10 +145,23 @@ function MenuList(props: MenuListProps<InputSelectValue>): JSX.Element {
   const isLoading = Boolean(props.isLoading)
   // @ts-expect-error I found no way to enhance `props.selectProps` definitions with custom ones specified in our wrapped `InputSelect` component
   const menuFooterText = props.selectProps.menuFooterText as string | undefined
+  // @ts-expect-error same as above: set by the paginated async select
+  const isPaginated = props.selectProps.isPaginated === true
+
+  // A paginated menu keeps the options it already has while the next page is on
+  // its way, so the control's spinner is the only sign anything is happening and
+  // it sits far from where the user is looking. This says it at the bottom, right
+  // under the row that has just been scrolled past.
+  const isLoadingMore = isPaginated && isLoading && props.options.length > 0
 
   return (
     <components.MenuList {...props}>
       {props.children}
+      {isLoadingMore ? (
+        <div className="px-4 py-2 text-sm text-gray-500">
+          {t("common.loading")}
+        </div>
+      ) : null}
       {menuFooterText != null && !isLoading && props.options.length > 0 ? (
         <div className="px-4 py-2 text-sm text-gray-500">{menuFooterText}</div>
       ) : null}
