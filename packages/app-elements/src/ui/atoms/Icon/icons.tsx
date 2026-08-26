@@ -73,6 +73,7 @@ export const iconMapping = {
   globeHemisphereWest: phosphor.GlobeHemisphereWestIcon,
   googleLogo: phosphor.GoogleLogoIcon,
   hourglass: phosphor.HourglassIcon,
+  hourglassHigh: phosphor.HourglassHighIcon,
   houseSimple: phosphor.HouseSimpleIcon,
   info: phosphor.InfoIcon,
   key: phosphor.KeyIcon,
