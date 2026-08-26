@@ -1,11 +1,15 @@
-import type { ListableResourceType } from "@commercelayer/sdk"
+import type {
+  CommerceLayerClient,
+  ListableResourceType,
+  TaggableResourceType,
+} from "@commercelayer/sdk"
 import isEmpty from "lodash-es/isEmpty"
 import { isMockedId } from "#helpers/mocks"
 import {
   type EditTagsOverlayProps,
   useEditTagsOverlay,
 } from "#hooks/useEditTagsOverlay"
-import { useCoreApi } from "#providers/CoreSdkProvider"
+import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Icon } from "#ui/atoms/Icon"
@@ -17,46 +21,34 @@ import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
 
+export type TaggableResource = TaggableResourceType
+
 /**
- * The resources the API can tag, as a value so that a caller can ask at runtime —
- * `ResourceAdminBlocks` leaves the block out for a stock item or an import.
+ * Whether the API can tag this resource — `ResourceAdminBlocks` leaves the Tags
+ * block out for a stock item or an import.
  *
- * The SDK declares an `isTaggable()` helper and a `taggableResources` array in its
- * types but ships neither in its build, so calling them typechecks and then throws.
- * Hence our own list, checked against `ListableResourceType` by `satisfies`.
+ * The SDK declares an `isTaggable()` helper and a `taggableResources` array, but
+ * ships them only from its `enum` entrypoint, which isn't in the package's public
+ * `exports` map, so importing them throws. Rather than hand-maintain that list
+ * ourselves, we ask the client instance directly: a resource is taggable exactly
+ * when its endpoint exposes a `tags()` method. Reading the client makes this a
+ * hook rather than a plain function — call it unconditionally, like any other.
  */
-export const taggableResources = [
-  "addresses",
-  "bundles",
-  "coupons",
-  "customers",
-  "gift_cards",
-  "line_items",
-  "line_item_options",
-  "order_subscriptions",
-  "orders",
-  "buy_x_pay_y_promotions",
-  "external_promotions",
-  "fixed_amount_promotions",
-  "fixed_price_promotions",
-  "flex_promotions",
-  "free_gift_promotions",
-  "free_shipping_promotions",
-  "percentage_discount_promotions",
-  "returns",
-  "shipments",
-  "shipping_methods",
-  "sku_options",
-  "skus",
-] as const satisfies readonly ListableResourceType[]
 
-export type TaggableResource = (typeof taggableResources)[number]
-
-/** Whether the API can tag this resource. */
 export function isTaggableResource(
   resourceType: ListableResourceType,
+  sdkClient: CommerceLayerClient,
 ): resourceType is TaggableResource {
-  return (taggableResources as readonly string[]).includes(resourceType)
+  return (
+    typeof (sdkClient[resourceType] as { tags?: unknown })?.tags === "function"
+  )
+}
+
+export function useIsTaggableResource(
+  resourceType: ListableResourceType,
+): resourceType is TaggableResource {
+  const { sdkClient } = useCoreSdkProvider()
+  return isTaggableResource(resourceType, sdkClient)
 }
 
 interface TagsOverlay
