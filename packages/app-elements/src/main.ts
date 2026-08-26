@@ -441,7 +441,7 @@ export {
   ResourceTags,
   type ResourceTagsProps,
   type TaggableResource,
-  taggableResources,
+  useIsTaggableResource,
 } from "#ui/resources/ResourceTags"
 export {
   type FiltersInstructions,
