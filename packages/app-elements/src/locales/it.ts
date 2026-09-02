@@ -103,7 +103,7 @@ const it: typeof en = {
       no_resource_found_for_organization:
         "Nessuna risorsa {{resource}} trovata per questa organizzazione.",
       no_resources_found_for_filters:
-        "Non ci sono {{resources}} che corrispondono ai filtri selezionati.",
+        "Nessuna risorsa {{resource}} corrisponde ai filtri selezionati.",
     },
     forms: {
       currency_code_not_valid:
@@ -324,6 +324,11 @@ const it: typeof en = {
         billing_address: "Indirizzo di fatturazione",
         shipping_address: "Indirizzo di spedizione",
       },
+    },
+    order_subscriptions: {
+      name: "Abbonamento",
+      name_other: "Abbonamenti",
+      attributes: {},
     },
     gift_cards: {
       name: "Carta regalo",

@@ -93,6 +93,11 @@ const resources = {
       shipping_address: "Shipping address",
     },
   },
+  order_subscriptions: {
+    name: "Subscription",
+    name_other: "Subscriptions",
+    attributes: {},
+  },
   gift_cards: {
     name: "Gift card",
     name_other: "Gift cards",
@@ -323,9 +328,9 @@ const en = {
       no_resources_found_for_list:
         "There are no {{resources}} for the current list.",
       no_resource_found_for_organization:
-        "No {{resource}} found for this organization.",
+        "No {{resources}} found for this organization.",
       no_resources_found_for_filters:
-        "We didn't find any {{resources}} matching the current filters selection.",
+        "No {{resources}} match the current filters.",
     },
     generic_select_autocomplete_hint: "Type to search for more options.",
     forms: {
