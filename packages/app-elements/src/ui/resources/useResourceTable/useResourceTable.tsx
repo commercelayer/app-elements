@@ -16,11 +16,16 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { Table, Td, Th, Tr } from "#ui/atoms/Table"
 import { Text } from "#ui/atoms/Text"
 import { VisibilityTrigger } from "#ui/atoms/VisibilityTrigger"
-import type { Resource } from "../useResourceList/listFetcher"
+import type {
+  ApiFlavour,
+  ClientFor,
+  ListableResourceTypeFor,
+  ResourceFor,
+} from "../useResourceList/apiFlavour"
 import {
   type UseResourceListConfig,
   type UseResourceListReturnWithPagination,
-  useResourceList,
+  useResourceListForApi,
 } from "../useResourceList/useResourceList"
 import { computeTitleWithTotalCount } from "../useResourceList/utils"
 import type {
@@ -47,10 +52,10 @@ const EMPTY_DATA: unknown[] = []
 type TableRow = { id: string }
 
 /** Resolve a stable column id: explicit `id`, then `sortBy`, then positional. */
-function getColumnId<T extends ListableResourceType>(
-  column: ResourceTableColumn<T>,
-  index: number,
-): string {
+function getColumnId<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+>(column: ResourceTableColumn<TResource, TApi>, index: number): string {
   return column.id ?? column.sortBy ?? `col-${index}`
 }
 
@@ -347,9 +352,40 @@ function visibilityClassName(
  * replaces item rendering with a TanStack-driven table. Sorting, filtering,
  * search and pagination are all resolved server-side.
  */
-export function useResourceTable<TResource extends ListableResourceType>(
-  config: UseResourceTableConfig<TResource>,
-): UseResourceTableReturn<TResource> {
+// Overload: the Provisioning API, whose client the caller owns
+export function useResourceTable<
+  TResource extends ListableResourceTypeFor<"provisioning">,
+>(
+  config: UseResourceTableConfig<TResource, "provisioning"> & {
+    api: "provisioning"
+    client: ClientFor<"provisioning">
+    /** Metrics is a transport for Core resources: it has no Provisioning side. */
+    metricsQuery?: never
+  },
+): UseResourceTableReturn<TResource, "provisioning">
+
+// Overload: the Core API, whose client comes from `CoreSdkProvider`
+export function useResourceTable<
+  TResource extends ListableResourceTypeFor<"core">,
+>(
+  config: UseResourceTableConfig<TResource, "core">,
+): UseResourceTableReturn<TResource, "core">
+
+// Implementation signature
+export function useResourceTable<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+>(
+  config: UseResourceTableConfig<TResource, TApi>,
+): UseResourceTableReturn<TResource, TApi> {
+  // The flavour and, for provisioning, the caller's client. Read through a plain
+  // view of the config: their declared types are conditional on `TApi`, which
+  // cannot be destructured while the flavour is still a type parameter.
+  const { api, client } = config as {
+    api?: ApiFlavour
+    client?: ClientFor<"provisioning">
+  }
+
   const {
     type,
     columns,
@@ -370,11 +406,11 @@ export function useResourceTable<TResource extends ListableResourceType>(
   // Sort state: controlled when `onSortChange` is provided, otherwise internal.
   const isControlled = onSortChange != null
   const [internalSort, setInternalSort] = useState<
-    ResourceTableSort<TResource>
+    ResourceTableSort<TResource, TApi>
   >(() => defaultSort)
   const sort = isControlled ? controlledSort : internalSort
   const setSort = useCallback(
-    (next: ResourceTableSort<TResource>) => {
+    (next: ResourceTableSort<TResource, TApi>) => {
       if (isControlled) {
         onSortChange?.(next)
       } else {
@@ -397,7 +433,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
       ({
         ...query,
         ...(!isMetrics && sort != null && sort !== "" ? { sort: [sort] } : {}),
-      }) as NonNullable<UseResourceListConfig<TResource>["query"]>,
+      }) as NonNullable<UseResourceListConfig<TResource, TApi>["query"]>,
     [query, sort, isMetrics],
   )
 
@@ -418,17 +454,25 @@ export function useResourceTable<TResource extends ListableResourceType>(
             }
           : {}),
       },
-    } as NonNullable<UseResourceListConfig<TResource>["metricsQuery"]>
+    } as NonNullable<
+      UseResourceListConfig<ListableResourceType, "core">["metricsQuery"]
+    >
   }, [metricsQuery, sort])
 
-  const result = useResourceList<TResource>({
+  // The cast is the one place the flavour has to be taken on trust: everything
+  // here came out of a `UseResourceTableConfig` that already satisfied the pairing
+  // rules (a provisioning table cannot be built without a client), but TypeScript
+  // cannot re-check a conditional type while `TApi` is still a parameter.
+  const result = useResourceListForApi<TResource, TApi>({
     type,
+    api,
+    client,
     query: mergedQuery,
     metricsQuery: mergedMetricsQuery,
     preProcess,
     paginationType,
     paginationScrollTo,
-  })
+  } as UseResourceListConfig<TResource, TApi>)
 
   const {
     list,
@@ -444,12 +488,13 @@ export function useResourceTable<TResource extends ListableResourceType>(
 
   const Pagination =
     paginationType === "pagination"
-      ? (result as UseResourceListReturnWithPagination<TResource>).Pagination
+      ? (result as UseResourceListReturnWithPagination<TResource, TApi>)
+          .Pagination
       : NullComponent
 
   const tableColumns = useMemo(() => {
     // Type the column helper/table with a minimal row shape rather than the full
-    // `Resource<TResource>` SDK union: pushing that large conditional type
+    // `ResourceFor<TApi, TResource>` SDK union: pushing that large conditional type
     // through TanStack's generics while `TResource` is unresolved triggers
     // "excessively deep" (TS2589). The real row type is preserved by the
     // `ResourceTableColumn` public API and the cast in `cell`.
@@ -460,7 +505,9 @@ export function useResourceTable<TResource extends ListableResourceType>(
           id: getColumnId(column, index),
           header: () => column.header,
           cell: ({ row }) =>
-            column.cell({ resource: row.original as Resource<TResource> }),
+            column.cell({
+              resource: row.original as ResourceFor<TApi, TResource>,
+            }),
         }),
       ),
     )
@@ -570,7 +617,13 @@ export function useResourceTable<TResource extends ListableResourceType>(
 
       const defaultEmptyState = (
         <Text variant="info">
-          No {formatResourceName({ resource: type, count: "plural" })}.
+          No{" "}
+          {formatResourceName({
+            // only used to build the "No <things>." label
+            resource: type as ListableResourceType,
+            count: "plural",
+          })}
+          .
         </Text>
       )
 
@@ -638,7 +691,7 @@ export function useResourceTable<TResource extends ListableResourceType>(
           {isFirstLoading
             ? renderSkeletonRows(8, "skeleton")
             : table.getRowModel().rows.map((row) => {
-                const resource = row.original as Resource<TResource>
+                const resource = row.original as ResourceFor<TApi, TResource>
                 const href = getRowHref?.(resource)
                 const clickable = href != null || onRowClick != null
                 return (

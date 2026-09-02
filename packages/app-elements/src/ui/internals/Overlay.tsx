@@ -145,7 +145,9 @@ export const Overlay: React.FC<OverlayProps> = ({
           "overlay-container",
           "fixed z-50 h-full overflow-y-auto outline-hidden",
           {
-            "bg-gray-50": backgroundColor === "light",
+            // the class is what a block sitting on this surface reads to pick its
+            // own shade: `bg-gray-50` alone is invisible on a gray-50 overlay
+            "bg-gray-50 overlay-container-light": backgroundColor === "light",
             "bg-white": backgroundColor == null,
             "inset-0 w-full": !drawer,
             // Full width on mobile. There used to be a 95vw max-width here, but it

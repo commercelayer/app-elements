@@ -1,4 +1,11 @@
-import type { ListableResourceType } from "@commercelayer/sdk"
+import type { AnyListableResourceType } from "./apiFlavour"
+
+/**
+ * The resource type a signal is addressed to, from either API flavour. One flat
+ * keyspace is safe because the two flavours' listable types are disjoint —
+ * `organizations` exists in Core but is excluded from its listable union.
+ */
+type ResourceListKey = AnyListableResourceType
 
 /**
  * What a mounted list is being asked to do.
@@ -11,14 +18,14 @@ type ResourceListSignal =
 
 type ResourceListSubscriber = (signal: ResourceListSignal) => void
 
-const subscribers = new Map<ListableResourceType, Set<ResourceListSubscriber>>()
+const subscribers = new Map<ResourceListKey, Set<ResourceListSubscriber>>()
 
 /**
  * Subscribe a mounted list to the signals for a resource type.
  * Called by `useResourceList`; returns the unsubscribe function.
  */
 export function subscribeToResourceLists(
-  type: ListableResourceType,
+  type: ResourceListKey,
   subscriber: ResourceListSubscriber,
 ): () => void {
   const forType = subscribers.get(type) ?? new Set<ResourceListSubscriber>()
@@ -33,7 +40,7 @@ export function subscribeToResourceLists(
   }
 }
 
-function emit(type: ListableResourceType, signal: ResourceListSignal): void {
+function emit(type: ResourceListKey, signal: ResourceListSignal): void {
   // copied before iterating: a subscriber could unsubscribe while we notify
   const forType = subscribers.get(type)
   if (forType == null) {
@@ -59,7 +66,7 @@ function emit(type: ListableResourceType, signal: ResourceListSignal): void {
  * removeFromResourceLists("stock_items", stockItem.id)
  */
 export function removeFromResourceLists(
-  type: ListableResourceType,
+  type: ResourceListKey,
   resourceId: string,
 ): void {
   emit(type, { kind: "removeItem", resourceId })
@@ -76,6 +83,6 @@ export function removeFromResourceLists(
  * A signal emitted while no list is mounted is a no-op — which is harmless,
  * since a list fetches on mount anyway.
  */
-export function refreshResourceLists(type: ListableResourceType): void {
+export function refreshResourceLists(type: ResourceListKey): void {
   emit(type, { kind: "refresh" })
 }

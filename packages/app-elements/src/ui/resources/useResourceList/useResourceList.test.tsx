@@ -19,7 +19,7 @@ const mockedOrder: Order = {
 }
 
 const ResourceListImplementation: FC<
-  Pick<UseResourceListConfig<any>, "query">
+  Pick<UseResourceListConfig<"orders">, "query">
 > = ({ query }) => {
   const { ResourceList } = useResourceList({
     type: "orders",

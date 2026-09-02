@@ -1,19 +1,29 @@
-import type { ListableResourceType } from "@commercelayer/sdk"
-import type { FetcherResponse, Resource } from "./listFetcher"
+import type { FetcherResponse } from "./listFetcher"
 
-interface ResourceListInternalState<TResource extends ListableResourceType> {
+/**
+ * Parameterised by the record shape, not by a resource type: nothing here depends
+ * on which API the list came from, only on the records having an `id`.
+ */
+export interface ResourceListInternalState<TItem extends { id: string }> {
   isLoading: boolean
   error?: {
     message: string
   }
-  data?: FetcherResponse<Resource<TResource>> | undefined
+  data?: FetcherResponse<TItem> | undefined
 }
 
-export const initialState: ResourceListInternalState<ListableResourceType> = {
+export const initialState: ResourceListInternalState<{ id: string }> = {
   isLoading: true,
 }
 
-type Action<TResource extends ListableResourceType> =
+/** The same initial state, typed for the records this list will hold. */
+export function createInitialState<
+  TItem extends { id: string },
+>(): ResourceListInternalState<TItem> {
+  return { isLoading: true }
+}
+
+export type Action<TItem extends { id: string }> =
   | {
       type: "prepare"
     }
@@ -22,7 +32,7 @@ type Action<TResource extends ListableResourceType> =
     }
   | {
       type: "loaded"
-      payload: FetcherResponse<Resource<TResource>>
+      payload: FetcherResponse<TItem>
     }
   | {
       type: "error"
@@ -35,10 +45,10 @@ type Action<TResource extends ListableResourceType> =
       }
     }
 
-export const reducer = <TResource extends ListableResourceType>(
-  state: ResourceListInternalState<TResource>,
-  action: Action<TResource>,
-): ResourceListInternalState<TResource> => {
+export const reducer = <TItem extends { id: string }>(
+  state: ResourceListInternalState<TItem>,
+  action: Action<TItem>,
+): ResourceListInternalState<TItem> => {
   switch (action.type) {
     case "prepare":
       return {

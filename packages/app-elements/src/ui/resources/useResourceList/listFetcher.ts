@@ -1,10 +1,15 @@
 import type {
   CommerceLayerBundle,
   ListableResourceType,
-  QueryParamsList,
-  ResourceFields,
 } from "@commercelayer/sdk"
 import uniqBy from "lodash-es/uniqBy"
+import type {
+  ApiFlavour,
+  ClientFor,
+  ListableResourceTypeFor,
+  QueryParamsListFor,
+  ResourceFor,
+} from "./apiFlavour"
 import {
   isValidMetricsResource,
   type MetricsApiClient,
@@ -18,6 +23,35 @@ type ListResource<TResource extends ListableResourceType> = Awaited<
 export type Resource<TResource extends ListableResourceType> =
   ListResource<TResource>[number]
 
+/**
+ * The part of an SDK client a list actually touches. Both the Core and the
+ * Provisioning client match it, which is what lets one fetcher serve both.
+ */
+interface SdkListResource<TResource> {
+  list: (
+    params: Record<string, unknown>,
+  ) => Promise<Array<TResource> & { meta: FetcherResponse<TResource>["meta"] }>
+}
+
+/**
+ * The `client.orders` / `client.roles` accessor for a resource type.
+ *
+ * Indexing either SDK's client by a generic resource type defeats its types
+ * ("union type too complex to represent"), so the lookup is made against the shape
+ * both clients share. The resource type is constrained to a listable one of the
+ * flavour in use, so the accessor is always there.
+ */
+function listResourceOf<TResource>(
+  client: unknown,
+  resourceType: string,
+): SdkListResource<TResource> {
+  // the cast past `noUncheckedIndexedAccess`: a listable resource type always has
+  // its accessor on the client of the flavour it belongs to
+  return (client as Record<string, SdkListResource<TResource>>)[
+    resourceType
+  ] as SdkListResource<TResource>
+}
+
 export interface FetcherResponse<TResource> {
   list: TResource[]
   meta: {
@@ -29,7 +63,10 @@ export interface FetcherResponse<TResource> {
   }
 }
 
-export async function listFetcher<TResource extends ListableResourceType>({
+export async function listFetcher<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+>({
   currentData,
   resourceType,
   client,
@@ -39,7 +76,7 @@ export async function listFetcher<TResource extends ListableResourceType>({
   pageNumber,
   cursor,
 }: {
-  currentData?: FetcherResponse<Resource<TResource>>
+  currentData?: FetcherResponse<ResourceFor<TApi, TResource>>
   resourceType: TResource
   mode?: "infinite" | "pagination"
   pageNumber?: number
@@ -53,14 +90,23 @@ export async function listFetcher<TResource extends ListableResourceType>({
   | {
       client: CommerceLayerBundle
       clientType: "coreSdkClient"
-      query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
+      query?: QueryParamsListFor<TApi, TResource>
     }
   | {
       client: MetricsApiClient
       clientType: "metricsClient"
       query: Record<string, Record<string, unknown>>
     }
-)): Promise<FetcherResponse<Resource<TResource>>> {
+  | {
+      /**
+       * Provisioning API. The client is built by the caller — app-elements has no
+       * provisioning token — and is otherwise used exactly like the core one.
+       */
+      client: ClientFor<"provisioning">
+      clientType: "provisioningSdkClient"
+      query?: QueryParamsListFor<TApi, TResource>
+    }
+)): Promise<FetcherResponse<ResourceFor<TApi, TResource>>> {
   const currentPage = currentData?.meta.currentPage ?? 0
   const pageToFetch =
     mode === "pagination" && pageNumber != null ? pageNumber : currentPage + 1
@@ -71,7 +117,7 @@ export async function listFetcher<TResource extends ListableResourceType>({
 
   const listResponse =
     clientType === "metricsClient"
-      ? await client.list(resourceType as MetricsResources, {
+      ? await client.list(resourceType as unknown as MetricsResources, {
           ...query,
           search: {
             ...query.search,
@@ -84,23 +130,34 @@ export async function listFetcher<TResource extends ListableResourceType>({
                 : (currentData?.meta.cursor ?? null),
           },
         })
-      : // @ts-expect-error "Expression produces a union type that is too complex to represent"
-        await client[resourceType].list({
+      : await listResourceOf<ResourceFor<TApi, TResource>>(
+          client,
+          resourceType,
+        ).list({
           ...query,
           pageNumber: pageToFetch,
         })
 
-  // we need the primitive array
-  // without the sdk added methods ('meta' | 'first' | 'last' | 'get')
+  // the primitive array, without the methods every SDK adds to its list response
+  // ('meta' | 'first' | 'last' | 'get'), and typed as this flavour's resource:
+  // each client returns its own shape, but from here on they are all the same list
+  const fetchedList = [...listResponse] as Array<ResourceFor<TApi, TResource>>
   const existingList = currentData?.list ?? []
   // In pagination mode, replace the list instead of accumulating
   const uniqueList =
     mode === "pagination"
-      ? [...listResponse]
-      : uniqBy(existingList.concat(listResponse), "id")
-  // The core SDK's `meta.cursor` is an object we don't use here; keep only the
-  // string cursor set by the metrics client for infinite scrolling.
-  const { cursor: responseCursor, ...rest } = listResponse.meta
+      ? fetchedList
+      : uniqBy(existingList.concat(fetchedList), "id")
+  // The core SDK's `meta.cursor` is an object we don't use here, and the
+  // provisioning one has no cursor at all; keep only the string cursor set by the
+  // metrics client for infinite scrolling.
+  const { cursor: responseCursor, ...rest } = listResponse.meta as {
+    pageCount: number
+    recordCount: number
+    currentPage: number
+    recordsPerPage: number
+    cursor?: unknown
+  }
   const meta = {
     ...rest,
     cursor: typeof responseCursor === "string" ? responseCursor : null,
