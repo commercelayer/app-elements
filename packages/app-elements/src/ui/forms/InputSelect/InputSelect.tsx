@@ -1,6 +1,7 @@
 import { type FocusEventHandler, forwardRef } from "react"
 import type {
   GroupBase,
+  MenuPlacement,
   MultiValue,
   Options,
   SelectInstance,
@@ -157,6 +158,16 @@ export interface InputSelectBaseProps extends InputWrapperBaseProps {
    * Whether the menu should use a portal, and where it should attach to.
    */
   menuPortalTarget?: HTMLElement | null
+  /**
+   * Which side of the control the menu opens on.
+   *
+   * `auto` — the default here, unlike react-select's own `bottom` — flips the menu
+   * above the control when there is not enough room below it. That matters inside
+   * a scrolling container such as a details drawer: a menu opening downwards past
+   * the bottom extends the container's scroll height, and react-select then
+   * scrolls it into view, so the whole panel jumps under the pointer.
+   */
+  menuPlacement?: MenuPlacement
 }
 
 /**
@@ -257,6 +268,7 @@ export const InputSelect = forwardRef<
       asTextSearch,
       hideDropdownIndicator,
       menuPortalTarget,
+      menuPlacement = "auto",
       ...rest
     },
     ref,
@@ -279,6 +291,7 @@ export const InputSelect = forwardRef<
       name,
       styles: getSelectStyles(feedback?.variant, size),
       menuFooterText,
+      menuPlacement,
     }
 
     return (
