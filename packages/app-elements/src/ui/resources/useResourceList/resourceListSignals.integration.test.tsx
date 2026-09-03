@@ -121,6 +121,40 @@ describe("resource list signals, against a mounted list", () => {
     expect(await findByText("Order #1001")).toBeInTheDocument()
   })
 
+  it("refetches the first page, so a record created elsewhere shows up", async () => {
+    // an infinite list works out the page to ask for from the data it holds, so a
+    // refresh that kept that data would fetch the page *after* the last one and
+    // append it — leaving a record created at the top of the list invisible
+    const requestedPages: number[] = []
+    const orders = [...mockedOrders]
+    server.use(
+      http.get(`https://*/api/orders`, ({ request }) => {
+        const url = new URL(request.url)
+        requestedPages.push(Number(url.searchParams.get("page[number]") ?? 1))
+        return HttpResponse.json({
+          data: orders.map((order) => ({
+            id: order.id,
+            type: "orders",
+            attributes: { number: order.number },
+          })),
+          meta: { record_count: orders.length, page_count: 1 },
+        })
+      }),
+    )
+
+    const { findByText } = renderList()
+    expect(await findByText("Order #1001")).toBeInTheDocument()
+    expect(requestedPages).toEqual([1])
+
+    orders.unshift({ id: "order-3", number: 1003 })
+    act(() => {
+      refreshResourceLists("orders")
+    })
+
+    expect(await findByText("Order #1003")).toBeInTheDocument()
+    expect(requestedPages).toEqual([1, 1])
+  })
+
   it("stops listening once unmounted", async () => {
     mockOrdersList()
     const { findByText, unmount } = renderList()

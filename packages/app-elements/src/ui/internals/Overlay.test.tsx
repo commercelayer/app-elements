@@ -1,7 +1,39 @@
 import { render, waitFor } from "@testing-library/react"
+import { CodeBlock } from "#ui/atoms/CodeBlock"
 import { Modal } from "#ui/composite/Modal"
 import { Input } from "#ui/forms/Input"
 import { Overlay } from "./Overlay"
+
+describe("Overlay surface", () => {
+  /**
+   * The class is a contract with the blocks rendered on the surface: `CodeBlock`
+   * reads it to go a shade darker, because its own `bg-gray-50` would be
+   * invisible on a gray-50 overlay. A white overlay must not carry it.
+   */
+  test("Should announce a light surface, so blocks on it can darken", () => {
+    const { getByTestId } = render(
+      <Overlay backgroundColor="light">
+        <CodeBlock>secret</CodeBlock>
+      </Overlay>,
+    )
+
+    expect(getByTestId("overlay").className).toContain(
+      "overlay-container-light",
+    )
+  })
+
+  test("Should not announce it when the overlay is white", () => {
+    const { getByTestId } = render(
+      <Overlay drawer onBackdropClick={() => {}}>
+        <CodeBlock>secret</CodeBlock>
+      </Overlay>,
+    )
+
+    expect(getByTestId("overlay").className).not.toContain(
+      "overlay-container-light",
+    )
+  })
+})
 
 describe("Overlay body scroll lock", () => {
   beforeEach(() => {

@@ -50,7 +50,10 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
 
     return (
       <InputWrapper {...rest} label={label} hint={hint}>
-        <div className="flex group w-full rounded bg-gray-50 in-[.overlay-container]:bg-gray-200">
+        {/* A shade darker only on a gray overlay, where `bg-gray-50` would
+            disappear into the surface. A white overlay — every drawer, unless it
+            asks for `backgroundColor="light"` — keeps the page's own shade. */}
+        <div className="flex group w-full rounded bg-gray-50 in-[.overlay-container-light]:bg-gray-200">
           <div
             className={cn(
               "flex flex-col w-full px-4 py-2.5 text-primary font-mono font-medium marker:font-semibold leading-5 border-none break-all",

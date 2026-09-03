@@ -48,6 +48,7 @@
   },
   "dependencies": {
     "@commercelayer/js-auth": "^7.4.2",
+    "@commercelayer/provisioning-sdk": "2.10.2",
     "@commercelayer/sdk": "8.0.0-beta.11",
     "@date-fns/tz": "^1.5.0",
     "@monaco-editor/react": "~4.7.0",

@@ -457,6 +457,7 @@ export {
   refreshResourceLists,
   removeFromResourceLists,
   type UseResourceListConfig,
+  type UseResourceListReturn,
   useResourceList,
 } from "#ui/resources/useResourceList"
 export {

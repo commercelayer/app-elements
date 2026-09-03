@@ -1,8 +1,4 @@
-import type {
-  ListableResourceType,
-  ListMeta,
-  ListResponse,
-} from "@commercelayer/sdk"
+import type { ListMeta, ListResponse } from "@commercelayer/sdk"
 import castArray from "lodash-es/castArray"
 import { useMemo } from "react"
 import type { Writable } from "type-fest"
@@ -12,6 +8,7 @@ import {
   adaptMetricsOrderToCore,
   type MetricsResourceOrder,
 } from "./adaptMetricsOrderToCore"
+import type { AnyListableResourceType } from "./apiFlavour"
 import type { Resource } from "./listFetcher"
 
 export type MetricsResources = "orders" | "returns"
@@ -161,7 +158,9 @@ export function useMetricsSdkProvider(): {
 }
 
 export function isValidMetricsResource(
-  resourceType: ListableResourceType,
+  // either flavour's listable types: the caller may hold a resource type without
+  // knowing which API it belongs to, but a name outside both unions is still a typo
+  resourceType: AnyListableResourceType,
 ): resourceType is MetricsResources {
   return ["orders", "returns"].includes(resourceType)
 }

@@ -1,8 +1,6 @@
 import {
   CommerceLayerStatic,
   type ListableResourceType,
-  type QueryParamsList,
-  type ResourceFields,
 } from "@commercelayer/sdk"
 import React, {
   type FC,
@@ -32,22 +30,36 @@ import type { ThProps } from "#ui/atoms/Table/Th"
 import { Text } from "#ui/atoms/Text"
 import { VisibilityTrigger } from "#ui/atoms/VisibilityTrigger"
 import { InputFeedback } from "#ui/forms/InputFeedback"
-import { type FetcherResponse, listFetcher, type Resource } from "./listFetcher"
+import type {
+  AnyListableResourceType,
+  ApiFlavour,
+  ClientFor,
+  ListableResourceTypeFor,
+  QueryParamsListFor,
+  ResourceFor,
+} from "./apiFlavour"
+import { type FetcherResponse, listFetcher } from "./listFetcher"
 import { useMetricsSdkProvider } from "./metricsApiClient"
 import { PaginationInfo } from "./PaginationInfo"
-import { initialState, reducer } from "./reducer"
+import {
+  type Action,
+  createInitialState,
+  type ResourceListInternalState,
+  reducer,
+} from "./reducer"
 import { subscribeToResourceLists } from "./resourceListSignals"
 import { useMetricsCursorTrail } from "./useMetricsCursorTrail"
 import { usePageInUrl } from "./usePageInUrl"
 import { computeTitleWithTotalCount } from "./utils"
 
 export interface ResourceListItemTemplateProps<
-  TResource extends ListableResourceType,
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
 > extends SkeletonTemplateProps<{
     /**
      * The fetched resource
      */
-    resource?: Resource<TResource>
+    resource?: ResourceFor<TApi, TResource>
     /**
      * callback to be used to remove the item from the list as UI element.
      * This needs to be used after a successful API call to delete the resource, since it just affects the current UI rendering and not the server data.
@@ -59,16 +71,16 @@ type TableVariantHeading = Omit<ThProps, "children"> & {
   label: React.ReactNode
 }
 
-export type ResourceListProps<TResource extends ListableResourceType> = Pick<
-  SectionProps,
-  "actionButton"
-> & {
+export type ResourceListProps<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+> = Pick<SectionProps, "actionButton"> & {
   /**
    * A react component to be used to render each item in the list.
    * For best results, pass as `Item` a component already wrapped in a `SkeletonTemplate` (or `withSkeletonTemplate` HOC).
    * In this way the loading state will be handled automatically.
    */
-  ItemTemplate: FC<ResourceListItemTemplateProps<TResource>>
+  ItemTemplate: FC<ResourceListItemTemplateProps<TResource, TApi>>
   /**
    * An element to be rendered when the list is empty.
    * When not provided, a default message will be shown.
@@ -98,15 +110,23 @@ export type ResourceListProps<TResource extends ListableResourceType> = Pick<
       }
   )
 
-export type UseResourceListConfig<TResource extends ListableResourceType> = {
+export type UseResourceListConfig<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+> = {
   /**
    * The resource type to be fetched in the list
    */
   type: TResource
   /**
+   * Which Commerce Layer API the list speaks to.
+   * @default "core"
+   */
+  api?: TApi
+  /**
    * SDK query object to be used to fetch the list, excluding the pageNumber that is handled internally for infinite scrolling.
    */
-  query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
+  query?: QueryParamsListFor<TApi, TResource>
   /**
    * When set the component will fetch data from the Metrics API, and automatically use the returned cursor for infinite scrolling.
    */
@@ -125,7 +145,9 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
    * Useful for client-side filtering or sorting that cannot be expressed via the API query.
    * Affects both the `list` value returned by the hook and what is rendered by `<ResourceList>`.
    */
-  preProcess?: (list: Array<Resource<TResource>>) => Array<Resource<TResource>>
+  preProcess?: (
+    list: Array<ResourceFor<TApi, TResource>>,
+  ) => Array<ResourceFor<TApi, TResource>>
   /**
    * Pagination type: 'infinite' for infinite scrolling (default), 'pagination' for classic prev/next pagination.
    * Works with both the Core API and the Metrics API. Since the Metrics API is
@@ -142,16 +164,30 @@ export type UseResourceListConfig<TResource extends ListableResourceType> = {
    * @default 'top'
    */
   paginationScrollTo?: "top" | "list" | "none"
+  /**
+   * The client for `api`. Required for the Provisioning API — app-elements has no
+   * provisioning token of its own, so the caller builds it (see
+   * `docs/adr/0001-provisioning-api-in-resource-list.md`); the overloads below are
+   * what enforce that. Never passed for the Core API, whose client comes from
+   * `CoreSdkProvider` — which is why this is the Provisioning client rather than
+   * `ClientFor<TApi>`: a property whose type is conditional on the flavour cannot be
+   * `Omit`ed or unioned by callers, and consumers that spread the config into a
+   * component stopped typechecking.
+   */
+  client?: ClientFor<"provisioning">
 }
 
 // Base return type without Pagination
-interface UseResourceListReturn<TResource extends ListableResourceType> {
+export interface UseResourceListReturn<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+> {
   /** The component that renders the list with infinite scrolling or pagination functionality */
-  ResourceList: FC<ResourceListProps<TResource>>
+  ResourceList: FC<ResourceListProps<TResource, TApi>>
   /** The array of resources to display. When `preProcess` is provided, this is the processed result; otherwise it is the raw fetched data, which grows each time a new page is fetched (infinite mode) or shows current page only (pagination mode) */
-  list?: Array<Resource<TResource>>
+  list?: Array<ResourceFor<TApi, TResource>>
   /** Metadata related to pagination, as returned by the SDK */
-  meta?: FetcherResponse<Resource<TResource>>["meta"]
+  meta?: FetcherResponse<ResourceFor<TApi, TResource>>["meta"]
   /** Indicates whether the list is currently loading the next page */
   isLoading: boolean
   /** Indicates whether the list is loading for the first time (initial page load) */
@@ -173,53 +209,72 @@ interface UseResourceListReturn<TResource extends ListableResourceType> {
 
 // Return type with Pagination component
 export interface UseResourceListReturnWithPagination<
-  TResource extends ListableResourceType,
-> extends UseResourceListReturn<TResource> {
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+> extends UseResourceListReturn<TResource, TApi> {
   /** Pagination controls component (only shown when paginationType is 'pagination' and there are multiple pages) */
   Pagination: FC
 }
 
 /**
  * Renders a list of resources of a given type with infinite scrolling or classic pagination.
+ * @see `docs/adr/0001-provisioning-api-in-resource-list.md`
  * It's possible to specify a query to filter the list and either
  * a React component (`ItemTemplate`) to be used as item template for the list or a function as `children` to render a custom element.
  */
-// Overload: when paginationType is explicitly 'pagination'
-export function useResourceList<TResource extends ListableResourceType>(
-  config: UseResourceListConfig<TResource> & {
-    paginationType: "pagination"
-  },
-): UseResourceListReturnWithPagination<TResource>
+/**
+ * The Provisioning client, or a loud failure.
+ *
+ * The public overloads make it impossible to ask for a Provisioning list without
+ * one, but `useResourceListForApi` is generic over the flavour and cannot: without
+ * this, a missing client fell through to the Core client and queried the wrong API
+ * with no sign of it.
+ */
+function requireProvisioningClient(
+  client: ClientFor<"provisioning"> | undefined,
+): ClientFor<"provisioning"> {
+  if (client == null) {
+    throw new Error(
+      'A list with api: "provisioning" needs a client: app-elements cannot build one (see docs/adr/0001-provisioning-api-in-resource-list.md).',
+    )
+  }
+  return client
+}
 
-// Overload: when paginationType is explicitly 'infinite' or omitted
-export function useResourceList<TResource extends ListableResourceType>(
-  config: UseResourceListConfig<TResource> & {
-    paginationType?: "infinite"
-  },
-): UseResourceListReturn<TResource>
-
-// Fallback overload: when paginationType is a union type or otherwise not narrowable to a literal
-export function useResourceList<TResource extends ListableResourceType>(
-  config: UseResourceListConfig<TResource>,
-): UseResourceListReturn<TResource>
-
-// Implementation signature
-export function useResourceList<TResource extends ListableResourceType>({
+/**
+ * The list, generic over the API flavour.
+ *
+ * `useResourceList` below is the same thing behind overloads that pin the flavour,
+ * so that a Provisioning list cannot be asked for without a client. Overloads take
+ * a single type argument, though, so code that is itself generic over the flavour —
+ * `useResourceTable` — calls this instead.
+ */
+export function useResourceListForApi<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+>({
   type,
+  api,
+  client,
   query,
   metricsQuery,
   paginationType = "infinite",
   paginationScrollTo = "top",
   preProcess,
-}: UseResourceListConfig<TResource>):
-  | UseResourceListReturn<TResource>
-  | UseResourceListReturnWithPagination<TResource> {
+}: UseResourceListConfig<TResource, TApi>):
+  | UseResourceListReturn<TResource, TApi>
+  | UseResourceListReturnWithPagination<TResource, TApi> {
+  // throws when a Provisioning list was built without a client (see below): at
+  // mount, so the mistake surfaces where the list is rendered
+  const provisioningClient =
+    api === "provisioning" ? requireProvisioningClient(client) : undefined
+
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
-  const [{ data, isLoading, error }, dispatch] = useReducer(
-    reducer,
-    initialState,
-  )
+  const [{ data, isLoading, error }, dispatch] = useReducer<
+    ResourceListInternalState<ResourceFor<TApi, TResource>>,
+    [Action<ResourceFor<TApi, TResource>>]
+  >(reducer, createInitialState<ResourceFor<TApi, TResource>>())
   const { requestedPage, pushPage, replacePage } = usePageInUrl()
   const listRef = React.useRef<HTMLDivElement>(null)
   /**
@@ -287,15 +342,23 @@ export function useResourceList<TResource extends ListableResourceType>({
     async ({
       query,
       pageNumber,
+      fromScratch = false,
     }: {
-      query?: Omit<QueryParamsList<ResourceFields[TResource]>, "pageNumber">
+      query?: QueryParamsListFor<TApi, TResource>
       pageNumber?: number
+      /**
+       * Start the list over from its first page, discarding what is already
+       * fetched. An infinite list derives the page to ask for from the data it
+       * holds, so without this a `refresh` would fetch the page *after* the last
+       * one it has and append it.
+       */
+      fromScratch?: boolean
     }): Promise<void> => {
       dispatch({ type: "prepare" })
       try {
-        const listResponse = await listFetcher({
+        const listResponse = await listFetcher<TResource, TApi>({
           // when is new query, we don't want to pass existing data
-          currentData: isQueryChanged ? undefined : data,
+          currentData: isQueryChanged || fromScratch ? undefined : data,
           resourceType: type,
           mode: paginationType,
           pageNumber,
@@ -306,17 +369,27 @@ export function useResourceList<TResource extends ListableResourceType>({
             pageNumber != null
               ? (metricsTrail.cursorFor(pageNumber) ?? null)
               : undefined,
-          ...(metricsQuery != null
+          // Which client answers: the Provisioning one the caller handed over, the
+          // Metrics one when a metrics query is set, or the Core client from the
+          // provider. `api` and `metricsQuery` are separate axes — metrics is a
+          // transport for Core resources, not a third namespace.
+          ...(api === "provisioning" && provisioningClient != null
             ? {
-                clientType: "metricsClient",
-                client: metricsClient,
-                query: metricsQuery,
-              }
-            : {
-                clientType: "coreSdkClient",
-                client: sdkClient,
+                clientType: "provisioningSdkClient" as const,
+                client: provisioningClient,
                 query,
-              }),
+              }
+            : metricsQuery != null
+              ? {
+                  clientType: "metricsClient" as const,
+                  client: metricsClient,
+                  query: metricsQuery,
+                }
+              : {
+                  clientType: "coreSdkClient" as const,
+                  client: sdkClient,
+                  query,
+                }),
         })
         // remember the cursor that will open the *next* page, so it can be
         // revisited (forwards or backwards) without refetching from page 1
@@ -440,6 +513,9 @@ export function useResourceList<TResource extends ListableResourceType>({
     void fetchMore({
       query,
       pageNumber: paginationType === "pagination" ? 1 : undefined,
+      // `reset` has not been applied yet, so the fetch would still see the data
+      // this refresh is throwing away
+      fromScratch: true,
     })
   }, [query, paginationType, fetchMore, replacePage])
 
@@ -472,7 +548,7 @@ export function useResourceList<TResource extends ListableResourceType>({
     [pushPage],
   )
 
-  const ResourceList = useCallback<FC<ResourceListProps<TResource>>>(
+  const ResourceList = useCallback<FC<ResourceListProps<TResource, TApi>>>(
     ({
       ItemTemplate,
       emptyState: emptyStateProp,
@@ -512,7 +588,8 @@ export function useResourceList<TResource extends ListableResourceType>({
         <Text variant="info">
           No{" "}
           {formatResourceName({
-            resource: type,
+            // only used to build the "No <things> found" label
+            resource: type as ListableResourceType,
             count: "plural",
           })}
           .
@@ -650,7 +727,7 @@ export function useResourceList<TResource extends ListableResourceType>({
     isPreProcessed,
   ])
 
-  const baseReturn: UseResourceListReturn<TResource> = {
+  const baseReturn: UseResourceListReturn<TResource, TApi> = {
     ResourceList,
     list: displayList,
     meta: data?.meta,
@@ -675,7 +752,7 @@ export function useResourceList<TResource extends ListableResourceType>({
     return {
       ...baseReturn,
       Pagination,
-    } as UseResourceListReturnWithPagination<TResource>
+    } as UseResourceListReturnWithPagination<TResource, TApi>
   }
 
   return baseReturn
@@ -762,4 +839,52 @@ const Wrapper: FC<{
       {footer}
     </>
   )
+}
+
+// Overload: the Provisioning API, whose client the caller owns
+export function useResourceList<
+  TResource extends ListableResourceTypeFor<"provisioning">,
+>(
+  config: UseResourceListConfig<TResource, "provisioning"> & {
+    api: "provisioning"
+    client: ClientFor<"provisioning">
+    /** Metrics is a transport for Core resources: it has no Provisioning side. */
+    metricsQuery?: never
+  },
+): UseResourceListReturn<TResource, "provisioning">
+
+// Overload: when paginationType is explicitly 'pagination'
+export function useResourceList<
+  TResource extends ListableResourceTypeFor<"core">,
+>(
+  config: UseResourceListConfig<TResource, "core"> & {
+    paginationType: "pagination"
+  },
+): UseResourceListReturnWithPagination<TResource, "core">
+
+// Overload: when paginationType is explicitly 'infinite' or omitted
+export function useResourceList<
+  TResource extends ListableResourceTypeFor<"core">,
+>(
+  config: UseResourceListConfig<TResource, "core"> & {
+    paginationType?: "infinite"
+  },
+): UseResourceListReturn<TResource, "core">
+
+// Fallback overload: when paginationType is a union type or otherwise not narrowable to a literal
+export function useResourceList<
+  TResource extends ListableResourceTypeFor<"core">,
+>(
+  config: UseResourceListConfig<TResource, "core">,
+): UseResourceListReturn<TResource, "core">
+
+// Implementation for the overloads above. The overloads are what callers see; this
+// signature only has to cover all of them, which the widest instantiation does —
+// every resource type either API can list, at either flavour.
+export function useResourceList(
+  config: UseResourceListConfig<AnyListableResourceType, ApiFlavour>,
+):
+  | UseResourceListReturn<AnyListableResourceType, ApiFlavour>
+  | UseResourceListReturnWithPagination<AnyListableResourceType, ApiFlavour> {
+  return useResourceListForApi(config)
 }

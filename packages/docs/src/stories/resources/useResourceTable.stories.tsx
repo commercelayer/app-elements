@@ -83,8 +83,14 @@ export const Default: StoryFn = () => {
 }
 
 /**
- * Declare a `sortBy` on any column to make its header sortable. Sorting is
- * server-side: clicking the header drives the SDK `sort` param and refetches.
+ * Declare a `sortBy` on a column to name the attribute it sorts by — only
+ * attributes the API can actually sort the resource by are accepted. Sorting is
+ * server-side: the attribute goes into the SDK `sort` param and the list
+ * refetches; rows are never reordered client-side.
+ *
+ * The headers themselves are inert. `defaultSort` sets the initial sort, and a
+ * control outside the table drives it from there (`sort` + `onSortChange`, or
+ * the `setSort` the hook returns).
  */
 export const WithSorting: StoryFn = () => {
   const { ResourceTable } = useResourceTable({

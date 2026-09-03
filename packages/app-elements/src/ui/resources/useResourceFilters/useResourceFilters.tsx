@@ -343,15 +343,27 @@ function ResourceListComponent<TResource extends ListableResourceType>({
   metricsQuery,
   type,
   query,
+  filters,
   paginationType = "infinite",
   preProcess,
   ...listProps
-}: UseResourceListConfig<TResource> & {
+}: Omit<UseResourceListConfig<TResource>, "query"> & {
   paginationType?: "infinite" | "pagination"
+  query?: Omit<
+    NonNullable<UseResourceListConfig<TResource>["query"]>,
+    "filters"
+  >
+  /** The filters the bar computed, merged into the query below. */
+  filters?: QueryFilter
 } & ResourceListProps<TResource>): JSX.Element {
   const result = useResourceList<TResource>({
     type,
-    query,
+    // the cast is nameable here, where the resource type is in scope: a query
+    // spread produces a fresh object type that a deferred lookup will not accept
+    query: {
+      ...query,
+      filters,
+    } as UseResourceListConfig<TResource>["query"],
     metricsQuery,
     paginationType,
     preProcess,
@@ -427,10 +439,10 @@ const makeFilteredList: (options: {
             ? undefined
             : (resourceListProps.title ?? t("common.all"))
         }
-        query={{
-          ...query,
-          filters: sdkFilters,
-        }}
+        query={query}
+        // merged into the query by the component below, where the resource type is
+        // in scope and the merge can be typed
+        filters={sdkFilters}
         metricsQuery={
           metricsQuery == null
             ? undefined
@@ -448,6 +460,7 @@ function ResourceTableComponent<TResource extends ListableResourceType>({
   type,
   columns,
   query,
+  filters,
   metricsQuery,
   preProcess,
   paginationType = "pagination",
@@ -458,11 +471,23 @@ function ResourceTableComponent<TResource extends ListableResourceType>({
   onSortChange,
   defaultSort,
   ...tableProps
-}: UseResourceTableConfig<TResource> & ResourceTableProps): JSX.Element {
+}: Omit<UseResourceTableConfig<TResource>, "query"> & {
+  query?: Omit<
+    NonNullable<UseResourceTableConfig<TResource>["query"]>,
+    "filters"
+  >
+  /** The filters the bar computed, merged into the query below. */
+  filters?: QueryFilter
+} & ResourceTableProps): JSX.Element {
   const { ResourceTable, Pagination } = useResourceTable<TResource>({
     type,
     columns,
-    query,
+    // as in `ResourceListComponent`: the merge is typed here, where the resource
+    // type is in scope
+    query: {
+      ...query,
+      filters,
+    } as UseResourceTableConfig<TResource>["query"],
     metricsQuery,
     preProcess,
     paginationType,
@@ -502,10 +527,10 @@ const makeFilteredTable: (options: {
         title={
           hideTitle === true ? undefined : (tableProps.title ?? t("common.all"))
         }
-        query={{
-          ...query,
-          filters: sdkFilters,
-        }}
+        query={query}
+        // merged into the query by the component below, where the resource type is
+        // in scope and the merge can be typed
+        filters={sdkFilters}
         metricsQuery={
           metricsQuery == null
             ? undefined
