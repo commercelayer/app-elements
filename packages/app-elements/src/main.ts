@@ -437,6 +437,10 @@ export {
   type ResourceShipmentParcelsProps,
 } from "#ui/resources/ResourceShipmentParcels"
 export {
+  ResourceStatusBadge,
+  type ResourceStatusBadgeProps,
+} from "#ui/resources/ResourceStatusBadge"
+export {
   isTaggableResource,
   ResourceTags,
   type ResourceTagsProps,

@@ -1,6 +1,5 @@
-import { type JSX, useMemo } from "react"
+import { type JSX, type ReactNode, useMemo } from "react"
 import { useTranslation } from "react-i18next"
-import { useCoreApi } from "#providers/CoreSdkProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
@@ -14,6 +13,7 @@ import {
   skuListItemToProps,
   stockTransferToProps,
 } from "#ui/resources/ResourceListItem/transformers"
+import { ResourceStatusBadge } from "#ui/resources/ResourceStatusBadge"
 import { promotionToProps } from "./transformers/promotions"
 import type {
   ResourceListItemComponentProps,
@@ -41,6 +41,12 @@ export interface ResourceListItemProps {
    * Optional override for the right slot. When provided, it replaces any computed right content.
    */
   rightContentOverride?: JSX.Element | null
+  /**
+   * Rendered at the far right of the row, after the right content — a dropdown
+   * with what can be done to the resource, typically. A row with actions is
+   * usually not clickable itself: the menu is where the links live.
+   */
+  actions?: ReactNode
 }
 
 type ResourceListItemConfig = Omit<ResourceListItemProps, "resource"> &
@@ -59,6 +65,8 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     alignItems,
     showRightContent = false,
     invertNameDescription = false,
+    status,
+    actions,
   }) => {
     const isClickable = href != null || onClick != null
 
@@ -75,17 +83,20 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           <div
             className={`flex  ${invertNameDescription ? "flex-col-reverse" : "flex-col"}`}
           >
-            <Text
-              tag="div"
-              weight="semibold"
-              data-testid="ResourceListItem-number"
-            >
-              {name}
-            </Text>
+            <div className="flex items-center gap-2">
+              <Text
+                tag="div"
+                weight="semibold"
+                data-testid="ResourceListItem-number"
+              >
+                {name}
+              </Text>
+              {status != null && <ResourceStatusBadge status={status} />}
+            </div>
             <Text
               tag="div"
               weight="medium"
-              size="small"
+              size="x-small"
               variant="info"
               data-testid="ResourceListItem-content"
             >
@@ -94,12 +105,15 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           </div>
           {bottomContent && <div className="mt-2">{bottomContent}</div>}
         </div>
-        <div>
-          {rightContentOverride != null
-            ? rightContentOverride
-            : showRightContent
-              ? rightContent
-              : isClickable && <StatusIcon name="caretRight" />}
+        <div className="flex items-center gap-2">
+          <div>
+            {rightContentOverride != null
+              ? rightContentOverride
+              : showRightContent
+                ? rightContent
+                : isClickable && <StatusIcon name="caretRight" />}
+          </div>
+          {actions}
         </div>
       </ListItem>
     )
@@ -114,41 +128,12 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     const { user } = useTokenProvider()
     const { t } = useTranslation()
 
-    const { data: markets, isLoading: isLoadingMarkets } = useCoreApi(
-      "markets",
-      "list",
-      resource.type === "orders"
-        ? [
-            {
-              fields: ["id"],
-              filters: {
-                disabled_at_null: true,
-              },
-              pageSize: 1,
-            },
-          ]
-        : null,
-      {
-        revalidateIfStale: false,
-      },
-    )
-
     const listItemProps = useMemo(() => {
       switch (resource.type) {
         case "customers":
           return customerToProps({ resource, user, t })
         case "orders":
-          return orderToProps({
-            resource: {
-              ...resource,
-              market:
-                (markets?.meta.recordCount ?? 0) > 1
-                  ? resource.market
-                  : undefined,
-            },
-            user,
-            t,
-          })
+          return orderToProps({ resource, user, t })
         case "returns":
           return returnToProps({ resource, user, t })
         case "stock_transfers":
@@ -171,7 +156,7 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     return (
       <ResourceListItemComponent
         {...listItemProps}
-        isLoading={isLoadingMarkets || isLoading}
+        isLoading={isLoading}
         href={href}
         onClick={onClick}
         {...rest}

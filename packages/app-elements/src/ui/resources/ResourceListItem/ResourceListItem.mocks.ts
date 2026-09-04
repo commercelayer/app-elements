@@ -72,6 +72,7 @@ const order = {
   placed_at: "2023-06-09T11:00:00.000Z",
   created_at: "",
   formatted_total_amount: "$650.00",
+  formatted_total_amount_with_taxes: "$650.00",
   fulfillment_status: "unfulfilled",
   number: "123456",
   payment_status: "authorized",
@@ -105,6 +106,7 @@ export const presetResourceListItem = {
     payment_status: "paid",
     fulfillment_status: "fulfilled",
     formatted_total_amount: "$272.00",
+    formatted_total_amount_with_taxes: "$272.00",
     market,
     billing_address: {
       first_name: "Ringo",
@@ -131,6 +133,7 @@ export const presetResourceListItem = {
     payment_status: "unpaid",
     fulfillment_status: "unfulfilled",
     formatted_total_amount: "$272.00",
+    formatted_total_amount_with_taxes: "$272.00",
     market,
   },
   orderPartiallyAuthorized: {
@@ -144,6 +147,7 @@ export const presetResourceListItem = {
     payment_status: "partially_authorized",
     fulfillment_status: "unfulfilled",
     formatted_total_amount: "$272.00",
+    formatted_total_amount_with_taxes: "$272.00",
     market,
     billing_address: {
       first_name: "Ringo",
@@ -171,6 +175,7 @@ export const presetResourceListItem = {
     payment_status: "authorized",
     fulfillment_status: "unfulfilled",
     formatted_total_amount: "$272.00",
+    formatted_total_amount_with_taxes: "$272.00",
     market,
     billing_address: {
       first_name: "Ringo",
@@ -197,6 +202,7 @@ export const presetResourceListItem = {
     payment_status: "authorized",
     fulfillment_status: "unfulfilled",
     formatted_total_amount: "$272.00",
+    formatted_total_amount_with_taxes: "$272.00",
     market,
     billing_address: {
       first_name: "Michele",

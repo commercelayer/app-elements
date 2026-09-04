@@ -1,4 +1,7 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Icon } from "#ui/atoms/Icon"
+import { Dropdown } from "#ui/composite/Dropdown"
+import { DropdownItem } from "#ui/composite/Dropdown/DropdownItem"
 import { ResourceListItem } from "#ui/resources/ResourceListItem"
 import { presetResourceListItem } from "#ui/resources/ResourceListItem/ResourceListItem.mocks"
 import type { ResourceListItemType } from "#ui/resources/ResourceListItem/types"
@@ -79,6 +82,14 @@ const ItemsByTypeTemplate: StoryFn<ListProps> = (args) => {
   )
 }
 
+/**
+ * An order row: its number with the status as a badge, when it was placed, and
+ * what it came to. No icon — these rows are listed inside the resource they
+ * belong to, which already says whose orders they are.
+ *
+ * `actions` puts a menu at the far right, where a clickable row would otherwise
+ * have been (see `useResourceList`'s boxed variant for the whole block).
+ */
 export const Orders = ItemsByTypeTemplate.bind({})
 Orders.args = {
   type: ["orders"],
@@ -122,3 +133,29 @@ Promotions.args = {
     "flex_promotions",
   ],
 }
+
+/**
+ * `actions` puts a menu at the far right of the row, where a clickable row would
+ * otherwise have taken the reader somewhere.
+ *
+ * Give the row a menu **or** make it clickable, not both: two ways to open the
+ * same thing invite the wrong one. Where the menu holds a link, pass an `href`
+ * (here through `useAppLinking`'s `navigateTo` in a real app) so cmd- and
+ * middle-click still open it in a new tab.
+ */
+export const WithActions: StoryFn = () => (
+  <ResourceListItem
+    resource={presetResourceListItem.orderFulfilled}
+    actions={
+      <Dropdown
+        dropdownLabel={<Icon name="dotsThree" size={24} />}
+        dropdownItems={
+          <>
+            <DropdownItem label="View order" href="#" />
+            <DropdownItem label="Copy order number" onClick={() => {}} />
+          </>
+        }
+      />
+    }
+  />
+)

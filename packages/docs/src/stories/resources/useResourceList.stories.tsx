@@ -5,6 +5,8 @@ import { Button } from "#ui/atoms/Button"
 import { Icon } from "#ui/atoms/Icon"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Td, Tr } from "#ui/atoms/Table"
+import { Dropdown } from "#ui/composite/Dropdown"
+import { DropdownItem } from "#ui/composite/Dropdown/DropdownItem"
 import { InputCheckboxGroup } from "#ui/forms/InputCheckboxGroup"
 import { ResourceListItem } from "#ui/resources/ResourceListItem"
 import { presetResourceListItem } from "#ui/resources/ResourceListItem/ResourceListItem.mocks"
@@ -76,6 +78,47 @@ export const WithNoTitle: StoryFn = () => {
         )
       }}
     />
+  )
+}
+
+/**
+ * `variant="boxed"` is a list nested in a parent resource's page rather than
+ * being the page itself — a customer's orders, a subscription's recurring ones.
+ *
+ * The rows go in a gray card and separate with a dashed rule (the last one is
+ * left out, the card's edge closing the group), so the group reads as one block
+ * belonging to the page around it. Rows adapt through a context, so an
+ * `ItemTemplate` needs no prop for any of it.
+ */
+export const AsBoxedVariant: StoryFn = () => {
+  const { ResourceList, Pagination } = useResourceList({
+    type: "orders",
+    query: { pageSize: 5 },
+    paginationType: "pagination",
+    paginationScrollTo: "none",
+  })
+
+  return (
+    <>
+      <ResourceList
+        variant="boxed"
+        title={() => "Orders"}
+        ItemTemplate={({ resource = mockedOrder, isLoading }) => (
+          <SkeletonTemplate isLoading={isLoading}>
+            <ResourceListItem
+              resource={resource}
+              actions={
+                <Dropdown
+                  dropdownLabel={<Icon name="dotsThree" size={24} />}
+                  dropdownItems={<DropdownItem label="View order" href="#" />}
+                />
+              }
+            />
+          </SkeletonTemplate>
+        )}
+      />
+      <Pagination />
+    </>
   )
 }
 
