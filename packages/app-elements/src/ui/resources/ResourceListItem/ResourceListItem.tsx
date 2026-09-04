@@ -73,7 +73,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     return (
       <ListItem
         icon={icon}
-        alignItems={alignItems ?? (showRightContent ? "top" : "center")}
+        alignItems={alignItems ?? (showRightContent ? "center" : "top")}
         data-testid="ResourceListItem"
         href={href}
         onClick={onClick}
@@ -83,7 +83,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           <div
             className={`flex  ${invertNameDescription ? "flex-col-reverse" : "flex-col"}`}
           >
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 leading-6">
               <Text
                 tag="div"
                 weight="semibold"

@@ -160,7 +160,7 @@ export const ListItem: FC<ListItemProps> = ({
             // the default dash is picked for a white row; on the gray of a boxed
             // list it would be all but invisible
             isInBoxedList
-              ? "bg-[linear-gradient(to_right,transparent_50%,var(--color-gray-300)_50%)]"
+              ? "bg-[linear-gradient(to_right,transparent_50%,var(--color-gray-200)_50%)]"
               : "bg-[linear-gradient(to_right,transparent_50%,rgba(230,231,231,1)_50%)]",
           )}
         />
