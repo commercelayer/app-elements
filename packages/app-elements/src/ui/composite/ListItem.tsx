@@ -1,6 +1,10 @@
 import cn from "classnames"
 import type { FC, JSX } from "react"
 import { FlexRow, type FlexRowProps } from "#ui/internals/FlexRow"
+import {
+  useIsInBoxedList,
+  useIsLastRowInBoxedList,
+} from "#ui/internals/listContext"
 import { removeUnwantedProps } from "#utils/htmltags"
 
 type ListItemVariant = "list" | "boxed"
@@ -32,8 +36,10 @@ export type ListItemProps = React.HTMLAttributes<HTMLElement> &
      */
     paddingSize?: "6" | "4" | "2"
     /**
-     * Border style to render
-     * @default 'solid'
+     * Border style to render.
+     *
+     * @default 'solid', or 'dashed' in a boxed list — where the rows sit on the
+     * card's own background and a solid rule would read as heavier than the group
      */
     borderStyle?: "solid" | "dashed" | "none"
     /**
@@ -56,11 +62,16 @@ export const ListItem: FC<ListItemProps> = ({
   paddingSize = "4",
   alignItems = "center",
   alignIcon = "top",
-  borderStyle = "solid",
+  borderStyle: borderStyleProp,
   variant = "list",
   disabled = false,
   ...rest
 }) => {
+  // A boxed list is nested in a parent resource's page: its rows show through to
+  // the card's gray, so they separate with a dashed rule rather than a solid one.
+  const isInBoxedList = useIsInBoxedList()
+  const closesBoxedList = useIsLastRowInBoxedList()
+  const borderStyle = borderStyleProp ?? (isInBoxedList ? "dashed" : "solid")
   const wantedProps =
     "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest
   const JsxTag =
@@ -107,8 +118,12 @@ export const ListItem: FC<ListItemProps> = ({
           relative: borderStyle === "dashed",
           "border-b": borderStyle === "solid",
           "rounded border": variant === "boxed",
-          "hover:bg-gray-50 focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-hidden":
+          "focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-hidden":
             isClickable,
+          // gray-50 is the boxed list's own background, so a row there needs the
+          // next step up to react to the pointer at all
+          "hover:bg-gray-50": isClickable && !isInBoxedList,
+          "hover:bg-gray-100": isClickable && isInBoxedList,
           "bg-white": !disabled && variant === "boxed",
           "bg-gray-100": disabled,
           "border-gray-200": variant === "boxed" || disabled,
@@ -138,8 +153,17 @@ export const ListItem: FC<ListItemProps> = ({
         )}
         <FlexRow alignItems={alignItems}>{children}</FlexRow>
       </div>
-      {borderStyle === "dashed" && (
-        <div className="absolute bottom-0 left-0 w-full h-px bg-[linear-gradient(to_right,transparent_50%,rgba(230,231,231,1)_50%)] bg-size-[10px_100%]" />
+      {borderStyle === "dashed" && !closesBoxedList && (
+        <div
+          className={cn(
+            "absolute bottom-0 left-0 w-full h-px bg-size-[10px_100%]",
+            // the default dash is picked for a white row; on the gray of a boxed
+            // list it would be all but invisible
+            isInBoxedList
+              ? "bg-[linear-gradient(to_right,transparent_50%,var(--color-gray-300)_50%)]"
+              : "bg-[linear-gradient(to_right,transparent_50%,rgba(230,231,231,1)_50%)]",
+          )}
+        />
       )}
     </JsxTag>
   )
