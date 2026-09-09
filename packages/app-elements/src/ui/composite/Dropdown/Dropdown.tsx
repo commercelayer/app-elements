@@ -78,7 +78,7 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
           aria-haspopup
           aria-expanded={isExpanded}
           className={cn("m-0 p-0 align-top", {
-            "text-black!": typeof dropdownLabel !== "string",
+            "text-gray-500!": typeof dropdownLabel !== "string",
             "no-underline! hover:underline!": typeof dropdownLabel === "string",
           })}
           onClick={() => {

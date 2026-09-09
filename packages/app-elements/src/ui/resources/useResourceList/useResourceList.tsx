@@ -30,6 +30,7 @@ import type { ThProps } from "#ui/atoms/Table/Th"
 import { Text } from "#ui/atoms/Text"
 import { VisibilityTrigger } from "#ui/atoms/VisibilityTrigger"
 import { InputFeedback } from "#ui/forms/InputFeedback"
+import { ListContext } from "#ui/internals/listContext"
 import type {
   AnyListableResourceType,
   ApiFlavour,
@@ -100,7 +101,13 @@ export type ResourceListProps<
   titleSize?: SectionProps["titleSize"]
 } & (
     | {
-        /** Boxed variant wraps the list in a Card */
+        /**
+         * A list nested in a parent resource's page rather than being the page
+         * itself — a customer's orders, a subscription's recurring ones.
+         *
+         * The rows go in a gray card and separate with a dashed rule, so the
+         * group reads as one block belonging to the page around it.
+         */
         variant?: "boxed"
       }
     | {
@@ -666,15 +673,26 @@ export function useResourceListForApi<
                 ) : null
               }
             >
-              {displayList?.map((resource) => {
+              {displayList?.map((resource, index) => {
                 return (
-                  <ItemTemplate
-                    resource={resource}
+                  // Per row rather than around the list: a row in a boxed list
+                  // separates with a dashed rule, and the one that closes the
+                  // list leaves it out — the card's edge already closes the
+                  // group. Only the list knows which row that is.
+                  <ListContext.Provider
                     key={resource.id}
-                    remove={() => {
-                      removeItem(resource.id)
+                    value={{
+                      boxed: variant === "boxed",
+                      isLastRow: index === displayList.length - 1,
                     }}
-                  />
+                  >
+                    <ItemTemplate
+                      resource={resource}
+                      remove={() => {
+                        removeItem(resource.id)
+                      }}
+                    />
+                  </ListContext.Provider>
                 )
               })}
             </Wrapper>
@@ -799,7 +817,16 @@ const Wrapper: FC<{
 }> = ({ children, variant, tableHeadings, isLoading, footer }) => {
   if (variant === "boxed") {
     return (
-      <Card gap="1" overflow="hidden">
+      // `overflow` visible so a row's own menu is not cut off by the card — the
+      // last row's opens downwards past its edge. Nothing needs clipping: the
+      // card's padding insets the rows, so a row's hover cannot reach the
+      // rounded corners.
+      // `gap` is the card's own padding, and it is uniform, so the horizontal
+      // one comes from `px-6` on top of it: the rows need room at their sides —
+      // the dashed rules, which span a row, inset with them — but each row
+      // already brings its own vertical padding, so the card only keeps a hair
+      // of its own so the first and last rows do not touch its edges.
+      <Card gap="1" overflow="visible" backgroundColor="light" className="px-6">
         {children}
         {footer}
       </Card>

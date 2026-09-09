@@ -16,6 +16,7 @@ import type {
 } from "@commercelayer/sdk"
 import type { t } from "i18next"
 import type { JSX } from "react"
+import type { DisplayStatus } from "#dictionaries/types"
 import type { TokenProviderAuthUser } from "#providers/TokenProvider/types"
 import type { ListItemProps } from "#ui/composite/ListItem"
 
@@ -38,11 +39,21 @@ export type ResourceListItemType =
 export interface ResourceListItemComponentProps {
   name: React.ReactNode
   description: JSX.Element | string
-  icon: JSX.Element
+  /**
+   * The status icon on the left. Left out where the row says where the resource
+   * stands some other way — an order shows it as a `status` badge instead.
+   */
+  icon?: JSX.Element
   rightContent?: JSX.Element
   bottomContent?: JSX.Element
   invertNameDescription?: boolean
   alignItems?: ListItemProps["alignItems"]
+  /**
+   * Where the resource stands, shown as a badge beside the name. A resource sets
+   * either this or an `icon`, not both: two renderings of one fact read as two
+   * facts. Keep it out of the description too, for the same reason.
+   */
+  status?: DisplayStatus
 }
 
 export type ResourceToProps<Resource> = (options: {
