@@ -15,6 +15,32 @@ describe("RadialProgress", () => {
     expect(queryByTestId("radial-progress-percentage")).not.toBeInTheDocument()
   })
 
+  test("Should be rendered as indeterminate", () => {
+    const { getByTestId, queryByTestId } = render(
+      <RadialProgress percentage="indeterminate" />,
+    )
+    expect(queryByTestId("radial-progress-indeterminate")).toBeInTheDocument()
+    expect(queryByTestId("radial-progress-pending")).not.toBeInTheDocument()
+    expect(queryByTestId("radial-progress-percentage")).not.toBeInTheDocument()
+    expect(getByTestId("radial-progress")).toHaveClass("animate-spin")
+  })
+
+  test("Should not statically rotate the indeterminate arc", () => {
+    const { getByTestId } = render(
+      <RadialProgress percentage="indeterminate" />,
+    )
+    expect(getByTestId("radial-progress")).not.toHaveClass("-rotate-90")
+  })
+
+  test.each([
+    [undefined, "Pending"],
+    ["indeterminate", "In progress"],
+    [42, "42%"],
+  ] as const)("Should title %s as %s", (percentage, expectedTitle) => {
+    const { getByTitle } = render(<RadialProgress percentage={percentage} />)
+    expect(getByTitle(expectedTitle)).toBeInTheDocument()
+  })
+
   test("Should render an icon", () => {
     const { queryByTestId } = render(
       <RadialProgress percentage={undefined} icon="shoppingBag" />,

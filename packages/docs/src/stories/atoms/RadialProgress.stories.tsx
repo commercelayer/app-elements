@@ -44,6 +44,16 @@ Percentage.parameters = {
 }
 
 /**
+ * Indeterminate state, for work that has started but has no knowable end: the request
+ * has been accepted and a background worker is performing it, so there is no percentage
+ * to report. It renders as a spinning arc.
+ */
+export const Indeterminate = Template.bind({})
+Indeterminate.args = {
+  percentage: "indeterminate",
+}
+
+/**
  * You can optionally pass an icon to be rendered in the center of the circle.
  * <span type="info">
  * Note: when there is an icon, the inner of the component is white. You can see this since the following example comes with a gray canvas.
