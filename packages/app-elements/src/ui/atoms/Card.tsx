@@ -1,4 +1,5 @@
 import cn from "classnames"
+import { useSurfaceVariant } from "#ui/internals/overlayContext"
 import { removeUnwantedProps } from "#utils/htmltags"
 import { withSkeletonTemplate } from "./SkeletonTemplate"
 
@@ -8,6 +9,7 @@ export type CardProps = React.HTMLAttributes<HTMLElement> &
      * Footer will render in a dedicated section below the main content.
      */
     footer?: React.ReactNode
+    surface?: "default" | "sidebar"
     /**
      * Set a gray background color
      */
@@ -22,7 +24,7 @@ export type CardProps = React.HTMLAttributes<HTMLElement> &
          *
          * @default 6
          */
-        gap?: "1" | "4" | "6"
+        gap?: "1" | "2" | "4" | "6"
         /**
          * Set the overflow behavior. In most of the cases you might want to keep overflow visible,
          * but when you have inner content with hover effects you might want to set overflow to hidden.
@@ -43,6 +45,7 @@ export const Card = withSkeletonTemplate<CardProps>(
   ({
     className,
     children,
+    surface,
     gap = "6",
     isLoading,
     delayMs,
@@ -51,6 +54,8 @@ export const Card = withSkeletonTemplate<CardProps>(
     ...rest
   }) => {
     const overflow = "overflow" in rest ? rest.overflow : "hidden"
+    const inferredSurface = useSurfaceVariant()
+    const resolvedSurface = surface ?? inferredSurface
     const divProps =
       "overflow" in rest ? removeUnwantedProps(rest, ["overflow"]) : rest
     const JsxTag =
@@ -61,14 +66,17 @@ export const Card = withSkeletonTemplate<CardProps>(
         className={cn([
           "boxed-container",
           className,
-          "border border-solid rounded-md",
+          "border border-solid",
           "text-left", // reset <button>
           "text-inherit active:text-inherit hover:text-inherit text-sm font-inherit", // reset <a>
           {
+            "rounded-md": resolvedSurface === "default",
+            "rounded-sm": resolvedSurface === "sidebar",
             "overflow-hidden": overflow === "hidden",
             "border-gray-200 bg-white": backgroundColor == null,
             "bg-gray-50 border-gray-50": backgroundColor === "light",
             "p-1": gap === "1",
+            "p-2": gap === "2",
             "p-4": gap === "4",
             "p-6": gap === "6",
             "hover:border-black hover:shadow-cardhover":

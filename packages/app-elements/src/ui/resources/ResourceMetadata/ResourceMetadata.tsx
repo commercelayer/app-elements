@@ -128,7 +128,7 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         >
           {!isEmpty(resourceData?.metadata) ? (
             <Card
-              gap="6"
+              gap={surface === "sidebar" ? "2" : "6"}
               overflow="visible"
               backgroundColor="light"
               className="print:p-4 print:rounded-sm"
