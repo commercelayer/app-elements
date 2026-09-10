@@ -88,6 +88,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
                 tag="div"
                 weight="semibold"
                 data-testid="ResourceListItem-number"
+                size="small"
               >
                 {name}
               </Text>
