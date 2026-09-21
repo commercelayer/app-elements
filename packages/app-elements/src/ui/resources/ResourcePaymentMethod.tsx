@@ -90,9 +90,11 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
           <div className="flex flex-col gap-0">
             {issuerType != null ? (
               <div>
-                <Text weight="semibold">{paymentMethodName}</Text>
+                <Text weight="semibold" size="small">
+                  {paymentMethodName}
+                </Text>
                 <Text>{" · "}</Text>
-                <Text weight="medium" variant="info">
+                <Text weight="medium" variant="info" size="small">
                   {cardType != null ? (
                     <span>
                       {cardType} {issuerType}
@@ -114,7 +116,7 @@ export const ResourcePaymentMethod: FC<ResourcePaymentMethodProps> = ({
                 </Text>
               </div>
             ) : (
-              <Text tag="div" weight="semibold">
+              <Text tag="div" weight="semibold" size="small">
                 {paymentMethodName}
               </Text>
             )}
