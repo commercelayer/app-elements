@@ -1,6 +1,6 @@
 {
   "version": "7.21.0",
-  "$schema": "node_modules/lerna/schemas/lerna-schema.json",
+  "$schema": "https://unpkg.com/lerna@10.0.1/schemas/lerna-schema.json",
   "useNx": false,
   "npmClient": "pnpm",
   "command": {

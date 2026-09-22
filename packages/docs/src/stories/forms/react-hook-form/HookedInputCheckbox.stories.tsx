@@ -77,10 +77,10 @@ export const WithCheckedElement: StoryFn = () => {
         })
       }
 
-      return {
-        errors: Object.fromEntries(errors),
-        values: data,
-      }
+      // `ResolverResult` is a union: the error branch carries no values
+      return errors.size > 0
+        ? { values: {}, errors: Object.fromEntries(errors) }
+        : { values: data, errors: {} }
     },
   })
 

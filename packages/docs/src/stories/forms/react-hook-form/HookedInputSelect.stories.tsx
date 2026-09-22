@@ -1,6 +1,6 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
 import { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { type ResolverResult, useForm } from "react-hook-form"
 import { CoreSdkProvider, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { Button } from "#ui/atoms/Button"
@@ -26,16 +26,20 @@ const setup: Meta<typeof HookedInputSelect> = {
 }
 export default setup
 
+interface Fields {
+  city: string | null
+}
+
 const Template: StoryFn<typeof HookedInputSelect> = (args) => {
-  const methods = useForm({
-    resolver: async (data, _context) => {
-      return {
-        errors:
-          data.city == null || data.city.length === 0
-            ? { city: { type: "required", message: "City is required" } }
-            : {},
-        values: data,
-      }
+  const methods = useForm<Fields>({
+    resolver: async (data): Promise<ResolverResult<Fields>> => {
+      // `ResolverResult` is a union: the error branch carries no values
+      return data.city == null || data.city.length === 0
+        ? {
+            values: {},
+            errors: { city: { type: "required", message: "City is required" } },
+          }
+        : { values: data, errors: {} }
     },
   })
 
