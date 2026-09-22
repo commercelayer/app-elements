@@ -10,23 +10,23 @@ import { vi } from "vitest"
 // AbortSignal so the SDK skips adding a signal to its fetch calls.
 delete (AbortSignal as any).timeout
 
-const MockIntersectionObserver = vi.fn(
-  (mockedCallback: IntersectionObserverCallback) => {
+// classes, not arrows: these stubs are instantiated with `new`, and an arrow has
+// no [[Construct]] — vitest >=4 no longer papers over that
+class MockIntersectionObserver {
+  readonly disconnect = vi.fn()
+  readonly observe = vi.fn()
+  readonly takeRecords = vi.fn()
+  readonly unobserve = vi.fn()
+
+  constructor(mockedCallback: IntersectionObserverCallback) {
     window.addEventListener("triggerIntersection", () => {
       mockedCallback(
         [intersectionEntry],
-        vi.fn() as unknown as IntersectionObserver,
+        this as unknown as IntersectionObserver,
       )
     })
-
-    return {
-      disconnect: vi.fn(),
-      observe: vi.fn(),
-      takeRecords: vi.fn(),
-      unobserve: vi.fn(),
-    }
-  },
-)
+  }
+}
 
 vi.stubGlobal(`IntersectionObserver`, MockIntersectionObserver)
 vi.stubGlobal(`scrollTo`, vi.fn())
@@ -34,14 +34,13 @@ vi.stubGlobal(`scrollTo`, vi.fn())
 // jsdom has no ResizeObserver, and shared components observe their own size —
 // `Tabs` watches its tab row to know which edge should fade when it scrolls. Stubbed
 // globally rather than per suite, so rendering such a component never needs setup.
-vi.stubGlobal(
-  "ResizeObserver",
-  vi.fn(() => ({
-    observe: vi.fn(),
-    unobserve: vi.fn(),
-    disconnect: vi.fn(),
-  })),
-)
+class MockResizeObserver {
+  readonly observe = vi.fn()
+  readonly unobserve = vi.fn()
+  readonly disconnect = vi.fn()
+}
+
+vi.stubGlobal("ResizeObserver", MockResizeObserver)
 
 const intersectionEntry = {
   isIntersecting: true,

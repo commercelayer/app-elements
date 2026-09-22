@@ -59,15 +59,29 @@ function getColumnId<
   return column.id ?? column.sortBy ?? `col-${index}`
 }
 
-/** Parse an SDK sort expression (`"-created_at"`) into `{ attribute, desc }`. */
+/** The sort as a list of keys, dropping the empty and unset cases. */
+function sortKeys(sort: string | string[] | undefined): string[] {
+  if (sort == null) {
+    return []
+  }
+  return (Array.isArray(sort) ? sort : [sort]).filter((key) => key !== "")
+}
+
+/**
+ * Parse an SDK sort expression (`"-created_at"`) into `{ attribute, desc }`.
+ *
+ * Only the first key: this describes the sorted column for the UI, and a
+ * tie-breaker is not something a sort control can show.
+ */
 function parseSort(
-  sort: string | undefined,
+  sort: string | string[] | undefined,
 ): { attribute: string; desc: boolean } | undefined {
-  if (sort == null || sort === "") {
+  const [first] = sortKeys(sort)
+  if (first == null) {
     return undefined
   }
-  const desc = sort.startsWith("-")
-  return { attribute: desc ? sort.slice(1) : sort, desc }
+  const desc = first.startsWith("-")
+  return { attribute: desc ? first.slice(1) : first, desc }
 }
 
 /**
@@ -432,7 +446,9 @@ export function useResourceTable<
     () =>
       ({
         ...query,
-        ...(!isMetrics && sort != null && sort !== "" ? { sort: [sort] } : {}),
+        ...(!isMetrics && sortKeys(sort).length > 0
+          ? { sort: sortKeys(sort) }
+          : {}),
       }) as NonNullable<UseResourceListConfig<TResource, TApi>["query"]>,
     [query, sort, isMetrics],
   )

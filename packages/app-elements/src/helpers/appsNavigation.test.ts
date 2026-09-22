@@ -13,11 +13,17 @@ function getSessionStorageItem(key: string): BackToItem {
 
 const originalLocationObj = window.location
 function allowLocationMocks(): void {
-  ;(window as typeof globalThis).location = {
+  // `location` is an accessor on Window: assigning to it asks jsdom to navigate
+  // rather than to replace the object, so the stub goes in as a descriptor
+  vi.stubGlobal("location", {
     ...originalLocationObj,
     origin: "https://demo-store.commercelayer.app",
-  }
+  })
 }
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
 
 describe("navigateTo", () => {
   beforeEach(() => {
@@ -143,6 +149,12 @@ describe("navigateTo", () => {
 })
 
 describe("goBack", () => {
+  beforeEach(() => {
+    sessionStorage.clear()
+    allowLocationMocks()
+    vi.resetAllMocks()
+  })
+
   test("should go back to default provided path when sessionStorage is empty", () => {
     const mockedSetLocation = vi.fn()
     goBack({

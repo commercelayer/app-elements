@@ -94,10 +94,7 @@ export default defineConfig({
     // unless `--localstorage-file` is set, shadowing the one provided by jsdom.
     // Disable Node's experimental Web Storage so jsdom owns localStorage.
     // https://nodejs.org/api/cli.html#--experimental-webstorage
-    poolOptions: {
-      forks: { execArgv: ["--no-experimental-webstorage"] },
-      threads: { execArgv: ["--no-experimental-webstorage"] },
-    },
+    execArgv: ["--no-experimental-webstorage"],
     setupFiles: [
       "./react-testing-library.config.js",
       "./src/mocks/setup.ts",

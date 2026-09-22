@@ -15,6 +15,7 @@
     "test:update": "pnpm --stream -r test:update",
     "test:watch": "pnpm --stream -r test:watch",
     "ts:check": "pnpm --stream -r ts:check",
+    "lerna": "pnpm dlx lerna@10.0.1",
     "dep:major": "pnpm dlx npm-check-updates --packageFile '**/package.json' -u",
     "dep:semver": "pnpm dlx npm-check-updates -t semver --packageFile '**/package.json' -u",
     "postdep:major": "echo \"\\033[0;31mRemember to check the \\\"peerDependencies\\\" of the updated packages.\\033[0m\n\"",
@@ -38,9 +39,8 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@biomejs/biome": "^2.5.2",
+    "@biomejs/biome": "^2.5.14",
     "husky": "^9.1.7",
-    "lerna": "^10.0.0",
     "lint-staged": "^16.4.0"
   }
 }

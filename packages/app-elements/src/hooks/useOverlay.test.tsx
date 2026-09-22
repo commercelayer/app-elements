@@ -131,12 +131,9 @@ describe("useOverlay in `queryParam` mode", () => {
   const originalLocationObj = window.location
   const originalHistoryObj = window.history
   function allowLocationMocks(): void {
-    ;(window as typeof globalThis).location = {
-      ...originalLocationObj,
-    }
-    window.history = {
-      ...originalHistoryObj,
-    }
+    // both are accessors on Window — see appsNavigation.test.ts
+    vi.stubGlobal("location", { ...originalLocationObj })
+    vi.stubGlobal("history", { ...originalHistoryObj })
   }
 
   beforeEach(() => {
@@ -144,8 +141,7 @@ describe("useOverlay in `queryParam` mode", () => {
   })
 
   afterEach(() => {
-    ;(window as typeof globalThis).location = originalLocationObj
-    window.history = originalHistoryObj
+    vi.unstubAllGlobals()
   })
 
   test("Should be rendered open when query param is in URL and can be closed with history back", () => {

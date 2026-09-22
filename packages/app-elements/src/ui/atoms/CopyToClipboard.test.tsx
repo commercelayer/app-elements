@@ -50,7 +50,7 @@ describe("CopyToClipboard", () => {
 
 describe("CopyToClipboard click", () => {
   // mocking clipboard
-  const initialClipboard = { ...global.navigator.clipboard }
+  const initialClipboard = global.navigator.clipboard
   beforeEach(() => {
     let clipboardValue = ""
     ;(global.navigator as any).clipboard = {
@@ -65,7 +65,8 @@ describe("CopyToClipboard click", () => {
 
   afterEach(() => {
     vi.resetAllMocks()
-    ;(global.navigator as any) = initialClipboard
+    // restore the property that was replaced, not the whole `navigator`
+    ;(global.navigator as any).clipboard = initialClipboard
   })
 
   test("Should copy text into clipboard", async () => {
