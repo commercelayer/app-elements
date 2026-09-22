@@ -468,6 +468,7 @@ export {
   type ResourceTableColumn,
   type ResourceTableProps,
   type ResourceTableSort,
+  type ResourceTableSortKey,
   type UseResourceTableConfig,
   type UseResourceTableReturn,
   useResourceTable,

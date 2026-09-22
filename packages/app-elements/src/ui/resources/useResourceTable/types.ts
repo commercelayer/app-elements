@@ -141,10 +141,9 @@ export type SortableAttribute<
 export type MetricsAttribute = `${string}.${string}`
 
 /**
- * SDK sort expression, e.g. `"created_at"` (asc) or `"-created_at"` (desc).
- * `undefined` means no explicit table sort is applied.
+ * One SDK sort expression, e.g. `"created_at"` (asc) or `"-created_at"` (desc).
  */
-export type ResourceTableSort<
+export type ResourceTableSortKey<
   TResource extends ListableResourceTypeFor<TApi>,
   TApi extends ApiFlavour = "core",
 > =
@@ -152,6 +151,26 @@ export type ResourceTableSort<
   | `-${SortableAttribute<TResource, TApi>}`
   | MetricsAttribute
   | `-${MetricsAttribute}`
+
+/**
+ * How a table is sorted. `undefined` means no explicit sort is applied.
+ *
+ * An array sorts by several keys, applied in order — `["-status", "-created_at"]`
+ * groups by status and orders each group by recency. The SDK takes as many keys
+ * as you give it (`sort=-status,-created_at`); this is for the orderings a single
+ * attribute cannot express, such as keeping one group at the bottom of a list
+ * that is otherwise newest-first.
+ *
+ * The **first** key is the sorted column as far as the UI is concerned: a sort
+ * control reads it to mark the active column and its direction, and the rest are
+ * tie-breakers it does not show.
+ */
+export type ResourceTableSort<
+  TResource extends ListableResourceTypeFor<TApi>,
+  TApi extends ApiFlavour = "core",
+> =
+  | ResourceTableSortKey<TResource, TApi>
+  | Array<ResourceTableSortKey<TResource, TApi>>
   | undefined
 
 export type UseResourceTableConfig<

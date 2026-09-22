@@ -768,6 +768,53 @@ describe("useResourceTable", () => {
       ).toEqual(["#1001", "#1002", "#1003"])
     })
 
+    it("sends every key of a multi-key sort, in order", async () => {
+      const { requestedSorts } = mockOrdersList()
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          // group by status, newest first within each group — an ordering a
+          // single attribute cannot express
+          defaultSort: ["-status", "-number"],
+        })
+        return <ResourceTable />
+      }
+      const { findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      // the SDK joins them into one `sort` parameter, applied left to right
+      expect(requestedSorts).toEqual(["-status,-number"])
+    })
+
+    it("treats the first key of a multi-key sort as the active column", async () => {
+      mockOrdersList()
+      let seen: ResourceTableSort<"orders">
+      const Implementation: FC = () => {
+        const { ResourceTable, sort } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: ["-status", "-number"],
+        })
+        seen = sort
+        return <ResourceTable />
+      }
+      const { findByText } = render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+      await findByText("#1001")
+
+      // the whole expression is exposed; a sort control reads the first key and
+      // ignores the tie-breakers it cannot show
+      expect(seen).toEqual(["-status", "-number"])
+    })
+
     it("refetches with the new expression when a controlled sort changes", async () => {
       const { requestedSorts } = mockOrdersList()
       const Implementation: FC<{ sort: ResourceTableSort<"orders"> }> = ({
