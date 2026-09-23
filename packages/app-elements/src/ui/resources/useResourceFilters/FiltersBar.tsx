@@ -15,6 +15,8 @@ import {
 import { makeFilterAdapters } from "./adapters"
 import { FiltersBarSelect } from "./FiltersBarSelect"
 import { FiltersSearchBar } from "./FiltersSearchBar"
+import { TableSettingsMenus } from "./TableSettingsMenus"
+import type { TableSettingsConfig, TableSettingsStore } from "./tableSettings"
 import type {
   FilterItemOptions,
   FiltersInstructions,
@@ -81,6 +83,11 @@ interface InternalProps {
   predicateWhitelist: string[]
   /** Opens the drawer rendered by `FiltersDrawer`. */
   openDrawer: () => void
+  /** Set when the hook was given `tableSettings`: renders the sort and columns menus. */
+  tableSettings?: {
+    store: TableSettingsStore
+    config: TableSettingsConfig
+  }
 }
 
 /**
@@ -100,6 +107,7 @@ export function FiltersBar({
   instructions,
   predicateWhitelist,
   openDrawer,
+  tableSettings,
 }: FiltersBarProps & InternalProps): JSX.Element {
   const { user } = useTokenProvider()
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
@@ -216,6 +224,12 @@ export function FiltersBar({
             >
               <Icon name="funnel" size={16} />
             </Button>
+          )}
+          {tableSettings != null && (
+            <TableSettingsMenus
+              store={tableSettings.store}
+              config={tableSettings.config}
+            />
           )}
           {actions}
         </div>

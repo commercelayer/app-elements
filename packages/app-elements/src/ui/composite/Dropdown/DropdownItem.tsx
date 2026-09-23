@@ -8,6 +8,15 @@ export type DropdownItemProps = React.HTMLAttributes<HTMLElement> & {
   label: string
   info?: string
   icon?: IconProps["name"] | "keep-space"
+  /**
+   * Makes the item checkable. `true` shows a check mark in the icon slot,
+   * `false` keeps the slot empty so checked and unchecked labels stay aligned.
+   * It takes the place of `icon`.
+   *
+   * The item is announced as a `menuitemcheckbox`; pass `role="menuitemradio"`
+   * for a choice where only one item can be checked at a time.
+   */
+  checked?: boolean
 } & (
     | {
         /**
@@ -31,7 +40,8 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
   ({
     label,
     info,
-    icon,
+    icon: iconProp,
+    checked,
     isLoading,
     delayMs,
     href,
@@ -50,9 +60,14 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
     )
 
     const isDisabled = Boolean("disabled" in rest && rest.disabled)
+    const isCheckable = checked != null
+    const icon = isCheckable ? (checked ? "check" : "keep-space") : iconProp
 
     return (
       <JsxTag
+        {...(isCheckable
+          ? { role: "menuitemcheckbox", "aria-checked": checked }
+          : {})}
         {...rest}
         onClick={(e) => {
           if (!isDisabled) {

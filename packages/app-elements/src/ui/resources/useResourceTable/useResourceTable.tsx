@@ -10,6 +10,7 @@ import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
+import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -413,6 +414,7 @@ export function useResourceTable<
     sort: controlledSort,
     onSortChange,
     defaultSort,
+    showSortIndicator = false,
   } = config
 
   const { user } = useTokenProvider()
@@ -537,6 +539,7 @@ export function useResourceTable<
   })
 
   const columnCount = columns.length
+  const sortIndicator = showSortIndicator ? parseSort(sort) : undefined
   const isEmpty = !isFirstLoading && (list?.length ?? 0) === 0
   const isApiError = error != null && list == null
 
@@ -569,6 +572,7 @@ export function useResourceTable<
     fetchMore,
     onRowClick,
     getRowHref,
+    sortIndicator,
     locale: user?.locale,
   })
   renderRef.current = {
@@ -586,6 +590,7 @@ export function useResourceTable<
     fetchMore,
     onRowClick,
     getRowHref,
+    sortIndicator,
     locale: user?.locale,
   }
 
@@ -613,6 +618,7 @@ export function useResourceTable<
         fetchMore,
         onRowClick,
         getRowHref,
+        sortIndicator,
         locale,
       } = renderRef.current
 
@@ -649,12 +655,34 @@ export function useResourceTable<
         <Tr>
           {table.getHeaderGroups()[0]?.headers.map((header, index) => {
             const definition = columns[index]
-            const label = <table.FlexRender header={header} />
+            const content = <table.FlexRender header={header} />
+            const isSorted =
+              sortIndicator != null &&
+              definition?.sortBy === sortIndicator.attribute
+            const label = isSorted ? (
+              <span className="inline-flex items-center gap-1">
+                {content}
+                <Icon
+                  name={sortIndicator.desc ? "arrowDown" : "arrowUp"}
+                  size={12}
+                  aria-hidden
+                />
+              </span>
+            ) : (
+              content
+            )
             const headerAlign = resolveAlign(columns, index)
             return (
               <Th
                 key={header.id}
                 align={headerAlign.align}
+                aria-sort={
+                  isSorted
+                    ? sortIndicator.desc
+                      ? "descending"
+                      : "ascending"
+                    : undefined
+                }
                 // fixed layout takes its widths from the first row, so declaring
                 // them here sizes the whole column. Skipped when the column sets
                 // an explicit `width` class, which then owns the width.

@@ -10,13 +10,16 @@ import { useEffect, useState } from "react"
 import { useOverlay } from "#hooks/useOverlay"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { Badge } from "#ui/atoms/Badge"
 import { Button } from "#ui/atoms/Button"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
+import { Text } from "#ui/atoms/Text"
 import { ResourceListItem } from "#ui/resources/ResourceListItem"
 import { presetResourceListItem } from "#ui/resources/ResourceListItem/ResourceListItem.mocks"
 import { useResourceFilters } from "#ui/resources/useResourceFilters"
 import { instructions } from "#ui/resources/useResourceFilters/mockedInstructions"
 import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
+import type { ResourceTableColumn } from "#ui/resources/useResourceTable"
 import { worker } from "../../mocks/browser"
 import { marketsWithSearch } from "../../mocks/data/markets"
 
@@ -385,6 +388,107 @@ export const FiltersBarWithPromotedFilter: StoryFn = () => {
  *
  * Have a look at the source code to see how the following object is generated:
  **/
+/**
+ * With `tableSettings`, `FiltersBar` gains two more buttons next to the filters
+ * one: a **sort** menu (field and direction) and a **columns** menu, listing the
+ * columns declared with `hideable: true`.
+ *
+ * - The choice is kept in `localStorage`, scoped by organization, app, mode and
+ *   `listId`, and read before the first fetch: reload the story and it is still
+ *   there.
+ * - Sort options are declared apart from columns, with a stable `id`: the same
+ *   option can point to another `sortBy` in another view of the list.
+ * - The direction words follow the option `kind`: "Newest first" for a date,
+ *   "A → Z" for a text, "Lowest first" for a number.
+ * - Changing the sort refetches from page 1; showing or hiding a column does not
+ *   fetch at all.
+ * - The columns menu is hidden below `md`, where the table shows its first column
+ *   only.
+ *
+ * <span title="Table layout" type="info">
+ * The table uses `layout="scroll"`, so adding columns scrolls it horizontally
+ * rather than squeezing them.
+ * </span>
+ **/
+export const FiltersBarWithTableSettings: StoryFn = () => {
+  const [queryString, setQueryString] = useState("")
+  const { FiltersBar, FiltersDrawer, FilteredTable } = useResourceFilters({
+    instructions,
+    tableSettings: {
+      listId: "orders",
+      sortOptions: [
+        { id: "number", label: "Order", sortBy: "number", kind: "text" },
+        { id: "updated", label: "Updated", sortBy: "updated_at", kind: "date" },
+      ],
+      defaultSort: { id: "updated", direction: "desc" },
+    },
+  })
+
+  return (
+    <TokenProvider kind="integration" appSlug="orders" devMode>
+      <CoreSdkProvider>
+        <FiltersBar queryString={queryString} onUpdate={setQueryString} />
+        <FilteredTable
+          type="orders"
+          columns={tableSettingsColumns}
+          query={{ include: ["market", "billing_address"] }}
+          layout="scroll"
+          hideTitle
+        />
+        <FiltersDrawer onUpdate={setQueryString} />
+      </CoreSdkProvider>
+    </TokenProvider>
+  )
+}
+
+const tableSettingsColumns: Array<ResourceTableColumn<"orders">> = [
+  {
+    header: "Order",
+    sortBy: "number",
+    cell: ({ resource }) => (
+      <div>
+        <Text tag="div" weight="semibold">
+          {resource.market?.name} #{resource.number}
+        </Text>
+        <Text tag="div" size="small" variant="info">
+          {resource.updated_at.slice(0, 10)}
+        </Text>
+      </div>
+    ),
+  },
+  {
+    id: "customer",
+    header: "Customer",
+    kind: "text",
+    hideable: true,
+    cell: ({ resource }) => resource.customer_email,
+  },
+  {
+    id: "status",
+    header: "Status",
+    kind: "status",
+    hideable: true,
+    cell: ({ resource }) => (
+      <Badge variant="secondary">{resource.status}</Badge>
+    ),
+  },
+  {
+    id: "amount",
+    header: "Amount",
+    kind: "amount",
+    hideable: true,
+    cell: ({ resource }) => resource.formatted_total_amount,
+  },
+  {
+    id: "reference",
+    header: "Reference",
+    kind: "code",
+    hideable: true,
+    defaultHidden: true,
+    cell: ({ resource }) => resource.reference ?? "—",
+  },
+]
+
 export const FiltersAdapters: StoryFn = () => {
   const { adapters } = useResourceFilters({
     instructions,

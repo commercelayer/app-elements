@@ -90,4 +90,42 @@ describe("Dropdown", () => {
     fireEvent.click(getByText("open dropdown"))
     expect(container).toMatchSnapshot()
   })
+
+  test("Should close the menu when an item is clicked, by default", () => {
+    const { getByText, queryByText } = render(
+      <Dropdown dropdownLabel="open dropdown" dropdownItems={items} />,
+    )
+    fireEvent.click(getByText("open dropdown"))
+    fireEvent.click(getByText("Payments"))
+    expect(queryByText("Payments")).toBeNull()
+  })
+
+  test("Should keep the menu open on item click when `closeOnItemClick` is false", () => {
+    const { getByText } = render(
+      <Dropdown
+        dropdownLabel="open dropdown"
+        dropdownItems={items}
+        closeOnItemClick={false}
+      />,
+    )
+    fireEvent.click(getByText("open dropdown"))
+    fireEvent.click(getByText("Payments"))
+    expect(getByText("Payments")).toBeVisible()
+  })
+
+  test("Should close on Escape and focus the trigger when `closeOnItemClick` is false", () => {
+    const { getByText, queryByText } = render(
+      <Dropdown
+        dropdownLabel="open dropdown"
+        dropdownItems={items}
+        closeOnItemClick={false}
+      />,
+    )
+    const trigger = getByText("open dropdown").closest("button")
+    assertToBeDefined(trigger)
+    fireEvent.click(trigger)
+    fireEvent.keyDown(getByText("Payments"), { key: "Escape" })
+    expect(queryByText("Payments")).toBeNull()
+    expect(trigger).toHaveFocus()
+  })
 })

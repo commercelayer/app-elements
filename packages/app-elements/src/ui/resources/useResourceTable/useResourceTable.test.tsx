@@ -868,4 +868,44 @@ describe("useResourceTable", () => {
       expect(seen).toBe("-number")
     })
   })
+
+  describe("sort indicator", () => {
+    const renderWithSort = (showSortIndicator?: boolean) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+          showSortIndicator,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("marks the sorted column header when `showSortIndicator` is set", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithSort(true)
+      await findByText("#1001")
+
+      const sorted = container.querySelectorAll("th[aria-sort]")
+      expect(sorted).toHaveLength(1)
+      expect(sorted[0]).toHaveAttribute("aria-sort", "descending")
+      expect(sorted[0]).toHaveTextContent("Order")
+      expect(sorted[0]?.querySelector("svg")).not.toBeNull()
+    })
+
+    it("leaves headers unmarked by default", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithSort()
+      await findByText("#1001")
+
+      expect(container.querySelector("th[aria-sort]")).toBeNull()
+      expect(container.querySelector("th svg")).toBeNull()
+    })
+  })
 })
