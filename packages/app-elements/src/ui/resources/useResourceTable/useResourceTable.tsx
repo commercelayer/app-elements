@@ -5,7 +5,15 @@ import {
   useTable,
 } from "@tanstack/react-table"
 import cn from "classnames"
-import { type FC, useCallback, useMemo, useRef, useState } from "react"
+import {
+  type FC,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
@@ -927,25 +935,16 @@ export function useResourceTable<
         >
           <SkeletonTemplate isLoading={false}>
             {layout === "fit-or-scroll" ? (
-              <div className="overflow-x-auto">
-                <div
-                  className="md:min-w-(--table-min-width)"
-                  style={
-                    {
-                      "--table-min-width": `${tableMinWidthRem(columns)}rem`,
-                    } as React.CSSProperties
-                  }
-                >
-                  <Table
-                    variant={variant === "boxed" ? "boxed" : undefined}
-                    // fixed, as in `fit`: widths come from the declared shares
-                    // and long values truncate instead of widening their column
-                    className="table-fixed"
-                    thead={thead}
-                    tbody={tbody}
-                  />
-                </div>
-              </div>
+              <FadingHorizontalScroll minWidthRem={tableMinWidthRem(columns)}>
+                <Table
+                  variant={variant === "boxed" ? "boxed" : undefined}
+                  // fixed, as in `fit`: widths come from the declared shares
+                  // and long values truncate instead of widening their column
+                  className="table-fixed"
+                  thead={thead}
+                  tbody={tbody}
+                />
+              </FadingHorizontalScroll>
             ) : layout === "scroll" ? (
               <div className="overflow-x-auto">
                 <Table
@@ -993,3 +992,93 @@ export function useResourceTable<
 }
 
 const NullComponent: FC = () => null
+
+/** How far into the table the edge fade reaches. */
+const scrollFadeWidth = "3rem"
+
+/**
+ * The scroll container of a `fit-or-scroll` table, fading out the edge that has
+ * more columns beyond it: the right one until the user scrolls to the end, the
+ * left one once they have scrolled away from the start. It tells the user the
+ * table goes on, which a hidden-by-default scrollbar (macOS) would not.
+ *
+ * Masked rather than covered by a gradient, as `Tabs` does, so the fade works on
+ * whatever the background is — the header's gray, a hovered row, a boxed card.
+ *
+ * The edges need the real scroll position, so this cannot be CSS alone. They are
+ * re-measured on scroll and whenever the container or the table changes size: a
+ * column shown or hidden changes the table's width without touching the
+ * container. With no overflow (mobile, or columns that fit) no mask is applied.
+ */
+function FadingHorizontalScroll({
+  minWidthRem,
+  children,
+}: {
+  minWidthRem: number
+  children: ReactNode
+}): React.JSX.Element {
+  const scroller = useRef<HTMLDivElement>(null)
+  const content = useRef<HTMLDivElement>(null)
+  const [overflowing, setOverflowing] = useState({ start: false, end: false })
+
+  useEffect(() => {
+    const element = scroller.current
+    if (element == null) {
+      return
+    }
+    const update = (): void => {
+      const max = element.scrollWidth - element.clientWidth
+      // a pixel of tolerance: fractional scroll positions never land on 0 or `max`
+      const start = element.scrollLeft > 1
+      const end = element.scrollLeft < max - 1
+      setOverflowing((previous) =>
+        previous.start === start && previous.end === end
+          ? previous
+          : { start, end },
+      )
+    }
+    update()
+    element.addEventListener("scroll", update, { passive: true })
+    const observer = new ResizeObserver(update)
+    observer.observe(element)
+    if (content.current != null) {
+      observer.observe(content.current)
+    }
+    return () => {
+      element.removeEventListener("scroll", update)
+      observer.disconnect()
+    }
+  }, [])
+
+  const maskImage = useMemo(() => {
+    if (!overflowing.start && !overflowing.end) {
+      return undefined
+    }
+    const from = overflowing.start
+      ? `transparent 0, black ${scrollFadeWidth}`
+      : "black 0"
+    const to = overflowing.end
+      ? `black calc(100% - ${scrollFadeWidth}), transparent 100%`
+      : "black 100%"
+    return `linear-gradient(to right, ${from}, ${to})`
+  }, [overflowing])
+
+  return (
+    <div
+      ref={scroller}
+      className="overflow-x-auto"
+      style={{ maskImage, WebkitMaskImage: maskImage }}
+      data-testid="resource-table-scroller"
+    >
+      <div
+        ref={content}
+        className="md:min-w-(--table-min-width)"
+        style={
+          { "--table-min-width": `${minWidthRem}rem` } as React.CSSProperties
+        }
+      >
+        {children}
+      </div>
+    </div>
+  )
+}

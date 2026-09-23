@@ -947,5 +947,68 @@ describe("useResourceTable", () => {
       )
       expect(minWidthBox.parentElement).toHaveClass("overflow-x-auto")
     })
+
+    /** Fake the scroller's geometry (jsdom has no layout) and fire a scroll. */
+    const setGeometry = (
+      element: HTMLElement,
+      {
+        scrollWidth,
+        clientWidth,
+        scrollLeft,
+      }: { scrollWidth: number; clientWidth: number; scrollLeft: number },
+    ): void => {
+      Object.defineProperty(element, "scrollWidth", {
+        value: scrollWidth,
+        configurable: true,
+      })
+      Object.defineProperty(element, "clientWidth", {
+        value: clientWidth,
+        configurable: true,
+      })
+      element.scrollLeft = scrollLeft
+      fireEvent.scroll(element)
+    }
+
+    it("fades the edge that has more columns beyond it", async () => {
+      mockOrdersList()
+      const { getByTestId, findByText } = renderLayout("fit-or-scroll")
+      await findByText("#1001")
+      const scroller = getByTestId("resource-table-scroller")
+
+      // the columns fit: no fade
+      setGeometry(scroller, {
+        scrollWidth: 800,
+        clientWidth: 800,
+        scrollLeft: 0,
+      })
+      expect(scroller.style.maskImage).toBe("")
+
+      // wider than the container, at the start: right edge only
+      setGeometry(scroller, {
+        scrollWidth: 1200,
+        clientWidth: 800,
+        scrollLeft: 0,
+      })
+      expect(scroller.style.maskImage).toContain("transparent 100%")
+      expect(scroller.style.maskImage).not.toContain("transparent 0")
+
+      // scrolled halfway: both edges
+      setGeometry(scroller, {
+        scrollWidth: 1200,
+        clientWidth: 800,
+        scrollLeft: 200,
+      })
+      expect(scroller.style.maskImage).toContain("transparent 0")
+      expect(scroller.style.maskImage).toContain("transparent 100%")
+
+      // scrolled to the end: left edge only
+      setGeometry(scroller, {
+        scrollWidth: 1200,
+        clientWidth: 800,
+        scrollLeft: 400,
+      })
+      expect(scroller.style.maskImage).toContain("transparent 0")
+      expect(scroller.style.maskImage).not.toContain("transparent 100%")
+    })
   })
 })
