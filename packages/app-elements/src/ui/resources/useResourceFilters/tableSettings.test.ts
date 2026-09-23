@@ -171,8 +171,18 @@ describe("makeTableSettingsStore", () => {
 
   test("stores only the columns moved away from their default", () => {
     const store = makeTableSettingsStore(key)
-    const tags = { id: "tags", label: "Tags", defaultHidden: true }
-    const status = { id: "status", label: "Status", defaultHidden: false }
+    const tags = {
+      id: "tags",
+      label: "Tags",
+      defaultHidden: true,
+      locked: false,
+    }
+    const status = {
+      id: "status",
+      label: "Status",
+      defaultHidden: false,
+      locked: false,
+    }
 
     store.setColumnVisible(tags, true)
     store.setColumnVisible(status, false)
@@ -189,7 +199,9 @@ describe("makeTableSettingsStore", () => {
 
   test("does not persist the column entries", () => {
     const store = makeTableSettingsStore(key)
-    store.setColumnEntries([{ id: "tags", label: "Tags", defaultHidden: true }])
+    store.setColumnEntries([
+      { id: "tags", label: "Tags", defaultHidden: true, locked: false },
+    ])
     expect(store.getSnapshot().columnEntries).toHaveLength(1)
     expect(window.localStorage.getItem(key)).toBeNull()
   })

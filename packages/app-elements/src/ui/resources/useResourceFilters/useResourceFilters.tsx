@@ -692,20 +692,32 @@ function useTableSettingsProps<TResource extends ListableResourceType>({
     store?.getSnapshot ?? noTableSettings.getSnapshot,
   )
 
-  const columnEntries = columns.flatMap((column): TableColumnEntry[] =>
-    column.hideable === true
+  const columnEntries = columns.flatMap((column, index): TableColumnEntry[] => {
+    if (column.hideable === true) {
+      return [
+        {
+          id: column.id,
+          // the menu holds text only: a header that is a node falls back to
+          // the id, and the column should get a string header instead
+          label: typeof column.header === "string" ? column.header : column.id,
+          defaultHidden: column.defaultHidden === true,
+          locked: false,
+        },
+      ]
+    }
+    // A fixed column is listed locked, but only when it has a name to show:
+    // an `actions` column has an empty header, and a node would have no label.
+    return typeof column.header === "string" && column.header !== ""
       ? [
           {
-            id: column.id,
-            // the menu holds text only: a header that is a node falls back to
-            // the id, and the column should get a string header instead
-            label:
-              typeof column.header === "string" ? column.header : column.id,
-            defaultHidden: column.defaultHidden === true,
+            id: column.id ?? `col-${index}`,
+            label: column.header,
+            defaultHidden: false,
+            locked: true,
           },
         ]
-      : [],
-  )
+      : []
+  })
   const columnEntriesKey = JSON.stringify(columnEntries)
 
   // Before paint, so the menu is never shown with an older column set.

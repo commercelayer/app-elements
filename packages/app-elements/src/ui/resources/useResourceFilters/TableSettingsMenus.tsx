@@ -82,7 +82,8 @@ export function TableSettingsMenus({
           }
         />
       )}
-      {state.columnEntries.length > 0 && (
+      {/* locked columns alone leave nothing to edit */}
+      {state.columnEntries.some((column) => !column.locked) && (
         <Dropdown
           closeOnItemClick={false}
           // below `md` the table shows only its primary column, so there is
@@ -93,6 +94,17 @@ export function TableSettingsMenus({
             <>
               <DropdownLabel label={t("common.table_settings.edit_columns")} />
               {state.columnEntries.map((column) => {
+                if (column.locked) {
+                  return (
+                    <DropdownItem
+                      key={column.id}
+                      label={column.label}
+                      icon="lockSimple"
+                      disabled
+                      aria-disabled
+                    />
+                  )
+                }
                 const visible = isColumnVisible(column, state.columns)
                 return (
                   <DropdownItem

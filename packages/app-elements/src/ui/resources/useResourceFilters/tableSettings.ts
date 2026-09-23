@@ -60,11 +60,17 @@ export interface TableSettingsConfig {
   defaultSort: TableSortValue
 }
 
-/** What the columns menu needs to know about a hideable column. */
+/** What the columns menu needs to know about a column. */
 export interface TableColumnEntry {
   id: string
   label: string
   defaultHidden: boolean
+  /**
+   * A column the user cannot hide, such as the primary one. It is listed all the
+   * same, disabled and with a lock, so the menu mirrors the whole table rather
+   * than leaving the user to wonder where the first column went.
+   */
+  locked: boolean
 }
 
 export interface TableSettingsState {
@@ -76,7 +82,7 @@ export interface TableSettingsState {
    * inheriting a stale "everything else is hidden".
    */
   columns: Record<string, boolean>
-  /** The hideable columns of the table currently rendered, for the menu. */
+  /** The columns of the table currently rendered, in order, for the menu. */
   columnEntries: TableColumnEntry[]
 }
 

@@ -176,6 +176,12 @@ describe("useResourceFilters with tableSettings", () => {
         .getAllByRole("menuitemcheckbox")
         .map((item) => item.getAttribute("aria-label")),
     ).toEqual(["Status", "Reference"])
+    // the primary column is listed too, first, locked
+    const locked = within(menu).getByRole("button", { name: "Order" })
+    expect(locked).toBeDisabled()
+    expect(menu.textContent?.indexOf("Order")).toBeLessThan(
+      menu.textContent?.indexOf("Status") ?? 0,
+    )
 
     fireEvent.click(
       within(menu).getByRole("menuitemcheckbox", { name: "Reference" }),
