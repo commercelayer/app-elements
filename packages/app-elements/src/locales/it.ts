@@ -97,6 +97,8 @@ const it: typeof en = {
       edit_columns: "Modifica colonne",
       newest_first: "Più recenti prima",
       oldest_first: "Meno recenti prima",
+      soonest_first: "Più vicine prima",
+      latest_first: "Più lontane prima",
       a_to_z: "A → Z",
       z_to_a: "Z → A",
       lowest_first: "Dal più basso",

@@ -29,9 +29,13 @@ export interface TableSortOption {
   sortBy: string
   /**
    * What the attribute holds, which picks the words for the two directions:
-   * "Newest first" for a date, "A → Z" for a text, "Lowest first" for a number.
+   * "Newest first" for a date, "A → Z" for a text, "Lowest first" for a number,
+   * "Soonest first" for a schedule.
+   *
+   * `schedule` is a date that looks ahead — an expiry, a next run — where
+   * "newest" would read as nonsense: the question is what comes up soonest.
    */
-  kind: "date" | "text" | "number"
+  kind: "date" | "schedule" | "text" | "number"
 }
 
 export interface TableSortValue {

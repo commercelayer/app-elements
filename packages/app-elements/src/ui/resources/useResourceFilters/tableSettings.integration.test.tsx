@@ -17,6 +17,7 @@ const tableSettings: TableSettingsConfig = {
   sortOptions: [
     { id: "number", label: "Order", sortBy: "number", kind: "text" },
     { id: "updated", label: "Updated", sortBy: "updated_at", kind: "date" },
+    { id: "placed", label: "Placed", sortBy: "placed_at", kind: "schedule" },
   ],
   defaultSort: { id: "updated", direction: "desc" },
 }
@@ -188,5 +189,34 @@ describe("useResourceFilters with tableSettings", () => {
     expect(
       JSON.parse(window.localStorage.getItem(storageKey) ?? "null").columns,
     ).toEqual({ reference: true, status: false })
+  })
+
+  test("words a schedule sort by what comes up soonest", async () => {
+    const { requestedSorts } = mockOrdersList()
+    const { getByText, getByRole, getAllByRole } = renderPage()
+    await waitFor(() => {
+      expect(getByText("#1001")).toBeVisible()
+    })
+
+    fireEvent.click(getByRole("button", { name: "common.table_settings.sort" }))
+    fireEvent.click(getByRole("menuitemradio", { name: "Placed" }))
+
+    await waitFor(() => {
+      expect(requestedSorts.at(-1)).toBe("-placed_at")
+    })
+    // soonest first comes first, and desc (carried over) reads as latest first
+    expect(
+      getAllByRole("menuitemradio")
+        .slice(-2)
+        .map((item) => item.getAttribute("aria-label")),
+    ).toEqual([
+      "common.table_settings.soonest_first",
+      "common.table_settings.latest_first",
+    ])
+    expect(
+      getByRole("menuitemradio", {
+        name: "common.table_settings.latest_first",
+      }),
+    ).toHaveAttribute("aria-checked", "true")
   })
 })

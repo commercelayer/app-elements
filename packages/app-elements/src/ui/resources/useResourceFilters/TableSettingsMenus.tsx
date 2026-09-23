@@ -138,7 +138,9 @@ function menuButton(icon: IconProps["name"], label: string): JSX.Element {
 function sortDirections(
   kind: TableSortOption["kind"],
 ): [TableSortDirection, TableSortDirection] {
-  return kind === "text" ? ["asc", "desc"] : ["desc", "asc"]
+  return kind === "text" || kind === "schedule"
+    ? ["asc", "desc"]
+    : ["desc", "asc"]
 }
 
 function sortDirectionLabel(
@@ -150,6 +152,10 @@ function sortDirectionLabel(
       return direction === "desc"
         ? t("common.table_settings.newest_first")
         : t("common.table_settings.oldest_first")
+    case "schedule":
+      return direction === "asc"
+        ? t("common.table_settings.soonest_first")
+        : t("common.table_settings.latest_first")
     case "text":
       return direction === "asc"
         ? t("common.table_settings.a_to_z")

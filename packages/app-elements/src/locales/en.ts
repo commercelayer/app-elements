@@ -325,6 +325,8 @@ const en = {
       edit_columns: "Edit columns",
       newest_first: "Newest first",
       oldest_first: "Oldest first",
+      soonest_first: "Soonest first",
+      latest_first: "Latest first",
       a_to_z: "A → Z",
       z_to_a: "Z → A",
       lowest_first: "Lowest first",
