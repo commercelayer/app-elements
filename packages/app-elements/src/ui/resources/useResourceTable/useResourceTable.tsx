@@ -130,6 +130,47 @@ const columnKindWeight: Record<ColumnKind, number> = {
 const flexibleColumnWeight = 3
 
 /**
+ * The narrowest each kind of column gets in a `fit-or-scroll` table, in rem.
+ *
+ * Their sum is the table's minimum width: below it the table scrolls instead of
+ * squeezing its columns further. Sized so the default column sets of the list
+ * pages fit a desktop container with room to spare, and the scroll only starts
+ * once the user adds columns on top.
+ */
+const columnKindMinWidthRem: Record<ColumnKind, number> = {
+  text: 12,
+  code: 10,
+  status: 10,
+  datetime: 11,
+  amount: 8,
+  count: 6,
+  actions: 4,
+}
+
+/** The minimum width of a column with no `kind`, the one the row is about. */
+const flexibleColumnMinWidthRem = 16
+
+/**
+ * The minimum width of a `fit-or-scroll` table, in rem.
+ *
+ * Applied from `md` up only: below it the table shows its first column alone
+ * (see `visibilityClassName`), and counting the hidden ones would make a phone
+ * scroll through empty space.
+ */
+function tableMinWidthRem(
+  columns: Array<Pick<ResourceTableColumn<ListableResourceType>, "kind">>,
+): number {
+  return columns.reduce(
+    (sum, column) =>
+      sum +
+      (column.kind != null
+        ? columnKindMinWidthRem[column.kind]
+        : flexibleColumnMinWidthRem),
+    0,
+  )
+}
+
+/**
  * The widths to declare, as percentages summing to 100.
  *
  * Percentages rather than a fraction class per column, because the share depends
@@ -885,7 +926,27 @@ export function useResourceTable<
           border="none"
         >
           <SkeletonTemplate isLoading={false}>
-            {layout === "scroll" ? (
+            {layout === "fit-or-scroll" ? (
+              <div className="overflow-x-auto">
+                <div
+                  className="md:min-w-(--table-min-width)"
+                  style={
+                    {
+                      "--table-min-width": `${tableMinWidthRem(columns)}rem`,
+                    } as React.CSSProperties
+                  }
+                >
+                  <Table
+                    variant={variant === "boxed" ? "boxed" : undefined}
+                    // fixed, as in `fit`: widths come from the declared shares
+                    // and long values truncate instead of widening their column
+                    className="table-fixed"
+                    thead={thead}
+                    tbody={tbody}
+                  />
+                </div>
+              </div>
+            ) : layout === "scroll" ? (
               <div className="overflow-x-auto">
                 <Table
                   variant={variant === "boxed" ? "boxed" : undefined}

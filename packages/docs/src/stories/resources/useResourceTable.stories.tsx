@@ -208,10 +208,15 @@ export const ResponsiveColumns: StoryFn = () => {
 }
 
 /**
- * With `layout="scroll"`, a table wider than its container keeps its natural
- * width and scrolls horizontally instead of squishing columns. The title and
- * action button stay fixed. This is an alternative to hiding columns with
- * `hideBelow` — useful when every column matters. Narrow the preview to see it.
+ * With `layout="fit-or-scroll"`, the table fills its container while the columns
+ * fit, and scrolls horizontally once they no longer do, instead of squishing
+ * them. Each column claims a minimum width from its `kind`, and long values keep
+ * being truncated. The title and action button stay fixed. This is an
+ * alternative to hiding columns with `hideBelow` — useful when every column
+ * matters, or when the user can add columns. Narrow the preview to see it.
+ *
+ * `layout="scroll"` is deprecated: it lets the table take its natural width, so
+ * a single long value widens its column and pushes the others off screen.
  */
 export const HorizontalScroll: StoryFn = () => {
   const { ResourceTable } = useResourceTable({
@@ -244,7 +249,7 @@ export const HorizontalScroll: StoryFn = () => {
     ],
   })
 
-  return <ResourceTable title="Orders" layout="scroll" />
+  return <ResourceTable title="Orders" layout="fit-or-scroll" />
 }
 
 /**

@@ -314,11 +314,19 @@ export interface ResourceTableProps {
    * - `"fit"` (default): the table fills the container width; columns share the
    *   available space (and wrap/shrink). Pair with `hideBelow` on columns to
    *   drop low-value columns on small screens.
+   * - `"fit-or-scroll"`: like `"fit"` while the columns fit, then it scrolls
+   *   horizontally inside its own container. Each column claims a minimum width
+   *   from its `kind`, and the table only scrolls once their sum exceeds the
+   *   container — for tables whose column set the user can grow. Long values keep
+   *   being truncated, as in `"fit"`.
    * - `"scroll"`: the table keeps its natural (unwrapped) width and scrolls
    *   horizontally inside its own container; the title/action button stay fixed.
+   *   **Deprecated**: nothing is truncated, so a single long value widens its
+   *   column and pushes the others off screen. Use `"fit-or-scroll"`; `"scroll"`
+   *   will be removed in the next major release.
    * @default 'fit'
    */
-  layout?: "fit" | "scroll"
+  layout?: "fit" | "fit-or-scroll" | "scroll"
 }
 
 export interface UseResourceTableReturn<

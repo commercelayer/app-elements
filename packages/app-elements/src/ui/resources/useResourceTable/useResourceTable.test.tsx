@@ -908,4 +908,44 @@ describe("useResourceTable", () => {
       expect(container.querySelector("th svg")).toBeNull()
     })
   })
+
+  describe("fit-or-scroll layout", () => {
+    const renderLayout = (layout: ResourceTableProps["layout"]) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: [
+            // no kind (16rem) + status (10rem) + amount (8rem)
+            { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+            { header: "Status", kind: "status", cell: () => "placed" },
+            { header: "Amount", kind: "amount", cell: () => "€10,00" },
+          ],
+        })
+        return <ResourceTable layout={layout} />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("keeps the fixed layout and sets a minimum width from the column kinds", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderLayout("fit-or-scroll")
+      await findByText("#1001")
+
+      const table = container.querySelector("table")
+      assertToBeDefined(table)
+      expect(table).toHaveClass("table-fixed")
+
+      const minWidthBox = table.parentElement
+      assertToBeDefined(minWidthBox)
+      expect(minWidthBox).toHaveClass("md:min-w-(--table-min-width)")
+      expect(minWidthBox.style.getPropertyValue("--table-min-width")).toBe(
+        "34rem",
+      )
+      expect(minWidthBox.parentElement).toHaveClass("overflow-x-auto")
+    })
+  })
 })

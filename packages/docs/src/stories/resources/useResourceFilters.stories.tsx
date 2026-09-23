@@ -406,8 +406,8 @@ export const FiltersBarWithPromotedFilter: StoryFn = () => {
  *   only.
  *
  * <span title="Table layout" type="info">
- * The table uses `layout="scroll"`, so adding columns scrolls it horizontally
- * rather than squeezing them.
+ * The table uses `layout="fit-or-scroll"`: it fills the container while the
+ * columns fit, and scrolls horizontally once the user adds more than fit.
  * </span>
  **/
 export const FiltersBarWithTableSettings: StoryFn = () => {
@@ -432,7 +432,7 @@ export const FiltersBarWithTableSettings: StoryFn = () => {
           type="orders"
           columns={tableSettingsColumns}
           query={{ include: ["market", "billing_address"] }}
-          layout="scroll"
+          layout="fit-or-scroll"
           hideTitle
         />
         <FiltersDrawer onUpdate={setQueryString} />
