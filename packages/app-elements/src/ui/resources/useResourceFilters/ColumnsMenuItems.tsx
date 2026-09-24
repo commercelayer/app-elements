@@ -175,10 +175,23 @@ function SortableColumnItem({
   } = useSortable({ id: entry.id })
 
   return (
+    // The whole row drags with the pointer: a click that does not move stays a
+    // click and toggles the column, and once a drag has started `dnd-kit`
+    // swallows the click that comes with the release. The keyboard drags from
+    // the handle only, since Space and Enter on the row toggle the column.
+    // `touch-none` keeps a touch drag from scrolling the menu instead.
     <div
       ref={setNodeRef}
       style={{ transform: CSS.Transform.toString(transform), transition }}
-      className={cn("relative", { "z-10 bg-white shadow rounded": isDragging })}
+      // `dnd-kit` types its listeners as bare functions, keyed by event name
+      onPointerDown={
+        listeners?.onPointerDown as
+          | React.PointerEventHandler<HTMLDivElement>
+          | undefined
+      }
+      className={cn("relative touch-none", {
+        "z-10 bg-white shadow rounded cursor-grabbing": isDragging,
+      })}
     >
       <DropdownItem
         label={entry.label}
@@ -191,17 +204,21 @@ function SortableColumnItem({
         type="button"
         ref={setActivatorNodeRef}
         {...attributes}
-        {...listeners}
+        onKeyDown={
+          listeners?.onKeyDown as
+            | React.KeyboardEventHandler<HTMLButtonElement>
+            | undefined
+        }
         aria-label={t("common.table_settings.reorder_column", {
           column: entry.label,
         })}
         className={cn(
           handleClassName,
-          // `touch-none` keeps a touch drag from scrolling the menu instead
-          "flex text-gray-400 hover:text-gray-600 rounded touch-none",
+          // no pointer events: the pointer drags the row it sits on, and the
+          // row's own hover is the only one, handle included
+          "flex text-gray-400 rounded pointer-events-none",
           // a keyboard user lands here on Tab, and has to see it
           "outline-hidden focus-visible:text-gray-800 focus-visible:bg-gray-100",
-          isDragging ? "cursor-grabbing" : "cursor-grab",
         )}
       >
         <Icon name="dotsSixVertical" size={16} />
