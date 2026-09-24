@@ -261,4 +261,72 @@ describe("useResourceFilters with tableSettings", () => {
       }),
     ).toHaveLength(2)
   })
+
+  test("right-aligns an amount only while the user's order leaves it last", async () => {
+    const amountColumns: Array<ResourceTableColumn<"orders">> = [
+      { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+      {
+        id: "amount",
+        header: "Amount",
+        kind: "amount",
+        // on screen on mobile too, as in the orders app
+        hideBelow: "never",
+        hideable: true,
+        cell: () => "€10,00",
+      },
+      {
+        id: "status",
+        header: "Status",
+        hideable: true,
+        cell: () => "placed",
+      },
+    ]
+    const AmountPage: FC = () => {
+      const { FilteredTable } = useResourceFilters({
+        instructions,
+        tableSettings,
+      })
+      return <FilteredTable type="orders" columns={amountColumns} hideTitle />
+    }
+    const amountHeader = (container: HTMLElement): HTMLElement | undefined =>
+      Array.from(container.querySelectorAll<HTMLElement>("thead th")).find(
+        (th) => th.textContent === "Amount",
+      )
+
+    // configuration order: Amount is last on mobile (right) but mid-table on
+    // desktop, where it goes back to the left
+    mockOrdersList()
+    const first = render(
+      <TokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <AmountPage />
+        </CoreSdkProvider>
+      </TokenProvider>,
+    )
+    await waitFor(() => {
+      expect(first.getByText("#1001")).toBeVisible()
+    })
+    expect(amountHeader(first.container)).toHaveClass("md:text-left")
+    first.unmount()
+
+    // dragged last: right-aligned at every width
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({ version: 1, order: ["status", "amount"] }),
+    )
+    mockOrdersList()
+    const second = render(
+      <TokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <AmountPage />
+        </CoreSdkProvider>
+      </TokenProvider>,
+    )
+    await waitFor(() => {
+      expect(second.getByText("#1001")).toBeVisible()
+    })
+    const header = amountHeader(second.container)
+    expect(header).toHaveAttribute("align", "right")
+    expect(header).not.toHaveClass("md:text-left")
+  })
 })
