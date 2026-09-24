@@ -190,6 +190,18 @@ export function resolveTableSort(
   return undefined
 }
 
+/**
+ * The direction a sort option starts in, when the user picks it: what a list
+ * sorted by that kind of value is usually read for. Names and codes from A to Z,
+ * dates and numbers from the newest or highest (the latest order on top), dates
+ * ahead from the soonest (what expires or runs next).
+ */
+export function defaultSortDirection(
+  kind: TableSortOption["kind"],
+): TableSortDirection {
+  return kind === "text" || kind === "schedule" ? "asc" : "desc"
+}
+
 /** The SDK sort expression for an option and a direction (`"-updated_at"`). */
 export function toSortKey(
   option: Pick<TableSortOption, "sortBy">,

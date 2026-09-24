@@ -1,5 +1,6 @@
 import {
   applyColumnOrder,
+  defaultSortDirection,
   isColumnVisible,
   makeTableSettingsStorageKey,
   makeTableSettingsStore,
@@ -121,6 +122,15 @@ describe("resolveTableSort", () => {
         undefined,
       ),
     ).toBeUndefined()
+  })
+})
+
+describe("defaultSortDirection", () => {
+  test("starts names at A, dates and numbers at the newest, schedules at the soonest", () => {
+    expect(defaultSortDirection("text")).toBe("asc")
+    expect(defaultSortDirection("date")).toBe("desc")
+    expect(defaultSortDirection("number")).toBe("desc")
+    expect(defaultSortDirection("schedule")).toBe("asc")
   })
 })
 

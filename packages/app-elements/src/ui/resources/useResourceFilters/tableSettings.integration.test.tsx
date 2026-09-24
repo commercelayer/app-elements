@@ -137,23 +137,30 @@ describe("useResourceFilters with tableSettings", () => {
     const orderOption = getByRole("menuitemradio", { name: "Order" })
     fireEvent.click(orderOption)
 
+    // a text field starts from A → Z, whatever the previous direction was
     await waitFor(() => {
-      expect(requestedSorts.at(-1)).toBe("-number")
+      expect(requestedSorts.at(-1)).toBe("number")
     })
     // the menu stays open, and the direction words follow the new option kind
     // (`t` returns the key in tests)
     expect(
-      getByRole("menuitemradio", { name: "common.table_settings.z_to_a" }),
+      getByRole("menuitemradio", { name: "common.table_settings.a_to_z" }),
     ).toHaveAttribute("aria-checked", "true")
     expect(
       JSON.parse(window.localStorage.getItem(storageKey) ?? "null").sort,
-    ).toEqual({ id: "number", direction: "desc" })
+    ).toEqual({ id: "number", direction: "asc" })
 
     fireEvent.click(
-      getByRole("menuitemradio", { name: "common.table_settings.a_to_z" }),
+      getByRole("menuitemradio", { name: "common.table_settings.z_to_a" }),
     )
     await waitFor(() => {
-      expect(requestedSorts.at(-1)).toBe("number")
+      expect(requestedSorts.at(-1)).toBe("-number")
+    })
+
+    // back to a date: newest first again, not the Z → A just picked
+    fireEvent.click(getByRole("menuitemradio", { name: "Updated" }))
+    await waitFor(() => {
+      expect(requestedSorts.at(-1)).toBe("-updated_at")
     })
   })
 
@@ -207,10 +214,10 @@ describe("useResourceFilters with tableSettings", () => {
     fireEvent.click(getByRole("button", { name: "common.table_settings.sort" }))
     fireEvent.click(getByRole("menuitemradio", { name: "Placed" }))
 
+    // a schedule starts from the soonest
     await waitFor(() => {
-      expect(requestedSorts.at(-1)).toBe("-placed_at")
+      expect(requestedSorts.at(-1)).toBe("placed_at")
     })
-    // soonest first comes first, and desc (carried over) reads as latest first
     expect(
       getAllByRole("menuitemradio")
         .slice(-2)
@@ -221,7 +228,7 @@ describe("useResourceFilters with tableSettings", () => {
     ])
     expect(
       getByRole("menuitemradio", {
-        name: "common.table_settings.latest_first",
+        name: "common.table_settings.soonest_first",
       }),
     ).toHaveAttribute("aria-checked", "true")
   })

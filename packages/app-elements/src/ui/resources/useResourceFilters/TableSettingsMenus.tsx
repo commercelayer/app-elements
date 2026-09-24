@@ -10,6 +10,7 @@ import {
 } from "#ui/composite/Dropdown"
 import { ColumnsMenuItems } from "./ColumnsMenuItems"
 import {
+  defaultSortDirection,
   resolveTableSort,
   type TableSettingsConfig,
   type TableSettingsStore,
@@ -54,12 +55,15 @@ export function TableSettingsMenus({
                   label={option.label}
                   checked={option.id === activeSort.option.id}
                   onClick={() => {
-                    // the direction carries over, and its words follow the new
-                    // option's kind
-                    store.setSort({
-                      id: option.id,
-                      direction: activeSort.value.direction,
-                    })
+                    // a field starts in its own direction rather than the
+                    // previous one's: from the newest order to a customer's
+                    // email should read A → Z, not Z → A
+                    if (option.id !== activeSort.option.id) {
+                      store.setSort({
+                        id: option.id,
+                        direction: defaultSortDirection(option.kind),
+                      })
+                    }
                   }}
                 />
               ))}
@@ -123,13 +127,12 @@ function menuButton(icon: IconProps["name"], label: string): JSX.Element {
   )
 }
 
-/** The two directions, in the order that reads naturally for the kind. */
+/** The two directions, the one the kind starts in first. */
 function sortDirections(
   kind: TableSortOption["kind"],
 ): [TableSortDirection, TableSortDirection] {
-  return kind === "text" || kind === "schedule"
-    ? ["asc", "desc"]
-    : ["desc", "asc"]
+  const first = defaultSortDirection(kind)
+  return [first, first === "asc" ? "desc" : "asc"]
 }
 
 function sortDirectionLabel(
