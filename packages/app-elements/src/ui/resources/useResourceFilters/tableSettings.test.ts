@@ -1,4 +1,5 @@
 import {
+  applyColumnOrder,
   isColumnVisible,
   makeTableSettingsStorageKey,
   makeTableSettingsStore,
@@ -41,7 +42,17 @@ describe("parseStoredTableSettings", () => {
     ).toEqual({
       sort: { id: "updated", direction: "asc" },
       columns: { tags: true },
+      order: undefined,
     })
+  })
+
+  test("keeps a stored column order, and drops a malformed one", () => {
+    expect(
+      parseStoredTableSettings({ version: 1, order: ["tags", "status"] }).order,
+    ).toEqual(["tags", "status"])
+    expect(
+      parseStoredTableSettings({ version: 1, order: ["tags", 3] }).order,
+    ).toBeUndefined()
   })
 
   test("discards an entry of another version", () => {
@@ -50,7 +61,7 @@ describe("parseStoredTableSettings", () => {
         version: 2,
         sort: { id: "updated", direction: "asc" },
       }),
-    ).toEqual({ sort: undefined, columns: {} })
+    ).toEqual({ sort: undefined, columns: {}, order: undefined })
   })
 
   test("drops the malformed parts and keeps the rest", () => {
@@ -60,17 +71,19 @@ describe("parseStoredTableSettings", () => {
         sort: { id: "updated", direction: "sideways" },
         columns: { tags: true, status: "yes" },
       }),
-    ).toEqual({ sort: undefined, columns: { tags: true } })
+    ).toEqual({ sort: undefined, columns: { tags: true }, order: undefined })
   })
 
   test("ignores anything that is not an object", () => {
     expect(parseStoredTableSettings("nope")).toEqual({
       sort: undefined,
       columns: {},
+      order: undefined,
     })
     expect(parseStoredTableSettings(undefined)).toEqual({
       sort: undefined,
       columns: {},
+      order: undefined,
     })
   })
 })
@@ -118,6 +131,54 @@ describe("toSortKey", () => {
   })
 })
 
+describe("applyColumnOrder", () => {
+  // "order" and "actions" are fixed, the others can be moved
+  const columns = ["order", "customer", "status", "amount", "actions"]
+  const options = (order: string[] | undefined) => ({
+    getId: (id: string) => id,
+    isMovable: (id: string) => id !== "order" && id !== "actions",
+    order,
+  })
+
+  test("leaves the list alone with no stored order", () => {
+    expect(applyColumnOrder(columns, options(undefined))).toEqual(columns)
+  })
+
+  test("moves the movable columns only, around fixed ones", () => {
+    expect(
+      applyColumnOrder(columns, options(["amount", "customer", "status"])),
+    ).toEqual(["order", "amount", "customer", "status", "actions"])
+  })
+
+  test("places a column the stored order does not know after its predecessor", () => {
+    // `status` was added after the user dragged `amount` first
+    expect(applyColumnOrder(columns, options(["amount", "customer"]))).toEqual([
+      "order",
+      "amount",
+      "customer",
+      "status",
+      "actions",
+    ])
+    // a new first column goes first
+    expect(applyColumnOrder(columns, options(["status", "amount"]))).toEqual([
+      "order",
+      "customer",
+      "status",
+      "amount",
+      "actions",
+    ])
+  })
+
+  test("ignores ids that no longer exist, and repeated ones", () => {
+    expect(
+      applyColumnOrder(
+        columns,
+        options(["gone", "status", "status", "amount", "customer"]),
+      ),
+    ).toEqual(["order", "status", "amount", "customer", "actions"])
+  })
+})
+
 describe("isColumnVisible", () => {
   test("follows the column default unless overridden", () => {
     expect(isColumnVisible({ id: "tags", defaultHidden: true }, {})).toBe(false)
@@ -150,6 +211,7 @@ describe("makeTableSettingsStore", () => {
     expect(store.getSnapshot()).toEqual({
       sort: { id: "updated", direction: "desc" },
       columns: { tags: true },
+      order: undefined,
       columnEntries: [],
     })
   })
@@ -167,6 +229,15 @@ describe("makeTableSettingsStore", () => {
       sort: { id: "updated", direction: "asc" },
       columns: {},
     })
+  })
+
+  test("persists the column order", () => {
+    const store = makeTableSettingsStore(key)
+    store.setColumnOrder(["tags", "status"])
+    expect(store.getSnapshot().order).toEqual(["tags", "status"])
+    expect(
+      JSON.parse(window.localStorage.getItem(key) ?? "null").order,
+    ).toEqual(["tags", "status"])
   })
 
   test("stores only the columns moved away from their default", () => {

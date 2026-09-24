@@ -6,7 +6,9 @@ export const useClickAway = (
   const ref = useRef<HTMLDivElement>(null)
 
   const escapeListener = useCallback((event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    // `defaultPrevented`: something inside already used this Escape (a drag it
+    // cancelled, say) and what is open stays open
+    if (event.key === "Escape" && !event.defaultPrevented) {
       onClickAway()
     }
   }, [])

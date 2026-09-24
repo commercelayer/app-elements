@@ -40,6 +40,7 @@ import {
 import { FiltersNav, type FiltersNavProps } from "./FiltersNav"
 import { FiltersSearchBar } from "./FiltersSearchBar"
 import {
+  applyColumnOrder,
   isColumnVisible,
   resolveTableSort,
   type TableColumnEntry,
@@ -737,7 +738,13 @@ function useTableSettingsProps<TResource extends ListableResourceType>({
   ) as ResourceTableSort<TResource>
 
   return {
-    columns: columns.filter(
+    // the user's order first, over every column, then visibility: a column
+    // turned on shows up where it was dragged to while hidden
+    columns: applyColumnOrder(columns, {
+      getId: (column) => column.id ?? "",
+      isMovable: (column) => column.hideable === true,
+      order: state.order,
+    }).filter(
       (column) =>
         column.hideable !== true ||
         isColumnVisible(

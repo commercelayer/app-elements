@@ -128,4 +128,30 @@ describe("Dropdown", () => {
     expect(queryByText("Payments")).toBeNull()
     expect(trigger).toHaveFocus()
   })
+
+  test("Should stay open on an Escape already handled inside the menu", () => {
+    const { getByText } = render(
+      <Dropdown
+        dropdownLabel="open dropdown"
+        closeOnItemClick={false}
+        dropdownItems={
+          // biome-ignore lint/a11y/noStaticElementInteractions: test fixture that consumes Escape, as a drag handle does
+          <div
+            onKeyDown={(event) => {
+              event.preventDefault()
+            }}
+            onKeyUp={(event) => {
+              event.preventDefault()
+            }}
+          >
+            <DropdownItem onClick={() => {}} label="Payments" />
+          </div>
+        }
+      />,
+    )
+    fireEvent.click(getByText("open dropdown"))
+    fireEvent.keyDown(getByText("Payments"), { key: "Escape" })
+    fireEvent.keyUp(getByText("Payments"), { key: "Escape" })
+    expect(getByText("Payments")).toBeVisible()
+  })
 })

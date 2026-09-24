@@ -391,7 +391,9 @@ export const FiltersBarWithPromotedFilter: StoryFn = () => {
 /**
  * With `tableSettings`, `FiltersBar` gains two more buttons next to the filters
  * one: a **sort** menu (field and direction) and a **columns** menu, listing the
- * columns declared with `hideable: true`.
+ * table's columns: the ones declared with `hideable: true` can be shown, hidden
+ * and dragged into another order (with the pointer, or from the handle with
+ * Space and the arrow keys); fixed ones are listed locked.
  *
  * - The choice is kept in `localStorage`, scoped by organization, app, mode and
  *   `listId`, and read before the first fetch: reload the story and it is still

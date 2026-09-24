@@ -67,7 +67,14 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
     // A menu that stays open on click has lost its implicit way out, so it gets
     // the keyboard one. Focus goes back to the trigger, where the user was.
     const closeOnEscape = (e: React.KeyboardEvent<HTMLElement>): void => {
-      if (closeOnItemClick || !isExpanded || e.key !== "Escape") {
+      // `defaultPrevented`: something inside the menu already used this Escape,
+      // such as a drag it cancelled, and the menu stays open
+      if (
+        closeOnItemClick ||
+        !isExpanded ||
+        e.key !== "Escape" ||
+        e.defaultPrevented
+      ) {
         return
       }
       e.stopPropagation()

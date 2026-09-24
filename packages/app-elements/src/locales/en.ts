@@ -323,6 +323,14 @@ const en = {
       sort_direction: "Order",
       columns: "Columns",
       edit_columns: "Edit columns",
+      reorder_column: "Reorder {{column}}",
+      reorder_instructions:
+        "To reorder a column, press Space or Enter on its handle, move it with the arrow keys, then press Space or Enter again to drop it, or Escape to cancel.",
+      reorder_picked_up: "Picked up {{column}}.",
+      reorder_moved: "{{column}} moved to position {{position}} of {{total}}.",
+      reorder_dropped:
+        "{{column}} dropped at position {{position}} of {{total}}.",
+      reorder_cancelled: "Reordering cancelled, {{column}} is back in place.",
       newest_first: "Newest first",
       oldest_first: "Oldest first",
       soonest_first: "Soonest first",

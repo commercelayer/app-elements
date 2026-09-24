@@ -225,4 +225,40 @@ describe("useResourceFilters with tableSettings", () => {
       }),
     ).toHaveAttribute("aria-checked", "true")
   })
+
+  test("restores the stored column order in the table and in the menu", async () => {
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({
+        version: 1,
+        columns: { reference: true },
+        order: ["reference", "status"],
+      }),
+    )
+    mockOrdersList()
+    const { container, getByText, getByRole } = renderPage()
+    await waitFor(() => {
+      expect(getByText("#1001")).toBeVisible()
+    })
+
+    // the primary column stays first, whatever the order
+    expect(headers(container)).toEqual(["Order", "Reference", "Status"])
+
+    fireEvent.click(
+      getByRole("button", { name: "common.table_settings.columns" }),
+    )
+    const menu = getByText("common.table_settings.edit_columns").parentElement
+    assertToBeDefined(menu)
+    expect(
+      within(menu)
+        .getAllByRole("menuitemcheckbox")
+        .map((item) => item.getAttribute("aria-label")),
+    ).toEqual(["Reference", "Status"])
+    // every movable column has its own drag handle
+    expect(
+      within(menu).getAllByRole("button", {
+        name: "common.table_settings.reorder_column",
+      }),
+    ).toHaveLength(2)
+  })
 })

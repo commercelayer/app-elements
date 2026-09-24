@@ -82,6 +82,11 @@ export interface TableSettingsState {
    * inheriting a stale "everything else is hidden".
    */
   columns: Record<string, boolean>
+  /**
+   * The order the user dragged the hideable columns into, by id, or `undefined`
+   * while they have not. Fixed columns keep their place and are not listed.
+   */
+  order: string[] | undefined
   /** The columns of the table currently rendered, in order, for the menu. */
   columnEntries: TableColumnEntry[]
 }
@@ -91,6 +96,7 @@ export interface TableSettingsStore {
   subscribe: (listener: () => void) => () => void
   setSort: (sort: TableSortValue) => void
   setColumnVisible: (column: TableColumnEntry, visible: boolean) => void
+  setColumnOrder: (order: string[]) => void
   setColumnEntries: (entries: TableColumnEntry[]) => void
 }
 
@@ -100,6 +106,7 @@ interface StoredTableSettings {
   version: number
   sort?: TableSortValue
   columns?: Record<string, boolean>
+  order?: string[]
 }
 
 export function makeTableSettingsStorageKey({
@@ -126,8 +133,8 @@ export function makeTableSettingsStorageKey({
  */
 export function parseStoredTableSettings(
   raw: unknown,
-): Pick<TableSettingsState, "sort" | "columns"> {
-  const empty = { sort: undefined, columns: {} }
+): Pick<TableSettingsState, "sort" | "columns" | "order"> {
+  const empty = { sort: undefined, columns: {}, order: undefined }
   if (raw == null || typeof raw !== "object") {
     return empty
   }
@@ -154,7 +161,13 @@ export function parseStoredTableSettings(
         )
       : {}
 
-  return { sort, columns }
+  const order =
+    Array.isArray(stored.order) &&
+    stored.order.every((id) => typeof id === "string")
+      ? stored.order
+      : undefined
+
+  return { sort, columns, order }
 }
 
 /**
@@ -185,6 +198,65 @@ export function toSortKey(
   return direction === "desc" ? `-${option.sortBy}` : option.sortBy
 }
 
+/**
+ * Put the movable items of a list in the user's order, leaving the others where
+ * they are.
+ *
+ * The movable items (the hideable columns) take turns filling the slots they
+ * occupy in the configuration, so a fixed column — the primary one first, an
+ * `actions` menu last — never moves, whatever was dragged around it.
+ *
+ * Items the stored order does not know (a column added after the user dragged)
+ * are placed right after the item that precedes them in the configuration, or
+ * first when nothing does: they land where the configuration meant them to be,
+ * rather than at the end. Ids the configuration no longer has are ignored.
+ */
+export function applyColumnOrder<T>(
+  items: T[],
+  {
+    getId,
+    isMovable,
+    order,
+  }: {
+    getId: (item: T) => string
+    isMovable: (item: T) => boolean
+    order: string[] | undefined
+  },
+): T[] {
+  if (order == null) {
+    return items
+  }
+
+  const movable = items.filter(isMovable)
+  const byId = new Map(movable.map((item) => [getId(item), item]))
+  const ordered: T[] = []
+  for (const id of order) {
+    const item = byId.get(id)
+    // a hand-edited entry can repeat an id: the first occurrence wins
+    if (item != null && !ordered.includes(item)) {
+      ordered.push(item)
+    }
+  }
+
+  movable.forEach((item, index) => {
+    if (ordered.includes(item)) {
+      return
+    }
+    const predecessor = movable
+      .slice(0, index)
+      .reverse()
+      .find((candidate) => ordered.includes(candidate))
+    ordered.splice(
+      predecessor == null ? 0 : ordered.indexOf(predecessor) + 1,
+      0,
+      item,
+    )
+  })
+
+  let next = 0
+  return items.map((item) => (isMovable(item) ? (ordered[next++] as T) : item))
+}
+
 export function isColumnVisible(
   column: Pick<TableColumnEntry, "id" | "defaultHidden">,
   overrides: Record<string, boolean>,
@@ -211,6 +283,7 @@ export function makeTableSettingsStore(storageKey: string): TableSettingsStore {
         version: storageVersion,
         sort: state.sort,
         columns: state.columns,
+        order: state.order,
       } satisfies StoredTableSettings)
     }
     for (const listener of listeners) {
@@ -241,6 +314,9 @@ export function makeTableSettingsStore(storageKey: string): TableSettingsStore {
         },
         true,
       )
+    },
+    setColumnOrder: (order) => {
+      update({ order }, true)
     },
     setColumnEntries: (columnEntries) => {
       update({ columnEntries }, false)

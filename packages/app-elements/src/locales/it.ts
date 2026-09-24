@@ -95,6 +95,15 @@ const it: typeof en = {
       sort_direction: "Ordinamento",
       columns: "Colonne",
       edit_columns: "Modifica colonne",
+      reorder_column: "Riordina {{column}}",
+      reorder_instructions:
+        "Per riordinare una colonna, premi Spazio o Invio sulla sua maniglia, spostala con le frecce, poi premi di nuovo Spazio o Invio per rilasciarla, oppure Esc per annullare.",
+      reorder_picked_up: "{{column}} selezionata.",
+      reorder_moved:
+        "{{column}} spostata in posizione {{position}} di {{total}}.",
+      reorder_dropped:
+        "{{column}} rilasciata in posizione {{position}} di {{total}}.",
+      reorder_cancelled: "Riordino annullato, {{column}} torna al suo posto.",
       newest_first: "Più recenti prima",
       oldest_first: "Meno recenti prima",
       soonest_first: "Più vicine prima",

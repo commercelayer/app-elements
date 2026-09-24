@@ -8,8 +8,8 @@ import {
   DropdownItem,
   DropdownLabel,
 } from "#ui/composite/Dropdown"
+import { ColumnsMenuItems } from "./ColumnsMenuItems"
 import {
-  isColumnVisible,
   resolveTableSort,
   type TableSettingsConfig,
   type TableSettingsStore,
@@ -93,30 +93,7 @@ export function TableSettingsMenus({
           dropdownItems={
             <>
               <DropdownLabel label={t("common.table_settings.edit_columns")} />
-              {state.columnEntries.map((column) => {
-                if (column.locked) {
-                  return (
-                    <DropdownItem
-                      key={column.id}
-                      label={column.label}
-                      icon="lockSimple"
-                      disabled
-                      aria-disabled
-                    />
-                  )
-                }
-                const visible = isColumnVisible(column, state.columns)
-                return (
-                  <DropdownItem
-                    key={column.id}
-                    label={column.label}
-                    checked={visible}
-                    onClick={() => {
-                      store.setColumnVisible(column, !visible)
-                    }}
-                  />
-                )
-              })}
+              <ColumnsMenuItems store={store} state={state} />
             </>
           }
         />
