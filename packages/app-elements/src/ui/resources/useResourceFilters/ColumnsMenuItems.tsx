@@ -199,6 +199,8 @@ function SortableColumnItem({
           handleClassName,
           // `touch-none` keeps a touch drag from scrolling the menu instead
           "flex text-gray-400 hover:text-gray-600 rounded touch-none",
+          // a keyboard user lands here on Tab, and has to see it
+          "outline-hidden focus-visible:text-gray-800 focus-visible:bg-gray-100",
           isDragging ? "cursor-grabbing" : "cursor-grab",
         )}
       >

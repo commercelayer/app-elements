@@ -83,7 +83,9 @@ export const DropdownItem = withSkeletonTemplate<DropdownItemProps>(
           },
           className,
           {
-            "hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group":
+            // `focus-visible`, not `focus`: the highlight follows the keyboard,
+            // and a mouse click leaves nothing behind in a menu that stays open
+            "hover:bg-gray-100 hover:rounded cursor-pointer focus-visible:bg-gray-100 focus-visible:rounded group":
               onClick != null || href != null,
             "cursor-default": onClick == null && href == null,
             "opacity-50 pointer-events-none": isDisabled,
