@@ -189,8 +189,9 @@ function SortableColumnItem({
           | React.PointerEventHandler<HTMLDivElement>
           | undefined
       }
+      // above its neighbours while it moves, so it slides over them
       className={cn("relative touch-none", {
-        "z-10 bg-white shadow rounded cursor-grabbing": isDragging,
+        "z-10 cursor-grabbing": isDragging,
       })}
     >
       <DropdownItem
@@ -199,6 +200,11 @@ function SortableColumnItem({
         onClick={() => {
           onToggle(!visible)
         }}
+        // The row being moved looks hovered, with the item's own shape, and
+        // nothing else: a shadow on the full-width row fell outside the item's
+        // margins and read as the bottom edge of the menu. Forced, since the
+        // pointer can leave the item mid-drag and a keyboard drag has no hover.
+        className={cn({ "bg-gray-100! rounded": isDragging })}
       />
       <button
         type="button"
