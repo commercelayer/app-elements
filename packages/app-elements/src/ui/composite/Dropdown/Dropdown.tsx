@@ -17,6 +17,13 @@ export interface DropdownProps
   dropdownItems: React.ReactNode
   /** Additional class name for the dropdown container. */
   className?: string
+  /**
+   * Set to `false` to keep the menu open when an item is clicked, for menus
+   * where the user picks several things in a row (checkable items). The menu
+   * then closes on click-away, on blur, or on `Escape`.
+   * @default true
+   */
+  closeOnItemClick?: boolean
 }
 
 /**
@@ -34,6 +41,7 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
     menuPosition = "bottom-right",
     menuWidth,
     className,
+    closeOnItemClick = true,
   }) => {
     const [isExpanded, setIsExpanded] = useState(false)
 
@@ -51,9 +59,29 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
       e: React.MouseEvent<HTMLElement>,
     ): void => {
       const target = e.target as HTMLElement
-      if (target.closest("button")) {
+      if (closeOnItemClick && target.closest("button")) {
         close()
       }
+    }
+
+    // A menu that stays open on click has lost its implicit way out, so it gets
+    // the keyboard one. Focus goes back to the trigger, where the user was.
+    const closeOnEscape = (e: React.KeyboardEvent<HTMLElement>): void => {
+      // `defaultPrevented`: something inside the menu already used this Escape,
+      // such as a drag it cancelled, and the menu stays open
+      if (
+        closeOnItemClick ||
+        !isExpanded ||
+        e.key !== "Escape" ||
+        e.defaultPrevented
+      ) {
+        return
+      }
+      e.stopPropagation()
+      close()
+      e.currentTarget
+        .querySelector<HTMLElement>("[aria-haspopup]")
+        ?.focus({ preventScroll: true })
     }
 
     const handleBlur = useOnBlurFromContainer(close)
@@ -105,6 +133,7 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
       <div
         ref={isExpanded ? clickAwayRef : undefined}
         onBlur={handleBlur}
+        onKeyDown={closeOnEscape}
         className={cn("relative", className)}
       >
         {dropdownButton}

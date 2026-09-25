@@ -1,5 +1,6 @@
 import { useCallback, useRef } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
+import { readWebStorage, writeWebStorage } from "#utils/webStorage"
 
 const storageVersion = 1
 
@@ -111,44 +112,29 @@ export function useMetricsCursorTrail({
 }
 
 function readTrail(key: string, fingerprint: string): Array<string | null> {
-  if (typeof window === "undefined") {
+  // unreadable or unparseable comes back as `undefined`: a lost trail only
+  // costs a walk from page 1
+  const stored = readWebStorage("sessionStorage", key) as
+    | Partial<StoredTrail>
+    | null
+    | undefined
+  if (
+    stored == null ||
+    stored.version !== storageVersion ||
+    stored.fingerprint !== fingerprint ||
+    !Array.isArray(stored.cursors) ||
+    stored.cursors[0] !== null
+  ) {
     return [null]
   }
 
-  try {
-    const raw = window.sessionStorage.getItem(key)
-    if (raw == null) {
-      return [null]
-    }
-
-    const stored = JSON.parse(raw) as StoredTrail
-    if (
-      stored.version !== storageVersion ||
-      stored.fingerprint !== fingerprint ||
-      !Array.isArray(stored.cursors) ||
-      stored.cursors[0] !== null
-    ) {
-      return [null]
-    }
-
-    return stored.cursors
-  } catch {
-    // unreadable or unparseable: a lost trail only costs a walk from page 1
-    return [null]
-  }
+  return stored.cursors
 }
 
 function writeTrail(key: string, trail: StoredTrail): void {
-  if (typeof window === "undefined") {
-    return
-  }
-
-  try {
-    window.sessionStorage.setItem(key, JSON.stringify(trail))
-  } catch {
-    // storage can be full or unavailable (private browsing); the trail is a
-    // convenience, so losing it must never break paging
-  }
+  // a failed write is swallowed: the trail is a convenience, so losing it must
+  // never break paging
+  writeWebStorage("sessionStorage", key, trail)
 }
 
 /**

@@ -5,11 +5,20 @@ import {
   useTable,
 } from "@tanstack/react-table"
 import cn from "classnames"
-import { type FC, useCallback, useMemo, useRef, useState } from "react"
+import {
+  type FC,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { formatResourceName } from "#helpers/resources"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
+import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -127,6 +136,47 @@ const columnKindWeight: Record<ColumnKind, number> = {
 
 /** The weight of a column with no `kind`, the one the row is about. */
 const flexibleColumnWeight = 3
+
+/**
+ * The narrowest each kind of column gets in a `fit-or-scroll` table, in rem.
+ *
+ * Their sum is the table's minimum width: below it the table scrolls instead of
+ * squeezing its columns further. Sized so the default column sets of the list
+ * pages fit a desktop container with room to spare, and the scroll only starts
+ * once the user adds columns on top.
+ */
+const columnKindMinWidthRem: Record<ColumnKind, number> = {
+  text: 12,
+  code: 10,
+  status: 10,
+  datetime: 11,
+  amount: 8,
+  count: 6,
+  actions: 4,
+}
+
+/** The minimum width of a column with no `kind`, the one the row is about. */
+const flexibleColumnMinWidthRem = 16
+
+/**
+ * The minimum width of a `fit-or-scroll` table, in rem.
+ *
+ * Applied from `md` up only: below it the table shows its first column alone
+ * (see `visibilityClassName`), and counting the hidden ones would make a phone
+ * scroll through empty space.
+ */
+function tableMinWidthRem(
+  columns: Array<Pick<ResourceTableColumn<ListableResourceType>, "kind">>,
+): number {
+  return columns.reduce(
+    (sum, column) =>
+      sum +
+      (column.kind != null
+        ? columnKindMinWidthRem[column.kind]
+        : flexibleColumnMinWidthRem),
+    0,
+  )
+}
 
 /**
  * The widths to declare, as percentages summing to 100.
@@ -305,6 +355,15 @@ const interactiveSelector = [
  * `actions` is excluded: its dropdown menu is absolutely positioned rather than
  * portaled, so clipping the cell would clip the open menu away with it.
  */
+/**
+ * An inline child of a cell — a status badge, say — sits on the line's baseline,
+ * which leaves it a couple of pixels above the cell's middle: the badge is taller
+ * than the line of text it rides on. Centred on it instead, so a badge lines up
+ * with the text of the cells beside it. Block children, a two-line cell, are not
+ * affected: the cell itself is already centred.
+ */
+const cellContentClassName = "[&>*]:align-middle"
+
 function clipClassName(
   kind: ResourceTableColumn<ListableResourceType>["kind"],
 ): string | undefined {
@@ -413,6 +472,7 @@ export function useResourceTable<
     sort: controlledSort,
     onSortChange,
     defaultSort,
+    showSortIndicator = false,
   } = config
 
   const { user } = useTokenProvider()
@@ -537,6 +597,7 @@ export function useResourceTable<
   })
 
   const columnCount = columns.length
+  const sortIndicator = showSortIndicator ? parseSort(sort) : undefined
   const isEmpty = !isFirstLoading && (list?.length ?? 0) === 0
   const isApiError = error != null && list == null
 
@@ -569,6 +630,7 @@ export function useResourceTable<
     fetchMore,
     onRowClick,
     getRowHref,
+    sortIndicator,
     locale: user?.locale,
   })
   renderRef.current = {
@@ -586,6 +648,7 @@ export function useResourceTable<
     fetchMore,
     onRowClick,
     getRowHref,
+    sortIndicator,
     locale: user?.locale,
   }
 
@@ -613,6 +676,7 @@ export function useResourceTable<
         fetchMore,
         onRowClick,
         getRowHref,
+        sortIndicator,
         locale,
       } = renderRef.current
 
@@ -649,12 +713,34 @@ export function useResourceTable<
         <Tr>
           {table.getHeaderGroups()[0]?.headers.map((header, index) => {
             const definition = columns[index]
-            const label = <table.FlexRender header={header} />
+            const content = <table.FlexRender header={header} />
+            const isSorted =
+              sortIndicator != null &&
+              definition?.sortBy === sortIndicator.attribute
+            const label = isSorted ? (
+              <span className="inline-flex items-center gap-1">
+                {content}
+                <Icon
+                  name={sortIndicator.desc ? "arrowDown" : "arrowUp"}
+                  size={12}
+                  aria-hidden
+                />
+              </span>
+            ) : (
+              content
+            )
             const headerAlign = resolveAlign(columns, index)
             return (
               <Th
                 key={header.id}
                 align={headerAlign.align}
+                aria-sort={
+                  isSorted
+                    ? sortIndicator.desc
+                      ? "descending"
+                      : "ascending"
+                    : undefined
+                }
                 // fixed layout takes its widths from the first row, so declaring
                 // them here sizes the whole column. Skipped when the column sets
                 // an explicit `width` class, which then owns the width.
@@ -767,6 +853,7 @@ export function useResourceTable<
                           className={cn(
                             alignClassName(columns, colIndex),
                             clipClassName(columns[colIndex]?.kind),
+                            cellContentClassName,
                             visibilityClassName(columns[colIndex], colIndex),
                             // Positioning context for the link's `::after` below.
                             // On the cell, never on the `tr`: engines that ignore
@@ -857,7 +944,18 @@ export function useResourceTable<
           border="none"
         >
           <SkeletonTemplate isLoading={false}>
-            {layout === "scroll" ? (
+            {layout === "fit-or-scroll" ? (
+              <FadingHorizontalScroll minWidthRem={tableMinWidthRem(columns)}>
+                <Table
+                  variant={variant === "boxed" ? "boxed" : undefined}
+                  // fixed, as in `fit`: widths come from the declared shares
+                  // and long values truncate instead of widening their column
+                  className="table-fixed"
+                  thead={thead}
+                  tbody={tbody}
+                />
+              </FadingHorizontalScroll>
+            ) : layout === "scroll" ? (
               <div className="overflow-x-auto">
                 <Table
                   variant={variant === "boxed" ? "boxed" : undefined}
@@ -904,3 +1002,93 @@ export function useResourceTable<
 }
 
 const NullComponent: FC = () => null
+
+/** How far into the table the edge fade reaches. */
+const scrollFadeWidth = "3rem"
+
+/**
+ * The scroll container of a `fit-or-scroll` table, fading out the edge that has
+ * more columns beyond it: the right one until the user scrolls to the end, the
+ * left one once they have scrolled away from the start. It tells the user the
+ * table goes on, which a hidden-by-default scrollbar (macOS) would not.
+ *
+ * Masked rather than covered by a gradient, as `Tabs` does, so the fade works on
+ * whatever the background is — the header's gray, a hovered row, a boxed card.
+ *
+ * The edges need the real scroll position, so this cannot be CSS alone. They are
+ * re-measured on scroll and whenever the container or the table changes size: a
+ * column shown or hidden changes the table's width without touching the
+ * container. With no overflow (mobile, or columns that fit) no mask is applied.
+ */
+function FadingHorizontalScroll({
+  minWidthRem,
+  children,
+}: {
+  minWidthRem: number
+  children: ReactNode
+}): React.JSX.Element {
+  const scroller = useRef<HTMLDivElement>(null)
+  const content = useRef<HTMLDivElement>(null)
+  const [overflowing, setOverflowing] = useState({ start: false, end: false })
+
+  useEffect(() => {
+    const element = scroller.current
+    if (element == null) {
+      return
+    }
+    const update = (): void => {
+      const max = element.scrollWidth - element.clientWidth
+      // a pixel of tolerance: fractional scroll positions never land on 0 or `max`
+      const start = element.scrollLeft > 1
+      const end = element.scrollLeft < max - 1
+      setOverflowing((previous) =>
+        previous.start === start && previous.end === end
+          ? previous
+          : { start, end },
+      )
+    }
+    update()
+    element.addEventListener("scroll", update, { passive: true })
+    const observer = new ResizeObserver(update)
+    observer.observe(element)
+    if (content.current != null) {
+      observer.observe(content.current)
+    }
+    return () => {
+      element.removeEventListener("scroll", update)
+      observer.disconnect()
+    }
+  }, [])
+
+  const maskImage = useMemo(() => {
+    if (!overflowing.start && !overflowing.end) {
+      return undefined
+    }
+    const from = overflowing.start
+      ? `transparent 0, black ${scrollFadeWidth}`
+      : "black 0"
+    const to = overflowing.end
+      ? `black calc(100% - ${scrollFadeWidth}), transparent 100%`
+      : "black 100%"
+    return `linear-gradient(to right, ${from}, ${to})`
+  }, [overflowing])
+
+  return (
+    <div
+      ref={scroller}
+      className="overflow-x-auto"
+      style={{ maskImage, WebkitMaskImage: maskImage }}
+      data-testid="resource-table-scroller"
+    >
+      <div
+        ref={content}
+        className="md:min-w-(--table-min-width)"
+        style={
+          { "--table-min-width": `${minWidthRem}rem` } as React.CSSProperties
+        }
+      >
+        {children}
+      </div>
+    </div>
+  )
+}

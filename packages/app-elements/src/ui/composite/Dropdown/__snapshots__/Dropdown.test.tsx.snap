@@ -158,7 +158,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
         >
           <button
             aria-label="Payments"
-            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group"
+            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus-visible:bg-gray-100 focus-visible:rounded group"
           >
             <div
               class="mr-2"
@@ -184,7 +184,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </button>
           <button
             aria-label="Items"
-            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group"
+            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus-visible:bg-gray-100 focus-visible:rounded group"
           >
             <div
               class="mr-2"
@@ -209,7 +209,7 @@ exports[`Dropdown > Should be rendering with default bottom-right position 1`] =
           </div>
           <button
             aria-label="Delete"
-            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus:bg-gray-100 group"
+            class="w-[calc(100%-1rem)]  bg-white text-black! py-1.5 pl-2.5 mx-2 text-sm font-medium flex items-center focus:outline-hidden! pr-8 hover:bg-gray-100 hover:rounded cursor-pointer focus-visible:bg-gray-100 focus-visible:rounded group"
           >
             <div
               class="mr-2"
