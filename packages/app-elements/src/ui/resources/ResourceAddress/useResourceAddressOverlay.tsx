@@ -21,15 +21,22 @@ export const useResourceAddressOverlay = ({
   const { canUser } = useTokenProvider()
   const { Overlay, open, close } = useOverlay()
 
+  // with no address yet the form creates one, so it's the create ability that
+  // decides whether the overlay opens at all
+  const canEditAddress = canUser(
+    address == null ? "create" : "update",
+    "addresses",
+  )
+
   const openAddressOverlay = useCallback(() => {
-    if (canUser("update", "addresses")) {
+    if (canEditAddress) {
       open()
     }
-  }, [open, canUser])
+  }, [open, canEditAddress])
 
   const ResourceAddressOverlay = useCallback(() => {
     return (
-      canUser("update", "addresses") && (
+      canEditAddress && (
         <Overlay>
           <PageLayout
             title={
@@ -65,7 +72,7 @@ export const useResourceAddressOverlay = ({
   }, [
     Overlay,
     close,
-    canUser,
+    canEditAddress,
     address,
     showBillingInfo,
     showNotes,

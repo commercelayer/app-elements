@@ -60,7 +60,11 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
       AddressType | null | undefined
     >(address)
     const { canUser } = useTokenProvider()
-    const canEdit = editable && canUser("update", "addresses")
+    // an empty slot is filled by creating an address, not by updating one: the
+    // two sit behind different abilities
+    const canEdit =
+      editable &&
+      canUser(stateAddress == null ? "create" : "update", "addresses")
 
     const handleOnUpdate = useCallback<
       NonNullable<ResourceAddressProps["onUpdate"]>
@@ -79,7 +83,7 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
         onCreate?.(address)
         setStateAddress(address)
       },
-      [onUpdate, setStateAddress],
+      [onCreate, setStateAddress],
     )
 
     const { ResourceAddressOverlay, openAddressOverlay } =
