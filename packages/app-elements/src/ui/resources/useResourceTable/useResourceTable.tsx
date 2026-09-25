@@ -355,6 +355,15 @@ const interactiveSelector = [
  * `actions` is excluded: its dropdown menu is absolutely positioned rather than
  * portaled, so clipping the cell would clip the open menu away with it.
  */
+/**
+ * An inline child of a cell — a status badge, say — sits on the line's baseline,
+ * which leaves it a couple of pixels above the cell's middle: the badge is taller
+ * than the line of text it rides on. Centred on it instead, so a badge lines up
+ * with the text of the cells beside it. Block children, a two-line cell, are not
+ * affected: the cell itself is already centred.
+ */
+const cellContentClassName = "[&>*]:align-middle"
+
 function clipClassName(
   kind: ResourceTableColumn<ListableResourceType>["kind"],
 ): string | undefined {
@@ -844,6 +853,7 @@ export function useResourceTable<
                           className={cn(
                             alignClassName(columns, colIndex),
                             clipClassName(columns[colIndex]?.kind),
+                            cellContentClassName,
                             visibilityClassName(columns[colIndex], colIndex),
                             // Positioning context for the link's `::after` below.
                             // On the cell, never on the `tr`: engines that ignore
