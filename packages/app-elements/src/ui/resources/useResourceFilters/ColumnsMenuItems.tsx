@@ -22,7 +22,7 @@ import {
 } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 import cn from "classnames"
-import { type JSX, useRef } from "react"
+import { type JSX, useEffect, useRef } from "react"
 import { t } from "#providers/I18NProvider"
 import { Icon } from "#ui/atoms/Icon"
 import { DropdownItem } from "#ui/composite/Dropdown"
@@ -77,6 +77,14 @@ export function ColumnsMenuItems({
 
   const announcements = makeAnnouncements(entries, movableIds)
 
+  // a menu closed mid-drag must not leave the page with a grabbing cursor
+  useEffect(
+    () => () => {
+      setGrabbingCursor(false)
+    },
+    [],
+  )
+
   const handleDragEnd = ({ active, over }: DragEndEvent): void => {
     isDragging.current = false
     if (over == null || active.id === over.id) {
@@ -102,11 +110,20 @@ export function ColumnsMenuItems({
           draggable: t("common.table_settings.reorder_instructions"),
         },
       }}
-      onDragStart={() => {
+      onDragStart={({ activatorEvent }) => {
         isDragging.current = true
+        // for the whole pointer drag, wherever the pointer goes: the row is held
+        // inside the menu, the pointer is not
+        if (activatorEvent instanceof PointerEvent) {
+          setGrabbingCursor(true)
+        }
       }}
-      onDragEnd={handleDragEnd}
+      onDragEnd={(event) => {
+        setGrabbingCursor(false)
+        handleDragEnd(event)
+      }}
       onDragCancel={() => {
+        setGrabbingCursor(false)
         isDragging.current = false
       }}
     >
@@ -152,8 +169,32 @@ export function ColumnsMenuItems({
   )
 }
 
+/**
+ * Shows the `grabbing` cursor on the whole page, or restores it.
+ *
+ * A stylesheet rather than a cursor on `body`: every element under the pointer
+ * that sets a cursor of its own — the menu items all have `pointer` — would win
+ * over one inherited from the body.
+ */
+const grabbingStyleId = "cl-table-settings-grabbing"
+
+function setGrabbingCursor(grabbing: boolean): void {
+  const current = document.getElementById(grabbingStyleId)
+  if (!grabbing) {
+    current?.remove()
+    return
+  }
+  if (current != null) {
+    return
+  }
+  const style = document.createElement("style")
+  style.id = grabbingStyleId
+  style.textContent = "* { cursor: grabbing !important; }"
+  document.head.appendChild(style)
+}
+
 /** Where the handle sits: inside the item's right padding, centered on its row. */
-const handleClassName = "absolute right-3 top-1/2 -translate-y-1/2"
+const handleClassName = "absolute right-3 top-0 bottom-0 flex items-center"
 
 function SortableColumnItem({
   entry,
@@ -189,10 +230,14 @@ function SortableColumnItem({
           | React.PointerEventHandler<HTMLDivElement>
           | undefined
       }
-      // above its neighbours while it moves, so it slides over them
-      className={cn("relative touch-none", {
-        "z-10 cursor-grabbing": isDragging,
-      })}
+      // Above its neighbours while it moves, so it slides over them. The hover is
+      // the row's, so it holds over the handle too, which sits on top of the
+      // item and would otherwise take the hover away from it.
+      className={cn(
+        "relative touch-none",
+        "[&:hover>*:first-child]:bg-gray-100 [&:hover>*:first-child]:rounded",
+        { "z-10": isDragging },
+      )}
     >
       <DropdownItem
         label={entry.label}
@@ -220,9 +265,10 @@ function SortableColumnItem({
         })}
         className={cn(
           handleClassName,
-          // no pointer events: the pointer drags the row it sits on, and the
-          // row's own hover is the only one, handle included
-          "flex text-gray-400 rounded pointer-events-none",
+          // `grab` over the handle only, the one hint that the row can move; the
+          // rest of the row keeps the pointer of a click. Pressing here drags the
+          // row all the same, the event reaching the row's own listener.
+          "flex text-gray-400 rounded cursor-grab",
           // a keyboard user lands here on Tab, and has to see it
           "outline-hidden focus-visible:text-gray-800 focus-visible:bg-gray-100",
         )}
