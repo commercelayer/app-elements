@@ -109,6 +109,13 @@ interface StoredTableSettings {
   order?: string[]
 }
 
+/**
+ * `app:organization:mode:table:list`, e.g. `orders:demo-store:test:table:orders`.
+ *
+ * App and organization lead, as in the keys `TokenProvider` keeps in the same
+ * storage, so everything an app stores for an organization reads together; the
+ * `table` segment sets these preferences apart from the rest.
+ */
 export function makeTableSettingsStorageKey({
   mode,
   organizationSlug,
@@ -120,7 +127,7 @@ export function makeTableSettingsStorageKey({
   appSlug: string
   listId: string
 }): string {
-  return `cl.table.${mode}.${organizationSlug}.${appSlug}.${listId}`
+  return `${appSlug}:${organizationSlug}:${mode}:table:${listId}`
 }
 
 /**

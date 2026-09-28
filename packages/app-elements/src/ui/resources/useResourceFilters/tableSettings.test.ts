@@ -28,7 +28,7 @@ describe("makeTableSettingsStorageKey", () => {
         appSlug: "orders",
         listId: "orders",
       }),
-    ).toBe("cl.table.live.acme.orders.orders")
+    ).toBe("orders:acme:live:table:orders")
   })
 })
 
@@ -202,7 +202,7 @@ describe("isColumnVisible", () => {
 })
 
 describe("makeTableSettingsStore", () => {
-  const key = "cl.table.test.mock.orders.orders"
+  const key = "orders:mock:test:table:orders"
 
   afterEach(() => {
     window.localStorage.clear()

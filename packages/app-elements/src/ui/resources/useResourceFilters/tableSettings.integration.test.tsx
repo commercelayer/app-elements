@@ -10,7 +10,7 @@ import type { TableSettingsConfig } from "./tableSettings"
 import { useResourceFilters } from "./useResourceFilters"
 
 // scoped by the mock token provider: mode `test`, organization `mock`, app `elements`
-const storageKey = "cl.table.test.mock.elements.orders"
+const storageKey = "elements:mock:test:table:orders"
 
 const tableSettings: TableSettingsConfig = {
   listId: "orders",
