@@ -226,7 +226,23 @@ Modal.Body = ({ children }) => {
 
 Modal.Footer = ({ children }) => {
   return (
-    <div className="flex-none p-6 space-y-2" data-testid="modal-footer">
+    <div
+      className={cn(
+        "flex-none p-6 space-y-2 relative",
+        // Fades the scrolling body into the footer, so content cut off at the
+        // boundary does not read as the end of it. A plain strip rather than a
+        // scroll-aware one: it paints white over white wherever the body has
+        // nothing there, so it already shows up only where it is needed.
+        //
+        // A pseudo-element rather than a child: `space-y-2` margins every child
+        // but the last, which on an absolutely positioned one shifts the fade
+        // off the edge it is meant to sit on.
+        "before:content-[''] before:pointer-events-none before:absolute",
+        "before:inset-x-0 before:bottom-full before:h-6",
+        "before:bg-[linear-gradient(to_top,rgba(255,255,255,1)_0%,rgba(255,255,255,0)_100%)]",
+      )}
+      data-testid="modal-footer"
+    >
       {children}
     </div>
   )
