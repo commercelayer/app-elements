@@ -19,7 +19,10 @@ export type ResourceSelectProps = Exclude<
 export const defaultOptionsLimit = 25
 
 export interface ResourceSelectOptions {
-  /** Options to hand to the select: the first page, plus anything selected. */
+  /**
+   * Options to hand to the select: the first page in its own order, then any
+   * selected option it does not hold.
+   */
   initialValues: InputSelectValue[]
   /** The first page is still loading. */
   isLoading: boolean
@@ -112,8 +115,11 @@ export function useResourceSelectOptions({
     { revalidateOnFocus: false },
   )
 
+  // The first page keeps its order, the selection included: a picked option
+  // stays where the user found it rather than jumping to the top of the menu.
+  // A selection from a later page is only here for its label, so it goes last.
   const initialValues = uniqBy(
-    [...(selectedResources ?? []), ...(firstPage ?? [])].map((item) =>
+    [...(firstPage ?? []), ...(selectedResources ?? [])].map((item) =>
       toOption(item as unknown as Record<string, unknown>),
     ),
     "value",
