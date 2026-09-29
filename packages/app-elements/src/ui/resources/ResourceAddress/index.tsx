@@ -4,4 +4,5 @@ export {
   ResourceAddressFormFields,
   type ResourceAddressFormFieldsProps,
 } from "./ResourceAddressFormFields"
-export { useResourceAddressOverlay } from "./useResourceAddressOverlay"
+export { useResourceAddressForm } from "./useResourceAddressForm"
+export { useResourceAddressModal } from "./useResourceAddressModal"

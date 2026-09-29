@@ -48,6 +48,14 @@ export type ModalProps = {
    * Note: when false, keyboard activation (Enter/Space) on the close button is intentionally blocked.
    */
   dismissible?: boolean
+  /**
+   * Turns the modal content into a `<form>`, so that `Header`, `Body` and `Footer`
+   * all sit inside it: a `<Button type="submit">` placed in the footer then submits
+   * the fields rendered in the (scrollable) body, with no wiring in between.
+   *
+   * Only one form per modal — nesting another `<form>` in the body is invalid HTML.
+   */
+  onSubmit?: React.FormEventHandler<HTMLFormElement>
 }
 
 type ModalComponent = React.ForwardRefExoticComponent<
@@ -66,6 +74,7 @@ const ModalRoot = (
     onClose,
     size = "small",
     dismissible = false,
+    onSubmit,
   }: ModalProps,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => {
@@ -111,16 +120,20 @@ const ModalRoot = (
     [show],
   )
 
+  const contentClassName = cn(
+    "bg-white rounded-md shadow-xl",
+    "max-h-[min(90vh,800px)] flex flex-col",
+  )
+
   const content = (
     <ModalContext.Provider value={{ onClose, modalId, dismissible }}>
-      <div
-        className={cn(
-          "bg-white rounded-md shadow-xl",
-          "max-h-[90vh] flex flex-col",
-        )}
-      >
-        {children}
-      </div>
+      {onSubmit != null ? (
+        <form className={contentClassName} onSubmit={onSubmit}>
+          {children}
+        </form>
+      ) : (
+        <div className={contentClassName}>{children}</div>
+      )}
     </ModalContext.Provider>
   )
 

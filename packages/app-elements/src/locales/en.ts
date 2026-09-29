@@ -428,6 +428,7 @@ const en = {
       tracking_delivered: "Delivered",
     },
     no_resources: {
+      no_addresses: "No addresses",
       no_tags: "No tags",
     },
     resource_details: {

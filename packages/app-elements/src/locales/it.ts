@@ -204,6 +204,7 @@ const it: typeof en = {
       tracking_delivered: "Consegnato",
     },
     no_resources: {
+      no_addresses: "Nessun indirizzo",
       no_tags: "Nessun tag",
     },
     resource_details: {
