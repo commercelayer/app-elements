@@ -89,6 +89,30 @@ const it: typeof en = {
     view_logs: "Visualizza i log",
     view_json: "Vedi JSON",
     view_api_docs: "Visualizza la documentazione API",
+    table_settings: {
+      sort: "Ordina",
+      sort_by: "Ordina per",
+      sort_direction: "Ordinamento",
+      columns: "Colonne",
+      edit_columns: "Modifica colonne",
+      reorder_column: "Riordina {{column}}",
+      reorder_instructions:
+        "Per riordinare una colonna, premi Spazio o Invio sulla sua maniglia, spostala con le frecce, poi premi di nuovo Spazio o Invio per rilasciarla, oppure Esc per annullare.",
+      reorder_picked_up: "{{column}} selezionata.",
+      reorder_moved:
+        "{{column}} spostata in posizione {{position}} di {{total}}.",
+      reorder_dropped:
+        "{{column}} rilasciata in posizione {{position}} di {{total}}.",
+      reorder_cancelled: "Riordino annullato, {{column}} torna al suo posto.",
+      newest_first: "Più recenti prima",
+      oldest_first: "Meno recenti prima",
+      soonest_first: "Più vicine prima",
+      latest_first: "Più lontane prima",
+      a_to_z: "A → Z",
+      z_to_a: "Z → A",
+      lowest_first: "Dal più basso",
+      highest_first: "Dal più alto",
+    },
     empty_states: {
       not_found: "Non trovato",
       generic_not_found: "La risorsa che cercavi non è esiste.",

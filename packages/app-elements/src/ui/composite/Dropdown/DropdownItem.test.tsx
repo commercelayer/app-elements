@@ -43,4 +43,34 @@ describe("DropdownItem", () => {
     expect(element.getAttribute("href")).toBe("https://commercelayer.io/")
     expect(element.getAttribute("target")).toBe("_blank")
   })
+
+  test("Should render a checkable item with a check mark when `checked` is true", () => {
+    const { getByRole } = render(
+      <DropdownItem label="Status" checked onClick={mockedOnClick} />,
+    )
+    const item = getByRole("menuitemcheckbox", { name: "Status" })
+    expect(item).toHaveAttribute("aria-checked", "true")
+    expect(item.querySelector("svg")).not.toBeNull()
+  })
+
+  test("Should keep the icon slot empty when `checked` is false", () => {
+    const { getByRole } = render(
+      <DropdownItem label="Tags" checked={false} onClick={mockedOnClick} />,
+    )
+    const item = getByRole("menuitemcheckbox", { name: "Tags" })
+    expect(item).toHaveAttribute("aria-checked", "false")
+    expect(item.querySelector("svg")).toBeNull()
+  })
+
+  test("Should let `role` override the checkable default", () => {
+    const { getByRole } = render(
+      <DropdownItem
+        label="Newest first"
+        checked
+        role="menuitemradio"
+        onClick={mockedOnClick}
+      />,
+    )
+    expect(getByRole("menuitemradio", { name: "Newest first" })).toBeVisible()
+  })
 })

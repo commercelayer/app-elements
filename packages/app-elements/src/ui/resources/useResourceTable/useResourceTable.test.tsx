@@ -868,4 +868,147 @@ describe("useResourceTable", () => {
       expect(seen).toBe("-number")
     })
   })
+
+  describe("sort indicator", () => {
+    const renderWithSort = (showSortIndicator?: boolean) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns,
+          defaultSort: "-number",
+          showSortIndicator,
+        })
+        return <ResourceTable />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("marks the sorted column header when `showSortIndicator` is set", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithSort(true)
+      await findByText("#1001")
+
+      const sorted = container.querySelectorAll("th[aria-sort]")
+      expect(sorted).toHaveLength(1)
+      expect(sorted[0]).toHaveAttribute("aria-sort", "descending")
+      expect(sorted[0]).toHaveTextContent("Order")
+      expect(sorted[0]?.querySelector("svg")).not.toBeNull()
+    })
+
+    it("leaves headers unmarked by default", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithSort()
+      await findByText("#1001")
+
+      expect(container.querySelector("th[aria-sort]")).toBeNull()
+      expect(container.querySelector("th svg")).toBeNull()
+    })
+  })
+
+  describe("fit-or-scroll layout", () => {
+    const renderLayout = (layout: ResourceTableProps["layout"]) => {
+      const Implementation: FC = () => {
+        const { ResourceTable } = useResourceTable({
+          type: "orders",
+          columns: [
+            // no kind (16rem) + status (10rem) + amount (8rem)
+            { header: "Order", cell: ({ resource }) => `#${resource.number}` },
+            { header: "Status", kind: "status", cell: () => "placed" },
+            { header: "Amount", kind: "amount", cell: () => "€10,00" },
+          ],
+        })
+        return <ResourceTable layout={layout} />
+      }
+      return render(
+        <Wrapper>
+          <Implementation />
+        </Wrapper>,
+      )
+    }
+
+    it("keeps the fixed layout and sets a minimum width from the column kinds", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderLayout("fit-or-scroll")
+      await findByText("#1001")
+
+      const table = container.querySelector("table")
+      assertToBeDefined(table)
+      expect(table).toHaveClass("table-fixed")
+
+      const minWidthBox = table.parentElement
+      assertToBeDefined(minWidthBox)
+      expect(minWidthBox).toHaveClass("md:min-w-(--table-min-width)")
+      expect(minWidthBox.style.getPropertyValue("--table-min-width")).toBe(
+        "34rem",
+      )
+      expect(minWidthBox.parentElement).toHaveClass("overflow-x-auto")
+    })
+
+    /** Fake the scroller's geometry (jsdom has no layout) and fire a scroll. */
+    const setGeometry = (
+      element: HTMLElement,
+      {
+        scrollWidth,
+        clientWidth,
+        scrollLeft,
+      }: { scrollWidth: number; clientWidth: number; scrollLeft: number },
+    ): void => {
+      Object.defineProperty(element, "scrollWidth", {
+        value: scrollWidth,
+        configurable: true,
+      })
+      Object.defineProperty(element, "clientWidth", {
+        value: clientWidth,
+        configurable: true,
+      })
+      element.scrollLeft = scrollLeft
+      fireEvent.scroll(element)
+    }
+
+    it("fades the edge that has more columns beyond it", async () => {
+      mockOrdersList()
+      const { getByTestId, findByText } = renderLayout("fit-or-scroll")
+      await findByText("#1001")
+      const scroller = getByTestId("resource-table-scroller")
+
+      // the columns fit: no fade
+      setGeometry(scroller, {
+        scrollWidth: 800,
+        clientWidth: 800,
+        scrollLeft: 0,
+      })
+      expect(scroller.style.maskImage).toBe("")
+
+      // wider than the container, at the start: right edge only
+      setGeometry(scroller, {
+        scrollWidth: 1200,
+        clientWidth: 800,
+        scrollLeft: 0,
+      })
+      expect(scroller.style.maskImage).toContain("transparent 100%")
+      expect(scroller.style.maskImage).not.toContain("transparent 0")
+
+      // scrolled halfway: both edges
+      setGeometry(scroller, {
+        scrollWidth: 1200,
+        clientWidth: 800,
+        scrollLeft: 200,
+      })
+      expect(scroller.style.maskImage).toContain("transparent 0")
+      expect(scroller.style.maskImage).toContain("transparent 100%")
+
+      // scrolled to the end: left edge only
+      setGeometry(scroller, {
+        scrollWidth: 1200,
+        clientWidth: 800,
+        scrollLeft: 400,
+      })
+      expect(scroller.style.maskImage).toContain("transparent 0")
+      expect(scroller.style.maskImage).not.toContain("transparent 100%")
+    })
+  })
 })
