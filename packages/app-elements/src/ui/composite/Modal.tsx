@@ -48,6 +48,14 @@ export type ModalProps = {
    * Note: when false, keyboard activation (Enter/Space) on the close button is intentionally blocked.
    */
   dismissible?: boolean
+  /**
+   * Turns the modal content into a `<form>`, so that `Header`, `Body` and `Footer`
+   * all sit inside it: a `<Button type="submit">` placed in the footer then submits
+   * the fields rendered in the (scrollable) body, with no wiring in between.
+   *
+   * Only one form per modal — nesting another `<form>` in the body is invalid HTML.
+   */
+  onSubmit?: React.FormEventHandler<HTMLFormElement>
 }
 
 type ModalComponent = React.ForwardRefExoticComponent<
@@ -66,6 +74,7 @@ const ModalRoot = (
     onClose,
     size = "small",
     dismissible = false,
+    onSubmit,
   }: ModalProps,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => {
@@ -111,16 +120,20 @@ const ModalRoot = (
     [show],
   )
 
+  const contentClassName = cn(
+    "bg-white rounded-md shadow-xl",
+    "max-h-[min(90vh,800px)] flex flex-col",
+  )
+
   const content = (
     <ModalContext.Provider value={{ onClose, modalId, dismissible }}>
-      <div
-        className={cn(
-          "bg-white rounded-md shadow-xl",
-          "max-h-[90vh] flex flex-col",
-        )}
-      >
-        {children}
-      </div>
+      {onSubmit != null ? (
+        <form className={contentClassName} onSubmit={onSubmit}>
+          {children}
+        </form>
+      ) : (
+        <div className={contentClassName}>{children}</div>
+      )}
     </ModalContext.Provider>
   )
 
@@ -213,7 +226,23 @@ Modal.Body = ({ children }) => {
 
 Modal.Footer = ({ children }) => {
   return (
-    <div className="flex-none p-6 space-y-2" data-testid="modal-footer">
+    <div
+      className={cn(
+        "flex-none p-6 space-y-2 relative",
+        // Fades the scrolling body into the footer, so content cut off at the
+        // boundary does not read as the end of it. A plain strip rather than a
+        // scroll-aware one: it paints white over white wherever the body has
+        // nothing there, so it already shows up only where it is needed.
+        //
+        // A pseudo-element rather than a child: `space-y-2` margins every child
+        // but the last, which on an absolutely positioned one shifts the fade
+        // off the edge it is meant to sit on.
+        "before:content-[''] before:pointer-events-none before:absolute",
+        "before:inset-x-0 before:bottom-full before:h-6",
+        "before:bg-[linear-gradient(to_top,rgba(255,255,255,1)_0%,rgba(255,255,255,0)_100%)]",
+      )}
+      data-testid="modal-footer"
+    >
       {children}
     </div>
   )

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Address, type AddressProps } from "#ui/composite/Address"
-import { useResourceAddressOverlay } from "./useResourceAddressOverlay"
+import { useResourceAddressModal } from "./useResourceAddressModal"
 
 export type ResourceAddressProps = Pick<
   AddressProps,
@@ -60,7 +60,11 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
       AddressType | null | undefined
     >(address)
     const { canUser } = useTokenProvider()
-    const canEdit = editable && canUser("update", "addresses")
+    // an empty slot is filled by creating an address, not by updating one: the
+    // two sit behind different abilities
+    const canEdit =
+      editable &&
+      canUser(stateAddress == null ? "create" : "update", "addresses")
 
     const handleOnUpdate = useCallback<
       NonNullable<ResourceAddressProps["onUpdate"]>
@@ -79,18 +83,17 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
         onCreate?.(address)
         setStateAddress(address)
       },
-      [onUpdate, setStateAddress],
+      [onCreate, setStateAddress],
     )
 
-    const { ResourceAddressOverlay, openAddressOverlay } =
-      useResourceAddressOverlay({
-        address: stateAddress,
-        showBillingInfo,
-        requiresBillingInfo,
-        showNotes,
-        onCreate: handleOnCreate,
-        onUpdate: handleOnUpdate,
-      })
+    const { addressModal, openAddressModal } = useResourceAddressModal({
+      address: stateAddress,
+      showBillingInfo,
+      requiresBillingInfo,
+      showNotes,
+      onCreate: handleOnCreate,
+      onUpdate: handleOnUpdate,
+    })
 
     useEffect(() => {
       setStateAddress(address)
@@ -106,13 +109,13 @@ export const ResourceAddress = withSkeletonTemplate<ResourceAddressProps>(
           onEdit={
             canEdit
               ? () => {
-                  openAddressOverlay()
+                  openAddressModal()
                 }
               : undefined
           }
           onDelete={onDelete}
         />
-        {canEdit && <ResourceAddressOverlay />}
+        {canEdit && addressModal}
       </>
     )
   },

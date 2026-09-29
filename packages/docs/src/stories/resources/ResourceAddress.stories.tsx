@@ -15,7 +15,7 @@ import { HookedInput } from "#ui/forms/Input"
 import { InputCheckbox } from "#ui/forms/InputCheckbox"
 import {
   ResourceAddress,
-  useResourceAddressOverlay,
+  useResourceAddressModal,
 } from "#ui/resources/ResourceAddress"
 import { presetAddresses } from "#ui/resources/ResourceAddress/ResourceAddress.mocks"
 import {
@@ -141,26 +141,25 @@ export const ApiError: StoryFn = () => {
   )
 }
 
-export const UseResourceAddressOverlay: StoryFn = () => {
+export const HookedModal: StoryFn = () => {
   const [address, setAddress] = useState(presetAddresses.withName)
 
-  const { ResourceAddressOverlay, openAddressOverlay } =
-    useResourceAddressOverlay({
-      address,
-      title: address.full_name,
-      onUpdate: (updatedAddress) => {
-        console.log(updatedAddress)
-        // @ts-expect-error We don't have the sdk types here
-        setAddress(updatedAddress)
-      },
-    })
+  const { addressModal, openAddressModal } = useResourceAddressModal({
+    address,
+    title: address.full_name,
+    onUpdate: (updatedAddress) => {
+      console.log(updatedAddress)
+      // @ts-expect-error We don't have the sdk types here
+      setAddress(updatedAddress)
+    },
+  })
 
   return (
     <>
-      <ResourceAddressOverlay />
+      {addressModal}
       <Button
         onClick={() => {
-          openAddressOverlay()
+          openAddressModal()
         }}
       >
         Edit address

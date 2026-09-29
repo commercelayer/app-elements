@@ -394,7 +394,8 @@ export {
   ResourceAddressFormFields,
   type ResourceAddressFormFieldsProps,
   type ResourceAddressProps,
-  useResourceAddressOverlay,
+  useResourceAddressForm,
+  useResourceAddressModal,
 } from "#ui/resources/ResourceAddress"
 export {
   ResourceAttachments,
