@@ -36,7 +36,7 @@
   "scripts": {
     "build": "tsc && vite build && pnpm build:css-vendor",
     "build:watch": "pnpm dlx concurrently@10 --kill-others --names vendor,lib --prefix-colors cyan,magenta \"pnpm build:css-vendor --watch\" \"APP_ELEMENTS_WATCH=true vite build --watch\"",
-    "build:css-vendor": "pnpm dlx @tailwindcss/cli -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
+    "build:css-vendor": "pnpm dlx --allow-build=@parcel/watcher @tailwindcss/cli -i ./src/styles/vendor.css -o ./dist/vendor.css --minify",
     "check": "pnpm biome check",
     "check:fix": "pnpm biome check --write",
     "test": "vitest run",
