@@ -4,7 +4,6 @@ import { z } from "zod"
 import { t } from "#providers/I18NProvider"
 import { Grid } from "#ui/atoms/Grid"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { Spacer } from "#ui/atoms/Spacer"
 import { HookedInput } from "#ui/forms/Input/HookedInput"
 import type { InputSelectValue } from "#ui/forms/InputSelect"
 import { HookedInputSelect } from "#ui/forms/InputSelect/HookedInputSelect"
@@ -123,7 +122,7 @@ export const ResourceAddressFormFields =
         !showNameOrCompany || (showNameOrCompany && business === true)
 
       return (
-        <>
+        <div className="flex flex-col gap-8">
           {isNameVisible && (
             <FieldRow columns="2">
               <HookedInput
@@ -208,11 +207,14 @@ export const ResourceAddressFormFields =
               />
             </FieldRow>
           )}
-        </>
+        </div>
       )
     },
   )
 
+// Rows carry no spacing of their own: the gap lives on the container, so it
+// only ever falls *between* rows — whichever ones the flags leave visible — and
+// the last field sits flush with the bottom of whatever hosts the fields.
 const FieldRow = ({
   children,
   columns,
@@ -220,11 +222,7 @@ const FieldRow = ({
   children: React.ReactNode
   columns: "1" | "2"
 }): JSX.Element => {
-  return (
-    <Spacer bottom="8">
-      <Grid columns={columns}>{children}</Grid>
-    </Spacer>
-  )
+  return <Grid columns={columns}>{children}</Grid>
 }
 
 const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
