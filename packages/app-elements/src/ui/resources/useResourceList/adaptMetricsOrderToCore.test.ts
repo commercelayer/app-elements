@@ -195,4 +195,52 @@ describe("adaptMetricsOrderToCore", () => {
       },
     } satisfies Order)
   })
+
+  it("should adapt the shipments with their stock location", () => {
+    const order = adaptMetricsOrderToCore({
+      id: "orderId",
+      type: "orders",
+      shipments: [
+        {
+          id: "shipment1",
+          number: "123/S/001",
+          status: "picking",
+          stock_location: { id: "eu", name: "EU Warehouse" },
+        },
+        // a shipment the payload carries without its stock location
+        { id: "shipment2" },
+      ],
+    })
+
+    expect(order.shipments).toEqual([
+      {
+        id: "shipment1",
+        type: "shipments",
+        created_at: "",
+        updated_at: "",
+        number: "123/S/001",
+        status: "picking",
+        stock_location: {
+          id: "eu",
+          type: "stock_locations",
+          created_at: "",
+          updated_at: "",
+          name: "EU Warehouse",
+        },
+      },
+      {
+        id: "shipment2",
+        type: "shipments",
+        created_at: "",
+        updated_at: "",
+        number: "",
+      },
+    ])
+  })
+
+  it("should leave the shipments out when the payload has none", () => {
+    expect(
+      adaptMetricsOrderToCore({ id: "orderId", type: "orders" }).shipments,
+    ).toBeUndefined()
+  })
 })

@@ -1,4 +1,9 @@
-import type { Customer, Order } from "@commercelayer/sdk"
+import type {
+  Customer,
+  Order,
+  Shipment,
+  StockLocation,
+} from "@commercelayer/sdk"
 import type { CurrencyCode } from "#helpers/currencies"
 import { formatCentsToCurrency } from "#ui/forms/InputCurrency"
 
@@ -56,6 +61,15 @@ export interface MetricsResourceOrder {
   tags?: {
     id: string
     name: string
+  }[]
+  shipments?: {
+    id: string
+    number?: string
+    status?: string
+    stock_location?: {
+      id: string
+      name?: string
+    }
   }[]
   market?: {
     id: string
@@ -248,6 +262,31 @@ export function adaptMetricsOrderToCore(
       type: "tags",
       name: tag.name,
     })),
+
+    // As with `customer`, the metrics payload carries a few attributes of each
+    // shipment and its stock location, not the whole resources: what is missing
+    // is left absent rather than invented.
+    shipments: metricsOrder.shipments?.map(
+      (shipment) =>
+        ({
+          id: shipment.id,
+          created_at: "",
+          updated_at: "",
+          type: "shipments",
+          number: shipment.number ?? "",
+          status: shipment.status as Shipment["status"],
+          stock_location:
+            shipment.stock_location != null
+              ? ({
+                  id: shipment.stock_location.id,
+                  created_at: "",
+                  updated_at: "",
+                  type: "stock_locations",
+                  name: shipment.stock_location.name ?? "",
+                } as StockLocation)
+              : undefined,
+        }) as Shipment,
+    ),
 
     market:
       metricsOrder.market != null
