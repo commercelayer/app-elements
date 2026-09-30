@@ -138,7 +138,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
         {resourceTags == null || resourceTags.length === 0 ? (
           <Spacer top="4">
             <Text variant="info" size="small">
-              {t("common.no_resources.no_tags")}.
+              {t("common.no_resources.no_tags")}
             </Text>
           </Spacer>
         ) : (
