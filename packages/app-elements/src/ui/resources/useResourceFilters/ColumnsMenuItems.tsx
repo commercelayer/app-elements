@@ -236,6 +236,8 @@ function SortableColumnItem({
       className={cn(
         "relative touch-none",
         "[&:hover>*:first-child]:bg-gray-100 [&:hover>*:first-child]:rounded",
+        // the handle shows on the row's hover, wherever the pointer is on it
+        "[&:hover>*:last-child]:opacity-100",
         { "z-10": isDragging },
       )}
     >
@@ -269,7 +271,11 @@ function SortableColumnItem({
           // rest of the row keeps the pointer of a click. Pressing here drags the
           // row all the same, the event reaching the row's own listener.
           "flex text-gray-400 rounded cursor-grab",
-          // a keyboard user lands here on Tab, and has to see it
+          // Hidden at rest, so the menu reads as a list of columns rather than
+          // of handles: it shows on the row's hover (see above), for the row
+          // being moved, and for a keyboard user who lands here on Tab.
+          "opacity-0 focus-visible:opacity-100",
+          { "opacity-100!": isDragging },
           "outline-hidden focus-visible:text-gray-800 focus-visible:bg-gray-100",
         )}
       >
@@ -288,11 +294,6 @@ function LockedColumnItem({ entry }: { entry: TableColumnEntry }): JSX.Element {
         disabled
         aria-disabled
       />
-      {/* no handle to grab, only its outline, so the column reads as part of
-          the list and stays aligned with the others */}
-      <span className={cn(handleClassName, "flex text-gray-200")} aria-hidden>
-        <Icon name="dotsSixVertical" size={16} />
-      </span>
     </div>
   )
 }
