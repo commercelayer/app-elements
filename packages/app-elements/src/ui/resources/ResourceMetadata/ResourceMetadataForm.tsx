@@ -59,7 +59,6 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
     },
   ])
 
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [apiError, setApiError] = useState<any>(undefined)
   const { sdkClient } = useCoreSdkProvider()
 
@@ -92,13 +91,12 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
   const watchedMetadata = methods.watch("metadata")
 
   const addNewRow = (): void => {
-    watchedMetadata.push({
-      key: "",
-      value: "",
-    })
-    methods.setValue("metadata", watchedMetadata)
+    // A new array: `setValue` with the very same reference leaves `watch`
+    // returning what it already returned, so the row would never show up.
+    const nextMetadata = [...watchedMetadata, { key: "", value: "" }]
+    methods.setValue("metadata", nextMetadata)
     setTimeout(() => {
-      methods.setFocus(`metadata.${watchedMetadata.length - 1}.key`, {
+      methods.setFocus(`metadata.${nextMetadata.length - 1}.key`, {
         shouldSelect: true,
       })
     }, 200)
@@ -147,7 +145,6 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           }
         })
 
-        setIsSubmitting(true)
         void sdkClient[resourceType]
           .update(
             {
@@ -161,13 +158,11 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           )
           .then((updatedResource) => {
             void mutateResource(updatedResource).then(() => {
-              setIsSubmitting(false)
               onSubmitted()
             })
           })
           .catch((error) => {
             setApiError(error)
-            setIsSubmitting(false)
           })
       }}
     >
@@ -194,8 +189,10 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
                   type="button"
                   className="rounded"
                   onClick={() => {
-                    watchedMetadata.splice(idx, 1)
-                    methods.setValue("metadata", watchedMetadata)
+                    methods.setValue(
+                      "metadata",
+                      watchedMetadata.filter((_, i) => i !== idx),
+                    )
                   }}
                 >
                   <Icon name="minus" size={24} />
@@ -218,7 +215,11 @@ export const ResourceMetadataForm = withSkeletonTemplate<{
           </Spacer>
         </Section>
       </Spacer>
-      <Button type="submit" disabled={isSubmitting} className="w-full">
+      <Button
+        type="submit"
+        disabled={methods.formState.isSubmitting}
+        className="w-full"
+      >
         {t("common.update")}
       </Button>
       <Spacer top="2">
