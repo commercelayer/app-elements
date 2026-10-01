@@ -11,7 +11,7 @@ const setup = async () =>
           <ResourceTags
             resourceType="customers"
             resourceId="NMWYhbGorj"
-            overlay={{ title: "customer@tk.com" }}
+            modal={{ title: "customer@tk.com" }}
           />
         </CoreSdkProvider>
       </TokenProvider>,
@@ -28,8 +28,9 @@ describe("ResourceTags", () => {
     const header = container.querySelector("header")
 
     expect(header?.querySelectorAll("button")).toHaveLength(1)
+    // (the trigger icon carries an `aria-label` of its own, hence exact matches)
     expect(
-      container.querySelector('[aria-label="common.edit"]'),
+      container.querySelector('[aria-label="common.edit resources.tags.name"]'),
     ).not.toBeInTheDocument()
 
     await act(async () => {
@@ -37,7 +38,7 @@ describe("ResourceTags", () => {
     })
 
     expect(
-      container.querySelector('[aria-label="common.edit"]'),
+      container.querySelector('[aria-label="common.edit resources.tags.name"]'),
     ).toBeInTheDocument()
   })
 })

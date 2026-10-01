@@ -3,6 +3,7 @@ import type React from "react"
 import {
   createContext,
   forwardRef,
+  useCallback,
   useContext,
   useEffect,
   useId,
@@ -38,7 +39,7 @@ export type ModalProps = {
   /** Modal content */
   children: React.ReactNode
   /** Max width preset */
-  size?: "large" | "small" | "x-small"
+  size?: "large" | "medium" | "small" | "x-small"
   /**
    * Enables modal dismissal via backdrop click and Escape key.
    *
@@ -56,6 +57,16 @@ export type ModalProps = {
    * Only one form per modal — nesting another `<form>` in the body is invalid HTML.
    */
   onSubmit?: React.FormEventHandler<HTMLFormElement>
+  /**
+   * Gives out the underlying `<dialog>` element.
+   *
+   * The dialog is opened with `showModal()`, so it lives in the browser's top
+   * layer: anything portalled to `document.body` is painted *under* it, however
+   * high its `z-index`. A floating panel that has to escape the body's scroll
+   * area — a select menu, a datepicker — therefore has to be portalled into this
+   * element, which is full screen and does not clip its children.
+   */
+  dialogRef?: React.Ref<HTMLDialogElement>
 }
 
 type ModalComponent = React.ForwardRefExoticComponent<
@@ -75,11 +86,26 @@ const ModalRoot = (
     size = "small",
     dismissible = false,
     onSubmit,
+    dialogRef: forwardedDialogRef,
   }: ModalProps,
   ref: React.ForwardedRef<HTMLDivElement>,
 ) => {
   const modalId = useId()
   const dialogRef = useRef<HTMLDialogElement | null>(null)
+
+  const setDialogRef = useCallback(
+    (node: HTMLDialogElement | null) => {
+      dialogRef.current = node
+      if (typeof forwardedDialogRef === "function") {
+        forwardedDialogRef(node)
+      } else if (forwardedDialogRef != null) {
+        ;(
+          forwardedDialogRef as React.MutableRefObject<HTMLDialogElement | null>
+        ).current = node
+      }
+    },
+    [forwardedDialogRef],
+  )
 
   useEffect(
     function syncDialogVisibility() {
@@ -145,7 +171,7 @@ const ModalRoot = (
   return createPortal(
     <div ref={ref}>
       <dialog
-        ref={dialogRef}
+        ref={setDialogRef}
         aria-labelledby={ariaLabel != null ? undefined : `${modalId}-title`}
         aria-label={ariaLabel}
         className={cn(
@@ -173,6 +199,7 @@ const ModalRoot = (
           className={cn(
             "relative z-70 w-full",
             size === "large" && "max-w-155 md:w-155",
+            size === "medium" && "max-w-125 md:w-125",
             size === "small" && "max-w-105 md:w-105",
             size === "x-small" && "max-w-80 md:w-80",
           )}

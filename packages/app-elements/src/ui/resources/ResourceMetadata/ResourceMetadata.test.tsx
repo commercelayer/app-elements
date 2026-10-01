@@ -16,7 +16,7 @@ const setup = async (): Promise<RenderResult> => {
           <ResourceMetadata
             resourceType="customers"
             resourceId="NMWYhbGorj"
-            overlay={{ title: "customer@tk.com" }}
+            modal={{ title: "customer@tk.com" }}
           />
         </CoreSdkProvider>
       </TokenProvider>,
@@ -60,7 +60,7 @@ describe("ResourceMetadata", () => {
     expect(header?.querySelectorAll("button")).toHaveLength(1)
     // (the trigger icon carries an `aria-label` of its own, hence exact matches)
     expect(
-      container.querySelector('[aria-label="common.edit"]'),
+      container.querySelector('[aria-label="common.edit common.metadata"]'),
     ).not.toBeInTheDocument()
     expect(
       container.querySelector('[aria-label="common.view_json"]'),
@@ -73,10 +73,41 @@ describe("ResourceMetadata", () => {
 
     // edit, plus the JSON view since this resource has metadata
     expect(
-      container.querySelector('[aria-label="common.edit"]'),
+      container.querySelector('[aria-label="common.edit common.metadata"]'),
     ).toBeInTheDocument()
     expect(
       container.querySelector('[aria-label="common.view_json"]'),
     ).toBeInTheDocument()
+  })
+
+  // `gdpr_preferences` is an object, which this form cannot edit: its row is kept
+  // in the form values — hidden — so the value survives an update. Removing a row
+  // above it used to shift it onto the type of whichever entry had been sitting
+  // at its new index, turning it into an editable text input.
+  it("keeps a non-editable entry hidden after a row above it is removed", async () => {
+    const { container, baseElement } = await setup()
+
+    const trigger = container.querySelector("header")?.querySelector("button")
+    await act(async () => {
+      fireEvent.click(trigger as HTMLButtonElement)
+    })
+    await act(async () => {
+      fireEvent.click(
+        container.querySelector(
+          '[aria-label="common.edit common.metadata"]',
+        ) as HTMLElement,
+      )
+    })
+
+    // the two string entries, while `gdpr_preferences` has no row on screen
+    const removeButtons = (): HTMLElement[] =>
+      Array.from(baseElement.querySelectorAll('[aria-label="common.remove"]'))
+    expect(removeButtons()).toHaveLength(2)
+
+    await act(async () => {
+      fireEvent.click(removeButtons()[0] as HTMLElement)
+    })
+
+    expect(removeButtons()).toHaveLength(1)
   })
 })

@@ -1,3 +1,10 @@
+export const updatableTypes = ["string", "number", "boolean"] as const
+export type UpdatableType = (typeof updatableTypes)[number]
+
+export const isUpdatableType = (value: any): value is UpdatableType => {
+  return updatableTypes.includes(typeof value as UpdatableType)
+}
+
 export function groupMetadataKeys(
   data: Array<{ key: string; value?: unknown }>,
 ): GroupedMetadataKeys {

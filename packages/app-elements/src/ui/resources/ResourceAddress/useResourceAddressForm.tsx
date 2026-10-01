@@ -24,6 +24,11 @@ interface UseResourceAddressFormProps
    * shows the address as it is now rather than what was last typed.
    */
   isOpen?: boolean
+  /**
+   * Called when the user gives up on the edit. Leaving it out drops the cancel
+   * control, for a container that has a way out of its own.
+   */
+  onCancel?: () => void
 }
 
 interface ResourceAddressFormHook {
@@ -33,13 +38,16 @@ interface ResourceAddressFormHook {
   onSubmit: React.FormEventHandler<HTMLFormElement>
   /** The address fields, to be rendered in the scrollable area */
   fields: ReactNode
-  /** Submit button and API error, to be rendered in the pinned area */
-  submitButton: ReactNode
+  /**
+   * The controls that stay put while the fields scroll — cancel, submit — plus
+   * the API error. To be rendered in the pinned area.
+   */
+  footer: ReactNode
 }
 
 /**
  * Builds the pieces of an address create/update form, leaving their placement to
- * the caller: `fields` and `submitButton` can go in separate containers — such as
+ * the caller: `fields` and `footer` can go in separate containers — such as
  * a `Modal`'s `Body` and `Footer` — as long as a `FormProvider` spread with
  * `methods` wraps both and the enclosing `<form>` is given `onSubmit`.
  */
@@ -51,6 +59,7 @@ export function useResourceAddressForm({
   onUpdate,
   onCreate,
   isOpen = true,
+  onCancel,
 }: UseResourceAddressFormProps): ResourceAddressFormHook {
   const methods = useForm({
     defaultValues: address ?? undefined,
@@ -103,16 +112,28 @@ export function useResourceAddressForm({
         showNotes={showNotes}
       />
     ),
-    submitButton: (
+    footer: (
       <>
-        <Button
-          type="submit"
-          disabled={methods.formState.isSubmitting}
-          className="w-full"
-        >
-          {address == null ? t("common.create") : t("common.update")}{" "}
-          {t("resources.addresses.name")}
-        </Button>
+        <div className="flex items-center justify-end gap-2">
+          {onCancel != null && (
+            <Button
+              variant="secondary"
+              type="button"
+              size="small"
+              onClick={onCancel}
+            >
+              {t("common.cancel")}
+            </Button>
+          )}
+          <Button
+            type="submit"
+            disabled={methods.formState.isSubmitting}
+            size="small"
+          >
+            {address == null ? t("common.create") : t("common.update")}{" "}
+            {t("resources.addresses.name")}
+          </Button>
+        </div>
         <HookedValidationApiError apiError={apiError} />
       </>
     ),
