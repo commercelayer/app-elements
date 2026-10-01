@@ -122,7 +122,7 @@ export const ResourceAddressFormFields =
         !showNameOrCompany || (showNameOrCompany && business === true)
 
       return (
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6">
           {isNameVisible && (
             <FieldRow columns="2">
               <HookedInput

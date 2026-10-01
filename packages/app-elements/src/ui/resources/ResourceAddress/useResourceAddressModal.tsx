@@ -46,8 +46,9 @@ export const useResourceAddressModal = ({
     }
   }, [canEditAddress])
 
-  const { methods, onSubmit, fields, submitButton } = useResourceAddressForm({
+  const { methods, onSubmit, fields, footer } = useResourceAddressForm({
     isOpen,
+    onCancel: close,
     address,
     showBillingInfo,
     requiresBillingInfo,
@@ -74,7 +75,7 @@ export const useResourceAddressModal = ({
         <Modal
           show={isOpen}
           onClose={close}
-          size="large"
+          size="medium"
           dismissible
           onSubmit={onSubmit}
         >
@@ -83,7 +84,7 @@ export const useResourceAddressModal = ({
               `${address == null ? t("common.new") : t("common.edit")} ${t("resources.addresses.name").toLowerCase()}`}
           </Modal.Header>
           <Modal.Body>{fields}</Modal.Body>
-          <Modal.Footer>{submitButton}</Modal.Footer>
+          <Modal.Footer>{footer}</Modal.Footer>
         </Modal>
       </FormProvider>
     ) : null,

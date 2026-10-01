@@ -1,9 +1,8 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
-import { useEditTagsOverlay } from "#hooks/useEditTagsOverlay"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
-import { ResourceTags } from "#ui/resources/ResourceTags"
+import { ResourceTags, useResourceTagsModal } from "#ui/resources/ResourceTags"
 
 const setup: Meta<typeof ResourceTags> = {
   title: "Resources/ResourceTags",
@@ -28,7 +27,7 @@ export const Default = Template.bind({})
 Default.args = {
   resourceType: "customers",
   resourceId: "NMWYhbGorj",
-  overlay: {
+  modal: {
     title: "hello@commercelayer.io",
     showManageAction: true,
   },
@@ -44,32 +43,44 @@ export const WithoutTags = Template.bind({})
 WithoutTags.args = {
   resourceType: "customers",
   resourceId: "OEMAhobdgO",
-  overlay: {
+  modal: {
     title: "hello@commercelayer.io",
   },
 }
 
-/** If you need to edit the tags from outside the `ResourceTags` component you can use the `useEditTagsOverlay` hook: */
-export const EditTagsOverlay: StoryFn = () => {
-  const { Overlay: EditTagsOverlay, show } = useEditTagsOverlay()
-
+/** If you need to edit the tags from outside the `ResourceTags` component you can use the `useResourceTagsModal` hook: */
+export const EditTagsModal: StoryFn = () => {
   return (
     <TokenProvider kind="integration" appSlug="customers" devMode>
       <CoreSdkProvider>
-        <EditTagsOverlay
-          title="hello@commercelayer.io"
-          resourceId="ASEYfdNrwa"
-          resourceType="customers"
-        />
-        <Dropdown
-          menuPosition="bottom-left"
-          dropdownItems={<DropdownItem onClick={show} label="Edit tags" />}
-        />
+        <EditTagsModalTrigger />
       </CoreSdkProvider>
     </TokenProvider>
   )
 }
-EditTagsOverlay.decorators = [
+
+/** The hook needs the providers above it, so it lives in a child of the story. */
+const EditTagsModalTrigger = (): React.JSX.Element => {
+  const { tagsModal, openTagsModal } = useResourceTagsModal({
+    title: "hello@commercelayer.io",
+    showManageAction: true,
+    resourceId: "ASEYfdNrwa",
+    resourceType: "customers",
+  })
+
+  return (
+    <>
+      {tagsModal}
+      <Dropdown
+        menuPosition="bottom-left"
+        dropdownItems={
+          <DropdownItem onClick={openTagsModal} label="Edit tags" />
+        }
+      />
+    </>
+  )
+}
+EditTagsModal.decorators = [
   (Story) => (
     <div
       style={{

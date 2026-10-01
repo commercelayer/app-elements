@@ -1,9 +1,11 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
-import { useEditMetadataOverlay } from "#hooks/useEditMetadataOverlay"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
-import { ResourceMetadata } from "#ui/resources/ResourceMetadata"
+import {
+  ResourceMetadata,
+  useResourceMetadataModal,
+} from "#ui/resources/ResourceMetadata"
 
 const setup: Meta = {
   title: "Resources/ResourceMetadata",
@@ -28,7 +30,7 @@ export const Default = Template.bind({})
 Default.args = {
   resourceType: "customers",
   resourceId: "NMWYhbGorj",
-  overlay: {
+  modal: {
     title: "hello@commercelayer.io",
   },
 }
@@ -40,32 +42,43 @@ export const WithoutMetadata = Template.bind({})
 WithoutMetadata.args = {
   resourceType: "customers",
   resourceId: "OEMAhobdgO",
-  overlay: {
+  modal: {
     title: "hello@commercelayer.io",
   },
 }
 
-/** If you need to edit the metadata from outside the `ResourceMetadata` component you can use the `useEditMetadataOverlay` hook: */
-export const EditMetadataOverlay: StoryFn = () => {
-  const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
-
+/** If you need to edit the metadata from outside the `ResourceMetadata` component you can use the `useResourceMetadataModal` hook: */
+export const EditMetadataModal: StoryFn = () => {
   return (
     <TokenProvider kind="integration" appSlug="customers" devMode>
       <CoreSdkProvider>
-        <EditMetadataOverlay
-          title="hello@commercelayer.io"
-          resourceId="ASEYfdNrwa"
-          resourceType="customers"
-        />
-        <Dropdown
-          menuPosition="bottom-left"
-          dropdownItems={<DropdownItem onClick={show} label="Edit metadata" />}
-        />
+        <EditMetadataModalTrigger />
       </CoreSdkProvider>
     </TokenProvider>
   )
 }
-EditMetadataOverlay.decorators = [
+
+/** The hook needs the providers above it, so it lives in a child of the story. */
+const EditMetadataModalTrigger = (): React.JSX.Element => {
+  const { metadataModal, openMetadataModal } = useResourceMetadataModal({
+    title: "hello@commercelayer.io",
+    resourceId: "ASEYfdNrwa",
+    resourceType: "customers",
+  })
+
+  return (
+    <>
+      {metadataModal}
+      <Dropdown
+        menuPosition="bottom-left"
+        dropdownItems={
+          <DropdownItem onClick={openMetadataModal} label="Edit metadata" />
+        }
+      />
+    </>
+  )
+}
+EditMetadataModal.decorators = [
   (Story) => (
     <div
       style={{

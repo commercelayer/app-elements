@@ -142,6 +142,7 @@ export const Address = withSkeletonTemplate<AddressProps>(
                   tag="div"
                   variant="info"
                   data-testid="Address-billingInfo"
+                  size="small"
                 >
                   {address.billing_info}
                 </Text>
