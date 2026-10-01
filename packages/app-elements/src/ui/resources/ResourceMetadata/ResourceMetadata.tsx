@@ -1,10 +1,6 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
 import { isEmpty } from "lodash-es"
 import { isMockedId } from "#helpers/mocks"
-import {
-  type EditMetadataOverlayProps,
-  useEditMetadataOverlay,
-} from "#hooks/useEditMetadataOverlay"
 import { useViewJsonOverlay } from "#hooks/useViewJsonOverlay"
 import { useCoreApi } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
@@ -17,9 +13,14 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
+import {
+  type ResourceMetadataModalProps,
+  useResourceMetadataModal,
+} from "./useResourceMetadataModal"
+import { isUpdatableType } from "./utils"
 
-interface MetadataOverlay
-  extends Omit<EditMetadataOverlayProps, "resourceId" | "resourceType"> {}
+interface MetadataModal
+  extends Omit<ResourceMetadataModalProps, "resourceId" | "resourceType"> {}
 
 export interface ResourceMetadataProps {
   /**
@@ -33,28 +34,31 @@ export interface ResourceMetadataProps {
   resourceType: ListableResourceType
   resourceId: string
   /**
-   * Edit overlay configuration
+   * Edit modal configuration
    */
-  overlay?: MetadataOverlay
+  modal?: MetadataModal
 }
 
-export const updatableTypes = ["string", "number", "boolean"] as const
-export type UpdatableType = (typeof updatableTypes)[number]
-
-export const isUpdatableType = (value: any): value is UpdatableType => {
-  return updatableTypes.includes(typeof value as UpdatableType)
-}
+export {
+  isUpdatableType,
+  type UpdatableType,
+  updatableTypes,
+} from "./utils"
 
 /**
  * This component provides an all-in-one visualization and editing interface for the `metadata` attribute of a given resource.
  * More in detail the `metadata` attribute is a JSON object, customizable for several purposes, and this component will allow to show and manage its keys with a simple (string kind) values.
  */
 export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
-  ({ resourceType, resourceId, overlay, variant }) => {
+  ({ resourceType, resourceId, modal, variant }) => {
     // the hook runs unconditionally; the prop only wins afterwards
     const inferredSurface = useSurfaceVariant()
     const surface = variant ?? inferredSurface
-    const { Overlay: EditMetadataOverlay, show } = useEditMetadataOverlay()
+    const { metadataModal, openMetadataModal } = useResourceMetadataModal({
+      title: modal?.title,
+      resourceId,
+      resourceType,
+    })
     const { JsonOverlay, showJsonOverlay } = useViewJsonOverlay()
 
     const { canUser } = useTokenProvider()
@@ -81,7 +85,6 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
         <Section
           surface={surface}
           title="Metadata"
-          border={isEmpty(resourceData?.metadata) ? undefined : "none"}
           actionButton={
             // A `…` menu rather than a row of buttons, as the tables and the page
             // headings use: the section then looks the same on every surface, which
@@ -105,9 +108,9 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                     {canUser("update", resourceType) && (
                       <DropdownItem
                         icon="pencilSimple"
-                        label={t("common.edit")}
+                        label={`${t("common.edit")} ${t("common.metadata").toLowerCase()}`}
                         onClick={() => {
-                          show()
+                          openMetadataModal()
                         }}
                       />
                     )}
@@ -126,57 +129,53 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
             )
           }
         >
-          {!isEmpty(resourceData?.metadata) ? (
-            <Card
-              gap={surface === "sidebar" ? "2" : "6"}
-              overflow="visible"
-              backgroundColor="light"
-              className="print:p-4 print:rounded-sm"
-            >
-              {Object.entries(resourceData?.metadata ?? []).map(
-                ([metadataKey, metadataValue], idx) => {
-                  return (
-                    <div
-                      // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                      key={idx}
-                      className="flex w-full px-1"
-                      data-testid={`ResourceMetadata-item-${metadataKey}`}
-                    >
-                      <Text
-                        size="small"
-                        variant="info"
-                        className="font-mono mr-2"
+          <Spacer top="4">
+            {!isEmpty(resourceData?.metadata) ? (
+              <Card
+                gap={surface === "sidebar" ? "2" : "6"}
+                overflow="visible"
+                backgroundColor="light"
+                className="print:p-4 print:rounded-sm"
+              >
+                {Object.entries(resourceData?.metadata ?? []).map(
+                  ([metadataKey, metadataValue], idx) => {
+                    return (
+                      <div
+                        // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                        key={idx}
+                        className="flex w-full px-1"
+                        data-testid={`ResourceMetadata-item-${metadataKey}`}
                       >
-                        {metadataKey}:
-                      </Text>
-                      <Text
-                        size="small"
-                        className="font-mono"
-                        data-testid={`ResourceMetadata-value-${metadataKey}`}
-                      >
-                        {isUpdatableType(metadataValue)
-                          ? metadataValue.toString()
-                          : "[...]"}
-                      </Text>
-                    </div>
-                  )
-                },
-              )}
-            </Card>
-          ) : (
-            <Spacer top="4">
+                        <Text
+                          size="small"
+                          variant="info"
+                          className="font-mono mr-2"
+                        >
+                          {metadataKey}:
+                        </Text>
+                        <Text
+                          size="small"
+                          className="font-mono"
+                          data-testid={`ResourceMetadata-value-${metadataKey}`}
+                        >
+                          {isUpdatableType(metadataValue)
+                            ? metadataValue.toString()
+                            : "[...]"}
+                        </Text>
+                      </div>
+                    )
+                  },
+                )}
+              </Card>
+            ) : (
               <Text tag="span" variant="info" size="small">
                 {t("common.no_metadata")}
               </Text>
-            </Spacer>
-          )}
+            )}
+          </Spacer>
         </Section>
         <JsonOverlay title="Metadata" json={resourceData?.metadata ?? {}} />
-        <EditMetadataOverlay
-          title={overlay?.title}
-          resourceId={resourceId}
-          resourceType={resourceType}
-        />
+        {metadataModal}
       </div>
     )
   },

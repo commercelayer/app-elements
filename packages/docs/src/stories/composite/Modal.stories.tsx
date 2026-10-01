@@ -71,6 +71,28 @@ export const Default: StoryFn = () => {
 }
 
 /**
+ * Modal with the `medium` size, 500px wide: between `small` and `large`.
+ */
+export const Medium: StoryFn = () => {
+  const [show, setShow] = useState(false)
+
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+
+  return (
+    <div>
+      <Button onClick={handleShow}>Open modal</Button>
+      <Modal size="medium" show={show} onClose={handleClose}>
+        <Modal.Header>Medium modal</Modal.Header>
+        <Modal.Body>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </Modal.Body>
+      </Modal>
+    </div>
+  )
+}
+
+/**
  * Modal that can be dismissed by clicking the backdrop or pressing Esc.
  */
 export const Dismissible: StoryFn = () => {
