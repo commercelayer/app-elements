@@ -22,7 +22,7 @@ const firstPage = [
  */
 function mockStockLocations(extra: Array<{ id: string; name: string }> = []) {
   server.use(
-    http.get("https://*/api/stock_locations", ({ request }) => {
+    http.get("https://*/api/:version/stock_locations", ({ request }) => {
       const ids = new URL(request.url).searchParams.get("filter[q][id_in]")
       const records =
         ids == null
