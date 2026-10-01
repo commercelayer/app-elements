@@ -1,4 +1,4 @@
-import React, { type JSX, useEffect, useState } from "react"
+import React, { type JSX, useEffect, useRef, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { z } from "zod"
 import { t } from "#providers/I18NProvider"
@@ -156,7 +156,7 @@ export const ResourceAddressFormFields =
           </FieldRow>
 
           <FieldRow columns="1">
-            <SelectCountry namePrefix={namePrefix} />
+            <SelectCountry countryCodeName={`${namePrefix}country_code`} />
           </FieldRow>
 
           <FieldRow columns="1">
@@ -168,7 +168,10 @@ export const ResourceAddressFormFields =
 
           <FieldRow columns="1">
             <div className="grid grid-cols-[2fr_1fr] gap-4">
-              <SelectStates namePrefix={namePrefix} />
+              <SelectStates
+                stateCodeName={`${namePrefix}state_code`}
+                countryCodeName={`${namePrefix}country_code`}
+              />
               <HookedInput
                 name={`${namePrefix}zip_code`}
                 label={t("resources.addresses.attributes.zip_code")}
@@ -225,7 +228,12 @@ const FieldRow = ({
   return <Grid columns={columns}>{children}</Grid>
 }
 
-const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
+// The two selects take their field paths already resolved, rather than a prefix
+// to reapply: a path is then built in exactly one place, and no string inside
+// these components can quietly miss the namespace the way `state_code` once did.
+const SelectCountry: React.FC<{ countryCodeName: string }> = ({
+  countryCodeName,
+}) => {
   const [forceTextInput, setForceTextInput] = useState(false)
   const { countries, isLoading, error } = useCountryList()
 
@@ -239,7 +247,7 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   if (forceTextInput) {
     return (
       <HookedInput
-        name={`${namePrefix}country_code`}
+        name={countryCodeName}
         label={t("resources.addresses.attributes.country_code")}
       />
     )
@@ -247,7 +255,7 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
 
   return (
     <HookedInputSelect
-      name={`${namePrefix}country_code`}
+      name={countryCodeName}
       label={t("resources.addresses.attributes.country_code")}
       key={countries?.length}
       initialValues={countries ?? []}
@@ -257,17 +265,20 @@ const SelectCountry: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   )
 }
 
-const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
+const SelectStates: React.FC<{
+  stateCodeName: string
+  countryCodeName: string
+}> = ({ stateCodeName, countryCodeName }) => {
   const [states, setStates] = useState<InputSelectValue[] | undefined>()
-  const { watch, setValue } =
-    useFormContext<
-      z.infer<ReturnType<typeof getResourceAddressFormFieldsSchema>>
-    >()
+  const { watch, setValue, getValues } = useFormContext()
   const [forceTextInput, setForceTextInput] = useState(false)
 
-  const countryCode = watch("country_code")
-  const stateCode = watch("state_code")
+  const countryCode: string | undefined = watch(countryCodeName)
+  const stateCode: string | undefined = watch(stateCodeName)
   const countryWithStates = ["US", "IT"]
+  // The country the form opened on: a state that isn't in its list is a custom
+  // one the address already carries, not a leftover to be wiped.
+  const initialCountryCode = useRef(countryCode)
 
   useEffect(() => {
     if (countryCode != null && countryWithStates.includes(countryCode)) {
@@ -277,9 +288,15 @@ const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
         .then<InputSelectValue[]>(async (res) => await res.json())
         .then((data) => {
           setStates(data)
-          if (data.find(({ value }) => value === stateCode) == null) {
-            // reset state_code if not found in the list
-            setValue("state_code", "")
+          // read at response time: the effect's closure predates whatever the
+          // user may have typed while the list was in flight
+          const currentStateCode: string | undefined = getValues(stateCodeName)
+          if (
+            countryCode !== initialCountryCode.current &&
+            data.find(({ value }) => value === currentStateCode) == null
+          ) {
+            // the country changed under it, so the previous state no longer applies
+            setValue(stateCodeName, "")
           }
         })
         .catch(() => {
@@ -290,25 +307,37 @@ const SelectStates: React.FC<{ namePrefix: string }> = ({ namePrefix }) => {
   }, [countryCode])
 
   if (
+    countryCode == null ||
     !countryWithStates.includes(countryCode) ||
     states?.length === 0 ||
     forceTextInput
   ) {
     return (
       <HookedInput
-        name={`${namePrefix}state_code`}
+        name={stateCodeName}
         label={t("resources.addresses.attributes.state_code")}
       />
     )
   }
 
+  // A custom state keeps its place in the list, so it shows as the selected
+  // value and stays selectable after the user browses the other options.
+  const options =
+    states != null &&
+    stateCode != null &&
+    stateCode !== "" &&
+    states.find(({ value }) => value === stateCode) == null
+      ? [{ value: stateCode, label: stateCode }, ...states]
+      : (states ?? [])
+
   return (
     <HookedInputSelect
-      name={`${namePrefix}state_code`}
+      name={stateCodeName}
       label={t("resources.addresses.attributes.state_code")}
       key={`${countryCode}_${states?.length}`}
-      initialValues={states ?? []}
+      initialValues={options}
       pathToValue="value"
+      isCreatable
       isLoading={states == null}
     />
   )
