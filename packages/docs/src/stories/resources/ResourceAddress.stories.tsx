@@ -141,6 +141,27 @@ export const ApiError: StoryFn = () => {
   )
 }
 
+/**
+ * An address can carry a state the official list doesn't know — one typed by
+ * hand, or imported from elsewhere. Editing it keeps that value as the selected
+ * one, and the select stays creatable: pick a province from the list, or type
+ * another custom value and keep it.
+ */
+export const CustomState: StoryFn = () => {
+  return (
+    <Stack>
+      <ResourceAddress
+        address={presetAddresses.withCustomState}
+        title="Shipping address"
+        editable
+        onUpdate={(updatedAddress) => {
+          console.log("updated address", updatedAddress)
+        }}
+      />
+    </Stack>
+  )
+}
+
 export const HookedModal: StoryFn = () => {
   const [address, setAddress] = useState(presetAddresses.withName)
 

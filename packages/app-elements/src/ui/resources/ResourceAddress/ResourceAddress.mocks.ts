@@ -60,6 +60,28 @@ export const presetAddresses = {
     updated_at: "",
     notes: "Kindly leave the package to my neighbor, Adam Sandler.",
   },
+  withCustomState: {
+    type: "addresses",
+    id: "eeZYuDJVXW",
+    business: false,
+    company: "",
+    first_name: "Obi-Wan",
+    last_name: "Kenobi",
+    full_name: "Obi-Wan Kenobi",
+    email: "kenobi@rebellion.com",
+    line_1: "Via Polis Massa, 42",
+    line_2: "",
+    city: "Cogorno",
+    country_code: "IT",
+    // not a province code from the IT list: a value typed by hand that the form
+    // has to keep showing rather than drop on the floor
+    state_code: "Genova",
+    zip_code: "16030",
+    phone: "+39 055 1234567890",
+    billing_info: "ABCDEFGHIJKLMNOPQRSTUVWYXZ",
+    created_at: "",
+    updated_at: "",
+  },
   withErrors: {
     type: "addresses",
     id: "ddZYuDJVXW",
