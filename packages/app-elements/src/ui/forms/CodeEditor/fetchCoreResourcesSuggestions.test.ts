@@ -791,6 +791,18 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.session_amount_cents",
+    },
+    {
+      "type": "field",
+      "value": "order.session_amount_float",
+    },
+    {
+      "type": "field",
+      "value": "order.formatted_session_amount",
+    },
+    {
+      "type": "field",
       "value": "order.fees_amount_cents",
     },
     {
@@ -839,6 +851,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.payment_taken_sessions_count",
+    },
+    {
+      "type": "field",
       "value": "order.tax_calculations_count",
     },
     {
@@ -876,6 +892,10 @@ const orderSuggestionsSnapshot = `
     {
       "type": "field",
       "value": "order.checkout_url",
+    },
+    {
+      "type": "field",
+      "value": "order.placeable",
     },
     {
       "type": "field",
@@ -979,6 +999,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "relationship",
+      "value": "order.available_payment_settings",
+    },
+    {
+      "type": "relationship",
       "value": "order.available_payment_methods",
     },
     {
@@ -1011,6 +1035,10 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "relationship",
+      "value": "order.payment_sessions",
+    },
+    {
+      "type": "relationship",
       "value": "order.stock_reservations",
     },
     {
@@ -1028,6 +1056,26 @@ const orderSuggestionsSnapshot = `
     {
       "type": "relationship",
       "value": "order.payment_options",
+    },
+    {
+      "type": "relationship",
+      "value": "order.payment_transactions",
+    },
+    {
+      "type": "relationship",
+      "value": "order.payment_authorizations",
+    },
+    {
+      "type": "relationship",
+      "value": "order.payment_captures",
+    },
+    {
+      "type": "relationship",
+      "value": "order.payment_voids",
+    },
+    {
+      "type": "relationship",
+      "value": "order.payment_refunds",
     },
     {
       "type": "relationship",
