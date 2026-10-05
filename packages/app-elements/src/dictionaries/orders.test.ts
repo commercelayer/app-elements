@@ -1,4 +1,5 @@
 import type { Order } from "@commercelayer/sdk"
+import { t } from "i18next"
 import {
   getOrderDisplayStatus,
   getOrderFulfillmentStatusName,
@@ -48,6 +49,54 @@ describe("getOrderDisplayStatus", () => {
       getOrderDisplayStatus(
         order("approved", "partially_refunded", "fulfilled"),
       ),
+    ).toEqual({
+      label: getOrderFulfillmentStatusName("fulfilled"),
+      icon: "check",
+      color: "green",
+    })
+  })
+
+  it("reads a partial capture or void like an authorized order", () => {
+    const partialStatuses = ["partially_paid", "partially_voided"] as const
+
+    partialStatuses.forEach((paymentStatus) => {
+      expect(
+        getOrderDisplayStatus(order("placed", paymentStatus, "unfulfilled")),
+      ).toEqual({
+        label: t("resources.orders.attributes.status.placed"),
+        icon: "arrowDown",
+        color: "orange",
+        task: t("apps.orders.tasks.awaiting_approval"),
+      })
+      expect(
+        getOrderDisplayStatus(order("approved", paymentStatus, "unfulfilled")),
+      ).toEqual({
+        label: t("apps.orders.display_status.awaiting_capture"),
+        icon: "creditCard",
+        color: "orange",
+        task: t("apps.orders.tasks.payment_to_capture"),
+      })
+      expect(
+        getOrderDisplayStatus(order("approved", paymentStatus, "in_progress")),
+      ).toEqual({
+        label: t("apps.orders.display_status.in_progress"),
+        icon: "arrowClockwise",
+        color: "orange",
+        task: t("apps.orders.tasks.fulfillment_in_progress"),
+      })
+      expect(
+        getOrderDisplayStatus(order("approved", paymentStatus, "fulfilled")),
+      ).toEqual({
+        label: getOrderFulfillmentStatusName("fulfilled"),
+        icon: "check",
+        color: "green",
+      })
+    })
+  })
+
+  it("shows a fulfilled order as fulfilled after a full refund", () => {
+    expect(
+      getOrderDisplayStatus(order("approved", "refunded", "fulfilled")),
     ).toEqual({
       label: getOrderFulfillmentStatusName("fulfilled"),
       icon: "check",

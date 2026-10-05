@@ -46,6 +46,11 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case "placed:paid:not_required":
     case "placed:free:unfulfilled":
     case "placed:free:not_required":
+    // Part of the money is still authorized, so these read like `authorized`.
+    case "placed:partially_paid:unfulfilled":
+    case "placed:partially_paid:not_required":
+    case "placed:partially_voided:unfulfilled":
+    case "placed:partially_voided:not_required":
       return {
         label: t("resources.orders.attributes.status.placed"),
         icon: "arrowDown",
@@ -65,6 +70,10 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
 
     case "approved:authorized:unfulfilled":
     case "approved:authorized:not_required":
+    case "approved:partially_paid:unfulfilled":
+    case "approved:partially_paid:not_required":
+    case "approved:partially_voided:unfulfilled":
+    case "approved:partially_voided:not_required":
       return {
         // an approved order whose payment is only authorized says what is left to
         // do rather than what already happened: the money is not captured yet
@@ -84,6 +93,11 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case "approved:authorized:in_progress":
+    case "approved:partially_paid:in_progress":
+    case "approved:partially_voided:in_progress":
+    case "approved:partially_authorized:in_progress":
+    case "approved:refunded:in_progress":
+    case "approved:unpaid:in_progress":
       return {
         label: t("apps.orders.display_status.in_progress"),
         icon: "arrowClockwise",
@@ -92,6 +106,9 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       }
 
     case "approved:paid:fulfilled":
+    case "approved:partially_paid:fulfilled":
+    case "approved:partially_voided:fulfilled":
+    case "approved:refunded:fulfilled":
       return {
         label: t("resources.orders.attributes.fulfillment_status.fulfilled"),
         icon: "check",
