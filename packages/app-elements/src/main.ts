@@ -402,6 +402,11 @@ export {
 export {
   ResourceDetails,
   type ResourceDetailsProps,
+  ResourceReferenceFormFields,
+  type ResourceReferenceModalProps,
+  resourceReferenceFormFieldsSchema,
+  useResourceReferenceForm,
+  useResourceReferenceModal,
 } from "#ui/resources/ResourceDetails"
 export {
   ResourceDetailsContent,

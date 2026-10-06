@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react"
+import { act, fireEvent, render } from "@testing-library/react"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { PageLayout } from "#ui/composite/PageLayout"
 import { ResourceDetails } from "./ResourceDetails"
@@ -111,6 +111,47 @@ describe("ResourceDetails", () => {
     // rendered without `I18NProvider`, so the items read as their keys
     expect(container.textContent).toContain("common.copy_id")
     expect(container.textContent).toContain("common.edit_resource")
+  })
+
+  it("edits the reference in a modal, starting from the current values", async () => {
+    const { container, baseElement } = render(
+      wrap(
+        <ResourceDetails
+          resource={{
+            ...resource,
+            reference: "ABC-123",
+            reference_origin: "erp",
+          }}
+          onUpdated={async () => {}}
+        />,
+      ),
+    )
+
+    const dialog = (): HTMLDialogElement | null =>
+      baseElement.querySelector("dialog")
+    expect(dialog()?.open).toBeFalsy()
+
+    const trigger = container.querySelector('[aria-haspopup="true"]')
+    assertToBeDefined(trigger)
+    fireEvent.click(trigger)
+    await act(async () => {
+      fireEvent.click(
+        container.querySelector(
+          '[aria-label="common.edit_resource"]',
+        ) as HTMLElement,
+      )
+    })
+
+    expect(dialog()?.open).toBe(true)
+    expect(
+      baseElement.querySelector<HTMLInputElement>('input[name="reference"]')
+        ?.value,
+    ).toBe("ABC-123")
+    expect(
+      baseElement.querySelector<HTMLInputElement>(
+        'input[name="reference_origin"]',
+      )?.value,
+    ).toBe("erp")
   })
 
   // Every difference hides behind `lg:`, so the two read the same on a phone.
