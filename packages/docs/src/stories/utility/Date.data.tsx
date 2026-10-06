@@ -1,10 +1,5 @@
 import type { CodeSampleProps } from "src/components/CodeSample"
-import {
-  formatDate,
-  formatDateRange,
-  getEventDateInfo,
-  makeDateYearsRange,
-} from "#helpers/date"
+import { formatDate, formatDateRange, makeDateYearsRange } from "#helpers/date"
 
 export const formatDateExamples: CodeSampleProps[] = [
   {
@@ -269,30 +264,6 @@ export const formatDateRangeExamples: CodeSampleProps[] = [
         locale: "en-US",
       })
     },
-  },
-]
-
-export const getEventDateInfoExamples: CodeSampleProps[] = [
-  {
-    fn: () =>
-      getEventDateInfo({
-        startsAt: "2024-01-01T14:30:00.000Z",
-        expiresAt: "3024-01-31T14:30:00.000Z",
-      }),
-  },
-  {
-    fn: () =>
-      getEventDateInfo({
-        startsAt: "2023-01-01T14:30:00.000Z",
-        expiresAt: "2023-01-31T14:30:00.000Z",
-      }),
-  },
-  {
-    fn: () =>
-      getEventDateInfo({
-        startsAt: "3023-01-01T14:30:00.000Z",
-        expiresAt: "3023-01-31T14:30:00.000Z",
-      }),
   },
 ]
 

@@ -1,7 +1,6 @@
 import {
   formatDate,
   formatDateRange,
-  getEventDateInfo,
   makeDateYearsRange
 } from '#helpers/date'
 import { Canvas, Title, Description, Meta, Source } from '@storybook/addon-docs/blocks'
@@ -30,17 +29,6 @@ Format a date range as a nice string also specifying a custom timezone.
 
 {
   Examples.formatDateRangeExamples.map(props => (
-    <CodeSample {...props} />
-  ))
-}
-
-
-### `getEventDateInfo()`
-
-Given the event date (`startsAt` and `expiresAt`) it returns whether the the event is `active`, `past` or `upcoming`.
-
-{
-  Examples.getEventDateInfoExamples.map(props => (
     <CodeSample {...props} />
   ))
 }

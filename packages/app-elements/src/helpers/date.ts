@@ -1,9 +1,6 @@
 import { endOfDay } from "date-fns/endOfDay"
 import { format } from "date-fns/format"
 import { formatDistance } from "date-fns/formatDistance"
-import { isBefore } from "date-fns/isBefore"
-import { isFuture } from "date-fns/isFuture"
-import { isPast } from "date-fns/isPast"
 import { isSameMonth } from "date-fns/isSameMonth"
 import { isSameYear } from "date-fns/isSameYear"
 import { isThisYear } from "date-fns/isThisYear"
@@ -284,41 +281,6 @@ export function getIsoDateAtDaysBefore({
   }
 
   return sub(new Date(startOfDay), { days }).toISOString()
-}
-
-/**
- * Given the event date (`startsAt` and `expiresAt`) it returns whether the the event is `active`, `past` or `upcoming`.
- */
-export function getEventDateInfo({
-  startsAt,
-  expiresAt,
-  timezone = "UTC",
-}: {
-  /** The activation date/time of the event (ISO date string. Example '2022-10-06T11:59:30.371Z'). */
-  startsAt: DateISOString
-  /** The expiration date/time of the promotion (must be after startsAt) (ISO date string. Example '2022-10-06T11:59:30.371Z'). */
-  expiresAt: DateISOString
-  /** Set a specific timezone, when not passed default value is 'UTC' */
-  timezone?: string
-}): "active" | "past" | "upcoming" {
-  const zonedStartsAt = toZonedTime(new Date(startsAt), timezone)
-  const zonedExpiresAt = toZonedTime(new Date(expiresAt), timezone)
-
-  if (isBefore(zonedExpiresAt, zonedStartsAt)) {
-    throw new Error(
-      "The expiration date/time of the event must be after the activation (startsAt).",
-    )
-  }
-
-  if (isFuture(zonedStartsAt)) {
-    return "upcoming"
-  }
-
-  if (isPast(zonedExpiresAt)) {
-    return "past"
-  }
-
-  return "active"
 }
 
 /**
