@@ -48,8 +48,8 @@
   },
   "dependencies": {
     "@commercelayer/js-auth": "^7.4.2",
-    "@commercelayer/provisioning-sdk": "2.10.2",
-    "@commercelayer/sdk": "8.0.0-beta.12",
+    "@commercelayer/provisioning-sdk": "^3.0.0",
+    "@commercelayer/sdk": "^8.0.0",
     "@date-fns/tz": "^1.5.0",
     "@dnd-kit/core": "^6.3.1",
     "@dnd-kit/modifiers": "^9.0.0",

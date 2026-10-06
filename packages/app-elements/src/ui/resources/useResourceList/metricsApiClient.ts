@@ -122,6 +122,7 @@ const makeMetricsApiClient: MakeMetricsApiClient = ({
     list.meta = {
       pageCount: json.meta.pagination.cursor == null ? 1 : 2,
       recordCount: json.meta.pagination.record_count,
+      recordCountEstimated: false, // The metrics API never estimates
       currentPage: 1,
       recordsPerPage: query.search?.limit ?? 25,
       cursor: json.meta.pagination.cursor,

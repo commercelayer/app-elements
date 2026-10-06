@@ -24,11 +24,11 @@ importers:
         specifier: ^7.4.2
         version: 7.4.2
       '@commercelayer/provisioning-sdk':
-        specifier: 2.10.2
-        version: 2.10.2
+        specifier: ^3.0.0
+        version: 3.0.0
       '@commercelayer/sdk':
-        specifier: 8.0.0-beta.12
-        version: 8.0.0-beta.12
+        specifier: ^8.0.0
+        version: 8.0.0
       '@date-fns/tz':
         specifier: ^1.5.0
         version: 1.5.0
@@ -1062,12 +1062,12 @@ packages:
     resolution: {integrity: sha512-ifRcoAL1R7o5AU5w4bgmSnNMEWXDc11A+yZwAAZMEkAYrrsaud1X/3xmgY1e0yIXK8AAdIiqfW/Rm/4DdWwAQA==}
     engines: {node: '>=20.0.0'}
 
-  '@commercelayer/provisioning-sdk@2.10.2':
-    resolution: {integrity: sha512-5uqqH5CXXAQPuMrz+IGbF2HcQaKzgMzF7z4ye/mdo9Ygp8uMMNYH5jnaPB4QvYBVOMSi8r20egF3B9sFvqILLQ==}
+  '@commercelayer/provisioning-sdk@3.0.0':
+    resolution: {integrity: sha512-lNzQDBOXka/Os5ei1i+F1qqaCEC3Zt7yI4UOuPdmvZSgAk7XcKnFYfTJ7RyPbIMJeIFqOXp2qf4Yd1bIXqSqNA==}
     engines: {node: '>=20'}
 
-  '@commercelayer/sdk@8.0.0-beta.12':
-    resolution: {integrity: sha512-xoBCfYJ00LIjHIjoVKBOxjtoz30c7kZuvw6xZH6FDGd//Yp5Wr0ZSvosKEy0vcmmQXxTKLBIybqWyhNGHlhV5w==}
+  '@commercelayer/sdk@8.0.0':
+    resolution: {integrity: sha512-cdlMwi3wvK79hs9LTlE8nLsEx7JM1JNPJmtOCDRNzjG/sUiezfO96qDbQmP1Qd2PtUtapcAEqUgDmj59rtGlVw==}
     engines: {node: '>=20'}
 
   '@csstools/color-helpers@6.1.1':
@@ -5441,9 +5441,9 @@ snapshots:
 
   '@commercelayer/js-auth@7.4.2': {}
 
-  '@commercelayer/provisioning-sdk@2.10.2': {}
+  '@commercelayer/provisioning-sdk@3.0.0': {}
 
-  '@commercelayer/sdk@8.0.0-beta.12': {}
+  '@commercelayer/sdk@8.0.0': {}
 
   '@csstools/color-helpers@6.1.1': {}
 
