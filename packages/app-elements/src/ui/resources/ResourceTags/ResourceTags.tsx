@@ -5,10 +5,6 @@ import type {
 } from "@commercelayer/sdk"
 import isEmpty from "lodash-es/isEmpty"
 import { isMockedId } from "#helpers/mocks"
-import {
-  type EditTagsOverlayProps,
-  useEditTagsOverlay,
-} from "#hooks/useEditTagsOverlay"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
@@ -20,6 +16,10 @@ import { Tag as TagUi } from "#ui/atoms/Tag"
 import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
+import {
+  type ResourceTagsModalProps,
+  useResourceTagsModal,
+} from "./useResourceTagsModal"
 
 export type TaggableResource = TaggableResourceType
 
@@ -51,8 +51,8 @@ export function useIsTaggableResource(
   return isTaggableResource(resourceType, sdkClient)
 }
 
-interface TagsOverlay
-  extends Omit<EditTagsOverlayProps, "resourceId" | "resourceType"> {}
+interface TagsModal
+  extends Omit<ResourceTagsModalProps, "resourceId" | "resourceType"> {}
 
 export interface ResourceTagsProps {
   /**
@@ -66,9 +66,9 @@ export interface ResourceTagsProps {
   resourceType: TaggableResource
   resourceId: string
   /**
-   * Edit overlay configuration
+   * Edit modal configuration
    */
-  overlay?: TagsOverlay
+  modal?: TagsModal
   /**
    * Optional onTagClick function to define the click behavior of single tag in visualization
    */
@@ -79,7 +79,7 @@ export interface ResourceTagsProps {
  * This component generates an all-in-one visualization and editing interface for managing tags relationship of requested resource.
  */
 export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
-  ({ resourceType, resourceId, overlay, onTagClick, variant }) => {
+  ({ resourceType, resourceId, modal, onTagClick, variant }) => {
     // the hook runs unconditionally; the prop only wins afterwards
     const inferredSurface = useSurfaceVariant()
     const surface = variant ?? inferredSurface
@@ -97,7 +97,12 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
           ],
     )
 
-    const { Overlay: EditTagsOverlay, show } = useEditTagsOverlay()
+    const { tagsModal, openTagsModal } = useResourceTagsModal({
+      title: modal?.title,
+      showManageAction: modal?.showManageAction,
+      resourceId,
+      resourceType,
+    })
 
     const { canUser } = useTokenProvider()
 
@@ -125,9 +130,9 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
               dropdownItems={
                 <DropdownItem
                   icon="pencilSimple"
-                  label={t("common.edit")}
+                  label={`${t("common.edit")} ${t("resources.tags.name").toLowerCase()}`}
                   onClick={() => {
-                    show()
+                    openTagsModal()
                   }}
                 />
               }
@@ -163,12 +168,7 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
             })}
           </div>
         )}
-        <EditTagsOverlay
-          resourceId={resourceId}
-          resourceType={resourceType}
-          title={overlay?.title}
-          showManageAction={overlay?.showManageAction}
-        />
+        {tagsModal}
       </Section>
     )
   },

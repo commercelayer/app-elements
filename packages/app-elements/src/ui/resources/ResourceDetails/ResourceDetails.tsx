@@ -10,7 +10,7 @@ import { Text } from "#ui/atoms/Text"
 import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { ListDetailsItem } from "#ui/composite/ListDetailsItem"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
-import { useEditDetailsOverlay } from "./useEditDetailsOverlay"
+import { useResourceReferenceModal } from "./useResourceReferenceModal"
 
 export interface ResourceDetailsProps {
   /**
@@ -36,7 +36,10 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
     const { user, canUser } = useTokenProvider()
     const { t, i18n } = useTranslation()
     const locale = i18n.language as I18NLocale
-    const { Overlay: EditDetailsOverlay, show } = useEditDetailsOverlay()
+    const { referenceModal, openReferenceModal } = useResourceReferenceModal({
+      resource,
+      onUpdated,
+    })
 
     const reference = [resource?.reference, resource?.reference_origin]
       .filter(Boolean)
@@ -76,7 +79,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
                         resource: t("common.reference").toLowerCase(),
                       })}
                       onClick={() => {
-                        show()
+                        openReferenceModal()
                       }}
                     />
                   )}
@@ -124,7 +127,7 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
             </Text>
           </ListDetailsItem>
         </Section>
-        <EditDetailsOverlay resource={resource} onUpdated={onUpdated} />
+        {referenceModal}
       </>
     )
   },

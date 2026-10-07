@@ -11,6 +11,12 @@ export const getSelectStyles = (
    */
   size: "regular" | "small" = "regular",
 ): StylesConfig<InputSelectValue> => ({
+  // react-select gives the portal wrapper `z-index: 1`, which loses against
+  // anything the menu is portalled past — a modal's content sits at `z-70`.
+  menuPortal: (style) => ({
+    ...style,
+    zIndex: 100,
+  }),
   menu: (style) => ({
     ...style,
     zIndex: 100,

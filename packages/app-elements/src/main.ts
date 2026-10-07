@@ -79,8 +79,6 @@ export { useAppLinking } from "#helpers/useAppLinking"
 export { useClickAway } from "#hooks/useClickAway"
 export { useConfirmDialog } from "#hooks/useConfirmDialog"
 export { useDelayShow } from "#hooks/useDelayShow"
-export { useEditMetadataOverlay } from "#hooks/useEditMetadataOverlay"
-export { useEditTagsOverlay } from "#hooks/useEditTagsOverlay"
 export { useIsChanged } from "#hooks/useIsChanged"
 export { useOnBlurFromContainer } from "#hooks/useOnBlurFromContainer"
 export { useOverlay } from "#hooks/useOverlay"
@@ -403,6 +401,11 @@ export {
 export {
   ResourceDetails,
   type ResourceDetailsProps,
+  ResourceReferenceFormFields,
+  type ResourceReferenceModalProps,
+  resourceReferenceFormFieldsSchema,
+  useResourceReferenceForm,
+  useResourceReferenceModal,
 } from "#ui/resources/ResourceDetails"
 export {
   ResourceDetailsContent,
@@ -421,8 +424,15 @@ export {
   type ResourceListItemProps,
 } from "#ui/resources/ResourceListItem"
 export {
+  type KeyedMetadata,
   ResourceMetadata,
+  ResourceMetadataAddRowButton,
+  ResourceMetadataFormFields,
+  type ResourceMetadataModalProps,
   type ResourceMetadataProps,
+  resourceMetadataFormFieldsSchema,
+  useResourceMetadataForm,
+  useResourceMetadataModal,
 } from "#ui/resources/ResourceMetadata"
 export {
   ResourceOrderTimeline,
@@ -445,9 +455,12 @@ export {
 export {
   isTaggableResource,
   ResourceTags,
+  type ResourceTagsModalProps,
   type ResourceTagsProps,
   type TaggableResource,
   useIsTaggableResource,
+  useResourceTagsForm,
+  useResourceTagsModal,
 } from "#ui/resources/ResourceTags"
 export {
   type FiltersInstructions,

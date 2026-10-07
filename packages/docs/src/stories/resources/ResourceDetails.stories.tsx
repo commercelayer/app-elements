@@ -93,13 +93,13 @@ export const InTheSidebar: StoryFn = () => {
           <ResourceTags
             resourceType="customers"
             resourceId={customer.id}
-            overlay={{ title: "customer@tk.com" }}
+            modal={{ title: "customer@tk.com" }}
           />
           <Spacer top="10">
             <ResourceMetadata
               resourceType="customers"
               resourceId={customer.id}
-              overlay={{ title: "customer@tk.com" }}
+              modal={{ title: "customer@tk.com" }}
             />
           </Spacer>
           <Spacer top="10">
