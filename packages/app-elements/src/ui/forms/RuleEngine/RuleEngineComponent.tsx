@@ -2,11 +2,18 @@ import type { OnMount } from "@monaco-editor/react"
 import classNames from "classnames"
 import { isEqual } from "lodash-es"
 import type React from "react"
-import { useCallback, useEffect, useRef, useState } from "react"
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react"
 import type { SetOptional } from "type-fest"
 import { useTokenProvider } from "#providers/TokenProvider/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
+import { Tooltip } from "#ui/atoms/Tooltip"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 import { CodeEditor, type CodeEditorProps } from "#ui/forms/CodeEditor"
 import {
@@ -127,6 +134,11 @@ export function RuleEngine(props: RuleEngineProps): React.JSX.Element {
   )
 }
 
+// Same shape as the drag handle of the columns menu: a small rounded rectangle,
+// narrower than the circle button so the tabs bar keeps more room for the tabs.
+const headerButtonClassName =
+  "flex items-center justify-center shrink-0 w-6 h-7 rounded text-black outline-hidden hover:bg-gray-100 focus-visible:bg-gray-100"
+
 function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const {
     state: { value, selectedRuleIndex },
@@ -143,6 +155,73 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
   const selectedRule = value.rules?.[selectedRuleIndex]
   const codeEditorRef = useRef<Parameters<OnMount>[0] | null>(null)
   const [forcedRender, setForcedRender] = useState(0)
+  const tabRefs = useRef<Array<HTMLDivElement | null>>([])
+  const tabsScrollerRef = useRef<HTMLDivElement>(null)
+
+  /**
+   * Store, on each tab, where its menu trigger sits within the menu's containing block,
+   * which is outside of the tabs scroller. The static position of the menu would not
+   * account for the scroller being scrolled.
+   */
+  const positionTabMenus = useCallback(() => {
+    for (const tab of tabRefs.current) {
+      const trigger = tab?.querySelector("[aria-haspopup]")
+      const containingBlock = tab?.offsetParent
+      if (tab == null || trigger == null || containingBlock == null) {
+        continue
+      }
+
+      const triggerRect = trigger.getBoundingClientRect()
+      const origin =
+        containingBlock.getBoundingClientRect().left +
+        containingBlock.clientLeft -
+        containingBlock.scrollLeft
+      tab.style.setProperty(
+        "--tab-menu-start",
+        `${triggerRect.left - origin}px`,
+      )
+      tab.style.setProperty("--tab-menu-end", `${triggerRect.right - origin}px`)
+    }
+  }, [])
+
+  const [hasHiddenTabsOnRight, setHasHiddenTabsOnRight] = useState(false)
+
+  const updateTabsFade = useCallback(() => {
+    const scroller = tabsScrollerRef.current
+    if (scroller != null) {
+      setHasHiddenTabsOnRight(
+        scroller.scrollLeft + scroller.clientWidth < scroller.scrollWidth - 1,
+      )
+    }
+  }, [])
+
+  useEffect(
+    function observeTabsOverflow() {
+      updateTabsFade()
+
+      const scroller = tabsScrollerRef.current
+      if (scroller == null || typeof ResizeObserver === "undefined") {
+        return
+      }
+
+      const observer = new ResizeObserver(updateTabsFade)
+      observer.observe(scroller)
+      return () => {
+        observer.disconnect()
+      }
+    },
+    [value.rules],
+  )
+
+  useEffect(
+    function scrollSelectedTabIntoView() {
+      tabRefs.current[selectedRuleIndex]?.scrollIntoView?.({
+        block: "nearest",
+        inline: "nearest",
+      })
+    },
+    [selectedRuleIndex, value.rules?.length],
+  )
 
   useEffect(
     function updateCodeEditor() {
@@ -186,71 +265,109 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
           className={`shrink-0 basis-3/5 overflow-x-auto relative flex flex-col ${editorVisible ? "" : "grow"}`}
         >
           <header className="w-full bg-white border-b border-gray-200 px-4 flex text-[13px] gap-4 text-gray-400 font-semibold items-center">
-            <div className="flex items-center flex-wrap basis-full">
-              {value.rules?.map((rule, ruleIndex, rules) => {
-                const label = `#${(ruleIndex + 1).toString().padStart(2, "0")}`
-                return (
-                  <div
-                    // biome-ignore lint/suspicious/noArrayIndexKey: The index is used as part of a more complex key.
-                    key={`${ruleIndex}-${rule.id}`}
-                    className="flex items-center py-3 pl-4 pr-2 border-r basis-[88px] justify-center"
-                  >
-                    <button
-                      type="button"
-                      className={classNames("font-bold mr-2", {
-                        "text-black": selectedRuleIndex === ruleIndex,
-                      })}
-                      onClick={() => {
-                        setSelectedRuleIndex(ruleIndex)
+            <div className="flex items-center min-w-0 grow">
+              <div
+                ref={tabsScrollerRef}
+                className="flex items-center min-w-0 overflow-x-auto [scrollbar-width:thin]"
+                // Measured before a menu opens, and again on scroll so an open menu follows its tab
+                onPointerDownCapture={positionTabMenus}
+                onKeyDownCapture={positionTabMenus}
+                onScroll={() => {
+                  positionTabMenus()
+                  updateTabsFade()
+                }}
+              >
+                {value.rules?.map((rule, ruleIndex, rules) => {
+                  const label =
+                    rule.name?.trim() ||
+                    `#${(ruleIndex + 1).toString().padStart(2, "0")}`
+                  return (
+                    <div
+                      // biome-ignore lint/suspicious/noArrayIndexKey: The index is used as part of a more complex key.
+                      key={`${ruleIndex}-${rule.id}`}
+                      ref={(element) => {
+                        tabRefs.current[ruleIndex] = element
                       }}
+                      className="flex items-center shrink-0 py-3 pl-4 pr-2 border-r"
                     >
-                      {label}
-                    </button>
+                      <RuleTabLabel
+                        label={label}
+                        selected={selectedRuleIndex === ruleIndex}
+                        onClick={() => {
+                          setSelectedRuleIndex(ruleIndex)
+                        }}
+                      />
 
-                    <Dropdown
-                      menuPosition={
-                        ruleIndex === 0 ? "bottom-left" : "bottom-right"
-                      }
-                      dropdownLabel={
-                        <Button variant="circle">
-                          <Icon name="dotsThreeVertical" size={16} />
-                        </Button>
-                      }
-                      dropdownItems={
-                        <>
-                          <DropdownItem
-                            onClick={() => {
-                              const ruleIndex = value.rules?.length ?? 0
-                              setPath(`rules.${ruleIndex}`, {
-                                ...rule,
-                                id: undefined,
-                                name: `${rule.name} (copy)`,
-                              })
-                              setSelectedRuleIndex(ruleIndex)
-                            }}
-                            label="Duplicate"
-                          />
-                          <DropdownDivider />
-                          <DropdownItem
-                            disabled={rules.length === 1}
-                            onClick={() => {
-                              setPath(`rules.${ruleIndex}`, null)
-                              if (selectedRuleIndex >= ruleIndex) {
-                                setSelectedRuleIndex(selectedRuleIndex - 1)
-                              }
-                            }}
-                            label="Delete"
-                          />
-                        </>
-                      }
-                    />
-                  </div>
-                )
-              })}
-              <div className="min-h-[49px] flex items-center">
-                <Button
-                  variant="circle"
-                  className="mx-4"
+                      <Dropdown
+                        // The tabs live in a horizontal scroller, which also clips vertically.
+                        // The menu is positioned against an ancestor outside of it, so it is not
+                        // cut off: below the trigger, at the offsets `positionTabMenus` measures.
+                        // Past the first tab it ends at the trigger's right edge.
+                        className={classNames(
+                          "static! [&>div:last-child]:top-auto! [&>div:last-child]:right-auto!",
+                          ruleIndex === 0
+                            ? "[&>div:last-child]:left-(--tab-menu-start)!"
+                            : "[&>div:last-child]:left-(--tab-menu-end)! [&>div:last-child]:-translate-x-full",
+                        )}
+                        menuPosition={
+                          ruleIndex === 0 ? "bottom-left" : "bottom-right"
+                        }
+                        dropdownLabel={
+                          <button
+                            type="button"
+                            className={headerButtonClassName}
+                          >
+                            <Icon
+                              name="dotsThreeVertical"
+                              size={16}
+                              weight="bold"
+                            />
+                          </button>
+                        }
+                        dropdownItems={
+                          <>
+                            <DropdownItem
+                              onClick={() => {
+                                const ruleIndex = value.rules?.length ?? 0
+                                setPath(`rules.${ruleIndex}`, {
+                                  ...rule,
+                                  id: undefined,
+                                  name: `${rule.name} (copy)`,
+                                })
+                                setSelectedRuleIndex(ruleIndex)
+                              }}
+                              label="Duplicate"
+                            />
+                            <DropdownDivider />
+                            <DropdownItem
+                              disabled={rules.length === 1}
+                              onClick={() => {
+                                setPath(`rules.${ruleIndex}`, null)
+                                if (selectedRuleIndex >= ruleIndex) {
+                                  setSelectedRuleIndex(selectedRuleIndex - 1)
+                                }
+                              }}
+                              label="Delete"
+                            />
+                          </>
+                        }
+                      />
+                    </div>
+                  )
+                })}
+              </div>
+              {/* Hints at the tabs hidden on the right. Not positioned: as a later flex item it paints over the tabs, and below tooltips and menus. */}
+              <div
+                aria-hidden
+                className={classNames(
+                  "shrink-0 self-stretch w-8 -ml-8 pointer-events-none bg-linear-to-l from-white to-transparent transition-opacity",
+                  { "opacity-0": !hasHiddenTabsOnRight },
+                )}
+              />
+              <div className="min-h-[49px] flex items-center shrink-0">
+                <button
+                  type="button"
+                  className={classNames(headerButtonClassName, "mx-4")}
                   onClick={() => {
                     setPath(`rules.${value.rules?.length ?? 0}`, {
                       name: "Rule name",
@@ -261,19 +378,20 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                   }}
                 >
                   <Icon name="plus" size={16} className="shrink-0" />
-                </Button>
+                </button>
               </div>
             </div>
 
-            <div className="grow flex justify-end">
-              <Button
-                variant="circle"
+            <div className="shrink-0 flex justify-end">
+              <button
+                type="button"
+                className={headerButtonClassName}
                 onClick={() => {
                   setEditorVisible(!editorVisible)
                 }}
               >
                 <Icon name="sidebarSimple" size={16} />
-              </Button>
+              </button>
             </div>
           </header>
 
@@ -362,6 +480,52 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
         )}
       </section>
     </InputWrapper>
+  )
+}
+
+/**
+ * The rule name shown on its tab, truncated when too long.
+ * Only a truncated name gets a tooltip with the full name.
+ */
+function RuleTabLabel({
+  label,
+  selected,
+  onClick,
+}: {
+  label: string
+  selected: boolean
+  onClick: () => void
+}): React.JSX.Element {
+  const labelRef = useRef<HTMLButtonElement>(null)
+  const [isTruncated, setIsTruncated] = useState(false)
+
+  useLayoutEffect(
+    function detectTruncation() {
+      const element = labelRef.current
+      if (element != null) {
+        setIsTruncated(element.scrollWidth > element.clientWidth)
+      }
+    },
+    [label],
+  )
+
+  const button = (
+    <button
+      ref={labelRef}
+      type="button"
+      className={classNames("font-bold mr-2 max-w-[160px] truncate", {
+        "text-black": selected,
+      })}
+      onClick={onClick}
+    >
+      {label}
+    </button>
+  )
+
+  return isTruncated ? (
+    <Tooltip label={button} content={label} direction="bottom-start" />
+  ) : (
+    button
   )
 }
 

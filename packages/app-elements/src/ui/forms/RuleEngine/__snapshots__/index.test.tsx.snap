@@ -18,13 +18,21 @@ exports[`RuleEngine > renders empty without any error 1`] = `
             class="w-full bg-white border-b border-gray-200 px-4 flex text-[13px] gap-4 text-gray-400 font-semibold items-center"
           >
             <div
-              class="flex items-center flex-wrap basis-full"
+              class="flex items-center min-w-0 grow"
             >
               <div
-                class="min-h-[49px] flex items-center"
+                class="flex items-center min-w-0 overflow-x-auto [scrollbar-width:thin]"
+              />
+              <div
+                aria-hidden="true"
+                class="shrink-0 self-stretch w-8 -ml-8 pointer-events-none bg-linear-to-l from-white to-transparent transition-opacity opacity-0"
+              />
+              <div
+                class="min-h-[49px] flex items-center shrink-0"
               >
                 <button
-                  class="mx-4 font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 justify-center transition-opacity duration-500 button h-10 min-w-10 text-base bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
+                  class="flex items-center justify-center shrink-0 w-6 h-7 rounded text-black outline-hidden hover:bg-gray-100 focus-visible:bg-gray-100 mx-4"
+                  type="button"
                 >
                   <svg
                     class="shrink-0"
@@ -42,10 +50,11 @@ exports[`RuleEngine > renders empty without any error 1`] = `
               </div>
             </div>
             <div
-              class="grow flex justify-end"
+              class="shrink-0 flex justify-end"
             >
               <button
-                class="font-medium whitespace-nowrap leading-5 inline-flex items-center gap-1 justify-center transition-opacity duration-500 button h-10 min-w-10 text-base bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full"
+                class="flex items-center justify-center shrink-0 w-6 h-7 rounded text-black outline-hidden hover:bg-gray-100 focus-visible:bg-gray-100"
+                type="button"
               >
                 <svg
                   fill="currentColor"
