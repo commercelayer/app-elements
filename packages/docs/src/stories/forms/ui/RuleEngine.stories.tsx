@@ -95,6 +95,11 @@ Default.args = {
               matcher: "eq",
               value: "qJxWoIZByY",
             },
+            {
+              field: "order.line_items.shipment.shipping_method.id",
+              matcher: "is_in",
+              value: ["BdlQvFgYyw", "NOVmgFOnxw"],
+            },
           ],
         },
         {

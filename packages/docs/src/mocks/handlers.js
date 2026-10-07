@@ -8,6 +8,7 @@ import lineItems from "./data/line_items"
 import markets from "./data/markets"
 import metrics from "./data/metrics"
 import orders from "./data/orders"
+import shippingMethods from "./data/shipping_methods"
 import sku_lists from "./data/sku_lists"
 import skus from "./data/skus"
 import tags from "./data/tags"
@@ -24,6 +25,7 @@ export const handlers = [
   ...markets,
   ...metrics,
   ...orders,
+  ...shippingMethods,
   ...skus,
   ...sku_lists,
   ...tags,
