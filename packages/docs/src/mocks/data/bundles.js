@@ -1,7 +1,7 @@
 import { HttpResponse, http } from "msw"
 
 const bundles = http.get(
-  "https://mock.localhost/api/bundles?include=sku_list.sku_list_items.sku&filter[q][code_in]=WELCOME_KIT_001",
+  "https://mock.localhost/api/:version/bundles?include=sku_list.sku_list_items.sku&filter[q][code_in]=WELCOME_KIT_001",
   async () => {
     return HttpResponse.json({
       data: [

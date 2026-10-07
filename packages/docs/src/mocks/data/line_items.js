@@ -1,7 +1,7 @@
 import { delay, HttpResponse, http } from "msw"
 
 const restPatch = http.patch(
-  `https://mock.localhost/api/line_items/:id`,
+  `https://mock.localhost/api/:version/line_items/:id`,
   async ({ params }) => {
     await delay(1000)
     return new Response(`Update ${params.id.toString()}`)
@@ -9,7 +9,7 @@ const restPatch = http.patch(
 )
 
 const restDelete = http.delete(
-  `https://mock.localhost/api/line_items/:id`,
+  `https://mock.localhost/api/:version/line_items/:id`,
   async ({ params }) => {
     await delay(1000)
     return new Response(`Removed ${params.id.toString()}`)
@@ -17,7 +17,7 @@ const restDelete = http.delete(
 )
 
 const restPost = http.post(
-  `https://mock.localhost/api/line_items`,
+  `https://mock.localhost/api/:version/line_items`,
   async () => {
     await delay(1000)
     return HttpResponse.json({
@@ -66,7 +66,7 @@ const restPost = http.post(
 )
 
 const restGet = http.get(
-  `https://mock.localhost/api/line_items/:id`,
+  `https://mock.localhost/api/:version/line_items/:id`,
   async () => {
     await delay(1000)
     return HttpResponse.json({

@@ -1,7 +1,7 @@
 import { delay, HttpResponse, http } from "msw"
 
 const restPost = http.post(
-  `https://mock.localhost/api/adjustments`,
+  `https://mock.localhost/api/:version/adjustments`,
   async () => {
     await delay(1000)
     return HttpResponse.json(adjustment)
@@ -9,7 +9,7 @@ const restPost = http.post(
 )
 
 const restGet = http.get(
-  `https://mock.localhost/api/adjustments/QWOaGhpKbd`,
+  `https://mock.localhost/api/:version/adjustments/QWOaGhpKbd`,
   async () => {
     await delay(1000)
     return HttpResponse.json(adjustment)
@@ -17,7 +17,7 @@ const restGet = http.get(
 )
 
 const restPatch = http.patch(
-  `https://mock.localhost/api/adjustments/QWOaGhpKbd`,
+  `https://mock.localhost/api/:version/adjustments/QWOaGhpKbd`,
   async () => {
     await delay(1000)
     return HttpResponse.json(adjustment)
@@ -25,7 +25,7 @@ const restPatch = http.patch(
 )
 
 const restDelete = http.delete(
-  `https://mock.localhost/api/adjustments/QWOaGhpKbd`,
+  `https://mock.localhost/api/:version/adjustments/QWOaGhpKbd`,
   async () => {
     await delay(1000)
     return HttpResponse.json(adjustment)

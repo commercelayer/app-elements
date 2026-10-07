@@ -52,7 +52,7 @@ const mockedCustomerGroups = [
 ]
 
 const singleCustomerGroup = http.get(
-  `https://mock.localhost/api/customer_groups/:customerGroupId`,
+  `https://mock.localhost/api/:version/customer_groups/:customerGroupId`,
   async ({ params }) => {
     const customerGroup = mockedCustomerGroups.find(
       (item) => item.id === params.customerGroupId,
@@ -64,7 +64,7 @@ const singleCustomerGroup = http.get(
 )
 
 const organizationCustomerGroups = http.get(
-  `https://mock.localhost/api/customer_groups`,
+  `https://mock.localhost/api/:version/customer_groups`,
   async ({ request }) => {
     const url = new URL(request.url)
     const name =

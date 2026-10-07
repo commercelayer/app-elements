@@ -2,7 +2,7 @@ import { delay, HttpResponse, http } from "msw"
 
 // used in HookedInputResourceGroup
 const someMarkets = http.get(
-  "https://mock.localhost/api/markets?fields[markets]=id,name&sort=name&page[size]=3",
+  "https://mock.localhost/api/:version/markets?fields[markets]=id,name&sort=name&page[size]=3",
   async () => {
     return HttpResponse.json({
       data: [
@@ -47,7 +47,7 @@ const someMarkets = http.get(
 
 // used in HookedInputResourceGroup
 const allMarkets = http.get(
-  "https://mock.localhost/api/markets?sort=name&page[number]=1&page[size]=25",
+  "https://mock.localhost/api/:version/markets?sort=name&page[number]=1&page[size]=25",
   async () => {
     await delay(1000)
     return HttpResponse.json({
@@ -505,7 +505,7 @@ const marketNames = [
 ]
 
 export const marketsWithSearch = http.get(
-  "https://mock.localhost/api/markets",
+  "https://mock.localhost/api/:version/markets",
   async ({ request }) => {
     await delay(300)
 

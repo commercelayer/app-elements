@@ -131,7 +131,7 @@ const pageFromCursor = (/** @type {string | null} */ cursor) => {
 }
 
 const eventStoresList = http.get(
-  `https://*/api/:resourceType/:resourceId/event_stores`,
+  `https://*/api/:version/:resourceType/:resourceId/event_stores`,
   async ({ request, params }) => {
     // Long enough to actually see the loading state while scrolling.
     await delay(1500)

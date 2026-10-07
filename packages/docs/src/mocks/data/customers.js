@@ -42,15 +42,21 @@ function mockCustomer(id, metadata = {}) {
   }
 
   return [
-    http.get(`https://mock.localhost/api/customers/${id}`, async () => {
-      return HttpResponse.json({
-        data,
-      })
-    }),
-    http.patch(`https://mock.localhost/api/customers/${id}`, async () => {
-      return HttpResponse.json({
-        data,
-      })
-    }),
+    http.get(
+      `https://mock.localhost/api/:version/customers/${id}`,
+      async () => {
+        return HttpResponse.json({
+          data,
+        })
+      },
+    ),
+    http.patch(
+      `https://mock.localhost/api/:version/customers/${id}`,
+      async () => {
+        return HttpResponse.json({
+          data,
+        })
+      },
+    ),
   ]
 }
