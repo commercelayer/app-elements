@@ -37,7 +37,6 @@ export {
   formatDate,
   formatDateRange,
   formatDateWithPredicate,
-  getEventDateInfo,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
   isDateValid,

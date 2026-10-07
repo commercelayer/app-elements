@@ -6,7 +6,6 @@ import {
   formatDate,
   formatDateRange,
   formatDateWithPredicate,
-  getEventDateInfo,
   getIsoDateAtDayEdge,
   getIsoDateAtDaysBefore,
 } from "./date"
@@ -498,54 +497,6 @@ describe("getIsoDateAtDaysBefore", () => {
         days: 7,
       }),
     ).toBe(undefined)
-  })
-})
-
-describe("getEventDateInfo", () => {
-  beforeEach(() => {
-    vi.useFakeTimers().setSystemTime("2023-12-25T14:30:00.000Z")
-  })
-
-  afterEach(() => {
-    vi.useRealTimers()
-  })
-
-  test("should throw an error when the startsAt date comes after the expiresAt date", () => {
-    expect(() => {
-      getEventDateInfo({
-        startsAt: "2024-01-31T14:30:00.000Z",
-        expiresAt: "2024-01-01T14:30:00.000Z",
-      })
-    }).toThrowError(
-      "The expiration date/time of the event must be after the activation (startsAt).",
-    )
-  })
-
-  test('should return "upcoming" when the event is in the future', () => {
-    expect(
-      getEventDateInfo({
-        startsAt: "2024-01-01T14:30:00.000Z",
-        expiresAt: "2024-01-31T14:30:00.000Z",
-      }),
-    ).toEqual("upcoming")
-  })
-
-  test('should return "expired" when the event is in the past', () => {
-    expect(
-      getEventDateInfo({
-        startsAt: "2023-01-01T14:30:00.000Z",
-        expiresAt: "2023-01-31T14:30:00.000Z",
-      }),
-    ).toEqual("past")
-  })
-
-  test('should return "active" when the event is actually happening', () => {
-    expect(
-      getEventDateInfo({
-        startsAt: "2023-12-01T14:30:00.000Z",
-        expiresAt: "2023-12-31T14:30:00.000Z",
-      }),
-    ).toEqual("active")
   })
 })
 

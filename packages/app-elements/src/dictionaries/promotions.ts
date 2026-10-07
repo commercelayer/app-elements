@@ -1,6 +1,5 @@
 import type { Promotion } from "@commercelayer/sdk"
 import { t } from "i18next"
-import { getEventDateInfo } from "#helpers/date"
 import type { DisplayStatus } from "./types"
 
 interface PromotionDisplayStatus extends DisplayStatus {
@@ -19,11 +18,6 @@ export function getPromotionDisplayStatus(
     }
   }
 
-  const eventDateInfo = getEventDateInfo({
-    startsAt: promotion.starts_at,
-    expiresAt: promotion.expires_at,
-  })
-
   if (
     promotion.total_usage_limit != null &&
     promotion.total_usage_count === promotion.total_usage_limit
@@ -36,7 +30,7 @@ export function getPromotionDisplayStatus(
     }
   }
 
-  switch (eventDateInfo) {
+  switch (getPromotionTimeframe(promotion)) {
     case "past":
       return {
         status: "expired",
@@ -61,4 +55,25 @@ export function getPromotionDisplayStatus(
         color: "green",
       }
   }
+}
+
+/**
+ * Whether the promotion has yet to start, is running or is over.
+ * `starts_at` and `expires_at` are absolute instants, so they are compared to
+ * the current time as they are: the browser timezone must not play any role.
+ */
+function getPromotionTimeframe(
+  promotion: Pick<Promotion, "starts_at" | "expires_at">,
+): "upcoming" | "active" | "past" {
+  const now = Date.now()
+
+  if (new Date(promotion.starts_at).getTime() > now) {
+    return "upcoming"
+  }
+
+  if (new Date(promotion.expires_at).getTime() < now) {
+    return "past"
+  }
+
+  return "active"
 }
