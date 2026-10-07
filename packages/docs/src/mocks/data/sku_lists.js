@@ -1,7 +1,7 @@
 import { delay, HttpResponse, http } from "msw"
 
 const allSkuLists = http.get(
-  "https://mock.localhost/api/sku_lists?sort=name&page[number]=1&page[size]=25",
+  "https://mock.localhost/api/:version/sku_lists?sort=name&page[number]=1&page[size]=25",
   async () => {
     await delay(1000)
     return HttpResponse.json({

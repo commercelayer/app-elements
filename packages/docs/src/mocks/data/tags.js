@@ -31,7 +31,7 @@ const mockedTags = Promise.all(
 )
 
 const customerTags = http.get(
-  `https://mock.localhost/api/customers/NMWYhbGorj/tags`,
+  `https://mock.localhost/api/:version/customers/NMWYhbGorj/tags`,
   async () => {
     return HttpResponse.json({
       data: (await mockedTags).slice(0, 2),
@@ -41,7 +41,7 @@ const customerTags = http.get(
 )
 
 const organizationTags = http.get(
-  `https://mock.localhost/api/tags`,
+  `https://mock.localhost/api/:version/tags`,
   async ({ request }) => {
     const url = new URL(request.url)
     const name =

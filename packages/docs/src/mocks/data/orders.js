@@ -326,7 +326,7 @@ const order = {
 }
 
 const orderDetail = http.get(
-  "https://mock.localhost/api/orders/NMWYhbGorj?include=shipments,transactions,payment_method,payment_source,attachments",
+  "https://mock.localhost/api/:version/orders/NMWYhbGorj?include=shipments,transactions,payment_method,payment_source,attachments",
   async () => {
     await delay(2000)
     return HttpResponse.json({
@@ -2091,7 +2091,7 @@ const orderDetail = http.get(
 )
 
 const orderUpdate = http.patch(
-  "https://mock.localhost/api/orders/JZYhBKoLZW",
+  "https://mock.localhost/api/:version/orders/JZYhBKoLZW",
   async ({ request }) => {
     const { data } = await request.json()
 
@@ -3728,7 +3728,7 @@ function getRandomOrderStatus() {
 }
 
 const orderList = http.get(
-  "https://mock.localhost/api/orders",
+  "https://mock.localhost/api/:version/orders",
   async ({ request }) => {
     const url = new URL(request.url)
     const marketIdFilter = url.searchParams.get("filter[q][market_id_eq]")
@@ -5351,7 +5351,7 @@ const orderList = http.get(
 )
 
 const orderNotFound = http.get(
-  "https://mock.localhost/api/orders/non-existing",
+  "https://mock.localhost/api/:version/orders/non-existing",
   async () => {
     await delay(2000)
     return HttpResponse.json(

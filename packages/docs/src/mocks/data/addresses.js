@@ -40,28 +40,34 @@ const mockedAddress = {
   },
 }
 
-const restPost = http.post("https://mock.localhost/api/addresses", async () => {
-  return HttpResponse.json({
-    data: {
-      ...mockedAddress,
-      id: "zzZYuDJVXW",
-    },
-  })
-})
-
-const restPatch = ["aaZYuDJVXW", "bbZYuDJVXW", "ccZYuDJVXW"].map((id) =>
-  http.patch(`https://mock.localhost/api/addresses/${id}`, async () => {
+const restPost = http.post(
+  "https://mock.localhost/api/:version/addresses",
+  async () => {
     return HttpResponse.json({
       data: {
         ...mockedAddress,
-        id,
+        id: "zzZYuDJVXW",
       },
     })
-  }),
+  },
+)
+
+const restPatch = ["aaZYuDJVXW", "bbZYuDJVXW", "ccZYuDJVXW"].map((id) =>
+  http.patch(
+    `https://mock.localhost/api/:version/addresses/${id}`,
+    async () => {
+      return HttpResponse.json({
+        data: {
+          ...mockedAddress,
+          id,
+        },
+      })
+    },
+  ),
 )
 
 const apiErrorPatch = http.patch(
-  `https://mock.localhost/api/addresses/ddZYuDJVXW`,
+  `https://mock.localhost/api/:version/addresses/ddZYuDJVXW`,
   async () => {
     return HttpResponse.json(
       {
