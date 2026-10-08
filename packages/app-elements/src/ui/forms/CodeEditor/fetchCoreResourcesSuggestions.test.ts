@@ -293,6 +293,10 @@ describe("fetchCoreResourcesSuggestions", () => {
         },
         {
           "type": "relationship",
+          "value": "order.line_items.attachments",
+        },
+        {
+          "type": "relationship",
           "value": "order.line_items.notifications",
         },
         {
