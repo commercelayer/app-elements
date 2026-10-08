@@ -1,6 +1,23 @@
 import { currencies } from "#helpers/currencies"
 import { formatCentsToCurrency } from "#ui/forms/InputCurrency/utils"
-import { addCurrencySymbol, getDecimalLength, makePlaceholder } from "./utils"
+import {
+  addCurrencySymbol,
+  getCurrency,
+  getDecimalLength,
+  makePlaceholder,
+} from "./utils"
+
+describe("getCurrency", () => {
+  it("should return the currency for an upper or lower case code", () => {
+    expect(getCurrency("EUR")).toBe(currencies.eur)
+    expect(getCurrency("eur")).toBe(currencies.eur)
+  })
+
+  it("should return undefined when the code is missing", () => {
+    expect(getCurrency(undefined)).toBeUndefined()
+    expect(getCurrency(null)).toBeUndefined()
+  })
+})
 
 describe("getDecimalLength", () => {
   it("should return the number of decimals for a given currency", () => {

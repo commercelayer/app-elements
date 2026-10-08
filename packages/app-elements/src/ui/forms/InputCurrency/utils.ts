@@ -6,11 +6,15 @@ import {
 } from "#helpers/currencies"
 
 /**
- *  Returns a currency object for a given currency code
+ *  Returns a currency object for a given currency code.
+ *  A missing code (e.g. an order without `currency_code` yet) returns `undefined`.
  */
 export function getCurrency(
-  currencyCode: CurrencyCode | Lowercase<CurrencyCode>,
+  currencyCode: CurrencyCode | Lowercase<CurrencyCode> | null | undefined,
 ): Currency | undefined {
+  if (currencyCode == null) {
+    return undefined
+  }
   return currencies[currencyCode.toLowerCase() as Lowercase<CurrencyCode>]
 }
 
