@@ -78,8 +78,32 @@ const customerUpdate = http.patch(
   },
 )
 
+const customerTags = http.get(
+  `https://*/api/:version/customers/NMWYhbGorj/tags`,
+  async () => {
+    return HttpResponse.json({
+      data: [
+        {
+          id: "nKZkPUDBVj",
+          type: "tags",
+          attributes: { name: "vip" },
+          meta: { mode: "test", organization_id: "WXlEOFrjnr" },
+        },
+        {
+          id: "aLbkqUBoZd",
+          type: "tags",
+          attributes: { name: "newsletter" },
+          meta: { mode: "test", organization_id: "WXlEOFrjnr" },
+        },
+      ],
+      meta: { record_count: 2, page_count: 1 },
+    })
+  },
+)
+
 export default [
   customerRetrive,
   customerRetriveWithEmptyMetadata,
   customerUpdate,
+  customerTags,
 ]

@@ -6,6 +6,7 @@ import countries from "./data/countries"
 import customers from "./data/customers"
 import eventStores from "./data/event_stores"
 import markets from "./data/markets"
+import organization from "./data/organization"
 
 export const handlers = [
   http.get(`https://*.commercelayer.*/oauth/tokeninfo`, async ({ request }) => {
@@ -114,6 +115,7 @@ export const handlers = [
   ...countries,
   ...markets,
   ...eventStores,
+  ...organization,
 ]
 
 function returnEmptyList(url: URL): boolean {

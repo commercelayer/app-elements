@@ -31,7 +31,9 @@ export function FieldCurrencyRange({
     void fetchAllCurrencies({ sdkClient }).then(setCurrencyList)
   }, [])
 
-  if (currencyList == null) {
+  // an organization without price lists has no currency to filter the amount by:
+  // the range input would start from an undefined currency and crash
+  if (currencyList == null || currencyList.length === 0) {
     return null
   }
 
@@ -45,7 +47,7 @@ export function FieldCurrencyRange({
           currencyList={currencyList}
           fromCents={field.value?.from}
           toCents={field.value?.to}
-          defaultCurrency={field.value?.currencyCode}
+          defaultCurrency={field.value?.currencyCode ?? undefined}
           onChange={(from, to, currency) => {
             const fieldValue: CurrencyRangeFormValues = {
               [fieldName]: {

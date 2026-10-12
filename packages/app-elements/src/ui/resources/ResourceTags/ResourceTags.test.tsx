@@ -1,4 +1,4 @@
-import { act, fireEvent, render } from "@testing-library/react"
+import { act, fireEvent, render, screen } from "@testing-library/react"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { ResourceTags } from "./ResourceTags"
@@ -25,6 +25,9 @@ describe("ResourceTags", () => {
   // so the item is matched by its `aria-label` key.
   it("offers editing through a `…` menu", async () => {
     const { container } = await setup()
+    // the tags are fetched on mount: waiting for them keeps the request from
+    // settling after the test, once the jsdom environment is torn down
+    expect(await screen.findByText("vip")).toBeInTheDocument()
     const header = container.querySelector("header")
 
     expect(header?.querySelectorAll("button")).toHaveLength(1)
