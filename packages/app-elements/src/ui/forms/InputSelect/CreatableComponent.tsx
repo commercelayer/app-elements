@@ -1,5 +1,10 @@
 import { forwardRef } from "react"
-import type { GroupBase, SelectInstance, StylesConfig } from "react-select"
+import type {
+  GroupBase,
+  MenuPosition,
+  SelectInstance,
+  StylesConfig,
+} from "react-select"
 import CreatableSelect from "react-select/creatable"
 import type { InputSelectBaseProps, InputSelectValue } from "./InputSelect"
 import components from "./overrides"
@@ -7,6 +12,7 @@ import components from "./overrides"
 export interface CreatableComponentProps
   extends Omit<InputSelectBaseProps, "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
+  menuPosition?: MenuPosition
 }
 
 export const CreatableComponent = forwardRef<

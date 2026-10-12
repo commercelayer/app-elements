@@ -1,6 +1,7 @@
 import { forwardRef } from "react"
 import type {
   GroupBase,
+  MenuPosition,
   OptionsOrGroups,
   SelectInstance,
   StylesConfig,
@@ -37,6 +38,7 @@ export interface AsyncPaginateSelectComponentProps
   > {
   loadAsyncValues: LoadAsyncValuesPaginated
   styles: StylesConfig<InputSelectValue>
+  menuPosition?: MenuPosition
 }
 
 /**

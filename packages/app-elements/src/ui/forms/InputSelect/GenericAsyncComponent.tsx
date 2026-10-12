@@ -7,6 +7,7 @@ import type {
   GroupBase,
   InputActionMeta,
   InputProps,
+  MenuPosition,
   MultiValue,
   OptionsOrGroups,
   SelectInstance,
@@ -55,6 +56,7 @@ export interface GenericAsyncSelectComponentProps
   extends Omit<InputSelectBaseProps, "label" | "hint"> {
   loadAsyncValues: LoadAsyncValues
   styles: StylesConfig<InputSelectValue>
+  menuPosition?: MenuPosition
 }
 
 // extracting loadOptions signature from react-select async types
