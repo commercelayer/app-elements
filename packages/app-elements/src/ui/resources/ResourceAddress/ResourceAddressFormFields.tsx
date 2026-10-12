@@ -100,6 +100,14 @@ export interface ResourceAddressFormFieldsProps {
    * @default false
    */
   showEmail?: boolean
+  /**
+   * Where the options panel of the country and state selects is attached in the DOM.
+   *
+   * Left out, the panel renders inside the field, so a container that clips or
+   * scrolls — a modal body — cuts it off. Pointed at an element that does not
+   * clip, the panel escapes the container while staying anchored to the field.
+   */
+  menuPortalTarget?: HTMLElement | null
 }
 
 export const ResourceAddressFormFields =
@@ -110,6 +118,7 @@ export const ResourceAddressFormFields =
       showNotes = true,
       showNameOrCompany = false,
       showEmail = false,
+      menuPortalTarget,
     }) => {
       const namePrefix = name == null ? "" : `${name}.`
       const { watch } = useFormContext()
@@ -156,7 +165,10 @@ export const ResourceAddressFormFields =
           </FieldRow>
 
           <FieldRow columns="1">
-            <SelectCountry countryCodeName={`${namePrefix}country_code`} />
+            <SelectCountry
+              countryCodeName={`${namePrefix}country_code`}
+              menuPortalTarget={menuPortalTarget}
+            />
           </FieldRow>
 
           <FieldRow columns="1">
@@ -171,6 +183,7 @@ export const ResourceAddressFormFields =
               <SelectStates
                 stateCodeName={`${namePrefix}state_code`}
                 countryCodeName={`${namePrefix}country_code`}
+                menuPortalTarget={menuPortalTarget}
               />
               <HookedInput
                 name={`${namePrefix}zip_code`}
@@ -231,9 +244,10 @@ const FieldRow = ({
 // The two selects take their field paths already resolved, rather than a prefix
 // to reapply: a path is then built in exactly one place, and no string inside
 // these components can quietly miss the namespace the way `state_code` once did.
-const SelectCountry: React.FC<{ countryCodeName: string }> = ({
-  countryCodeName,
-}) => {
+const SelectCountry: React.FC<{
+  countryCodeName: string
+  menuPortalTarget?: HTMLElement | null
+}> = ({ countryCodeName, menuPortalTarget }) => {
   const [forceTextInput, setForceTextInput] = useState(false)
   const { countries, isLoading, error } = useCountryList()
 
@@ -260,6 +274,7 @@ const SelectCountry: React.FC<{ countryCodeName: string }> = ({
       key={countries?.length}
       initialValues={countries ?? []}
       pathToValue="value"
+      menuPortalTarget={menuPortalTarget}
       isLoading={isLoading || countries == null}
     />
   )
@@ -268,7 +283,8 @@ const SelectCountry: React.FC<{ countryCodeName: string }> = ({
 const SelectStates: React.FC<{
   stateCodeName: string
   countryCodeName: string
-}> = ({ stateCodeName, countryCodeName }) => {
+  menuPortalTarget?: HTMLElement | null
+}> = ({ stateCodeName, countryCodeName, menuPortalTarget }) => {
   const [states, setStates] = useState<InputSelectValue[] | undefined>()
   const { watch, setValue, getValues } = useFormContext()
   const [forceTextInput, setForceTextInput] = useState(false)
@@ -338,6 +354,7 @@ const SelectStates: React.FC<{
       initialValues={options}
       pathToValue="value"
       isCreatable
+      menuPortalTarget={menuPortalTarget}
       isLoading={states == null}
     />
   )
