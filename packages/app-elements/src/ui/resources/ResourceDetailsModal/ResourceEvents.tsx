@@ -4,21 +4,22 @@ import type {
   QueryParamsList,
   ResourceTypeLock,
 } from "@commercelayer/sdk"
-import cn from "classnames"
-import { type FC, useMemo, useState } from "react"
+import type { FC } from "react"
 import z from "zod"
-import { formatDate, getIsoDateAtDayEdge } from "#helpers/date"
 import { isMockedId } from "#helpers/mocks"
 import { formatDisplayName } from "#helpers/name"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { A } from "#ui/atoms/A"
 import { Card } from "#ui/atoms/Card"
-import { CodeBlock } from "#ui/atoms/CodeBlock"
 import { Icon } from "#ui/atoms/Icon"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
+import {
+  ResourceDetailsTimeline,
+  ResourceDetailsTimelineItem,
+} from "./ResourceDetailsTimeline"
 import {
   getNextCursor,
   useInfiniteScrollCursor,
@@ -100,7 +101,6 @@ const EventStoreItems = withSkeletonTemplate<{
   id: string
   type: ResourceTypeLock
 }>(({ id, type }) => {
-  const { user } = useTokenProvider()
   const { data, isLoading, isLoadingMore, VisibilityTrigger } =
     useInfiniteScrollCursor<ListResponse<EventStore>>(
       ({ sdkClient, previousPageData }) => {
@@ -127,31 +127,6 @@ const EventStoreItems = withSkeletonTemplate<{
     )
 
   const eventStores = data as EventStore[] | undefined
-  const timezone = user?.timezone ?? "UTC"
-
-  const groupedEventsByDate = useMemo(
-    () =>
-      (eventStores ?? []).reduce<Record<string, EventStore[]>>(
-        (grouped, currentEvent) => {
-          const date = getIsoDateAtDayEdge({
-            isoString: currentEvent.created_at,
-            edge: "startOfTheDay",
-            timezone,
-          })
-
-          if (date == null) {
-            return grouped
-          }
-
-          return {
-            ...grouped,
-            [date]: [...(grouped[date] ?? []), currentEvent],
-          }
-        },
-        {},
-      ),
-    [eventStores, timezone],
-  )
 
   if (eventStores != null && eventStores.length === 0 && !isLoading) {
     return (
@@ -163,18 +138,12 @@ const EventStoreItems = withSkeletonTemplate<{
 
   return (
     <>
-      {Object.entries(groupedEventsByDate).map(([day, events], idx) => (
-        <div key={day}>
-          <Spacer bottom="4" top={idx === 0 ? undefined : "12"}>
-            <Text weight="semibold">
-              {formatDate({ isoDate: day, format: "date", timezone })}
-            </Text>
-          </Spacer>
-          {events?.map((eventStore) => (
-            <EventStoreItem key={eventStore.id} eventStore={eventStore} />
-          ))}
-        </div>
-      ))}
+      <ResourceDetailsTimeline
+        items={eventStores ?? []}
+        getDate={getCreatedAt}
+        getKey={getId}
+        renderItem={(eventStore) => <EventStoreItem eventStore={eventStore} />}
+      />
 
       {(isLoading || isLoadingMore) && (
         <EventStoreItem eventStore={mockedEventStore} delayMs={0} isLoading />
@@ -186,9 +155,7 @@ const EventStoreItems = withSkeletonTemplate<{
 
 const EventStoreItem = withSkeletonTemplate<{ eventStore: EventStore }>(
   (props) => {
-    const { user } = useTokenProvider()
     const eventStore = eventParser.safeParse(props.eventStore)?.data
-    const [isOpen, setIsOpen] = useState(false)
 
     if (eventStore == null) {
       return (
@@ -207,67 +174,31 @@ const EventStoreItem = withSkeletonTemplate<{ eventStore: EventStore }>(
     )
 
     return (
-      <Spacer bottom="2">
-        <Card
-          gap="none"
-          className={cn(
-            "w-full rounded! hover:border-black hover:shadow-cardhover",
-            { "border-black! shadow-cardhover!": isOpen },
-          )}
-        >
-          <button
-            type="button"
-            className="w-full flex items-center justify-between text-sm gap-8 select-none p-4"
-            onClick={() => {
-              setIsOpen(!isOpen)
-            }}
-          >
-            <div>
-              <div className="flex gap-1">
-                <Text weight="bold">{resolveWho(eventStore)}</Text>
-                <Text variant="info">
-                  {formatDate({
-                    isoDate: eventStore.created_at,
-                    format: "timeWithSeconds",
-                    timezone: user?.timezone,
-                  })}
-                </Text>
-              </div>
-              <div className="flex gap-1">
-                <Text variant="info">
-                  {t(`common.resource_details.event_${eventStore.event}`)}
-                </Text>
-                <Text variant="info">
-                  {attributes.slice(0, 1).join(", ")}
-                  {attributes.length > 1 && (
-                    <span>
-                      {" "}
-                      {t("common.resource_details.and_more", {
-                        count: attributes.length - 1,
-                      })}
-                    </span>
-                  )}
-                </Text>
-              </div>
-            </div>
-            <div className="whitespace-nowrap">
-              <Icon
-                name={isOpen ? "caretUp" : "caretDown"}
-                size={16}
-                weight="bold"
-              />
-            </div>
-          </button>
-          {isOpen && (
-            <div className="hover:cursor-auto mx-4 mb-4">
-              <CodeBlock>{eventStore}</CodeBlock>
-            </div>
-          )}
-        </Card>
-      </Spacer>
+      <ResourceDetailsTimelineItem
+        title={resolveWho(eventStore)}
+        isoDate={eventStore.created_at}
+        description={
+          <>
+            {t(`common.resource_details.event_${eventStore.event}`)}{" "}
+            {attributes.slice(0, 1).join(", ")}
+            {attributes.length > 1 && (
+              <span>
+                {" "}
+                {t("common.resource_details.and_more", {
+                  count: attributes.length - 1,
+                })}
+              </span>
+            )}
+          </>
+        }
+        code={eventStore}
+      />
     )
   },
 )
+
+const getCreatedAt = (eventStore: EventStore): string => eventStore.created_at
+const getId = (eventStore: EventStore): string => eventStore.id
 
 // TODO: This should be inferred from api schema def (`EventStore['event']`),
 // but it currently arrives typed as string.
