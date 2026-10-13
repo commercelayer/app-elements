@@ -490,8 +490,7 @@ const it: typeof en = {
     "order.line_items.quantity": "quantità del line item",
     "order.line_items.reference": "reference del line item",
     "order.line_items.shipment.id": "id dello shipment",
-    "order.line_items.shipment.shipping_method.id":
-      "id del metodo di spedizione",
+    "order.line_items.shipment.shipping_method.id": "metodo di spedizione",
     "order.line_items.shipment.shipping_method.name":
       "nome del metodo di spedizione",
     "order.line_items.shipment.shipping_method.reference":

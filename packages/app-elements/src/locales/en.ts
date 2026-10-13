@@ -507,7 +507,7 @@ const en = {
     "order.line_items.quantity": "line item quantity",
     "order.line_items.reference": "line items reference",
     "order.line_items.shipment.id": "shipment id",
-    "order.line_items.shipment.shipping_method.id": "shipping method id",
+    "order.line_items.shipment.shipping_method.id": "shipping method",
     "order.line_items.shipment.shipping_method.name": "shipping method name",
     "order.line_items.shipment.shipping_method.reference":
       "shipping method reference",
