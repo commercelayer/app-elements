@@ -8,3 +8,4 @@ allowBuilds:
 minimumReleaseAgeExclude:
   - '@commercelayer/sdk'
   - '@commercelayer/provisioning-sdk'
+  - '@commercelayer/js-auth'

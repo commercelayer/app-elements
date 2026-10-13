@@ -28,7 +28,6 @@
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/addon-links": "^10.6.1",
     "@storybook/addon-styling-webpack": "^3.0.2",
-    "@storybook/cli": "^10.6.1",
     "@storybook/icons": "^2.1.0",
     "@storybook/react-vite": "^10.6.1",
     "@tailwindcss/forms": "^0.5.11",
