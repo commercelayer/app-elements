@@ -13,11 +13,7 @@ const setup = async (): Promise<RenderResult> => {
     render(
       <TokenProvider kind="integration" appSlug="customers" devMode>
         <CoreSdkProvider>
-          <ResourceMetadata
-            resourceType="customers"
-            resourceId="NMWYhbGorj"
-            modal={{ title: "customer@tk.com" }}
-          />
+          <ResourceMetadata resourceType="customers" resourceId="NMWYhbGorj" />
         </CoreSdkProvider>
       </TokenProvider>,
     ),

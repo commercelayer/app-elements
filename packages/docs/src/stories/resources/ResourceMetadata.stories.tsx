@@ -30,9 +30,6 @@ export const Default = Template.bind({})
 Default.args = {
   resourceType: "customers",
   resourceId: "NMWYhbGorj",
-  modal: {
-    title: "hello@commercelayer.io",
-  },
 }
 
 /**
@@ -42,9 +39,6 @@ export const WithoutMetadata = Template.bind({})
 WithoutMetadata.args = {
   resourceType: "customers",
   resourceId: "OEMAhobdgO",
-  modal: {
-    title: "hello@commercelayer.io",
-  },
 }
 
 /** If you need to edit the metadata from outside the `ResourceMetadata` component you can use the `useResourceMetadataModal` hook: */
@@ -61,7 +55,6 @@ export const EditMetadataModal: StoryFn = () => {
 /** The hook needs the providers above it, so it lives in a child of the story. */
 const EditMetadataModalTrigger = (): React.JSX.Element => {
   const { metadataModal, openMetadataModal } = useResourceMetadataModal({
-    title: "hello@commercelayer.io",
     resourceId: "ASEYfdNrwa",
     resourceType: "customers",
   })

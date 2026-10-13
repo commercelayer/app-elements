@@ -99,7 +99,6 @@ export const InTheSidebar: StoryFn = () => {
             <ResourceMetadata
               resourceType="customers"
               resourceId={customer.id}
-              modal={{ title: "customer@tk.com" }}
             />
           </Spacer>
           <Spacer top="10">
