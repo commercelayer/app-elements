@@ -28,6 +28,12 @@ export const useResourceAddressModal = ({
 }: Props): ResourceAddressModalHook => {
   const { canUser } = useTokenProvider()
   const [isOpen, setIsOpen] = useState(false)
+  // State rather than a ref: the selects are rendered on the same pass as the
+  // modal, so they need a re-render once the dialog element exists to pick it
+  // up as their portal target.
+  const [dialogElement, setDialogElement] = useState<HTMLDialogElement | null>(
+    null,
+  )
 
   // with no address yet the form creates one, so it's the create ability that
   // decides whether the modal opens at all
@@ -48,6 +54,7 @@ export const useResourceAddressModal = ({
 
   const { methods, onSubmit, fields, footer } = useResourceAddressForm({
     isOpen,
+    menuPortalTarget: dialogElement,
     onCancel: close,
     address,
     showBillingInfo,
@@ -76,6 +83,7 @@ export const useResourceAddressModal = ({
           show={isOpen}
           onClose={close}
           size="medium"
+          dialogRef={setDialogElement}
           dismissible
           onSubmit={onSubmit}
         >

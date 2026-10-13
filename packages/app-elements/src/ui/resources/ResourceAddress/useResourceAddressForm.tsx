@@ -59,6 +59,7 @@ export function useResourceAddressForm({
   onUpdate,
   onCreate,
   isOpen = true,
+  menuPortalTarget,
   onCancel,
 }: UseResourceAddressFormProps): ResourceAddressFormHook {
   const methods = useForm({
@@ -110,6 +111,7 @@ export function useResourceAddressForm({
       <ResourceAddressFormFields
         showBillingInfo={showBillingInfo}
         showNotes={showNotes}
+        menuPortalTarget={menuPortalTarget}
       />
     ),
     footer: (

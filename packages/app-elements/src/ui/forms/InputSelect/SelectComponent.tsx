@@ -1,6 +1,7 @@
 import { forwardRef } from "react"
 import Select, {
   type GroupBase,
+  type MenuPosition,
   type SelectInstance,
   type StylesConfig,
 } from "react-select"
@@ -10,6 +11,7 @@ import components from "./overrides"
 export interface SelectComponentProps
   extends Omit<InputSelectBaseProps, "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
+  menuPosition?: MenuPosition
 }
 
 export const SelectComponent = forwardRef<

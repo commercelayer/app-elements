@@ -292,6 +292,11 @@ export const InputSelect = forwardRef<
       styles: getSelectStyles(feedback?.variant, size),
       menuFooterText,
       menuPlacement,
+      // react-select places a portalled menu at the control's page coordinates,
+      // scroll included: inside a `fixed` container — an open `<dialog>` — that
+      // pushes the menu off screen as soon as the page behind is scrolled.
+      // Viewport coordinates hold wherever the menu is portalled.
+      menuPosition: menuPortalTarget != null ? "fixed" : undefined,
     }
 
     return (
