@@ -177,7 +177,7 @@ function ruleEngineReducer(state: State, action: Action): State {
             value: {
               rules: [
                 {
-                  name: "Rule name",
+                  name: "Rule 1",
                   // @ts-expect-error Setting `null` is intentional for rendering an empty action
                   actions: [null],
                   // @ts-expect-error Setting `null` is intentional for rendering an empty condition

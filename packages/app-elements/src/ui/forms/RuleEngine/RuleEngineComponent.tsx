@@ -370,7 +370,7 @@ function RuleEditorComponent(props: RuleEngineProps): React.JSX.Element {
                   className={classNames(headerButtonClassName, "mx-4")}
                   onClick={() => {
                     setPath(`rules.${value.rules?.length ?? 0}`, {
-                      name: "Rule name",
+                      name: `Rule ${(value.rules?.length ?? 0) + 1}`,
                       actions: [null],
                       conditions: [null],
                     })
