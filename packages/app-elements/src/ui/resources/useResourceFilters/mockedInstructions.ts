@@ -167,6 +167,14 @@ export const instructions: FiltersInstructions = [
             value: "empty",
             sdk: { predicate: "quantity_eq", value: "0" },
           },
+          {
+            label: "Few items",
+            value: "few_items",
+            sdk: [
+              { predicate: "quantity_gteq", value: "1" },
+              { predicate: "quantity_lt", value: "5" },
+            ],
+          },
         ],
       },
     },

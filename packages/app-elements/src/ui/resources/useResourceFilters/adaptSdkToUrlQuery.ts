@@ -2,6 +2,7 @@ import type { QueryFilter } from "@commercelayer/sdk"
 import queryString from "query-string"
 import {
   type FiltersInstructions,
+  getGroupedPredicatesOptionSdk,
   isGroupedPredicates,
 } from "#ui/resources/useResourceFilters/types"
 import { adaptUrlQueryToUrlQuery } from "./adaptUrlQueryToUrlQuery"
@@ -64,16 +65,42 @@ function invertGroupedPredicates(
   const virtualParams: Record<string, string | string[]> = {}
 
   for (const instruction of groupedInstructions) {
-    const matchedOptionValues: string[] = []
-    const matchedSdkPredicates: string[] = []
+    // an option matches when every one of its predicate + value pairs is set
+    const matchedOptions = instruction.render.props.options
+      .map((option) => ({
+        value: option.value,
+        pairs: getGroupedPredicatesOptionSdk(option),
+      }))
+      .filter(({ pairs }) =>
+        pairs.every(({ predicate, value }) => {
+          const sdkValue = sdkFilters[predicate]
+          return sdkValue != null && String(sdkValue) === value
+        }),
+      )
 
-    for (const option of instruction.render.props.options) {
-      const sdkValue = sdkFilters[option.sdk.predicate]
-      if (sdkValue != null && String(sdkValue) === option.sdk.value) {
-        matchedOptionValues.push(option.value)
-        matchedSdkPredicates.push(option.sdk.predicate)
-      }
-    }
+    // An option whose pairs are all part of another matched option is only
+    // matching because of that one (e.g. `quantity_gteq` alone vs
+    // `quantity_gteq` + `low_stock`), so the more specific option wins.
+    const specificOptions = matchedOptions.filter(
+      (option) =>
+        !matchedOptions.some(
+          (other) =>
+            other !== option &&
+            other.pairs.length > option.pairs.length &&
+            option.pairs.every((pair) =>
+              other.pairs.some(
+                (otherPair) =>
+                  otherPair.predicate === pair.predicate &&
+                  otherPair.value === pair.value,
+              ),
+            ),
+        ),
+    )
+
+    const matchedOptionValues = specificOptions.map(({ value }) => value)
+    const matchedSdkPredicates = specificOptions.flatMap(({ pairs }) =>
+      pairs.map(({ predicate }) => predicate),
+    )
 
     if (matchedOptionValues.length === 0) continue
 

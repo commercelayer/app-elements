@@ -6,6 +6,7 @@ import {
 } from "#helpers/date"
 import type { FiltersInstructions } from "#ui/resources/useResourceFilters/types"
 import {
+  getGroupedPredicatesOptionSdk,
   getInstructionKey,
   isGroupedPredicates,
 } from "#ui/resources/useResourceFilters/types"
@@ -86,7 +87,9 @@ export function adaptSdkToMetrics({
   const groupedPredicatesOptionKeys = new Set(
     instructions
       .filter(isGroupedPredicates)
-      .flatMap((item) => item.render.props.options.map((o) => o.sdk.predicate)),
+      .flatMap((item) => item.render.props.options)
+      .flatMap(getGroupedPredicatesOptionSdk)
+      .map(({ predicate }) => predicate),
   )
 
   // separate relationships from main resource filters

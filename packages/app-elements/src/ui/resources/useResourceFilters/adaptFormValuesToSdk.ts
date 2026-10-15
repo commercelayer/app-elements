@@ -12,6 +12,7 @@ import {
   type FilterItemOptions,
   type FilterItemTextSearch,
   type FiltersInstructions,
+  getGroupedPredicatesOptionSdk,
   getInstructionKey,
   isCurrencyRange,
   isGroupedPredicates,
@@ -121,7 +122,7 @@ export function adaptFormValuesToSdk<
       }
 
       if (instructionItem.type === "groupedPredicates") {
-        // Each selected option value maps to its own distinct SDK predicate + value
+        // Each selected option value maps to its own SDK predicate + value pairs
         const selectedValues = castArray(formValues[key]).filter(
           (value): value is string =>
             typeof value === "string" && value.length > 0,
@@ -131,10 +132,13 @@ export function adaptFormValuesToSdk<
             (o) => o.value === selectedValue,
           )
           if (option == null) return innerAcc
-          return {
-            ...innerAcc,
-            [option.sdk.predicate]: option.sdk.value,
-          }
+          return getGroupedPredicatesOptionSdk(option).reduce(
+            (optionAcc, { predicate, value }) => ({
+              ...optionAcc,
+              [predicate]: value,
+            }),
+            innerAcc,
+          )
         }, acc)
       }
 

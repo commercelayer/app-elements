@@ -227,6 +227,22 @@ describe("adaptFormValuesToSdk", () => {
     })
   })
 
+  test("should map a groupedPredicates option to all of its sdk predicates", () => {
+    expect(
+      adaptFormValuesToSdk({
+        formValues: {
+          quantity_filter: "few_items",
+        },
+        instructions,
+      }),
+    ).toStrictEqual({
+      quantity_gteq: "1",
+      quantity_lt: "5",
+      archived_at_null: true,
+      status_in: "placed,approved,cancelled",
+    })
+  })
+
   test("should omit groupedPredicates sdk predicates when no option is selected", () => {
     expect(
       adaptFormValuesToSdk({

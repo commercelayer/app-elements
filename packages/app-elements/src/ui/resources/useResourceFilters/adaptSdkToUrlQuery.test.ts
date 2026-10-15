@@ -77,4 +77,29 @@ describe("adaptSdkToUrlQuery", () => {
       }),
     ).toBe("quantity_filter=has_items&status_in=approved")
   })
+
+  test("should map a groupedPredicates option with several SDK predicates back to its virtual URL param", () => {
+    expect(
+      adaptSdkToUrlQuery({
+        sdkFilters: {
+          quantity_gteq: "1",
+          quantity_lt: "5",
+          status_in: "approved",
+        },
+        instructions,
+      }),
+    ).toBe("quantity_filter=few_items&status_in=approved")
+  })
+
+  test("should not map a groupedPredicates option with several SDK predicates when only some of them are set", () => {
+    expect(
+      adaptSdkToUrlQuery({
+        sdkFilters: {
+          quantity_lt: "5",
+          status_in: "approved",
+        },
+        instructions,
+      }),
+    ).toBe("status_in=approved")
+  })
 })
