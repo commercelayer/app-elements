@@ -94,40 +94,88 @@ export interface FilterItemGroupedPredicates {
    * ```
    */
   urlParamKey: string
-  render: {
-    /**
-     * UI component to render
-     */
-    component: "inputToggleButton"
-    /**
-     * Props required for the UI component
-     */
-    props: {
-      mode: "single" | "multi"
-      /**
-       * Each option maps to a specific SDK predicate + value pair when selected.
-       * An option can be hidden from the UI but still be used in the query.
-       * @example
-       * ```ts
-       * [
-       *   { label: 'Has items', value: 'has_items', sdk: { predicate: 'quantity_gteq', value: '1' } },
-       *   { label: 'Empty',     value: 'empty',     sdk: { predicate: 'quantity_eq',   value: '0' } },
-       * ]
-       * ```
-       */
-      options: Array<{
-        label: string
-        /** The value stored in the URL query string and form state */
-        value: string
-        isHidden?: boolean
-        /** The actual SDK predicate + value this option maps to when selected */
-        sdk: {
-          predicate: string
-          value: string
+  render:
+    | {
+        /**
+         * UI component to render
+         */
+        component: "inputToggleButton"
+        /**
+         * Props required for the UI component
+         */
+        props: GroupedPredicatesProps & {
+          mode: "single" | "multi"
         }
-      }>
-    }
-  }
+      }
+    | {
+        /**
+         * UI component to render: a select dropdown in the filters drawer.
+         * A select picks one option, so it only supports `mode: "single"`.
+         */
+        component: "inputSelect"
+        /**
+         * Props required for the UI component
+         */
+        props: GroupedPredicatesProps & {
+          mode: "single"
+          placeholder?: string
+          isClearable?: boolean
+        }
+      }
+}
+
+interface GroupedPredicatesProps {
+  /**
+   * Each option maps to a specific SDK predicate + value pair when selected,
+   * or to several pairs that must all hold at once.
+   * An option can be hidden from the UI but still be used in the query.
+   * @example
+   * ```ts
+   * [
+   *   { label: 'Has items', value: 'has_items', sdk: { predicate: 'quantity_gteq', value: '1' } },
+   *   { label: 'Empty',     value: 'empty',     sdk: { predicate: 'quantity_eq',   value: '0' } },
+   *   {
+   *     label: 'Low stock',
+   *     value: 'low_stock',
+   *     sdk: [
+   *       { predicate: 'low_stock',     value: 'true' },
+   *       { predicate: 'quantity_gteq', value: '1' },
+   *     ],
+   *   },
+   * ]
+   * ```
+   */
+  options: GroupedPredicatesOption[]
+}
+
+/**
+ * An SDK predicate + value pair set by a `groupedPredicates` option.
+ */
+export interface GroupedPredicatesSdk {
+  predicate: string
+  value: string
+}
+
+export interface GroupedPredicatesOption {
+  label: string
+  /** The value stored in the URL query string and form state */
+  value: string
+  isHidden?: boolean
+  /**
+   * The actual SDK predicate + value this option maps to when selected.
+   * An array combines several pairs, all applied together.
+   */
+  sdk: GroupedPredicatesSdk | GroupedPredicatesSdk[]
+}
+
+/**
+ * Returns the SDK predicate + value pairs of a `groupedPredicates` option,
+ * always as an array whether the option declares one pair or several.
+ */
+export function getGroupedPredicatesOptionSdk(
+  option: GroupedPredicatesOption,
+): GroupedPredicatesSdk[] {
+  return Array.isArray(option.sdk) ? option.sdk : [option.sdk]
 }
 
 export type FilterItemOptions = BaseFilterItem & {
