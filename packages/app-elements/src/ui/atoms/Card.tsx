@@ -9,7 +9,7 @@ export type CardProps = React.HTMLAttributes<HTMLElement> &
      * Footer will render in a dedicated section below the main content.
      */
     footer?: React.ReactNode
-    surface?: "default" | "sidebar"
+    surface?: "default" | "sidebar" | "modal"
     /**
      * Set a gray background color
      */
@@ -72,6 +72,7 @@ export const Card = withSkeletonTemplate<CardProps>(
           {
             "rounded-md": resolvedSurface === "default",
             "rounded-sm": resolvedSurface === "sidebar",
+            rounded: resolvedSurface === "modal",
             "overflow-hidden": overflow === "hidden",
             "border-gray-200 bg-white": backgroundColor == null,
             "bg-gray-50 border-gray-50": backgroundColor === "light",

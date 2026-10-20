@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react"
+import { Modal } from "#ui/composite/Modal"
 import { Card } from "./Card"
 
 describe("Card", () => {
@@ -72,5 +73,21 @@ describe("Card", () => {
     const innerDiv = container.firstElementChild?.firstElementChild
     expect(mainDiv).not.toHaveClass("overflow-hidden")
     expect(innerDiv).not.toHaveClass("overflow-hidden")
+  })
+
+  test("Should infer the modal surface when rendered inside a Modal", () => {
+    const { getByTestId } = render(
+      <Modal show onClose={() => {}}>
+        <Modal.Body>
+          <Card overflow="visible" data-testid="card">
+            Inside a modal
+          </Card>
+        </Modal.Body>
+      </Modal>,
+    )
+
+    const card = getByTestId("card")
+    expect(card).toHaveClass("rounded")
+    expect(card).not.toHaveClass("rounded-md")
   })
 })

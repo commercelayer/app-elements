@@ -12,6 +12,7 @@ import {
 import { createPortal } from "react-dom"
 import { Icon } from "#ui/atoms/Icon"
 import { lockBodyScroll, unlockBodyScroll } from "#ui/internals/bodyScrollLock"
+import { OverlayContext } from "#ui/internals/overlayContext"
 
 // Create a context for modal functions
 const ModalContext = createContext<{
@@ -153,13 +154,16 @@ const ModalRoot = (
 
   const content = (
     <ModalContext.Provider value={{ onClose, modalId, dismissible }}>
-      {onSubmit != null ? (
-        <form className={contentClassName} onSubmit={onSubmit}>
-          {children}
-        </form>
-      ) : (
-        <div className={contentClassName}>{children}</div>
-      )}
+      {/* lets what sits in the modal (`Card`, `Alert`) adapt without a prop */}
+      <OverlayContext.Provider value={{ surface: "modal" }}>
+        {onSubmit != null ? (
+          <form className={contentClassName} onSubmit={onSubmit}>
+            {children}
+          </form>
+        ) : (
+          <div className={contentClassName}>{children}</div>
+        )}
+      </OverlayContext.Provider>
     </ModalContext.Provider>
   )
 

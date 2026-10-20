@@ -32,7 +32,9 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
   ({ resource, onUpdated, variant }) => {
     // the hook runs unconditionally; the prop only wins afterwards
     const inferredSurface = useSurfaceVariant()
-    const surface = variant ?? inferredSurface
+    // no rendering of their own for a modal: they lay out as on a page
+    const surface =
+      variant ?? (inferredSurface === "sidebar" ? "sidebar" : "default")
     const { user, canUser } = useTokenProvider()
     const { t, i18n } = useTranslation()
     const locale = i18n.language as I18NLocale
