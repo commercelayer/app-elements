@@ -1,4 +1,5 @@
 import { render } from "@testing-library/react"
+import { Modal } from "#ui/composite/Modal"
 import { PageLayout } from "#ui/composite/PageLayout"
 import { Section } from "./Section"
 
@@ -179,5 +180,18 @@ describe("Legend", () => {
     )
 
     expect(getByText("Details").className).not.toContain("lg:text-base")
+  })
+
+  test("Should render the title as on a page inside a Modal", () => {
+    const { getByText } = render(
+      <Modal show onClose={() => {}}>
+        <Modal.Body>
+          <Section title="Details">content</Section>
+        </Modal.Body>
+      </Modal>,
+    )
+
+    expect(getByText("Details")).toHaveClass("text-lg")
+    expect(getByText("Details")).not.toHaveClass("lg:text-base")
   })
 })

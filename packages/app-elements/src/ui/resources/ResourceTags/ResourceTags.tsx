@@ -82,7 +82,9 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
   ({ resourceType, resourceId, modal, onTagClick, variant }) => {
     // the hook runs unconditionally; the prop only wins afterwards
     const inferredSurface = useSurfaceVariant()
-    const surface = variant ?? inferredSurface
+    // no rendering of their own for a modal: they lay out as on a page
+    const surface =
+      variant ?? (inferredSurface === "sidebar" ? "sidebar" : "default")
     const { data: resourceTags } = useCoreApi(
       resourceType,
       "tags",

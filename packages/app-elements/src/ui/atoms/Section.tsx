@@ -86,8 +86,9 @@ export const Section = withSkeletonTemplate<SectionProps>(
                 className={cn({
                   // titleSize
                   "text-gray-600": titleSize === "small",
+                  // `"modal"` has no rendering of its own and reads as `"default"`
                   "text-lg":
-                    titleSize === "normal" && resolvedSurface === "default",
+                    titleSize === "normal" && resolvedSurface !== "sidebar",
                   // full size until the sidebar becomes its own column
                   "text-lg lg:text-base":
                     titleSize === "normal" && resolvedSurface === "sidebar",

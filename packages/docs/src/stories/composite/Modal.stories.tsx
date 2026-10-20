@@ -7,7 +7,9 @@ import {
 } from "@storybook/addon-docs/blocks"
 import type { Meta, StoryFn } from "@storybook/react-vite"
 import { useRef, useState } from "react"
+import { Alert } from "#ui/atoms/Alert"
 import { Button } from "#ui/atoms/Button"
+import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
 import { Spacer } from "#ui/atoms/Spacer"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
@@ -64,6 +66,35 @@ export const Default: StoryFn = () => {
         <Modal.Header>Modal title</Modal.Header>
         <Modal.Body>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </Modal.Body>
+      </Modal>
+    </div>
+  )
+}
+
+/**
+ * Blocks that adapt to where they sit, such as `Alert` and `Card`, read the modal
+ * surface on their own: no `surface` prop is needed.
+ */
+export const WithAlertAndCard: StoryFn = () => {
+  const [show, setShow] = useState(false)
+
+  return (
+    <div>
+      <Spacer bottom="4">
+        <Alert status="info">Alert outside the modal</Alert>
+      </Spacer>
+      <Spacer bottom="4">
+        <Card overflow="visible">Card outside the modal</Card>
+      </Spacer>
+      <Button onClick={() => setShow(true)}>Open modal</Button>
+      <Modal show={show} onClose={() => setShow(false)}>
+        <Modal.Header>Modal title</Modal.Header>
+        <Modal.Body>
+          <Spacer bottom="4">
+            <Alert status="info">Alert inside the modal</Alert>
+          </Spacer>
+          <Card overflow="visible">Card inside the modal</Card>
         </Modal.Body>
       </Modal>
     </div>
