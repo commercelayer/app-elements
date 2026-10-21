@@ -4,6 +4,7 @@ import { type UseFormReturn, useForm } from "react-hook-form"
 import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
+import { ModalFooterButtons } from "#ui/composite/ModalFooterButtons"
 import { HookedValidationApiError } from "#ui/forms/ReactHookForm/HookedValidationApiError"
 import type { ResourceAddressProps } from "./ResourceAddress"
 import {
@@ -116,7 +117,7 @@ export function useResourceAddressForm({
     ),
     footer: (
       <>
-        <div className="flex items-center justify-end gap-2">
+        <ModalFooterButtons>
           {onCancel != null && (
             <Button
               variant="secondary"
@@ -135,7 +136,7 @@ export function useResourceAddressForm({
             {address == null ? t("common.create") : t("common.update")}{" "}
             {t("resources.addresses.name")}
           </Button>
-        </div>
+        </ModalFooterButtons>
         <HookedValidationApiError apiError={apiError} />
       </>
     ),

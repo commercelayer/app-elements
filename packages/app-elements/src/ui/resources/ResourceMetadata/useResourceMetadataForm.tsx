@@ -5,6 +5,7 @@ import { type UseFormReturn, useForm } from "react-hook-form"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
+import { ModalFooterButtons } from "#ui/composite/ModalFooterButtons"
 import { HookedValidationApiError } from "#ui/forms/ReactHookForm"
 import type { ResourceMetadataProps } from "./ResourceMetadata"
 import {
@@ -147,28 +148,27 @@ export function useResourceMetadataForm({
     footer: (
       <>
         <HookedValidationApiError apiError={apiError} />
-        <div className="flex items-center justify-between gap-4">
-          <ResourceMetadataAddRowButton isLoading={isLoading} />
-          <div className="flex items-center gap-2">
-            {onCancel != null && (
-              <Button
-                variant="secondary"
-                type="button"
-                size="small"
-                onClick={onCancel}
-              >
-                {t("common.cancel")}
-              </Button>
-            )}
+        <ModalFooterButtons
+          start={<ResourceMetadataAddRowButton isLoading={isLoading} />}
+        >
+          {onCancel != null && (
             <Button
-              type="submit"
-              disabled={methods.formState.isSubmitting}
+              variant="secondary"
+              type="button"
               size="small"
+              onClick={onCancel}
             >
-              {`${t("common.update")} ${t("common.metadata").toLowerCase()}`}
+              {t("common.cancel")}
             </Button>
-          </div>
-        </div>
+          )}
+          <Button
+            type="submit"
+            disabled={methods.formState.isSubmitting}
+            size="small"
+          >
+            {`${t("common.update")} ${t("common.metadata").toLowerCase()}`}
+          </Button>
+        </ModalFooterButtons>
       </>
     ),
   }

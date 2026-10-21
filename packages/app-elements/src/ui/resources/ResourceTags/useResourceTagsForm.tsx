@@ -7,6 +7,7 @@ import { useTranslation } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Text } from "#ui/atoms/Text"
+import { ModalFooterButtons } from "#ui/composite/ModalFooterButtons"
 import {
   InputSelect,
   type InputSelectValue,
@@ -235,37 +236,36 @@ export function useResourceTagsForm({
       />
     ),
     footer: (
-      <div className="flex items-center justify-between gap-4">
-        {showManageAction && navigateToTagsManagement != null ? (
-          <Button
-            variant="secondary"
-            type="button"
-            size="small"
-            onClick={navigateToTagsManagement.onClick}
-          >
-            {t("common.manage_resource", {
-              resource: resourceName.toLowerCase(),
-            })}
-          </Button>
-        ) : (
-          <div />
-        )}
-        <div className="flex items-center gap-2">
-          {onCancel != null && (
+      <ModalFooterButtons
+        start={
+          showManageAction && navigateToTagsManagement != null ? (
             <Button
               variant="secondary"
               type="button"
               size="small"
-              onClick={onCancel}
+              onClick={navigateToTagsManagement.onClick}
             >
-              {t("common.cancel")}
+              {t("common.manage_resource", {
+                resource: resourceName.toLowerCase(),
+              })}
             </Button>
-          )}
-          <Button type="submit" disabled={isSubmitting} size="small">
-            {`${t("common.update")} ${resourceName.toLowerCase()}`}
+          ) : null
+        }
+      >
+        {onCancel != null && (
+          <Button
+            variant="secondary"
+            type="button"
+            size="small"
+            onClick={onCancel}
+          >
+            {t("common.cancel")}
           </Button>
-        </div>
-      </div>
+        )}
+        <Button type="submit" disabled={isSubmitting} size="small">
+          {`${t("common.update")} ${resourceName.toLowerCase()}`}
+        </Button>
+      </ModalFooterButtons>
     ),
   }
 }

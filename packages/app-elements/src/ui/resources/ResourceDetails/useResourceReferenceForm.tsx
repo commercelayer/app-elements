@@ -5,6 +5,7 @@ import { getResourceEndpoint } from "#helpers/resources"
 import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
+import { ModalFooterButtons } from "#ui/composite/ModalFooterButtons"
 import { HookedValidationApiError } from "#ui/forms/ReactHookForm"
 import type { ResourceDetailsProps } from "./ResourceDetails"
 import {
@@ -102,7 +103,7 @@ export function useResourceReferenceForm({
     fields: <ResourceReferenceFormFields />,
     footer: (
       <>
-        <div className="flex items-center justify-end gap-2">
+        <ModalFooterButtons>
           {onCancel != null && (
             <Button
               variant="secondary"
@@ -120,7 +121,7 @@ export function useResourceReferenceForm({
           >
             {`${t("common.update")} ${t("common.reference").toLowerCase()}`}
           </Button>
-        </div>
+        </ModalFooterButtons>
         <HookedValidationApiError apiError={apiError} />
       </>
     ),
