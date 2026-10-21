@@ -230,6 +230,10 @@ export {
 } from "#ui/composite/ListDetailsItem"
 export { ListItem, type ListItemProps } from "#ui/composite/ListItem"
 export { Modal, type ModalProps } from "#ui/composite/Modal"
+export {
+  ModalFooterButtons,
+  type ModalFooterButtonsProps,
+} from "#ui/composite/ModalFooterButtons"
 export { PageError, type PageErrorProps } from "#ui/composite/PageError"
 export { PageLayout, type PageLayoutProps } from "#ui/composite/PageLayout"
 export {
