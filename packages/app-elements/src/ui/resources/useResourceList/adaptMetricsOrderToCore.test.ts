@@ -238,6 +238,35 @@ describe("adaptMetricsOrderToCore", () => {
     ])
   })
 
+  it("should convert amounts using the currency subunits", () => {
+    const jpy = adaptMetricsOrderToCore({
+      id: "orderId",
+      type: "orders",
+      currency_code: "JPY",
+      total_amount: 150000,
+    })
+    expect(jpy.total_amount_cents).toBe(150000)
+    expect(jpy.formatted_total_amount).toBe("¥150,000")
+
+    const kwd = adaptMetricsOrderToCore({
+      id: "orderId",
+      type: "orders",
+      currency_code: "KWD",
+      total_amount: 1.5,
+    })
+    expect(kwd.total_amount_cents).toBe(1500)
+    expect(kwd.formatted_total_amount).toContain("1.500")
+
+    const usd = adaptMetricsOrderToCore({
+      id: "orderId",
+      type: "orders",
+      currency_code: "USD",
+      total_amount: 19.99,
+    })
+    expect(usd.total_amount_cents).toBe(1999)
+    expect(usd.formatted_total_amount).toBe("$19.99")
+  })
+
   it("should leave the shipments out when the payload has none", () => {
     expect(
       adaptMetricsOrderToCore({ id: "orderId", type: "orders" }).shipments,
