@@ -51,7 +51,7 @@ export const PageHeadingToolbar = withSkeletonTemplate<PageHeadingToolbarProps>(
           !isSingleButton &&
           ((button.variant != null && button.variant !== "primary") || idx > 0),
       )
-      .map((button) => {
+      .map(({ hideLabelOnMobile: _, ...button }) => {
         return {
           ...button,
           label: button.label ?? "",

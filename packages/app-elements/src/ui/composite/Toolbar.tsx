@@ -1,3 +1,4 @@
+import cn from "classnames"
 import type { JSX } from "react"
 import { Button, type ButtonProps } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
@@ -17,6 +18,11 @@ export interface ToolbarItem {
   className?: ButtonProps["className"]
   onClick?: ButtonProps["onClick"]
   disabled?: ButtonProps["disabled"]
+  /**
+   * On mobile, shows only the icon in a square button, keeping the label as its
+   * accessible name. Has no effect on an item without both `icon` and `label`.
+   */
+  hideLabelOnMobile?: boolean
   /**
    * Dropdown items nested into current item.
    * If they are set, the current item will be rendered as a `Dropdown` that can be opened by clicking the `Button` configure using current item's props.
@@ -98,6 +104,11 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
         )
       )
     } else {
+      const isIconOnlyOnMobile =
+        item.hideLabelOnMobile === true &&
+        item.icon != null &&
+        item.label != null
+
       return (
         <Button
           // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since the list is static and does not change.
@@ -107,11 +118,18 @@ export const Toolbar = withSkeletonTemplate<ToolbarProps>(({ items }) => {
           disabled={item.disabled}
           onClick={handleClick}
           alignItems="center"
-          className={item.className}
+          // without its label the button keeps its height and `min-w-*`, so
+          // dropping the horizontal padding is enough to make it square
+          className={cn(item.className, { "max-md:px-0": isIconOnlyOnMobile })}
+          aria-label={isIconOnlyOnMobile ? item.label : undefined}
           data-testid="toolbar-button"
         >
           {item.icon != null && <Icon name={item.icon} size={16} />}
-          {item.label}
+          {isIconOnlyOnMobile ? (
+            <span className="max-md:hidden">{item.label}</span>
+          ) : (
+            item.label
+          )}
         </Button>
       )
     }
