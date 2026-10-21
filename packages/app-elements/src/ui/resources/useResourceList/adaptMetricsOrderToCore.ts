@@ -4,7 +4,7 @@ import type {
   Shipment,
   StockLocation,
 } from "@commercelayer/sdk"
-import type { CurrencyCode } from "#helpers/currencies"
+import { type CurrencyCode, currencies } from "#helpers/currencies"
 import { formatCentsToCurrency } from "#ui/forms/InputCurrency"
 
 export interface MetricsResourceOrder {
@@ -100,14 +100,23 @@ export function adaptMetricsOrderToCore(
   const makeBooleanFromAmount = (amount?: number): boolean | undefined =>
     amount == null ? undefined : amount > 0
 
+  // metrics amounts are in units: the currency decides how many cents make one
+  // (1 for JPY, 1000 for KWD), with 100 for codes missing from the list
+  const subunitToUnit =
+    metricsOrder.currency_code == null
+      ? 100
+      : (currencies[
+          metricsOrder.currency_code.toLowerCase() as keyof typeof currencies
+        ]?.subunit_to_unit ?? 100)
+
   const makeCentsFromFloat = (value?: number): number | undefined =>
-    value == null ? undefined : value * 100
+    value == null ? undefined : Math.round(value * subunitToUnit)
 
   const formatFloatToCurrency = (float?: number): string | undefined =>
     float == null || metricsOrder.currency_code == null
       ? undefined
       : formatCentsToCurrency(
-          float * 100,
+          makeCentsFromFloat(float) ?? 0,
           metricsOrder.currency_code as CurrencyCode,
         )
 
