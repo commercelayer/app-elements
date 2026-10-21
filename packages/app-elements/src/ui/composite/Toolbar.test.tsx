@@ -74,4 +74,35 @@ describe("Toolbar", () => {
       })
     }
   })
+
+  it("Should keep only the icon on mobile when `hideLabelOnMobile` is set", () => {
+    const { getByTestId, getByText } = render(
+      <Toolbar
+        items={[
+          {
+            label: "New custom app",
+            icon: "plus",
+            size: "small",
+            hideLabelOnMobile: true,
+          },
+        ]}
+      />,
+    )
+
+    const button = getByTestId("toolbar-button")
+    expect(button).toHaveAttribute("aria-label", "New custom app")
+    expect(button.className).toContain("max-md:px-0")
+    expect(getByText("New custom app").className).toContain("max-md:hidden")
+  })
+
+  it("Should show the label at every size by default", () => {
+    const { getByTestId } = render(
+      <Toolbar items={[{ label: "New", icon: "plus", size: "small" }]} />,
+    )
+
+    const button = getByTestId("toolbar-button")
+    expect(button).not.toHaveAttribute("aria-label")
+    expect(button.className).not.toContain("max-md:px-0")
+    expect(button.querySelector("span.max-md\\:hidden")).toBeNull()
+  })
 })
