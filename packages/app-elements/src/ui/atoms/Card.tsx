@@ -70,7 +70,7 @@ export const Card = withSkeletonTemplate<CardProps>(
           "text-left", // reset <button>
           "text-inherit active:text-inherit hover:text-inherit text-sm font-inherit", // reset <a>
           {
-            "rounded-md": resolvedSurface === "default",
+            "rounded md:rounded-md": resolvedSurface === "default",
             "rounded-sm": resolvedSurface === "sidebar",
             rounded: resolvedSurface === "modal",
             "overflow-hidden": overflow === "hidden",
