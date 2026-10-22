@@ -9,7 +9,7 @@ import {
   type FC,
   type ReactNode,
   useCallback,
-  useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -1019,6 +1019,10 @@ const scrollFadeWidth = "3rem"
  * re-measured on scroll and whenever the container or the table changes size: a
  * column shown or hidden changes the table's width without touching the
  * container. With no overflow (mobile, or columns that fit) no mask is applied.
+ *
+ * Measured in a layout effect, so the fade is there from the first paint and the
+ * scroll listener is attached as soon as the table is in the DOM. A passive
+ * effect runs later, and a scroll in between would be missed.
  */
 function FadingHorizontalScroll({
   minWidthRem,
@@ -1031,7 +1035,7 @@ function FadingHorizontalScroll({
   const content = useRef<HTMLDivElement>(null)
   const [overflowing, setOverflowing] = useState({ start: false, end: false })
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const element = scroller.current
     if (element == null) {
       return
