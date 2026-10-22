@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen } from "@testing-library/react"
+import { act, render, screen } from "@testing-library/react"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { ResourceTags } from "./ResourceTags"
@@ -19,11 +19,9 @@ const setup = async () =>
   )
 
 describe("ResourceTags", () => {
-  // The section header carries a `…` menu rather than an Edit button, so the block
-  // looks the same on a page, in a drawer and in the sidebar — the surface variants
-  // then differ by CSS alone. Labels come from i18n, which is not initialised here,
-  // so the item is matched by its `aria-label` key.
-  it("offers editing through a `…` menu", async () => {
+  // Edit sits in the section header. The labels come from i18n, which is not
+  // initialised here.
+  it("shows edit in the header", async () => {
     const { container } = await setup()
     // the tags are fetched on mount: waiting for them keeps the request from
     // settling after the test, once the jsdom environment is torn down
@@ -31,17 +29,8 @@ describe("ResourceTags", () => {
     const header = container.querySelector("header")
 
     expect(header?.querySelectorAll("button")).toHaveLength(1)
-    // (the trigger icon carries an `aria-label` of its own, hence exact matches)
     expect(
-      container.querySelector('[aria-label="common.edit resources.tags.name"]'),
-    ).not.toBeInTheDocument()
-
-    await act(async () => {
-      fireEvent.click(header?.querySelector("button") as HTMLButtonElement)
-    })
-
-    expect(
-      container.querySelector('[aria-label="common.edit resources.tags.name"]'),
+      header?.querySelector('[aria-label="common.edit_resource"]'),
     ).toBeInTheDocument()
   })
 })
