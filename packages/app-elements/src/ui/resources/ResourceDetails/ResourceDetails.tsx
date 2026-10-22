@@ -3,11 +3,10 @@ import { useTranslation } from "react-i18next"
 import { formatDate } from "#helpers/date"
 import type { I18NLocale } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
-import { Icon } from "#ui/atoms/Icon"
+import { Button } from "#ui/atoms/Button"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Text } from "#ui/atoms/Text"
-import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { ListDetailsItem } from "#ui/composite/ListDetailsItem"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
 import { useResourceReferenceModal } from "./useResourceReferenceModal"
@@ -53,41 +52,21 @@ export const ResourceDetails = withSkeletonTemplate<ResourceDetailsProps>(
           surface={surface}
           title="Details"
           actionButton={
-            // A `…` menu, as Tags and Metadata have: the rows then carry no controls
-            // of their own and read as a plain list, the same on every surface.
-            <Dropdown
-              className="print:hidden"
-              dropdownLabel={
-                <Icon
-                  name="dotsThree"
-                  weight="bold"
-                  size="16"
-                  aria-label={t("common.details_options")}
-                />
-              }
-              dropdownItems={
-                <>
-                  <DropdownItem
-                    icon="copy"
-                    label={t("common.copy_id")}
-                    onClick={() => {
-                      void navigator.clipboard.writeText(resource?.id ?? "")
-                    }}
-                  />
-                  {canUser("update", resource.type as ListableResourceType) && (
-                    <DropdownItem
-                      icon="pencilSimple"
-                      label={t("common.edit_resource", {
-                        resource: t("common.reference").toLowerCase(),
-                      })}
-                      onClick={() => {
-                        openReferenceModal()
-                      }}
-                    />
-                  )}
-                </>
-              }
-            />
+            canUser("update", resource.type as ListableResourceType) && (
+              <Button
+                variant="secondary"
+                size="mini"
+                className="print:hidden"
+                aria-label={t("common.edit_resource", {
+                  resource: t("common.reference").toLowerCase(),
+                })}
+                onClick={() => {
+                  openReferenceModal()
+                }}
+              >
+                {t("common.edit")}
+              </Button>
+            )
           }
         >
           <ListDetailsItem surface={surface} label="ID" gutter="none">

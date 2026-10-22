@@ -5,13 +5,12 @@ import { useViewJsonOverlay } from "#hooks/useViewJsonOverlay"
 import { useCoreApi } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
+import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
-import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
-import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
 import {
   type ResourceMetadataModalProps,
@@ -88,46 +87,20 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
           surface={surface}
           title="Metadata"
           actionButton={
-            // A `…` menu rather than a row of buttons, as the tables and the page
-            // headings use: the section then looks the same on every surface, which
-            // is what lets the surface variants differ by CSS alone.
-            (!isEmpty(resourceData?.metadata) ||
-              canUser("update", resourceType)) && (
-              <Dropdown
+            canUser("update", resourceType) && (
+              <Button
+                variant="secondary"
+                size="mini"
                 className="print:hidden"
-                dropdownLabel={
-                  <Icon
-                    name="dotsThree"
-                    weight="bold"
-                    size="16"
-                    aria-label={t("common.edit_resource", {
-                      resource: t("common.metadata").toLowerCase(),
-                    })}
-                  />
-                }
-                dropdownItems={
-                  <>
-                    {canUser("update", resourceType) && (
-                      <DropdownItem
-                        icon="pencilSimple"
-                        label={`${t("common.edit")} ${t("common.metadata").toLowerCase()}`}
-                        onClick={() => {
-                          openMetadataModal()
-                        }}
-                      />
-                    )}
-                    {!isEmpty(resourceData?.metadata) && (
-                      <DropdownItem
-                        icon="code"
-                        label={t("common.view_json")}
-                        onClick={() => {
-                          showJsonOverlay()
-                        }}
-                      />
-                    )}
-                  </>
-                }
-              />
+                aria-label={t("common.edit_resource", {
+                  resource: t("common.metadata").toLowerCase(),
+                })}
+                onClick={() => {
+                  openMetadataModal()
+                }}
+              >
+                {t("common.edit")}
+              </Button>
             )
           }
         >
@@ -168,6 +141,17 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                     )
                   },
                 )}
+                <div className="flex justify-end print:hidden">
+                  <Button
+                    variant="secondary"
+                    size="mini"
+                    onClick={() => {
+                      showJsonOverlay()
+                    }}
+                  >
+                    {t("common.view_json")}
+                  </Button>
+                </div>
               </Card>
             ) : (
               <Text tag="span" variant="info" size="small">

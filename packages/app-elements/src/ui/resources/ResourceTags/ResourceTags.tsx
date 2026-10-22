@@ -8,13 +8,12 @@ import { isMockedId } from "#helpers/mocks"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
-import { Icon } from "#ui/atoms/Icon"
+import { Button } from "#ui/atoms/Button"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Tag as TagUi } from "#ui/atoms/Tag"
 import { Text } from "#ui/atoms/Text"
-import { Dropdown, DropdownItem } from "#ui/composite/Dropdown"
 import { useSurfaceVariant } from "#ui/internals/overlayContext"
 import {
   type ResourceTagsModalProps,
@@ -114,31 +113,19 @@ export const ResourceTags = withSkeletonTemplate<ResourceTagsProps>(
         title="Tags"
         actionButton={
           canUser("update", resourceType) && (
-            // A `…` menu rather than an Edit button, as the tables and the page
-            // headings use: the section then looks the same on every surface, which
-            // is what lets the surface variants differ by CSS alone.
-            <Dropdown
+            <Button
+              variant="secondary"
+              size="mini"
               className="print:hidden"
-              dropdownLabel={
-                <Icon
-                  name="dotsThree"
-                  weight="bold"
-                  size="16"
-                  aria-label={t("common.edit_resource", {
-                    resource: t("resources.tags.name").toLowerCase(),
-                  })}
-                />
-              }
-              dropdownItems={
-                <DropdownItem
-                  icon="pencilSimple"
-                  label={`${t("common.edit")} ${t("resources.tags.name").toLowerCase()}`}
-                  onClick={() => {
-                    openTagsModal()
-                  }}
-                />
-              }
-            />
+              aria-label={t("common.edit_resource", {
+                resource: t("resources.tags.name").toLowerCase(),
+              })}
+              onClick={() => {
+                openTagsModal()
+              }}
+            >
+              {t("common.edit")}
+            </Button>
           )
         }
       >

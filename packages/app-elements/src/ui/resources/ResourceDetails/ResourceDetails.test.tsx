@@ -92,25 +92,20 @@ describe("ResourceDetails", () => {
     expect(row(container, "ID")?.className).not.toContain("lg:grid-cols-1!")
   })
 
-  // The rows show values only: copying the id and editing the reference are in the
-  // section's menu, so the block looks the same wherever it renders.
-  it("keeps its actions in the `…` menu", () => {
+  // Edit sits in the section header and edits the reference; the rows show
+  // values only. The labels come from i18n, which is not initialised here.
+  it("shows edit in the header and no control on the rows", () => {
     const { container } = render(
       wrap(<ResourceDetails resource={resource} onUpdated={async () => {}} />),
     )
+    const header = container.querySelector("header")
 
-    // no control on the rows themselves: the id is text, not a copy button
+    expect(header?.querySelectorAll("button")).toHaveLength(1)
+    expect(
+      header?.querySelector('[aria-label="common.edit_resource"]'),
+    ).toBeInTheDocument()
+    // the id is text, not a copy button
     expect(row(container, "ID")?.querySelector("button")).toBeNull()
-
-    const trigger = container.querySelector('[aria-haspopup="true"]')
-    assertToBeDefined(trigger)
-    expect(container.textContent).not.toContain("common.copy_id")
-
-    fireEvent.click(trigger)
-
-    // rendered without `I18NProvider`, so the items read as their keys
-    expect(container.textContent).toContain("common.copy_id")
-    expect(container.textContent).toContain("common.edit_resource")
   })
 
   it("edits the reference in a modal, starting from the current values", async () => {
@@ -131,9 +126,6 @@ describe("ResourceDetails", () => {
       baseElement.querySelector("dialog")
     expect(dialog()?.open).toBeFalsy()
 
-    const trigger = container.querySelector('[aria-haspopup="true"]')
-    assertToBeDefined(trigger)
-    fireEvent.click(trigger)
     await act(async () => {
       fireEvent.click(
         container.querySelector(
