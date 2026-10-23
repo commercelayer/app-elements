@@ -281,6 +281,11 @@ const it: typeof en = {
       name_other: "Modifiche",
       attributes: {},
     },
+    agreements: {
+      name: "Accordo",
+      name_other: "Accordi",
+      attributes: {},
+    },
     attachments: {
       name: "Allegato",
       name_other: "Allegati",
@@ -319,6 +324,7 @@ const it: typeof en = {
       name: "Ordine",
       name_other: "Ordini",
       attributes: {
+        notes: "Note",
         status: {
           approved: "Approvato",
           cancelled: "Cancellato",
