@@ -24,6 +24,11 @@ const resources = {
     name_other: "Adjustments",
     attributes: {},
   },
+  agreements: {
+    name: "Agreement",
+    name_other: "Agreements",
+    attributes: {},
+  },
   attachments: {
     name: "Attachment",
     name_other: "Attachments",
@@ -62,6 +67,7 @@ const resources = {
     name: "Order",
     name_other: "Orders",
     attributes: {
+      notes: "Notes",
       status: {
         approved: "Approved",
         cancelled: "Cancelled",
