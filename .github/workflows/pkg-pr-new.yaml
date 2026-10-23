@@ -39,4 +39,4 @@ jobs:
 
       - name: Publish 🚀 pkg.pr.new
         run: |
-          npx pkg-pr-new publish './packages/app-elements' --no-template
+          npx pkg-pr-new publish --no-template --commentWithSha './packages/app-elements'

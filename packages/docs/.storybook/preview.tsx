@@ -92,14 +92,11 @@ export const withContainer: Decorator = (Story, context) => {
   return <Story />
 }
 
-export const withLocale: Decorator = (Story) => {
-  const locale = "en-US"
-  return (
-    <I18NProvider enforcedLocaleCode={locale}>
-      <Story />
-    </I18NProvider>
-  )
-}
+export const withLocale: Decorator = (Story) => (
+  <I18NProvider>
+    <Story />
+  </I18NProvider>
+)
 
 export const withStrictMode: Decorator = (Story) => {
   return (

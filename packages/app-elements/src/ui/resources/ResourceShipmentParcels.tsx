@@ -160,7 +160,7 @@ const Parcel = withSkeletonTemplate<{
             <FlexRow>
               <Text variant="info">{t("common.parcel_total")}</Text>
               <Text weight="semibold">
-                {t("apps.shipments.details.parcel_item", {
+                {t("common.parcel_item", {
                   count: itemsLength,
                 })}
               </Text>

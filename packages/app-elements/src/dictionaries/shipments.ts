@@ -88,10 +88,12 @@ export function getShipmentDisplayStatus(
 
     case "awaiting_stock_transfer":
       return {
-        label: t("apps.shipments.details.awaiting_stock_transfer"),
+        label: t(
+          "dictionaries.shipments.display_status.awaiting_stock_transfer",
+        ),
         icon: "hourglass",
         color: "orange",
-        task: "Awaiting stock transfers",
+        task: t("dictionaries.shipments.tasks.awaiting_stock_transfers"),
       }
 
     default:
