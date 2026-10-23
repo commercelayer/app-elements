@@ -66,23 +66,23 @@ describe("getOrderDisplayStatus", () => {
         label: t("resources.orders.attributes.status.placed"),
         icon: "arrowDown",
         color: "orange",
-        task: t("apps.orders.tasks.awaiting_approval"),
+        task: t("dictionaries.orders.tasks.awaiting_approval"),
       })
       expect(
         getOrderDisplayStatus(order("approved", paymentStatus, "unfulfilled")),
       ).toEqual({
-        label: t("apps.orders.display_status.awaiting_capture"),
+        label: t("dictionaries.orders.display_status.awaiting_capture"),
         icon: "creditCard",
         color: "orange",
-        task: t("apps.orders.tasks.payment_to_capture"),
+        task: t("dictionaries.orders.tasks.payment_to_capture"),
       })
       expect(
         getOrderDisplayStatus(order("approved", paymentStatus, "in_progress")),
       ).toEqual({
-        label: t("apps.orders.display_status.in_progress"),
+        label: t("dictionaries.orders.display_status.in_progress"),
         icon: "arrowClockwise",
         color: "orange",
-        task: t("apps.orders.tasks.fulfillment_in_progress"),
+        task: t("dictionaries.orders.tasks.fulfillment_in_progress"),
       })
       expect(
         getOrderDisplayStatus(order("approved", paymentStatus, "fulfilled")),

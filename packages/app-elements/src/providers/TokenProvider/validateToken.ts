@@ -3,6 +3,7 @@ import type { ListableResourceType } from "@commercelayer/sdk"
 import fetch from "cross-fetch"
 import isEmpty from "lodash-es/isEmpty"
 import { computeFullname, formatDisplayName } from "#helpers/name"
+import { getSupportedLocale } from "#providers/I18NProvider.utils"
 import { getInfoFromJwt, type ParsedScopes } from "./getInfoFromJwt"
 import type {
   Mode,
@@ -157,7 +158,7 @@ export async function isValidTokenForCurrentApp({
                 tokenInfo.owner.first_name,
                 tokenInfo.owner.last_name,
               ),
-              locale: "en-US", // setting a default for now, then this will probably arrive from tokenInfo.owner.locale
+              locale: getSupportedLocale(tokenInfo.owner.locale),
             }
           : null,
       scopes: jwtInfo.scopes,

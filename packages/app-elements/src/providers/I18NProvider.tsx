@@ -1,45 +1,64 @@
 import i18n, { type i18n as I18nInstance } from "i18next"
 import resourcesToBackend from "i18next-resources-to-backend"
-import React, { type ReactNode, useEffect, useState } from "react"
+import { type JSX, type ReactNode, useEffect, useState } from "react"
 import { I18nextProvider, initReactI18next } from "react-i18next"
+import type { MergeDeep } from "type-fest"
 import { LoadingPage } from "#ui/composite/Routes/Routes"
 import type en from "../locales/en"
+import { i18nLocales, loadTranslation } from "./I18NProvider.utils"
 import { useTokenProvider } from "./TokenProvider"
 
 export { t } from "i18next"
 export { Trans, useTranslation } from "react-i18next"
 
-export const i18nLocales = ["en-US", "it-IT"] as const
+export { i18nLocales }
 export type I18NLocale = (typeof i18nLocales)[number]
+export type I18NLanguage = I18NLocale extends `${infer L}-${string}` ? L : never
 export type Translation = typeof en
 
-interface I18NProviderProps {
-  /** Optional locale to use for i18n translations that will override the locale set in the user's token. */
-  enforcedLocaleCode?: I18NLocale
+/** The translation resulting from merging `Extension` over `Base`. */
+export type MergeTranslations<
+  Base extends object,
+  Extension extends object,
+> = MergeDeep<Base, Extension>
+
+/**
+ * Lazy loaders of the translations a consumer adds to (or overrides in) the `app-elements` ones,
+ * one for every supported language, each with the same keys as English.
+ */
+export type I18NTranslations<T extends object = object> = {
+  [L in I18NLanguage]: () => Promise<{ default: T }>
+}
+
+interface I18NProviderProps<T extends object> {
   /**
    * Whether to enable debug mode for i18n.
    * @default false
    */
   debug?: boolean
   /**
+   * Translations merged over the `app-elements` ones. They are read once, when i18n is initialized.
+   */
+  translations?: I18NTranslations<T>
+  /**
    * The children to render.
    */
   children: ReactNode
 }
 
-export const I18NProvider: React.FC<I18NProviderProps> = ({
+export function I18NProvider<T extends object>({
   children,
   debug = false,
-  enforcedLocaleCode,
-}) => {
+  translations,
+}: I18NProviderProps<T>): JSX.Element {
   const { user } = useTokenProvider()
-  const localeCode = enforcedLocaleCode ?? user?.locale ?? i18nLocales[0]
+  const localeCode = user?.locale ?? i18nLocales[0]
   const [i18nInstance, setI18nInstance] = useState<I18nInstance | undefined>()
 
   useEffect(() => {
     const setupI18n = async (): Promise<void> => {
       try {
-        const instance = await initI18n(localeCode, debug)
+        const instance = await initI18n(localeCode, debug, translations)
         if (instance.isInitialized) {
           setI18nInstance(instance)
         }
@@ -56,15 +75,6 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
     }
   }, [localeCode, i18nInstance])
 
-  useEffect(() => {
-    if (
-      i18nInstance?.isInitialized === true &&
-      i18nInstance.language !== enforcedLocaleCode
-    ) {
-      void i18nInstance.changeLanguage(enforcedLocaleCode)
-    }
-  }, [enforcedLocaleCode])
-
   if (
     i18nInstance == null ||
     (i18nInstance != null && !i18nInstance.isInitialized)
@@ -75,15 +85,15 @@ export const I18NProvider: React.FC<I18NProviderProps> = ({
   return <I18nextProvider i18n={i18nInstance}>{children}</I18nextProvider>
 }
 
-const initI18n = async (
+const initI18n = async <T extends object>(
   localeCode: I18NLocale,
-  debug: I18NProviderProps["debug"],
+  debug: I18NProviderProps<T>["debug"],
+  translations: I18NProviderProps<T>["translations"],
 ): Promise<I18nInstance> => {
   await i18n
     .use(
       resourcesToBackend(
-        async (lang: I18NLocale) =>
-          await import(`../locales/${getLocaleFileName(lang)}.ts`),
+        async (lang: I18NLocale) => await loadTranslation(lang, translations),
       ),
     )
     .use(initReactI18next)
@@ -98,8 +108,4 @@ const initI18n = async (
       debug,
     })
   return i18n
-}
-
-function getLocaleFileName(lang?: I18NLocale): string {
-  return lang?.split("-")[0] === "it" ? "it" : "en"
 }

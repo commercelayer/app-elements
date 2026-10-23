@@ -93,9 +93,12 @@ export { type ClAppKey, type ClAppProps, createApp } from "#providers/createApp"
 export { ErrorBoundary } from "#providers/ErrorBoundary"
 export { GTMProvider, useTagManager } from "#providers/GTMProvider"
 export {
+  type I18NLanguage,
   type I18NLocale,
   I18NProvider,
+  type I18NTranslations,
   i18nLocales,
+  type MergeTranslations,
   Trans,
   type Translation,
   t,

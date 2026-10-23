@@ -55,7 +55,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t("resources.orders.attributes.status.placed"),
         icon: "arrowDown",
         color: "orange",
-        task: t("apps.orders.tasks.awaiting_approval"),
+        task: t("dictionaries.orders.tasks.awaiting_approval"),
       }
 
     case "placed:unpaid:unfulfilled":
@@ -65,7 +65,7 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
         label: t("resources.orders.attributes.status.placed"),
         icon: "x",
         color: "red",
-        task: t("apps.orders.tasks.error_to_cancel"),
+        task: t("dictionaries.orders.tasks.error_to_cancel"),
       }
 
     case "approved:authorized:unfulfilled":
@@ -77,19 +77,19 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
       return {
         // an approved order whose payment is only authorized says what is left to
         // do rather than what already happened: the money is not captured yet
-        label: t("apps.orders.display_status.awaiting_capture"),
+        label: t("dictionaries.orders.display_status.awaiting_capture"),
         icon: "creditCard",
         color: "orange",
-        task: t("apps.orders.tasks.payment_to_capture"),
+        task: t("dictionaries.orders.tasks.payment_to_capture"),
       }
 
     case "approved:paid:in_progress":
     case "approved:free:in_progress":
       return {
-        label: t("apps.orders.display_status.in_progress"),
+        label: t("dictionaries.orders.display_status.in_progress"),
         icon: "arrowClockwise",
         color: "orange",
-        task: t("apps.orders.tasks.fulfillment_in_progress"),
+        task: t("dictionaries.orders.tasks.fulfillment_in_progress"),
       }
 
     case "approved:authorized:in_progress":
@@ -99,10 +99,10 @@ export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
     case "approved:refunded:in_progress":
     case "approved:unpaid:in_progress":
       return {
-        label: t("apps.orders.display_status.in_progress"),
+        label: t("dictionaries.orders.display_status.in_progress"),
         icon: "arrowClockwise",
         color: "orange",
-        task: t("apps.orders.tasks.fulfillment_in_progress"),
+        task: t("dictionaries.orders.tasks.fulfillment_in_progress"),
       }
 
     case "approved:paid:fulfilled":
@@ -178,17 +178,17 @@ export function getOrderTransactionName(
     authorizations: t(
       "resources.orders.attributes.payment_status.authorized",
     ).toLowerCase(),
-    captures: t("apps.orders.details.payment_captured").toLowerCase(),
+    captures: t("dictionaries.orders.transactions.captured").toLowerCase(),
     refunds: t(
       "resources.orders.attributes.payment_status.refunded",
     ).toLowerCase(),
     voids: t("resources.orders.attributes.payment_status.voided").toLowerCase(),
   }
   const singularDictionary: Record<typeof type, string> = {
-    authorizations: t("apps.orders.details.payment_authorization"),
-    captures: t("apps.orders.details.payment_capture"),
-    refunds: t("apps.orders.details.payment_refund"),
-    voids: t("apps.orders.details.payment_void"),
+    authorizations: t("dictionaries.orders.transactions.authorization"),
+    captures: t("dictionaries.orders.transactions.capture"),
+    refunds: t("dictionaries.orders.transactions.refund"),
+    voids: t("dictionaries.orders.transactions.void"),
   }
 
   return {
