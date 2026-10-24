@@ -1,6 +1,6 @@
 import type { Attachment, Order, StockTransfer } from "@commercelayer/sdk"
 import isEmpty from "lodash-es/isEmpty"
-import { useCallback, useEffect, useReducer, useState } from "react"
+import { useCallback, useEffect, useMemo, useReducer, useState } from "react"
 import { getOrderTransactionName } from "#dictionaries/orders"
 import { navigateTo } from "#helpers/appsNavigation"
 import { isAttachmentValidNote, referenceOrigins } from "#helpers/attachments"
@@ -29,6 +29,17 @@ export const ResourceOrderTimeline =
     ({ orderId, attachmentOption, refresh, isLoading: isExternalLoading }) => {
       const fakeOrderId = "fake-NMWYhbGorj"
       const {
+        user,
+        canUser,
+        settings: { extras },
+      } = useTokenProvider()
+      // B2B: the customer reviews a seller asked for, and what was said on
+      // both sides. Only read where agreements are on, and by apps allowed to —
+      // the shipments app renders this timeline too, and cannot.
+      const withReviews =
+        extras?.organization?.isAgreementsEnabled === true &&
+        canUser("read", "order_reviews")
+      const {
         data: order,
         isLoading,
         mutate: mutateOrder,
@@ -50,6 +61,7 @@ export const ResourceOrderTimeline =
                   "payment_method",
                   "payment_source",
                   "attachments",
+                  ...(withReviews ? ["order_reviews"] : []),
                 ],
               },
             ],
@@ -69,9 +81,9 @@ export const ResourceOrderTimeline =
         },
       )
 
-      const [events] = useTimelineReducer(order)
+      const [events] = useTimelineReducer(order, withReviews)
+      const reviewEvents = useOrderReviewEvents(order, withReviews)
       const { sdkClient } = useCoreSdkProvider()
-      const { user, canUser } = useTokenProvider()
 
       useEffect(
         function refreshOrder() {
@@ -88,7 +100,7 @@ export const ResourceOrderTimeline =
           isLoading={
             isExternalLoading === true || isLoading || order.id === fakeOrderId
           }
-          events={events}
+          events={withReviews ? [...events, ...reviewEvents] : events}
           timezone={user?.timezone}
           onKeyDown={(event) => {
             if (event.code === "Enter" && event.currentTarget.value !== "") {
@@ -132,7 +144,64 @@ export const ResourceOrderTimeline =
     },
   )
 
-const useTimelineReducer = (order: Order) => {
+/**
+ * One event when the seller sent the order for review, with what they wrote
+ * the customer, and one when the customer answered, with their reply.
+ *
+ * Kept out of the reducer, which only ever adds: withdrawing a review deletes
+ * it, and its event has to go with it.
+ */
+const useOrderReviewEvents = (
+  order: Order,
+  enabled: boolean,
+): TimelineEvent[] => {
+  const { t } = useTranslation()
+
+  return useMemo(() => {
+    if (!enabled) {
+      return []
+    }
+
+    return (order.order_reviews ?? []).flatMap((review) => {
+      const sent: TimelineEvent = {
+        date: review.created_at,
+        message: (
+          <>
+            {t("common.timeline.resources.order_was")}{" "}
+            <Text weight="semibold">
+              {t("common.timeline.resources.order_sent_for_review")}
+            </Text>
+          </>
+        ),
+        note: isEmpty(review.reason) ? undefined : (review.reason ?? undefined),
+      }
+
+      if (review.status === "pending" || review.resolved_at == null) {
+        return [sent]
+      }
+
+      const answered: TimelineEvent = {
+        date: review.resolved_at,
+        variant: review.status === "rejected" ? "warning" : undefined,
+        message: (
+          <>
+            {t("common.timeline.resources.order_was")}{" "}
+            <Text weight="semibold">
+              {review.status === "accepted"
+                ? t("common.timeline.resources.order_confirmed_by_customer")
+                : t("common.timeline.resources.order_rejected_by_customer")}
+            </Text>
+          </>
+        ),
+        note: isEmpty(review.notes) ? undefined : (review.notes ?? undefined),
+      }
+
+      return [sent, answered]
+    })
+  }, [enabled, order.order_reviews])
+}
+
+const useTimelineReducer = (order: Order, withOrderNotes: boolean) => {
   const { t } = useTranslation()
   const [orderId, setOrderId] = useState<string>(order.id)
   const {
@@ -217,6 +286,11 @@ const useTimelineReducer = (order: Order) => {
                 </Text>
               </>
             ),
+            // B2B: what the buyer wrote the seller when they placed it
+            note:
+              withOrderNotes && !isEmpty(order.notes)
+                ? (order.notes ?? undefined)
+                : undefined,
           },
         })
       }
