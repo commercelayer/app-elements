@@ -26,6 +26,7 @@ export {
   getStockTransferStatusName,
 } from "#dictionaries/stockTransfers"
 // Helpers
+export { isAgreementsEnabled } from "#helpers/agreements"
 export { goBack, navigateTo } from "#helpers/appsNavigation"
 export { isAttachmentValidNote, referenceOrigins } from "#helpers/attachments"
 export {
