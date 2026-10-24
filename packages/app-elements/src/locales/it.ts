@@ -178,6 +178,9 @@ const it: typeof en = {
         order_cancelled: "annullato",
         order_archived: "archiviato",
         order_approved: "approvato",
+        order_sent_for_review: "inviato al cliente per la revisione",
+        order_confirmed_by_customer: "confermato dal cliente",
+        order_rejected_by_customer: "rifiutato dal cliente",
         order_fulfilled: "evaso",
         order_unfulfilled: "non evaso",
         order_fulfillment_is: "L'evasione dell'ordine è",
@@ -623,15 +626,12 @@ const it: typeof en = {
         request_return: "Richiedi reso",
       },
       details: {
-        customer_review: "Revisione cliente",
         review_reason: "Nota per il cliente",
         review_reason_hint:
           "Cosa hai modificato e perché. Il cliente la legge prima di confermare.",
         review_sent: "Inviato al cliente per revisione.",
         withdraw_review_description:
           "L'ordine non è più in attesa e può essere approvato senza la risposta del cliente.",
-        review_seller_note: "La tua nota",
-        review_customer_note: "Nota del cliente",
         summary: "Riepilogo",
         to_be_calculated: "Da calcolare",
         shipping: "Spedizione",

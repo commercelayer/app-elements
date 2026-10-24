@@ -418,6 +418,9 @@ const en = {
         order_cancelled: "cancelled",
         order_archived: "archived",
         order_approved: "approved",
+        order_sent_for_review: "sent to the customer for review",
+        order_confirmed_by_customer: "confirmed by the customer",
+        order_rejected_by_customer: "rejected by the customer",
         order_fulfilled: "fulfilled",
         order_unfulfilled: "unfulfilled",
         order_fulfillment_is: "Order fulfillment is",
@@ -630,15 +633,12 @@ const en = {
         request_return: "Request return",
       },
       details: {
-        customer_review: "Customer review",
         review_reason: "Note for the customer",
         review_reason_hint:
           "What you changed and why. The customer reads it before confirming.",
         review_sent: "Sent to the customer for review.",
         withdraw_review_description:
           "The order leaves hold and can be approved again without the customer's answer.",
-        review_seller_note: "Your note",
-        review_customer_note: "Customer's note",
         summary: "Summary",
         to_be_calculated: "To be calculated",
         shipping: "Shipping",
