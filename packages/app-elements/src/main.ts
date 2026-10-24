@@ -5,6 +5,7 @@ export {
   getCustomerDisplayStatus,
   getCustomerStatusName,
 } from "#dictionaries/customers"
+export { getOrderReviewDisplayStatus } from "#dictionaries/orderReviews"
 export {
   getOrderDisplayStatus,
   getOrderFulfillmentStatusName,
