@@ -115,6 +115,7 @@ export const iconMapping = {
   shield: phosphor.ShieldIcon,
   shoppingBag: phosphor.ShoppingBagIcon,
   shoppingBagOpen: phosphor.ShoppingBagOpenIcon,
+  shoppingCart: phosphor.ShoppingCartIcon,
   sidebarSimple: phosphor.SidebarSimpleIcon,
   signOut: phosphor.SignOutIcon,
   slackLogo: phosphor.SlackLogoIcon,
