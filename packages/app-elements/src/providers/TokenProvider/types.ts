@@ -210,6 +210,12 @@ export interface TokenProviderExtras {
   /** Custom data that can be passed to the app and used in the app context. */
   organization?: {
     isEnterprise?: boolean
+    /**
+     * Whether B2B agreements are switched on for the organization: the dashboard
+     * works it out with `isAgreementsEnabled` and every app reads it from here,
+     * rather than fetching the organization to learn it.
+     */
+    isAgreementsEnabled?: boolean
   }
   /**
    * This method can be used to trigger the display of a resource detail modal within the dashboard, when the app is running as micro-frontend inside the dashboard.
