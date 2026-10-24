@@ -1,4 +1,4 @@
-import type { Order } from "@commercelayer/sdk"
+import type { Order, OrderReview } from "@commercelayer/sdk"
 import { t } from "i18next"
 import type { StatusIconProps } from "#ui/atoms/StatusIcon"
 import type { DisplayStatus } from "./types"
@@ -9,7 +9,58 @@ export interface OrderDisplayStatus extends DisplayStatus {
   task?: string
 }
 
-export function getOrderDisplayStatus(order: Order): OrderDisplayStatus {
+/**
+ * Where an order stands, as the seller sees it.
+ *
+ * `lastReview` is the order's latest order review, when it has one: a B2B order
+ * the seller changed and sent to the buyer to confirm. While it is pending the
+ * order is on hold — `on_hold` says so even without the review — and that is
+ * what the order is waiting on, whatever its payment and fulfillment say. Once
+ * answered, a confirmed order goes back to awaiting approval under its own name,
+ * and a rejected one cannot be approved until the seller asks again.
+ */
+export function getOrderDisplayStatus(
+  order: Order,
+  lastReview?: Pick<OrderReview, "status"> | null,
+): OrderDisplayStatus {
+  if (order.status !== "cancelled") {
+    if (order.on_hold === true || lastReview?.status === "pending") {
+      return {
+        label: t("apps.orders.display_status.customer_review"),
+        icon: "hourglass",
+        color: "orange",
+        task: t("apps.orders.tasks.awaiting_customer_review"),
+      }
+    }
+
+    if (order.status === "placed" && lastReview?.status === "rejected") {
+      return {
+        label: t("apps.orders.display_status.customer_rejected"),
+        icon: "x",
+        color: "red",
+        task: t("apps.orders.tasks.rejected_by_customer"),
+      }
+    }
+  }
+
+  const status = getOrderBaseDisplayStatus(order)
+
+  // confirmed by the buyer and otherwise ready: still awaiting approval, but the
+  // label says why it is ready — an unpaid one keeps its error instead
+  if (
+    lastReview?.status === "accepted" &&
+    status.task === t("apps.orders.tasks.awaiting_approval")
+  ) {
+    return {
+      ...status,
+      label: t("apps.orders.display_status.customer_confirmed"),
+    }
+  }
+
+  return status
+}
+
+function getOrderBaseDisplayStatus(order: Order): OrderDisplayStatus {
   // A partial refund changes neither where the order stands nor what is left to do
   // with it, so it reads as `paid`: the display status then follows the fulfillment
   // status, exactly as for an order that was never refunded. That part of the money

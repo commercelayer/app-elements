@@ -320,6 +320,17 @@ const it: typeof en = {
       name_other: "Links",
       attributes: {},
     },
+    order_reviews: {
+      name: "Revisione ordine",
+      name_other: "Revisioni ordine",
+      attributes: {
+        status: {
+          pending: "Revisione richiesta",
+          accepted: "Confermato",
+          rejected: "Rifiutato",
+        },
+      },
+    },
     orders: {
       name: "Ordine",
       name_other: "Ordini",
@@ -590,12 +601,17 @@ const it: typeof en = {
       },
       display_status: {
         awaiting_capture: "Da catturare",
+        customer_review: "Revisione cliente",
+        customer_confirmed: "Confermato dal cliente",
+        customer_rejected: "Rifiutato dal cliente",
         in_progress: "In corso",
       },
       tasks: {
         open: "Aperti",
         browse: "Altro",
         awaiting_approval: "Da approvare",
+        awaiting_customer_review: "In attesa della revisione del cliente",
+        rejected_by_customer: "Rifiutato dal cliente",
         error_to_cancel: "Errore nella cancellazione",
         payment_to_capture: "Da catturare",
         fulfillment_in_progress: "Da spedire",

@@ -63,6 +63,17 @@ const resources = {
     name_other: "Links",
     attributes: {},
   },
+  order_reviews: {
+    name: "Order review",
+    name_other: "Order reviews",
+    attributes: {
+      status: {
+        pending: "Review required",
+        accepted: "Confirmed",
+        rejected: "Rejected",
+      },
+    },
+  },
   orders: {
     name: "Order",
     name_other: "Orders",
@@ -597,12 +608,17 @@ const en = {
       },
       display_status: {
         awaiting_capture: "Awaiting capture",
+        customer_review: "Customer review",
+        customer_confirmed: "Customer confirmed",
+        customer_rejected: "Customer rejected",
         in_progress: "In progress",
       },
       tasks: {
         open: "Open",
         browse: "Browse",
         awaiting_approval: "Awaiting approval",
+        awaiting_customer_review: "Awaiting customer review",
+        rejected_by_customer: "Rejected by customer",
         error_to_cancel: "Error to cancel",
         payment_to_capture: "Payment to capture",
         fulfillment_in_progress: "Fulfillment in progress",

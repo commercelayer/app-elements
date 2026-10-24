@@ -124,3 +124,65 @@ describe("getOrderDisplayStatus", () => {
     })
   })
 })
+
+describe("getOrderDisplayStatus with an order review", () => {
+  it("shows an on hold order as waiting on the customer", () => {
+    const onHold = {
+      ...order("placed", "authorized", "unfulfilled"),
+      on_hold: true,
+    } as Order
+    expect(getOrderDisplayStatus(onHold)).toMatchObject({
+      label: t("apps.orders.display_status.customer_review"),
+      color: "orange",
+      task: t("apps.orders.tasks.awaiting_customer_review"),
+    })
+    // a pending review says the same, even before `on_hold` is read
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "pending",
+      }).label,
+    ).toBe(t("apps.orders.display_status.customer_review"))
+  })
+
+  it("names a confirmed order and keeps it awaiting approval", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "accepted",
+      }),
+    ).toMatchObject({
+      label: t("apps.orders.display_status.customer_confirmed"),
+      task: t("apps.orders.tasks.awaiting_approval"),
+    })
+  })
+
+  it("keeps an unpaid confirmed order's error", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "unpaid", "unfulfilled"), {
+        status: "accepted",
+      }),
+    ).toEqual(getOrderDisplayStatus(order("placed", "unpaid", "unfulfilled")))
+  })
+
+  it("shows a rejected order as rejected by the customer", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "rejected",
+      }),
+    ).toMatchObject({
+      label: t("apps.orders.display_status.customer_rejected"),
+      color: "red",
+    })
+  })
+
+  it("lets a cancelled order read as cancelled whatever its review", () => {
+    expect(
+      getOrderDisplayStatus(
+        {
+          ...order("cancelled", "voided", "unfulfilled"),
+          on_hold: true,
+        } as Order,
+        { status: "pending" },
+      ).label,
+    ).toBe(t("resources.orders.attributes.status.cancelled"))
+  })
+})
