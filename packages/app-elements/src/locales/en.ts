@@ -630,6 +630,15 @@ const en = {
         request_return: "Request return",
       },
       details: {
+        customer_review: "Customer review",
+        review_reason: "Note for the customer",
+        review_reason_hint:
+          "What you changed and why. The customer reads it before confirming.",
+        review_sent: "Sent to the customer for review.",
+        withdraw_review_description:
+          "The order leaves hold and can be approved again without the customer's answer.",
+        review_seller_note: "Your note",
+        review_customer_note: "Customer's note",
         summary: "Summary",
         to_be_calculated: "To be calculated",
         shipping: "Shipping",
@@ -684,6 +693,10 @@ const en = {
         unarchive: "Unarchive",
         continue_editing: "Continue editing",
         finish_editing: "Finish",
+        send_for_review: "Send to customer for review",
+        send_for_review_title: "Send order for review?",
+        withdraw_review: "Withdraw review",
+        withdraw_review_title: "Withdraw the review?",
         adjust_total: "Adjust total",
       },
     },

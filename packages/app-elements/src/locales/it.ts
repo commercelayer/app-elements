@@ -623,6 +623,15 @@ const it: typeof en = {
         request_return: "Richiedi reso",
       },
       details: {
+        customer_review: "Revisione cliente",
+        review_reason: "Nota per il cliente",
+        review_reason_hint:
+          "Cosa hai modificato e perché. Il cliente la legge prima di confermare.",
+        review_sent: "Inviato al cliente per revisione.",
+        withdraw_review_description:
+          "L'ordine non è più in attesa e può essere approvato senza la risposta del cliente.",
+        review_seller_note: "La tua nota",
+        review_customer_note: "Nota del cliente",
         summary: "Riepilogo",
         to_be_calculated: "Da calcolare",
         shipping: "Spedizione",
@@ -677,6 +686,10 @@ const it: typeof en = {
         unarchive: "Ripristina",
         continue_editing: "Continua modifiche",
         finish_editing: "Finalizza",
+        send_for_review: "Invia al cliente per revisione",
+        send_for_review_title: "Inviare l'ordine per revisione?",
+        withdraw_review: "Ritira revisione",
+        withdraw_review_title: "Ritirare la revisione?",
         adjust_total: "Modifica il totale",
       },
     },
