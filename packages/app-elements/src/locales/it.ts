@@ -627,9 +627,18 @@ const it: typeof en = {
       },
       details: {
         review_reason: "Nota per il cliente",
-        review_reason_hint:
-          "Cosa hai modificato e perché. Il cliente la legge prima di confermare.",
-        review_sent: "Inviato al cliente per revisione.",
+        review_reason_placeholder: "Aggiungi una nota…",
+        send_for_review_description:
+          "Il cliente riceverà una notifica e dovrà rivedere e confermare l'ordine aggiornato",
+        sending_for_review: "Invio dell'ordine per revisione…",
+        sending_for_review_to: "a {{email}}",
+        send_for_review_failed:
+          "Non è stato possibile inviare l'ordine per revisione",
+        review_sent_title: "L'ordine è stato inviato per revisione",
+        review_sent_description:
+          "{{customer}} ha ricevuto una notifica e ora può rivedere l'ordine",
+        view_order: "Vedi ordine",
+        back_to_orders: "Torna agli ordini",
         withdraw_review_description:
           "L'ordine non è più in attesa e può essere approvato senza la risposta del cliente.",
         summary: "Riepilogo",
@@ -688,6 +697,7 @@ const it: typeof en = {
         finish_editing: "Finalizza",
         send_for_review: "Invia al cliente per revisione",
         send_for_review_title: "Inviare l'ordine per revisione?",
+        send_for_review_confirm: "Invia per revisione",
         withdraw_review: "Ritira revisione",
         withdraw_review_title: "Ritirare la revisione?",
         adjust_total: "Modifica il totale",
