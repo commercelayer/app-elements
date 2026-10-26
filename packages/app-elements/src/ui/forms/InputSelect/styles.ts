@@ -64,13 +64,9 @@ export const getSelectStyles = (
   valueContainer: (style, { isMulti }) => ({
     ...style,
     padding: isMulti ? "0.4375rem 0.625rem" : "0.5rem 1rem",
-    gap: "0",
-    "> div[class^='flex']": {
-      marginRight: "6px",
-    },
-    "> div[class^='flex']:not(:has(~ div[class^='flex']))": {
-      marginRight: "0",
-    },
+    // a gap rather than a margin on each chip: a chip whose label is cut short
+    // comes wrapped in its tooltip's `span`, which a `div` selector never reaches
+    gap: "0 6px",
   }),
   singleValue: (style) => ({
     ...style,
