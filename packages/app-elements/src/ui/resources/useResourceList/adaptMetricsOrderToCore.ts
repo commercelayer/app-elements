@@ -1,4 +1,5 @@
 import type {
+  Agreement,
   Customer,
   Order,
   Shipment,
@@ -58,6 +59,8 @@ export interface MetricsResourceOrder {
   archived?: boolean
   reference?: string
   reference_origin?: string
+  /** Set on orders placed under a B2B agreement. */
+  agreement_id?: string | null
   tags?: {
     id: string
     name: string
@@ -256,6 +259,18 @@ export function adaptMetricsOrderToCore(
 
     reference: metricsOrder.reference,
     reference_origin: metricsOrder.reference_origin,
+
+    // Metrics knows the agreement by id only: the name, like the rest of the
+    // resource, is left absent rather than invented
+    agreement:
+      metricsOrder.agreement_id != null
+        ? ({
+            id: metricsOrder.agreement_id,
+            created_at: "",
+            updated_at: "",
+            type: "agreements",
+          } as Agreement)
+        : undefined,
 
     archived_at:
       metricsOrder.archived === true
