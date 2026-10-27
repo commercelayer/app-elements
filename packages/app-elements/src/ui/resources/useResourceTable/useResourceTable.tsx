@@ -796,6 +796,10 @@ export function useResourceTable<
                 const resource = row.original as ResourceFor<TApi, TResource>
                 const href = getRowHref?.(resource)
                 const clickable = href != null || onRowClick != null
+                // the first cell carries the row's own control: a link when the
+                // row has a URL, a button when it only has a click handler
+                const rowControl =
+                  href != null ? "link" : onRowClick != null ? "button" : null
                 return (
                   <Tr
                     key={row.id}
@@ -813,21 +817,18 @@ export function useResourceTable<
                             const control = (
                               event.target as HTMLElement | null
                             )?.closest(interactiveSelector)
-                            // `!== currentTarget` because the row itself carries
-                            // `role="button"` when it has no link, and would
-                            // otherwise match as its own control
+                            // `contains` because `closest` keeps walking past the
+                            // row, and a control the table sits in is not one of
+                            // the row's own
                             if (
                               control != null &&
-                              control !== event.currentTarget
+                              event.currentTarget.contains(control)
                             ) {
                               return
                             }
                             onRowClick(resource, event)
                           }
                         : undefined
-                    }
-                    role={
-                      href == null && onRowClick != null ? "button" : undefined
                     }
                     className={cn(
                       // The hover has to be painted on the cells, not on the row:
@@ -861,7 +862,7 @@ export function useResourceTable<
                             // resolve the overlay against a page-level ancestor
                             // instead, and it then covers the search field and the
                             // tabs above the table — every tap opening the last row.
-                            href != null && colIndex === 0 && "relative",
+                            rowControl != null && colIndex === 0 && "relative",
                           )}
                         >
                           {href != null && colIndex === 0 ? (
@@ -886,10 +887,25 @@ export function useResourceTable<
                                   onRowClick(resource, event)
                                 }
                               }}
-                              className="text-inherit no-underline after:absolute after:inset-0"
+                              className="text-inherit no-underline rounded px-1.5 -mx-1.5 after:absolute after:inset-0"
                             >
                               {content}
                             </a>
+                          ) : rowControl === "button" && colIndex === 0 ? (
+                            // Without a URL the row still needs a control the
+                            // keyboard can reach: a real button, stretched over its
+                            // cell like the link above. A `role="button"` on the
+                            // `tr` would hide the row from table navigation and
+                            // still not be focusable.
+                            <button
+                              type="button"
+                              onClick={(event) => {
+                                onRowClick?.(resource, event)
+                              }}
+                              className="text-inherit text-left rounded px-1.5 -mx-1.5 after:absolute after:inset-0"
+                            >
+                              {content}
+                            </button>
                           ) : (
                             content
                           )}

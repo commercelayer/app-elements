@@ -230,32 +230,59 @@ describe("useResourceTable", () => {
       },
     )
 
-    it("without `getRowHref`, makes the row itself the button and renders no anchor", async () => {
-      mockOrdersList()
-      const onRowClick = vi.fn()
-      const Implementation: FC = () => {
-        const { ResourceTable } = useResourceTable({
-          type: "orders",
-          columns,
-          onRowClick,
-        })
-        return <ResourceTable />
+    describe("without `getRowHref`", () => {
+      const renderClickableRows = async (onRowClick = vi.fn()) => {
+        mockOrdersList()
+        const Implementation: FC = () => {
+          const { ResourceTable } = useResourceTable({
+            type: "orders",
+            columns,
+            onRowClick,
+          })
+          return <ResourceTable />
+        }
+        const utils = render(
+          <Wrapper>
+            <Implementation />
+          </Wrapper>,
+        )
+        await utils.findByText("#1001")
+        const [firstRow] = getRows(utils.container)
+        assertToBeDefined(firstRow)
+        return { ...utils, firstRow, onRowClick }
       }
-      const { container, findByText } = render(
-        <Wrapper>
-          <Implementation />
-        </Wrapper>,
-      )
-      await findByText("#1001")
 
-      const [firstRow] = getRows(container)
-      assertToBeDefined(firstRow)
-      expect(firstRow.querySelectorAll("a")).toHaveLength(0)
-      expect(firstRow).toHaveAttribute("role", "button")
+      it("keeps the row a table row and puts a button in its first cell", async () => {
+        const { firstRow } = await renderClickableRows()
 
-      fireEvent.click(firstRow)
-      expect(onRowClick).toHaveBeenCalledTimes(1)
-      expect(onRowClick.mock.calls[0]?.[0]).toMatchObject({ id: "order-1" })
+        expect(firstRow).not.toHaveAttribute("role")
+        expect(firstRow.querySelectorAll("a")).toHaveLength(0)
+
+        const button = firstRow.querySelector("td:first-child > button")
+        expect(button).toHaveAttribute("type", "button")
+        expect(button).toHaveTextContent("#1001")
+      })
+
+      it("opens the row once from the button, which the keyboard can reach", async () => {
+        const { firstRow, onRowClick } = await renderClickableRows()
+        const button = firstRow.querySelector(
+          "td:first-child > button",
+        ) as HTMLButtonElement
+
+        // a native button: Enter and Space activate it as a click does
+        fireEvent.click(button)
+
+        expect(onRowClick).toHaveBeenCalledTimes(1)
+        expect(onRowClick.mock.calls[0]?.[0]).toMatchObject({ id: "order-1" })
+      })
+
+      it("still opens the row from a click anywhere else on it", async () => {
+        const { firstRow, onRowClick } = await renderClickableRows()
+
+        fireEvent.click(firstRow)
+
+        expect(onRowClick).toHaveBeenCalledTimes(1)
+      })
     })
   })
 
