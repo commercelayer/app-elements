@@ -24,11 +24,11 @@ importers:
         specifier: ^8.0.2
         version: 8.0.2
       '@commercelayer/provisioning-sdk':
-        specifier: https://pkg.pr.new/@commercelayer/provisioning-sdk@e820d67
-        version: https://pkg.pr.new/@commercelayer/provisioning-sdk@e820d67
+        specifier: https://pkg.pr.new/@commercelayer/provisioning-sdk@fe83121
+        version: https://pkg.pr.new/@commercelayer/provisioning-sdk@fe83121
       '@commercelayer/sdk':
-        specifier: https://pkg.pr.new/@commercelayer/sdk@e820d67
-        version: https://pkg.pr.new/@commercelayer/sdk@e820d67
+        specifier: https://pkg.pr.new/@commercelayer/sdk@fe83121
+        version: https://pkg.pr.new/@commercelayer/sdk@fe83121
       '@date-fns/tz':
         specifier: ^1.5.0
         version: 1.5.0
@@ -953,13 +953,13 @@ packages:
     resolution: {integrity: sha512-xwQWXuYtW6PBehzJoeI8fgmSnE79xPR4yK/SrevZwBERG0xLaCDPsihw684Ri1m5PMbHH/k1AwqncXpyu45OiQ==}
     engines: {node: '>=20.0.0'}
 
-  '@commercelayer/provisioning-sdk@https://pkg.pr.new/@commercelayer/provisioning-sdk@e820d67':
-    resolution: {integrity: sha512-4lW78Xtoaf+vMZOZJLt+elCw/URxFlA+wuoPRwMn/iWUB+bEFCQrP7lJNEjM+Ga7CHWyGgWGrwadsPHIChYO+w==, tarball: https://pkg.pr.new/@commercelayer/provisioning-sdk@e820d67}
+  '@commercelayer/provisioning-sdk@https://pkg.pr.new/@commercelayer/provisioning-sdk@fe83121':
+    resolution: {integrity: sha512-CeacT0ma8+E+U7sFLrGBTAU6Snzt90i7jqHk5tHG5ZRpxH/8dfi+oJWUDkLk5mCn0i5NgZLvGmB4d2aDuuTlDA==, tarball: https://pkg.pr.new/@commercelayer/provisioning-sdk@fe83121}
     version: 3.0.1
     engines: {node: '>=20'}
 
-  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@e820d67':
-    resolution: {integrity: sha512-DpC0PEnM/XcPEEpoj4Tr4WCFN7P9eqXVhv72sex7cVhzI6ZLp1z6Ckdfmxev/R6QKO9hRvLJ/4TTSyqSqdfDXA==, tarball: https://pkg.pr.new/@commercelayer/sdk@e820d67}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@fe83121':
+    resolution: {integrity: sha512-fjcrbsB+NVQxN0r9YL1OMXekf670JBqbdMNiD1cB5MDHVRauIVyReSJM7gRUrR8vkDymeGfTYZDhdzxXCBLFbw==, tarball: https://pkg.pr.new/@commercelayer/sdk@fe83121}
     version: 8.0.3
     engines: {node: '>=20'}
 
@@ -4957,9 +4957,9 @@ snapshots:
 
   '@commercelayer/js-auth@8.0.2': {}
 
-  '@commercelayer/provisioning-sdk@https://pkg.pr.new/@commercelayer/provisioning-sdk@e820d67': {}
+  '@commercelayer/provisioning-sdk@https://pkg.pr.new/@commercelayer/provisioning-sdk@fe83121': {}
 
-  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@e820d67': {}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@fe83121': {}
 
   '@csstools/color-helpers@6.1.2': {}
 
