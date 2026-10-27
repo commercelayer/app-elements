@@ -7,6 +7,7 @@ import { t } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
+import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -112,43 +113,47 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 backgroundColor="light"
                 className="print:p-4 print:rounded-sm"
               >
-                {Object.entries(resourceData?.metadata ?? []).map(
-                  ([metadataKey, metadataValue], idx) => {
-                    return (
-                      <div
-                        // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
-                        key={idx}
-                        className="flex w-full px-1"
-                        data-testid={`ResourceMetadata-item-${metadataKey}`}
-                      >
-                        <Text
-                          size="small"
-                          variant="info"
-                          className="font-mono mr-2"
+                <div className="relative">
+                  <div className="absolute left-0 bottom-0 w-full h-full bg-[linear-gradient(to_bottom,transparent_85%,var(--color-gray-50)_100%)]"></div>
+                  {Object.entries(resourceData?.metadata ?? []).map(
+                    ([metadataKey, metadataValue], idx) => {
+                      return (
+                        <div
+                          // biome-ignore lint/suspicious/noArrayIndexKey: Using index as key is acceptable here since items are static
+                          key={idx}
+                          className="flex w-full px-1"
+                          data-testid={`ResourceMetadata-item-${metadataKey}`}
                         >
-                          {metadataKey}:
-                        </Text>
-                        <Text
-                          size="small"
-                          className="font-mono"
-                          data-testid={`ResourceMetadata-value-${metadataKey}`}
-                        >
-                          {isUpdatableType(metadataValue)
-                            ? metadataValue.toString()
-                            : "[...]"}
-                        </Text>
-                      </div>
-                    )
-                  },
-                )}
-                <div className="flex justify-end print:hidden">
+                          <Text
+                            size="small"
+                            variant="info"
+                            className="font-mono mr-2"
+                          >
+                            {metadataKey}:
+                          </Text>
+                          <Text
+                            size="small"
+                            className="font-mono"
+                            data-testid={`ResourceMetadata-value-${metadataKey}`}
+                          >
+                            {isUpdatableType(metadataValue)
+                              ? metadataValue.toString()
+                              : "[...]"}
+                          </Text>
+                        </div>
+                      )
+                    },
+                  )}
+                </div>
+                <div className="flex mt-2 print:hidden">
                   <Button
-                    variant="secondary"
+                    variant="subtle"
                     size="mini"
                     onClick={() => {
                       showJsonOverlay()
                     }}
                   >
+                    <Icon name="eye" weight="bold" />
                     {t("common.view_json")}
                   </Button>
                 </div>
