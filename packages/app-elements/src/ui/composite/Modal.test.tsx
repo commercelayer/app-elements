@@ -46,13 +46,37 @@ describe("Modal", () => {
     expect(onClose).not.toHaveBeenCalled()
   })
 
-  test("Should not close from keyboard activation on close button when dismissible is false", () => {
-    const { closeButton, onClose } = setup({ dismissible: false })
+  test("Should let the keyboard activate the close button when dismissible is false", () => {
+    const { closeButton } = setup({ dismissible: false })
 
-    fireEvent.keyDown(closeButton, { key: "Enter" })
-    fireEvent.keyDown(closeButton, { key: " " })
+    // `fireEvent` returns false when a handler called `preventDefault()`, which
+    // is what would stop Enter and Space from activating the button
+    expect(fireEvent.keyDown(closeButton, { key: "Enter" })).toBe(true)
+    expect(fireEvent.keyDown(closeButton, { key: " " })).toBe(true)
+  })
 
-    expect(onClose).not.toHaveBeenCalled()
+  test("Should move focus to the modal panel on open, not to the close button", () => {
+    const { closeButton, getByTestId } = setup()
+
+    expect(closeButton).not.toHaveFocus()
+    expect(getByTestId("modal")).toHaveFocus()
+  })
+
+  test("Should leave focus on a field marked autoFocus", () => {
+    const { getByLabelText } = render(
+      <Modal show onClose={vi.fn()}>
+        <Modal.Header>My Modal</Modal.Header>
+        <Modal.Body>
+          <label>
+            Name
+            {/* biome-ignore lint/a11y/noAutofocus: the behaviour under test */}
+            <input autoFocus />
+          </label>
+        </Modal.Body>
+      </Modal>,
+    )
+
+    expect(getByLabelText("Name")).toHaveFocus()
   })
 
   test("Should close on close button click when dismissible is false", () => {
@@ -134,10 +158,12 @@ describe("Modal", () => {
     )
   })
 
-  test("Should keep backdrop out of tab order", () => {
+  test("Should keep backdrop out of focus and of the accessibility tree", () => {
     const { backdrop } = setup({ dismissible: true })
 
-    expect(backdrop).toHaveAttribute("tabindex", "-1")
+    expect(backdrop.tagName).not.toBe("BUTTON")
+    expect(backdrop).not.toHaveAttribute("tabindex")
+    expect(backdrop).toHaveAttribute("aria-hidden", "true")
   })
 
   test("Should keep aria-labelledby associations unique with multiple modals", () => {

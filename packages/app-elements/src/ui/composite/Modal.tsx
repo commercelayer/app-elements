@@ -45,9 +45,7 @@ export type ModalProps = {
    * Enables modal dismissal via backdrop click and Escape key.
    *
    * - true: backdrop + Escape can trigger onClose.
-   * - false: backdrop + Escape are ignored; closing is allowed only via mouse click on the header close button.
-   *
-   * Note: when false, keyboard activation (Enter/Space) on the close button is intentionally blocked.
+   * - false: backdrop + Escape are ignored; closing is allowed only via the header close button.
    */
   dismissible?: boolean
   /**
@@ -93,6 +91,7 @@ const ModalRoot = (
 ) => {
   const modalId = useId()
   const dialogRef = useRef<HTMLDialogElement | null>(null)
+  const panelRef = useRef<HTMLDivElement | null>(null)
 
   const setDialogRef = useCallback(
     (node: HTMLDialogElement | null) => {
@@ -119,6 +118,7 @@ const ModalRoot = (
         } else {
           dialog.open = true
         }
+        moveInitialFocus(dialog, panelRef.current)
         return
       }
 
@@ -189,19 +189,25 @@ const ModalRoot = (
           }
         }}
       >
-        <button
-          type="button"
-          tabIndex={-1}
-          disabled={!dismissible}
-          aria-hidden={!dismissible}
-          aria-label="Dismiss modal backdrop"
+        {/* A pointer-only shortcut: keyboard and screen reader users close the
+            modal with Escape or the header close button, so the backdrop is
+            neither focusable nor exposed. */}
+        <div
+          aria-hidden
           data-testid="modal-backdrop"
           className="fixed inset-0 z-60 bg-gray-900/90 animate-backdrop-fade-in"
-          onClick={onClose}
+          onClick={() => {
+            if (dismissible) {
+              onClose()
+            }
+          }}
         />
         <div
+          ref={panelRef}
+          // the landing spot for focus on open, see `moveInitialFocus`
+          tabIndex={-1}
           className={cn(
-            "relative z-70 w-full",
+            "relative z-70 w-full outline-none",
             size === "large" && "max-w-155 md:w-155",
             size === "medium" && "max-w-125 md:w-125",
             size === "small" && "max-w-105 md:w-105",
@@ -217,12 +223,37 @@ const ModalRoot = (
   )
 }
 
+/**
+ * `showModal()` focuses the first element marked `autofocus` or, failing that, the
+ * first focusable one — which, with no field asking for focus, is the header close
+ * button. A keyboard user who opened the modal with Enter and presses it again would
+ * then close it straight away.
+ *
+ * In that case focus goes to the modal panel instead: the dialog's name is still
+ * announced, and Tab reaches the close button and the content from there. A field
+ * marked `autoFocus` keeps the focus the browser gave it.
+ */
+function moveInitialFocus(
+  dialog: HTMLDialogElement,
+  panel: HTMLDivElement | null,
+): void {
+  const focused = document.activeElement
+  const landedOnChrome =
+    focused == null ||
+    focused === document.body ||
+    focused === dialog ||
+    (focused instanceof HTMLElement && focused.hasAttribute("data-modal-close"))
+  if (landedOnChrome) {
+    panel?.focus()
+  }
+}
+
 export const Modal = forwardRef<HTMLDivElement, ModalProps>(
   ModalRoot,
 ) as ModalComponent
 
 Modal.Header = ({ children }) => {
-  const { onClose, modalId, dismissible } = useModalContext()
+  const { onClose, modalId } = useModalContext()
 
   return (
     <div className="flex-none flex items-center justify-between px-6 py-4 border-b border-gray-200">
@@ -235,15 +266,9 @@ Modal.Header = ({ children }) => {
       <button
         type="button"
         aria-label="Close"
+        data-modal-close
         className="p-2 -m-2"
         onClick={onClose}
-        onKeyDown={(event) => {
-          // Product requirement: when dismissible=false, modal must close only on mouse click.
-          // Block keyboard activation on the close button (Enter/Space).
-          if (!dismissible && (event.key === "Enter" || event.key === " ")) {
-            event.preventDefault()
-          }
-        }}
       >
         <Icon name="x" size={16} />
       </button>
