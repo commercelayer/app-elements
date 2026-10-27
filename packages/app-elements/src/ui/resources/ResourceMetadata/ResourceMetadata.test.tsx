@@ -55,13 +55,17 @@ describe("ResourceMetadata", () => {
       header?.querySelector('[aria-label="common.edit_resource"]'),
     ).toBeInTheDocument()
 
+    // the closest block holding both a row and the JSON view is the card, not
+    // the whole section with its header
     const viewJson = getByText("common.view_json")
-    expect(header).not.toContainElement(viewJson)
-    expect(
-      container.querySelector(
-        '[data-testid="ResourceMetadata-item-first_name"]',
-      )?.parentElement,
-    ).toContainElement(viewJson)
+    let block = container.querySelector(
+      '[data-testid="ResourceMetadata-item-first_name"]',
+    )?.parentElement
+    while (block != null && !block.contains(viewJson)) {
+      block = block.parentElement
+    }
+    expect(block).toBeInstanceOf(HTMLElement)
+    expect(block).not.toContainElement(header)
   })
 
   // `gdpr_preferences` is an object, which this form cannot edit: its row is kept
