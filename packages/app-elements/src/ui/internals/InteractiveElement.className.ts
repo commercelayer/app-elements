@@ -6,6 +6,7 @@ import { isSpecificReactComponent } from "#utils/children"
 type Variant =
   | "primary"
   | "secondary"
+  | "subtle"
   | "danger"
   | "link"
   | "circle"
@@ -138,6 +139,7 @@ function getVariantCss(
     primary: "bg-black border border-black text-white hover:opacity-80",
     secondary:
       "bg-white border border-gray-200 text-black hover:opacity-80 hover:bg-gray-50",
+    subtle: "bg-gray-100 text-gray-600 hover:bg-gray-200",
     circle:
       "bg-white text-black hover:opacity-80 hover:bg-gray-50 rounded-full",
     danger:
