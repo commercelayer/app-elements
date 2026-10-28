@@ -193,10 +193,12 @@ function Tabs({
           underline spanning the whole row when the tabs fit and lets the row grow
           past it when they do not, and the 2px bottom padding on the scroller
           absorbs the active tab's negative margin — otherwise that overhang counts
-          as scrollable overflow and earns the row a vertical scrollbar. */}
+          as scrollable overflow and earns the row a vertical scrollbar. The
+          scroller also clips, so it pads itself (and takes the padding back with
+          a negative margin) to leave room for a tab's focus ring. */}
       <div
         ref={scroller}
-        className="overflow-x-auto pb-[2px] md:overflow-x-visible md:pb-0"
+        className="overflow-x-auto px-3 -mx-3 pt-1.5 -mt-1.5 pb-2 -mb-1.5 md:overflow-x-visible md:p-0 md:m-0"
         // masked rather than covered by a gradient, so the fade works on whatever
         // the page background happens to be
         style={{ maskImage, WebkitMaskImage: maskImage }}
@@ -328,20 +330,30 @@ function TabNav({
       // only the active tab is a stop in the page's tab order; the arrow keys reach
       // the others
       tabIndex={isActive ? 0 : -1}
+      // room around the label for a rounded focus ring, cancelled out by the
+      // negative margin so the tabs keep their spacing
       className={cn(
-        "text-center pb-4 leading-6 cursor-pointer transition-all duration-300 -mb-[2px]",
+        "rounded px-1.5 -mx-1.5 text-center leading-6 cursor-pointer -mb-[2px]",
         // never break a two-word label ("In progress") onto a second line, and never
         // let the row squeeze it: the row scrolls instead
         "whitespace-nowrap shrink-0",
         {
-          "border-b-black border-b-2 text-black font-semibold": isActive,
-          "border-b-transparent border-b-2 text-gray-500": !isActive,
+          "text-black font-semibold": isActive,
+          "text-gray-500": !isActive,
         },
       )}
       onClick={onClick}
       {...rest}
     >
-      {label}
+      {/* the underline sits on the label, so the room beside it does not widen it */}
+      <span
+        className={cn(
+          "block pb-4 border-b-2 transition-all duration-300",
+          isActive ? "border-b-black" : "border-b-transparent",
+        )}
+      >
+        {label}
+      </span>
     </button>
   )
 }
