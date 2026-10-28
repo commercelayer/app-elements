@@ -204,7 +204,8 @@ const ModalRoot = (
         />
         <div
           ref={panelRef}
-          // the landing spot for focus on open, see `moveInitialFocus`
+          // the landing spot for focus on open, see `moveInitialFocus`. Not a
+          // control and out of the Tab order, so it shows no focus ring.
           tabIndex={-1}
           className={cn(
             "relative z-70 w-full outline-none",
@@ -267,7 +268,7 @@ Modal.Header = ({ children }) => {
         type="button"
         aria-label="Close"
         data-modal-close
-        className="p-2 -m-2"
+        className="p-2 -m-2 rounded"
         onClick={onClose}
       >
         <Icon name="x" size={16} />
