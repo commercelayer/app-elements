@@ -5,6 +5,8 @@ allowBuilds:
   esbuild: true
   msw: true
   nx: true
+# Minutes. Set explicitly (it equals pnpm's default) so that npm-check-updates reads it as its cooldown.
+minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
   - '@commercelayer/sdk'
   - '@commercelayer/provisioning-sdk'
