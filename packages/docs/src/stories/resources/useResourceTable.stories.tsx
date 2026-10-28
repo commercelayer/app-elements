@@ -124,6 +124,24 @@ export const WithRowClick: StoryFn = () => {
 }
 
 /**
+ * With `onRowClick` alone — no URL to point to, e.g. a row that opens a drawer —
+ * the first cell renders a button instead of a link. Keyboard users reach the
+ * row with Tab and open it with Enter or Space; a click anywhere on the row
+ * works as before.
+ */
+export const WithRowClickOnly: StoryFn = () => {
+  const { ResourceTable } = useResourceTable({
+    type: "orders",
+    columns,
+    onRowClick: (order) => {
+      console.log("clicked order", order.id)
+    },
+  })
+
+  return <ResourceTable title="Orders" />
+}
+
+/**
  * By default a table uses classic prev/next pagination.
  */
 export const WithPagination: StoryFn = () => {
