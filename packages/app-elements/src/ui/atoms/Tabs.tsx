@@ -2,8 +2,10 @@ import cn from "classnames"
 import React, {
   Children,
   type JSX,
+  type KeyboardEvent,
   type ReactNode,
   useEffect,
+  useId,
   useMemo,
   useRef,
   useState,
@@ -15,7 +17,8 @@ const FADE_WIDTH = "24px"
 
 export interface TabsProps {
   /**
-   * Used for accessability
+   * Prefix for the ids that tie each tab to its panel. Defaults to a generated one,
+   * unique on the page.
    */
   id?: string
   /*
@@ -48,7 +51,7 @@ export interface TabsProps {
 }
 
 function Tabs({
-  id = "tab",
+  id,
   children,
   onTabSwitch,
   className,
@@ -68,6 +71,46 @@ function Tabs({
   const [activeIndex, setActiveIndex] = useState(
     defaultTab ?? firstActiveIndex ?? 0,
   )
+
+  // a fixed default would give two tab sets on one page the same ids, and each
+  // tab's `aria-controls` would point at the other set's panel
+  const generatedId = useId()
+  const baseId = id ?? `tab${generatedId}`
+  const navId = (index: number): string => `tab-nav-${baseId}-${index}`
+  const panelId = (index: number): string => `tab-panel-${baseId}-${index}`
+
+  const activate = (index: number): void => {
+    setActiveIndex(index)
+    onTabSwitch?.(index)
+  }
+
+  /**
+   * Arrow keys, Home and End move focus between the tabs, the way the WAI-ARIA tabs
+   * pattern describes; Enter or Space then activates the focused one, as a click
+   * does. Activation stays manual rather than following focus because a panel often
+   * loads a list of its own, and arrowing past three tabs should not fetch three.
+   */
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>): void => {
+    const tabs = tabRefs.current.filter(
+      (tab): tab is HTMLButtonElement => tab != null,
+    )
+    const current = tabs.indexOf(document.activeElement as HTMLButtonElement)
+    if (current === -1) {
+      return
+    }
+    const next = {
+      ArrowRight: (current + 1) % tabs.length,
+      ArrowLeft: (current - 1 + tabs.length) % tabs.length,
+      Home: 0,
+      End: tabs.length - 1,
+    }[event.key]
+    if (next === undefined) {
+      return
+    }
+    event.preventDefault()
+    tabs[next]?.focus()
+  }
 
   /**
    * Which edges of the scrolling tab row have tabs beyond them, so the row can fade
@@ -144,22 +187,29 @@ function Tabs({
   }, [overflowing])
 
   return (
-    <div id={id} role="tablist" className={className} {...rest}>
+    <div id={id} className={className} {...rest}>
       {/* Navs. On a phone the row is wider than the screen, so it scrolls sideways
           instead of wrapping onto a second line. `w-full min-w-max` keeps the
           underline spanning the whole row when the tabs fit and lets the row grow
           past it when they do not, and the 2px bottom padding on the scroller
           absorbs the active tab's negative margin — otherwise that overhang counts
-          as scrollable overflow and earns the row a vertical scrollbar. */}
+          as scrollable overflow and earns the row a vertical scrollbar. The
+          scroller also clips, so it pads itself (and takes the padding back with
+          a negative margin) to leave room for a tab's focus ring. */}
       <div
         ref={scroller}
-        className="overflow-x-auto pb-[2px] md:overflow-x-visible md:pb-0"
+        className="overflow-x-auto px-3 -mx-3 pt-1.5 -mt-1.5 pb-2 -mb-1.5 md:overflow-x-visible md:p-0 md:m-0"
         // masked rather than covered by a gradient, so the fade works on whatever
         // the page background happens to be
         style={{ maskImage, WebkitMaskImage: maskImage }}
         data-testid="tab-nav-scroller"
       >
-        <nav className="flex gap-8 border-b-gray-100 border-b w-full min-w-max">
+        <div
+          role="tablist"
+          aria-orientation="horizontal"
+          onKeyDown={handleKeyDown}
+          className="flex gap-8 border-b-gray-100 border-b w-full min-w-max"
+        >
           {Children.map(
             children,
             (tab, index) =>
@@ -170,19 +220,27 @@ function Tabs({
                   {tab.props.separatorBefore === true &&
                     index > (firstActiveIndex ?? 0) && <TabNavSeparator />}
                   <TabNav
+                    ref={(element) => {
+                      tabRefs.current[index] = element
+                    }}
                     isActive={index === activeIndex}
                     label={tab.props.name}
                     onClick={() => {
-                      setActiveIndex(index)
-                      onTabSwitch?.(index)
+                      activate(index)
                     }}
-                    id={`tab-nav-${id}-${index}`}
+                    id={navId(index)}
+                    // an unmounted panel has no id to point at
+                    controls={
+                      index === activeIndex || keepAlive === true
+                        ? panelId(index)
+                        : undefined
+                    }
                     data-testid={`tab-nav-${index}`}
                   />
                 </React.Fragment>
               ),
           )}
-        </nav>
+        </div>
       </div>
       {/* Tab Panels */}
       {Children.map(children, (tab, index) => {
@@ -192,8 +250,9 @@ function Tabs({
         return (
           <TabPanel
             isActive={index === activeIndex}
+            id={panelId(index)}
             data-testid={`tab-panel-${index}`}
-            aria-labelledby={`tab-nav-${id}-${index}`}
+            aria-labelledby={navId(index)}
             keepAlive={Boolean(keepAlive)}
           >
             {tab.props.children}
@@ -249,34 +308,53 @@ function TabNav({
   label,
   onClick,
   id,
+  controls,
+  ref,
   ...rest
 }: {
   id: string
   isActive: boolean
   onClick: () => void
   label: string
+  controls?: string
+  ref: React.Ref<HTMLButtonElement>
 }): JSX.Element {
   return (
-    // biome-ignore lint/a11y/useFocusableInteractive: Using div as a tab element
-    // biome-ignore lint/a11y/useKeyWithClickEvents: Using click handler to switch tabs
-    <div
+    <button
+      ref={ref}
+      type="button"
+      role="tab"
       id={id}
+      aria-selected={isActive}
+      aria-controls={controls}
+      // only the active tab is a stop in the page's tab order; the arrow keys reach
+      // the others
+      tabIndex={isActive ? 0 : -1}
+      // room around the label for a rounded focus ring, cancelled out by the
+      // negative margin so the tabs keep their spacing
       className={cn(
-        "text-center pb-4 leading-6 cursor-pointer transition-all duration-300 -mb-[2px]",
+        "rounded px-1.5 -mx-1.5 text-center leading-6 cursor-pointer -mb-[2px]",
         // never break a two-word label ("In progress") onto a second line, and never
         // let the row squeeze it: the row scrolls instead
         "whitespace-nowrap shrink-0",
         {
-          "border-b-black border-b-2 text-black font-semibold": isActive,
-          "border-b-transparent border-b-2 text-gray-500": !isActive,
+          "text-black font-semibold": isActive,
+          "text-gray-500": !isActive,
         },
       )}
       onClick={onClick}
-      role="tab"
       {...rest}
     >
-      {label}
-    </div>
+      {/* the underline sits on the label, so the room beside it does not widen it */}
+      <span
+        className={cn(
+          "block pb-4 border-b-2 transition-all duration-300",
+          isActive ? "border-b-black" : "border-b-transparent",
+        )}
+      >
+        {label}
+      </span>
+    </button>
   )
 }
 
@@ -286,6 +364,7 @@ function TabPanel({
   keepAlive,
   ...rest
 }: {
+  id: string
   isActive: boolean
   children: ReactNode
   keepAlive: boolean
