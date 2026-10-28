@@ -49,6 +49,7 @@ const it: typeof en = {
     loading: "Caricamento...",
     manage_resource: "Gestisci {{resource}}",
     metadata: "Metadati",
+    more_actions: "Altre azioni",
     new: "Nuovo",
     no_address: "Nessun indirizzo",
     no_items: "Nessun elemento",

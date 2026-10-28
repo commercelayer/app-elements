@@ -278,6 +278,7 @@ const en = {
     loading: "Loading...",
     manage_resource: "Manage {{resource}}",
     metadata: "Metadata",
+    more_actions: "More actions",
     new: "New",
     no_address: "No address",
     no_items: "No items",
