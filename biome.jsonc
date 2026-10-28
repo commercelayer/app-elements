@@ -13,7 +13,10 @@
       "!**/*.css",
       "!node_modules",
       "!packages/app-elements/dist",
-      "!packages/docs/dist"
+      "!packages/docs/dist",
+      // pnpm writes these itself, with its own YAML style.
+      "!pnpm-lock.yaml",
+      "!pnpm-workspace.yaml"
     ],
     "maxSize": 1572864
   },
@@ -49,5 +52,18 @@
     "formatter": {
       "semicolons": "asNeeded"
     }
-  }
+  },
+  "overrides": [
+    {
+      // Tests define components inside `test()` so they can close over that test's local state.
+      "includes": ["**/*.test.ts", "**/*.test.tsx"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noComponentHookFactories": "off"
+          }
+        }
+      }
+    }
+  ]
 }

@@ -23,36 +23,36 @@ export const ToastContainer = (): React.JSX.Element => {
   )
 }
 
+interface ToastData {
+  content: string
+}
+
+const Msg = ({
+  closeToast,
+  data,
+}: ToastContentProps<ToastData>): React.JSX.Element => {
+  return (
+    <div className="border border-white/10 min-h-max p-0 text-white flex w-full">
+      <div className="grow py-3 px-4 text-sm leading-5 font-semibold">
+        {data.content}
+      </div>
+      <button
+        type="button"
+        className={classNames("border-l border-white/10 p-3 self-stretch")}
+        onClick={() => {
+          closeToast()
+        }}
+      >
+        <Icon size={16} name="x" className="grow cursor-pointer" />
+      </button>
+    </div>
+  )
+}
+
 export function toast<TData = unknown>(
   content: string,
   { type }: Options<TData> = { type: "default" },
 ): Id {
-  interface ToastData {
-    content: string
-  }
-
-  const Msg = ({
-    closeToast,
-    data,
-  }: ToastContentProps<ToastData>): React.JSX.Element => {
-    return (
-      <div className="border border-white/10 min-h-max p-0 text-white flex w-full">
-        <div className="grow py-3 px-4 text-sm leading-5 font-semibold">
-          {data.content}
-        </div>
-        <button
-          type="button"
-          className={classNames("border-l border-white/10 p-3 self-stretch")}
-          onClick={() => {
-            closeToast()
-          }}
-        >
-          <Icon size={16} name="x" className="grow cursor-pointer" />
-        </button>
-      </div>
-    )
-  }
-
   return originalToast<ToastData>(Msg, {
     className: classNames("border-0! p-0! min-h-max!", {
       "bg-black!": type === "default",
