@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 24.x
           registry-url: https://registry.npmjs.org
-          cache: 'pnpm'
+          cache: "pnpm"
 
       - name: Update npm 📦
         run: npm install -g npm@11.11.0
@@ -36,11 +36,11 @@ jobs:
         run: pnpm build:elements
 
       - name: Publish 🚀 PRERELEASE
-        if: 'github.event.release.prerelease'
+        if: "github.event.release.prerelease"
         run: pnpm -r publish --tag next --no-git-checks --access public
 
       - name: Publish 🚀 PRODUCTION
-        if: '!github.event.release.prerelease'
+        if: "!github.event.release.prerelease"
         run: pnpm -r publish --no-git-checks --access public
 
       - name: Trigger deploy to gh-pages 🚀

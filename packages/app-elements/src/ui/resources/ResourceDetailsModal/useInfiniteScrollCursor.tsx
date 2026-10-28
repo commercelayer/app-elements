@@ -120,6 +120,10 @@ export const useInfiniteScrollCursor = <
           void setSize(size + 1)
         }
       : undefined,
+    // A new component on every render is deliberate: `VisibilityTrigger` keeps the
+    // `callback` it was mounted with, so remounting is what keeps `size` and
+    // `isLoadingMore` current, and re-observing keeps loading while it stays in view.
+    // biome-ignore lint/correctness/noComponentHookFactories: the remount is load-bearing, see above.
     VisibilityTrigger: () => {
       return (
         <VisibilityTriggerComponent

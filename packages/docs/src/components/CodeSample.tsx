@@ -26,7 +26,7 @@ export function CodeSample({
   eval("")
 
   useEffect(
-    function UpdateRawCode() {
+    function updateRawCode() {
       if (rawCode === undefined) {
         setRawCode(fn.toString())
       }
