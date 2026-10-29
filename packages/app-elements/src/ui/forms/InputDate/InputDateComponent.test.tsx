@@ -6,6 +6,7 @@ import {
   screen,
 } from "@testing-library/react"
 import { Modal } from "#ui/composite/Modal"
+import { Overlay } from "#ui/internals/Overlay"
 import { InputDateComponent, type InputDateProps } from "./InputDateComponent"
 
 interface SetupProps extends InputDateProps {
@@ -214,6 +215,18 @@ describe("InputDateComponent", () => {
       expect(popper.style.position).toBe("fixed")
       // above the modal panel, which sits in the same dialog
       expect(popper).toHaveClass("react-datepicker-popper--in-dialog")
+    })
+
+    test("Should portal the calendar into a drawer", () => {
+      render(
+        <Overlay drawer onBackdropClick={() => {}}>
+          <InputDateComponent data-testid="date-picker" onChange={() => {}} />
+        </Overlay>,
+      )
+
+      const popper = openCalendar()
+      expect(screen.getByTestId("overlay")).not.toContainElement(popper)
+      expect(getDialog("overlay")).toContainElement(popper)
     })
 
     test("Should still pick a date from the portalled calendar", () => {
