@@ -129,6 +129,39 @@ describe("Dropdown", () => {
     expect(trigger).toHaveFocus()
   })
 
+  test("Should close on Escape and focus the trigger with the default `closeOnItemClick`", () => {
+    const { getByText, queryByText } = render(
+      <Dropdown dropdownLabel="open dropdown" dropdownItems={items} />,
+    )
+    const trigger = getByText("open dropdown").closest("button")
+    assertToBeDefined(trigger)
+    fireEvent.click(trigger)
+    // the item has focus: closing the menu unmounts it, and focus would fall
+    // to `body` if nothing gave it back to the trigger
+    getByText("Payments").closest("button")?.focus()
+    fireEvent.keyDown(getByText("Payments"), { key: "Escape" })
+    expect(queryByText("Payments")).toBeNull()
+    expect(trigger).toHaveFocus()
+  })
+
+  test("Should name an icon-only trigger, so it does not read as a bare button", () => {
+    const { getByRole } = render(
+      <Dropdown dropdownLabel={<svg />} dropdownItems={items} />,
+    )
+    expect(
+      getByRole("button", { name: "common.more_actions" }),
+    ).toHaveAttribute("aria-haspopup", "true")
+  })
+
+  test("Should leave a text trigger to name itself", () => {
+    const { getByRole } = render(
+      <Dropdown dropdownLabel="open dropdown" dropdownItems={items} />,
+    )
+    expect(getByRole("button", { name: "open dropdown" })).not.toHaveAttribute(
+      "aria-label",
+    )
+  })
+
   test("Should stay open on an Escape already handled inside the menu", () => {
     const { getByText } = render(
       <Dropdown

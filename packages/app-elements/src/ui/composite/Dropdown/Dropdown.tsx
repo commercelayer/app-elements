@@ -3,6 +3,7 @@ import cn from "classnames"
 import { Children, cloneElement, useMemo, useState } from "react"
 import { useClickAway } from "#hooks/useClickAway"
 import { useOnBlurFromContainer } from "#hooks/useOnBlurFromContainer"
+import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import type { DropdownMenuProps } from "#ui/composite/Dropdown/DropdownMenu"
@@ -64,17 +65,13 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
       }
     }
 
-    // A menu that stays open on click has lost its implicit way out, so it gets
-    // the keyboard one. Focus goes back to the trigger, where the user was.
+    // Escape closes the menu and sends focus back to the trigger, where the
+    // user was. Left to the document listener of `useClickAway`, the menu would
+    // close with focus on the item it unmounts, and focus would fall to `body`.
     const closeOnEscape = (e: React.KeyboardEvent<HTMLElement>): void => {
       // `defaultPrevented`: something inside the menu already used this Escape,
       // such as a drag it cancelled, and the menu stays open
-      if (
-        closeOnItemClick ||
-        !isExpanded ||
-        e.key !== "Escape" ||
-        e.defaultPrevented
-      ) {
+      if (!isExpanded || e.key !== "Escape" || e.defaultPrevented) {
         return
       }
       e.stopPropagation()
@@ -105,6 +102,12 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
           variant="link"
           aria-haspopup
           aria-expanded={isExpanded}
+          // an icon-only trigger has no name of its own; a string names itself
+          aria-label={
+            typeof dropdownLabel === "string"
+              ? undefined
+              : t("common.more_actions")
+          }
           className={cn("m-0 p-0 align-top", {
             "text-gray-500!": typeof dropdownLabel !== "string",
             "no-underline! hover:underline!": typeof dropdownLabel === "string",
