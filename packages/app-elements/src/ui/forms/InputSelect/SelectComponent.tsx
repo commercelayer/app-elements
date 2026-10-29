@@ -1,4 +1,4 @@
-import { forwardRef } from "react"
+import { forwardRef, type KeyboardEventHandler } from "react"
 import Select, {
   type GroupBase,
   type MenuPosition,
@@ -12,6 +12,7 @@ export interface SelectComponentProps
   extends Omit<InputSelectBaseProps, "label" | "hint"> {
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
+  onKeyDown?: KeyboardEventHandler<HTMLDivElement>
 }
 
 export const SelectComponent = forwardRef<

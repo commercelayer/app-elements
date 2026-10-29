@@ -197,6 +197,9 @@ const ModalRoot = (
           show ? "grid" : "hidden",
         )}
         onCancel={(event) => {
+          // React hands `cancel` up the component tree, not the DOM one: a dialog
+          // rendered inside this one would close it along with itself
+          if (event.target !== event.currentTarget) return
           event.preventDefault()
           if (dismissible) {
             onClose()

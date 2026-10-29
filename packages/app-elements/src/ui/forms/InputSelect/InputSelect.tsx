@@ -1,4 +1,8 @@
-import { type FocusEventHandler, forwardRef } from "react"
+import {
+  type FocusEventHandler,
+  forwardRef,
+  type KeyboardEventHandler,
+} from "react"
 import type {
   GroupBase,
   MenuPlacement,
@@ -288,6 +292,25 @@ export const InputSelect = forwardRef<
         ? dialog
         : menuPortalTarget
 
+    // react-select calls `preventDefault()` on every Escape, also with the menu
+    // closed and nothing to do, and for a modal `<dialog>` that cancels the close
+    // request: Escape in a select would never close the modal or drawer around
+    // it. With the menu closed the request is handed to the dialog as the browser
+    // would hand it, so its own `cancel` handler decides whether to close.
+    const handleKeyDown: KeyboardEventHandler<HTMLDivElement> = (event) => {
+      if (event.key !== "Escape" || dialog == null) return
+      if (
+        event.target instanceof HTMLElement &&
+        event.target.getAttribute("aria-expanded") === "true"
+      ) {
+        // the menu is open: Escape closes it, and only it
+        return
+      }
+      // react-select skips a key whose default is already prevented
+      event.preventDefault()
+      dialog.dispatchEvent(new Event("cancel", { cancelable: true }))
+    }
+
     const commonProps:
       | GenericAsyncSelectComponentProps
       | CreatableComponentProps
@@ -312,6 +335,7 @@ export const InputSelect = forwardRef<
       // pushes the menu off screen as soon as the page behind is scrolled.
       // Viewport coordinates hold wherever the menu is portalled.
       menuPosition: portalTarget != null ? "fixed" : undefined,
+      onKeyDown: handleKeyDown,
     }
 
     return (

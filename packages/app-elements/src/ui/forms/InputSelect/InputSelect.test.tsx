@@ -340,4 +340,63 @@ describe("InputSelect", () => {
       })
     })
   })
+
+  describe("Escape inside a dialog", () => {
+    const options = [{ value: "paris", label: "Paris" }]
+
+    const pressEscape = (): void => {
+      fireEvent.keyDown(screen.getByRole("combobox"), { key: "Escape" })
+    }
+
+    test("should close a dismissible Modal when the menu is closed", () => {
+      const onClose = vi.fn()
+      render(
+        <Modal show dismissible onClose={onClose}>
+          <Modal.Body>
+            <InputSelect onSelect={() => {}} initialValues={options} />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      pressEscape()
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    test("should close only the menu when it is open, and the Modal on the next Escape", () => {
+      const onClose = vi.fn()
+      render(
+        <Modal show dismissible onClose={onClose}>
+          <Modal.Body>
+            <InputSelect onSelect={() => {}} initialValues={options} />
+          </Modal.Body>
+        </Modal>,
+      )
+      const combobox = screen.getByRole("combobox")
+      fireEvent.keyDown(combobox, { key: "ArrowDown" })
+      expect(combobox).toHaveAttribute("aria-expanded", "true")
+
+      pressEscape()
+      expect(combobox).toHaveAttribute("aria-expanded", "false")
+      expect(onClose).not.toHaveBeenCalled()
+
+      pressEscape()
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    test("should leave a non-dismissible Modal open", () => {
+      const onClose = vi.fn()
+      render(
+        <Modal show onClose={onClose}>
+          <Modal.Body>
+            <InputSelect onSelect={() => {}} initialValues={options} />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      pressEscape()
+
+      expect(onClose).not.toHaveBeenCalled()
+    })
+  })
 })
