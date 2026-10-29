@@ -1,4 +1,6 @@
-import { fireEvent, render, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { useState } from "react"
+import { Modal } from "#ui/composite/Modal"
 import { InputSelect } from "./InputSelect"
 
 describe("InputSelect", () => {
@@ -241,6 +243,101 @@ describe("InputSelect", () => {
         expect(loadAsyncValues).toHaveBeenCalledTimes(2)
       })
       expect(queryAllByText("Paris")).toHaveLength(1)
+    })
+  })
+
+  describe("inside a dialog", () => {
+    const options = [{ value: "paris", label: "Paris" }]
+
+    const findOption = async (): Promise<HTMLElement> =>
+      await waitFor(() => {
+        const found = [...document.querySelectorAll<HTMLElement>("*")].find(
+          (element) =>
+            element.children.length === 0 && element.textContent === "Paris",
+        )
+        if (found == null) throw new Error("menu not rendered yet")
+        return found
+      })
+
+    const getDialog = (testId: string): HTMLDialogElement => {
+      const dialog = screen.getByTestId(testId).closest("dialog")
+      if (dialog == null) throw new Error("not inside a dialog")
+      return dialog
+    }
+
+    test("should portal the menu into a Modal with no target passed", async () => {
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <InputSelect
+              onSelect={() => {}}
+              initialValues={options}
+              menuIsOpen
+            />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      const option = await findOption()
+      // out of the scrolling body, which would clip it
+      expect(screen.getByTestId("modal")).not.toContainElement(option)
+      expect(getDialog("modal")).toContainElement(option)
+    })
+
+    test("should portal into the dialog a menu targeted outside of it", async () => {
+      const outside = document.createElement("div")
+      document.body.appendChild(outside)
+
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <InputSelect
+              onSelect={() => {}}
+              initialValues={options}
+              menuIsOpen
+              menuPortalTarget={outside}
+            />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      const option = await findOption()
+      // behind the dialog and inert there
+      expect(outside).not.toContainElement(option)
+      expect(getDialog("modal")).toContainElement(option)
+
+      outside.remove()
+    })
+
+    test("should keep a target inside the dialog", async () => {
+      const Inner = (): React.JSX.Element => {
+        const [target, setTarget] = useState<HTMLDivElement | null>(null)
+        return (
+          <>
+            <div ref={setTarget} data-testid="target" />
+            <InputSelect
+              onSelect={() => {}}
+              initialValues={options}
+              menuIsOpen
+              menuPortalTarget={target}
+            />
+          </>
+        )
+      }
+
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <Inner />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      await waitFor(async () => {
+        expect(screen.getByTestId("target")).toContainElement(
+          await findOption(),
+        )
+      })
     })
   })
 })

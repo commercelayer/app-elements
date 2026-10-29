@@ -8,6 +8,7 @@ import type {
   SingleValue,
 } from "react-select"
 import { t } from "#providers/I18NProvider"
+import { useDialogPortalTarget } from "#ui/internals/dialogPortal"
 import {
   InputWrapper,
   type InputWrapperBaseProps,
@@ -156,6 +157,10 @@ export interface InputSelectBaseProps extends InputWrapperBaseProps {
   hideDropdownIndicator?: boolean
   /**
    * Whether the menu should use a portal, and where it should attach to.
+   *
+   * Not needed inside a `Modal` or an overlay: there the menu is portalled into
+   * their `<dialog>` on its own, whatever is passed here, unless the target is
+   * itself inside that dialog.
    */
   menuPortalTarget?: HTMLElement | null
   /**
@@ -273,6 +278,16 @@ export const InputSelect = forwardRef<
     },
     ref,
   ) => {
+    // Inside a `Modal` or an overlay the menu always goes into its `<dialog>`:
+    // left in place it is clipped by the scrolling body, and portalled anywhere
+    // outside the dialog it opens behind it. A target inside the dialog is kept.
+    const dialog = useDialogPortalTarget()
+    const portalTarget =
+      dialog != null &&
+      (menuPortalTarget == null || !dialog.contains(menuPortalTarget))
+        ? dialog
+        : menuPortalTarget
+
     const commonProps:
       | GenericAsyncSelectComponentProps
       | CreatableComponentProps
@@ -296,7 +311,7 @@ export const InputSelect = forwardRef<
       // scroll included: inside a `fixed` container — an open `<dialog>` — that
       // pushes the menu off screen as soon as the page behind is scrolled.
       // Viewport coordinates hold wherever the menu is portalled.
-      menuPosition: menuPortalTarget != null ? "fixed" : undefined,
+      menuPosition: portalTarget != null ? "fixed" : undefined,
     }
 
     return (
@@ -315,7 +330,7 @@ export const InputSelect = forwardRef<
             inputId={name}
             loadAsyncValues={loadAsyncValues as LoadAsyncValuesPaginated}
             hideDropdownIndicator={hideDropdownIndicator}
-            menuPortalTarget={menuPortalTarget}
+            menuPortalTarget={portalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
             isSearchable={isSearchable}
@@ -328,7 +343,7 @@ export const InputSelect = forwardRef<
             loadAsyncValues={loadAsyncValues as LoadAsyncValues}
             asTextSearch={asTextSearch}
             hideDropdownIndicator={hideDropdownIndicator}
-            menuPortalTarget={menuPortalTarget}
+            menuPortalTarget={portalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
           />
@@ -340,7 +355,7 @@ export const InputSelect = forwardRef<
             loadAsyncValues={loadAsyncValues as LoadAsyncValues}
             asTextSearch={asTextSearch}
             hideDropdownIndicator={hideDropdownIndicator}
-            menuPortalTarget={menuPortalTarget}
+            menuPortalTarget={portalTarget}
             debounceMs={debounceMs}
             noOptionsMessage={noOptionsMessage}
           />
@@ -350,7 +365,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             isSearchable={isSearchable}
-            menuPortalTarget={menuPortalTarget}
+            menuPortalTarget={portalTarget}
           />
         ) : (
           <SelectComponent
@@ -358,7 +373,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             isSearchable={isSearchable}
-            menuPortalTarget={menuPortalTarget}
+            menuPortalTarget={portalTarget}
           />
         )}
       </InputWrapper>

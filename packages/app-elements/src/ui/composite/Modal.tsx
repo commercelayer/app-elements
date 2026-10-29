@@ -8,10 +8,12 @@ import {
   useEffect,
   useId,
   useRef,
+  useState,
 } from "react"
 import { createPortal } from "react-dom"
 import { Icon } from "#ui/atoms/Icon"
 import { lockBodyScroll, unlockBodyScroll } from "#ui/internals/bodyScrollLock"
+import { DialogPortalContext } from "#ui/internals/dialogPortal"
 import { OverlayContext } from "#ui/internals/overlayContext"
 import { enterTopLayer, leaveTopLayer } from "#ui/internals/topLayerHost"
 
@@ -63,8 +65,9 @@ export type ModalProps = {
    * The dialog is opened with `showModal()`, so it lives in the browser's top
    * layer: anything portalled to `document.body` is painted *under* it, however
    * high its `z-index`. A floating panel that has to escape the body's scroll
-   * area — a select menu, a datepicker — therefore has to be portalled into this
-   * element, which is full screen and does not clip its children.
+   * area — a datepicker — therefore has to be portalled into this element, which
+   * is full screen and does not clip its children. `InputSelect` does that on its
+   * own and needs no ref.
    */
   dialogRef?: React.Ref<HTMLDialogElement>
 }
@@ -93,10 +96,15 @@ const ModalRoot = (
   const modalId = useId()
   const dialogRef = useRef<HTMLDialogElement | null>(null)
   const panelRef = useRef<HTMLDivElement | null>(null)
+  // also kept in state, to hand it down to what is portalled into it
+  const [dialogElement, setDialogElement] = useState<HTMLDialogElement | null>(
+    null,
+  )
 
   const setDialogRef = useCallback(
     (node: HTMLDialogElement | null) => {
       dialogRef.current = node
+      setDialogElement(node)
       if (typeof forwardedDialogRef === "function") {
         forwardedDialogRef(node)
       } else if (forwardedDialogRef != null) {
@@ -160,13 +168,15 @@ const ModalRoot = (
     <ModalContext.Provider value={{ onClose, modalId, dismissible }}>
       {/* lets what sits in the modal (`Card`, `Alert`) adapt without a prop */}
       <OverlayContext.Provider value={{ surface: "modal" }}>
-        {onSubmit != null ? (
-          <form className={contentClassName} onSubmit={onSubmit}>
-            {children}
-          </form>
-        ) : (
-          <div className={contentClassName}>{children}</div>
-        )}
+        <DialogPortalContext.Provider value={dialogElement}>
+          {onSubmit != null ? (
+            <form className={contentClassName} onSubmit={onSubmit}>
+              {children}
+            </form>
+          ) : (
+            <div className={contentClassName}>{children}</div>
+          )}
+        </DialogPortalContext.Provider>
       </OverlayContext.Provider>
     </ModalContext.Provider>
   )
