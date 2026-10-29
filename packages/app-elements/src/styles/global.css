@@ -189,6 +189,15 @@
   }
 }
 
+/*
+  For a control that is only text or an icon, where a rounded focus ring would
+  sit right on the glyphs: some room on either side, taken back by a negative
+  margin so the control does not move.
+*/
+@utility focus-ring-inline {
+  @apply rounded px-1.5 -mx-1.5;
+}
+
 @utility container {
   @media (width >= --theme(--breakpoint-md)) {
     max-width: none;
@@ -292,6 +301,17 @@
   a,
   button {
     @apply focus-visible:outline-solid focus-visible:outline-2 outline-offset-2 outline-primary;
+  }
+
+  /*
+    The focus ring is an outline, and an outline follows the element's
+    `border-radius`: without one, the ring is square. Every control gets the
+    theme radius while it holds keyboard focus, so the ring is rounded by
+    default. `:where()` keeps this at zero specificity and the layer keeps it
+    under the utilities, so a component's own `rounded-*` always wins.
+  */
+  :where(a, button, [role="button"], [role="tab"]):focus-visible {
+    border-radius: var(--radius);
   }
   
   progress.progress {

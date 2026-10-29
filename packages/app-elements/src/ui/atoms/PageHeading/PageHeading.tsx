@@ -112,7 +112,7 @@ const PageHeading = withSkeletonTemplate<PageHeadingProps>(
             ) : (
               <button
                 type="button"
-                className="flex items-center gap-1"
+                className="flex items-center gap-1 focus-ring-inline"
                 onClick={() => {
                   navigationButton.onClick()
                 }}

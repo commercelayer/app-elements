@@ -333,7 +333,7 @@ function TabNav({
       // room around the label for a rounded focus ring, cancelled out by the
       // negative margin so the tabs keep their spacing
       className={cn(
-        "rounded px-1.5 -mx-1.5 text-center leading-6 cursor-pointer -mb-[2px]",
+        "focus-ring-inline text-center leading-6 cursor-pointer -mb-[2px]",
         // never break a two-word label ("In progress") onto a second line, and never
         // let the row squeeze it: the row scrolls instead
         "whitespace-nowrap shrink-0",
