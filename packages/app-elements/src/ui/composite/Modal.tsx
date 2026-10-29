@@ -13,6 +13,7 @@ import { createPortal } from "react-dom"
 import { Icon } from "#ui/atoms/Icon"
 import { lockBodyScroll, unlockBodyScroll } from "#ui/internals/bodyScrollLock"
 import { OverlayContext } from "#ui/internals/overlayContext"
+import { enterTopLayer, leaveTopLayer } from "#ui/internals/topLayerHost"
 
 // Create a context for modal functions
 const ModalContext = createContext<{
@@ -119,7 +120,10 @@ const ModalRoot = (
           dialog.open = true
         }
         moveInitialFocus(dialog, panelRef.current)
-        return
+        enterTopLayer(dialog)
+        return () => {
+          leaveTopLayer(dialog)
+        }
       }
 
       if (!show && dialog.open) {
