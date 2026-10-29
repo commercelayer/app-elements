@@ -1,10 +1,11 @@
 import { type RenderResult, render } from "@testing-library/react"
-import { EmptyState } from "./EmptyState"
+import { EmptyState, type EmptyStateProps } from "./EmptyState"
 
 interface SetupProps {
   id: string
   title: string
   description?: string
+  icon?: EmptyStateProps["icon"]
 }
 
 type SetupResult = RenderResult & {
@@ -39,5 +40,20 @@ describe("EmptyState", () => {
     expect(element).toBeInTheDocument()
     expect(getByText("Your list is empty")).toBeInTheDocument()
     expect(getByText("Lorem impsum")).toBeInTheDocument()
+  })
+
+  test("Should render the icon above the title", () => {
+    const { element, getByText } = setup({
+      id: "my-element",
+      title: "No custom apps yet",
+      description: "Build tailored views",
+      icon: "cardsThree",
+    })
+    expect(element).toBeInTheDocument()
+    expect(getByText("No custom apps yet")).toBeInTheDocument()
+    expect(getByText("Build tailored views")).toBeInTheDocument()
+    expect(element.querySelector("svg + h4")).toHaveTextContent(
+      "No custom apps yet",
+    )
   })
 })

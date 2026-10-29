@@ -1,13 +1,16 @@
 import cn from "classnames"
 import type { JSX, ReactNode } from "react"
-import { StatusIcon, type StatusIconProps } from "./StatusIcon"
+import { Icon, type IconProps } from "./Icon"
 
 export interface EmptyStateProps {
   title: string
   description?: ReactNode
   action?: ReactNode
   className?: string
-  icon?: StatusIconProps["name"]
+  /**
+   * Small icon shown above the title.
+   */
+  icon?: IconProps["name"]
 }
 
 function EmptyState({
@@ -26,23 +29,24 @@ function EmptyState({
       )}
       {...rest}
     >
-      <div className="flex p-6 md:p-14! relative">
-        <div className="flex-1 z-10">
-          <h4 className="text-black font-medium text-2xl mb-4">{title}</h4>
+      <div className="flex flex-col items-center text-center px-6 py-14 md:py-24">
+        {icon != null && (
+          <Icon name={icon} size={32} className="text-gray-300 mb-4" />
+        )}
+        <h4 className="text-black text-sm font-semibold">{title}</h4>
 
-          {description != null ? (
-            <div className="text-gray-500 text-lg">{description}</div>
-          ) : null}
+        {description != null ? (
+          <div className="text-gray-500 text-[13px] text-balance mt-1 max-w-md">
+            {description}
+          </div>
+        ) : null}
 
-          {action != null ? <div className="mt-14">{action}</div> : null}
-        </div>
-        <div className="absolute -bottom-2.5 -right-2">
-          {icon != null && (
-            <div className="text-10xl text-gray-100 mt-auto">
-              <StatusIcon name={icon} />
-            </div>
-          )}
-        </div>
+        {/* actions always render as `size="mini"`, whatever their `size` */}
+        {action != null ? (
+          <div className="mt-4 [&_:is(a,button)]:text-[13px] [&_:is(a,button)]:h-[30px] [&_:is(a,button)]:min-w-[30px] [&_:is(a,button)]:px-2.5">
+            {action}
+          </div>
+        ) : null}
       </div>
     </div>
   )
