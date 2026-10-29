@@ -230,6 +230,17 @@ describe("useResourceTable", () => {
       },
     )
 
+    it("lays the link out as a block, so it adds no empty lines around the cell content", async () => {
+      mockOrdersList()
+      const { container, findByText } = renderWithLinks(vi.fn())
+      await findByText("#1001")
+
+      // an inline link wrapping block content, once padded, turns the empty
+      // lines around it into real ones: the row grows and the focus ring is
+      // painted on them instead of around the content
+      expect(getRows(container)[0]?.querySelector("a")).toHaveClass("block")
+    })
+
     describe("without `getRowHref`", () => {
       const renderClickableRows = async (onRowClick = vi.fn()) => {
         mockOrdersList()
@@ -261,6 +272,8 @@ describe("useResourceTable", () => {
         const button = firstRow.querySelector("td:first-child > button")
         expect(button).toHaveAttribute("type", "button")
         expect(button).toHaveTextContent("#1001")
+        // a block, as the link is, so it spans the cell and its focus ring too
+        expect(button).toHaveClass("block")
       })
 
       it("opens the row once from the button, which the keyboard can reach", async () => {
