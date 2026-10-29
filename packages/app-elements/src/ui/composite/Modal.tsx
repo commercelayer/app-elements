@@ -268,7 +268,7 @@ Modal.Header = ({ children }) => {
         type="button"
         aria-label="Close"
         data-modal-close
-        className="p-2 -m-2 rounded"
+        className="p-2 -m-2"
         onClick={onClose}
       >
         <Icon name="x" size={16} />

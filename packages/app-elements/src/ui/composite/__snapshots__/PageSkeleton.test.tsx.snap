@@ -24,7 +24,7 @@ exports[`PageSkeleton > Should be rendered 1`] = `
                 class="mb-4 flex items-center justify-between print:hidden"
               >
                 <button
-                  class="flex items-center gap-1"
+                  class="flex items-center gap-1 focus-ring-inline"
                   type="button"
                 >
                   <svg

@@ -887,7 +887,7 @@ export function useResourceTable<
                                   onRowClick(resource, event)
                                 }
                               }}
-                              className="text-inherit no-underline rounded px-1.5 -mx-1.5 after:absolute after:inset-0"
+                              className="text-inherit no-underline focus-ring-inline after:absolute after:inset-0"
                             >
                               {content}
                             </a>
@@ -902,7 +902,7 @@ export function useResourceTable<
                               onClick={(event) => {
                                 onRowClick?.(resource, event)
                               }}
-                              className="text-inherit text-left rounded px-1.5 -mx-1.5 after:absolute after:inset-0"
+                              className="text-inherit text-left focus-ring-inline after:absolute after:inset-0"
                             >
                               {content}
                             </button>
