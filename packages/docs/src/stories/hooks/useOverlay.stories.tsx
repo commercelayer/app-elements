@@ -6,9 +6,23 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
 import { useOverlay } from "#hooks/useOverlay"
 import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
+import { PageHeading } from "#ui/atoms/PageHeading"
+import { Spacer } from "#ui/atoms/Spacer"
+import { Modal } from "#ui/composite/Modal"
+import { Input } from "#ui/forms/Input"
+import { InputDate } from "#ui/forms/InputDate"
+import { InputSelect } from "#ui/forms/InputSelect"
+
+const selectOptions = [
+  { label: "Option 1", value: "option1" },
+  { label: "Option 2", value: "option2" },
+  { label: "Option 3", value: "option3" },
+  { label: "Option 4", value: "option4" },
+]
 
 /**
  * Simple hook that return an `Overlay` component along with `open` and `close` methods to control its visibility.
@@ -307,13 +321,14 @@ export const OverlayAsDrawer: StoryFn = () => {
       <Overlay
         drawer
         onBackdropClick={close}
+        contentClassName="p-6"
         footer={
           <Button onClick={close} fullWidth>
             close
           </Button>
         }
       >
-        <div style={{ padding: "16px" }}>
+        <div>
           <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
             fringilla, leo vel blandit consequat, arcu tellus tristique ipsum,
@@ -374,6 +389,193 @@ export const OverlayFullWitdh: StoryFn = () => {
             </div>
           ))}
         </div>
+      </Overlay>
+    </div>
+  )
+}
+
+/**
+ * The overlay opens as a modal `<dialog>`, named after the `PageHeading` it renders.
+ *
+ * - focus lands on the drawer panel, not on the close button, so a second Enter
+ *   does not close the drawer it just opened
+ * - Tab moves through the drawer only, never the page behind it
+ * - Escape closes the drawer
+ * - once closed, focus goes back to the button that opened it
+ **/
+export const DrawerKeyboardAndFocus: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open drawer</Button>
+      <Overlay
+        drawer
+        onBackdropClick={close}
+        contentClassName="p-6"
+        footer={
+          <Button onClick={close} fullWidth>
+            Save
+          </Button>
+        }
+      >
+        <PageHeading
+          title="Edit customer"
+          navigationButton={{ label: "Close", icon: "x", onClick: close }}
+        />
+        <Spacer bottom="4">
+          <Input label="Email" name="email" />
+        </Spacer>
+        <Input label="Reference" name="reference" />
+      </Overlay>
+    </div>
+  )
+}
+
+/**
+ * A full-page overlay closes only through its own back button: Escape does
+ * nothing. Tab still stays inside it, and focus goes back to the opener once closed.
+ **/
+export const FullPageKeyboardAndFocus: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open overlay</Button>
+      <Overlay
+        footer={
+          <Button onClick={close} fullWidth>
+            Save
+          </Button>
+        }
+      >
+        <PageHeading
+          title="Edit customer"
+          navigationButton={{
+            label: "Back",
+            icon: "arrowLeft",
+            onClick: close,
+          }}
+        />
+        <Input label="Email" name="email" />
+      </Overlay>
+    </div>
+  )
+}
+
+/**
+ * An `InputSelect` in a drawer opens its menu on top of it, out of the scrolling
+ * panel, with no `menuPortalTarget` to pass.
+ **/
+export const DrawerWithSelect: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+
+  return (
+    <div>
+      <Button onClick={open}>Open drawer</Button>
+      <Overlay
+        drawer
+        onBackdropClick={close}
+        contentClassName="p-6"
+        footer={
+          <Button onClick={close} fullWidth>
+            Save
+          </Button>
+        }
+      >
+        <PageHeading
+          title="Choose an option"
+          navigationButton={{ label: "Close", icon: "x", onClick: close }}
+        />
+        <InputSelect
+          label="Option"
+          initialValues={selectOptions}
+          onSelect={() => {}}
+          placeholder="Select an option"
+        />
+      </Overlay>
+    </div>
+  )
+}
+
+/**
+ * A date picker in a drawer opens its calendar on top of it, out of the scrolling
+ * panel, with no `fixedPopper` to pass.
+ **/
+export const DrawerWithDatePicker: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+  const [date, setDate] = useState<Date | null>(null)
+
+  return (
+    <div>
+      <Button onClick={open}>Open drawer</Button>
+      <Overlay
+        drawer
+        onBackdropClick={close}
+        contentClassName="p-6"
+        footer={
+          <Button onClick={close} fullWidth>
+            Save
+          </Button>
+        }
+      >
+        <PageHeading
+          title="Schedule"
+          navigationButton={{ label: "Close", icon: "x", onClick: close }}
+        />
+        <InputDate label="Starts at" value={date} onChange={setDate} />
+      </Overlay>
+    </div>
+  )
+}
+
+/**
+ * A modal opened from a drawer stacks on top of it.
+ *
+ * - Escape closes the modal only, and a second Escape the drawer, also with the
+ *   focus on the select while its menu is closed (with it open, Escape closes
+ *   the menu first)
+ * - focus goes back into the drawer when the modal closes
+ * - the select menu in the modal opens on top of the modal
+ **/
+export const DrawerWithModal: StoryFn = () => {
+  const { Overlay, open, close } = useOverlay()
+  const [showModal, setShowModal] = useState(false)
+
+  return (
+    <div>
+      <Button onClick={open}>Open drawer</Button>
+      <Overlay
+        drawer
+        onBackdropClick={close}
+        contentClassName="p-6"
+        footer={
+          <Button onClick={() => setShowModal(true)} fullWidth>
+            Open modal
+          </Button>
+        }
+      >
+        <PageHeading
+          title="Order details"
+          navigationButton={{ label: "Close", icon: "x", onClick: close }}
+        />
+        <Input label="Reference" name="reference" />
+        {/* inside the drawer, as an app renders it from the drawer content */}
+        <Modal dismissible show={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Header>Choose an option</Modal.Header>
+          <Modal.Body>
+            <InputSelect
+              initialValues={selectOptions}
+              onSelect={() => {}}
+              placeholder="Select an option"
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={() => setShowModal(false)} fullWidth>
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Overlay>
     </div>
   )
