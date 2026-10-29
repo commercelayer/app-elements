@@ -32,6 +32,7 @@ export const iconMapping = {
   calendarCheck: phosphor.CalendarCheckIcon,
   calendarDots: phosphor.CalendarDotsIcon,
   camera: phosphor.CameraIcon,
+  cardsThree: phosphor.CardsThreeIcon,
   caretDown: phosphor.CaretDownIcon,
   caretRight: phosphor.CaretRightIcon,
   caretUp: phosphor.CaretUpIcon,
