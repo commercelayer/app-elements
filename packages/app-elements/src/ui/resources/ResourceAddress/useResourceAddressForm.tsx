@@ -1,6 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import { type ReactNode, useEffect, useState } from "react"
 import { type UseFormReturn, useForm } from "react-hook-form"
+import type { z } from "zod"
 import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
@@ -63,11 +64,15 @@ export function useResourceAddressForm({
   menuPortalTarget,
   onCancel,
 }: UseResourceAddressFormProps): ResourceAddressFormHook {
+  const schema = getResourceAddressFormFieldsSchema({ requiresBillingInfo })
+  // The saved address can still hold `null` in fields the schema requires.
+  // It is loaded as it is, and validation is what reports those fields.
+  const defaultValues = (address ?? undefined) as
+    | z.input<typeof schema>
+    | undefined
   const methods = useForm({
-    defaultValues: address ?? undefined,
-    resolver: zodResolver(
-      getResourceAddressFormFieldsSchema({ requiresBillingInfo }),
-    ),
+    defaultValues,
+    resolver: zodResolver(schema),
   })
 
   const [apiError, setApiError] = useState<any>()
@@ -76,7 +81,7 @@ export function useResourceAddressForm({
 
   useEffect(() => {
     if (isOpen) {
-      methods.reset(address ?? undefined)
+      methods.reset(defaultValues)
       setApiError(undefined)
     }
   }, [isOpen])

@@ -125,7 +125,7 @@ export const timeRangeValidationSchema = z
       data.timeFrom > data.timeTo
     ) {
       ctx.addIssue({
-        code: "invalid_date",
+        code: "custom",
         path: ["timeTo"],
         message: 'The "To" date must be greater than the "From" date',
       })

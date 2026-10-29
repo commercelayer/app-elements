@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { JSX } from "react"
-import { useForm } from "react-hook-form"
+import { type Resolver, useForm } from "react-hook-form"
 import { t } from "#providers/I18NProvider"
 import { Button } from "#ui/atoms/Button"
 import { Spacer } from "#ui/atoms/Spacer"
@@ -12,7 +12,7 @@ import { FieldOptions } from "./FieldOptions"
 import { FieldTextSearch } from "./FieldTextSearch"
 import { FieldTimeRange } from "./FieldTimeRange"
 import { timeRangeValidationSchema } from "./timeUtils"
-import type { FiltersInstructions } from "./types"
+import type { FiltersInstructions, FormFullValues } from "./types"
 import { isBarFilter } from "./utils"
 
 export interface FiltersFormProps {
@@ -54,10 +54,12 @@ function FiltersForm({
     (item) => item.type === "timeRange",
   )
 
-  const methods = useForm({
+  const methods = useForm<FormFullValues>({
     defaultValues: adaptUrlQueryToFormValues({ queryString: location.search }),
+    // The schema checks only the time range fields and passes every other field
+    // through untouched, so the values it hands back keep the `FormFullValues` shape.
     resolver: hasTimeRangeFilter
-      ? zodResolver(timeRangeValidationSchema)
+      ? (zodResolver(timeRangeValidationSchema) as Resolver<FormFullValues>)
       : undefined,
   })
 
