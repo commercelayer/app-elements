@@ -97,11 +97,14 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
     },
     ref,
   ): JSX.Element => {
-    const selectedDateInTimezone = useMemo(() => {
-      if (value == null) return null
-      const tzDate = new TZDate(value, timezone)
-      return isDateValid(tzDate) ? tzDate : value
-    }, [value, timezone])
+    const selectedDateInTimezone = useMemo(
+      () => (value == null ? null : toPickerDate(value, timezone)),
+      [value, timezone],
+    )
+    const minDateInTimezone = useMemo(
+      () => (minDate == null ? undefined : toPickerDate(minDate, timezone)),
+      [minDate, timezone],
+    )
 
     const dateFormat = format ?? detectDateTimeFormat(showTimeSelect)
     return (
@@ -123,14 +126,16 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
                 : undefined
             }
             selected={selectedDateInTimezone}
-            onChange={onChange}
+            onChange={(date) => {
+              onChange(date == null ? null : fromPickerDate(date, timezone))
+            }}
             dateFormat={dateFormat}
             showTimeSelect={showTimeSelect}
             placeholderText={
               autoPlaceholder === true ? dateFormat.toLowerCase() : placeholder
             }
-            minDate={minDate}
-            openToDate={selectedDateInTimezone ?? minDate}
+            minDate={minDateInTimezone}
+            openToDate={selectedDateInTimezone ?? minDateInTimezone}
             className={cn(
               "block w-full px-4 py-2.5 placeholder:text-gray-400 font-normal text-sm",
               "rounded outline-0",
@@ -162,6 +167,46 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
 )
 
 InputDateComponent.displayName = "InputDateComponent"
+
+/**
+ * The calendar reads and builds dates in the browser's timezone. It gets a date
+ * showing, in the browser's timezone, the same wall-clock time `date` shows in
+ * `timezone`: the day and time it highlights are then the ones the user sees.
+ */
+function toPickerDate(date: Date, timezone?: string): Date {
+  if (timezone == null) return date
+  const zonedDate = new TZDate(date, timezone)
+  if (!isDateValid(zonedDate)) return date
+  return new Date(
+    zonedDate.getFullYear(),
+    zonedDate.getMonth(),
+    zonedDate.getDate(),
+    zonedDate.getHours(),
+    zonedDate.getMinutes(),
+    zonedDate.getSeconds(),
+    zonedDate.getMilliseconds(),
+  )
+}
+
+/**
+ * The reverse of `toPickerDate`: the wall-clock time picked in the calendar is
+ * read in `timezone`, so the user gets the day and time they clicked whatever
+ * the browser's timezone.
+ */
+function fromPickerDate(date: Date, timezone?: string): Date {
+  if (timezone == null) return date
+  const zonedDate = new TZDate(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    date.getHours(),
+    date.getMinutes(),
+    date.getSeconds(),
+    date.getMilliseconds(),
+    timezone,
+  )
+  return isDateValid(zonedDate) ? new Date(zonedDate.getTime()) : date
+}
 
 function detectDateTimeFormat(showTime: boolean): string {
   const date = new Date(2023, 11, 15) //  15th of December
