@@ -1,4 +1,8 @@
-import { makeSdkFilterTime, timeRangeValidationSchema } from "./timeUtils"
+import {
+  makeSdkFilterTime,
+  timeRangeValidationSchema,
+  toEndOfDayWhenMidnight,
+} from "./timeUtils"
 
 describe("timeRangeValidationSchema", () => {
   function issuesOf(value: unknown) {
@@ -105,5 +109,45 @@ describe("makeSdkFilterTime", () => {
         timeTo: "abcdef",
       }),
     ).toStrictEqual({})
+  })
+})
+
+describe("toEndOfDayWhenMidnight", () => {
+  test("should move midnight to the end of the same day in the given timezone", () => {
+    expect(
+      toEndOfDayWhenMidnight(
+        new Date("2026-10-01T00:00:00.000Z"),
+        "UTC",
+      ).toISOString(),
+    ).toBe("2026-10-01T23:59:59.999Z")
+    expect(
+      toEndOfDayWhenMidnight(
+        new Date("2026-09-30T22:00:00.000Z"),
+        "Europe/Rome",
+      ).toISOString(),
+    ).toBe("2026-10-01T21:59:59.999Z")
+  })
+
+  test("should keep a date that is not at midnight in the given timezone", () => {
+    expect(
+      toEndOfDayWhenMidnight(
+        new Date("2026-10-01T09:30:00.000Z"),
+        "UTC",
+      ).toISOString(),
+    ).toBe("2026-10-01T09:30:00.000Z")
+    // midnight in UTC, but 2 AM in Rome
+    expect(
+      toEndOfDayWhenMidnight(
+        new Date("2026-10-01T00:00:00.000Z"),
+        "Europe/Rome",
+      ).toISOString(),
+    ).toBe("2026-10-01T00:00:00.000Z")
+  })
+
+  test("should read the date in the browser timezone when the timezone is empty", () => {
+    const midnight = new Date(2026, 9, 1)
+    expect(toEndOfDayWhenMidnight(midnight, "").getTime()).toBe(
+      new Date(2026, 9, 1, 23, 59, 59, 999).getTime(),
+    )
   })
 })
