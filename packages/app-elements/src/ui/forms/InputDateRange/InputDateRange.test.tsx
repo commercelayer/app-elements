@@ -102,4 +102,26 @@ describe("InputDateRange", () => {
       expect(inputTo.value).toBe(inputFrom.value)
     })
   })
+
+  test("Should set the end of the day in the timezone", async () => {
+    const { element } = setup({
+      id: "date-picker-timezone",
+      format: "dd-MM-yyyy HH:mm",
+      // tests run in UTC
+      timezone: "Europe/Rome",
+      value: [null, null],
+    })
+
+    await waitFor(() => {
+      expect(element.getElementsByTagName("input")[1]).toBeInTheDocument()
+    })
+
+    const [, inputTo] = element.getElementsByTagName("input")
+    assertToBeDefined(inputTo)
+
+    fireEvent.change(inputTo, { target: { value: "10-01-2023 00:00" } })
+    await waitFor(() => {
+      expect(inputTo.value).toBe("10-01-2023 23:59")
+    })
+  })
 })

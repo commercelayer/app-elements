@@ -1,7 +1,9 @@
+import { TZDateMini as TZDate } from "@date-fns/tz"
 import { ArrowRightIcon } from "@phosphor-icons/react"
 import classNames from "classnames"
 import { endOfDay } from "date-fns/endOfDay"
 import { forwardRef, type JSX, useEffect } from "react"
+import { isDateValid } from "#helpers/date"
 import {
   InputWrapper,
   type InputWrapperBaseProps,
@@ -84,7 +86,7 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
         if (fromDate > toDate) {
           onChange([
             fromDate,
-            showTimeSelect === true ? fromDate : toEndOfDay(fromDate),
+            showTimeSelect === true ? fromDate : toEndOfDay(fromDate, timezone),
           ])
         }
       },
@@ -129,7 +131,9 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
             onChange={(newDate) => {
               onChange([
                 fromDate,
-                showTimeSelect === true ? newDate : toEndOfDay(newDate),
+                showTimeSelect === true
+                  ? newDate
+                  : toEndOfDay(newDate, timezone),
               ])
             }}
             placeholder={toPlaceholder}
@@ -153,12 +157,16 @@ export const InputDateRange = forwardRef<HTMLDivElement, InputDateRangeProps>(
   },
 )
 
-// quick helper to set the time to the end of the day compatible with nullable date
-function toEndOfDay(date: Date | null): Date | null {
+// quick helper to set the time to the end of the day compatible with nullable date,
+// where the day is the one the date falls on in `timezone`, as `InputDate` shows it
+function toEndOfDay(date: Date | null, timezone?: string): Date | null {
   if (date == null) {
     return null
   }
-  return endOfDay(date)
+  const zonedDate = timezone == null ? date : new TZDate(date, timezone)
+  return isDateValid(zonedDate)
+    ? new Date(endOfDay(zonedDate).getTime())
+    : endOfDay(date)
 }
 
 InputDateRange.displayName = "InputDateRange"
