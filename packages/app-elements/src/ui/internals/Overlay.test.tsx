@@ -136,3 +136,103 @@ describe("Overlay body scroll lock", () => {
     expect(document.activeElement).not.toBe(input)
   })
 })
+
+describe("Overlay as a modal dialog", () => {
+  const getDialog = (): HTMLDialogElement => {
+    const dialog = document.querySelector<HTMLDialogElement>(
+      '[data-testid="overlay"]',
+    )?.parentElement
+    if (!(dialog instanceof HTMLDialogElement)) {
+      throw new Error("the overlay is not inside a dialog")
+    }
+    return dialog
+  }
+
+  test("Should render inside an open dialog, named after its heading", () => {
+    render(
+      <Overlay drawer onBackdropClick={() => {}}>
+        <h1>Order #1234</h1>
+      </Overlay>,
+    )
+
+    const dialog = getDialog()
+    expect(dialog.open).toBe(true)
+    const titleId = dialog.getAttribute("aria-labelledby")
+    expect(document.getElementById(titleId ?? "")).toHaveTextContent(
+      "Order #1234",
+    )
+  })
+
+  test("Should focus the drawer panel on open, not its first control", () => {
+    const { getByTestId } = render(
+      <Overlay drawer onBackdropClick={() => {}}>
+        <button type="button">Close</button>
+      </Overlay>,
+    )
+
+    expect(getByTestId("overlay")).toHaveFocus()
+  })
+
+  test("Should close a drawer on Escape", () => {
+    const onBackdropClick = vi.fn()
+    render(
+      <Overlay drawer onBackdropClick={onBackdropClick}>
+        content
+      </Overlay>,
+    )
+
+    const cancel = new Event("cancel", { cancelable: true })
+    getDialog().dispatchEvent(cancel)
+
+    expect(onBackdropClick).toHaveBeenCalledTimes(1)
+    // the overlay closes when the app unmounts it, not on its own
+    expect(cancel.defaultPrevented).toBe(true)
+  })
+
+  test("Should stay open on Escape in a Modal rendered inside it", () => {
+    const onBackdropClick = vi.fn()
+    const onClose = vi.fn()
+    render(
+      <Overlay drawer onBackdropClick={onBackdropClick}>
+        <Modal show dismissible onClose={onClose}>
+          <Modal.Body>content</Modal.Body>
+        </Modal>
+      </Overlay>,
+    )
+
+    const modalDialog = document
+      .querySelector('[data-testid="modal"]')
+      ?.closest("dialog")
+    modalDialog?.dispatchEvent(new Event("cancel", { cancelable: true }))
+
+    expect(onClose).toHaveBeenCalledTimes(1)
+    expect(onBackdropClick).not.toHaveBeenCalled()
+  })
+
+  test("Should ignore Escape on a full-page overlay, which closes through its own back button", () => {
+    render(<Overlay>content</Overlay>)
+
+    const cancel = new Event("cancel", { cancelable: true })
+    getDialog().dispatchEvent(cancel)
+
+    expect(cancel.defaultPrevented).toBe(true)
+    expect(getDialog().open).toBe(true)
+  })
+
+  test("Should give focus back to what opened it once closed", () => {
+    const opener = document.createElement("button")
+    document.body.appendChild(opener)
+    opener.focus()
+
+    const { unmount } = render(
+      <Overlay drawer onBackdropClick={() => {}}>
+        content
+      </Overlay>,
+    )
+    expect(opener).not.toHaveFocus()
+
+    unmount()
+    expect(opener).toHaveFocus()
+    opener.remove()
+  })
+})

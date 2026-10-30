@@ -3,7 +3,10 @@ import {
   fireEvent,
   type RenderResult,
   render,
+  screen,
 } from "@testing-library/react"
+import { Modal } from "#ui/composite/Modal"
+import { Overlay } from "#ui/internals/Overlay"
 import { InputDateComponent, type InputDateProps } from "./InputDateComponent"
 
 interface SetupProps extends InputDateProps {
@@ -165,6 +168,90 @@ describe("InputDateComponent", () => {
       pickDay(element, getByRole, "Choose Wednesday, January 5th, 2022")
 
       expect(onChange).toHaveBeenCalledWith("2022-01-05T00:00:00.000Z")
+    })
+  })
+
+  describe("inside a dialog", () => {
+    const openCalendar = (): HTMLElement => {
+      const [input] = screen
+        .getByTestId("date-picker")
+        .getElementsByTagName("input")
+      assertToBeDefined(input)
+      act(() => {
+        fireEvent.click(input)
+      })
+      const popper = document.querySelector<HTMLElement>(
+        ".react-datepicker-popper",
+      )
+      if (popper == null) throw new Error("calendar not open")
+      return popper
+    }
+
+    const getDialog = (testId: string): HTMLDialogElement => {
+      const dialog = screen.getByTestId(testId).closest("dialog")
+      if (dialog == null) throw new Error("not inside a dialog")
+      return dialog
+    }
+
+    test("Should render the calendar in place outside of a dialog", () => {
+      setup({ id: "date-picker", onChange: () => {} })
+
+      expect(screen.getByTestId("date-picker")).toContainElement(openCalendar())
+    })
+
+    test("Should portal the calendar into a Modal, positioned as fixed", () => {
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <InputDateComponent data-testid="date-picker" onChange={() => {}} />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      const popper = openCalendar()
+      // out of the scrolling body, which would clip it
+      expect(screen.getByTestId("modal")).not.toContainElement(popper)
+      expect(getDialog("modal")).toContainElement(popper)
+      expect(popper.style.position).toBe("fixed")
+      // above the modal panel, which sits in the same dialog
+      expect(popper).toHaveClass("react-datepicker-popper--in-dialog")
+    })
+
+    test("Should portal the calendar into a drawer", () => {
+      render(
+        <Overlay drawer onBackdropClick={() => {}}>
+          <InputDateComponent data-testid="date-picker" onChange={() => {}} />
+        </Overlay>,
+      )
+
+      const popper = openCalendar()
+      expect(screen.getByTestId("overlay")).not.toContainElement(popper)
+      expect(getDialog("overlay")).toContainElement(popper)
+    })
+
+    test("Should still pick a date from the portalled calendar", () => {
+      vi.setSystemTime(new Date(2022, 0, 1))
+      const onChange = vi.fn()
+
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <InputDateComponent data-testid="date-picker" onChange={onChange} />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      openCalendar()
+      act(() => {
+        fireEvent.click(
+          screen.getByRole("gridcell", {
+            name: "Choose Wednesday, January 5th, 2022",
+          }),
+        )
+      })
+
+      expect(onChange).toHaveBeenCalledTimes(1)
+      expect(document.querySelector(".react-datepicker-popper")).toBeNull()
     })
   })
 })

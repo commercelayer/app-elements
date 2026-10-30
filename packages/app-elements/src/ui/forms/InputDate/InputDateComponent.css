@@ -20,6 +20,11 @@
   z-index: 30;
 }
 
+/* portalled into a `Modal` or an overlay: above their panel, as a select menu is */
+.react-datepicker-popper--in-dialog {
+  z-index: 100;
+}
+
 .react-datepicker-popper .react-datepicker__triangle {
   display: none;
 }

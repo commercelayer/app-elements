@@ -1,4 +1,4 @@
-import { forwardRef } from "react"
+import { forwardRef, type KeyboardEventHandler } from "react"
 import type {
   GroupBase,
   MenuPosition,
@@ -39,6 +39,7 @@ export interface AsyncPaginateSelectComponentProps
   loadAsyncValues: LoadAsyncValuesPaginated
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
+  onKeyDown?: KeyboardEventHandler<HTMLDivElement>
 }
 
 /**

@@ -2,7 +2,13 @@ import cn from "classnames"
 import debounce from "lodash-es/debounce"
 import isEmpty from "lodash-es/isEmpty"
 import type React from "react"
-import { forwardRef, useCallback, useEffect, useState } from "react"
+import {
+  forwardRef,
+  type KeyboardEventHandler,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import type {
   GroupBase,
   InputActionMeta,
@@ -57,6 +63,7 @@ export interface GenericAsyncSelectComponentProps
   loadAsyncValues: LoadAsyncValues
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
+  onKeyDown?: KeyboardEventHandler<HTMLDivElement>
 }
 
 // extracting loadOptions signature from react-select async types

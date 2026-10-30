@@ -1,4 +1,7 @@
-import { fireEvent, render, waitFor } from "@testing-library/react"
+import { fireEvent, render, screen, waitFor } from "@testing-library/react"
+import { useState } from "react"
+import { Modal } from "#ui/composite/Modal"
+import { Overlay } from "#ui/internals/Overlay"
 import { InputSelect } from "./InputSelect"
 
 describe("InputSelect", () => {
@@ -241,6 +244,224 @@ describe("InputSelect", () => {
         expect(loadAsyncValues).toHaveBeenCalledTimes(2)
       })
       expect(queryAllByText("Paris")).toHaveLength(1)
+    })
+  })
+
+  describe("inside a dialog", () => {
+    const options = [{ value: "paris", label: "Paris" }]
+
+    const findOption = async (): Promise<HTMLElement> =>
+      await waitFor(() => {
+        const found = [...document.querySelectorAll<HTMLElement>("*")].find(
+          (element) =>
+            element.children.length === 0 && element.textContent === "Paris",
+        )
+        if (found == null) throw new Error("menu not rendered yet")
+        return found
+      })
+
+    const getDialog = (testId: string): HTMLDialogElement => {
+      const dialog = screen.getByTestId(testId).closest("dialog")
+      if (dialog == null) throw new Error("not inside a dialog")
+      return dialog
+    }
+
+    test("should portal the menu into a Modal with no target passed", async () => {
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <InputSelect
+              onSelect={() => {}}
+              initialValues={options}
+              menuIsOpen
+            />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      const option = await findOption()
+      // out of the scrolling body, which would clip it
+      expect(screen.getByTestId("modal")).not.toContainElement(option)
+      expect(getDialog("modal")).toContainElement(option)
+    })
+
+    test("should portal the menu into an overlay with no target passed", async () => {
+      render(
+        <Overlay drawer onBackdropClick={() => {}}>
+          <InputSelect onSelect={() => {}} initialValues={options} menuIsOpen />
+        </Overlay>,
+      )
+
+      const option = await findOption()
+      expect(screen.getByTestId("overlay")).not.toContainElement(option)
+      expect(getDialog("overlay")).toContainElement(option)
+    })
+
+    test("should portal into the dialog a menu targeted outside of it", async () => {
+      const outside = document.createElement("div")
+      document.body.appendChild(outside)
+
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <InputSelect
+              onSelect={() => {}}
+              initialValues={options}
+              menuIsOpen
+              menuPortalTarget={outside}
+            />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      const option = await findOption()
+      // behind the dialog and inert there
+      expect(outside).not.toContainElement(option)
+      expect(getDialog("modal")).toContainElement(option)
+
+      outside.remove()
+    })
+
+    test("should keep a target inside the dialog", async () => {
+      const Inner = (): React.JSX.Element => {
+        const [target, setTarget] = useState<HTMLDivElement | null>(null)
+        return (
+          <>
+            <div ref={setTarget} data-testid="target" />
+            <InputSelect
+              onSelect={() => {}}
+              initialValues={options}
+              menuIsOpen
+              menuPortalTarget={target}
+            />
+          </>
+        )
+      }
+
+      render(
+        <Modal show onClose={() => {}}>
+          <Modal.Body>
+            <Inner />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      await waitFor(async () => {
+        expect(screen.getByTestId("target")).toContainElement(
+          await findOption(),
+        )
+      })
+    })
+
+    test("should portal the menu into the topmost dialog", async () => {
+      render(
+        <Overlay drawer onBackdropClick={() => {}}>
+          <Modal show onClose={() => {}}>
+            <Modal.Body>
+              <InputSelect
+                onSelect={() => {}}
+                initialValues={options}
+                menuIsOpen
+              />
+            </Modal.Body>
+          </Modal>
+        </Overlay>,
+      )
+
+      const option = await findOption()
+      expect(screen.getByTestId("modal")).not.toContainElement(option)
+      expect(getDialog("modal")).toContainElement(option)
+    })
+  })
+
+  describe("Escape inside a dialog", () => {
+    const options = [{ value: "paris", label: "Paris" }]
+
+    const pressEscape = (): void => {
+      fireEvent.keyDown(screen.getByRole("combobox"), { key: "Escape" })
+    }
+
+    test("should close a dismissible Modal when the menu is closed", () => {
+      const onClose = vi.fn()
+      render(
+        <Modal show dismissible onClose={onClose}>
+          <Modal.Body>
+            <InputSelect onSelect={() => {}} initialValues={options} />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      pressEscape()
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    test("should close only the menu when it is open, and the Modal on the next Escape", () => {
+      const onClose = vi.fn()
+      render(
+        <Modal show dismissible onClose={onClose}>
+          <Modal.Body>
+            <InputSelect onSelect={() => {}} initialValues={options} />
+          </Modal.Body>
+        </Modal>,
+      )
+      const combobox = screen.getByRole("combobox")
+      fireEvent.keyDown(combobox, { key: "ArrowDown" })
+      expect(combobox).toHaveAttribute("aria-expanded", "true")
+
+      pressEscape()
+      expect(combobox).toHaveAttribute("aria-expanded", "false")
+      expect(onClose).not.toHaveBeenCalled()
+
+      pressEscape()
+      expect(onClose).toHaveBeenCalledTimes(1)
+    })
+
+    test("should leave a non-dismissible Modal open", () => {
+      const onClose = vi.fn()
+      render(
+        <Modal show onClose={onClose}>
+          <Modal.Body>
+            <InputSelect onSelect={() => {}} initialValues={options} />
+          </Modal.Body>
+        </Modal>,
+      )
+
+      pressEscape()
+
+      expect(onClose).not.toHaveBeenCalled()
+    })
+
+    test("should close a drawer when the menu is closed", () => {
+      const onBackdropClick = vi.fn()
+      render(
+        <Overlay drawer onBackdropClick={onBackdropClick}>
+          <InputSelect onSelect={() => {}} initialValues={options} />
+        </Overlay>,
+      )
+
+      pressEscape()
+
+      expect(onBackdropClick).toHaveBeenCalledTimes(1)
+    })
+
+    test("should close only the Modal on top of a drawer", () => {
+      const onClose = vi.fn()
+      const onBackdropClick = vi.fn()
+      render(
+        <Overlay drawer onBackdropClick={onBackdropClick}>
+          <Modal show dismissible onClose={onClose}>
+            <Modal.Body>
+              <InputSelect onSelect={() => {}} initialValues={options} />
+            </Modal.Body>
+          </Modal>
+        </Overlay>,
+      )
+
+      pressEscape()
+
+      expect(onClose).toHaveBeenCalledTimes(1)
+      expect(onBackdropClick).not.toHaveBeenCalled()
     })
   })
 })

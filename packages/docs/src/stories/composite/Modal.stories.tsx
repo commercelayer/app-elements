@@ -6,7 +6,7 @@ import {
   Title,
 } from "@storybook/addon-docs/blocks"
 import type { Meta, StoryFn } from "@storybook/react-vite"
-import { useRef, useState } from "react"
+import { useState } from "react"
 import { Alert } from "#ui/atoms/Alert"
 import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
@@ -194,11 +194,11 @@ export const LongContent: StoryFn = () => {
 }
 
 /**
- * Modal with an input select.
+ * Modal with an input select. The menu opens on top of the modal, out of its
+ * scrolling body, with no `menuPortalTarget` to pass.
  */
 export const WithInput: StoryFn = () => {
   const [show, setShow] = useState(false)
-  const modal = useRef<HTMLDivElement | null>(null)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -206,11 +206,10 @@ export const WithInput: StoryFn = () => {
   return (
     <div>
       <Button onClick={handleShow}>Open modal</Button>
-      <Modal ref={modal} size="large" show={show} onClose={handleClose}>
+      <Modal size="large" show={show} onClose={handleClose}>
         <Modal.Header>Choose an option</Modal.Header>
         <Modal.Body>
           <InputSelect
-            menuPortalTarget={modal.current}
             isCreatable
             initialValues={[
               {
@@ -251,11 +250,11 @@ export const WithInput: StoryFn = () => {
 }
 
 /**
- * Modal with an input select.
+ * Modal with a date range. The calendar opens on top of the modal, out of its
+ * scrolling body, with no `fixedPopper` to pass.
  */
 export const WithDatePicker: StoryFn = () => {
   const [show, setShow] = useState(false)
-  const modal = useRef<HTMLDivElement | null>(null)
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
@@ -263,7 +262,7 @@ export const WithDatePicker: StoryFn = () => {
   return (
     <div>
       <Button onClick={handleShow}>Open modal</Button>
-      <Modal ref={modal} size="small" show={show} onClose={handleClose}>
+      <Modal size="small" show={show} onClose={handleClose}>
         <Modal.Header>Select dates</Modal.Header>
         <Modal.Body>
           <InputDateRange
@@ -272,7 +271,6 @@ export const WithDatePicker: StoryFn = () => {
             value={[null, null]}
             onChange={() => {}}
             stacked
-            fixedPopper
           />
         </Modal.Body>
         <Modal.Footer>

@@ -1,7 +1,10 @@
 import { Canvas, Description, Meta, Source } from '@storybook/addon-docs/blocks'
+import { ToastContainer } from '#ui/composite/Toast'
 import * as ComponentStories from './Toast.stories'
 
 <Meta of={ComponentStories} />
+
+<ToastContainer />
 
 # Toast
 
@@ -33,3 +36,13 @@ Remember to render the `ToastContainer` once in your application tree. If you ca
 </span>
 
 <Canvas of={ComponentStories.Default} />
+
+## Inside an overlay
+
+<Description of={ComponentStories.InsideOverlay} />
+
+<Canvas of={ComponentStories.InsideOverlay} />
+
+<Description of={ComponentStories.InsideDrawerAndModal} />
+
+<Canvas of={ComponentStories.InsideDrawerAndModal} />

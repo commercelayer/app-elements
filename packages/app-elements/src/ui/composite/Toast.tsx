@@ -1,5 +1,6 @@
 import classNames from "classnames"
 import type React from "react"
+import { createPortal } from "react-dom"
 import {
   type Id,
   ToastContainer as OriginalToastContainer,
@@ -8,9 +9,10 @@ import {
   type ToastOptions,
 } from "react-toastify"
 import { Icon } from "#ui/atoms/Icon"
+import { getTopLayerHost } from "#ui/internals/topLayerHost"
 
 export const ToastContainer = (): React.JSX.Element => {
-  return (
+  return createPortal(
     <OriginalToastContainer
       newestOnTop
       position="bottom-right"
@@ -19,7 +21,8 @@ export const ToastContainer = (): React.JSX.Element => {
       closeOnClick={false}
       pauseOnHover
       closeButton={false}
-    />
+    />,
+    getTopLayerHost(),
   )
 }
 

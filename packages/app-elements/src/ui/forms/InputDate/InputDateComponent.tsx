@@ -1,9 +1,11 @@
 import { TZDateMini as TZDate } from "@date-fns/tz"
 import { CalendarBlankIcon, XIcon } from "@phosphor-icons/react"
 import cn from "classnames"
-import { forwardRef, type JSX, useMemo } from "react"
+import { type FC, forwardRef, type JSX, type ReactNode, useMemo } from "react"
 import DatePicker from "react-datepicker"
+import { createPortal } from "react-dom"
 import { isDateValid } from "#helpers/date"
+import { useDialogPortalTarget } from "#ui/internals/dialogPortal"
 import {
   getFeedbackStyle,
   InputWrapper,
@@ -68,7 +70,9 @@ export interface InputDateProps extends InputWrapperBaseProps {
   preventOpenOnFocus?: boolean
   /**
    * Use fixed positioning strategy for the date picker popper.
-   * This is useful when the date picker is used inside a modal.
+   *
+   * Not needed inside a `Modal` or an overlay: there the calendar is portalled
+   * into their `<dialog>` and positioned as fixed on its own.
    * @default false
    */
   fixedPopper?: boolean
@@ -106,6 +110,18 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
       [minDate, timezone],
     )
 
+    // Inside a `Modal` or an overlay the calendar goes into its `<dialog>`: left
+    // in place it is clipped by the scrolling body, and in a drawer even a fixed
+    // one is, since the panel keeps the `transform` of its slide-in animation.
+    const dialog = useDialogPortalTarget()
+    const popperContainer = useMemo<FC<{ children?: ReactNode }> | undefined>(
+      () =>
+        dialog == null
+          ? undefined
+          : ({ children }) => createPortal(children, dialog),
+      [dialog],
+    )
+
     const dateFormat = format ?? detectDateTimeFormat(showTimeSelect)
     return (
       <InputWrapper
@@ -119,11 +135,15 @@ export const InputDateComponent = forwardRef<DatePicker, InputDateProps>(
           <DatePicker
             ref={ref}
             popperProps={
-              fixedPopper
+              fixedPopper || dialog != null
                 ? {
                     strategy: "fixed",
                   }
                 : undefined
+            }
+            popperContainer={popperContainer}
+            popperClassName={
+              dialog != null ? "react-datepicker-popper--in-dialog" : undefined
             }
             selected={selectedDateInTimezone}
             onChange={(date) => {
