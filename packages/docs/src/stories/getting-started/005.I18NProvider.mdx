@@ -33,7 +33,87 @@ The `<I18NProvider>` component requires access to the `<TokenProvider>` context,
 </TokenProvider>
 `}
 />
- 
+
+## Adding translations
+
+`app-elements` only ships the strings of its own components. An app (or the dashboard) keeps its own strings next to its code and passes them with the `translations` prop: they are merged over the `app-elements` ones, so they can add new keys and, as an escape hatch, override existing ones.
+
+Every supported language is required and must have the same keys as English, so a new label cannot be added without its translations. Only the active language is loaded.
+
+<Source
+  language="tsx"
+  dark
+  code={`
+    // src/locales/en.ts
+
+    const en = {
+      apps: {
+        orders: {
+          place_order: "Place order",
+        },
+      },
+    }
+    
+    export default en
+    `}
+/>
+
+<Source
+  language="tsx"
+  dark
+  code={`
+    // src/locales/it.ts
+
+    import type en from "./en"
+    
+    const it: typeof en = {
+      apps: {
+        orders: {
+          place_order: "Effettua ordine",
+        },
+      },
+    }
+    
+    export default it
+    `}
+/>
+
+<Source
+  language="tsx"
+  dark
+  code={`
+    // src/main.tsx
+
+    <I18NProvider
+      translations={{
+        en: async () => await import("./locales/en"),
+        it: async () => await import("./locales/it"),
+      }}
+    >
+      <div>app content</div>
+    </I18NProvider>
+    `}
+/>
+
+To type `t()` with both the `app-elements` keys and your own, merge them in an `i18n.d.ts` file:
+
+<Source
+  language="ts"
+  dark
+  code={`
+    import type { MergeTranslations, Translation } from "@commercelayer/app-elements"
+    import type en from "./src/locales/en"
+    
+    declare module "i18next" {
+      interface CustomTypeOptions {
+        defaultNS: "translation"
+        resources: {
+          translation: MergeTranslations<Translation, typeof en>
+        }
+      }
+    }
+    `}
+/>
 
 ## Example
 

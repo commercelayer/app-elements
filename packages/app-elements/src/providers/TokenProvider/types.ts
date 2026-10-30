@@ -79,6 +79,7 @@ interface CoreApiOwnerUser {
   email: string
   owner: boolean
   time_zone: string
+  locale?: string | null
 }
 
 interface CoreApiOwnerCustomer {
