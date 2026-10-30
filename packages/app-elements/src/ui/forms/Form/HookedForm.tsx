@@ -5,11 +5,14 @@ import {
   type FormProviderProps,
 } from "react-hook-form"
 
-interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
+interface FormProps<T extends FieldValues, TTransformedValues = T>
+  extends FormProviderProps<T, any, TTransformedValues> {
   /**
-   * Callback invoked on submit when form has been successfully validated
+   * Callback invoked on submit when form has been successfully validated.
+   * It receives the values as returned by the resolver, which can differ from
+   * the form values (e.g. a schema that coerces or defaults some fields).
    */
-  onSubmit: (data: T) => Promise<void> | void
+  onSubmit: (data: TTransformedValues) => Promise<void> | void
 }
 
 /**
@@ -35,12 +38,12 @@ interface FormProps<T extends FieldValues> extends FormProviderProps<T> {
  * }
  *```
  */
-export const HookedForm = <T extends FieldValues>({
+export const HookedForm = <T extends FieldValues, TTransformedValues = T>({
   onSubmit,
   children,
   handleSubmit,
   ...rest
-}: FormProps<T>): JSX.Element => {
+}: FormProps<T, TTransformedValues>): JSX.Element => {
   const doSubmit = handleSubmit(async (data) => {
     await onSubmit(data)
   })

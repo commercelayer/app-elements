@@ -267,7 +267,7 @@ const anonymizationRequesterSchema = z.object({
 const eventParser = z.discriminatedUnion("event", [
   baseEventSchema.extend({
     event: z.enum(changeEventEnum),
-    payload: z.record(z.object({ from: z.any(), to: z.any() })),
+    payload: z.record(z.string(), z.object({ from: z.any(), to: z.any() })),
   }),
   baseEventSchema.extend({
     event: z.enum(anonymizationEventEnum),

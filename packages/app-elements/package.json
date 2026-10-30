@@ -84,10 +84,10 @@
     "swr": "^2.5.1",
     "ts-invariant": "^0.10.3",
     "type-fest": "^5.10.0",
-    "zod": "^3.25.76"
+    "zod": "^4.6.7"
   },
   "devDependencies": {
-    "@hookform/resolvers": "^3.10.0",
+    "@hookform/resolvers": "^6.0.1",
     "@phosphor-icons/react": "^2.1.10",
     "@tailwindcss/forms": "^0.5.11",
     "@tailwindcss/postcss": "^4.3.3",
@@ -117,7 +117,7 @@
     "react": "^19.1.x",
     "react-dom": "^19.1.x",
     "react-gtm-module": "^2.x",
-    "react-hook-form": "^7.x",
+    "react-hook-form": "^7.55.0",
     "wouter": "^3.x"
   }
 }

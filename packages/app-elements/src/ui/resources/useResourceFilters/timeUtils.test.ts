@@ -1,4 +1,47 @@
-import { makeSdkFilterTime } from "./timeUtils"
+import { makeSdkFilterTime, timeRangeValidationSchema } from "./timeUtils"
+
+describe("timeRangeValidationSchema", () => {
+  function issuesOf(value: unknown) {
+    return timeRangeValidationSchema
+      .safeParse(value)
+      .error?.issues.map(({ path, message }) => ({ path, message }))
+  }
+
+  test("should accept a preset without dates", () => {
+    expect(issuesOf({ timePreset: "last7days" })).toBeUndefined()
+  })
+
+  test("should require both dates for a custom range", () => {
+    expect(issuesOf({ timePreset: "custom" })).toEqual([
+      { path: ["timeFrom"], message: 'Please enter a valid "From" date' },
+      { path: ["timeTo"], message: 'Please enter a valid "To" date' },
+    ])
+  })
+
+  test("should reject a custom range that ends before it starts", () => {
+    expect(
+      issuesOf({
+        timePreset: "custom",
+        timeFrom: new Date("2023-04-05"),
+        timeTo: new Date("2023-04-01"),
+      }),
+    ).toEqual([
+      {
+        path: ["timeTo"],
+        message: 'The "To" date must be greater than the "From" date',
+      },
+    ])
+  })
+
+  test("should keep the other filter fields as they are", () => {
+    expect(
+      timeRangeValidationSchema.parse({
+        timePreset: "today",
+        status_in: ["placed"],
+      }),
+    ).toEqual({ timePreset: "today", status_in: ["placed"] })
+  })
+})
 
 describe("makeSdkFilterTime", () => {
   beforeEach(() => {

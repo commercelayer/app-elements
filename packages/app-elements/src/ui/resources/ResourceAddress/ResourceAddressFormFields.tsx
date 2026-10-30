@@ -13,8 +13,8 @@ import type { ResourceAddressProps } from "./ResourceAddress"
 
 const zodRequiredField = z
   .string({
-    required_error: "Required field",
-    invalid_type_error: "Invalid format",
+    error: (issue) =>
+      issue.input === undefined ? "Required field" : "Invalid format",
   })
   .min(1, {
     message: "Required field",
