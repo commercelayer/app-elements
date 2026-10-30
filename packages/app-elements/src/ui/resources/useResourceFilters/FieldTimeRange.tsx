@@ -1,15 +1,18 @@
-import { type JSX, useEffect } from "react"
+import { type JSX, useEffect, useRef, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { formatDateRange } from "#helpers/date"
-import { useOverlay } from "#hooks/useOverlay"
 import { useTranslation } from "#providers/I18NProvider"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Spacer } from "#ui/atoms/Spacer"
-import { PageLayout } from "#ui/composite/PageLayout"
+import { Modal } from "#ui/composite/Modal"
 import { HookedInputDate } from "#ui/forms/InputDate"
 import { HookedInputToggleButton } from "#ui/forms/InputToggleButton"
-import { getDefaultBrowserTimezone, getTimeRangePresetName } from "./timeUtils"
+import {
+  getDefaultBrowserTimezone,
+  getTimeRangePresetName,
+  toEndOfDayWhenMidnight,
+} from "./timeUtils"
 import {
   type FilterItemTime,
   filterableTimeRangePreset,
@@ -22,7 +25,7 @@ interface FieldTimeRangeProps {
 
 export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
   const { user } = useTokenProvider()
-  const { Overlay, close, open } = useOverlay()
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { t } = useTranslation()
 
   const { watch, setValue, trigger } = useFormContext<TimeRangeFormValues>()
@@ -34,7 +37,7 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
     function openToTimeRangePickerOverlay() {
       const isRangeNotSet = timeFrom == null || timeTo == null
       if (timePreset === "custom" && isRangeNotSet) {
-        open()
+        setIsModalOpen(true)
       }
     },
     [timePreset],
@@ -64,6 +67,22 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
     [timeTo],
   )
 
+  const previousTimeTo = useRef(timeTo)
+  useEffect(
+    function includePickedDayInRange() {
+      // only on the first pick: a time chosen afterwards is kept as it is
+      const wasEmpty = previousTimeTo.current == null
+      previousTimeTo.current = timeTo
+      if (wasEmpty && timeTo != null) {
+        const endOfPickedDay = toEndOfDayWhenMidnight(timeTo, user?.timezone)
+        if (endOfPickedDay.getTime() !== timeTo.getTime()) {
+          setValue("timeTo", endOfPickedDay)
+        }
+      }
+    },
+    [timeTo],
+  )
+
   return (
     <>
       <HookedInputToggleButton
@@ -86,56 +105,55 @@ export function FieldTimeRange({ item }: FieldTimeRangeProps): JSX.Element {
           }
         })}
       />
-      <Overlay
-        footer={
+      <Modal
+        show={isModalOpen}
+        size="x-small"
+        dismissible
+        onClose={() => {
+          setValue("timeFrom", null)
+          setValue("timeTo", null)
+          setValue("timePreset", null)
+          setIsModalOpen(false)
+        }}
+      >
+        <Modal.Header>{t("common.custom_time_range")}</Modal.Header>
+        <Modal.Body>
+          <Spacer bottom="4">
+            <HookedInputDate
+              name="timeFrom"
+              label={t("common.from")}
+              isClearable
+              preventOpenOnFocus
+              showTimeSelect
+              timezone={user?.timezone}
+            />
+          </Spacer>
+          <HookedInputDate
+            name="timeTo"
+            label={t("common.to")}
+            minDate={timeFrom ?? undefined}
+            isClearable
+            preventOpenOnFocus
+            showTimeSelect
+            timezone={user?.timezone}
+          />
+        </Modal.Body>
+        <Modal.Footer>
           <Button
             fullWidth
             type="button"
             onClick={() => {
               void trigger().then((isValid) => {
                 if (isValid) {
-                  close()
+                  setIsModalOpen(false)
                 }
               })
             }}
           >
             {t("common.apply")}
           </Button>
-        }
-      >
-        <PageLayout
-          title={t("common.custom_time_range")}
-          navigationButton={{
-            label: t("common.back"),
-            onClick: () => {
-              setValue("timeFrom", null)
-              setValue("timeTo", null)
-              setValue("timePreset", null)
-              close()
-            },
-          }}
-        >
-          <Spacer bottom="14">
-            <HookedInputDate
-              name="timeFrom"
-              label={t("common.from")}
-              isClearable
-              preventOpenOnFocus
-              timezone={user?.timezone}
-            />
-          </Spacer>
-          <Spacer bottom="14">
-            <HookedInputDate
-              name="timeTo"
-              label={t("common.to")}
-              minDate={timeFrom ?? undefined}
-              isClearable
-              preventOpenOnFocus
-              timezone={user?.timezone}
-            />
-          </Spacer>
-        </PageLayout>
-      </Overlay>
+        </Modal.Footer>
+      </Modal>
     </>
   )
 }

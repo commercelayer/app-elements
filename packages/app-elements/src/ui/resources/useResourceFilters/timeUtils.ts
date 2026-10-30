@@ -1,3 +1,5 @@
+import { TZDateMini as TZDate } from "@date-fns/tz"
+import { endOfDay } from "date-fns"
 import type { t as tFn } from "i18next"
 import { z } from "zod"
 import { getIsoDateAtDayEdge, getIsoDateAtDaysBefore } from "#helpers/date"
@@ -80,6 +82,25 @@ export function getDefaultBrowserTimezone(): string | undefined {
   } catch {
     return undefined
   }
+}
+
+/**
+ * Moves a date that sits at midnight to the end of the same day, both read in
+ * `timezone`. Picking a day in the calendar gives its midnight: as the end of a
+ * range, that would leave the picked day out.
+ *
+ * A date with any other time was set on purpose, and is returned as is.
+ */
+export function toEndOfDayWhenMidnight(date: Date, timezone?: string): Date {
+  const zonedDate = new TZDate(date, timezone ?? getDefaultBrowserTimezone())
+  // an empty or unknown timezone gives an invalid date: fall back to the browser's
+  const dayDate = Number.isNaN(zonedDate.getTime()) ? date : zonedDate
+  const isMidnight =
+    dayDate.getHours() === 0 &&
+    dayDate.getMinutes() === 0 &&
+    dayDate.getSeconds() === 0 &&
+    dayDate.getMilliseconds() === 0
+  return isMidnight ? new Date(endOfDay(dayDate).getTime()) : date
 }
 
 export function getTimeRangePresetName(
