@@ -59,7 +59,15 @@ export interface MetricsResourceOrder {
   archived?: boolean
   reference?: string
   reference_origin?: string
-  /** Set on orders placed under a B2B agreement. */
+  /**
+   * Set on orders placed under a B2B agreement, with `agreement.*` in the
+   * search fields. Replaces `agreement_id`, which older payloads carry instead.
+   */
+  agreement?: {
+    id: string
+    name?: string
+  } | null
+  /** Set on orders placed under a B2B agreement, by payloads before `agreement`. */
   agreement_id?: string | null
   tags?: {
     id: string
@@ -260,17 +268,25 @@ export function adaptMetricsOrderToCore(
     reference: metricsOrder.reference,
     reference_origin: metricsOrder.reference_origin,
 
-    // Metrics knows the agreement by id only: the name, like the rest of the
-    // resource, is left absent rather than invented
+    // Metrics carries the agreement's id and name, as it does the market's:
+    // the rest of the resource is left absent rather than invented
     agreement:
-      metricsOrder.agreement_id != null
+      metricsOrder.agreement != null
         ? ({
-            id: metricsOrder.agreement_id,
+            id: metricsOrder.agreement.id,
             created_at: "",
             updated_at: "",
             type: "agreements",
+            name: metricsOrder.agreement.name ?? "",
           } as Agreement)
-        : undefined,
+        : metricsOrder.agreement_id != null
+          ? ({
+              id: metricsOrder.agreement_id,
+              created_at: "",
+              updated_at: "",
+              type: "agreements",
+            } as Agreement)
+          : undefined,
 
     archived_at:
       metricsOrder.archived === true
