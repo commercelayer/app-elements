@@ -22,8 +22,16 @@ const metricsResourceMapping: Record<
   returns: "return",
 }
 
-// Relationships that are not part of the main resource, but are part of the filters
-const relationships = ["market", "tags", "billing_address", "shipping_address"]
+// Relationships that are not part of the main resource, but are part of the filters.
+// Each is a filter group of its own: `agreement_id_in` becomes `agreement.ids.in`,
+// which Metrics refuses as an `order` attribute.
+const relationships = [
+  "market",
+  "agreement",
+  "tags",
+  "billing_address",
+  "shipping_address",
+]
 
 /** Record of core api filter operators with relative metrics operator */
 const metricsFiltersMapping = {
