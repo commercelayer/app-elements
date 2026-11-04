@@ -12,9 +12,12 @@ type OrganizationWithFlags = object
  * section of the dashboard, and every agreement feature in the dashboard apps —
  * so that turning them on per organization is a change here and nowhere else.
  *
- * Agreements will be an organization-level feature flag like the rules engine's
- * `api_rules_engine`, read from the organization passed in. The flag does not
- * exist yet, so for now every organization has them.
+ * Read from the organization's `agreements.enabled` feature (core_mixins'
+ * `feature_defaults`), an add-on off by default, which the organization carries
+ * as `agreements_enabled` — the way `discount_engines.enabled` comes through as
+ * `discount_engines_enabled`. Read by name rather than through the SDK type,
+ * which predates the flag. An organization not loaded yet, or one without the
+ * attribute, has agreements off.
  *
  * The dashboard calls this and hands the answer to every app it mounts, as
  * `extras.organization.isAgreementsEnabled` on the token provider — the same way
@@ -24,8 +27,11 @@ type OrganizationWithFlags = object
  * own metadata, not from a seller's flag.
  */
 export function isAgreementsEnabled(
-  // read once the flag exists; kept in the signature so callers already pass it
-  _organization: OrganizationWithFlags | null | undefined,
+  organization: OrganizationWithFlags | null | undefined,
 ): boolean {
-  return true
+  return (
+    organization != null &&
+    "agreements_enabled" in organization &&
+    organization.agreements_enabled === true
+  )
 }
