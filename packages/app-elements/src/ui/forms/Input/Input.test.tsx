@@ -36,4 +36,19 @@ describe("Input", () => {
     fireEvent.change(element, { target: { value: "I love Commerce Layer" } })
     expect(element.value).toBe("I love Commerce Layer")
   })
+  test("Should look not editable when read-only", () => {
+    const { getByTestId } = render(
+      <Input
+        data-testid="my-input"
+        defaultValue="buyer@example.com"
+        readOnly
+      />,
+    )
+    const element = getByTestId("my-input") as HTMLInputElement
+    expect(element).toHaveAttribute("readonly")
+    expect(element).toHaveClass(
+      "read-only:bg-gray-50",
+      "read-only:text-gray-500",
+    )
+  })
 })
