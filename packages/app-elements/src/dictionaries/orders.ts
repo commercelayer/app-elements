@@ -45,6 +45,18 @@ export function getOrderDisplayStatus(
 
   const status = getOrderBaseDisplayStatus(order)
 
+  // B2B: an approved agreement order reads "approved" to the seller as it does
+  // to the buyer, until it is cancelled: the capture and the fulfillment still
+  // to come stay its task, and its payment and fulfillment statuses say where
+  // those are
+  if (order.agreement != null && order.status === "approved") {
+    return {
+      ...status,
+      label: t("resources.orders.attributes.status.approved"),
+      color: "green",
+    }
+  }
+
   // confirmed by the buyer and otherwise ready: still awaiting approval, but the
   // label says why it is ready — an unpaid one keeps its error instead
   if (

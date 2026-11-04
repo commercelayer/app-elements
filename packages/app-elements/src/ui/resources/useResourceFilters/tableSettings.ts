@@ -58,6 +58,17 @@ export interface TableSettingsConfig {
    * does not apply to the current view.
    */
   defaultSort: TableSortValue
+  /**
+   * Where the preference is stored, for a list rendered outside a
+   * `TokenProvider` — the dashboard's own pages — whose token settings would
+   * otherwise leave organization and mode blank, and every organization
+   * sharing one choice. Inside an app, the token provider's are used.
+   */
+  storageScope?: {
+    appSlug: string
+    organizationSlug: string
+    mode: string
+  }
 }
 
 /** What the columns menu needs to know about a column. */
@@ -350,18 +361,18 @@ export function makeTableSettingsStore(storageKey: string): TableSettingsStore {
 export function useTableSettingsStore(
   config: TableSettingsConfig | undefined,
 ): TableSettingsStore | undefined {
-  const {
-    settings: { mode, organizationSlug, appSlug },
-  } = useTokenProvider()
+  const { settings } = useTokenProvider()
 
   const [store] = useState(() =>
     config == null
       ? undefined
       : makeTableSettingsStore(
           makeTableSettingsStorageKey({
-            mode,
-            organizationSlug,
-            appSlug,
+            ...(config.storageScope ?? {
+              mode: settings.mode,
+              organizationSlug: settings.organizationSlug,
+              appSlug: settings.appSlug,
+            }),
             listId: config.listId,
           }),
         ),
