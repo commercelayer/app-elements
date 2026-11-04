@@ -272,4 +272,43 @@ describe("adaptMetricsOrderToCore", () => {
       adaptMetricsOrderToCore({ id: "orderId", type: "orders" }).shipments,
     ).toBeUndefined()
   })
+
+  it("keeps the agreement an order was placed under, with its name", () => {
+    const order = adaptMetricsOrderToCore({
+      id: "qLmgAdgPnb",
+      type: "orders",
+      agreement: { id: "NAkKGhbvAV", name: "Brand Supply — US wholesale" },
+    })
+    expect(order.agreement).toMatchObject({
+      id: "NAkKGhbvAV",
+      type: "agreements",
+      name: "Brand Supply — US wholesale",
+    })
+  })
+
+  it("keeps the agreement of an older payload, by id", () => {
+    const order = adaptMetricsOrderToCore({
+      id: "qLmgAdgPnb",
+      type: "orders",
+      agreement_id: "NAkKGhbvAV",
+    })
+    expect(order.agreement).toMatchObject({
+      id: "NAkKGhbvAV",
+      type: "agreements",
+    })
+  })
+
+  it("leaves the agreement out of an order placed without one", () => {
+    expect(
+      adaptMetricsOrderToCore({ id: "qLmgAdgPnb", type: "orders" }).agreement,
+    ).toBeUndefined()
+    expect(
+      adaptMetricsOrderToCore({
+        id: "qLmgAdgPnb",
+        type: "orders",
+        agreement: null,
+        agreement_id: null,
+      }).agreement,
+    ).toBeUndefined()
+  })
 })

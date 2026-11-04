@@ -76,6 +76,19 @@ describe("adaptSdkToMetrics", () => {
     })
   })
 
+  test("Should filter by agreement in a group of its own, as Metrics expects", () => {
+    const metricsFilters = adaptSdkToMetrics({
+      sdkFilters: { agreement_id_in: "NAkKGhbvAV,wAbdJhywOe" },
+      resourceType: "orders",
+      instructions,
+      predicateWhitelist: ["agreement_id_in"],
+    })
+    expect(metricsFilters).toMatchObject({
+      agreement: { ids: { in: ["NAkKGhbvAV", "wAbdJhywOe"] } },
+    })
+    expect(metricsFilters.order).not.toHaveProperty("agreement_ids")
+  })
+
   test("Should always set a 1-year date range when is date range is not defined", () => {
     const metricsFilters = adaptSdkToMetrics({
       sdkFilters: {},

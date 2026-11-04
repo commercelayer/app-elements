@@ -1,4 +1,5 @@
 import type { Order } from "@commercelayer/sdk"
+import { getLastOrderReview } from "#dictionaries/orderReviews"
 import { getOrderDisplayStatus } from "#dictionaries/orders"
 import { formatDate } from "#helpers/date"
 import { Text } from "#ui/atoms/Text"
@@ -21,7 +22,9 @@ export const orderToProps: ResourceToProps<Order> = ({ resource, user, t }) => {
       timezone: user?.timezone,
       locale: user?.locale,
     }),
-    status: getOrderDisplayStatus(resource),
+    // B2B: the review decides what an agreement order is waiting on, when the
+    // list included the order's `order_reviews`
+    status: getOrderDisplayStatus(resource, getLastOrderReview(resource)),
     showRightContent: true,
     rightContent: (
       <Text

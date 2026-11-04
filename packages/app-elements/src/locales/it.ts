@@ -181,6 +181,9 @@ const it: typeof en = {
         order_cancelled: "annullato",
         order_archived: "archiviato",
         order_approved: "approvato",
+        order_sent_for_review: "inviato al cliente per la revisione",
+        order_confirmed_by_customer: "confermato dal cliente",
+        order_rejected_by_customer: "rifiutato dal cliente",
         order_fulfilled: "evaso",
         order_unfulfilled: "non evaso",
         order_fulfillment_is: "L'evasione dell'ordine è",
@@ -284,6 +287,11 @@ const it: typeof en = {
       name_other: "Modifiche",
       attributes: {},
     },
+    agreements: {
+      name: "Accordo",
+      name_other: "Accordi",
+      attributes: {},
+    },
     attachments: {
       name: "Allegato",
       name_other: "Allegati",
@@ -318,10 +326,22 @@ const it: typeof en = {
       name_other: "Links",
       attributes: {},
     },
+    order_reviews: {
+      name: "Revisione ordine",
+      name_other: "Revisioni ordine",
+      attributes: {
+        status: {
+          pending: "Revisione richiesta",
+          accepted: "Confermato",
+          rejected: "Rifiutato",
+        },
+      },
+    },
     orders: {
       name: "Ordine",
       name_other: "Ordini",
       attributes: {
+        notes: "Note",
         status: {
           approved: "Approvato",
           cancelled: "Cancellato",
@@ -547,10 +567,15 @@ const it: typeof en = {
     orders: {
       display_status: {
         awaiting_capture: "Da catturare",
+        customer_review: "Revisione cliente",
+        customer_confirmed: "Confermato dal cliente",
+        customer_rejected: "Rifiutato dal cliente",
         in_progress: "In corso",
       },
       tasks: {
         awaiting_approval: "Da approvare",
+        awaiting_customer_review: "In attesa della revisione del cliente",
+        rejected_by_customer: "Rifiutato dal cliente",
         error_to_cancel: "Errore nella cancellazione",
         payment_to_capture: "Da catturare",
         fulfillment_in_progress: "Da spedire",
