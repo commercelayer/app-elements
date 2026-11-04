@@ -20,6 +20,36 @@ function order(
 }
 
 describe("getOrderDisplayStatus", () => {
+  it("reads an approved agreement order as approved until it is cancelled", () => {
+    const agreementOrder = {
+      ...order("approved", "authorized", "unfulfilled"),
+      agreement: { type: "agreements", id: "agreement1" },
+    } as Order
+
+    expect(getOrderDisplayStatus(agreementOrder)).toMatchObject({
+      label: t("resources.orders.attributes.status.approved"),
+      color: "green",
+      task: t("dictionaries.orders.tasks.payment_to_capture"),
+    })
+    // and stays approved while it is fulfilled
+    for (const [paymentStatus, fulfillmentStatus] of [
+      ["paid", "in_progress"],
+      ["paid", "fulfilled"],
+    ] as const) {
+      expect(
+        getOrderDisplayStatus({
+          ...order("approved", paymentStatus, fulfillmentStatus),
+          agreement: { type: "agreements", id: "agreement1" },
+        } as Order).label,
+      ).toBe(t("resources.orders.attributes.status.approved"))
+    }
+    // outside an agreement the capture is what the seller is shown
+    expect(
+      getOrderDisplayStatus(order("approved", "authorized", "unfulfilled"))
+        .label,
+    ).toBe(t("dictionaries.orders.display_status.awaiting_capture"))
+  })
+
   it("reads a partial refund as a payment that went through", () => {
     const fulfillmentStatuses = [
       "in_progress",

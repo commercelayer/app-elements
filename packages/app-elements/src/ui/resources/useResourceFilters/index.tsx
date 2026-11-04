@@ -11,3 +11,4 @@ export type {
   UiFilterValue,
 } from "./types"
 export { useResourceFilters } from "./useResourceFilters"
+export { useTableSettings } from "./useTableSettings"
