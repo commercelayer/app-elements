@@ -1,4 +1,4 @@
-import type { OrderReview } from "@commercelayer/sdk"
+import type { Order, OrderReview } from "@commercelayer/sdk"
 import { t } from "i18next"
 import type { DisplayStatus } from "./types"
 
@@ -43,4 +43,21 @@ export function getOrderReviewDisplayStatus(
         color: "red",
       }
   }
+}
+
+/**
+ * The order's latest review, the one that decides where it stands, or `null`
+ * when the seller never asked. Latest by creation: Core keeps at most one
+ * pending review, and a withdrawn one is deleted.
+ *
+ * Needs the order with its `order_reviews` included.
+ */
+export function getLastOrderReview(
+  order: Pick<Order, "order_reviews"> | null | undefined,
+): OrderReview | null {
+  return (
+    [...(order?.order_reviews ?? [])].sort((a, b) =>
+      (b.created_at ?? "").localeCompare(a.created_at ?? ""),
+    )[0] ?? null
+  )
 }

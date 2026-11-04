@@ -5,7 +5,10 @@ export {
   getCustomerDisplayStatus,
   getCustomerStatusName,
 } from "#dictionaries/customers"
-export { getOrderReviewDisplayStatus } from "#dictionaries/orderReviews"
+export {
+  getLastOrderReview,
+  getOrderReviewDisplayStatus,
+} from "#dictionaries/orderReviews"
 export {
   getOrderDisplayStatus,
   getOrderFulfillmentStatusName,
@@ -485,6 +488,7 @@ export {
   type UiFilterName,
   type UiFilterValue,
   useResourceFilters,
+  useTableSettings,
 } from "#ui/resources/useResourceFilters"
 export {
   type ResourceListItemTemplateProps,
