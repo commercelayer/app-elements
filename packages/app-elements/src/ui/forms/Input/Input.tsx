@@ -49,6 +49,10 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           className,
           "block w-full px-4 py-2.5 font-normal text-sm",
           "rounded outline-0",
+          // in step with a disabled `InputSelect`: still readable, plainly not
+          // editable. `:read-only` matches disabled inputs too; only those lose
+          // the text cursor, as a read-only value can still be selected and copied
+          "read-only:bg-gray-50 read-only:text-gray-500 disabled:cursor-not-allowed",
           {
             "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none pr-1!":
               suffix != null,
