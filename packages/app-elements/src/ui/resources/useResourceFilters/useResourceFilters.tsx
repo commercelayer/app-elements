@@ -450,26 +450,35 @@ function ResourceListComponent<TResource extends ListableResourceType>({
  * refetches from page 1 when it differs, so an unmemoized filter turns any
  * re-render landing in a later second — opening the filters drawer, switching
  * tab — into a full reload of the list.
+ *
+ * It is built only when `enabled`, that is when the list passes a
+ * `metricsQuery`: a list without one never sends it, and most resources are not
+ * served by the Metrics API at all, so building it anyway would warn about that
+ * on every mount.
  */
 function useMetricsFilter<TResource extends ListableResourceType>({
   adapters,
   sdkFilters,
   type,
+  enabled,
 }: {
   adapters: ReturnType<typeof makeFilterAdapters>
   sdkFilters: QueryFilter | undefined
   type: TResource
+  enabled: boolean
 }): ReturnType<ReturnType<typeof makeFilterAdapters>["adaptSdkToMetrics"]> {
   // Both call sites bail out before rendering when `sdkFilters` is undefined, so
   // the value computed for that case is never sent; an empty object keeps the
   // hook unconditional and its return type free of a null nobody has to handle.
   return useMemo(
     () =>
-      adapters.adaptSdkToMetrics({
-        sdkFilters: sdkFilters ?? {},
-        resourceType: type,
-      }),
-    [sdkFilters, type],
+      enabled
+        ? adapters.adaptSdkToMetrics({
+            sdkFilters: sdkFilters ?? {},
+            resourceType: type,
+          })
+        : {},
+    [sdkFilters, type, enabled],
   )
 }
 
@@ -480,7 +489,12 @@ const makeFilteredList: (options: {
   ({ sdkFilters, adapters }) =>
   ({ type, query, metricsQuery, hideTitle, ...resourceListProps }) => {
     const { t } = useTranslation()
-    const metricsFilter = useMetricsFilter({ adapters, sdkFilters, type })
+    const metricsFilter = useMetricsFilter({
+      adapters,
+      sdkFilters,
+      type,
+      enabled: metricsQuery != null,
+    })
 
     if (resourceListProps == null) {
       return <div>resourceListProps not defined</div>
@@ -576,7 +590,12 @@ const makeFilteredTable: (options: {
   ({ sdkFilters, adapters, tableSettingsRef }) =>
   ({ type, query, metricsQuery, hideTitle, ...tableProps }) => {
     const { t } = useTranslation()
-    const metricsFilter = useMetricsFilter({ adapters, sdkFilters, type })
+    const metricsFilter = useMetricsFilter({
+      adapters,
+      sdkFilters,
+      type,
+      enabled: metricsQuery != null,
+    })
     const settingsProps = useTableSettingsProps({
       tableSettings: tableSettingsRef.current,
       columns: tableProps.columns,
