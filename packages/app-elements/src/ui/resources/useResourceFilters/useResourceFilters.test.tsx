@@ -1,7 +1,9 @@
 import { render, waitFor } from "@testing-library/react"
+import { HttpResponse, http } from "msw"
 import { act, type FC } from "react"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { server } from "../../../mocks/server"
 import { instructions } from "./mockedInstructions"
 import { useResourceFilters } from "./useResourceFilters"
 
@@ -86,4 +88,67 @@ describe("useResourceFilters", () => {
     expect(after?.FilteredList).not.toBe(before?.FilteredList)
     expect(after?.FilteredTable).not.toBe(before?.FilteredTable)
   })
+})
+
+/**
+ * Only orders are listed through the Metrics API, so the Metrics filter is
+ * computed only for a list that passes a `metricsQuery`. Building it for any
+ * other list would warn that the resource is not enabled in Metrics API, on
+ * every mount, for a value that is then thrown away.
+ */
+describe("useResourceFilters without a metricsQuery", () => {
+  const metricsWarning =
+    "The Resource you are listing is not enabled in Metrics API"
+
+  const Page: FC<{ kind: "list" | "table" }> = ({ kind }) => {
+    const { FilteredList, FilteredTable } = useResourceFilters({
+      instructions,
+    })
+    return kind === "list" ? (
+      <FilteredList
+        type="skus"
+        ItemTemplate={() => <div>sku</div>}
+        emptyState={<div>empty</div>}
+      />
+    ) : (
+      <FilteredTable
+        type="skus"
+        columns={[{ header: "Code", cell: ({ resource }) => resource.code }]}
+      />
+    )
+  }
+
+  beforeEach(() => {
+    window.history.pushState({}, "", "/")
+    server.use(
+      http.get(`https://*/api/:version/skus`, () =>
+        HttpResponse.json({
+          data: [{ id: "sku-1", type: "skus", attributes: { code: "SKU1" } }],
+          meta: { record_count: 1, page_count: 1 },
+        }),
+      ),
+    )
+  })
+
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  test.each(["list", "table"] as const)(
+    "does not build the Metrics filter for a %s of a resource the Metrics API does not support",
+    async (kind) => {
+      const warn = vi.spyOn(console, "warn").mockImplementation(() => {})
+
+      const { findByText } = render(
+        <TokenProvider kind="integration" appSlug="skus" devMode>
+          <CoreSdkProvider>
+            <Page kind={kind} />
+          </CoreSdkProvider>
+        </TokenProvider>,
+      )
+
+      expect(await findByText(kind === "list" ? "sku" : "SKU1")).toBeVisible()
+      expect(warn).not.toHaveBeenCalledWith(metricsWarning, "skus")
+    },
+  )
 })
