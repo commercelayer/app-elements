@@ -1,6 +1,6 @@
 import type { ReactNode } from "react"
 import { useCallback, useMemo, useState } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Modal } from "#ui/composite/Modal"
 import {
   ResourceDetailsContent,

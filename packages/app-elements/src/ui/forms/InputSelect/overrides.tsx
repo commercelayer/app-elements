@@ -15,7 +15,7 @@ import {
   type SingleValueProps,
   type ValueContainerProps,
 } from "react-select"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Hr } from "#ui/atoms/Hr"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Tag } from "#ui/atoms/Tag"

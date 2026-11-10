@@ -6,7 +6,7 @@ import type {
 import isEmpty from "lodash-es/isEmpty"
 import { isMockedId } from "#helpers/mocks"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Section } from "#ui/atoms/Section"

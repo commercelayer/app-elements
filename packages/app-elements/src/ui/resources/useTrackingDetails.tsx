@@ -8,7 +8,7 @@ import {
   type Rate,
   type TrackingDetail,
 } from "#helpers/tracking"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Avatar } from "#ui/atoms/Avatar"
 import { Badge } from "#ui/atoms/Badge"

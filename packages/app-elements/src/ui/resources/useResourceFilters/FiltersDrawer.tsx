@@ -1,5 +1,5 @@
 import type { JSX } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Icon } from "#ui/atoms/Icon"
 import { Text } from "#ui/atoms/Text"
 import type { OverlayProps } from "#ui/internals/Overlay"

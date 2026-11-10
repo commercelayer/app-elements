@@ -2,7 +2,7 @@ import cn from "classnames"
 import debounce from "lodash-es/debounce"
 import isEmpty from "lodash-es/isEmpty"
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import {
   SkeletonTemplate,
   type SkeletonTemplateProps,

@@ -5,7 +5,7 @@ import ReactCurrencyInputField, {
   type CurrencyInputProps as ReactCurrencyInputFieldProps,
 } from "react-currency-input-field"
 import type { Currency, CurrencyCode } from "#helpers/currencies"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import {
   getFeedbackStyle,
   InputWrapper,

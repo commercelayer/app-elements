@@ -1,7 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod"
 import type { JSX } from "react"
 import { type Resolver, useForm } from "react-hook-form"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
 import { Spacer } from "#ui/atoms/Spacer"
 import { HookedForm } from "#ui/forms/Form"

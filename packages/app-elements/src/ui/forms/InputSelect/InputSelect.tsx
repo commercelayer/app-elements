@@ -11,7 +11,7 @@ import type {
   SelectInstance,
   SingleValue,
 } from "react-select"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { useDialogPortalTarget } from "#ui/internals/dialogPortal"
 import {
   InputWrapper,

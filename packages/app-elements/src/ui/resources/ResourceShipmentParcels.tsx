@@ -15,7 +15,7 @@ import {
   hasSingleTracking,
   type Rate,
 } from "#helpers/tracking"
-import { t, useTranslation } from "#providers/I18NProvider"
+import { t, useTranslation } from "#providers/i18n"
 import { A } from "#ui/atoms/A"
 import { Avatar } from "#ui/atoms/Avatar"
 import { Button } from "#ui/atoms/Button"

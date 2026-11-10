@@ -1,6 +1,6 @@
 import type { Resource, ResourceTypeLock } from "@commercelayer/sdk"
 import { type FC, type ReactNode, useId } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Tab, Tabs } from "#ui/atoms/Tabs"
 import { ResourceAttributes } from "./ResourceAttributes"

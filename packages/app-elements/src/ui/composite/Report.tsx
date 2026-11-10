@@ -1,6 +1,6 @@
 import type { JSX, Key, ReactNode } from "react"
 import { downloadJsonAsFile } from "#helpers/downloadJsonAsFile"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { SkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Stack } from "#ui/atoms/Stack"
 import { Label } from "#ui/forms/Label"

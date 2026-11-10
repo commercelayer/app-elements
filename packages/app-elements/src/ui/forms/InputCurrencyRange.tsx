@@ -1,6 +1,6 @@
 import { type JSX, useEffect, useRef, useState } from "react"
 import type { CurrencyCode } from "#helpers/currencies"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import {
   formatCentsToCurrency,
   InputCurrency,

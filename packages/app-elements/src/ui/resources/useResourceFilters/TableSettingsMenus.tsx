@@ -1,5 +1,5 @@
 import { type JSX, useSyncExternalStore } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
 import { Icon, type IconProps } from "#ui/atoms/Icon"
 import {

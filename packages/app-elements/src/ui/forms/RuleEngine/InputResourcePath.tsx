@@ -1,7 +1,7 @@
 import { uniqBy } from "lodash-es"
 import { useRef } from "react"
 import type { GroupBase, SelectInstance } from "react-select"
-import { useTranslation } from "#providers/I18NProvider"
+import { useTranslation } from "#providers/i18n"
 import { fetchCoreResourcesSuggestions } from "#ui/forms/CodeEditor/fetchCoreResourcesSuggestions"
 import {
   InputSelect,

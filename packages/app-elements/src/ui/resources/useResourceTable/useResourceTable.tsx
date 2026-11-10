@@ -15,7 +15,7 @@ import {
   useState,
 } from "react"
 import { formatResourceName } from "#helpers/resources"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { EmptyState } from "#ui/atoms/EmptyState"
 import { Icon } from "#ui/atoms/Icon"

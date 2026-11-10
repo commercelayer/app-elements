@@ -14,7 +14,7 @@ import { toZonedTime } from "date-fns-tz/toZonedTime"
 import groupBy from "lodash-es/groupBy"
 import orderBy from "lodash-es/orderBy"
 import type { Simplify } from "type-fest"
-import type { I18NLocale } from "#providers/I18NProvider"
+import type { I18NLocale } from "#providers/i18n"
 
 type Format =
   | "date"

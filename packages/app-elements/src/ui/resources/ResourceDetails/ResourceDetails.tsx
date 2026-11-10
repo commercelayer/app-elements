@@ -1,7 +1,7 @@
 import type { ListableResourceType, Resource } from "@commercelayer/sdk"
 import { useTranslation } from "react-i18next"
 import { formatDate } from "#helpers/date"
-import type { I18NLocale } from "#providers/I18NProvider"
+import type { I18NLocale } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Section } from "#ui/atoms/Section"
