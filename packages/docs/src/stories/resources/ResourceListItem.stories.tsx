@@ -63,6 +63,7 @@ Default.args = {
   onClick() {
     alert("The item was clicked!")
   },
+  showCaret: true,
 }
 
 type ListProps = Props & {
@@ -87,8 +88,9 @@ const ItemsByTypeTemplate: StoryFn<ListProps> = (args) => {
  * what it came to. No icon — these rows are listed inside the resource they
  * belong to, which already says whose orders they are.
  *
- * `actions` puts a menu at the far right, where a clickable row would otherwise
- * have been (see `useResourceList`'s boxed variant for the whole block).
+ * Clickable, the row can show a caret after the total (see `Clickable`); with
+ * `actions`, a menu sits at the far right instead (see `useResourceList`'s boxed
+ * variant for the whole block).
  */
 export const Orders = ItemsByTypeTemplate.bind({})
 Orders.args = {
@@ -133,6 +135,35 @@ Promotions.args = {
     "flex_promotions",
   ],
 }
+
+/**
+ * A row with an `href` (or `onClick`) is clickable as a whole. `showCaret` adds a
+ * caret at the end of the row, after the right content, like an order's total,
+ * so the reader can tell the row leads somewhere. Being clickable does not add it
+ * by itself.
+ *
+ * In a real app, pass `useAppLinking`'s `navigateTo` to get both the `href` and
+ * the `onClick`, so cmd- and middle-click still open it in a new tab.
+ */
+export const Clickable: StoryFn = () => (
+  <>
+    <ResourceListItem
+      resource={presetResourceListItem.orderAwaitingApproval}
+      href="#"
+      showCaret
+    />
+    <ResourceListItem
+      resource={presetResourceListItem.orderFulfilled}
+      href="#"
+      showCaret
+    />
+    <ResourceListItem
+      resource={presetResourceListItem.orderCancelled}
+      href="#"
+      showCaret
+    />
+  </>
+)
 
 /**
  * `actions` puts a menu at the far right of the row, where a clickable row would

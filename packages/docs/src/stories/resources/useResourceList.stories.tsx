@@ -54,6 +54,7 @@ export const WithItem: StoryFn = () => {
               onClick={() => {
                 console.log("click")
               }}
+              showCaret
             />
           </SkeletonTemplate>
         )
