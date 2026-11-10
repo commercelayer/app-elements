@@ -859,6 +859,14 @@ const orderSuggestionsSnapshot = `
     },
     {
       "type": "field",
+      "value": "order.payment_taken_amount_cents",
+    },
+    {
+      "type": "field",
+      "value": "order.payment_taken_percentage",
+    },
+    {
+      "type": "field",
       "value": "order.tax_calculations_count",
     },
     {
