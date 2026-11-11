@@ -4,7 +4,7 @@ import isDate from "lodash-es/isDate"
 import isEmpty from "lodash-es/isEmpty"
 import isEqual from "lodash-es/isEqual"
 import { formatDateRange } from "#helpers/date"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import {
   formatCentsToCurrency,
   type InputCurrencyProps,

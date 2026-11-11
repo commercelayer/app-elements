@@ -1,5 +1,5 @@
 import { type ReactNode, useCallback, useState } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Modal } from "#ui/composite/Modal"
 import type { ResourceTagsProps } from "./ResourceTags"

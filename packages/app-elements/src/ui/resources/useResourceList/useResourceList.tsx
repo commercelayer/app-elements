@@ -15,7 +15,7 @@ import React, {
 import { formatResourceName } from "#helpers/resources"
 import { useIsChanged } from "#hooks/useIsChanged"
 import { useCoreSdkProvider } from "#providers/CoreSdkProvider"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
 import { Card } from "#ui/atoms/Card"
 import { EmptyState } from "#ui/atoms/EmptyState"

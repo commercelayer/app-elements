@@ -7,7 +7,7 @@ import {
 } from "@phosphor-icons/react"
 import isEmpty from "lodash-es/isEmpty"
 import { useMemo } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
 import { Hr } from "#ui/atoms/Hr"
 import { Icon } from "#ui/atoms/Icon"

@@ -1,5 +1,5 @@
 import { z } from "zod"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { HookedInput } from "#ui/forms/Input"
 

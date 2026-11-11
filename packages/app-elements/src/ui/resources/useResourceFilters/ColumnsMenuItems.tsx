@@ -23,7 +23,7 @@ import {
 import { CSS } from "@dnd-kit/utilities"
 import cn from "classnames"
 import { type JSX, useEffect, useRef } from "react"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Icon } from "#ui/atoms/Icon"
 import { DropdownItem } from "#ui/composite/Dropdown"
 import {

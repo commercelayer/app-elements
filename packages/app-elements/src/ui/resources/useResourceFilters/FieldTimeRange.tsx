@@ -1,7 +1,7 @@
 import { type JSX, useEffect, useRef, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { formatDateRange } from "#helpers/date"
-import { useTranslation } from "#providers/I18NProvider"
+import { useTranslation } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { Spacer } from "#ui/atoms/Spacer"

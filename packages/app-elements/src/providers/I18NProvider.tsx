@@ -2,33 +2,10 @@ import i18n, { type i18n as I18nInstance } from "i18next"
 import resourcesToBackend from "i18next-resources-to-backend"
 import { type JSX, type ReactNode, useEffect, useState } from "react"
 import { I18nextProvider, initReactI18next } from "react-i18next"
-import type { MergeDeep } from "type-fest"
 import { LoadingPage } from "#ui/composite/Routes/Routes"
-import type en from "../locales/en"
 import { i18nLocales, loadTranslation } from "./I18NProvider.utils"
+import type { I18NLocale, I18NTranslations } from "./i18n"
 import { useTokenProvider } from "./TokenProvider"
-
-export { t } from "i18next"
-export { Trans, useTranslation } from "react-i18next"
-
-export { i18nLocales }
-export type I18NLocale = (typeof i18nLocales)[number]
-export type I18NLanguage = I18NLocale extends `${infer L}-${string}` ? L : never
-export type Translation = typeof en
-
-/** The translation resulting from merging `Extension` over `Base`. */
-export type MergeTranslations<
-  Base extends object,
-  Extension extends object,
-> = MergeDeep<Base, Extension>
-
-/**
- * Lazy loaders of the translations a consumer adds to (or overrides in) the `app-elements` ones,
- * one for every supported language, each with the same keys as English.
- */
-export type I18NTranslations<T extends object = object> = {
-  [L in I18NLanguage]: () => Promise<{ default: T }>
-}
 
 interface I18NProviderProps<T extends object> {
   /**

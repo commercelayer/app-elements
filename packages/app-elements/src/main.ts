@@ -92,10 +92,10 @@ export {
 export { type ClAppKey, type ClAppProps, createApp } from "#providers/createApp"
 export { ErrorBoundary } from "#providers/ErrorBoundary"
 export { GTMProvider, useTagManager } from "#providers/GTMProvider"
+export { I18NProvider } from "#providers/I18NProvider"
 export {
   type I18NLanguage,
   type I18NLocale,
-  I18NProvider,
   type I18NTranslations,
   i18nLocales,
   type MergeTranslations,
@@ -103,7 +103,7 @@ export {
   type Translation,
   t,
   useTranslation,
-} from "#providers/I18NProvider"
+} from "#providers/i18n"
 export {
   encodeExtras,
   MetaTags,

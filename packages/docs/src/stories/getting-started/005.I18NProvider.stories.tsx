@@ -1,6 +1,6 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
 import { type JSX, useState } from "react"
-import { useTranslation } from "#providers/I18NProvider"
+import { useTranslation } from "#providers/i18n"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
 import { PageLayout } from "#ui/composite/PageLayout"

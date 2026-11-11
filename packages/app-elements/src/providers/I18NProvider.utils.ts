@@ -4,7 +4,7 @@ import type {
   I18NLocale,
   I18NTranslations,
   Translation,
-} from "./I18NProvider"
+} from "./i18n"
 
 export const i18nLocales = ["en-US", "it-IT"] as const
 

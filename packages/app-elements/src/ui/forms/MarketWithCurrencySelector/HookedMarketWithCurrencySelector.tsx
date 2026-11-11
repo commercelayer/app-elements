@@ -6,7 +6,7 @@ import { type FC, useEffect, useState } from "react"
 import { useFormContext } from "react-hook-form"
 import { currencyInputSelectOptions } from "#helpers/currencies"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import {
   flatSelectValues,
   HookedInputSelect,

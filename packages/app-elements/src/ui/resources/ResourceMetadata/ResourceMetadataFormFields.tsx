@@ -1,7 +1,7 @@
 import { Fragment, type JSX } from "react"
 import { useFormContext, useWatch } from "react-hook-form"
 import { z } from "zod"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
 import { Icon } from "#ui/atoms/Icon"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"

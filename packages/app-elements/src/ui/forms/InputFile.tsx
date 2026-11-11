@@ -2,7 +2,7 @@ import { UploadSimpleIcon } from "@phosphor-icons/react"
 import cn from "classnames"
 import { forwardRef, type JSX } from "react"
 import invariant from "ts-invariant"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
 import {
   getFeedbackStyle,

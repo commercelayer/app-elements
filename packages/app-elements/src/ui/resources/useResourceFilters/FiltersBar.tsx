@@ -1,7 +1,7 @@
 import type { ListableResourceType } from "@commercelayer/sdk"
 import type { JSX, ReactNode } from "react"
 import { useCoreApi } from "#providers/CoreSdkProvider"
-import { t } from "#providers/I18NProvider"
+import { t } from "#providers/i18n"
 import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { ButtonFilter } from "#ui/atoms/ButtonFilter"
