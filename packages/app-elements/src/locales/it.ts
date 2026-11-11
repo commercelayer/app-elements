@@ -171,6 +171,7 @@ const it: typeof en = {
       resource_created: "{{resource}} creato",
       resource_updated: "{{resource}} aggiornato",
       order_placed: "Ordine #{{number}} ricevuto su {{orderMarket}}",
+      agent: "Agente",
       left_a_note: "ha lasciato una nota",
       left_a_refund_note: "ha lasciato una nota di rimborso",
       resources: {
@@ -564,12 +565,23 @@ const it: typeof en = {
     required_field: "Campo obbligatorio",
   },
   dictionaries: {
+    order_reviews: {
+      agent_reasons: {
+        inbound_pending:
+          "Come agente non sono autorizzato a inviare ordini. Questo ordine resta in attesa finché non viene accettato o annullato.",
+        inbound_needs_review:
+          "Ho trovato qualcosa in questa email da verificare prima di inviare l'ordine.",
+        inbound_place_failed:
+          "Non sono riuscito a inviare questo ordine, quindi resta in attesa finché non viene accettato o annullato.",
+      },
+    },
     orders: {
       display_status: {
         awaiting_capture: "Da catturare",
         customer_review: "Revisione cliente",
         customer_confirmed: "Confermato dal cliente",
         customer_rejected: "Rifiutato dal cliente",
+        review_required: "Revisione richiesta",
         in_progress: "In corso",
       },
       tasks: {

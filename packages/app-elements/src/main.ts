@@ -6,8 +6,10 @@ export {
   getCustomerStatusName,
 } from "#dictionaries/customers"
 export {
+  getAgentOrderReviewNote,
   getLastOrderReview,
   getOrderReviewDisplayStatus,
+  isAgentOrderReview,
 } from "#dictionaries/orderReviews"
 export {
   getOrderDisplayStatus,

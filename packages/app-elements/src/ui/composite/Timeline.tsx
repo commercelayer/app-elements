@@ -7,7 +7,7 @@ import { useTokenProvider } from "#providers/TokenProvider"
 import { Badge } from "#ui/atoms/Badge"
 import { Card } from "#ui/atoms/Card"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { StatusIcon } from "#ui/atoms/StatusIcon"
+import { StatusIcon, type StatusIconProps } from "#ui/atoms/StatusIcon"
 import { Text } from "#ui/atoms/Text"
 import { Input } from "#ui/forms/Input"
 export interface TimelineEvent {
@@ -16,9 +16,11 @@ export interface TimelineEvent {
   message: ReactNode
   note?: string
   variant?: "warning"
+  /** The event's own icon, in place of the one its note or variant gives it. */
+  icon?: StatusIconProps["name"]
 }
 
-type EventWithIcon = TimelineEvent & {
+type EventWithIcon = Omit<TimelineEvent, "icon"> & {
   icon: JSX.Element
 }
 
@@ -160,6 +162,10 @@ export const Timeline = withSkeletonTemplate<TimelineProps>(
 )
 
 function getIcon(event: TimelineEvent): JSX.Element {
+  if (event.icon != null) {
+    return <StatusIcon name={event.icon} background="black" gap="small" />
+  }
+
   if (event.variant === "warning") {
     return <StatusIcon name="warning" background="orange" gap="small" />
   }

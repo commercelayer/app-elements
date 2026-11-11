@@ -174,6 +174,35 @@ describe("getOrderDisplayStatus with an order review", () => {
     ).toBe(t("dictionaries.orders.display_status.customer_review"))
   })
 
+  it("shows an order an agent held as waiting on the seller", () => {
+    const held = {
+      ...order("pending", "unpaid", "unfulfilled"),
+      on_hold: true,
+    } as Order
+    expect(
+      getOrderDisplayStatus(held, {
+        status: "pending",
+        requester: { type: "agents", id: "agent-1" } as never,
+      }),
+    ).toMatchObject({
+      label: t("dictionaries.orders.display_status.review_required"),
+      color: "orange",
+      badgeIcon: "robot",
+    })
+  })
+
+  it("shows an order the seller accepted from an agent as placed", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "accepted",
+        requester: { type: "agents", id: "agent-1" } as never,
+      }),
+    ).toMatchObject({
+      label: t("resources.orders.attributes.status.placed"),
+      task: t("dictionaries.orders.tasks.awaiting_approval"),
+    })
+  })
+
   it("names a confirmed order and keeps it awaiting approval", () => {
     expect(
       getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
