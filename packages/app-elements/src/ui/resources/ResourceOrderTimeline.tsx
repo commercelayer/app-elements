@@ -163,30 +163,6 @@ const useOrderReviewEvents = (
   enabled: boolean,
 ): TimelineEvent[] => {
   const { t } = useTranslation()
-  const { canUser } = useTokenProvider()
-
-  // Core links a review's requester without including it, so the agents behind
-  // the order's reviews are read on their own, for their names — by apps allowed
-  // to; the others name them "Agent"
-  const agentIds =
-    enabled && canUser("read", "agents")
-      ? [
-          ...new Set(
-            (order.order_reviews ?? [])
-              .map((review) => review.requester)
-              .filter((requester) => requester?.type === "agents")
-              .map((requester) => requester?.id ?? ""),
-          ),
-        ].filter((id) => id !== "")
-      : []
-  const { data: agents } = useCoreApi(
-    "agents",
-    "list",
-    agentIds.length === 0
-      ? null
-      : [{ filters: { id_in: agentIds.join(",") }, fields: ["name"] }],
-  )
-
   return useMemo(() => {
     if (!enabled) {
       return []
@@ -198,9 +174,12 @@ const useOrderReviewEvents = (
         return [
           {
             date: review.created_at,
+            // the agent comes with the review, for apps allowed to read agents;
+            // the others name it "Agent"
             author:
-              agents?.find((agent) => agent.id === review.requester?.id)
-                ?.name ?? t("common.timeline.agent"),
+              review.requester?.type === "agents"
+                ? (review.requester.name ?? t("common.timeline.agent"))
+                : t("common.timeline.agent"),
             message: t("common.timeline.left_a_note"),
             note: agentNote,
             icon: "robot",
@@ -243,7 +222,7 @@ const useOrderReviewEvents = (
 
       return [sent, answered]
     })
-  }, [enabled, order.order_reviews, agents])
+  }, [enabled, order.order_reviews])
 }
 
 const useTimelineReducer = (order: Order, withOrderNotes: boolean) => {
