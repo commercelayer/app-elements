@@ -411,6 +411,7 @@ const en = {
       resource_created: "{{resource}} created",
       resource_updated: "{{resource}} updated",
       order_placed: "Order #{{number}} placed in {{orderMarket}}",
+      agent: "Agent",
       left_a_note: "left a note",
       left_a_refund_note: "left a refund note",
       resources: {
@@ -571,12 +572,23 @@ const en = {
     price: "price",
   },
   dictionaries: {
+    order_reviews: {
+      agent_reasons: {
+        inbound_pending:
+          "As an agent, I'm not authorized to place orders. This order stays on hold until it's accepted or cancelled.",
+        inbound_needs_review:
+          "I found something in this email that needs a check before the order is placed.",
+        inbound_place_failed:
+          "I couldn't place this order, so it stays on hold until it's accepted or cancelled.",
+      },
+    },
     orders: {
       display_status: {
         awaiting_capture: "Awaiting capture",
         customer_review: "Customer review",
         customer_confirmed: "Customer confirmed",
         customer_rejected: "Customer rejected",
+        review_required: "Review required",
         in_progress: "In progress",
       },
       tasks: {

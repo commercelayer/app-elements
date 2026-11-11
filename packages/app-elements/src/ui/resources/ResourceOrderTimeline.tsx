@@ -1,6 +1,7 @@
 import type { Attachment, Order, StockTransfer } from "@commercelayer/sdk"
 import isEmpty from "lodash-es/isEmpty"
 import { useCallback, useEffect, useMemo, useReducer, useState } from "react"
+import { getAgentOrderReviewNote } from "#dictionaries/orderReviews"
 import { getOrderTransactionName } from "#dictionaries/orders"
 import { navigateTo } from "#helpers/appsNavigation"
 import { isAttachmentValidNote, referenceOrigins } from "#helpers/attachments"
@@ -61,7 +62,9 @@ export const ResourceOrderTimeline =
                   "payment_method",
                   "payment_source",
                   "attachments",
-                  ...(withReviews ? ["order_reviews"] : []),
+                  ...(withReviews
+                    ? ["order_reviews", "order_reviews.requester"]
+                    : []),
                 ],
               },
             ],
@@ -148,6 +151,10 @@ export const ResourceOrderTimeline =
  * One event when the seller sent the order for review, with what they wrote
  * the customer, and one when the customer answered, with their reply.
  *
+ * A review an email-to-order agent asked for is the agent leaving a note: why it
+ * held the order instead of placing it. Its answer has no event of its own — the
+ * seller accepting places the order and cancelling archives it, and those say so.
+ *
  * Kept out of the reducer, which only ever adds: withdrawing a review deletes
  * it, and its event has to go with it.
  */
@@ -156,6 +163,29 @@ const useOrderReviewEvents = (
   enabled: boolean,
 ): TimelineEvent[] => {
   const { t } = useTranslation()
+  const { canUser } = useTokenProvider()
+
+  // Core links a review's requester without including it, so the agents behind
+  // the order's reviews are read on their own, for their names — by apps allowed
+  // to; the others name them "Agent"
+  const agentIds =
+    enabled && canUser("read", "agents")
+      ? [
+          ...new Set(
+            (order.order_reviews ?? [])
+              .map((review) => review.requester)
+              .filter((requester) => requester?.type === "agents")
+              .map((requester) => requester?.id ?? ""),
+          ),
+        ].filter((id) => id !== "")
+      : []
+  const { data: agents } = useCoreApi(
+    "agents",
+    "list",
+    agentIds.length === 0
+      ? null
+      : [{ filters: { id_in: agentIds.join(",") }, fields: ["name"] }],
+  )
 
   return useMemo(() => {
     if (!enabled) {
@@ -163,6 +193,21 @@ const useOrderReviewEvents = (
     }
 
     return (order.order_reviews ?? []).flatMap((review) => {
+      const agentNote = getAgentOrderReviewNote(review)
+      if (agentNote != null) {
+        return [
+          {
+            date: review.created_at,
+            author:
+              agents?.find((agent) => agent.id === review.requester?.id)
+                ?.name ?? t("common.timeline.agent"),
+            message: t("common.timeline.left_a_note"),
+            note: agentNote,
+            icon: "robot",
+          } satisfies TimelineEvent,
+        ]
+      }
+
       const sent: TimelineEvent = {
         date: review.created_at,
         message: (
@@ -198,7 +243,7 @@ const useOrderReviewEvents = (
 
       return [sent, answered]
     })
-  }, [enabled, order.order_reviews])
+  }, [enabled, order.order_reviews, agents])
 }
 
 const useTimelineReducer = (order: Order, withOrderNotes: boolean) => {
