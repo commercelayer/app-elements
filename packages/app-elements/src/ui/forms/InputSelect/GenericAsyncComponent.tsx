@@ -64,6 +64,8 @@ export interface GenericAsyncSelectComponentProps
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>
+  "aria-invalid"?: boolean
+  "aria-errormessage"?: string
 }
 
 // extracting loadOptions signature from react-select async types

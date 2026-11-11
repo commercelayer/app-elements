@@ -10,6 +10,7 @@ import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 import {
   formatCentsToCurrency,
@@ -102,6 +103,13 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
       setValue(makeInitialValue({ cents, currency }))
     }, [cents, currency])
 
+    const { wrapperProps, inputProps } = useInputWrapperField({
+      id: rest.id,
+      name: rest.name,
+      feedback,
+      hint,
+    })
+
     if (currency == null) {
       return (
         <div>{t("common.forms.currency_code_not_valid", { currencyCode })}</div>
@@ -121,7 +129,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
         hint={hint}
         feedback={feedback}
         inline={inline}
-        name={rest.id ?? rest.name}
+        {...wrapperProps}
       >
         <div className="relative w-full">
           {hideCurrencySymbol === true ? null : (
@@ -135,7 +143,6 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
           <ReactCurrencyInputField
             ref={ref}
             data-testid="inputCurrency-input"
-            id={rest.id ?? rest.name}
             className={cn(
               className,
               "block w-full pr-4 py-2.5 text-sm",
@@ -189,6 +196,7 @@ export const InputCurrency = forwardRef<HTMLInputElement, InputCurrencyProps>(
               onChange(newValue, newFormatted)
             }}
             {...rest}
+            {...inputProps}
           />
           {isClearable === true && _value != null ? (
             <button

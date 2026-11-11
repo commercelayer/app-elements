@@ -4,6 +4,7 @@ import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 
 export interface InputCheckboxProps
@@ -46,6 +47,14 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
     const [checked, setChecked] = useState<boolean>(
       rest.defaultChecked ?? rest.checked ?? false,
     )
+    const { wrapperProps, inputProps } = useInputWrapperField({
+      id: rest.id,
+      name: rest.name,
+      feedback,
+      hint,
+      required: rest.required,
+      "aria-describedby": rest["aria-describedby"],
+    })
 
     const inputCheckbox = (
       <input
@@ -67,6 +76,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
           getFeedbackStyle(feedback),
         )}
         {...rest}
+        {...inputProps}
         ref={ref}
       />
     )
@@ -75,6 +85,7 @@ export const InputCheckbox = forwardRef<HTMLInputElement, InputCheckboxProps>(
       <InputWrapper
         hint={hint}
         feedback={feedback}
+        {...wrapperProps}
         data-testid="checkbox-wrapper"
       >
         <div className={cn("flex items-center w-full", className)}>
