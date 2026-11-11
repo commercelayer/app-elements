@@ -1,6 +1,7 @@
 import type { Order, OrderReview } from "@commercelayer/sdk"
 import { t } from "i18next"
 import type { StatusIconProps } from "#ui/atoms/StatusIcon"
+import { isAgentOrderReview } from "./orderReviews"
 import type { DisplayStatus } from "./types"
 export interface OrderDisplayStatus extends DisplayStatus {
   label: string
@@ -18,12 +19,28 @@ export interface OrderDisplayStatus extends DisplayStatus {
  * what the order is waiting on, whatever its payment and fulfillment say. Once
  * answered, a confirmed order goes back to awaiting approval under its own name,
  * and a rejected one cannot be approved until the seller asks again.
+ *
+ * A pending review an email-to-order agent asked for turns it around: the order
+ * waits on the seller, so it reads "Review required", with the agent's icon on
+ * the badge. Once the seller accepts it the order is placed like any other, and
+ * reads so: nobody at the buyer confirmed anything. Telling the two apart needs
+ * the review's `requester`.
  */
 export function getOrderDisplayStatus(
   order: Order,
-  lastReview?: Pick<OrderReview, "status"> | null,
+  lastReview?: Pick<OrderReview, "status" | "requester"> | null,
 ): OrderDisplayStatus {
   if (order.status !== "cancelled") {
+    if (lastReview?.status === "pending" && isAgentOrderReview(lastReview)) {
+      return {
+        label: t("dictionaries.orders.display_status.review_required"),
+        icon: "robot",
+        color: "orange",
+        badgeIcon: "robot",
+        task: t("dictionaries.orders.display_status.review_required"),
+      }
+    }
+
     if (order.on_hold === true || lastReview?.status === "pending") {
       return {
         label: t("dictionaries.orders.display_status.customer_review"),
@@ -33,7 +50,11 @@ export function getOrderDisplayStatus(
       }
     }
 
-    if (order.status === "placed" && lastReview?.status === "rejected") {
+    if (
+      order.status === "placed" &&
+      lastReview?.status === "rejected" &&
+      !isAgentOrderReview(lastReview)
+    ) {
       return {
         label: t("dictionaries.orders.display_status.customer_rejected"),
         icon: "x",
@@ -61,6 +82,7 @@ export function getOrderDisplayStatus(
   // label says why it is ready — an unpaid one keeps its error instead
   if (
     lastReview?.status === "accepted" &&
+    !isAgentOrderReview(lastReview) &&
     status.task === t("dictionaries.orders.tasks.awaiting_approval")
   ) {
     return {
