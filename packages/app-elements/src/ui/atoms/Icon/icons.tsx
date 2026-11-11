@@ -109,6 +109,7 @@ export const iconMapping = {
   qrCode: phosphor.QrCodeIcon,
   question: phosphor.QuestionIcon,
   receipt: phosphor.ReceiptIcon,
+  robot: phosphor.RobotIcon,
   rocketLaunch: phosphor.RocketLaunchIcon,
   seal: phosphor.SealIcon,
   sealPercent: phosphor.SealPercentIcon,
