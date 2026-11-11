@@ -34,9 +34,16 @@ export interface ResourceListItemProps {
    */
   onClick?: ListItemProps["onClick"]
   /**
-   * Optional setting to show right content, if available, instead of right arrow
+   * Optional setting to show right content, if available.
    */
   showRightContent?: boolean
+  /**
+   * Shows a right arrow at the end of the row, after the right content, to tell
+   * that the row leads somewhere. It is not tied to `href` or `onClick`: a
+   * clickable row shows it only when this is set.
+   * @default false
+   */
+  showCaret?: boolean
   /**
    * Optional override for the right slot. When provided, it replaces any computed right content.
    */
@@ -64,6 +71,7 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     onClick,
     alignItems,
     showRightContent = false,
+    showCaret = false,
     invertNameDescription = false,
     status,
     actions,
@@ -110,10 +118,14 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
           <div>
             {rightContentOverride != null
               ? rightContentOverride
-              : showRightContent
-                ? rightContent
-                : isClickable && <StatusIcon name="caretRight" />}
+              : showRightContent && rightContent}
           </div>
+          {showCaret && (
+            <StatusIcon
+              name="caretRight"
+              data-testid="ResourceListItem-caret"
+            />
+          )}
           {actions}
         </div>
       </ListItem>
