@@ -3,6 +3,7 @@ import { type JSX, useEffect, useState } from "react"
 import {
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 
 export interface InputJsonProps<JsonType> extends InputWrapperBaseProps {
@@ -29,6 +30,10 @@ export function InputJson<JsonType extends object>({
   const [value, setValue] = useState("")
   const [internalFeedback, setInternalFeedback] =
     useState<InputWrapperBaseProps["feedback"]>(feedback)
+  const { wrapperProps, inputProps } = useInputWrapperField({
+    feedback: internalFeedback,
+    hint,
+  })
 
   useEffect(
     function parseValueAsJson() {
@@ -58,9 +63,11 @@ export function InputJson<JsonType extends object>({
       label={label}
       hint={hint}
       feedback={internalFeedback}
+      {...wrapperProps}
       {...rest}
     >
       <textarea
+        {...inputProps}
         data-gramm="false"
         placeholder={preparePlaceholder(placeholder)}
         value={value}

@@ -16,6 +16,7 @@ import { useDialogPortalTarget } from "#ui/internals/dialogPortal"
 import {
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 import { AsyncSelectComponent } from "./AsyncComponent"
 import { AsyncCreatableSelectComponent } from "./AsyncCreatableComponent"
@@ -267,6 +268,7 @@ export const InputSelect = forwardRef<
       isMulti,
       onBlur,
       name,
+      inputId,
       className,
       loadAsyncValues,
       infiniteScroll,
@@ -311,6 +313,15 @@ export const InputSelect = forwardRef<
       dialog.dispatchEvent(new Event("cancel", { cancelable: true }))
     }
 
+    // react-select sets its own `aria-describedby` on the input, so the feedback
+    // reaches it as `aria-errormessage` and the hint is not linked
+    const { wrapperProps, inputProps, feedbackId } = useInputWrapperField({
+      id: inputId,
+      name,
+      feedback,
+      hint,
+    })
+
     const commonProps:
       | GenericAsyncSelectComponentProps
       | CreatableComponentProps
@@ -336,6 +347,9 @@ export const InputSelect = forwardRef<
       // Viewport coordinates hold wherever the menu is portalled.
       menuPosition: portalTarget != null ? "fixed" : undefined,
       onKeyDown: handleKeyDown,
+      "aria-invalid": inputProps["aria-invalid"],
+      "aria-errormessage":
+        inputProps["aria-invalid"] === true ? feedbackId : undefined,
     }
 
     return (
@@ -344,14 +358,14 @@ export const InputSelect = forwardRef<
         label={label}
         hint={hint}
         feedback={feedback}
-        name={name}
+        {...wrapperProps}
         {...rest}
       >
         {loadAsyncValues != null && infiniteScroll === true ? (
           <AsyncPaginateSelectComponent
             {...commonProps}
             ref={ref}
-            inputId={name}
+            inputId={inputProps.id}
             loadAsyncValues={loadAsyncValues as LoadAsyncValuesPaginated}
             hideDropdownIndicator={hideDropdownIndicator}
             menuPortalTarget={portalTarget}
@@ -363,7 +377,7 @@ export const InputSelect = forwardRef<
           <AsyncCreatableSelectComponent
             {...commonProps}
             ref={ref}
-            inputId={name}
+            inputId={inputProps.id}
             loadAsyncValues={loadAsyncValues as LoadAsyncValues}
             asTextSearch={asTextSearch}
             hideDropdownIndicator={hideDropdownIndicator}
@@ -375,7 +389,7 @@ export const InputSelect = forwardRef<
           <AsyncSelectComponent
             {...commonProps}
             ref={ref}
-            inputId={name}
+            inputId={inputProps.id}
             loadAsyncValues={loadAsyncValues as LoadAsyncValues}
             asTextSearch={asTextSearch}
             hideDropdownIndicator={hideDropdownIndicator}
@@ -387,7 +401,7 @@ export const InputSelect = forwardRef<
           <CreatableComponent
             {...commonProps}
             ref={ref}
-            inputId={name}
+            inputId={inputProps.id}
             isSearchable={isSearchable}
             menuPortalTarget={portalTarget}
           />
@@ -395,7 +409,7 @@ export const InputSelect = forwardRef<
           <SelectComponent
             {...commonProps}
             ref={ref}
-            inputId={name}
+            inputId={inputProps.id}
             isSearchable={isSearchable}
             menuPortalTarget={portalTarget}
           />

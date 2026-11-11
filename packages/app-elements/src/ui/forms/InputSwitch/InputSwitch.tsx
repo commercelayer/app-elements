@@ -4,6 +4,7 @@ import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 
 export interface InputSwitchProps
@@ -12,12 +13,20 @@ export interface InputSwitchProps
 
 export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
   ({ className, label, hint, feedback, inline, ...rest }, ref): JSX.Element => {
+    const { wrapperProps, inputProps } = useInputWrapperField({
+      id: rest.id,
+      name: rest.name,
+      feedback,
+      hint,
+      required: rest.required,
+      "aria-describedby": rest["aria-describedby"],
+    })
     return (
       <InputWrapper
         label={label}
         hint={hint}
         feedback={feedback}
-        name={rest.id ?? rest.name}
+        {...wrapperProps}
         inline={inline}
       >
         <div className="flex">
@@ -28,12 +37,12 @@ export const InputSwitch = forwardRef<HTMLInputElement, InputSwitchProps>(
             )}
           >
             <input
-              id={rest.id ?? rest.name}
               type="checkbox"
               className={cn(
                 "absolute cursor-pointer top-0 left-0 w-full h-full peer appearance-none opacity-0 z-10",
               )}
               {...rest}
+              {...inputProps}
               ref={ref}
             />
             <span
