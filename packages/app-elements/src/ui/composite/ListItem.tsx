@@ -78,6 +78,15 @@ export const ListItem: FC<ListItemProps> = ({
   const JsxTag =
     rest.href != null ? "a" : rest.onClick != null ? "button" : "div"
   const isClickable = !disabled && (rest.href != null || rest.onClick != null)
+  // A row in a boxed list has no side padding of its own, so a ring drawn on its
+  // edges would touch its content. It is drawn on a pseudo-element instead, wider
+  // than the row and into the card's padding, and painted after the row's
+  // children so it covers the dashed rules: its own below, and the previous
+  // row's above, one pixel higher.
+  // It follows the card's shape: as far from the card's sides as the first and
+  // last rows are from its top and bottom (4px), with the card's radius less
+  // that gap, so the corners stay concentric.
+  const hasOutsetFocusRing = isClickable && isInBoxedList && variant === "list"
 
   if (padding == null) {
     const isNonClickableList =
@@ -118,11 +127,13 @@ export const ListItem: FC<ListItemProps> = ({
           [overlayPxSize]: padding !== "none" && padding !== "y",
           [pySize]: padding !== "none" && padding !== "x",
           [pxSize]: padding !== "none" && padding !== "y",
-          relative: borderStyle === "dashed",
+          relative: borderStyle === "dashed" || hasOutsetFocusRing,
           "border-b": borderStyle === "solid",
           "rounded border": variant === "boxed",
           "focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-hidden":
-            isClickable,
+            isClickable && !hasOutsetFocusRing,
+          "focus-visible:outline-hidden after:pointer-events-none after:absolute after:-top-px after:bottom-0 after:-inset-x-5 after:rounded-xs md:after:rounded-[12px] focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-primary":
+            hasOutsetFocusRing,
           "hover:bg-gray-50": isClickable && !isInBoxedList,
           // a boxed list reacts on the row's content rather than its background
           // (see below), so the group stays one gray block under the pointer

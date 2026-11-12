@@ -86,6 +86,20 @@ describe("ListItem", () => {
     expect(element).not.toHaveClass("px-4")
   })
 
+  test("Should draw the focus ring of a clickable row in a boxed list outside the row", () => {
+    const { getByTestId } = render(
+      <ListContext.Provider value={{ boxed: true, isLastRow: false }}>
+        <ListItem data-testid="my-item" href="#">
+          <div>Content</div>
+        </ListItem>
+      </ListContext.Provider>,
+    )
+    const element = getByTestId("my-item")
+    expect(element).not.toHaveClass("focus-visible:ring-2")
+    expect(element).toHaveClass("after:-inset-x-5")
+    expect(element).toHaveClass("focus-visible:after:ring-2")
+  })
+
   test("Should keep an explicit padding in a boxed list", () => {
     const { getByTestId } = render(
       <ListContext.Provider value={{ boxed: true, isLastRow: false }}>
