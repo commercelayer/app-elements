@@ -1,7 +1,9 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
 import { Dropdown } from "#ui/composite/Dropdown"
 import { DropdownItem } from "#ui/composite/Dropdown/DropdownItem"
+import { ListContext } from "#ui/internals/listContext"
 import { ResourceListItem } from "#ui/resources/ResourceListItem"
 import { presetResourceListItem } from "#ui/resources/ResourceListItem/ResourceListItem.mocks"
 import type { ResourceListItemType } from "#ui/resources/ResourceListItem/types"
@@ -10,12 +12,24 @@ type Props = Parameters<typeof ResourceListItem>[0] & {
   preset: Array<keyof typeof presetResourceListItem | "custom">
 }
 
+/** The resource types the component is still used for: the others are deprecated. */
+const supportedTypes: Array<ResourceListItemType["type"]> = [
+  "orders",
+  "returns",
+  "shipments",
+  "sku_list_items",
+]
+
+const supportedPresets = Object.entries(presetResourceListItem)
+  .filter(([, preset]) => supportedTypes.includes(preset.type))
+  .map(([key]) => key)
+
 const setup: Meta<Props> = {
   title: "Resources/ResourceListItem",
   component: ResourceListItem,
   argTypes: {
     preset: {
-      options: ["custom", ...Object.keys(presetResourceListItem)],
+      options: ["custom", ...supportedPresets],
       control: { type: "check" },
       description: `⚠️ This attribute is **not** a component prop.
         It is meant to be used only within this documentation.
@@ -63,7 +77,6 @@ Default.args = {
   onClick() {
     alert("The item was clicked!")
   },
-  showCaret: true,
 }
 
 type ListProps = Props & {
@@ -102,16 +115,6 @@ Returns.args = {
   type: ["returns"],
 }
 
-export const StockTransfers = ItemsByTypeTemplate.bind({})
-StockTransfers.args = {
-  type: ["stock_transfers"],
-}
-
-export const Customers = ItemsByTypeTemplate.bind({})
-Customers.args = {
-  type: ["customers"],
-}
-
 export const Shipments = ItemsByTypeTemplate.bind({})
 Shipments.args = {
   type: ["shipments"],
@@ -122,25 +125,11 @@ SkuListItems.args = {
   type: ["sku_list_items"],
 }
 
-export const Promotions = ItemsByTypeTemplate.bind({})
-Promotions.args = {
-  type: [
-    "buy_x_pay_y_promotions",
-    "external_promotions",
-    "fixed_amount_promotions",
-    "fixed_price_promotions",
-    "free_gift_promotions",
-    "free_shipping_promotions",
-    "percentage_discount_promotions",
-    "flex_promotions",
-  ],
-}
-
 /**
- * A row with an `href` (or `onClick`) is clickable as a whole. `showCaret` adds a
- * caret at the end of the row, after the right content, like an order's total,
- * so the reader can tell the row leads somewhere. Being clickable does not add it
- * by itself.
+ * A row with an `href` (or `onClick`) is clickable as a whole, and shows a caret
+ * at the end of the row, after the right content, like an order's total, so the
+ * reader can tell the row leads somewhere. A row with `actions` leaves it out:
+ * the menu takes its place.
  *
  * In a real app, pass `useAppLinking`'s `navigateTo` to get both the `href` and
  * the `onClick`, so cmd- and middle-click still open it in a new tab.
@@ -150,19 +139,47 @@ export const Clickable: StoryFn = () => (
     <ResourceListItem
       resource={presetResourceListItem.orderAwaitingApproval}
       href="#"
-      showCaret
     />
     <ResourceListItem
       resource={presetResourceListItem.orderFulfilled}
       href="#"
-      showCaret
     />
     <ResourceListItem
       resource={presetResourceListItem.orderCancelled}
       href="#"
-      showCaret
     />
   </>
+)
+
+const clickableInBoxedListPresets = [
+  "orderAwaitingApproval",
+  "orderFulfilled",
+  "orderCancelled",
+] as const
+
+/**
+ * The same clickable rows inside a boxed list, a list nested in a parent
+ * resource's page, as `useResourceList` renders it with `variant="boxed"`: a
+ * gray card where the rows separate with a dashed rule, left out on the last
+ * row since the card's edge already closes the group.
+ *
+ * The rows take no prop for any of it: they read the list's `ListContext`,
+ * which this story provides per row the same way `useResourceList` does.
+ */
+export const ClickableInBoxedList: StoryFn = () => (
+  <Card gap="1" overflow="visible" backgroundColor="light" className="px-6">
+    {clickableInBoxedListPresets.map((preset, index) => (
+      <ListContext.Provider
+        key={preset}
+        value={{
+          boxed: true,
+          isLastRow: index === clickableInBoxedListPresets.length - 1,
+        }}
+      >
+        <ResourceListItem resource={presetResourceListItem[preset]} href="#" />
+      </ListContext.Provider>
+    ))}
+  </Card>
 )
 
 /**

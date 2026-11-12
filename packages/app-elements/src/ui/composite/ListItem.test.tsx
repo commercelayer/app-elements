@@ -1,4 +1,5 @@
 import { act, type RenderResult, render } from "@testing-library/react"
+import { ListContext } from "#ui/internals/listContext"
 import { ListItem, type ListItemProps } from "./ListItem"
 
 type SetupResult = RenderResult & {
@@ -54,5 +55,45 @@ describe("ListItem", () => {
     })
     expect(element).toBeInTheDocument()
     expect(element).not.toHaveClass("hover:bg-gray-50")
+  })
+
+  test("Should fade its content instead of its background on hover in a boxed list", () => {
+    const { getByTestId } = render(
+      <ListContext.Provider value={{ boxed: true, isLastRow: false }}>
+        <ListItem data-testid="my-item" href="#">
+          <div>Content</div>
+        </ListItem>
+      </ListContext.Provider>,
+    )
+    const element = getByTestId("my-item")
+    expect(element).not.toHaveClass("hover:bg-gray-50")
+    expect(element).toHaveClass("group/list-item")
+    expect(element.firstElementChild).toHaveClass(
+      "group-hover/list-item:opacity-70",
+    )
+  })
+
+  test("Should leave out the side padding of a clickable row in a boxed list", () => {
+    const { getByTestId } = render(
+      <ListContext.Provider value={{ boxed: true, isLastRow: false }}>
+        <ListItem data-testid="my-item" href="#">
+          <div>Content</div>
+        </ListItem>
+      </ListContext.Provider>,
+    )
+    const element = getByTestId("my-item")
+    expect(element).toHaveClass("py-4")
+    expect(element).not.toHaveClass("px-4")
+  })
+
+  test("Should keep an explicit padding in a boxed list", () => {
+    const { getByTestId } = render(
+      <ListContext.Provider value={{ boxed: true, isLastRow: false }}>
+        <ListItem data-testid="my-item" href="#" padding="xy">
+          <div>Content</div>
+        </ListItem>
+      </ListContext.Provider>,
+    )
+    expect(getByTestId("my-item")).toHaveClass("px-4")
   })
 })

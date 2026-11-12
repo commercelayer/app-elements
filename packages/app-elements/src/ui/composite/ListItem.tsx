@@ -27,6 +27,7 @@ export type ListItemProps = React.HTMLAttributes<HTMLElement> &
      * You can specify `none` to remove the padding.
      *
      * By default, the padding is set to `y` when the ListItem is a **not** clickable list, `xy` otherwise.
+     * In a boxed list it is always `y` for the `list` variant: the card already insets its rows at the sides.
      * @default 'xy'
      */
     padding?: "xy" | "x" | "y" | "none"
@@ -82,7 +83,9 @@ export const ListItem: FC<ListItemProps> = ({
     const isNonClickableList =
       variant === "list" && rest.href == null && rest.onClick == null
 
-    if (isNonClickableList) {
+    // a row in a boxed list is inset at the sides by the card already; a boxed
+    // row is its own card, so it keeps its padding
+    if (isNonClickableList || (isInBoxedList && variant === "list")) {
       padding = "y"
     } else {
       padding = "xy"
@@ -120,10 +123,10 @@ export const ListItem: FC<ListItemProps> = ({
           "rounded border": variant === "boxed",
           "focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-hidden":
             isClickable,
-          // gray-50 is the boxed list's own background, so a row there needs the
-          // next step up to react to the pointer at all
           "hover:bg-gray-50": isClickable && !isInBoxedList,
-          "hover:bg-gray-100": isClickable && isInBoxedList,
+          // a boxed list reacts on the row's content rather than its background
+          // (see below), so the group stays one gray block under the pointer
+          "group/list-item": isClickable && isInBoxedList,
           "bg-white": !disabled && variant === "boxed",
           "bg-gray-100": disabled,
           "border-gray-200": variant === "boxed" || disabled,
@@ -135,7 +138,14 @@ export const ListItem: FC<ListItemProps> = ({
       type={JsxTag === "button" ? "button" : undefined}
       {...wantedProps}
     >
-      <div className={cn("flex gap-4 flex-1 items-center print:gap-0")}>
+      <div
+        className={cn("flex gap-4 flex-1 items-center print:gap-0", {
+          // a named group, as a row's own content (a dropdown's items) may use
+          // a plain `group` that this row's hover must not reach
+          "transition-opacity group-hover/list-item:opacity-70":
+            isClickable && isInBoxedList,
+        })}
+      >
         {icon != null && (
           <div
             className={cn("shrink-0", {
