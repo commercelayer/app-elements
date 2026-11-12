@@ -43,6 +43,16 @@ describe("Timeline", () => {
     expect(getByTestId("timeline")).toBeVisible()
   })
 
+  it("Should have no note input without a handler", () => {
+    const { queryByRole } = render(<Timeline events={[]} />)
+    expect(queryByRole("textbox")).toBeNull()
+  })
+
+  it("Should have a note input with a handler", () => {
+    const { getByRole } = render(<Timeline events={[]} onKeyDown={() => {}} />)
+    expect(getByRole("textbox")).toBeVisible()
+  })
+
   it("Should render events", () => {
     vi.useFakeTimers().setSystemTime("2023-01-03")
 

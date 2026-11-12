@@ -20,7 +20,11 @@ export interface ResourceStatusBadgeProps {
  */
 export const ResourceStatusBadge =
   withSkeletonTemplate<ResourceStatusBadgeProps>(({ status, className }) => (
-    <Badge variant={toBadgeVariant(status.color)} className={className}>
+    <Badge
+      variant={toBadgeVariant(status.color)}
+      icon={status.badgeIcon}
+      className={className}
+    >
       {status.label}
     </Badge>
   ))

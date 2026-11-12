@@ -172,6 +172,15 @@ export type UseResourceListConfig<
    */
   paginationScrollTo?: "top" | "list" | "none"
   /**
+   * Groups the state this list keeps in the url's query string under a name of
+   * its own: with `namespace: "emails"` its page is `emails_page`. Without one,
+   * the list uses the bare names (`page`).
+   *
+   * Two paginated lists on the same page need different namespaces — leaving
+   * one without is enough — or paging one would page the other too.
+   */
+  namespace?: string
+  /**
    * The client for `api`. Required for the Provisioning API — app-elements has no
    * provisioning token of its own, so the caller builds it (see
    * `docs/adr/0001-provisioning-api-in-resource-list.md`); the overloads below are
@@ -267,6 +276,7 @@ export function useResourceListForApi<
   metricsQuery,
   paginationType = "infinite",
   paginationScrollTo = "top",
+  namespace,
   preProcess,
 }: UseResourceListConfig<TResource, TApi>):
   | UseResourceListReturn<TResource, TApi>
@@ -282,7 +292,7 @@ export function useResourceListForApi<
     ResourceListInternalState<ResourceFor<TApi, TResource>>,
     [Action<ResourceFor<TApi, TResource>>]
   >(reducer, createInitialState<ResourceFor<TApi, TResource>>())
-  const { requestedPage, pushPage, replacePage } = usePageInUrl()
+  const { requestedPage, pushPage, replacePage } = usePageInUrl(namespace)
   const listRef = React.useRef<HTMLDivElement>(null)
   /**
    * Metrics API + `pagination` mode only: the cursor that opens each page.

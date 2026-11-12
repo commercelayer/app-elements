@@ -24,6 +24,11 @@ const resources = {
     name_other: "Adjustments",
     attributes: {},
   },
+  agreements: {
+    name: "Agreement",
+    name_other: "Agreements",
+    attributes: {},
+  },
   attachments: {
     name: "Attachment",
     name_other: "Attachments",
@@ -58,10 +63,22 @@ const resources = {
     name_other: "Links",
     attributes: {},
   },
+  order_reviews: {
+    name: "Order review",
+    name_other: "Order reviews",
+    attributes: {
+      status: {
+        pending: "Review required",
+        accepted: "Confirmed",
+        rejected: "Rejected",
+      },
+    },
+  },
   orders: {
     name: "Order",
     name_other: "Orders",
     attributes: {
+      notes: "Notes",
       status: {
         approved: "Approved",
         cancelled: "Cancelled",
@@ -394,6 +411,7 @@ const en = {
       resource_created: "{{resource}} created",
       resource_updated: "{{resource}} updated",
       order_placed: "Order #{{number}} placed in {{orderMarket}}",
+      agent: "Agent",
       left_a_note: "left a note",
       left_a_refund_note: "left a refund note",
       resources: {
@@ -404,6 +422,9 @@ const en = {
         order_cancelled: "cancelled",
         order_archived: "archived",
         order_approved: "approved",
+        order_sent_for_review: "sent to the customer for review",
+        order_confirmed_by_customer: "confirmed by the customer",
+        order_rejected_by_customer: "rejected by the customer",
         order_fulfilled: "fulfilled",
         order_unfulfilled: "unfulfilled",
         order_fulfillment_is: "Order fulfillment is",
@@ -551,13 +572,29 @@ const en = {
     price: "price",
   },
   dictionaries: {
+    order_reviews: {
+      agent_reasons: {
+        inbound_pending:
+          "As an agent, I'm not authorized to place orders. This order stays on hold until it's accepted or cancelled.",
+        inbound_needs_review:
+          "I found something in this email that needs a check before the order is placed.",
+        inbound_place_failed:
+          "I couldn't place this order, so it stays on hold until it's accepted or cancelled.",
+      },
+    },
     orders: {
       display_status: {
         awaiting_capture: "Awaiting capture",
+        customer_review: "Customer review",
+        customer_confirmed: "Customer confirmed",
+        customer_rejected: "Customer rejected",
+        review_required: "Review required",
         in_progress: "In progress",
       },
       tasks: {
         awaiting_approval: "Awaiting approval",
+        awaiting_customer_review: "Awaiting customer review",
+        rejected_by_customer: "Rejected by customer",
         error_to_cancel: "Error to cancel",
         payment_to_capture: "Payment to capture",
         fulfillment_in_progress: "Fulfillment in progress",

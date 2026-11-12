@@ -20,6 +20,36 @@ function order(
 }
 
 describe("getOrderDisplayStatus", () => {
+  it("reads an approved agreement order as approved until it is cancelled", () => {
+    const agreementOrder = {
+      ...order("approved", "authorized", "unfulfilled"),
+      agreement: { type: "agreements", id: "agreement1" },
+    } as Order
+
+    expect(getOrderDisplayStatus(agreementOrder)).toMatchObject({
+      label: t("resources.orders.attributes.status.approved"),
+      color: "green",
+      task: t("dictionaries.orders.tasks.payment_to_capture"),
+    })
+    // and stays approved while it is fulfilled
+    for (const [paymentStatus, fulfillmentStatus] of [
+      ["paid", "in_progress"],
+      ["paid", "fulfilled"],
+    ] as const) {
+      expect(
+        getOrderDisplayStatus({
+          ...order("approved", paymentStatus, fulfillmentStatus),
+          agreement: { type: "agreements", id: "agreement1" },
+        } as Order).label,
+      ).toBe(t("resources.orders.attributes.status.approved"))
+    }
+    // outside an agreement the capture is what the seller is shown
+    expect(
+      getOrderDisplayStatus(order("approved", "authorized", "unfulfilled"))
+        .label,
+    ).toBe(t("dictionaries.orders.display_status.awaiting_capture"))
+  })
+
   it("reads a partial refund as a payment that went through", () => {
     const fulfillmentStatuses = [
       "in_progress",
@@ -122,5 +152,96 @@ describe("getOrderDisplayStatus", () => {
       icon: "minus",
       color: "gray",
     })
+  })
+})
+
+describe("getOrderDisplayStatus with an order review", () => {
+  it("shows an on hold order as waiting on the customer", () => {
+    const onHold = {
+      ...order("placed", "authorized", "unfulfilled"),
+      on_hold: true,
+    } as Order
+    expect(getOrderDisplayStatus(onHold)).toMatchObject({
+      label: t("dictionaries.orders.display_status.customer_review"),
+      color: "orange",
+      task: t("dictionaries.orders.tasks.awaiting_customer_review"),
+    })
+    // a pending review says the same, even before `on_hold` is read
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "pending",
+      }).label,
+    ).toBe(t("dictionaries.orders.display_status.customer_review"))
+  })
+
+  it("shows an order an agent held as waiting on the seller", () => {
+    const held = {
+      ...order("pending", "unpaid", "unfulfilled"),
+      on_hold: true,
+    } as Order
+    expect(
+      getOrderDisplayStatus(held, {
+        status: "pending",
+        requester: { type: "agents", id: "agent-1" } as never,
+      }),
+    ).toMatchObject({
+      label: t("dictionaries.orders.display_status.review_required"),
+      color: "orange",
+      badgeIcon: "robot",
+    })
+  })
+
+  it("shows an order the seller accepted from an agent as placed", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "accepted",
+        requester: { type: "agents", id: "agent-1" } as never,
+      }),
+    ).toMatchObject({
+      label: t("resources.orders.attributes.status.placed"),
+      task: t("dictionaries.orders.tasks.awaiting_approval"),
+    })
+  })
+
+  it("names a confirmed order and keeps it awaiting approval", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "accepted",
+      }),
+    ).toMatchObject({
+      label: t("dictionaries.orders.display_status.customer_confirmed"),
+      task: t("dictionaries.orders.tasks.awaiting_approval"),
+    })
+  })
+
+  it("keeps an unpaid confirmed order's error", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "unpaid", "unfulfilled"), {
+        status: "accepted",
+      }),
+    ).toEqual(getOrderDisplayStatus(order("placed", "unpaid", "unfulfilled")))
+  })
+
+  it("shows a rejected order as rejected by the customer", () => {
+    expect(
+      getOrderDisplayStatus(order("placed", "authorized", "unfulfilled"), {
+        status: "rejected",
+      }),
+    ).toMatchObject({
+      label: t("dictionaries.orders.display_status.customer_rejected"),
+      color: "red",
+    })
+  })
+
+  it("lets a cancelled order read as cancelled whatever its review", () => {
+    expect(
+      getOrderDisplayStatus(
+        {
+          ...order("cancelled", "voided", "unfulfilled"),
+          on_hold: true,
+        } as Order,
+        { status: "pending" },
+      ).label,
+    ).toBe(t("resources.orders.attributes.status.cancelled"))
   })
 })

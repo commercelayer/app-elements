@@ -24,11 +24,11 @@ importers:
         specifier: ^8.0.2
         version: 8.0.2
       '@commercelayer/provisioning-sdk':
-        specifier: 3.0.1
-        version: 3.0.1
+        specifier: https://pkg.pr.new/@commercelayer/provisioning-sdk@1e5d498
+        version: https://pkg.pr.new/@commercelayer/provisioning-sdk@1e5d498
       '@commercelayer/sdk':
-        specifier: 8.0.3
-        version: 8.0.3
+        specifier: https://pkg.pr.new/@commercelayer/sdk@1e5d498
+        version: https://pkg.pr.new/@commercelayer/sdk@1e5d498
       '@date-fns/tz':
         specifier: ^1.5.0
         version: 1.5.0
@@ -965,12 +965,14 @@ packages:
     resolution: {integrity: sha512-xwQWXuYtW6PBehzJoeI8fgmSnE79xPR4yK/SrevZwBERG0xLaCDPsihw684Ri1m5PMbHH/k1AwqncXpyu45OiQ==}
     engines: {node: '>=20.0.0'}
 
-  '@commercelayer/provisioning-sdk@3.0.1':
-    resolution: {integrity: sha512-/iruKAtQWBntQEy+exNgIRqFwWPPRveedmnfa2qjJggKF/yK8K2muwIzvKP4fI37qdP5r6zsg1U8nbnlPH2/aQ==}
+  '@commercelayer/provisioning-sdk@https://pkg.pr.new/@commercelayer/provisioning-sdk@1e5d498':
+    resolution: {integrity: sha512-coetMz7HPK0e5C+43ootUmXl6FTiI4s4OCeNSTibHcc3HEfBy+Ua55feTUVKd2J1d5QV4rQ62lCsy2tVKA1Zzg==, tarball: https://pkg.pr.new/@commercelayer/provisioning-sdk@1e5d498}
+    version: 3.0.2
     engines: {node: '>=20'}
 
-  '@commercelayer/sdk@8.0.3':
-    resolution: {integrity: sha512-vb8FbdaLswYuib5V/AUbQnvWgdBEKV/lEpccLFgHUPAInl/AxaB92WgcPZbwvm33Dv1e9HXq5rPOOBsSclwwzA==}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@1e5d498':
+    resolution: {integrity: sha512-KWyD/3lqOsQUGZ7FCZAvItVXe1ANwlc3Xm6liz4R0cF/pw859cWZCOwcoiCbidLDbKeuIX5NO4R6QvB+lgzRTA==, tarball: https://pkg.pr.new/@commercelayer/sdk@1e5d498}
+    version: 8.0.4
     engines: {node: '>=20'}
 
   '@csstools/color-helpers@6.1.2':
@@ -5085,9 +5087,9 @@ snapshots:
 
   '@commercelayer/js-auth@8.0.2': {}
 
-  '@commercelayer/provisioning-sdk@3.0.1': {}
+  '@commercelayer/provisioning-sdk@https://pkg.pr.new/@commercelayer/provisioning-sdk@1e5d498': {}
 
-  '@commercelayer/sdk@8.0.3': {}
+  '@commercelayer/sdk@https://pkg.pr.new/@commercelayer/sdk@1e5d498': {}
 
   '@csstools/color-helpers@6.1.2': {}
 
