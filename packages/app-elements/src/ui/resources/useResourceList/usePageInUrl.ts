@@ -1,7 +1,8 @@
 import { useCallback } from "react"
 import { useSearch } from "wouter/use-browser-location"
 
-const pageParam = "page"
+/** The parameter a list keeps its page in, after its namespace when it has one. */
+const pageParamName = "page"
 
 export interface UsePageInUrlReturn {
   /**
@@ -33,37 +34,43 @@ export interface UsePageInUrlReturn {
  * Page 1 carries no parameter: it is the default, and a bare url is the one
  * worth sharing.
  *
- * The parameter is not namespaced, so two paginated lists rendered on the same
- * route would share it. No page does that today.
+ * A list with a namespace keeps its page in `<namespace>_page`, one without in
+ * `page`, so two paginated lists rendered on the same route keep their pages
+ * apart as long as they do not share a namespace.
  */
-export function usePageInUrl(): UsePageInUrlReturn {
+export function usePageInUrl(namespace?: string): UsePageInUrlReturn {
+  const pageParam =
+    namespace == null ? pageParamName : `${namespace}_${pageParamName}`
   const search = useSearch()
-  const requestedPage = parsePage(search)
+  const requestedPage = parsePage(search, pageParam)
 
   // Neither setter closes over `search`: they read the live url when called, so
   // their identity stays stable across navigations and effects depending on
   // them do not re-run on every url change.
-  const writePage = useCallback((page: number, mode: "push" | "replace") => {
-    const url = new URL(window.location.href)
+  const writePage = useCallback(
+    (page: number, mode: "push" | "replace") => {
+      const url = new URL(window.location.href)
 
-    if (page <= 1) {
-      url.searchParams.delete(pageParam)
-    } else {
-      url.searchParams.set(pageParam, String(page))
-    }
+      if (page <= 1) {
+        url.searchParams.delete(pageParam)
+      } else {
+        url.searchParams.set(pageParam, String(page))
+      }
 
-    // writing the url it already has would add a history entry for nothing, and
-    // wake up every wouter subscriber to announce that nothing changed
-    if (url.href === window.location.href) {
-      return
-    }
+      // writing the url it already has would add a history entry for nothing, and
+      // wake up every wouter subscriber to announce that nothing changed
+      if (url.href === window.location.href) {
+        return
+      }
 
-    window.history[mode === "push" ? "pushState" : "replaceState"](
-      {},
-      "",
-      url.href,
-    )
-  }, [])
+      window.history[mode === "push" ? "pushState" : "replaceState"](
+        {},
+        "",
+        url.href,
+      )
+    },
+    [pageParam],
+  )
 
   const pushPage = useCallback(
     (page: number) => {
@@ -82,7 +89,7 @@ export function usePageInUrl(): UsePageInUrlReturn {
   return { requestedPage, pushPage, replacePage }
 }
 
-function parsePage(search: string): number {
+function parsePage(search: string, pageParam: string): number {
   const raw = new URLSearchParams(search).get(pageParam)
 
   if (raw == null) {

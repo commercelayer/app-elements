@@ -151,6 +151,75 @@ describe("useResourceList", () => {
   })
 })
 
+const NamedPageListImplementation: FC<{ name: string; namespace?: string }> = ({
+  name,
+  namespace,
+}) => {
+  const { ResourceList, Pagination } = useResourceList({
+    type: "orders",
+    paginationType: "pagination",
+    namespace,
+  })
+
+  return (
+    <section aria-label={name}>
+      <ResourceList
+        title={name}
+        ItemTemplate={({ resource = mockedOrder }) => (
+          <div
+            data-testid={
+              resource.id === "mock" ? `${name}-loading` : `${name}-ready`
+            }
+            data-page={
+              resource.id.startsWith("page")
+                ? resource.id.split("-")[0]
+                : undefined
+            }
+          >
+            Order #{resource.number}
+          </div>
+        )}
+      />
+      <Pagination />
+    </section>
+  )
+}
+
+describe("useResourceList - two lists on one page", () => {
+  beforeEach(() => {
+    window.history.pushState({}, "", "/")
+  })
+
+  test("Should keep each list's page under its own namespace", async () => {
+    const { findAllByTestId, findAllByRole } = render(
+      <TokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <NamedPageListImplementation name="orders" />
+          <NamedPageListImplementation name="emails" namespace="emails" />
+        </CoreSdkProvider>
+      </TokenProvider>,
+    )
+    await findAllByTestId("orders-ready")
+    await findAllByTestId("emails-ready")
+
+    // the second list's pager
+    const nextButtons = await findAllByRole("button", { name: "Next page" })
+    await act(async () => {
+      nextButtons[1]?.click()
+    })
+
+    await waitFor(async () => {
+      const emails = await findAllByTestId("emails-ready")
+      expect(emails[0]?.dataset.page).toBe("page2")
+    })
+    const search = new URLSearchParams(window.location.search)
+    expect(search.get("emails_page")).toBe("2")
+    expect(search.get("page")).toBeNull()
+    const orders = await findAllByTestId("orders-ready")
+    expect(orders[0]?.dataset.page).toBe("page1")
+  })
+})
+
 describe("useResourceList - the page in the url", () => {
   const renderList = (): ReturnType<typeof render> =>
     render(
