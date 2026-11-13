@@ -98,6 +98,9 @@ export function ActionListItem({
         setPath(`${pathPrefix}.identifiers`, {})
         break
       }
+      case "auto_add":
+        setPath(`${pathPrefix}.auto_add`, true)
+        break
     }
   }
 

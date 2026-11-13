@@ -32,6 +32,7 @@ export function ActionOptions({
       <GroupsOption item={item} pathPrefix={pathPrefix} />
       <IdentifiersOption item={item} pathPrefix={pathPrefix} />
       <QuantityOption item={item} pathPrefix={pathPrefix} />
+      <AutoAddOption item={item} pathPrefix={pathPrefix} />
       <ApplyOnOption item={item} pathPrefix={pathPrefix} />
       <DiscountModeOption item={item} pathPrefix={pathPrefix} />
       <AggregationOption item={item} pathPrefix={pathPrefix} />
@@ -169,6 +170,47 @@ function RoundOption({
   pathPrefix: string
 }) {
   const optionName = "round" as const
+
+  const { setPath } = useRuleEngine()
+  const optionRow = useOptionRow({ item, optionName, pathPrefix })
+
+  if (!(optionName in item) || optionRow == null) {
+    return null
+  }
+
+  const initialValues = [
+    { label: "Yes", value: true },
+    { label: "No", value: false },
+  ]
+
+  const defaultValue = initialValues.find((v) => v.value === item[optionName])
+
+  return (
+    <optionRow.OptionRow>
+      <InputSelect
+        name={`${pathPrefix}.${optionName}`}
+        isSearchable={false}
+        defaultValue={defaultValue}
+        initialValues={initialValues}
+        onSelect={(selected) => {
+          if (isSingleValueSelected(selected)) {
+            setPath(`${pathPrefix}.${optionName}`, selected.value)
+          }
+        }}
+      />
+    </optionRow.OptionRow>
+  )
+}
+
+/** Whether Core adds the free gift to the cart as soon as the rule matches. */
+function AutoAddOption({
+  item,
+  pathPrefix,
+}: {
+  item: SchemaActionItem
+  pathPrefix: string
+}) {
+  const optionName = "auto_add" as const
 
   const { setPath } = useRuleEngine()
   const optionRow = useOptionRow({ item, optionName, pathPrefix })
