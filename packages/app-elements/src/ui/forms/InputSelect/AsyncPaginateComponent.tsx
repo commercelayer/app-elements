@@ -40,6 +40,8 @@ export interface AsyncPaginateSelectComponentProps
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>
+  "aria-invalid"?: boolean
+  "aria-errormessage"?: string
 }
 
 /**

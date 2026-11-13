@@ -5,6 +5,7 @@ import {
   getFeedbackStyle,
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 
 export interface InputProps
@@ -38,13 +39,21 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     },
     ref,
   ): JSX.Element => {
+    const { wrapperProps, inputProps } = useInputWrapperField({
+      id: rest.id,
+      name: rest.name,
+      feedback,
+      hint,
+      required: rest.required,
+      "aria-describedby": rest["aria-describedby"],
+    })
     const input = (
       <input
         {...rest}
         data-lpignore={rest.autoComplete === "off" && "true"}
         data-1p-ignore={rest.autoComplete === "off" && true}
         data-form-type={rest.autoComplete === "off" && "other"}
-        id={rest.id ?? rest.name}
+        {...inputProps}
         className={cn(
           className,
           "block w-full px-4 py-2.5 font-normal text-sm",
@@ -70,7 +79,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         label={label}
         hint={hint}
         feedback={feedback}
-        name={rest.id ?? rest.name}
+        {...wrapperProps}
         inline={inline}
       >
         <div className="relative flex items-center">

@@ -464,4 +464,58 @@ describe("InputSelect", () => {
       expect(onBackdropClick).not.toHaveBeenCalled()
     })
   })
+
+  describe("accessibility", () => {
+    test("should be named by its label and get a different id for each field with the same name", () => {
+      render(
+        <>
+          <InputSelect
+            name="market"
+            label="Filter by market"
+            onSelect={() => {}}
+            initialValues={[]}
+          />
+          <InputSelect
+            name="market"
+            label="Order market"
+            onSelect={() => {}}
+            initialValues={[]}
+          />
+        </>,
+      )
+      const filter = screen.getByRole("combobox", { name: "Filter by market" })
+      const order = screen.getByRole("combobox", { name: "Order market" })
+      expect(filter.id).not.toBe(order.id)
+    })
+
+    test("should be invalid with its danger feedback as error message", () => {
+      render(
+        <InputSelect
+          name="market"
+          label="Market"
+          feedback={{ variant: "danger", message: "Pick a market" }}
+          onSelect={() => {}}
+          initialValues={[]}
+        />,
+      )
+      const field = screen.getByRole("combobox", { name: "Market" })
+      expect(field).toHaveAttribute("aria-invalid", "true")
+      expect(field).toHaveAccessibleErrorMessage("Pick a market")
+    })
+
+    test("should not be invalid on a warning feedback", () => {
+      render(
+        <InputSelect
+          name="market"
+          label="Market"
+          feedback={{ variant: "warning", message: "Check the market" }}
+          onSelect={() => {}}
+          initialValues={[]}
+        />,
+      )
+      const field = screen.getByRole("combobox", { name: "Market" })
+      expect(field).not.toHaveAttribute("aria-invalid")
+      expect(field).not.toHaveAttribute("aria-errormessage")
+    })
+  })
 })

@@ -1,5 +1,5 @@
 import cn from "classnames"
-import { Fragment } from "react"
+import { Fragment, useId } from "react"
 import { Hint, type HintProps } from "#ui/atoms/Hint"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { InputFeedback, type InputFeedbackProps } from "#ui/forms/InputFeedback"
@@ -34,7 +34,12 @@ export interface InputWrapperProps extends InputWrapperBaseProps {
    * Optional CSS class names used for the input element
    */
   className?: string
-  name?: string
+  /**
+   * The id of the field: the label points to it, and the feedback and the hint
+   * take theirs from it. Use `useInputWrapperField` to get it together with the
+   * attributes the input needs.
+   */
+  fieldId?: string
   children: React.ReactNode
   fieldset?: boolean
 }
@@ -46,16 +51,24 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
     className,
     hint,
     feedback,
-    name,
+    fieldId,
     fieldset = false,
     inline = false,
     isLoading,
     delayMs,
     ...rest
   }) => {
+    // a group has no field id of its own: the ids only link the fieldset to its
+    // feedback and hint
+    const generatedId = useId()
+    const { feedbackId, hintId, describedBy } = getFieldDescriptionIds(
+      fieldId ?? generatedId,
+      { feedback, hint },
+    )
+
     const Fieldset = fieldset ? "fieldset" : Fragment
     return (
-      <Fieldset>
+      <Fieldset {...(fieldset ? { "aria-describedby": describedBy } : {})}>
         <div
           className={cn(
             {
@@ -70,7 +83,7 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
             (fieldset ? (
               <Legend gap={!inline}>{label}</Legend>
             ) : (
-              <Label gap={!inline} htmlFor={name}>
+              <Label gap={!inline} htmlFor={fieldId}>
                 {label}
               </Label>
             ))}
@@ -84,6 +97,7 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
           <div className="col-span-2">
             {feedback != null && (
               <InputFeedback
+                id={feedbackId}
                 data-testid="input-feedback"
                 className={cn({
                   "mt-2": true,
@@ -93,6 +107,7 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
             )}
             {hint != null && (
               <Hint
+                id={hintId}
                 className={cn({
                   "mt-2": !inline || feedback != null,
                 })}
@@ -109,6 +124,92 @@ export const InputWrapper = withSkeletonTemplate<InputWrapperProps>(
 )
 
 InputWrapper.displayName = "InputWrapper"
+
+/**
+ * The ids `InputWrapper` gives to the feedback and the hint of a field, and the
+ * `aria-describedby` that links the field to them.
+ */
+function getFieldDescriptionIds(
+  fieldId: string,
+  { feedback, hint }: Pick<InputWrapperBaseProps, "feedback" | "hint">,
+): { feedbackId?: string; hintId?: string; describedBy?: string } {
+  const feedbackId = feedback != null ? `${fieldId}-feedback` : undefined
+  const hintId = hint != null ? `${fieldId}-hint` : undefined
+  const describedBy =
+    [feedbackId, hintId].filter((id) => id != null).join(" ") || undefined
+  return { feedbackId, hintId, describedBy }
+}
+
+interface UseInputWrapperFieldOptions
+  extends Pick<InputWrapperBaseProps, "feedback" | "hint"> {
+  /**
+   * The id passed to the input: when set, it is used as it is.
+   */
+  id?: string
+  /**
+   * The name of the input, kept in the generated id to make it readable.
+   */
+  name?: string
+  required?: boolean
+  /**
+   * An `aria-describedby` passed to the input, kept before the feedback and the hint.
+   */
+  "aria-describedby"?: string
+}
+
+/**
+ * Wires an input to the `InputWrapper` around it, so that assistive technology
+ * gets what the wrapper only shows: the label, the feedback and the hint, the
+ * invalid state and the required state.
+ *
+ * The id is generated unless one is passed, so that two fields with the same
+ * `name` on one page never share it.
+ *
+ * Spread `wrapperProps` on the `InputWrapper` and `inputProps` on the input.
+ * `feedbackId` is for an input that cannot take `aria-describedby`.
+ */
+export function useInputWrapperField({
+  id,
+  name,
+  feedback,
+  hint,
+  required,
+  "aria-describedby": ariaDescribedBy,
+}: UseInputWrapperFieldOptions): {
+  wrapperProps: Pick<InputWrapperProps, "fieldId">
+  feedbackId?: string
+  inputProps: {
+    id: string
+    "aria-describedby"?: string
+    "aria-invalid"?: true
+    "aria-required"?: true
+  }
+} {
+  const generatedId = useId()
+  const fieldId =
+    id ?? (name != null && name !== "" ? `${name}-${generatedId}` : generatedId)
+  const { feedbackId, describedBy } = getFieldDescriptionIds(fieldId, {
+    feedback,
+    hint,
+  })
+
+  return {
+    wrapperProps: { fieldId },
+    feedbackId,
+    inputProps: {
+      id: fieldId,
+      "aria-describedby":
+        [ariaDescribedBy, describedBy].filter((v) => v != null).join(" ") ||
+        undefined,
+      // `InputFeedback` falls back to `danger` when no variant is set
+      "aria-invalid":
+        feedback != null && (feedback.variant ?? "danger") === "danger"
+          ? true
+          : undefined,
+      "aria-required": required === true ? true : undefined,
+    },
+  }
+}
 
 export function getFeedbackStyle(
   feedback?: Omit<InputFeedbackProps, "className">,

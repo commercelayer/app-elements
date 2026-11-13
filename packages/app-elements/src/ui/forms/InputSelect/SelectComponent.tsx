@@ -13,6 +13,8 @@ export interface SelectComponentProps
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>
+  "aria-invalid"?: boolean
+  "aria-errormessage"?: string
 }
 
 export const SelectComponent = forwardRef<
