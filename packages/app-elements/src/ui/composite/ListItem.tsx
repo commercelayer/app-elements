@@ -27,6 +27,7 @@ export type ListItemProps = React.HTMLAttributes<HTMLElement> &
      * You can specify `none` to remove the padding.
      *
      * By default, the padding is set to `y` when the ListItem is a **not** clickable list, `xy` otherwise.
+     * In a boxed list it is always `y` for the `list` variant: the card already insets its rows at the sides.
      * @default 'xy'
      */
     padding?: "xy" | "x" | "y" | "none"
@@ -77,12 +78,23 @@ export const ListItem: FC<ListItemProps> = ({
   const JsxTag =
     rest.href != null ? "a" : rest.onClick != null ? "button" : "div"
   const isClickable = !disabled && (rest.href != null || rest.onClick != null)
+  // A row in a boxed list has no side padding of its own, so a ring drawn on its
+  // edges would touch its content. It is drawn on a pseudo-element instead, wider
+  // than the row and into the card's padding, and painted after the row's
+  // children so it covers the dashed rules: its own below, and the previous
+  // row's above, one pixel higher.
+  // It follows the card's shape: as far from the card's sides as the first and
+  // last rows are from its top and bottom (4px), with the card's radius less
+  // that gap, so the corners stay concentric.
+  const hasOutsetFocusRing = isClickable && isInBoxedList && variant === "list"
 
   if (padding == null) {
     const isNonClickableList =
       variant === "list" && rest.href == null && rest.onClick == null
 
-    if (isNonClickableList) {
+    // a row in a boxed list is inset at the sides by the card already; a boxed
+    // row is its own card, so it keeps its padding
+    if (isNonClickableList || (isInBoxedList && variant === "list")) {
       padding = "y"
     } else {
       padding = "xy"
@@ -115,15 +127,17 @@ export const ListItem: FC<ListItemProps> = ({
           [overlayPxSize]: padding !== "none" && padding !== "y",
           [pySize]: padding !== "none" && padding !== "x",
           [pxSize]: padding !== "none" && padding !== "y",
-          relative: borderStyle === "dashed",
+          relative: borderStyle === "dashed" || hasOutsetFocusRing,
           "border-b": borderStyle === "solid",
           "rounded border": variant === "boxed",
           "focus-visible:ring-primary focus-visible:ring-2 focus-visible:ring-inset focus-visible:outline-hidden":
-            isClickable,
-          // gray-50 is the boxed list's own background, so a row there needs the
-          // next step up to react to the pointer at all
+            isClickable && !hasOutsetFocusRing,
+          "focus-visible:outline-hidden after:pointer-events-none after:absolute after:-top-px after:bottom-0 after:-inset-x-5 after:rounded-xs md:after:rounded-[12px] focus-visible:after:ring-2 focus-visible:after:ring-inset focus-visible:after:ring-primary":
+            hasOutsetFocusRing,
           "hover:bg-gray-50": isClickable && !isInBoxedList,
-          "hover:bg-gray-100": isClickable && isInBoxedList,
+          // a boxed list reacts on the row's content rather than its background
+          // (see below), so the group stays one gray block under the pointer
+          "group/list-item": isClickable && isInBoxedList,
           "bg-white": !disabled && variant === "boxed",
           "bg-gray-100": disabled,
           "border-gray-200": variant === "boxed" || disabled,
@@ -135,7 +149,14 @@ export const ListItem: FC<ListItemProps> = ({
       type={JsxTag === "button" ? "button" : undefined}
       {...wantedProps}
     >
-      <div className={cn("flex gap-4 flex-1 items-center print:gap-0")}>
+      <div
+        className={cn("flex gap-4 flex-1 items-center print:gap-0", {
+          // a named group, as a row's own content (a dropdown's items) may use
+          // a plain `group` that this row's hover must not reach
+          "transition-opacity group-hover/list-item:opacity-70":
+            isClickable && isInBoxedList,
+        })}
+      >
         {icon != null && (
           <div
             className={cn("shrink-0", {

@@ -23,10 +23,18 @@ import type { ListItemProps } from "#ui/composite/ListItem"
 export type ResourceListItemType =
   | Order
   | Return
-  | Customer
-  | StockTransfer
   | SkuListItem
   | Shipment
+  | DeprecatedResourceListItemType
+
+/**
+ * @deprecated Resources whose lists moved to `useResourceTable`. They still
+ * render, but no app lists them as rows any more, and they will be removed in a
+ * future major release.
+ */
+export type DeprecatedResourceListItemType =
+  | Customer
+  | StockTransfer
   | BuyXPayYPromotion
   | ExternalPromotion
   | FixedAmountPromotion

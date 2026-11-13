@@ -1,8 +1,8 @@
 import { type JSX, type ReactNode, useMemo } from "react"
 import { useTranslation } from "react-i18next"
 import { useTokenProvider } from "#providers/TokenProvider"
+import { Icon } from "#ui/atoms/Icon"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { StatusIcon } from "#ui/atoms/StatusIcon"
 import { Text } from "#ui/atoms/Text"
 import { ListItem, type ListItemProps } from "#ui/composite/ListItem"
 import {
@@ -22,7 +22,10 @@ import type {
 
 export interface ResourceListItemProps {
   /**
-   * Resource object used to generate list item content depending on its own type
+   * Resource object used to generate list item content depending on its own type.
+   *
+   * Customers, stock transfers and promotions are deprecated: their lists moved
+   * to `useResourceTable`, and they will be removed in a future major release.
    */
   resource: ResourceListItemType
   /**
@@ -38,22 +41,43 @@ export interface ResourceListItemProps {
    */
   showRightContent?: boolean
   /**
-   * Shows a right arrow at the end of the row, after the right content, to tell
-   * that the row leads somewhere. It is not tied to `href` or `onClick`: a
-   * clickable row shows it only when this is set.
-   * @default false
-   */
-  showCaret?: boolean
-  /**
    * Optional override for the right slot. When provided, it replaces any computed right content.
    */
   rightContentOverride?: JSX.Element | null
   /**
    * Rendered at the far right of the row, after the right content — a dropdown
    * with what can be done to the resource, typically. A row with actions is
-   * usually not clickable itself: the menu is where the links live.
+   * usually not clickable itself: the menu is where the links live. It also
+   * takes the caret's place, should the row be clickable too.
    */
   actions?: ReactNode
+}
+
+const deprecatedTypes: ReadonlyArray<ResourceListItemType["type"]> = [
+  "customers",
+  "stock_transfers",
+  "buy_x_pay_y_promotions",
+  "external_promotions",
+  "fixed_amount_promotions",
+  "fixed_price_promotions",
+  "free_gift_promotions",
+  "free_shipping_promotions",
+  "percentage_discount_promotions",
+  "flex_promotions",
+]
+
+// one warning per type is enough: a list renders the same type many times
+const warnedTypes = new Set<ResourceListItemType["type"]>()
+
+function warnIfDeprecated(type: ResourceListItemType["type"]): void {
+  if (!deprecatedTypes.includes(type) || warnedTypes.has(type)) {
+    return
+  }
+
+  warnedTypes.add(type)
+  console.warn(
+    `ResourceListItem: "${type}" is deprecated and will be removed in a future major release. List it with \`useResourceTable\` instead.`,
+  )
 }
 
 type ResourceListItemConfig = Omit<ResourceListItemProps, "resource"> &
@@ -71,12 +95,13 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
     onClick,
     alignItems,
     showRightContent = false,
-    showCaret = false,
     invertNameDescription = false,
     status,
     actions,
   }) => {
-    const isClickable = href != null || onClick != null
+    // a row with actions has its menu where the caret would go, and the menu is
+    // where the row leads
+    const showCaret = (href != null || onClick != null) && actions == null
 
     return (
       <ListItem
@@ -85,7 +110,6 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
         data-testid="ResourceListItem"
         href={href}
         onClick={onClick}
-        padding={isClickable ? "xy" : "y"}
       >
         <div>
           <div
@@ -121,8 +145,12 @@ const ResourceListItemComponent = withSkeletonTemplate<ResourceListItemConfig>(
               : showRightContent && rightContent}
           </div>
           {showCaret && (
-            <StatusIcon
+            // muted and set apart from the right content: it hints that the
+            // row leads somewhere, it is not one more value to read
+            <Icon
               name="caretRight"
+              size={16}
+              className="shrink-0 ml-2 text-gray-400 print:hidden"
               data-testid="ResourceListItem-caret"
             />
           )}
@@ -142,6 +170,8 @@ export const ResourceListItem = withSkeletonTemplate<ResourceListItemProps>(
     const { t } = useTranslation()
 
     const listItemProps = useMemo(() => {
+      warnIfDeprecated(resource.type)
+
       switch (resource.type) {
         case "customers":
           return customerToProps({ resource, user, t })
