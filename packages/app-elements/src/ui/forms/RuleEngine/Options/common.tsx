@@ -58,7 +58,7 @@ export function useOptionRow({
               <Text
                 variant="info"
                 size="small"
-                className="flex gap-2 items-center"
+                className="flex gap-2 items-center text-left"
               >
                 {label}
               </Text>
@@ -90,7 +90,7 @@ export function useOptionRow({
                   <Text
                     variant="info"
                     size="small"
-                    className="flex gap-2 items-center"
+                    className="flex gap-2 items-center text-left"
                   >
                     {label}
                     <Icon name="caretDown" />

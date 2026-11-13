@@ -46,6 +46,7 @@ const configuration = {
           { label: "Bundle", value: "order.line_items.bundle.id" },
           { label: "SKU list", value: "order.line_items.sku.sku_lists.id" },
         ],
+        auto_add: true,
       },
       order: {
         selector: true,
@@ -288,6 +289,7 @@ const MANAGED_ACTION_OPTIONS = [
   "bundle",
   "quantity",
   "identifiers",
+  "auto_add",
 ] as const
 
 const MANAGED_CONDITION_OPTIONS = ["group", "scope", "aggregations"] as const
@@ -315,6 +317,7 @@ export const OPTION_LABELS: Record<
   group: "Group",
   quantity: "Quantity",
   identifiers: "Identifiers",
+  auto_add: "Auto-add to cart",
 } as const
 
 /**

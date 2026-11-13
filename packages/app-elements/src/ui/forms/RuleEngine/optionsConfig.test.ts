@@ -1174,7 +1174,7 @@ describe("parseOptionsFromSchema", () => {
           "free_gift": {
             "": [
               {
-                "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",
+                "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift; a SKU list id matches the SKUs of the list and the bundles made from it.",
                 "label": "Identifiers",
                 "mutuallyExclusiveWith": [],
                 "name": "identifiers",
@@ -1204,10 +1204,19 @@ describe("parseOptionsFromSchema", () => {
                 "valueType": "integer",
                 "values": undefined,
               },
+              {
+                "description": "When true, the gift is added to the cart automatically as soon as the rule matches. The units are taken from the available items in priority order: the SKUs, then the bundles, then the SKUs and bundles of the SKU lists. Optional, defaults to false.",
+                "label": "Auto-add to cart",
+                "mutuallyExclusiveWith": [],
+                "name": "auto_add",
+                "required": false,
+                "valueType": "boolean",
+                "values": undefined,
+              },
             ],
             "order": [
               {
-                "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",
+                "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift; a SKU list id matches the SKUs of the list and the bundles made from it.",
                 "label": "Identifiers",
                 "mutuallyExclusiveWith": [],
                 "name": "identifiers",
