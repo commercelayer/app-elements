@@ -337,6 +337,16 @@ const en = {
     view_logs: "View logs",
     view_json: "View JSON",
     view_api_docs: "View API reference",
+    email_message: {
+      title: "Email",
+      cc: "Cc",
+      date: "Date",
+      view: "View the email",
+      download: "Download the email",
+      could_not_load: "The email could not be loaded.",
+      no_subject: "(no subject)",
+      no_content: "This email has no text.",
+    },
     table_settings: {
       sort: "Sort",
       sort_by: "Sort by",

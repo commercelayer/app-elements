@@ -229,6 +229,10 @@ export {
   type DropdownSearchProps,
 } from "#ui/composite/Dropdown"
 export {
+  EmailMessage,
+  type EmailMessageProps,
+} from "#ui/composite/EmailMessage"
+export {
   HomePageLayout,
   type HomePageLayoutProps,
 } from "#ui/composite/HomePageLayout"
@@ -276,6 +280,7 @@ export {
   type ToolbarItem,
   type ToolbarProps,
 } from "#ui/composite/Toolbar"
+export { useEmailMessageModal } from "#ui/composite/useEmailMessageModal"
 // Forms
 export {
   CodeEditor,

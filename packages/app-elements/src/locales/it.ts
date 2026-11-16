@@ -92,6 +92,16 @@ const it: typeof en = {
     view_logs: "Visualizza i log",
     view_json: "Vedi JSON",
     view_api_docs: "Visualizza la documentazione API",
+    email_message: {
+      title: "Email",
+      cc: "Cc",
+      date: "Data",
+      view: "Visualizza l'email",
+      download: "Scarica l'email",
+      could_not_load: "Non è stato possibile caricare l'email.",
+      no_subject: "(nessun oggetto)",
+      no_content: "Questa email non contiene testo.",
+    },
     table_settings: {
       sort: "Ordina",
       sort_by: "Ordina per",
