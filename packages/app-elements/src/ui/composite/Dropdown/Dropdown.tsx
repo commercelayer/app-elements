@@ -1,6 +1,13 @@
 import { CaretDownIcon, DotsThreeCircleIcon } from "@phosphor-icons/react"
 import cn from "classnames"
-import { Children, cloneElement, useMemo, useState } from "react"
+import {
+  Children,
+  cloneElement,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import { useClickAway } from "#hooks/useClickAway"
 import { useOnBlurFromContainer } from "#hooks/useOnBlurFromContainer"
 import { t } from "#providers/i18n"
@@ -25,6 +32,13 @@ export interface DropdownProps
    * @default true
    */
   closeOnItemClick?: boolean
+  /**
+   * Called with `true` when the menu opens and with `false` when it closes,
+   * whatever closed it: the trigger, an item click, a click away, a blur or
+   * `Escape`. Use it to act once the user has seen the menu, such as marking
+   * its entries as read.
+   */
+  onOpenChange?: (isOpen: boolean) => void
 }
 
 /**
@@ -43,8 +57,20 @@ export const Dropdown = withSkeletonTemplate<DropdownProps>(
     menuWidth,
     className,
     closeOnItemClick = true,
+    onOpenChange,
   }) => {
     const [isExpanded, setIsExpanded] = useState(false)
+
+    // Reports actual changes only: `close` also runs on a blur while the menu
+    // is already closed, and a mount (or its Strict Mode replay) opens nothing.
+    const reportedIsExpanded = useRef(isExpanded)
+    useEffect(() => {
+      if (reportedIsExpanded.current === isExpanded) {
+        return
+      }
+      reportedIsExpanded.current = isExpanded
+      onOpenChange?.(isExpanded)
+    }, [isExpanded, onOpenChange])
 
     function toggle(): void {
       setIsExpanded(!isExpanded)

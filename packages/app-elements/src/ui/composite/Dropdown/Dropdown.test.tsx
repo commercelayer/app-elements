@@ -1,4 +1,4 @@
-import { fireEvent, render } from "@testing-library/react"
+import { act, fireEvent, render } from "@testing-library/react"
 import { Button } from "#ui/atoms/Button"
 import { Dropdown, DropdownDivider, DropdownItem } from "#ui/composite/Dropdown"
 
@@ -186,5 +186,52 @@ describe("Dropdown", () => {
     fireEvent.keyDown(getByText("Payments"), { key: "Escape" })
     fireEvent.keyUp(getByText("Payments"), { key: "Escape" })
     expect(getByText("Payments")).toBeVisible()
+  })
+
+  test("Should report each open and close to `onOpenChange`, and nothing on mount", () => {
+    const onOpenChange = vi.fn()
+    const { getByText } = render(
+      <Dropdown
+        dropdownLabel="open dropdown"
+        dropdownItems={items}
+        onOpenChange={onOpenChange}
+      />,
+    )
+    expect(onOpenChange).not.toHaveBeenCalled()
+
+    fireEvent.click(getByText("open dropdown"))
+    expect(onOpenChange).toHaveBeenLastCalledWith(true)
+
+    fireEvent.keyDown(getByText("Payments"), { key: "Escape" })
+    expect(onOpenChange).toHaveBeenLastCalledWith(false)
+
+    fireEvent.click(getByText("open dropdown"))
+    fireEvent.click(getByText("Payments"))
+    expect(onOpenChange.mock.calls).toEqual([[true], [false], [true], [false]])
+  })
+
+  test("Should not report a close to `onOpenChange` when the menu was already closed", async () => {
+    const onOpenChange = vi.fn()
+    const { getByText } = render(
+      <Dropdown
+        dropdownLabel="open dropdown"
+        dropdownItems={items}
+        onOpenChange={onOpenChange}
+      />,
+    )
+    const trigger = getByText("open dropdown").closest("button")
+    assertToBeDefined(trigger)
+    trigger.focus()
+    trigger.blur()
+    // the blur handler closes the menu on the next frame
+    await act(
+      async () =>
+        await new Promise<void>((resolve) => {
+          requestAnimationFrame(() => {
+            resolve()
+          })
+        }),
+    )
+    expect(onOpenChange).not.toHaveBeenCalled()
   })
 })

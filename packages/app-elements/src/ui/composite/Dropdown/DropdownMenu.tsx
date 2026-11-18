@@ -23,10 +23,11 @@ export interface DropdownMenuProps extends React.HTMLAttributes<HTMLElement> {
    */
   parentElementRef?: React.RefObject<HTMLDivElement>
   /**
-   * Set a wider menu, fixed to 280px.
+   * Set a wider menu: `wide` is fixed to 280px, `x-wide` to 340px, for entries
+   * that carry a few lines of text each.
    * By default, when no width is set, the menu adjusts its width dynamically to accommodate content, within a range of 150px to 250px.
    **/
-  menuWidth?: "wide"
+  menuWidth?: "wide" | "x-wide"
 }
 
 export const DropdownMenu: FC<DropdownMenuProps> = ({
@@ -53,6 +54,7 @@ export const DropdownMenu: FC<DropdownMenuProps> = ({
           {
             "min-w-40 md:max-w-80": menuWidth == null, // default width
             "w-70": menuWidth === "wide",
+            "w-85": menuWidth === "x-wide",
           },
         )}
       >
