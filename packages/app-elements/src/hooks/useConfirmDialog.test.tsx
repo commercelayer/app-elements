@@ -3,7 +3,11 @@ import type { FC } from "react"
 import { Button } from "#ui/atoms/Button"
 import { useConfirmDialog } from "./useConfirmDialog"
 
-const Implementation: FC<{ onConfirm?: () => void }> = ({ onConfirm }) => {
+const Implementation: FC<{
+  onConfirm?: () => void
+  /** Passes `onConfirm` as is, instead of wrapping it in an async function */
+  sync?: boolean
+}> = ({ onConfirm, sync = false }) => {
   const { show, ConfirmDialog } = useConfirmDialog()
   return (
     <>
@@ -15,9 +19,13 @@ const Implementation: FC<{ onConfirm?: () => void }> = ({ onConfirm }) => {
         confirm={{
           label: "Delete",
           variant: "danger",
-          onClick: async () => {
-            onConfirm?.()
-          },
+          onClick: sync
+            ? () => {
+                onConfirm?.()
+              }
+            : async () => {
+                onConfirm?.()
+              },
         }}
       />
     </>
@@ -68,6 +76,19 @@ describe("useConfirmDialog", () => {
     fireEvent.click(confirm as HTMLButtonElement)
     await waitFor(() => {
       expect(onConfirm).toHaveBeenCalledTimes(1)
+    })
+  })
+
+  it("confirms with a synchronous action and closes", async () => {
+    const onConfirm = vi.fn()
+    const { getByText } = render(<Implementation onConfirm={onConfirm} sync />)
+    fireEvent.click(getByText("Open dialog"))
+
+    const [confirm] = await openDialog()
+    fireEvent.click(confirm as HTMLButtonElement)
+    expect(onConfirm).toHaveBeenCalledTimes(1)
+    await waitFor(() => {
+      expect(document.querySelector("dialog")?.open).toBe(false)
     })
   })
 })
