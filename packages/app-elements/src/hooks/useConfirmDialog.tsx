@@ -11,8 +11,11 @@ interface ConfirmDialogConfirmProps {
   label: string
   /** Button variant. Use `"danger"` for destructive actions and `"primary"` for generic confirmations. */
   variant?: ButtonProps["variant"]
-  /** Async action to execute on confirm */
-  onClick: () => Promise<unknown>
+  /**
+   * Action to execute on confirm. When it returns a promise, the buttons stay
+   * disabled until it settles; a synchronous one (e.g. a navigation) just runs.
+   */
+  onClick: (() => void) | (() => Promise<unknown>)
 }
 
 interface ConfirmDialogProps {
@@ -31,7 +34,7 @@ interface ConfirmDialogProps {
   /** Optional label for the cancel button - Default "Cancel" */
   cancelLabel?: string
   /**
-   * Message shown in the error toast when `confirm.onClick` rejects and overrides the API errors.
+   * Message shown in the error toast when `confirm.onClick` throws or rejects and overrides the API errors.
    */
   errorMessage?: string
   /** Optional success message shown when the action completes successfully */

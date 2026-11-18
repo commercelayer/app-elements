@@ -15,8 +15,9 @@ import { ToastContainer } from "#ui/composite/Toast"
  * Visibility is fully managed internally — the dialog can only be dismissed via the confirm
  * or cancel buttons (backdrop click and Escape key are disabled).
  *
- * The confirm action is an async function; both buttons are disabled while it is pending.
- * If the async action rejects, an error toast is shown automatically and the dialog closes.
+ * The confirm action can be async, and both buttons are disabled while it is pending,
+ * or synchronous, like a navigation.
+ * If the action throws or rejects, an error toast is shown automatically and the dialog closes.
  *
  * Example usage:
  * ```tsx
@@ -113,6 +114,34 @@ export const ConfirmAction: StoryFn = () => {
           },
         }}
         successMessage="Payment captured!"
+      />
+    </div>
+  )
+}
+
+/**
+ * A synchronous confirm action, such as a navigation, needs no async wrapper: the dialog
+ * just runs it and closes. Here it blocks an action and leads elsewhere, with `cancelLabel`
+ * set to "Close" since there is nothing to cancel.
+ */
+export const SyncAction: StoryFn = () => {
+  const { show, ConfirmDialog } = useConfirmDialog()
+
+  return (
+    <div>
+      <Button onClick={show}>New organization</Button>
+      <ConfirmDialog
+        icon="lockSimple"
+        title="Subscription required"
+        description="You already own an organization. Subscribe to a plan to create a new one."
+        confirm={{
+          label: "Subscribe",
+          variant: "primary",
+          onClick: () => {
+            console.log("navigate to the subscription page")
+          },
+        }}
+        cancelLabel="Close"
       />
     </div>
   )
