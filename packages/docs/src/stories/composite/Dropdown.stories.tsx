@@ -1,4 +1,5 @@
 import type { Meta, StoryFn } from "@storybook/react-vite"
+import { useState } from "react"
 import { Button } from "#ui/atoms/Button"
 import { Icon } from "#ui/atoms/Icon"
 import { Section } from "#ui/atoms/Section"
@@ -487,3 +488,33 @@ Positioning.decorators = [
     </div>
   ),
 ]
+
+/**
+ * With `menuWidth="x-wide"` the menu is 340px wide, for entries that carry a few lines of text each.
+ * `onOpenChange` is called with `true` when the menu opens and `false` when it closes, whatever closed it:
+ * use it to act once the user has seen the menu, such as marking its entries as read.
+ **/
+export const WithOpenChange: StoryFn<typeof Dropdown> = () => {
+  const [lastEvent, setLastEvent] = useState("never opened")
+  return (
+    <Spacer bottom="4">
+      <Dropdown
+        dropdownLabel="Latest updates"
+        menuWidth="x-wide"
+        onOpenChange={(isOpen) => {
+          setLastEvent(isOpen ? "opened" : "closed")
+        }}
+        dropdownItems={
+          <>
+            <DropdownItem
+              label="A longer entry that wraps on more than a single line"
+              href="#"
+            />
+            <DropdownItem label="Another entry" href="#" />
+          </>
+        }
+      />
+      <p style={{ marginTop: "8px" }}>Menu: {lastEvent}</p>
+    </Spacer>
+  )
+}
