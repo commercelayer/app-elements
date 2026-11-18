@@ -1,75 +1,81 @@
 import type { Resource } from "@commercelayer/sdk"
+import cn from "classnames"
 import capitalize from "lodash-es/capitalize"
 import lowerCase from "lodash-es/lowerCase"
-import { type FC, useState } from "react"
+import { type FC, type ReactNode, useState } from "react"
 import type { JsonObject } from "type-fest"
 import { t } from "#providers/i18n"
 import { Button } from "#ui/atoms/Button"
-import { Card } from "#ui/atoms/Card"
 import { CodeBlock } from "#ui/atoms/CodeBlock"
 import { Icon } from "#ui/atoms/Icon"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
-import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
-import { ListItem } from "#ui/composite/ListItem"
 import { splitResourceFields } from "./resourceFields"
 
 /**
- * Lists a resource's plain attributes. Relationships are filtered out: they
- * are rendered by whoever owns that concern, so they don't leak into this list
- * as raw JSON.
+ * Lists a resource's plain attributes as a single flat list, led by its id and
+ * type. Relationships are filtered out: they are rendered by whoever owns that
+ * concern, so they don't leak into this list as raw JSON.
  */
 export const ResourceAttributes = withSkeletonTemplate<{ resource: Resource }>(
   ({ resource }) => {
     const { attributes } = splitResourceFields(resource)
 
     return (
-      <>
-        <Spacer bottom="6">
-          <Card gap="none" className="rounded!">
-            <ListItem borderStyle="solid" className="flex justify-between px-4">
-              <AttributeLabel>ID</AttributeLabel>
-              <AttributeValue value={resource.id} />
-            </ListItem>
-            <ListItem borderStyle="none" className="flex justify-between px-4">
-              <AttributeLabel>Type</AttributeLabel>
-              <AttributeValue value={resource.type} />
-            </ListItem>
-          </Card>
-        </Spacer>
-
-        <Card gap="none" className="rounded!">
-          {attributes.map((attribute, idx) => (
-            <AttributeItem
-              key={[resource.id, attribute].join("-")}
-              attribute={attribute}
-              value={resource[attribute as keyof Resource]}
-              hasBorderBottom={idx !== attributes.length - 1}
-            />
-          ))}
-        </Card>
-      </>
+      <div>
+        <AttributeRow label="ID">
+          <AttributeValue value={resource.id} />
+        </AttributeRow>
+        <AttributeRow label="Type">
+          <AttributeValue value={resource.type} />
+        </AttributeRow>
+        {attributes.map((attribute) => (
+          <AttributeItem
+            key={[resource.id, attribute].join("-")}
+            attribute={attribute}
+            value={resource[attribute as keyof Resource]}
+          />
+        ))}
+      </div>
     )
   },
 )
 
-function capitalizeAttributeName(attribute: string): string {
-  return capitalize(lowerCase(attribute))
-}
-
-const AttributeLabel: FC<{
-  attribute?: string
-  children?: React.ReactNode
-}> = ({ attribute, children }) => (
-  <Text variant="info" className="whitespace-nowrap">
-    {attribute != null ? capitalizeAttributeName(attribute) : children}
-  </Text>
+/**
+ * A label on the left, its value right-aligned. Labels share a fixed width so
+ * values line up whatever the label length.
+ */
+const AttributeRow: FC<{
+  label: string
+  hasBorder?: boolean
+  children: ReactNode
+}> = ({ label, hasBorder = true, children }) => (
+  <div
+    className={cn("flex items-center gap-4 py-3", {
+      "border-b border-gray-100": hasBorder,
+    })}
+  >
+    <Text
+      size="x-small"
+      weight="medium"
+      variant="info"
+      className="font-mono w-45 shrink-0"
+    >
+      {label}
+    </Text>
+    <div className="flex-1 min-w-0 flex justify-end text-right">{children}</div>
+  </div>
 )
 
 const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
   if (value == null || value === "") {
     return (
-      <Text size="x-small" variant="disabled">
+      <Text
+        size="x-small"
+        weight="semibold"
+        variant="disabled"
+        className="font-mono"
+      >
         &#8212;
       </Text>
     )
@@ -79,7 +85,7 @@ const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
     <Text
       size="x-small"
       weight="semibold"
-      className="break-all overflow-x-auto tabular-nums font-mono"
+      className="break-all tabular-nums font-mono"
     >
       {String(value)}
     </Text>
@@ -89,44 +95,39 @@ const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
 const AttributeItem = withSkeletonTemplate<{
   attribute: string
   value: unknown
-  hasBorderBottom: boolean
-}>(({ attribute, value, hasBorderBottom }) => {
+}>(({ attribute, value }) => {
   const [showJson, setShowJson] = useState(false)
-  const isObjectValue = value != null && typeof value === "object"
+  const label = capitalize(lowerCase(attribute))
+
+  if (value == null || typeof value !== "object") {
+    return (
+      <AttributeRow label={label}>
+        <AttributeValue value={value} />
+      </AttributeRow>
+    )
+  }
 
   return (
     <>
-      <ListItem
-        borderStyle={hasBorderBottom && !showJson ? "solid" : "none"}
-        className="flex justify-between px-4 min-h-13.5"
-        alignItems={isObjectValue ? "center" : "top"}
-      >
-        <AttributeLabel attribute={attribute} />
-        {isObjectValue ? (
-          <Button
-            variant="secondary"
-            size="mini"
-            disabled={Object.keys(value as JsonObject).length === 0}
-            onClick={() => {
-              setShowJson((current) => !current)
-            }}
-          >
-            <Icon name="bracketsCurly" size={14} />
-            <Text weight="medium" size="x-small">
-              {t("common.resource_details.json")}
-            </Text>
-          </Button>
-        ) : (
-          <AttributeValue value={value} />
-        )}
-      </ListItem>
-      {showJson && isObjectValue && (
-        <ListItem
-          borderStyle={hasBorderBottom ? "solid" : "none"}
-          className="px-4 pt-0"
+      <AttributeRow label={label} hasBorder={!showJson}>
+        <Button
+          variant="secondary"
+          size="mini"
+          disabled={Object.keys(value as JsonObject).length === 0}
+          onClick={() => {
+            setShowJson((current) => !current)
+          }}
         >
+          <Icon name="bracketsCurly" size={14} />
+          <Text weight="medium" size="x-small">
+            {t("common.resource_details.json")}
+          </Text>
+        </Button>
+      </AttributeRow>
+      {showJson && (
+        <div className="pb-3 border-b border-gray-100">
           <CodeBlock>{value as JsonObject}</CodeBlock>
-        </ListItem>
+        </div>
       )}
     </>
   )

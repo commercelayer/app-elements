@@ -24,8 +24,8 @@ export interface UseResourceDetailsModalReturn {
 }
 
 /**
- * Shows a resource's details in a modal: its attributes, any caller-supplied
- * tabs, and its event stream.
+ * Shows a resource's details in a modal: its attributes, its relationships
+ * when asked for, any caller-supplied tabs, and its event stream.
  *
  * The modal is returned as an *element*, not a component. A component created
  * inside this hook would get a fresh identity on every render of the caller,
@@ -47,7 +47,7 @@ export function useResourceDetailsModal({
     setShow(false)
   }, [])
 
-  const { resource, isLoading, tabs } = contentProps
+  const { resource, isLoading, relationships, tabs } = contentProps
 
   const modal = useMemo(
     () => (
@@ -59,13 +59,14 @@ export function useResourceDetailsModal({
           <ResourceDetailsContent
             resource={resource}
             isLoading={isLoading}
+            relationships={relationships}
             tabs={tabs}
             panelHeight={PANEL_HEIGHT}
           />
         </Modal.Body>
       </Modal>
     ),
-    [show, close, title, resource, isLoading, tabs],
+    [show, close, title, resource, isLoading, relationships, tabs],
   )
 
   return { modal, open, close }

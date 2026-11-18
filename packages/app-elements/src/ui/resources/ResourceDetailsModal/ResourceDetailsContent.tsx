@@ -5,6 +5,10 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { Tab, Tabs } from "#ui/atoms/Tabs"
 import { ResourceAttributes } from "./ResourceAttributes"
 import { ResourceEvents } from "./ResourceEvents"
+import {
+  ResourceRelationships,
+  type ResourceRelationshipsConfig,
+} from "./ResourceRelationships"
 
 export interface ResourceDetailsTab {
   /** Tab label. */
@@ -24,7 +28,13 @@ export interface ResourceDetailsContentProps {
   resource: Resource
   /** Renders skeletons while the caller is still loading the resource. */
   isLoading?: boolean
-  /** Extra tabs, rendered between Attributes and Events. */
+  /**
+   * Shows a Relationships tab right after Attributes. Has-one relationships
+   * the caller sideloaded are read from `resource`; any other is fetched only
+   * when its row is expanded. Leave it unset to hide the tab.
+   */
+  relationships?: ResourceRelationshipsConfig
+  /** Extra tabs, rendered between Attributes (or Relationships) and Events. */
   tabs?: ResourceDetailsTab[]
   /**
    * Fixed height for each tab panel, e.g. `"70vh"`. Set it when the surrounding
@@ -42,8 +52,8 @@ export interface ResourceDetailsContentProps {
 }
 
 /**
- * Tabbed view of a single resource: its attributes, any tabs the caller adds,
- * and its event stream.
+ * Tabbed view of a single resource: its attributes, its relationships when
+ * asked for, any tabs the caller adds, and its event stream.
  *
  * Usable on its own inside a page, or wrapped in a modal via
  * `useResourceDetailsModal`.
@@ -51,6 +61,7 @@ export interface ResourceDetailsContentProps {
 export const ResourceDetailsContent: FC<ResourceDetailsContentProps> = ({
   resource,
   isLoading = false,
+  relationships,
   tabs = [],
   panelHeight,
   id,
@@ -65,6 +76,22 @@ export const ResourceDetailsContent: FC<ResourceDetailsContentProps> = ({
             <ResourceAttributes resource={resource} isLoading={isLoading} />
           </TabPanel>
         </Tab>,
+
+        ...(relationships != null
+          ? [
+              <Tab
+                key="relationships"
+                name={t("common.resource_details.relationships")}
+              >
+                <TabPanel height={panelHeight}>
+                  <ResourceRelationships
+                    resource={resource}
+                    {...relationships}
+                  />
+                </TabPanel>
+              </Tab>,
+            ]
+          : []),
 
         ...tabs.map((tab) => (
           <Tab key={tab.name} name={tab.name}>

@@ -1,4 +1,5 @@
 import type { JSX } from "react"
+import { t } from "#providers/i18n"
 import { Icon } from "#ui/atoms/Icon"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
@@ -21,6 +22,10 @@ export function PaginationInfo({
   isLoading,
   onPageChange,
 }: PaginationInfoProps): JSX.Element {
+  // `aria-disabled` rather than `disabled`: a disabled button drops keyboard
+  // focus, which would happen on every click while the next page loads.
+  const isPreviousDisabled = isLoading || currentPage === 1
+  const isNextDisabled = isLoading || currentPage === pageCount
   const offsets = makeCurrentPageOffsets({
     currentPage,
     recordsPerPage,
@@ -37,32 +42,36 @@ export function PaginationInfo({
           aria-live="polite"
           aria-atomic="true"
         >
-          {offsets.firstOfPage.toLocaleString()}-
-          {offsets.lastOfPage.toLocaleString()} of{" "}
-          {recordCount.toLocaleString()}
+          {t("common.pagination_range", {
+            first: offsets.firstOfPage.toLocaleString(),
+            last: offsets.lastOfPage.toLocaleString(),
+            total: recordCount.toLocaleString(),
+          })}
         </Text>
         <div className="flex gap-2 items-center justify-between text-xs">
           <button
             type="button"
-            aria-label="Previous page"
-            aria-disabled={isLoading || currentPage === 1}
-            disabled={isLoading || currentPage === 1}
+            aria-label={t("common.previous_page")}
+            aria-disabled={isPreviousDisabled}
             onClick={() => {
-              onPageChange(currentPage - 1)
+              if (!isPreviousDisabled) {
+                onPageChange(currentPage - 1)
+              }
             }}
-            className="p-2 disabled:opacity-30 rounded-[8px] border border-gray-200"
+            className="p-2 aria-disabled:opacity-30 aria-disabled:cursor-default rounded-[8px] border border-gray-200"
           >
             <Icon name="caretRight" className="rotate-180" aria-hidden="true" />
           </button>
           <button
             type="button"
-            aria-label="Next page"
-            aria-disabled={isLoading || currentPage === pageCount}
-            disabled={isLoading || currentPage === pageCount}
+            aria-label={t("common.next_page")}
+            aria-disabled={isNextDisabled}
             onClick={() => {
-              onPageChange(currentPage + 1)
+              if (!isNextDisabled) {
+                onPageChange(currentPage + 1)
+              }
             }}
-            className="p-2 disabled:opacity-30 rounded-[8px] border border-gray-200"
+            className="p-2 aria-disabled:opacity-30 aria-disabled:cursor-default rounded-[8px] border border-gray-200"
           >
             <Icon name="caretRight" aria-hidden="true" />
           </button>

@@ -115,6 +115,52 @@ export const WithAdditionalTabs: StoryFn = () => (
 )
 
 /**
+ * Pass `relationships` to add a Relationships tab. List the relationship names
+ * yourself: neither the SDK nor the payload can tell which ones a type has.
+ *
+ * Each row says whether the relationship holds a single record or many. A
+ * has-one you sideloaded (`market` here) is read from the resource; any other
+ * relationship is fetched only when its row is expanded, ten records per page,
+ * with a pager showing the total when there is more than one. With `onSelect`, each
+ * related record gets an eye icon that hands you its `type` and `id`, e.g. to
+ * open it in another resource details modal.
+ *
+ * ```tsx
+ * <ResourceDetailsContent
+ *   resource={order}
+ *   relationships={{
+ *     names: ["market", "line_items", "available_payment_methods"],
+ *     onSelect: ({ type, id }) => navigate(`/${type}/${id}`),
+ *   }}
+ * />
+ * ```
+ */
+export const WithRelationships: StoryFn = () => (
+  <Providers extras={enterprise}>
+    <OpenModal
+      resource={
+        {
+          ...order,
+          market: { id: "dvzXAuNQpm", type: "markets", name: "Europe" },
+        } as ModalProps["resource"]
+      }
+      title="Order details"
+      relationships={{
+        names: [
+          "market",
+          "line_items",
+          "available_payment_methods",
+          "captures",
+        ],
+        onSelect: ({ type, id }) => {
+          alert(`${type} ${id}`)
+        },
+      }}
+    />
+  </Providers>
+)
+
+/**
  * While you are still fetching, pass `isLoading` to render skeletons in place
  * of the attribute list.
  */
