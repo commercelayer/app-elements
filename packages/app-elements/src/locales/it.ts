@@ -92,6 +92,16 @@ const it: typeof en = {
     view_logs: "Visualizza i log",
     view_json: "Vedi JSON",
     view_api_docs: "Visualizza la documentazione API",
+    email_message: {
+      title: "Email",
+      cc: "Cc",
+      date: "Data",
+      view: "Visualizza l'email",
+      download: "Scarica l'email",
+      could_not_load: "Non è stato possibile caricare l'email.",
+      no_subject: "(nessun oggetto)",
+      no_content: "Questa email non contiene testo.",
+    },
     table_settings: {
       sort: "Ordina",
       sort_by: "Ordina per",
@@ -171,6 +181,7 @@ const it: typeof en = {
       resource_created: "{{resource}} creato",
       resource_updated: "{{resource}} aggiornato",
       order_placed: "Ordine #{{number}} ricevuto su {{orderMarket}}",
+      agent: "Agente",
       left_a_note: "ha lasciato una nota",
       left_a_refund_note: "ha lasciato una nota di rimborso",
       resources: {
@@ -181,6 +192,9 @@ const it: typeof en = {
         order_cancelled: "annullato",
         order_archived: "archiviato",
         order_approved: "approvato",
+        order_sent_for_review: "inviato al cliente per la revisione",
+        order_confirmed_by_customer: "confermato dal cliente",
+        order_rejected_by_customer: "rifiutato dal cliente",
         order_fulfilled: "evaso",
         order_unfulfilled: "non evaso",
         order_fulfillment_is: "L'evasione dell'ordine è",
@@ -284,6 +298,11 @@ const it: typeof en = {
       name_other: "Modifiche",
       attributes: {},
     },
+    agreements: {
+      name: "Accordo",
+      name_other: "Accordi",
+      attributes: {},
+    },
     attachments: {
       name: "Allegato",
       name_other: "Allegati",
@@ -318,10 +337,22 @@ const it: typeof en = {
       name_other: "Links",
       attributes: {},
     },
+    order_reviews: {
+      name: "Revisione ordine",
+      name_other: "Revisioni ordine",
+      attributes: {
+        status: {
+          pending: "Revisione richiesta",
+          accepted: "Confermato",
+          rejected: "Rifiutato",
+        },
+      },
+    },
     orders: {
       name: "Ordine",
       name_other: "Ordini",
       attributes: {
+        notes: "Note",
         status: {
           approved: "Approvato",
           cancelled: "Cancellato",
@@ -544,13 +575,29 @@ const it: typeof en = {
     required_field: "Campo obbligatorio",
   },
   dictionaries: {
+    order_reviews: {
+      agent_reasons: {
+        inbound_pending:
+          "Come agente non sono autorizzato a inviare ordini. Questo ordine resta in attesa finché non viene accettato o annullato.",
+        inbound_needs_review:
+          "Ho trovato qualcosa in questa email da verificare prima di inviare l'ordine.",
+        inbound_place_failed:
+          "Non sono riuscito a inviare questo ordine, quindi resta in attesa finché non viene accettato o annullato.",
+      },
+    },
     orders: {
       display_status: {
         awaiting_capture: "Da catturare",
+        customer_review: "Revisione cliente",
+        customer_confirmed: "Confermato dal cliente",
+        customer_rejected: "Rifiutato dal cliente",
+        review_required: "Revisione richiesta",
         in_progress: "In corso",
       },
       tasks: {
         awaiting_approval: "Da approvare",
+        awaiting_customer_review: "In attesa della revisione del cliente",
+        rejected_by_customer: "Rifiutato dal cliente",
         error_to_cancel: "Errore nella cancellazione",
         payment_to_capture: "Da catturare",
         fulfillment_in_progress: "Da spedire",

@@ -172,6 +172,15 @@ export type UseResourceListConfig<
    */
   paginationScrollTo?: "top" | "list" | "none"
   /**
+   * Groups the state this list keeps in the url's query string under a name of
+   * its own: with `namespace: "emails"` its page is `emails_page`. Without one,
+   * the list uses the bare names (`page`).
+   *
+   * Two paginated lists on the same page need different namespaces — leaving
+   * one without is enough — or paging one would page the other too.
+   */
+  namespace?: string
+  /**
    * The client for `api`. Required for the Provisioning API — app-elements has no
    * provisioning token of its own, so the caller builds it (see
    * `docs/adr/0001-provisioning-api-in-resource-list.md`); the overloads below are
@@ -267,6 +276,7 @@ export function useResourceListForApi<
   metricsQuery,
   paginationType = "infinite",
   paginationScrollTo = "top",
+  namespace,
   preProcess,
 }: UseResourceListConfig<TResource, TApi>):
   | UseResourceListReturn<TResource, TApi>
@@ -282,7 +292,7 @@ export function useResourceListForApi<
     ResourceListInternalState<ResourceFor<TApi, TResource>>,
     [Action<ResourceFor<TApi, TResource>>]
   >(reducer, createInitialState<ResourceFor<TApi, TResource>>())
-  const { requestedPage, pushPage, replacePage } = usePageInUrl()
+  const { requestedPage, pushPage, replacePage } = usePageInUrl(namespace)
   const listRef = React.useRef<HTMLDivElement>(null)
   /**
    * Metrics API + `pagination` mode only: the cursor that opens each page.
@@ -605,13 +615,21 @@ export function useResourceListForApi<
 
       if (isEmptyList) {
         return variant != null || typeof emptyStateProp === "string" ? (
-          // inline empty state
+          // inline empty state, with the same header as the list it stands in
+          // for: a boxed or table list has no rule under its title
           <Section
             actionButton={actionButton}
             title={computedTitle}
             titleSize={titleSize}
+            border={sectionBorder}
           >
-            <Spacer top="4">{emptyState}</Spacer>
+            {/* the gap belongs to the rule: without one, the empty state sits
+                where the list would, right under the title */}
+            {sectionBorder === "none" ? (
+              emptyState
+            ) : (
+              <Spacer top="4">{emptyState}</Spacer>
+            )}
           </Section>
         ) : (
           // custom JSX element (no title or actionButton)
