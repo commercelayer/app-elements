@@ -19,8 +19,8 @@ const mockedOrder: Order = {
 }
 
 const ResourceListImplementation: FC<
-  Pick<UseResourceListConfig<"orders">, "query">
-> = ({ query }) => {
+  Pick<UseResourceListConfig<"orders">, "query"> & { variant?: "boxed" }
+> = ({ query, variant }) => {
   const { ResourceList } = useResourceList({
     type: "orders",
     query,
@@ -28,6 +28,7 @@ const ResourceListImplementation: FC<
 
   return (
     <ResourceList
+      variant={variant}
       title="All orders"
       emptyState={<div>No orders found</div>}
       ItemTemplate={({ resource = mockedOrder }) => {
@@ -148,6 +149,28 @@ describe("useResourceList", () => {
     )
 
     expect(await findByText("No orders found")).toBeVisible()
+  })
+
+  test("Should keep a boxed list's header without a rule when empty", async () => {
+    const { findByText, getByText } = render(
+      <TokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <ResourceListImplementation
+            variant="boxed"
+            query={{
+              filters: {
+                emptyList: true, // fake filter
+              },
+            }}
+          />
+        </CoreSdkProvider>
+      </TokenProvider>,
+    )
+
+    await findByText("No orders found")
+    expect(getByText(/^All orders/).closest("header")).toHaveClass(
+      "border-transparent",
+    )
   })
 })
 
