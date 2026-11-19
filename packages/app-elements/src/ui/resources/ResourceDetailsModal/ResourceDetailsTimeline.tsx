@@ -54,8 +54,13 @@ export function ResourceDetailsTimeline<Item>({
     <>
       {Object.entries(groupedByDay).map(([day, dayItems], idx) => (
         <div key={day}>
-          <Spacer bottom="4" top={idx === 0 ? undefined : "12"}>
-            <Text weight="semibold">
+          <Spacer bottom="4" top={getDayTop(idx)}>
+            <Text
+              tag="div"
+              weight="semibold"
+              size="small"
+              className="leading-5"
+            >
               {formatDate({ isoDate: day, format: "date", timezone })}
             </Text>
           </Spacer>
@@ -66,6 +71,19 @@ export function ResourceDetailsTimeline<Item>({
       ))}
     </>
   )
+}
+
+/**
+ * Room above a day's heading. The first one sits 12px down, level with the text
+ * of the first row of a list such as the attributes; the others leave a wide gap
+ * from the day before.
+ */
+function getDayTop(idx: number): "3" | "12" {
+  if (idx === 0) {
+    return "3"
+  }
+
+  return "12"
 }
 
 export interface ResourceDetailsTimelineItemProps {
@@ -97,7 +115,9 @@ export function ResourceDetailsTimelineItem({
         gap="none"
         className={cn(
           "w-full rounded! hover:border-black hover:shadow-cardhover",
-          { "border-black! shadow-cardhover!": isOpen },
+          // a 2px black frame once open: the border plus a ring inside it, so the
+          // content does not move
+          { "border-black! inset-ring-1 inset-ring-black": isOpen },
         )}
       >
         <button
@@ -109,16 +129,25 @@ export function ResourceDetailsTimelineItem({
         >
           <div>
             <div className="flex gap-1">
-              <Text weight="bold">{title}</Text>
+              <Text size="x-small" weight="semibold" className="leading-5">
+                {title}
+              </Text>
             </div>
             {description != null && (
               <div className="flex gap-1">
-                <Text variant="info">{description}</Text>
+                <Text variant="info" size="x-small" className="leading-5">
+                  {description}
+                </Text>
               </div>
             )}
           </div>
           <div className="flex items-center gap-2 whitespace-nowrap">
-            <Text variant="info" size="x-small">
+            <Text
+              variant="info"
+              size="xx-small"
+              weight="medium"
+              className="leading-5"
+            >
               {formatDate({
                 isoDate,
                 format: "timeWithSeconds",

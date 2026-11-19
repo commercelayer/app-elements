@@ -91,9 +91,10 @@ const RelationshipRow: FC<{
         aria-expanded={isOpen}
         aria-controls={panelId}
         className={cn(
-          // The ring is drawn inside: an outer one would be clipped by the
-          // scrolling tab panel this list sits in.
-          "w-full flex items-center justify-between gap-4 py-3 text-left focus-visible:outline-offset-[-2px]",
+          // The ring is drawn just outside the row: the row has no padding of
+          // its own, so one drawn inside would run over the caret and the kind.
+          // The details keep a 24px gutter around the list, room enough for it.
+          "w-full flex items-center justify-between gap-4 py-3 text-left focus-visible:outline-offset-2",
           { "border-b border-gray-100": !isOpen },
         )}
         onClick={() => {
@@ -111,12 +112,16 @@ const RelationshipRow: FC<{
               "text-gray-300": !isOpen,
             })}
           />
-          <Text size="x-small" weight="semibold" className="font-mono truncate">
+          <Text
+            size="xx-small"
+            weight="semibold"
+            className="font-mono truncate"
+          >
             {capitalize(lowerCase(name))}
           </Text>
         </span>
         <Text
-          size="x-small"
+          size="xx-small"
           variant="info"
           className="font-mono whitespace-nowrap"
         >
@@ -230,6 +235,7 @@ const FetchedRelatedRecords: FC<RelationshipPanelProps> = ({
           recordCount={data.meta.recordCount}
           isLoading={isLoading}
           onPageChange={onPageChange}
+          top="4"
         />
       )}
     </>
@@ -339,14 +345,14 @@ const RelatedRecord: FC<{
     <>
       <span className="flex items-center gap-2 min-w-0">
         <Text
-          size="x-small"
+          size="xx-small"
           weight="semibold"
           className="font-mono w-30 shrink-0 truncate"
         >
           {record.id}
         </Text>
         <Text
-          size="x-small"
+          size="xx-small"
           weight="medium"
           variant="info"
           className="font-mono truncate"

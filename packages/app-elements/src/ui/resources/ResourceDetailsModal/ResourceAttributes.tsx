@@ -56,7 +56,7 @@ const AttributeRow: FC<{
     })}
   >
     <Text
-      size="x-small"
+      size="xx-small"
       weight="medium"
       variant="info"
       className="font-mono w-45 shrink-0"
@@ -71,7 +71,7 @@ const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
   if (value == null || value === "") {
     return (
       <Text
-        size="x-small"
+        size="xx-small"
         weight="semibold"
         variant="disabled"
         className="font-mono"
@@ -83,7 +83,7 @@ const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
 
   return (
     <Text
-      size="x-small"
+      size="xx-small"
       weight="semibold"
       className="break-all tabular-nums font-mono"
     >
