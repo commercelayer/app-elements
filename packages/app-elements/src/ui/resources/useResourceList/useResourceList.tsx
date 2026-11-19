@@ -615,13 +615,21 @@ export function useResourceListForApi<
 
       if (isEmptyList) {
         return variant != null || typeof emptyStateProp === "string" ? (
-          // inline empty state
+          // inline empty state, with the same header as the list it stands in
+          // for: a boxed or table list has no rule under its title
           <Section
             actionButton={actionButton}
             title={computedTitle}
             titleSize={titleSize}
+            border={sectionBorder}
           >
-            <Spacer top="4">{emptyState}</Spacer>
+            {/* the gap belongs to the rule: without one, the empty state sits
+                where the list would, right under the title */}
+            {sectionBorder === "none" ? (
+              emptyState
+            ) : (
+              <Spacer top="4">{emptyState}</Spacer>
+            )}
           </Section>
         ) : (
           // custom JSX element (no title or actionButton)
