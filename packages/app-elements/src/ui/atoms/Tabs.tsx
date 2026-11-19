@@ -48,6 +48,13 @@ export interface TabsProps {
    * Optional prop to define which tab needs to be activated at component mount by providing its numerical index. First tab has index 0.
    */
   defaultTab?: number
+  /**
+   * `small` is a denser row for a panel or a side column: smaller labels, closer
+   * together, and the active one told apart by its weight alone, without the
+   * underline.
+   * @default regular
+   */
+  size?: "regular" | "small"
 }
 
 function Tabs({
@@ -57,6 +64,7 @@ function Tabs({
   className,
   keepAlive,
   defaultTab,
+  size = "regular",
   ...rest
 }: TabsProps): JSX.Element {
   // since we allow `null` child (conditional rendering of <Tab>), we need to understand the first not null child to set as initial active
@@ -208,7 +216,10 @@ function Tabs({
           role="tablist"
           aria-orientation="horizontal"
           onKeyDown={handleKeyDown}
-          className="flex gap-8 border-b-gray-100 border-b w-full min-w-max"
+          className={cn("flex border-b-gray-100 border-b w-full min-w-max", {
+            "gap-8": size === "regular",
+            "gap-4": size === "small",
+          })}
         >
           {Children.map(
             children,
@@ -224,6 +235,7 @@ function Tabs({
                       tabRefs.current[index] = element
                     }}
                     isActive={index === activeIndex}
+                    size={size}
                     label={tab.props.name}
                     onClick={() => {
                       activate(index)
@@ -305,6 +317,7 @@ function TabNavSeparator(): JSX.Element {
 
 function TabNav({
   isActive,
+  size,
   label,
   onClick,
   id,
@@ -314,6 +327,7 @@ function TabNav({
 }: {
   id: string
   isActive: boolean
+  size: NonNullable<TabsProps["size"]>
   onClick: () => void
   label: string
   controls?: string
@@ -340,6 +354,7 @@ function TabNav({
         {
           "text-black font-semibold": isActive,
           "text-gray-500": !isActive,
+          "text-xs": size === "small",
         },
       )}
       onClick={onClick}
@@ -347,10 +362,10 @@ function TabNav({
     >
       {/* the underline sits on the label, so the room beside it does not widen it */}
       <span
-        className={cn(
-          "block pb-4 border-b-2 transition-all duration-300",
-          isActive ? "border-b-black" : "border-b-transparent",
-        )}
+        className={cn("block pb-4 border-b-2 transition-all duration-300", {
+          "border-b-black": isActive && size === "regular",
+          "border-b-transparent": !isActive || size === "small",
+        })}
       >
         {label}
       </span>
