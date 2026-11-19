@@ -17,10 +17,21 @@ import {
 } from "react-select"
 import { t } from "#providers/i18n"
 import { Hr } from "#ui/atoms/Hr"
+import { Icon, type IconProps } from "#ui/atoms/Icon"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Tag } from "#ui/atoms/Tag"
 import { Tooltip } from "#ui/atoms/Tooltip"
 import type { InputSelectValue } from "."
+
+/**
+ * The props `InputSelect` adds to react-select's own, which hands them to every
+ * component override through `selectProps`.
+ */
+function getCustomProps(selectProps: object): {
+  icon?: IconProps["name"]
+} {
+  return selectProps as { icon?: IconProps["name"] }
+}
 
 function DropdownIndicator(
   props: DropdownIndicatorProps<InputSelectValue>,
@@ -220,9 +231,23 @@ function Control(props: ControlProps<InputSelectValue>): JSX.Element {
     ...props,
   }
 
+  const { icon } = getCustomProps(props.selectProps)
+
   return (
     <div ref={ref}>
-      <Tooltip content={title} label={<components.Control {...newProps} />} />
+      <Tooltip
+        content={title}
+        label={
+          <components.Control {...newProps}>
+            {icon != null && (
+              <span className="flex items-center pl-4 text-gray-500">
+                <Icon name={icon} size={16} aria-hidden="true" />
+              </span>
+            )}
+            {props.children}
+          </components.Control>
+        }
+      />
     </div>
   )
 }
