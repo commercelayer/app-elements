@@ -465,3 +465,35 @@ describe("InputSelect", () => {
     })
   })
 })
+
+describe("InputSelect icon", () => {
+  const options = [
+    { value: "orders", label: "Orders" },
+    { value: "skus", label: "SKUs" },
+  ]
+
+  test("shows no leading icon by default", () => {
+    const { container } = render(
+      <InputSelect onSelect={() => {}} initialValues={options} />,
+    )
+
+    // the default chevron is a hand-drawn svg inside a button
+    expect(container.querySelectorAll("svg")).toHaveLength(1)
+    expect(container.querySelector("button svg")).not.toBeNull()
+  })
+
+  test("shows the leading icon next to the standard chevron", () => {
+    const { container } = render(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={options}
+        icon="magnifyingGlass"
+      />,
+    )
+
+    expect(container.querySelectorAll("svg[aria-hidden='true']")).toHaveLength(
+      1,
+    )
+    expect(container.querySelector("button svg")).not.toBeNull()
+  })
+})

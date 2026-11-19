@@ -83,6 +83,19 @@ Simple.args = {
 }
 
 /**
+ * A select searched before it is picked from: `icon` puts a magnifying glass at
+ * the start of the control.
+ */
+export const SearchWithIcon = Template.bind({})
+SearchWithIcon.args = {
+  initialValues: fullList,
+  placeholder: "Search resource type — e.g. orders, skus, promotions",
+  isSearchable: true,
+  icon: "magnifyingGlass",
+  onBlur: () => {},
+}
+
+/**
  * When text within the select is too long, it will be truncated with an ellipsis and a tooltip will show the full text on hover.
  */
 export const LongText = Template.bind({})

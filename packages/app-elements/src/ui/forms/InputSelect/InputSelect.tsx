@@ -12,6 +12,7 @@ import type {
   SingleValue,
 } from "react-select"
 import { t } from "#providers/i18n"
+import type { IconProps } from "#ui/atoms/Icon"
 import { useDialogPortalTarget } from "#ui/internals/dialogPortal"
 import {
   InputWrapper,
@@ -160,6 +161,11 @@ export interface InputSelectBaseProps extends InputWrapperBaseProps {
    */
   hideDropdownIndicator?: boolean
   /**
+   * Icon shown at the start of the control, e.g. `magnifyingGlass` for a select
+   * that is searched before it is picked from.
+   */
+  icon?: IconProps["name"]
+  /**
    * Whether the menu should use a portal, and where it should attach to.
    *
    * Not needed inside a `Modal` or an overlay: there the menu is portalled into
@@ -276,6 +282,7 @@ export const InputSelect = forwardRef<
       isCreatable,
       asTextSearch,
       hideDropdownIndicator,
+      icon,
       menuPortalTarget,
       menuPlacement = "auto",
       ...rest
@@ -336,6 +343,7 @@ export const InputSelect = forwardRef<
       // Viewport coordinates hold wherever the menu is portalled.
       menuPosition: portalTarget != null ? "fixed" : undefined,
       onKeyDown: handleKeyDown,
+      icon,
     }
 
     return (
