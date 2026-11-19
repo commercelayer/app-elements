@@ -68,6 +68,35 @@ describe("Tabs", () => {
   })
 })
 
+describe("Tabs size", () => {
+  it("underlines the active tab by default", () => {
+    const { getByRole } = render(
+      <Tabs>
+        <Tab name="Colors">Red</Tab>
+        <Tab name="Animals">Lion</Tab>
+      </Tabs>,
+    )
+
+    expect(
+      getByRole("tab", { name: "Colors" }).querySelector("span"),
+    ).toHaveClass("border-b-black")
+  })
+
+  it("tells the active tab apart by weight alone when small", () => {
+    const { getByRole } = render(
+      <Tabs size="small">
+        <Tab name="Colors">Red</Tab>
+        <Tab name="Animals">Lion</Tab>
+      </Tabs>,
+    )
+
+    const active = getByRole("tab", { name: "Colors" })
+    expect(active).toHaveClass("text-xs", "font-semibold")
+    expect(active.querySelector("span")).toHaveClass("border-b-transparent")
+    expect(getByRole("tablist")).toHaveClass("gap-4")
+  })
+})
+
 describe("Tabs accessibility", () => {
   const renderTabs = (): RenderResult =>
     render(

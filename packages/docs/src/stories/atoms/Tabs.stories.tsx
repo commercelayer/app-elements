@@ -47,6 +47,16 @@ Default.args = {
 }
 
 /**
+ * `size="small"` is a denser row for a panel or a side column, e.g. the details
+ * of a record next to a list: smaller labels, closer together, and the active
+ * one told apart by its weight alone.
+ */
+export const Small = Template.bind({})
+Small.args = {
+  size: "small",
+}
+
+/**
  * `separatorBefore` draws a vertical rule before a tab, to set the tabs that follow
  * apart from the ones before it.
  *
