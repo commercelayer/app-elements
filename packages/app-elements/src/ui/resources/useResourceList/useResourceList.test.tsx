@@ -174,14 +174,14 @@ describe("useResourceList - the page in the url", () => {
     expect(currentPageParam()).toBeNull()
 
     await act(async () => {
-      ;(await findByRole("button", { name: "Next page" })).click()
+      ;(await findByRole("button", { name: "common.next_page" })).click()
     })
     await waitFor(() => {
       expect(currentPageParam()).toBe("2")
     })
 
     await act(async () => {
-      ;(await findByRole("button", { name: "Previous page" })).click()
+      ;(await findByRole("button", { name: "common.previous_page" })).click()
     })
     await waitFor(() => {
       expect(currentPageParam()).toBeNull()
@@ -205,7 +205,7 @@ describe("useResourceList - the page in the url", () => {
     await findAllByTestId("orderItem-ready")
 
     await act(async () => {
-      ;(await findByRole("button", { name: "Next page" })).click()
+      ;(await findByRole("button", { name: "common.next_page" })).click()
     })
     await waitFor(() => {
       expect(currentPageParam()).toBe("2")
@@ -327,13 +327,15 @@ describe("useResourceList - the page in the url, on a metrics-backed list", () =
 
   const goNext = async (view: ReturnType<typeof render>): Promise<void> => {
     await act(async () => {
-      ;(await view.findByRole("button", { name: "Next page" })).click()
+      ;(await view.findByRole("button", { name: "common.next_page" })).click()
     })
   }
 
   const goPrevious = async (view: ReturnType<typeof render>): Promise<void> => {
     await act(async () => {
-      ;(await view.findByRole("button", { name: "Previous page" })).click()
+      ;(
+        await view.findByRole("button", { name: "common.previous_page" })
+      ).click()
     })
   }
 
@@ -379,7 +381,9 @@ describe("useResourceList - the page in the url, on a metrics-backed list", () =
       expect(new URLSearchParams(window.location.search).get("page")).toBeNull()
     })
     // and the pager agrees it is on the first page
-    expect(await findByRole("button", { name: "Previous page" })).toBeDisabled()
+    expect(
+      await findByRole("button", { name: "common.previous_page" }),
+    ).toHaveAttribute("aria-disabled", "true")
   })
 
   test("Should honour a page whose cursor the trail already holds", async () => {
@@ -393,7 +397,7 @@ describe("useResourceList - the page in the url, on a metrics-backed list", () =
     await findAllByTestId("orderItem-ready")
 
     await act(async () => {
-      ;(await findByRole("button", { name: "Next page" })).click()
+      ;(await findByRole("button", { name: "common.next_page" })).click()
     })
 
     await waitFor(() => {
@@ -533,7 +537,7 @@ describe("useResourceList - pagination mode", () => {
     expect(page1Items[0]?.dataset.page).toBe("page1")
 
     // Navigate to page 2 (wait for button to be enabled)
-    const nextButton = await findByRole("button", { name: "Next page" })
+    const nextButton = await findByRole("button", { name: "common.next_page" })
     await act(async () => {
       nextButton.click()
     })
@@ -557,26 +561,32 @@ describe("useResourceList - pagination mode", () => {
 
     // Wait for buttons to appear (Pagination renders only after data is loaded)
     await waitFor(async () => {
-      const prevButton = await findByRole("button", { name: "Previous page" })
-      const nextButton = await findByRole("button", { name: "Next page" })
-      expect(prevButton).toBeDisabled()
-      expect(nextButton).not.toBeDisabled()
+      const prevButton = await findByRole("button", {
+        name: "common.previous_page",
+      })
+      const nextButton = await findByRole("button", {
+        name: "common.next_page",
+      })
+      expect(prevButton).toHaveAttribute("aria-disabled", "true")
+      expect(nextButton).toHaveAttribute("aria-disabled", "false")
     })
 
     // Navigate to last page (page_count is 2)
-    const nextButton = await findByRole("button", { name: "Next page" })
+    const nextButton = await findByRole("button", { name: "common.next_page" })
     await act(async () => {
       nextButton.click()
     })
 
     // On page 2 (last): next should be disabled, prev enabled
     await waitFor(async () => {
-      const prevButton = await findByRole("button", { name: "Previous page" })
-      const nextButtonUpdated = await findByRole("button", {
-        name: "Next page",
+      const prevButton = await findByRole("button", {
+        name: "common.previous_page",
       })
-      expect(nextButtonUpdated).toBeDisabled()
-      expect(prevButton).not.toBeDisabled()
+      const nextButtonUpdated = await findByRole("button", {
+        name: "common.next_page",
+      })
+      expect(nextButtonUpdated).toHaveAttribute("aria-disabled", "true")
+      expect(prevButton).toHaveAttribute("aria-disabled", "false")
     })
   })
 })

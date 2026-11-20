@@ -149,3 +149,76 @@ describe("ResourceDetailsContent", () => {
     ).toBeNull()
   })
 })
+
+describe("ResourceDetailsContent edgeToEdge", () => {
+  const renderContent = async (edgeToEdge?: boolean): Promise<RenderResult> =>
+    await act(async () =>
+      render(
+        <TokenProvider kind="integration" appSlug="orders" devMode>
+          <CoreSdkProvider>
+            <ResourceDetailsContent
+              resource={resource}
+              edgeToEdge={edgeToEdge}
+            />
+          </CoreSdkProvider>
+        </TokenProvider>,
+      ),
+    )
+
+  it("keeps the tabs and their content flush with the container by default", async () => {
+    const { getByRole } = await renderContent()
+
+    expect(getByRole("tablist").parentElement?.parentElement).not.toHaveClass(
+      "[&_[role=tablist]]:px-6",
+    )
+    expect(getByRole("tabpanel").firstElementChild).not.toHaveClass("px-6")
+  })
+
+  it("gives the tabs and their content a gutter, the row spanning the edges", async () => {
+    const { getByRole } = await renderContent(true)
+
+    expect(getByRole("tablist").parentElement?.parentElement).toHaveClass(
+      "[&_[role=tablist]]:px-6",
+      // the room above the tabs, the container having none of its own
+      "[&_[role=tablist]]:pt-4",
+      // and the content 12px under the row, as designed
+      "[&_[role=tabpanel]]:pt-3",
+    )
+    expect(getByRole("tabpanel").firstElementChild).toHaveClass("px-6")
+  })
+})
+
+describe("ResourceDetailsContent fillHeight", () => {
+  const renderContent = async (fillHeight?: boolean): Promise<RenderResult> =>
+    await act(async () =>
+      render(
+        <TokenProvider kind="integration" appSlug="orders" devMode>
+          <CoreSdkProvider>
+            <ResourceDetailsContent
+              resource={resource}
+              fillHeight={fillHeight}
+            />
+          </CoreSdkProvider>
+        </TokenProvider>,
+      ),
+    )
+
+  it("lets the content flow with the page by default", async () => {
+    const { getByRole } = await renderContent()
+
+    expect(getByRole("tablist").parentElement?.parentElement).not.toHaveClass(
+      "h-full",
+    )
+  })
+
+  it("fills the container and scrolls the open panel only, under the tab row", async () => {
+    const { getByRole } = await renderContent(true)
+
+    expect(getByRole("tablist").parentElement?.parentElement).toHaveClass(
+      "h-full",
+      "flex",
+      "flex-col",
+      "[&>[role=tabpanel]]:overflow-y-auto",
+    )
+  })
+})

@@ -55,6 +55,26 @@ describe("Modal", () => {
     expect(fireEvent.keyDown(closeButton, { key: " " })).toBe(true)
   })
 
+  test("Should keep a fixed height only when given one", () => {
+    const { getByTestId, rerender } = render(
+      <Modal show onClose={vi.fn()}>
+        <Modal.Body>Short</Modal.Body>
+      </Modal>,
+    )
+    expect(
+      (getByTestId("modal").firstElementChild as HTMLElement).style.height,
+    ).toBe("")
+
+    rerender(
+      <Modal show onClose={vi.fn()} height="500px">
+        <Modal.Body>Short</Modal.Body>
+      </Modal>,
+    )
+    expect(
+      (getByTestId("modal").firstElementChild as HTMLElement).style.height,
+    ).toBe("500px")
+  })
+
   test("Should move focus to the modal panel on open, not to the close button", () => {
     const { closeButton, getByTestId } = setup()
 

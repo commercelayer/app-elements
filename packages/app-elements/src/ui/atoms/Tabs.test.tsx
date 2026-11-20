@@ -91,7 +91,7 @@ describe("Tabs size", () => {
     )
 
     const active = getByRole("tab", { name: "Colors" })
-    expect(active).toHaveClass("text-xs", "font-semibold")
+    expect(active).toHaveClass("text-xs", "leading-5", "font-semibold")
     expect(active.querySelector("span")).toHaveClass("border-b-transparent")
     expect(getByRole("tablist")).toHaveClass("gap-4")
   })

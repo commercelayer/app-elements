@@ -422,6 +422,7 @@ export {
   ResourceDetailsTimelineItem,
   type ResourceDetailsTimelineItemProps,
   type ResourceDetailsTimelineProps,
+  type ResourceRelationshipsConfig,
   type UseResourceDetailsModalProps,
   type UseResourceDetailsModalReturn,
   useResourceDetailsModal,

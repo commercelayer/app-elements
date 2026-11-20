@@ -8,6 +8,7 @@ import lineItems from "./data/line_items"
 import markets from "./data/markets"
 import metrics from "./data/metrics"
 import orders from "./data/orders"
+import relationships from "./data/relationships"
 import shippingMethods from "./data/shipping_methods"
 import sku_lists from "./data/sku_lists"
 import skus from "./data/skus"
@@ -29,4 +30,6 @@ export const handlers = [
   ...skus,
   ...sku_lists,
   ...tags,
+  // Last: it matches any order relationship, see the file.
+  ...relationships,
 ]

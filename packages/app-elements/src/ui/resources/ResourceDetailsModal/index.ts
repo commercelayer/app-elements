@@ -9,6 +9,7 @@ export {
   type ResourceDetailsTimelineItemProps,
   type ResourceDetailsTimelineProps,
 } from "./ResourceDetailsTimeline"
+export type { ResourceRelationshipsConfig } from "./ResourceRelationships"
 export {
   type UseResourceDetailsModalProps,
   type UseResourceDetailsModalReturn,

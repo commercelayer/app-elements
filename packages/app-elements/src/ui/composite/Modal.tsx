@@ -45,6 +45,13 @@ export type ModalProps = {
   /** Max width preset */
   size?: "large" | "medium" | "small" | "x-small"
   /**
+   * Fixed height of the modal, as any CSS length (e.g. `clamp(480px, 70vh, 760px)`),
+   * with the body scrolling inside it. For content that changes while the modal
+   * is open, such as tabs or expandable rows, so the modal does not resize along
+   * with it. The modal never grows past its maximum height, `min(90vh, 800px)`.
+   */
+  height?: string
+  /**
    * Enables modal dismissal via backdrop click and Escape key.
    *
    * - true: backdrop + Escape can trigger onClose.
@@ -76,7 +83,16 @@ type ModalComponent = React.ForwardRefExoticComponent<
   ModalProps & React.RefAttributes<HTMLDivElement>
 > & {
   Header: React.FC<React.PropsWithChildren>
-  Body: React.FC<React.PropsWithChildren>
+  Body: React.FC<
+    React.PropsWithChildren<{
+      /**
+       * Drops the body's padding, for content that lays out its own: a row
+       * running from edge to edge, or one that sticks to the top while the
+       * body scrolls.
+       */
+      flush?: boolean
+    }>
+  >
   Footer: React.FC<React.PropsWithChildren>
 }
 
@@ -88,6 +104,7 @@ const ModalRoot = (
     onClose,
     size = "small",
     dismissible = false,
+    height,
     onSubmit,
     dialogRef: forwardedDialogRef,
   }: ModalProps,
@@ -160,7 +177,7 @@ const ModalRoot = (
   )
 
   const contentClassName = cn(
-    "bg-white rounded-md shadow-xl",
+    "bg-white rounded shadow-xl",
     "max-h-[min(90vh,800px)] flex flex-col",
   )
 
@@ -170,11 +187,17 @@ const ModalRoot = (
       <OverlayContext.Provider value={{ surface: "modal" }}>
         <DialogPortalContext.Provider value={dialogElement}>
           {onSubmit != null ? (
-            <form className={contentClassName} onSubmit={onSubmit}>
+            <form
+              className={contentClassName}
+              style={{ height }}
+              onSubmit={onSubmit}
+            >
               {children}
             </form>
           ) : (
-            <div className={contentClassName}>{children}</div>
+            <div className={contentClassName} style={{ height }}>
+              {children}
+            </div>
           )}
         </DialogPortalContext.Provider>
       </OverlayContext.Provider>
@@ -294,8 +317,12 @@ Modal.Header = ({ children }) => {
   )
 }
 
-Modal.Body = ({ children }) => {
-  return <div className="p-6 overflow-y-auto flex-1 min-h-0">{children}</div>
+Modal.Body = ({ children, flush = false }) => {
+  return (
+    <div className={cn("overflow-y-auto flex-1 min-h-0", { "p-6": !flush })}>
+      {children}
+    </div>
+  )
 }
 
 Modal.Footer = ({ children }) => {
