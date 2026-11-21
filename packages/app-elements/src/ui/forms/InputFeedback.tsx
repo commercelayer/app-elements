@@ -5,6 +5,7 @@ import type { JSX } from "react"
 type FeedbackVariant = "danger" | "success" | "warning"
 
 export interface InputFeedbackProps {
+  id?: string
   message: string
   variant?: FeedbackVariant
   className?: string

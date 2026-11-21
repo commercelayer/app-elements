@@ -247,7 +247,7 @@ export const CodeEditor = forwardRef<
         label={label}
         hint={hint}
         feedback={feedback}
-        name={rest.id ?? rest.name}
+        fieldId={rest.id ?? rest.name}
         inline={inline}
         className="h-full [&>div:first-of-type]:h-full"
       >

@@ -3,6 +3,7 @@ import type { JSX, ReactNode } from "react"
 import { Icon, type IconProps } from "./Icon"
 
 export interface HintProps {
+  id?: string
   icon?: IconProps["name"]
   className?: string
   children: ReactNode

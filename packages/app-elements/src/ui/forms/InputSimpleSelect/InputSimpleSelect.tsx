@@ -2,6 +2,7 @@ import { type ForwardedRef, forwardRef, type JSX } from "react"
 import {
   InputWrapper,
   type InputWrapperBaseProps,
+  useInputWrapperField,
 } from "#ui/internals/InputWrapper"
 
 interface InputSimpleSelectOption {
@@ -34,19 +35,27 @@ export const InputSimpleSelect = forwardRef<
     }: InputSimpleSelectProps,
     ref: ForwardedRef<HTMLSelectElement>,
   ): JSX.Element => {
+    const { wrapperProps, inputProps } = useInputWrapperField({
+      id: rest.id,
+      name: rest.name,
+      feedback,
+      hint,
+      required: rest.required,
+      "aria-describedby": rest["aria-describedby"],
+    })
     return (
       <InputWrapper
         label={label}
         hint={hint}
         feedback={feedback}
-        name={rest.id ?? rest.name}
+        {...wrapperProps}
         inline={inline}
       >
         <select
-          id={rest.id ?? rest.name}
           value={value}
           className="appearance-none cursor-pointer border-0 py-0 pl-0 pr-9 text-sm leading-5 font-medium text-gray-500 align-[inherit] focus:outline-hidden focus:ring-0 focus:shadow-none"
           {...rest}
+          {...inputProps}
           ref={ref}
         >
           {options.map((opt) => (

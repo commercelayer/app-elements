@@ -69,7 +69,7 @@ export const InputSpinner = forwardRef<HTMLInputElement, InputSpinnerProps>(
         label={label}
         hint={hint}
         feedback={feedback}
-        name={rest.id ?? rest.name}
+        fieldId={rest.id ?? rest.name}
         inline={inline}
       >
         <div
