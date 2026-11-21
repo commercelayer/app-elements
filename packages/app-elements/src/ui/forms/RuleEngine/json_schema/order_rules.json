@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "1.2.1",
+  "$id": "1.3.0",
   "title": "Rules for order context",
   "description": "Rules payload within order context for the rules engine of Commerce Layer.",
   "properties": {
@@ -445,7 +445,7 @@
                     },
                     "identifiers": {
                       "type": "object",
-                      "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.",
+                      "description": "Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift; a SKU list id matches the SKUs of the list and the bundles made from it.",
                       "additionalProperties": {
                         "type": "array",
                         "items": { "type": "string", "minLength": 1 },
@@ -464,6 +464,11 @@
                       "type": "integer",
                       "minimum": 1,
                       "description": "Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required."
+                    },
+                    "auto_add": {
+                      "type": "boolean",
+                      "description": "When true, the gift is added to the cart automatically as soon as the rule matches. The units are taken from the available items in priority order: the SKUs, then the bundles, then the SKUs and bundles of the SKU lists. Optional, defaults to false.",
+                      "examples": [true]
                     }
                   },
                   "required": ["type", "identifiers", "quantity"],
