@@ -1,8 +1,11 @@
 import type { Resource } from "@commercelayer/sdk"
 import { act, type RenderResult, render } from "@testing-library/react"
+import { delay, HttpResponse, http } from "msw"
+import { SWRConfig } from "swr"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import type { TokenProviderExtras } from "#providers/TokenProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
+import { server } from "../../../mocks/server"
 import {
   ResourceDetailsContent,
   type ResourceDetailsTab,
@@ -22,6 +25,7 @@ const resource = {
   status: "placed",
   payment_status: "authorized",
   formatted_total_amount: "$650.00",
+  placed_at: "2022-10-26T16:16:31.279Z",
   metadata: { source: "storefront" },
   market: { id: "dvzXAuNQpm", type: "markets", name: "Europe" },
   billing_address: { id: "yzXAuNQpmd", type: "addresses", first_name: "Bruce" },
@@ -120,6 +124,57 @@ describe("ResourceDetailsContent", () => {
 
     const ids = [...container.querySelectorAll("[id]")].map((el) => el.id)
     expect(ids).toHaveLength(new Set(ids).size)
+  })
+
+  it("shows a date in full, in the user's timezone", async () => {
+    const { getByText } = await setup()
+
+    // the mocked user is in Europe/Rome, UTC+2 on that day
+    expect(getByText("Oct 26, 2022, 18:16:31")).toBeVisible()
+  })
+
+  it("keeps a long attribute label on one line", async () => {
+    const result = await setup()
+
+    expect(result.getByText("Formatted total amount")).toHaveClass(
+      "whitespace-nowrap",
+    )
+  })
+
+  it("shows nothing while the events load, then a spinner after half a second", async () => {
+    server.use(
+      http.get(
+        "https://*/api/:version/:resourceType/:resourceId/event_stores",
+        async () => {
+          await delay("infinite")
+          return HttpResponse.json({})
+        },
+      ),
+    )
+    // a fresh cache: another test may have loaded these events already
+    const result = await act(async () =>
+      render(
+        <SWRConfig value={{ provider: () => new Map() }}>
+          <TokenProvider
+            kind="integration"
+            appSlug="orders"
+            devMode
+            extras={{ organization: { isEnterprise: true } }}
+          >
+            <CoreSdkProvider>
+              <ResourceDetailsContent resource={resource} />
+            </CoreSdkProvider>
+          </TokenProvider>
+        </SWRConfig>,
+      ),
+    )
+
+    await openTab(result, 1)
+
+    expect(result.queryByRole("status")).toBeNull()
+    expect(
+      await result.findByRole("status", undefined, { timeout: 1500 }),
+    ).toBeInTheDocument()
   })
 
   it("shows the Event Stores upsell when the organization is not enterprise", async () => {
