@@ -68,10 +68,11 @@ function ClearIndicator(
 ): JSX.Element {
   return (
     <components.ClearIndicator {...props} className="p-0">
-      {/* a filled circle, lighter than the value, as designed */}
+      {/* a filled circle, lighter than the value, as designed, yet at 3:1
+          against white, as a control's icon must be */}
       <button
         type="button"
-        className="px-2 cursor-pointer text-gray-300 hover:text-gray-400"
+        className="px-2 cursor-pointer text-gray-400 hover:text-gray-500"
       >
         <Icon name="xCircle" weight="fill" size={16} />
       </button>

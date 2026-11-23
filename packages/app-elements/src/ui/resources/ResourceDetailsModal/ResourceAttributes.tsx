@@ -24,7 +24,9 @@ export const ResourceAttributes = withSkeletonTemplate<{ resource: Resource }>(
     const { attributes } = splitResourceFields(resource)
 
     return (
-      <div>
+      // a container, so labels follow the width of the panel rather than the
+      // window's: the same list fills a modal or a narrow column
+      <div className="@container">
         <AttributeRow label="ID">
           <AttributeValue value={resource.id} />
         </AttributeRow>
@@ -44,9 +46,10 @@ export const ResourceAttributes = withSkeletonTemplate<{ resource: Resource }>(
 )
 
 /**
- * A label on the left, on one line, its value right-aligned. Labels take at
- * least the same width, so values line up when labels are short; a longer one
- * widens its own row rather than wrapping.
+ * A label on the left, its value right-aligned. In a wide enough panel, labels
+ * stay on one line and take at least the same width, so values line up when
+ * labels are short and a longer one widens its own row. In a narrow one they
+ * keep that width and wrap, so a long label never pushes the value out of view.
  */
 const AttributeRow: FC<{
   label: string
@@ -62,7 +65,7 @@ const AttributeRow: FC<{
       size="xx-small"
       weight="medium"
       variant="info"
-      className="font-mono min-w-45 shrink-0 whitespace-nowrap"
+      className="font-mono w-45 shrink-0 @md:w-auto @md:min-w-45 @md:whitespace-nowrap"
     >
       {label}
     </Text>

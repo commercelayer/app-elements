@@ -289,18 +289,22 @@ const eventParser = z.discriminatedUnion("event", [
 /**
  * Shown while a page of events loads: nothing at first, so a quick page shows
  * no flash, then a spinner once it takes longer than half a second.
+ *
+ * The status region is there, empty, from the start, and only its content
+ * comes later: screen readers announce a change inside a live region, but
+ * often not one that appears with its text already in it.
  */
 const LoadingEvents: FC = () => {
   const isVisible = useDelayedVisibility(SPINNER_DELAY_MS)
 
-  if (!isVisible) {
-    return null
-  }
-
   return (
-    <div role="status" className="flex justify-center py-6">
-      <RadialProgress percentage="indeterminate" size="small" aria-hidden />
-      <span className="sr-only">{t("common.loading")}</span>
+    <div role="status">
+      {isVisible && (
+        <div className="flex justify-center py-6">
+          <RadialProgress percentage="indeterminate" size="small" aria-hidden />
+          <span className="sr-only">{t("common.loading")}</span>
+        </div>
+      )}
     </div>
   )
 }

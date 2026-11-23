@@ -1,5 +1,5 @@
 import type { Resource } from "@commercelayer/sdk"
-import { act, type RenderResult, render } from "@testing-library/react"
+import { act, type RenderResult, render, waitFor } from "@testing-library/react"
 import { delay, HttpResponse, http } from "msw"
 import { SWRConfig } from "swr"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
@@ -133,12 +133,15 @@ describe("ResourceDetailsContent", () => {
     expect(getByText("Oct 26, 2022, 18:16:31")).toBeVisible()
   })
 
-  it("keeps a long attribute label on one line", async () => {
+  it("keeps a long attribute label on one line only in a wide panel", async () => {
     const result = await setup()
+    const label = result.getByText("Formatted total amount")
 
-    expect(result.getByText("Formatted total amount")).toHaveClass(
-      "whitespace-nowrap",
-    )
+    // jsdom has no layout, so the classes stand for the two widths: a fixed
+    // column that wraps by default, a single line from the container's `md` up
+    expect(label).toHaveClass("w-45", "@md:whitespace-nowrap")
+    expect(label).not.toHaveClass("whitespace-nowrap")
+    expect(label.closest(".\\@container")).not.toBeNull()
   })
 
   it("shows nothing while the events load, then a spinner after half a second", async () => {
@@ -171,10 +174,17 @@ describe("ResourceDetailsContent", () => {
 
     await openTab(result, 1)
 
-    expect(result.queryByRole("status")).toBeNull()
-    expect(
-      await result.findByRole("status", undefined, { timeout: 1500 }),
-    ).toBeInTheDocument()
+    // the live region is there from the start, empty, so that what fills it
+    // later is announced
+    const status = result.getByRole("status")
+    expect(status).toBeEmptyDOMElement()
+    await waitFor(
+      () => {
+        expect(status).not.toBeEmptyDOMElement()
+      },
+      { timeout: 1500 },
+    )
+    expect(status.textContent).not.toBe("")
   })
 
   it("shows the Event Stores upsell when the organization is not enterprise", async () => {
