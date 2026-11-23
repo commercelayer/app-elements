@@ -22,6 +22,8 @@ const it: typeof en = {
     continue: "Continua",
     could_not_retrieve_data: "Impossibile recuperare i dati",
     could_not_retrieve_resource: "Impossibile recuperare {{resource}}",
+    could_not_update_item: "Impossibile aggiornare l'articolo",
+    could_not_remove_item: "Impossibile rimuovere l'articolo",
     create: "Crea",
     create_resource: "Crea {{resource}}",
     created: "Creato",

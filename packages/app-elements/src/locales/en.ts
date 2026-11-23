@@ -252,6 +252,8 @@ const en = {
     continue: "Continue",
     could_not_retrieve_data: "Could not retrieve data",
     could_not_retrieve_resource: "Could not retrieve {{resource}}",
+    could_not_update_item: "Could not update item",
+    could_not_remove_item: "Could not remove item",
     create: "Create",
     create_resource: "Create {{resource}}",
     created: "Created",

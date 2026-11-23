@@ -6,6 +6,18 @@ import { presetLineItems } from "./ResourceLineItems.mocks"
 
 const lineItemUpdate = vi.fn().mockResolvedValue({})
 const lineItemDelete = vi.fn().mockResolvedValue({})
+const { toast } = vi.hoisted(() => ({ toast: vi.fn() }))
+
+vi.mock("#ui/composite/Toast", () => ({ toast }))
+
+// Build an error that matches Core errors and satisfies CommerceLayerStatic.isApiError at runtime.
+function makeApiError(detail: string): Error {
+  return Object.assign(new Error("Unprocessable Entity"), {
+    name: "ApiError",
+    type: "response",
+    errors: [{ code: "VALIDATION_ERROR", detail, status: "422", title: "" }],
+  })
+}
 
 vi.mock("#providers/CoreSdkProvider", async (importOriginal) => {
   return {
@@ -306,6 +318,85 @@ describe("ResourceLineItems", () => {
 
     expect(lineItemDelete).toHaveBeenCalledTimes(1)
     expect(lineItemDelete).toHaveBeenLastCalledWith("Rew3423fwr")
+  })
+
+  it("should show the api error and restore the quantity when the update is refused", async () => {
+    lineItemUpdate.mockRejectedValueOnce(
+      makeApiError("quantity - out of stock"),
+    )
+    const onChange = vi.fn()
+    const { getAllByTestId } = render(
+      <MockTokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems
+            items={[presetLineItems.oneLine]}
+            editable
+            onChange={onChange}
+          />
+        </CoreSdkProvider>
+      </MockTokenProvider>,
+    )
+
+    fireEvent.click(getAllByTestId("InputSpinner-increment")[0] as HTMLElement)
+
+    await waitFor(() => {
+      expect(toast).toHaveBeenCalledWith("quantity - out of stock", {
+        type: "error",
+      })
+    })
+    const inputSpinner = getAllByTestId(
+      "InputSpinner-input",
+    )[0] as HTMLInputElement
+    expect(inputSpinner.value).toEqual("2")
+    expect(inputSpinner).not.toBeDisabled()
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it("should show the api error and re-enable the actions when the removal is refused", async () => {
+    lineItemDelete.mockRejectedValueOnce(makeApiError("cannot be deleted"))
+    const onChange = vi.fn()
+    const { getAllByLabelText, getAllByTestId } = render(
+      <MockTokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems
+            items={[presetLineItems.oneLine]}
+            editable
+            onChange={onChange}
+          />
+        </CoreSdkProvider>
+      </MockTokenProvider>,
+    )
+
+    const deleteButton = getAllByLabelText("common.remove")[0] as HTMLElement
+    fireEvent.click(deleteButton)
+
+    await waitFor(() => {
+      expect(toast).toHaveBeenCalledWith("cannot be deleted", {
+        type: "error",
+      })
+    })
+    expect(deleteButton).not.toBeDisabled()
+    expect(getAllByTestId("InputSpinner-input")[0]).not.toBeDisabled()
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it("should fall back to a generic message when the error carries no detail", async () => {
+    lineItemUpdate.mockRejectedValueOnce(makeApiError(""))
+    const { getAllByTestId } = render(
+      <MockTokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <ResourceLineItems items={[presetLineItems.oneLine]} editable />
+        </CoreSdkProvider>
+      </MockTokenProvider>,
+    )
+
+    fireEvent.click(getAllByTestId("InputSpinner-increment")[0] as HTMLElement)
+
+    await waitFor(() => {
+      expect(toast).toHaveBeenCalledWith("common.could_not_update_item", {
+        type: "error",
+      })
+    })
   })
 
   it("should render the swap action when `onSwap` is defined", () => {
