@@ -114,7 +114,8 @@ export const ResourceMetadata = withSkeletonTemplate<ResourceMetadataProps>(
                 className="print:p-4 print:rounded-sm"
               >
                 <div className="relative">
-                  <div className="absolute left-0 bottom-0 w-full h-full bg-[linear-gradient(to_bottom,transparent_85%,var(--color-gray-50)_100%)]"></div>
+                  {/* printed without background graphics, the fade turns into a white layer over the rows */}
+                  <div className="absolute left-0 bottom-0 w-full h-full bg-[linear-gradient(to_bottom,transparent_85%,var(--color-gray-50)_100%)] print:hidden"></div>
                   {Object.entries(resourceData?.metadata ?? []).map(
                     ([metadataKey, metadataValue], idx) => {
                       return (
