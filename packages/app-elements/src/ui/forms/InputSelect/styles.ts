@@ -24,11 +24,13 @@ export const getSelectStyles = (
     borderRadius: 8,
     boxShadow:
       "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);",
-    padding: "8px",
+    padding: "0 8px",
   }),
+  // The vertical padding lives on the list, which scrolls, rather than on the
+  // menu: there it would cut the options off short of the menu's edges.
   menuList: (style) => ({
     ...style,
-    padding: "0",
+    padding: "8px 0",
   }),
   option: (style, { isSelected, isFocused, isDisabled }) => ({
     ...style,
