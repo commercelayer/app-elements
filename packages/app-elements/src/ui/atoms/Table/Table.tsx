@@ -46,6 +46,10 @@ export const Table: React.FC<TableProps> = ({
         {
           "border border-gray-200 border-separate border-spacing-0 rounded [&>tbody>tr:last-of-type>td]:border-0 first-of-type:[&>tbody>tr:last-of-type>td]:rounded-es last-of-type:[&>tbody>tr:last-of-type>td]:rounded-ee":
             variant === "boxed",
+          // `Td` drops its side padding on mobile, where a row runs edge to edge
+          // and the page's gutter does the job; inside a box the cells sit
+          // against its border instead, so they keep it
+          "[&>tbody>tr>td]:px-4": variant === "boxed",
           // With the header hidden on mobile the first row starts with no line
           // above it, so it gets one that matches the dividers between rows (the
           // colour comes from `Td`'s own `border-gray-100`). Above `md` the header
