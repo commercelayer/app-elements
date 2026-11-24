@@ -405,6 +405,7 @@ export const InputSelect = forwardRef<
             ref={ref}
             inputId={name}
             isSearchable={isSearchable}
+            hideDropdownIndicator={hideDropdownIndicator}
             menuPortalTarget={portalTarget}
           />
         )}

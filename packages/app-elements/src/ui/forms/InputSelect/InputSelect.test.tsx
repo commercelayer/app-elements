@@ -151,6 +151,22 @@ describe("InputSelect", () => {
     ).not.toBeInTheDocument()
   })
 
+  test("Should hide the chevron of a select with its options in hand", () => {
+    const { container } = render(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={[{ value: "a", label: "A" }]}
+        isClearable
+        defaultValue={{ value: "a", label: "A" }}
+        hideDropdownIndicator
+      />,
+    )
+    // the clear button is the only indicator left
+    expect(
+      container.querySelectorAll('[class*="indicatorContainer"]'),
+    ).toHaveLength(1)
+  })
+
   describe("with infinite scroll", () => {
     // jsdom gives every element a zero height, which the library reads as "the
     // menu is already scrolled to its bottom" — so simply opening the menu is

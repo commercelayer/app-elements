@@ -4,7 +4,7 @@ import type {
   QueryParamsList,
   ResourceTypeLock,
 } from "@commercelayer/sdk"
-import type { FC } from "react"
+import { type FC, useEffect, useState } from "react"
 import z from "zod"
 import { isMockedId } from "#helpers/mocks"
 import { formatDisplayName } from "#helpers/name"
@@ -13,6 +13,7 @@ import { useTokenProvider } from "#providers/TokenProvider"
 import { A } from "#ui/atoms/A"
 import { Card } from "#ui/atoms/Card"
 import { Icon } from "#ui/atoms/Icon"
+import { RadialProgress } from "#ui/atoms/RadialProgress"
 import { withSkeletonTemplate } from "#ui/atoms/SkeletonTemplate"
 import { Spacer } from "#ui/atoms/Spacer"
 import { Text } from "#ui/atoms/Text"
@@ -26,6 +27,9 @@ import {
 } from "./useInfiniteScrollCursor"
 
 const PAGE_SIZE = 25
+
+/** How long a page of events may take before the spinner shows. */
+const SPINNER_DELAY_MS = 500
 
 /**
  * Timeline of a resource's event stores, newest first, grouped by day and
@@ -145,9 +149,7 @@ const EventStoreItems = withSkeletonTemplate<{
         renderItem={(eventStore) => <EventStoreItem eventStore={eventStore} />}
       />
 
-      {(isLoading || isLoadingMore) && (
-        <EventStoreItem eventStore={mockedEventStore} delayMs={0} isLoading />
-      )}
+      {(isLoading || isLoadingMore) && <LoadingEvents />}
       <VisibilityTrigger />
     </>
   )
@@ -284,20 +286,41 @@ const eventParser = z.discriminatedUnion("event", [
   }),
 ])
 
-const mockedEventStore: EventStore = {
-  id: "fake-event-store",
-  type: "event_stores",
-  created_at: "2025-08-01T13:53:49.920Z",
-  updated_at: "2025-08-01T13:53:49.920Z",
-  event: "create",
-  payload: {
-    fulfillment_status: { from: "unfulfilled", to: "in_progress" },
-  },
-  who: {
-    application: {
-      id: "fake-application-id",
-      client_id: "",
-      kind: "sales_channel",
-    },
-  },
+/**
+ * Shown while a page of events loads: nothing at first, so a quick page shows
+ * no flash, then a spinner once it takes longer than half a second.
+ *
+ * The status region is there, empty, from the start, and only its content
+ * comes later: screen readers announce a change inside a live region, but
+ * often not one that appears with its text already in it.
+ */
+const LoadingEvents: FC = () => {
+  const isVisible = useDelayedVisibility(SPINNER_DELAY_MS)
+
+  return (
+    <div role="status">
+      {isVisible && (
+        <div className="flex justify-center py-6">
+          <RadialProgress percentage="indeterminate" size="small" aria-hidden />
+          <span className="sr-only">{t("common.loading")}</span>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/** Turns true once `delayMs` has passed since the first render. */
+function useDelayedVisibility(delayMs: number): boolean {
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsVisible(true)
+    }, delayMs)
+    return () => {
+      clearTimeout(timeout)
+    }
+  }, [delayMs])
+
+  return isVisible
 }

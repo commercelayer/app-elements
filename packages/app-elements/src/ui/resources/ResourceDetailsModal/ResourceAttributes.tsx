@@ -4,7 +4,9 @@ import capitalize from "lodash-es/capitalize"
 import lowerCase from "lodash-es/lowerCase"
 import { type FC, type ReactNode, useState } from "react"
 import type { JsonObject } from "type-fest"
-import { t } from "#providers/i18n"
+import { formatDate } from "#helpers/date"
+import { type I18NLocale, t } from "#providers/i18n"
+import { useTokenProvider } from "#providers/TokenProvider"
 import { Button } from "#ui/atoms/Button"
 import { CodeBlock } from "#ui/atoms/CodeBlock"
 import { Icon } from "#ui/atoms/Icon"
@@ -22,7 +24,9 @@ export const ResourceAttributes = withSkeletonTemplate<{ resource: Resource }>(
     const { attributes } = splitResourceFields(resource)
 
     return (
-      <div>
+      // a container, so labels follow the width of the panel rather than the
+      // window's: the same list fills a modal or a narrow column
+      <div className="@container">
         <AttributeRow label="ID">
           <AttributeValue value={resource.id} />
         </AttributeRow>
@@ -42,8 +46,10 @@ export const ResourceAttributes = withSkeletonTemplate<{ resource: Resource }>(
 )
 
 /**
- * A label on the left, its value right-aligned. Labels share a fixed width so
- * values line up whatever the label length.
+ * A label on the left, its value right-aligned. In a wide enough panel, labels
+ * stay on one line and take at least the same width, so values line up when
+ * labels are short and a longer one widens its own row. In a narrow one they
+ * keep that width and wrap, so a long label never pushes the value out of view.
  */
 const AttributeRow: FC<{
   label: string
@@ -59,7 +65,7 @@ const AttributeRow: FC<{
       size="xx-small"
       weight="medium"
       variant="info"
-      className="font-mono w-45 shrink-0"
+      className="font-mono w-45 shrink-0 @md:w-auto @md:min-w-45 @md:whitespace-nowrap"
     >
       {label}
     </Text>
@@ -68,6 +74,8 @@ const AttributeRow: FC<{
 )
 
 const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
+  const { user } = useTokenProvider()
+
   if (value == null || value === "") {
     return (
       <Text
@@ -87,9 +95,34 @@ const AttributeValue: FC<{ value: unknown }> = ({ value }) => {
       weight="semibold"
       className="break-all tabular-nums font-mono"
     >
-      {String(value)}
+      {getDisplayValue(value, user?.timezone, user?.locale)}
     </Text>
   )
+}
+
+/** An ISO date and time, as the API returns for `created_at` and the like. */
+const isoDateTime = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/
+
+/**
+ * The value as text: a date and time in full, year and seconds included, in
+ * the user's timezone; anything else as it is.
+ */
+function getDisplayValue(
+  value: unknown,
+  timezone?: string,
+  locale?: I18NLocale,
+): string {
+  if (typeof value !== "string" || !isoDateTime.test(value)) {
+    return String(value)
+  }
+
+  return formatDate({
+    isoDate: value,
+    format: "fullWithSeconds",
+    showCurrentYear: true,
+    timezone,
+    locale,
+  })
 }
 
 const AttributeItem = withSkeletonTemplate<{

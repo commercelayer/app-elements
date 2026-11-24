@@ -310,7 +310,7 @@ const RelatedRecords: FC<{
 }> = ({ records, onSelect }) => {
   if (records.length === 0) {
     return (
-      <Text size="small" variant="info">
+      <Text size="x-small" variant="info">
         {t("common.resource_details.no_records")}
       </Text>
     )
@@ -378,7 +378,12 @@ const RelatedRecord: FC<{
   return (
     <button
       type="button"
-      className={cn(className, "hover:bg-gray-50 focus-visible:bg-gray-50")}
+      // Half a `bg-gray-50`: the card sits in a `bg-gray-50` box, and a full
+      // one would make the hovered row read as a hole in the card.
+      className={cn(
+        className,
+        "hover:bg-gray-50/50 focus-visible:bg-gray-50/50",
+      )}
       aria-label={t("common.resource_details.view_record", { id: record.id })}
       onClick={() => {
         onSelect({ type: record.type, id: record.id })

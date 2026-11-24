@@ -13,6 +13,7 @@ export interface SelectComponentProps
   styles: StylesConfig<InputSelectValue>
   menuPosition?: MenuPosition
   onKeyDown?: KeyboardEventHandler<HTMLDivElement>
+  hideDropdownIndicator?: boolean
 }
 
 export const SelectComponent = forwardRef<
@@ -20,7 +21,14 @@ export const SelectComponent = forwardRef<
   SelectComponentProps
 >(
   (
-    { onSelect, noOptionsMessage, isOptionDisabled, initialValues, ...rest },
+    {
+      onSelect,
+      noOptionsMessage,
+      isOptionDisabled,
+      initialValues,
+      hideDropdownIndicator = false,
+      ...rest
+    },
     ref,
   ) => {
     return (
@@ -32,7 +40,11 @@ export const SelectComponent = forwardRef<
         onChange={onSelect}
         closeMenuOnSelect={rest.isMulti !== true}
         noOptionsMessage={() => noOptionsMessage}
-        components={components}
+        components={
+          hideDropdownIndicator
+            ? { ...components, DropdownIndicator: null }
+            : components
+        }
         /**
          * With this change we ensure that the select control is always on top when focused.
          * Thanks to this it is possible to have tooltips or other elements that open on
