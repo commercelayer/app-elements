@@ -55,9 +55,14 @@ export interface InputSelectBaseProps extends InputWrapperBaseProps {
    */
   defaultValue?: InputSelectValue | InputSelectValue[]
   /**
-   * Selected value or values, in case of `isMulti`
+   * Selected value or values, in case of `isMulti`. `null` empties a
+   * controlled select.
    */
-  value?: InputSelectValue | InputSelectValue[]
+  value?: InputSelectValue | InputSelectValue[] | null
+  /**
+   * Names the field for assistive technologies when it shows no `label`.
+   */
+  "aria-label"?: string
   /**
    * Placeholder text to display when no value is selected
    */
@@ -285,6 +290,7 @@ export const InputSelect = forwardRef<
       icon,
       menuPortalTarget,
       menuPlacement = "auto",
+      "aria-label": ariaLabel,
       ...rest
     },
     ref,
@@ -326,6 +332,9 @@ export const InputSelect = forwardRef<
       initialValues,
       defaultValue,
       value,
+      // on the input, which is what gets focus: left in `rest`, it would land on
+      // the wrapper around it, where nothing reads it
+      "aria-label": ariaLabel,
       isClearable,
       placeholder: isLoading === true ? loadingText : placeholder,
       isDisabled: isLoading === true || isDisabled === true,

@@ -215,6 +215,28 @@ describe("ResourceDetailsContent", () => {
   })
 })
 
+describe("ResourceDetailsContent events", () => {
+  it("tells whether an event is open", async () => {
+    const result = await setup({
+      extras: { organization: { isEnterprise: true } },
+    })
+    await openTab(result, 1)
+    const [firstEvent] = await result.findAllByRole("button", {
+      name: /R\. Starr/,
+    })
+    expect(firstEvent).toHaveAttribute("aria-expanded", "false")
+
+    await act(async () => {
+      firstEvent?.click()
+    })
+
+    expect(firstEvent).toHaveAttribute("aria-expanded", "true")
+    expect(
+      document.getElementById(firstEvent?.getAttribute("aria-controls") ?? ""),
+    ).toBeVisible()
+  })
+})
+
 describe("ResourceDetailsContent edgeToEdge", () => {
   const renderContent = async (edgeToEdge?: boolean): Promise<RenderResult> =>
     await act(async () =>
