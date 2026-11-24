@@ -19,6 +19,7 @@ import { getStockTransferDisplayStatus } from "#dictionaries/stockTransfers"
 import { navigateTo } from "#helpers/appsNavigation"
 import type { CurrencyCode } from "#helpers/currencies"
 import { formatDateWithPredicate } from "#helpers/date"
+import { parseApiError } from "#helpers/errors"
 import { maskGiftCardCode } from "#helpers/giftCards"
 import { useCoreApi, useCoreSdkProvider } from "#providers/CoreSdkProvider"
 import { useTranslation } from "#providers/i18n"
@@ -32,6 +33,7 @@ import { Spacer } from "#ui/atoms/Spacer"
 import { StatusIcon } from "#ui/atoms/StatusIcon"
 import { Text } from "#ui/atoms/Text"
 import { Tooltip } from "#ui/atoms/Tooltip"
+import { toast } from "#ui/composite/Toast"
 import { formatCentsToCurrency } from "#ui/forms/InputCurrency"
 import { InputSpinner } from "#ui/forms/InputSpinner"
 import { FlexRow } from "#ui/internals/FlexRow"
@@ -45,6 +47,21 @@ function hasTotal(
     (lineItem.type === "line_items" || lineItem.type === "return_line_items") &&
     lineItem.formatted_total_amount != null
   )
+}
+
+/**
+ * The api's own reason for refusing a change (e.g. not enough stock), so the
+ * user knows why it did not apply; `fallback` when the error carries none.
+ */
+function getApiErrorMessage(error: unknown, fallback: string): string {
+  const message = parseApiError(error)
+    .map(({ detail }) => detail)
+    .join(". ")
+    .trim()
+  if (message === "") {
+    return fallback
+  }
+  return message
 }
 
 interface LineItemSettings {
@@ -72,6 +89,7 @@ const Edit = withSkeletonTemplate<{
   const { canUser } = useTokenProvider()
   const { sdkClient } = useCoreSdkProvider()
   const [disabled, setDisabled] = useState<boolean>(false)
+  const [spinnerKey, setSpinnerKey] = useState<number>(0)
   const { t } = useTranslation()
 
   const canUpdate =
@@ -92,10 +110,19 @@ const Edit = withSkeletonTemplate<{
       onClick={() => {
         if (!disabled) {
           setDisabled(true)
-          void sdkClient.line_items.delete(item.id).then(() => {
-            onChange?.(null)
-            setDisabled(false)
-          })
+          void sdkClient.line_items
+            .delete(item.id)
+            .then(() => {
+              onChange?.(null)
+              setDisabled(false)
+            })
+            .catch((error) => {
+              toast(
+                getApiErrorMessage(error, t("common.could_not_remove_item")),
+                { type: "error" },
+              )
+              setDisabled(false)
+            })
         }
       }}
     >
@@ -108,6 +135,8 @@ const Edit = withSkeletonTemplate<{
       <div>
         {canUpdate && (
           <InputSpinner
+            // Remounting restores the saved quantity when the api refuses the new one.
+            key={spinnerKey}
             disabled={disabled}
             defaultValue={item.quantity}
             min={1}
@@ -120,6 +149,17 @@ const Edit = withSkeletonTemplate<{
                 })
                 .then((newItem) => {
                   onChange?.(newItem)
+                  setDisabled(false)
+                })
+                .catch((error) => {
+                  toast(
+                    getApiErrorMessage(
+                      error,
+                      t("common.could_not_update_item"),
+                    ),
+                    { type: "error" },
+                  )
+                  setSpinnerKey((key) => key + 1)
                   setDisabled(false)
                 })
             }}
