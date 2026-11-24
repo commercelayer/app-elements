@@ -226,7 +226,9 @@ describe("useResourceList - two lists on one page", () => {
     await findAllByTestId("emails-ready")
 
     // the second list's pager
-    const nextButtons = await findAllByRole("button", { name: "Next page" })
+    const nextButtons = await findAllByRole("button", {
+      name: "common.next_page",
+    })
     await act(async () => {
       nextButtons[1]?.click()
     })
