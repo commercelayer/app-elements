@@ -1,7 +1,7 @@
 import type { Order } from "@commercelayer/sdk"
 import { render, waitFor } from "@testing-library/react"
 import { HttpResponse, http } from "msw"
-import { act, type FC, type JSX } from "react"
+import { act, type FC, type JSX, useState } from "react"
 import { CoreSdkProvider } from "#providers/CoreSdkProvider"
 import { MockTokenProvider as TokenProvider } from "#providers/TokenProvider/MockTokenProvider"
 import { server } from "../../../mocks/server"
@@ -148,6 +148,59 @@ describe("useResourceList", () => {
     )
 
     expect(await findByText("No orders found")).toBeVisible()
+  })
+})
+
+const OrderRow: FC<{ resource?: Order }> = ({ resource = mockedOrder }) => (
+  <div
+    data-testid={
+      resource.id === "mock" ? "orderItem-loading" : "orderItem-ready"
+    }
+  >
+    Order #{resource.number}
+  </div>
+)
+
+/** Re-renders on a click, with a query object that is new at each render. */
+const RerenderingListImplementation: FC = () => {
+  const [renders, setRenders] = useState(0)
+  const { ResourceList } = useResourceList({
+    type: "orders",
+    query: { sort: { created_at: "desc" } },
+  })
+
+  return (
+    <>
+      <button
+        type="button"
+        onClick={() => {
+          setRenders((count) => count + 1)
+        }}
+      >
+        Render {renders}
+      </button>
+      <ResourceList ItemTemplate={OrderRow} />
+    </>
+  )
+}
+
+describe("useResourceList - a caller that re-renders", () => {
+  test("Should keep its rows mounted when the query is equal but a new object", async () => {
+    const { findAllByTestId, getByRole } = render(
+      <TokenProvider kind="integration" appSlug="orders" devMode>
+        <CoreSdkProvider>
+          <RerenderingListImplementation />
+        </CoreSdkProvider>
+      </TokenProvider>,
+    )
+    const [firstRow] = await findAllByTestId("orderItem-ready")
+
+    act(() => {
+      getByRole("button").click()
+    })
+
+    expect(getByRole("button")).toHaveTextContent("Render 1")
+    expect(firstRow).toBeInTheDocument()
   })
 })
 

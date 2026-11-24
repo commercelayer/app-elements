@@ -2,6 +2,7 @@ import {
   CommerceLayerStatic,
   type ListableResourceType,
 } from "@commercelayer/sdk"
+import isEqual from "lodash-es/isEqual"
 import React, {
   type FC,
   type JSX,
@@ -263,8 +264,8 @@ export function useResourceListForApi<
   type,
   api,
   client,
-  query,
-  metricsQuery,
+  query: queryProp,
+  metricsQuery: metricsQueryProp,
   paginationType = "infinite",
   paginationScrollTo = "top",
   preProcess,
@@ -275,6 +276,12 @@ export function useResourceListForApi<
   // mount, so the mistake surfaces where the list is rendered
   const provisioningClient =
     api === "provisioning" ? requireProvisioningClient(client) : undefined
+  // Callers pass inline objects, a new one at each render. The list component
+  // below is memoized on them: left as given, every render of the caller would
+  // make it a new component, and React would remount every row, dropping the
+  // focus and the state they hold.
+  const query = useDeepStable(queryProp)
+  const metricsQuery = useDeepStable(metricsQueryProp)
 
   const { sdkClient } = useCoreSdkProvider()
   const { metricsClient } = useMetricsSdkProvider()
@@ -914,4 +921,16 @@ export function useResourceList(
   | UseResourceListReturn<AnyListableResourceType, ApiFlavour>
   | UseResourceListReturnWithPagination<AnyListableResourceType, ApiFlavour> {
   return useResourceListForApi(config)
+}
+
+/**
+ * The value as first given for as long as later ones are deeply equal to it,
+ * so that it can sit in the dependencies of a memoized value.
+ */
+function useDeepStable<T>(value: T): T {
+  const stable = React.useRef(value)
+  if (!isEqual(stable.current, value)) {
+    stable.current = value
+  }
+  return stable.current
 }
