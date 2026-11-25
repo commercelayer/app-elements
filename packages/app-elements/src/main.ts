@@ -170,6 +170,7 @@ export {
   withSkeletonTemplate,
 } from "#ui/atoms/SkeletonTemplate"
 export { Spacer, type SpacerProps } from "#ui/atoms/Spacer"
+export { Spinner, type SpinnerProps } from "#ui/atoms/Spinner"
 export {
   Stack,
   StackCell,

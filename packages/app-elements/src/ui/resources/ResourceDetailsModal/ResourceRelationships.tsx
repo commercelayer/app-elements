@@ -50,7 +50,7 @@ export const ResourceRelationships: FC<
 > = ({ resource, names, onSelect }) => {
   if (names.length === 0) {
     return (
-      <Text variant="info">
+      <Text size="x-small" variant="info">
         {t("common.resource_details.no_relationships")}
       </Text>
     )
@@ -200,7 +200,7 @@ const FetchedRelatedRecords: FC<RelationshipPanelProps> = ({
 
   if (error != null) {
     return (
-      <Text size="small" variant="danger" role="alert">
+      <Text size="x-small" variant="danger" role="alert">
         {t("common.resource_details.relationship_error")}
       </Text>
     )

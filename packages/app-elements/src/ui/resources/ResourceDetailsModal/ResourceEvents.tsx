@@ -134,7 +134,7 @@ const EventStoreItems = withSkeletonTemplate<{
 
   if (eventStores != null && eventStores.length === 0 && !isLoading) {
     return (
-      <Text className="text-center text-gray-500">
+      <Text size="x-small" className="text-center text-gray-500">
         {t("common.resource_details.no_events")}
       </Text>
     )

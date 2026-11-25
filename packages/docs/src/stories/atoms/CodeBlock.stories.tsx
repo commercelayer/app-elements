@@ -72,6 +72,21 @@ export const Json: StoryFn = () => {
 }
 
 /**
+ * With `size="small"`, JSON is set at 12px, for a block inside dense content
+ * such as a details panel.
+ */
+export const JsonSmall: StoryFn = () => {
+  return (
+    <CodeBlock size="small">
+      {{
+        source: "storefront",
+        tags: ["vip", "b2b"],
+      }}
+    </CodeBlock>
+  )
+}
+
+/**
  * In this example we are using the `children` prop to render a code snippet with multi-line content.
  * Special characters like `\` need to be escaped with `\\` to be rendered correctly.
  */

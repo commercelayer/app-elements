@@ -1,11 +1,6 @@
 import { useEffect, useState } from "react"
+import { Spinner } from "#ui/atoms/Spinner"
 import { PageLayout } from "#ui/composite/PageLayout"
-
-/**
- * One turn of `animate-spin`, whose duration is 1s and whose timing is linear.
- * Kept here because the spinner's phase is derived from it below.
- */
-const SPIN_DURATION_MS = 1000
 
 /**
  * When the start of the current loading sequence was first seen.
@@ -145,22 +140,7 @@ export function PageLoading({
         className="flex min-h-[60vh] items-center justify-center"
         role="status"
       >
-        {isSpinnerVisible && (
-          <div
-            className="w-6 h-6 rounded-full border-2 border-gray-200 border-t-gray-400 animate-spin"
-            // A CSS animation starts from its first frame on every mount, so each
-            // handoff would snap the spinner back to 0°. Offsetting it into the
-            // rotation by where the wall clock currently sits puts every instance in
-            // the same phase — the next one carries on from the angle the previous
-            // one had reached. No shared state needed, which matters across the
-            // dashboard/app bundle boundary, and `animate-spin` is linear so the
-            // seam is not visible.
-            style={{
-              animationDelay: `-${Date.now() % SPIN_DURATION_MS}ms`,
-            }}
-            data-testid="page-loading-spinner"
-          />
-        )}
+        {isSpinnerVisible && <Spinner data-testid="page-loading-spinner" />}
         <span className="sr-only">Loading page</span>
       </div>
     </PageLayout>
