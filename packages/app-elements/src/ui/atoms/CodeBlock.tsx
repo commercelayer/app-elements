@@ -19,6 +19,12 @@ export type CodeBlockProps = Pick<InputWrapperBaseProps, "label" | "hint"> & {
    */
   showSecretAction?: boolean
   /**
+   * A smaller font, 12px, for a block set inside dense content such as a
+   * details panel.
+   * @default "regular"
+   */
+  size?: "regular" | "small"
+  /**
    * Content to be rendered.
    * Accepts a string (respects new lines with template literals) or a JSON object.
    * JSON objects are formatted with 2-space indentation.
@@ -26,10 +32,35 @@ export type CodeBlockProps = Pick<InputWrapperBaseProps, "label" | "hint"> & {
   children: string | JsonObject
 }
 
+/** JSON keeps its indentation and is set smaller than plain text. */
+function getContentClassName(
+  children: CodeBlockProps["children"],
+  size: NonNullable<CodeBlockProps["size"]>,
+): string {
+  if (typeof children === "string") {
+    return getFontSizeClassName(size, "text-sm")
+  }
+
+  return cn("whitespace-pre-wrap", getFontSizeClassName(size, "text-xs"))
+}
+
+/** The small size is the same 12px whatever the content. */
+function getFontSizeClassName(
+  size: NonNullable<CodeBlockProps["size"]>,
+  regular: string,
+): string {
+  if (size === "small") {
+    return "text-2xs"
+  }
+
+  return regular
+}
+
 export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
   ({
     showCopyAction = false,
     showSecretAction = false,
+    size = "regular",
     label,
     hint,
     isLoading,
@@ -57,9 +88,7 @@ export const CodeBlock = withSkeletonTemplate<CodeBlockProps>(
           <div
             className={cn(
               "flex flex-col w-full px-4 py-2.5 text-primary font-mono font-medium marker:font-semibold leading-5 border-none break-all",
-              typeof children !== "string"
-                ? "whitespace-pre-wrap text-xs"
-                : "text-sm",
+              getContentClassName(children, size),
             )}
             data-testid="codeblock-content"
           >

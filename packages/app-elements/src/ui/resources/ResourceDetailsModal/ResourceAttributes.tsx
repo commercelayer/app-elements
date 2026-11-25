@@ -159,7 +159,7 @@ const AttributeItem = withSkeletonTemplate<{
       </AttributeRow>
       {showJson && (
         <div className="pb-3 border-b border-gray-100">
-          <CodeBlock>{value as JsonObject}</CodeBlock>
+          <CodeBlock size="small">{value as JsonObject}</CodeBlock>
         </div>
       )}
     </>

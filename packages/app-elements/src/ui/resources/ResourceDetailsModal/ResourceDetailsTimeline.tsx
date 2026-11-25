@@ -168,7 +168,7 @@ export function ResourceDetailsTimelineItem({
         </button>
         {isOpen && (
           <div id={panelId} className="hover:cursor-auto mx-4 mb-4">
-            <CodeBlock>{code}</CodeBlock>
+            <CodeBlock size="small">{code}</CodeBlock>
           </div>
         )}
       </Card>

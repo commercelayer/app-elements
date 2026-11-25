@@ -352,6 +352,14 @@ describe("ResourceDetailsContent relationships", () => {
     )
   })
 
+  it("sets the message of a resource without relationships at 13px", async () => {
+    const result = await setup({ names: [] })
+
+    expect(
+      result.getByText("common.resource_details.no_relationships"),
+    ).toHaveClass("text-xs")
+  })
+
   it("reports a failed request inside the row", async () => {
     server.use(
       http.get(`https://*/api/:version/orders/:id/line_items`, () =>

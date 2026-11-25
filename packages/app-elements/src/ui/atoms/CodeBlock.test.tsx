@@ -27,4 +27,24 @@ describe("CodeBlock", () => {
       container.querySelector('[data-testid="codeblock-content"]')?.textContent,
     ).toContain("****")
   })
+
+  test("Should set JSON at 13px, or at 12px when small", () => {
+    const { getByTestId, rerender } = render(
+      <CodeBlock>{{ source: "storefront" }}</CodeBlock>,
+    )
+    expect(getByTestId("codeblock-content")).toHaveClass("text-xs")
+
+    rerender(<CodeBlock size="small">{{ source: "storefront" }}</CodeBlock>)
+    expect(getByTestId("codeblock-content")).toHaveClass("text-2xs")
+    expect(getByTestId("codeblock-content")).not.toHaveClass("text-xs")
+  })
+
+  test("Should set plain text at 14px, or at 12px when small", () => {
+    const { getByTestId, rerender } = render(<CodeBlock>abc-123</CodeBlock>)
+    expect(getByTestId("codeblock-content")).toHaveClass("text-sm")
+
+    rerender(<CodeBlock size="small">abc-123</CodeBlock>)
+    expect(getByTestId("codeblock-content")).toHaveClass("text-2xs")
+    expect(getByTestId("codeblock-content")).not.toHaveClass("text-sm")
+  })
 })
