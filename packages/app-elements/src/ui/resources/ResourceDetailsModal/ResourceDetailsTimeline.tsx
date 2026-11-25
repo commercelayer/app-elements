@@ -1,5 +1,5 @@
 import cn from "classnames"
-import { type ReactNode, useMemo, useState } from "react"
+import { type ReactNode, useId, useMemo, useState } from "react"
 import type { JsonObject } from "type-fest"
 import { formatDate, getIsoDateAtDayEdge } from "#helpers/date"
 import { useTokenProvider } from "#providers/TokenProvider"
@@ -108,6 +108,7 @@ export function ResourceDetailsTimelineItem({
 }: ResourceDetailsTimelineItemProps): React.JSX.Element {
   const { user } = useTokenProvider()
   const [isOpen, setIsOpen] = useState(false)
+  const panelId = useId()
 
   return (
     <Spacer bottom="2">
@@ -123,6 +124,8 @@ export function ResourceDetailsTimelineItem({
         <button
           type="button"
           className="w-full flex items-center justify-between text-sm gap-8 select-none p-4"
+          aria-expanded={isOpen}
+          aria-controls={panelId}
           onClick={() => {
             setIsOpen(!isOpen)
           }}
@@ -164,7 +167,7 @@ export function ResourceDetailsTimelineItem({
           </div>
         </button>
         {isOpen && (
-          <div className="hover:cursor-auto mx-4 mb-4">
+          <div id={panelId} className="hover:cursor-auto mx-4 mb-4">
             <CodeBlock>{code}</CodeBlock>
           </div>
         )}

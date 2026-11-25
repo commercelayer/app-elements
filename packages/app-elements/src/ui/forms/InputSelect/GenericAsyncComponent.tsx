@@ -165,7 +165,7 @@ function useTextSearch(
   >(
     props.defaultValue != null && isSingleValueSelected(props.defaultValue)
       ? props.defaultValue
-      : props.value,
+      : (props.value ?? undefined),
   )
 
   const [inputValue, setInputValue] = useState(

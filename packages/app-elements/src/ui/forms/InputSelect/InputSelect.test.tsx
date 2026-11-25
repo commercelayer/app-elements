@@ -167,6 +167,54 @@ describe("InputSelect", () => {
     ).toHaveLength(1)
   })
 
+  test("names the input with its aria-label", () => {
+    render(
+      <InputSelect
+        aria-label="Resource type"
+        onSelect={() => {}}
+        initialValues={[{ value: "a", label: "A" }]}
+      />,
+    )
+    expect(
+      screen.getByRole("combobox", { name: "Resource type" }),
+    ).toBeInTheDocument()
+  })
+
+  test("keeps the clear button out of the tab order", () => {
+    const { container } = render(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={[{ value: "a", label: "A" }]}
+        isClearable
+        defaultValue={{ value: "a", label: "A" }}
+      />,
+    )
+    // react-select hides its indicators from assistive technologies
+    expect(
+      container.querySelector('[class*="indicatorContainer"] button'),
+    ).toHaveAttribute("tabindex", "-1")
+  })
+
+  test("empties a controlled select given a null value", () => {
+    const { rerender } = render(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={[{ value: "a", label: "A" }]}
+        value={{ value: "a", label: "A" }}
+      />,
+    )
+    expect(screen.getByText("A")).toBeInTheDocument()
+
+    rerender(
+      <InputSelect
+        onSelect={() => {}}
+        initialValues={[{ value: "a", label: "A" }]}
+        value={null}
+      />,
+    )
+    expect(screen.queryByText("A")).not.toBeInTheDocument()
+  })
+
   describe("with infinite scroll", () => {
     // jsdom gives every element a zero height, which the library reads as "the
     // menu is already scrolled to its bottom" — so simply opening the menu is

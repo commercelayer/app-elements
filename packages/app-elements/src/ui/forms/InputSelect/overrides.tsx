@@ -69,9 +69,12 @@ function ClearIndicator(
   return (
     <components.ClearIndicator {...props} className="p-0">
       {/* a filled circle, lighter than the value, as designed, yet at 3:1
-          against white, as a control's icon must be */}
+          against white, as a control's icon must be. Out of the tab order:
+          react-select hides its indicators from assistive technologies, and
+          from the keyboard Backspace empties the select. */}
       <button
         type="button"
+        tabIndex={-1}
         className="px-2 cursor-pointer text-gray-400 hover:text-gray-500"
       >
         <Icon name="xCircle" weight="fill" size={16} />
