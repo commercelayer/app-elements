@@ -156,6 +156,10 @@ interface UseResourceFiltersHook {
        */
       searchBarVariant?: SearchBarProps["variant"]
       /**
+       * Hide the magnifying glass of the search bar, e.g. in a narrow column.
+       */
+      searchBarHideIcon?: SearchBarProps["hideIcon"]
+      /**
        * Milliseconds to wait before triggering the search bar callback
        * @default 500
        */
@@ -640,6 +644,7 @@ const makeSearchWithNav: (_options: {
     searchBarPlaceholder,
     searchBarDebounceMs,
     searchBarVariant,
+    searchBarHideIcon,
     hideSearchBar,
     hideFiltersNav,
     // we need this value as prop to avoid re-rendering the component and losing the focus on searchbar
@@ -661,6 +666,7 @@ const makeSearchWithNav: (_options: {
               placeholder={searchBarPlaceholder ?? t("common.search")}
               debounceMs={searchBarDebounceMs}
               variant={searchBarVariant}
+              hideIcon={searchBarHideIcon}
               instructions={validInstructions}
               onUpdate={onUpdate}
               predicateWhitelist={predicateWhitelist}

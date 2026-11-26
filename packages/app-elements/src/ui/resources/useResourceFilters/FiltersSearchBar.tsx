@@ -13,7 +13,7 @@ import type {
 export interface FilterSearchBarProps
   extends Pick<
     SearchBarProps,
-    "placeholder" | "debounceMs" | "variant" | "minSearchLength"
+    "placeholder" | "debounceMs" | "variant" | "hideIcon" | "minSearchLength"
   > {
   /**
    * Array of instruction items to build the filters behaviors
@@ -53,6 +53,7 @@ function FiltersSearchBar({
   predicateWhitelist,
   debounceMs,
   variant,
+  hideIcon,
   minSearchLength,
 }: FilterSearchBarProps): JSX.Element {
   const { adaptUrlQueryToFormValues, adaptFormValuesToUrlQuery } =
@@ -103,6 +104,7 @@ function FiltersSearchBar({
       autoFocus={safeInitialValue !== undefined && safeInitialValue.length > 0}
       debounceMs={debounceMs}
       variant={variant}
+      hideIcon={hideIcon}
       minSearchLength={minSearchLength}
     />
   )

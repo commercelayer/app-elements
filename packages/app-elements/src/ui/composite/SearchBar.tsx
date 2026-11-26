@@ -46,6 +46,11 @@ export interface SearchBarProps
    */
   variant?: "outline"
   /**
+   * Hide the magnifying glass. The text then starts at the same distance from
+   * the left edge as the clear button from the right one.
+   */
+  hideIcon?: boolean
+  /**
    * Number of characters the user has to type before a search is triggered.
    *
    * Leading and trailing `*` are not counted: where they act as wildcards they
@@ -80,6 +85,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       isLoading,
       delayMs,
       variant,
+      hideIcon = false,
       minSearchLength = 2,
       ...rest
     },
@@ -130,22 +136,27 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           className={cn("relative w-full", className)}
           {...rest}
         >
-          <StatusIcon
-            name="magnifyingGlass"
-            className={cn(
-              "absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none",
-              {
-                "text-xl": variant !== "outline",
-                "text-base": variant !== "outline",
-              },
-            )}
-          />
+          {!hideIcon && (
+            <StatusIcon
+              name="magnifyingGlass"
+              className={cn(
+                "absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none",
+                {
+                  "text-xl": variant !== "outline",
+                  "text-base": variant !== "outline",
+                },
+              )}
+            />
+          )}
           <input
             className={cn(
-              "rounded-[8px] font-medium w-full px-11 transition placeholder:text-gray-400",
+              "rounded-[8px] font-medium w-full pr-11 transition placeholder:text-gray-400",
               "ring-0 outline-0",
               "focus:caret-primary focus:bg-white",
               {
+                // the clear button sits `right-4` from the edge
+                "pl-11": !hideIcon,
+                "pl-4": hideIcon,
                 "bg-gray-100 border-0 shadow-none py-2": variant !== "outline", // default variant
                 "bg-white text-sm py-1.5 shadow-[inset_0_0_0_1px_rgb(229,229,229)]":
                   variant === "outline", // outline variant with explicit inset box-shadow border
