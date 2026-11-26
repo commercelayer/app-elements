@@ -76,6 +76,15 @@ describe("SearchBar", () => {
     expect(getByTestId("SearchBar-input")).not.toHaveClass("pl-11")
   })
 
+  it("should set the text at 13px in both variants", () => {
+    const { getByTestId, rerender } = render(<SearchBar onSearch={() => {}} />)
+    expect(getByTestId("SearchBar-input")).toHaveClass("text-xs")
+
+    rerender(<SearchBar onSearch={() => {}} variant="outline" />)
+    expect(getByTestId("SearchBar-input")).toHaveClass("text-xs")
+    expect(getByTestId("SearchBar-input")).not.toHaveClass("text-sm")
+  })
+
   it("should trigger onClear", () => {
     const handleClear = vi.fn()
     const { getByTestId, queryByTestId } = render(
