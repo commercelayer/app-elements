@@ -34,6 +34,25 @@ export const VariantOutline: Story = {
   },
 }
 
+/**
+ * Without the magnifying glass, the text and the clear button sit at the same
+ * distance from their edges.
+ */
+export const WithoutIcon: Story = {
+  args: {
+    debounceMs: 0,
+    initialValue: "Some text",
+    onSearch(hint) {
+      console.log(hint)
+    },
+    onClear() {
+      console.log("clear")
+    },
+    variant: "outline",
+    hideIcon: true,
+  },
+}
+
 export const NoDebounce: Story = {
   args: {
     debounceMs: 0,

@@ -64,6 +64,27 @@ describe("SearchBar", () => {
     expect(mockedConsoleLog).toHaveBeenNthCalledWith(1, "hello world")
   })
 
+  it("should show the magnifying glass unless hideIcon is set", () => {
+    const { getByTestId, rerender } = render(<SearchBar onSearch={() => {}} />)
+    expect(getByTestId("SearchBar").querySelector("svg")).toBeInTheDocument()
+    expect(getByTestId("SearchBar-input")).toHaveClass("pl-11", "pr-11")
+
+    rerender(<SearchBar onSearch={() => {}} hideIcon />)
+    expect(getByTestId("SearchBar").querySelector("svg")).toBeNull()
+    // the text starts as far from the left edge as the clear button from the right
+    expect(getByTestId("SearchBar-input")).toHaveClass("pl-4", "pr-11")
+    expect(getByTestId("SearchBar-input")).not.toHaveClass("pl-11")
+  })
+
+  it("should set the text at 13px in both variants", () => {
+    const { getByTestId, rerender } = render(<SearchBar onSearch={() => {}} />)
+    expect(getByTestId("SearchBar-input")).toHaveClass("text-xs")
+
+    rerender(<SearchBar onSearch={() => {}} variant="outline" />)
+    expect(getByTestId("SearchBar-input")).toHaveClass("text-xs")
+    expect(getByTestId("SearchBar-input")).not.toHaveClass("text-sm")
+  })
+
   it("should trigger onClear", () => {
     const handleClear = vi.fn()
     const { getByTestId, queryByTestId } = render(

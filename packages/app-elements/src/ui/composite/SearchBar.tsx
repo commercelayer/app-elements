@@ -3,6 +3,7 @@ import debounce from "lodash-es/debounce"
 import isEmpty from "lodash-es/isEmpty"
 import { forwardRef, useCallback, useEffect, useRef, useState } from "react"
 import { t } from "#providers/i18n"
+import { Icon } from "#ui/atoms/Icon"
 import {
   SkeletonTemplate,
   type SkeletonTemplateProps,
@@ -46,6 +47,11 @@ export interface SearchBarProps
    */
   variant?: "outline"
   /**
+   * Hide the magnifying glass. The text then starts at the same distance from
+   * the left edge as the clear button from the right one.
+   */
+  hideIcon?: boolean
+  /**
    * Number of characters the user has to type before a search is triggered.
    *
    * Leading and trailing `*` are not counted: where they act as wildcards they
@@ -80,6 +86,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
       isLoading,
       delayMs,
       variant,
+      hideIcon = false,
       minSearchLength = 2,
       ...rest
     },
@@ -130,24 +137,29 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
           className={cn("relative w-full", className)}
           {...rest}
         >
-          <StatusIcon
-            name="magnifyingGlass"
-            className={cn(
-              "absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none",
-              {
-                "text-xl": variant !== "outline",
-                "text-base": variant !== "outline",
-              },
-            )}
-          />
+          {!hideIcon && (
+            <StatusIcon
+              name="magnifyingGlass"
+              className={cn(
+                "absolute top-1/2 left-4 transform -translate-y-1/2 text-gray-400 pointer-events-none select-none",
+                {
+                  "text-xl": variant !== "outline",
+                  "text-base": variant !== "outline",
+                },
+              )}
+            />
+          )}
           <input
             className={cn(
-              "rounded-[8px] font-medium w-full px-11 transition placeholder:text-gray-400",
+              "rounded-[8px] font-medium text-xs w-full pr-11 transition placeholder:text-gray-400",
               "ring-0 outline-0",
               "focus:caret-primary focus:bg-white",
               {
+                // the clear button sits `right-4` from the edge
+                "pl-11": !hideIcon,
+                "pl-4": hideIcon,
                 "bg-gray-100 border-0 shadow-none py-2": variant !== "outline", // default variant
-                "bg-white text-sm py-1.5 shadow-[inset_0_0_0_1px_rgb(229,229,229)]":
+                "bg-white py-1.5 shadow-[inset_0_0_0_1px_rgb(229,229,229)]":
                   variant === "outline", // outline variant with explicit inset box-shadow border
                 "animate-pulse bg-gray-50! placeholder:text-gray-50":
                   isLoading === true,
@@ -170,7 +182,7 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
               type="button"
               data-testid="SearchBar-clear"
               className={cn(
-                "flex items-center absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400",
+                "flex items-center absolute top-1/2 right-4 transform -translate-y-1/2 text-gray-400 hover:text-gray-500",
                 "rounded outline-hidden ring-0 border-0",
                 "focus-within:shadow-focus focus:text-black",
               )}
@@ -181,7 +193,8 @@ export const SearchBar = forwardRef<HTMLInputElement, SearchBarProps>(
                 onClear()
               }}
             >
-              <StatusIcon name="x" className="text-[20px]" />
+              {/* the filled circle of `InputSelect`'s clear button */}
+              <Icon name="xCircle" weight="fill" size={16} />
             </button>
           ) : null}
         </div>
