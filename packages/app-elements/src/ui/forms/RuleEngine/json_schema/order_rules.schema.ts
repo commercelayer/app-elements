@@ -460,7 +460,7 @@ export interface RulesForOrderContext {
            */
           type: "free_gift"
           /**
-           * Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift.
+           * Object whose keys are allowed selector paths (order.line_items.sku.id, order.line_items.bundle.id, order.line_items.sku.sku_lists.id). Each value is an array of ids to match. Line items matching any (selector, id) are eligible for the free gift; a SKU list id matches the SKUs of the list and the bundles made from it.
            */
           identifiers: {
             /**
@@ -472,6 +472,10 @@ export interface RulesForOrderContext {
            * Total number of units to discount across all matching line items. Distributed in priority order (keys, then ids, then line item order). Required.
            */
           quantity: number
+          /**
+           * When true, the gift is added to the cart automatically as soon as the rule matches. The units are taken from the available items in priority order: the SKUs, then the bundles, then the SKUs and bundles of the SKU lists. Optional, defaults to false.
+           */
+          auto_add?: boolean
         }
     )[]
   }[]

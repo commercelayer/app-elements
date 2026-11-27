@@ -243,6 +243,73 @@ describe("RuleEngine", () => {
       ).toHaveValue("order")
     })
 
+    it.each([
+      { autoAdd: true, label: "Yes" },
+      { autoAdd: false, label: "No" },
+    ])(
+      "renders free_gift action with auto_add $autoAdd",
+      ({ autoAdd, label }) => {
+        const { container, getByText } = render(
+          <RuleEngine
+            schemaType="order-rules"
+            defaultValue={JSON.stringify({
+              rules: [
+                {
+                  name: "Test Rule",
+                  actions: [
+                    {
+                      type: "free_gift",
+                      identifiers: { "order.line_items.sku.id": ["sku-1"] },
+                      quantity: 1,
+                      auto_add: autoAdd,
+                    },
+                  ],
+                  conditions: [],
+                },
+              ],
+            })}
+          />,
+        )
+
+        expect(
+          container.querySelector('input[name="rules.0.actions.0.type"]'),
+        ).toHaveValue("free_gift")
+        expect(
+          container.querySelector('input[name="rules.0.actions.0.auto_add"]'),
+        ).toHaveValue(String(autoAdd))
+        expect(getByText("Auto-add to cart")).toBeVisible()
+        expect(getByText(label)).toBeVisible()
+      },
+    )
+
+    it("renders free_gift action without auto_add when it is not set", () => {
+      const { container, queryByText } = render(
+        <RuleEngine
+          schemaType="order-rules"
+          defaultValue={JSON.stringify({
+            rules: [
+              {
+                name: "Test Rule",
+                actions: [
+                  {
+                    type: "free_gift",
+                    identifiers: { "order.line_items.sku.id": ["sku-1"] },
+                    quantity: 1,
+                  },
+                ],
+                conditions: [],
+              },
+            ],
+          })}
+        />,
+      )
+
+      expect(
+        container.querySelector('input[name="rules.0.actions.0.auto_add"]'),
+      ).toBeNull()
+      expect(queryByText("Auto-add to cart")).toBeNull()
+    })
+
     it("renders more than one action correctly", () => {
       const { container } = render(
         <RuleEngine
